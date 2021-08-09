@@ -1,0 +1,34 @@
+{
+    "orgName": "QUT Scratch Org",
+    "edition": "Enterprise",
+    "hasSampleData": false,
+    "features": ["Walkthroughs", "EnableSetPasswordInApi","CPQ","MultiCurrency","Communities"],
+    "settings": {
+        "lightningExperienceSettings": {
+            "enableS1DesktopEnabled": true
+        },
+        "mobileSettings": {
+            "enableS1EncryptedStoragePref2": false
+        },
+        "pathAssistantSettings": {
+            "pathAssistantEnabled": true
+        },
+        "userEngagementSettings": {
+            "enableOrchestrationInSandbox": true,
+            "enableShowSalesforceUserAssist": false
+        },
+        "productSettings": {
+                "enableRevenueSchedule": true,
+                "enableQuantitySchedule": true
+        },
+        "quoteSettings": {
+            "enableQuote": true
+        },
+        "communitiesSettings": {
+            "enableNetworksEnabled": true
+        },
+        "accountSettings": {
+            "enableRelateContactToMultipleAccounts": true
+        }
+    }
+}
