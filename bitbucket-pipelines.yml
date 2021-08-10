@@ -1,0 +1,68 @@
+# This is an example Starter pipeline configuration
+# Use a skeleton to build, test and deploy using manual and parallel steps
+# -----
+# You can specify a custom docker image from Docker Hub as your build environment.
+image: dxatscale/sfpowerscripts:latest
+
+clone:
+  depth: full
+
+pipelines:
+  pull-requests:
+    feature/POC6/**:
+      - parallel:
+        - step:
+            name: 'Validate Changes'
+            deployment: POC6
+            script:
+              - echo $SERVER_KEY | base64 -d > server.key
+              - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r https://test.salesforce.com -u "$USERNAME.$SANDBOX_NAME"
+              - sfdx sfpowerscripts:orchestrator:validateAgainstOrg -u "$USERNAME.$SANDBOX_NAME"
+            after-script:
+              - rm server.key
+
+        - step:
+            name: 'PMD Static Analysis'
+            script:
+              - sfdx sfpowerscripts:analyze:pmd -b --sourcedir "src/core-crm" -o core-crm-pmd-output
+
+        - step:
+            name: 'Validate Metadata Coverage for Unlocked Packages'
+            script:
+              - sfdx sfpowerkit:package:valid -n core-crm -b StandardValueSet
+
+  branches:
+    release/**:
+      - step:
+          name: 'Build Packages'
+          deployment: Production # TODO: Add CONSUMER_KEY to repository secrets and remove this field
+          artifact:
+            - build-artifacts/**
+          script:
+              - echo $SERVER_KEY | base64 -d > server.key
+              - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r https://login.salesforce.com -u $USERNAME
+              - sfdx sfpowerscripts:orchestrator:build --artifactdir build-artifacts -v $USERNAME --branch $BITBUCKET_BRANCH
+          after-script:
+            - rm server.key
+
+      - step:
+          name: 'Deploy to UAT'
+          trigger: manual
+          deployment: UAT
+          script:
+              - echo $SERVER_KEY | base64 -d > server.key
+              - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r https://test.salesforce.com -u "$USERNAME.$SANDBOX_NAME"
+              - sfdx sfpowerscripts:orchestrator:deploy -u "$USERNAME.$SANDBOX_NAME" --artifactdir build-artifacts
+          after-script:
+            - rm server.key
+
+      - step:
+          name: 'Deploy to Production'
+          trigger: manual
+          deployment: Production
+          script:
+              - echo $SERVER_KEY | base64 -d > server.key
+              - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r https://login.salesforce.com -u $USERNAME
+              - sfdx sfpowerscripts:orchestrator:deploy -u $USERNAME --artifactdir build-artifacts
+          after-script:
+            - rm server.key
