@@ -26,10 +26,10 @@ pipelines:
             script:
               - sfdx sfpowerscripts:analyze:pmd -b --sourcedir "src/core-crm" -o core-crm-pmd-output
 
-        - step:
-            name: 'Validate Metadata Coverage for Unlocked Packages'
-            script:
-              - sfdx sfpowerkit:package:valid -n core-crm -b StandardValueSet
+        # - step:
+        #     name: 'Validate Metadata Coverage for Unlocked Packages'
+        #     script:
+        #       - sfdx sfpowerkit:package:valid -n core-crm -b StandardValueSet
 
   branches:
     release/IT1Sep:
