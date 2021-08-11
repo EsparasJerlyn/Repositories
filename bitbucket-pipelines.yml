@@ -1,0 +1,68 @@
+# This is an example Starter pipeline configuration
+# Use a skeleton to build, test and deploy using manual and parallel steps
+# -----
+# You can specify a custom docker image from Docker Hub as your build environment.
+image: dxatscale/sfpowerscripts:latest
+
+clone:
+  depth: full
+
+pipelines:
+  pull-requests:
+    feature/IT1Sep/**:
+      - parallel:
+        - step:
+            name: 'Validate Changes'
+            deployment: POC6
+            script:
+              - echo $SERVER_KEY | base64 -d > server.key
+              - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $TEST_LOGIN_URL -u "$USERNAME.$SANDBOX_NAME"
+              - sfdx sfpowerscripts:orchestrator:validateAgainstOrg -u "$USERNAME.$SANDBOX_NAME"
+            after-script:
+              - rm server.key
+
+        - step:
+            name: 'PMD Static Analysis'
+            script:
+              - sfdx sfpowerscripts:analyze:pmd -b --sourcedir "src/core-crm" -o core-crm-pmd-output
+
+        - step:
+            name: 'Validate Metadata Coverage for Unlocked Packages'
+            script:
+              - sfdx sfpowerkit:package:valid -n core-crm -b StandardValueSet
+
+  branches:
+    release/IT1Sep:
+      - step:
+          name: 'Build Packages'
+          deployment: Production # Not technically a deployment, but this step needs access to the consumer key kept in deployment variables
+          artifacts:
+            - build-artifacts/**
+          script:
+              - echo $SERVER_KEY | base64 -d > server.key
+              - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $PROD_LOGIN_URL -u $USERNAME
+              - sfdx sfpowerscripts:orchestrator:build --artifactdir build-artifacts -v $USERNAME --buildnumber $BITBUCKET_BUILD_NUMBER --branch $BITBUCKET_BRANCH
+          after-script:
+            - rm server.key
+
+      - step:
+          name: 'Deploy to UAT'
+          trigger: manual
+          deployment: UAT
+          script:
+              - echo $SERVER_KEY | base64 -d > server.key
+              - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $TEST_LOGIN_URL -u "$USERNAME.$SANDBOX_NAME"
+              - sfdx sfpowerscripts:orchestrator:deploy -u "$USERNAME.$SANDBOX_NAME" --artifactdir build-artifacts
+          after-script:
+            - rm server.key
+
+      - step:
+          name: 'Deploy to Production'
+          trigger: manual
+          deployment: Production
+          script:
+              - echo $SERVER_KEY | base64 -d > server.key
+              - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $PROD_LOGIN_URL -u $USERNAME
+              - sfdx sfpowerscripts:orchestrator:deploy -u $USERNAME --artifactdir build-artifacts
+          after-script:
+            - rm server.key
