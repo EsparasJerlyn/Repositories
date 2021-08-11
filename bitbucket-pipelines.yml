@@ -25,6 +25,9 @@ pipelines:
             name: 'PMD Static Analysis'
             script:
               - sfdx sfpowerscripts:analyze:pmd -b --sourcedir "src/core-crm" -o core-crm-pmd-output
+              - sfdx sfpowerscripts:analyze:pmd -b --sourcedir "src/frameworks" -o frameworks-pmd-output
+              - sfdx sfpowerscripts:analyze:pmd -b --sourcedir "src/sales" -o sales-pmd-output
+              - sfdx sfpowerscripts:analyze:pmd -b --sourcedir "src/service" -o service-pmd-output
 
         # - step:
         #     name: 'Validate Metadata Coverage for Unlocked Packages'
