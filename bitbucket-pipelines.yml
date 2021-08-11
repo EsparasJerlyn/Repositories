@@ -12,12 +12,12 @@ pipelines:
     feature/IT1Sep/**:
       - parallel:
         - step:
-            name: 'Validate Changes'
+            name: 'Validate Changes on IT1SepCI'
             deployment: IT1SepCI
             script:
               - echo $SERVER_KEY | base64 -d > server.key
               - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $TEST_LOGIN_URL -u "$USERNAME.$SANDBOX_NAME"
-              - sfdx sfpowerscripts:orchestrator:validateAgainstOrg -u "$USERNAME.$SANDBOX_NAME"
+              - sfdx sfpowerscripts:orchestrator:validateAgainstOrg -u "$USERNAME.$SANDBOX_NAME" --coveragepercent=85
             after-script:
               - rm server.key
 
@@ -25,6 +25,9 @@ pipelines:
             name: 'PMD Static Analysis'
             script:
               - sfdx sfpowerscripts:analyze:pmd -b --sourcedir "src/core-crm" -o core-crm-pmd-output
+              - sfdx sfpowerscripts:analyze:pmd -b --sourcedir "src/frameworks" -o frameworks-pmd-output
+              - sfdx sfpowerscripts:analyze:pmd -b --sourcedir "src/sales" -o sales-pmd-output
+              - sfdx sfpowerscripts:analyze:pmd -b --sourcedir "src/service" -o service-pmd-output
 
         # - step:
         #     name: 'Validate Metadata Coverage for Unlocked Packages'
@@ -49,7 +52,7 @@ pipelines:
           script:
               - echo $SERVER_KEY | base64 -d > server.key
               - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $TEST_LOGIN_URL -u "$USERNAME.$SANDBOX_NAME"
-              - sfdx sfpowerscripts:orchestrator:deploy -u "$USERNAME.$SANDBOX_NAME" --artifactdir build-artifacts
+              - sfdx sfpowerscripts:orchestrator:deploy -u "$USERNAME.$SANDBOX_NAME" --artifactdir build-artifacts --coveragepercent=85
           after-script:
             - rm server.key
 
@@ -60,7 +63,7 @@ pipelines:
           script:
               - echo $SERVER_KEY | base64 -d > server.key
               - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $TEST_LOGIN_URL -u "$USERNAME.$SANDBOX_NAME"
-              - sfdx sfpowerscripts:orchestrator:deploy -u "$USERNAME.$SANDBOX_NAME" --artifactdir build-artifacts
+              - sfdx sfpowerscripts:orchestrator:deploy -u "$USERNAME.$SANDBOX_NAME" --artifactdir build-artifacts --coveragepercent=85
           after-script:
             - rm server.key
 
@@ -71,6 +74,6 @@ pipelines:
           script:
               - echo $SERVER_KEY | base64 -d > server.key
               - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $PROD_LOGIN_URL -u $USERNAME
-              - sfdx sfpowerscripts:orchestrator:deploy -u $USERNAME --artifactdir build-artifacts
+              - sfdx sfpowerscripts:orchestrator:deploy -u $USERNAME --artifactdir build-artifacts --coveragepercent=85
           after-script:
             - rm server.key
