@@ -35,13 +35,13 @@ pipelines:
     release/**:
       - step:
           name: 'Build Packages'
-          deployment: Production # TODO: Add CONSUMER_KEY to repository secrets and remove this field
+          deployment: Production # Not technically a deployment, but need this step needs access to the consumer key kept in deployment variables
           artifact:
             - build-artifacts/**
           script:
               - echo $SERVER_KEY | base64 -d > server.key
               - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r https://login.salesforce.com -u $USERNAME
-              - sfdx sfpowerscripts:orchestrator:build --artifactdir build-artifacts -v $USERNAME --branch $BITBUCKET_BRANCH
+              - sfdx sfpowerscripts:orchestrator:build --artifactdir build-artifacts -v $USERNAME --buildnumber $BITBUCKET_BUILD_NUMBER --branch $BITBUCKET_BRANCH
           after-script:
             - rm server.key
 
