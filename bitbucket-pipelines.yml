@@ -36,7 +36,7 @@ pipelines:
       - step:
           name: 'Build Packages'
           deployment: Production # Not technically a deployment, but need this step needs access to the consumer key kept in deployment variables
-          artifact:
+          artifacts:
             - build-artifacts/**
           script:
               - echo $SERVER_KEY | base64 -d > server.key
