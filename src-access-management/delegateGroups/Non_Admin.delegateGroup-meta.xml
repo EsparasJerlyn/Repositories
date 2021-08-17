@@ -3,5 +3,5 @@
     <label>Non Admin</label>
     <loginAccess>true</loginAccess>
     <profiles>Read Only</profiles>
-    <roles>CEO</roles>
+    <roles>System Administrator</roles>
 </DelegateGroup>
