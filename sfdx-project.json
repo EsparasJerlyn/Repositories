@@ -49,13 +49,7 @@
             "path": "./src/core-crm",
             "package": "core",
             "versionName": "Version 1.0.0.0",
-            "versionNumber": "1.0.0.0",
-            "ignoreOnStage": [
-                "prepare",
-                "validate",
-                "quickbuild",
-                "build"
-            ]
+            "versionNumber": "1.0.0.0"
         },
         {
             "path": "./src-ui",
@@ -66,23 +60,6 @@
                 "validate",
                 "quickbuild",
                 "build"
-            ]
-        },
-        {
-            "path": "./src/vlocity-config",
-            "package": "vlocity-attributes",
-            "versionNumber": "1.0.0.0",
-            "type": "data",
-            "ignoreOnStage": [
-                "prepare",
-                "validate",
-                "quickbuild",
-                "build"
-            ],
-            "dependencies": [
-                {
-                  "package":"vlocity"
-                }
             ]
         },
         {
@@ -111,10 +88,10 @@
         },
         {
             "path": "./src-temp",
+            "default": true,
             "package": "src-temp",
             "versionName": "Version 1.0.0",
             "versionNumber": "1.0.0.0",
-            "default": true,
             "ignoreOnStage": [
                 "prepare",
                 "validate",
