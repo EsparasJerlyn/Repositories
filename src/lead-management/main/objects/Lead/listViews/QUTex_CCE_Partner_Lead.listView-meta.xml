@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>QUTex_CCE_Partner_Lead</fullName>
+    <columns>FULL_NAME</columns>
+    <columns>LEAD.COMPANY</columns>
+    <columns>LEAD.STATE</columns>
+    <columns>LEAD.EMAIL</columns>
+    <columns>LEAD.STATUS</columns>
+    <columns>LEAD.CREATED_DATE</columns>
+    <filterScope>Queue</filterScope>
+    <label>QUTex CCE Partner</label>
+    <queue>QUTex_CCE_Partner</queue>
+    <sharedTo>
+        <group>CCE_Users</group>
+    </sharedTo>
+</ListView>
