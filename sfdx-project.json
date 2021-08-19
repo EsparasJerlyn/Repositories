@@ -3,13 +3,7 @@
         {
             "path": "./src-env-specific-pre",
             "package": "src-env-specific-pre",
-            "versionNumber": "1.0.0.0",
-            "ignoreOnStage": [
-                "prepare",
-                "validate",
-                "quickbuild",
-                "build"
-            ]
+            "versionNumber": "1.0.0.0"
         },
         {
             "path": "./src-env-specific-alias-pre",
