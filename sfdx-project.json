@@ -46,21 +46,10 @@
             ]
         },
         {
-            "path": "./src-ui",
-            "package": "src-ui",
-            "versionNumber": "1.1.0.0"
-        },
-        {
             "path": "./src/core-crm",
             "package": "core",
-            "versionName": "Version 1.0.0.0",
-            "versionNumber": "1.0.0.0",
-            "dependencies": [
-                {
-                    "package": "src-ui",
-                    "versionNumber": "1.0.0.LATEST"
-                }
-            ]
+            "versionName": "Version 1.0.0.0",   
+            "versionNumber": "1.0.0.0"
         },
         {
             "path": "./src/eda",
@@ -109,6 +98,11 @@
                 "quickbuild",
                 "build"
             ]
+        },
+        {
+            "path": "./src-ui",
+            "package": "src-ui",
+            "versionNumber": "1.1.0.0"
         }
     ],
     "namespace": "",
