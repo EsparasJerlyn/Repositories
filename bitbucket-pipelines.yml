@@ -67,7 +67,7 @@ pipelines:
             after-script:
               - rm server.key
 
-      ## Manul deployments to SIT
+      ## Manual deployments to SIT
       - step:
           name: 'Deploy to SIT'
           trigger: manual
