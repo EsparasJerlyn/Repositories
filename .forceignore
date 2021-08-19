@@ -6,7 +6,6 @@ package.xml
 **appMenu
 **appSwitcher
 **objectTranslations
-**settings
 **featureParameters
 src-env-specific-alias-post
 src-env-specific-alias-pre
