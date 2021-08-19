@@ -46,16 +46,28 @@ pipelines:
           after-script:
             - rm server.key
 
-      - step:
-          name: 'Deploy to IT1SepST'
-          deployment: IT1SepST
-          script:
-              - echo $SERVER_KEY | base64 -d > server.key
-              - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $TEST_LOGIN_URL -u "$USERNAME.$SANDBOX_NAME"
-              - sfdx sfpowerscripts:orchestrator:deploy -u "$USERNAME.$SANDBOX_NAME" --artifactdir build-artifacts
-          after-script:
-            - rm server.key
-
+      ## Deploy on ST and DMD      
+      - parallel:
+        - step:
+            name: 'Deploy to IT1SepST'
+            deployment: IT1SepST
+            script:
+                - echo $SERVER_KEY | base64 -d > server.key
+                - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $TEST_LOGIN_URL -u "$USERNAME.$SANDBOX_NAME"
+                - sfdx sfpowerscripts:orchestrator:deploy -u "$USERNAME.$SANDBOX_NAME" --artifactdir build-artifacts
+            after-script:
+              - rm server.key
+        - step:
+            name: 'Deploy to IT1SepDMD'
+            deployment: IT1SepDMD
+            script:
+                - echo $SERVER_KEY | base64 -d > server.key
+                - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $TEST_LOGIN_URL -u "$USERNAME.$SANDBOX_NAME"
+                - sfdx sfpowerscripts:orchestrator:deploy -u "$USERNAME.$SANDBOX_NAME" --artifactdir build-artifacts
+            after-script:
+              - rm server.key
+              
+      ## Manul deployments to UAT and PROD if required
       - step:
           name: 'Deploy to UAT'
           trigger: manual
