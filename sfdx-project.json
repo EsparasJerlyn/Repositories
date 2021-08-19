@@ -63,6 +63,17 @@
             ]
         },
         {
+            "path": "./src/eda",
+            "package": "eda",
+            "versionNumber": "1.0.0.0",
+            "ignoreOnStage": [
+                "prepare",
+                "validate",
+                "quickbuild",
+                "build"
+            ]
+        },
+        {
             "path": "./src/lead-management",
             "package": "lead-management",
             "versionName": "Version 1.0.0.0",
@@ -104,7 +115,6 @@
     "sfdcLoginUrl": "https://login.salesforce.com",
     "sourceApiVersion": "52.0",
     "packageAliases": {
-        "vlocity":"04t1J000000KezAQAS"
     },
     "plugins": {
         "sfpowerscripts": {
