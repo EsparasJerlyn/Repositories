@@ -66,7 +66,19 @@ pipelines:
                 - sfdx sfpowerscripts:orchestrator:deploy -u "$USERNAME.$SANDBOX_NAME" --artifactdir build-artifacts
             after-script:
               - rm server.key
-              
+
+      ## Manul deployments to SIT
+      - step:
+          name: 'Deploy to SIT'
+          trigger: manual
+          deployment: SIT
+          script:
+              - echo $SERVER_KEY | base64 -d > server.key
+              - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $TEST_LOGIN_URL -u "$USERNAME.$SANDBOX_NAME"
+              - sfdx sfpowerscripts:orchestrator:deploy -u "$USERNAME.$SANDBOX_NAME" --artifactdir build-artifacts
+          after-script:
+            - rm server.key
+
       ## Manul deployments to UAT and PROD if required
       - step:
           name: 'Deploy to UAT'
