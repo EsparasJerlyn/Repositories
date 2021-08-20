@@ -6,4 +6,7 @@
     <layoutAssignments>
         <layout>Contact-Contact Page Layout</layout>
     </layoutAssignments>
+    <layoutAssignments>
+        <layout>Global-Chatter Publisher Layout</layout>
+    </layoutAssignments>
 </Profile>
