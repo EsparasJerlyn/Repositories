@@ -10,7 +10,4 @@
     <filterScope>Queue</filterScope>
     <label>QUTex CCE Partner</label>
     <queue>QUTex_CCE_Partner</queue>
-    <sharedTo>
-        <group>CCE_Users</group>
-    </sharedTo>
 </ListView>

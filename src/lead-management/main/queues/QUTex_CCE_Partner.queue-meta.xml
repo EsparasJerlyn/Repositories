@@ -3,11 +3,6 @@
     <doesSendEmailToMembers>false</doesSendEmailToMembers>
     <email>qutex@qut.edu.au</email>
     <name>QUTex CCE Partner</name>
-    <queueMembers>
-        <publicGroups>
-            <publicGroup>CCE_Users</publicGroup>
-        </publicGroups>
-    </queueMembers>
     <queueSobject>
         <sobjectType>Lead</sobjectType>
     </queueSobject>

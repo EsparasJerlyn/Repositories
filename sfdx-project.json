@@ -60,7 +60,8 @@
             "path": "./src/lead-management",
             "package": "lead-management",
             "versionName": "Version 1.0.0.0",
-            "versionNumber": "1.0.0.0"
+            "versionNumber": "1.0.0.0",
+            "destructiveChangePath": "./destructive/lead-management/Pilot1/destructiveChanges.xml"
         },
         {
             "path": "./src-access-management",
