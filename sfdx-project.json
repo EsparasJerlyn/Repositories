@@ -64,6 +64,11 @@
             "destructiveChangePath": "./destructive/lead-management/Pilot1/destructiveChanges.xml"
         },
         {
+            "path": "./src-ui",
+            "package": "src-ui",
+            "versionNumber": "1.1.0.0"
+        },
+        {
             "path": "./src-access-management",
             "package": "src-access-management",
             "versionNumber": "1.0.0.0"
@@ -93,11 +98,6 @@
                 "quickbuild",
                 "build"
             ]
-        },
-        {
-            "path": "./src-ui",
-            "package": "src-ui",
-            "versionNumber": "1.1.0.0"
         }
     ],
     "namespace": "",
