@@ -26,6 +26,7 @@
     <tabs>standard-report</tabs>
     <tabs>standard-Dashboard</tabs>
     <tabs>standard-Product2</tabs>
+    <tabs>standard-Pricebook2</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>QUTeX_CCE_UtilityBar</utilityBar>
     <workspaceConfig>
@@ -43,6 +44,9 @@
         </mappings>
         <mappings>
             <tab>standard-Opportunity</tab>
+        </mappings>
+        <mappings>
+            <tab>standard-Pricebook2</tab>
         </mappings>
         <mappings>
             <tab>standard-Product2</tab>
