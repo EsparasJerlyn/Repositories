@@ -64,6 +64,18 @@
             "destructiveChangePath": "./destructive/lead-management/Pilot1/destructiveChanges.xml"
         },
         {
+            "path": "./src/opportunity-management",
+            "package": "opportunity-management",
+            "versionName": "Version 1.0.0.0",
+            "versionNumber": "1.0.0.0",
+            "dependencies": [
+                {
+                    "package": "DocuSign Apps Launcher",
+                    "versionNumber": "3.3.1.LATEST"
+                }
+            ]
+        },
+        {
             "path": "./src-ui",
             "package": "src-ui",
             "versionNumber": "1.1.0.0"
@@ -104,6 +116,7 @@
     "sfdcLoginUrl": "https://login.salesforce.com",
     "sourceApiVersion": "52.0",
     "packageAliases": {
+        "DocuSign Apps Launcher": "04t3u00000349bDAAQ"
     },
     "plugins": {
         "sfpowerscripts": {
