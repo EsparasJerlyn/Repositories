@@ -2,6 +2,9 @@
 <DelegateGroup xmlns="http://soap.sforce.com/2006/04/metadata">
     <label>Non Admin</label>
     <loginAccess>true</loginAccess>
-    <profiles>Read Only</profiles>
+    <profiles>Corporate Partner Admin</profiles>
+    <profiles>Corporate Partner User</profiles>
+    <profiles>QUTeX</profiles>
+    <profiles>Marketing</profiles>
     <roles>System Administrator</roles>
 </DelegateGroup>
