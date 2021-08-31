@@ -1,7 +1,7 @@
 {
     "packageDirectories": [
         {
-            "path": "./src-env-specific-pre",
+            "path": "./src-env-specific-pre", 
             "package": "src-env-specific-pre",
             "versionNumber": "1.0.0.0"
         },
