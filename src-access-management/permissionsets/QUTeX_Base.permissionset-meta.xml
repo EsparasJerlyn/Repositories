@@ -280,7 +280,7 @@
         <modifyAllRecords>false</modifyAllRecords>
         <object>hed__Time_Block__c</object>
         <viewAllRecords>false</viewAllRecords>
-    </objectPermissions>  
+    </objectPermissions>
     <recordTypeVisibilities>
         <recordType>Account.Academic_Program</recordType>
         <visible>true</visible>
@@ -431,7 +431,7 @@
     </tabSettings>
     <tabSettings>
         <tab>standard-Product2</tab>
-        <visibility>Available</visibility>
+        <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
         <tab>standard-home</tab>
