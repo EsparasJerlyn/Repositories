@@ -974,7 +974,7 @@
     <recordTypeVisibilities>
         <default>false</default>
         <recordType>Account.Business_Organization</recordType>
-        <visible>true</visible>
+        <visible>false</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>true</default>
