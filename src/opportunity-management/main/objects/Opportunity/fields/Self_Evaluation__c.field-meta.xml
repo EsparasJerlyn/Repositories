@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>QUTeX_Capacity__c</fullName>
+    <fullName>Self_Evaluation__c</fullName>
     <externalId>false</externalId>
-    <inlineHelpText>Do we have QUTeX capacity?</inlineHelpText>
-    <label>QUTeX Capacity</label>
+    <inlineHelpText>If applicable, self-evaluation against criteria is strong?</inlineHelpText>
+    <label>Self Evaluation</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
     <trackTrending>false</trackTrending>
