@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>53.0</apiVersion>
+    <decisions>
+        <name>Is_linked_to_business_account</name>
+        <label>Is linked to business account?</label>
+        <locationX>182</locationX>
+        <locationY>335</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Yes</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Account.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Business_Organization</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_Affiliation</targetReference>
+            </connector>
+            <label>Yes</label>
+        </rules>
+    </decisions>
+    <description>This flow will trigger on contact creation</description>
+    <interviewLabel>Contact Create Triggered Flow {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Contact Create Triggered Flow</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <name>Create_Affiliation</name>
+        <label>Create Affiliation</label>
+        <locationX>50</locationX>
+        <locationY>455</locationY>
+        <connector>
+            <targetReference>Remove_accountID_from_Contact</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>hed__Account__c</field>
+            <value>
+                <elementReference>$Record.Account.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>hed__Contact__c</field>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <object>hed__Affiliation__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordUpdates>
+        <name>Remove_accountID_from_Contact</name>
+        <label>Remove accountID from Contact</label>
+        <locationX>50</locationX>
+        <locationY>575</locationY>
+        <inputAssignments>
+            <field>AccountId</field>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>56</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Is_linked_to_business_account</targetReference>
+        </connector>
+        <object>Contact</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>
