@@ -894,6 +894,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Opportunity.Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Opportunity.TotalOpportunityQuantity</field>
         <readable>false</readable>
@@ -917,6 +922,10 @@
         <layout>Account-Account Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Account-Account Layout</layout>
+        <recordType>Account.Business_Organization</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Contact-Contact Page Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -927,10 +936,10 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Opportunity-Opportunity Details</layout>
-        <recordType>Opportunity.QUTex_CCE</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Opportunity-Opportunity Layout</layout>
+        <layout>Opportunity-Opportunity Details</layout>
+        <recordType>Opportunity.QUTex_CCE</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>TriggerHandler__mdt-Trigger Handler Layout</layout>
@@ -962,6 +971,11 @@
         <object>Opportunity</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
+    <recordTypeVisibilities>
+        <default>false</default>
+        <recordType>Account.Business_Organization</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>true</default>
         <recordType>Lead.CCE_Leads</recordType>
