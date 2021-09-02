@@ -2,7 +2,7 @@
 <Queue xmlns="http://soap.sforce.com/2006/04/metadata">
     <doesSendEmailToMembers>false</doesSendEmailToMembers>
     <email>qutex@qut.edu.au</email>
-    <name>QUTex CCE Partner</name>
+    <name>QUTeX CCE Partner</name>
     <queueSobject>
         <sobjectType>Lead</sobjectType>
     </queueSobject>
