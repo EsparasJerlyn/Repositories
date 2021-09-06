@@ -9,6 +9,14 @@
         <name>Queue</name>
     </types-->
     <types>
+        <members>Lead.Interest_Area__c</members>
+        <name>CustomField</name>
+    </types>
+    <types>
+        <members>Lead-Lead Layout</members>
+        <name>Layout</name>
+    </types>
+    <types>
         <members>Custom_Lead_Allow_No_Matching_Rule</members>
         <name>MatchingRule</name>
     </types>
