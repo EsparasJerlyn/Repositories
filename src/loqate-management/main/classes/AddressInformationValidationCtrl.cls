@@ -105,7 +105,7 @@ public with sharing class AddressInformationValidationCtrl {
      */
     public static List<AddressObject> createRequest(String searchValue, String filter, String country, String requestType){
         try {
-            List<AddressObject> AddressObjectList = new List<AddressObject>{};
+            List<AddressObject> addressObjectList = new List<AddressObject>{};
             Wrapper serviceWrapper = new Wrapper();
             if(!String.isEmpty(searchValue) && !String.isEmpty(country)){
                 serviceWrapper = createWrapper('searchAddress'); 
@@ -114,8 +114,9 @@ public with sharing class AddressInformationValidationCtrl {
                 Map<String,Object> result = (Map<String,Object>)JSON.deserializeUntyped(res);
                 string respStr = JSON.serialize(result);
                 serviceWrapper.result = (ResponseResult) JSON.deserialize(respStr, ResponseResult.class);
+                addressObjectList.addAll(serviceWrapper.result.payload);
             }
-            return serviceWrapper.result.payload;  
+            return addressObjectList;  
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
