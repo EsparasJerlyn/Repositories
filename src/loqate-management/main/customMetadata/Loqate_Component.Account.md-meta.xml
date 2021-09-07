@@ -15,6 +15,10 @@
         <value xsi:type="xsd:string">[{&quot;type&quot;:&quot;Billing&quot;,&quot;city&quot;:&quot;BillingCity&quot;,&quot;state&quot;:&quot;BillingState&quot;,&quot;street&quot;:&quot;BillingStreet&quot;,&quot;postalCode&quot;:&quot;BillingPostalCode&quot;,&quot;country&quot;:&quot;BillingCountry&quot;,&quot;valid&quot;:&quot;AccountBillingAddress_Validation__c&quot;},{&quot;type&quot;:&quot;Shipping&quot;,&quot;city&quot;:&quot;ShippingCity&quot;,&quot;state&quot;:&quot;ShippingState&quot;,&quot;street&quot;:&quot;ShippingStreet&quot;,&quot;postalCode&quot;:&quot;ShippingPostalCode&quot;,&quot;country&quot;:&quot;ShippingCountry&quot;,&quot;valid&quot;:&quot;AccountShippingAddress_Validation__c&quot;}]</value>
     </values>
     <values>
+        <field>Field_Mapping__c</field>
+        <value xsi:type="xsd:string">[{&quot;label&quot;: &quot;ABN&quot;,&quot;apiName&quot;:&quot;ABN__c&quot;,&quot;statusValidationField&quot;:&quot;AccountABNEntity_Validation__c&quot;,&quot;loqateRequest&quot;:&quot;name&quot;,&quot;loqateResponse&quot;:&quot;status&quot;}]</value>
+    </values>
+    <values>
         <field>Object_Type__c</field>
         <value xsi:type="xsd:string">Account</value>
     </values>

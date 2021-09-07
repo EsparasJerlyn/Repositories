@@ -124,6 +124,11 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>contactInformationValidation</componentName>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
                 <componentName>loqateAddressInformationValidation</componentName>
             </componentInstance>
         </itemInstances>
