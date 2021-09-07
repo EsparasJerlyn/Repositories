@@ -1,23 +1,22 @@
 @isTest(SeeAllData=false)
 private class AddressInformationValidationCtrlTest {
+    private static final String STR_QUTeX = 'QUTeX';
+
     @testSetup static void setupMethod() {
         List<account> accs = new List<Account>();
         List<lead> leads = new List<lead>();
         List<contact> contacts = new List<contact>();
         List<hed__Address__c> hedAddresses = new List<hed__Address__c>();
-        List<User> users = new List<User>();
 
         accs = TestDataFactory.createTestAccountRecords(2);
         leads = TestDataFactory.createTestLeadRecords(2);
         contacts = TestDataFactory.createTestContactRecords(2);
-        users = TestDataFactory.createUserRecords(1,'QUTeX');
 
         Test.startTest();
         
         insert(accs);
         insert(leads);
         insert(contacts);
-        insert(users);
         hedAddresses.addAll(TestDataFactory.createTestHedAddressRecords(1,'Billing',accs[0].id,'hed__Parent_Account__c'));
         hedAddresses.addAll(TestDataFactory.createTestHedAddressRecords(1,'Other',contacts[0].id,'hed__Parent_Contact__c'));
         hedAddresses.addAll(TestDataFactory.createTestHedAddressRecords(1,'Lead',leads[0].id,'Parent_Lead__c'));
@@ -28,7 +27,7 @@ private class AddressInformationValidationCtrlTest {
     }   
     static testMethod void testGetLoqateMetaData() {
         Test.startTest();
-        User currentUser = [SELECT Id,Profile.Name FROM User WHERE Profile.Name = 'QUTeX' LIMIT 1];
+        User currentUser = TestDataFactory.createUserRecords(1,STR_QUTeX).iterator().next();
         System.runAs(currentUser){
             AddressInformationValidationCtrl.AddressMetadata addMetadata  = new AddressInformationValidationCtrl.AddressMetadata();
             addMetadata = AddressInformationValidationCtrl.getLoqateMetaData('Account');
@@ -39,7 +38,7 @@ private class AddressInformationValidationCtrlTest {
     
     static testMethod void testGetLoqateMetaDataError() {
         Test.startTest();
-        User currentUser = [SELECT Id,Profile.Name FROM User WHERE Profile.Name = 'QUTeX' LIMIT 1];
+        User currentUser = TestDataFactory.createUserRecords(1,STR_QUTeX).iterator().next();
         System.runAs(currentUser){
             AddressInformationValidationCtrl.AddressMetadata addMetadata  = new AddressInformationValidationCtrl.AddressMetadata();
             try{
@@ -53,7 +52,7 @@ private class AddressInformationValidationCtrlTest {
 
     static testMethod void testUpserHedAddress() {
         Test.startTest();
-        User currentUser = [SELECT Id,Profile.Name FROM User WHERE Profile.Name = 'QUTeX' LIMIT 1];
+        User currentUser = TestDataFactory.createUserRecords(1,STR_QUTeX).iterator().next();
         System.runAs(currentUser){
             List<hed__Address__c> hedAddress = new List<hed__Address__c>([SELECT Id, hed__Address_Type__c FROM hed__Address__c WHERE hed__Address_Type__c = 'Billing']);
             hed__Address__c hedAddressToUpdate = new hed__Address__c(id=hedAddress[0].id,hed__Address_Type__c='Shipping');
@@ -65,7 +64,7 @@ private class AddressInformationValidationCtrlTest {
     
     static testMethod void testUpserHedAddressError() {
         Test.startTest();
-        User currentUser = [SELECT Id,Profile.Name FROM User WHERE Profile.Name = 'QUTeX' LIMIT 1];
+        User currentUser = TestDataFactory.createUserRecords(1,STR_QUTeX).iterator().next();
         System.runAs(currentUser){
             hed__Address__c hedAddressToUpdate = new hed__Address__c();
             hedAddressToUpdate.put('id','1234');
@@ -81,7 +80,7 @@ private class AddressInformationValidationCtrlTest {
 
     static testMethod void testGetHedAddress() {
         Test.startTest();
-        User currentUser = [SELECT Id,Profile.Name FROM User WHERE Profile.Name = 'QUTeX' LIMIT 1];
+        User currentUser = TestDataFactory.createUserRecords(1,STR_QUTeX).iterator().next();
         System.runAs(currentUser){
             List<hed__Address__c> hedAddress = new List<hed__Address__c>([SELECT Id, hed__Address_Type__c, Parent_Lead__c FROM hed__Address__c WHERE hed__Address_Type__c = 'Lead']);
             system.assert(!AddressInformationValidationCtrl.getHedAddress(hedAddress[0].Parent_Lead__c, 'Parent_Lead__c').isEmpty(), 'no hed address found');
@@ -91,7 +90,7 @@ private class AddressInformationValidationCtrlTest {
 
 	static testMethod void testGetHedAddressError() {
         Test.startTest();
-        User currentUser = [SELECT Id,Profile.Name FROM User WHERE Profile.Name = 'QUTeX' LIMIT 1];
+        User currentUser = TestDataFactory.createUserRecords(1,STR_QUTeX).iterator().next();
         System.runAs(currentUser){
             try{
                 AddressInformationValidationCtrl.getHedAddress('errorid', 'Error Field');
@@ -104,7 +103,7 @@ private class AddressInformationValidationCtrlTest {
     
     static testMethod void testSearchAddress() {
         Test.startTest();
-        User currentUser = [SELECT Id,Profile.Name FROM User WHERE Profile.Name = 'QUTeX' LIMIT 1];
+        User currentUser = TestDataFactory.createUserRecords(1,STR_QUTeX).iterator().next();
         System.runAs(currentUser){
             // Set mock callout class 
             Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
@@ -118,7 +117,7 @@ private class AddressInformationValidationCtrlTest {
 
     static testMethod void testGetDetails() {
         Test.startTest();
-        User currentUser = [SELECT Id,Profile.Name FROM User WHERE Profile.Name = 'QUTeX' LIMIT 1];
+        User currentUser = TestDataFactory.createUserRecords(1,STR_QUTeX).iterator().next();
         System.runAs(currentUser){
             // Set mock callout class 
             Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());

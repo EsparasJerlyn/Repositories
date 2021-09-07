@@ -140,7 +140,13 @@ public with sharing class AddressInformationValidationCtrl {
         request.setbody(payload); 
         request.setTimeout(120000);
         request.setHeader('Content-Type', 'application/json');
-        response = http.send(request);
+        if(Test.isRunningTest()){
+            MockHttpResponseGenerator mock = new MockHttpResponseGenerator();
+            response = mock.respond(request);
+        }else{
+            response = http.send(request);
+        }
+        
         if(response.getStatusCode() == 200) {
             string res = response.getBody();
             res = res.replace('"_type"','"underscore_type"');
