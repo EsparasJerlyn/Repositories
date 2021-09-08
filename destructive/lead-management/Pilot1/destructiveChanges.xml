@@ -8,10 +8,10 @@
         <members>QUTex_CCE_Partner</members>
         <name>Queue</name>
     </types-->
-    <!--<types>
+    <types>
         <members>Lead.Interest_Area__c</members>
         <name>CustomField</name>
-    </types>-->
+    </types>
     <types>
         <members>Lead-Lead Layout</members>
         <name>Layout</name>
