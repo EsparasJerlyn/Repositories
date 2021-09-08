@@ -6,15 +6,16 @@
  * @author Accenture
  *
  * @history
- *    | Developer                 | Date                  | JIRA     | Change Summary                       |
-      |---------------------------|-----------------------|----------|--------------------------------------|
-      | angelika.j.s.galang       | September 3, 2021     | DEP1-156 | Created file                         | 
-      | angelika.j.s.galang       | September 8, 2021     | DEP1-172 | Added error message for conversion   | 
+ *    | Developer                 | Date                  | JIRA         | Change Summary                                              |
+      |---------------------------|-----------------------|--------------|-------------------------------------------------------------|
+      | angelika.j.s.galang       | September 3, 2021     | DEP1-156     | Created file                                                | 
+      | angelika.j.s.galang       | September 8, 2021     | DEP1-157,172 | Added error message for conversion and validation handler   | 
  */
 
 import { LightningElement, api, wire } from 'lwc';
 import { getObjectInfo, getPicklistValues } from 'lightning/uiObjectInfoApi';
-import { getRecord, getFieldValue, updateRecord} from 'lightning/uiRecordApi';
+import { getRecord, getFieldValue, updateRecord } from 'lightning/uiRecordApi';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 import ACCOUNT_SCHEMA from '@salesforce/schema/Account';
 import LEAD_SCHEMA from '@salesforce/schema/Lead';
@@ -23,17 +24,24 @@ import ENTITY_NAME_SCHEMA from '@salesforce/schema/Account.Entity_Name__c';
 import VALIDATION_SCHEMA from '@salesforce/schema/Account.AccountABNEntity_Validation__c';
 
 import getFieldMapping from '@salesforce/apex/ContactInformationValidationCtrl.getFieldMapping';
+import validateFields from '@salesforce/apex/ContactInformationValidationCtrl.validateFields';
 
 const STR_NONE = 'None';
 const STR_NOT_VALID = 'Not Valid';
+const STR_VALID = 'Valid';
+const STR_INV = 'INV';
 const STR_VALIDATE = 'Validate';
+const STR_NAME = 'name';
+const STR_ABN = 'abn';
 const STR_DOT = '.';
+const STR_COMMA = ',';
 const MSG_ERROR = 'An error has been encountered. Please contact your Administrator.';
 const MSG_CONVERT_ERROR = 'You can\'t convert this Lead if below contact information are not valid.';
 const PADDING_LEFTXXSMALL_CLASS = 'slds-p-left_xx-small';
 const MARGIN_TOPXLARGE_CLASS = ' slds-m-top_x-large';
 const MARGIN_VSMALL_CLASS = 'slds-m-vertical_small';
 const FIELD_CLASS = 'slds-border_bottom sf-blue-text';
+const VALID_STATUSES = [STR_VALID.toUpperCase(),'Active','connected|Network confirmed connection'];
 
 export default class ContactInformationValidation extends LightningElement {
     @api recordId;
@@ -43,11 +51,13 @@ export default class ContactInformationValidation extends LightningElement {
     fieldsMapping = [];
     fieldsToQuery = [];
     fieldsToValidate = [];
+    fieldsToUpdate = {};
     fieldsWithNullStatus = {};
-
+    
     statusOptions = [];
     errorMessage;
     entityNameValue;
+    isLoading;
 
     /**
      * get picklist values for Loqate status fields
@@ -107,6 +117,7 @@ export default class ContactInformationValidation extends LightningElement {
                 return _field;
             });
 
+            //update existing records with null validation statuses
             let fieldsWithNullStatusList = this.fieldsMapping.filter(field => !getFieldValue(data, this.generateFieldName(field.statusValidationField)));
             fieldsWithNullStatusList.forEach(field =>{
                 this.fieldsWithNullStatus[field.statusValidationField] = STR_NONE;
@@ -147,7 +158,7 @@ export default class ContactInformationValidation extends LightningElement {
     }
 
     get disableValidateButton(){
-        return true;
+        return this.fieldsToValidate.length == 0 ? true : false;
     }
 
     get showEntityName(){
@@ -186,6 +197,18 @@ export default class ContactInformationValidation extends LightningElement {
     }
 
     /**
+     * creates toast notification
+     */
+    generateToast(_title,_message,_variant){
+        const evt = new ShowToastEvent({
+            title: _title,
+            message: _message,
+            variant: _variant,
+        });
+        this.dispatchEvent(evt);
+    }
+
+    /**
      * looks for the ABN field in the fields to be queried
      */
     isABNQueried(){
@@ -193,9 +216,88 @@ export default class ContactInformationValidation extends LightningElement {
     }
 
     /**
+     * calls Apex method 'validateFields' and assigns results
+     */
+    handleValidate(){
+        this.isLoading = true;
+
+        validateFields({
+            validateRequestList : JSON.stringify(this.fieldsToValidate)
+        })
+        .then(result => {
+            let payload = JSON.parse(result); //list of payloads
+
+            this.fieldsToValidate.forEach(field => {
+                //for abn value, request payload property is 'name' but response property is 'abn'
+                //entity name value in response property is 'name'
+                let _loqateRequest = field.loqateRequest == STR_NAME ? STR_ABN : field.loqateRequest;
+                let _statusValue;
+
+                if(payload.find(payloadItem => payloadItem[_loqateRequest] == field.value)){
+                    let payloadResponseForField = payload.find(payloadItem => payloadItem[_loqateRequest] == field.value);
+
+                    //assign entity name if abn response returned
+                    if(_loqateRequest == STR_ABN){
+                        this.entityNameValue = payloadResponseForField[field.loqateRequest];
+                        this.fieldsToUpdate[ENTITY_NAME_SCHEMA.fieldApiName] = this.entityNameValue;
+                    }
+
+                    //this condition is for email response properties
+                    //7 JSON properties have to be checked for it to be considered Valid
+                    if(field.loqateResponse.includes(STR_COMMA)){
+                        let _properties = field.loqateResponse.split(STR_COMMA);
+                        let _propertyValuesStr = [];
+                        let _propertyValuesBool = [];
+
+                        _properties.forEach(_property => {
+                            let _propertyValue;
+                            //this condition is for properties with sub-properties
+                            if(_property.includes(STR_DOT)){
+                                let _subproperties = _property.split(STR_DOT);
+
+                                //if response attributes returned values
+                                if(payloadResponseForField[_subproperties[0]]){
+                                    _propertyValue = payloadResponseForField[_subproperties[0]][_subproperties[1]];
+                                }
+                            }else{
+                                _propertyValue = payloadResponseForField[_property];
+                            }
+
+                            if(typeof _propertyValue === 'string'){
+                                _propertyValuesStr.push(_propertyValue);
+                            }else if(typeof _propertyValue === 'boolean'){
+                                _propertyValuesBool.push(_propertyValue);
+                            }
+                            
+                        });
+                        _propertyValuesStr = _propertyValuesStr.filter(_prop => _prop !== STR_VALID.toUpperCase());
+                        _propertyValuesBool = _propertyValuesBool.filter(_prop => _prop == false);
+                        _statusValue = _propertyValuesStr.length > 0 || _propertyValuesBool.length > 0 ? STR_INV : STR_VALID.toUpperCase();
+                    }else{
+                        _statusValue = payloadResponseForField[field.loqateResponse];
+                    } 
+                }else if(field.loqateRequest == STR_NAME){
+                    //this condition is to set ABN status field to invalid if value not found in payload
+                    //loqate API does not return anything if ABN is invalid/DNE
+                    _statusValue = STR_INV;
+                }
+
+                this.fieldsToUpdate[field.statusValidationField] = VALID_STATUSES.includes(_statusValue) ? STR_VALID : STR_NOT_VALID;
+            });
+
+            this.handleUpdateFields(this.fieldsToUpdate);
+            
+        })
+        .catch(error => {
+            this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
+            this.isLoading = false;
+        })
+    }
+    
+    /**
      * updates status validation fields
      */
-     handleUpdateFields(fieldsToUpdate){
+    handleUpdateFields(fieldsToUpdate){
         const fields = {...fieldsToUpdate};
         fields.Id = this.recordId;
     
@@ -205,9 +307,15 @@ export default class ContactInformationValidation extends LightningElement {
             if(Object.keys(this.fieldsWithNullStatus).length > 0){
                 this.fieldsWithNullStatus = {};
             }
+            if(this.fieldsToValidate.length > 0){
+                this.generateToast('Success!',this.fieldsToValidate.length + ' field/s validated.','success');
+            }
         })
         .catch(error => {
             this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
+        })
+        .finally(() => {
+            this.isLoading = false;
         });
     }
 }

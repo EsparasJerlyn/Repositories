@@ -6,10 +6,10 @@
  * @author Accenture
  *
  * @history
- *    | Developer                 | Date                  | JIRA     | Change Summary               |
-      |---------------------------|-----------------------|----------|------------------------------|
-      | angelika.j.s.galang       | September 3, 2021     | DEP1-156 | Created file                 | 
-      |                           |                       |          |                              | 
+ *    | Developer                 | Date                  | JIRA     | Change Summary                  |
+      |---------------------------|-----------------------|----------|---------------------------------|
+      | angelika.j.s.galang       | September 3, 2021     | DEP1-156 | Created file                    | 
+      | angelika.j.s.galang       | September 8, 2021     | DEP1-157 | Added test methods for callouts | 
 */
 @IsTest(SeeAllData = false)
 private class ContactInformationValidationCtrlTest {
@@ -42,5 +42,52 @@ private class ContactInformationValidationCtrlTest {
             }
         }
         Test.stopTest();
+    }
+
+    @IsTest
+    private static void validateEmailFieldsTest(){
+        Test.startTest();
+        System.runAs(currentUser){
+            Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
+            String emailValidateRequest = '[{"loqateRequest":"address","loqateResponse":"","statusValidationField":"","value":"test@test.com"}]';
+            ContactInformationValidationCtrl.PayloadResponse emailPayloadResponse = getPayloadResponse(emailValidateRequest);
+            System.assertEquals('test@test.com', emailPayloadResponse.address, 'email doesnt match');
+            System.assertEquals(true, emailPayloadResponse.domainValidated, 'domainValidated doesnt match');
+        }
+        Test.stopTest();
+    }
+
+    @IsTest
+    private static void validatePhoneFieldsTest(){
+        Test.startTest();
+        System.runAs(currentUser){
+            Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
+            String phoneValidateRequest = '[{"loqateRequest":"fullPhone","loqateResponse":"","statusValidationField":"","value":"1234"}]';
+            ContactInformationValidationCtrl.PayloadResponse phonePayloadResponse = getPayloadResponse(phoneValidateRequest);
+            System.assertEquals('1234', phonePayloadResponse.fullPhone, 'phone doesnt match');
+            System.assertEquals('connected|Network confirmed connection', phonePayloadResponse.phoneStatus, 'phoneStatus doesnt match');
+        }
+        Test.stopTest();
+    }
+
+    @IsTest
+    private static void validateCompanyFieldsTest(){
+        Test.startTest();
+        System.runAs(currentUser){
+            Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
+            String companyValidateRequest = '[{"loqateRequest":"name","loqateResponse":"","statusValidationField":"","value":"54321"}]';
+            ContactInformationValidationCtrl.PayloadResponse companyPayloadResponse = getPayloadResponse(companyValidateRequest);
+            System.assertEquals('54321', companyPayloadResponse.abn, 'address doesnt match');
+            System.assertEquals('testEntityName', companyPayloadResponse.name, 'country doesnt match');
+        }
+        Test.stopTest();
+    }
+
+    private static ContactInformationValidationCtrl.PayloadResponse getPayloadResponse(String validateRequest){
+        String payloadResponseList = ContactInformationValidationCtrl.validateFields(validateRequest);
+        List<ContactInformationValidationCtrl.PayloadResponse> payloadResponseListParsed = 
+            (List<ContactInformationValidationCtrl.PayloadResponse>) JSON.deserialize(payloadResponseList, List<ContactInformationValidationCtrl.PayloadResponse>.class);
+
+        return payloadResponseListParsed.iterator().next();
     }
 }
