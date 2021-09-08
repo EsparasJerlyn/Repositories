@@ -4,11 +4,75 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
+                    <name>actionNames</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>Edit</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Clone</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Convert</value>
+                            <visibilityRule>
+                                <booleanFilter>1 AND 2 AND 3 AND 4 AND 5 AND 6 AND 7 AND 8</booleanFilter>
+                                <criteria>
+                                    <leftValue>{!Record.LeadEmail_Validation__c}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>Not Valid</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.LeadMobile_Validation__c}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>Not Valid</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.LeadPhone_Validation__c}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>Not Valid</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.WorkEmail_Validation__c}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>Not Valid</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.WorkPhone_Validation__c}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>Not Valid</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.LeadPersonalEmail_Validation__c}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>Not Valid</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.LeadPersonalEmail_Validation__c}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>Not Valid</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.LeadABNEntity_Validation__c}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>Not Valid</rightValue>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>FeedItem.ContentNote</value>
+                        </valueListItems>
+                    </valueList>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>collapsed</name>
                     <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>enableActionsConfiguration</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>enableActionsInNative</name>
                     <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>

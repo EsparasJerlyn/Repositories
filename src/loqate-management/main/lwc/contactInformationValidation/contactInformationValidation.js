@@ -6,10 +6,10 @@
  * @author Accenture
  *
  * @history
- *    | Developer                 | Date                  | JIRA     | Change Summary               |
-      |---------------------------|-----------------------|----------|------------------------------|
-      | angelika.j.s.galang       | September 3, 2021     | DEP1-156 | Created file                 | 
-      |                           |                       |          |                              | 
+ *    | Developer                 | Date                  | JIRA     | Change Summary                       |
+      |---------------------------|-----------------------|----------|--------------------------------------|
+      | angelika.j.s.galang       | September 3, 2021     | DEP1-156 | Created file                         | 
+      | angelika.j.s.galang       | September 8, 2021     | DEP1-172 | Added error message for conversion   | 
  */
 
 import { LightningElement, api, wire } from 'lwc';
@@ -17,6 +17,7 @@ import { getObjectInfo, getPicklistValues } from 'lightning/uiObjectInfoApi';
 import { getRecord, getFieldValue, updateRecord} from 'lightning/uiRecordApi';
 
 import ACCOUNT_SCHEMA from '@salesforce/schema/Account';
+import LEAD_SCHEMA from '@salesforce/schema/Lead';
 import ABN_SCHEMA from '@salesforce/schema/Account.ABN__c';
 import ENTITY_NAME_SCHEMA from '@salesforce/schema/Account.Entity_Name__c';
 import VALIDATION_SCHEMA from '@salesforce/schema/Account.AccountABNEntity_Validation__c';
@@ -24,10 +25,11 @@ import VALIDATION_SCHEMA from '@salesforce/schema/Account.AccountABNEntity_Valid
 import getFieldMapping from '@salesforce/apex/ContactInformationValidationCtrl.getFieldMapping';
 
 const STR_NONE = 'None';
+const STR_NOT_VALID = 'Not Valid';
 const STR_VALIDATE = 'Validate';
-const STR_ALL = ' All';
 const STR_DOT = '.';
 const MSG_ERROR = 'An error has been encountered. Please contact your Administrator.';
+const MSG_CONVERT_ERROR = 'You can\'t convert this Lead if below contact information are not valid.';
 const PADDING_LEFTXXSMALL_CLASS = 'slds-p-left_xx-small';
 const MARGIN_TOPXLARGE_CLASS = ' slds-m-top_x-large';
 const MARGIN_VSMALL_CLASS = 'slds-m-vertical_small';
@@ -141,7 +143,7 @@ export default class ContactInformationValidation extends LightningElement {
      * getter for UI properties
      */
     get validateButtonLabel(){
-        return this.fieldsToValidate.length <= 1 ? STR_VALIDATE : STR_VALIDATE + STR_ALL;
+        return STR_VALIDATE;
     }
 
     get disableValidateButton(){
@@ -150,6 +152,14 @@ export default class ContactInformationValidation extends LightningElement {
 
     get showEntityName(){
         return this.isABNQueried();
+    }
+
+    get invalidConvert(){
+        return this.fieldsToDisplay.filter(field => field.statusValue == STR_NOT_VALID).length > 0 && this.objectApiName == LEAD_SCHEMA.objectApiName;
+    }
+
+    get errorConvertMessage(){
+        return MSG_CONVERT_ERROR;
     }
 
     get entityNameClass(){
