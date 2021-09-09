@@ -71,6 +71,16 @@
                 <default>false</default>
                 <label>Under Client Review</label>
             </value>
+            <value>
+                <fullName>Approved</fullName>
+                <default>false</default>
+                <label>Approved</label>
+            </value>
+            <value>
+                <fullName>QUTeX Executive Proposal Rejected</fullName>
+                <default>false</default>
+                <label>QUTeX Executive Proposal Rejected</label>
+            </value>
         </valueSetDefinition>
         <valueSettings>
             <controllingFieldValue>Proposal</controllingFieldValue>
@@ -99,6 +109,14 @@
         <valueSettings>
             <controllingFieldValue>Proposal</controllingFieldValue>
             <valueName>Under Client Review</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Proposal</controllingFieldValue>
+            <valueName>Approved</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Proposal</controllingFieldValue>
+            <valueName>QUTeX Executive Proposal Rejected</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Qualify</controllingFieldValue>
