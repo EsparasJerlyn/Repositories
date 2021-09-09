@@ -5,15 +5,61 @@
     <label>Company Category</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
     <type>Picklist</type>
     <valueSet>
         <restricted>true</restricted>
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Test Value 1</fullName>
+                <fullName>Corporate</fullName>
                 <default>false</default>
-                <label>Test Value 1</label>
+                <label>Corporate</label>
+            </value>
+            <value>
+                <fullName>Education Provider</fullName>
+                <default>false</default>
+                <label>Education Provider</label>
+            </value>
+            <value>
+                <fullName>Government Body - Commonwealth</fullName>
+                <default>false</default>
+                <label>Government Body - Commonwealth</label>
+            </value>
+            <value>
+                <fullName>Government Body - International</fullName>
+                <default>false</default>
+                <label>Government Body - International</label>
+            </value>
+            <value>
+                <fullName>Government Body - Local</fullName>
+                <default>false</default>
+                <label>Government Body - Local</label>
+            </value>
+            <value>
+                <fullName>Government Body - State/Territory</fullName>
+                <default>false</default>
+                <label>Government Body - State/Territory</label>
+            </value>
+            <value>
+                <fullName>Not For Profit</fullName>
+                <default>false</default>
+                <label>Not For Profit</label>
+            </value>
+            <value>
+                <fullName>Professional Association</fullName>
+                <default>false</default>
+                <label>Professional Association</label>
+            </value>
+            <value>
+                <fullName>Trust or Foundation</fullName>
+                <default>false</default>
+                <label>Trust or Foundation</label>
+            </value>
+            <value>
+                <fullName>University</fullName>
+                <default>false</default>
+                <label>University</label>
             </value>
         </valueSetDefinition>
     </valueSet>
