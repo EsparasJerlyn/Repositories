@@ -2,10 +2,96 @@
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>52.0</apiVersion>
     <decisions>
+        <description>Only proceed if address is modified or record is newly created,</description>
+        <name>Check_If_Update_Or_Insert</name>
+        <label>Check address is Updated Or Insert</label>
+        <locationX>1172</locationX>
+        <locationY>335</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Is_Update_Or_Insert</name>
+            <conditionLogic>1 OR 2 OR 3 OR 4 OR 5 OR (6 AND 7 AND 8 AND 9 AND 10)</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.hed__MailingCity__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.hed__MailingStreet__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.hed__MailingState__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.hed__MailingCountry__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.hed__MailingPostalCode__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record__Prior.hed__MailingCity__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record__Prior.hed__MailingStreet__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record__Prior.hed__MailingState__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record__Prior.hed__MailingCountry__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record__Prior.hed__MailingPostalCode__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Check_Parent_Field</targetReference>
+            </connector>
+            <label>Is Update Or Insert</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Check_Parent_Field</name>
         <label>Check Parent Field</label>
         <locationX>710</locationX>
-        <locationY>335</locationY>
+        <locationY>455</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Account_Shipping_Address</name>
@@ -145,7 +231,7 @@
         <name>Update_Account_Billing_Address</name>
         <label>Update Account Billing Address</label>
         <locationX>314</locationX>
-        <locationY>455</locationY>
+        <locationY>575</locationY>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
@@ -197,7 +283,7 @@
         <name>Update_Account_Shipping_Address</name>
         <label>Update Account Shipping Address</label>
         <locationX>50</locationX>
-        <locationY>455</locationY>
+        <locationY>575</locationY>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
@@ -249,7 +335,7 @@
         <name>Update_Contact_Mailing_Address</name>
         <label>Update Contact Mailing Address</label>
         <locationX>842</locationX>
-        <locationY>455</locationY>
+        <locationY>575</locationY>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
@@ -301,7 +387,7 @@
         <name>Update_Contact_Other_Address</name>
         <label>Update Contact Other Address</label>
         <locationX>578</locationX>
-        <locationY>455</locationY>
+        <locationY>575</locationY>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
@@ -353,7 +439,7 @@
         <name>Update_Lead_Address</name>
         <label>Update Lead Address</label>
         <locationX>1106</locationX>
-        <locationY>455</locationY>
+        <locationY>575</locationY>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
@@ -401,73 +487,45 @@
         <object>Lead</object>
     </recordUpdates>
     <start>
-        <locationX>584</locationX>
+        <locationX>1046</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>Check_Parent_Field</targetReference>
+            <targetReference>Check_If_Update_Or_Insert</targetReference>
         </connector>
-        <filterLogic>1 AND (2 OR 3 OR 4) AND (5 OR 6 OR 7 OR  8 OR 9)</filterLogic>
-        <filters>
-            <field>hed__Address_Type__c</field>
-            <operator>IsNull</operator>
-            <value>
-                <booleanValue>false</booleanValue>
-            </value>
-        </filters>
-        <filters>
-            <field>hed__Parent_Account__c</field>
-            <operator>IsNull</operator>
-            <value>
-                <booleanValue>false</booleanValue>
-            </value>
-        </filters>
-        <filters>
-            <field>hed__Parent_Contact__c</field>
-            <operator>IsNull</operator>
-            <value>
-                <booleanValue>false</booleanValue>
-            </value>
-        </filters>
-        <filters>
-            <field>Parent_Lead__c</field>
-            <operator>IsNull</operator>
-            <value>
-                <booleanValue>false</booleanValue>
-            </value>
-        </filters>
+        <filterLogic>or</filterLogic>
         <filters>
             <field>hed__MailingCity__c</field>
-            <operator>IsChanged</operator>
+            <operator>IsNull</operator>
             <value>
-                <booleanValue>true</booleanValue>
+                <booleanValue>false</booleanValue>
             </value>
         </filters>
         <filters>
             <field>hed__MailingCountry__c</field>
-            <operator>IsChanged</operator>
+            <operator>IsNull</operator>
             <value>
-                <booleanValue>true</booleanValue>
+                <booleanValue>false</booleanValue>
             </value>
         </filters>
         <filters>
             <field>hed__MailingPostalCode__c</field>
-            <operator>IsChanged</operator>
+            <operator>IsNull</operator>
             <value>
-                <booleanValue>true</booleanValue>
+                <booleanValue>false</booleanValue>
             </value>
         </filters>
         <filters>
             <field>hed__MailingState__c</field>
-            <operator>IsChanged</operator>
+            <operator>IsNull</operator>
             <value>
-                <booleanValue>true</booleanValue>
+                <booleanValue>false</booleanValue>
             </value>
         </filters>
         <filters>
             <field>hed__MailingStreet__c</field>
-            <operator>IsChanged</operator>
+            <operator>IsNull</operator>
             <value>
-                <booleanValue>true</booleanValue>
+                <booleanValue>false</booleanValue>
             </value>
         </filters>
         <object>hed__Address__c</object>
