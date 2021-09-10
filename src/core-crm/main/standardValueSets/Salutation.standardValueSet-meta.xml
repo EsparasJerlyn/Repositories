@@ -1,0 +1,624 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<StandardValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sorted>false</sorted>
+    <standardValue>
+        <fullName>2LT</fullName>
+        <default>false</default>
+        <label>Second Lieutenant</label>
+    </standardValue>
+    <standardValue>
+        <fullName>AB</fullName>
+        <default>false</default>
+        <label>Able Seaman</label>
+    </standardValue>
+    <standardValue>
+        <fullName>ABBOTT</fullName>
+        <default>false</default>
+        <label>Abbott</label>
+    </standardValue>
+    <standardValue>
+        <fullName>AC</fullName>
+        <default>false</default>
+        <label>Aircraftman</label>
+    </standardValue>
+    <standardValue>
+        <fullName>ACM</fullName>
+        <default>false</default>
+        <label>Air Chief Marshal</label>
+    </standardValue>
+    <standardValue>
+        <fullName>ACW</fullName>
+        <default>false</default>
+        <label>Aircraftwoman</label>
+    </standardValue>
+    <standardValue>
+        <fullName>ADML</fullName>
+        <default>false</default>
+        <label>Admiral</label>
+    </standardValue>
+    <standardValue>
+        <fullName>AIRCDRE</fullName>
+        <default>false</default>
+        <label>Air Commodore</label>
+    </standardValue>
+    <standardValue>
+        <fullName>ALD</fullName>
+        <default>false</default>
+        <label>Alderman</label>
+    </standardValue>
+    <standardValue>
+        <fullName>AM</fullName>
+        <default>false</default>
+        <label>Air Marshal</label>
+    </standardValue>
+    <standardValue>
+        <fullName>AMBSR</fullName>
+        <default>false</default>
+        <label>Ambassador</label>
+    </standardValue>
+    <standardValue>
+        <fullName>ARCHBISHOP</fullName>
+        <default>false</default>
+        <label>Archbishop</label>
+    </standardValue>
+    <standardValue>
+        <fullName>ARCHDEACON</fullName>
+        <default>false</default>
+        <label>Archdeacon</label>
+    </standardValue>
+    <standardValue>
+        <fullName>ASSOC PROF</fullName>
+        <default>false</default>
+        <label>Associate Professor</label>
+    </standardValue>
+    <standardValue>
+        <fullName>AVM</fullName>
+        <default>false</default>
+        <label>Air Vice Marshal</label>
+    </standardValue>
+    <standardValue>
+        <fullName>BARON</fullName>
+        <default>false</default>
+        <label>Baron</label>
+    </standardValue>
+    <standardValue>
+        <fullName>BARONESS</fullName>
+        <default>false</default>
+        <label>Baroness</label>
+    </standardValue>
+    <standardValue>
+        <fullName>BDR</fullName>
+        <default>false</default>
+        <label>Bombardier</label>
+    </standardValue>
+    <standardValue>
+        <fullName>BISHOP</fullName>
+        <default>false</default>
+        <label>Bishop</label>
+    </standardValue>
+    <standardValue>
+        <fullName>BR</fullName>
+        <default>false</default>
+        <label>Brother</label>
+    </standardValue>
+    <standardValue>
+        <fullName>BRIG</fullName>
+        <default>false</default>
+        <label>Brigadier</label>
+    </standardValue>
+    <standardValue>
+        <fullName>CANON</fullName>
+        <default>false</default>
+        <label>Canon</label>
+    </standardValue>
+    <standardValue>
+        <fullName>CAPT</fullName>
+        <default>false</default>
+        <label>Captain (Army)</label>
+    </standardValue>
+    <standardValue>
+        <fullName>CARDNL</fullName>
+        <default>false</default>
+        <label>Cardinal</label>
+    </standardValue>
+    <standardValue>
+        <fullName>CDRE</fullName>
+        <default>false</default>
+        <label>Commodore</label>
+    </standardValue>
+    <standardValue>
+        <fullName>CDT</fullName>
+        <default>false</default>
+        <label>Cadet</label>
+    </standardValue>
+    <standardValue>
+        <fullName>CHAP</fullName>
+        <default>false</default>
+        <label>Chaplin</label>
+    </standardValue>
+    <standardValue>
+        <fullName>CMDR</fullName>
+        <default>false</default>
+        <label>Commander</label>
+    </standardValue>
+    <standardValue>
+        <fullName>CMM</fullName>
+        <default>false</default>
+        <label>Commissioner</label>
+    </standardValue>
+    <standardValue>
+        <fullName>COL</fullName>
+        <default>false</default>
+        <label>Colonel</label>
+    </standardValue>
+    <standardValue>
+        <fullName>CONST</fullName>
+        <default>false</default>
+        <label>Constable</label>
+    </standardValue>
+    <standardValue>
+        <fullName>CONSUL</fullName>
+        <default>false</default>
+        <label>Consul</label>
+    </standardValue>
+    <standardValue>
+        <fullName>COUNT</fullName>
+        <default>false</default>
+        <label>Count</label>
+    </standardValue>
+    <standardValue>
+        <fullName>COUNTESS</fullName>
+        <default>false</default>
+        <label>Countess</label>
+    </standardValue>
+    <standardValue>
+        <fullName>CPL</fullName>
+        <default>false</default>
+        <label>Corporal</label>
+    </standardValue>
+    <standardValue>
+        <fullName>CPO</fullName>
+        <default>false</default>
+        <label>Chief Petty Officer</label>
+    </standardValue>
+    <standardValue>
+        <fullName>DAME</fullName>
+        <default>false</default>
+        <label>Dame</label>
+    </standardValue>
+    <standardValue>
+        <fullName>DEACON</fullName>
+        <default>false</default>
+        <label>Deacon</label>
+    </standardValue>
+    <standardValue>
+        <fullName>DEACONESS</fullName>
+        <default>false</default>
+        <label>Deaconess</label>
+    </standardValue>
+    <standardValue>
+        <fullName>DEAN</fullName>
+        <default>false</default>
+        <label>Dean</label>
+    </standardValue>
+    <standardValue>
+        <fullName>DEPUTY SUPT</fullName>
+        <default>false</default>
+        <label>Deputy Superintendent</label>
+    </standardValue>
+    <standardValue>
+        <fullName>DIRECTOR</fullName>
+        <default>false</default>
+        <label>Director</label>
+    </standardValue>
+    <standardValue>
+        <fullName>DR</fullName>
+        <default>false</default>
+        <label>Doctor</label>
+    </standardValue>
+    <standardValue>
+        <fullName>EARL</fullName>
+        <default>false</default>
+        <label>Earl</label>
+    </standardValue>
+    <standardValue>
+        <fullName>ENGR</fullName>
+        <default>false</default>
+        <label>Engineer</label>
+    </standardValue>
+    <standardValue>
+        <fullName>FLGOFF</fullName>
+        <default>false</default>
+        <label>Flying Officer</label>
+    </standardValue>
+    <standardValue>
+        <fullName>FLTLT</fullName>
+        <default>false</default>
+        <label>Flight Lieutenant</label>
+    </standardValue>
+    <standardValue>
+        <fullName>FR</fullName>
+        <default>false</default>
+        <label>Farther</label>
+    </standardValue>
+    <standardValue>
+        <fullName>FSGT</fullName>
+        <default>false</default>
+        <label>Flight Sergeant</label>
+    </standardValue>
+    <standardValue>
+        <fullName>GEN</fullName>
+        <default>false</default>
+        <label>General</label>
+    </standardValue>
+    <standardValue>
+        <fullName>GP CAPT</fullName>
+        <default>false</default>
+        <label>Group Captain</label>
+    </standardValue>
+    <standardValue>
+        <fullName>HON</fullName>
+        <default>false</default>
+        <label>Honourable</label>
+    </standardValue>
+    <standardValue>
+        <fullName>JUDGE</fullName>
+        <default>false</default>
+        <label>Judge</label>
+    </standardValue>
+    <standardValue>
+        <fullName>JUSTICE</fullName>
+        <default>false</default>
+        <label>Justice</label>
+    </standardValue>
+    <standardValue>
+        <fullName>LAC</fullName>
+        <default>false</default>
+        <label>Leading Aircraftman</label>
+    </standardValue>
+    <standardValue>
+        <fullName>LACW</fullName>
+        <default>false</default>
+        <label>Leading Aircraftwoman</label>
+    </standardValue>
+    <standardValue>
+        <fullName>LADY</fullName>
+        <default>false</default>
+        <label>Lady</label>
+    </standardValue>
+    <standardValue>
+        <fullName>LBDR</fullName>
+        <default>false</default>
+        <label>Lance Bombardier</label>
+    </standardValue>
+    <standardValue>
+        <fullName>LCPL</fullName>
+        <default>false</default>
+        <label>Lance Corporal</label>
+    </standardValue>
+    <standardValue>
+        <fullName>LEUT</fullName>
+        <default>false</default>
+        <label>Lieutenant (Navy)</label>
+    </standardValue>
+    <standardValue>
+        <fullName>LORD</fullName>
+        <default>false</default>
+        <label>Lord</label>
+    </standardValue>
+    <standardValue>
+        <fullName>LS</fullName>
+        <default>false</default>
+        <label>Leading Seaman</label>
+    </standardValue>
+    <standardValue>
+        <fullName>LT</fullName>
+        <default>false</default>
+        <label>Lieutenant (Army)</label>
+    </standardValue>
+    <standardValue>
+        <fullName>LTCOL</fullName>
+        <default>false</default>
+        <label>Lieutenant Colonel</label>
+    </standardValue>
+    <standardValue>
+        <fullName>LTGEN</fullName>
+        <default>false</default>
+        <label>Lieutenant General</label>
+    </standardValue>
+    <standardValue>
+        <fullName>MADAM</fullName>
+        <default>false</default>
+        <label>Madam</label>
+    </standardValue>
+    <standardValue>
+        <fullName>MADAME</fullName>
+        <default>false</default>
+        <label>Madame</label>
+    </standardValue>
+    <standardValue>
+        <fullName>MAJ</fullName>
+        <default>false</default>
+        <label>Major</label>
+    </standardValue>
+    <standardValue>
+        <fullName>MAJGEN</fullName>
+        <default>false</default>
+        <label>Major General</label>
+    </standardValue>
+    <standardValue>
+        <fullName>MAYOR</fullName>
+        <default>false</default>
+        <label>Mayor</label>
+    </standardValue>
+    <standardValue>
+        <fullName>MAYORESS</fullName>
+        <default>false</default>
+        <label>Mayoress</label>
+    </standardValue>
+    <standardValue>
+        <fullName>MGR</fullName>
+        <default>false</default>
+        <label>Manager</label>
+    </standardValue>
+    <standardValue>
+        <fullName>MIDN</fullName>
+        <default>false</default>
+        <label>Midshipman</label>
+    </standardValue>
+    <standardValue>
+        <fullName>MISS</fullName>
+        <default>false</default>
+        <label>Miss</label>
+    </standardValue>
+    <standardValue>
+        <fullName>MON</fullName>
+        <default>false</default>
+        <label>Monsignor</label>
+    </standardValue>
+    <standardValue>
+        <fullName>MOST REV</fullName>
+        <default>false</default>
+        <label>Most Reverend</label>
+    </standardValue>
+    <standardValue>
+        <fullName>MR</fullName>
+        <default>false</default>
+        <label>Mister</label>
+    </standardValue>
+    <standardValue>
+        <fullName>MRS</fullName>
+        <default>false</default>
+        <label>Mrs</label>
+    </standardValue>
+    <standardValue>
+        <fullName>MS</fullName>
+        <default>false</default>
+        <label>Ms</label>
+    </standardValue>
+    <standardValue>
+        <fullName>MSTR</fullName>
+        <default>false</default>
+        <label>Master</label>
+    </standardValue>
+    <standardValue>
+        <fullName>MTHR</fullName>
+        <default>false</default>
+        <label>Mother</label>
+    </standardValue>
+    <standardValue>
+        <fullName>NURSE</fullName>
+        <default>false</default>
+        <label>Nurse</label>
+    </standardValue>
+    <standardValue>
+        <fullName>PASTOR</fullName>
+        <default>false</default>
+        <label>Pastor</label>
+    </standardValue>
+    <standardValue>
+        <fullName>PLTOFF</fullName>
+        <default>false</default>
+        <label>Pilot Officer</label>
+    </standardValue>
+    <standardValue>
+        <fullName>PO</fullName>
+        <default>false</default>
+        <label>Petty Officer</label>
+    </standardValue>
+    <standardValue>
+        <fullName>PROF</fullName>
+        <default>false</default>
+        <label>Professor</label>
+    </standardValue>
+    <standardValue>
+        <fullName>PTE</fullName>
+        <default>false</default>
+        <label>Private</label>
+    </standardValue>
+    <standardValue>
+        <fullName>RABBI</fullName>
+        <default>false</default>
+        <label>Rabbi</label>
+    </standardValue>
+    <standardValue>
+        <fullName>RADM</fullName>
+        <default>false</default>
+        <label>Rear Admiral</label>
+    </standardValue>
+    <standardValue>
+        <fullName>RECTOR</fullName>
+        <default>false</default>
+        <label>Rector</label>
+    </standardValue>
+    <standardValue>
+        <fullName>REV</fullName>
+        <default>false</default>
+        <label>Reverend</label>
+    </standardValue>
+    <standardValue>
+        <fullName>RT REV</fullName>
+        <default>false</default>
+        <label>Right Reverend</label>
+    </standardValue>
+    <standardValue>
+        <fullName>RTHON</fullName>
+        <default>false</default>
+        <label>Right Honourable</label>
+    </standardValue>
+    <standardValue>
+        <fullName>SBLT</fullName>
+        <default>false</default>
+        <label>Sub Lieutenant</label>
+    </standardValue>
+    <standardValue>
+        <fullName>SCDT</fullName>
+        <default>false</default>
+        <label>Staff Cadet</label>
+    </standardValue>
+    <standardValue>
+        <fullName>SEN</fullName>
+        <default>false</default>
+        <label>Senator</label>
+    </standardValue>
+    <standardValue>
+        <fullName>SGT</fullName>
+        <default>false</default>
+        <label>Sergeant</label>
+    </standardValue>
+    <standardValue>
+        <fullName>SIR</fullName>
+        <default>false</default>
+        <label>Sir</label>
+    </standardValue>
+    <standardValue>
+        <fullName>SISTER SUP</fullName>
+        <default>false</default>
+        <label>Sister Superior</label>
+    </standardValue>
+    <standardValue>
+        <fullName>SMN</fullName>
+        <default>false</default>
+        <label>Seaman</label>
+    </standardValue>
+    <standardValue>
+        <fullName>SQNLDR</fullName>
+        <default>false</default>
+        <label>Squadron Leader</label>
+    </standardValue>
+    <standardValue>
+        <fullName>SR</fullName>
+        <default>false</default>
+        <label>Sister</label>
+    </standardValue>
+    <standardValue>
+        <fullName>SSGT</fullName>
+        <default>false</default>
+        <label>Staff Sergeant</label>
+    </standardValue>
+    <standardValue>
+        <fullName>SUPT</fullName>
+        <default>false</default>
+        <label>Superintendent</label>
+    </standardValue>
+    <standardValue>
+        <fullName>SWAMI</fullName>
+        <default>false</default>
+        <label>Swami</label>
+    </standardValue>
+    <standardValue>
+        <fullName>VADM</fullName>
+        <default>false</default>
+        <label>Vice Admiral</label>
+    </standardValue>
+    <standardValue>
+        <fullName>VCE CMNDR</fullName>
+        <default>false</default>
+        <label>Vice Commander</label>
+    </standardValue>
+    <standardValue>
+        <fullName>VISCOUNT</fullName>
+        <default>false</default>
+        <label>Viscount</label>
+    </standardValue>
+    <standardValue>
+        <fullName>WCDR</fullName>
+        <default>false</default>
+        <label>Wing Commander</label>
+    </standardValue>
+    <standardValue>
+        <fullName>WO</fullName>
+        <default>false</default>
+        <label>Warrant Officer (Navy)</label>
+    </standardValue>
+    <standardValue>
+        <fullName>WO1</fullName>
+        <default>false</default>
+        <label>Warrant Officer Class 1</label>
+    </standardValue>
+    <standardValue>
+        <fullName>WO2</fullName>
+        <default>false</default>
+        <label>Warrant Officer Class 2</label>
+    </standardValue>
+    <standardValue>
+        <fullName>WOFF</fullName>
+        <default>false</default>
+        <label>Warrant Officer (Air Force)</label>
+    </standardValue>
+    <standardValue>
+        <fullName>CAPT, RAN</fullName>
+        <default>false</default>
+        <label>Captain (Navy)</label>
+    </standardValue>
+    <standardValue>
+        <fullName>GOV</fullName>
+        <default>false</default>
+        <label>Governor</label>
+    </standardValue>
+    <standardValue>
+        <fullName>LCDR</fullName>
+        <default>false</default>
+        <label>Lieutenant Commander</label>
+    </standardValue>
+    <standardValue>
+        <fullName>LTGOV</fullName>
+        <default>false</default>
+        <label>Lieutenant Governor</label>
+    </standardValue>
+    <standardValue>
+        <fullName>OCDT</fullName>
+        <default>false</default>
+        <label>Officer Cadet</label>
+    </standardValue>
+    <standardValue>
+        <fullName>RSM</fullName>
+        <default>false</default>
+        <label>Regimental Sergeant Major</label>
+    </standardValue>
+    <standardValue>
+        <fullName>RSM-A</fullName>
+        <default>false</default>
+        <label>Regimental Sergeant Major of the Army</label>
+    </standardValue>
+    <standardValue>
+        <fullName>SNR</fullName>
+        <default>false</default>
+        <label>Senior</label>
+    </standardValue>
+    <standardValue>
+        <fullName>SM</fullName>
+        <default>false</default>
+        <label>Station Master</label>
+    </standardValue>
+    <standardValue>
+        <fullName>WOFF-AF</fullName>
+        <default>false</default>
+        <label>Warrant Officer of the Air Force</label>
+    </standardValue>
+    <standardValue>
+        <fullName>WO-N</fullName>
+        <default>false</default>
+        <label>Warrant Officer of the Navy</label>
+    </standardValue>
+</StandardValueSet>
