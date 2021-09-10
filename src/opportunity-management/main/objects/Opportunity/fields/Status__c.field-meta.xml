@@ -5,12 +5,18 @@
     <label>Status</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
         <controllingField>StageName</controllingField>
         <valueSetDefinition>
             <sorted>false</sorted>
+            <value>
+                <fullName>Approved</fullName>
+                <default>false</default>
+                <label>Approved</label>
+            </value>
             <value>
                 <fullName>Client Approved</fullName>
                 <default>false</default>
@@ -72,16 +78,15 @@
                 <label>Under Client Review</label>
             </value>
             <value>
-                <fullName>Approved</fullName>
-                <default>false</default>
-                <label>Approved</label>
-            </value>
-            <value>
                 <fullName>QUTeX Executive Proposal Rejected</fullName>
                 <default>false</default>
                 <label>QUTeX Executive Proposal Rejected</label>
             </value>
         </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Proposal</controllingFieldValue>
+            <valueName>Approved</valueName>
+        </valueSettings>
         <valueSettings>
             <controllingFieldValue>Proposal</controllingFieldValue>
             <valueName>Client Approved</valueName>
