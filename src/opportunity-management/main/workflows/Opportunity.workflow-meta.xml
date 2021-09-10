@@ -82,7 +82,7 @@
     </fieldUpdates>
     <outboundMessages>
         <fullName>Generate_Contract</fullName>
-        <apiVersion>53.0</apiVersion>
+        <apiVersion>52.0</apiVersion>
         <endpointUrl>https://hookb.in/NOPlENl9r3he8mNN8qJV</endpointUrl>
         <fields>ContractId</fields>
         <fields>Contract_URL__c</fields>
