@@ -80,4 +80,17 @@
         <protected>false</protected>
         <reevaluateOnChange>false</reevaluateOnChange>
     </fieldUpdates>
+    <outboundMessages>
+        <fullName>Generate_Contract</fullName>
+        <apiVersion>53.0</apiVersion>
+        <endpointUrl>https://hookb.in/NOPlENl9r3he8mNN8qJV</endpointUrl>
+        <fields>ContractId</fields>
+        <fields>Contract_URL__c</fields>
+        <fields>Id</fields>
+        <includeSessionId>true</includeSessionId>
+        <integrationUser>franz.horfilla@qut.edu.au.dep</integrationUser>
+        <name>Generate Contract</name>
+        <protected>false</protected>
+        <useDeadLetterQueue>false</useDeadLetterQueue>
+    </outboundMessages>
 </Workflow>
