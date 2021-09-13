@@ -8,7 +8,7 @@
     </loginIpRanges>
     <loginIpRanges>
         <description>Data Migration (QUT on prem)</description>
-        <endAddress>172.30.74.42</endAddress>
-        <startAddress>172.30.74.42</startAddress>
+        <endAddress>131.181.16.30</endAddress>
+        <startAddress>131.181.16.30</startAddress>
     </loginIpRanges>
 </Profile>
