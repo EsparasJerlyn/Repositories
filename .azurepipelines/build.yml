@@ -47,7 +47,7 @@ pr: none
 
 #Variable group that stores all the dependendent variables
 variables:
-  - group: CICD
+  - group: SF_CICD
 
 
 #Stages to run as part merged changes  
