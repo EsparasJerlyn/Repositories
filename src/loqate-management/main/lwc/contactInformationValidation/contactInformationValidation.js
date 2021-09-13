@@ -129,7 +129,7 @@ export default class ContactInformationValidation extends LightningElement {
             if(this.isABNQueried()){
                 this.entityNameValue = getFieldValue(data, this.generateFieldName(ENTITY_NAME_SCHEMA.fieldApiName));
             }
-
+            
             //get all non-empty fields with 'None' validation status
             this.fieldsToValidate = this.fieldsMapping.filter(field => 
                 getFieldValue(data, this.generateFieldName(field.statusValidationField)) == STR_NONE &&
@@ -306,6 +306,9 @@ export default class ContactInformationValidation extends LightningElement {
         .then(() => {
             if(Object.keys(this.fieldsWithNullStatus).length > 0){
                 this.fieldsWithNullStatus = {};
+            }
+            if(Object.keys(this.fieldsToUpdate).length > 0){
+                this.fieldsToUpdate = {};
             }
             if(this.fieldsToValidate.length > 0){
                 this.generateToast('Success!',this.fieldsToValidate.length + ' field/s validated.','success');
