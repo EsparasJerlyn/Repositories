@@ -38,6 +38,7 @@
 
 name: 'Build'
 
+
 # Build pushes to main so we can release merged changes
 trigger:
     - main
@@ -48,6 +49,9 @@ pr: none
 #Variable group that stores all the dependendent variables
 variables:
   - group: SF_CICD
+  - name : branchName
+    value: $[ replace(variables['Build.SourceBranch'], 'refs/heads/', '') ]
+ 
 
 
 #Stages to run as part merged changes  
@@ -79,7 +83,7 @@ stages:
 
 
                 - script: |
-                      sfdx sfpowerscripts:orchestrator:build  --branch main --buildnumber $(Build.BuildId)
+                      sfdx sfpowerscripts:orchestrator:build  --branch $(branchName) --buildnumber $(Build.BuildId)
                   displayName: 'Build Packages'
 
                 - script: |
