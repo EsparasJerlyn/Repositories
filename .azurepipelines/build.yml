@@ -84,7 +84,7 @@ stages:
                   displayName: 'Build Packages'
 
                 - script: |
-                   sfdx sfpowerscripts:orchestrator:publish --npm --scope $(scope) --npmrcpath $(npmrc.secureFilePath)  --gittag --pushgittag
+                   sfdx sfpowerscripts:orchestrator:publish --npm --scope $(SCOPE) --npmrcpath $(npmrc.secureFilePath)  --gittag --pushgittag
                   displayName: 'Publish artifacts to NPM registry'
                   env:
                     SYSTEM_ACCESSTOKEN: $(System.AccessToken)
