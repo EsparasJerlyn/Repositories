@@ -115,10 +115,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Existing_Relationship__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Existing_Client_Relationship__c</field>
             </layoutItems>
         </layoutColumns>
