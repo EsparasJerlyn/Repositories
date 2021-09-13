@@ -23,14 +23,6 @@
             </approver>
             <whenMultipleApprovers>FirstResponse</whenMultipleApprovers>
         </assignedApprover>
-        <entryCriteria>
-            <criteriaItems>
-                <field>Opportunity.Big_Different_Risky__c</field>
-                <operation>equals</operation>
-                <value>True</value>
-            </criteriaItems>
-        </entryCriteria>
-        <ifCriteriaNotMet>ApproveRecord</ifCriteriaNotMet>
         <label>Big/Risky/Different Approval</label>
         <name>Big_Risky_Different_Approval</name>
     </approvalStep>
