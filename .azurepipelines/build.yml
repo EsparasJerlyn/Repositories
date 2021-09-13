@@ -56,7 +56,6 @@ stages:
 #Build all packages (unlocked/source/data) and publish to artifact repository
     - stage: Build
       displayName: 'Build Production Ready Packages and Publish'
-      dependsOn: Deploy
       lockBehavior: runLatest
       jobs:
           - job : BuildJob
