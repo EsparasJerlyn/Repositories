@@ -88,7 +88,7 @@
         <fields>Contract_URL__c</fields>
         <fields>Id</fields>
         <includeSessionId>true</includeSessionId>
-        <integrationUser>franz.horfilla@qut.edu.au.dep</integrationUser>
+        <integrationUser>esb.integration@qut.edu.au.dep</integrationUser>
         <name>Generate Contract</name>
         <protected>false</protected>
         <useDeadLetterQueue>false</useDeadLetterQueue>
