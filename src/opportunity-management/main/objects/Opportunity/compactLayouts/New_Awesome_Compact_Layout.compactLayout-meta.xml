@@ -5,7 +5,7 @@
     <fields>AccountId</fields>
     <fields>CloseDate</fields>
     <fields>Amount</fields>
-    <fields>Type</fields>
+    <fields>Contract_Type__c</fields>
     <fields>OwnerId</fields>
     <label>New Awesome Compact Layout</label>
 </CompactLayout>
