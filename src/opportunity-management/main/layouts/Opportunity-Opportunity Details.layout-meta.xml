@@ -332,6 +332,16 @@
         <relatedList>RelatedProcessHistoryList</relatedList>
     </relatedLists>
     <relatedLists>
+        <relatedList>RelatedFileList</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>Product2</fields>
+        <fields>Quantity</fields>
+        <fields>UnitPrice</fields>
+        <fields>TotalPrice</fields>
+        <relatedList>RelatedLineItemList</relatedList>
+    </relatedLists>
+    <relatedLists>
         <fields>ContactName</fields>
         <fields>Role</fields>
         <fields>ContactTitle</fields>
@@ -339,16 +349,6 @@
         <fields>ContactEmail</fields>
         <fields>ContactAccountName</fields>
         <relatedList>RelatedContactRoleList</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>Product2</fields>
-        <fields>Quantity</fields>
-        <fields>UnitPrice</fields>
-        <fields>Description</fields>
-        <relatedList>RelatedLineItemList</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <relatedList>RelatedFileList</relatedList>
     </relatedLists>
     <relatedLists>
         <relatedList>RelatedEntityHistoryList</relatedList>
@@ -360,7 +360,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h9r00000004Bh</masterLabel>
+        <masterLabel>00h8r0000002x8r</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>
