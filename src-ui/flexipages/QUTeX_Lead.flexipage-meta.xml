@@ -58,9 +58,6 @@
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
-                        <valueListItems>
-                            <value>FeedItem.ContentNote</value>
-                        </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>

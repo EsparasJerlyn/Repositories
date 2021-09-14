@@ -2,14 +2,44 @@
 <StandardValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
     <sorted>false</sorted>
     <standardValue>
-        <fullName>2LT</fullName>
+        <fullName>MR</fullName>
         <default>false</default>
-        <label>Second Lieutenant</label>
+        <label>Mister</label>
     </standardValue>
     <standardValue>
-        <fullName>AB</fullName>
+        <fullName>MS</fullName>
         <default>false</default>
-        <label>Able Seaman</label>
+        <label>Ms</label>
+    </standardValue>
+    <standardValue>
+        <fullName>MRS</fullName>
+        <default>false</default>
+        <label>Mrs</label>
+    </standardValue>
+    <standardValue>
+        <fullName>MISS</fullName>
+        <default>false</default>
+        <label>Miss</label>
+    </standardValue>
+    <standardValue>
+        <fullName>MX</fullName>
+        <default>false</default>
+        <label>Gender neutral title</label>
+    </standardValue>
+    <standardValue>
+        <fullName>DR</fullName>
+        <default>false</default>
+        <label>Doctor</label>
+    </standardValue>
+    <standardValue>
+        <fullName>PROF</fullName>
+        <default>false</default>
+        <label>Professor</label>
+    </standardValue>
+    <standardValue>
+        <fullName>ASSOC PROF</fullName>
+        <default>false</default>
+        <label>Associate Professor</label>
     </standardValue>
     <standardValue>
         <fullName>ABBOTT</fullName>
@@ -17,19 +47,19 @@
         <label>Abbott</label>
     </standardValue>
     <standardValue>
-        <fullName>AC</fullName>
+        <fullName>AB</fullName>
         <default>false</default>
-        <label>Aircraftman</label>
+        <label>Able Seaman</label>
     </standardValue>
     <standardValue>
-        <fullName>ACM</fullName>
+        <fullName>AAPRO</fullName>
         <default>false</default>
-        <label>Air Chief Marshal</label>
+        <label>Adjunct Associate Professor</label>
     </standardValue>
     <standardValue>
-        <fullName>ACW</fullName>
+        <fullName>ADPRO</fullName>
         <default>false</default>
-        <label>Aircraftwoman</label>
+        <label>Adjunct Professor</label>
     </standardValue>
     <standardValue>
         <fullName>ADML</fullName>
@@ -37,19 +67,39 @@
         <label>Admiral</label>
     </standardValue>
     <standardValue>
+        <fullName>ACM</fullName>
+        <default>false</default>
+        <label>Air Chief Marshal</label>
+    </standardValue>
+    <standardValue>
         <fullName>AIRCDRE</fullName>
         <default>false</default>
         <label>Air Commodore</label>
     </standardValue>
     <standardValue>
-        <fullName>ALD</fullName>
+        <fullName>AC</fullName>
         <default>false</default>
-        <label>Alderman</label>
+        <label>Aircraftman</label>
+    </standardValue>
+    <standardValue>
+        <fullName>ACW</fullName>
+        <default>false</default>
+        <label>Aircraftwoman</label>
     </standardValue>
     <standardValue>
         <fullName>AM</fullName>
         <default>false</default>
         <label>Air Marshal</label>
+    </standardValue>
+    <standardValue>
+        <fullName>AVM</fullName>
+        <default>false</default>
+        <label>Air Vice Marshal</label>
+    </standardValue>
+    <standardValue>
+        <fullName>ALD</fullName>
+        <default>false</default>
+        <label>Alderman</label>
     </standardValue>
     <standardValue>
         <fullName>AMBSR</fullName>
@@ -67,16 +117,6 @@
         <label>Archdeacon</label>
     </standardValue>
     <standardValue>
-        <fullName>ASSOC PROF</fullName>
-        <default>false</default>
-        <label>Associate Professor</label>
-    </standardValue>
-    <standardValue>
-        <fullName>AVM</fullName>
-        <default>false</default>
-        <label>Air Vice Marshal</label>
-    </standardValue>
-    <standardValue>
         <fullName>BARON</fullName>
         <default>false</default>
         <label>Baron</label>
@@ -87,14 +127,19 @@
         <label>Baroness</label>
     </standardValue>
     <standardValue>
+        <fullName>BISHOP</fullName>
+        <default>false</default>
+        <label>Bishop</label>
+    </standardValue>
+    <standardValue>
         <fullName>BDR</fullName>
         <default>false</default>
         <label>Bombardier</label>
     </standardValue>
     <standardValue>
-        <fullName>BISHOP</fullName>
+        <fullName>BRIG</fullName>
         <default>false</default>
-        <label>Bishop</label>
+        <label>Brigadier</label>
     </standardValue>
     <standardValue>
         <fullName>BR</fullName>
@@ -102,9 +147,9 @@
         <label>Brother</label>
     </standardValue>
     <standardValue>
-        <fullName>BRIG</fullName>
+        <fullName>CDT</fullName>
         <default>false</default>
-        <label>Brigadier</label>
+        <label>Cadet</label>
     </standardValue>
     <standardValue>
         <fullName>CANON</fullName>
@@ -117,24 +162,29 @@
         <label>Captain (Army)</label>
     </standardValue>
     <standardValue>
+        <fullName>CAPT, RAN</fullName>
+        <default>false</default>
+        <label>Captain (Navy)</label>
+    </standardValue>
+    <standardValue>
         <fullName>CARDNL</fullName>
         <default>false</default>
         <label>Cardinal</label>
     </standardValue>
     <standardValue>
-        <fullName>CDRE</fullName>
-        <default>false</default>
-        <label>Commodore</label>
-    </standardValue>
-    <standardValue>
-        <fullName>CDT</fullName>
-        <default>false</default>
-        <label>Cadet</label>
-    </standardValue>
-    <standardValue>
         <fullName>CHAP</fullName>
         <default>false</default>
         <label>Chaplin</label>
+    </standardValue>
+    <standardValue>
+        <fullName>CPO</fullName>
+        <default>false</default>
+        <label>Chief Petty Officer</label>
+    </standardValue>
+    <standardValue>
+        <fullName>COL</fullName>
+        <default>false</default>
+        <label>Colonel</label>
     </standardValue>
     <standardValue>
         <fullName>CMDR</fullName>
@@ -147,9 +197,9 @@
         <label>Commissioner</label>
     </standardValue>
     <standardValue>
-        <fullName>COL</fullName>
+        <fullName>CDRE</fullName>
         <default>false</default>
-        <label>Colonel</label>
+        <label>Commodore</label>
     </standardValue>
     <standardValue>
         <fullName>CONST</fullName>
@@ -162,6 +212,11 @@
         <label>Consul</label>
     </standardValue>
     <standardValue>
+        <fullName>CPL</fullName>
+        <default>false</default>
+        <label>Corporal</label>
+    </standardValue>
+    <standardValue>
         <fullName>COUNT</fullName>
         <default>false</default>
         <label>Count</label>
@@ -170,16 +225,6 @@
         <fullName>COUNTESS</fullName>
         <default>false</default>
         <label>Countess</label>
-    </standardValue>
-    <standardValue>
-        <fullName>CPL</fullName>
-        <default>false</default>
-        <label>Corporal</label>
-    </standardValue>
-    <standardValue>
-        <fullName>CPO</fullName>
-        <default>false</default>
-        <label>Chief Petty Officer</label>
     </standardValue>
     <standardValue>
         <fullName>DAME</fullName>
@@ -212,9 +257,14 @@
         <label>Director</label>
     </standardValue>
     <standardValue>
-        <fullName>DR</fullName>
+        <fullName>DPRFE</fullName>
         <default>false</default>
-        <label>Doctor</label>
+        <label>Distinguished Emeritus Professor</label>
+    </standardValue>
+    <standardValue>
+        <fullName>DPROF</fullName>
+        <default>false</default>
+        <label>Distinguished Professor</label>
     </standardValue>
     <standardValue>
         <fullName>EARL</fullName>
@@ -222,19 +272,14 @@
         <label>Earl</label>
     </standardValue>
     <standardValue>
+        <fullName>PROFE</fullName>
+        <default>false</default>
+        <label>Emeritus Professor</label>
+    </standardValue>
+    <standardValue>
         <fullName>ENGR</fullName>
         <default>false</default>
         <label>Engineer</label>
-    </standardValue>
-    <standardValue>
-        <fullName>FLGOFF</fullName>
-        <default>false</default>
-        <label>Flying Officer</label>
-    </standardValue>
-    <standardValue>
-        <fullName>FLTLT</fullName>
-        <default>false</default>
-        <label>Flight Lieutenant</label>
     </standardValue>
     <standardValue>
         <fullName>FR</fullName>
@@ -242,9 +287,19 @@
         <label>Farther</label>
     </standardValue>
     <standardValue>
+        <fullName>FLTLT</fullName>
+        <default>false</default>
+        <label>Flight Lieutenant</label>
+    </standardValue>
+    <standardValue>
         <fullName>FSGT</fullName>
         <default>false</default>
         <label>Flight Sergeant</label>
+    </standardValue>
+    <standardValue>
+        <fullName>FLGOFF</fullName>
+        <default>false</default>
+        <label>Flying Officer</label>
     </standardValue>
     <standardValue>
         <fullName>GEN</fullName>
@@ -252,9 +307,19 @@
         <label>General</label>
     </standardValue>
     <standardValue>
+        <fullName>GOV</fullName>
+        <default>false</default>
+        <label>Governor</label>
+    </standardValue>
+    <standardValue>
         <fullName>GP CAPT</fullName>
         <default>false</default>
         <label>Group Captain</label>
+    </standardValue>
+    <standardValue>
+        <fullName>HE</fullName>
+        <default>false</default>
+        <label>Her Excellency</label>
     </standardValue>
     <standardValue>
         <fullName>HON</fullName>
@@ -272,16 +337,6 @@
         <label>Justice</label>
     </standardValue>
     <standardValue>
-        <fullName>LAC</fullName>
-        <default>false</default>
-        <label>Leading Aircraftman</label>
-    </standardValue>
-    <standardValue>
-        <fullName>LACW</fullName>
-        <default>false</default>
-        <label>Leading Aircraftwoman</label>
-    </standardValue>
-    <standardValue>
         <fullName>LADY</fullName>
         <default>false</default>
         <label>Lady</label>
@@ -297,14 +352,14 @@
         <label>Lance Corporal</label>
     </standardValue>
     <standardValue>
-        <fullName>LEUT</fullName>
+        <fullName>LAC</fullName>
         <default>false</default>
-        <label>Lieutenant (Navy)</label>
+        <label>Leading Aircraftman</label>
     </standardValue>
     <standardValue>
-        <fullName>LORD</fullName>
+        <fullName>LACW</fullName>
         <default>false</default>
-        <label>Lord</label>
+        <label>Leading Aircraftwoman</label>
     </standardValue>
     <standardValue>
         <fullName>LS</fullName>
@@ -317,14 +372,34 @@
         <label>Lieutenant (Army)</label>
     </standardValue>
     <standardValue>
+        <fullName>LEUT</fullName>
+        <default>false</default>
+        <label>Lieutenant (Navy)</label>
+    </standardValue>
+    <standardValue>
         <fullName>LTCOL</fullName>
         <default>false</default>
         <label>Lieutenant Colonel</label>
     </standardValue>
     <standardValue>
+        <fullName>LCDR</fullName>
+        <default>false</default>
+        <label>Lieutenant Commander</label>
+    </standardValue>
+    <standardValue>
         <fullName>LTGEN</fullName>
         <default>false</default>
         <label>Lieutenant General</label>
+    </standardValue>
+    <standardValue>
+        <fullName>LTGOV</fullName>
+        <default>false</default>
+        <label>Lieutenant Governor</label>
+    </standardValue>
+    <standardValue>
+        <fullName>LORD</fullName>
+        <default>false</default>
+        <label>Lord</label>
     </standardValue>
     <standardValue>
         <fullName>MADAM</fullName>
@@ -347,6 +422,16 @@
         <label>Major General</label>
     </standardValue>
     <standardValue>
+        <fullName>MGR</fullName>
+        <default>false</default>
+        <label>Manager</label>
+    </standardValue>
+    <standardValue>
+        <fullName>MSTR</fullName>
+        <default>false</default>
+        <label>Master</label>
+    </standardValue>
+    <standardValue>
         <fullName>MAYOR</fullName>
         <default>false</default>
         <label>Mayor</label>
@@ -357,19 +442,9 @@
         <label>Mayoress</label>
     </standardValue>
     <standardValue>
-        <fullName>MGR</fullName>
-        <default>false</default>
-        <label>Manager</label>
-    </standardValue>
-    <standardValue>
         <fullName>MIDN</fullName>
         <default>false</default>
         <label>Midshipman</label>
-    </standardValue>
-    <standardValue>
-        <fullName>MISS</fullName>
-        <default>false</default>
-        <label>Miss</label>
     </standardValue>
     <standardValue>
         <fullName>MON</fullName>
@@ -382,26 +457,6 @@
         <label>Most Reverend</label>
     </standardValue>
     <standardValue>
-        <fullName>MR</fullName>
-        <default>false</default>
-        <label>Mister</label>
-    </standardValue>
-    <standardValue>
-        <fullName>MRS</fullName>
-        <default>false</default>
-        <label>Mrs</label>
-    </standardValue>
-    <standardValue>
-        <fullName>MS</fullName>
-        <default>false</default>
-        <label>Ms</label>
-    </standardValue>
-    <standardValue>
-        <fullName>MSTR</fullName>
-        <default>false</default>
-        <label>Master</label>
-    </standardValue>
-    <standardValue>
         <fullName>MTHR</fullName>
         <default>false</default>
         <label>Mother</label>
@@ -412,14 +467,14 @@
         <label>Nurse</label>
     </standardValue>
     <standardValue>
+        <fullName>OCDT</fullName>
+        <default>false</default>
+        <label>Officer Cadet</label>
+    </standardValue>
+    <standardValue>
         <fullName>PASTOR</fullName>
         <default>false</default>
         <label>Pastor</label>
-    </standardValue>
-    <standardValue>
-        <fullName>PLTOFF</fullName>
-        <default>false</default>
-        <label>Pilot Officer</label>
     </standardValue>
     <standardValue>
         <fullName>PO</fullName>
@@ -427,9 +482,9 @@
         <label>Petty Officer</label>
     </standardValue>
     <standardValue>
-        <fullName>PROF</fullName>
+        <fullName>PLTOFF</fullName>
         <default>false</default>
-        <label>Professor</label>
+        <label>Pilot Officer</label>
     </standardValue>
     <standardValue>
         <fullName>PTE</fullName>
@@ -452,14 +507,19 @@
         <label>Rector</label>
     </standardValue>
     <standardValue>
+        <fullName>RSM</fullName>
+        <default>false</default>
+        <label>Regimental Sergeant Major</label>
+    </standardValue>
+    <standardValue>
+        <fullName>RSM-A</fullName>
+        <default>false</default>
+        <label>Regimental Sergeant Major of the Army</label>
+    </standardValue>
+    <standardValue>
         <fullName>REV</fullName>
         <default>false</default>
         <label>Reverend</label>
-    </standardValue>
-    <standardValue>
-        <fullName>RT REV</fullName>
-        <default>false</default>
-        <label>Right Reverend</label>
     </standardValue>
     <standardValue>
         <fullName>RTHON</fullName>
@@ -467,19 +527,29 @@
         <label>Right Honourable</label>
     </standardValue>
     <standardValue>
-        <fullName>SBLT</fullName>
+        <fullName>RT REV</fullName>
         <default>false</default>
-        <label>Sub Lieutenant</label>
+        <label>Right Reverend</label>
     </standardValue>
     <standardValue>
-        <fullName>SCDT</fullName>
+        <fullName>SMN</fullName>
         <default>false</default>
-        <label>Staff Cadet</label>
+        <label>Seaman</label>
+    </standardValue>
+    <standardValue>
+        <fullName>2LT</fullName>
+        <default>false</default>
+        <label>Second Lieutenant</label>
     </standardValue>
     <standardValue>
         <fullName>SEN</fullName>
         <default>false</default>
         <label>Senator</label>
+    </standardValue>
+    <standardValue>
+        <fullName>SNR</fullName>
+        <default>false</default>
+        <label>Senior</label>
     </standardValue>
     <standardValue>
         <fullName>SGT</fullName>
@@ -492,14 +562,14 @@
         <label>Sir</label>
     </standardValue>
     <standardValue>
+        <fullName>SR</fullName>
+        <default>false</default>
+        <label>Sister</label>
+    </standardValue>
+    <standardValue>
         <fullName>SISTER SUP</fullName>
         <default>false</default>
         <label>Sister Superior</label>
-    </standardValue>
-    <standardValue>
-        <fullName>SMN</fullName>
-        <default>false</default>
-        <label>Seaman</label>
     </standardValue>
     <standardValue>
         <fullName>SQNLDR</fullName>
@@ -507,14 +577,24 @@
         <label>Squadron Leader</label>
     </standardValue>
     <standardValue>
-        <fullName>SR</fullName>
+        <fullName>SCDT</fullName>
         <default>false</default>
-        <label>Sister</label>
+        <label>Staff Cadet</label>
     </standardValue>
     <standardValue>
         <fullName>SSGT</fullName>
         <default>false</default>
         <label>Staff Sergeant</label>
+    </standardValue>
+    <standardValue>
+        <fullName>SM</fullName>
+        <default>false</default>
+        <label>Station Master</label>
+    </standardValue>
+    <standardValue>
+        <fullName>SBLT</fullName>
+        <default>false</default>
+        <label>Sub Lieutenant</label>
     </standardValue>
     <standardValue>
         <fullName>SUPT</fullName>
@@ -542,9 +622,9 @@
         <label>Viscount</label>
     </standardValue>
     <standardValue>
-        <fullName>WCDR</fullName>
+        <fullName>WOFF</fullName>
         <default>false</default>
-        <label>Wing Commander</label>
+        <label>Warrant Officer (Air Force)</label>
     </standardValue>
     <standardValue>
         <fullName>WO</fullName>
@@ -562,56 +642,6 @@
         <label>Warrant Officer Class 2</label>
     </standardValue>
     <standardValue>
-        <fullName>WOFF</fullName>
-        <default>false</default>
-        <label>Warrant Officer (Air Force)</label>
-    </standardValue>
-    <standardValue>
-        <fullName>CAPT, RAN</fullName>
-        <default>false</default>
-        <label>Captain (Navy)</label>
-    </standardValue>
-    <standardValue>
-        <fullName>GOV</fullName>
-        <default>false</default>
-        <label>Governor</label>
-    </standardValue>
-    <standardValue>
-        <fullName>LCDR</fullName>
-        <default>false</default>
-        <label>Lieutenant Commander</label>
-    </standardValue>
-    <standardValue>
-        <fullName>LTGOV</fullName>
-        <default>false</default>
-        <label>Lieutenant Governor</label>
-    </standardValue>
-    <standardValue>
-        <fullName>OCDT</fullName>
-        <default>false</default>
-        <label>Officer Cadet</label>
-    </standardValue>
-    <standardValue>
-        <fullName>RSM</fullName>
-        <default>false</default>
-        <label>Regimental Sergeant Major</label>
-    </standardValue>
-    <standardValue>
-        <fullName>RSM-A</fullName>
-        <default>false</default>
-        <label>Regimental Sergeant Major of the Army</label>
-    </standardValue>
-    <standardValue>
-        <fullName>SNR</fullName>
-        <default>false</default>
-        <label>Senior</label>
-    </standardValue>
-    <standardValue>
-        <fullName>SM</fullName>
-        <default>false</default>
-        <label>Station Master</label>
-    </standardValue>
-    <standardValue>
         <fullName>WOFF-AF</fullName>
         <default>false</default>
         <label>Warrant Officer of the Air Force</label>
@@ -620,5 +650,10 @@
         <fullName>WO-N</fullName>
         <default>false</default>
         <label>Warrant Officer of the Navy</label>
+    </standardValue>
+    <standardValue>
+        <fullName>WCDR</fullName>
+        <default>false</default>
+        <label>Wing Commander</label>
     </standardValue>
 </StandardValueSet>

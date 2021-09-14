@@ -392,6 +392,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Opportunity.Owning_Faculty__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Opportunity.Primary_Campaign_Source__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -530,10 +535,10 @@
     </tabSettings>
     <userPermissions>
         <enabled>true</enabled>
-        <name>EditTask</name>
+        <name>ConvertLeads</name>
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
-        <name>ConvertLeads</name>
+        <name>EditTask</name>
     </userPermissions>
 </PermissionSet>

@@ -45,6 +45,10 @@
                 <behavior>Edit</behavior>
                 <field>Loss_Reason__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Owning_Faculty__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>

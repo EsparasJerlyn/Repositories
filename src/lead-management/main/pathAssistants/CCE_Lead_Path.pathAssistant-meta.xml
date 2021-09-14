@@ -9,7 +9,7 @@
         <picklistValueName>Assigned</picklistValueName>
     </pathAssistantSteps>
     <pathAssistantSteps>
-        <info>&lt;p&gt;As a QUT CCE Lead, the following actions need to be completed before you can convert this lead&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Contact Details&lt;/li&gt;&lt;li&gt;Company Details&lt;/li&gt;&lt;li&gt;Business Requirements&lt;/li&gt;&lt;/ul&gt;</info>
+        <info>&lt;p&gt;As a QUT CCE Lead, the following actions need to be completed before you can convert this lead&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Contact Details&lt;/li&gt;&lt;li&gt;Company Details&lt;/li&gt;&lt;li&gt;Description&lt;/li&gt;&lt;/ul&gt;</info>
         <picklistValueName>Engaging</picklistValueName>
     </pathAssistantSteps>
     <pathAssistantSteps>

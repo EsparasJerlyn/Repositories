@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lead_Conversion_Qualified</fullName>
+    <active>true</active>
+    <description>Validates if lead status is set to qualified but not yet converted.</description>
+    <errorConditionFormula>AND(
+ NOT(IsConverted),
+ ISPICKVAL( Status , &apos;Qualified&apos;) 
+)</errorConditionFormula>
+    <errorMessage>You are unable to start at qualify stage. Please follow the lead conversion process.</errorMessage>
+</ValidationRule>
