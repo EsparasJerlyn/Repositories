@@ -8,5 +8,6 @@
     <inlineHelpText>Indicates this person does not want your organization to call or email. Use this field to filter out Contacts in email and phone lists.</inlineHelpText>
     <label>Do Not Contact</label>
     <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
     <type>Checkbox</type>
 </CustomField>

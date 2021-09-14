@@ -4,7 +4,9 @@
     <externalId>false</externalId>
     <label>Contract Result</label>
     <required>false</required>
+    <securityClassification>Official</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>

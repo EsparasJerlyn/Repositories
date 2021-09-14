@@ -3,5 +3,6 @@
     <fullName>ParentId</fullName>
     <description>References the parent account, if any.</description>
     <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
     <type>Hierarchy</type>
 </CustomField>

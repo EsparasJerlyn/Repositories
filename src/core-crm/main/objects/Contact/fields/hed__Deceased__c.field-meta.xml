@@ -9,5 +9,6 @@
     <label>Deceased</label>
     <securityClassification>Official</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
     <type>Checkbox</type>
 </CustomField>

@@ -8,5 +8,6 @@
     <inlineHelpText>When selected, this Contact&apos;s address won&apos;t be synced with the Household Default or Seasonal Address. Use this to maintain a separate Mailing Address for this particular Contact. (Applies to Household Contacts only.)</inlineHelpText>
     <label>Do Not Automatically Update</label>
     <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
     <type>Checkbox</type>
 </CustomField>

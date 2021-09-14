@@ -8,5 +8,6 @@
     <inlineHelpText>When selected, this Contact is excluded from the Household Name.</inlineHelpText>
     <label>Exclude from Household Name</label>
     <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
     <type>Checkbox</type>
 </CustomField>

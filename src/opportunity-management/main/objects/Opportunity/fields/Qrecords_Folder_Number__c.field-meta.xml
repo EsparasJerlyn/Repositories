@@ -5,7 +5,9 @@
     <label>Qrecords Folder Number</label>
     <length>20</length>
     <required>false</required>
+    <securityClassification>Official</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Text</type>
     <unique>false</unique>

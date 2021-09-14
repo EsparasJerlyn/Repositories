@@ -8,6 +8,7 @@
     <label>Race</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
     <type>MultiselectPicklist</type>
     <valueSet>
         <valueSetDefinition>

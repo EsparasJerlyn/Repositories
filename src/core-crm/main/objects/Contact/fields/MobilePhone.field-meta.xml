@@ -3,4 +3,5 @@
     <fullName>MobilePhone</fullName>
     <securityClassification>Sensitive</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
 </CustomField>

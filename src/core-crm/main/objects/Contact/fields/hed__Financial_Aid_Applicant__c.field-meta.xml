@@ -8,5 +8,6 @@
     <inlineHelpText>Indicates whether this student has applied for financial aid.</inlineHelpText>
     <label>Financial Aid Applicant</label>
     <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
     <type>Checkbox</type>
 </CustomField>

@@ -3,5 +3,6 @@
     <fullName>AccountId</fullName>
     <securityClassification>Official</securityClassification>
     <trackFeedHistory>true</trackFeedHistory>
+    <trackHistory>false</trackHistory>
     <type>Lookup</type>
 </CustomField>

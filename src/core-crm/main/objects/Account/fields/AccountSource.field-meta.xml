@@ -3,5 +3,6 @@
     <fullName>AccountSource</fullName>
     <description>The source of the account record.</description>
     <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
     <type>Picklist</type>
 </CustomField>

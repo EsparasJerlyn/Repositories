@@ -8,5 +8,6 @@
     <inlineHelpText>Indicates whether this person has opted out of disclosure of information per the Family Education Rights and Privacy Act.</inlineHelpText>
     <label>FERPA</label>
     <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
     <type>Checkbox</type>
 </CustomField>

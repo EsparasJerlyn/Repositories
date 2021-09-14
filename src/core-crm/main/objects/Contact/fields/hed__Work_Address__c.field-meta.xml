@@ -24,6 +24,7 @@
     <inlineHelpText>If you&apos;ve set &quot;Work&quot; as the Primary Address type, the Work Address is populated with the Mailing Address values. If &quot;Work&quot; is the Secondary Address type, the Work Address is populated with the &quot;Other Address&quot; values. This field is read-only.</inlineHelpText>
     <label>Work Address</label>
     <required>false</required>
+    <trackHistory>false</trackHistory>
     <type>Text</type>
     <unique>false</unique>
 </CustomField>

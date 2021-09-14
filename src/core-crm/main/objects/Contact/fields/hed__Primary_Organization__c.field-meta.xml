@@ -13,5 +13,6 @@
     <required>false</required>
     <securityClassification>Official</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
     <type>Lookup</type>
 </CustomField>
