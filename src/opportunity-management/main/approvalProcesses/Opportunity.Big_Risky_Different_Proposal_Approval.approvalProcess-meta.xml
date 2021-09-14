@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ApprovalProcess xmlns="http://soap.sforce.com/2006/04/metadata">
-    <active>true</active>
+    <active>false</active>
     <allowRecall>false</allowRecall>
     <allowedSubmitters>
         <type>owner</type>
@@ -27,19 +27,6 @@
         <name>Big_Risky_Different_Approval</name>
     </approvalStep>
     <enableMobileDeviceAccess>false</enableMobileDeviceAccess>
-    <entryCriteria>
-        <booleanFilter>1 OR 2</booleanFilter>
-        <criteriaItems>
-            <field>Opportunity.Big_Different_Risky__c</field>
-            <operation>equals</operation>
-            <value>True</value>
-        </criteriaItems>
-        <criteriaItems>
-            <field>Opportunity.Big_Different_Risky__c</field>
-            <operation>equals</operation>
-            <value>False</value>
-        </criteriaItems>
-    </entryCriteria>
     <finalApprovalActions>
         <action>
             <name>Approved_Status_Field</name>
