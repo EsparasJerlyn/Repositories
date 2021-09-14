@@ -24,10 +24,6 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Account-Account Layout</layout>
-        <recordType>Account.Educational_Institution</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Account-Account Layout</layout>
         <recordType>Account.HH_Account</recordType>
     </layoutAssignments>
     <layoutAssignments>
@@ -35,12 +31,16 @@
         <recordType>Account.Sports_Organization</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Account-Account Layout</layout>
-        <recordType>Account.University_Department</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
         <layout>Account-Administrative Account Layout</layout>
         <recordType>Account.Administrative</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Account-University And Educational Layout</layout>
+        <recordType>Account.Educational_Institution</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Account-University And Educational Layout</layout>
+        <recordType>Account.University_Department</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Opportunity-Opportunity Details</layout>

@@ -460,5 +460,13 @@
     <layoutAssignments>
         <layout>Loqate_Component__mdt-Loqate Component Layout</layout>
     </layoutAssignments>
+    <layoutAssignments>
+        <layout>Account-University And Educational Layout</layout>
+        <recordType>Account.Educational_Institution</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Account-University And Educational Layout</layout>
+        <recordType>Account.University_Department</recordType>
+    </layoutAssignments>
     <userLicense>Salesforce</userLicense>  
 </Profile>
