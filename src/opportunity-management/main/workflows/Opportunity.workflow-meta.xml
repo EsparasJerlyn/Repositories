@@ -83,7 +83,7 @@
     <outboundMessages>
         <fullName>Generate_Contract</fullName>
         <apiVersion>52.0</apiVersion>
-        <endpointUrl>https://hookb.in/NOPlENl9r3he8mNN8qJV</endpointUrl>
+        <endpointUrl>https://api-int.qut.edu.au/domain/clms/contract</endpointUrl>
         <fields>ContractId</fields>
         <fields>Contract_URL__c</fields>
         <fields>Id</fields>
