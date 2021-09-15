@@ -151,6 +151,11 @@
         <field>Lead.Work_Phone__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Opportunity.Has_Proposal_Opportunity_Role__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>QUTeX Base</label>
     <license>Salesforce</license>

@@ -410,39 +410,44 @@
         <field>Account.External_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
-<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Contact.External_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
-<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>hed__Affiliation__c.External_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
-<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course__c.External_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
-<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course_Offering__c.External_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
-<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course_Enrollment__c.External_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
-<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>hed__Program_Enrollment__c.External_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
-<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>hed__Address__c.External_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Opportunity.Has_Proposal_Opportunity_Role__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <layoutAssignments>
