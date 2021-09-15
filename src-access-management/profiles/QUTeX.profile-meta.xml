@@ -49,7 +49,7 @@
         <layout>Outlook-Outlook Integration Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Opportunity-Opportunity Details</layout>
+        <layout>Opportunity-QUTeX Opportunity Layout</layout>
         <recordType>Opportunity.QUTex_CCE</recordType>
     </layoutAssignments>
     <recordTypeVisibilities>
