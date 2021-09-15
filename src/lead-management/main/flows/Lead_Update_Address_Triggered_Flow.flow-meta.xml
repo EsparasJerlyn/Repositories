@@ -4,11 +4,11 @@
     <decisions>
         <name>Check_if_insert_or_update</name>
         <label>Check if insert or update.</label>
-        <locationX>314</locationX>
+        <locationX>446</locationX>
         <locationY>335</locationY>
         <defaultConnectorLabel>default</defaultConnectorLabel>
         <rules>
-            <name>Is_Update</name>
+            <name>Is_Update_Address</name>
             <conditionLogic>1 OR 2 OR 3 OR 4 OR 5</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.City</leftValueReference>
@@ -48,7 +48,7 @@
             <connector>
                 <targetReference>Update_Associated_Address</targetReference>
             </connector>
-            <label>Is Update</label>
+            <label>Is Update Address</label>
         </rules>
         <rules>
             <name>is_Insert</name>
@@ -93,8 +93,30 @@
             </connector>
             <label>is Insert</label>
         </rules>
+        <rules>
+            <name>is_Converted</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.IsConverted</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.IsConverted</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Address_Parent_Account</targetReference>
+            </connector>
+            <label>is Converted</label>
+        </rules>
     </decisions>
-    <description>Updates or inserts address records when lead is inserted or updated.</description>
+    <description>Updates or inserts address records when lead is inserted or updated with converted account and billing address type with validity status</description>
     <interviewLabel>Lead Update Address Triggered Flow {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Lead Upsert Address Triggered Flow</label>
     <processMetadataValues>
@@ -168,6 +190,62 @@
             <field>hed__MailingStreet__c</field>
             <value>
                 <elementReference>$Record.Street</elementReference>
+            </value>
+        </inputAssignments>
+        <object>hed__Address__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordCreates>
+        <name>Update_Address_Parent_Account</name>
+        <label>Update Address Parent Account</label>
+        <locationX>578</locationX>
+        <locationY>455</locationY>
+        <inputAssignments>
+            <field>Validated__c</field>
+            <value>
+                <elementReference>$Record.LeadAddress_Validation__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>hed__Address_Type__c</field>
+            <value>
+                <stringValue>Billing</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>hed__MailingCity__c</field>
+            <value>
+                <elementReference>$Record.City</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>hed__MailingCountry__c</field>
+            <value>
+                <elementReference>$Record.Country</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>hed__MailingPostalCode__c</field>
+            <value>
+                <elementReference>$Record.PostalCode</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>hed__MailingState__c</field>
+            <value>
+                <elementReference>$Record.State</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>hed__MailingStreet__c</field>
+            <value>
+                <elementReference>$Record.Street</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>hed__Parent_Account__c</field>
+            <value>
+                <elementReference>$Record.ConvertedAccountId</elementReference>
             </value>
         </inputAssignments>
         <object>hed__Address__c</object>
@@ -268,7 +346,7 @@
         <object>hed__Address__c</object>
     </recordUpdates>
     <start>
-        <locationX>188</locationX>
+        <locationX>320</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Check_if_insert_or_update</targetReference>

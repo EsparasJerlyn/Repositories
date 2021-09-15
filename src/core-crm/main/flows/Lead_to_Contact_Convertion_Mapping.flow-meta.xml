@@ -10,19 +10,19 @@
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Lead_Is_Converted</name>
-            <conditionLogic>or</conditionLogic>
+            <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>$Record.Personal_Email__c</leftValueReference>
-                <operator>IsNull</operator>
+                <leftValueReference>$Record.IsConverted</leftValueReference>
+                <operator>EqualTo</operator>
                 <rightValue>
-                    <booleanValue>false</booleanValue>
+                    <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>$Record.Personal_Mobile__c</leftValueReference>
-                <operator>IsNull</operator>
+                <leftValueReference>$Record.IsConverted</leftValueReference>
+                <operator>IsChanged</operator>
                 <rightValue>
-                    <booleanValue>false</booleanValue>
+                    <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -31,7 +31,7 @@
             <label>Lead Is Converted</label>
         </rules>
     </decisions>
-    <description>Map Personal Mobile, Personal Email, And linkedin Url</description>
+    <description>Map Personal Mobile, Personal Email, linkedin Url, Work email and Work phone with validation status</description>
     <interviewLabel>Lead to Contact Convertion Mapping {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Lead to Contact Convertion Mapping</label>
     <processMetadataValues>
@@ -73,18 +73,6 @@
             </value>
         </inputAssignments>
         <inputAssignments>
-            <field>Personal_Email__c</field>
-            <value>
-                <elementReference>$Record.Personal_Email__c</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Personal_Mobile__c</field>
-            <value>
-                <elementReference>$Record.Personal_Mobile__c</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
             <field>hed__PreferredPhone__c</field>
             <value>
                 <stringValue>Mobile Phone</stringValue>
@@ -104,12 +92,54 @@
         <connector>
             <targetReference>Lead_Converted</targetReference>
         </connector>
-        <filterLogic>and</filterLogic>
+        <filterLogic>or</filterLogic>
         <filters>
-            <field>IsConverted</field>
-            <operator>IsChanged</operator>
+            <field>Email</field>
+            <operator>IsNull</operator>
             <value>
-                <booleanValue>true</booleanValue>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>MobilePhone</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Phone</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Work_Email__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Work_Phone__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Personal_Email__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Personal_Mobile__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
             </value>
         </filters>
         <object>Lead</object>
