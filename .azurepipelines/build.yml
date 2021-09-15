@@ -1,0 +1,99 @@
+# ██████████   █████ █████  █████████   █████████                     ████
+#░░███░░░░███ ░░███ ░░███  ███░░░░░░   ███░░░░░███                   ░░███
+#  ███   ░░███ ░░███ ███  ░███ ██████ ░███    ░░░   ██████   ██████   ░███   ██████
+# ░███    ░███  ░░█████   ░███░███░███░░█████████  ███░░███ ░░░░░███  ░███  ███░░███
+# ░███    ░███   ███░███  ░███░███░███ ░░░░░░░░███░███ ░░░   ███████  ░███ ░███████
+# ░███    ███   ███ ░░███ ░███░░░ ░███ ███    ░███░███  ███ ███░░███  ░███ ░███░░░
+# ██████████   █████ █████░░█████████ ░░█████████ ░░██████ ░░████████ █████░░██████
+# ░░░░░░░░░░   ░░░░░ ░░░░░  ░░░░░░░░░   ░░░░░░░░░   ░░░░░░   ░░░░░░░░ ░░░░░  ░░░░░░
+# 
+# DX@Scale CI/CD Template for Azure Pipelines
+#-----------------------------------------------------------------------------------------------------------
+# Maintained by @ramesh-karanji(Ramesh Karanji)
+# Follows reference pipeline available at docs.dxatscale.io
+# 
+#------------------------------------------------------------------------------------------------------------
+# To know more about dxatscale, visit https://docs.dxatscale.io
+# To know more on sfpowerscripts, visit- https://sfpowerscripts.dxatscale.io/
+# To know more on sfpowerkit, visit- https://github.com/Accenture/sfpowerkit
+ 
+# This pipeline quickbuilds, deploy to DEV, builds and publishes packages to artifact repository
+#
+#
+# --- To report metrics about the pipeline to datadog or newrelic, set these variables in CICD group
+#
+#  #SFPOWERSCRIPTS_NEWRELIC: 'true'
+#  #SFPOWERSCRIPTS_NEWRELIC_API_KEY: '<NEWRELIC_INSIGHT_INSERT_KEYS>'
+# 
+#  or if you are using Datadog
+#  #SFPOWERSCRIPTS_DATADOG: 'true'
+#  #SFPOWERSCRIPTS_DATADOG_HOST: '<DATADOG-HOST>'
+#  #SFPOWERSCRIPTS_DATADOG_API_KEY: '<DATADOG-API-KEY>'
+#
+# or if you are using a Hosted StatsD server
+#  
+#  # SFPOWERSCRIPTS_STATSD: 'true'
+#  # SFPOWERSCRIPTS_STATSD_HOST: '<STATSD_HOST_IP>'
+# --------------------------------------------------------------------------------------------------------
+
+name: 'Build'
+
+
+# Build pushes to main so we can release merged changes
+trigger:
+    - main
+    - release/**
+
+pr: none
+
+#Variable group that stores all the dependendent variables
+variables:
+  - group: SF_CICD
+  - name : branchName
+    value: $[ replace(variables['Build.SourceBranch'], 'refs/heads/', '') ]
+ 
+
+
+#Stages to run as part merged changes  
+stages:
+
+#Build all packages (unlocked/source/data) and publish to artifact repository
+    - stage: Build
+      displayName: 'Build Production Ready Packages and Publish'
+      lockBehavior: runLatest
+      jobs:
+          - job : BuildJob
+            displayName: 'Build the packages'          
+            pool:
+                vmImage: 'ubuntu-latest'
+            container: dxatscale/sfpowerscripts:latest
+            steps:
+                - checkout: self
+                  persistCredentials: true
+
+
+                - task: DownloadSecureFile@1
+                  name: npmrc
+                  inputs:
+                      secureFile: .npmrc
+
+                - task: npmAuthenticate@0
+                  inputs:
+                    workingFile: $(npmrc.secureFilePath)
+
+
+                - script: |
+                      sfdx sfpowerscripts:orchestrator:build  --branch $(branchName) --buildnumber $(Build.BuildId)
+                  displayName: 'Build Packages'
+
+                - script: |
+                   sfdx sfpowerscripts:orchestrator:publish --npm --scope $(SCOPE) --npmtag "IT1Sep" --npmrcpath $(npmrc.secureFilePath)   --gittag --pushgittag
+                  displayName: 'Publish artifacts to NPM registry'
+                  env:
+                    SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+                
+                - task: PublishBuildArtifacts@1
+                  inputs:
+                      PathtoPublish: 'artifacts'
+                      ArtifactName: 'validated-artifacts'
+                      publishLocation: 'Container'
