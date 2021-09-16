@@ -19,7 +19,7 @@
     <types>
         <members>Lead-Lead Layout</members>
         <name>Layout</name>
-    </types> -->
+    </types>
     <types>
         <members>HedAddressTrigger</members>
         <name>ApexTrigger</name>
@@ -33,7 +33,7 @@
     <types>
         <members>TriggerHandler.LoqateHedAddressTriggerHandler</members>
         <name>CustomMetadata</name>
-    </types>
+    </types> -->
     <!--<types>
         <members>Custom_Lead_Allow_No_Matching_Rule</members>
         <name>MatchingRule</name>
