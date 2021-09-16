@@ -38,6 +38,9 @@
         <label>Check flag</label>
         <locationX>182</locationX>
         <locationY>983</locationY>
+        <defaultConnector>
+            <targetReference>Set_Has_Opp_Contact_Role_to_false</targetReference>
+        </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Is_Flag_Ok</name>
@@ -173,6 +176,19 @@
         <object>OpportunityContactRole</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
+    <recordUpdates>
+        <name>Set_Has_Opp_Contact_Role_to_false</name>
+        <label>Set Has Opp Contact Role to false</label>
+        <locationX>314</locationX>
+        <locationY>1103</locationY>
+        <inputAssignments>
+            <field>Has_Proposal_Opportunity_Role__c</field>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
     <recordUpdates>
         <name>Update_Has_Opp_Proposal_field_0</name>
         <label>Update Has Opp Proposal field</label>

@@ -119,7 +119,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Existing_Client_Relationship__c</field>
+                <field>Existing_Relationship__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -149,7 +149,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>QUTeX_Faculty_Capacity__c</field>
+                <field>Faculty_Capacity__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
@@ -338,7 +338,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h8r00000038KP</masterLabel>
+        <masterLabel>00hAD00000006rp</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>
