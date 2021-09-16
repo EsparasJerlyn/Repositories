@@ -3,18 +3,20 @@
     <fullName>CCE_Partner_Lead_Conversion</fullName>
     <active>true</active>
     <errorConditionFormula>AND(
-    OR(
-        ISPICKVAL(Status, &apos;New&apos;),
-        ISPICKVAL(Status, &apos;Qualified&apos;)
+  ISPICKVAL(Status, &apos;Qualified&apos;),
+  OR(
+    ISBLANK(Address),
+    ISBLANK(FirstName),
+    AND(
+      ISBLANK(Phone),
+      ISBLANK(MobilePhone)
     ),
     OR(
-        ISBLANK(Address),
-        ISBLANK(FirstName),
-        AND(
-            ISBLANK(Phone),
-            ISBLANK(MobilePhone)
-        )
+      ISPICKVAL( Company_Category__c,&quot;&quot;),
+      ISPICKVAL( Company_Sub_Category__c,&quot;&quot;),
+      ISBLANK(Description)
     )
+  )
 )</errorConditionFormula>
-    <errorMessage>One of the required fields for a qualified CCE Partner Lead is missing: Phone, Name, Address. Please populate all required fields.</errorMessage>
+    <errorMessage>One of the required field/s for a qualified CCE Partner Lead is/are missing: First Name, Phone or Mobile, Company Category, Company Sub Category, Description, and Address. Please populate all the required fields.</errorMessage>
 </ValidationRule>
