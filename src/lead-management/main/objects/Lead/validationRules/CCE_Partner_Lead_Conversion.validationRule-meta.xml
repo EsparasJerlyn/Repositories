@@ -18,5 +18,5 @@
     )
   )
 )</errorConditionFormula>
-    <errorMessage>One of the required field/s for a qualified CCE Partner Lead is/are missing: First Name, Phone or Mobile, Company Category, Company Sub Category, Description, and Address. Please populate all the required fields.</errorMessage>
+    <errorMessage>Please populate all required fields.</errorMessage>
 </ValidationRule>
