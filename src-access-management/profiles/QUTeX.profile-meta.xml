@@ -19,7 +19,7 @@
         <recordType>Account.Academic_Program</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Account-Account Layout</layout>
+        <layout>Account-Business Organization Layout</layout>
         <recordType>Account.Business_Organization</recordType>
     </layoutAssignments>
     <layoutAssignments>
