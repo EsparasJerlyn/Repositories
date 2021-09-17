@@ -9,13 +9,7 @@
             "path": "./src-env-specific-alias-pre",
             "package": "src-env-specific-alias-pre",
             "versionNumber": "1.0.0.0",
-            "aliasfy": true,
-            "ignoreOnStage": [
-                "prepare",
-                "validate",
-                "quickbuild",
-                "build"
-            ]
+            "aliasfy": true
         },
         {
             "path": "src/frameworks/trigger-framework",

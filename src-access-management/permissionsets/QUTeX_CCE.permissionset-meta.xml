@@ -286,12 +286,12 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Opportunity.Contract_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Opportunity.Contract_Result__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -301,7 +301,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Opportunity.Contract_URL__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -413,6 +413,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Opportunity.Proposal_Client_Comments__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Opportunity.Qrecords_Folder_Exists__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Opportunity.Qrecords_Folder_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

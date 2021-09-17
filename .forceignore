@@ -8,7 +8,6 @@ package.xml
 **objectTranslations
 **featureParameters
 src-env-specific-alias-post
-src-env-specific-alias-pre
 
 # LWC configuration files
 **/jsconfig.json

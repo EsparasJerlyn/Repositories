@@ -7,11 +7,15 @@
 *     | Developer                 | Date                  | JIRA         | Change Summary                                                   |
       |---------------------------|-----------------------|--------------|------------------------------------------------------------------|
       | roy.nino.s.regala         | September 3, 2021     | DEP1-169,170 | Created file                                                     |
-      | angelika.j.s.galang       | September 3, 2021     | DEP1-156     | Added comments & method for creating user and getting profile id | 
+      | angelika.j.s.galang       | September 3, 2021     | DEP1-156     | Added comments & method for creating user and getting profile id |
+      | angelika.j.s.galang       | September 16, 2021    | DEP1-22      | Added method for creating Opportunity                            |
       |                           |                       |              |                                                                  | 
 */
 @IsTest
 public class TestDataFactory {
+
+    private static final String STR_QUALIFY = 'Qualify';
+    private static final String STR_IN_PROGRESS = 'In Progress';
 
     /**
     * @description Method for creating test Account records
@@ -40,8 +44,8 @@ public class TestDataFactory {
  
         for (Integer i=0;i<numContacts;i++) {
             cons.add(new Contact(
-                FirstName='test' + i,
-                LastName = 'test' + i)
+                FirstName='Test' + i,
+                LastName = 'Contact' + i)
             );
         }
 
@@ -62,7 +66,7 @@ public class TestDataFactory {
                 LastName='TestLastNameLead' + i,
                 Company='TestCompany'+ i,
                 Phone='1234567' + i,
-                City='testCity' + i,
+                City='TestCity' + i,
                 MobilePhone='1234567' + i)
             );
         }
@@ -70,6 +74,28 @@ public class TestDataFactory {
         return leads;
     }
     
+    /**
+    * @description Method for creating test Opportunity records
+    * @param numOpps - number of Opportunities to be created
+    * @param accId - Id of related Account
+    * @return opps - list of Opportunities created
+    */
+    public static List<Opportunity> createTestOpportunityRecords(Integer numOpps, Id accId){
+        List<Opportunity> opps = new List<Opportunity>();
+ 
+        for (Integer i=0;i<numOpps;i++) {
+            opps.add(new Opportunity(
+                Name='TestOpportunity' + i,
+                AccountId=accId,
+                StageName=STR_QUALIFY,
+                Status__c=STR_IN_PROGRESS,
+                CloseDate=System.today()+30)
+            );
+        }
+
+        return opps;
+    }
+
     /**
     * @description Method for creating test Hed Address records
     * @param numAddresses - number of Hed Addresses to be created
