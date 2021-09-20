@@ -13,7 +13,6 @@
     ),
     OR(
       ISPICKVAL( Company_Category__c,&quot;&quot;),
-      ISPICKVAL( Company_Sub_Category__c,&quot;&quot;),
       ISBLANK(Description)
     )
   )

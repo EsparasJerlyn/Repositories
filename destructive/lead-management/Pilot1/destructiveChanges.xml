@@ -42,5 +42,9 @@
         <members>Custom_Lead_Allow_No_Duplicate_Rule</members>
         <name>DuplicateRule</name>
     </types>-->
+    <types>
+        <members>Lead.Company_Sub_Category__c</members>
+        <name>CustomField</name>
+    </types>
     <version>52.0</version>
 </Package>
