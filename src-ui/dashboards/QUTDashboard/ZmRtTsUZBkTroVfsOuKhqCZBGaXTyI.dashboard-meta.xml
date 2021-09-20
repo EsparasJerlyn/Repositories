@@ -384,7 +384,6 @@
     </dashboardGridLayout>
     <dashboardType>LoggedInUser</dashboardType>
     <isGridLayout>true</isGridLayout>
-    <runningUser>adrian.habasa@qut.edu.au.dep</runningUser>
     <textColor>#000000</textColor>
     <title>QUT Dashboard</title>
     <titleColor>#000000</titleColor>
