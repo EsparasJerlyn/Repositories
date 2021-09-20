@@ -82,6 +82,11 @@
                 <default>false</default>
                 <label>QUTeX Executive Proposal Rejected</label>
             </value>
+            <value>
+                <fullName>Client Rejects Proposal</fullName>
+                <default>false</default>
+                <label>Client Rejects Proposal</label>
+            </value>
         </valueSetDefinition>
         <valueSettings>
             <controllingFieldValue>Proposal</controllingFieldValue>
@@ -122,6 +127,10 @@
         <valueSettings>
             <controllingFieldValue>Proposal</controllingFieldValue>
             <valueName>QUTeX Executive Proposal Rejected</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Proposal</controllingFieldValue>
+            <valueName>Client Rejects Proposal</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Qualify</controllingFieldValue>
