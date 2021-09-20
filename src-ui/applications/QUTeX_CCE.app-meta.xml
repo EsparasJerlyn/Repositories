@@ -28,6 +28,8 @@
     </actionOverrides>
     <brand>
         <headerColor>#00407A</headerColor>
+        <logo>NEW_QUT_LOGO</logo>
+        <logoVersion>1</logoVersion>
         <shouldOverrideOrgTheme>false</shouldOverrideOrgTheme>
     </brand>
     <formFactors>Small</formFactors>

@@ -7,6 +7,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Account.AccountABNEntity_Validation__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Account.AccountBillingAddress_Validation__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -55,7 +60,7 @@
         <field>Account.Entity_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
- <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Account.External_Id__c</field>
         <readable>true</readable>
@@ -197,12 +202,42 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Contact.ContactEmail_Validation__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Contact.ContactMailingAddress_Validation__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.ContactOtherAddress_Validation__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.ContactPersonalEmail_Validation__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.ContactPersonalMobile_Validation__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.ContactPhone_Validation__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.ContactWorkEmail_Validation__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.ContactWorkPhone_Validation__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -223,11 +258,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.Email</field>
-        <readable>true</readable>
-    </fieldPermissions>
-<fieldPermissions>
-        <editable>true</editable>
-        <field>Contact.External_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -667,6 +697,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Opportunity.Has_Proposal_Opportunity_Role__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Opportunity.Initial_Proposal_Approved__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -693,6 +728,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Opportunity.LeadSource</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Opportunity.Lead_School__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -800,9 +840,9 @@
         <field>Opportunity.Type</field>
         <readable>true</readable>
     </fieldPermissions>
-<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
- 	<field>hed__Address__c.External_Id__c</field>
+        <field>hed__Address__c.External_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -915,7 +955,7 @@
         <field>hed__Address__c.hed__Seasonal_Start_Year__c</field>
         <readable>true</readable>
     </fieldPermissions>
-<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>hed__Affiliation__c.External_Id__c</field>
         <readable>true</readable>
@@ -965,7 +1005,7 @@
         <field>hed__Affiliation__c.hed__Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
-<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course_Enrollment__c.External_Id__c</field>
         <readable>true</readable>
@@ -1020,7 +1060,7 @@
         <field>hed__Course_Enrollment__c.hed__Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
-<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course_Offering__c.External_Id__c</field>
         <readable>true</readable>
@@ -1060,7 +1100,7 @@
         <field>hed__Course_Offering__c.hed__Time_Block__c</field>
         <readable>true</readable>
     </fieldPermissions>
-<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course__c.External_Id__c</field>
         <readable>true</readable>
@@ -1085,7 +1125,7 @@
         <field>hed__Course__c.hed__Extended_Description__c</field>
         <readable>true</readable>
     </fieldPermissions>
-<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>hed__Program_Enrollment__c.External_Id__c</field>
         <readable>true</readable>
@@ -1168,7 +1208,7 @@
     <hasActivationRequired>false</hasActivationRequired>
     <label>Integration Person</label>
     <objectPermissions>
-        <allowCreate>false</allowCreate>
+        <allowCreate>true</allowCreate>
         <allowDelete>true</allowDelete>
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
@@ -1177,7 +1217,7 @@
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
-        <allowCreate>false</allowCreate>
+        <allowCreate>true</allowCreate>
         <allowDelete>true</allowDelete>
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
@@ -1186,7 +1226,7 @@
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
-        <allowCreate>false</allowCreate>
+        <allowCreate>true</allowCreate>
         <allowDelete>true</allowDelete>
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
@@ -1257,4 +1297,28 @@
         <object>hed__Term__c</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
+    <recordTypeVisibilities>
+        <recordType>Account.Academic_Program</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Account.Administrative</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Account.Business_Organization</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Account.Educational_Institution</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Account.University_Department</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Opportunity.QUTex_CCE</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
 </PermissionSet>
