@@ -5,7 +5,7 @@
     <fieldName>Status</fieldName>
     <masterLabel>CCE Lead Path</masterLabel>
     <pathAssistantSteps>
-        <info>&lt;p&gt;When you have received ownership of this lead, you as a user you should move this to engaging to start in the lead conversion process.&lt;/p&gt;</info>
+        <info>&lt;p&gt;When you have received ownership of this lead, you as a user, should move this to engaging to start in the lead conversion process.&lt;/p&gt;</info>
         <picklistValueName>Assigned</picklistValueName>
     </pathAssistantSteps>
     <pathAssistantSteps>
