@@ -25,10 +25,6 @@
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>ServiceDate</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>ProductCode</field>
             </layoutItems>
@@ -89,9 +85,14 @@
     <multilineLayoutFields>Quantity</multilineLayoutFields>
     <multilineLayoutFields>OpportunityId</multilineLayoutFields>
     <multilineLayoutFields>UnitPrice</multilineLayoutFields>
-    <multilineLayoutFields>ServiceDate</multilineLayoutFields>
     <multilineLayoutFields>Description</multilineLayoutFields>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
+    <summaryLayout>
+        <masterLabel>00h5g000001nYYG</masterLabel>
+        <sizeX>4</sizeX>
+        <sizeY>0</sizeY>
+        <summaryLayoutStyle>Default</summaryLayoutStyle>
+    </summaryLayout>
 </Layout>

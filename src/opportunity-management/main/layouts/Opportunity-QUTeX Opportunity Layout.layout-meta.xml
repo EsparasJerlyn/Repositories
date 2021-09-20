@@ -328,7 +328,7 @@
         <fields>Product2</fields>
         <fields>Quantity</fields>
         <fields>UnitPrice</fields>
-        <fields>Description</fields>
+        <fields>TotalPrice</fields>
         <relatedList>RelatedLineItemList</relatedList>
     </relatedLists>
     <relatedLists>
