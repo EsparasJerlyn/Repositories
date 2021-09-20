@@ -11,7 +11,7 @@
  */
 
 public with sharing class CLMSGenerateContract{
-    private static final String ENDPOINT_MOCK = '/domain/clms/v1/contract';
+    private static final String ENDPOINT_MOCK = '/consumer/dep/v1/opportunity/createContract';
     private static final String ERROR_MSG = 'Error occured while submitting request.';
 
     /**
