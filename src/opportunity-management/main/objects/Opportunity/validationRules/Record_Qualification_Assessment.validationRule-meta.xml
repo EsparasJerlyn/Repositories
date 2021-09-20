@@ -11,7 +11,7 @@
   ISBLANK( Description ),
   ISBLANK( Amount ),
   ISBLANK( Client_Budget__c ),
-  ISBLANK( Owning_Faculty__c ),
+  ISBLANK( Lead_School__c ),
   ISBLANK( TEXT( Existing_Relationship__c ) ) ,
   ISBLANK( Revenue_Potential__c ),
   ISBLANK( TEXT( Financial_Viability__c ) ) ,
