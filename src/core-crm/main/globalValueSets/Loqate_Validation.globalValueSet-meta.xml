@@ -15,6 +15,11 @@
         <default>false</default>
         <label>Not Valid</label>
     </customValue>
+    <customValue>
+        <fullName>Unvalidated</fullName>
+        <default>false</default>
+        <label>Unvalidated</label>
+    </customValue>
     <description>Confirming that this has been validated from Loqate</description>
     <masterLabel>Loqate Validation</masterLabel>
     <sorted>false</sorted>

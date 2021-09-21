@@ -17,7 +17,6 @@ private class ContactInformationValidationCtrlTest {
     private static final String ACCOUNT_API_NAME = Account.SObjectType.getDescribe().getLocalName();
 	private static final String OPP_API_NAME = Opportunity.SObjectType.getDescribe().getLocalName();
     private static final String AURA_EX_MSG = 'Error while getting field mapping.';
-    private static final String ACCOUNT_FIELD_MAPPING = '[{"label": "ABN","apiName":"ABN__c","statusValidationField":"AccountABNEntity_Validation__c","loqateRequest":"name","loqateResponse":"status"}]';
     private static final String STR_QUTeX = 'QUTeX';
     private static User currentUser = TestDataFactory.createUserRecords(1, STR_QUTeX).iterator().next();
 
@@ -26,7 +25,7 @@ private class ContactInformationValidationCtrlTest {
         Test.startTest();
         System.runAs(currentUser){
             String fieldMappingTest = ContactInformationValidationCtrl.getFieldMapping(ACCOUNT_API_NAME);
-            System.assertEquals(ACCOUNT_FIELD_MAPPING, fieldMappingTest, 'Field mapping did not match expected.');
+            System.assertEquals(null, fieldMappingTest, 'Field mapping did not match expected.');
         }
         Test.stopTest();
     }
