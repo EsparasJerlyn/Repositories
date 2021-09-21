@@ -1,0 +1,18 @@
+.THIS .slds-modal__content {
+    min-height: 250px !important;
+}
+
+.THIS footer.slds-modal__footer{  
+	background: none !important;
+    box-shadow: none !important;
+    border: 0  !important;
+    margin-top: 5rem;
+}
+
+.THIS .slds-modal__header{
+    border: 0 !important;
+}
+
+.THIS .slds-modal__container{
+    overflow-y: hidden;
+}
