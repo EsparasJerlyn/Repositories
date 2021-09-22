@@ -24,8 +24,7 @@
                     </header>
                     <!--Modal/Popup Box Body Starts here-->
                     <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
-                         <!--uncomment this once opportunityCreation lwc component is deployed-->
-                         <!--c:opportunityCreation name="opportunity creation" recordId="{!v.recordId}" onclose="{!c.closeFocusedTab}" oncreate="{!c.createRecord}" onvaluechange="{!c.getContactValue}"></c:opportunityCreation-->
+                         <c:opportunityCreation name="opportunity creation" recordId="{!v.recordId}" onclose="{!c.closeFocusedTab}" oncreate="{!c.createRecord}" onvaluechange="{!c.getContactValue}"></c:opportunityCreation>
                     </div>
                 </div>
             </section>
