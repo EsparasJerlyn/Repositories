@@ -72,18 +72,6 @@
                 <elementReference>$Record.LinkedIn_Profile_URL__c</elementReference>
             </value>
         </inputAssignments>
-        <inputAssignments>
-            <field>hed__PreferredPhone__c</field>
-            <value>
-                <stringValue>Mobile Phone</stringValue>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>hed__Preferred_Email__c</field>
-            <value>
-                <stringValue>Personal Email</stringValue>
-            </value>
-        </inputAssignments>
         <object>Contact</object>
     </recordUpdates>
     <start>
