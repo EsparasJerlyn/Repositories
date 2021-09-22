@@ -20,16 +20,8 @@
     <objectMapping>
         <inputObject>Lead</inputObject>
         <mappingFields>
-            <inputField>LeadEmail_Validation__c</inputField>
-            <outputField>ContactEmail_Validation__c</outputField>
-        </mappingFields>
-        <mappingFields>
             <inputField>LeadMobile_Validation__c</inputField>
             <outputField>ContactMobile_Validation__c</outputField>
-        </mappingFields>
-        <mappingFields>
-            <inputField>LeadPersonalEmail_Validation__c</inputField>
-            <outputField>ContactPersonalEmail_Validation__c</outputField>
         </mappingFields>
         <mappingFields>
             <inputField>LeadPersonalMobile_Validation__c</inputField>
@@ -54,10 +46,6 @@
         <mappingFields>
             <inputField>Work_Phone__c</inputField>
             <outputField>hed__WorkPhone__c</outputField>
-        </mappingFields>
-        <mappingFields>
-            <inputField>WorkEmail_Validation__c</inputField>
-            <outputField>ContactWorkEmail_Validation__c</outputField>
         </mappingFields>
         <mappingFields>
             <inputField>WorkPhone_Validation__c</inputField>
