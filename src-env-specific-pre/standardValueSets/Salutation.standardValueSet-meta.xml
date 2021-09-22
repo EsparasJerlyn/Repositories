@@ -4,7 +4,7 @@
     <standardValue>
         <fullName>MR</fullName>
         <default>false</default>
-        <label>Mister</label>
+        <label>Mr</label>
     </standardValue>
     <standardValue>
         <fullName>MS</fullName>
@@ -24,12 +24,12 @@
     <standardValue>
         <fullName>MX</fullName>
         <default>false</default>
-        <label>Gender neutral title</label>
+        <label>Mx</label>
     </standardValue>
     <standardValue>
         <fullName>DR</fullName>
         <default>false</default>
-        <label>Doctor</label>
+        <label>Dr</label>
     </standardValue>
     <standardValue>
         <fullName>PROF</fullName>
