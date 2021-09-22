@@ -13,11 +13,11 @@
         <picklistValueName>Contract</picklistValueName>
     </pathAssistantSteps>
     <pathAssistantSteps>
-        <info>&lt;p&gt;The proposal stage is key to the CCE opportunity process&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Collaborate with internal stakeholder to produce a high quality proposal&lt;/li&gt;&lt;li&gt;We gather QUTeX executive sign off&lt;/li&gt;&lt;li&gt;We gain Customer Acceptance&lt;/li&gt;&lt;/ul&gt;</info>
+        <info>&lt;p&gt;The proposal stage is key to the CCE opportunity process&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Collaborate with internal stakeholder to produce a high quality proposal&lt;/li&gt;&lt;li&gt;We gather QUTeX executive sign off&lt;/li&gt;&lt;li&gt;We gain customer acceptance&lt;/li&gt;&lt;/ul&gt;</info>
         <picklistValueName>Proposal</picklistValueName>
     </pathAssistantSteps>
     <pathAssistantSteps>
-        <info>&lt;p&gt;The qualification stage has two key aspects to completing this stage&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Information gathering (to inform QUT)&lt;/li&gt;&lt;li&gt;High level faculty approval for academic opportunities&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</info>
+        <info>&lt;p&gt;The qualification stage has two key aspects to completing this stage&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Information gathering (to inform QUT)&lt;/li&gt;&lt;li&gt;High level faculty approval for academic opportunities&lt;/li&gt;&lt;/ul&gt;</info>
         <picklistValueName>Qualify</picklistValueName>
     </pathAssistantSteps>
     <recordTypeName>QUTex_CCE</recordTypeName>
