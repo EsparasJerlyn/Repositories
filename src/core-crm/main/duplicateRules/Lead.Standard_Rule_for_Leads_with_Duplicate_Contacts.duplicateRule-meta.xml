@@ -6,11 +6,6 @@
     <description>Identify leads with duplicate contacts. Also for same account name, last name, and email.</description>
     <duplicateRuleFilter xsi:nil="true"/>
     <duplicateRuleMatchRules>
-        <matchRuleSObjectType>Lead</matchRuleSObjectType>
-        <matchingRule>Custom_Lead_Matching_Rule_and_Duplicate_Rule</matchingRule>
-        <objectMapping xsi:nil="true"/>
-    </duplicateRuleMatchRules>
-    <duplicateRuleMatchRules>
         <matchRuleSObjectType>Contact</matchRuleSObjectType>
         <matchingRule>Standard_Contact_Match_Rule_v1_1</matchingRule>
         <objectMapping>
