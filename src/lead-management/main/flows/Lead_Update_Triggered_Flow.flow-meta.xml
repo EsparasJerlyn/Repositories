@@ -5,7 +5,7 @@
         <name>Assign_ABN_Validation_Status</name>
         <label>Assign ABN Validation Status</label>
         <locationX>50</locationX>
-        <locationY>2783</locationY>
+        <locationY>1775</locationY>
         <assignmentItems>
             <assignToReference>$Record.LeadABNEntity_Validation__c</assignToReference>
             <operator>Assign</operator>
@@ -22,26 +22,10 @@
         </assignmentItems>
     </assignments>
     <assignments>
-        <name>Assign_Email_Validation_Status</name>
-        <label>Assign Email Validation Status</label>
-        <locationX>50</locationX>
-        <locationY>431</locationY>
-        <assignmentItems>
-            <assignToReference>$Record.LeadEmail_Validation__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>None</stringValue>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Phone_Is_Changed</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
         <name>Assign_Mobile_Validation_Status</name>
         <label>Assign Mobile Validation Status</label>
         <locationX>50</locationX>
-        <locationY>1103</locationY>
+        <locationY>767</locationY>
         <assignmentItems>
             <assignToReference>$Record.LeadMobile_Validation__c</assignToReference>
             <operator>Assign</operator>
@@ -50,30 +34,14 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Work_Email_Is_Changed</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>Assign_Personal_Email_Validation_Status</name>
-        <label>Assign Personal Email Validation Status</label>
-        <locationX>50</locationX>
-        <locationY>2111</locationY>
-        <assignmentItems>
-            <assignToReference>$Record.LeadPersonalEmail_Validation__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>None</stringValue>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Personal_Mobile_Is_Changed</targetReference>
+            <targetReference>Work_Phone_Is_Changed</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_Personal_Mobile_Validation_Status</name>
         <label>Assign Personal Mobile Validation Status</label>
         <locationX>50</locationX>
-        <locationY>2447</locationY>
+        <locationY>1439</locationY>
         <assignmentItems>
             <assignToReference>$Record.LeadPersonalMobile_Validation__c</assignToReference>
             <operator>Assign</operator>
@@ -89,7 +57,7 @@
         <name>Assign_Phone_Validation_Status</name>
         <label>Assign Phone Validation Status</label>
         <locationX>50</locationX>
-        <locationY>767</locationY>
+        <locationY>431</locationY>
         <assignmentItems>
             <assignToReference>$Record.LeadPhone_Validation__c</assignToReference>
             <operator>Assign</operator>
@@ -102,26 +70,10 @@
         </connector>
     </assignments>
     <assignments>
-        <name>Assign_Work_Email_Validation_Status</name>
-        <label>Assign Work Email Validation Status</label>
-        <locationX>50</locationX>
-        <locationY>1439</locationY>
-        <assignmentItems>
-            <assignToReference>$Record.WorkEmail_Validation__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>None</stringValue>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Work_Phone_Is_Changed</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
         <name>Assign_Work_Phone_Validation_Status</name>
         <label>Assign Work Phone Validation Status</label>
         <locationX>50</locationX>
-        <locationY>1775</locationY>
+        <locationY>1103</locationY>
         <assignmentItems>
             <assignToReference>$Record.WorkPhone_Validation__c</assignToReference>
             <operator>Assign</operator>
@@ -130,14 +82,14 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Personal_Email_Is_Changed</targetReference>
+            <targetReference>Personal_Mobile_Is_Changed</targetReference>
         </connector>
     </assignments>
     <decisions>
         <name>ABN_Is_Changed</name>
         <label>ABN Is Changed</label>
         <locationX>182</locationX>
-        <locationY>2663</locationY>
+        <locationY>1655</locationY>
         <defaultConnectorLabel>No ABN Is Not Changed</defaultConnectorLabel>
         <rules>
             <name>Yes_ABN_Is_Changed</name>
@@ -163,54 +115,22 @@
         </rules>
     </decisions>
     <decisions>
-        <name>Email_Is_Changed</name>
-        <label>Email Is Changed</label>
-        <locationX>182</locationX>
-        <locationY>311</locationY>
-        <defaultConnector>
-            <targetReference>Phone_Is_Changed</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>No Email Is Not Changed</defaultConnectorLabel>
-        <rules>
-            <name>Yes_Email_Is_Changed</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>$Record.Email</leftValueReference>
-                <operator>NotEqualTo</operator>
-                <rightValue>
-                    <elementReference>$Record__Prior.Email</elementReference>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.LeadEmail_Validation__c</leftValueReference>
-                <operator>NotEqualTo</operator>
-                <rightValue>
-                    <stringValue>None</stringValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Assign_Email_Validation_Status</targetReference>
-            </connector>
-            <label>Yes Email Is Changed</label>
-        </rules>
-    </decisions>
-    <decisions>
         <name>Mobile_Is_Changed</name>
         <label>Mobile Is Changed</label>
         <locationX>182</locationX>
-        <locationY>983</locationY>
+        <locationY>647</locationY>
         <defaultConnector>
-            <targetReference>Work_Email_Is_Changed</targetReference>
+            <targetReference>Work_Phone_Is_Changed</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>No Mobile Is Not Changed</defaultConnectorLabel>
         <rules>
             <name>Yes_Mobile_Is_Changed</name>
-            <conditionLogic>and</conditionLogic>
+            <conditionLogic>2 AND (1 OR (3 AND 4))</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.MobilePhone</leftValueReference>
-                <operator>NotEqualTo</operator>
+                <operator>IsChanged</operator>
                 <rightValue>
-                    <elementReference>$Record__Prior.MobilePhone</elementReference>
+                    <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <conditions>
@@ -220,6 +140,20 @@
                     <stringValue>None</stringValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>$Record.LeadMobile_Locale__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.LeadMobile_Locale__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>International</stringValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>Assign_Mobile_Validation_Status</targetReference>
             </connector>
@@ -227,54 +161,22 @@
         </rules>
     </decisions>
     <decisions>
-        <name>Personal_Email_Is_Changed</name>
-        <label>Personal Email Is Changed</label>
-        <locationX>182</locationX>
-        <locationY>1991</locationY>
-        <defaultConnector>
-            <targetReference>Personal_Mobile_Is_Changed</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>No Personal Email Is Not Changed</defaultConnectorLabel>
-        <rules>
-            <name>Yes_Personal_Email_Is_Changed</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>$Record.Personal_Email__c</leftValueReference>
-                <operator>NotEqualTo</operator>
-                <rightValue>
-                    <elementReference>$Record__Prior.Personal_Email__c</elementReference>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.LeadPersonalEmail_Validation__c</leftValueReference>
-                <operator>NotEqualTo</operator>
-                <rightValue>
-                    <stringValue>None</stringValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Assign_Personal_Email_Validation_Status</targetReference>
-            </connector>
-            <label>Yes Personal Email Is Changed</label>
-        </rules>
-    </decisions>
-    <decisions>
         <name>Personal_Mobile_Is_Changed</name>
         <label>Personal Mobile Is Changed</label>
         <locationX>182</locationX>
-        <locationY>2327</locationY>
+        <locationY>1319</locationY>
         <defaultConnector>
             <targetReference>ABN_Is_Changed</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>No Personal Mobile Is Not Changed</defaultConnectorLabel>
         <rules>
             <name>Yes_Personal_Mobile_Is_Changed</name>
-            <conditionLogic>and</conditionLogic>
+            <conditionLogic>2 AND (1 OR (3 AND 4))</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.Personal_Mobile__c</leftValueReference>
-                <operator>NotEqualTo</operator>
+                <operator>IsChanged</operator>
                 <rightValue>
-                    <elementReference>$Record__Prior.Personal_Mobile__c</elementReference>
+                    <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <conditions>
@@ -282,6 +184,20 @@
                 <operator>NotEqualTo</operator>
                 <rightValue>
                     <stringValue>None</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.LeadPersonalMobile_Locale__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.LeadPersonalMobile_Locale__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>International</stringValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -294,19 +210,19 @@
         <name>Phone_Is_Changed</name>
         <label>Phone Is Changed</label>
         <locationX>182</locationX>
-        <locationY>647</locationY>
+        <locationY>311</locationY>
         <defaultConnector>
             <targetReference>Mobile_Is_Changed</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>No Phone Is Not Changed</defaultConnectorLabel>
         <rules>
             <name>Yes_Phone_Is_Changed</name>
-            <conditionLogic>and</conditionLogic>
+            <conditionLogic>2 AND (1 OR (3 AND 4))</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.Phone</leftValueReference>
-                <operator>NotEqualTo</operator>
+                <operator>IsChanged</operator>
                 <rightValue>
-                    <elementReference>$Record__Prior.Phone</elementReference>
+                    <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <conditions>
@@ -316,6 +232,20 @@
                     <stringValue>None</stringValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>$Record.LeadPhone_Locale__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.LeadPhone_Locale__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>International</stringValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>Assign_Phone_Validation_Status</targetReference>
             </connector>
@@ -323,54 +253,22 @@
         </rules>
     </decisions>
     <decisions>
-        <name>Work_Email_Is_Changed</name>
-        <label>Work Email Is Changed</label>
-        <locationX>182</locationX>
-        <locationY>1319</locationY>
-        <defaultConnector>
-            <targetReference>Work_Phone_Is_Changed</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>No Work Email Is Not Changed</defaultConnectorLabel>
-        <rules>
-            <name>Yes_Work_Email_Is_Changed</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>$Record.Work_Email__c</leftValueReference>
-                <operator>NotEqualTo</operator>
-                <rightValue>
-                    <elementReference>$Record__Prior.Work_Email__c</elementReference>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.WorkEmail_Validation__c</leftValueReference>
-                <operator>NotEqualTo</operator>
-                <rightValue>
-                    <stringValue>None</stringValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Assign_Work_Email_Validation_Status</targetReference>
-            </connector>
-            <label>Yes Work Email Is Changed</label>
-        </rules>
-    </decisions>
-    <decisions>
         <name>Work_Phone_Is_Changed</name>
         <label>Work Phone Is Changed</label>
         <locationX>182</locationX>
-        <locationY>1655</locationY>
+        <locationY>983</locationY>
         <defaultConnector>
-            <targetReference>Personal_Email_Is_Changed</targetReference>
+            <targetReference>Personal_Mobile_Is_Changed</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>No Work Phone Is Not Changed</defaultConnectorLabel>
         <rules>
             <name>Yes_Work_Phone_Is_Changed</name>
-            <conditionLogic>and</conditionLogic>
+            <conditionLogic>2 AND (1 OR (3 AND 4))</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.Work_Phone__c</leftValueReference>
-                <operator>NotEqualTo</operator>
+                <operator>IsChanged</operator>
                 <rightValue>
-                    <elementReference>$Record__Prior.Work_Phone__c</elementReference>
+                    <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <conditions>
@@ -378,6 +276,20 @@
                 <operator>NotEqualTo</operator>
                 <rightValue>
                     <stringValue>None</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.WorkPhone_Locale__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.WorkPhone_Locale__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>International</stringValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -412,16 +324,9 @@
         <locationX>56</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>Email_Is_Changed</targetReference>
+            <targetReference>Phone_Is_Changed</targetReference>
         </connector>
         <filterLogic>or</filterLogic>
-        <filters>
-            <field>Email</field>
-            <operator>IsChanged</operator>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </filters>
         <filters>
             <field>Phone</field>
             <operator>IsChanged</operator>
@@ -437,21 +342,7 @@
             </value>
         </filters>
         <filters>
-            <field>Work_Email__c</field>
-            <operator>IsChanged</operator>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </filters>
-        <filters>
             <field>Work_Phone__c</field>
-            <operator>IsChanged</operator>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </filters>
-        <filters>
-            <field>Personal_Email__c</field>
             <operator>IsChanged</operator>
             <value>
                 <booleanValue>true</booleanValue>
@@ -466,6 +357,34 @@
         </filters>
         <filters>
             <field>ABN__c</field>
+            <operator>IsChanged</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>LeadPhone_Locale__c</field>
+            <operator>IsChanged</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>LeadMobile_Locale__c</field>
+            <operator>IsChanged</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>WorkPhone_Locale__c</field>
+            <operator>IsChanged</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>LeadPersonalMobile_Locale__c</field>
             <operator>IsChanged</operator>
             <value>
                 <booleanValue>true</booleanValue>
