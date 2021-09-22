@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <MatchingRules xmlns="http://soap.sforce.com/2006/04/metadata">
     <matchingRules>
-        <fullName>Custom_Lead_Contact_Allow_Matching_Rule</fullName>
-        <description>Custom Lead Contact Allow Matching Rule</description>
-        <label>Custom Lead Contact Allow Matching Rule</label>
+        <fullName>Custom_Lead_Allow_No_Matching_Rule_v2</fullName>
+        <description>Custom Lead Allow No Matching Rule for last name and email.</description>
+        <label>Custom Lead Allow No Matching Rule</label>
         <matchingRuleItems>
             <blankValueBehavior>NullNotAllowed</blankValueBehavior>
             <fieldName>LastName</fieldName>
@@ -12,27 +12,6 @@
         <matchingRuleItems>
             <blankValueBehavior>NullNotAllowed</blankValueBehavior>
             <fieldName>Email</fieldName>
-            <matchingMethod>Exact</matchingMethod>
-        </matchingRuleItems>
-        <ruleStatus>Active</ruleStatus>
-    </matchingRules>
-    <matchingRules>
-        <fullName>Custom_Lead_Contact_Allow_No_Matching_Rule</fullName>
-        <description>Custom Lead Contact Allow No Matching Rule</description>
-        <label>Custom Lead Contact Allow No Matching Rule</label>
-        <matchingRuleItems>
-            <blankValueBehavior>NullNotAllowed</blankValueBehavior>
-            <fieldName>LastName</fieldName>
-            <matchingMethod>Exact</matchingMethod>
-        </matchingRuleItems>
-        <matchingRuleItems>
-            <blankValueBehavior>NullNotAllowed</blankValueBehavior>
-            <fieldName>Email</fieldName>
-            <matchingMethod>Exact</matchingMethod>
-        </matchingRuleItems>
-        <matchingRuleItems>
-            <blankValueBehavior>NullNotAllowed</blankValueBehavior>
-            <fieldName>Phone</fieldName>
             <matchingMethod>Exact</matchingMethod>
         </matchingRuleItems>
         <ruleStatus>Active</ruleStatus>
