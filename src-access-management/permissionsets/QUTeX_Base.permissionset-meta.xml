@@ -6,7 +6,7 @@
     </applicationVisibilities>
     <applicationVisibilities>
         <application>QUTeX_OPE</application>
-        <visible>true</visible>
+        <visible>false</visible>
     </applicationVisibilities>
     <classAccesses>
         <apexClass>AddressInformationValidationCtrl</apexClass>
