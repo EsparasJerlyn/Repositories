@@ -60,7 +60,7 @@ pipelines:
             script:
               - echo $SERVER_KEY | base64 -d > server.key
               - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $TEST_LOGIN_URL -u "$USERNAME.$SANDBOX_NAME"
-              - sfdx sfpowerscripts:orchestrator:validateAgainstOrg -u "$USERNAME.$SANDBOX_NAME" --coveragepercent=85
+              - sfdx sfpowerscripts:orchestrator:validateAgainstOrg -u "$USERNAME.$SANDBOX_NAME" --coveragepercent=80
             after-script:
               - rm server.key
 
