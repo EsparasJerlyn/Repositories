@@ -15,46 +15,31 @@
                         <valueListItems>
                             <value>Convert</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND 2 AND 3 AND 4 AND 5 AND 6 AND 7 AND 8</booleanFilter>
-                                <criteria>
-                                    <leftValue>{!Record.LeadEmail_Validation__c}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>Not Valid</rightValue>
-                                </criteria>
+                                <booleanFilter>1 AND 2 AND 3 AND 4 AND 5</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.LeadMobile_Validation__c}</leftValue>
                                     <operator>NE</operator>
-                                    <rightValue>Not Valid</rightValue>
+                                    <rightValue>None</rightValue>
                                 </criteria>
                                 <criteria>
                                     <leftValue>{!Record.LeadPhone_Validation__c}</leftValue>
                                     <operator>NE</operator>
-                                    <rightValue>Not Valid</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.WorkEmail_Validation__c}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>Not Valid</rightValue>
+                                    <rightValue>None</rightValue>
                                 </criteria>
                                 <criteria>
                                     <leftValue>{!Record.WorkPhone_Validation__c}</leftValue>
                                     <operator>NE</operator>
-                                    <rightValue>Not Valid</rightValue>
+                                    <rightValue>None</rightValue>
                                 </criteria>
                                 <criteria>
-                                    <leftValue>{!Record.LeadPersonalEmail_Validation__c}</leftValue>
+                                    <leftValue>{!Record.LeadPersonalMobile_Validation__c}</leftValue>
                                     <operator>NE</operator>
-                                    <rightValue>Not Valid</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.LeadPersonalEmail_Validation__c}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>Not Valid</rightValue>
+                                    <rightValue>None</rightValue>
                                 </criteria>
                                 <criteria>
                                     <leftValue>{!Record.LeadABNEntity_Validation__c}</leftValue>
                                     <operator>NE</operator>
-                                    <rightValue>Not Valid</rightValue>
+                                    <rightValue>None</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
@@ -254,6 +239,11 @@
         <itemInstances>
             <componentInstance>
                 <componentName>runtime_sales_activities:activityPanel</componentName>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>companyInformationValidation</componentName>
             </componentInstance>
         </itemInstances>
         <itemInstances>

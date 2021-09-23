@@ -179,7 +179,7 @@
         </itemInstances>
         <itemInstances>
             <componentInstance>
-                <componentName>contactInformationValidation</componentName>
+                <componentName>companyInformationValidation</componentName>
             </componentInstance>
         </itemInstances>
         <itemInstances>
