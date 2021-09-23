@@ -16,11 +16,6 @@
     width: 100%;
 }
 
-.bottom-position{
-    position: absolute;
-    bottom: 0;
-}
-
-.relative-position{
-    position: relative;
+.orange-background{
+    background-color: orange;
 }

@@ -14,13 +14,11 @@
 
 public with sharing class ContactInformationValidationCtrl {
    
-    private static final String ENDPOINT_START = '/harmony/rest/au';
-    private static final String STR_VALIDATE = '/validate';
-    private static final String STR_EMAIL = '/email';
-    private static final String STR_PHONE = '/phone';
+    private static final String ENDPOINT_START = '/harmony/rest/';
+    private static final String STR_PHONE = '/validate/phone';
     private static final String STR_COMPANY_LOOKUP = '/companyLookup';
     private static final String STR_AU = 'AU';
-    private static final String LOQ_ADDRESS = 'address';
+    private static final String STR_NZ = 'NZ';
     private static final String LOQ_PHONE = 'fullPhone';
     private static final String LOQ_ABN = 'name';
     private static final String ERROR_MSG = 'Error occured while submitting request.';
@@ -31,22 +29,25 @@ public with sharing class ContactInformationValidationCtrl {
     /**
     * @description Method for getting the Field Mapping set in Loqate Component metadata
     * @param objApiName - API name of object passed from component
-    * @return fieldMapping - the JSON string of field mapping 
+    * @param fieldToQuery - metadata field to query
+    * @return mapping - the JSON string of field mapping 
     */
     @AuraEnabled(cacheable=true)
-    public static String getFieldMapping(String objApiName){
-        String fieldMapping;
+    public static String getMapping(String objApiName, String fieldToQuery){
+        String mapping;
 
         try{
-            fieldMapping = [SELECT Field_Mapping__c FROM Loqate_Component__mdt WHERE Object_Type__c=:objApiName LIMIT 1].Field_Mapping__c;
+            String query = 'SELECT ' + fieldToQuery + ' FROM Loqate_Component__mdt WHERE Object_Type__c=:objApiName LIMIT 1';
+            mapping = (String) Database.query(query).iterator().next().get(fieldToQuery);
         }catch(Exception ex){
             AuraHandledException auraEx = new AuraHandledException(ex.getMessage());
             auraEx.setMessage('Error while getting field mapping.');
             throw auraEx;
         }
 
-        return fieldMapping;
+        return mapping;
     }
+
 
     /**
     * @description Collates all fields to be validated
@@ -56,40 +57,25 @@ public with sharing class ContactInformationValidationCtrl {
     @AuraEnabled(cacheable=true)
     public static String validateFields(String validateRequestList){
         List<ValidateRequest> parsedValidateRequestList = (List<ValidateRequest>) JSON.deserialize(validateRequestList, List<ValidateRequest>.class);
-        Map<String,List<Object>> loqateMapping = new Map<String,List<Object>>();
+        Map<String,List<PhoneRequest>> phoneCountryMapping = new Map<String,List<PhoneRequest>>();
 
         //build request payload per necessary field
         for(ValidateRequest valObj : parsedValidateRequestList){
-            Object obj;
-            
-            if(valObj.loqateRequest == LOQ_ADDRESS){
-                EmailRequest emailObj = new EmailRequest(valObj.value);
-                obj = (Object) emailObj; 
-            }else if(valObj.loqateRequest == LOQ_PHONE){
-                PhoneRequest phoneObj = new PhoneRequest(valObj.value);
-                obj = (Object) phoneObj;
+            if(valObj.loqateRequest == LOQ_PHONE){
+                PhoneRequest phoneObj = new PhoneRequest(valObj.value, valObj.locale);
+                if(!phoneCountryMapping.containsKey(valObj.locale)){
+                    phoneCountryMapping.put(valObj.locale,new List<PhoneRequest>{phoneObj});
+                }else{
+                    phoneCountryMapping.get(valObj.locale).add(phoneObj);
+                }
             }else if(valObj.loqateRequest == LOQ_ABN){
                 CompanyRequest abnObj = new CompanyRequest(valObj.value);
-                obj = (Object) abnObj;
-            }
-
-            if(!loqateMapping.containsKey(valObj.loqateRequest)){
-                loqateMapping.put(valObj.loqateRequest,new List<Object>{obj});
-            }else{
-                loqateMapping.get(valObj.loqateRequest).add(obj);
+                createRequest(LOQ_ABN, JSON.serialize(abnObj));
             }
         }
         
-        for(String loqateMappingKey : loqateMapping.keySet()){
-            String payloadParam;
-            
-            if(loqateMappingKey == LOQ_ABN){
-                payloadParam = JSON.serialize(loqateMapping.get(loqateMappingKey)[0]);
-            }else{
-                payloadParam = JSON.serialize(loqateMapping.get(loqateMappingKey));
-            }
-            
-            createRequest(loqateMappingKey,payloadParam);
+        for(String phoneCountry : phoneCountryMapping.keySet()){
+           createRequest(phoneCountry, JSON.serialize(phoneCountryMapping.get(phoneCountry)));
         }
         
         return JSON.serialize(payloadList);
@@ -116,14 +102,14 @@ public with sharing class ContactInformationValidationCtrl {
         requestToValidate.body += '}';
         
         endpoint = ENDPOINT_START;
-        if(loqateKey == LOQ_ADDRESS){
-            endpoint += STR_VALIDATE + STR_EMAIL;
-        }else if(loqateKey == LOQ_PHONE){
-            endpoint += STR_VALIDATE + STR_PHONE;
+        if(loqateKey == STR_AU){
+            endpoint += STR_AU.toLowerCase() + STR_PHONE;
+        }else if(loqateKey == STR_NZ){
+            endpoint += STR_NZ.toLowerCase() + STR_PHONE;
         }else if(loqateKey == LOQ_ABN){
-            endpoint += STR_COMPANY_LOOKUP;
+            endpoint += STR_AU.toLowerCase() + STR_COMPANY_LOOKUP;
         }
-
+        
         //perform callout and process results
         res = doCallout(endpoint,'POST', requestToValidate.body);
         result = (Map<String,Object>) JSON.deserializeUntyped(res);
@@ -193,16 +179,9 @@ public with sharing class ContactInformationValidationCtrl {
 
     //for payload response
     public class PayloadResponse{
-        //for email response
-        public String address;
-        public EmailResponseAttributes attributes;
-        public Boolean domainValidated;
-        public Boolean mailServerValidated;
-        public Boolean formatValidated;
-        public Boolean blackListValidated;
-
         //for phone response
         public String fullPhone;
+        public String country;
         public String phoneStatus;
 
         //for company response
@@ -210,31 +189,15 @@ public with sharing class ContactInformationValidationCtrl {
         public String abn;
         public String status;
     }
-
-    //for email response 'attributes' property
-    public class EmailResponseAttributes{
-        public String domain_exists;
-        public String mailserver_exists;
-        public String email_valid;
-    }
-
-    //for email request payload formatting
-    public class EmailRequest{
-        public String address;
-
-        public EmailRequest(String address){
-            this.address = address;
-        }
-    }
     
     //for phone request payload formatting
     public class PhoneRequest{
         public String fullPhone;
         public String country;
 
-        public PhoneRequest(String fullPhone){
+        public PhoneRequest(String fullPhone, String country){
             this.fullPhone = fullPhone;
-            this.country = STR_AU;
+            this.country = country;
         }
     }
 
@@ -253,6 +216,8 @@ public with sharing class ContactInformationValidationCtrl {
         public String loqateRequest;
         @AuraEnabled 
         public String loqateResponse;
+        @AuraEnabled 
+        public String locale;
         @AuraEnabled 
         public String statusValidationField;
         @AuraEnabled 
