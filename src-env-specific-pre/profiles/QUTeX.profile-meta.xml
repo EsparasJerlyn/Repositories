@@ -57,6 +57,37 @@
         <layout>Opportunity-QUTeX Opportunity Layout</layout>
         <recordType>Opportunity.QUTex_CCE</recordType>
     </layoutAssignments>
+    <layoutAssignments>
+        <layout>Product_Request__c-Product Request Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Product_Request__c-Product Request Layout</layout>
+        <recordType>Product_Request__c.Activity_Request</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Product_Request__c-Product Request Layout</layout>
+        <recordType>Product_Request__c.Coaching_Request</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Product_Request__c-Product Request Layout</layout>
+        <recordType>Product_Request__c.Diagnostic_Tool_Request</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Product_Request__c-Product Request Layout</layout>
+        <recordType>Product_Request__c.Educational_Consultancy_Request</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Product_Request__c-Product Request Layout</layout>
+        <recordType>Product_Request__c.Professional_Advantage_Request</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Product_Request__c-Product Request Layout</layout>
+        <recordType>Product_Request__c.Program_Request</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Product_Request__c-Product Request Layout</layout>
+        <recordType>Product_Request__c.Stand_Alone_Unit_Module_Request</recordType>
+    </layoutAssignments>
     <recordTypeVisibilities>
         <default>false</default>
         <recordType>Account.Academic_Program</recordType>

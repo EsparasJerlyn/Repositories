@@ -64,9 +64,13 @@
     <tabs>standard-report</tabs>
     <tabs>standard-Dashboard</tabs>
     <tabs>standard-Product2</tabs>
+    <tabs>Product_Request__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>QUTeX_CCE_UtilityBar</utilityBar>
     <workspaceConfig>
+        <mappings>
+            <tab>Product_Request__c</tab>
+        </mappings>
         <mappings>
             <tab>standard-Account</tab>
         </mappings>
