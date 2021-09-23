@@ -21,17 +21,13 @@
             "path": "src/frameworks/trigger-framework",
             "package": "trigger-framework",
             "versionNumber": "1.0.2.0",
-            "versionName": "trigger-framework-1.0",
-            "skipTesting": true,
-            "skipCoverageValidation":true
+            "versionName": "trigger-framework-1.0"
         },
         {
             "path": "src/frameworks/trigger-bypass-strategy",
             "package": "trigger-bypass-strategy",
             "versionNumber": "1.0.2.0",
             "versionName": "trigger-bypass-strategy-1.0",
-            "skipTesting":true,
-            "skipCoverageValidation":true,
             "dependencies": [
                 {
                     "package": "trigger-framework",
