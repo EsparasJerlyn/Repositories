@@ -32,21 +32,11 @@
         <type>Region</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentName>home:recentRecordContainer</componentName>
-            </componentInstance>
-        </itemInstances>
         <mode>Replace</mode>
         <name>bottomLeft</name>
         <type>Region</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentName>runtime_sales_activities:todayTaskContainer</componentName>
-            </componentInstance>
-        </itemInstances>
         <mode>Replace</mode>
         <name>bottomRight</name>
         <type>Region</type>
@@ -60,7 +50,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>richTextValue</name>
-                    <value>&lt;p&gt;&lt;b style=&quot;font-size: 18px; color: rgb(20, 33, 131);&quot;&gt;Queensland &lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;font-size: 18px; color: rgb(20, 33, 131);&quot;&gt;University&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;font-size: 18px; color: rgb(20, 33, 131);&quot;&gt;of Technology&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;color: rgb(20, 139, 199);&quot;&gt;TEAM ANNOUNCEMENT&lt;/b&gt;&lt;/p&gt;</value>
+                    <value>&lt;p&gt;&lt;b style=&quot;font-size: 72px; color: rgb(20, 33, 131);&quot;&gt;QUTeX&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;color: rgb(20, 139, 199);&quot;&gt;TEAM ANNOUNCEMENT&lt;/b&gt;&lt;/p&gt;</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:richText</componentName>
             </componentInstance>
@@ -68,6 +58,16 @@
         <itemInstances>
             <componentInstance>
                 <componentName>home:eventContainer</componentName>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>runtime_sales_activities:todayTaskContainer</componentName>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>home:recentRecordContainer</componentName>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
