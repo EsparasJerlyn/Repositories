@@ -7,10 +7,11 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                 | Change Summary               |
-      |--------------------------------|-----------------------|----------------------|------------------------------|
-      | marygrace.li@qut.edu.au        | September 18, 2021    | DEP1-158             | Created file                 | 
-      |                                |                       |                      |                              | 
+ *    | Developer Email                | Date                  | JIRA                 | Change Summary                                  |
+      |--------------------------------|-----------------------|----------------------|-------------------------------------------------|
+      | marygrace.li@qut.edu.au        | September 18, 2021    | DEP1-158             | Created file                                    | 
+      |--------------------------------|-----------------------|----------------------|-------------------------------------------------|  
+      | marygrace.li@qut.edu.au        | September 23, 2021    | DEP1-615             | modified handleSelectionChange disabled value                    
  */
 
 
@@ -37,7 +38,7 @@ import { ShowToastEvent} from 'lightning/platformShowToastEvent';
   @track selectedRecordTypeValue = '';
   @track options = [];
   @track showRecordType = false;
-  @track disableButton;
+  @track disableButton = true;
   @track showNewOppForm = false;
   @track accountObjectInfo;
   @api contactId;
@@ -114,7 +115,9 @@ import { ShowToastEvent} from 'lightning/platformShowToastEvent';
   //handle lookup selection change
   handleSelectionChange() {
       this.errors = [];
-      this.disableButton = false;
+      this.disableButton = !this.template
+                        .querySelector('c-custom-lookup')
+                        .hasSelection();
   }
 
   //set contact id in the lookup
@@ -137,7 +140,7 @@ import { ShowToastEvent} from 'lightning/platformShowToastEvent';
         variant: variant
     });
     this.dispatchEvent(event);
-}
+  }
 
 //call when New Opportunity button is clicked
   createNewOpportunity(){
