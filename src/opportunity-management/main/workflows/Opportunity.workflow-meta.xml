@@ -80,17 +80,4 @@
         <protected>false</protected>
         <reevaluateOnChange>false</reevaluateOnChange>
     </fieldUpdates>
-    <outboundMessages>
-        <fullName>Generate_Contract</fullName>
-        <apiVersion>52.0</apiVersion>
-        <endpointUrl>https://api-int.qut.edu.au/domain/clms/contract</endpointUrl>
-        <fields>ContractId</fields>
-        <fields>Contract_URL__c</fields>
-        <fields>Id</fields>
-        <includeSessionId>true</includeSessionId>
-        <integrationUser>esb.integration@qut.edu.au.dep</integrationUser>
-        <name>Generate Contract</name>
-        <protected>false</protected>
-        <useDeadLetterQueue>false</useDeadLetterQueue>
-    </outboundMessages>
 </Workflow>
