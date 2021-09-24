@@ -3,10 +3,10 @@
     <fullName>Field_Mapping__c</fullName>
     <externalId>false</externalId>
     <fieldManageability>DeveloperControlled</fieldManageability>
-    <inlineHelpText>Value should be in JSON format and have the following attributes: label, apiName, statusValidationField, loqateRequest, and loqateResponse
+    <inlineHelpText>Value should be in JSON format and have the following attributes: label, apiName, statusValidationField, localeField, loqateRequest, and loqateResponse
 
 e.g.
-[{&quot;label&quot; : &quot;Field Label&quot;,&quot;apiName&quot;:&quot;FieldAPIName&quot;,&quot;statusValidationField&quot;:&quot;ValidationField__c&quot;,&quot;loqateRequest&quot;:&quot;LoqatePropertyToBeRequested&quot;,&quot;loqateResponse&quot;:&quot;LoqatePropertyToCheckValidity&quot;},...]</inlineHelpText>
+[{&quot;label&quot; : &quot;Field Label&quot;,&quot;apiName&quot;:&quot;FieldAPIName&quot;,&quot;statusValidationField&quot;:&quot;ValidationField__c&quot;,&quot;localeField&quot;:&quot;LocaleField__c&quot;,&quot;loqateRequest&quot;:&quot;LoqatePropertyToBeRequested&quot;,&quot;loqateResponse&quot;:&quot;LoqatePropertyToCheckValidity&quot;},...]</inlineHelpText>
     <label>Field Mapping</label>
     <length>131072</length>
     <type>LongTextArea</type>
