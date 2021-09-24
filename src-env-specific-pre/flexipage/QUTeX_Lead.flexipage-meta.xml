@@ -15,31 +15,10 @@
                         <valueListItems>
                             <value>Convert</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND 2 AND 3 AND 4 AND 5</booleanFilter>
                                 <criteria>
-                                    <leftValue>{!Record.LeadMobile_Validation__c}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>None</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.LeadPhone_Validation__c}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>None</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.WorkPhone_Validation__c}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>None</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.LeadPersonalMobile_Validation__c}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>None</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.LeadABNEntity_Validation__c}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>None</rightValue>
+                                    <leftValue>{!Record.Can_Be_Converted__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>true</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
@@ -158,6 +137,15 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>runtime_sales_activities:activityPanel</componentName>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-18e69b15-cd2d-4dfc-bcee-990afe13567f</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
                     <value>detailTabContent</value>
@@ -208,6 +196,19 @@
                 <componentName>flexipage:tab</componentName>
             </componentInstance>
         </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-18e69b15-cd2d-4dfc-bcee-990afe13567f</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Standard.Tab.activity</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+            </componentInstance>
+        </itemInstances>
         <mode>Replace</mode>
         <name>tabs</name>
         <type>Facet</type>
@@ -234,11 +235,6 @@
                     <value>BOTH</value>
                 </componentInstanceProperties>
                 <componentName>runtime_sales_merge:mergeCandidatesPreviewCard</componentName>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentName>runtime_sales_activities:activityPanel</componentName>
             </componentInstance>
         </itemInstances>
         <itemInstances>
