@@ -24,8 +24,9 @@ private class CompanyInformationValidationCtrlTest {
     private static void getCompanyMappingTest(){
         Test.startTest();
         System.runAs(currentUser){
-            String mappingTest = CompanyInformationValidationCtrl.getCompanyMapping(ACCOUNT_API_NAME,STR_COMPANY_MAPPING);
-            System.assertEquals(ACCOUNT_MAPPING, mappingTest, 'Mapping did not match expected.');
+            String mappingTest = CompanyInformationValidationCtrl.getMapping(ACCOUNT_API_NAME,STR_COMPANY_MAPPING);
+            Loqate_Component__mdt loqate = (Loqate_Component__mdt) JSON.deserialize(mappingTest,Loqate_Component__mdt.class); 
+            System.assertEquals(ACCOUNT_MAPPING, loqate.get(STR_COMPANY_MAPPING), 'Mapping did not match expected.');
         }
         Test.stopTest();
     }

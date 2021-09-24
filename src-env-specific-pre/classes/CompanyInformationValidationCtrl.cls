@@ -15,14 +15,14 @@
 public with sharing class CompanyInformationValidationCtrl {
 
     /**
-    * @description Method for getting the Company Mapping set in Loqate Component metadata
+    * @description Method for getting the metadata of given field set in Loqate Component metadata
     * @param objApiName - API name of object passed from component
-    * @param fieldToQuery - metadata field to query
-    * @return the JSON string of company mapping 
+    * @param fieldsToQuery - metadata field to query
+    * @return the JSON string of metadata
     */
     @AuraEnabled(cacheable=true)
-    public static String getCompanyMapping(String objApiName, String fieldToQuery){
-        return ContactInformationValidationCtrl.getMapping(objApiName, fieldToQuery);
+    public static String getMapping(String objApiName, String fieldsToQuery){
+        return ContactInformationValidationCtrl.getMapping(objApiName, fieldsToQuery);
     }
 
     /**

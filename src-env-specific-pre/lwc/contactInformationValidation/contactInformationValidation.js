@@ -29,6 +29,7 @@ const STR_DOT = '.';
 const STR_AU = 'Australia (+61)';
 const STR_NZ = 'New Zealand (+64)';
 const STR_INTL = 'International';
+const FIELD_MAPPING_API_NAME = 'Field_Mapping__c';
 const MSG_ERROR = 'An error has been encountered. Please contact your Administrator.';
 const MARGIN_TOPXLARGE_CLASS = ' slds-m-top_x-large';
 const FIELD_CLASS = 'slds-border_bottom sf-blue-text';
@@ -58,10 +59,11 @@ export default class ContactInformationValidation extends LightningElement {
     /**
      * calls Apex method 'getMapping' and stores all fields to be queried
      */
-    @wire(getMapping, { objApiName: '$objectApiName', fieldToQuery : 'Field_Mapping__c' })
+    @wire(getMapping, { objApiName: '$objectApiName', fieldsToQuery : FIELD_MAPPING_API_NAME })
     handleFieldMapping({error, data}){
         if(data){
-            this.fieldsMapping = JSON.parse(data);
+            let result = JSON.parse(data);
+            this.fieldsMapping = JSON.parse(result[FIELD_MAPPING_API_NAME]);
             this.fieldsToQuery = [...this.fieldsMapping.map(fieldMap => this.generateFieldName(fieldMap.apiName)),
                 ...this.fieldsMapping.map(fieldMap => this.generateFieldName(fieldMap.statusValidationField)),
                 ...this.fieldsMapping.map(fieldMap => this.generateFieldName(fieldMap.localeField))];
@@ -124,8 +126,7 @@ export default class ContactInformationValidation extends LightningElement {
                     return _field;
             });
             
-            const payload = { invalidConvert: this.invalidConvert };
-            publish(this.messageContext, STATUSES_CHANNEL, payload);
+            this.publishMessage();
         }else if(error){
             this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
         }
@@ -143,6 +144,10 @@ export default class ContactInformationValidation extends LightningElement {
             this.objectApiName == LEAD_SCHEMA.objectApiName;
     }
 
+    connectedCallback(){
+        this.publishMessage();
+    }
+    
     /**
      * concatenates object and field api name
      */
@@ -172,6 +177,14 @@ export default class ContactInformationValidation extends LightningElement {
             variant: _variant,
         });
         this.dispatchEvent(evt);
+    }
+
+    /**
+     * publishes the LMS
+     */
+    publishMessage(){
+        const payload = { invalidConvert: this.invalidConvert };
+        publish(this.messageContext, STATUSES_CHANNEL, payload);
     }
 
     /**

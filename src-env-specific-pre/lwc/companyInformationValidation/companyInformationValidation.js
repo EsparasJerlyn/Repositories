@@ -17,6 +17,7 @@ import { getRecord, getFieldValue, updateRecord} from 'lightning/uiRecordApi';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import LEAD_SCHEMA from '@salesforce/schema/Lead';
 import ENTITY_NAME_SCHEMA from '@salesforce/schema/Account.Entity_Name__c';
+import CAN_BE_CONVERTED from '@salesforce/schema/Lead.Can_Be_Converted__c';
 import {
     subscribe,
     unsubscribe,
@@ -24,10 +25,11 @@ import {
     MessageContext
 } from 'lightning/messageService';
 import STATUSES_CHANNEL from '@salesforce/messageChannel/StatusesMessageChannel__c';
-import getCompanyMapping from '@salesforce/apex/CompanyInformationValidationCtrl.getCompanyMapping';
+import getMapping from '@salesforce/apex/CompanyInformationValidationCtrl.getMapping';
 import validateCompany from '@salesforce/apex/CompanyInformationValidationCtrl.validateCompany';
 
 const STR_DOT = '.';
+const STR_COMMA = ',';
 const STR_NONE = 'None';
 const STR_VALID = 'Valid';
 const STR_NOT_VALID = 'Not '+ STR_VALID;
@@ -35,67 +37,109 @@ const STR_API_NAME = 'apiName';
 const STR_STATUS_VAL_FIELD = 'statusValidationField';
 const STR_STATUS_VALUE = 'statusValue';
 const STR_VALUE = 'value';
+const COMPANY_MAPPING_API_NAME = 'Company_Mapping__c';
+const VAL_RULE_API_NAME = 'Validation_Rule_Fields__c';
 const ABN_CLASS = 'slds-border_bottom sf-blue-text';
 const MARGIN_TOPXLARGE_CLASS = ' slds-m-top_x-large';
 const MSG_ERROR = 'An error has been encountered. Please contact your Administrator.';
 const MSG_CONVERT_ERROR = 'You can\'t convert this lead if below contact information has not attempted validation.';
+const MSG_VAL_ERROR = ' The following fields need to be populated: ';
+const PHONE_OR_MOBILE = ['Phone','MobilePhone'];
+const ADDRESS_FIELDS = ['Street','City','State','PostalCode','Country'];
 
 export default class CompanyInformationValidation extends LightningElement {
     @api recordId;
     @api objectApiName;
     @track abn = {};
     abnToValidate = {};
-    fieldsToQuery = [];
+    allFieldsToQuery = [];
+    validationRuleFields = [];
+    requiredFieldsToDisplay = [];
     entityNameValue;
     errorMessage;
     disableEditButton;
-    invalidConvert = false;
+    invalidConvertContact = false;
     isLoading = false;
    
     /**
-     * calls Apex method 'getCompanyMapping' and stores all fields to be queried
+     * calls Apex method 'getMapping' and stores all fields to be queried
      */
-     @wire(getCompanyMapping, { objApiName: '$objectApiName', fieldToQuery : 'Company_Mapping__c' })
-     handleCompanyMapping({error, data}){
-         if(data){
-             this.abn = {...JSON.parse(data)};
-             this.fieldsToQuery = [
+    @wire(getMapping, { objApiName: '$objectApiName', fieldsToQuery : '$mdtFieldsToQuery' })
+    handleMapping({error, data}){
+        if(data){
+            let result = JSON.parse(data);
+            let addLeadFields = [];
+            if(this.objectApiName == LEAD_SCHEMA.objectApiName){
+                this.validationRuleFields = JSON.parse(result[VAL_RULE_API_NAME]);
+                addLeadFields = [
+                    this.generateFieldName(CAN_BE_CONVERTED.fieldApiName),
+                    ...this.validationRuleFields.map(field => {return this.generateFieldName(field.apiName)})
+                ];
+            }
+            this.abn = JSON.parse(result[COMPANY_MAPPING_API_NAME]);
+            this.allFieldsToQuery = [
                 this.generateFieldName(this.abn[STR_API_NAME]),
                 this.generateFieldName(this.abn[STR_STATUS_VAL_FIELD]),
-                this.generateFieldName(ENTITY_NAME_SCHEMA.fieldApiName)
+                this.generateFieldName(ENTITY_NAME_SCHEMA.fieldApiName),
+                ...addLeadFields
             ];
-  
-         }else if(error){
-             this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
-         }
-     }
+        }else if(error){
+            this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
+        }
+    }
 
      /**
      * gets the actual field values
      */
-    @wire(getRecord, { recordId: '$recordId', fields: '$fieldsToQuery' })
+    @wire(getRecord, { recordId: '$recordId', fields: '$allFieldsToQuery' })
     handleFieldValues({error, data}){
         if(data){
             this.disableEditButton = false;
-
+            this.requiredFieldsToDisplay = [];
+            
+            //for preupdating fields
+            let _statusToUpdate = {};
             let _statusValue = getFieldValue(data, this.generateFieldName(this.abn[STR_STATUS_VAL_FIELD]));
             if(_statusValue){
                 this.abn[STR_STATUS_VALUE] = _statusValue;
             }else{
-                let _statusToUpdate = {};
                 _statusToUpdate[this.abn[STR_STATUS_VAL_FIELD]] = STR_NONE;
                 this.handleUpdateFields(_statusToUpdate,false);
             }
-
+            
+            //for lead validation rule error message
+            if(this.objectApiName == LEAD_SCHEMA.objectApiName){
+                let phoneOrMobile = 0;
+                let address = 0;
+                this.validationRuleFields.forEach(field => {
+                    if(!getFieldValue(data,this.generateFieldName(field.apiName))){
+                        if(PHONE_OR_MOBILE.includes(field.apiName)){
+                            phoneOrMobile++;
+                        }else if(ADDRESS_FIELDS.includes(field.apiName)){
+                            address++;
+                        }else{
+                            this.requiredFieldsToDisplay.push(field.label);
+                        }
+                    }
+                });
+                if(phoneOrMobile > 1){
+                    this.requiredFieldsToDisplay.push('Phone or Mobile');
+                }
+                if(address == 0){
+                    this.requiredFieldsToDisplay.push('Address');
+                }
+            }
+            
             this.abn[STR_VALUE] = getFieldValue(data, this.generateFieldName(this.abn[STR_API_NAME]));
             this.entityNameValue = getFieldValue(data, this.generateFieldName(ENTITY_NAME_SCHEMA.fieldApiName));
-         
+            
+            //for loqate response
             this.abnToValidate['loqateRequest'] = this.abn['loqateRequest'];
             this.abnToValidate['loqateResponse'] = this.abn['loqateResponse'];
             this.abnToValidate['locale'] = null;
             this.abnToValidate[STR_STATUS_VAL_FIELD] = this.abn[STR_STATUS_VAL_FIELD];
             this.abnToValidate[STR_VALUE] = this.abn[STR_VALUE];
-           
+
             this.subscribeToMessageChannel();
         }else if(error){
             this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
@@ -114,9 +158,35 @@ export default class CompanyInformationValidation extends LightningElement {
     }
 
     get errorConvertMessage(){
-        return MSG_CONVERT_ERROR;
+        let _errorMsg;
+
+        if(this.invalidStatusConvert && this.requiredFieldsToDisplay.length > 0){
+            _errorMsg = MSG_CONVERT_ERROR + MSG_VAL_ERROR + this.requiredFieldsToDisplay.join(', ') + STR_DOT;
+        }else if(this.invalidStatusConvert && this.requiredFieldsToDisplay.length == 0){
+            _errorMsg = MSG_CONVERT_ERROR;
+        }else if(!this.invalidStatusConvert && this.requiredFieldsToDisplay.length > 0){
+            _errorMsg = MSG_VAL_ERROR + this.requiredFieldsToDisplay.join(', ') + STR_DOT;
+        }
+
+        return _errorMsg;
     }
 
+    get mdtFieldsToQuery(){
+        return this.objectApiName == LEAD_SCHEMA.objectApiName ? 
+            COMPANY_MAPPING_API_NAME + STR_COMMA + VAL_RULE_API_NAME : COMPANY_MAPPING_API_NAME;
+    }
+
+    get invalidStatusConvert(){
+        return this.abn[STR_STATUS_VALUE] == STR_NONE || this.invalidConvertContact ? true : false;
+    }
+
+    get showErrorMessage(){
+        return (this.invalidStatusConvert || this.requiredFieldsToDisplay.length > 0) &&
+            this.objectApiName == LEAD_SCHEMA.objectApiName
+            ? true : false;
+    }
+
+   
     //for LMS
     @wire(MessageContext)
     messageContext;
@@ -136,9 +206,7 @@ export default class CompanyInformationValidation extends LightningElement {
     }
 
     handleMessage(message) {
-        this.invalidConvert = (this.abn[STR_STATUS_VALUE] == STR_NONE || message.invalidConvert) &&
-            this.objectApiName == LEAD_SCHEMA.objectApiName
-            ? true : false;
+        this.invalidConvertContact = message.invalidConvert && this.objectApiName == LEAD_SCHEMA.objectApiName ? true : false;
     }
 
     unsubscribeToMessageChannel() {

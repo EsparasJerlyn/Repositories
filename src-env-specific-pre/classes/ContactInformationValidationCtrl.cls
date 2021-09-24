@@ -27,18 +27,18 @@ public with sharing class ContactInformationValidationCtrl {
     private static List<PayloadResponse> payloadList = new List<PayloadResponse>();
 
     /**
-    * @description Method for getting the Field Mapping set in Loqate Component metadata
+    * @description Method for getting the metadata set in Loqate Component metadata
     * @param objApiName - API name of object passed from component
-    * @param fieldToQuery - metadata field to query
-    * @return mapping - the JSON string of field mapping 
+    * @param fieldsToQuery - metadata field to query
+    * @return mapping - the JSON string of metadata 
     */
     @AuraEnabled(cacheable=true)
-    public static String getMapping(String objApiName, String fieldToQuery){
+    public static String getMapping(String objApiName, String fieldsToQuery){
         String mapping;
 
         try{
-            String query = 'SELECT ' + fieldToQuery + ' FROM Loqate_Component__mdt WHERE Object_Type__c=:objApiName LIMIT 1';
-            mapping = (String) Database.query(query).iterator().next().get(fieldToQuery);
+            String query = 'SELECT ' + fieldsToQuery + ' FROM Loqate_Component__mdt WHERE Object_Type__c=:objApiName LIMIT 1';
+            mapping = JSON.serialize(Database.query(query).iterator().next());
         }catch(Exception ex){
             AuraHandledException auraEx = new AuraHandledException(ex.getMessage());
             auraEx.setMessage('Error while getting field mapping.');

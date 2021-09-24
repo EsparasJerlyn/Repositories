@@ -3,6 +3,7 @@
     <fullName>Company_Mapping__c</fullName>
     <externalId>false</externalId>
     <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Value should be in JSON format with the following attributes:  label, apiName, statusValidationField, loqateRequest, and loqateResponse</inlineHelpText>
     <label>Company Mapping</label>
     <length>131072</length>
     <type>LongTextArea</type>

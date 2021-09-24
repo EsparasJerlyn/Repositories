@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Validation_Rule_Fields__c</fullName>
+    <description>Fields to be validated and checked if null or empty</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Value should be in JSON format with attributes label and apiName
+
+e.g. [{&quot;label&quot;:&quot;Field&quot;,&quot;apiName&quot;:&quot;FieldAPI&quot;},...]</inlineHelpText>
+    <label>Validation Rule Fields</label>
+    <length>32768</length>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>
