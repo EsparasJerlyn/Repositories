@@ -10,7 +10,7 @@ clone:
 pipelines:
 
   pull-requests:
-    feature/IT1Sep/**:
+    feature/IT1Feb/**:
       - parallel:
         - step:
             name: 'Validate Changes on IT1FebCI'
