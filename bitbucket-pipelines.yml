@@ -8,55 +8,13 @@ clone:
   depth: full
 
 pipelines:
-  custom:
-
-    Deploy to IT1SepUAT:
-      - step:
-          name: 'Build Packages'
-          artifacts:
-            - build-artifacts/**
-          script:
-              # Dev Hub access is required for creating unlocked packages
-              - sfdx sfpowerscripts:orchestrator:build --artifactdir build-artifacts --buildnumber $BITBUCKET_BUILD_NUMBER --branch $BITBUCKET_BRANCH
-          after-script:
-            - rm server.key
-      - step:
-          name: 'Deploy to IT1SepUAT'
-          deployment: IT1SepUAT
-          script:
-              - echo $SERVER_KEY | base64 -d > server.key
-              - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $TEST_LOGIN_URL -u "$USERNAME.$SANDBOX_NAME"
-              - sfdx sfpowerscripts:orchestrator:deploy -u "$USERNAME.$SANDBOX_NAME" --artifactdir build-artifacts
-          after-script:
-            - rm server.key
-
-    ## Used for 7am automated deploymetn to SIT
-    SIT Scheduled Deployment:
-      - step:
-          name: 'Build Packages'
-          artifacts:
-            - build-artifacts/**
-          script:
-              # Dev Hub access is required for creating unlocked packages
-              - sfdx sfpowerscripts:orchestrator:build --artifactdir build-artifacts --buildnumber $BITBUCKET_BUILD_NUMBER --branch $BITBUCKET_BRANCH
-          after-script:
-            - rm server.key
-      - step:
-          name: 'Deploy to SIT'
-          deployment: SIT
-          script:
-              - echo $SERVER_KEY | base64 -d > server.key
-              - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $TEST_LOGIN_URL -u "$USERNAME.$SANDBOX_NAME"
-              - sfdx sfpowerscripts:orchestrator:deploy -u "$USERNAME.$SANDBOX_NAME" --artifactdir build-artifacts
-          after-script:
-            - rm server.key
 
   pull-requests:
     feature/IT1Sep/**:
       - parallel:
         - step:
-            name: 'Validate Changes on IT1SepCI'
-            deployment: IT1SepCI
+            name: 'Validate Changes on IT1FebCI'
+            deployment: IT1FebCI
             script:
               - echo $SERVER_KEY | base64 -d > server.key
               - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $TEST_LOGIN_URL -u "$USERNAME.$SANDBOX_NAME"
@@ -78,7 +36,7 @@ pipelines:
         #       - sfdx sfpowerkit:package:valid -n core-crm -b StandardValueSet
 
   branches:
-    release/IT1Sep:
+    release/IT1Feb:
       - step:
           name: 'Build Packages'
           artifacts:
@@ -92,67 +50,11 @@ pipelines:
       ## Deploy on ST and DMD      
       - parallel:
         - step:
-            name: 'Deploy to IT1SepST'
-            deployment: IT1SepST
+            name: 'Deploy to IT1FebST'
+            deployment: IT1FebST
             script:
                 - echo $SERVER_KEY | base64 -d > server.key
                 - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $TEST_LOGIN_URL -u "$USERNAME.$SANDBOX_NAME"
                 - sfdx sfpowerscripts:orchestrator:deploy -u "$USERNAME.$SANDBOX_NAME" --artifactdir build-artifacts
             after-script:
               - rm server.key
-        - step:
-            name: 'Deploy to IT1SepDMD'
-            deployment: IT1SepDMD
-            script:
-                - echo $SERVER_KEY | base64 -d > server.key
-                - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $TEST_LOGIN_URL -u "$USERNAME.$SANDBOX_NAME"
-                - sfdx sfpowerscripts:orchestrator:deploy -u "$USERNAME.$SANDBOX_NAME" --artifactdir build-artifacts
-            after-script:
-              - rm server.key
-
-        - step:
-            name: 'Deploy to IT1SepTT'
-            deployment: IT1SepTT
-            script:
-                - echo $SERVER_KEY | base64 -d > server.key
-                - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $TEST_LOGIN_URL -u "$USERNAME.$SANDBOX_NAME"
-                - sfdx sfpowerscripts:orchestrator:deploy -u "$USERNAME.$SANDBOX_NAME" --artifactdir build-artifacts
-            after-script:
-              - rm server.key
-
-              
-
-      ## Manual deployments to SIT
-      - step:
-          name: 'Deploy to SIT'
-          trigger: manual
-          deployment: SIT
-          script:
-              - echo $SERVER_KEY | base64 -d > server.key
-              - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $TEST_LOGIN_URL -u "$USERNAME.$SANDBOX_NAME"
-              - sfdx sfpowerscripts:orchestrator:deploy -u "$USERNAME.$SANDBOX_NAME" --artifactdir build-artifacts
-          after-script:
-            - rm server.key
-
-      ## Manul deployments to UAT and PROD if required
-      - step:
-          name: 'Deploy to UAT'
-          trigger: manual
-          deployment: UAT
-          script:
-              - echo $SERVER_KEY | base64 -d > server.key
-              - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $TEST_LOGIN_URL -u "$USERNAME.$SANDBOX_NAME"
-              - sfdx sfpowerscripts:orchestrator:deploy -u "$USERNAME.$SANDBOX_NAME" --artifactdir build-artifacts
-          after-script:
-            - rm server.key
-
-      - step:
-          name: 'Deploy to Production'
-          trigger: manual
-          deployment: Production
-          script:
-              - echo $SERVER_KEY | base64 -d > server.key
-              - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $PROD_LOGIN_URL -u $USERNAME
-              - sfdx sfpowerscripts:orchestrator:deploy -u $USERNAME --artifactdir build-artifacts
-          after-script:
-            - rm server.key
