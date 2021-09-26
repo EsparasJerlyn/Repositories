@@ -642,6 +642,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Opportunity.Contact__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Opportunity.ContractId</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -763,6 +768,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Opportunity.Opportunity_Approver__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+   <fieldPermissions>
+        <editable>true</editable>
+        <field>Opportunity.Owning_Faculty__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
