@@ -125,7 +125,7 @@ export default class CompanyInformationValidation extends LightningElement {
                 if(phoneOrMobile > 1){
                     this.requiredFieldsToDisplay.push('Phone or Mobile');
                 }
-                if(address == 0){
+                if(address == 5){
                     this.requiredFieldsToDisplay.push('Address');
                 }
             }
