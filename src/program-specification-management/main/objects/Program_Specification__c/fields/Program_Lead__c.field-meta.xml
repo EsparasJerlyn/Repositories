@@ -5,7 +5,7 @@
     <externalId>false</externalId>
     <label>Program Lead</label>
     <referenceTo>User</referenceTo>
-    <relationshipName>Program_Specifications</relationshipName>
+    <relationshipName>User_Program_Specifications</relationshipName>
     <required>false</required>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>
