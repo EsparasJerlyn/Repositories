@@ -3,8 +3,7 @@
         {
             "path": "./src-env-specific-pre", 
             "package": "src-env-specific-pre",
-            "versionNumber": "1.0.0.0",
-            "destructiveChangePath": "./destructive/src-env-specific-pre/Pilot1/destructiveChanges.xml"
+            "versionNumber": "1.0.0.0"            
         },
         {
             "path": "./src-env-specific-alias-pre",

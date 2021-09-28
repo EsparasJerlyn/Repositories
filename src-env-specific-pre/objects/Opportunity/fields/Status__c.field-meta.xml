@@ -130,15 +130,7 @@
         <valueSettings>
             <controllingFieldValue>Qualify</controllingFieldValue>
             <valueName>Pending Initial Proposal Approval</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Contract</controllingFieldValue>
-            <valueName>Contract Created</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Contract</controllingFieldValue>
-            <valueName>Pending Contract Creation</valueName>
-        </valueSettings>
+        </valueSettings>        
         <valueSettings>
             <controllingFieldValue>Closed Won</controllingFieldValue>
             <valueName>Contract Signed</valueName>
