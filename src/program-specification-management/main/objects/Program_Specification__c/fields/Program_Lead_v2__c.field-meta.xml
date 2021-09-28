@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Program_Lead__c</fullName>
-    <deleteConstraint>SetNull</deleteConstraint>
+    <fullName>Program_Lead_v2__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
     <externalId>false</externalId>
     <label>Program Lead</label>
-    <referenceTo>User</referenceTo>
+    <referenceTo>Contact</referenceTo>
+    <relationshipLabel>Program Specifications</relationshipLabel>
     <relationshipName>Program_Specifications</relationshipName>
-    <required>false</required>
+    <required>true</required>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>
 </CustomField>
