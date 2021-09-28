@@ -11,7 +11,7 @@
  */
 
 public with sharing class CLMSGenerateContract{
-    private static final String ENDPOINT_MOCK = '/consumer/dep/v1/opportunity/createContract';
+    private static final String ENDPOINT_ESB_CREATE_CONTRACT = System.Label.ESBEndpointCreateContract;
     private static final String ERROR_MSG = 'Error occured while submitting request.';
 
     /**
@@ -27,7 +27,7 @@ public with sharing class CLMSGenerateContract{
         String respStr;
 
         for(ContractRequest contractReq : contractRequestList){
-            res = doCallout(ENDPOINT_MOCK,'POST', JSON.serialize(contractReq));
+            res = doCallout(ENDPOINT_ESB_CREATE_CONTRACT,'POST', JSON.serialize(contractReq));
             result = (Map<String,Object>) JSON.deserializeUntyped(res);
             respStr = JSON.serialize(result);
             contractResponseList.add((ContractResponse) JSON.deserialize(respStr, ContractResponse.class));
@@ -63,7 +63,7 @@ public with sharing class CLMSGenerateContract{
         }
         System.debug('HTTP REQUEST: '+payload);
         System.debug('HTTP RESPONSE: '+response.getBody());
-        if(response.getStatusCode() == 200) {
+        if(response.getStatusCode() == 200 || response.getStatusCode() == 422) {
             return response.getBody();
         }else{
             throw new AuraHandledException(ERROR_MSG);
