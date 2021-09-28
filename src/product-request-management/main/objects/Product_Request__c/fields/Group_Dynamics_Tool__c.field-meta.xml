@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Group_Dynamics_Tool__c</fullName>
+    <externalId>false</externalId>
+    <label>Group Dynamics Tool</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>TLC Collective Leadership Assessment</fullName>
+                <default>false</default>
+                <label>TLC Collective Leadership Assessment</label>
+            </value>
+            <value>
+                <fullName>Prophet Team Insight Report</fullName>
+                <default>false</default>
+                <label>Prophet Team Insight Report</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

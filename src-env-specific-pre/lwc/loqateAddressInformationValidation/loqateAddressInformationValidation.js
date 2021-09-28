@@ -24,6 +24,7 @@ import HED_VALIDATE from '@salesforce/schema/hed__Address__c.Validated__c';
 import HED_UNIQUE_ID from '@salesforce/schema/hed__Address__c.Unique_ID__c';
 import HED_ADDRESS from '@salesforce/schema/hed__Address__c';
 import { getPicklistValues,getObjectInfo } from 'lightning/uiObjectInfoApi';
+import { getRecordNotifyChange } from 'lightning/uiRecordApi';
 import { refreshApex } from '@salesforce/apex';
 
 
@@ -195,6 +196,8 @@ export default class LoqateAddressInformationValidation extends LightningElement
             this.showToast(SUCCESS_TITLE,SAVE_SUCCESS, SUCCESS_VARIANT);
             this.isUpdating = false;
             refreshApex(this.wiredAddresses);
+        }).finally(() => {
+            getRecordNotifyChange([{recordId: this.recordId}]);
         })
         .catch(error =>{
             this.showToast(ERROR_TITLE, ERROR_MSG + error,ERROR_VARIANT);

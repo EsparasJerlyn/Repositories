@@ -4,4 +4,151 @@
     <active>true</active>
     <description>This record type will be used to set up a diagnostic tool that is part of a Program Request for Award Units, Non Award Modules or Coaching. This will not be delivered in isolation.</description>
     <label>Diagnostic Tool Request</label>
+    <picklistValues>
+        <picklist>Coaching_Type__c</picklist>
+        <values>
+            <fullName>Diagnostic Tool Debrief</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>One on One</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Triads</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Cohort_Type__c</picklist>
+        <values>
+            <fullName>Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Individual</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Diagnostic_Tool_Selection__c</picklist>
+        <values>
+            <fullName>DISC 363 For Leaders</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DISC Sales Profile</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DISC Workplace Profile</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TLC Leadership Check In</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TLC Leadership Circle Profile</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TLC Manager Edition</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Diagnostic_Tool_Type__c</picklist>
+        <values>
+            <fullName>Multi Rater Tool</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Self Rater Tool</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Group_Dynamics_Tool__c</picklist>
+        <values>
+            <fullName>Prophet Team Insight Report</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TLC Collective Leadership Assessment</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Product_Request_Status__c</picklist>
+        <values>
+            <fullName>Completed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Define</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Design</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Release</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Program_Type__c</picklist>
+        <values>
+            <fullName>Award Course</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Custom Award Course %28Based on Existing%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Custom Award Course %28Not Based on Existing%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Open or Custom Program</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Timeline__c</picklist>
+        <values>
+            <fullName>Annually</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Monthly</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Quarterly</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Weekly</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Unit_Module_Type__c</picklist>
+        <values>
+            <fullName>Modules Only</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Units Only</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Units and Modules</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
 </RecordType>
