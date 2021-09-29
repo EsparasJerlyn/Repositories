@@ -6,7 +6,6 @@
     <columns>OWNER.FIRST_NAME</columns>
     <columns>OWNER.LAST_NAME</columns>
     <columns>Status__c</columns>
-    <columns>Program_Lead__c</columns>
     <filterScope>Mine</filterScope>
     <label>My Program Specifications - All</label>
 </ListView>

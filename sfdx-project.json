@@ -69,7 +69,8 @@
             "path": "./src/program-specification-management",
             "package": "program-specification-management",
             "versionName": "Version 1.0.0.0",
-            "versionNumber": "1.0.0.0"        
+            "versionNumber": "1.0.0.0",
+            "destructiveChangePath": "./destructive/program-specification/Pilot1/destructiveChanges.xml"        
         },
         {
             "path": "./src/product-request-management",
