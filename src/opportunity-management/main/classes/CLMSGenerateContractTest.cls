@@ -21,7 +21,10 @@ private class CLMSGenerateContractTest {
         Account acc = TestDataFactory.createTestAccountRecords(1).iterator().next();
         insert acc;
 
-        List<Opportunity> oppList = TestDataFactory.createTestOpportunityRecords(100,acc?.Id);
+        Contact con = TestDataFactory.createTestContactRecords(1).iterator().next();
+        insert con;
+
+        List<Opportunity> oppList = TestDataFactory.createTestOpportunityRecords(100,acc?.Id,con?.Id);
 
         Test.startTest();
         insert(oppList);

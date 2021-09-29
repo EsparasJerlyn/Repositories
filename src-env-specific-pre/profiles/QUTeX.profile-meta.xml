@@ -58,6 +58,9 @@
         <recordType>Opportunity.QUTex_CCE</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>OpportunityContactRole-Opportunity Contact Role Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Product_Request__c-Product Request Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
