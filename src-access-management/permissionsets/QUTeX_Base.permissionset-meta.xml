@@ -9,6 +9,10 @@
         <visible>false</visible>
     </applicationVisibilities>
     <classAccesses>
+        <apexClass>AccountCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>AddressInformationValidationCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>

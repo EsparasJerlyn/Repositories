@@ -153,5 +153,19 @@ public class TestDataFactory {
     private static Id getProfileId(String profileName){
         return [SELECT Id FROM Profile WHERE Name =: profileName LIMIT 1]?.Id;
     }
-
+    
+    
+    /**
+    * @description Method for getting the Account ID
+    * @return ID of the Account
+    */
+    public static string getAccountId(){
+         Account account = new Account();
+         account.Name = 'TestAccount1';
+        
+         insert(account);
+        
+         return account.Id;
+    }
+    
 }

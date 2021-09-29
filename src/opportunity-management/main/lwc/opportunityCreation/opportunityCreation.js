@@ -11,12 +11,15 @@
       |--------------------------------|-----------------------|----------------------|-------------------------------------------------|
       | marygrace.li@qut.edu.au        | September 18, 2021    | DEP1-158             | Created file                                    | 
       |--------------------------------|-----------------------|----------------------|-------------------------------------------------|  
-      | marygrace.li@qut.edu.au        | September 23, 2021    | DEP1-615             | modified handleSelectionChange disabled value                    
+      | marygrace.li@qut.edu.au        | September 23, 2021    | DEP1-615             | modified handleSelectionChange disabled value   |     
+      |--------------------------------|-----------------------|----------------------|-------------------------------------------------|  
+      | marygrace.li@qut.edu.au        | September 27, 2021    | DEP1-618             | add getAccountName and set to opportunity name  |                   
  */
 
 
 import { LightningElement, track, wire, api } from "lwc";  
 import getContactRecords from "@salesforce/apex/ContactLookupCtrl.getContactRecords";
+import getAccountName from "@salesforce/apex/AccountCtrl.getAccountName";
 import {getObjectInfo} from "lightning/uiObjectInfoApi";
 import Opportunity from '@salesforce/schema/Opportunity';
 import { NavigationMixin } from 'lightning/navigation';
@@ -42,9 +45,11 @@ import { ShowToastEvent} from 'lightning/platformShowToastEvent';
   @track showNewOppForm = false;
   @track accountObjectInfo;
   @api contactId;
+  @api accountName;
 
    connectedCallback(){
       this.getContactRecords();
+      this.getAccountName();
    } 
    
    //retrieve contact records
@@ -66,6 +71,18 @@ import { ShowToastEvent} from 'lightning/platformShowToastEvent';
               this.showToast('Something went wrong', this.error, 'error');
           })
     } 
+  
+    //retrieve account name  
+    getAccountName(){
+      getAccountName({'accountId': this.recordId})
+        .then((result)=>{
+            this.accountName = result;
+        })
+        .catch((error)=>{
+          this.error = error.body.message;
+          this.showToast('Something went wrong', this.error, 'error');
+        })
+    }
 
   //retrieve opportunity record types
   @wire(getObjectInfo, { objectApiName: Opportunity })
@@ -176,6 +193,14 @@ import { ShowToastEvent} from 'lightning/platformShowToastEvent';
       });
       // Fire the custom event
       this.dispatchEvent(valueChangeEvent);
+
+      //set the account name to opportunity name
+      const acountname = this.accountName + '-';
+      const acctChangeEvent = new CustomEvent("accountchange", {
+        detail: {acountname}
+      });
+      // Fire the custom event
+      this.dispatchEvent(acctChangeEvent);
 
       this.navigateToNewOpportunity();
     }
