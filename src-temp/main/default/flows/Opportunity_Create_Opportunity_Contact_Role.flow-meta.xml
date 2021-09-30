@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-    <apiVersion>52.0</apiVersion>
-    <description>Create contact role when saving new opportunity record</description>
-    <interviewLabel>Create Contact Role for Opportunity Manual Creation {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>Create Contact Role for Opportunity Manual Creation</label>
+    <apiVersion>53.0</apiVersion>
+    <interviewLabel>Opportunity - Create Opportunity Contact Role {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Opportunity - Create Opportunity Contact Role</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -24,14 +23,14 @@
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <recordCreates>
-        <name>Create_Contact_Role</name>
-        <label>Create Contact Role</label>
-        <locationX>176</locationX>
-        <locationY>482</locationY>
+        <name>Create_Oppty_Contact_Role</name>
+        <label>Create Oppty Contact Role</label>
+        <locationX>177</locationX>
+        <locationY>406</locationY>
         <inputAssignments>
             <field>ContactId</field>
             <value>
-                <elementReference>Get_Opportunity_Records.Contact__c</elementReference>
+                <elementReference>$Record.Contact__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -43,7 +42,7 @@
         <inputAssignments>
             <field>OpportunityId</field>
             <value>
-                <elementReference>Get_Opportunity_Records.Id</elementReference>
+                <elementReference>$Record.Id</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -55,43 +54,23 @@
         <object>OpportunityContactRole</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordCreates>
-    <recordLookups>
-        <name>Get_Opportunity_Records</name>
-        <label>Get Opportunity Records</label>
-        <locationX>176</locationX>
-        <locationY>288</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>Create_Contact_Role</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>$Record.Id</elementReference>
-            </value>
-        </filters>
-        <filters>
-            <field>Contact__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>$Record.Contact__c</elementReference>
-            </value>
-        </filters>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>Opportunity</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
     <start>
         <locationX>50</locationX>
         <locationY>50</locationY>
         <connector>
-            <targetReference>Get_Opportunity_Records</targetReference>
+            <targetReference>Create_Oppty_Contact_Role</targetReference>
         </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Contact__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
         <object>Opportunity</object>
-        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <recordTriggerType>Create</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Obsolete</status>
+    <status>Active</status>
 </Flow>

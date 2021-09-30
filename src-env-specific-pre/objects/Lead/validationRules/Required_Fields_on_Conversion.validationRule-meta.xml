@@ -10,7 +10,7 @@ ISBLANK( FirstName ),
 ISPICKVAL(Company_Category__c , &apos;&apos;),
 ISBLANK( Description ),
 ISBLANK( Address ),
-OR( ISBLANK( Phone ) , ISBLANK( MobilePhone ) ) 
+AND( ISBLANK( Phone ) , ISBLANK( MobilePhone ) ) 
 )
 )</errorConditionFormula>
     <errorMessage>Please ensure First Name, Phone or Mobile, Company Category, Description, and Address is populated on the lead.</errorMessage>
