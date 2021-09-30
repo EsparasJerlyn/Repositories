@@ -392,6 +392,11 @@
         <editable>true</editable>
         <field>Product_Request__c.Unit_Module_Type__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Product_Request_Contact_Role__c.Coach_Type__c</field>
+        <readable>true</readable>
     </fieldPermissions>    
     <hasActivationRequired>false</hasActivationRequired>
     <label>QUTeX Base</label>
@@ -673,6 +678,15 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
         <object>hed__Time_Block__c</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>Product_Request_Contact_Role__c</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <recordTypeVisibilities>
