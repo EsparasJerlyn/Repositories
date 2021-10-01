@@ -4,10 +4,20 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <externalId>false</externalId>
     <label>Lead School</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>Account.RecordType.DeveloperName</field>
+            <operation>equals</operation>
+            <value>University_Department</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
     <referenceTo>Account</referenceTo>
-    <relationshipLabel>Program Specifications</relationshipLabel>
-    <relationshipName>Account_Program_Specifications</relationshipName>
+    <relationshipLabel>Program Specifications (Lead School)</relationshipLabel>
+    <relationshipName>Program_Specifications1</relationshipName>
     <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>
 </CustomField>

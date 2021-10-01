@@ -2,6 +2,24 @@
 <CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionOverrides>
         <actionName>View</actionName>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>Program_Specification_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+        <pageOrSobjectType>Program_Specification__c</pageOrSobjectType>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>Program_Specification_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+        <pageOrSobjectType>Program_Specification__c</pageOrSobjectType>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
         <comment>Action override updated by Lightning App Builder during activation.</comment>
         <content>Opportunity_Record_Page_QUTex_CCE</content>
         <formFactor>Large</formFactor>
@@ -65,11 +83,15 @@
     <tabs>standard-Dashboard</tabs>
     <tabs>standard-Product2</tabs>
     <tabs>Product_Request__c</tabs>
+    <tabs>Program_Specification__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>QUTeX_CCE_UtilityBar</utilityBar>
     <workspaceConfig>
         <mappings>
             <tab>Product_Request__c</tab>
+        </mappings>
+        <mappings>
+            <tab>Program_Specification__c</tab>
         </mappings>
         <mappings>
             <tab>standard-Account</tab>
