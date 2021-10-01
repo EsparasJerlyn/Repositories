@@ -7,11 +7,15 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                 | Change Summary                                  |
-      |--------------------------------|-----------------------|----------------------|-------------------------------------------------|
-      | marygrace.li@qut.edu.au        | September 18, 2021    | DEP1-158             | Created file                                    | 
-      |--------------------------------|-----------------------|----------------------|-------------------------------------------------|  
-      | marygrace.li@qut.edu.au        | September 23, 2021    | DEP1-615             | modified handleSelectionChange disabled value                    
+ *    | Developer Email                | Date                  | JIRA                 | Change Summary                                                            |
+      |--------------------------------|-----------------------|----------------------|---------------------------------------------------------------------------|
+      | marygrace.li@qut.edu.au        | September 18, 2021    | DEP1-158             | Created file                                                              | 
+      |--------------------------------|-----------------------|----------------------|---------------------------------------------------------------------------|  
+      | marygrace.li@qut.edu.au        | September 23, 2021    | DEP1-615             | modified handleSelectionChange disabled value                             |     
+      |--------------------------------|-----------------------|----------------------|---------------------------------------------------------------------------|  
+      | marygrace.li@qut.edu.au        | September 27, 2021    | DEP1-618             | add getAccountName and set to opportunity name                            |   
+      |--------------------------------|-----------------------|----------------------|---------------------------------------------------------------------------|  
+      | marygrace.li@qut.edu.au        | September 30, 2021    | DEPP-280             | modified createNewOpportunity then set disabled state for next btn        |                 
  */
 
 
@@ -39,7 +43,6 @@ import { ShowToastEvent} from 'lightning/platformShowToastEvent';
   @track options = [];
   @track showRecordType = false;
   @track disableButton = true;
-  @track showNewOppForm = false;
   @track accountObjectInfo;
   @api contactId;
 
@@ -152,6 +155,9 @@ import { ShowToastEvent} from 'lightning/platformShowToastEvent';
     if(!this.disableButton){
       this.showRecordType = true;
 
+      //set Next button as disabled when record type is equal to empty string
+      this.disableButton = this.selectedRecordTypeValue ==='';
+
     }else{
       this.showRecordType = false;
     }
@@ -159,26 +165,16 @@ import { ShowToastEvent} from 'lightning/platformShowToastEvent';
 
   //call when Next button is clicked
   newOpportunity(){
-    const selectedVal = this.selectedRecordTypeValue;
-    
-    if(selectedVal ===''){
-      this.disableButton = true;
-      this.showNewOppForm = false;
-    }else{
-      this.disableButton = false;
-
-      this.showNewOppForm = true;
       
-      //set the contact selected from the lookup
-      const contact = this.contactId;
-      const valueChangeEvent = new CustomEvent("valuechange", {
-        detail: {contact}
-      });
-      // Fire the custom event
-      this.dispatchEvent(valueChangeEvent);
+    //set the contact selected from the lookup
+    const contact = this.contactId;
+    const valueChangeEvent = new CustomEvent("valuechange", {
+      detail: {contact}
+    });
+    // Fire the custom event
+    this.dispatchEvent(valueChangeEvent);
 
-      this.navigateToNewOpportunity();
-    }
+    this.navigateToNewOpportunity();
 
   }
 

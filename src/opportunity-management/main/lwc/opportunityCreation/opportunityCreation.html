@@ -13,7 +13,6 @@
       </template>  
    
       <template if:true={showRecordType}>
-        <template if:false={showNewOppForm}>
           <lightning-radio-group name="opportunityRecordType"
                   label="Record Type"
                   options={options}
@@ -21,7 +20,6 @@
                   onchange={handleRecordTypeChange}
                   type="radio">
           </lightning-radio-group>
-        </template>
       </template>
 
       <footer class="slds-modal__footer">
