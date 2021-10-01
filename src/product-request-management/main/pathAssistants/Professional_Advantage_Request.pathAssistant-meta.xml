@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Product_Request__c</entityName>
+    <fieldName>Product_Request_Status__c</fieldName>
+    <masterLabel>Professional Advantage Request</masterLabel>
+    <pathAssistantSteps>
+        <info>&lt;p&gt;You have now completed your Product Request&lt;/p&gt;&lt;p&gt; &lt;/p&gt;&lt;p&gt;Congratulations!&lt;/p&gt;</info>
+        <picklistValueName>Completed</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;Defining a product request to ensure that you have clearly defined the Overall Product, and specified the team members that will be involved&lt;/span&gt;&lt;/p&gt;</info>
+        <picklistValueName>Define</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;Designing the professional advantage product is all about ensuring that you have associated all the products that this customer can utilise as part of the engagement.&lt;/span&gt;&lt;/p&gt;</info>
+        <picklistValueName>Design</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;Activating the Professional Advantage product so that the customer can checkout online and use this product to pay for the course.&lt;/span&gt;&lt;/p&gt;</info>
+        <picklistValueName>Release</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>Professional_Advantage_Request</recordTypeName>
+</PathAssistant>

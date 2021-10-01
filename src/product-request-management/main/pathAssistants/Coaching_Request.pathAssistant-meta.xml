@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Product_Request__c</entityName>
+    <fieldName>Product_Request_Status__c</fieldName>
+    <masterLabel>Coaching Request</masterLabel>
+    <pathAssistantSteps>
+        <info>&lt;p&gt;You have now completed your Product Request&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Congratulations!&lt;/p&gt;</info>
+        <picklistValueName>Completed</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;Defining a product request to ensure that you have clearly defined the Overall Product, and specified the teams members that will be involved.&lt;/span&gt;&lt;/p&gt;</info>
+        <picklistValueName>Define</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;Designing a product is about ensuring that the appropriate Course record is created, to provide a structure for the product.&lt;/span&gt;&lt;/p&gt;</info>
+        <picklistValueName>Design</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;Releasing a product, is about making sure that the Product pages have been reviewed and all the design content has been reviewed to ensure that the wording is appropriate to market the product.&lt;/span&gt;&lt;/p&gt;</info>
+        <picklistValueName>Release</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>Coaching_Request</recordTypeName>
+</PathAssistant>
