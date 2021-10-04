@@ -67,7 +67,7 @@ pipelines:
           script:
               - echo $SERVER_KEY | base64 -d > server.key
               - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $TEST_LOGIN_URL -u "$USERNAME.$SANDBOX_NAME"  -a $SANDBOX_NAME
-              - sfdx sfpowerscripts:orchestrator:deploy -u "$USERNAME.$SANDBOX_NAME" --artifactdir build-artifacts
+              - sfdx sfpowerscripts:orchestrator:deploy -a $SANDBOX_NAME --artifactdir build-artifacts
           after-script:
             - rm server.key
 
@@ -117,7 +117,7 @@ pipelines:
             script:
                 - echo $SERVER_KEY | base64 -d > server.key
                 - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $TEST_LOGIN_URL -u "$USERNAME.$SANDBOX_NAME"  -a $SANDBOX_NAME
-                - sfdx sfpowerscripts:orchestrator:deploy -u "$USERNAME.$SANDBOX_NAME" --artifactdir build-artifacts
+                - sfdx sfpowerscripts:orchestrator:deploy -a $SANDBOX_NAME --artifactdir build-artifacts
             after-script:
               - rm server.key
         - step:

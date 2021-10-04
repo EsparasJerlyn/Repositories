@@ -93,27 +93,6 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>relatedListComponentOverride</name>
-                    <value>NONE</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>rowsToDisplay</name>
-                    <value>10</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>showActionBar</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentName>force:relatedListContainer</componentName>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-2fcb8f42-5497-41f0-8310-d30ea933abe0</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
                     <name>parentFieldApiName</name>
                     <value>Opportunity.Id</value>
                 </componentInstanceProperties>
@@ -182,19 +161,6 @@
                 <componentInstanceProperties>
                     <name>title</name>
                     <value>Standard.Tab.detail</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-2fcb8f42-5497-41f0-8310-d30ea933abe0</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>Standard.Tab.relatedLists</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
             </componentInstance>
@@ -273,6 +239,14 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
+                    <name>parentFieldApiName</name>
+                    <value>Opportunity.Id</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListApiName</name>
+                    <value>ProcessSteps</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>relatedListComponentOverride</name>
                     <value>NONE</value>
                 </componentInstanceProperties>
@@ -284,12 +258,82 @@
                     <name>showActionBar</name>
                     <value>true</value>
                 </componentInstanceProperties>
-                <componentName>force:relatedListContainer</componentName>
+                <componentName>force:relatedListSingleContainer</componentName>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
-                <componentName>runtime_sales_activities:activityPanel</componentName>
+                <componentInstanceProperties>
+                    <name>parentFieldApiName</name>
+                    <value>Opportunity.Id</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListApiName</name>
+                    <value>AttachedContentDocuments</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListComponentOverride</name>
+                    <value>NONE</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>rowsToDisplay</name>
+                    <value>10</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showActionBar</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentName>force:relatedListSingleContainer</componentName>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>parentFieldApiName</name>
+                    <value>Opportunity.Id</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListApiName</name>
+                    <value>OpportunityLineItems</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListComponentOverride</name>
+                    <value>NONE</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>rowsToDisplay</name>
+                    <value>10</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showActionBar</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentName>force:relatedListSingleContainer</componentName>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>parentFieldApiName</name>
+                    <value>Opportunity.Id</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListApiName</name>
+                    <value>OpportunityContactRoles</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListComponentOverride</name>
+                    <value>NONE</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>rowsToDisplay</name>
+                    <value>10</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showActionBar</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentName>force:relatedListSingleContainer</componentName>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
