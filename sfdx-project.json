@@ -116,8 +116,8 @@
     "plugins": {
         "sfpowerscripts": {
             "ignoreFiles": {
-                "quickbuild": ".forceignore",
-                "build": ".forceignore"
+                "validate": ".forceignores/.buildignore",
+                "build": ".forceignores/.validationignore"
             }
         }
     }
