@@ -2,6 +2,7 @@
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Stand_Alone_Unit_Module_Request</fullName>
     <active>true</active>
+    <compactLayoutAssignment>Stand_Alone_Unit_Module_Request_Compact_Layout</compactLayoutAssignment>
     <description>This record type will be used to request a program with award units.</description>
     <label>Stand-Alone Unit / Module Request</label>
     <picklistValues>

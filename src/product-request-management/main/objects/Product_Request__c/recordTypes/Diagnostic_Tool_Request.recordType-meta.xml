@@ -2,6 +2,7 @@
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Diagnostic_Tool_Request</fullName>
     <active>true</active>
+    <compactLayoutAssignment>Diagnostic_Tool_Request_Compact_Layout</compactLayoutAssignment>
     <description>This record type will be used to set up a diagnostic tool that is part of a Program Request for Award Units, Non Award Modules or Coaching. This will not be delivered in isolation.</description>
     <label>Diagnostic Tool Request</label>
     <picklistValues>

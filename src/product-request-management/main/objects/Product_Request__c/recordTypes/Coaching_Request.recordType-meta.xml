@@ -2,6 +2,7 @@
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Coaching_Request</fullName>
     <active>true</active>
+    <compactLayoutAssignment>Coaching_Request_Compact_Layout</compactLayoutAssignment>
     <description>This record type will be used to request Individual or Group Coaching which can be delivered in isolation or as part of a program.</description>
     <label>Coaching Request</label>
     <picklistValues>

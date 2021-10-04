@@ -855,7 +855,7 @@
         <layout>Product_Request__c-Product Request Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Product_Request__c-Product Request Layout</layout>
+        <layout>Product_Request__c-Activity Request Layout</layout>
         <recordType>Product_Request__c.Activity_Request</recordType>
     </layoutAssignments>
     <layoutAssignments>
@@ -871,7 +871,7 @@
         <recordType>Product_Request__c.Educational_Consultancy_Request</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Product_Request__c-Product Request Layout</layout>
+        <layout>Product_Request__c-Professional Advantage Request Layout</layout>
         <recordType>Product_Request__c.Professional_Advantage_Request</recordType>
     </layoutAssignments>
     <layoutAssignments>

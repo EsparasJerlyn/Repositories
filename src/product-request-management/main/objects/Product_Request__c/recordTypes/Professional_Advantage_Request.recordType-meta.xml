@@ -2,6 +2,7 @@
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Professional_Advantage_Request</fullName>
     <active>true</active>
+    <compactLayoutAssignment>Professional_Advantage_Request_Compact_Layout</compactLayoutAssignment>
     <description>This record type will be used to set up the professional advantage for the client in the corporate portal. This will include assigning courses to the customer that can be used for Professional Advantage as well as setting up the product that they can used</description>
     <label>Professional Advantage Request</label>
     <picklistValues>
