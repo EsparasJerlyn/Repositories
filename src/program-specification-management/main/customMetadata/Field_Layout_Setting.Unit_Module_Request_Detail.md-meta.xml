@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Unit / Module Request Detail</label>
+    <protected>false</protected>
+    <values>
+        <field>Left_Column__c</field>
+        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Implementation_Year__c&quot;},{&quot;field&quot;:&quot;Start_Date__c&quot;},{&quot;field&quot;:&quot;End_Date__c&quot;}]</value>
+    </values>
+    <values>
+        <field>Order__c</field>
+        <value xsi:type="xsd:double">2.0</value>
+    </values>
+    <values>
+        <field>Record_Type_Setting__c</field>
+        <value xsi:type="xsd:string">Stand_Alone_Unit_Module_Request</value>
+    </values>
+    <values>
+        <field>Right_Column__c</field>
+        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Unit_Module_Name__c&quot;,&quot;mandatory&quot;:true},{&quot;field&quot;:&quot;Owning_Faculty__c&quot;},{&quot;field&quot;:&quot;Maximum_Number_Of_Registrants__c&quot;}]</value>
+    </values>
+    <values>
+        <field>Single_Column__c</field>
+        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Outcome_Description__c&quot;}]</value>
+    </values>
+</CustomMetadata>

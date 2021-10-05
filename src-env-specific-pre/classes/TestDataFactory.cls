@@ -9,7 +9,7 @@
       | roy.nino.s.regala         | September 3, 2021     | DEP1-169,170 | Created file                                                     |
       | angelika.j.s.galang       | September 3, 2021     | DEP1-156     | Added comments & method for creating user and getting profile id |
       | angelika.j.s.galang       | September 16, 2021    | DEP1-22      | Added method for creating Opportunity                            |
-      |                           |                       |              |                                                                  | 
+      | roy.nino.s.regala         | October  4,2021       | DEPP-40,42   | Added method for Product Request and Program Specification       | 
 */
 @IsTest
 public class TestDataFactory {
@@ -115,6 +115,45 @@ public class TestDataFactory {
         }
 
         return addresses;
+    }
+
+
+    /**
+    * @description Method for creating test Hed Address records
+    * @param numer of product request
+    */
+    public static List<Product_Request__c> createTestProductRequestRecords(Integer numProductRequest,List<Product_Request__c> prList,List<Program_Specification__c> psList){
+        List<Product_Request__c> prodRequest = new List<Product_Request__c>();
+
+        for (Integer i=0;i<numProductRequest;i++) {
+            Product_Request__c pr = new Product_Request__c();
+            pr.Product_Request_Name__c = 'TEST PR ' + i;
+            pr.Parent_Product_Request__c = !prList.isEmpty()?prList[i].id:null;
+            pr.Program_Specification__c =  !psList.isEmpty()?psList[0].id:null;
+            prodRequest.add(pr);
+        }
+
+        return prodRequest;
+    }
+
+    /**
+    * @description Method for creating test Hed Address records
+    * @param numer of product request
+    */
+    public static List<Program_Specification__c> createTestProgramSpecsRecords(Integer numProgramSpecs,List<Contact> contacts,List<Opportunity> ops){
+        List<Program_Specification__c> programSpecifications = new List<Program_Specification__c>();
+
+        for (Integer i=0;i<numProgramSpecs;i++) {
+            Program_Specification__c ps = new Program_Specification__c();
+            ps.Program_Name__c = 'TEST PS ' + i;
+            ps.Program_Lead__c = contacts[i].id;
+            ps.Opportunity_Name__c = ops[i].id;
+            ps.Status__c = 'Define';
+            ps.Client_Review_Required__c = 'N/A';
+            programSpecifications.add(ps);
+        }
+
+        return programSpecifications;
     }
 
     /**

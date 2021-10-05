@@ -1,0 +1,17 @@
+.slds-accordion__summary-heading{
+--sds-c-accordion-summary-color-background : #f3f2f2;
+--sds-c-accordion-heading-font-size: 1rem;
+}
+
+.my-add-button{
+    position: absolute;
+    right:30px;
+    top:16px;
+    z-index:2;
+    float: right;
+}
+
+.slds-scrollable{
+    max-height: 400px;
+    min-height: 100px;
+}

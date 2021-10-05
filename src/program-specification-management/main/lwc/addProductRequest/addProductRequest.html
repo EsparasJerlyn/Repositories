@@ -1,0 +1,119 @@
+<template>
+    <template if:true={isSelectionModalOpen}>
+        <!-- Modal/Popup Box LWC starts here -->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeSelectionModal}>
+                        <lightning-icon icon-name="utility:close"
+                            alternative-text="close"
+                            variant="inverse"
+                            size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <template if:true={isChild}>
+                        <div class="slds-grid slds-text-heading_small slds-border_top slds-border_bottom product-request slds-m-bottom_medium">
+                            <div class="slds-col slds-size_1-of-2 slds-text-align_left slds-m-left_medium slds-p-vertical_small">
+                                <h2>PARENT PRODUCT REQUEST</h2>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2 slds-text-align_left slds-m-left_large slds-p-vertical_small parent-name">
+                                <h2>{parentName}</h2>
+                            </div>
+                        </div>    
+                    </template>
+                    <slot name="title-text">
+                        <div id="modal-heading-01" class="modal-heading slds-text-heading_medium slds-text-align_left title-text slds-box slds-theme_shade width-expanded">{modalName}</div>
+                    </slot>
+                </header>
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <template for:each={sortedRecordTypeMap} for:item="item">
+                        <fieldset key={item.value}>
+                          <div class="slds-form-element__control">
+                            <span class="slds-radio slds-p-bottom_medium slds-text-heading_medium" >
+                              <input name="radiogroup" id={item.value} type="radio" value={item.value} onchange={getRadioValue}/>
+                              <label class="slds-radio__label" for={item.value}>
+                                <span class="slds-radio_faux"></span>
+                                <span class="slds-form-element__label">{item.label}</span>
+                              </label>
+                            </span>
+                          </div>
+                        </fieldset>
+                      </template>
+                    <div class="slds-float_right">
+                        <lightning-button variant="brand" label="CREATE" title="CREATE" class="slds-m-top_x-large" onclick={openCreationModal} disabled={disableButton}></lightning-button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <template if:true={isCreationModalOpen}>
+        <!-- Modal/Popup Box LWC starts here -->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-02" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeCreationModal}>
+                        <lightning-icon icon-name="utility:close"
+                            alternative-text="close"
+                            variant="inverse"
+                            size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <template if:true={errorMessage}>
+                        <p class=" slds-text-align_center slds-text-color_destructive slds-box slds-theme_alert-texture">{errorMessage}</p>
+                    </template>
+                    <h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate slds-float_left title-text modal-heading">{selectedRecordTypeName}</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+                    <lightning-record-edit-form object-api-name="Product_Request__c" onsuccess={handleSuccess} onerror={handleError} record-type-id={selectedRecordType} onload={handleLoad}>
+                        <lightning-accordion allow-multiple-sections-open class="slds-grid slds-gutters"
+                            active-section-name={activeSections}>
+                            <template class="slds-col slds-size_1-of-2" for:each={layoutMapping} for:item="accordion_item">
+                                <lightning-accordion-section key={accordion_item.label} name={accordion_item.label}
+                                    label={accordion_item.label} class="slds-is-open slds-accordion__summary-heading slds-box_x-small">
+                                    <template if:true={isLoading}>
+                                        <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                                    </template>
+                                    <template if:false={isLoading}>
+                                        <div class="slds-grid slds-wrap">
+                                            <div class="slds-col slds-size_1-of-2">
+                                                <template for:each={accordion_item.leftColumn} for:item="fieldFromSubsection">
+                                                        <lightning-input-field key={fieldFromSubsection.field} field-name={fieldFromSubsection.field} required={fieldFromSubsection.mandatory}></lightning-input-field>
+                                                </template>
+                                            </div>
+                                            <div class="slds-col slds-size_1-of-2">
+                                                <template for:each={accordion_item.rightColumn} for:item="fieldFromSubsection">
+                                                    <template if:true={fieldFromSubsection.isrecordtype}>
+                                                        <p for={fieldFromSubsection.field} key={fieldFromSubsection.field} class="slds-text-title slds-p-top_xx-small slds-p-bottom_xxx-small">{recordTypeLabel}</p>
+                                                        <lightning-input-field id={fieldFromSubsection.field} key={fieldFromSubsection.field} field-name={fieldFromSubsection.field} variant="label-hidden" disabled></lightning-input-field>
+                                                    </template>
+                                                    <template if:false={fieldFromSubsection.isrecordtype}>
+                                                        <lightning-input-field key={fieldFromSubsection.field} field-name={fieldFromSubsection.field} required={fieldFromSubsection.mandatory}></lightning-input-field>
+                                                    </template>
+                                                </template>
+                                            </div>
+                                            <div class="slds-col slds-size_2-of-2">
+                                                <template for:each={accordion_item.singleColumn} for:item="fieldFromSubsection">
+                                                        <lightning-input-field key={fieldFromSubsection.field} field-name={fieldFromSubsection.field} required={fieldFromSubsection.mandatory}></lightning-input-field>
+                                                </template>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </lightning-accordion-section>
+                            </template>
+                            <lightning-input-field key={parentId} field-name={parentField} value={parentId} class="slds-hide"></lightning-input-field>
+                        </lightning-accordion>
+                        <div class="slds-float_right">
+                            <lightning-button type="submit" variant="brand" label="Save" title="Save" class="slds-m-top_x-medium slds-float_right "></lightning-button>
+                        </div>
+                    </lightning-record-edit-form>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>
