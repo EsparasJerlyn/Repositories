@@ -6,18 +6,13 @@
     <label>Competitive Advantage</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
-    <trackHistory>false</trackHistory>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
         <restricted>true</restricted>
         <valueSetDefinition>
             <sorted>false</sorted>
-            <value>
-                <fullName>None</fullName>
-                <default>false</default>
-                <label>None</label>
-            </value>
             <value>
                 <fullName>Yes</fullName>
                 <default>false</default>
@@ -27,6 +22,12 @@
                 <fullName>No</fullName>
                 <default>false</default>
                 <label>No</label>
+            </value>
+            <value>
+                <fullName>None</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>None</label>
             </value>
         </valueSetDefinition>
     </valueSet>
