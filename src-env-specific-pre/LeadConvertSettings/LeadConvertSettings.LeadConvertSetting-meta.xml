@@ -15,17 +15,33 @@
             <inputField>Entity_Name__c</inputField>
             <outputField>Entity_Name__c</outputField>
         </mappingFields>
+        <mappingFields>
+            <inputField>LeadABNEntity_Validation__c</inputField>
+            <outputField>AccountABNEntity_Validation__c</outputField>
+        </mappingFields>
         <outputObject>Account</outputObject>
     </objectMapping>
     <objectMapping>
         <inputObject>Lead</inputObject>
         <mappingFields>
+            <inputField>LeadMobile_Locale__c</inputField>
+            <outputField>ContactMobile_Locale__c</outputField>
+        </mappingFields>
+        <mappingFields>
             <inputField>LeadMobile_Validation__c</inputField>
             <outputField>ContactMobile_Validation__c</outputField>
         </mappingFields>
         <mappingFields>
+            <inputField>LeadPersonalMobile_Locale__c</inputField>
+            <outputField>ContactPersonalMobile_Locale__c</outputField>
+        </mappingFields>
+        <mappingFields>
             <inputField>LeadPersonalMobile_Validation__c</inputField>
             <outputField>ContactPersonalMobile_Validation__c</outputField>
+        </mappingFields>
+        <mappingFields>
+            <inputField>LeadPhone_Locale__c</inputField>
+            <outputField>ContactPhone_Locale__c</outputField>
         </mappingFields>
         <mappingFields>
             <inputField>LeadPhone_Validation__c</inputField>
@@ -46,6 +62,10 @@
         <mappingFields>
             <inputField>Work_Phone__c</inputField>
             <outputField>hed__WorkPhone__c</outputField>
+        </mappingFields>
+        <mappingFields>
+            <inputField>WorkPhone_Locale__c</inputField>
+            <outputField>ContactWorkPhone_Locale__c</outputField>
         </mappingFields>
         <mappingFields>
             <inputField>WorkPhone_Validation__c</inputField>
