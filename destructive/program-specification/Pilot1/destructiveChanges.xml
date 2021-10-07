@@ -4,7 +4,7 @@
         <members>Program_Specification__c.Program_Lead__c</members>
         <name>CustomField</name>
     </types>-->
-    <types>
+    <!-- <types>
         <members>Product_Request__c.Coaching_Type__c</members>
         <name>CustomField</name>
     </types>
@@ -15,6 +15,6 @@
     <types>
         <members>Product_Request__c.Unit_Module_Type__c</members>
         <name>CustomField</name>
-    </types>
+    </types> -->
     <version>52.0</version>
 </Package>
