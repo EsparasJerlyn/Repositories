@@ -23,8 +23,8 @@
             </approver>
             <whenMultipleApprovers>FirstResponse</whenMultipleApprovers>
         </assignedApprover>
-        <label>Big/Risky/Different Approval</label>
-        <name>Big_Risky_Different_Approval</name>
+        <label>Approval</label>
+        <name>Approval</name>
     </approvalStep>
     <enableMobileDeviceAccess>false</enableMobileDeviceAccess>
     <finalApprovalActions>
