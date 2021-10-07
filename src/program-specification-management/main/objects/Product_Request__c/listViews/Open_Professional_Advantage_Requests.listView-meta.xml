@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Open_Professional_Advantage_Requests</fullName>
+    <columns>NAME</columns>
+    <columns>Parent_Product_Request__c</columns>
+    <columns>Product_Request_Name__c</columns>
+    <columns>Professional_Advantage_Value__c</columns>
+    <columns>Product_Request_Status__c</columns>
+    <columns>OWNER.FIRST_NAME</columns>
+    <columns>OWNER.LAST_NAME</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Product_Request__c.Professional_Advantage_Request</value>
+    </filters>
+    <filters>
+        <field>Product_Request_Status__c</field>
+        <operation>notEqual</operation>
+        <value>Completed</value>
+    </filters>
+    <label>Open Professional Advantage Requests</label>
+</ListView>
