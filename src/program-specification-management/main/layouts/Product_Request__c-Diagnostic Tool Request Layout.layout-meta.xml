@@ -12,8 +12,8 @@
                 <field>Name</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Diagnostic_Tool_Type__c</field>
+                <behavior>Required</behavior>
+                <field>Request_Type__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

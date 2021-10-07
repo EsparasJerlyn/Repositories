@@ -43,8 +43,12 @@
         <label>Coaching Request Overview</label>
         <layoutColumns>
             <layoutItems>
+                <behavior>Required</behavior>
+                <field>Request_Type__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Coaching_Type__c</field>
+                <field>Number_of_Triads__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -157,7 +161,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00hAD0000000It0</masterLabel>
+        <masterLabel>00hAD0000000OiI</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

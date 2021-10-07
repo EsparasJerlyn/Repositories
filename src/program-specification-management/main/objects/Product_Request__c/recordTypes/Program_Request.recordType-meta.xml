@@ -6,21 +6,6 @@
     <description>This record type will be used to request a program. This can be Award Units and or Non Award Modules mixed in with an array of products that are list below.</description>
     <label>Program Request</label>
     <picklistValues>
-        <picklist>Coaching_Type__c</picklist>
-        <values>
-            <fullName>Diagnostic Tool Debrief</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>One on One</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Triads</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
         <picklist>Cohort_Type__c</picklist>
         <values>
             <fullName>Group</fullName>
@@ -55,17 +40,6 @@
         </values>
         <values>
             <fullName>TLC Manager Edition</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Diagnostic_Tool_Type__c</picklist>
-        <values>
-            <fullName>Multi Rater Tool</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Self Rater Tool</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -119,6 +93,21 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Request_Type__c</picklist>
+        <values>
+            <fullName>Modules Only</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Units Only</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Units and Modules</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Timeline__c</picklist>
         <values>
             <fullName>Annually</fullName>
@@ -134,21 +123,6 @@
         </values>
         <values>
             <fullName>Weekly</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Unit_Module_Type__c</picklist>
-        <values>
-            <fullName>Modules Only</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Units Only</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Units and Modules</fullName>
             <default>false</default>
         </values>
     </picklistValues>

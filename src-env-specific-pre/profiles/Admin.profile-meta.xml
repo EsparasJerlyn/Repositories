@@ -717,11 +717,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Product_Request__c.Coaching_Type__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Product_Request__c.Cohort_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -743,11 +738,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Product_Request__c.Diagnostic_Tool_Selection__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Product_Request__c.Diagnostic_Tool_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -802,6 +792,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Product_Request__c.Number_of_Triads__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Product_Request__c.Outcome_Description__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -852,6 +847,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Product_Request__c.Request_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Product_Request__c.Session_Duration_Mins__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -868,11 +868,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Product_Request__c.Unit_Module_Name__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Product_Request__c.Unit_Module_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <layoutAssignments>

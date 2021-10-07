@@ -60,7 +60,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Unit_Module_Type__c</field>
+                <field>Request_Type__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -89,10 +89,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Number_Of_Hours_Per_Participant__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Coaching_Type__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -128,10 +124,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Diagnostic_Tool_Type__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Diagnostic_Tool_Selection__c</field>
             </layoutItems>
             <layoutItems>
@@ -149,6 +141,10 @@
             <layoutItems>
                 <behavior>Required</behavior>
                 <field>Professional_Advantage_Value__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Number_of_Triads__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>

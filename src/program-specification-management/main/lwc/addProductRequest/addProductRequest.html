@@ -82,7 +82,7 @@
                                         <div class="slds-grid slds-wrap">
                                             <div class="slds-col slds-size_1-of-2">
                                                 <template for:each={accordion_item.leftColumn} for:item="fieldFromSubsection">
-                                                        <lightning-input-field key={fieldFromSubsection.field} field-name={fieldFromSubsection.field} required={fieldFromSubsection.mandatory}></lightning-input-field>
+                                                        <lightning-input-field key={fieldFromSubsection.field} field-name={fieldFromSubsection.field} required={fieldFromSubsection.mandatory} onchange={handleChange}></lightning-input-field>
                                                 </template>
                                             </div>
                                             <div class="slds-col slds-size_1-of-2">
@@ -92,13 +92,13 @@
                                                         <lightning-input-field id={fieldFromSubsection.field} key={fieldFromSubsection.field} field-name={fieldFromSubsection.field} variant="label-hidden" disabled></lightning-input-field>
                                                     </template>
                                                     <template if:false={fieldFromSubsection.isrecordtype}>
-                                                        <lightning-input-field key={fieldFromSubsection.field} field-name={fieldFromSubsection.field} required={fieldFromSubsection.mandatory}></lightning-input-field>
+                                                        <lightning-input-field key={fieldFromSubsection.field} field-name={fieldFromSubsection.field} required={fieldFromSubsection.mandatory} onchange={handleChange}></lightning-input-field>
                                                     </template>
                                                 </template>
                                             </div>
                                             <div class="slds-col slds-size_2-of-2">
                                                 <template for:each={accordion_item.singleColumn} for:item="fieldFromSubsection">
-                                                        <lightning-input-field key={fieldFromSubsection.field} field-name={fieldFromSubsection.field} required={fieldFromSubsection.mandatory}></lightning-input-field>
+                                                        <lightning-input-field key={fieldFromSubsection.field} field-name={fieldFromSubsection.field} required={fieldFromSubsection.mandatory} onchange={handleChange}></lightning-input-field>
                                                 </template>
                                             </div>
                                         </div>

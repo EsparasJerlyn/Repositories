@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Validate_Number_of_Triad</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+        OR(ISNEW(),
+        ISCHANGED( Request_Type__c )),
+        RecordType.DeveloperName =&apos;Coaching_Request&apos;,
+        ISPICKVAL( Request_Type__c , &apos;Triads&apos;),
+        ISBLANK( Number_of_Triads__c )
+       )</errorConditionFormula>
+    <errorDisplayField>Number_of_Triads__c</errorDisplayField>
+    <errorMessage>Number of Triads is required if Request Type is Triads.</errorMessage>
+</ValidationRule>
