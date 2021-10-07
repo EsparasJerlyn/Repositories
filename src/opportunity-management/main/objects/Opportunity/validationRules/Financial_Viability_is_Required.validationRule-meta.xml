@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Financial_Viability_is_Required</fullName>
+    <active>true</active>
+    <description>Financial Viability is required to update Stage</description>
+    <errorConditionFormula>AND (
+    ISCHANGED( StageName ),
+    ISPICKVAL( PRIORVALUE(StageName), &apos;Qualify&apos; ),
+    ISPICKVAL( StageName , &apos;Proposal&apos; ),
+    ISPICKVAL( Financial_Viability__c, &apos;&apos; )
+)</errorConditionFormula>
+    <errorDisplayField>Financial_Viability__c</errorDisplayField>
+    <errorMessage>Financial Viability is required to update Stage</errorMessage>
+</ValidationRule>
