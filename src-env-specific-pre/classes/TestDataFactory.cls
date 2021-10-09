@@ -78,15 +78,17 @@ public class TestDataFactory {
     * @description Method for creating test Opportunity records
     * @param numOpps - number of Opportunities to be created
     * @param accId - Id of related Account
+    * @param conId - Id of related Contact for roles
     * @return opps - list of Opportunities created
     */
-    public static List<Opportunity> createTestOpportunityRecords(Integer numOpps, Id accId){
+    public static List<Opportunity> createTestOpportunityRecords(Integer numOpps, Id accId, Id conId){
         List<Opportunity> opps = new List<Opportunity>();
  
         for (Integer i=0;i<numOpps;i++) {
             opps.add(new Opportunity(
                 Name='TestOpportunity' + i,
                 AccountId=accId,
+                Contact__c=conId,
                 StageName=STR_QUALIFY,
                 Status__c=STR_IN_PROGRESS,
                 CloseDate=System.today()+30)
@@ -190,5 +192,19 @@ public class TestDataFactory {
     private static Id getProfileId(String profileName){
         return [SELECT Id FROM Profile WHERE Name =: profileName LIMIT 1]?.Id;
     }
-
+    
+    
+    /**
+    * @description Method for getting the Account ID
+    * @return ID of the Account
+    */
+    public static string getAccountId(){
+         Account account = new Account();
+         account.Name = 'TestAccount1';
+        
+         insert(account);
+        
+         return account.Id;
+    }
+    
 }

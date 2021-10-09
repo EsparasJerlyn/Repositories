@@ -38,7 +38,7 @@
         <defaultConnectorLabel>Can&apos;t Convert</defaultConnectorLabel>
         <rules>
             <name>Can_Convert</name>
-            <conditionLogic>(1 AND 2 AND 3 AND 11 AND 12 AND 13 AND 14 AND 15) AND (4 OR 5 OR 6 OR 7 OR 8) AND (9 OR 10)</conditionLogic>
+            <conditionLogic>1 AND 2 AND (3 OR 4 OR 5 OR 6 OR 7) AND (8 OR 9)  AND  (10 OR 11) AND 12 AND 13</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.FirstName</leftValueReference>
                 <operator>IsNull</operator>
@@ -48,13 +48,6 @@
             </conditions>
             <conditions>
                 <leftValueReference>$Record.Company_Category__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.Description</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
@@ -110,38 +103,31 @@
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>$Record.LeadABNEntity_Validation__c</leftValueReference>
-                <operator>NotEqualTo</operator>
-                <rightValue>
-                    <stringValue>None</stringValue>
-                </rightValue>
-            </conditions>
-            <conditions>
                 <leftValueReference>$Record.LeadMobile_Validation__c</leftValueReference>
-                <operator>NotEqualTo</operator>
+                <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>None</stringValue>
+                    <stringValue>Valid</stringValue>
                 </rightValue>
             </conditions>
             <conditions>
                 <leftValueReference>$Record.LeadPhone_Validation__c</leftValueReference>
-                <operator>NotEqualTo</operator>
+                <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>None</stringValue>
+                    <stringValue>Valid</stringValue>
                 </rightValue>
             </conditions>
             <conditions>
                 <leftValueReference>$Record.LeadPersonalMobile_Validation__c</leftValueReference>
                 <operator>NotEqualTo</operator>
                 <rightValue>
-                    <stringValue>None</stringValue>
+                    <stringValue>Not Valid</stringValue>
                 </rightValue>
             </conditions>
             <conditions>
                 <leftValueReference>$Record.WorkPhone_Validation__c</leftValueReference>
                 <operator>NotEqualTo</operator>
                 <rightValue>
-                    <stringValue>None</stringValue>
+                    <stringValue>Not Valid</stringValue>
                 </rightValue>
             </conditions>
             <connector>

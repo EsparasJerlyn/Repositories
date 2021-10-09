@@ -6,7 +6,7 @@
     <label>Opportunity Name</label>
     <referenceTo>Opportunity</referenceTo>
     <relationshipLabel>Program Specifications</relationshipLabel>
-    <relationshipName>Program_Specifications</relationshipName>
+    <relationshipName>Opp_Program_Specifications</relationshipName>
     <required>true</required>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>

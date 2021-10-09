@@ -21,6 +21,7 @@
 
 import { LightningElement, track, wire, api } from "lwc";  
 import getContactRecords from "@salesforce/apex/ContactLookupCtrl.getContactRecords";
+import getAccountName from "@salesforce/apex/AccountCtrl.getAccountName";
 import {getObjectInfo} from "lightning/uiObjectInfoApi";
 import Opportunity from '@salesforce/schema/Opportunity';
 import { NavigationMixin } from 'lightning/navigation';
@@ -45,9 +46,11 @@ import { ShowToastEvent} from 'lightning/platformShowToastEvent';
   @track disableButton = true;
   @track accountObjectInfo;
   @api contactId;
+  @api accountName;
 
    connectedCallback(){
       this.getContactRecords();
+      this.getAccountName();
    } 
    
    //retrieve contact records
@@ -69,6 +72,18 @@ import { ShowToastEvent} from 'lightning/platformShowToastEvent';
               this.showToast('Something went wrong', this.error, 'error');
           })
     } 
+  
+    //retrieve account name  
+    getAccountName(){
+      getAccountName({'accountId': this.recordId})
+        .then((result)=>{
+            this.accountName = result;
+        })
+        .catch((error)=>{
+          this.error = error.body.message;
+          this.showToast('Something went wrong', this.error, 'error');
+        })
+    }
 
   //retrieve opportunity record types
   @wire(getObjectInfo, { objectApiName: Opportunity })
@@ -174,8 +189,15 @@ import { ShowToastEvent} from 'lightning/platformShowToastEvent';
     // Fire the custom event
     this.dispatchEvent(valueChangeEvent);
 
-    this.navigateToNewOpportunity();
+    //set the account name to opportunity name
+    const acountname = this.accountName + '-';
+    const acctChangeEvent = new CustomEvent("accountchange", {
+      detail: {acountname}
+    });
+    // Fire the custom event
+    this.dispatchEvent(acctChangeEvent);
 
+    this.navigateToNewOpportunity();
   }
 
   //call the method in aura component to create new opportunity

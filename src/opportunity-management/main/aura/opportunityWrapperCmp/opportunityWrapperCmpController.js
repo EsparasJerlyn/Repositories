@@ -20,16 +20,22 @@
             "entityApiName": "Opportunity",
             "defaultFieldValues": {
                 'AccountId' : component.get('v.recordId'),
+                'Name' : component.get('v.accountName'),
                 'Contact__c' : component.get('v.contactId')
             }
         });
-        createRecordEvent.fire();
-            
+        createRecordEvent.fire();        
+        
 	},
   
     //retrieve contactid value from lwc
     getContactValue : function(component, event, helper) {
 		component.set("v.contactId",event.getParam('contact'));
+	},
+
+    //retrieve account name from lwc
+    getAccountName : function(component, event) {
+		component.set("v.accountName",event.getParam('acountname'));
 	},
 
     //close the tab when click button is clicked

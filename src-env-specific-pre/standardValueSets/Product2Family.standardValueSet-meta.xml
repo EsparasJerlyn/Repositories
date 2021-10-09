@@ -6,4 +6,9 @@
         <default>true</default>
         <label>QUTeX CCE Elements</label>
     </standardValue>
+    <standardValue>
+        <fullName>QUTeX CCE Services</fullName>
+        <default>false</default>
+        <label>QUTeX CCE Services</label>
+    </standardValue>
 </StandardValueSet>

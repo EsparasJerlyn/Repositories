@@ -4,6 +4,10 @@
     <label>QUTeX Leader</label>
     <license>Salesforce</license>
     <classAccesses>
+        <apexClass>AccountCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ContactLookupCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>

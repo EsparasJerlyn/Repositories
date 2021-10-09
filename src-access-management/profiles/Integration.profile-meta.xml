@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Profile xmlns="http://soap.sforce.com/2006/04/metadata">
+    <custom>true</custom> 
+    <loginIpRanges>
+        <description>QUT’s Boomi wproxy01.qut.edu.au and wproxy02.qut.edu.au</description>
+        <endAddress>131.181.118.171</endAddress>
+        <startAddress>131.181.118.170</startAddress>
+    </loginIpRanges>
+    <loginIpRanges>
+        <description>Data Migration (QUT on prem)</description>
+        <endAddress>131.181.16.30</endAddress>
+        <startAddress>131.181.16.30</startAddress>
+    </loginIpRanges>
+    <loginIpRanges>
+        <description>Boomi Cloud Non Prod</description>
+        <endAddress>18.211.250.250</endAddress>
+        <startAddress>18.211.250.250</startAddress>
+    </loginIpRanges>
+    <loginIpRanges>
+        <description>Boomi Cloud Non Prod</description>
+        <endAddress>18.213.76.189</endAddress>
+        <startAddress>18.213.76.189</startAddress>
+    </loginIpRanges>
+    <loginIpRanges>
+        <description>Boomi Cloud Non Prod</description>
+        <endAddress>34.230.206.22</endAddress>
+        <startAddress>34.230.206.22</startAddress>
+    </loginIpRanges>
+    <loginIpRanges>
+        <description>Boomi Cloud Non Prod</description>
+        <endAddress>35.167.140.28</endAddress>
+        <startAddress>35.167.140.28</startAddress>
+    </loginIpRanges>
+    <loginIpRanges>
+        <description>Boomi Cloud Non Prod</description>
+        <endAddress>52.13.159.123</endAddress>
+        <startAddress>52.13.159.123</startAddress>
+    </loginIpRanges>
+    <loginIpRanges>
+        <description>Boomi Cloud Non Prod</description>
+        <endAddress>52.55.188.121</endAddress>
+        <startAddress>52.55.188.121</startAddress>
+    </loginIpRanges>
+    <loginIpRanges>
+        <description>Boomi Cloud Non Prod</description>
+        <endAddress>54.203.52.160</endAddress>
+        <startAddress>54.203.52.160</startAddress>
+    </loginIpRanges>
+   
+    <layoutAssignments>
+        <layout>Account-University And Educational Layout</layout>
+        <recordType>Account.Educational_Institution</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Account-University And Educational Layout</layout>
+        <recordType>Account.University_Department</recordType>
+    </layoutAssignments>
+</Profile>

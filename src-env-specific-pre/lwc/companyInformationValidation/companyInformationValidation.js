@@ -177,7 +177,7 @@ export default class CompanyInformationValidation extends LightningElement {
     }
 
     get invalidStatusConvert(){
-        return this.abn[STR_STATUS_VALUE] == STR_NONE || this.invalidConvertContact ? true : false;
+        return this.invalidConvertContact ? true : false;
     }
 
     get showErrorMessage(){

@@ -27,7 +27,7 @@ private class ProductRequestListCtrlTest {
         accs = TestDataFactory.createTestAccountRecords(1);
         contacts = TestDataFactory.createTestContactRecords(1);
         insert accs;
-        opps = TestDataFactory.createTestOpportunityRecords(1,accs[0].Id);
+        opps = TestDataFactory.createTestOpportunityRecords(1,accs[0].Id,contacts[0].Id);
         insert opps;
         insert contacts;
         
