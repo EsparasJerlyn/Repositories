@@ -64,32 +64,35 @@
         <layout>Product_Request__c-Product Request Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Product_Request__c-Product Request Layout</layout>
-        <recordType>Product_Request__c.Activity_Request</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Product_Request__c-Product Request Layout</layout>
-        <recordType>Product_Request__c.Coaching_Request</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Product_Request__c-Product Request Layout</layout>
+        <layout>Product_Request__c-Diagnostic Tool Request Layout</layout>
         <recordType>Product_Request__c.Diagnostic_Tool_Request</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Product_Request__c-Product Request Layout</layout>
+        <layout>Product_Request__c-Activity Request Layout</layout>
+        <recordType>Product_Request__c.Activity_Request</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Product_Request__c-Coaching Request Layout</layout>
+        <recordType>Product_Request__c.Coaching_Request</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Product_Request__c-Educational Consultancy Request Layout</layout>
         <recordType>Product_Request__c.Educational_Consultancy_Request</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Product_Request__c-Product Request Layout</layout>
+        <layout>Product_Request__c-Professional Advantage Request Layout</layout>
         <recordType>Product_Request__c.Professional_Advantage_Request</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Product_Request__c-Product Request Layout</layout>
+        <layout>Product_Request__c-Program Request Layout</layout>
         <recordType>Product_Request__c.Program_Request</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Product_Request__c-Product Request Layout</layout>
+        <layout>Product_Request__c-Stand-Alone Unit %2F Module Request Layout</layout>
         <recordType>Product_Request__c.Stand_Alone_Unit_Module_Request</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Program_Specification__c-Program Specification Layout</layout>
     </layoutAssignments>
     <recordTypeVisibilities>
         <default>false</default>
