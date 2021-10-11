@@ -6,7 +6,7 @@
         <name>Lead_Converted</name>
         <label>Lead Converted</label>
         <locationX>182</locationX>
-        <locationY>311</locationY>
+        <locationY>455</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Lead_Is_Converted</name>
@@ -50,10 +50,7 @@
         <name>Update_Opp_Description</name>
         <label>Update Opp Description</label>
         <locationX>50</locationX>
-        <locationY>431</locationY>
-        <connector>
-            <targetReference>Update_Opportunity_Contact_Role</targetReference>
-        </connector>
+        <locationY>575</locationY>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
@@ -85,8 +82,11 @@
     <recordUpdates>
         <name>Update_Opportunity_Contact_Role</name>
         <label>Update Opportunity Contact Role</label>
-        <locationX>50</locationX>
-        <locationY>551</locationY>
+        <locationX>182</locationX>
+        <locationY>335</locationY>
+        <connector>
+            <targetReference>Lead_Converted</targetReference>
+        </connector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>IsPrimary</field>
@@ -121,7 +121,7 @@
         <locationX>56</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>Lead_Converted</targetReference>
+            <targetReference>Update_Opportunity_Contact_Role</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
