@@ -9,6 +9,27 @@ clone:
 
 pipelines:
   custom:
+
+    Deploy to DEVB2bDepl:
+      - step:
+          name: 'Build Packages'
+          artifacts:
+            - build-artifacts/**
+          script:
+              # Dev Hub access is required for creating unlocked packages
+              - sfdx sfpowerscripts:orchestrator:build --artifactdir build-artifacts --buildnumber $BITBUCKET_BUILD_NUMBER --branch $BITBUCKET_BRANCH
+          after-script:
+            - rm server.key
+      - step:
+          name: 'Deploy to DEVB2bDepl'
+          deployment: DEVB2bDepl
+          script:
+              - echo $SERVER_KEY | base64 -d > server.key
+              - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $TEST_LOGIN_URL -u "$USERNAME.$SANDBOX_NAME"
+              - sfdx sfpowerscripts:orchestrator:deploy -u "$USERNAME.$SANDBOX_NAME" --artifactdir build-artifacts
+          after-script:
+            - rm server.key
+
     ## Used for 7am automated deploymetn to SIT
     SIT Scheduled Deployment:
       - step:

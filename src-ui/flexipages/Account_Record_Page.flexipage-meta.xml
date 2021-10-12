@@ -28,6 +28,11 @@
                 <componentName>force:detailPanel</componentName>
             </componentInstance>
         </itemInstances>
+        <itemInstances>
+          <componentInstance>
+                <componentName>force:buyerAccountDetailPanelWrapper</componentName>
+            </componentInstance>
+        </itemInstances>
         <mode>Replace</mode>
         <name>detailTabContent</name>
         <type>Facet</type>
