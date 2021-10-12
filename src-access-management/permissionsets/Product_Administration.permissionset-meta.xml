@@ -182,7 +182,7 @@
     </tabSettings>
     <tabSettings>
         <tab>hed__Course_Offering_Schedule__c</tab>
-        <visibility>Available</visibility>
+        <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
         <tab>hed__Course_Offering__c</tab>
@@ -198,7 +198,7 @@
     </tabSettings>
     <tabSettings>
         <tab>hed__Plan_Requirement__c</tab>
-        <visibility>Available</visibility>
+        <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
         <tab>hed__Program_Plan__c</tab>
