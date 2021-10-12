@@ -4,7 +4,7 @@
     <active>true</active>
     <businessProcess>QUTeX CCE</businessProcess>
     <description>QUTex CCE</description>
-    <label>QUTex CCE</label>
+    <label>QUTeX CCE</label>
     <picklistValues>
         <picklist>Contract_Type__c</picklist>
         <values>
