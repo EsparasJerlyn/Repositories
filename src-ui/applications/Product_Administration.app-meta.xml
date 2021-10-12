@@ -10,6 +10,24 @@
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
     <label>Product Administration</label>
     <navType>Console</navType>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Professional_Advantage_Lightning_Page_Layout</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Product_Request__c</pageOrSobjectType>
+        <recordType>Product_Request__c.Professional_Advantage_Request</recordType>
+        <type>Flexipage</type>
+        <profile>QUTeX</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Professional_Advantage_Lightning_Page_Layout</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Product_Request__c</pageOrSobjectType>
+        <recordType>Product_Request__c.Professional_Advantage_Request</recordType>
+        <type>Flexipage</type>
+        <profile>QUTeX</profile>
+    </profileActionOverrides>
     <tabs>standard-home</tabs>
     <tabs>Program_Specification__c</tabs>
     <tabs>Product_Request__c</tabs>

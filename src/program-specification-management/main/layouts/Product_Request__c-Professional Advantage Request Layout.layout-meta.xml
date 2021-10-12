@@ -12,11 +12,11 @@
                 <field>Name</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>Product_Request_Name__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>Professional_Advantage_Value__c</field>
             </layoutItems>
         </layoutColumns>
@@ -26,7 +26,7 @@
                 <field>OwnerId</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>Product_Request_Status__c</field>
             </layoutItems>
             <layoutItems>
@@ -97,12 +97,16 @@
     <relatedLists>
         <fields>NAME</fields>
         <fields>Primary_Delivery_Platform__c</fields>
-+       <fields>RECORDTYPE</fields>
+        <fields>RECORDTYPE</fields>
         <relatedList>hed__Course__c.ProductRequestID__c</relatedList>
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
         <relatedList>Product_Request_Contact_Role__c.Product_Request__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Associated_Products__c.Product_Request__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>
@@ -110,7 +114,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00hAD0000000Gcf</masterLabel>
+        <masterLabel>00hAD0000000NpS</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>
