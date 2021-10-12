@@ -6,11 +6,22 @@
     <label>Lead School</label>
     <lookupFilter>
         <active>true</active>
+        <booleanFilter>1 AND (2 OR 3)</booleanFilter>
         <errorMessage>You can only choose a University Department account for Lead School.</errorMessage>
         <filterItems>
             <field>Account.RecordType.DeveloperName</field>
             <operation>equals</operation>
             <value>University_Department</value>
+        </filterItems>
+        <filterItems>
+            <field>Account.End_Date__c</field>
+            <operation>greaterThan</operation>
+            <valueField>Account.Current_Date__c</valueField>
+        </filterItems>
+        <filterItems>
+            <field>Account.End_Date__c</field>
+            <operation>equals</operation>
+            <value></value>
         </filterItems>
         <isOptional>false</isOptional>
     </lookupFilter>
