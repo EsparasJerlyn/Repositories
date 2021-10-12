@@ -15,7 +15,7 @@
         </filterItems>
         <filterItems>
             <field>Account.End_Date__c</field>
-            <operation>greaterThan</operation>
+            <operation>greaterOrEqual</operation>
             <valueField>Account.Current_Date__c</valueField>
         </filterItems>
         <filterItems>
