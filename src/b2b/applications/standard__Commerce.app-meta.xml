@@ -24,6 +24,7 @@
     <tabs>standard-Order</tabs>
     <tabs>standard-OrderSummary</tabs>
     <tabs>standard-CommerceSetup</tabs>
+    <tabs>standard-Pricebook2</tabs>
     <uiType>Lightning</uiType>
     <workspaceConfig>
         <mappings>
@@ -49,6 +50,9 @@
         </mappings>
         <mappings>
             <tab>standard-PriceAdjustmentSchedule</tab>
+        </mappings>
+        <mappings>
+            <tab>standard-Pricebook2</tab>
         </mappings>
         <mappings>
             <tab>standard-PricingWorkspace</tab>
