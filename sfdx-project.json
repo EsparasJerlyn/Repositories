@@ -43,6 +43,12 @@
       "versionNumber": "1.0.0.0"
     },
     {
+      "path": "./src/b2b",
+      "package": "b2b",
+      "versionName": "Version 1.0.0.0",
+      "versionNumber": "1.0.0.0"
+    },
+    {
       "path": "./src/eda",
       "package": "eda",
       "versionNumber": "1.0.0.0"
