@@ -4,7 +4,7 @@
     <description>The formal qualified name of the company as provided by external qualification of the ABN. (Read Only)</description>
     <externalId>false</externalId>
     <label>Entity Name</label>
-    <length>80</length>
+    <length>250</length>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
