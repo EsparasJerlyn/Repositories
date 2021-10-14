@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingCriteriaRules>
+        <fullName>Organization_Unit_Code_Is_Blank</fullName>
+        <accessLevel>Edit</accessLevel>
+        <accountSettings>
+            <caseAccessLevel>None</caseAccessLevel>
+            <contactAccessLevel>Edit</contactAccessLevel>
+            <opportunityAccessLevel>None</opportunityAccessLevel>
+        </accountSettings>
+        <description>Account records will not be editable in DEP Salesforce if Organization_Unit_Code__c is not empty and not null</description>
+        <label>Organization Unit Code Is Blank</label>
+        <sharedTo>
+            <allInternalUsers/>
+        </sharedTo>
+        <criteriaItems>
+            <field>Organization_Unit_Code__c</field>
+            <operation>equals</operation>
+            <value/>
+        </criteriaItems>
+    </sharingCriteriaRules>
+</SharingRules>

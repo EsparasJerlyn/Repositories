@@ -1,124 +1,135 @@
 {
-    "packageDirectories": [
-        {
-            "path": "./src-env-specific-pre", 
-            "package": "src-env-specific-pre",
-            "versionNumber": "1.0.0.0"            
-        },
-        {
-            "path": "./src-env-specific-alias-pre",
-            "package": "src-env-specific-alias-pre",
-            "versionNumber": "1.0.0.0",
-            "aliasfy": true
-        },
-        {
-            "path": "src/frameworks/trigger-framework",
-            "package": "trigger-framework",
-            "versionNumber": "1.0.2.0",
-            "versionName": "trigger-framework-1.0"
-        },
-        {
-            "path": "src/frameworks/trigger-bypass-strategy",
-            "package": "trigger-bypass-strategy",
-            "versionNumber": "1.0.2.0",
-            "versionName": "trigger-bypass-strategy-1.0",
-            "dependencies": [
-                {
-                    "package": "trigger-framework",
-                    "versionNumber": "1.0.0.LATEST"
-                }
-            ]
-        },
-        {
-            "path": "./src/core-crm",
-            "package": "core",
-            "versionName": "Version 1.0.0.0",   
-            "versionNumber": "1.0.0.0"
-        },
-        {
-            "path": "./src/eda",
-            "package": "eda",
-            "versionNumber": "1.0.0.0"
-        },
-        {
-            "path": "./src/lead-management",
-            "package": "lead-management",
-            "versionName": "Version 1.0.0.0",
-            "versionNumber": "1.0.0.0"
-        },
-        {
-            "path": "./src/opportunity-management",
-            "package": "opportunity-management",
-            "versionName": "Version 1.0.0.0",
-            "versionNumber": "1.0.0.0",
-            "dependencies": [
-                {
-                    "package": "DocuSign Apps Launcher",
-                    "versionNumber": "3.3.1.LATEST"
-                }
-            ]
-        },
-        {
-            "path": "./src/program-specification-management",
-            "package": "program-specification-management",
-            "versionName": "Version 1.0.0.0",
-            "versionNumber": "1.0.0.0"
-        },
-        {
-            "path": "./src/product-request-management",
-            "package": "product-request-management",
-            "versionName": "Version 1.0.0.0",
-            "versionNumber": "1.0.0.0"        
-        },
-        {
-            "path": "./src-ui",
-            "package": "src-ui",
-            "versionNumber": "1.1.0.0"
-        },
-        {
-            "path": "./src-access-management",
-            "package": "src-access-management",
-            "versionNumber": "1.0.0.0"
-        },
-        {
-            "path": "./src-env-specific-alias-post",
-            "package": "src-env-specific-alias-post",
-            "versionNumber": "1.0.0.0",
-            "aliasfy": true,
-            "alwaysDeploy": true,
-            "ignoreOnStage": [
-                "prepare",
-                "validate",
-                "quickbuild",
-                "build"
-            ]
-        },
-        {
-            "path": "./src-temp",
-            "default": true,
-            "package": "src-temp",
-            "versionName": "Version 1.0.0",
-            "versionNumber": "1.0.0.0",
-            "ignoreOnStage": [
-                "prepare",
-                "validate",
-                "quickbuild",
-                "build"
-            ]
-        }
-    ],
-    "namespace": "",
-    "sfdcLoginUrl": "https://login.salesforce.com",
-    "sourceApiVersion": "52.0",
-    "packageAliases": {
-        "DocuSign Apps Launcher": "04t3u00000349bDAAQ"
+  "packageDirectories": [
+    {
+      "path": "./src-env-specific-pre",
+      "package": "src-env-specific-pre",
+      "versionNumber": "1.0.0.0",
+      "reconcileProfiles":false
     },
-    "plugins": {
-        "sfpowerscripts": {
-            "ignoreFiles": {
-                "validate": ".forceignores/.buildignore",
-                "build": ".forceignores/.validationignore"
-            }
+    {
+      "path": "./src-env-specific-alias-pre",
+      "package": "src-env-specific-alias-pre",
+      "versionNumber": "1.0.0.0",
+      "aliasfy": true,
+      "ignoreOnStage": [
+        "prepare",
+        "validate",
+        "quickbuild",
+        "build"
+      ]
+    },
+    {
+      "path": "src/frameworks/trigger-framework",
+      "package": "trigger-framework",
+      "versionNumber": "1.0.2.0",
+      "versionName": "trigger-framework-1.0"
+    },
+    {
+      "path": "src/frameworks/trigger-bypass-strategy",
+      "package": "trigger-bypass-strategy",
+      "versionNumber": "1.0.2.0",
+      "versionName": "trigger-bypass-strategy-1.0",
+      "dependencies": [
+        {
+          "package": "trigger-framework",
+          "versionNumber": "1.0.0.LATEST"
         }
+      ]
+    },
+    {
+      "path": "./src/core-crm",
+      "package": "core",
+      "versionName": "Version 1.0.0.0",
+      "versionNumber": "1.0.0.0"
+    },
+    {
+      "path": "./src/eda",
+      "package": "eda",
+      "versionNumber": "1.0.0.0"
+    },
+    {
+      "path": "./src/lead-management",
+      "package": "lead-management",
+      "versionName": "Version 1.0.0.0",
+      "versionNumber": "1.0.0.0"
+    },
+    {
+      "path": "./src/opportunity-management",
+      "package": "opportunity-management",
+      "versionName": "Version 1.0.0.0",
+      "versionNumber": "1.0.0.0",
+      "destructiveChangePath": "./destructive/opportunity-management/Pilot1/destructiveChanges.xml",
+      "dependencies": [
+        {
+          "package": "DocuSign Apps Launcher",
+          "versionNumber": "3.3.1.LATEST"
+        }
+      ]
+    },
+    {
+      "path": "./src/program-specification-management",
+      "package": "program-specification-management",
+      "versionName": "Version 1.0.0.0",
+      "versionNumber": "1.0.0.0"
+    },
+    {
+      "path": "./src/product-request-management",
+      "package": "product-request-management",
+      "versionName": "Version 1.0.0.0",
+      "versionNumber": "1.0.0.0"
+    },
+    {
+      "path": "./src-ui",
+      "package": "src-ui",
+      "versionNumber": "1.1.0.0"
+    },
+    {
+      "path": "./src-access-management",
+      "package": "src-access-management",
+      "versionNumber": "1.0.0.0"
+    },
+    {
+      "path": "./src-env-specific-alias-post",
+      "package": "src-env-specific-alias-post",
+      "versionNumber": "1.0.0.0",
+      "aliasfy": true,
+      "alwaysDeploy": true,
+      "ignoreOnStage": [
+        "prepare",
+        "validate",
+        "quickbuild",
+        "build"
+      ]
+    },
+    {
+      "path": "./src-temp",
+      "default": true,
+      "package": "src-temp",
+      "versionName": "Version 1.0.0",
+      "versionNumber": "1.0.0.0",
+      "ignoreOnStage": [
+        "prepare",
+        "validate",
+        "quickbuild",
+        "build"
+      ]
     }
+  ],
+  "namespace": "",
+  "sfdcLoginUrl": "https://login.salesforce.com",
+  "sourceApiVersion": "52.0",
+  "packageAliases": {
+    "DocuSign Apps Launcher": "04t3u00000349bDAAQ"
+  },
+  "plugins": {
+    "sfpowerscripts": {
+      "ignoreFiles": {
+        "validate": ".forceignores/.buildignore",
+        "build": ".forceignores/.validationignore"
+      }
+    },
+    "sfdx-plugin-prettier": {
+      "enabled": false
+    }
+  }
 }

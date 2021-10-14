@@ -4,7 +4,7 @@
     <description>Registered Entity for the Associated ABN</description>
     <externalId>false</externalId>
     <label>Entity Name</label>
-    <length>80</length>
+    <length>250</length>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
