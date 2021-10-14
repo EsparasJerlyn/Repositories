@@ -113,6 +113,13 @@
         "quickbuild",
         "build"
       ]
+    },
+    {
+      "path": "src/hed-trigger-data",
+      "package": "hed-trigger-data",
+      "versionName": "hed-trigger-data.1.0",
+      "versionNumber": "1.0.0.0",
+      "type": "data"
     }
   ],
   "namespace": "",

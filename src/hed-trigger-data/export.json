@@ -1,0 +1,12 @@
+{
+    "objects": [
+        {
+            "query": "SELECT Name,hed__Active__c,hed__Asynchronous__c,hed__Class__c,hed__Filter_Field__c,hed__Filter_Value__c,hed__Load_Order__c,hed__Object__c,hed__Owned_by_Namespace__c,hed__Trigger_Action__c,hed__User_Managed__c,hed__Usernames_to_Exclude__c FROM hed__Trigger_Handler__c",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "hed__Trigger_Handler__c",
+            "importCSVFilesAsIs": true
+        }
+    ]
+}
