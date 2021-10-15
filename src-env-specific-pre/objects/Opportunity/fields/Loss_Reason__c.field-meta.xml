@@ -13,41 +13,6 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Price</fullName>
-                <default>false</default>
-                <label>Price</label>
-            </value>
-            <value>
-                <fullName>Competitor</fullName>
-                <default>false</default>
-                <label>Competitor</label>
-            </value>
-            <value>
-                <fullName>Proposal</fullName>
-                <default>false</default>
-                <label>Proposal</label>
-            </value>
-            <value>
-                <fullName>Contract</fullName>
-                <default>false</default>
-                <label>Contract</label>
-            </value>
-            <value>
-                <fullName>Interest</fullName>
-                <default>false</default>
-                <label>Interest</label>
-            </value>
-            <value>
-                <fullName>Funding</fullName>
-                <default>false</default>
-                <label>Funding</label>
-            </value>
-            <value>
-                <fullName>No Bid</fullName>
-                <default>false</default>
-                <label>No Bid</label>
-            </value>
-            <value>
                 <fullName>No-Bid : Faculty Decision</fullName>
                 <default>false</default>
                 <label>No-Bid : Faculty Decision</label>
@@ -62,35 +27,37 @@
                 <default>false</default>
                 <label>No-Bid : QUTeX &amp; Faculty Decision</label>
             </value>
+            <value>
+                <fullName>Client Rejected: Declined to give a reason</fullName>
+                <default>false</default>
+                <label>Client Rejected: Declined to give a reason</label>
+            </value>
+            <value>
+                <fullName>Client Rejected: Contract Terms</fullName>
+                <default>false</default>
+                <label>Client Rejected: Contract Terms</label>
+            </value>
+            <value>
+                <fullName>Client Rejected: QUT Solution not a fit</fullName>
+                <default>false</default>
+                <label>Client Rejected: QUT Solution not a fit</label>
+            </value>
+            <value>
+                <fullName>Client Rejected: Price</fullName>
+                <default>false</default>
+                <label>Client Rejected: Price</label>
+            </value>
+            <value>
+                <fullName>Client Cancelled: Funding change</fullName>
+                <default>false</default>
+                <label>Client Cancelled: Funding change</label>
+            </value>
+            <value>
+                <fullName>Client Cancelled: Change of mind</fullName>
+                <default>false</default>
+                <label>Client Cancelled: Change of mind</label>
+            </value>
         </valueSetDefinition>
-        <valueSettings>
-            <controllingFieldValue>Closed Lost</controllingFieldValue>
-            <valueName>Price</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Closed Lost</controllingFieldValue>
-            <valueName>Competitor</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Closed Lost</controllingFieldValue>
-            <valueName>Proposal</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Closed Lost</controllingFieldValue>
-            <valueName>Contract</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Closed Lost</controllingFieldValue>
-            <valueName>Interest</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Closed Lost</controllingFieldValue>
-            <valueName>Funding</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Closed Lost</controllingFieldValue>
-            <valueName>No Bid</valueName>
-        </valueSettings>
         <valueSettings>
             <controllingFieldValue>Closed Lost</controllingFieldValue>
             <valueName>No-Bid : Faculty Decision</valueName>
@@ -102,6 +69,30 @@
         <valueSettings>
             <controllingFieldValue>Closed Lost</controllingFieldValue>
             <valueName>No-Bid : QUTeX &amp; Faculty Decision</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed Lost</controllingFieldValue>
+            <valueName>Client Rejected: Declined to give a reason</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed Lost</controllingFieldValue>
+            <valueName>Client Rejected: Contract Terms</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed Lost</controllingFieldValue>
+            <valueName>Client Rejected: QUT Solution not a fit</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed Lost</controllingFieldValue>
+            <valueName>Client Rejected: Price</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed Lost</controllingFieldValue>
+            <valueName>Client Cancelled: Funding change</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed Lost</controllingFieldValue>
+            <valueName>Client Cancelled: Change of mind</valueName>
         </valueSettings>
     </valueSet>
 </CustomField>
