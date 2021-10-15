@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>B2B_UI_Error_Message_Cart_is_empty</members>
+        <members>B2B_UI_Error_Message_SKU_for_all_products_in_cart_must_be_defined</members>
+        <members>B2B_UI_Error_Message_available</members>
+        <members>B2B_UI_Error_Message_but_now_is</members>
+        <members>B2B_UI_Error_Message_could_not_be_found</members>
+        <members>B2B_UI_Error_Message_exception_of_type</members>
+        <members>B2B_UI_Error_Message_has_occurred</members>
+        <members>B2B_UI_Error_Message_insufficient_quantity</members>
+        <members>B2B_UI_Error_Message_needed_but_only</members>
+        <members>B2B_UI_Error_Message_product_with_SKU</members>
+        <members>B2B_UI_Error_Message_request_error</members>
+        <members>B2B_UI_Error_Message_sales_price_has_changed</members>
+        <members>B2B_UI_Error_Message_was</members>
+        <members>B2B_UI_Text_Level_Error</members>
+        <members>B2B_UI_Text_Type_Inventory</members>
+        <members>B2B_UI_Text_Type_Pricing</members>
+        <members>B2B_UI_Text_Type_Shipping</members>
+        <members>B2B_UI_Text_Type_Taxes</members>
+        <members>B2B_UI_Text_encode</members>
+        <members>B2B_UI_Text_get_inventory_endpoints</members>
+        <members>B2B_UI_Text_get_sales_price_endpoints</members>
+        <members>B2B_UI_Text_get_shipping_rates_endpoints</members>
+        <members>B2B_UI_Text_get_tax_rates_endpoints</members>
+        <name>CustomLabel</name>
+    </types>
+    
+    <version>52.0</version>
+</Package>
