@@ -27,8 +27,8 @@
         <pageOrSobjectType>standard-home</pageOrSobjectType>
     </actionOverrides>
     <brand>
-        <headerColor>#00407A</headerColor>
-        <logo>NEW_QUT_LOGO</logo>
+        <headerColor>#113B71</headerColor>
+        <logo>QUT_logo_Blue_RGB_PNG_11</logo>
         <logoVersion>1</logoVersion>
         <shouldOverrideOrgTheme>false</shouldOverrideOrgTheme>
     </brand>

@@ -9,7 +9,9 @@
         <pageOrSobjectType>standard-home</pageOrSobjectType>
     </actionOverrides>
     <brand>
-        <headerColor>#00407A</headerColor>
+        <headerColor>#113B71</headerColor>
+        <logo>QUT_logo_Blue_RGB_PNG_12</logo>
+        <logoVersion>1</logoVersion>
         <shouldOverrideOrgTheme>false</shouldOverrideOrgTheme>
     </brand>
     <formFactors>Small</formFactors>
