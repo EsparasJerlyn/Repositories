@@ -2,33 +2,197 @@
 # Use a skeleton to build, test and deploy using manual and parallel steps
 # -----
 # You can specify a custom docker image from Docker Hub as your build environment.
-image: atlassian/default-image:2
+image: dxatscale/sfpowerscripts:latest
+
+clone:
+  depth: full
 
 pipelines:
-  default:
-    - parallel:
-      - step:
-          name: 'Build and Test'
-          script:
-            - echo "Your build and test goes here..."
-      - step:
-          name: 'Lint'
-          script:
-            - echo "Your linting goes here..."
-      - step:
-          name: 'Security scan'
-          script:
-            - echo "Your security scan goes here..."
+  custom:
 
-    # The following deployment steps will be executed for each pipeline run. To configure your steps and conditionally deploy see https://support.atlassian.com/bitbucket-cloud/docs/configure-bitbucket-pipelinesyml/
-    - step:
-        name: 'Deployment to Staging'
-        deployment: staging
-        script:
-          - echo "Your deployment to staging script goes here..."
-    - step:
-        name: 'Deployment to Production'
-        deployment: production
-        trigger: 'manual'
-        script:
-          - echo "Your deployment to production script goes here..."
+    Deploy to IT1SepUAT:
+      - step:
+          name: 'Build Packages'
+          artifacts:
+            - build-artifacts/**
+          script:
+              # Dev Hub access is required for creating unlocked packages
+              - sfdx sfpowerscripts:orchestrator:build --artifactdir build-artifacts --buildnumber $BITBUCKET_BUILD_NUMBER --branch $BITBUCKET_BRANCH
+          after-script:
+            - rm server.key
+      - step:
+          name: 'Deploy to IT1SepUAT'
+          deployment: IT1SepUAT
+          script:
+              - echo $SERVER_KEY | base64 -d > server.key
+              - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $TEST_LOGIN_URL -u "$USERNAME.$SANDBOX_NAME"  -a $SANDBOX_NAME
+              - sfdx sfpowerscripts:orchestrator:deploy -u $SANDBOX_NAME --artifactdir build-artifacts
+          after-script:
+            - rm server.key
+
+    Deploy to PRODCI:
+      - step:
+          name: 'Build Packages'
+          artifacts:
+            - build-artifacts/**
+          script:
+              # Dev Hub access is required for creating unlocked packages
+              - sfdx sfpowerscripts:orchestrator:build --artifactdir build-artifacts --buildnumber $BITBUCKET_BUILD_NUMBER --branch $BITBUCKET_BRANCH
+          after-script:
+            - rm server.key
+      - step:
+          name: 'Deploy to PRODCI'
+          deployment: PRODCI
+          script:
+              - echo $SERVER_KEY | base64 -d > server.key
+              - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $TEST_LOGIN_URL -u "$USERNAME.$SANDBOX_NAME"  -a $SANDBOX_NAME
+              - sfdx sfpowerscripts:orchestrator:deploy -u $SANDBOX_NAME --artifactdir build-artifacts
+          after-script:
+            - rm server.key
+
+    Deploy to PRODCI2:
+      - step:
+          name: 'Build Packages'
+          artifacts:
+            - build-artifacts/**
+          script:
+              # Dev Hub access is required for creating unlocked packages
+              - sfdx sfpowerscripts:orchestrator:build --artifactdir build-artifacts --buildnumber $BITBUCKET_BUILD_NUMBER --branch $BITBUCKET_BRANCH
+          after-script:
+            - rm server.key
+      - step:
+          name: 'Deploy to PRODCI2'
+          deployment: PRODCI2
+          script:
+              - echo $SERVER_KEY | base64 -d > server.key
+              - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $TEST_LOGIN_URL -u "$USERNAME.$SANDBOX_NAME"  -a $SANDBOX_NAME
+              - sfdx sfpowerscripts:orchestrator:deploy -u $SANDBOX_NAME --artifactdir build-artifacts
+          after-script:
+            - rm server.key
+
+    ## Used for 7am automated deploymetn to SIT
+    SIT Scheduled Deployment:
+      - step:
+          name: 'Build Packages'
+          artifacts:
+            - build-artifacts/**
+          script:
+              # Dev Hub access is required for creating unlocked packages
+              - sfdx sfpowerscripts:orchestrator:build --artifactdir build-artifacts --buildnumber $BITBUCKET_BUILD_NUMBER --branch $BITBUCKET_BRANCH
+          after-script:
+            - rm server.key
+      - step:
+          name: 'Deploy to SIT'
+          deployment: SIT
+          script:
+              - echo $SERVER_KEY | base64 -d > server.key
+              - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $TEST_LOGIN_URL -u "$USERNAME.$SANDBOX_NAME"  -a $SANDBOX_NAME
+              - sfdx sfpowerscripts:orchestrator:deploy -u $SANDBOX_NAME --artifactdir build-artifacts
+          after-script:
+            - rm server.key
+
+  pull-requests:
+    feature/IT1Sep/**:
+      - parallel:
+        - step:
+            name: 'Validate Changes on IT1SepCI'
+            deployment: IT1SepCI
+            script:
+              - echo $SERVER_KEY | base64 -d > server.key
+              - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $TEST_LOGIN_URL -u "$USERNAME.$SANDBOX_NAME"  -a $SANDBOX_NAME
+              - sfdx sfpowerscripts:orchestrator:validateAgainstOrg -u $SANDBOX_NAME --coveragepercent=80
+            after-script:
+              - rm server.key
+
+        - step:
+            name: 'PMD Static Analysis'
+            script:
+              - sfdx sfpowerscripts:analyze:pmd -b --sourcedir "src/core-crm" -o core-crm-pmd-output
+              - sfdx sfpowerscripts:analyze:pmd -b --sourcedir "src/frameworks" -o frameworks-pmd-output
+              - sfdx sfpowerscripts:analyze:pmd -b --sourcedir "src/sales" -o sales-pmd-output
+              - sfdx sfpowerscripts:analyze:pmd -b --sourcedir "src/service" -o service-pmd-output
+
+        # - step:
+        #     name: 'Validate Metadata Coverage for Unlocked Packages'
+        #     script:
+        #       - sfdx sfpowerkit:package:valid -n core-crm -b StandardValueSet
+
+  branches:
+    release/IT1Sep:
+      - step:
+          name: 'Build Packages'
+          artifacts:
+            - build-artifacts/**
+          script:
+              # Dev Hub access is required for creating unlocked packages
+              - sfdx sfpowerscripts:orchestrator:build --artifactdir build-artifacts --buildnumber $BITBUCKET_BUILD_NUMBER --branch $BITBUCKET_BRANCH
+          after-script:
+            - rm server.key
+
+      ## Deploy on ST and DMD      
+      - parallel:
+        - step:
+            name: 'Deploy to IT1SepST'
+            deployment: IT1SepST
+            script:
+                - echo $SERVER_KEY | base64 -d > server.key
+                - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $TEST_LOGIN_URL -u "$USERNAME.$SANDBOX_NAME"  -a $SANDBOX_NAME
+                - sfdx sfpowerscripts:orchestrator:deploy -u $SANDBOX_NAME --artifactdir build-artifacts
+            after-script:
+              - rm server.key
+        - step:
+            name: 'Deploy to IT1SepDMD'
+            deployment: IT1SepDMD
+            script:
+                - echo $SERVER_KEY | base64 -d > server.key
+                - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $TEST_LOGIN_URL -u "$USERNAME.$SANDBOX_NAME"  -a $SANDBOX_NAME
+                - sfdx sfpowerscripts:orchestrator:deploy -u $SANDBOX_NAME --artifactdir build-artifacts
+            after-script:
+              - rm server.key
+
+        - step:
+            name: 'Deploy to IT1SepTT'
+            deployment: IT1SepTT
+            script:
+                - echo $SERVER_KEY | base64 -d > server.key
+                - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $TEST_LOGIN_URL -u "$USERNAME.$SANDBOX_NAME"  -a $SANDBOX_NAME
+                - sfdx sfpowerscripts:orchestrator:deploy -u $SANDBOX_NAME --artifactdir build-artifacts
+            after-script:
+              - rm server.key
+
+              
+
+      ## Manual deployments to SIT
+      - step:
+          name: 'Deploy to SIT'
+          trigger: manual
+          deployment: SIT
+          script:
+              - echo $SERVER_KEY | base64 -d > server.key
+              - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $TEST_LOGIN_URL -u "$USERNAME.$SANDBOX_NAME"  -a $SANDBOX_NAME
+              - sfdx sfpowerscripts:orchestrator:deploy -u $SANDBOX_NAME --artifactdir build-artifacts
+          after-script:
+            - rm server.key
+
+      ## Manul deployments to UAT and PROD if required
+      - step:
+          name: 'Deploy to UAT'
+          trigger: manual
+          deployment: UAT
+          script:
+              - echo $SERVER_KEY | base64 -d > server.key
+              - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $TEST_LOGIN_URL -u "$USERNAME.$SANDBOX_NAME" -a $SANDBOX_NAME
+              - sfdx sfpowerscripts:orchestrator:deploy -u $SANDBOX_NAME --artifactdir build-artifacts
+          after-script:
+            - rm server.key
+
+      - step:
+          name: 'Deploy to Production'
+          trigger: manual
+          deployment: Production
+          script:
+              - echo $SERVER_KEY | base64 -d > server.key
+              - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $PROD_LOGIN_URL -u $USERNAME -a prod
+              - sfdx sfpowerscripts:orchestrator:deploy -u prod --artifactdir build-artifacts
+          after-script:
+            - rm server.key

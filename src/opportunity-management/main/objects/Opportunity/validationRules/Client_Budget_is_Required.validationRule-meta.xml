@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Client_Budget_is_Required</fullName>
+    <active>true</active>
+    <description>Client Budget is required to update Stage</description>
+    <errorConditionFormula>AND (
+    ISCHANGED( StageName ),
+    ISPICKVAL( PRIORVALUE(StageName), &apos;Qualify&apos; ),
+    ISPICKVAL( StageName , &apos;Proposal&apos; ),
+    ISBLANK( Client_Budget__c )
+)</errorConditionFormula>
+    <errorDisplayField>Client_Budget__c</errorDisplayField>
+    <errorMessage>Client Budget is required to update Stage</errorMessage>
+</ValidationRule>

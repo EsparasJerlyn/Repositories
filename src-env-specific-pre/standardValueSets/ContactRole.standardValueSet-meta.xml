@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<StandardValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sorted>false</sorted>
+    <standardValue>
+        <fullName>Program Lead</fullName>
+        <default>false</default>
+        <label>Program Lead</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Academic Lead</fullName>
+        <default>false</default>
+        <label>Academic Lead</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Learning Designer</fullName>
+        <default>false</default>
+        <label>Learning Designer</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Program Coordinator</fullName>
+        <default>false</default>
+        <label>Program Coordinator</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Client Decision-Maker</fullName>
+        <default>false</default>
+        <label>Client Decision-Maker</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Other</fullName>
+        <default>false</default>
+        <label>Other</label>
+    </standardValue>
+</StandardValueSet>

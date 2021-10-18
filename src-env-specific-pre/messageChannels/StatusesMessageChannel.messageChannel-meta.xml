@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<LightningMessageChannel>
+    <masterLabel>StatusesMessageChannel</masterLabel>
+    <isExposed>true</isExposed>
+    <description>
+        This is a channel which is used by Company/Contact Information Validation components
+        to send/retrieve data
+    </description>
+    <lightningMessageFields>
+        <description>This is a boolean to check Validation Statuses</description>
+        <fieldName>invalidConvert</fieldName>
+    </lightningMessageFields>
+</LightningMessageChannel>

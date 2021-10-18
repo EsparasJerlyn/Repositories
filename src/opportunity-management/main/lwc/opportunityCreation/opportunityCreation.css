@@ -1,0 +1,4 @@
+.slds-modal__content{
+    overflow: auto;
+    min-height: 250px;
+}

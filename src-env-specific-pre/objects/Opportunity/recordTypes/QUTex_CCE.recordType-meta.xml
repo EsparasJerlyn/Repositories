@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>QUTex_CCE</fullName>
+    <active>true</active>
+    <businessProcess>QUTeX CCE</businessProcess>
+    <description>QUTex CCE</description>
+    <label>QUTex CCE</label>
+    <picklistValues>
+        <picklist>Contract_Type__c</picklist>
+        <values>
+            <fullName>Standard Income Contract</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Standing Offer Arrangement</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>ForecastCategoryName</picklist>
+        <values>
+            <fullName>Best Case</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Closed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Commit</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Omitted</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pipeline</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>LeadSource</picklist>
+        <values>
+            <fullName>Event</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Inbound Enquiry</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Outbound Enquiry</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Referral</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Social Media</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Website</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Loss_Reason__c</picklist>
+        <values>
+            <fullName>Client Cancelled%3A Change of mind</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Client Cancelled%3A Funding change</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Client Rejected%3A Contract Terms</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Client Rejected%3A Declined to give a reason</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Client Rejected%3A Price</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Client Rejected%3A QUT Solution not a fit</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No-Bid %3A Faculty Decision</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No-Bid %3A QUTeX %26 Faculty Decision</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No-Bid %3A QUTeX Decision</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Loss_Stage__c</picklist>
+        <values>
+            <fullName>Client Rejected Proposal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Contract</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Initial Proposal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>QUTeX Executive Approval</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Qualification</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Status__c</picklist>
+        <values>
+            <fullName>Client Approved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Contract Created</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Contract Signed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Drafter Review</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Drafting</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Drafting Complete</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>In Progress</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending Contract Creation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending Initial Proposal Approval</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending QUTeX Executive Approval</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>QUTeX Executive Approved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Under Client Review</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Type</picklist>
+        <values>
+            <fullName>CCE Corporate Partner</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

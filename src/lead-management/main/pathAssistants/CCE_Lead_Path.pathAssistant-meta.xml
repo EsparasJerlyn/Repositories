@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Lead</entityName>
+    <fieldName>Status</fieldName>
+    <masterLabel>CCE Lead Path</masterLabel>
+    <pathAssistantSteps>
+        <info>&lt;p&gt;When you have received ownership of this lead, you as a user, should move this to engaging to start in the lead conversion process.&lt;/p&gt;</info>
+        <picklistValueName>Assigned</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;p&gt;As a QUT CCE Lead, the following actions need to be completed before you can convert this lead&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Contact Details&lt;/li&gt;&lt;li&gt;Company Details&lt;/li&gt;&lt;li&gt;Description&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Engaging</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;p&gt;This lead needs to be assigned to a Sales agent.&lt;/p&gt;</info>
+        <picklistValueName>New</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;p&gt;This stage is used to push marketing to a lead when they advise that they are not ready to engage QUT.&lt;/p&gt;</info>
+        <picklistValueName>Nurturing</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;p&gt;&lt;b&gt;Congratulations! &lt;/b&gt;Now it’s time to convert the lead record to an opportunity. Then, continue the qualification process with your new contact.&lt;/p&gt;</info>
+        <picklistValueName>Qualified</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>__MASTER__</recordTypeName>
+</PathAssistant>

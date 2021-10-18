@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Record_Qualification_Assessment</fullName>
+    <active>false</active>
+    <description>Validates the required fields when stage is updated from qualify to proposal.</description>
+    <errorConditionFormula>AND( 
+ TEXT( PRIORVALUE(StageName) ) = &apos;Qualify&apos; , 
+ ISPICKVAL( StageName , &apos;Proposal&apos;),  
+ OR(
+  ISBLANK( Program_Name__c ),
+  ISBLANK( Description ),
+  ISBLANK( Amount ),
+  ISBLANK( Client_Budget__c ),
+  ISBLANK( Lead_School__c ),
+  ISBLANK( TEXT( Existing_Relationship__c ) ) ,
+  ISBLANK( Revenue_Potential__c ),
+  ISBLANK( TEXT( Financial_Viability__c ) ) ,
+  ISBLANK( TEXT( Self_Evaluation__c ) ) ,
+  ISBLANK( TEXT( Technical_Capability__c ) ) ,
+  ISBLANK( TEXT( QUTeX_Capacity__c ) ) ,
+  ISBLANK( TEXT( Faculty_Capacity__c ) ) ,
+  ISBLANK( Qualification_Summary__c ) ,
+  NOT( Has_Proposal_Opportunity_Role__c ) 
+ ) 
+)</errorConditionFormula>
+    <errorMessage>Please populate all required fields.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,7 @@
+Hello {!Opportunity.OwnerFirstName}
+
+Please be advised that your proposal request has been rejected for {!ApprovalRequest.Comments}
+
+
+Kind Regards,
+{!Opportunity.Opportunity_Approver__c}
