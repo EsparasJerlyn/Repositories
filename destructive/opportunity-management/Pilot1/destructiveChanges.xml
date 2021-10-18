@@ -4,5 +4,9 @@
         <members>Big_Risky_Different_Proposal_Approval</members>
         <name>ApprovalProcess</name>
     </types>-->
+    <types>
+        <members>Opportunity.Opportunity_Name_70__c</members>
+        <name>CustomField</name>
+    </types>
     <version>52.0</version>
 </Package>

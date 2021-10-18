@@ -66,6 +66,7 @@
       "versionName": "Version 1.0.0.0",
       "versionNumber": "1.0.0.0",
       "destructiveChangePath": "./destructive/opportunity-management/Release1/destructiveChanges.xml",
+      "destructiveChangePath": "./destructive/opportunity-management/Pilot1/destructiveChanges.xml",
       "dependencies": [
         {
           "package": "DocuSign Apps Launcher",
