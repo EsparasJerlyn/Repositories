@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Activity_Request</fullName>
+    <active>true</active>
+    <description>This record type will be used to set up Activities for a client which can be delivered in isolation of a part of a program.</description>
+    <label>Activity Request</label>
+</RecordType>

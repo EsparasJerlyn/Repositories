@@ -12,6 +12,8 @@
         <members>Contact.ContactPersonalEmail_Validation__c</members>
         <members>Contact.ContactWorkEmail_Validation__c</members>
         <name>CustomField</name>
+        <members>Lead.CCE_Partner_Lead_Conversion</members>
+        <name>ValidationRule</name>
     </types>
     <version>52.0</version>
 </Package>

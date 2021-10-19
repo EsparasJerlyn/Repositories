@@ -1890,10 +1890,7 @@
     <layoutAssignments>
         <layout>Product_Request__c-Product Request Layout</layout>
         <recordType>Product_Request__c.Stand_Alone_Unit_Module_Request</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>TriggerHandler__mdt-Trigger Handler Layout</layout>
-    </layoutAssignments>    
+    </layoutAssignments>   
     <layoutAssignments>
         <layout>Record_Type_Setting__mdt-Record Type Setting Layout</layout>
     </layoutAssignments>
@@ -1902,6 +1899,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Credential__c-Credential Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>TriggerHandler__mdt-Trigger Handler Layout</layout>
     </layoutAssignments>
     <objectPermissions>
         <allowCreate>true</allowCreate>

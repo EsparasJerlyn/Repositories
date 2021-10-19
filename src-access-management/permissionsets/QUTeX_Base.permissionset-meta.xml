@@ -57,6 +57,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Contact.ContactEmail_Validation__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Contact.ContactMailingAddress_Validation__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -77,6 +82,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Contact.ContactPersonalEmail_Validation__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Contact.ContactPersonalMobile_Locale__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -93,6 +103,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.ContactPhone_Validation__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.ContactWorkEmail_Validation__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -142,6 +157,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Lead.LeadABNEntity_Validation__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Lead.Can_Be_Converted__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -158,6 +178,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Lead.LeadMobile_Validation__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Lead.LeadPersonalEmail_Validation__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

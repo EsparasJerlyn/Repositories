@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Opportunity_Roles_is_Required</fullName>
+    <active>true</active>
+    <description>Opportunity Roles (Client Decision-Maker and Program Lead) are required to update Stage</description>
+    <errorConditionFormula>AND (
+    ISCHANGED( StageName ),
+    ISPICKVAL( PRIORVALUE(StageName), &apos;Qualify&apos; ),
+    ISPICKVAL( StageName , &apos;Proposal&apos; ),
+    NOT( Has_Proposal_Opportunity_Role__c )
+)</errorConditionFormula>
+    <errorMessage>Opportunity Roles (Client Decision-Maker and Program Lead) are required to update Stage</errorMessage>
+</ValidationRule>

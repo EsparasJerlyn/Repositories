@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lead_School__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <externalId>false</externalId>
+    <label>Lead School</label>
+    <lookupFilter>
+        <active>true</active>
+        <booleanFilter>1 AND (2 OR 3)</booleanFilter>
+        <errorMessage>You can only choose a University Department account for Lead School.</errorMessage>
+        <filterItems>
+            <field>Account.RecordType.DeveloperName</field>
+            <operation>equals</operation>
+            <value>University_Department</value>
+        </filterItems>
+        <filterItems>
+            <field>Account.End_Date__c</field>
+            <operation>greaterOrEqual</operation>
+            <valueField>Account.Current_Date__c</valueField>
+        </filterItems>
+        <filterItems>
+            <field>Account.End_Date__c</field>
+            <operation>equals</operation>
+            <value></value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>Account</referenceTo>
+    <relationshipLabel>Opportunities</relationshipLabel>
+    <relationshipName>OpportunitiesLead</relationshipName>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

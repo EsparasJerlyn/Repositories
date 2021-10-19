@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Has_Proposal_Opportunity_Role__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Flag for Proposal Opportunity Contact Role</description>
+    <externalId>false</externalId>
+    <label>Has Proposal Opportunity Role</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>
