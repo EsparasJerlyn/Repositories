@@ -9,8 +9,7 @@ clone:
 
 pipelines:
   custom:
-
-     Deploy to IT1FebDRun:
+    Deploy to IT1FebDRun:
       - step:
           name: 'Build Packages'
           artifacts:
