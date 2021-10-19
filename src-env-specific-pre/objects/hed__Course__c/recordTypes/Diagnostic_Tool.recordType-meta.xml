@@ -4,6 +4,17 @@
     <active>true</active>
     <label>Diagnostic Tool</label>
     <picklistValues>
+        <picklist>Certification_Type__c</picklist>
+        <values>
+            <fullName>Certificate of Completion</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Certificate of Participation</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Primary_Delivery_Platform__c</picklist>
         <values>
             <fullName>Blackboard</fullName>
