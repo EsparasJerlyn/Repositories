@@ -5,6 +5,25 @@
         <default>false</default>
         <visible>false</visible>
     </applicationVisibilities>
+    <applicationVisibilities>
+        <application>standard__Commerce</application>
+        <default>false</default>
+        <visible>true</visible>
+    </applicationVisibilities>
+    <applicationVisibilities>
+        <application>standard__SalesforceCMS</application>
+        <default>false</default>
+        <visible>true</visible>
+    </applicationVisibilities>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>ManageCMS</name>
+    </userPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Order.SalesStoreId</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <custom>true</custom>
     <userLicense>Salesforce</userLicense>
     <layoutAssignments>
@@ -59,6 +78,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>OpportunityContactRole-Opportunity Contact Role Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Product2-Product Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Product_Request__c-Product Request Layout</layout>
