@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CCE_Program_Specification</fullName>
+    <active>true</active>
+    <compactLayoutAssignment>Product_Specification_Compact_Layout</compactLayoutAssignment>
+    <description>Used to Design products which are the result of a closed won Opportunity in Salesforce.</description>
+    <label>CCE Program Specification</label>
+    <picklistValues>
+        <picklist>Client_Review_Required__c</picklist>
+        <values>
+            <fullName>Client Approved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>N%2FA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>None</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Status__c</picklist>
+        <values>
+            <fullName>Complete</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Define</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Design</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

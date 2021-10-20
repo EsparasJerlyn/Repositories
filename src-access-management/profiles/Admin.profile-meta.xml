@@ -1542,7 +1542,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Product_Request__c.Program_Specification__c</field>
+        <field>Product_Request__c.Product_Specification__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1582,12 +1582,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Program_Specification__c.Overall_Program_Outcome__c</field>
+        <field>Product_Specification__c.Overall_Program_Outcome__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Program_Specification__c.Program_Lead__c</field>
+        <field>Product_Specification__c.Program_Lead__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2045,7 +2045,21 @@
     <layoutAssignments>
         <layout>Product_Request__c-Product Request Layout</layout>
         <recordType>Product_Request__c.Stand_Alone_Unit_Module_Request</recordType>
-    </layoutAssignments>   
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Product_Specification__c-CCE Product Specification Page Layout</layout>
+        <recordType>Product_Specification__c.CCE_Program_Specification</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Product_Specification__c-Program Specification Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Product_Specification__c-Program Specification Layout</layout>
+        <recordType>Product_Specification__c.OPE_Program_Specification</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>TriggerHandler__mdt-Trigger Handler Layout</layout>
+    </layoutAssignments>      
     <layoutAssignments>
         <layout>Record_Type_Setting__mdt-Record Type Setting Layout</layout>
     </layoutAssignments>
@@ -2054,9 +2068,6 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Credential__c-Credential Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>TriggerHandler__mdt-Trigger Handler Layout</layout>
     </layoutAssignments>
     <objectPermissions>
         <allowCreate>true</allowCreate>
@@ -2109,7 +2120,7 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
-        <object>Program_Specification__c</object>
+        <object>Product_Specification__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -2241,6 +2252,16 @@
         <default>false</default>
         <recordType>Product_Request__c.Stand_Alone_Unit_Module_Request</recordType>
         <visible>false</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>true</default>
+        <recordType>Product_Specification__c.CCE_Program_Specification</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>false</default>
+        <recordType>Product_Specification__c.OPE_Program_Specification</recordType>
+        <visible>true</visible>
     </recordTypeVisibilities>
     <tabVisibilities>
         <tab>Product_Request__c</tab>

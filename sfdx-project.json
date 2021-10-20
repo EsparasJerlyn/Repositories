@@ -1,6 +1,12 @@
 {
   "packageDirectories": [
     {
+      "path": "./src/program-specification-management",
+      "package": "program-specification-management",
+      "versionName": "Version 1.0.0.0",
+      "versionNumber": "1.0.0.0"
+    },
+    {
       "path": "./src-env-specific-pre",
       "package": "src-env-specific-pre",
       "versionNumber": "1.0.0.0",
@@ -72,12 +78,6 @@
           "versionNumber": "3.3.1.LATEST"
         }
       ]
-    },
-    {
-      "path": "./src/program-specification-management",
-      "package": "program-specification-management",
-      "versionName": "Version 1.0.0.0",
-      "versionNumber": "1.0.0.0"
     },
     {
       "path": "./src-ui",

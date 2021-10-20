@@ -76,6 +76,15 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
+        <object>Product_Specification__c</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
         <object>Program_Specification__c</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
@@ -175,6 +184,10 @@
     </tabSettings>
     <tabSettings>
         <tab>Product_Request__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>Product_Specification__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>

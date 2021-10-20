@@ -63,7 +63,7 @@
       
           //gets record type and layout mapping
           connectedCallback() {
-              getFieldLayoutSettings({objectString: PROD_REQUEST})
+              getFieldLayoutSettings({objectString: PRODUCT_REQUEST_OBJECT.objectApiName})
               .then(result =>{
                   this.recordTypeOrderMap = this.sortMap(result.recordTypeOrderedList);
                   this.fieldLayoutMap = result.fieldLayoutMap;

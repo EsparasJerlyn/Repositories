@@ -29,7 +29,7 @@
         <profile>QUTeX</profile>
     </profileActionOverrides>
     <tabs>standard-home</tabs>
-    <tabs>Program_Specification__c</tabs>
+    <tabs>Product_Specification__c</tabs>
     <tabs>Product_Request__c</tabs>
     <tabs>hed__Course__c</tabs>
     <tabs>hed__Course_Offering__c</tabs>
@@ -55,7 +55,7 @@
             <tab>Program_Offering__c</tab>
         </mappings>
         <mappings>
-            <tab>Program_Specification__c</tab>
+            <tab>Product_Specification__c</tab>
         </mappings>
         <mappings>
             <tab>Session__c</tab>

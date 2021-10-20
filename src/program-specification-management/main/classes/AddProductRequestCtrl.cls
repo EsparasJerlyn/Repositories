@@ -61,8 +61,7 @@ public with sharing class AddProductRequestCtrl {
                 auraEx.setMessage('Error while getting record type and layout mapping.');
                 throw auraEx;
             }
-            
-
+    
         } catch (Exception e) {
             AuraHandledException auraEx = new AuraHandledException(e.getMessage());
             auraEx.setMessage('Error while getting record type and layout mapping.');

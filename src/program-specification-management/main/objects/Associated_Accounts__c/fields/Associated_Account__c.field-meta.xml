@@ -4,7 +4,7 @@
     <externalId>false</externalId>
     <label>Associated Account</label>
     <lookupFilter>
-        <active>true</active>
+        <active>false</active>
         <filterItems>
             <field>Account.RecordType.DeveloperName</field>
             <operation>equals</operation>
@@ -13,6 +13,7 @@
         <isOptional>false</isOptional>
     </lookupFilter>
     <referenceTo>Account</referenceTo>
+    <relationshipLabel>Associated Accounts</relationshipLabel>
     <relationshipName>Associated_Accounts</relationshipName>
     <relationshipOrder>0</relationshipOrder>
     <reparentableMasterDetail>false</reparentableMasterDetail>

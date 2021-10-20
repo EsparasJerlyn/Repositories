@@ -15,7 +15,7 @@
 import { LightningElement, wire,api } from 'lwc';
 import getProductRequests from '@salesforce/apex/ProductRequestListCtrl.getProductRequests';
 import PR_PARENT from '@salesforce/schema/Product_Request__c.Parent_Product_Request__c';
-import PS_PARENT from '@salesforce/schema/Product_Request__c.Program_Specification__c';
+import PS_PARENT from '@salesforce/schema/Product_Request__c.Product_Specification__c';
 import { refreshApex } from '@salesforce/apex';
 
 const PS_FILTER = ['Diagnostic Tool Request'];
@@ -98,7 +98,7 @@ export default class ProductRequestList extends LightningElement {
     }
 
     productRequests;
-    @wire(getProductRequests, {programSpecificationId : '$recordId'})
+    @wire(getProductRequests, {productSpecificationId : '$recordId'})
     getProductRequests(result){
         if(result.data){
             this.productRequests = result;
@@ -137,7 +137,8 @@ export default class ProductRequestList extends LightningElement {
             newItem.name = item.Product_Request_Name__c;
             newItem.owner = item.Owner.Name;
             newItem.ownerUrl = '/' + item.OwnerId;
-            newItem.addChildButton = isChild ? 'slds-hide' : 'slds-show';
+            newItem.addChildButton = !isChild && item.RecordType.DeveloperName === 'Program_Request' && item.Product_Specification__r.RecordType.DeveloperName === 'CCE_Program_Specification'? 'slds-show':'slds-hide';
+
 
             return newItem;
         });

@@ -19,7 +19,7 @@ private class AddProductRequestCtrlTest {
         Test.startTest();
         System.runAs(currentUser){
             AddProductRequestCtrl.MetadataDetails getMetadata = new AddProductRequestCtrl.MetadataDetails();
-            getMetadata = AddProductRequestCtrl.getFieldLayoutSettings('Product Request');
+            getMetadata = AddProductRequestCtrl.getFieldLayoutSettings('Product_Request__c');
             system.assert( !getMetadata.fieldLayoutMap.isEmpty(), 'unable to get recordtype and layout metadata');
         }
         Test.stopTest();

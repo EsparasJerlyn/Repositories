@@ -22,7 +22,7 @@ private class ProductRequestListCtrlTest {
         List<Product_Request__c> childOfPR = new List<Product_Request__c>();
         List<Product_Request__c> childOfPR2 = new List<Product_Request__c>();
         List<Product_Request__c> childOfPS = new List<Product_Request__c>();
-        List<Program_Specification__c> programSpecs = new List<Program_Specification__c>();
+        List<Product_Specification__c> productSpecs = new List<Product_Specification__c>();
 
         accs = TestDataFactory.createTestAccountRecords(1);
         contacts = TestDataFactory.createTestContactRecords(1);
@@ -33,13 +33,13 @@ private class ProductRequestListCtrlTest {
         
 
         Test.startTest();
-        programSpecs = TestDataFactory.createTestProgramSpecsRecords(1,contacts,opps);
-        insert programSpecs;
-        childOfPS = TestDataFactory.createTestProductRequestRecords(100, new List<Product_Request__c>(),programSpecs);
+        productSpecs = TestDataFactory.createTestProductSpecsRecords(1,contacts,opps);
+        insert productSpecs;
+        childOfPS = TestDataFactory.createTestProductRequestRecords(100, new List<Product_Request__c>(),productSpecs);
         insert childOfPS;
-        childOfPR = TestDataFactory.createTestProductRequestRecords(100, childOfPS, new List<Program_Specification__c>());
+        childOfPR = TestDataFactory.createTestProductRequestRecords(100, childOfPS, new List<Product_Specification__c>());
         insert childOfPR;
-        childOfPR2 = TestDataFactory.createTestProductRequestRecords(100, childOfPS, new List<Program_Specification__c>());
+        childOfPR2 = TestDataFactory.createTestProductRequestRecords(100, childOfPS, new List<Product_Specification__c>());
         insert childOfPR2;
         Test.stopTest();
         
@@ -49,7 +49,7 @@ private class ProductRequestListCtrlTest {
         Test.startTest();
         System.runAs(currentUser){
             ProductRequestListCtrl.ProductRequestData getProdReqs = new ProductRequestListCtrl.ProductRequestData();
-            getProdReqs = ProductRequestListCtrl.getProductRequests(string.valueOf([SELECT Id FROM Program_Specification__c Limit 1].Id));
+            getProdReqs = ProductRequestListCtrl.getProductRequests(string.valueOf([SELECT Id FROM Product_Specification__c Limit 1].Id));
             system.assert( !getProdReqs.parentList.isEmpty(), 'unable to get product requests');
         }
 
