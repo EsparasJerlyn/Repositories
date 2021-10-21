@@ -155,7 +155,7 @@
     <externalSharingModel>ControlledByParent</externalSharingModel>
     <label>Program Offering</label>
     <nameField>
-        <label>Program Offering ID</label>
+        <label>Program Offering Name</label>
         <type>Text</type>
     </nameField>
     <pluralLabel>Program Offerings</pluralLabel>
