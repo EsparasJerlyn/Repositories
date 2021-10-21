@@ -47,7 +47,8 @@
       "path": "./src/b2b",
       "package": "b2b",
       "versionName": "Version 1.0.0.0",
-      "versionNumber": "1.0.0.0"
+      "versionNumber": "1.0.0.0",
+      "destructiveChangePath": "./destructive/b2b/Release1/destructiveChanges.xml"
     },
     {
       "path": "./src/eda",
