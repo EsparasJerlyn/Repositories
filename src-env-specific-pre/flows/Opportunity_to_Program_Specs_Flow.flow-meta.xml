@@ -5,7 +5,7 @@
         <name>isUpsert</name>
         <label>isUpsert</label>
         <locationX>314</locationX>
-        <locationY>551</locationY>
+        <locationY>575</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Create_New_Program_specification</name>
@@ -38,9 +38,8 @@
             <label>Update Programs specification</label>
         </rules>
     </decisions>
-    <description>Once opportunity is set to Close Won, It will Create a program specs Based on it</description>
-    <interviewLabel>Opportunity to Program Specs Flow {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>Opportunity to Program Specs Flow</label>
+    <interviewLabel>Opportunity to Product Specification flow {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Opportunity to Product Specification flow</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -64,7 +63,7 @@
         <name>Create_New_Program_Specs</name>
         <label>Create New Program Specs</label>
         <locationX>50</locationX>
-        <locationY>671</locationY>
+        <locationY>695</locationY>
         <inputAssignments>
             <field>Opportunity_Name__c</field>
             <value>
@@ -90,19 +89,25 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>RecordTypeId</field>
+            <value>
+                <elementReference>recordTypeId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>Status__c</field>
             <value>
                 <stringValue>Define</stringValue>
             </value>
         </inputAssignments>
-        <object>Program_Specification__c</object>
+        <object>Product_Specification__c</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordCreates>
     <recordLookups>
         <name>Get_Program_Lead</name>
         <label>Get Program Lead</label>
         <locationX>314</locationX>
-        <locationY>431</locationY>
+        <locationY>455</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>isUpsert</targetReference>
@@ -133,7 +138,7 @@
         <name>Is_Existing_program_specs</name>
         <label>Is Existing program specs</label>
         <locationX>314</locationX>
-        <locationY>311</locationY>
+        <locationY>335</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_Program_Lead</targetReference>
@@ -146,7 +151,7 @@
                 <elementReference>$Record.Id</elementReference>
             </value>
         </filters>
-        <object>Program_Specification__c</object>
+        <object>Product_Specification__c</object>
         <outputReference>OpportunityIsExistingInProgSpecs</outputReference>
         <queriedFields>Id</queriedFields>
         <queriedFields>Opportunity_Name__c</queriedFields>
@@ -155,7 +160,7 @@
         <name>Update_Program_Specification_record</name>
         <label>Update Program Specification record</label>
         <locationX>314</locationX>
-        <locationY>671</locationY>
+        <locationY>695</locationY>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
@@ -194,7 +199,7 @@
                 <stringValue>Define</stringValue>
             </value>
         </inputAssignments>
-        <object>Program_Specification__c</object>
+        <object>Product_Specification__c</object>
     </recordUpdates>
     <start>
         <locationX>188</locationX>
@@ -214,14 +219,14 @@
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Active</status>
+    <status>Obsolete</status>
     <variables>
         <name>ExistingOpportunityId</name>
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>true</isOutput>
-        <objectType>Program_Specification__c</objectType>
+        <objectType>Product_Specification__c</objectType>
     </variables>
     <variables>
         <name>OpportunityIsExistingInProgSpecs</name>
@@ -229,7 +234,7 @@
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>true</isOutput>
-        <objectType>Program_Specification__c</objectType>
+        <objectType>Product_Specification__c</objectType>
     </variables>
     <variables>
         <name>Program_Lead</name>
@@ -238,5 +243,15 @@
         <isInput>true</isInput>
         <isOutput>true</isOutput>
         <objectType>OpportunityContactRole</objectType>
+    </variables>
+    <variables>
+        <name>recordTypeId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <stringValue>012AD0000000MADYA2</stringValue>
+        </value>
     </variables>
 </Flow>

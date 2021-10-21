@@ -52,7 +52,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Program_Specification__c</field>
+                <field>Product_Specification__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

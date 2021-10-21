@@ -3,20 +3,20 @@
     <actionOverrides>
         <actionName>View</actionName>
         <comment>Action override created by Lightning App Builder during activation.</comment>
-        <content>Program_Specification_Record_Page</content>
+        <content>Product_Specification_Lightning_Layout</content>
         <formFactor>Large</formFactor>
         <skipRecordTypeSelect>false</skipRecordTypeSelect>
         <type>Flexipage</type>
-        <pageOrSobjectType>Program_Specification__c</pageOrSobjectType>
+        <pageOrSobjectType>Product_Specification__c</pageOrSobjectType>
     </actionOverrides>
     <actionOverrides>
         <actionName>View</actionName>
         <comment>Action override created by Lightning App Builder during activation.</comment>
-        <content>Program_Specification_Record_Page</content>
+        <content>Product_Specification_Lightning_Layout</content>
         <formFactor>Small</formFactor>
         <skipRecordTypeSelect>false</skipRecordTypeSelect>
         <type>Flexipage</type>
-        <pageOrSobjectType>Program_Specification__c</pageOrSobjectType>
+        <pageOrSobjectType>Product_Specification__c</pageOrSobjectType>
     </actionOverrides>
     <actionOverrides>
         <actionName>View</actionName>
@@ -191,7 +191,7 @@
     <tabs>standard-Dashboard</tabs>
     <tabs>standard-Product2</tabs>
     <tabs>Product_Request__c</tabs>
-    <tabs>Program_Specification__c</tabs>
+    <tabs>Product_Specification__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>QUTeX_CCE_UtilityBar</utilityBar>
     <workspaceConfig>
@@ -199,7 +199,7 @@
             <tab>Product_Request__c</tab>
         </mappings>
         <mappings>
-            <tab>Program_Specification__c</tab>
+            <tab>Product_Specification__c</tab>
         </mappings>
         <mappings>
             <tab>standard-Account</tab>

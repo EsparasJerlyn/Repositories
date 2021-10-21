@@ -15,10 +15,6 @@
                 <behavior>Required</behavior>
                 <field>Associated_Account__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Required</behavior>
-                <field>Program_Specification__c</field>
-            </layoutItems>
         </layoutColumns>
         <layoutColumns/>
         <style>TwoColumnsTopToBottom</style>

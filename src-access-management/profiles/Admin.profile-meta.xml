@@ -2051,10 +2051,10 @@
         <recordType>Product_Specification__c.CCE_Program_Specification</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Product_Specification__c-Program Specification Layout</layout>
+        <layout>Product_Specification__c-Product Specification Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Product_Specification__c-Program Specification Layout</layout>
+        <layout>Product_Specification__c-Product Specification Layout</layout>
         <recordType>Product_Specification__c.OPE_Program_Specification</recordType>
     </layoutAssignments>
     <layoutAssignments>
