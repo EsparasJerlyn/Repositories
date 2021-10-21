@@ -4,8 +4,7 @@
     <columns>NAME</columns>
     <columns>Parent_Product_Request__c</columns>
     <columns>Product_Request_Name__c</columns>
-    <columns>OWNER.FIRST_NAME</columns>
-    <columns>OWNER.LAST_NAME</columns>
+    <columns>OWNER.ALIAS</columns>
     <filterScope>Mine</filterScope>
     <filters>
         <field>RECORDTYPE</field>
@@ -17,5 +16,5 @@
         <operation>notEqual</operation>
         <value>Completed</value>
     </filters>
-    <label>My Open Educational Consultancy Request</label>
+    <label>My Open Educational Consultancy Requests</label>
 </ListView>

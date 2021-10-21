@@ -6,8 +6,7 @@
     <columns>Product_Request_Name__c</columns>
     <columns>Diagnostic_Tool_Selection__c</columns>
     <columns>Product_Request_Status__c</columns>
-    <columns>OWNER.FIRST_NAME</columns>
-    <columns>OWNER.LAST_NAME</columns>
+    <columns>OWNER.ALIAS</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>RECORDTYPE</field>
