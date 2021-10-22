@@ -38,8 +38,8 @@
             <label>Update Programs specification</label>
         </rules>
     </decisions>
-    <interviewLabel>Opportunity to Product Specification flow {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>Opportunity to Product Specification flow</label>
+    <interviewLabel>Opportunity to Program Specification flow {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Opportunity to Program Specification flow</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>

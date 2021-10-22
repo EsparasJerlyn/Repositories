@@ -30,7 +30,10 @@
         <members>Product_Request__c.Program_Specification__c</members>
         <name>CustomField</name>
     </types>
-
+    <types>
+        <members>Associated_Accounts__c.Program_Specification__c</members>
+        <name>CustomField</name>
+    </types>
 
     <version>52.0</version>
 </Package>
