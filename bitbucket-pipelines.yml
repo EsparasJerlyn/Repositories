@@ -69,7 +69,7 @@ pipelines:
           after-script:
             - rm server.key
 
-    ## Used for 7am automated deploymetn to SIT
+    ## Used for 7am automated deployment to SIT
     SIT Scheduled Deployment:
       - step:
           name: 'Build Packages'
@@ -132,6 +132,18 @@ pipelines:
       - step:
           name: 'Deploy to IT1FebST'
           deployment: IT1FebST
+          script:
+              - echo $SERVER_KEY | base64 -d > server.key
+              - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $TEST_LOGIN_URL -u "$USERNAME.$SANDBOX_NAME"  -a $SANDBOX_NAME
+              - sfdx sfpowerscripts:orchestrator:deploy -u $SANDBOX_NAME --artifactdir build-artifacts
+          after-script:
+            - rm server.key
+
+      ## Deploy to SIT
+      - step:
+          name: 'Deploy to SIT'
+          trigger: manual
+          deployment: SIT
           script:
               - echo $SERVER_KEY | base64 -d > server.key
               - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $TEST_LOGIN_URL -u "$USERNAME.$SANDBOX_NAME"  -a $SANDBOX_NAME
