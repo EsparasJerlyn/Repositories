@@ -4,20 +4,14 @@
       "path": "./src-env-specific-pre",
       "package": "src-env-specific-pre",
       "versionNumber": "1.0.0.0",
-      "reconcileProfiles":false,
-      "destructiveChangePath": "./destructive/src-env-specific-pre/Release1/destructiveChanges.xml"
+      "reconcileProfiles": false
     },
     {
       "path": "./src-env-specific-alias-pre",
       "package": "src-env-specific-alias-pre",
       "versionNumber": "1.0.0.0",
       "aliasfy": true,
-      "ignoreOnStage": [
-        "prepare",
-        "validate",
-        "quickbuild",
-        "build"
-      ]
+      "ignoreOnStage": ["prepare", "validate", "quickbuild", "build"]
     },
     {
       "path": "src/frameworks/trigger-framework",
@@ -44,13 +38,6 @@
       "versionNumber": "1.0.0.0"
     },
     {
-      "path": "./src/b2b",
-      "package": "b2b",
-      "versionName": "Version 1.0.0.0",
-      "versionNumber": "1.0.0.0",
-      "destructiveChangePath": "./destructive/b2b/Release1/destructiveChanges.xml"
-    },
-    {
       "path": "./src/eda",
       "package": "eda",
       "versionNumber": "1.0.0.0"
@@ -75,6 +62,18 @@
       ]
     },
     {
+      "path": "./src/program-specification-management",
+      "package": "program-specification-management",
+      "versionName": "Version 1.0.0.0",
+      "versionNumber": "1.0.0.0"
+    },
+    {
+      "path": "./src/product-request-management",
+      "package": "product-request-management",
+      "versionName": "Version 1.0.0.0",
+      "versionNumber": "1.0.0.0"
+    },
+    {
       "path": "./src-ui",
       "package": "src-ui",
       "versionNumber": "1.1.0.0"
@@ -90,12 +89,7 @@
       "versionNumber": "1.0.0.0",
       "aliasfy": true,
       "alwaysDeploy": true,
-      "ignoreOnStage": [
-        "prepare",
-        "validate",
-        "quickbuild",
-        "build"
-      ]
+      "ignoreOnStage": ["prepare", "validate", "quickbuild", "build"]
     },
     {
       "path": "./src-temp",
@@ -103,19 +97,7 @@
       "package": "src-temp",
       "versionName": "Version 1.0.0",
       "versionNumber": "1.0.0.0",
-      "ignoreOnStage": [
-        "prepare",
-        "validate",
-        "quickbuild",
-        "build"
-      ]
-    },
-    {
-      "path": "src/hed-trigger-data",
-      "package": "hed-trigger-data",
-      "versionName": "hed-trigger-data.1.0",
-      "versionNumber": "1.0.0.0",
-      "type": "data"
+      "ignoreOnStage": ["prepare", "validate", "quickbuild", "build"]
     }
   ],
   "namespace": "",

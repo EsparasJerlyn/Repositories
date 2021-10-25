@@ -1,29 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <Profile xmlns="http://soap.sforce.com/2006/04/metadata">
     <applicationVisibilities>
         <application>QUTeX_OPE</application>
         <default>false</default>
         <visible>false</visible>
     </applicationVisibilities>
-    <applicationVisibilities>
-        <application>standard__Commerce</application>
-        <default>false</default>
-        <visible>true</visible>
-    </applicationVisibilities>
-    <applicationVisibilities>
-        <application>standard__SalesforceCMS</application>
-        <default>false</default>
-        <visible>true</visible>
-    </applicationVisibilities>
-    <userPermissions>
-        <enabled>true</enabled>
-        <name>ManageCMS</name>
-    </userPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Order.SalesStoreId</field>
-        <readable>true</readable>
-    </fieldPermissions>
     <custom>true</custom>
     <userLicense>Salesforce</userLicense>
     <layoutAssignments>
@@ -80,49 +61,38 @@
         <layout>OpportunityContactRole-Opportunity Contact Role Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Product2-Product Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
         <layout>Product_Request__c-Product Request Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Product_Request__c-Diagnostic Tool Request Layout</layout>
-        <recordType>Product_Request__c.Diagnostic_Tool_Request</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Product_Request__c-Activity Request Layout</layout>
+        <layout>Product_Request__c-Product Request Layout</layout>
         <recordType>Product_Request__c.Activity_Request</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Product_Request__c-Coaching Request Layout</layout>
+        <layout>Product_Request__c-Product Request Layout</layout>
         <recordType>Product_Request__c.Coaching_Request</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Product_Request__c-Educational Consultancy Request Layout</layout>
-        <recordType>Product_Request__c.Educational_Consultancy_Request</recordType>
+        <layout>Product_Request__c-Product Request Layout</layout>
+        <recordType>Product_Request__c.Diagnostic_Tool_Request</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Product_Request__c-Professional Advantage Request Layout</layout>
-        <recordType>Product_Request__c.Professional_Advantage_Request</recordType>
+        <layout>Product_Request__c-Product Request Layout</layout>
+        <recordType
+    >Product_Request__c.Educational_Consultancy_Request</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Product_Request__c-Program Request Layout</layout>
+        <layout>Product_Request__c-Product Request Layout</layout>
+        <recordType
+    >Product_Request__c.Professional_Advantage_Request</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Product_Request__c-Product Request Layout</layout>
         <recordType>Product_Request__c.Program_Request</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Product_Request__c-Stand-Alone Unit %2F Module Request Layout</layout>
-        <recordType>Product_Request__c.Stand_Alone_Unit_Module_Request</recordType>
-    </layoutAssignments>
-      <layoutAssignments>
-        <layout>Product_Specification__c-CCE Product Specification Page Layout</layout>
-        <recordType>Product_Specification__c.CCE_Program_Specification</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Product_Specification__c-Product Specification Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Product_Specification__c-Product Specification Layout</layout>
-        <recordType>Product_Specification__c.OPE_Program_Specification</recordType>
+        <layout>Product_Request__c-Product Request Layout</layout>
+        <recordType
+    >Product_Request__c.Stand_Alone_Unit_Module_Request</recordType>
     </layoutAssignments>
     <recordTypeVisibilities>
         <default>false</default>

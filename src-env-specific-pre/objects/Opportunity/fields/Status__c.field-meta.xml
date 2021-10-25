@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Status__c</fullName>
     <externalId>false</externalId>
     <label>Status</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
-    <trackHistory>true</trackHistory>
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
@@ -82,11 +82,6 @@
                 <default>false</default>
                 <label>QUTeX Executive Proposal Rejected</label>
             </value>
-            <value>
-                <fullName>Client Rejects Proposal</fullName>
-                <default>false</default>
-                <label>Client Rejects Proposal</label>
-            </value>
         </valueSetDefinition>
         <valueSettings>
             <controllingFieldValue>Proposal</controllingFieldValue>
@@ -129,17 +124,13 @@
             <valueName>QUTeX Executive Proposal Rejected</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Proposal</controllingFieldValue>
-            <valueName>Client Rejects Proposal</valueName>
-        </valueSettings>
-        <valueSettings>
             <controllingFieldValue>Qualify</controllingFieldValue>
             <valueName>In Progress</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Qualify</controllingFieldValue>
             <valueName>Pending Initial Proposal Approval</valueName>
-        </valueSettings>
+        </valueSettings>        
         <valueSettings>
             <controllingFieldValue>Closed Won</controllingFieldValue>
             <valueName>Contract Signed</valueName>
