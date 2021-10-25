@@ -5,19 +5,18 @@
     <fieldName>StageName</fieldName>
     <masterLabel>Opportunity_path</masterLabel>
     <pathAssistantSteps>
-        <info>&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;Congratulations!!!!&lt;/span&gt;&lt;/p&gt;</info>
         <picklistValueName>Closed Won</picklistValueName>
     </pathAssistantSteps>
     <pathAssistantSteps>
-        <info>&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;The opportunity has now been passed off to the CLMS to manage the contract process&lt;/span&gt;&lt;/p&gt;</info>
+        <info>&lt;p&gt;&lt;i style=&quot;font-size: 14px;&quot;&gt;The &amp;#39;Contract&amp;#39; stage signifies that the client has accepted the proposal and is ready to formalise agreement with a Contract with QUT. &lt;/i&gt;&lt;/p&gt;&lt;p&gt;&lt;i style=&quot;font-size: 14px;&quot;&gt;Selecting &amp;#39;Create a Contract&amp;#39; will automatically generate a record within the Contracts Lifecycle Management System (CLMS). Manage the contract process within the CLMS.&lt;/i&gt;&lt;/p&gt;</info>
         <picklistValueName>Contract</picklistValueName>
     </pathAssistantSteps>
     <pathAssistantSteps>
-        <info>&lt;p&gt;The proposal stage is key to the CCE opportunity process&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Collaborate with internal stakeholder to produce a high quality proposal&lt;/li&gt;&lt;li&gt;We gather QUTeX executive sign off&lt;/li&gt;&lt;li&gt;We gain customer acceptance&lt;/li&gt;&lt;/ul&gt;</info>
+        <info>&lt;p&gt;&lt;i style=&quot;font-size: 14px;&quot;&gt;The ‘Proposal’ stage allows you to generate a standard QUTeX proposal to download, edit and collaborate on.&lt;/i&gt;&lt;/p&gt;&lt;p&gt;&lt;i style=&quot;font-size: 14px;&quot;&gt;Following your initial drafting, you can distribute your Proposal for internal review, feedback, and approval to proceed, and/or to the client for review and acceptance.&lt;/i&gt;&lt;/p&gt;</info>
         <picklistValueName>Proposal</picklistValueName>
     </pathAssistantSteps>
     <pathAssistantSteps>
-        <info>&lt;p&gt;The qualification stage has two key aspects to completing this stage&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Information gathering (to inform QUT)&lt;/li&gt;&lt;li&gt;High level faculty approval for academic opportunities&lt;/li&gt;&lt;/ul&gt;</info>
+        <info>&lt;p&gt;&lt;i style=&quot;font-size: 14px;&quot;&gt;The ‘Qualify’ stage enables you to define the opportunity that may exist and who’s involved, to confirm viability and the client’s readiness, and to capture approvals to proceed.&lt;/i&gt;&lt;/p&gt;&lt;p&gt;&lt;i style=&quot;font-size: 14px;&quot;&gt;Use the ‘Qualification Summary’ field to justify that the opportunity is viable and why it should progress. &lt;/i&gt;&lt;/p&gt;&lt;p&gt;&lt;i style=&quot;font-size: 14px;&quot;&gt;Where the opportunity includes an award unit and/or non-award module, work with the Academic Lead to gain Faculty approval to proceed using CourseLoop.&lt;/i&gt;&lt;/p&gt;</info>
         <picklistValueName>Qualify</picklistValueName>
     </pathAssistantSteps>
     <recordTypeName>QUTex_CCE</recordTypeName>
