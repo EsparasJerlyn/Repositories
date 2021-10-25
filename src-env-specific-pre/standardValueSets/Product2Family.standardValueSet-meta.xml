@@ -2,14 +2,14 @@
 <StandardValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
     <sorted>false</sorted>
     <standardValue>
-        <fullName>QUTeX CCE Element</fullName>
-        <default>false</default>
-        <label>QUTeX CCE Element</label>
+        <fullName>QUTeX CCE Elements</fullName>
+        <default>true</default>
+        <label>QUTeX CCE Elements</label>
     </standardValue>
     <standardValue>
-        <fullName>QUTeX CCE Service</fullName>
+        <fullName>QUTeX CCE Services</fullName>
         <default>false</default>
-        <label>QUTeX CCE Service</label>
+        <label>QUTeX CCE Services</label>
     </standardValue>
     <standardValue>
         <fullName>CCE</fullName>
