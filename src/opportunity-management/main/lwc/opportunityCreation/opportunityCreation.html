@@ -1,57 +1,53 @@
 <template>
-  <template if:false="{showRecordType}">
+  <template if:false={showRecordType}>
     <c-custom-lookup
-      selection="{initialSelection}"
-      onsearch="{handleSearch}"
-      onpassrecordid="{updateContactId}"
-      onpassrecordlabel="{updateContactName}"
-      onselectionchange="{handleSelectionChange}"
+      selection={initialSelection}
+      onsearch={handleSearch}
+      onpassrecordid={updateContactId}
+      onpassrecordlabel={updateContactName}
+      onselectionchange={handleSelectionChange}
       placeholder="Search Contacts..."
-      is-multi-entry="{isMultiEntry}"
-      label="Client Decision-Maker"
-    >
+      is-multi-entry={isMultiEntry}
+      label="Client Decision-Maker">
     </c-custom-lookup>
   </template>
 
-  <template if:true="{showRecordType}">
-    <template if:false="{showNewOppForm}">
+  <template if:true={showRecordType}>
       <lightning-radio-group
         name="opportunityRecordType"
         label="Record Type"
-        options="{options}"
-        value="{selectedRecordTypeValue}"
-        onchange="{handleRecordTypeChange}"
-        type="radio"
-      >
+        options={options}
+        value={selectedRecordTypeValue}
+        onchange={handleRecordTypeChange}
+        type="radio">
       </lightning-radio-group>
-    </template>
   </template>
 
   <footer class="slds-modal__footer">
     <button
       class="slds-button slds-button_neutral"
-      onclick="{closeFocusedTab}"
+      onclick={closeFocusedTab}
       title="Cancel"
     >
       Cancel
     </button>
 
-    <template if:true="{showRecordType}">
+    <template if:true={showRecordType}>
       <button
         class="slds-button slds-button_brand"
-        onclick="{newOpportunity}"
+        onclick={newOpportunity}
         title="Next"
-        disabled="{disableButton}"
+        disabled={disableButton}
       >
         Next
       </button>
     </template>
-    <template if:false="{showRecordType}">
+    <template if:false={showRecordType}>
       <button
         class="slds-button slds-button_brand"
-        onclick="{createNewOpportunity}"
+        onclick={createNewOpportunity}
         title="Create Opportunity"
-        disabled="{disableButton}"
+        disabled={disableButton}
       >
         Create Opportunity
       </button>

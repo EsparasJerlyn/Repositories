@@ -38,6 +38,13 @@
       "versionNumber": "1.0.0.0"
     },
     {
+      "path": "./src/b2b",
+      "package": "b2b",
+      "versionName": "Version 1.0.0.0",
+      "versionNumber": "1.0.0.0",
+      "destructiveChangePath": "./destructive/b2b/Release1/destructiveChanges.xml"
+    },
+    {
       "path": "./src/eda",
       "package": "eda",
       "versionNumber": "1.0.0.0"
@@ -60,19 +67,7 @@
           "versionNumber": "3.3.1.LATEST"
         }
       ]
-    },
-    {
-      "path": "./src/program-specification-management",
-      "package": "program-specification-management",
-      "versionName": "Version 1.0.0.0",
-      "versionNumber": "1.0.0.0"
-    },
-    {
-      "path": "./src/product-request-management",
-      "package": "product-request-management",
-      "versionName": "Version 1.0.0.0",
-      "versionNumber": "1.0.0.0"
-    },
+    },    
     {
       "path": "./src-ui",
       "package": "src-ui",

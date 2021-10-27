@@ -8,34 +8,34 @@
         <locationY>575</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
-            <name>Create_New_Program_specification</name>
+            <name>Create_New_Product_specification</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.Id</leftValueReference>
                 <operator>NotEqualTo</operator>
                 <rightValue>
-                    <elementReference>OpportunityIsExistingInProgSpecs.Opportunity_Name__c</elementReference>
+                    <elementReference>OpportunityIsExistingInProdSpecs.Opportunity_Name__c</elementReference>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Create_New_Program_Specs</targetReference>
+                <targetReference>Get_Product_Specs_Recordtype</targetReference>
             </connector>
-            <label>Create New Program specification</label>
+            <label>Create New Product specification</label>
         </rules>
         <rules>
-            <name>Update_Programs_specification</name>
+            <name>Update_Product_specification</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.Id</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <elementReference>OpportunityIsExistingInProgSpecs.Opportunity_Name__c</elementReference>
+                    <elementReference>OpportunityIsExistingInProdSpecs.Opportunity_Name__c</elementReference>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Update_Program_Specification_record</targetReference>
+                <targetReference>Update_Product_Specification_record</targetReference>
             </connector>
-            <label>Update Programs specification</label>
+            <label>Update Product specification</label>
         </rules>
     </decisions>
     <interviewLabel>Opportunity to Product Specification flow {!$Flow.CurrentDateTime}</interviewLabel>
@@ -60,10 +60,10 @@
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <recordCreates>
-        <name>Create_New_Program_Specs</name>
-        <label>Create New Program Specs</label>
+        <name>Create_New_Product_Specs</name>
+        <label>Create New Product Specs</label>
         <locationX>50</locationX>
-        <locationY>695</locationY>
+        <locationY>815</locationY>
         <inputAssignments>
             <field>Opportunity_Name__c</field>
             <value>
@@ -104,6 +104,29 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordCreates>
     <recordLookups>
+        <name>Get_Product_Specs_Recordtype</name>
+        <label>Get Product Specs Recordtype</label>
+        <locationX>50</locationX>
+        <locationY>695</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Create_New_Product_Specs</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>CCE_Program_Specification</stringValue>
+            </value>
+        </filters>
+        <object>RecordType</object>
+        <outputAssignments>
+            <assignToReference>recordTypeId</assignToReference>
+            <field>Id</field>
+        </outputAssignments>
+    </recordLookups>
+    <recordLookups>
         <name>Get_Program_Lead</name>
         <label>Get Program Lead</label>
         <locationX>314</locationX>
@@ -135,8 +158,8 @@
         <queriedFields>ContactId</queriedFields>
     </recordLookups>
     <recordLookups>
-        <name>Is_Existing_program_specs</name>
-        <label>Is Existing program specs</label>
+        <name>Is_Existing_product_specs</name>
+        <label>Is Existing product specs</label>
         <locationX>314</locationX>
         <locationY>335</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
@@ -152,13 +175,13 @@
             </value>
         </filters>
         <object>Product_Specification__c</object>
-        <outputReference>OpportunityIsExistingInProgSpecs</outputReference>
+        <outputReference>OpportunityIsExistingInProdSpecs</outputReference>
         <queriedFields>Id</queriedFields>
         <queriedFields>Opportunity_Name__c</queriedFields>
     </recordLookups>
     <recordUpdates>
-        <name>Update_Program_Specification_record</name>
-        <label>Update Program Specification record</label>
+        <name>Update_Product_Specification_record</name>
+        <label>Update Product Specification record</label>
         <locationX>314</locationX>
         <locationY>695</locationY>
         <filterLogic>and</filterLogic>
@@ -166,7 +189,7 @@
             <field>Id</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>OpportunityIsExistingInProgSpecs.Id</elementReference>
+                <elementReference>OpportunityIsExistingInProdSpecs.Id</elementReference>
             </value>
         </filters>
         <inputAssignments>
@@ -205,7 +228,7 @@
         <locationX>188</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>Is_Existing_program_specs</targetReference>
+            <targetReference>Is_Existing_product_specs</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -229,7 +252,7 @@
         <objectType>Product_Specification__c</objectType>
     </variables>
     <variables>
-        <name>OpportunityIsExistingInProgSpecs</name>
+        <name>OpportunityIsExistingInProdSpecs</name>
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
@@ -250,8 +273,5 @@
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>false</isOutput>
-        <value>
-            <stringValue>012AD0000000MADYA2</stringValue>
-        </value>
     </variables>
 </Flow>

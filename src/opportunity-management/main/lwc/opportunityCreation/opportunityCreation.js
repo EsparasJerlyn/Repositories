@@ -12,8 +12,10 @@
       | marygrace.li@qut.edu.au        | September 18, 2021    | DEP1-158             | Created file                                    | 
       |--------------------------------|-----------------------|----------------------|-------------------------------------------------|  
       | marygrace.li@qut.edu.au        | September 23, 2021    | DEP1-615             | modified handleSelectionChange disabled value   |     
-      |--------------------------------|-----------------------|----------------------|-------------------------------------------------|  
-      | marygrace.li@qut.edu.au        | September 27, 2021    | DEP1-618             | add getAccountName and set to opportunity name  |                   
+      |--------------------------------|-----------------------|----------------------|---------------------------------------------------------------------------|  
+      | marygrace.li@qut.edu.au        | September 27, 2021    | DEP1-618             | add getAccountName and set to opportunity name                            |   
+      |--------------------------------|-----------------------|----------------------|---------------------------------------------------------------------------|  
+      | marygrace.li@qut.edu.au        | September 30, 2021    | DEPP-280             | modified createNewOpportunity then set disabled state for next btn        |                 
  */
 
 import { LightningElement, track, wire, api } from "lwc";
@@ -24,9 +26,7 @@ import Opportunity from "@salesforce/schema/Opportunity";
 import { NavigationMixin } from "lightning/navigation";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 
-export default class OpportunityCreation extends NavigationMixin(
-  LightningElement
-) {
+export default class OpportunityCreation extends NavigationMixin( LightningElement) {
   @api selectedValue;
   @track isModalOpen = false;
   @api recordId;
@@ -39,11 +39,10 @@ export default class OpportunityCreation extends NavigationMixin(
   @api defaultvalue;
   @track isMultiEntry = false;
   @track contacts;
-  @track selectedRecordTypeValue = "";
+  @track selectedRecordTypeValue = '';
   @track options = [];
   @track showRecordType = false;
   @track disableButton = true;
-  @track showNewOppForm = false;
   @track accountObjectInfo;
   @api contactId;
   @api accountName;
@@ -61,28 +60,28 @@ export default class OpportunityCreation extends NavigationMixin(
         this.contactList = JSON.stringify(res);
         res.map((contact) => {
           let obj = {
-            label: contact.Name,
-            value: contact.Id,
+            'label': contact.Name,
+            'value': contact.Id
           };
           this.contacts.push(obj);
           return null;
-        });
+        })
       })
       .catch((error) => {
         this.error = error.body.message;
-        this.showToast("Something went wrong", this.error, "error");
+        this.showToast('Something went wrong', this.error, 'error');
       });
   }
 
   //retrieve account name
   getAccountName() {
-    getAccountName({ accountId: this.recordId })
+    getAccountName({'accountId': this.recordId})
       .then((result) => {
         this.accountName = result;
       })
       .catch((error) => {
         this.error = error.body.message;
-        this.showToast("Something went wrong", this.error, "error");
+        this.showToast('Something went wrong', this.error, 'error');
       });
   }
 
@@ -98,7 +97,7 @@ export default class OpportunityCreation extends NavigationMixin(
       let rtValues = Object.values(rtInfos);
 
       for (let i = 0; i < rtValues.length; i++) {
-        if (rtValues[i].name !== "Master") {
+        if(rtValues[i].name !== 'Master') {
           optionsValues.push({
             label: rtValues[i].name,
             value: rtValues[i].recordTypeId,
@@ -108,7 +107,7 @@ export default class OpportunityCreation extends NavigationMixin(
       this.options = optionsValues;
     } else if (error) {
       this.error = error.body.message;
-      this.showToast("Something went wrong", this.error, "error");
+      this.showToast('Something went wrong', this.error, 'error');
     }
   }
 
@@ -128,7 +127,7 @@ export default class OpportunityCreation extends NavigationMixin(
         mapValues.label.toLocaleLowerCase().indexOf(searchText.searchTerm) >= 0
     );
     this.template
-      .querySelector("c-custom-lookup")
+      .querySelector('c-custom-lookup')
       .setSearchResults(contactList);
   }
 
@@ -136,7 +135,7 @@ export default class OpportunityCreation extends NavigationMixin(
   handleSelectionChange() {
     this.errors = [];
     this.disableButton = !this.template
-      .querySelector("c-custom-lookup")
+      .querySelector('c-custom-lookup')
       .hasSelection();
   }
 
@@ -166,11 +165,15 @@ export default class OpportunityCreation extends NavigationMixin(
   createNewOpportunity() {
     //disable the new Oppotunity button when user does not select a Contact
     this.disableButton = !this.template
-      .querySelector("c-custom-lookup")
+      .querySelector('c-custom-lookup')
       .hasSelection();
 
     if (!this.disableButton) {
       this.showRecordType = true;
+
+      //set Next button as disabled when record type is equal to empty string
+      this.disableButton = this.selectedRecordTypeValue ==='';
+
     } else {
       this.showRecordType = false;
     }
@@ -178,45 +181,35 @@ export default class OpportunityCreation extends NavigationMixin(
 
   //call when Next button is clicked
   newOpportunity() {
-    const selectedVal = this.selectedRecordTypeValue;
+   
+    //set the contact selected from the lookup
+    const contact = this.contactId;
+    const valueChangeEvent = new CustomEvent("valuechange", {
+      detail: {contact}
+    });
+    // Fire the custom event
+    this.dispatchEvent(valueChangeEvent);
 
-    if (selectedVal === "") {
-      this.disableButton = true;
-      this.showNewOppForm = false;
-    } else {
-      this.disableButton = false;
+    //set the account name to opportunity name
+    const acountname = this.accountName + "-";
+    const acctChangeEvent = new CustomEvent("accountchange", {
+      detail: {acountname}
+    });
+    // Fire the custom event
+    this.dispatchEvent(acctChangeEvent);
 
-      this.showNewOppForm = true;
-
-      //set the contact selected from the lookup
-      const contact = this.contactId;
-      const valueChangeEvent = new CustomEvent("valuechange", {
-        detail: { contact },
-      });
-      // Fire the custom event
-      this.dispatchEvent(valueChangeEvent);
-
-      //set the account name to opportunity name
-      const acountname = this.accountName + "-";
-      const acctChangeEvent = new CustomEvent("accountchange", {
-        detail: { acountname },
-      });
-      // Fire the custom event
-      this.dispatchEvent(acctChangeEvent);
-
-      this.navigateToNewOpportunity();
-    }
+    this.navigateToNewOpportunity();
   }
 
   //call the method in aura component to create new opportunity
   navigateToNewOpportunity() {
-    const createOppEvent = new CustomEvent("create");
+    const createOppEvent = new CustomEvent('create');
     this.dispatchEvent(createOppEvent);
   }
 
   //call the method in aura component to close the opportunity modal
   closeFocusedTab() {
-    const closeEvent = new CustomEvent("close");
+    const closeEvent = new CustomEvent('close');
     this.dispatchEvent(closeEvent);
   }
 }

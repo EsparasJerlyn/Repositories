@@ -213,6 +213,11 @@
         </platformActionListItems>
     </platformActionList>
     <relatedLists>
+        <fields>NAME</fields>
+        <fields>Account.NAME</fields>
+        <relatedList>Associated_Accounts__c.Product_Specification__c</relatedList>
+    </relatedLists>
+    <relatedLists>
         <relatedList>RelatedFileList</relatedList>
     </relatedLists>
     <relatedLists>
