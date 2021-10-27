@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Session_Type__c</fullName>
+    <externalId>false</externalId>
+    <label>Session Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Face to Face Class</fullName>
+                <default>false</default>
+                <label>Face to Face Class</label>
+            </value>
+            <value>
+                <fullName>Virtual Class</fullName>
+                <default>false</default>
+                <label>Virtual Class</label>
+            </value>
+            <value>
+                <fullName>Tutoring Session</fullName>
+                <default>false</default>
+                <label>Tutoring Session</label>
+            </value>
+            <value>
+                <fullName>Mentoring Session</fullName>
+                <default>false</default>
+                <label>Mentoring Session</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
