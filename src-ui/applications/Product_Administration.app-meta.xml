@@ -40,6 +40,7 @@
     <tabs>Program_Offering__c</tabs>
     <tabs>hed__Plan_Requirement__c</tabs>
     <tabs>hed__Facility__c</tabs>
+    <tabs>standard-Asset</tabs>
     <tabs>standard-Product2</tabs>
     <tabs>standard-Pricebook2</tabs>
     <uiType>Lightning</uiType>
@@ -77,6 +78,9 @@
         </mappings>
         <mappings>
             <tab>hed__Program_Plan__c</tab>
+        </mappings>
+        <mappings>
+            <tab>standard-Asset</tab>
         </mappings>
         <mappings>
             <tab>standard-Pricebook2</tab>

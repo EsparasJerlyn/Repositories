@@ -387,6 +387,15 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
+        <object>Asset</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
         <object>Associated_Accounts__c</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
@@ -596,6 +605,10 @@
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
+        <tab>hed__Course_Enrollment__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
         <tab>hed__Course_Offering_Schedule__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
@@ -617,6 +630,10 @@
     </tabSettings>
     <tabSettings>
         <tab>hed__Program_Plan__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>standard-Asset</tab>
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
