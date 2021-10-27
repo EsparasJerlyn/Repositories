@@ -4,7 +4,8 @@
       "path": "./src-env-specific-pre",
       "package": "src-env-specific-pre",
       "versionNumber": "1.0.0.0",
-      "reconcileProfiles": false
+      "reconcileProfiles": false,
+      "destructiveChangePath": "./destructive/src-env-specific-pre/Release1/destructiveChanges.xml"
     },
     {
       "path": "./src-env-specific-alias-pre",
