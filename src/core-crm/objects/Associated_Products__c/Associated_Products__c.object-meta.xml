@@ -155,8 +155,9 @@
     <externalSharingModel>ControlledByParent</externalSharingModel>
     <label>Associated Products</label>
     <nameField>
+        <displayFormat>AP - {000000}</displayFormat>
         <label>Associated Products Name</label>
-        <type>Text</type>
+        <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Associated Products</pluralLabel>
     <searchLayouts/>
