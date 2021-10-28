@@ -4,6 +4,14 @@
         <application>Product_Administration</application>
         <visible>true</visible>
     </applicationVisibilities>
+    <classAccesses>
+        <apexClass>CreateProductsAndOfferingsCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CustomCreateEditRecordCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <fieldPermissions>
         <editable>true</editable>
         <field>Credential__c.Course__c</field>
@@ -362,6 +370,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course__c.hed__Description__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Course_Offering__c.hed__Start_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Course_Offering__c.hed__End_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

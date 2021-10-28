@@ -35,11 +35,11 @@ private class ProductRequestListCtrlTest {
         Test.startTest();
         productSpecs = TestDataFactory.createTestProductSpecsRecords(1,contacts,opps);
         insert productSpecs;
-        childOfPS = TestDataFactory.createTestProductRequestRecords(100, new List<Product_Request__c>(),productSpecs);
+        childOfPS = TestDataFactory.createTestProductRequestRecords(100, new List<Product_Request__c>(),productSpecs[0].Id);
         insert childOfPS;
-        childOfPR = TestDataFactory.createTestProductRequestRecords(100, childOfPS, new List<Product_Specification__c>());
+        childOfPR = TestDataFactory.createTestProductRequestRecords(100, childOfPS, null);
         insert childOfPR;
-        childOfPR2 = TestDataFactory.createTestProductRequestRecords(100, childOfPS, new List<Product_Specification__c>());
+        childOfPR2 = TestDataFactory.createTestProductRequestRecords(100, childOfPS, null);
         insert childOfPR2;
         Test.stopTest();
         

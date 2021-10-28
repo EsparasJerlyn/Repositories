@@ -13,7 +13,7 @@ public with sharing class AddressInformationValidationCtrl {
 
     /**
      * @description get loqate component custom metadata which is used to map object to hed__address__c
-     * @param object api name of the current record the lwc is at
+     * @param objectApiName - object api name of the current record the lwc is at
      * @return address meta data mapping
      */
     @AuraEnabled(cacheable=true)
@@ -32,7 +32,7 @@ public with sharing class AddressInformationValidationCtrl {
 
     /**
      * @description upsert hed__address__c record
-     * @param the address info from lwc component
+     * @param addressToUpsert - the address info from lwc component
      */
     @AuraEnabled
     public static void upsertHedAddress(hed__address__c addressToUpsert){
@@ -47,8 +47,8 @@ public with sharing class AddressInformationValidationCtrl {
     
     /**
      * @description get hed__address__c related to the current record on page
-     * @param record id of the current record on the page
-     * @param look up api name for the object associated to the hed address
+     * @param recordId - record id of the current record on the page
+     * @param lookUpApiName - look up api name for the object associated to the hed address
      * @return list of hed__address__c associated to the record on the page
      */
     @AuraEnabled(cacheable=true)
@@ -69,41 +69,32 @@ public with sharing class AddressInformationValidationCtrl {
 
     /**
      * @description search Addresses based on user input
-     * @param string user input
-     * @param origin country 
+     * @param searchValue - string user input
+     * @param country - origin country 
      * @return list of addresses from loqate response
      */
     @AuraEnabled(cacheable=true)
     public static List<AddressObject> searchAddress(String searchValue, String country) {
-        try {
-            return createRequest(searchValue, 'fullAddress', country , 'lookup');
-        } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage());
-        }
-        
+        return createRequest(searchValue, 'fullAddress', country , 'lookup'); 
     }
 
     /**
      * @description get detailed info of address selected
-     * @param unique id of selected address from loqate
-     * @param origin country 
+     * @param searchValue - unique id of selected address from loqate
+     * @param country - origin country 
      * @return an address from loqate response
      */
     @AuraEnabled(cacheable=true)
     public static AddressObject getDetails(String searchValue, String country){
-        try {
-            return createRequest(searchValue, 'id', country, 'retrieve')[0];
-        } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage());
-        }
+        return createRequest(searchValue, 'id', country, 'retrieve')[0];
     }
 
     /**
      * @description create request to loqate
-     * @param input string by user/id of selected address
-     * @param type of search (id or fullAddress)
-     * @param origin country
-     * @param request type (look up/retrieve)
+     * @param searchValue - input string by user/id of selected address
+     * @param filter - type of search (id or fullAddress)
+     * @param country - rigin country
+     * @param requestType - request type (look up/retrieve)
      * @return list of address object response from loqate
      */
     public static List<AddressObject> createRequest(String searchValue, String filter, String country, String requestType){
@@ -128,9 +119,9 @@ public with sharing class AddressInformationValidationCtrl {
 
     /**
      * @description do callout to loqate
-     * @param the endpoint of the callout
-     * @param type of callout
-     * @param body of request
+     * @param endpointPath - the endpoint of the callout
+     * @param type - type of callout
+     * @param payload - body of request
      * @return string response from loqate
      */
     private static String doCallout(String endpointPath, String type, String payload) {
@@ -160,37 +151,47 @@ public with sharing class AddressInformationValidationCtrl {
         }
     }
 
-    //creates a wrapper with service name
+    /**
+     * @description creates a wrapper with service 
+     * @param serviceName - service name
+     * @return service wrapper
+     */
     private static Wrapper createWrapper(String serviceName){
         Wrapper serviceWrapper = new Wrapper();
         serviceWrapper.serviceName = serviceName;
         return serviceWrapper;
     }
 
-    //wrapper class, holds the request/response
+    /**
+     * @description wrapper for request and response
+     */
     private class Wrapper{
         // Authorise request 
         String serviceName {get;set;}
-        Boolean AuthRequest {get;set;}
-        String Body {get;set;}
-        String transmission_datetime {get;set;}
+        Boolean authRequest {get;set;}
+        String body {get;set;}
+        String transmissionDateTime {get;set;}
         ResponseResult result {get;set;}
 
         public Wrapper() {
-            this.AuthRequest = true;
+            this.authRequest = true;
             DateTime formattedDateTime = DateTime.now();
-            this.transmission_datetime = formattedDateTime.formatGMT('yyyy-MM-dd\'T\'HH:mm:ss.SSSZ');
+            this.transmissionDateTime = formattedDateTime.formatGMT('yyyy-MM-dd\'T\'HH:mm:ss.SSSZ');
         }
     }
     
-    //holds the response from loqate
+    /**
+     * @description wrapper for result
+     */
     public class ResponseResult {
         public string status;
         public list<string> messages;
         public list<AddressObject> payload;
     }
     
-    //holds the address fields in the payload from loqate
+    /**
+     * @description wrapper for address object
+     */
     public class AddressObject {
         @AuraEnabled
         public string fullAddress;
@@ -224,7 +225,9 @@ public with sharing class AddressInformationValidationCtrl {
         public string postal;
     }
 
-    //holds data to maps sObjects to hed__Address__c from custom meta data
+    /**
+     * @description olds data to maps sObjects to hed__Address__c from custom meta data
+     */
     public class AddressMetadata {
         @AuraEnabled
         public string fieldApiMapping;

@@ -14,7 +14,7 @@ import getDetails from '@salesforce/apex/AddressInformationValidationCtrl.getDet
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 const NO_ADDRESSES = 'No results found.'
-const FIND_ADDRESS = 'Find Addresss'
+const FIND_ADDRESS = 'Find Address'
 const OPEN_DROPDOWN = 'slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open'
 const CLOSE_DROPDOWN = 'slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click'
 const ERROR_TITLE = 'Error'

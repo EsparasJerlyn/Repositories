@@ -22,7 +22,7 @@
                 <behavior>Edit</behavior>
                 <field>Record_Type_Setting__c</field>
             </layoutItems>
-            <layoutItems>
+	    <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Left_Column__c</field>
             </layoutItems>
@@ -33,6 +33,18 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Single_Column__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Left_Column_Long__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Right_Column_Long__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Single_Column_Long__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -67,9 +79,10 @@
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>
     <layoutSections>
-        <customLabel>false</customLabel>
+        <customLabel>true</customLabel>
         <detailHeading>false</detailHeading>
         <editHeading>false</editHeading>
+        <label>Custom Links</label>
         <layoutColumns/>
         <layoutColumns/>
         <layoutColumns/>
@@ -80,4 +93,10 @@
     <showInteractionLogPanel>false</showInteractionLogPanel>
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
+    <summaryLayout>
+        <masterLabel>00h8s0000004zeQ</masterLabel>
+        <sizeX>4</sizeX>
+        <sizeY>0</sizeY>
+        <summaryLayoutStyle>Default</summaryLayoutStyle>
+    </summaryLayout>
 </Layout>

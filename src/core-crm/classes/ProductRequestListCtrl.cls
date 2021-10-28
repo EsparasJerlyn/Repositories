@@ -9,6 +9,11 @@
       |                           |                       |                      |                              | 
  */
 public with sharing class ProductRequestListCtrl {
+    /**
+     * @description do callout to loqate
+     * @param productSpecificationId - id of productSpecification
+     * @return parent and child product requests
+     */
     @AuraEnabled(cacheable=true)    
     public static ProductRequestData getProductRequests(Id productSpecificationId){
         AuraHandledException auraEx = new AuraHandledException('Error Message');  
@@ -34,16 +39,12 @@ public with sharing class ProductRequestListCtrl {
             if(!productRequestList.isEmpty()){
                 for(Product_Request__c prodReq : productRequestList){
                     //collect parent product requests
-                    if(prodReq.Product_Specification__c == productSpecificationId && String.isBlank(prodReq.Parent_Product_Request__c)){
-                        if(!parentChildProductRequestMap.containsKey(prodReq.Id)){
-                            parentChildProductRequestMap.put(prodReq.Id,new List<Product_Request__c>());
-                        }
+                    if(prodReq.Product_Specification__c == productSpecificationId && String.isBlank(prodReq.Parent_Product_Request__c) && !parentChildProductRequestMap.containsKey(prodReq.Id)){
+                        parentChildProductRequestMap.put(prodReq.Id,new List<Product_Request__c>());
                         parentProductRequestList.add(prodReq);
                     //add child product requests
-                    }else{
-                        if(parentChildProductRequestMap.containsKey(prodReq.Parent_Product_Request__c)){
-                            parentChildProductRequestMap.get(prodReq.Parent_Product_Request__c).add(prodReq);
-                        }
+                    }else if(parentChildProductRequestMap.containsKey(prodReq.Parent_Product_Request__c)){
+                        parentChildProductRequestMap.get(prodReq.Parent_Product_Request__c).add(prodReq);
                     }
                 }
             }
@@ -57,6 +58,9 @@ public with sharing class ProductRequestListCtrl {
         
     }
     
+    /**
+     * @description wrapper that contains the list parent and map of child product requests
+     */
     public class ProductRequestData{
         @AuraEnabled
         public List<Product_Request__c> parentList;

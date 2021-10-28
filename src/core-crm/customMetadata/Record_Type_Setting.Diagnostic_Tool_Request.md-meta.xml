@@ -10,4 +10,8 @@
         <field>Order__c</field>
         <value xsi:type="xsd:double">4.0</value>
     </values>
+    <values>
+        <field>Parent_Record_Type__c</field>
+        <value xsi:nil="true"/>
+    </values>
 </CustomMetadata>

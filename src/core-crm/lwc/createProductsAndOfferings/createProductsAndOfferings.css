@@ -1,0 +1,16 @@
+.green{
+    color:green;
+}
+.noclick {
+    pointer-events: none;
+}
+
+.title-text{
+    color:#003b6f;
+    font-weight: bold;
+}
+
+.slds-scrollable{
+    max-height: 500px;
+    min-height: 100px;
+}

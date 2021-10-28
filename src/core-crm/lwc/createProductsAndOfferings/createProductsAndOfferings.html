@@ -1,0 +1,180 @@
+<template>
+    <lightning-card>
+        <template if:true={createRecord}>
+            <c-custom-create-edit-record 
+                object-api-name={objApiName}
+                pre-populated-fields={prefields}
+                allow-multi-create={multiCreate}
+                onsave={handleSave}
+                onclose={closeModal}
+            ></c-custom-create-edit-record>
+        </template>
+        <template if:true={editRecord}>
+            <c-custom-create-edit-record 
+                object-api-name={objApiName}
+                record-id={recordid}
+                onsave={handleSave}
+                onclose={closeModal}
+            ></c-custom-create-edit-record>
+        </template>
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+        </template>
+        <div class="slds-p-bottom_small slds-m-left_small">
+            <lightning-breadcrumbs >
+                <lightning-breadcrumb
+                    class={createProductClass}
+                    label="Create Product"
+                    onclick={handleCreateProducts}>
+                </lightning-breadcrumb>
+                <lightning-breadcrumb
+                    class ={createOfferingClass}
+                    label="Create Offerings"
+                    onclick={handleCreateOfferings}>
+                </lightning-breadcrumb>
+            </lightning-breadcrumbs>
+        </div>
+        <template if:false={isLoading}>
+            <div class="slds-scrollable">
+                <template for:each={coursesData} for:item="course">
+                    <div key={course.recordId} class="slds-border_top">
+                        <div  if:true={isCreateOfferings} class="slds-grid slds-m-bottom_small slds-m-top_small slds-m-left_small">
+                            <div class="slds-col slds-size_1-of-5 title-text">
+                                Course
+                            </div>
+                        </div>
+                        <div  class="slds-grid slds-m-bottom_small slds-m-top_small slds-m-left_small">
+                            <template for:each={course.fields} for:item="field">
+                                <template if:true={isCreateProduct}>
+                                    <template if:true={field.showCol} >
+                                        <div key={field.label} class="slds-col slds-size_1-of-5">
+                                            {field.label}
+                                        </div>
+                                    </template>
+                                </template>
+                                <div if:true={isCreateOfferings} key={field.label} class="slds-col slds-size_1-of-5 ">
+                                    {field.label}
+                                </div>
+                            </template>
+                        </div>
+                        <div class="slds-grid slds-m-bottom_small slds-m-top_small slds-m-left_small" >
+                            <template for:each={course.fields} for:item="field">
+                                <template if:true={isCreateProduct}>
+                                    <template if:true={field.showCol}>
+                                        <template if:true={field.isUrl}>
+                                            <div key={field.value} class="slds-col slds-size_1-of-5">
+                                                <lightning-formatted-url value={course.recordUrl} label={field.value} tooltip={field.value} target="_top"></lightning-formatted-url> 
+                                            </div>
+                                        </template>
+                                        <template if:false={field.isUrl}>
+                                            <div key={field.value} class="slds-col slds-size_1-of-5">
+                                                {field.value}
+                                            </div>
+                                        </template>
+                                    </template>
+                                </template>
+                                <template if:true={isCreateOfferings}>
+                                    <template if:true={field.isUrl}>
+                                        <div key={field.value} class="slds-col slds-size_1-of-5">
+                                            <lightning-formatted-url value={course.recordUrl} label={field.value} tooltip={field.value} target="_top"></lightning-formatted-url> 
+                                        </div>
+                                    </template>
+                                    <template if:false={field.isUrl}>
+                                        <div key={field.value} class="slds-col slds-size_1-of-5">
+                                            {field.value}
+                                        </div>
+                                    </template>
+                                </template>
+                            </template>
+                            <div class="slds-col slds-size_1-of-5 ">
+                                <template if:true={isCreateProduct}>
+                                 <lightning-button disabled={course.hasProduct} variant="brand" title="Create Product" name="Create Product" label="Create Product" icon-name="utility:add" icon-position="left" value={course.recordId} onclick={handleProductInsert}></lightning-button>
+                                </template>
+                                <template if:true={isCreateOfferings}>
+                                    <lightning-button variant="brand" title="Create Offering" name="Create Offering" label="Create Offering" icon-name="utility:add" icon-position="left" value={course.recordId} onclick={handleOfferingInsert}></lightning-button>
+                                </template>    
+                            </div>
+                        </div>
+                    </div>
+                    <template if:true={isCreateProduct}>
+                        <template for:each={course.products} for:item="product">
+                            <div key={product.recordId} class="slds-border_top">
+                                <div  class="slds-grid slds-m-bottom_small slds-m-top_small slds-m-left_small">
+                                    <template for:each={product.fields} for:item="field">
+                                        <div key={field.label} class="slds-col slds-size_1-of-5 ">
+                                           {field.label}
+                                        </div>
+                                    </template>
+                                </div>
+                                <div class="slds-grid slds-m-bottom_small slds-m-top_small slds-m-left_small">
+                                    <template for:each={product.fields} for:item="field">
+                                        <template if:true={field.isUrl}>
+                                            <div key={field.value} class="slds-col slds-size_1-of-5">
+                                                <lightning-formatted-url value={product.recordUrl} label={field.value} tooltip={field.label} target="_top"></lightning-formatted-url> 
+                                            </div>
+                                        </template>
+                                        <template if:false={field.isUrl}>
+                                            <div key={field.value} class="slds-col slds-size_1-of-5">
+                                                {field.value}
+                                            </div>
+                                        </template>
+                                    </template>
+                                    <div class="slds-col slds-size_1-of-5 slds-text-title_bold">
+                                        <lightning-button class="slds-align_absolute-center" variant="brand-outline" title="Edit Product" icon-name="utility:edit" name="EDIT" label="EDIT" icon-position="left" value={product.recordId} onclick={handleProductEdit}></lightning-button>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </template>
+                    <template if:true={isCreateOfferings}>
+                        <template if:true={course.offerings}>
+                            <div  key={course.recordId} class="slds-grid slds-m-bottom_small slds-m-top_small slds-m-left_small">
+                                <div class="slds-col slds-size_1-of-5 title-text">
+                                    Course Offerings
+                                </div>
+                            </div>
+                        </template>
+                        <template for:each={course.offerings} for:item="offering">
+                            <div key={offering.recordId}>
+                                <div  class="slds-grid slds-m-bottom_small slds-m-top_small slds-m-left_small">
+                                    <template for:each={offering.fields} for:item="field">
+                                        <div key={field.label} class="slds-col slds-size_1-of-5 ">
+                                           {field.label}
+                                        </div>
+                                    </template>
+                                </div>
+                                <div class="slds-grid slds-m-bottom_small slds-m-top_small slds-m-left_small">
+                                    <template for:each={offering.fields} for:item="field">
+                                        <template if:true={field.isUrl}>
+                                            <div key={field.value} class="slds-col slds-size_1-of-5">
+                                                <lightning-formatted-url value={offering.recordUrl} label={field.value} tooltip={field.label} target="_top"></lightning-formatted-url> 
+                                            </div>
+                                        </template>
+                                        <template if:false={field.isUrl}>
+                                            <div key={field.value} class="slds-col slds-size_1-of-5">
+                                                {field.value}
+                                            </div>
+                                        </template>
+                                    </template>
+                                    <div class="slds-col slds-size_1-of-5 slds-text-title_bold">
+                                        <lightning-button variant="brand-outline" title="Edit Offering" icon-name="utility:edit" name="EDIT" label="EDIT" icon-position="left" value={offering.recordId} onclick={handleOfferingEdit} ></lightning-button>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>  
+                    </template>
+                </template>
+            </div>
+        </template>
+        <div class="slds-clearfix slds-m-top_medium slds-border_top">
+            <div class="slds-float_right slds-text-title_bold slds-m-top_small">
+                <template if:true={isCreateProduct} >
+                    <lightning-button label="MARK AS COMPLETE" title="MARK AS COMPLETE" icon-name="utility:check" icon-position="left" variant="brand" onclick={markAsComplete} disabled={isDisabled}></lightning-button>
+                </template>
+                <template if:true={isCreateOfferings} >
+                    <lightning-button label="MARK AS COMPLETE" title="MARK AS COMPLETE" icon-name="utility:check" icon-position="left" variant="brand" onclick={markAsCompleteOffering} disabled={isDisableOffering}></lightning-button>
+                </template>
+            </div>
+        </div>
+    </lightning-card>
+</template>

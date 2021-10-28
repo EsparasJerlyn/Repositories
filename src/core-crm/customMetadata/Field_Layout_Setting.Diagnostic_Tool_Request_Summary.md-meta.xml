@@ -3,6 +3,10 @@
     <label>Diagnostic Tool Request Summary</label>
     <protected>false</protected>
     <values>
+        <field>Left_Column_Long__c</field>
+        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Name&quot;},{&quot;field&quot;:&quot;Request_Type__c&quot;,&quot;mandatory&quot;:true},{&quot;field&quot;:&quot;Product_Request_Name__c&quot;,&quot;mandatory&quot;:true}]</value>
+    </values>
+    <values>
         <field>Left_Column__c</field>
         <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Name&quot;},{&quot;field&quot;:&quot;Request_Type__c&quot;,&quot;mandatory&quot;:true},{&quot;field&quot;:&quot;Product_Request_Name__c&quot;,&quot;mandatory&quot;:true}]</value>
     </values>
@@ -15,8 +19,16 @@
         <value xsi:type="xsd:string">Diagnostic_Tool_Request</value>
     </values>
     <values>
+        <field>Right_Column_Long__c</field>
+        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;OwnerId&quot;},{&quot;field&quot;:&quot;Product_Request_Status__c&quot;,&quot;mandatory&quot;:true},{&quot;field&quot;:&quot;RecordTypeId&quot;,&quot;isrecordtype&quot;:true}]</value>
+    </values>
+    <values>
         <field>Right_Column__c</field>
         <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;OwnerId&quot;},{&quot;field&quot;:&quot;Product_Request_Status__c&quot;,&quot;mandatory&quot;:true},{&quot;field&quot;:&quot;RecordTypeId&quot;,&quot;isrecordtype&quot;:true}]</value>
+    </values>
+    <values>
+        <field>Single_Column_Long__c</field>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Single_Column__c</field>

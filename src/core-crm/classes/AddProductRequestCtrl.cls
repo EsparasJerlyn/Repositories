@@ -11,7 +11,7 @@
 public with sharing class AddProductRequestCtrl {
     /**
      * @description get record type settings and field layout settings 
-     * @param object api name of the current record the lwc is at
+     * @param objectString - object api name of the current record the lwc is at
      * @return metadata mapping
      */
     @AuraEnabled(cacheable=true)
@@ -24,7 +24,7 @@ public with sharing class AddProductRequestCtrl {
             List<FieldDetails> colDetails;
             RecordTypeOrderDetails recordTypeOrder;
 
-            for(Field_Layout_Setting__mdt fls:[SELECT Record_Type_Setting__r.Object_Type__c, Record_Type_Setting__r.Label, Order__c, Label, Record_Type_Setting__r.Order__c, Left_Column__c, Right_Column__c, Single_Column__c 
+            for(Field_Layout_Setting__mdt fls:[SELECT Record_Type_Setting__r.Object_Type__c, Record_Type_Setting__r.Label, Order__c, Label, Record_Type_Setting__r.Order__c, Left_Column_Long__c, Right_Column_Long__c, Single_Column_Long__c 
                                                 FROM Field_Layout_Setting__mdt WHERE Record_Type_Setting__r.Object_Type__c =: objectString]){
                 //setup recordtype details                                    
                 recordTypeOrder = new RecordTypeOrderDetails();
@@ -36,14 +36,14 @@ public with sharing class AddProductRequestCtrl {
                 section.label = fls.Label;
                 section.order = string.valueOf(fls.Order__c);
                 colDetails = new List<FieldDetails>();
-                colDetails.addAll((List<FieldDetails>)JSON.deserialize(fls.Left_Column__c,List<FieldDetails>.class));
+                colDetails.addAll((List<FieldDetails>)JSON.deserialize(fls.Left_Column_Long__c,List<FieldDetails>.class));
                 section.leftColumn = colDetails;
                 colDetails = new List<FieldDetails>();
-                colDetails.addAll((List<FieldDetails>)JSON.deserialize(fls.Right_Column__c,List<FieldDetails>.class));
+                colDetails.addAll((List<FieldDetails>)JSON.deserialize(fls.Right_Column_Long__c,List<FieldDetails>.class));
                 section.rightColumn = colDetails;
                 colDetails = new List<FieldDetails>();
-                if(fls.Single_Column__c != null){
-                    colDetails.addAll((List<FieldDetails>)JSON.deserialize(fls.Single_Column__c,List<FieldDetails>.class));
+                if(fls.Single_Column_Long__c != null){
+                    colDetails.addAll((List<FieldDetails>)JSON.deserialize(fls.Single_Column_Long__c,List<FieldDetails>.class));
                 }
                 section.singleColumn =  colDetails;
                 if(!sectionMap.containsKey(fls.Record_Type_Setting__r.Label)){
@@ -69,7 +69,9 @@ public with sharing class AddProductRequestCtrl {
         }
     }
 
-    //holds data map to arange record types and fields on lightning record form
+    /**
+     * @description holds data map to arange record types and fields on lightning record form
+     */
     public class MetadataDetails {
         @AuraEnabled
         public List<RecordTypeOrderDetails> recordTypeOrderedList;
@@ -77,7 +79,9 @@ public with sharing class AddProductRequestCtrl {
         public Map<String,List<SectionDetails>> fieldLayoutMap;
     }
 
-    //holds data for the fields on the form
+    /**
+     * @description holds data for the fields on the form
+     */
     public class SectionDetails {
         @AuraEnabled
         public String label;
@@ -91,6 +95,9 @@ public with sharing class AddProductRequestCtrl {
         public List<FieldDetails> singleColumn;
     }
 
+    /**
+     * @description holds recordtype details and order
+     */
     public class RecordTypeOrderDetails {
         @AuraEnabled
         public String recordTypeName;
@@ -98,6 +105,9 @@ public with sharing class AddProductRequestCtrl {
         public String order;
     }
 
+    /**
+     * @description holds data for the field details and attributes
+     */
     public class FieldDetails {
         @AuraEnabled
         public String field;
