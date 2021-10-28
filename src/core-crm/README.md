@@ -1,1 +1,3 @@
-A folder to house all the core model of your org which is shared with all other domains.
+Metadata in src-env-specific-pre is installed first across all release environments.
+
+These are common environment specific metadata like settings

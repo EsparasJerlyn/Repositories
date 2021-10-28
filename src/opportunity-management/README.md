@@ -1,1 +1,0 @@
-A folder to house opportunity management.
