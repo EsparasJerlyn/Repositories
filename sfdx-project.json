@@ -30,7 +30,8 @@
       "package": "core",
       "default": true,
       "versionName": "Version 1.0.0.0",
-      "versionNumber": "1.0.0.0"
+      "versionNumber": "1.0.0.0",
+      "destructiveChangePath": "./destructive/core-crm/Release1/destructiveChanges.xml"
     }
   ],
   "namespace": "",
