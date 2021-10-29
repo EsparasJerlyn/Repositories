@@ -694,6 +694,10 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
+        <recordType>hed__Course__c.Activity</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
         <recordType>hed__Course__c.Award_Unit</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>

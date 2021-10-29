@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Activity</fullName>
+    <active>true</active>
+    <label>Activity</label>
+    <picklistValues>
+        <picklist>Certification_Type__c</picklist>
+        <values>
+            <fullName>Certificate of Completion</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Certificate of Participation</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Primary_Delivery_Platform__c</picklist>
+        <values>
+            <fullName>Blackboard</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Blackboard Engage %28Custom Program%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Canvas %28QUT Online%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>FutureLearn</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>
