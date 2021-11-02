@@ -39,6 +39,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Product_Specification__c.Program_Lead__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Product2.Core_Concepts__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -728,6 +733,10 @@
     <tabSettings>
         <tab>Product_Request__c</tab>
         <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>Product_Specification__c</tab>
+        <visibility>Visible</visibility>s
     </tabSettings>
     <tabSettings>
         <tab>Program_Offering__c</tab>
