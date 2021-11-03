@@ -19,7 +19,8 @@ definitions:
         script:
           - rm -f "./pipeline-files"
           - mkdir -p "./pipeline-files"
-          - git clone --single-branch --branch feature/DEP1-44 git@bitbucket.org:qutdev/sfdx-pipelines.git pipeline-files
+          # - git clone --single-branch --branch feature/DEP1-44 git@bitbucket.org:qutdev/sfdx-pipelines.git pipeline-files
+          - git clone --single-branch --branch main git@bitbucket.org:qutdev/sfdx-pipelines.git pipeline-files
           - /bin/sh ./pipeline-files/utils/initBuild.sh
         artifacts:
           - pipeline-files/**
@@ -29,8 +30,13 @@ definitions:
         image: adambestsf/sfdxcli:latest
         script:
           - echo $SERVER_KEY | base64 -d > server.key
-          - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $TEST_LOGIN_URL -u "$USERNAME.$SANDBOX_NAME"  -a $SANDBOX_NAME
+          - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $TEST_LOGIN_URL -u "$USERNAME.$SANDBOX_NAME" -a $SANDBOX_NAME
+          ## createStores
           - FILE_PATH="./pipeline-files/utils/surface/createStores.sh"
+          - chmod +x $FILE_PATH
+          - $FILE_PATH "$SANDBOX_NAME" $SANDBOX_NAME
+          ## createCMSWorkspace
+          - FILE_PATH="./pipeline-files/utils/surface/createCMSWorkspace.sh"
           - chmod +x $FILE_PATH
           - $FILE_PATH "$SANDBOX_NAME" $SANDBOX_NAME
         artifacts:
@@ -48,16 +54,9 @@ definitions:
         name: "Deploy to Sandbox"
         script:
           - echo $SERVER_KEY | base64 -d > server.key
-          - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $TEST_LOGIN_URL -u "$USERNAME.$SANDBOX_NAME"
-          - sfdx sfpowerscripts:orchestrator:deploy -u "$USERNAME.$SANDBOX_NAME" --artifactdir build-artifacts
-        after-script:
-          - rm server.key
-    - step: &deploy-to-sandbox
-        name: "Deploy to Sandbox"
-        script:
-          - echo $SERVER_KEY | base64 -d > server.key
-          - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $TEST_LOGIN_URL -u "$USERNAME.$SANDBOX_NAME"
-          - sfdx sfpowerscripts:orchestrator:deploy -u "$USERNAME.$SANDBOX_NAME" --artifactdir build-artifacts
+          - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $TEST_LOGIN_URL -u "$USERNAME.$SANDBOX_NAME" -a $SANDBOX_NAME
+          ## deploy
+          - sfdx sfpowerscripts:orchestrator:deploy -u $SANDBOX_NAME --artifactdir build-artifacts
         after-script:
           - rm server.key
 
@@ -114,26 +113,6 @@ pipelines:
           - step: *build-package
       - step: *deploy-to-sandbox
 
-    Deploy to PRODCI2:
-      - step:
-          name: "Build Packages"
-          artifacts:
-            - build-artifacts/**
-          script:
-            # Dev Hub access is required for creating unlocked packages
-            - sfdx sfpowerscripts:orchestrator:build --artifactdir build-artifacts --buildnumber $BITBUCKET_BUILD_NUMBER --branch $BITBUCKET_BRANCH
-          after-script:
-            - rm server.key
-      - step:
-          name: "Deploy to PRODCI2"
-          deployment: PRODCI2
-          script:
-            - echo $SERVER_KEY | base64 -d > server.key
-            - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $TEST_LOGIN_URL -u "$USERNAME.$SANDBOX_NAME"  -a $SANDBOX_NAME
-            - sfdx sfpowerscripts:orchestrator:deploy -u $SANDBOX_NAME --artifactdir build-artifacts
-          after-script:
-            - rm server.key
-
     ## Used for 7am automated deployment to SIT
     SIT Scheduled Deployment:
       - step:
@@ -150,7 +129,16 @@ pipelines:
           deployment: SIT
           script:
             - echo $SERVER_KEY | base64 -d > server.key
-            - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $TEST_LOGIN_URL -u "$USERNAME.$SANDBOX_NAME"  -a $SANDBOX_NAME
+            - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $TEST_LOGIN_URL -u "$USERNAME.$SANDBOX_NAME" -a $SANDBOX_NAME
+            ## createStores
+            - FILE_PATH="./pipeline-files/utils/surface/createStores.sh"
+            - chmod +x $FILE_PATH
+            - $FILE_PATH "$SANDBOX_NAME" $SANDBOX_NAME
+            ## createCMSWorkspace
+            - FILE_PATH="./pipeline-files/utils/surface/createCMSWorkspace.sh"
+            - chmod +x $FILE_PATH
+            - $FILE_PATH "$SANDBOX_NAME" $SANDBOX_NAME
+            ## deploy
             - sfdx sfpowerscripts:orchestrator:deploy -u $SANDBOX_NAME --artifactdir build-artifacts
           after-script:
             - rm server.key
@@ -165,9 +153,15 @@ pipelines:
           script:
             - echo $SERVER_KEY | base64 -d > server.key
             - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $TEST_LOGIN_URL -u "$USERNAME.$SANDBOX_NAME" -a $SANDBOX_NAME
+            ## createStores
             - FILE_PATH="./pipeline-files/utils/surface/createStores.sh"
             - chmod +x $FILE_PATH
             - $FILE_PATH "$SANDBOX_NAME" $SANDBOX_NAME
+            ## createCMSWorkspace
+            - FILE_PATH="./pipeline-files/utils/surface/createCMSWorkspace.sh"
+            - chmod +x $FILE_PATH
+            - $FILE_PATH "$SANDBOX_NAME" $SANDBOX_NAME
+            ## deploy
             - sfdx sfpowerscripts:orchestrator:validateAgainstOrg -u $SANDBOX_NAME --coveragepercent=80
           artifacts:
             - output/**
@@ -204,9 +198,15 @@ pipelines:
           script:
             - echo $SERVER_KEY | base64 -d > server.key
             - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $TEST_LOGIN_URL -u "$USERNAME.$SANDBOX_NAME"  -a $SANDBOX_NAME
+            ## createStores
             - FILE_PATH="./pipeline-files/utils/surface/createStores.sh"
             - chmod +x $FILE_PATH
             - $FILE_PATH "$SANDBOX_NAME" $SANDBOX_NAME
+            ## createCMSWorkspace
+            - FILE_PATH="./pipeline-files/utils/surface/createCMSWorkspace.sh"
+            - chmod +x $FILE_PATH
+            - $FILE_PATH "$SANDBOX_NAME" $SANDBOX_NAME
+            ## deploy
             - sfdx sfpowerscripts:orchestrator:deploy -u $SANDBOX_NAME --artifactdir build-artifacts
           after-script:
             - rm server.key
@@ -218,9 +218,15 @@ pipelines:
           script:
             - echo $SERVER_KEY | base64 -d > server.key
             - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $TEST_LOGIN_URL -u "$USERNAME.$SANDBOX_NAME"  -a $SANDBOX_NAME
+            ## createStores
             - FILE_PATH="./pipeline-files/utils/surface/createStores.sh"
             - chmod +x $FILE_PATH
             - $FILE_PATH "$SANDBOX_NAME" $SANDBOX_NAME
+            ## createCMSWorkspace
+            - FILE_PATH="./pipeline-files/utils/surface/createCMSWorkspace.sh"
+            - chmod +x $FILE_PATH
+            - $FILE_PATH "$SANDBOX_NAME" $SANDBOX_NAME
+            ## deploy
             - sfdx sfpowerscripts:orchestrator:deploy -u $SANDBOX_NAME --artifactdir build-artifacts
           after-script:
             - rm server.key
@@ -234,9 +240,15 @@ pipelines:
           script:
             - echo $SERVER_KEY | base64 -d > server.key
             - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $TEST_LOGIN_URL -u "$USERNAME.$SANDBOX_NAME"  -a $SANDBOX_NAME
+            ## createStores
             - FILE_PATH="./pipeline-files/utils/surface/createStores.sh"
             - chmod +x $FILE_PATH
             - $FILE_PATH "$SANDBOX_NAME" $SANDBOX_NAME
+            ## createCMSWorkspace
+            - FILE_PATH="./pipeline-files/utils/surface/createCMSWorkspace.sh"
+            - chmod +x $FILE_PATH
+            - $FILE_PATH "$SANDBOX_NAME" $SANDBOX_NAME
+            ## deploy
             - sfdx sfpowerscripts:orchestrator:deploy -u $SANDBOX_NAME --artifactdir build-artifacts
           after-script:
             - rm server.key
