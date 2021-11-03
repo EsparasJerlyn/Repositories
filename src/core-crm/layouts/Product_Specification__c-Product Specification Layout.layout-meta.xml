@@ -23,7 +23,7 @@
         <customLabel>true</customLabel>
         <detailHeading>true</detailHeading>
         <editHeading>true</editHeading>
-        <label>Program Specification Summary</label>
+        <label>Product Specification Summary</label>
         <layoutColumns>
             <layoutItems>
                 <behavior>Readonly</behavior>
