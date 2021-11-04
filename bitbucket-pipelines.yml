@@ -12,21 +12,30 @@ definitions:
     - step: &init-build
         name: Init Build
         image: adambestsf/sfdxcli:latest
-        services:
-          - docker
-        caches:
-          - docker
+        #services:
+        #  - docker
+        #caches:
+        #  - docker
         script:
           - rm -f "./pipeline-files"
           - mkdir -p "./pipeline-files"
-          # - git clone --single-branch --branch feature/DEP1-44 git@bitbucket.org:qutdev/sfdx-pipelines.git pipeline-files
+          #- git clone --single-branch --branch feature/DEPP-617 git@bitbucket.org:qutdev/sfdx-pipelines.git pipeline-files
           - git clone --single-branch --branch main git@bitbucket.org:qutdev/sfdx-pipelines.git pipeline-files
           - /bin/sh ./pipeline-files/utils/initBuild.sh
         artifacts:
           - pipeline-files/**
 
-    - step: &pre-surface
-        name: Pre Deploy Surface Steps
+    - step: &build-package
+        name: "Build Packages"
+        artifacts:
+          - build-artifacts/**
+        script:
+          - sfdx sfpowerscripts:orchestrator:build --artifactdir build-artifacts --buildnumber $BITBUCKET_BUILD_NUMBER --branch $BITBUCKET_BRANCH
+        after-script:
+          - rm server.key
+
+    - step: &pre-deploy-steps
+        name: Pre Deploy Steps
         image: adambestsf/sfdxcli:latest
         script:
           - echo $SERVER_KEY | base64 -d > server.key
@@ -42,14 +51,6 @@ definitions:
         artifacts:
           - output/**
 
-    - step: &build-package
-        name: "Build Packages"
-        artifacts:
-          - build-artifacts/**
-        script:
-          - sfdx sfpowerscripts:orchestrator:build --artifactdir build-artifacts --buildnumber $BITBUCKET_BUILD_NUMBER --branch $BITBUCKET_BRANCH
-        after-script:
-          - rm server.key
     - step: &deploy-to-sandbox
         name: "Deploy to Sandbox"
         script:
@@ -60,14 +61,25 @@ definitions:
         after-script:
           - rm server.key
 
+    - step: &post-deploy-steps
+        name: Post Deploy Steps
+        image: adambestsf/sfdxcli:latest
+        script:
+          - echo $SERVER_KEY | base64 -d > server.key
+          - sfdx force:auth:jwt:grant -f server.key -i $CONSUMER_KEY -r $TEST_LOGIN_URL -u "$USERNAME.$SANDBOX_NAME" -a $SANDBOX_NAME
+          ## update EDA settings
+          - FILE_PATH="./pipeline-files/utils/postdeploy/updateEDASettings.sh"
+          - chmod +x $FILE_PATH
+          - $FILE_PATH "prod" $SANDBOX_NAME $SANDBOX_NAME
+      artifacts:
+        - output/**
+
     - step: &pmd-scanner
         name: "PMD Static Analysis"
         image: adambestsf/sfdxcli:latest
         script:
           - sfdx sfpowerscripts:analyze:pmd -b --sourcedir "src/core-crm" -o core-crm-pmd-output
           - sfdx sfpowerscripts:analyze:pmd -b --sourcedir "src/frameworks" -o frameworks-pmd-output
-          - sfdx sfpowerscripts:analyze:pmd -b --sourcedir "src/sales" -o sales-pmd-output
-          - sfdx sfpowerscripts:analyze:pmd -b --sourcedir "src/service" -o service-pmd-output
 
     - step: &code-scanner
         name: Code Scanner
@@ -107,11 +119,12 @@ pipelines:
           - name: SANDBOX_NAME
           - name: CONSUMER_KEY
       - step: *init-build
-      - step: *pre-surface
       - parallel:
+          - step: *pre-deploy-steps
           - step: *code-scanner
           - step: *build-package
       - step: *deploy-to-sandbox
+      - step: *post-deploy-steps
 
     ## Used for 7am automated deployment to SIT
     SIT Scheduled Deployment:
@@ -140,6 +153,10 @@ pipelines:
             - $FILE_PATH "$SANDBOX_NAME" $SANDBOX_NAME
             ## deploy
             - sfdx sfpowerscripts:orchestrator:deploy -u $SANDBOX_NAME --artifactdir build-artifacts
+            ## update EDA settings
+            - FILE_PATH="./pipeline-files/utils/postdeploy/updateEDASettings.sh"
+            - chmod +x $FILE_PATH
+            - $FILE_PATH "prod" $SANDBOX_NAME $SANDBOX_NAME
           after-script:
             - rm server.key
 
@@ -163,6 +180,10 @@ pipelines:
             - $FILE_PATH "$SANDBOX_NAME" $SANDBOX_NAME
             ## deploy
             - sfdx sfpowerscripts:orchestrator:validateAgainstOrg -u $SANDBOX_NAME --coveragepercent=80
+            ## update EDA settings
+            - FILE_PATH="./pipeline-files/utils/postdeploy/updateEDASettings.sh"
+            - chmod +x $FILE_PATH
+            - $FILE_PATH "prod" $SANDBOX_NAME $SANDBOX_NAME
           artifacts:
             - output/**
           after-script:
@@ -173,8 +194,8 @@ pipelines:
           script:
             - sfdx sfpowerscripts:analyze:pmd -b --sourcedir "src/core-crm" -o core-crm-pmd-output
             - sfdx sfpowerscripts:analyze:pmd -b --sourcedir "src/frameworks" -o frameworks-pmd-output
-            - sfdx sfpowerscripts:analyze:pmd -b --sourcedir "src/sales" -o sales-pmd-output
-            - sfdx sfpowerscripts:analyze:pmd -b --sourcedir "src/service" -o service-pmd-output
+            #- sfdx sfpowerscripts:analyze:pmd -b --sourcedir "src/sales" -o sales-pmd-output
+            #- sfdx sfpowerscripts:analyze:pmd -b --sourcedir "src/service" -o service-pmd-output
 
   branches:
     release/IT1Feb:
@@ -208,6 +229,10 @@ pipelines:
             - $FILE_PATH "$SANDBOX_NAME" $SANDBOX_NAME
             ## deploy
             - sfdx sfpowerscripts:orchestrator:deploy -u $SANDBOX_NAME --artifactdir build-artifacts
+            ## update EDA settings
+            - FILE_PATH="./pipeline-files/utils/postdeploy/updateEDASettings.sh"
+            - chmod +x $FILE_PATH
+            - $FILE_PATH "prod" $SANDBOX_NAME $SANDBOX_NAME
           after-script:
             - rm server.key
 
@@ -228,6 +253,10 @@ pipelines:
             - $FILE_PATH "$SANDBOX_NAME" $SANDBOX_NAME
             ## deploy
             - sfdx sfpowerscripts:orchestrator:deploy -u $SANDBOX_NAME --artifactdir build-artifacts
+            ## update EDA settings
+            - FILE_PATH="./pipeline-files/utils/postdeploy/updateEDASettings.sh"
+            - chmod +x $FILE_PATH
+            - $FILE_PATH "prod" $SANDBOX_NAME $SANDBOX_NAME
           after-script:
             - rm server.key
 
@@ -250,5 +279,9 @@ pipelines:
             - $FILE_PATH "$SANDBOX_NAME" $SANDBOX_NAME
             ## deploy
             - sfdx sfpowerscripts:orchestrator:deploy -u $SANDBOX_NAME --artifactdir build-artifacts
+            ## update EDA settings
+            - FILE_PATH="./pipeline-files/utils/postdeploy/updateEDASettings.sh"
+            - chmod +x $FILE_PATH
+            - $FILE_PATH "prod" $SANDBOX_NAME $SANDBOX_NAME
           after-script:
             - rm server.key

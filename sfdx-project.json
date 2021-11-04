@@ -1,6 +1,13 @@
 {
   "packageDirectories": [
     {
+      "path": "./src/core-crm-pre",
+      "package": "pre",
+      "default": true,
+      "versionName": "Version 1.0.0.0",
+      "versionNumber": "1.0.0.0"
+    },
+    {
       "path": "./src-env-specific-alias-pre",
       "package": "src-env-specific-alias-pre",
       "versionNumber": "1.0.0.0",
