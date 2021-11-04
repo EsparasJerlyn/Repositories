@@ -15,8 +15,8 @@
 private class CustomCreateEditRecordCtrlTest {
 
     private static final String COURSE_API_NAME = hed__Course__c.SObjectType.getDescribe().getLocalName();
-    private static final String STR_QUTeX = 'QUTeX';
-    private static User currentUser = TestDataFactory.createUserRecords(1, STR_QUTeX).iterator().next();
+    private static final String STR_QUTEX = 'QUTEX';
+    private static User currentUser = TestDataFactory.createUserRecords(1, STR_QUTEX).iterator().next();
 
     @IsTest
     private static void getLayoutMappingTest(){

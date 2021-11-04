@@ -1,0 +1,25 @@
+.gray-text{
+    color:gray;
+}
+
+.sf-blue-text{
+    color:#0176d3;
+}
+
+.custom-hover:hover{
+    text-decoration: underline;
+}
+
+.custom-height{
+    max-height: 400px;
+    min-height: 100px;
+}
+
+.bottom-position{
+    position: absolute;
+    bottom: 0;
+}
+
+.relative-position{
+    position: relative;
+}

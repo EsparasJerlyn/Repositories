@@ -120,7 +120,6 @@ public class TestDataFactory {
         return addresses;
     }
 
-
     /**
     * @description Method for creating test Product Request records
     * @param numProductRequest number of product request

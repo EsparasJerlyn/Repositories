@@ -24,18 +24,6 @@
             </layoutItems>
 	    <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Left_Column__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Right_Column__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Single_Column__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Left_Column_Long__c</field>
             </layoutItems>
             <layoutItems>
