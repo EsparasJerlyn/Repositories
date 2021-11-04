@@ -155,11 +155,11 @@
     <externalSharingModel>ControlledByParent</externalSharingModel>
     <label>Program Offering</label>
     <nameField>
-        <label>Program Offering Name</label>
+        <label>Program Offering ID</label>
         <type>Text</type>
     </nameField>
     <pluralLabel>Program Offerings</pluralLabel>
-    <searchLayouts/>
+    <searchLayouts></searchLayouts>
     <sharingModel>ControlledByParent</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>
