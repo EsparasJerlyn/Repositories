@@ -182,6 +182,24 @@
         <type>Flexipage</type>
         <profile>QUTeX</profile>
     </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Product_Request_Lightning_Page_Layout</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Product_Request__c</pageOrSobjectType>
+        <recordType>Product_Request__c.Professional_Advantage_Request</recordType>
+        <type>Flexipage</type>
+        <profile>QUTeX</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Product_Request_Lightning_Page_Layout</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Product_Request__c</pageOrSobjectType>
+        <recordType>Product_Request__c.Professional_Advantage_Request</recordType>
+        <type>Flexipage</type>
+        <profile>QUTeX</profile>
+    </profileActionOverrides>
     <tabs>standard-home</tabs>
     <tabs>standard-Lead</tabs>
     <tabs>standard-Account</tabs>
