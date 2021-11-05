@@ -15,6 +15,119 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Cohort_Type__c</picklist>
+        <values>
+            <fullName>Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Individual</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Diagnostic_Tool_Selection__c</picklist>
+        <values>
+            <fullName>DISC 363 For Leaders</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DISC Sales Profile</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DISC Workplace Profile</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TLC Leadership Check In</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TLC Leadership Circle Profile</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TLC Manager Edition</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Group_Dynamics_Tool__c</picklist>
+        <values>
+            <fullName>Prophet Team Insight Report</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TLC Collective Leadership Assessment</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Module_Category__c</picklist>
+        <values>
+            <fullName>Custom</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Open</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>QUT Only</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Module_Grading_Scheme__c</picklist>
+        <values>
+            <fullName>Marks</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Meets Requirements %2F Does not yet Meet Requirement</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pass %2F Fail</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Module_Type__c</picklist>
+        <values>
+            <fullName>Assessment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Learning</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Learning and Assessment</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Payment_Options__c</picklist>
+        <values>
+            <fullName>Advantage - Credit</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pay Later - Invoice</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pay Now - Credit Card</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pay Now - PayPal</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Primary_Delivery_Platform__c</picklist>
         <values>
             <fullName>Blackboard</fullName>
@@ -34,6 +147,90 @@
         </values>
         <values>
             <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Provider__c</picklist>
+        <values>
+            <fullName>QUT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>QUT and Third Party</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Third Party</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Timeline__c</picklist>
+        <values>
+            <fullName>Annually</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Monthly</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Quarterly</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Weekly</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Unit_Category__c</picklist>
+        <values>
+            <fullName>Administrative Unit</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>HDR %28Time Based%29 Unit</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other Unit Type</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Post Graduate Unit</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>QUTIC Unit</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Undergraduate Honours Unit</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Undergraduate Unit</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Unit_Mode__c</picklist>
+        <values>
+            <fullName>Block</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>External</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Internal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Online</fullName>
             <default>false</default>
         </values>
     </picklistValues>

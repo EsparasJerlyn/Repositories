@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Unit_Category__c</fullName>
+    <externalId>false</externalId>
+    <label>Unit Category</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Undergraduate Unit</fullName>
+                <default>false</default>
+                <label>Undergraduate Unit</label>
+            </value>
+            <value>
+                <fullName>Undergraduate Honours Unit</fullName>
+                <default>false</default>
+                <label>Undergraduate Honours Unit</label>
+            </value>
+            <value>
+                <fullName>Post Graduate Unit</fullName>
+                <default>false</default>
+                <label>Post Graduate Unit</label>
+            </value>
+            <value>
+                <fullName>QUTIC Unit</fullName>
+                <default>false</default>
+                <label>QUTIC Unit</label>
+            </value>
+            <value>
+                <fullName>HDR (Time Based) Unit</fullName>
+                <default>false</default>
+                <label>HDR (Time Based) Unit</label>
+            </value>
+            <value>
+                <fullName>Administrative Unit</fullName>
+                <default>false</default>
+                <label>Administrative Unit</label>
+            </value>
+            <value>
+                <fullName>Other Unit Type</fullName>
+                <default>false</default>
+                <label>Other Unit Type</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
