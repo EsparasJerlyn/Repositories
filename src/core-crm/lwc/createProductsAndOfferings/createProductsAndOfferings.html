@@ -18,23 +18,30 @@
             ></c-custom-create-edit-record>
         </template>
         <template if:true={isLoading}>
-            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+            <template if:false={isInitialRender}>
+                <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+            </template>
+            <template if:true={isInitialRender}>
+                <div class="slds-align_absolute-center slds-text-title_bold">
+                    No Courses found.
+                </div>
+            </template>
         </template>
-        <div class="slds-p-bottom_small slds-m-left_small">
-            <lightning-breadcrumbs >
-                <lightning-breadcrumb
-                    class={createProductClass}
-                    label="Create Product"
-                    onclick={handleCreateProducts}>
-                </lightning-breadcrumb>
-                <lightning-breadcrumb
-                    class ={createOfferingClass}
-                    label="Create Offerings"
-                    onclick={handleCreateOfferings}>
-                </lightning-breadcrumb>
-            </lightning-breadcrumbs>
-        </div>
         <template if:false={isLoading}>
+            <div class="slds-p-bottom_small slds-m-left_small">
+                <lightning-breadcrumbs >
+                    <lightning-breadcrumb
+                        class={createProductClass}
+                        label="Create Product"
+                        onclick={handleCreateProducts}>
+                    </lightning-breadcrumb>
+                    <lightning-breadcrumb
+                        class ={createOfferingClass}
+                        label="Create Offerings"
+                        onclick={handleCreateOfferings}>
+                    </lightning-breadcrumb>
+                </lightning-breadcrumbs>
+            </div>
             <div class="slds-scrollable">
                 <template for:each={coursesData} for:item="course">
                     <div key={course.recordId} class="slds-border_top">

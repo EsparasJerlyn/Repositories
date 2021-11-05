@@ -128,6 +128,13 @@ export default class CreateProductsAndOfferings extends LightningElement{
     }
 
     /*
+    *getter for isInitialRender
+    */
+    get isInitialRender(){
+        return  this.onRender && this.onRenderOffering ?true:false;
+    }
+
+    /*
     *function that formats the structure for oferrings data
     */
     formatOfferingData(listToFormat){

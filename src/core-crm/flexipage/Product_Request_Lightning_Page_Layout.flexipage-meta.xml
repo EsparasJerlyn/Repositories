@@ -262,15 +262,7 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentInstanceProperties>
-                    <name>decorate</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>richTextValue</name>
-                    <value>&lt;p&gt;LWC&lt;/p&gt;</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:richText</componentName>
+                <componentName>createProductsAndOfferings</componentName>
             </componentInstance>
         </itemInstances>
         <name>Facet-tz4xgn35a1f</name>
@@ -762,15 +754,7 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentInstanceProperties>
-                    <name>decorate</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>richTextValue</name>
-                    <value>&lt;p&gt;LWC&lt;/p&gt;</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:richText</componentName>
+                <componentName>createProductsAndOfferings</componentName>
             </componentInstance>
         </itemInstances>
         <name>Facet-6d8b7fce-6844-4e37-b46f-9453e6285f8b</name>
