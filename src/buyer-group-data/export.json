@@ -1,0 +1,28 @@
+{
+    "objects": [
+        {
+            "query": "SELECT Name,Id,Description FROM BuyerGroup",
+            "operation": "Upsert",
+            "externalId": "Id",
+            "useCSVValuesMapping": true,
+            "targetObject": "BuyerGroup",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT BuyerGroupId,WebStoreId FROM WebStoreBuyerGroup",
+            "operation": "Upsert",
+            "externalId": "BuyerGroupId",
+            "useCSVValuesMapping": true,
+            "targetObject": "WebStoreBuyerGroup",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Name,Id FROM WebStore",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "WebStore",
+            "importCSVFilesAsIs": true
+        }
+    ]
+}
