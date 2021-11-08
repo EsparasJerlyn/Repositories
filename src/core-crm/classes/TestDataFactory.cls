@@ -11,6 +11,7 @@
       | angelika.j.s.galang       | September 16, 2021    | DEP1-22             | Added method for creating Opportunity                            |
       | roy.nino.s.regala         | October  4,2021       | DEPP-40,42          | Added method for Product Request and Product Specification       | 
       | adrian.c.habasa           | October 18,2021       | DEPP-476,425,383    | Added method for Course, Products,Course Offerings and Terms     |
+      | roy.nino.s.regala         | November 3, 2021      | DEPP-736            | Added nethod for Opportunity Contact Roles                       |
 */
 @IsTest
 public class TestDataFactory {
@@ -300,7 +301,7 @@ public class TestDataFactory {
     * @description Method for creating Term Record
     * @param nTerm - number of Term to be created
     * @param accountId - List of accounts to be related to terms
-    * @return prodRequest - List of Product Request Created
+    * @return term - List of Product Request Created
     */
     public static List<hed__Term__c> createTestTermRecords(Integer nTerm,Id accountId)
     {
@@ -313,6 +314,40 @@ public class TestDataFactory {
             ));
         }
         return term;
+    }
+
+    /**
+    * @description Method for creating Term Record
+    * @param contactId - contact ids
+    * @param oppList - list of oppportunities
+    * @return oppConRole - list of opportunity contact roles
+    */
+    public static List<OpportunityContactRole> createTestOpportunityContactRolesRecords(Id contactId,List<Opportunity> oppList){
+        List<OpportunityContactRole> oppConRole = new List<OpportunityContactRole>();
+        for(Integer i=0; i<oppList.size();i++){
+            oppConRole.add(new OpportunityContactRole (
+                ContactId = contactId,
+                OpportunityId = oppList[i].Id
+            ));
+        }
+        return oppConRole;
+    }
+
+    /**
+    * @description Method for creating Term Record
+    * @param oppList - list of opportunities
+    * @param status - status of envelope
+    * @return envelopeStatuses - list of envelope statuses
+    */
+    public static List<dfsle__EnvelopeStatus__c > createTestEnvelopeStatusRecords(List<Opportunity> oppList, String status){
+        List<dfsle__EnvelopeStatus__c> envelopeStatuses = new List<dfsle__EnvelopeStatus__c>();
+        for(Integer i=0; i<oppList.size();i++){
+            envelopeStatuses.add(new dfsle__EnvelopeStatus__c (
+                dfsle__SourceId__c = oppList[i].Id,
+                dfsle__Status__c = status
+            ));
+        }
+        return envelopeStatuses;
     }
     
 }

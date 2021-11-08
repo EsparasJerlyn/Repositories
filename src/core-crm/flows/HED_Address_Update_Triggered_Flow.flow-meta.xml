@@ -163,7 +163,7 @@
             <name>Contact_Mailing_Address</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>$Record.hed__Parent_Account__r.Id</leftValueReference>
+                <leftValueReference>$Record.hed__Parent_Contact__r.Id</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
