@@ -41,6 +41,13 @@
       "destructiveChangePath": "./destructive/core-crm/Release1/destructiveChanges.xml"
     },
     {
+      "path": "src/hed-trigger-data",
+      "package": "hed-trigger-data",
+      "versionName": "hed-trigger-data.1.0",
+      "versionNumber": "1.0.0.0",
+      "type": "data"
+    },
+    {
       "path": "src/buyer-group-data",
       "package": "buyer-group-data",
       "versionName": "buyer-group-data.1.0",
