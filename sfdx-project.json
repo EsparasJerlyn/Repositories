@@ -1,51 +1,36 @@
 {
   "packageDirectories": [
     {
-      "path": "./src/core-crm-pre",
-      "package": "pre",
-      "default": true,
+      "path": "src/core-crm-pre",
+      "package": "core-crm-pre",
+      "type": "metadata",
       "versionName": "Version 1.0.0.0",
       "versionNumber": "1.0.0.0"
     },
     {
-      "path": "./src-env-specific-alias-pre",
-      "package": "src-env-specific-alias-pre",
+      "path": "src/src-env-specific-alias",
+      "package": "src-env-specific-alias",
+      "type": "metadata",
+      "versionName": "Version 1.0.0.0",
       "versionNumber": "1.0.0.0",
-      "aliasfy": true,
-      "ignoreOnStage": ["prepare", "validate", "quickbuild", "build"]
+      "aliasfy": true
     },
     {
-      "path": "src/frameworks/trigger-framework",
-      "package": "trigger-framework",
-      "versionNumber": "1.0.2.0",
-      "versionName": "trigger-framework-1.0"
-    },
-    {
-      "path": "src/frameworks/trigger-bypass-strategy",
-      "package": "trigger-bypass-strategy",
-      "versionNumber": "1.0.2.0",
-      "versionName": "trigger-bypass-strategy-1.0",
-      "dependencies": [
-        {
-          "package": "trigger-framework",
-          "versionNumber": "1.0.0.LATEST"
-        }
-      ]
-    },
-    {
-      "path": "./src/core-crm",
-      "package": "core",
+      "path": "src/core-crm",
+      "package": "core-crm",
+      "type": "metadata",
       "default": true,
       "versionName": "Version 1.0.0.0",
       "versionNumber": "1.0.0.0",
-      "destructiveChangePath": "./destructive/core-crm/Release1/destructiveChanges.xml"
+      "destructiveChangePath": "destructive/core-crm/Release1/destructiveChanges.xml",
+      "destructiveChangePathPreviousRelease": "destructive/lead-management/Pilot1/destructiveChanges.xml"
     },
     {
       "path": "src/hed-trigger-data",
       "package": "hed-trigger-data",
+      "type": "data",
       "versionName": "hed-trigger-data.1.0",
-      "versionNumber": "1.0.0.0",
-      "type": "data"
+      "versionNumber": "1.0.0.0"
     },
     {
       "path": "src/buyer-group-data",

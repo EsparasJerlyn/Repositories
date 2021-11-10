@@ -1,0 +1,56 @@
+name: "IT1FebST Validate (Triggered)"
+
+resources:
+  repositories:
+    - repository: SFDX-PIPELINES
+      type: bitbucket
+      endpoint: Bitbucket_QUT
+      name: qutdev/sfdx-pipelines
+      #ref: main ## PRODUCTION pipeline branch
+      ref: feature/DEPP-790 ## DEV pipeline branch
+      trigger: none
+
+# Build pull requests so we can test them
+pr:
+  autoCancel: true
+  drafts: false
+  branches:
+    include:
+      - release/IT1Feb
+
+#Custom Variables
+variables:
+  - group: SF_CICD
+
+stages:
+  - stage: PiplineJob
+    displayName: "Validate"
+    lockBehavior: runLatest
+    jobs:
+      - deployment: ValidateOnIT1FebST
+        timeoutInMinutes: 600
+        pool:
+          vmImage: "ubuntu-latest"
+        container: adambestsf/sfdxcli:v1.0.1
+        environment: "IT1FebST"
+        variables:
+          - group: IT1FebST
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - checkout: SFDX-PIPELINES
+                - checkout: self
+                - task: DownloadSecureFile@1
+                  name: jwtKeyfile
+                  inputs:
+                    secureFile: "server.key"
+                - template: yml/templates/sfdx-init.yml@SFDX-PIPELINES
+                - template: yml/templates/sfdx-login.yml@SFDX-PIPELINES
+                - template: yml/templates/sfdx-build-package.yml@SFDX-PIPELINES
+                - template: yml/templates/sfdx-scan-code.yml@SFDX-PIPELINES
+                - template: yml/templates/sfdx-pre-deploy-steps.yml@SFDX-PIPELINES
+                - template: yml/templates/sfdx-deploy-and-post-deploy.yml@SFDX-PIPELINES
+                  parameters:
+                    validateOrDeploy: "Validate"
+                - template: yml/templates/sfdx-logout.yml@SFDX-PIPELINES
