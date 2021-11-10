@@ -22,9 +22,8 @@ private class TriggerHandlerFactoryTest {
      */
     @IsTest
     private static void should_not_throw_excpetion_when_using_custom_metadata_provider() {
-
         try {
-            List<Object> handlers = TriggerHandlerFactory.getHandlersForSObjectType('NotARealObject');
+            TriggerHandlerFactory.getHandlersForSObjectType('NotARealObject');
         } catch (Exception ex) {
             System.assert(ex == null, 'An Exception Should have been thrown');
         }

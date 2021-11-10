@@ -57,7 +57,7 @@ public with sharing class Lead_Update_Address_Triggered_FlowTest {
                         lc.setConvertedStatus(convertStatus.MasterLabel);
                         leadstoConvert.add(lc);
                     }
-                    List<Database.LeadConvertResult> ltc= Database.convertLead(leadstoConvert);
+                    Database.convertLead(leadstoConvert);
 
                     List<hed__Address__c> address = [SELECT id, hed__MailingCity__c from hed__Address__c Where hed__Address_Type__c =: LEAD_TYPE LIMIT 100];
                     for(hed__Address__c add : address)

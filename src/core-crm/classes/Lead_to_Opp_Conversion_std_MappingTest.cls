@@ -61,6 +61,6 @@ private class Lead_to_Opp_Conversion_std_MappingTest{
             lc.setConvertedStatus(convertStatus.MasterLabel);
             leadstoConvert.add(lc);
         }
-        List<Database.LeadConvertResult> ltc= Database.convertLead(leadstoConvert);  
+        Database.convertLead(leadstoConvert);  
     }
 }

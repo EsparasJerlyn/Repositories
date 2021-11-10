@@ -38,7 +38,7 @@ private class ContactInformationValidationCtrlTest {
         Test.startTest();
         System.runAs(currentUser){
             try{
-                String mappingTest = ContactInformationValidationCtrl.getMapping(OPP_API_NAME,STR_COMPANY_MAPPING);
+                ContactInformationValidationCtrl.getMapping(OPP_API_NAME,STR_COMPANY_MAPPING);
             }catch(AuraHandledException ex){
                 System.assert(ex.getMessage().contains(AURA_EX_MSG), 'Exception did not match expected.');
             }

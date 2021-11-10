@@ -128,7 +128,6 @@ public with sharing class AddressInformationValidationCtrl {
         HttpRequest request = new HttpRequest();
         Http http = new Http();
         HTTPResponse response = new HTTPResponse();
-        String requestId = null;
         String endpoint = 'callout:LOQATE'+endpointPath;
         request.setEndpoint(endpoint);
         request.setMethod(type);

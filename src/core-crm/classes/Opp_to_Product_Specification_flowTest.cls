@@ -26,7 +26,6 @@ public with sharing class Opp_to_Product_Specification_flowTest {
                 List<Contact> con = new List<Contact>();
                 List<Opportunity> opp = new List<Opportunity>();
                 List<OpportunityContactRole> progLeadRole = new List<OpportunityContactRole>();
-                List<OpportunityContactRole> clientDecRole = new List<OpportunityContactRole>();
 
                 acc = TestDataFactory.createTestAccountRecords(1);
                 insert acc;

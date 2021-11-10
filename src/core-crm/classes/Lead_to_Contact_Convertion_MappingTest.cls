@@ -57,6 +57,6 @@ private class Lead_to_Contact_Convertion_MappingTest{
             lc.setConvertedStatus(convertStatus.MasterLabel);
             leadstoConvert.add(lc);
         }
-        List<Database.LeadConvertResult> ltc= Database.convertLead(leadstoConvert);  
+        Database.convertLead(leadstoConvert);  
     }
 }
