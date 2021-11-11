@@ -26,6 +26,13 @@
       "destructiveChangePathPreviousRelease": "destructive/lead-management/Pilot1/destructiveChanges.xml"
     },
     {
+      "path": "src/products-data",
+      "package": "products-data",
+      "versionName": "products-data.1.0",
+      "versionNumber": "1.0.0.0",
+      "type": "data"
+    },
+    {
       "path": "src/hed-trigger-data",
       "package": "hed-trigger-data",
       "type": "data",
