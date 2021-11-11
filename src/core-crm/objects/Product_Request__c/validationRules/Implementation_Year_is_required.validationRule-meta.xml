@@ -4,8 +4,7 @@
     <active>true</active>
     <description>Implementation Year is required when Status is changed to design</description>
     <errorConditionFormula>AND(
-OR(ISNEW(),
-ISCHANGED(Product_Request_Status__c)),
+ISCHANGED(Product_Request_Status__c),
 OR(RecordType.DeveloperName =&apos;Program_Request&apos;,
 RecordType.DeveloperName =&apos;Stand_Alone_Unit_Module_Request&apos;),
 ISBLANK(Implementation_Year__c), 
