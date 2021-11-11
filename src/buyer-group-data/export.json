@@ -23,6 +23,22 @@
             "useCSVValuesMapping": true,
             "targetObject": "WebStore",
             "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Name,Description FROM GuestBuyerProfile",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "GuestBuyerProfile",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Name,Id,BuyerGroupId,BuyerId FROM BuyerGroupMember",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "BuyerGroupMember",
+            "importCSVFilesAsIs": true
         }
     ]
 }
