@@ -13,11 +13,12 @@ resources:
 trigger: none
 
 schedules:
-  - cron: "0 21 * * *" #At 07:00 every day brisbane (AEST) time.  https://crontab.guru/#0_7_*_*_*
+  - cron: 0 21 * * * #At 07:00 every day brisbane (AEST) time.  https://crontab.guru/#0_7_*_*_*
     displayName: Deployment to SIT (7am weekdays)
     always: true
     branches:
-      - release/IT1Feb
+      include:
+        - release/IT1Feb
 
 #Custom Variables
 variables:
