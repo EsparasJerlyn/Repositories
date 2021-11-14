@@ -1,0 +1,60 @@
+{
+    "objects": [
+        {
+            "query": "SELECT Id, Name, Family, IsActive FROM Product2",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "Product2",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id, Name, Description, IsActive FROM Pricebook2",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "Pricebook2",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT IsActive, Pricebook2Id, UnitPrice, Product2Id FROM PricebookEntry",
+            "operation": "Upsert",
+            "externalId": "__Product Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "PricebookEntry",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Name,hed__Active__c,hed__Asynchronous__c,hed__Class__c,hed__Filter_Field__c,hed__Filter_Value__c,hed__Load_Order__c,hed__Object__c,hed__Owned_by_Namespace__c,hed__Trigger_Action__c,hed__User_Managed__c,hed__Usernames_to_Exclude__c FROM hed__Trigger_Handler__c",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "hed__Trigger_Handler__c",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Name,Id,Description FROM BuyerGroup",
+            "operation": "Upsert",
+            "externalId": "Id",
+            "useCSVValuesMapping": true,
+            "targetObject": "BuyerGroup",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT BuyerGroupId,WebStoreId FROM WebStoreBuyerGroup",
+            "operation": "Upsert",
+            "externalId": "BuyerGroupId",
+            "useCSVValuesMapping": true,
+            "targetObject": "WebStoreBuyerGroup",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Name,Id FROM WebStore",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "WebStore",
+            "importCSVFilesAsIs": true
+        }
+    ]
+}

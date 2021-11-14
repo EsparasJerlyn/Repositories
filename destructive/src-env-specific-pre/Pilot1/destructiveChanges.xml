@@ -4,14 +4,5 @@
         <members>Lead.CCE_Partner_Lead_Conversion</members>
         <name>ValidationRule</name>
     </types>-->
-    <types>
-        <members>Lead.LeadEmail_Validation__c</members>
-        <members>Lead.LeadPersonalEmail_Validation__c</members>
-        <members>Lead.WorkEmail_Validation__c</members>
-        <members>Contact.ContactEmail_Validation__c</members>
-        <members>Contact.ContactPersonalEmail_Validation__c</members>
-        <members>Contact.ContactWorkEmail_Validation__c</members>
-        <name>CustomField</name>
-    </types>
     <version>52.0</version>
 </Package>

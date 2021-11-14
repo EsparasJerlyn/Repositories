@@ -3,15 +3,15 @@
     <actionOnInsert>Block</actionOnInsert>
     <actionOnUpdate>Block</actionOnUpdate>
     <alertText>The records you&apos;re about to create look like duplicates. Consider choosing existing records.</alertText>
-    <description>Custom Lead Allow No Duplicate Rule for last name and email.</description>
+    <description>Duplicate Rule for Accounts</description>
     <duplicateRuleFilter xsi:nil="true"/>
     <duplicateRuleMatchRules>
-        <matchRuleSObjectType>Contact</matchRuleSObjectType>
-        <matchingRule>Custom_Lead_Allow_No_Matching_Rule_v2</matchingRule>
+        <matchRuleSObjectType>Account</matchRuleSObjectType>
+        <matchingRule>Custom_Account_Matching_Rule</matchingRule>
         <objectMapping xsi:nil="true"/>
     </duplicateRuleMatchRules>
     <isActive>true</isActive>
-    <masterLabel>Custom Lead Allow No Duplicate Rule</masterLabel>
+    <masterLabel>Standard Account Duplicate Rule</masterLabel>
     <securityOption>EnforceSharingRules</securityOption>
-    <sortOrder>3</sortOrder>
+    <sortOrder>1</sortOrder>
 </DuplicateRule>

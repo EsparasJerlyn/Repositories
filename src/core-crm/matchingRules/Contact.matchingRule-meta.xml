@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <MatchingRules xmlns="http://soap.sforce.com/2006/04/metadata">
     <matchingRules>
-        <fullName>Custom_Lead_Allow_No_Matching_Rule_v2</fullName>
-        <description>Custom Lead Allow No Matching Rule for last name and email.</description>
-        <label>Custom Lead Allow No Matching Rule</label>
+        <fullName>Custom_Contact_Matching_Rule</fullName>
+        <description>Custom Matching Rule for Last Name and Email fields of Contact object.</description>
+        <label>Custom Contact Matching Rule</label>
         <matchingRuleItems>
             <blankValueBehavior>NullNotAllowed</blankValueBehavior>
             <fieldName>LastName</fieldName>

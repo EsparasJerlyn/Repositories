@@ -23,7 +23,14 @@
       "versionName": "Version 1.0.0.0",
       "versionNumber": "1.0.0.0",
       "destructiveChangePath": "destructive/core-crm/Release1/destructiveChanges.xml",
-      "destructiveChangePathPreviousRelease": "destructive/lead-management/Pilot1/destructiveChanges.xml"
+      "destructiveChangePathPreviousRelease": "destructive/core-crm/Pilot1/destructiveChanges.xml"
+    },
+    {
+      "path": "src/core-crm-post",
+      "package": "core-crm-post",
+      "type": "metadata",
+      "versionName": "Version 1.0.0.0",
+      "versionNumber": "1.0.0.0"
     },
     {
       "path": "src/products-data",

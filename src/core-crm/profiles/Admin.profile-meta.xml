@@ -507,11 +507,6 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Contact.ContactEmail_Validation__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>Contact.ContactMailingAddress_Validation__c</field>
         <readable>true</readable>
@@ -1055,11 +1050,6 @@
         <editable>true</editable>
         <field>Lead.Personal_Mobile__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Lead.WorkEmail_Validation__c</field>
-        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
