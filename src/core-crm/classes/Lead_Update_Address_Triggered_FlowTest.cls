@@ -28,14 +28,15 @@ public with sharing class Lead_Update_Address_Triggered_FlowTest {
                 accs = TestDataFactory.createTestAccountRecords(100);
                 leads = TestDataFactory.createTestLeadRecords(100);
                 tLeads= TestDataFactory.createTestLeadRecords(100);
-
-
+				
+                Integer ctr = 0;
                 for(Lead tempLeads : leads)
                 {   
-                    tempLeads.Street='TestStreet';
-                    tempLeads.Country='TestCountry';
-                    tempLeads.State='TestState';
-                    tempLeads.PostalCode ='1000';
+                    tempLeads.Street='TestStreet'+ctr;
+                    tempLeads.Country='TestCountry'+ctr;
+                    tempLeads.State='TestState'+ctr;
+                    tempLeads.PostalCode ='1000'+ctr;
+                    ctr++;
                 }
 
                 for(Lead nLeads : tLeads)
@@ -58,7 +59,7 @@ public with sharing class Lead_Update_Address_Triggered_FlowTest {
                         leadstoConvert.add(lc);
                     }
                     Database.convertLead(leadstoConvert);
-
+                    
                     List<hed__Address__c> address = [SELECT id, hed__MailingCity__c from hed__Address__c Where hed__Address_Type__c =: LEAD_TYPE LIMIT 100];
                     for(hed__Address__c add : address)
                     {

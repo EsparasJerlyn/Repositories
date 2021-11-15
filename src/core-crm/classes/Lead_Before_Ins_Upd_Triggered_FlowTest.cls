@@ -31,24 +31,35 @@ private class Lead_Before_Ins_Upd_Triggered_FlowTest {
 
             List<Lead> leads = TestDataFactory.createTestLeadRecords(numberOfRecords);  
             List<Account> accounts = TestDataFactory.createTestAccountRecords(numberOfRecords);                  
-            insert(accounts);
-            insert(leads);  
             
+            Integer counter = 0;
+            for(Lead lead : leads){      
+                lead.Street = streetStr + counter;
+                lead.State = stateStr + counter;
+                lead.PostalCode = postalStr + counter;
+                lead.Country = countryStr + counter;
+                counter++;
+            }    
+
+            insert(accounts);
+            insert(leads); 
+
+            List<Lead> leadList = [SELECT Id FROM Lead LIMIT 100];
+
             Integer ctr = 0;
-            for(Lead lead : leads){                
-                lead.Company_Category__c = companyCategoryStr;
+            for(Lead lead : leadList){                
                 lead.Street = streetStr + ctr;
                 lead.State = stateStr + ctr;
                 lead.PostalCode = postalStr + ctr;
-                lead.Country = countryStr;
+                lead.Country = countryStr;     
+                lead.Company_Category__c = companyCategoryStr;
                 lead.LeadMobile_Validation__c = validStr;
                 lead.LeadPhone_Validation__c = validStr;
                 lead.LeadPersonalMobile_Validation__c = validStr;
-                lead.WorkPhone_Validation__c = validStr;  
+                lead.WorkPhone_Validation__c = validStr;           
                 ctr++;
             }            
-            update leads;
-            
+            update(leadList);            
             Test.stopTest(); 
         }                
         System.assert([SELECT Id FROM Lead WHERE FirstName = ''].isEmpty(), 'FirstName must be inputted.');

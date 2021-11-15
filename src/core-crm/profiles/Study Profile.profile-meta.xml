@@ -363,11 +363,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Contact.ContactEmail_Validation__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Contact.ContactMailingAddress_Validation__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -385,12 +380,7 @@
         <editable>false</editable>
         <field>Contact.ContactOtherAddress_Validation__c</field>
         <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Contact.ContactPersonalEmail_Validation__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
+    </fieldPermissions>    
     <fieldPermissions>
         <editable>false</editable>
         <field>Contact.ContactPersonalMobile_Locale__c</field>
@@ -410,12 +400,7 @@
         <editable>false</editable>
         <field>Contact.ContactPhone_Validation__c</field>
         <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Contact.ContactWorkEmail_Validation__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
+    </fieldPermissions>    
     <fieldPermissions>
         <editable>false</editable>
         <field>Contact.ContactWorkPhone_Locale__c</field>
