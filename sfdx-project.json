@@ -33,25 +33,11 @@
       "versionNumber": "1.0.0.0"
     },
     {
-      "path": "src/products-data",
-      "package": "products-data",
-      "versionName": "products-data.1.0",
-      "versionNumber": "1.0.0.0",
-      "type": "data"
-    },
-    {
-      "path": "src/hed-trigger-data",
-      "package": "hed-trigger-data",
-      "type": "data",
-      "versionName": "hed-trigger-data.1.0",
+      "path": "src/core-crm-data",
+      "package": "core-crm-data",
+      "type": "metadata",
+      "versionName": "Version 1.0.0.0",
       "versionNumber": "1.0.0.0"
-    },
-    {
-      "path": "src/buyer-group-data",
-      "package": "buyer-group-data",
-      "versionName": "buyer-group-data.1.0",
-      "versionNumber": "1.0.0.0",
-      "type": "data"
     }
   ],
   "namespace": "",

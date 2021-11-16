@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <!--(Start) Kindly comment out once it reaches PROD
-        DEPP-415, DEPP-641, DEP1-653, DEPP-106-->
+        DEPP-415, DEPP-641, DEP1-653, DEPP-106, DEPP-236-->
     <types>
         <members>Create_Contact_Role_for_Opportunity_Manual_Creation-1</members>
         <name>Flow</name>
@@ -71,8 +71,12 @@
         <members>Contact.ContactWorkEmail_Validation__c</members>
         <name>CustomField</name>
     </types>
+    <types>
+        <members>Study_Profile</members>
+        <name>Profile</name>
+    </types>
     <!--(End) Kindly comment out once it reaches PROD
-        DEPP-415, DEPP-641, DEP1-653, DEPP-106-->
+        DEPP-415, DEPP-641, DEP1-653, DEPP-106, DEPP-236-->
 <!--<types>
         <members>Program_Specification_Record_Page</members>
         <name>FlexiPage</name>
