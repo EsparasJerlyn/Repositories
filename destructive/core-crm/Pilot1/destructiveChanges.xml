@@ -35,28 +35,28 @@
         <members>TriggerHandler.LoqateHedAddressTriggerHandler</members>
         <name>CustomMetadata</name>
     </types>
-    <types>
+    <!--<types>
         <members>Custom_Lead_Allow_No_Matching_Rule</members>
         <name>MatchingRule</name>
     </types>
     <types>
         <members>Custom_Lead_Allow_No_Duplicate_Rule</members>
         <name>DuplicateRule</name>
-    </types>
+    </types>-->
     <types>
         <members>Lead.Company_Sub_Category__c</members>
         <name>CustomField</name>
     </types>
     <!-- lead-management/Pilot1 (End) -->
     <!-- matchingRules/Pilot1 (Start) -->
-    <types>
+    <!--<types>
         <members>Custom_Lead_Contact_Allow_Matching_Rule</members>
         <name>MatchingRule</name>
     </types> 
     <types>
         <members>Custom_Lead_Contact_Allow_No_Matching_Rule</members>
         <name>MatchingRule</name>
-    </types>
+    </types>-->
     <!-- matchingRules/Pilot1 (End) -->
     <!-- opportunity-management/Pilot1 (Start) -->
     <types>
