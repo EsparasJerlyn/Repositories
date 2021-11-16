@@ -80,7 +80,7 @@
             </componentInstance>
         </itemInstances>
         <itemInstances>
-            <componentInstance>
+            <componentInstance> 
                 <componentInstanceProperties>
                     <name>parentFieldApiName</name>
                     <value>Product_Specification__c.Id</value>

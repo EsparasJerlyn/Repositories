@@ -2350,31 +2350,40 @@
         <recordType>Product_Request__c.Coaching_Request</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Product_Request__c-Educational Consultancy Request Layout</layout>
-        <recordType>Product_Request__c.Educational_Consultancy_Request</recordType>
+        <layout
+    >Product_Request__c-Educational Consultancy Request Layout</layout>
+        <recordType
+    >Product_Request__c.Educational_Consultancy_Request</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Product_Request__c-Professional Advantage Request Layout</layout>
-        <recordType>Product_Request__c.Professional_Advantage_Request</recordType>
+        <layout
+    >Product_Request__c-Professional Advantage Request Layout</layout>
+        <recordType
+    >Product_Request__c.Professional_Advantage_Request</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Product_Request__c-Program Request Layout</layout>
         <recordType>Product_Request__c.Program_Request</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Product_Request__c-Stand-Alone Unit %2F Module Request Layout</layout>
-        <recordType>Product_Request__c.Stand_Alone_Unit_Module_Request</recordType>
+        <layout
+    >Product_Request__c-Stand-Alone Unit %2F Module Request Layout</layout>
+        <recordType
+    >Product_Request__c.Stand_Alone_Unit_Module_Request</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Product_Specification__c-CCE Product Specification Page Layout</layout>
-        <recordType>Product_Specification__c.CCE_Program_Specification</recordType>
+        <layout
+    >Product_Specification__c-CCE Product Specification Page Layout</layout>
+        <recordType
+    >Product_Specification__c.CCE_Program_Specification</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Product_Specification__c-Product Specification Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Product_Specification__c-Product Specification Layout</layout>
-        <recordType>Product_Specification__c.OPE_Program_Specification</recordType>
+        <recordType
+    >Product_Specification__c.OPE_Program_Specification</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>TriggerHandler__mdt-Trigger Handler Layout</layout>
@@ -2627,12 +2636,14 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>false</default>
-        <recordType>Product_Request__c.Educational_Consultancy_Request</recordType>
+        <recordType
+    >Product_Request__c.Educational_Consultancy_Request</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>false</default>
-        <recordType>Product_Request__c.Professional_Advantage_Request</recordType>
+        <recordType
+    >Product_Request__c.Professional_Advantage_Request</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
@@ -2642,17 +2653,20 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>false</default>
-        <recordType>Product_Request__c.Stand_Alone_Unit_Module_Request</recordType>
+        <recordType
+    >Product_Request__c.Stand_Alone_Unit_Module_Request</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>true</default>
-        <recordType>Product_Specification__c.CCE_Program_Specification</recordType>
+        <recordType
+    >Product_Specification__c.CCE_Program_Specification</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>false</default>
-        <recordType>Product_Specification__c.OPE_Program_Specification</recordType>
+        <recordType
+    >Product_Specification__c.OPE_Program_Specification</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <tabVisibilities>
@@ -3176,10 +3190,7 @@
         <enabled>true</enabled>
         <name>ManageRoles</name>
     </userPermissions>
-    <userPermissions>
-        <enabled>true</enabled>
-        <name>ManageSandboxes</name>
-    </userPermissions>
+
     <userPermissions>
         <enabled>true</enabled>
         <name>ManageSearchPromotionRules</name>

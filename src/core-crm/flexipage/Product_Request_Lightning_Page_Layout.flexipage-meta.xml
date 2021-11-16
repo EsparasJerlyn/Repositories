@@ -730,7 +730,7 @@
                 <componentName>force:relatedListSingleContainer</componentName>
             </componentInstance>
         </itemInstances>
-        <name>Facet-mqgmgnptltg</name>
+        <name>Facet-mqgmgnptltg</name> 
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
