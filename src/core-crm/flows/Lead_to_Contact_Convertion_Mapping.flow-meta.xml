@@ -26,12 +26,12 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Update_Opp_Description</targetReference>
+                <targetReference>Update_Contact_Fields</targetReference>
             </connector>
             <label>Lead Is Converted</label>
         </rules>
     </decisions>
-    <description>Map Personal Mobile, Personal Email, linkedin Url, Work email and Work phone with validation status</description>
+    <description>Map linkedin Url and title</description>
     <interviewLabel>Lead to Contact Convertion Mapping {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Lead to Contact Convertion Mapping</label>
     <processMetadataValues>
@@ -54,8 +54,8 @@
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <recordUpdates>
-        <name>Update_Opp_Description</name>
-        <label>Update Opp Description</label>
+        <name>Update_Contact_Fields</name>
+        <label>Update Contact Fields</label>
         <locationX>50</locationX>
         <locationY>455</locationY>
         <filterLogic>and</filterLogic>
@@ -70,6 +70,12 @@
             <field>LinkedIn_Profile_URL__c</field>
             <value>
                 <elementReference>$Record.LinkedIn_Profile_URL__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Title</field>
+            <value>
+                <elementReference>$Record.Title</elementReference>
             </value>
         </inputAssignments>
         <object>Contact</object>
