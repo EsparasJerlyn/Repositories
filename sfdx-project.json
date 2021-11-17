@@ -35,7 +35,7 @@
     {
       "path": "src/core-crm-data",
       "package": "core-crm-data",
-      "type": "metadata",
+      "type": "data",
       "versionName": "Version 1.0.0.0",
       "versionNumber": "1.0.0.0"
     }
