@@ -349,5 +349,24 @@ public class TestDataFactory {
         }
         return envelopeStatuses;
     }
+
+     /**
+    * @description Method for creating test ContentVersion records
+    * @param contentVersionNumber - number of ContentVersion to be created
+    * @return contentVersionList - list of ContentVersion created
+    */
+    public static List<ContentVersion> createTestContentVersionRecords(Integer contentVersionNumber){
+        List<ContentVersion> contentVersionList = new List<ContentVersion>();
+ 
+        for(Integer i=0; i < contentVersionNumber; i++){
+            contentVersionList.add(new ContentVersion (
+                Title = 'Proposal - General With Content_ALPHA ZENITH PTY LTD-test opportunity that may e123123123samplesample' + i,
+                PathOnClient = 'test' + i,
+                versiondata = EncodingUtil.base64Decode('Unit Test Attachment Body')
+            ));
+        }
+
+        return contentVersionList;
+    }
     
 }
