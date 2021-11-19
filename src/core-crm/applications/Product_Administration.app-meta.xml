@@ -79,6 +79,7 @@
     <tabs>standard-Asset</tabs>
     <tabs>standard-Product2</tabs>
     <tabs>standard-Pricebook2</tabs>
+    <tabs>Product_Ledger__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>Product_Administration_UtilityBar</utilityBar>
     <workspaceConfig>
@@ -123,6 +124,9 @@
         </mappings>
         <mappings>
             <tab>standard-Product2</tab>
+        </mappings>
+        <mappings>
+            <tab>Product_Ledger__c</tab>
         </mappings>
         <mappings>
             <tab>standard-home</tab>
