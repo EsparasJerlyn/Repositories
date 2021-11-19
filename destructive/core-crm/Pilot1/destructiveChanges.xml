@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <!-- lead-management/Pilot1 (Start) -->
     <types>
@@ -59,8 +59,9 @@
     </types>-->
     <!-- matchingRules/Pilot1 (End) -->
     <!-- opportunity-management/Pilot1 (Start) -->
+
     <types>
-        <members>Big_Risky_Different_Proposal_Approval</members>
+        <members>Opportunity.Big_Risky_Different_Proposal_Approval</members> 
         <name>ApprovalProcess</name>
     </types>
     <types>
