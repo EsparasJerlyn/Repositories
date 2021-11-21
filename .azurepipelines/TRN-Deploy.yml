@@ -6,8 +6,8 @@ resources:
       type: bitbucket
       endpoint: Bitbucket_QUT
       name: qutdev/sfdx-pipelines
-      #ref: main ## PRODUCTION pipeline branch (to merge and put live when bitbucket pipeline is fully off)
-      ref: feature/DEPP-790 ## DEV pipeline branch
+      ref: main ## PRODUCTION pipeline branch (to merge and put live when bitbucket pipeline is fully off)
+      r#ef: feature/DEPP-790 ## DEV pipeline branch
 
 # Deploy to branch on commit
 trigger: none

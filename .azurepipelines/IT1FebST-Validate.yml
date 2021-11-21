@@ -6,8 +6,8 @@ resources:
       type: bitbucket
       endpoint: Bitbucket_QUT
       name: qutdev/sfdx-pipelines
-      #ref: main ## PRODUCTION pipeline branch
-      ref: feature/DEPP-790 ## DEV pipeline branch
+      ref: main ## PRODUCTION pipeline branch
+      #ref: feature/DEPP-790 ## DEV pipeline branch
       trigger: none
 
 # Build pull requests so we can test them
