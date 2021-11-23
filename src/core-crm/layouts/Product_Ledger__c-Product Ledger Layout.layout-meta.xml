@@ -20,7 +20,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Purchased_Price__c</field>
+                <field>Purchased_Price_v2__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns/>

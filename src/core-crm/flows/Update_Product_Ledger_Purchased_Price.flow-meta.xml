@@ -63,7 +63,7 @@
             </value>
         </filters>
         <inputAssignments>
-            <field>Purchased_Price__c</field>
+            <field>Purchased_Price_v2__c</field>
             <value>
                 <elementReference>CourseConnectionPurchasedPrice</elementReference>
             </value>
