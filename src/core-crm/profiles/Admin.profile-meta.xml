@@ -1853,6 +1853,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Record_Type_Setting__mdt.Description__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Record_Type_Setting__mdt.Parent_Record_Type__c</field>
         <readable>false</readable>
     </fieldPermissions>
