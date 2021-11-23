@@ -116,7 +116,9 @@ parentName;
             this.sortedRecordTypeMap = this.recordTypeOrderMap.filter(filterKey => !filter.includes(filterKey.recordTypeName)).map(key =>{
                 return {
                     label : key.recordTypeName,
+                    description : key.description,
                     value : recordTypeInfoMap[key.recordTypeName]
+
                 }
             });
             this.isSelectionModalOpen = true;

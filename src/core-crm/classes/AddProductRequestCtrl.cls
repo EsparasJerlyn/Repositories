@@ -24,12 +24,13 @@ public with sharing class AddProductRequestCtrl {
             List<FieldDetails> colDetails;
             RecordTypeOrderDetails recordTypeOrder;
 
-            for(Field_Layout_Setting__mdt fls:[SELECT Record_Type_Setting__r.Object_Type__c, Record_Type_Setting__r.Label, Order__c, Label, Record_Type_Setting__r.Order__c, Left_Column_Long__c, Right_Column_Long__c, Single_Column_Long__c 
+            for(Field_Layout_Setting__mdt fls:[SELECT Record_Type_Setting__r.Object_Type__c, Record_Type_Setting__r.Label, Record_Type_Setting__r.Description__c, Order__c, Label, Record_Type_Setting__r.Order__c, Left_Column_Long__c, Right_Column_Long__c, Single_Column_Long__c 
                                                 FROM Field_Layout_Setting__mdt WHERE Record_Type_Setting__r.Object_Type__c =: objectString]){
                 //setup recordtype details                                    
                 recordTypeOrder = new RecordTypeOrderDetails();
                 recordTypeOrder.recordTypeName = fls.Record_Type_Setting__r.Label;
                 recordTypeOrder.order = String.valueOf(fls.Record_Type_Setting__r.Order__c);
+                recordTypeOrder.description = fls.Record_Type_Setting__r.Description__c;
                 recordTypeOrderMap.put(fls.Record_Type_Setting__r.Label,recordTypeOrder);
                 //setup layout/section details
                 section = new SectionDetails();
@@ -103,6 +104,9 @@ public with sharing class AddProductRequestCtrl {
         public String recordTypeName;
         @AuraEnabled
         public String order;
+        @AuraEnabled
+        public String description;
+
     }
 
     /**
