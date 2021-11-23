@@ -1,4 +1,4 @@
-name: "IT1FebST Validate (Triggered)"
+name: "IT1FebCI Deploy (Triggered on creation of PR)"
 
 resources:
   repositories:
@@ -27,14 +27,14 @@ stages:
     displayName: "Validate"
     lockBehavior: runLatest
     jobs:
-      - deployment: ValidateOnIT1FebST
+      - deployment: ValidateIT1Feb
         timeoutInMinutes: 600
         pool:
           vmImage: "ubuntu-latest"
         container: adambestsf/sfdxcli:v1.0.1
-        environment: "IT1FebST"
+        environment: "IT1FebCI"
         variables:
-          - group: IT1FebST
+          - group: IT1FebCI
         strategy:
           runOnce:
             deploy:
@@ -52,5 +52,5 @@ stages:
                 - template: yml/templates/sfdx-pre-deploy-steps.yml@SFDX-PIPELINES
                 - template: yml/templates/sfdx-deploy-and-post-deploy.yml@SFDX-PIPELINES
                   parameters:
-                    validateOrDeploy: "Validate"
+                    validateOrDeploy: "Deploy"
                 - template: yml/templates/sfdx-logout.yml@SFDX-PIPELINES
