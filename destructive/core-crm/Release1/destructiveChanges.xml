@@ -89,5 +89,9 @@
         <members>Program_Specification__c</members>
         <name>CustomObject</name>
     </types>-->
+    <types>
+        <members>Product_Ledger__c.Purchased_Price__c</members>
+        <name>CustomField</name>
+    </types>
     <version>52.0</version>
 </Package>
