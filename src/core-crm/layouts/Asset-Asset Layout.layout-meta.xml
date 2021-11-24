@@ -43,14 +43,14 @@
                 <behavior>Edit</behavior>
                 <field>Total_Value__c</field>
             </layoutItems>
-            <!-- <layoutItems>
+            <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Pending_Value__c</field>
-            </layoutItems> -->
-            <!-- <layoutItems>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Utilised_Value__c</field>
-            </layoutItems> -->
+            </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Remaining_Value__c</field>

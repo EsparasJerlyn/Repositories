@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Actual_Remaining_Value__c</fullName>
     <externalId>false</externalId>
-    <formula>Total_Value__c</formula>
+    <formula>Total_Value__c - Utilised_Value__c</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Actual Remaining Value</label>
     <precision>18</precision>

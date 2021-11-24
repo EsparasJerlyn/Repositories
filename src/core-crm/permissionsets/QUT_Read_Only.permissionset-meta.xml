@@ -318,6 +318,11 @@
     </fieldPermissions> -->
     <fieldPermissions>
         <editable>false</editable>
+        <field>Asset.Pending_Value__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Asset.Price</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -396,6 +401,11 @@
         <field>Asset.Utilised_Value__c</field>
         <readable>true</readable>
     </fieldPermissions> -->
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Asset.Utilised_Value__c</field>
+        <readable>true</readable>
+    </fieldPermissions>    
     <fieldPermissions>
         <editable>false</editable>
         <field>Asset.Uuid</field>
