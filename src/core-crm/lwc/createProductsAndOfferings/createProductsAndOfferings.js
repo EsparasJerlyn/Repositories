@@ -2,13 +2,15 @@
  * @description An LWC component for creating products and offerings
  * @author Accenture
  * @history
- *    | Developer                 | Date                  | JIRA                 | Change Summary               |
-      |---------------------------|-----------------------|----------------------|------------------------------|
-      | roy.nino.s.regala         | October 18, 2021      | DEPP-425 DEPP-476  | Created
-      |                           |                       |                      |                              | 
+ *    | Developer                 | Date                  | JIRA                 | Change Summary                       |
+      |---------------------------|-----------------------|----------------------|--------------------------------------|
+      | roy.nino.s.regala         | October 18, 2021      | DEPP-425 DEPP-476    | Created                              |
+      | eugene.andrew.abuan       | November 9, 2021      | DEPP-35              | Added a getProductRequests function  |
+      |                                                                          |  for AC5 of DEPP 35                  |                                                                                                                         
  */
 import { LightningElement,wire,api} from 'lwc';
 import getCourses from '@salesforce/apex/CreateProductsAndOfferingsCtrl.getRelatedCourse';
+import getProductRequests from '@salesforce/apex/CreateProductsAndOfferingsCtrl.getProductRequests';
 import COURSE_OFFERING_SCHEMA from '@salesforce/schema/hed__Course_Offering__c';
 import PRODUCT_SCHEMA from '@salesforce/schema/Product2';
 import { refreshApex } from '@salesforce/apex';
@@ -38,6 +40,19 @@ export default class CreateProductsAndOfferings extends LightningElement{
     coursesData = [];
     onRender = true;
     onRenderOffering = true;
+
+    //getProductRequests variables
+    isProdWithParent = false;
+    isParent = false;
+    isCompleteChild=false;
+    noParent = false;
+    numberOfProdReqData;
+    filterParent;
+    listProductRequestData;
+    parentName;
+    parentId;
+    childProdReqId;
+
     @api recordId;
 
     /*
@@ -84,7 +99,58 @@ export default class CreateProductsAndOfferings extends LightningElement{
             this.generateToast('Error!',MSG_ERROR,'error');
         }
     }
+    /*
+    *gets list of Product Request with Parent_Product_Request__c
+    */
+    prodReqWithParentData;
+    @wire(getProductRequests, {productReqId: '$recordId'})
+    getProductRequests(res){
+        if(res.data){
+            this.prodReqWithParentData = res;
+            let listProductRequestData = this.prodReqWithParentData.data;
+            this.filterParent = listProductRequestData.filter( (result) => result.Id != this.recordId);
+            this.numberOfProdReqData = this.prodReqWithParentData.data.length;
 
+            //filterParent length null - it's either child or no parent
+            if(!this.filterParent.length){
+                listProductRequestData.forEach( hasChild => {
+                    let hasParentReq = hasChild.Parent_Product_Request__r;
+
+                    // Child Product Request
+                    if(hasParentReq)
+                    {
+                        this.parentName = hasParentReq.Name;
+                        this.parentId = '/' + hasParentReq.Id;
+                        this.isProdWithParent = true;
+                        this.isCompleteChild = hasChild.Create_Offering_Complete__c;
+
+                    }
+                    // No Parent Product Request
+                    else if(!hasParentReq)
+                    {
+                        this.noParent = true;
+                    }
+                });
+            }
+            //filterParent length > 1 - it's a parent
+            else if(this.filterParent.length)
+            {
+                this.filterParent.forEach(parent =>{
+                    let childStatus = parent.Product_Request_Status__c;
+                    this.isParent = true;
+                    if(childStatus !== "Release"){
+                        //checks if All Status of child is Release -> for story DEPP 326
+                    }
+                    this.childProdReqId = '/' + parent.Id;
+                });
+            }
+        }
+        else if (res.err)
+        {
+            this.generateToast('Error!',MSG_ERROR,'error');
+        }
+    }
+    
     /*
     *getter for create button label
     */
@@ -126,7 +192,19 @@ export default class CreateProductsAndOfferings extends LightningElement{
     get isLoading(){
         return this.coursesData.length > 0?false:true;
     }
+    /*
+    *getter for hasChild
+    */
+    get hasChild(){
+        return  this.numberOfProdReqData > 1 ?true:false;
+    }
+    /*
+    * getter for parentValidation
+    */
+    get parentValidation(){
 
+        return !((this.isParent || this.noParent) || (this.isProdWithParent && this.isCompleteChild));;
+    }
     /*
     *getter for isInitialRender
     */
@@ -218,9 +296,9 @@ export default class CreateProductsAndOfferings extends LightningElement{
     */
     handleCreateProducts()
     {
-         this.isCreateProduct=true;
-         this.isCreateOfferings=false;
-         this.offeringClass = "";
+        this.isCreateProduct=true;
+        this.isCreateOfferings=false;
+        this.offeringClass = "";
     }
 
     /*
@@ -292,7 +370,7 @@ export default class CreateProductsAndOfferings extends LightningElement{
     /**
      * creates record given object api name and fields
      */
-     handleCreateRecord(fieldsToCreate){
+    handleCreateRecord(fieldsToCreate){
         const fields = {...fieldsToCreate};
         const recordInput = { apiName: this.objApiName, fields };
 
@@ -309,10 +387,10 @@ export default class CreateProductsAndOfferings extends LightningElement{
         });
     }
 
-     /**
+    /**
      * updates record given fields
      */
-      handleUpdateRecord(fieldsToUpdate){
+        handleUpdateRecord(fieldsToUpdate){
         const fields = {...fieldsToUpdate};
         const recordInput = { fields };
         updateRecord(recordInput)
@@ -331,7 +409,7 @@ export default class CreateProductsAndOfferings extends LightningElement{
     /**
      * creates toast notification
      */
-     generateToast(_title,_message,_variant){
+    generateToast(_title,_message,_variant){
         const evt = new ShowToastEvent({
             title: _title,
             message: _message,

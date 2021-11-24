@@ -6,10 +6,10 @@
  * @author Accenture
  *
  * @history
- *    | Developer                 | Date                  | JIRA      | Change Summary                  |
-      |---------------------------|-----------------------|-----------|---------------------------------|
-      | adrian.c.habasa           | October 18, 2021      | DEPP-476  | Created file                    | 
-      |                           |                       |           |                                 | 
+ *    | Developer                 | Date                  | JIRA      | Change Summary                      |
+      |---------------------------|-----------------------|-----------|-------------------------------------|
+      | adrian.c.habasa           | October 18, 2021      | DEPP-476  | Created file                        | 
+      | eugene.andrew.abuan       | November 9, 2021      | DEPP-35   | Added method testGetProductRequests | 
 */
 
 @isTest
@@ -55,4 +55,16 @@ public with sharing class CreateProductsAndOfferingsCtrlTest {
             Test.stopTest();
         }
 
+    @isTest
+    static void testGetProductRequests()
+    {
+        Test.startTest();
+        System.runAs(currentUser)
+        {
+            String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1]?.Id;
+            List<Product_Request__c> prodReqToTest = CreateProductsAndOfferingsCtrl.getProductRequests(prodReqId);        
+            System.assertEquals(1, prodReqToTest.size() , 'Product Request did not match expected.');
+        }
+        Test.stopTest();
+    }
 }

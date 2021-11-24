@@ -3,10 +3,11 @@
  * @see ../lwc/createProductsAndOfferings
  * @author Accenture
  * @history
- *    | Developer                 | Date                  | JIRA                 | Change Summary               |
-      |---------------------------|-----------------------|----------------------|------------------------------|
-      | adrian.c.habasa           | October 18, 2021      | DEPP-476             | Created file                 | 
-      |                           |                       |                      |                              | 
+ *    | Developer                 | Date                  | JIRA                 | Change Summary                            |
+      |---------------------------|-----------------------|----------------------|-------------------------------------------|
+      | adrian.c.habasa           | October 18, 2021      | DEPP-476             | Created file                              | 
+      | eugene.andrew.abuan       | November 9, 2021      | DEPP-35              | Added getProductRequests method to        |   
+      |                                                                            Retrive all Product Request with Parent   | 
  */
 public with sharing class CreateProductsAndOfferingsCtrl {
 
@@ -75,5 +76,22 @@ public with sharing class CreateProductsAndOfferingsCtrl {
         public Map<Id,List<hed__Course_Offering__c>> offeringMap;
         @AuraEnabled
         public Map<Id,List<Product2>> productMap;
+    }
+
+    /**
+     * @description gets the list of the Product Request including the Parent Product Request
+     * @param productReqId Product Request Record Id
+     * @return list of product request
+     */
+    @AuraEnabled(cacheable=true)    
+    public static List<Product_Request__c> getProductRequests(String productReqId){
+        return [
+            SELECT Id, Name, RecordType.Name, RecordTypeId, Product_Request_Status__c, 
+                Parent_Product_Request__c, Parent_Product_Request__r.Name, Product_Request_Name__c,
+                Create_Offering_Complete__c
+            FROM Product_Request__c
+            WHERE Id =: productReqId 
+            OR Parent_Product_Request__c =: productReqId
+        ];
     }
 }

@@ -6771,6 +6771,11 @@
         <field>hed__Trigger_Handler__c.hed__Usernames_to_Exclude__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Create_Offering_Complete__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>QUT Read Only</label>
     <license>Salesforce</license>
