@@ -3,6 +3,10 @@
     <label>Program Request</label>
     <protected>false</protected>
     <values>
+        <field>Description__c</field>
+        <value xsi:type="xsd:string">This record type will be used to request a program. This can be Award Units and or Non Award Modules mixed in with an array of products that are list below.</value>
+    </values>
+    <values>
         <field>Object_Type__c</field>
         <value xsi:type="xsd:string">Product_Request__c</value>
     </values>

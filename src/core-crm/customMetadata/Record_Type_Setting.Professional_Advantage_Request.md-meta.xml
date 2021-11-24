@@ -3,6 +3,10 @@
     <label>Professional Advantage Request</label>
     <protected>false</protected>
     <values>
+        <field>Description__c</field>
+        <value xsi:type="xsd:string">This record type will be used to set up the professional advantage for the client in the corporate portal. This will include assigning courses to the customer that can be used for Professional Advantage as well as setting up the product that they can used</value>
+    </values>
+    <values>
         <field>Object_Type__c</field>
         <value xsi:type="xsd:string">Product_Request__c</value>
     </values>
