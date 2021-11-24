@@ -5,6 +5,10 @@
         <visible>true</visible>
     </applicationVisibilities>
     <classAccesses>
+        <apexClass>CreateAssetCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CreateCoursesCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -198,6 +202,41 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Asset.Description</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Asset.End_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Asset.Product_Request__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Asset.Start_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Associated_Products__c.Buyer_Group__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Associated_Products__c.Product__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Credential__c.Course__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Credential__c.Credential_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -214,21 +253,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Product2.Certification_Type__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Product_Specification__c.Program_Lead__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Product_Specification__c.Overall_Program_Outcome__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Product_Specification__c.Lead_School__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -299,6 +323,21 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Product2.Who_Should_Participate__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Product_Specification__c.Lead_School__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Product_Specification__c.Overall_Program_Outcome__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Product_Specification__c.Program_Lead__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -482,33 +521,18 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>hed__Facility__c.Display_Name__c</field>
+        <editable>true</editable>
+        <field>hed__Course_Offering__c.hed__End_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Facility__c.hed__Account__c</field>
+        <field>hed__Course_Offering__c.hed__Facility__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Facility__c.hed__Capacity__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>hed__Facility__c.hed__Description__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>hed__Facility__c.hed__Facility_Type__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>hed__Facility__c.hed__Parent_Facility__c</field>
+        <field>hed__Course_Offering__c.hed__Start_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -574,6 +598,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course__c.End_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Course__c.External_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -732,23 +761,33 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>hed__Course__c.External_Id__c</field>
+        <editable>false</editable>
+        <field>hed__Facility__c.Display_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Course_Offering__c.hed__Start_Date__c</field>
+        <field>hed__Facility__c.hed__Account__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Course_Offering__c.hed__Facility__c</field>
+        <field>hed__Facility__c.hed__Capacity__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Course_Offering__c.hed__End_Date__c</field>
+        <field>hed__Facility__c.hed__Description__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Facility__c.hed__Facility_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Facility__c.hed__Parent_Facility__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -784,16 +823,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Plan_Requirement__c.hed__Sequence__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Associated_Products__c.Buyer_Group__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Associated_Products__c.Product__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1119,10 +1148,6 @@
     </tabSettings>
     <tabSettings>
         <tab>Product_Specification__c</tab>
-        <visibility>Visible</visibility>s
-    </tabSettings>
-    <tabSettings>
-        <tab>Program_Offering__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>

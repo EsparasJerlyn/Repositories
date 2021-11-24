@@ -12,6 +12,7 @@
       | roy.nino.s.regala         | October  4,2021       | DEPP-40,42          | Added method for Product Request and Product Specification       | 
       | adrian.c.habasa           | October 18,2021       | DEPP-476,425,383    | Added method for Course, Products,Course Offerings and Terms     |
       | roy.nino.s.regala         | November 3, 2021      | DEPP-736            | Added nethod for Opportunity Contact Roles                       |
+      | adrian.c.habasa           | November 11,2021      | DEPP-664            | Added method for Asset                                           |
 */
 @IsTest
 public class TestDataFactory {
@@ -314,6 +315,26 @@ public class TestDataFactory {
             ));
         }
         return term;
+    }
+
+    /**
+    * @description Method for creating Asset Record
+    * @param nAsset - number of Term to be created
+    * @param accountId - List of accounts to be related to terms
+    * @param productRequestId - List of product request to be related to terms
+    * @return asset - List of Asset Records Created
+    */
+    public static List<Asset> createTestAssetRecords(Integer nAsset, Id accountId, Id productRequestId)
+    {
+         List<Asset> asset = new List<Asset>();
+         for(Integer i=0; i < nAsset; i++)
+         {
+             asset.add(new Asset(Name='Test Asset' + i,
+                                AccountId = accountId,
+                                Product_Request__c = productRequestId
+            ));
+         }
+         return asset;
     }
 
     /**

@@ -1,0 +1,136 @@
+<template>
+    <div class="slds-text-heading_small sf-green-text custom-hover slds-p-bottom_x-small slds-border_bottom sf-bold-text">
+        Create Asset 
+    </div>
+    <lightning-card>
+        <lightning-spinner if:true={isLoading} alternative-text="Loading" size="medium"></lightning-spinner>
+        <lightning-record-edit-form record-id={assetRecordId} object-api-name={objectName} onsubmit={handleSubmit} onsuccess={handleSuccess} density="comfy"> 
+            <template for:each={layoutToDisplay} for:item="layoutItem"> 
+                <div class="slds-grid slds-gutters slds-wrap slds-clearfix slds-form_vertical slds-m-top_x-small" key={layoutItem.sectionLabel}>
+                     <!--Left Side-->
+                    <div class="slds-col slds-size_1-of-2 slds-m-top_small" >
+                        <template for:each={layoutItem.leftColumn} for:item="leftField">
+                            <lightning-input-field 
+                                if:false= {viewMode}
+                                key={leftField.field}
+                                field-name={leftField.field}
+                                disabled={leftField.readOnly}
+                                value={leftField.value}
+                                required={leftField.mandatory}>
+                            </lightning-input-field>
+                                <!--Left Side View mode-->
+                            <lightning-layout key={leftField.field} if:true= {viewMode}>
+                                <lightning-layout-item flexibility="auto">
+                                    <lightning-output-field 
+                                        class="slds-border_bottom" 
+                                        key={leftField.field} 
+                                        field-name={leftField.field}>
+                                    </lightning-output-field>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="slds-align-middle slds-p-right_xx-large">
+                                        <lightning-button-icon
+                                            if:true={editableField}
+                                            icon-name="utility:edit"
+                                            alternative-text="Edit"
+                                            title="Edit Field"
+                                            variant="bare"
+                                            size="medium"
+                                            onclick={handleEditAsset}
+                                        ></lightning-button-icon>
+                                </lightning-layout-item>
+                            </lightning-layout> 
+                        </template>
+                    </div> 
+                     <!--Right Side-->
+                    <div class="slds-col slds-size_1-of-2 slds-m-top_small" >
+                        <template for:each={layoutItem.rightColumn} for:item="rightField">
+                            <lightning-input-field 
+                                if:false= {viewMode}
+                                key={rightField.field}
+                                field-name={rightField.field}
+                                disabled={rightField.readOnly}
+                                value={rightField.value}
+                                required={rightField.mandatory}>
+                            </lightning-input-field>
+                                <!--Right Side View Mode-->
+                            <lightning-layout key={rightField.field} if:true= {viewMode}>
+                                <lightning-layout-item flexibility="auto">
+                                    <lightning-output-field 
+                                            class="slds-border_bottom" 
+                                            key={rightField.field} 
+                                            field-name={rightField.field}>
+                                    </lightning-output-field>
+                                </lightning-layout-item>    
+                                <lightning-layout-item class="slds-align-middle slds-p-right_xx-large">
+                                    <lightning-button-icon
+                                        if:true={editableField}   
+                                        icon-name="utility:edit"
+                                        alternative-text="Edit"
+                                        title="Edit Field"
+                                        variant="bare"
+                                        size="medium"
+                                        onclick={handleEditAsset}>
+                                    </lightning-button-icon>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </template>
+                    </div>
+                    <!--Single Field-->
+                    <div class="slds-col slds-size_1-of-1 slds-m-top_x-small" >
+                        <template for:each={layoutItem.singleColumn} for:item="singleField">
+                            <lightning-input-field 
+                                if:false= {viewMode}
+                                key={singleField.field}
+                                field-name={singleField.field}
+                                disabled={singleField.readOnly}
+                                required={singleField.mandatory}>
+                            </lightning-input-field>
+                            <lightning-layout key={singleField.field} if:true= {viewMode}>
+                                <lightning-layout-item flexibility="auto">
+                                    <lightning-output-field  
+                                        class="slds-border_bottom"
+                                        if:true={viewMode} 
+                                        key={singleField.field} 
+                                        field-name={singleField.field}> 
+                                    </lightning-output-field>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </template>
+                    </div>
+                </div>
+            </template>
+            <div class="slds-col">
+                <lightning-button
+                    if:false={viewMode}
+                    data-name="save"
+                    label="Save"
+                    variant="brand"
+                    type="submit"
+                    class="slds-float_right">
+                </lightning-button>
+                <lightning-button
+                    if:false={viewMode}
+                    variant="Neutral" 
+                    label="Cancel" 
+                    onclick={handleCancelButton}
+                    class="slds-float_right">
+                </lightning-button>
+            </div>
+        </lightning-record-edit-form>
+    </lightning-card>
+    <div class="slds-grid slds-gutters slds-m-horizontal_xxx-small slds-m-vertical_large">
+        <div class="slds-col slds-size_1-of-1">
+            <lightning-button
+                if:true={viewMode} 
+                label="MARK AS COMPLETE"
+                title="MARK AS COMPLETE"
+                variant="brand"
+                icon-name="utility:check"
+                icon-position="left"
+                onclick ={handleMarkAsComplete}
+                disabled={disableMarkAsComplete}
+                class="slds-float_right">
+            </lightning-button>
+        </div>
+    </div>
+</template>
