@@ -9,6 +9,22 @@
         <value>/consumer/dep/v1/opportunity/createContract</value>
     </labels>
     <labels>
+        <fullName>LWC_Error_General</fullName>
+        <categories>LWC,Error</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>LWC_Error_General</shortDescription>
+        <value>An error has been encountered. Please contact your administrator.</value>
+    </labels>
+    <labels>
+        <fullName>LWC_HelpText_GetCurriculumButton</fullName>
+        <categories>LWC,HelpText</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>LWC_HelpText_GetCurriculumButton</shortDescription>
+        <value>When you click the &quot;Get Curriculum&quot; button, this will retrieve all associated Curriculum items from the Curriculum Management System.</value>
+    </labels>
+    <labels>
         <fullName>Minimum_Search_Term_Length</fullName>
         <language>en_US</language>
         <protected>false</protected>

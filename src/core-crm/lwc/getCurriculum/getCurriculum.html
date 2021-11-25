@@ -1,0 +1,213 @@
+<template>
+    <!--Header Section-->
+    <div class="slds-grid slds-gutters slds-m-horizontal_xxx-small slds-m-bottom_medium slds-border_bottom">
+        <div class="slds-col slds-size_2-of-7 slds-p-vertical_small">
+            <p class="slds-text-heading_medium sf-blue-text"><strong>PROPOSAL ID</strong></p>
+            <p class="slds-text-heading_small gray-text"><strong>{productRequest.proposalId}</strong></p>
+        </div>
+        <lightning-spinner if:true={isLoading} alternative-text="Loading..." size="small"></lightning-spinner>
+        <div class="slds-col slds-size_5-of-7">
+            <lightning-layout>
+                <lightning-layout-item padding="around-small">
+                    <lightning-button
+                        label="GET CURRICULUM"
+                        title="GET CURRICULUM"
+                        icon-name="utility:chevronright"
+                        icon-position="right"
+                        variant="brand"
+                        onclick={handleGetCurriculum}
+                        disabled={disableCurriculumButton}>
+                    </lightning-button>
+                </lightning-layout-item>
+                <lightning-layout-item>
+                    <lightning-helptext content={helpText}></lightning-helptext>
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+    </div>
+    <!--Curriculum Items Section-->
+    <div class="slds-m-vertical_medium">
+        <strong if:true={curriculumMessage} class="slds-align_absolute-center">{curriculumMessage}</strong>
+        <template for:each={curriculumItemsList} for:item="item">
+            <div key={item.id} class="slds-grid slds-gutters slds-m-left_xxx-small slds-m-right_small slds-m-bottom_medium">
+                <template for:each={item.headers} for:item="itemHeader">
+                    <div key={itemHeader.field} class={itemHeader.class}>
+                        <p><strong>{itemHeader.field}</strong></p>
+                    </div>
+                </template>
+            </div>
+            <div key={item.id} class="slds-m-bottom_x-large custom-scroll custom-height">
+                <template for:each={item.data} for:item="itemData">
+                    <div key={itemData.id} class="slds-grid slds-gutters slds-align-bottom slds-m-horizontal_xxx-small slds-m-bottom_medium">
+                        <div class="slds-col slds-size_3-of-12 slds-truncate slds-align-bottom">
+                            <lightning-formatted-url 
+                                value={itemData.nameUrl}
+                                tooltip={itemData.name}
+                                label={itemData.name}
+                                target="_top">
+                            </lightning-formatted-url>
+                        </div>
+                        <div class="slds-col slds-size_2-of-12 slds-align-bottom">
+                            {itemData.programTypeOrCourseCode}
+                        </div>
+                        <div class="slds-col slds-size_2-of-12 slds-align-bottom">
+                            {itemData.implementationYear}
+                        </div>
+                        <div class="slds-col slds-size_2-of-12 slds-truncate slds-align-bottom">
+                            <lightning-formatted-url 
+                                value={itemData.owningFacultyUrl}
+                                tooltip={itemData.owningFaculty}
+                                label={itemData.owningFaculty}
+                                target="_top">
+                            </lightning-formatted-url>
+                        </div>
+                        <div class="slds-col slds-size_2-of-12 slds-text-align_center slds-align-bottom">
+                            <lightning-input
+                                type="checkbox"
+                                name={itemData.id}
+                                disabled={itemData.isCompleteDisabled}
+                                checked={itemData.isComplete}
+                                onchange={handleCheckboxChange}>
+                            </lightning-input>
+                        </div>
+                        <div class="slds-col slds-size_1-of-12 slds-align-bottom">
+                            <lightning-button
+                                name={item.id}
+                                data-name={itemData.id}
+                                label="Edit"
+                                title="Edit"
+                                icon-name="utility:edit"
+                                icon-position="left"
+                                variant="brand-outline"
+                                onclick={handleEdit}
+                                disabled={itemData.isEditDisabled}
+                                class="slds-float_right">
+                            </lightning-button>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </template>
+    </div>
+    <div class="slds-grid slds-gutters slds-m-horizontal_xxx-small slds-m-vertical_x-large">
+        <div class="slds-col slds-size_1-of-1">
+            <lightning-button
+                label="MARK AS COMPLETE"
+                title="MARK AS COMPLETE"
+                icon-name="utility:check"
+                icon-position="left"
+                variant="brand"
+                onclick={handleMarkAsComplete}
+                disabled={disableMarkAsComplete}
+                class="slds-float_right">
+            </lightning-button>
+        </div>
+    </div>
+    <!--Modal Popup Verification Section-->
+    <section if:true={showVerification} role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+            <header class="slds-modal__header">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={handleCloseModalButton}>
+                    <lightning-icon
+                        icon-name="utility:close"
+                        alternative-text="close"
+                        variant="inverse"
+                        size="small">
+                    </lightning-icon>
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+                <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate slds-text-align_left sf-dark-blue-text">
+                    <strong>CURRICULUM VERIFICATION</strong>
+                </h2>
+            </header>
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                <lightning-record-edit-form record-id={recordId} object-api-name={objectApiName} onsuccess={handleSaveModalButton}>
+                    <div class="slds-grid slds-gutters slds-m-horizontal_xx-small slds-m-bottom_medium">
+                        <div class="slds-col slds-size_1-of-3 slds-align-middle">
+                            <p class="slds-text-heading_medium sf-blue-text"><strong>PROPOSAL ID</strong></p>
+                        </div>
+                        <div class="slds-col slds-size_1-of-3 slds-align-middle">
+                            <p if:false={modalEditMode} class="slds-text-heading_small slds-border_bottom"><strong>{productRequest.proposalId}</strong></p>
+                            <lightning-input-field if:true={modalEditMode} variant="label-hidden" field-name={proposalIdApiName}></lightning-input-field>
+                        </div>
+                        <div class="slds-col slds-size_1-of-3 slds-text-align_center">
+                            <lightning-button
+                                class="slds-m-right_small" 
+                                variant="brand"
+                                label="SAVE"
+                                type="submit"
+                                disabled={disableSaveModalButton}>
+                            </lightning-button>
+                            <lightning-button
+                                if:true={modalEditMode} 
+                                variant="Neutral"
+                                label="CANCEL" 
+                                onclick={handleCancelModalButton}>
+                            </lightning-button>
+                            <lightning-button   
+                                if:false={modalEditMode}
+                                variant="brand-outline"
+                                label="EDIT" 
+                                onclick={handleEditModalButton}>
+                            </lightning-button>
+                        </div>
+                    </div>
+               </lightning-record-edit-form>
+                <div class="slds-m-bottom_large">
+                    <lightning-button
+                        label="GET CURRICULUM"
+                        title="GET CURRICULUM"
+                        icon-name="utility:chevronright"
+                        icon-position="right"
+                        variant="brand"
+                        onclick={handleGetCurriculumModalButton}
+                        disabled={disableCurriculumModalButton}
+                        class="slds-m-left_medium">
+                    </lightning-button>
+                </div>
+                <template if:true={showCurriculumOnModal} for:each={curriculumItemsListVerification} for:item="item">
+                    <div key={item.id} class="slds-grid slds-gutters slds-m-top_small slds-m-horizontal_xxx-small slds-m-bottom_medium">
+                        <template for:each={item.headers} for:item="itemHeader">
+                            <div key={itemHeader.field} class={itemHeader.class}>
+                                <p><strong>{itemHeader.field}</strong></p>
+                            </div>
+                        </template>
+                    </div>
+                    <div key={item.id} class="slds-m-bottom_x-large custom-scroll custom-height-modal">
+                        <template for:each={item.data} for:item="itemData">
+                            <div key={itemData.id} class="slds-grid slds-gutters slds-align-bottom slds-m-horizontal_xxx-small slds-m-bottom_medium">
+                                <div class="slds-col slds-size_2-of-5 slds-wrap slds-align-top">
+                                    {itemData.name}
+                                </div>
+                                <div class="slds-col slds-size_1-of-5 slds-align-top">
+                                    {itemData.programTypeOrCourseCode}
+                                </div>
+                                <div class="slds-col slds-size_1-of-5 slds-align-top">
+                                    {itemData.implementationYear}
+                                </div>
+                                <div class="slds-col slds-size_1-of-5 slds-wrap slds-align-top">
+                                    {itemData.owningFaculty}
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+            </div>
+            <footer class="slds-modal__footer">
+                <button class="slds-button slds-button_text-destructive" onclick={handleCloseModalButton}>DECLINE</button>
+                <button class="slds-button slds-button_brand" onclick={handleConfirmModalButton} disabled={disableConfirmModalButton}>CONFIRM</button>
+            </footer>
+        </div>
+    </section>
+    <div if:true={showVerification} class="slds-backdrop slds-backdrop_open"></div>
+    <!--Custom Modal for Editing Records-->
+    <template if:true={showEditModal}>
+        <c-custom-create-edit-record 
+            object-api-name={editModalObject}
+            record-id={editModalId}
+            record-type-name={courseRecordTypeName}
+            onsave={handleSaveOnEditModal}
+            onclose={handleCloseOnEditModal}
+        ></c-custom-create-edit-record>
+    </template>
+</template>

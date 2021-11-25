@@ -16,13 +16,13 @@ import { getRecord, getFieldValue, createRecord, updateRecord } from 'lightning/
 import { getObjectInfo } from 'lightning/uiObjectInfoApi';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { refreshApex } from '@salesforce/apex';
+import LWC_Error_General from '@salesforce/label/c.LWC_Error_General';
 import COURSE_SCHEMA from '@salesforce/schema/hed__Course__c';
 import RECORD_TYPE from '@salesforce/schema/Product_Request__c.RecordType.Name';
 import PR_STATUS from '@salesforce/schema/Product_Request__c.Product_Request_Status__c';
 import getCourses from '@salesforce/apex/CreateCoursesCtrl.getCourses';
 
 const COACHING_REQUEST = 'Coaching Request';
-const ERROR_MSG = 'An error has been encountered. Please contact your administrator.';
 export default class CreateCourses extends LightningElement {
     @api recordId;
     @api objectApiName;
@@ -49,7 +49,7 @@ export default class CreateCourses extends LightningElement {
             this.productRequestRecordType = getFieldValue(result.data, RECORD_TYPE);
             this.productRequestStatus = getFieldValue(result.data, PR_STATUS);
         }else if(result.error){
-            this.generateToast('Error.',ERROR_MSG,'error');
+            this.generateToast('Error.',LWC_Error_General,'error');
         }
     }
 
@@ -68,13 +68,13 @@ export default class CreateCourses extends LightningElement {
                 courseItem.recordUrl = '/' + course.Id;
                 courseItem.name = course.Name;
                 courseItem.recordType = course.RecordType.Name;
-                courseItem.startDate = course.Start_Date__c;
-                courseItem.endDate = course.End_Date__c;
+                courseItem.startDate = course.Start_Date__c ? new Date(course.Start_Date__c).toLocaleDateString('en-US') : '';
+                courseItem.endDate = course.End_Date__c ? new Date(course.End_Date__c).toLocaleDateString('en-US') : '';
 
                 return courseItem;
             });
         }else if(result.error){
-            this.generateToast('Error.',ERROR_MSG,'error');
+            this.generateToast('Error.',LWC_Error_General,'error');
         }
     }
 
@@ -241,7 +241,7 @@ export default class CreateCourses extends LightningElement {
             this.generateToast('Success!','Record created.','success')
         })
         .catch(error => {
-            this.generateToast('Error.',ERROR_MSG,'error');
+            this.generateToast('Error.',LWC_Error_General,'error');
         })
         .finally(() => {
             this.isLoading = false;
@@ -268,7 +268,7 @@ export default class CreateCourses extends LightningElement {
             
         })
         .catch(error => {
-            this.generateToast('Error.',ERROR_MSG,'error');
+            this.generateToast('Error.',LWC_Error_General,'error');
         })
         .finally(() => {
             this.isLoading = false;

@@ -26,6 +26,8 @@
 */
 import { LightningElement, api, wire } from 'lwc';
 import { getObjectInfo } from 'lightning/uiObjectInfoApi';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import LWC_Error_General from '@salesforce/label/c.LWC_Error_General';
 import getLayoutMapping from '@salesforce/apex/CustomCreateEditRecordCtrl.getLayoutMapping';
 
 export default class CustomCreateEditRecord extends LightningElement {
@@ -60,7 +62,7 @@ export default class CustomCreateEditRecord extends LightningElement {
             this.objectRecordTypeInfo = data.recordTypeInfos;
             this.objectLabel = data.label;
         }else if(error){
-            console.log(error);
+            this.generateToast('Error.',LWC_Error_General,'error');
         }
     }
 
@@ -142,7 +144,7 @@ export default class CustomCreateEditRecord extends LightningElement {
             }
         })
         .catch(error =>{
-            console.log('error: ',error);
+            this.generateToast('Error.',LWC_Error_General,'error');
         })
         .finally(() => {
             this.isLoading = false;
@@ -288,6 +290,18 @@ export default class CustomCreateEditRecord extends LightningElement {
             recType.checked = recType.value == this.selectedRecordType ? true : false;
         })
         this.formatLayoutToDisplay();
+    }
+
+    /**
+     * creates toast notification
+     */
+     generateToast(_title,_message,_variant){
+        const evt = new ShowToastEvent({
+            title: _title,
+            message: _message,
+            variant: _variant,
+        });
+        this.dispatchEvent(evt);
     }
 
 }

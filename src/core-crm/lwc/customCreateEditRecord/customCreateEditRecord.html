@@ -13,33 +13,25 @@
                 </lightning-button-icon>  
                 <h2>{modalHeader}</h2>  
             </div>  
-            <!--Body Section-->  
-            <div class="slds-modal__content slds-p-around_medium">
-                <!--Record Type Selection Section-->
-                <template if:true={showRecordTypeSelection} for:each={recordTypeSelection} for:item="recType">
-                    <fieldset key={recType.value}>
-                      <div class="slds-m-left_large slds-form-element__control">
-                        <span class="slds-radio slds-p-bottom_medium slds-text-heading_medium" >
-                          <input name="radiogroup" id={recType.value} type="radio" value={recType.value} checked={recType.checked} onchange={getSelectedRecordType}/>
-                          <label class="slds-radio__label" for={recType.value}>
-                            <span class="slds-radio_faux"></span>
-                            <span class="slds-form-element__label">{recType.label}</span>
-                          </label>
-                        </span>
-                      </div>
-                    </fieldset>
-                </template>
-                <div if:true={showRecordTypeSelection} class="slds-float_right slds-m-top_large">
-                    <lightning-button
-                        label="Create"  
-                        variant="brand"
-                        onclick={showPageLayout} 
-                        disabled={disableCreateButton}>
-                    </lightning-button>
-                </div>
-                <!--Record Create/Edit Section-->
-                <template if:false={showRecordTypeSelection}>
-                    <lightning-record-edit-form object-api-name={objectApiName} record-id={recordId} onsubmit={handleSubmit} onchange={handleChange}>
+            <!--Body Section-->
+            <lightning-record-edit-form object-api-name={objectApiName} record-id={recordId} onsubmit={handleSubmit} onchange={handleChange}>  
+                <div class="slds-modal__content slds-p-around_medium slds-scrollable_y custom-height">
+                    <!--Record Type Selection Section-->
+                    <template if:true={showRecordTypeSelection} for:each={recordTypeSelection} for:item="recType">
+                        <fieldset key={recType.value}>
+                            <div class="slds-m-left_large slds-form-element__control">
+                                <span class="slds-radio slds-p-bottom_medium slds-text-heading_medium" >
+                                    <input name="radiogroup" id={recType.value} type="radio" value={recType.value} checked={recType.checked} onchange={getSelectedRecordType}/>
+                                    <label class="slds-radio__label" for={recType.value}>
+                                        <span class="slds-radio_faux"></span>
+                                        <span class="slds-form-element__label">{recType.label}</span>
+                                    </label>
+                                </span>
+                            </div>
+                        </fieldset>
+                    </template>
+                    <!--Record Create/Edit Section-->
+                    <template if:false={showRecordTypeSelection}>
                         <lightning-accordion allow-multiple-sections-open active-section-name={activeSections}>
                             <lightning-spinner if:true={isLoading} alternative-text="Loading" size="medium"></lightning-spinner> 
                             <template for:each={layoutToDisplay} for:item="layoutItem">
@@ -47,18 +39,10 @@
                                     <div class="slds-grid slds-gutters">
                                         <div class="slds-col slds-size_1-of-2">
                                             <template for:each={layoutItem.leftColumn} for:item="leftField">
-                                                <lightning-input-field 
-                                                    if:false={recordId}
+                                                <lightning-input-field
                                                     key={leftField.field}
                                                     field-name={leftField.field}
                                                     value={leftField.value}
-                                                    disabled={leftField.readOnly}
-                                                    required={leftField.mandatory}>
-                                                </lightning-input-field>
-                                                <lightning-input-field 
-                                                    if:true={recordId}
-                                                    key={leftField.field}
-                                                    field-name={leftField.field}
                                                     disabled={leftField.readOnly}
                                                     required={leftField.mandatory}>
                                                 </lightning-input-field>
@@ -67,17 +51,9 @@
                                         <div class="slds-col slds-size_1-of-2">
                                             <template for:each={layoutItem.rightColumn} for:item="rightField">
                                                 <lightning-input-field
-                                                    if:false={recordId} 
                                                     key={rightField.field}
                                                     field-name={rightField.field}
                                                     value={rightField.value}
-                                                    disabled={rightField.readOnly}
-                                                    required={rightField.mandatory}>
-                                                </lightning-input-field>
-                                                <lightning-input-field
-                                                    if:true={recordId}
-                                                    key={rightField.field}
-                                                    field-name={rightField.field}
                                                     disabled={rightField.readOnly}
                                                     required={rightField.mandatory}>
                                                 </lightning-input-field>
@@ -86,17 +62,9 @@
                                         <div class="slds-col slds-size_1-of-1">
                                             <template for:each={layoutItem.singleColumn} for:item="singleField">
                                                 <lightning-input-field
-                                                    if:false={recordId} 
                                                     key={singleField.field}
                                                     field-name={singleField.field}
                                                     value={singleField.value}
-                                                    disabled={singleField.readOnly}
-                                                    required={singleField.mandatory}>
-                                                </lightning-input-field>
-                                                <lightning-input-field 
-                                                    if:true={recordId}
-                                                    key={singleField.field}
-                                                    field-name={singleField.field}
                                                     disabled={singleField.readOnly}
                                                     required={singleField.mandatory}>
                                                 </lightning-input-field>
@@ -106,46 +74,55 @@
                                 </lightning-accordion-section>
                             </template>
                         </lightning-accordion>
-                        <!--Footer/Buttons Section-->
-                        <div class="slds-m-top_large">
-                            <lightning-button
-                                    if:true={showBackButton}
-                                    label="Back"
-                                    variant="neutral"
-                                    icon-name="utility:back"
-                                    icon-position="left"
-                                    onclick={handleBack}>  
-                            </lightning-button>
-                            <div class="slds-float_right">
-                                <lightning-button
-                                    label="Cancel"
-                                    variant="neutral"
-                                    onclick={closeModal}>  
-                                </lightning-button>
-                                <lightning-button
-                                    if:true={showSaveAndNewButton}
-                                    data-name="saveAndNew"
-                                    label="Save &amp; New"
-                                    variant="brand-outline"
-                                    onclick={storeButtonName}
-                                    type="submit"
-                                    class="slds-m-left_medium"
-                                    disabled={isDisabled}>  
-                                </lightning-button>
-                                <lightning-button
-                                    data-name="save"
-                                    label="Save"
-                                    variant="brand"
-                                    onclick={storeButtonName}
-                                    type="submit"
-                                    class="slds-m-left_medium"
-                                    disabled={isDisabled}>  
-                                </lightning-button>
-                            </div>
-                        </div>
-                    </lightning-record-edit-form>
-                </template>
-            </div>  
+                    </template>
+                </div>
+                <!--Footer/Buttons Section-->  
+                <footer class="slds-modal__footer">
+                    <template if:true={showRecordTypeSelection}>
+                        <lightning-button
+                            label="Create"  
+                            variant="brand"
+                            onclick={showPageLayout} 
+                            disabled={disableCreateButton}>
+                        </lightning-button>
+                    </template>
+                    <template if:false={showRecordTypeSelection}>
+                        <lightning-button
+                            if:true={showBackButton}
+                            label="Back"
+                            variant="neutral"
+                            icon-name="utility:back"
+                            icon-position="left"
+                            class="slds-float_left"
+                            onclick={handleBack}>  
+                        </lightning-button>
+                        <lightning-button
+                            label="Cancel"
+                            variant="neutral"
+                            onclick={closeModal}>  
+                        </lightning-button>
+                        <lightning-button
+                            if:true={showSaveAndNewButton}
+                            data-name="saveAndNew"
+                            label="Save &amp; New"
+                            variant="brand-outline"
+                            onclick={storeButtonName}
+                            type="submit"
+                            class="slds-m-left_medium"
+                            disabled={isDisabled}>  
+                        </lightning-button>
+                        <lightning-button
+                            data-name="save"
+                            label="Save"
+                            variant="brand"
+                            onclick={storeButtonName}
+                            type="submit"
+                            class="slds-m-left_medium"
+                            disabled={isDisabled}>  
+                        </lightning-button>
+                    </template>
+                </footer>
+            </lightning-record-edit-form>
         </div>  
     </div>  
 </template>

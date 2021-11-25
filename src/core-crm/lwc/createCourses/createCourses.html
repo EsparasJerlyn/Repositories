@@ -40,21 +40,11 @@
                 </div>
                 <div class="slds-col slds-size_1-of-7">
                     <p class="gray-text">Start Date</p>
-                    <lightning-formatted-date-time
-                        value={course.startDate}
-                        year="numeric"
-                        month="numeric"
-                        day="numeric">
-                    </lightning-formatted-date-time>
+                    {course.startDate}
                 </div>
                 <div class="slds-col slds-size_1-of-7">
                     <p class="gray-text">End Date</p>
-                    <lightning-formatted-date-time
-                        value={course.endDate}
-                        year="numeric"
-                        month="numeric"
-                        day="numeric">
-                    </lightning-formatted-date-time>
+                    {course.endDate}
                 </div>
                 <div class="slds-col slds-size_1-of-7 relative-position">
                     <div class="bottom-position">
