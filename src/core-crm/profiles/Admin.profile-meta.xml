@@ -41,6 +41,14 @@
         <visible>true</visible>
     </applicationVisibilities>
     <classAccesses>
+        <apexClass>AddAssociatedProductsCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>AddAssociatedProductsCtrlTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>AddProductRequestCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -162,6 +170,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ContactLookupCtrlTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CreateAssetCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CreateAssetCtrlTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -597,6 +613,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Asset.ProductDescription</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Asset.Product_Request__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
