@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CourseLoop_Full_Proposal_ID_is_required</fullName>
+    <active>true</active>
+    <description>“CourseLoop Full Proposal ID” is required to Get Curriculum from CourseLoop.</description>
+    <errorConditionFormula>AND(
+ OR(
+  RecordType.DeveloperName =&apos;Program_Request&apos;,
+  RecordType.DeveloperName =&apos;Stand_Alone_Unit_Module_Request&apos;
+ ),
+ NOT(ISPICKVAL( Product_Request_Status__c , &apos;Define&apos;)) ,
+ ISBLANK(CourseLoop_Full_Proposal_ID__c)
+)</errorConditionFormula>
+    <errorDisplayField>CourseLoop_Full_Proposal_ID__c</errorDisplayField>
+    <errorMessage>“CourseLoop Full Proposal ID” is required to Get Curriculum from CourseLoop.</errorMessage>
+</ValidationRule>

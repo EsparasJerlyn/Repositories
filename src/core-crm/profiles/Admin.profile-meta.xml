@@ -2061,6 +2061,16 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+         <editable>true</editable>
+        <field>hed__Course__c.Implementation_Year__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Course__c.IsComplete__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course__c.Location__c</field>
         <readable>true</readable>
@@ -2416,6 +2426,16 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+         <editable>true</editable>
+        <field>hed__Program_Plan__c.Implementation_Year__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Program_Plan__c.IsComplete__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>hed__Program_Plan__c.More_Details__c</field>
         <readable>true</readable>
@@ -2426,6 +2446,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+         <editable>true</editable>
+        <field>hed__Program_Plan__c.Owning_Faculty__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>hed__Program_Plan__c.Payment_Options__c</field>
         <readable>true</readable>
@@ -2433,6 +2458,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Program_Plan__c.Program_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+         <editable>true</editable>
+        <field>hed__Program_Plan__c.Product_Request__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
