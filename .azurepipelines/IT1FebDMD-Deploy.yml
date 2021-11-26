@@ -1,0 +1,55 @@
+name: "IT1FebDMD Deploy (Triggered)"
+
+resources:
+  repositories:
+    - repository: SFDX-PIPELINES
+      type: bitbucket
+      endpoint: Bitbucket_QUT
+      name: qutdev/sfdx-pipelines
+      ref: main ## PRODUCTION pipeline branch (to merge and put live when bitbucket pipeline is fully off)
+      #ref: feature/DEPP-790 ## DEV pipeline branch
+      trigger: none
+
+# Deploy to branch on commit
+trigger:
+  batch: true
+  branches:
+    include:
+      - release/IT1Feb
+
+#Custom Variables
+variables:
+  - group: SF_CICD
+
+stages:
+  - stage: PiplineJob
+    displayName: "Deploy"
+    lockBehavior: runLatest
+    jobs:
+      - deployment: DeployOnIT1FebDMD
+        timeoutInMinutes: 600
+        pool:
+          vmImage: "ubuntu-latest"
+        container: adambestsf/sfdxcli:v1.0.1
+        environment: "IT1FebDMD"
+        variables:
+          - group: IT1FebDMD
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - checkout: SFDX-PIPELINES
+                - checkout: self
+                - task: DownloadSecureFile@1
+                  name: jwtKeyfile
+                  inputs:
+                    secureFile: "server.key"
+                - template: yml/templates/sfdx-init.yml@SFDX-PIPELINES
+                - template: yml/templates/sfdx-login.yml@SFDX-PIPELINES
+                - template: yml/templates/sfdx-build-package.yml@SFDX-PIPELINES
+                - template: yml/templates/sfdx-scan-code.yml@SFDX-PIPELINES
+                - template: yml/templates/sfdx-pre-deploy-steps.yml@SFDX-PIPELINES
+                - template: yml/templates/sfdx-deploy-and-post-deploy.yml@SFDX-PIPELINES
+                  parameters:
+                    validateOrDeploy: "Deploy"
+                - template: yml/templates/sfdx-logout.yml@SFDX-PIPELINES
