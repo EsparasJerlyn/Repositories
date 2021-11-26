@@ -4,9 +4,7 @@
     <active>true</active>
     <description>Program Name is  Required for Product Specification Record to move the Status from Define to Design</description>
     <errorConditionFormula>AND(
-     ISCHANGED( Status__c ),
-     ISPICKVAL( PRIORVALUE( Status__c ), &apos;Define&apos;),
-     ISPICKVAL( Status__c, &apos;Design&apos;),
+     NOT(ISPICKVAL( Status__c, &apos;Define&apos; )),
      ISBLANK(  Program_Name__c )
 )</errorConditionFormula>
     <errorDisplayField>Program_Name__c</errorDisplayField>
