@@ -1,0 +1,28 @@
+{
+    "objects": [
+        {
+            "query":"SELECT Id, Name, dfsle__Action__c, dfsle__Active__c, dfsle__AddSourceDocuments__c, dfsle__AddSourceRecipients__c, dfsle__EmailMessage__c, dfsle__EmailSubject__c, dfsle__Expires__c, dfsle__IsDraft__c, dfsle__IsQuickSend__c, dfsle__Notifications__c, dfsle__Options__c, dfsle__Remind__c, dfsle__SenderPermissions__c, dfsle__ShowChatterSettings__c, dfsle__ShowEmailMessage__c, dfsle__ShowEmailSubject__c, dfsle__ShowRemindExpire__c, dfsle__ShowSendButton__c,  dfsle__ShowTagButton__c, dfsle__SourceObject__c, dfsle__TemplateType__c FROM dfsle__EnvelopeConfiguration__c",
+            "operation":"Upsert",
+            "externalId":"Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "dfsle__EnvelopeConfiguration__c",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query":"SELECT Name,IsDeleted, dfsle__EnvelopeConfiguration__c, dfsle__Filter__c, dfsle__ReadOnly__c, dfsle__Required__c, dfsle__Sequence__c, dfsle__Type__c FROM dfsle__EnvelopeConfigurationDocument__c",
+            "operation":"Upsert",
+            "externalId":"Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "dfsle__EnvelopeConfigurationDocument__c",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query":"SELECT Name,dfsle__EnvelopeConfiguration__c,dfsle__DeliverBySms__c,dfsle__Filter__c,dfsle__IdCheckRequired__c,dfsle__IncrementRoutingOrder__c,dfsle__ReadOnly__c,dfsle__Relationship__c,dfsle__Required__c,dfsle__Roles__c,dfsle__RoutingOrder__c,dfsle__Sequence__c,dfsle__SignNow__c,dfsle__Type__c FROM dfsle__EnvelopeConfigurationRecipient__c",
+            "operation":"Upsert",
+            "externalId":"Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "dfsle__EnvelopeConfigurationRecipient__c",
+            "importCSVFilesAsIs": true
+        }
+    ]
+}
