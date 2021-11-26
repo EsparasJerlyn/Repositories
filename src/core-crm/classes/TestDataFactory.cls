@@ -408,4 +408,23 @@ public class TestDataFactory {
         return contentVersionList;
     }
     
+    /**
+    * @description Method for creating test Product2 with isActive status
+    * @param numProducts - number of Product2 to be created
+    * @return products - list of Product2 created
+    */
+    public static List<Product2> createTestInActiveProductRecords(Integer numProducts) {
+        List<Product2> products = new List<Product2>();
+        
+        for(Integer i=0;i<numProducts;i++) {
+            products.add(new Product2(
+                IsActive  = FALSE,
+                Description = 'TestProductDesc' + i,
+                Family ='QUTeX CCE Elements',
+                Name='TestProduct' + i)
+            );
+        }
+
+        return products;
+    }
 }
