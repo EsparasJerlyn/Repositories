@@ -13,6 +13,7 @@
       | adrian.c.habasa           | October 18,2021       | DEPP-476,425,383    | Added method for Course, Products,Course Offerings and Terms     |
       | roy.nino.s.regala         | November 3, 2021      | DEPP-736            | Added nethod for Opportunity Contact Roles                       |
       | adrian.c.habasa           | November 11,2021      | DEPP-664            | Added method for Asset                                           |
+      | eccarius.karl.munoz       | November 25,2021      | DEPP-671            | Added method for creation of Products without related Course     |
 */
 @IsTest
 public class TestDataFactory {
@@ -250,6 +251,23 @@ public class TestDataFactory {
             productRecord.add(new Product2(
                 Name = 'Test Product' + i,
                 Course__c = cour[i].id
+            ));
+        }
+        return productRecord;
+    }
+
+    /**
+    * @description Method for creating Product Record without related course
+    * @param numProd - number of products to be created
+    * @return productRecord - List of Products Created
+    */
+    public static List<Product2> createTestProductRecords(Integer numProd)
+    {
+        List<Product2> productRecord = new List<Product2>();
+        for(Integer i=0; i<numProd; i++)
+        {
+            productRecord.add(new Product2(
+                Name = 'Test Product' + i
             ));
         }
         return productRecord;

@@ -103,6 +103,7 @@ export default class AddAssociatedProducts extends LightningElement {
                 this.empty = true;
             }
         }else{
+            this.empty = false;
             this.productList = [...this.productListTemp];          
         }
     }

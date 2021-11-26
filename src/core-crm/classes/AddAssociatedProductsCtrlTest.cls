@@ -16,23 +16,23 @@ public with sharing class AddAssociatedProductsCtrlTest {
 
     @TestSetup
     static void setupMethod(){
-        Product_Request__c productRequest = new Product_Request__c();
-        productRequest.Product_Request_Status__c = 'Release';
-        productRequest.Product_Request_Name__c = 'Test';
-
-        List<Product2> productList = new List<Product2>();
-        for(Integer i=0; i<numberOfRecords; i++){
-            Product2 product = new Product2();
-            product.Name = 'Test Product ' + i;
+        List<Product_Request__c> productRequestList = TestDataFactory.createTestProductRequestRecords(1);
+        for(Product_Request__c productRequest : productRequestList){
+            productRequest.Product_Request_Status__c = 'Release';            
+        }
+                
+        List<Product2> productList = TestDataFactory.createTestProductRecords(numberOfRecords);
+        List<Product2> productListToAdd = new List<Product2>();
+        for(Product2 product :productList){
             product.Family = 'OPE';
-            product.Description = 'Test Description' + i;
+            product.Description = 'Test Description';
             product.IsActive = true;
-            productList.add(product); 
+            productListToAdd.add(product); 
         }
 
         Test.startTest();
-        insert productRequest;
-        insert productList;
+        insert productRequestList;
+        insert productListToAdd;
         Test.stopTest();
     }
 
