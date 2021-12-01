@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Left_Column_Long__c</field>
-        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;hed__Course__c&quot;,&quot;isPrePopulated&quot;:true,&quot;readOnly&quot;:true},{&quot;field&quot;:&quot;Name&quot;,&quot;mandatory&quot;:true},{&quot;field&quot;:&quot;hed__Start_Date__c&quot;},{&quot;field&quot;:&quot;hed__Capacity__c&quot;}]</value>
+        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;hed__Course__c&quot;,&quot;isPrePopulated&quot;:true,&quot;readOnly&quot;:true},{&quot;field&quot;:&quot;Program_Offering__c&quot;,&quot;isPrePopulated&quot;:true,&quot;readOnly&quot;:true},{&quot;field&quot;:&quot;Name&quot;,&quot;mandatory&quot;:true},{&quot;field&quot;:&quot;hed__Start_Date__c&quot;},{&quot;field&quot;:&quot;hed__Capacity__c&quot;}]</value>
     </values>
     <values>
         <field>Left_Column__c</field>
@@ -20,7 +20,8 @@
     </values>
     <values>
         <field>Right_Column_Long__c</field>
-        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;hed__Term__c&quot;},{&quot;field&quot;:&quot;hed__Section_ID__c&quot;},{&quot;field&quot;:&quot;hed__End_Date__c&quot;},{&quot;field&quot;:&quot;hed__Time_Block__c&quot;},{&quot;field&quot;:&quot;hed__Faculty__c&quot;}]</value>
+        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;hed__Term__c&quot;},{&quot;field&quot;:&quot;hed__Section_ID__c&quot;},{&quot;field&quot;:&quot;hed__Time_Block__c&quot;},
+{&quot;field&quot;:&quot;hed__End_Date__c&quot;},{&quot;field&quot;:&quot;hed__Faculty__c&quot;}]</value>
     </values>
     <values>
         <field>Right_Column__c</field>

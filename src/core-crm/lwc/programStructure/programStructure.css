@@ -1,20 +1,12 @@
-.green{
-    color:green;
-}
 .noclick {
     pointer-events: none;
 }
 
-.title-text{
-    color:#003b6f;
-    font-weight: bold;
+.inputStyle {
+    width: auto;
 }
 
-.tab-bold{
-    font-weight: bold;
-}
-
-.text-bold{
+.text-bold {
     font-weight: bold;
 }
 

@@ -14,6 +14,7 @@
       | roy.nino.s.regala         | November 3, 2021      | DEPP-736            | Added nethod for Opportunity Contact Roles                       |
       | adrian.c.habasa           | November 11,2021      | DEPP-664            | Added method for Asset                                           |
       | eccarius.karl.munoz       | November 25,2021      | DEPP-671            | Added method for creation of Products without related Course     |
+      | roy.nino.s.regala         | November 25,2021      | DEPP-362,38,37      | Added method for creation of Program Plan                        |
 */
 @IsTest
 public class TestDataFactory {
@@ -407,6 +408,25 @@ public class TestDataFactory {
 
         return contentVersionList;
     }
+
+    /**
+    * @description Method for creating test programplan records
+    * @param programPlanNumber - number of ContentVersion to be created
+    * @return contentVersionList - list of ContentVersion created
+    */
+    public static List<hed__Program_Plan__c> createTestProgramPlanRecords(Integer programPlanNumber){
+        List<hed__Program_Plan__c> programPlanList = new List<hed__Program_Plan__c>();
+ 
+        for(Integer i=0; i < programPlanNumber; i++){
+            programPlanList.add(new hed__Program_Plan__c (
+                Name = 'Test Program Plan' + i
+            ));
+        }
+
+        return programPlanList;
+    }
+
+
     
     /**
     * @description Method for creating test Product2 with isActive status

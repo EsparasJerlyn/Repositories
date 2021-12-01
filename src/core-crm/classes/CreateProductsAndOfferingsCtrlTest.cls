@@ -6,24 +6,30 @@
  * @author Accenture
  *
  * @history
- *    | Developer                 | Date                  | JIRA      | Change Summary                      |
-      |---------------------------|-----------------------|-----------|-------------------------------------|
-      | adrian.c.habasa           | October 18, 2021      | DEPP-476  | Created file                        | 
-      | eugene.andrew.abuan       | November 9, 2021      | DEPP-35   | Added method testGetProductRequests | 
+ *    | Developer                 | Date                  | JIRA             | Change Summary                                                                                                              |
+      |---------------------------|-----------------------|------------------|-----------------------------------------------------------------------------------------------------------------------------|
+      | adrian.c.habasa           | October 18, 2021      | DEPP-476         | Created file                                                                                                                | 
+      | eugene.andrew.abuan       | November 9, 2021      | DEPP-35          | Added method testGetProductRequests                                                                                         | 
+      | roy.nino.s.regala         | November 25, 2021     | DEPP-362,38,37   | Added method testGetRelatedCourseProgramRequestRecordType, testUpdateProductRequests,testUpsertProgramPlanAndPlanRequirement| 
 */
 
 @isTest
 public with sharing class CreateProductsAndOfferingsCtrlTest {
    
    private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
+   private static Map <String,Schema.RecordTypeInfo> productRequestRecordTypes = Product_Request__c.sObjectType.getDescribe().getRecordTypeInfosByName();
+   private static Id programRequestRTId = productRequestRecordTypes.get('Program Request').getRecordTypeId();
    
    @testSetup static void setupMethod()
    {
        List<Account> accounts;
        List<hed__Course__c> courses;
+       List<hed__Course__c> coursesProgramRequest;
        List<hed__Course_Offering__c> courseOfferings;
        List<Product2> products;
        List<Product_Request__c> prodRequest;
+       List<Product_Request__c> prodRequestProgramRequest;
+       List<hed__Program_Plan__c> programPlanList;
        List<hed__Term__c> terms;
        accounts = TestDataFactory.createTestAccountRecords(1);
        insert accounts;
@@ -32,39 +38,92 @@ public with sharing class CreateProductsAndOfferingsCtrlTest {
        prodRequest = TestDataFactory.createTestProductRequestRecords(1);
        insert prodRequest;
 
+       prodRequestProgramRequest = TestDataFactory.createTestProductRequestRecords(1);
+       prodRequestProgramRequest[0].Product_Request_Name__c = 'Program Request';
+       prodRequestProgramRequest[0].RecordTypeId = programRequestRTId;
+       insert prodRequestProgramRequest;
+
        Test.startTest();
-       courses = TestDataFactory.createTestCourseRecords(100,accounts[0].Id,prodRequest[0].Id);
+       courses = TestDataFactory.createTestCourseRecords(50,accounts[0].Id,prodRequest[0].Id);
        insert courses;
-       products = TestDataFactory.createTestProductRecords(100,courses);
+       coursesProgramRequest = TestDataFactory.createTestCourseRecords(50,accounts[0].Id,prodRequestProgramRequest[0].Id);
+       insert coursesProgramRequest;
+       programPlanList = TestDataFactory.createTestProgramPlanRecords(1);
+       programPlanList[0].Product_Request__c = prodRequestProgramRequest[0].Id;
+       insert programPlanList;
+       products = TestDataFactory.createTestProductRecords(50,courses);
        insert products;
-       courseOfferings = TestDataFactory.createTestCourseOfferingRecord(100,courses,terms);
+       products = TestDataFactory.createTestProductRecords(50);
+       for(Product2 product: products){
+           product.Program_Plan__c = programPlanList[0].Id;
+       }
+       insert products;
+       courseOfferings = TestDataFactory.createTestCourseOfferingRecord(50,courses,terms);
        insert courseOfferings;
        Test.stopTest();
     }
 
-   @isTest
+    @isTest
     static void testGetRelatedCourse()
     {
         Test.startTest();
         System.runAs(currentUser)
         {   
             CreateProductsAndOfferingsCtrl.CourseWithOfferings getCourses = new CreateProductsAndOfferingsCtrl.CourseWithOfferings();
-            getCourses = CreateProductsAndOfferingsCtrl.getRelatedCourse(string.valueOf([SELECT Id From Product_Request__c LIMIT 1].Id));  
+            getCourses = CreateProductsAndOfferingsCtrl.getRelatedCourse(string.valueOf([SELECT Id FROM Product_Request__c LIMIT 1].Id));  
             System.assert(!getCourses.courseList.isEmpty(),'Error while getting data');
-        }
-            Test.stopTest();
-        }
-
-    @isTest
-    static void testGetProductRequests()
-    {
-        Test.startTest();
-        System.runAs(currentUser)
-        {
-            String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1]?.Id;
-            List<Product_Request__c> prodReqToTest = CreateProductsAndOfferingsCtrl.getProductRequests(prodReqId);        
-            System.assertEquals(1, prodReqToTest.size() , 'Product Request did not match expected.');
         }
         Test.stopTest();
     }
+
+    @isTest
+    static void testGetRelatedCourseProgramRequestRecordType()
+    {
+        Test.startTest();
+        System.runAs(currentUser)
+        {   
+            CreateProductsAndOfferingsCtrl.CourseWithOfferings getCourses = new CreateProductsAndOfferingsCtrl.CourseWithOfferings();
+            getCourses = CreateProductsAndOfferingsCtrl.getRelatedCourse(string.valueOf([SELECT Id FROM Product_Request__c WHERE RecordTypeId =:programRequestRTId LIMIT 1].Id));  
+            System.assert(!getCourses.courseList.isEmpty(),'Error while getting data');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void testUpdateProductRequests()
+    {
+        Test.startTest();
+        System.runAs(currentUser)
+        {   
+            List<Product_Request__c> productRequestToUpdate = new List<Product_Request__c>();
+            List<Product_Request__c> productRequestList  = new List<Product_Request__c>([SELECT Id FROM Product_Request__c WHERE RecordTypeId =:programRequestRTId]);
+            for(Product_Request__c productRequest: productRequestList){
+                productRequest.Program_Name__c = 'TESTUPDATE';
+                productRequestToUpdate.add(productRequest);
+            }
+            CreateProductsAndOfferingsCtrl.updateProductRequests(productRequestToUpdate);  
+            System.assert(![SELECT Id FROM Product_Request__c WHERE Program_Name__c = 'TESTUPDATE'].isEmpty(),'Error Updating product requests');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void testUpsertProgramPlanAndPlanRequirement()
+    {
+        Test.startTest();
+        System.runAs(currentUser)
+        {      
+            List<hed__Program_Plan__c> programPlan = new List<hed__Program_Plan__c>([SELECT Id FROM hed__Program_Plan__c LIMIT 1]);
+            List<hed__Plan_Requirement__c> planRequirements = new List<hed__Plan_Requirement__c>();
+            planRequirements.add(new hed__Plan_Requirement__c(Name = 'Test Name'));
+            programPlan[0].Name = 'TESTUPDATENAME';
+
+            CreateProductsAndOfferingsCtrl.upsertProgramPlanAndPlanRequirement(planRequirements, programPlan[0]);  
+            System.assert(![SELECT Id FROM hed__Plan_Requirement__c WHERE Name = 'Test Name'].isEmpty(),'Error upserting plan requirement');
+            System.assert(![SELECT Id FROM hed__Program_Plan__c WHERE Name = 'TESTUPDATENAME'].isEmpty(),'Error updating program plan');
+        }
+        Test.stopTest();
+    }
+
+   
 }

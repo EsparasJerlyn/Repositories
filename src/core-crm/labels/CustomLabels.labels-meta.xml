@@ -24,12 +24,28 @@
         <value>An error has been encountered. Please contact your administrator.</value>
     </labels>
     <labels>
+        <fullName>LWC_HelpText_FlexibleProgram</fullName>
+        <categories>LWC,HelpText</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>LWC_HelpText_FlexibleProgram</shortDescription>
+        <value>Flexible Program - A user will not be able to create an offering for the program and they will need to create at least one offering for each course listed below.</value>
+    </labels>
+    <labels>
         <fullName>LWC_HelpText_GetCurriculumButton</fullName>
         <categories>LWC,HelpText</categories>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>LWC_HelpText_GetCurriculumButton</shortDescription>
         <value>When you click the &quot;Get Curriculum&quot; button, this will retrieve all associated Curriculum items from the Curriculum Management System.</value>
+    </labels>
+    <labels>
+        <fullName>LWC_HelpText_PrescribedProgram</fullName>
+        <categories>LWC,HelpText</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>LWC_HelpText_PrescribedProgram</shortDescription>
+        <value>Prescribed Program - A user will need to create 1 offering for the program and 1 offering for each course.</value>
     </labels>
     <labels>
         <fullName>Minimum_Search_Term_Length</fullName>
@@ -44,5 +60,21 @@
         <protected>false</protected>
         <shortDescription>Search Delay</shortDescription>
         <value>300</value>
+    </labels>
+    <labels>
+        <fullName>LWC_Error_MultiRecordTypes_CompleteStageOnParent</fullName>
+        <categories>LWC,Error</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>LWC_Error_MultiRecordTypes_CompleteStageOnParent</shortDescription>
+        <value>PLEASE COMPLETE THE RELEASE STAGE OF THIS PRODUCT &lt;br&gt; &lt;div class=&apos;slds-align_absolute-center&apos;&gt; ON YOUR PARENT PROGRAM PRODUCT REQUEST &lt;/div&gt;</value>
+    </labels>
+    <labels>
+        <fullName>LWC_Error_ProgramRequest_ChildrenNotInReleaseStage</fullName>
+        <categories>LWC,Error</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>LWC_Error_ProgramRequest_ChildrenNotInReleaseStage</shortDescription>
+        <value>PLEASE ENSURE THAT ALL CHILD PRODUCT REQUESTS &lt;br&gt; &lt;div class=&apos;slds-align_absolute-center&apos;&gt; ARE IN A RELEASE STATUS &lt;/div&gt;</value>
     </labels>
 </CustomLabels>

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Create_Offering_Complete__c</fullName>
+    <fullName>Create_Product_Complete__c</fullName>
     <defaultValue>false</defaultValue>
-    <description>Indicates that the creation of offerings is complete.</description>
+    <description>Indicates that creation of product stage is complete.</description>
     <externalId>false</externalId>
-    <label>Create Offering Complete</label>
+    <label>Create Product Complete</label>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

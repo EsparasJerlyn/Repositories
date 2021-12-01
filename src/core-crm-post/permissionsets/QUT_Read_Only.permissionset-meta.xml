@@ -3128,6 +3128,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Product2.Evolve_with_QUTeX__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Product2.ExternalDataSourceId</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3164,6 +3169,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Product2.ProductCode</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+         <field>Product2.Program_Plan__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3224,6 +3234,16 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Product_Request__c.CourseLoop_Initial_Proposal_URL__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Product_Request__c.Create_Offering_Complete__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Product_Request__c.Create_Product_Complete__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3329,6 +3349,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Product_Request__c.Program_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Product_Request__c.Program_Structure_Complete__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5798,6 +5823,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>hed__Course_Offering__c.Program_Offering__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>hed__Course_Offering__c.hed__Capacity__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6799,11 +6829,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>hed__Trigger_Handler__c.hed__Usernames_to_Exclude__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Product_Request__c.Create_Offering_Complete__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>

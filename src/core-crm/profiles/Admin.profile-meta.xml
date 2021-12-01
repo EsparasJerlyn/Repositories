@@ -1622,6 +1622,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Product_Request__c.Create_Product_Complete__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Product_Request__c.Create_Offering_Complete__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Product_Request__c.Diagnostic_Tool_Selection__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1712,6 +1722,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Product_Request__c.Program_Structure_Complete__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Product_Request__c.Professional_Advantage_Value__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1756,6 +1771,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Product2.Program_Plan__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Product2.Course_Code__c</field>
         <readable>true</readable>
@@ -1788,6 +1808,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Product2.End_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Product2.Evolve_with_QUTeX__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2322,6 +2347,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>hed__Course_Offering__c.Program_Offering__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>hed__Plan_Requirement__c.hed__Category__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2508,11 +2538,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Program_Plan__c.hed__Version__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Product_Request__c.Create_Offering_Complete__c</field>
         <readable>true</readable>
     </fieldPermissions>
      <fieldPermissions>

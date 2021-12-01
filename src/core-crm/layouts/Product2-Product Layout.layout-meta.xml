@@ -47,6 +47,10 @@
                 <behavior>Readonly</behavior>
                 <field>Certification_Type__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Program_Plan__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -89,6 +93,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Core_Concepts__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Evolve_with_QUTeX__c</field>
             </layoutItems>
         </layoutColumns>
         <style>OneColumn</style>
