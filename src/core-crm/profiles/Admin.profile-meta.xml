@@ -1647,7 +1647,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Product_Request__c.Implementation_Year__c</field>
+        <field>Product_Request__c.Implementation_Year_v2__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

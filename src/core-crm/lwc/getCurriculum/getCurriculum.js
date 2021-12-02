@@ -13,6 +13,7 @@
       | adrian.c.habasa           | November 16, 2021     | DEPP-707     | Modified UI and functions for verification popup modal |
       | aljohn.motas              | November 19, 2021     | DEPP-649     | Modified to handle Stand Alone records                 |
       | eccarius.karl.munoz       | November 23, 2021     | DEPP-36      | Updated the conditions for Stand Alone records         |
+      | eccarius.karl.munoz       | December 1, 2021      | DEPP-1040    | Updated the reference for Implemantation Year to v2    |
 */
 import { LightningElement, api, wire, track } from 'lwc';
 import { getRecord, getFieldValue, updateRecord } from 'lightning/uiRecordApi';
@@ -26,7 +27,7 @@ import PROG_PLAN_SCHEMA from '@salesforce/schema/hed__Program_Plan__c';
 import PROP_ID from '@salesforce/schema/Product_Request__c.CourseLoop_Full_Proposal_ID__c';
 import PROP_URL from '@salesforce/schema/Product_Request__c.CourseLoop_Full_Proposal_URL__c';
 import PROP_APPROVED from '@salesforce/schema/Product_Request__c.Is_Curriculum_Approved__c';
-import IMP_YR from '@salesforce/schema/Product_Request__c.Implementation_Year__c';
+import IMP_YR from '@salesforce/schema/Product_Request__c.Implementation_Year_v2__c';
 import OWN_FAC from '@salesforce/schema/Product_Request__c.Owning_Faculty__c';
 import OWN_FAC_NAME from '@salesforce/schema/Product_Request__c.Owning_Faculty__r.Name';
 import PR_STATUS from '@salesforce/schema/Product_Request__c.Product_Request_Status__c';

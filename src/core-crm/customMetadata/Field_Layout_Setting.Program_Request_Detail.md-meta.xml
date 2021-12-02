@@ -4,11 +4,11 @@
     <protected>false</protected>
     <values>
         <field>Left_Column_Long__c</field>
-        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Program_Name__c&quot;,&quot;mandatory&quot;:true},{&quot;field&quot;:&quot;Implementation_Year__c&quot;},{&quot;field&quot;:&quot;Start_Date__c&quot;}]</value>
+        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Program_Name__c&quot;,&quot;mandatory&quot;:true},{&quot;field&quot;:&quot;Implementation_Year_v2__c&quot;},{&quot;field&quot;:&quot;Start_Date__c&quot;}]</value>
     </values>
     <values>
         <field>Left_Column__c</field>
-        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Program_Name__c&quot;,&quot;mandatory&quot;:true},{&quot;field&quot;:&quot;Implementation_Year__c&quot;},{&quot;field&quot;:&quot;Start_Date__c&quot;}]</value>
+        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Program_Name__c&quot;,&quot;mandatory&quot;:true},{&quot;field&quot;:&quot;Implementation_Year_v2__c&quot;},{&quot;field&quot;:&quot;Start_Date__c&quot;}]</value>
     </values>
     <values>
         <field>Order__c</field>

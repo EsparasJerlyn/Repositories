@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Implementation_Year_Four_Digits</fullName>
+    <active>true</active>
+    <description>Checks implementation year if less than 4 digits.</description>
+    <errorConditionFormula>AND(
+ NOT (ISBLANK(Implementation_Year_v2__c ) ),
+ ISNUMBER( Implementation_Year_v2__c ),
+ LEN(Implementation_Year_v2__c ) &lt; 4
+)</errorConditionFormula>
+    <errorDisplayField>Implementation_Year_v2__c</errorDisplayField>
+    <errorMessage>Please enter 4 numbers.</errorMessage>
+</ValidationRule>

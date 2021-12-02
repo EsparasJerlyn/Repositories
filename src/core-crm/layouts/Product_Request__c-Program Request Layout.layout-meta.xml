@@ -48,7 +48,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Implementation_Year__c</field>
+                <field>Implementation_Year_v2__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

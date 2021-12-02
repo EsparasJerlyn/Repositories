@@ -7,9 +7,9 @@
 ISCHANGED(Product_Request_Status__c),
 OR(RecordType.DeveloperName =&apos;Program_Request&apos;,
 RecordType.DeveloperName =&apos;Stand_Alone_Unit_Module_Request&apos;),
-ISBLANK(Implementation_Year__c), 
+ISBLANK(Implementation_Year_v2__c), 
 ISPICKVAL(Product_Request_Status__c, &apos;Design&apos;) 
 )</errorConditionFormula>
-    <errorDisplayField>Implementation_Year__c</errorDisplayField>
+    <errorDisplayField>Implementation_Year_v2__c</errorDisplayField>
     <errorMessage>“Implementation Year” is required to update the Product Request Status.</errorMessage>
 </ValidationRule>
