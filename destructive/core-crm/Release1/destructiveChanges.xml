@@ -96,5 +96,9 @@
         <members>Product_Ledger__c.Purchased_Price__c</members>
         <name>CustomField</name>
     </types>
+    <types>
+        <members>Product_Request__c.Implementation_Year__c</members>
+        <name>CustomField</name>
+    </types>
     <version>52.0</version>
 </Package>
