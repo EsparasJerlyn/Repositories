@@ -14,6 +14,7 @@
       | roy.nino.s.regala         | November 3, 2021      | DEPP-736            | Added nethod for Opportunity Contact Roles                       |
       | adrian.c.habasa           | November 11,2021      | DEPP-664            | Added method for Asset                                           |
       | eccarius.karl.munoz       | November 25,2021      | DEPP-671            | Added method for creation of Products without related Course     |
+      | eugene.andrew.abuan       | December 1,2021       | DEPP-771            | Added method for creation of Community User                      |
       | roy.nino.s.regala         | November 25,2021      | DEPP-362,38,37      | Added method for creation of Program Plan                        |
 */
 @IsTest
@@ -447,4 +448,28 @@ public class TestDataFactory {
 
         return products;
     }
+    /**
+     * @description Method to a create Community User
+     * 
+     * @param email - email of authenticated user 
+     * @param lastName - last name of authenticated user
+     * @param firstName - first name of authenticated user
+     * @return Auth.UserData that looks like what we expect from LinkedIn
+     **/ 
+    public static Auth.UserData createCommunityUser(String email,String lastName, String firstName) {
+        Map<String, String> attributeMap = new Map<String,String>();
+        String identifier = lastName+System.currentTimeMillis();
+        String locale = 'en_US';
+        return new Auth.UserData( identifier,
+              firstName,
+              lastName,
+             '', // fullname
+              email,
+              '', // link
+              '', // userName
+              locale,
+              '', // provider
+              '', // siteLoginUrl
+              attributeMap);       
+   }
 }
