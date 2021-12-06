@@ -15,6 +15,8 @@
 import { LightningElement, api, wire} from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { refreshApex } from '@salesforce/apex';
+import HAS_PERMISSION from '@salesforce/customPermission/EditDesignAndReleaseTabsOfProductRequest';
+import LWC_Error_General from '@salesforce/label/c.LWC_Error_General';
 import getProducts from '@salesforce/apex/AddAssociatedProductsCtrl.getProducts';
 import addAssociatedProduct from '@salesforce/apex/AddAssociatedProductsCtrl.addAssociatedProduct';
 import getCourseRecordTypes from '@salesforce/apex/AddAssociatedProductsCtrl.getCourseRecordTypes';
@@ -23,7 +25,6 @@ const ASSOCIATED_PRODUCTS_TITLE = 'Associated Products';
 const NO_REC_FOUND = 'No record(s) found.';
 const DISPLAY_TBL_ERROR = 'Unable to display record(s).';
 const SUCCESS_MSG = 'Record(s) successfully saved.';
-const ERROR_MSG = 'An error has been encountered. Please contact your administrator.';
 const NO_CHANGES_TITLE = 'No product(s) to associate.';
 const SUCCESS_RESPONSE = 'Success';
 const SUCCESS_TITLE = 'Success!';
@@ -145,7 +146,7 @@ export default class AddAssociatedProducts extends LightningElement {
                     if(response === SUCCESS_RESPONSE){
                         this.generateToast(SUCCESS_TITLE, SUCCESS_MSG, SUCCESS_VARIANT);
                     }else{
-                        this.generateToast(ERROR_TITLE, ERROR_MSG, ERROR_VARIANT);
+                        this.generateToast(ERROR_TITLE, LWC_Error_General, ERROR_VARIANT);
                     }
                     this.clearFields();
                     refreshApex(this.products);
@@ -201,5 +202,6 @@ export default class AddAssociatedProducts extends LightningElement {
     get associatedProductTitle(){ return ASSOCIATED_PRODUCTS_TITLE;}
     get noRecordsFound(){ return NO_REC_FOUND;}
     get displayTableError(){ return DISPLAY_TBL_ERROR;}
+    get disableAssociateProducts(){ return !HAS_PERMISSION;}
 
 }

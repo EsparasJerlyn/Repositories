@@ -6,8 +6,8 @@
     color:#0176d3;
 }
 
-.custom-hover:hover{
-    text-decoration: underline;
+.custom-scroll{
+    overflow-y: auto;
 }
 
 .custom-height{
@@ -15,11 +15,16 @@
     min-height: 100px;
 }
 
-.bottom-position{
-    position: absolute;
-    bottom: 0;
+::-webkit-scrollbar{
+  width: 6px;
 }
 
-.relative-position{
-    position: relative;
+::-webkit-scrollbar-track{
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb{
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.3);
 }

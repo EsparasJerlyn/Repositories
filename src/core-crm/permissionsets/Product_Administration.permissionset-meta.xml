@@ -28,6 +28,10 @@
         <apexClass>GetCurriculumCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <customPermissions>
+        <enabled>true</enabled>
+        <name>EditDesignAndReleaseTabsOfProductRequest</name>
+    </customPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Asset.AccountId</field>

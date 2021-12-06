@@ -13,14 +13,16 @@
 */
 import { LightningElement,wire,api, track } from 'lwc';
 import{getRecord, updateRecord,createRecord} from "lightning/uiRecordApi";
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import { refreshApex } from '@salesforce/apex';
 import getLayoutMapping from '@salesforce/apex/CreateAssetCtrl.getLayoutMapping';
 import getRelatedRecords from '@salesforce/apex/CreateAssetCtrl.getRelatedRecords';
-import { refreshApex } from '@salesforce/apex';
+import LWC_Error_General from '@salesforce/label/c.LWC_Error_General';
+import HAS_PERMISSION from '@salesforce/customPermission/EditDesignAndReleaseTabsOfProductRequest';
 import ASSET_OBJECT from "@salesforce/schema/Asset";
 import PRODUCT_REQUEST_NAME from "@salesforce/schema/Product_Request__c.Product_Request_Name__c";
 import PR_STATUS from '@salesforce/schema/Product_Request__c.Product_Request_Status__c';
 import PRODUCT_SPEC from "@salesforce/schema/Product_Request__c.Product_Specification__c";
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 export default class CreateAsset extends LightningElement {
     @api objectApiName;
@@ -44,7 +46,7 @@ export default class CreateAsset extends LightningElement {
             this.formatLayoutToDisplay();
         })
         .catch(error =>{
-            this.generateToast('Error.',ERROR_MSG,'error');
+            this.generateToast('Error.',LWC_Error_General,'error');
         })
         .finally(() => {
             refreshApex(this.relatedAssetRecords);
@@ -130,7 +132,7 @@ export default class CreateAsset extends LightningElement {
         }
         else if(result.error)
         {
-            this.generateToast('Error.',ERROR_MSG,'error');
+            this.generateToast('Error.',LWC_Error_General,'error');
         }
     }
 
@@ -186,7 +188,7 @@ export default class CreateAsset extends LightningElement {
             this.generateToast('Success!','Record created.','success');
         })
         .catch(error => {
-            this.generateToast('Error.',ERROR_MSG,'error');
+            this.generateToast('Error.',LWC_Error_General,'error');
         })
         .finally(() => {
             this.isLoading = false;
@@ -216,7 +218,7 @@ export default class CreateAsset extends LightningElement {
             }
         })
         .catch(error => {
-            this.generateToast('Error.',ERROR_MSG,'error');
+            this.generateToast('Error.',LWC_Error_General,'error');
         })
         .finally(() => { 
             this.isLoading = false;
@@ -271,7 +273,7 @@ export default class CreateAsset extends LightningElement {
      * returns boolean that determines of mark as complete button should be disabled
      */
      get disableMarkAsComplete(){
-        return this.viewMode == false || this.assetRecordId == null || this.productRequestStatus !== 'Design' ? true : false;
+        return this.viewMode == false || this.assetRecordId == null || this.productRequestStatus !== 'Design' || !HAS_PERMISSION ? true : false;
     }
 
     /**
@@ -279,6 +281,6 @@ export default class CreateAsset extends LightningElement {
      */
     get editableField()
     {
-        return this.productRequestStatus == 'Design' ? true :  false;
+        return this.productRequestStatus == 'Design' && HAS_PERMISSION ? true :  false;
     }
 }

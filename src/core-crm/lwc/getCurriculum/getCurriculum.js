@@ -22,6 +22,7 @@ import { refreshApex } from '@salesforce/apex';
 import LWC_Error_General from '@salesforce/label/c.LWC_Error_General';
 import LWC_HelpText_GetCurriculumButton from '@salesforce/label/c.LWC_HelpText_GetCurriculumButton';
 import getExistingCurriculumItems from '@salesforce/apex/GetCurriculumCtrl.getExistingCurriculumItems';
+import HAS_PERMISSION from '@salesforce/customPermission/EditDesignAndReleaseTabsOfProductRequest';
 import COURSE_SCHEMA from '@salesforce/schema/hed__Course__c';
 import PROG_PLAN_SCHEMA from '@salesforce/schema/hed__Program_Plan__c';
 import PROP_ID from '@salesforce/schema/Product_Request__c.CourseLoop_Full_Proposal_ID__c';
@@ -116,7 +117,7 @@ export default class GetCurriculum extends LightningElement {
         if(this.proposalDetails.length > 0){
             let verb = this.proposalDetails.length == 1 ? ' is' : ' are';
             message = this.proposalDetails.join(', ') + verb + ' required to click on Get Curriculum button.';
-        }else if(this.curriculumItemsList.length == 0){
+        }else if(HAS_PERMISSION && this.curriculumItemsList.length == 0){
             message = this.getCurriculumSelected || this.isNotDesign ? 'No Curriculum Items found.' : 'Select the Get Curriculum button to proceed.';
         }
         return message;
@@ -129,11 +130,11 @@ export default class GetCurriculum extends LightningElement {
     }
 
     get disableMarkAsComplete(){
-        return this.curriculumItemsList.length == 0 || !this.isAllComplete || this.isNotDesign ? true : false;
+        return this.curriculumItemsList.length == 0 || !this.isAllComplete || this.isNotDesign || !HAS_PERMISSION ? true : false;
     }
 
     get disableCurriculumButton(){
-        return this.incompleteProposalDetails || this.isNotDesign ? true : false;
+        return this.incompleteProposalDetails || this.isNotDesign || !HAS_PERMISSION ? true : false;
     }
 
     get disableCurriculumModalButton(){
@@ -196,7 +197,7 @@ export default class GetCurriculum extends LightningElement {
             if(this.existingCurriculumList.data.programPlans){
                 this.programPlanList = this.formatCurriculumItems(this.existingCurriculumList.data.programPlans,false);
             }
-            if(this.isNotDesign){
+            if(this.isNotDesign || !HAS_PERMISSION){
                 this.assignExistingCurriculum();
             }
         }else if(result.error){
@@ -220,8 +221,8 @@ export default class GetCurriculum extends LightningElement {
             _item.owningFacultyUrl = item.Owning_Faculty__c ? '/' + item.Owning_Faculty__c : '';
             _item.owningFaculty = item.Owning_Faculty__c ? item.Owning_Faculty__r.Name : '';
             _item.isComplete = item.IsComplete__c;   
-            _item.isCompleteDisabled = this.isNotDesign;
-            _item.isEditDisabled = this.isNotDesign ? true : item.IsComplete__c;            
+            _item.isCompleteDisabled = HAS_PERMISSION ? this.isNotDesign : true;
+            _item.isEditDisabled = this.isNotDesign || !HAS_PERMISSION ? true : item.IsComplete__c;            
             return _item;
         });
     }

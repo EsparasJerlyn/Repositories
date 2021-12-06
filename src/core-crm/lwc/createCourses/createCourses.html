@@ -1,6 +1,6 @@
 <template>
-    <span class="slds-text-heading_small slds-m-left_small sf-blue-text custom-hover">
-        Create Course
+    <span class="slds-text-heading_small slds-m-left_small slds-text-color_success">
+        <strong>Create Course</strong>
     </span>
     <div class="slds-grid slds-gutters slds-m-horizontal_xxx-small slds-m-top_small slds-m-bottom_medium">
         <div class="slds-col slds-size_1-of-1 slds-p-vertical_small slds-border_bottom slds-border_top">
@@ -19,7 +19,7 @@
             </lightning-button>
         </div>
     </div>
-    <div class="slds-scrollable_y custom-height">
+    <div class="custom-scroll custom-height">
         <template if:true={showEmptyCourseMessage}>
             <strong class="slds-align_absolute-center">No Courses found.</strong>
         </template>
@@ -46,20 +46,18 @@
                     <p class="gray-text">End Date</p>
                     {course.endDate}
                 </div>
-                <div class="slds-col slds-size_1-of-7 relative-position">
-                    <div class="bottom-position">
-                        <lightning-button
-                            data-name={course.id}
-                            label="Edit"
-                            title="Edit Course"
-                            icon-name="utility:edit"
-                            icon-position="left"
-                            variant="brand-outline"
-                            onclick={handleEdit}
-                            disabled={disableButton}
-                            class="slds-float_right">
-                        </lightning-button>
-                    </div>
+                <div class="slds-col slds-size_1-of-7 slds-align-bottom">
+                    <lightning-button
+                        data-name={course.id}
+                        label="Edit"
+                        title="Edit Course"
+                        icon-name="utility:edit"
+                        icon-position="left"
+                        variant="brand-outline"
+                        onclick={handleEdit}
+                        disabled={disableButton}
+                        class="slds-float_right">
+                    </lightning-button>
                 </div>
             </div>
         </template>

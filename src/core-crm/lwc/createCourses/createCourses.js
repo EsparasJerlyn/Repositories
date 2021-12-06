@@ -16,6 +16,7 @@ import { getRecord, getFieldValue, createRecord, updateRecord } from 'lightning/
 import { getObjectInfo } from 'lightning/uiObjectInfoApi';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { refreshApex } from '@salesforce/apex';
+import HAS_PERMISSION from '@salesforce/customPermission/EditDesignAndReleaseTabsOfProductRequest';
 import LWC_Error_General from '@salesforce/label/c.LWC_Error_General';
 import COURSE_SCHEMA from '@salesforce/schema/hed__Course__c';
 import RECORD_TYPE from '@salesforce/schema/Product_Request__c.RecordType.Name';
@@ -150,15 +151,20 @@ export default class CreateCourses extends LightningElement {
     /**
      * returns boolean that determines of mark as complete button should be disabled
      */
+
+    get isNotDesign(){
+        return this.productRequestStatus !== 'Design';
+    }
+
     get disableMarkAsComplete(){
-        return this.courseListToDisplay.length == 0 || this.productRequestStatus !== 'Design' ? true : false;
+        return this.courseListToDisplay.length == 0 || this.isNotDesign || !HAS_PERMISSION ? true : false;
     }
 
     /**
      * returns boolean that determines if Create Courses/Edit buttons should be disabled
      */
     get disableButton(){
-        return this.productRequestStatus !== 'Design' ? true : false;
+        return this.isNotDesign || !HAS_PERMISSION ? true : false;
     }
 
     /**

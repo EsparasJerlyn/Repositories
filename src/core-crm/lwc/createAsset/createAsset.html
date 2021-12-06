@@ -1,6 +1,6 @@
 <template>
-    <div class="slds-text-heading_small sf-green-text custom-hover slds-p-bottom_x-small slds-border_bottom sf-bold-text">
-        Create Asset 
+    <div class="slds-text-heading_small slds-text-color_success slds-p-bottom_x-small slds-border_bottom">
+        <strong>Create Asset</strong>
     </div>
     <lightning-card>
         <lightning-spinner if:true={isLoading} alternative-text="Loading" size="medium"></lightning-spinner>
@@ -19,15 +19,15 @@
                                 required={leftField.mandatory}>
                             </lightning-input-field>
                                 <!--Left Side View mode-->
-                            <lightning-layout key={leftField.field} if:true= {viewMode}>
-                                <lightning-layout-item flexibility="auto">
-                                    <lightning-output-field 
-                                        class="slds-border_bottom" 
+                            <lightning-layout key={leftField.field} if:true= {viewMode} class="slds-m-around_small">
+                                <lightning-layout-item flexibility="auto" class="slds-p-horizontal_none slds-border_bottom">
+                                    <lightning-output-field
                                         key={leftField.field} 
-                                        field-name={leftField.field}>
+                                        field-name={leftField.field}
+                                        class="slds-m-bottom_none">
                                     </lightning-output-field>
                                     </lightning-layout-item>
-                                    <lightning-layout-item class="slds-align-middle slds-p-right_xx-large">
+                                    <lightning-layout-item class="slds-align-bottom slds-p-left_none slds-border_bottom">
                                         <lightning-button-icon
                                             if:true={editableField}
                                             icon-name="utility:edit"
@@ -53,15 +53,15 @@
                                 required={rightField.mandatory}>
                             </lightning-input-field>
                                 <!--Right Side View Mode-->
-                            <lightning-layout key={rightField.field} if:true= {viewMode}>
-                                <lightning-layout-item flexibility="auto">
+                            <lightning-layout key={rightField.field} if:true= {viewMode} class="slds-m-around_small">
+                                <lightning-layout-item flexibility="auto" class="slds-p-horizontal_none slds-border_bottom">
                                     <lightning-output-field 
-                                            class="slds-border_bottom" 
                                             key={rightField.field} 
-                                            field-name={rightField.field}>
+                                            field-name={rightField.field}
+                                            class="slds-m-bottom_none">
                                     </lightning-output-field>
                                 </lightning-layout-item>    
-                                <lightning-layout-item class="slds-align-middle slds-p-right_xx-large">
+                                <lightning-layout-item class="slds-align-bottom slds-p-left_none slds-border_bottom">
                                     <lightning-button-icon
                                         if:true={editableField}   
                                         icon-name="utility:edit"
@@ -113,7 +113,7 @@
                     variant="Neutral" 
                     label="Cancel" 
                     onclick={handleCancelButton}
-                    class="slds-float_right">
+                    class="slds-float_right slds-m-right_small">
                 </lightning-button>
             </div>
         </lightning-record-edit-form>

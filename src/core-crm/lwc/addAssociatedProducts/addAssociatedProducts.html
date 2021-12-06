@@ -1,6 +1,6 @@
 <template>
-    <div class="slds-text-heading_small custom-hover slds-p-bottom_x-small slds-border_bottom sf-green-text sf-bold-text">
-        {associatedProductTitle}
+    <div class="slds-text-heading_small slds-p-bottom_x-small slds-border_bottom slds-text-color_success">
+        <strong>{associatedProductTitle}</strong>
     </div>    
     <lightning-layout horizontal-align="left" vertical-align="end">
         <lightning-layout-item class="slds-size_1-of-3 slds-p-right_small slds-p-bottom_medium">
@@ -10,7 +10,13 @@
         </lightning-layout-item>
         <lightning-layout-item class="slds-size_1-of-3 slds-p-left_none slds-p-bottom_medium">
             <div>
-                <lightning-button class="sf-bold-text" variant="brand" label="ASSOCIATE PRODUCTS" onclick={handleAssociateProduct}></lightning-button>
+                <lightning-button 
+                    class="slds-text-title_bold"
+                    variant="brand"
+                    label="ASSOCIATE PRODUCTS"
+                    onclick={handleAssociateProduct}
+                    disabled={disableAssociateProducts}>
+                </lightning-button>
             </div>
         </lightning-layout-item>
         <lightning-layout-item class="slds-size_1-of-3 slds-p-left_none slds-p-bottom_medium">

@@ -12,6 +12,7 @@ import { getPicklistValues } from 'lightning/uiObjectInfoApi';
 import { getObjectInfo } from 'lightning/uiObjectInfoApi';
 import PROGRAM_PLAN_OBJECT from '@salesforce/schema/hed__Program_Plan__c';
 import PROGRAM_TYPE_FIELD from '@salesforce/schema/hed__Program_Plan__c.Program_Type__c';
+import HAS_PERMISSION from '@salesforce/customPermission/EditDesignAndReleaseTabsOfProductRequest';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import upsertProgramPlanAndPlanRequirement from '@salesforce/apex/CreateProductsAndOfferingsCtrl.upsertProgramPlanAndPlanRequirement'; 
 
@@ -83,14 +84,14 @@ export default class ProgramStructure extends LightningElement {
     *decides if edit button is clickable
     */
     get canEdit(){
-        return this.editable || this.markedAsComplete;
+        return this.editable || this.markedAsComplete || !HAS_PERMISSION;
     }
 
     /*
     *decides if cancel button is disabled and sequence input field is read only
     */
     get cantEdit(){
-        return !this.editable || this.markedAsComplete;
+        return !this.editable || this.markedAsComplete || !HAS_PERMISSION;
     }
 
     /*
@@ -98,7 +99,7 @@ export default class ProgramStructure extends LightningElement {
     *save can be clickable as well if it has a plan requirement on render and sequence is valid
     */
     get cantSave(){
-        return (!this.sequenceEdited && this.hasPlanRequirementOnRender) || this.sequenceHasRepeatsEmptyAndZeroes || this.markedAsComplete;
+        return (!this.sequenceEdited && this.hasPlanRequirementOnRender) || this.sequenceHasRepeatsEmptyAndZeroes || this.markedAsComplete || !HAS_PERMISSION;
     }
 
     /*

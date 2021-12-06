@@ -14,6 +14,7 @@ import updateProductRequests from '@salesforce/apex/CreateProductsAndOfferingsCt
 import COURSE_OFFERING_SCHEMA from '@salesforce/schema/hed__Course_Offering__c';
 import PROGRAM_OFFERING_SCHEMA from '@salesforce/schema/Program_Offering__c';
 import PRODUCT_SCHEMA from '@salesforce/schema/Product2';
+import HAS_PERMISSION from '@salesforce/customPermission/EditDesignAndReleaseTabsOfProductRequest';
 import { refreshApex } from '@salesforce/apex';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import {createRecord, updateRecord } from 'lightning/uiRecordApi';
@@ -91,7 +92,7 @@ export default class CreateProductsAndOfferings extends LightningElement{
             let programPlanProductTemp = this.listCourses.data.programPlanProductMap;
             let productRequestList = this.listCourses.data.productRequestList; //child and parent prod request
 
-            this.programPlanHasProduct = Object.keys(programPlanProductTemp).length > 0;
+            this.programPlanHasProduct = !HAS_PERMISSION?true:Object.keys(programPlanProductTemp).length > 0;
             this.programPlanHasProgramOffering = programPlanTemp?programPlanTemp.Program_Offering__r?programPlanTemp.Program_Offering__r.length > 0?true:false:false:false;
             this.filterParent = productRequestList.filter( (result) => result.Id !== this.recordId); 
             this.currentRecord = productRequestList.filter( (result) => result.Id === this.recordId)[0];
@@ -172,9 +173,22 @@ export default class CreateProductsAndOfferings extends LightningElement{
     *getter for disabling mark as complete button
     */
     get isDisabledMarkAsComplete(){
-        return ((this.programStructureComplete || !this.hasPlanRequirementOnRender) && this.selectionTab.isProgramStructure) || 
-                ((this.createProductComplete || !this.hasProductOnRender || (this.isProgramRequest && (!this.programPlanHasProduct || !this.hasProductOnRender))) && this.selectionTab.isCreateProduct) ||
-                ((this.createOfferingComplete || !this.hasOfferingsOnRender || (this.isProgramRequest && this.programPlan && this.programPlan.Program_Type__c === PRESCRIBED_TYPE && (!this.programPlanHasProgramOffering || !this.hasOfferingsOnRender))) && this.selectionTab.isCreateOfferings);
+        return ((this.programStructureComplete || !this.hasPlanRequirementOnRender) && this.selectionTab.isProgramStructure) ||
+
+                (
+                    (this.createProductComplete || !this.hasProductOnRender || 
+                    (this.isProgramRequest && (!this.programPlanHasProduct || !this.hasProductOnRender))) &&
+                    this.selectionTab.isCreateProduct
+                ) ||
+
+                (
+                    (this.createOfferingComplete || !this.hasOfferingsOnRender || 
+                    (this.isProgramRequest && this.programPlan && this.programPlan.Program_Type__c === PRESCRIBED_TYPE && 
+                    (!this.programPlanHasProgramOffering || !this.hasOfferingsOnRender))) &&
+                    this.selectionTab.isCreateOfferings
+                ) ||
+                
+                !HAS_PERMISSION;
     }
 
     /*
@@ -183,7 +197,8 @@ export default class CreateProductsAndOfferings extends LightningElement{
     get isDisabledButton(){
         return (this.programStructureComplete  && this.selectionTab.isProgramStructure) || 
                 (this.createProductComplete && this.selectionTab.isCreateProduct) ||
-                (this.createOfferingComplete && this.selectionTab.isCreateOfferings);
+                (this.createOfferingComplete && this.selectionTab.isCreateOfferings) ||
+                !HAS_PERMISSION;
     }
 
     /*
@@ -235,7 +250,8 @@ export default class CreateProductsAndOfferings extends LightningElement{
     */
     get disableCreateProgramOffering(){
         return  this.createOfferingComplete || (this.programPlan && this.programPlan.Program_Type__c === FLEXIBLE_TYPE) || 
-                (this.programPlanHasProgramOffering && this.programPlan && this.programPlan.Program_Type__c === PRESCRIBED_TYPE);
+                (this.programPlanHasProgramOffering && this.programPlan && this.programPlan.Program_Type__c === PRESCRIBED_TYPE) ||
+                !HAS_PERMISSION;
     }
 
     /*
@@ -295,7 +311,11 @@ export default class CreateProductsAndOfferings extends LightningElement{
             courseTemp.recordId = course.Id;
             courseTemp.recordUrl = '/' + course.Id;
             courseTemp.sequence = course.hed__Plan_Requirements__r?course.hed__Plan_Requirements__r[0].hed__Sequence__c:'';
-            courseTemp.disableCreateOffering = this.createOfferingComplete || (this.programPlan && this.programPlan.Program_Type__c === PRESCRIBED_TYPE && !this.programPlanHasProgramOffering);
+            courseTemp.hasProduct = HAS_PERMISSION ? false : true;
+            courseTemp.disableCreateOffering = 
+                this.createOfferingComplete || 
+                (this.programPlan && this.programPlan.Program_Type__c === PRESCRIBED_TYPE && !this.programPlanHasProgramOffering) ||
+                !HAS_PERMISSION;
             courseTemp.fields = [
                                     { label:"Course Name"   , value: course.Name,showCol : true,isUrl: true},
                                     { label:"Record Type"   , value: course.RecordType?course.RecordType.Name:'',showCol : true},
@@ -309,7 +329,10 @@ export default class CreateProductsAndOfferings extends LightningElement{
 
                 if(childOfferings.length > 0){
                     courseTemp.offerings = [...childOfferings];
-                    courseTemp.disableCreateOffering = this.createOfferingComplete || (this.programPlan && this.programPlan.Program_Type__c === PRESCRIBED_TYPE);
+                    courseTemp.disableCreateOffering = 
+                        this.createOfferingComplete || 
+                        (this.programPlan && this.programPlan.Program_Type__c === PRESCRIBED_TYPE) ||
+                        !HAS_PERMISSION;
                 }
                 if(childProduct.length > 0){
                     courseTemp.hasProduct = true; //tells us that course already has a product
