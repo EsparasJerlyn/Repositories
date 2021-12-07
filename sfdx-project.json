@@ -33,8 +33,8 @@
       "versionNumber": "1.0.0.0"
     },
     {
-      "path": "src/core-crm-data/docusign-data",
-      "package": "docusign-data",
+      "path": "src/core-crm-data-pre",
+      "package": "core-crm-data-pre",
       "type": "data",
       "versionName": "Version 1.0.0.0",
       "versionNumber": "1.0.0.0"

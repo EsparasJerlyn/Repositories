@@ -23,6 +23,14 @@
             "useCSVValuesMapping": true,
             "targetObject": "dfsle__EnvelopeConfigurationRecipient__c",
             "importCSVFilesAsIs": true
+        },
+        {
+            "query":"SELECT Id,IsDeleted,Name,dfsle__HasPreviewedDocuments__c,dfsle__IsAutomateInvoice__c,dfsle__IsSample__c,dfsle__ObjectMappings__c,dfsle__SignerMappings__c,dfsle__SourceObject__c,dfsle__StepsCompleted__c,dfsle__TemplateType__c,dfsle__UseAllTemplates__c,dfsle__UseCurrentRecord__c FROM dfsle__GenTemplate__c",
+            "operation":"Upsert",
+            "externalId":"Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "dfsle__GenTemplate__c",
+            "importCSVFilesAsIs": true
         }
     ]
 }
