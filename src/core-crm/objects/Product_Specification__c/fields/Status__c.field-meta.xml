@@ -34,12 +34,6 @@
                 <label>Doesnt meet Qualification</label>
             </value>
             <value>
-                <fullName>Complete</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>Complete</label>
-            </value>
-            <value>
                 <fullName>Define</fullName>
                 <default>false</default>
                 <isActive>false</isActive>
@@ -51,7 +45,21 @@
                 <isActive>false</isActive>
                 <label>Design</label>
             </value>
+            <value>
+                <fullName>Complete</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Complete</label>
+            </value>
         </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Qualify</controllingFieldValue>
+            <valueName>Qualification</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Not Proceeding</controllingFieldValue>
+            <valueName>Doesnt meet Qualification</valueName>
+        </valueSettings>
         <valueSettings>
             <controllingFieldValue>Not Proceeding</controllingFieldValue>
             <valueName>Existing Product</valueName>

@@ -65,6 +65,12 @@
         <locationX>50</locationX>
         <locationY>815</locationY>
         <inputAssignments>
+            <field>Lead_School__c</field>
+            <value>
+                <elementReference>$Record.Lead_School__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>Opportunity_Name__c</field>
             <value>
                 <elementReference>$Record.Id</elementReference>

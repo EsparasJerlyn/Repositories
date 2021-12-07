@@ -3,7 +3,7 @@
     <fullName>Client_Review_Required__c</fullName>
     <externalId>false</externalId>
     <label>Client Review Required</label>
-    <required>true</required>
+    <required>false</required>
     <trackFeedHistory>true</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

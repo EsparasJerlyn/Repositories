@@ -2,7 +2,7 @@
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>OPE_Program_Specification</fullName>
     <active>true</active>
-    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <compactLayoutAssignment>OPE_Product_Specification_Compact_Layout</compactLayoutAssignment>
     <description>Used to Design products which are the result of an idea request from a faculty.</description>
     <label>OPE Program Specification</label>
     <picklistValues>
