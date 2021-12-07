@@ -265,7 +265,7 @@
         <editable>false</editable>
         <field>Asset.ContactId</field>
         <readable>true</readable>
-    </fieldPermissions>    
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Asset.Description</field>
@@ -405,12 +405,12 @@
         <editable>false</editable>
         <field>Asset.Utilised_Value__c</field>
         <readable>true</readable>
-    </fieldPermissions>    
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Asset.Uuid</field>
         <readable>true</readable>
-    </fieldPermissions>    
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>AssetRelationship.RelationshipType</field>
@@ -5818,12 +5818,22 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>hed__Course_Offering__c.Available_Seats__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>hed__Course_Offering__c.External_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>hed__Course_Offering__c.Program_Offering__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>hed__Course_Offering__c.Total_Course_Connections__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -8264,7 +8274,7 @@
         <modifyAllRecords>false</modifyAllRecords>
         <object>Product_Ledger__c</object>
         <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>        
+    </objectPermissions>
     <userPermissions>
         <enabled>true</enabled>
         <name>ApiEnabled</name>

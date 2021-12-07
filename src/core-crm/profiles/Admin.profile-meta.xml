@@ -173,6 +173,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>CourseConnectionTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CourseConnectionTriggerHandlerTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CreateAssetCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -552,7 +560,7 @@
         <editable>true</editable>
         <field>Asset.ContactId</field>
         <readable>true</readable>
-    </fieldPermissions>    
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Asset.Description</field>
@@ -737,7 +745,7 @@
         <editable>true</editable>
         <field>Contact.ContactOtherAddress_Validation__c</field>
         <readable>true</readable>
-    </fieldPermissions>    
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.ContactPersonalMobile_Locale__c</field>
@@ -757,7 +765,7 @@
         <editable>true</editable>
         <field>Contact.ContactPhone_Validation__c</field>
         <readable>true</readable>
-    </fieldPermissions>    
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.ContactWorkPhone_Locale__c</field>
@@ -2354,8 +2362,18 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>hed__Course_Offering__c.Available_Seats__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course_Offering__c.Program_Offering__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Course_Offering__c.Total_Course_Connections__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2674,7 +2692,7 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>TriggerHandler__mdt-Trigger Handler Layout</layout>
-    </layoutAssignments>      
+    </layoutAssignments>
     <layoutAssignments>
         <layout>Record_Type_Setting__mdt-Record Type Setting Layout</layout>
     </layoutAssignments>
@@ -2833,7 +2851,7 @@
         <modifyAllRecords>true</modifyAllRecords>
         <object>Session__c</object>
         <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>    
+    </objectPermissions>
     <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>false</allowDelete>
