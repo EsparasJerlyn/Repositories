@@ -2,11 +2,13 @@
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Opportunity_Name_is_Required</fullName>
     <active>true</active>
-    <description>Opportunity Name is Required for Product Specification Record to move the Status from Define to Design</description>
+    <description>Opportunity Name is Required for Product Specification Record to move the Stage from Define to Design</description>
     <errorConditionFormula>AND(
-     NOT(ISPICKVAL( Status__c, &apos;Define&apos; )),
+     ISCHANGED( Stage__c ),
+     ISPICKVAL( PRIORVALUE( Stage__c ), &apos;Define&apos;),
+     ISPICKVAL( Stage__c, &apos;Design&apos;),
      ISBLANK(  Opportunity_Name__c  )
 )</errorConditionFormula>
     <errorDisplayField>Opportunity_Name__c</errorDisplayField>
-    <errorMessage>“Opportunity Name” is required to update the Status</errorMessage>
+    <errorMessage>“Opportunity Name” is required to update the Stage</errorMessage>
 </ValidationRule>

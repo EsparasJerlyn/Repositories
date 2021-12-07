@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Product_Subtype__c</fullName>
+    <externalId>false</externalId>
+    <label>Product Sub-Type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Short Course</fullName>
+                <default>false</default>
+                <label>Short Course</label>
+            </value>
+            <value>
+                <fullName>Master Class</fullName>
+                <default>false</default>
+                <label>Master Class</label>
+            </value>
+            <value>
+                <fullName>Microcredential</fullName>
+                <default>false</default>
+                <label>Microcredential</label>
+            </value>
+            <value>
+                <fullName>Event</fullName>
+                <default>false</default>
+                <label>Event</label>
+            </value>
+            <value>
+                <fullName>Information Session</fullName>
+                <default>false</default>
+                <label>Information Session</label>
+            </value>
+            <value>
+                <fullName>Discussion Forum</fullName>
+                <default>false</default>
+                <label>Discussion Forum</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

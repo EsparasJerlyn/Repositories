@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Primary_Faculty__c</fullName>
+    <externalId>false</externalId>
+    <label>Primary Faculty</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Faculty of Business and Law</fullName>
+                <default>false</default>
+                <label>Faculty of Business and Law</label>
+            </value>
+            <value>
+                <fullName>Faculty of Creative Industries, Education and Social Justice</fullName>
+                <default>false</default>
+                <label>Faculty of Creative Industries, Education and Social Justice</label>
+            </value>
+            <value>
+                <fullName>Faculty of Engineering</fullName>
+                <default>false</default>
+                <label>Faculty of Engineering</label>
+            </value>
+            <value>
+                <fullName>Faculty of Health</fullName>
+                <default>false</default>
+                <label>Faculty of Health</label>
+            </value>
+            <value>
+                <fullName>Faculty of Science</fullName>
+                <default>false</default>
+                <label>Faculty of Science</label>
+            </value>
+            <value>
+                <fullName>Learning and Teaching Unit</fullName>
+                <default>false</default>
+                <label>Learning and Teaching Unit</label>
+            </value>
+            <value>
+                <fullName>Office of the DVC &amp; VP (Research)</fullName>
+                <default>false</default>
+                <label>Office of the DVC &amp; VP (Research)</label>
+            </value>
+            <value>
+                <fullName>QUT College</fullName>
+                <default>false</default>
+                <label>QUT College</label>
+            </value>
+            <value>
+                <fullName>University Wide</fullName>
+                <default>false</default>
+                <label>University Wide</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

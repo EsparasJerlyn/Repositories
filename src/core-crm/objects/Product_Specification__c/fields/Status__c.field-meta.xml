@@ -3,30 +3,62 @@
     <fullName>Status__c</fullName>
     <externalId>false</externalId>
     <label>Status</label>
-    <required>true</required>
+    <required>false</required>
     <trackFeedHistory>true</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
-        <restricted>true</restricted>
+        <controllingField>Stage__c</controllingField>
+        <restricted>false</restricted>
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
+                <fullName>Idea Sent</fullName>
+                <default>false</default>
+                <label>Idea Sent</label>
+            </value>
+            <value>
+                <fullName>Qualification</fullName>
+                <default>false</default>
+                <label>Qualification</label>
+            </value>
+            <value>
+                <fullName>Existing Product</fullName>
+                <default>false</default>
+                <label>Existing Product</label>
+            </value>
+            <value>
+                <fullName>Doesnt meet Qualification</fullName>
+                <default>false</default>
+                <label>Doesnt meet Qualification</label>
+            </value>
+            <value>
+                <fullName>Complete</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Complete</label>
+            </value>
+            <value>
                 <fullName>Define</fullName>
                 <default>false</default>
+                <isActive>false</isActive>
                 <label>Define</label>
             </value>
             <value>
                 <fullName>Design</fullName>
                 <default>false</default>
+                <isActive>false</isActive>
                 <label>Design</label>
             </value>
-            <value>
-                <fullName>Complete</fullName>
-                <default>false</default>
-                <label>Complete</label>
-            </value>
         </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Not Proceeding</controllingFieldValue>
+            <valueName>Existing Product</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Idea</controllingFieldValue>
+            <valueName>Idea Sent</valueName>
+        </valueSettings>
     </valueSet>
 </CustomField>

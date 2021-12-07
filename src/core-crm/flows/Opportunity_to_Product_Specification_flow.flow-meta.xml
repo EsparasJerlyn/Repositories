@@ -95,7 +95,7 @@
             </value>
         </inputAssignments>
         <inputAssignments>
-            <field>Status__c</field>
+            <field>Stage__c</field>
             <value>
                 <stringValue>Define</stringValue>
             </value>
@@ -217,7 +217,7 @@
             </value>
         </inputAssignments>
         <inputAssignments>
-            <field>Status__c</field>
+            <field>Stage__c</field>
             <value>
                 <stringValue>Define</stringValue>
             </value>

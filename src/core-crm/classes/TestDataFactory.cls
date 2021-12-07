@@ -161,7 +161,7 @@ public class TestDataFactory {
             ps.Program_Name__c = 'TEST PS ' + i;
             ps.Program_Lead__c = contacts[i].id;
             ps.Opportunity_Name__c = ops[i].id;
-            ps.Status__c = 'Define';
+            ps.Stage__c = 'Define';
             ps.Client_Review_Required__c = 'N/A';
             productSpecifications.add(ps);
         }

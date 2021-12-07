@@ -21,7 +21,178 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>Status__c</picklist>
+        <picklist>Existing_Product__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not Sure</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Financial_Viability__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not Sure</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Market_Need__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not Sure</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Primary_Faculty__c</picklist>
+        <values>
+            <fullName>Faculty of Business and Law</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Faculty of Creative Industries%2C Education and Social Justice</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Faculty of Engineering</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Faculty of Health</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Faculty of Science</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Learning and Teaching Unit</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Office of the DVC %26 VP %28Research%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>QUT College</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>University Wide</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Product_Subtype__c</picklist>
+        <values>
+            <fullName>Discussion Forum</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Event</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Information Session</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Master Class</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Microcredential</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Short Course</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Product_Type__c</picklist>
+        <values>
+            <fullName>Activity</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Program</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Short Course</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Single Product</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>QUT_Faculty_Capacity__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not Sure</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>QUTeX_Capacity__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not Sure</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Requires_Director_Endorsement__c</picklist>
+        <values>
+            <fullName>Not Required</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Stage__c</picklist>
         <values>
             <fullName>Complete</fullName>
             <default>false</default>
