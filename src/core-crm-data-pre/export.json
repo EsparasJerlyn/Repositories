@@ -9,17 +9,17 @@
             "importCSVFilesAsIs": true
         },
         {
-            "query":"SELECT Name,IsDeleted, dfsle__EnvelopeConfiguration__c, dfsle__Filter__c, dfsle__ReadOnly__c, dfsle__Required__c, dfsle__Sequence__c, dfsle__Type__c FROM dfsle__EnvelopeConfigurationDocument__c",
+            "query":"SELECT dfsle__Name__c,IsDeleted, dfsle__EnvelopeConfiguration__c, dfsle__Filter__c, dfsle__ReadOnly__c, dfsle__Required__c, dfsle__Sequence__c, dfsle__Type__c FROM dfsle__EnvelopeConfigurationDocument__c",
             "operation":"Upsert",
-            "externalId":"Name",
+            "externalId":"dfsle__Name__c",
             "useCSVValuesMapping": true,
             "targetObject": "dfsle__EnvelopeConfigurationDocument__c",
             "importCSVFilesAsIs": true
         },
         {
-            "query":"SELECT Name,dfsle__EnvelopeConfiguration__c,dfsle__DeliverBySms__c,dfsle__Filter__c,dfsle__IdCheckRequired__c,dfsle__IncrementRoutingOrder__c,dfsle__ReadOnly__c,dfsle__Relationship__c,dfsle__Required__c,dfsle__Roles__c,dfsle__RoutingOrder__c,dfsle__Sequence__c,dfsle__SignNow__c,dfsle__Type__c FROM dfsle__EnvelopeConfigurationRecipient__c",
+            "query":"SELECT dfsle__Name__c,dfsle__EnvelopeConfiguration__c,dfsle__DeliverBySms__c,dfsle__Filter__c,dfsle__IdCheckRequired__c,dfsle__IncrementRoutingOrder__c,dfsle__ReadOnly__c,dfsle__Relationship__c,dfsle__Required__c,dfsle__Roles__c,dfsle__RoutingOrder__c,dfsle__Sequence__c,dfsle__SignNow__c,dfsle__Type__c FROM dfsle__EnvelopeConfigurationRecipient__c",
             "operation":"Upsert",
-            "externalId":"Name",
+            "externalId":"dfsle__Name__c",
             "useCSVValuesMapping": true,
             "targetObject": "dfsle__EnvelopeConfigurationRecipient__c",
             "importCSVFilesAsIs": true

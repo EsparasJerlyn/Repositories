@@ -1,2 +1,2 @@
-Name,IsDeleted,dfsle__EnvelopeConfiguration__c,dfsle__Filter__c,dfsle__ReadOnly__c,dfsle__Required__c,dfsle__Sequence__c,dfsle__Type__c
-DEC-0000001,FALSE,a0f9r00000002kzAAA,"{""orderBy"":""ContentDocument.LatestPublishedVersion.LastModifiedDate DESC"",""maximumRecords"":1,""filterBy"":""""}",TRUE,FALSE,1,SourceFiles
+dfsle__Name__c,IsDeleted,dfsle__EnvelopeConfiguration__c,dfsle__Filter__c,dfsle__ReadOnly__c,dfsle__Required__c,dfsle__Sequence__c,dfsle__Type__c
+Send Proposal,FALSE,a0f9r00000002kzAAA,"{""orderBy"":""ContentDocument.LatestPublishedVersion.LastModifiedDate DESC"",""maximumRecords"":1,""filterBy"":""""}",TRUE,FALSE,1,SourceFiles
