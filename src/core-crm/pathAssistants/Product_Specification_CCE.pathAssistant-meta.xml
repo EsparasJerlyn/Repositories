@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
-    <active>true</active>
-    <entityName>Product_Specification__c</entityName>
-    <fieldName>Status__c</fieldName>
-    <masterLabel>Product Specification - CCE</masterLabel>
-    <recordTypeName>CCE_Program_Specification</recordTypeName>
-</PathAssistant>
