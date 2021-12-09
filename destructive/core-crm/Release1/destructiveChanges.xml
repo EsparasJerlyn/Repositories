@@ -101,10 +101,10 @@
         <name>CustomField</name>
     </types>
 
-    <types>
+ <!--    <types>
         <members>Product_Specification_CCE</members>
         <name>PathAssistant</name>
-    </types>
+    </types> -->
 
     <version>52.0</version>
 </Package>
