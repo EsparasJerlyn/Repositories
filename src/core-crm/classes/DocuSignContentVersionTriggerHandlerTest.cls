@@ -22,12 +22,12 @@ public class DocuSignContentVersionTriggerHandlerTest {
 
         System.runAs(currentUser){
             
-            List<ContentVersion> contentVersionRecords =TestDataFactory.createTestContentVersionRecords(100);
+            List<ContentVersion> contentVersionRecords =TestDataFactory.createTestContentVersionRecords(1);
             Test.startTest();
             insert contentVersionRecords;
             Test.stopTest();
 
-            List<ContentVersion> contentVersions = [SELECT Id, Title FROM ContentVersion LIMIT 100];
+            List<ContentVersion> contentVersions = [SELECT Id, Title FROM ContentVersion LIMIT 1];
             for(ContentVersion checkContentVersion : contentVersions){
                 System.assertEquals(80, checkContentVersion.Title.length(), 'length of the title did not match');
             }
@@ -39,12 +39,12 @@ public class DocuSignContentVersionTriggerHandlerTest {
     private static void updatetContentVersion(){
     
         System.runAs(currentUser){ 
-            List<ContentVersion> contentVersionRecords =TestDataFactory.createTestContentVersionRecords(100);
+            List<ContentVersion> contentVersionRecords =TestDataFactory.createTestContentVersionRecords(1);
             insert contentVersionRecords;
 
             Test.startTest();
             List<ContentVersion> updateContentVersions = new List<ContentVersion>();
-            List<ContentVersion> contentVersions = [SELECT Id, Title from ContentVersion LIMIT 100];
+            List<ContentVersion> contentVersions = [SELECT Id, Title from ContentVersion LIMIT 1];
             for(ContentVersion contentVersionUpdate : contentVersions){
                 contentVersionUpdate.Title = 'Proposal - General With Content_ALPHA ZENITH PTY LTD-test sample sample opportunity that may e123123123samplesample';
                 updateContentVersions.add(contentVersionUpdate);
@@ -53,7 +53,7 @@ public class DocuSignContentVersionTriggerHandlerTest {
             Test.stopTest();
         }
            
-        List<ContentVersion> getContentVersions = [SELECT Id, Title FROM ContentVersion LIMIT 100];
+        List<ContentVersion> getContentVersions = [SELECT Id, Title FROM ContentVersion LIMIT 1];
         for(ContentVersion checkContentVersion : getContentVersions){
             System.assertEquals(80, checkContentVersion.Title.length(), 'length of the title did not match');
         }
