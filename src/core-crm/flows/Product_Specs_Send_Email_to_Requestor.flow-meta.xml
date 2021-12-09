@@ -156,8 +156,19 @@
     <status>Active</status>
     <textTemplates>
         <name>sendEmailTemplate</name>
-        <isViewedAsPlainText>false</isViewedAsPlainText>
-        <text>&lt;p&gt;&lt;i&gt;Dear {!$Record.Requestor_Name__r.FirstName},&lt;/i&gt;&lt;/p&gt;&lt;p&gt;&lt;i&gt;Congratulations, your idea has been accepted and progressing to the design stage.&lt;/i&gt;&lt;/p&gt;&lt;p&gt;&lt;i&gt;We will be sending you a link to our design form which will allow you to expand on your idea. This stage will allow your idea to take shape into a potential QUTeX product and start shaping a proposal to be endorsed and approved.&lt;/i&gt;&lt;/p&gt;&lt;p&gt;&lt;i&gt;If you have any further questions, please get in touch.&lt;/i&gt;&lt;/p&gt;&lt;p&gt;&lt;i&gt;The QUTeX Team&lt;/i&gt;&lt;/p&gt;&lt;p&gt;&lt;i&gt;07 3138 7733&lt;/i&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;mailto:qutex@qut.edu.au&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;i&gt;qutex@qut.edu.au&lt;/i&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://www.qut.edu.au/study/professional-and-executive-education&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;i&gt;qut.edu.au/qutex&lt;/i&gt;&lt;/a&gt;&lt;/p&gt;</text>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>Dear &lt;b&gt;{!$Record.Requestor_Name__r.FirstName}&lt;/b&gt;,
+&lt;br/&gt;&amp;nbsp;
+&lt;p&gt;Congratulations, your idea has been accepted and progressing to the design stage.&lt;/p&gt;
+&lt;p&gt;We will be sending you a link to our design form which will allow you to expand on your idea. This stage will allow your idea to take shape into a potential QUTeX product and start shaping a proposal to be endorsed and approved.&lt;/p&gt;
+&lt;p&gt;If you have any further questions, please get in touch.&lt;/p&gt;
+&lt;br/&gt;
+&lt;p&gt;
+&lt;b&gt;The QUTeX Team&lt;/b&gt;&lt;br/&gt;
+07 3138 7733&lt;br/&gt;
+&lt;a href=&quot;mailto:qutex@qut.edu.au&quot;&gt;qutex@qut.edu.au&lt;/a&gt;&lt;br/&gt;
+&lt;a href=&quot;https://qut.edu.au/qutex&quot;&gt;qut.edu.au/qutex&lt;/a&gt;
+&lt;/p&gt;</text>
     </textTemplates>
     <variables>
         <name>recordTypeId</name>
