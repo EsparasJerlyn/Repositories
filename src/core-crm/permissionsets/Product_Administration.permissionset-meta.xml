@@ -444,7 +444,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Product_Specification__c.Product_Sub_Type__c</field>
+        <field>Product_Specification__c.Product_Subtype__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1319,6 +1319,10 @@
         <object>Product_Ledger__c</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
+    <recordTypeVisibilities>
+        <recordType>Product_Specification__c.OPE_Program_Specification</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
     <recordTypeVisibilities>
         <recordType>hed__Course_Enrollment__c.Faculty</recordType>
         <visible>true</visible>
