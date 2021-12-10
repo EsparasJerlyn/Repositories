@@ -29,7 +29,7 @@
         <inputParameters>
             <name>emailSubject</name>
             <value>
-                <stringValue>Congratulation&apos;s your idea has progressed</stringValue>
+                <stringValue>Congratulations, your idea has progressed</stringValue>
             </value>
         </inputParameters>
     </actionCalls>
