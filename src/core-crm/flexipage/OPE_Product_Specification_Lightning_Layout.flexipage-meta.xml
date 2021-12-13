@@ -4,31 +4,31 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>actionNames</name>
-                    <valueList>
-                        <valueListItems>
-                            <value>Product_Specification__c.Send_Idea_Form</value>
-                            <visibilityRule>
-                                <criteria>
-                                    <leftValue>{!Record.Stage__c}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>Idea</rightValue>
-                                </criteria>
-                            </visibilityRule>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Product_Specification__c.Create_Contact</value>
-                            <visibilityRule>
-                                <criteria>
-                                    <leftValue>{!Record.Stage__c}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>Idea</rightValue>
-                                </criteria>
-                            </visibilityRule>
-                        </valueListItems>
-                    </valueList>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
+                <name>actionNames</name>
+                <valueList>
+                    <valueListItems>
+                        <value>Product_Specification__c.Send_Idea_Form</value>
+                        <visibilityRule>
+                            <criteria>
+                                <leftValue>{!Record.Stage__c}</leftValue>
+                                <operator>EQUAL</operator>
+                                <rightValue>Idea</rightValue>
+                            </criteria>
+                        </visibilityRule>
+                    </valueListItems>
+                    <valueListItems>
+                        <value>Product_Specification__c.Create_Contact</value>
+                        <visibilityRule>
+                            <criteria>
+                                <leftValue>{!Record.Stage__c}</leftValue>
+                                <operator>EQUAL</operator>
+                                <rightValue>Idea</rightValue>
+                            </criteria>
+                        </visibilityRule>
+                    </valueListItems>
+                </valueList>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
                     <name>collapsed</name>
                     <value>false</value>
                 </componentInstanceProperties>
@@ -102,7 +102,7 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Primary_Faculty__c</fieldItem>
+                <fieldItem>Record.Stage__c</fieldItem>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -114,7 +114,16 @@
                 <fieldItem>Record.LinkedIn_Profile_URL__c</fieldItem>
             </fieldInstance>
         </itemInstances>
-        <name>Facet-5c47f7ba-794d-42aa-bba9-701755b8e27f</name>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Professional_Profile__c</fieldItem>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-a2a34e4e-ad19-45a0-b135-8bd007765a45</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -151,15 +160,6 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Stage__c</fieldItem>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.Status__c</fieldItem>
             </fieldInstance>
         </itemInstances>
@@ -169,10 +169,10 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Professional_Profile__c</fieldItem>
+                <fieldItem>Record.Primary_Faculty__c</fieldItem>
             </fieldInstance>
         </itemInstances>
-        <name>Facet-b00387bf-7317-4937-a4a9-6c3fefb613a5</name>
+        <name>Facet-88f9e20d-3bb8-406c-9218-d608854827ac</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -180,7 +180,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-5c47f7ba-794d-42aa-bba9-701755b8e27f</value>
+                    <value>Facet-a2a34e4e-ad19-45a0-b135-8bd007765a45</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
             </componentInstance>
@@ -189,12 +189,12 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-b00387bf-7317-4937-a4a9-6c3fefb613a5</value>
+                    <value>Facet-88f9e20d-3bb8-406c-9218-d608854827ac</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
             </componentInstance>
         </itemInstances>
-        <name>Facet-41d968a2-cab7-4d8c-95a9-72d5fb6b0546</name>
+        <name>Facet-779b91d8-c338-45bf-94b2-7090143fe6f8</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -216,7 +216,7 @@
                 <fieldItem>Record.Market_Research__c</fieldItem>
             </fieldInstance>
         </itemInstances>
-        <name>Facet-2eb90c7b-0b20-40d1-80d2-13e4b709cdd6</name>
+        <name>Facet-15d49c95-8272-4961-916f-dbff86c4cfd7</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -229,7 +229,7 @@
                 <fieldItem>Record.Competitor_Summary__c</fieldItem>
             </fieldInstance>
         </itemInstances>
-        <name>Facet-b0fbbe83-19aa-48f1-90a0-b1adb1affcbb</name>
+        <name>Facet-eeb65226-081f-4f53-a0e3-95e328b78476</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -237,7 +237,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-2eb90c7b-0b20-40d1-80d2-13e4b709cdd6</value>
+                    <value>Facet-15d49c95-8272-4961-916f-dbff86c4cfd7</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
             </componentInstance>
@@ -246,12 +246,12 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-b0fbbe83-19aa-48f1-90a0-b1adb1affcbb</value>
+                    <value>Facet-eeb65226-081f-4f53-a0e3-95e328b78476</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
             </componentInstance>
         </itemInstances>
-        <name>Facet-1a7e8740-9cd5-4cf9-8359-9d780b4cc25f</name>
+        <name>Facet-b9f50aa9-d1e2-422b-88fd-415b8f3ddbee</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -273,7 +273,7 @@
                 <fieldItem>Record.RecordTypeId</fieldItem>
             </fieldInstance>
         </itemInstances>
-        <name>Facet-90348257-029b-428d-bac9-8763638622c5</name>
+        <name>Facet-243cde5c-3e44-4080-b485-6682b5a5670f</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -286,7 +286,7 @@
                 <fieldItem>Record.LastModifiedById</fieldItem>
             </fieldInstance>
         </itemInstances>
-        <name>Facet-ac518355-b958-4f88-90f9-9c634849b10d</name>
+        <name>Facet-5dbf055e-ff64-499b-a2e9-1fb8c329e4ee</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -294,7 +294,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-90348257-029b-428d-bac9-8763638622c5</value>
+                    <value>Facet-243cde5c-3e44-4080-b485-6682b5a5670f</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
             </componentInstance>
@@ -303,12 +303,12 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-ac518355-b958-4f88-90f9-9c634849b10d</value>
+                    <value>Facet-5dbf055e-ff64-499b-a2e9-1fb8c329e4ee</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
             </componentInstance>
         </itemInstances>
-        <name>Facet-f4a9d6ad-6d8e-4875-a21b-6d082ee031a0</name>
+        <name>Facet-7444bb1b-cc06-43c3-860f-aa594bc0b1b8</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -316,7 +316,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>columns</name>
-                    <value>Facet-41d968a2-cab7-4d8c-95a9-72d5fb6b0546</value>
+                    <value>Facet-779b91d8-c338-45bf-94b2-7090143fe6f8</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
@@ -329,7 +329,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>columns</name>
-                    <value>Facet-1a7e8740-9cd5-4cf9-8359-9d780b4cc25f</value>
+                    <value>Facet-b9f50aa9-d1e2-422b-88fd-415b8f3ddbee</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
@@ -342,7 +342,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>columns</name>
-                    <value>Facet-f4a9d6ad-6d8e-4875-a21b-6d082ee031a0</value>
+                    <value>Facet-7444bb1b-cc06-43c3-860f-aa594bc0b1b8</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
