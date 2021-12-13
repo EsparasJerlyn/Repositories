@@ -17,6 +17,7 @@
       | eugene.andrew.abuan       | December 1,2021       | DEPP-771            | Added method for creation of Community User                      |
       | roy.nino.s.regala         | November 25,2021      | DEPP-362,38,37      | Added method for creation of Program Plan                        |
       | johnbo.pineda@qut.edu.au  | December 6, 2021      | DEPP-789            | Added method for creation of Course Connection                   |
+      | eugene.andrew.abuan       | December 10, 2021     | DEPP-100            | Added method for Buyer Account                                   | 
 */
 @IsTest
 public class TestDataFactory {
@@ -555,5 +556,30 @@ public class TestDataFactory {
       );
     }
     return courseConnectionRecord;
+  }
+  /**
+   * @description Method for creating test Account records
+   * @param numAccts - number of Accounts to be created
+   * @param accId - Id of the related account
+   * @param accName - Name of the related account
+   * @return baccts - list of BuyerAccounts created
+   */
+  public static List<BuyerAccount> createTestBuyerAccountRecords(
+    Integer numAccts,
+    Id accId,
+    String accName
+    ) {
+    List<BuyerAccount> baccts = new List<BuyerAccount>();
+
+    for (Integer i = 0; i < numAccts; i++) {
+      baccts.add(
+        new BuyerAccount(
+          BuyerId = accId,
+          Name = accName
+          )
+        );
+    }
+
+    return baccts;
   }
 }
