@@ -4,7 +4,7 @@
     <decisions>
         <name>Check_if_insert_or_update</name>
         <label>Check if insert or update.</label>
-        <locationX>446</locationX>
+        <locationX>578</locationX>
         <locationY>335</locationY>
         <defaultConnectorLabel>default</defaultConnectorLabel>
         <rules>
@@ -111,9 +111,42 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Update_Address_Parent_Account</targetReference>
+                <targetReference>Check_for_Existing_Address_Record</targetReference>
             </connector>
             <label>is Converted</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Checks if insert new or update old address record.</description>
+        <name>Upsert_Account_Address_Record</name>
+        <label>Upsert Account Address Record</label>
+        <locationX>710</locationX>
+        <locationY>575</locationY>
+        <defaultConnector>
+            <targetReference>Insert_Address_Parent_Account_0_0_0_0</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>isUpdate</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Check_for_Existing_Address_Record.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Check_for_Existing_Address_Record.hed__Address_Type__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Billing</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Address_Parent_Account</targetReference>
+            </connector>
+            <label>isUpdate</label>
         </rules>
     </decisions>
     <description>Updates or inserts address records when lead is inserted or updated with converted account and billing address type with validity status</description>
@@ -196,10 +229,10 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordCreates>
     <recordCreates>
-        <name>Update_Address_Parent_Account</name>
-        <label>Update Address Parent Account</label>
-        <locationX>578</locationX>
-        <locationY>455</locationY>
+        <name>Insert_Address_Parent_Account_0_0_0_0</name>
+        <label>Insert Address Parent Account</label>
+        <locationX>842</locationX>
+        <locationY>695</locationY>
         <inputAssignments>
             <field>Validated__c</field>
             <value>
@@ -251,6 +284,80 @@
         <object>hed__Address__c</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordCreates>
+    <recordLookups>
+        <description>Queries existing address records.</description>
+        <name>Check_for_Existing_Address_Record</name>
+        <label>Check for Existing Address Record</label>
+        <locationX>710</locationX>
+        <locationY>455</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Upsert_Account_Address_Record</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>hed__Parent_Account__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.ConvertedAccountId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>hed__Address__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <description>Updates the existing address of the parent account.</description>
+        <name>Update_Address_Parent_Account</name>
+        <label>Update Address Parent Account</label>
+        <locationX>578</locationX>
+        <locationY>695</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>hed__Parent_Account__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.ConvertedAccountId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Validated__c</field>
+            <value>
+                <elementReference>$Record.LeadAddress_Validation__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>hed__MailingCity__c</field>
+            <value>
+                <elementReference>$Record.City</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>hed__MailingCountry__c</field>
+            <value>
+                <elementReference>$Record.Country</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>hed__MailingPostalCode__c</field>
+            <value>
+                <elementReference>$Record.PostalCode</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>hed__MailingState__c</field>
+            <value>
+                <elementReference>$Record.State</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>hed__MailingStreet__c</field>
+            <value>
+                <elementReference>$Record.Street</elementReference>
+            </value>
+        </inputAssignments>
+        <object>hed__Address__c</object>
+    </recordUpdates>
     <recordUpdates>
         <description>Update associated address of lead.</description>
         <name>Update_Associated_Address</name>
@@ -346,7 +453,7 @@
         <object>hed__Address__c</object>
     </recordUpdates>
     <start>
-        <locationX>320</locationX>
+        <locationX>452</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Check_if_insert_or_update</targetReference>

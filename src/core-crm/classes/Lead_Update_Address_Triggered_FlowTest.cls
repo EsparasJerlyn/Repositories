@@ -6,10 +6,10 @@
  * @author Accenture
  *
  * @history
- *    | Developer                 | Date                  | JIRA     | Change Summary                  |
-      |---------------------------|-----------------------|----------|---------------------------------|
-      | adrian.c.habasa           | November 02, 2021     | DEPP-741 | Created file                    | 
-      |                           |                       |          |                                 |
+ *    | Developer                 | Date                  | JIRA      | Change Summary                  |
+      |---------------------------|-----------------------|-----------|---------------------------------|
+      | adrian.c.habasa           | November 02, 2021     | DEPP-741  | Created file                    | 
+      | roy.nino.s.regala         | December 10, 2021     | DEPP=1340 | Bug fix                         |
 */
 @isTest(SeeAllData = false)
 public with sharing class Lead_Update_Address_Triggered_FlowTest {
@@ -21,14 +21,23 @@ public with sharing class Lead_Update_Address_Triggered_FlowTest {
         {
         System.runAs(currentUser)
             {
-                List<lead> leads = new List<lead>();
                 List<Account> accs = new List<Account>();
                 List<lead> tLeads = new List<lead>();
+                List<lead> leads = new List<lead>();
+                List<Lead> leadToExistingAccount = new List<Lead>();
+                List<hed__Address__c> hedAddresses = new List<hed__Address__c>();
 
-                accs = TestDataFactory.createTestAccountRecords(100);
-                leads = TestDataFactory.createTestLeadRecords(100);
+                accs = TestDataFactory.createTestAccountRecords(1);
                 tLeads= TestDataFactory.createTestLeadRecords(100);
-				
+                leads= TestDataFactory.createTestLeadRecords(100);
+                leadToExistingAccount = TestDataFactory.createTestLeadRecords(1);
+                leadToExistingAccount[0].LastName = 'Unique Lead';
+                leadToExistingAccount[0].Company_Category__c = 'Corporate';
+                leadToExistingAccount[0].Street ='Unique street';
+                
+                insert(accs);
+				hedAddresses.addAll(TestDataFactory.createTestHedAddressRecords(1,BILLING_TYPE,accs[0].Id,'hed__Parent_Account__c'));
+                
                 Integer ctr = 0;
                 for(Lead tempLeads : leads)
                 {   
@@ -45,7 +54,8 @@ public with sharing class Lead_Update_Address_Triggered_FlowTest {
                 }
 
                 Test.startTest();
-                    insert(accs);
+                    insert(leadToExistingAccount);
+                    insert(hedAddresses);
                     insert(leads);
                     insert(tLeads);
 
@@ -67,6 +77,15 @@ public with sharing class Lead_Update_Address_Triggered_FlowTest {
                     }
             
                     update(address);
+
+                    //convert lead to an existing account with an associated hed address
+                    //start
+                    Database.LeadConvert lc2 = new Database.LeadConvert();
+                    lc2.setLeadId(leadToExistingAccount[0].id);
+                    lc2.setConvertedStatus(convertStatus.MasterLabel);
+                    lc2.setAccountId(accs[0].Id);
+                    Database.convertLead(lc2);
+                    //ends
 
                 Test.stopTest(); 
                 
