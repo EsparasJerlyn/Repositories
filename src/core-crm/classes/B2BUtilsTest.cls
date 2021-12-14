@@ -16,13 +16,14 @@ public with sharing class B2BUtilsTest {
    
   	@IsTest(SeeAllData=false)
     public static void resolveCommunityIdToWebstoreId() {
+        String exceptionMessage;
         Test.startTest();
         try{
             //Get the Network ID
             String networkId = [SELECT Id FROM Network WHERE Status = 'Live' ORDER BY FirstActivationDate DESC LIMIT 1].Id;
             B2BUtils.resolveCommunityIdToWebstoreId(networkId);
         }catch(Exception e){
-            System.debug('resolveCommunityIdToWebstoreId Err: '+e.getMessage());
+            exceptionMessage = e.getMessage();
         }
         Test.stopTest();
         System.assertEquals(true, true, 'Network Id doesnt match');
@@ -47,13 +48,10 @@ public with sharing class B2BUtilsTest {
     }
 
 
-    public class B2BUtilReqMockHttpResponse implements HttpCalloutMock
-    {
-        public HTTPResponse respond(HTTPRequest req)
-        {
+    public class B2BUtilReqMockHttpResponse implements HttpCalloutMock {
+        public HTTPResponse respond(HTTPRequest req) {
             // Create a fake response
             HttpResponse res = new HttpResponse();
-
             res.setHeader('Content-Type', 'application/json');
             res.setBody('{}');
             res.setStatusCode(200);

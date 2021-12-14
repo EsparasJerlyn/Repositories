@@ -18,11 +18,16 @@
       | roy.nino.s.regala         | November 25,2021      | DEPP-362,38,37      | Added method for creation of Program Plan                        |
       | johnbo.pineda@qut.edu.au  | December 6, 2021      | DEPP-789            | Added method for creation of Course Connection                   |
       | eugene.andrew.abuan       | December 10, 2021     | DEPP-100            | Added method for Buyer Account                                   | 
+      | marygrace.li@qut.edu.au   | December 13, 2021     | DEPP-174            | Added method creation of Acct,Contact,ByrGrp,ByrGrpMber,Product2 | 
 */
 @IsTest
 public class TestDataFactory {
   private static final String STR_QUALIFY = 'Qualify';
   private static final String STR_IN_PROGRESS = 'In Progress';
+  private static final String TEST_BUYER_GROUP = 'Test Buyer Group';
+  private static final String TEST_BUYER_ACCT = 'Test Buyer Account';
+  private static final String TEST_ACCOUNT_NAME = 'Test Account';
+    
 
   /**
    * @description Method for creating test Account records
@@ -557,6 +562,108 @@ public class TestDataFactory {
     }
     return courseConnectionRecord;
   }
+    
+  /**
+   * @description method to create test data for create Account
+   * @param doInsert - boolean true/false
+   * @return acc - account
+   */
+    public static Account createTestAccount(Boolean doInsert){
+        Account acc = new Account();
+        acc.Name = TEST_ACCOUNT_NAME;
+
+        if(doInsert){
+            insert acc;
+        }
+        return acc;
+    }
+    
+   /**
+   * @description method to create test data for create contact object
+   * @param doInsert - boolean true/false
+   * @param accId - account Id
+   * @return con - Contact
+   */
+    public static Contact createTestContact(Boolean doInsert, Id accId){
+        Contact con = new Contact();
+        con.AccountId = accId;
+        con.FirstName = CommonUtils.randomString(10);
+        con.LastName = CommonUtils.randomString(10);
+        
+        if(doInsert){
+            insert con;
+        }
+        return con;
+    }
+    
+    /** 
+    * @description method to create test data for Buyer Account
+    * @param doInsert - boolean true/false
+    * @param accId - account Id
+    * @return buyerAccount - BuyerAccount
+    */
+    public static BuyerAccount createTestBuyerAccount(Boolean doInsert, Id accId){
+        BuyerAccount buyerAccount = new BuyerAccount();
+        buyerAccount.BuyerId = accId;
+        buyerAccount.Name = TEST_BUYER_ACCT;
+        buyerAccount.IsActive = true;
+        
+        if(doInsert){
+            insert buyerAccount;
+        }
+        return buyerAccount;
+    }
+    
+    /** 
+    * @description method to create test data for Buyer Group
+    * @param doInsert - boolean true/false
+    * @param accId - account Id
+    * @return buyerGrp - BuyerGroup
+    */
+    public static BuyerGroup createTestBuyerGroup(Boolean doInsert){
+        BuyerGroup buyerGrp = new BuyerGroup(Name=TEST_BUYER_GROUP);
+       
+        if(doInsert){
+            insert buyerGrp;
+        }
+        return buyerGrp;
+    }
+    
+    /** 
+    * @description method to create test data for Buyer Group Member
+    * @param doInsert - boolean true/false
+    * @param accId - account Id
+    * @return buyerGrpMember - BuyerGroupMember
+    */
+    public static BuyerGroupMember createTestBuyerGroupMember(Boolean doInsert, Id accId, Id buyerGrpId){
+        BuyerGroupMember buyerGrpMember = new BuyerGroupMember();
+        buyerGrpMember.BuyerGroupId = buyerGrpId;
+        buyerGrpMember.BuyerId = accId;
+        
+        if(doInsert){
+            insert buyerGrpMember;
+        }
+        return buyerGrpMember;
+    }
+    
+    /** 
+    * @description method to create test data for Product2
+    * @param doInsert - boolean true/false
+    * @return prd - product2
+    */
+    public static Product2 createTestProduct2(Boolean doInsert){
+      	Product2 prd = new Product2(
+            Name = 'TestProduct',
+            ProductCode = 'TEST_SKU',
+            Family = 'TestFamily'
+        );
+        
+        if(doInsert){
+            insert prd;
+        }
+        return prd;
+    }
+
   /**
    * @description Method for creating test Account records
    * @param numAccts - number of Accounts to be created

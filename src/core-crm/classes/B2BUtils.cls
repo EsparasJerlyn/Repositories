@@ -25,19 +25,16 @@ public with sharing class B2BUtils {
    * String webStoreId = B2BUtils.resolveCommunityIdToWebstoreId('0DB2D0000004Xz7');
    */
   public static String resolveCommunityIdToWebstoreId(String communityId) {
-    if (communityIdToWebStoreIdCache.containsKey(communityId)) {
+    if(communityIdToWebStoreIdCache.containsKey(communityId)) {
       return communityIdToWebStoreIdCache.get(communityId);
-    } else {
-      String webStoreId = [
-        SELECT WebStoreId
-        FROM WebStoreNetwork
-        WHERE NetworkId = :communityId
-        WITH SECURITY_ENFORCED
-        LIMIT 1
-      ]
-      .WebStoreId;
-      communityIdToWebStoreIdCache.put(communityId, webStoreId);
-      return webStoreId;
+    }else{
+      List<WebStoreNetwork> webStoreNetwork = [SELECT WebStoreId FROM WebStoreNetwork WHERE NetworkId = :communityId WITH SECURITY_ENFORCED LIMIT 1];
+      if(!webStoreNetwork.isEmpty()){
+        communityIdToWebStoreIdCache.put(communityId, webStoreNetwork[0].WebStoreId);
+        return webStoreNetwork[0].WebStoreId;
+      }else{
+        return null;
+      }
     }
   }
 
