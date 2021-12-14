@@ -10,38 +10,6 @@
         <matchingRule>Standard_Lead_Match_Rule_v1_0</matchingRule>
         <objectMapping xsi:nil="true"/>
     </duplicateRuleMatchRules>
-    <duplicateRuleMatchRules>
-        <matchRuleSObjectType>Account</matchRuleSObjectType>
-        <matchingRule>Custom_Account_Matching_Rule</matchingRule>
-        <objectMapping>
-            <inputObject>Lead</inputObject>
-            <mappingFields>
-                <inputField>ABN__c</inputField>
-                <outputField>ABN__c</outputField>
-            </mappingFields>
-            <mappingFields>
-                <inputField>Company</inputField>
-                <outputField>Name</outputField>
-            </mappingFields>
-            <outputObject>Account</outputObject>
-        </objectMapping>
-    </duplicateRuleMatchRules>
-    <duplicateRuleMatchRules>
-        <matchRuleSObjectType>Contact</matchRuleSObjectType>
-        <matchingRule>Custom_Contact_Matching_Rule</matchingRule>
-        <objectMapping>
-            <inputObject>Lead</inputObject>
-            <mappingFields>
-                <inputField>Email</inputField>
-                <outputField>Email</outputField>
-            </mappingFields>
-            <mappingFields>
-                <inputField>LastName</inputField>
-                <outputField>LastName</outputField>
-            </mappingFields>
-            <outputObject>Contact</outputObject>
-        </objectMapping>
-    </duplicateRuleMatchRules>
     <isActive>true</isActive>
     <masterLabel>Standard Lead Duplicate Rule</masterLabel>
     <operationsOnInsert>Alert</operationsOnInsert>
