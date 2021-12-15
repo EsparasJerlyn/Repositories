@@ -19,6 +19,7 @@
       | johnbo.pineda@qut.edu.au  | December 6, 2021      | DEPP-789            | Added method for creation of Course Connection                   |
       | eugene.andrew.abuan       | December 10, 2021     | DEPP-100            | Added method for Buyer Account                                   | 
       | marygrace.li@qut.edu.au   | December 13, 2021     | DEPP-174            | Added method creation of Acct,Contact,ByrGrp,ByrGrpMber,Product2 | 
+      | roy.nino.s.regala         | December 15, 2021     | DEPP-116            | Added Start date on course offerings                             | 
 */
 @IsTest
 public class TestDataFactory {
@@ -323,7 +324,8 @@ public class TestDataFactory {
         new hed__Course_Offering__c(
           Name = 'CourseOffering ' + i,
           hed__Course__c = cour[i].id,
-          hed__Term__c = terms[i].id
+          hed__Term__c = terms[i].id,
+          hed__Start_Date__c = system.today() + 1
         )
       );
     }

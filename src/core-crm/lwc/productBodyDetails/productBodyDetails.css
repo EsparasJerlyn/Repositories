@@ -1,0 +1,24 @@
+.banner {
+  margin: 0 auto;
+  width: 1000;
+  height: 500;
+}
+
+.courseBanner {
+  font-size: 2rem;
+  font-weight: bolder;
+  color: white;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  position: absolute;
+  bottom: 70px;
+  padding-left: 40px;
+}
+
+/* Image CSS */
+.container{
+  height: auto;
+  width: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+  margin:auto;
+}

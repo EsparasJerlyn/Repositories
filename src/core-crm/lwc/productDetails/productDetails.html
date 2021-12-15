@@ -1,0 +1,26 @@
+<template>
+  <lightning-spinner
+      if:false={hasProduct}
+      class="slds-is-relative slds-align_absolute-center slds-m-around_large"
+      alternative-text="Loading product information..."
+      size="medium"
+      variant="brand"
+  >
+  </lightning-spinner>
+  <c-product-details-display
+      if:true={hasProduct}
+      category-path={displayableProduct.categoryPath}
+      overview={displayableProduct.overview}
+      evolve-with-qutex={displayableProduct.evolveWithQutex}
+      who-should-participate={displayableProduct.whoShouldParticipate}
+      core-concepts={displayableProduct.coreConcepts}
+      more-details={displayableProduct.moreDetails}
+      image={displayableProduct.image}
+      in-stock={displayableProduct.inStock}
+      name={displayableProduct.name}
+      price={displayableProduct.price}
+      course-offerings={courseOfferingList}
+      price-book-entries={priceBookEntryList}
+  >
+  </c-product-details-display>
+</template>

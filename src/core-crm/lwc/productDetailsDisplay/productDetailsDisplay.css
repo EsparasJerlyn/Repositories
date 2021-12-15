@@ -1,0 +1,128 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+lightning-breadcrumbs {
+    display: block;
+}
+
+.product-information {
+    display: flex;
+}
+
+figure {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    width: 400px;
+    height: 400px;
+}
+
+img {
+    object-fit: contain;
+}
+
+.heading {
+    flex-grow: 1;
+}
+
+.details-area {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    align-items: stretch;
+    min-height: 400px;
+}
+
+.price {
+    align-self: end;
+}
+
+/* CSS Styling for narrow screens (e.g. phones) */
+@media only screen and (max-width: 48em) {
+    /* SLDS token: mqSmall */
+    .product-information {
+        flex-direction: column;
+    }
+
+    .details-area {
+        padding-top: var(--lwc-spacingSmall);
+    }
+
+    .image {
+        align-self: center;
+    }
+
+    figure {
+        width: 200px;
+        height: 200px;
+    }
+}
+
+.product-bodydetails{
+    font-weight: light;
+    font-weight: 1000;
+    color:#333333;
+}
+
+.product-bodytitle{
+    font-weight: bold;
+    font-weight: 1000;
+    color:#333333;
+}
+
+.product-bodydetails_label{
+  font-weight: bold;
+  font-weight: 1000;
+  color:#2574A9;
+}
+
+.product-bodydetails_red{
+  font-weight: bold;
+  font-weight: 1000;
+  color:#eb0c0c;
+}
+
+.product-grid{
+  background-color:rgb(245, 245, 240);
+}
+
+.parent-name{
+  color:#003b6f;
+}
+
+.banner {
+    margin: 0 auto;
+    width: 1000;
+    height: 500;
+  }
+
+  .courseBanner {
+    font-size: 2rem;
+    font-weight: bolder;
+    color: white;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    position: absolute;
+    bottom: 50px;
+    padding-left: 30px;
+  }
+  
+  .courseBannerDetails {
+    font-size: 1.5rem;
+    font-weight: bolder;
+    color: white;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    position: absolute;
+    bottom: 70px;
+    padding-left: 30px;
+  }
+
+.showMore {
+    width: 400;
+    height: 400;
+    color: #333333;
+    /*align-self: center;*/
+    padding-right: 40px;
+}
