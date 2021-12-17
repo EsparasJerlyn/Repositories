@@ -1,0 +1,46 @@
+{
+  "appPageId" : "e7a3f4f7-241b-44d0-9ebd-8a08684e8126",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "id" : "f9c656c5-2383-4ac1-b961-dc1d51ac8e68",
+  "label" : "Order Summary List",
+  "regions" : [ {
+    "id" : "4d1b80cf-6105-40c1-88b3-1f5e0ed1078b",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "accountId" : "",
+        "noOrderMessageText" : "After you place an order, you’ll find it here.",
+        "noResultsText" : "To view orders, adjust your filters.",
+        "numberOfMonthsForFilter" : 12,
+        "orderSummaryFieldMapping" : "",
+        "ordersListCount" : 25,
+        "ordersListFilter" : true,
+        "ordersListSortBy" : true,
+        "ordersListTitle" : "My Orders",
+        "reOrder" : true,
+        "reOrderLabel" : "START REORDER",
+        "showMoreLabel" : "Show More",
+        "viewDetails" : true,
+        "viewDetailsLabel" : "View Details",
+        "viewMoreOrderBehaviour" : "SHOW_MORE"
+      },
+      "componentName" : "b2b_buyer_builder:ordersList",
+      "id" : "c3132bf5-94a7-4726-b615-154d5e1d5c19",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "4ff2901a-15e6-4ddf-8a70-c40c5f25efa3",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "98906b9d-b2d1-4f50-a3f0-79fdf856ff30",
+    "regionName" : "footer",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "list-1Os"
+}

@@ -1,6 +1,6 @@
 import { LightningElement, api, track } from 'lwc';
 import { htmlDecode } from 'c/commonUtils';
-const STUDY_STORE = 'study';
+const STUDY_STORE = 'Study';
 
 /**
  * An organized display of a single product card.

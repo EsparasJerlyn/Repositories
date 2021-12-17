@@ -7,7 +7,7 @@ import productSearch from '@salesforce/apex/B2BSearchCtrl.productSearch';
 import { transformData } from './dataNormalizer';
 import getSortCollections from '@salesforce/apex/B2BSearchCtrl.getSortCollections';
 import { generateErrorMessage } from 'c/commonUtils';
-const STUDY_STORE = 'study';
+const STUDY_STORE = 'Study';
 const ERROR_TITLE = "Error!";
 const ERROR_VARIANT = "error";
 const MSG_ERROR = "An error has been encountered. Please contact your Administrator.";

@@ -149,6 +149,17 @@
         </platformActionListItems>
     </platformActionList>
     <relatedLists>
+        <fields>ProductCategory</fields>
+        <fields>IsPrimaryCategory</fields>
+        <relatedList>RelatedProductCategories</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>Policy</fields>
+        <fields>PolicyCreatedBy</fields>
+        <fields>IsPolicyActive</fields>
+        <relatedList>CommerceEntitlementPolicies</relatedList>
+    </relatedLists>
+    <relatedLists>
         <relatedList>RelatedStandardPriceList</relatedList>
     </relatedLists>
     <relatedLists>
