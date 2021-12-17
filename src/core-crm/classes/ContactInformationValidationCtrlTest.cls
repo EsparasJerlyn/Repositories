@@ -73,6 +73,18 @@ private class ContactInformationValidationCtrlTest {
         Test.stopTest();
     }
 
+    @IsTest
+    private static void allowDmlWithDuplicatesTest(){
+        Test.startTest();
+        System.runAs(currentUser){
+            Lead leadRecord = TestDataFactory.createTestLeadRecords(1).iterator().next();
+            leadRecord.Phone = '123';
+            ContactInformationValidationCtrl.allowDmlWithDuplicates(leadRecord);
+            System.assertEquals('123', leadRecord.Phone, 'Update was not successful as expected');
+        }
+        Test.stopTest();
+    }
+
     private static ContactInformationValidationCtrl.PayloadResponse getPayloadResponse(String validateRequest){
         String payloadResponseList = ContactInformationValidationCtrl.validateFields(validateRequest);
         List<ContactInformationValidationCtrl.PayloadResponse> payloadResponseListParsed = 

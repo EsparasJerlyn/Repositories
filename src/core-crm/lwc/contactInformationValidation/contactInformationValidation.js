@@ -13,13 +13,16 @@
  */
 
 import { LightningElement, api, wire, track } from 'lwc';
-import { getRecord, getFieldValue, updateRecord } from 'lightning/uiRecordApi';
+import { getRecord, getFieldValue, updateRecord, getRecordNotifyChange } from 'lightning/uiRecordApi';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { publish, MessageContext } from 'lightning/messageService';
 import STATUSES_CHANNEL from '@salesforce/messageChannel/StatusesMessageChannel__c';
 import LEAD_SCHEMA from '@salesforce/schema/Lead';
+import LWC_Error_General from '@salesforce/label/c.LWC_Error_General';
 import getMapping from '@salesforce/apex/ContactInformationValidationCtrl.getMapping';
 import validateFields from '@salesforce/apex/ContactInformationValidationCtrl.validateFields';
+import allowDmlWithDuplicates from '@salesforce/apex/ContactInformationValidationCtrl.allowDmlWithDuplicates';
+
 
 const STR_NONE = 'None';
 const STR_NOT_VALID = 'Not Valid';
@@ -30,7 +33,6 @@ const STR_AU = 'Australia (+61)';
 const STR_NZ = 'New Zealand (+64)';
 const STR_INTL = 'International';
 const FIELD_MAPPING_API_NAME = 'Field_Mapping__c';
-const MSG_ERROR = 'An error has been encountered. Please contact your Administrator.';
 const MARGIN_TOPXLARGE_CLASS = ' slds-m-top_x-large';
 const FIELD_CLASS = 'slds-border_bottom sf-blue-text';
 const VALID_STATUSES = [STR_VALID.toUpperCase(),'Active','connected|Network confirmed connection'];
@@ -47,7 +49,6 @@ export default class ContactInformationValidation extends LightningElement {
     fieldsToQuery = [];
     fieldsToValidate = [];
     statusOptions = [];
-    errorMessage;
     entityNameValue;
     isLoading;
     disableEditButton;
@@ -68,7 +69,7 @@ export default class ContactInformationValidation extends LightningElement {
                 ...this.fieldsMapping.map(fieldMap => this.generateFieldName(fieldMap.statusValidationField)),
                 ...this.fieldsMapping.map(fieldMap => this.generateFieldName(fieldMap.localeField))];
         }else if(error){
-            this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
+            this.generateToast('Error.',LWC_Error_General,'error');
         }
     }
         
@@ -128,7 +129,7 @@ export default class ContactInformationValidation extends LightningElement {
             
             this.publishMessage();
         }else if(error){
-            this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
+            this.generateToast('Error.',LWC_Error_General,'error');
         }
     }
     
@@ -156,18 +157,6 @@ export default class ContactInformationValidation extends LightningElement {
     }
 
     /**
-     * concatenates error name and message
-     */
-    generateErrorMessage(err){
-        let _errorMsg = ' (';
-
-        _errorMsg += err.name && err.message ? err.name + ': ' + err.message : err.body.message;
-        _errorMsg += ')';
-
-        return _errorMsg;
-    }
-
-    /**
      * creates toast notification
      */
     generateToast(_title,_message,_variant){
@@ -188,19 +177,48 @@ export default class ContactInformationValidation extends LightningElement {
     }
 
     /**
-     * triggers spinner to show when Save is clicked
+     * triggers spinner to show when Save is clicked and updates record
      */
-    handleSaveButton(){
+    handleSaveButton(event){
         this.isLoading = true;
+        
+        if(this.objectApiName == LEAD_SCHEMA.objectApiName){  
+            event.preventDefault();
+            let leadFields = event.detail.fields;
+            leadFields.Id = this.recordId;
+            allowDmlWithDuplicates({leadRecord : leadFields})
+            .then(()=> {
+                this.successfulSave();
+                getRecordNotifyChange([{recordId: this.recordId}])
+            })
+            .catch(error => {
+                this.generateToast('Error.',LWC_Error_General,'error');
+            })
+            .finally(()=> {
+                this.isLoading = false;
+            });
+        }
     }
 
     /**
-     * hides spinner and shows toast when update successful
+     * hides spinner and shows toast when save is successful
      */
     handleSuccess(){
         this.isLoading = false;
+        this.successfulSave();
+    }
+
+    successfulSave(){
         this.disableEditButton = false;
         this.generateToast('Success!','Record updated.','success');
+    }
+
+    /**
+     * hides spinner and shows toast when record edit form fails
+     */
+     handleError(){
+        this.isLoading = false;
+        this.generateToast('Error.',LWC_Error_General,'error');
     }
 
     /**
@@ -253,7 +271,7 @@ export default class ContactInformationValidation extends LightningElement {
             
         })
         .catch(error => {
-            this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
+            this.generateToast('Error.',LWC_Error_General,'error');
             this.isLoading = false;
         });
     }
@@ -275,7 +293,7 @@ export default class ContactInformationValidation extends LightningElement {
             }
         })
         .catch(error => {
-            this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
+            this.generateToast('Error.',LWC_Error_General,'error');
         })
         .finally(() => {
             this.isLoading = false;

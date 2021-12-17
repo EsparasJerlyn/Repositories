@@ -154,6 +154,20 @@ public with sharing class ContactInformationValidationCtrl {
         }
     }
 
+    /**
+    * @description Method for updating lead and bypassing its standard match rule
+    * @param leadRecord - lead record from LWC
+    */
+    @AuraEnabled
+    public static void allowDmlWithDuplicates(Lead leadRecord){
+        Database.DMLOptions dml = new Database.DMLOptions();
+        dml.DuplicateRuleHeader.AllowSave = true;
+        Database.SaveResult sr = Database.update(leadRecord, dml);
+        if(sr.isSuccess()) {
+            System.debug('Lead has been updated');
+        }
+    }
+
     //for request authorization
     private class Wrapper{ 
         String serviceName {get;set;}
