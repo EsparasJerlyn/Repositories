@@ -25,7 +25,7 @@
             "importCSVFilesAsIs": true
         },
         {
-            "query": "SELECT Name,Id,Description FROM BuyerGroup",
+            "query": "SELECT Name,Id FROM BuyerGroup",
             "operation": "Upsert",
             "externalId": "Id",
             "useCSVValuesMapping": true,
