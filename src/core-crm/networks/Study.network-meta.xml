@@ -50,6 +50,6 @@
         <defaultTab>home</defaultTab>
         <standardTab>Chatter</standardTab>
     </tabs>
-    <urlPathPrefix>Study</urlPathPrefix>
+    <urlPathPrefix>study</urlPathPrefix>
     <welcomeTemplate>unfiled$public/CommunityWelcomeEmailTemplate</welcomeTemplate>
 </Network>
