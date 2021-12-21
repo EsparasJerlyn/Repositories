@@ -26,5 +26,5 @@
     <siteGuestRecordDefaultOwner>cicd.integration@qut.edu.au.dep</siteGuestRecordDefaultOwner>
     <siteType>ChatterNetwork</siteType>
     <subdomain>qut360</subdomain>
-    <urlPathPrefix>Study</urlPathPrefix>
+    <urlPathPrefix>study</urlPathPrefix>
 </CustomSite>
