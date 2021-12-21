@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Overview_Website__c</fullName>
+    <externalId>false</externalId>
+    <inlineHelpText>The Overview should briefly address (approx. 950 characters): 
+·       What the event is about?
+·       Why the event is important and relevant?
+·       If the event is linked to a course, briefly explain how it contributes?</inlineHelpText>
+    <label>Overview for the website</label>
+    <length>1000</length>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

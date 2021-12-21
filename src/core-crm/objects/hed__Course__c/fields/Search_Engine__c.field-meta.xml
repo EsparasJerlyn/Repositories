@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Search_Engine__c</fullName>
+    <externalId>false</externalId>
+    <inlineHelpText>The search engine description is 1 – 2 Sentences long (180 character limit) that provides just enough information for readers to be able to accurately identify the module and its focus.</inlineHelpText>
+    <label>Search Engine description</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>TextArea</type>
+</CustomField>

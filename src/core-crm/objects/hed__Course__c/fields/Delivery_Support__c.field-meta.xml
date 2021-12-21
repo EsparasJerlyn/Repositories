@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Certification_Type__c</fullName>
+    <fullName>Delivery_Support__c</fullName>
     <externalId>false</externalId>
-    <label>Certification Type</label>
+    <label>Delivery Support</label>
     <required>false</required>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
@@ -11,30 +11,34 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Certificate of Participation</fullName>
+                <fullName>Catering</fullName>
                 <default>false</default>
-                <label>Certificate of Participation</label>
+                <label>Catering</label>
             </value>
             <value>
-                <fullName>Certificate of Achievement</fullName>
+                <fullName>Name Badges</fullName>
                 <default>false</default>
-                <label>Certificate of Achievement</label>
+                <label>Name Badges</label>
             </value>
             <value>
-                <fullName>No</fullName>
+                <fullName>Workbook Printed</fullName>
                 <default>false</default>
-                <label>No</label>
+                <label>Workbook Printed</label>
             </value>
             <value>
-                <fullName>QUTeX Digital Badge</fullName>
+                <fullName>Handouts Printed</fullName>
                 <default>false</default>
-                <label>QUTeX Digital Badge</label>
+                <label>Handouts Printed</label>
             </value>
             <value>
-                <fullName>Certificate of Completion</fullName>
+                <fullName>Prework communications</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
-                <label>Certificate of Completion</label>
+                <label>Prework communications</label>
+            </value>
+            <value>
+                <fullName>Others</fullName>
+                <default>false</default>
+                <label>Others</label>
             </value>
         </valueSetDefinition>
     </valueSet>

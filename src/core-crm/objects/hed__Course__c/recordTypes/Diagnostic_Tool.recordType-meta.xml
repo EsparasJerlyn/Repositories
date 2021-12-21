@@ -6,7 +6,15 @@
     <picklistValues>
         <picklist>Certification_Type__c</picklist>
         <values>
-            <fullName>Certificate of Completion</fullName>
+            <fullName>Certificate of Achievement</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>QUTeX Digital Badge</fullName>
             <default>false</default>
         </values>
         <values>
