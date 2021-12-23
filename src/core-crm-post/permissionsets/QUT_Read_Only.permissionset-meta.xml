@@ -6038,11 +6038,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>hed__Course__c.Certification_Type__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>hed__Course__c.Cohort_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
