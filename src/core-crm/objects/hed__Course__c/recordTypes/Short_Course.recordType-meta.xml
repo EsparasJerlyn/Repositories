@@ -4,13 +4,9 @@
     <active>true</active>
     <label>Short Course</label>
     <picklistValues>
-        <picklist>Certification_Type__c</picklist>
+        <picklist>Certificate_Type__c</picklist>
         <values>
             <fullName>Certificate of Achievement</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Certificate of Participation</fullName>
             <default>false</default>
         </values>
         <values>

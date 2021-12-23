@@ -4,6 +4,8 @@
     <externalId>false</externalId>
     <label>Product Request Status</label>
     <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
@@ -23,6 +25,11 @@
                 <fullName>Release</fullName>
                 <default>false</default>
                 <label>Release</label>
+            </value>
+            <value>
+                <fullName>In Delivery</fullName>
+                <default>false</default>
+                <label>In Delivery</label>
             </value>
             <value>
                 <fullName>Completed</fullName>

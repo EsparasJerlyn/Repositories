@@ -134,6 +134,10 @@
     <layoutAssignments>
         <layout>Product_Specification__c-Product Specification Layout</layout>
     </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course__c-OPE Short Course Page Layout</layout>
+        <recordType>hed__Course__c.Short_Course</recordType>
+    </layoutAssignments>
     <recordTypeVisibilities>
         <default>false</default>
         <recordType>Account.Academic_Program</recordType>

@@ -236,7 +236,7 @@
         <label>Send Idea Form Screen</label>
         <locationX>446</locationX>
         <locationY>734</locationY>
-        <allowBack>true</allowBack>
+        <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
@@ -244,7 +244,7 @@
         </connector>
         <fields>
             <name>Contact_Details</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 16px; color: rgb(0, 0, 0);&quot;&gt;Send Idea Form to &lt;/span&gt;&lt;b style=&quot;font-size: 16px; color: rgb(0, 0, 0);&quot;&gt;{!Get_Product_Specification_Details.Requestor_Name__r.FirstName} {!Get_Product_Specification_Details.Requestor_Name__r.LastName} &lt;/b&gt;&lt;span style=&quot;font-size: 16px; color: rgb(0, 0, 0);&quot;&gt;(&lt;/span&gt;&lt;b style=&quot;font-size: 16px; color: rgb(0, 0, 0);&quot;&gt;{!Get_Product_Specification_Details.Requestor_Name__r.Email}&lt;/b&gt;&lt;span style=&quot;font-size: 16px; color: rgb(0, 0, 0);&quot;&gt;)?&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 16px;&quot;&gt;Send Idea Form to &lt;/span&gt;&lt;b style=&quot;color: rgb(0, 0, 0); font-size: 16px;&quot;&gt;{!Get_Product_Specification_Details.Requestor_Name__r.FirstName} {!Get_Product_Specification_Details.Requestor_Name__r.LastName} &lt;/b&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 16px;&quot;&gt;(&lt;/span&gt;&lt;b style=&quot;color: rgb(0, 0, 0); font-size: 16px;&quot;&gt;{!Get_Product_Specification_Details.Requestor_Name__r.Email}&lt;/b&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 16px;&quot;&gt;)?&lt;/span&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
@@ -253,8 +253,8 @@
     <screens>
         <name>Unhandled_Error</name>
         <label>Unhandled Error</label>
-        <locationX>1370</locationX>
-        <locationY>974</locationY>
+        <locationX>1106</locationX>
+        <locationY>1214</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>

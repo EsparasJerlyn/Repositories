@@ -28,6 +28,14 @@
         <apexClass>GetCurriculumCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>AddProductRequestCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ProductRequestListCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <customPermissions>
         <enabled>true</enabled>
         <name>EditDesignAndReleaseTabsOfProductRequest</name>
@@ -1000,6 +1008,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course__c.Search_Terms__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Course__c.Certificate_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
