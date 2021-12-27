@@ -135,6 +135,10 @@
         <layout>Product_Specification__c-Product Specification Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>hed__Course__c-OPE Activity Page Layout</layout>
+        <recordType>hed__Course__c.OPE_Activity</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>hed__Course__c-OPE Short Course Page Layout</layout>
         <recordType>hed__Course__c.Short_Course</recordType>
     </layoutAssignments>
