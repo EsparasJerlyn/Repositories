@@ -22,6 +22,10 @@
                 <behavior>Readonly</behavior>
                 <field>Purchased_Price_v2__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Course_Offering_End_Date__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns/>
         <style>TwoColumnsTopToBottom</style>
