@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Email_Qualification_Unsuccessful</name>
+        <label>Email Qualification Unsuccessful</label>
+        <locationX>176</locationX>
+        <locationY>335</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>QualificationUnsuccessfulEmailBody</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <elementReference>$Record.Requestor_Email__c</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <elementReference>EmailSubject</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <apiVersion>53.0</apiVersion>
+    <formulas>
+        <name>EmailSubject</name>
+        <dataType>String</dataType>
+        <expression>&quot;[QUTeX] Qualification Unsuccessful - &quot; +  TEXT({!$Record.Status__c})</expression>
+    </formulas>
+    <interviewLabel>Product Specification Not Proceeding Notification {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Product Specification Not Proceeding Notification</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Email_Qualification_Unsuccessful</targetReference>
+        </connector>
+        <filterLogic>1 AND (2 OR 3)</filterLogic>
+        <filters>
+            <field>Stage__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Not Proceeding</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Existing Product</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Doesnt meet Qualification</stringValue>
+            </value>
+        </filters>
+        <object>Product_Specification__c</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <textTemplates>
+        <name>QualificationUnsuccessfulEmailBody</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;&lt;i&gt;Dear {!$Record.Requestor_Name__r.FirstName},&lt;/i&gt;&lt;/p&gt;&lt;p&gt;&lt;i&gt;Unfortunately, your idea has not been accepted to progress at this time. The reason for this decision is due to {!$Record.Not_Proceeding_Comments__c}.&lt;/i&gt;&lt;/p&gt;&lt;p&gt;&lt;i&gt;If you have any further questions, please get in touch.&lt;/i&gt;&lt;/p&gt;&lt;p&gt;&lt;i&gt;The QUTeX Team&lt;/i&gt;&lt;/p&gt;&lt;p&gt;&lt;i&gt;07 3138 7733&lt;/i&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;mailto:qutex@qut.edu.au&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(0, 82, 204);&quot;&gt;&lt;i&gt;qutex@qut.edu.au&lt;/i&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://www.qut.edu.au/study/professional-and-executive-education&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(0, 82, 204);&quot;&gt;&lt;i&gt;qut.edu.au/qutex&lt;/i&gt;&lt;/a&gt;&lt;/p&gt;</text>
+    </textTemplates>
+</Flow>

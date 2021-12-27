@@ -4,10 +4,8 @@
     <active>true</active>
     <description>Program Lead is Required for Product Specification Record to move the Stage from Define to Design</description>
     <errorConditionFormula>AND(
-ISCHANGED( Stage__c ),
-ISPICKVAL( PRIORVALUE( Stage__c ), &apos;Define&apos;),
-ISPICKVAL( Stage__c, &apos;Design&apos;),
-ISBLANK(  Program_Lead__c  )
+ NOT(ISPICKVAL( Stage__c, &apos;Define&apos;)),
+ ISBLANK(  Program_Lead__c  )
 )</errorConditionFormula>
     <errorDisplayField>Program_Lead__c</errorDisplayField>
     <errorMessage>“Program Lead” is required to update the Stage.</errorMessage>

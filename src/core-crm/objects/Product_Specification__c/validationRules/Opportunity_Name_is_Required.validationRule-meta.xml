@@ -4,10 +4,8 @@
     <active>true</active>
     <description>Opportunity Name is Required for Product Specification Record to move the Stage from Define to Design</description>
     <errorConditionFormula>AND(
-     ISCHANGED( Stage__c ),
-     ISPICKVAL( PRIORVALUE( Stage__c ), &apos;Define&apos;),
-     ISPICKVAL( Stage__c, &apos;Design&apos;),
-     ISBLANK(  Opportunity_Name__c  )
+ NOT(ISPICKVAL( Stage__c, &apos;Define&apos;)),
+ ISBLANK( Opportunity_Name__c )
 )</errorConditionFormula>
     <errorDisplayField>Opportunity_Name__c</errorDisplayField>
     <errorMessage>“Opportunity Name” is required to update the Stage</errorMessage>
