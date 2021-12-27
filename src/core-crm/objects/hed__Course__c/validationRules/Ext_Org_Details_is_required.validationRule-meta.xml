@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Ext_Org_Details_is_required</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND (
+ OR(
+  RecordType.DeveloperName = &apos;OPE_Activity&apos;,
+  RecordType.DeveloperName = &apos;Short_Course&apos;  
+ ),
+ OR(
+  ISPICKVAL( ProductRequestID__r.Product_Request_Status__c, &apos;Design&apos;),
+  ISPICKVAL( ProductRequestID__r.Product_Request_Status__c, &apos;Release&apos;),
+  ISPICKVAL( ProductRequestID__r.Product_Request_Status__c, &apos;In Delivery&apos;),
+  ISPICKVAL( ProductRequestID__r.Product_Request_Status__c, &apos;Completed&apos;)
+ ),
+ ISPICKVAL(  Collaboation_External__c , &apos;Yes&apos;),
+ ISBLANK(  External_Organisation__c )
+)</errorConditionFormula>
+    <errorDisplayField>External_Organisation__c</errorDisplayField>
+    <errorMessage>“External Organisation Details” is required to update the Product Request Status.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Risk_and_Opportunities_is_required</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND (
+ RecordType.DeveloperName = &apos;Short_Course&apos;, 
+ OR(
+  ISPICKVAL( ProductRequestID__r.Product_Request_Status__c, &apos;Design&apos;),
+  ISPICKVAL( ProductRequestID__r.Product_Request_Status__c, &apos;Release&apos;),
+  ISPICKVAL( ProductRequestID__r.Product_Request_Status__c, &apos;In Delivery&apos;),
+  ISPICKVAL( ProductRequestID__r.Product_Request_Status__c, &apos;Completed&apos;)
+ ),
+ ISBLANK( Risk_and_Opportunities__c )
+)</errorConditionFormula>
+    <errorDisplayField>Risk_and_Opportunities__c</errorDisplayField>
+    <errorMessage>“Risk and Opportunities” is required to update the Product Request Status.</errorMessage>
+</ValidationRule>
