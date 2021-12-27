@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sub_Type__c</fullName>
+    <description>Subtype of course to be used as filter in the product catalogue base  from the chosen type.</description>
+    <externalId>false</externalId>
+    <label>Sub Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Type__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Short course</fullName>
+                <default>false</default>
+                <label>Short course</label>
+            </value>
+            <value>
+                <fullName>Micro Credential</fullName>
+                <default>false</default>
+                <label>Micro Credential</label>
+            </value>
+            <value>
+                <fullName>Masterclass</fullName>
+                <default>false</default>
+                <label>Masterclass</label>
+            </value>
+            <value>
+                <fullName>Event</fullName>
+                <default>false</default>
+                <label>Event</label>
+            </value>
+            <value>
+                <fullName>Information Session</fullName>
+                <default>false</default>
+                <label>Information Session</label>
+            </value>
+            <value>
+                <fullName>Discussion Forum</fullName>
+                <default>false</default>
+                <label>Discussion Forum</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Single Product</controllingFieldValue>
+            <controllingFieldValue>Short Course</controllingFieldValue>
+            <valueName>Short course</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Single Product</controllingFieldValue>
+            <valueName>Micro Credential</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Single Product</controllingFieldValue>
+            <valueName>Masterclass</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Activity</controllingFieldValue>
+            <valueName>Event</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Activity</controllingFieldValue>
+            <valueName>Information Session</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Activity</controllingFieldValue>
+            <valueName>Discussion Forum</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

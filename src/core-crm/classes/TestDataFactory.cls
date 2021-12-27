@@ -17,9 +17,10 @@
       | eugene.andrew.abuan       | December 1,2021       | DEPP-771            | Added method for creation of Community User                      |
       | roy.nino.s.regala         | November 25,2021      | DEPP-362,38,37      | Added method for creation of Program Plan                        |
       | johnbo.pineda@qut.edu.au  | December 6, 2021      | DEPP-789            | Added method for creation of Course Connection                   |
-      | eugene.andrew.abuan       | December 10, 2021     | DEPP-100            | Added method for Buyer Account                                   | 
-      | marygrace.li@qut.edu.au   | December 13, 2021     | DEPP-174            | Added method creation of Acct,Contact,ByrGrp,ByrGrpMber,Product2 | 
-      | roy.nino.s.regala         | December 15, 2021     | DEPP-116            | Added Start date on course offerings                             | 
+      | eugene.andrew.abuan       | December 10, 2021     | DEPP-100            | Added method for Buyer Account                                   |
+      | marygrace.li@qut.edu.au   | December 13, 2021     | DEPP-174            | Added method creation of Acct,Contact,ByrGrp,ByrGrpMber,Product2 |
+      | roy.nino.s.regala         | December 15, 2021     | DEPP-116            | Added Start date on course offerings                             |
+      | johnbo.pineda@qut.edu.au  | December 21, 2021     | DEPP-1150           | Added method for creation of Pending Registration                |
 */
 @IsTest
 public class TestDataFactory {
@@ -28,7 +29,6 @@ public class TestDataFactory {
   private static final String TEST_BUYER_GROUP = 'Test Buyer Group';
   private static final String TEST_BUYER_ACCT = 'Test Buyer Account';
   private static final String TEST_ACCOUNT_NAME = 'Test Account';
-    
 
   /**
    * @description Method for creating test Account records
@@ -564,107 +564,114 @@ public class TestDataFactory {
     }
     return courseConnectionRecord;
   }
-    
+
   /**
    * @description method to create test data for create Account
    * @param doInsert - boolean true/false
    * @return acc - account
    */
-    public static Account createTestAccount(Boolean doInsert){
-        Account acc = new Account();
-        acc.Name = TEST_ACCOUNT_NAME;
+  public static Account createTestAccount(Boolean doInsert) {
+    Account acc = new Account();
+    acc.Name = TEST_ACCOUNT_NAME;
 
-        if(doInsert){
-            insert acc;
-        }
-        return acc;
+    if (doInsert) {
+      insert acc;
     }
-    
-   /**
+    return acc;
+  }
+
+  /**
    * @description method to create test data for create contact object
    * @param doInsert - boolean true/false
    * @param accId - account Id
    * @return con - Contact
    */
-    public static Contact createTestContact(Boolean doInsert, Id accId){
-        Contact con = new Contact();
-        con.AccountId = accId;
-        con.FirstName = CommonUtils.randomString(10);
-        con.LastName = CommonUtils.randomString(10);
-        
-        if(doInsert){
-            insert con;
-        }
-        return con;
+  public static Contact createTestContact(Boolean doInsert, Id accId) {
+    Contact con = new Contact();
+    con.AccountId = accId;
+    con.FirstName = CommonUtils.randomString(10);
+    con.LastName = CommonUtils.randomString(10);
+
+    if (doInsert) {
+      insert con;
     }
-    
-    /** 
-    * @description method to create test data for Buyer Account
-    * @param doInsert - boolean true/false
-    * @param accId - account Id
-    * @return buyerAccount - BuyerAccount
-    */
-    public static BuyerAccount createTestBuyerAccount(Boolean doInsert, Id accId){
-        BuyerAccount buyerAccount = new BuyerAccount();
-        buyerAccount.BuyerId = accId;
-        buyerAccount.Name = TEST_BUYER_ACCT;
-        buyerAccount.IsActive = true;
-        
-        if(doInsert){
-            insert buyerAccount;
-        }
-        return buyerAccount;
+    return con;
+  }
+
+  /**
+   * @description method to create test data for Buyer Account
+   * @param doInsert - boolean true/false
+   * @param accId - account Id
+   * @return buyerAccount - BuyerAccount
+   */
+  public static BuyerAccount createTestBuyerAccount(
+    Boolean doInsert,
+    Id accId
+  ) {
+    BuyerAccount buyerAccount = new BuyerAccount();
+    buyerAccount.BuyerId = accId;
+    buyerAccount.Name = TEST_BUYER_ACCT;
+    buyerAccount.IsActive = true;
+
+    if (doInsert) {
+      insert buyerAccount;
     }
-    
-    /** 
-    * @description method to create test data for Buyer Group
-    * @param doInsert - boolean true/false
-    * @param accId - account Id
-    * @return buyerGrp - BuyerGroup
-    */
-    public static BuyerGroup createTestBuyerGroup(Boolean doInsert){
-        BuyerGroup buyerGrp = new BuyerGroup(Name=TEST_BUYER_GROUP);
-       
-        if(doInsert){
-            insert buyerGrp;
-        }
-        return buyerGrp;
+    return buyerAccount;
+  }
+
+  /**
+   * @description method to create test data for Buyer Group
+   * @param doInsert - boolean true/false
+   * @param accId - account Id
+   * @return buyerGrp - BuyerGroup
+   */
+  public static BuyerGroup createTestBuyerGroup(Boolean doInsert) {
+    BuyerGroup buyerGrp = new BuyerGroup(Name = TEST_BUYER_GROUP);
+
+    if (doInsert) {
+      insert buyerGrp;
     }
-    
-    /** 
-    * @description method to create test data for Buyer Group Member
-    * @param doInsert - boolean true/false
-    * @param accId - account Id
-    * @return buyerGrpMember - BuyerGroupMember
-    */
-    public static BuyerGroupMember createTestBuyerGroupMember(Boolean doInsert, Id accId, Id buyerGrpId){
-        BuyerGroupMember buyerGrpMember = new BuyerGroupMember();
-        buyerGrpMember.BuyerGroupId = buyerGrpId;
-        buyerGrpMember.BuyerId = accId;
-        
-        if(doInsert){
-            insert buyerGrpMember;
-        }
-        return buyerGrpMember;
+    return buyerGrp;
+  }
+
+  /**
+   * @description method to create test data for Buyer Group Member
+   * @param doInsert - boolean true/false
+   * @param accId - account Id
+   * @return buyerGrpMember - BuyerGroupMember
+   */
+  public static BuyerGroupMember createTestBuyerGroupMember(
+    Boolean doInsert,
+    Id accId,
+    Id buyerGrpId
+  ) {
+    BuyerGroupMember buyerGrpMember = new BuyerGroupMember();
+    buyerGrpMember.BuyerGroupId = buyerGrpId;
+    buyerGrpMember.BuyerId = accId;
+
+    if (doInsert) {
+      insert buyerGrpMember;
     }
-    
-    /** 
-    * @description method to create test data for Product2
-    * @param doInsert - boolean true/false
-    * @return prd - product2
-    */
-    public static Product2 createTestProduct2(Boolean doInsert){
-      	Product2 prd = new Product2(
-            Name = 'TestProduct',
-            ProductCode = 'TEST_SKU',
-            Family = 'TestFamily'
-        );
-        
-        if(doInsert){
-            insert prd;
-        }
-        return prd;
+    return buyerGrpMember;
+  }
+
+  /**
+   * @description method to create test data for Product2
+   * @param doInsert - boolean true/false
+   * @return prd - product2
+   */
+  public static Product2 createTestProduct2(Boolean doInsert) {
+    Product2 prd = new Product2(
+      Name = 'TestProduct',
+      ProductCode = 'TEST_SKU',
+      Family = 'TestFamily'
+    );
+
+    if (doInsert) {
+      insert prd;
     }
+    return prd;
+  }
 
   /**
    * @description Method for creating test Account records
@@ -677,18 +684,38 @@ public class TestDataFactory {
     Integer numAccts,
     Id accId,
     String accName
-    ) {
+  ) {
     List<BuyerAccount> baccts = new List<BuyerAccount>();
 
     for (Integer i = 0; i < numAccts; i++) {
-      baccts.add(
-        new BuyerAccount(
-          BuyerId = accId,
-          Name = accName
-          )
-        );
+      baccts.add(new BuyerAccount(BuyerId = accId, Name = accName));
     }
 
     return baccts;
+  }
+
+  /**
+   * @description Method for creating Pending Registration Record
+   * @param nPendingRegistration - number of Pending Registration to be created
+   * @param conId - Contact Id to be related to Pending Registration
+   * @param courseOfferings - Course Offerings to be related to Pending Registration
+   * @return pendingRegistrationRecord - List of Pending Registration Created
+   */
+  public static List<Pending_Registration__c> createTestPendingRegistrationRecord(
+    Integer nPendingRegistration,
+    Id conId,
+    List<hed__Course_Offering__c> courseOfferings
+  ) {
+    List<Pending_Registration__c> pendingRegistrationRecord = new List<Pending_Registration__c>();
+    for (Integer i = 0; i < nPendingRegistration; i++) {
+      pendingRegistrationRecord.add(
+        new Pending_Registration__c(
+          Contact__c = conId,
+          Course_Offering__c = courseOfferings[i].id,
+          Start_Time__c = System.now()
+        )
+      );
+    }
+    return pendingRegistrationRecord;
   }
 }

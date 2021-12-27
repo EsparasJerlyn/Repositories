@@ -51,6 +51,18 @@
                 <behavior>Edit</behavior>
                 <field>Program_Plan__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Register_Interest_Available__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Type__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Sub_Type__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -97,6 +109,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Evolve_with_QUTeX__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Study_Area__c</field>
             </layoutItems>
         </layoutColumns>
         <style>OneColumn</style>
