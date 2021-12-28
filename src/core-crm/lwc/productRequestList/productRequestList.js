@@ -10,18 +10,24 @@
       |---------------------------|-----------------------|----------------------|---------------------------------------|
       | angelika.j.s.galang       | September 30, 2021    | DEPP-40,42           | Created file                          |
       | roy.nino.s.regala         | October 01,2021       | DEPP-40,42           | Updated to work with addProductRequest|
-      |                           |                       |                      |                                       | 
+      | angelika.j.s.galang       | December 17, 2021     | DEPP-1088,1096       | Modified to handle OPE records        | 
  */
 import { LightningElement, wire,api } from 'lwc';
+import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
+import { refreshApex } from '@salesforce/apex';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import LWC_Error_General from '@salesforce/label/c.LWC_Error_General';
 import getProductRequests from '@salesforce/apex/ProductRequestListCtrl.getProductRequests';
+import PS_RECORD_TYPE from '@salesforce/schema/Product_Specification__c.RecordType.DeveloperName';
 import PR_PARENT from '@salesforce/schema/Product_Request__c.Parent_Product_Request__c';
 import PS_PARENT from '@salesforce/schema/Product_Request__c.Product_Specification__c';
-import { refreshApex } from '@salesforce/apex';
 
 const PS_FILTER = ['Diagnostic Tool Request'];
 const PR_FILTER = ['Program Request','Stand-Alone Unit / Module Request','Professional Advantage Request'];
-const ACCORDION_SECTION = "Product Requests";
-const MSG_ERROR = 'An error has been encountered. Please contact your Administrator.';
+const PS_OPE_FILTER = ['OPE Program Request','Single Product','Short Course','OPE Activity Request'];
+const PR_OPE_FILTER = PS_OPE_FILTER.slice(2);
+const OPE_RECTYPE = 'OPE_Program_Specification';
+const ACCORDION_SECTION = 'Product Requests';
 
 export default class ProductRequestList extends LightningElement {
     @api recordId;
@@ -33,6 +39,7 @@ export default class ProductRequestList extends LightningElement {
     gridData = [];
     recordTypeFilter = [];
     isLoading = true;
+    showProductRequest = false;
     errorMessage = '';
 
     /**
@@ -97,6 +104,21 @@ export default class ProductRequestList extends LightningElement {
         return this.gridData.length !== 0?true:false;
     }
 
+    get isProdSpecOPE(){
+        return this.prodSpecRecordType == OPE_RECTYPE;
+    }
+
+    prodSpecRecordType;
+    @wire(getRecord, { recordId: '$recordId', fields: [PS_RECORD_TYPE] })
+    handleProductSpecification(result){
+        if(result.data){
+           this.prodSpecRecordType = getFieldValue(result.data, PS_RECORD_TYPE);
+           this.showProductRequest = true;
+        }else if(result.error){
+            this.generateToast('Error.',LWC_Error_General,'error');
+        }
+    }
+
     productRequests;
     @wire(getProductRequests, {productSpecificationId : '$recordId'})
     getProductRequests(result){
@@ -117,7 +139,7 @@ export default class ProductRequestList extends LightningElement {
             });
             this.isLoading = false;
         }else if(result.error){
-            this.errorMessage = MSG_ERROR + this.generateErrorMessage(result.error);
+            this.generateToast('Error.',LWC_Error_General,'error');
             this.isLoading = false;
         }
     }
@@ -137,8 +159,12 @@ export default class ProductRequestList extends LightningElement {
             newItem.name = item.Product_Request_Name__c;
             newItem.owner = item.Owner.Name;
             newItem.ownerUrl = '/' + item.OwnerId;
-            newItem.addChildButton = !isChild && item.RecordType.DeveloperName === 'Program_Request' && item.Product_Specification__r.RecordType.DeveloperName === 'CCE_Program_Specification'? 'slds-show':'slds-hide';
-
+            newItem.addChildButton = 
+                !isChild && 
+                (item.RecordType.DeveloperName === 'Program_Request' || item.RecordType.DeveloperName === 'OPE_Program_Request') &&
+                (item.Product_Specification__r.RecordType.DeveloperName === 'CCE_Program_Specification' || 
+                item.Product_Specification__r.RecordType.DeveloperName === 'OPE_Program_Specification') 
+                ? 'slds-show' : 'slds-hide';
 
             return newItem;
         });
@@ -149,14 +175,16 @@ export default class ProductRequestList extends LightningElement {
      */
     handleRowAction(event){
         const row = event.detail.row;
-        this.openChildModal(PR_FILTER,row.recordId,PR_PARENT.fieldApiName,row.id);
+        let filter = this.isProdSpecOPE ? PR_OPE_FILTER : PR_FILTER;
+        this.openChildModal(filter,row.recordId,PR_PARENT.fieldApiName,row.id);
     }
 
     /**
      * handles action and data when ADD button is clicked
      */
     handleAddButton(){
-        this.openChildModal(PS_FILTER,this.recordId,PS_PARENT.fieldApiName,'');
+        let filter = this.isProdSpecOPE ? PS_OPE_FILTER : PS_FILTER;
+        this.openChildModal(filter,this.recordId,PS_PARENT.fieldApiName,'');
     }
 
     /**
@@ -177,14 +205,14 @@ export default class ProductRequestList extends LightningElement {
     }
 
     /**
-     * concatenates error name and message
+     * creates toast notification
      */
-     generateErrorMessage(err){
-        let _errorMsg = ' (';
-
-        _errorMsg += err.name && err.message ? err.name + ': ' + err.message : err.body.message;
-        _errorMsg += ')';
-
-        return _errorMsg;
+    generateToast(_title,_message,_variant){
+        const evt = new ShowToastEvent({
+            title: _title,
+            message: _message,
+            variant: _variant,
+        });
+        this.dispatchEvent(evt);
     }
 }

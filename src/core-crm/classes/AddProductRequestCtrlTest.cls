@@ -19,7 +19,7 @@ private class AddProductRequestCtrlTest {
         Test.startTest();
         System.runAs(currentUser){
             AddProductRequestCtrl.MetadataDetails getMetadata = new AddProductRequestCtrl.MetadataDetails();
-            getMetadata = AddProductRequestCtrl.getFieldLayoutSettings('Product_Request__c');
+            getMetadata = AddProductRequestCtrl.getFieldLayoutSettings('Product_Request__c',false);
             system.assert( !getMetadata.fieldLayoutMap.isEmpty(), 'unable to get recordtype and layout metadata');
         }
         Test.stopTest();
@@ -30,7 +30,7 @@ private class AddProductRequestCtrlTest {
         try{
             System.runAs(currentUser){
                 AddProductRequestCtrl.MetadataDetails getMetadata = new AddProductRequestCtrl.MetadataDetails();
-                getMetadata = AddProductRequestCtrl.getFieldLayoutSettings(null);
+                getMetadata = AddProductRequestCtrl.getFieldLayoutSettings(null,null);
             }
         }catch(Exception e){
             system.assertEquals('Error while getting record type and layout mapping.',e.getMessage(),'Exception should have been thrown');

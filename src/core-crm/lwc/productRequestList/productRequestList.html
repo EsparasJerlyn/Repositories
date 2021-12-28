@@ -29,5 +29,5 @@
             </template>
         </lightning-accordion-section>
     </lightning-accordion>
-    <c-add-product-request oncreated={handleCreated}></c-add-product-request> 
+    <c-add-product-request if:true={showProductRequest} product-request-for-ope={isProdSpecOPE} oncreated={handleCreated}></c-add-product-request> 
 </template>

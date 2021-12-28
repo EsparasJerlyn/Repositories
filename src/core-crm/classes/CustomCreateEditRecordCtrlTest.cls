@@ -22,7 +22,7 @@ private class CustomCreateEditRecordCtrlTest {
     private static void getLayoutMappingTest(){
         Test.startTest();
         System.runAs(currentUser){
-            List<Field_Layout_Setting__mdt> fieldLayoutList = CustomCreateEditRecordCtrl.getLayoutMapping(COURSE_API_NAME);
+            List<Field_Layout_Setting__mdt> fieldLayoutList = CustomCreateEditRecordCtrl.getLayoutMapping(COURSE_API_NAME,false);
             System.assert(fieldLayoutList.size() >= 0, 'Field Layout Setting list did not match expected.');
         }
         Test.stopTest();

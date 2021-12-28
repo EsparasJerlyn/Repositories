@@ -19,13 +19,14 @@ public with sharing class CustomCreateEditRecordCtrl {
     * @return list of Field Layout Setting records
     */
     @AuraEnabled(cacheable=true)
-    public static List<Field_Layout_Setting__mdt> getLayoutMapping(String objApiName){
+    public static List<Field_Layout_Setting__mdt> getLayoutMapping(String objApiName, Boolean forOpe){
         return [
             SELECT  MasterLabel, Left_Column_Long__c, Right_Column_Long__c, Single_Column_Long__c, Order__c,
                     Record_Type_Setting__r.Object_Type__c, Record_Type_Setting__r.Order__c,
                     Record_Type_Setting__r.Parent_Record_Type__c, Record_Type_Setting__r.MasterLabel
             FROM Field_Layout_Setting__mdt
             WHERE Record_Type_Setting__r.Object_Type__c =: objApiName
+            AND Record_Type_Setting__r.For_OPE__c =: forOPE
             ORDER BY Order__c ASC
         ];
     }

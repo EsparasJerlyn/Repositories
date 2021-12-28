@@ -39,6 +39,7 @@ export default class CustomCreateEditRecord extends LightningElement {
     @api allowMultiCreate;
     @api withRecordTypeSelection;
     @api prePopulatedFields = {};
+    @api recordForOpe;
 
     objectLabel = '';
     recordTypeId;
@@ -117,7 +118,7 @@ export default class CustomCreateEditRecord extends LightningElement {
      */
      getRecordLayout(){
         this.isLoading = true;
-        getLayoutMapping({objApiName : this.objectApiName})
+        getLayoutMapping({objApiName : this.objectApiName, forOpe : this.recordForOpe})
         .then(result => {
             this.layoutMapping = [...result];
             
