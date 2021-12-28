@@ -1,0 +1,176 @@
+<template>
+    <div if:false={hasAccess} class="slds-text-align_center slds-p-around_large">
+        <p><strong>You don't have access to this feature.</strong></p>
+    </div>
+    <lightning-record-edit-form 
+        if:true={hasAccess}
+        object-api-name={courseApiName}
+        record-id={courseId}
+        record-type-id={courseRecordTypeId}
+        onsubmit={handleSubmit}
+        onsuccess={handleSuccess}
+        onerror={handleError}>  
+        <!--Record Create/Edit Section-->
+        <lightning-accordion allow-multiple-sections-open active-section-name={activeSections}>
+            <lightning-spinner if:true={isLoading} alternative-text="Loading" size="small"></lightning-spinner> 
+            <template for:each={layoutToDisplay} for:item="layoutItem">
+                <lightning-accordion-section key={layoutItem.sectionLabel} name={layoutItem.sectionLabel} label={layoutItem.sectionLabel} class="accordion-section">
+                    <div class="slds-grid slds-gutters slds-m-top_small">
+                        <div if:true={layoutItem.leftColumn} class="slds-col slds-size_1-of-2">
+                            <template for:each={layoutItem.leftColumn} for:item="leftField">
+                                <lightning-input-field
+                                    key={leftField.field}
+                                    if:true={editMode}
+                                    field-name={leftField.field}
+                                    value={leftField.value}
+                                    disabled={leftField.readOnly}
+                                    required={leftField.mandatory}>
+                                </lightning-input-field>
+                                <lightning-layout key={leftField.field} if:false={editMode} class="slds-m-around_small">
+                                    <lightning-layout-item flexibility="auto" class="slds-p-horizontal_none slds-border_bottom">
+                                        <lightning-output-field
+                                            key={leftField.field} 
+                                            field-name={leftField.field}
+                                            class="slds-m-bottom_none">
+                                        </lightning-output-field>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item class="slds-align-bottom slds-p-left_none slds-border_bottom">
+                                            <lightning-button-icon
+                                                if:false={disableEditButton}
+                                                icon-name="utility:edit"
+                                                alternative-text="Edit"
+                                                title="Edit Field"
+                                                variant="bare"
+                                                size="medium"
+                                                onclick={handleEdit}
+                                            ></lightning-button-icon>
+                                    </lightning-layout-item>
+                                </lightning-layout> 
+                            </template>
+                        </div>
+                        <div if:true={layoutItem.rightColumn} class="slds-col slds-size_1-of-2">
+                            <template for:each={layoutItem.rightColumn} for:item="rightField">
+                                <lightning-input-field
+                                    key={rightField.field}
+                                    if:true={editMode}
+                                    field-name={rightField.field}
+                                    value={rightField.value}
+                                    disabled={rightField.readOnly}
+                                    required={rightField.mandatory}>
+                                </lightning-input-field>
+                                <lightning-layout key={rightField.field} if:false={editMode} class="slds-m-around_small">
+                                    <lightning-layout-item flexibility="auto" class="slds-p-horizontal_none slds-border_bottom">
+                                        <lightning-output-field 
+                                                key={rightField.field} 
+                                                field-name={rightField.field}
+                                                class="slds-m-bottom_none">
+                                        </lightning-output-field>
+                                    </lightning-layout-item>   
+                                    <lightning-layout-item class="slds-align-bottom slds-p-left_none slds-border_bottom">
+                                        <lightning-button-icon
+                                            if:false={disableEditButton}  
+                                            icon-name="utility:edit"
+                                            alternative-text="Edit"
+                                            title="Edit Field"
+                                            variant="bare"
+                                            size="medium"
+                                            onclick={handleEdit}>
+                                        </lightning-button-icon>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                                <div key={rightField.field} if:true={rightField.blankSpaceBelow} class="slds-m-bottom_xx-large"></div> 
+                            </template>
+                        </div>
+                        <div if:true={layoutItem.singleColumn} class="slds-col slds-size_1-of-1">
+                            <template for:each={layoutItem.singleColumn} for:item="singleField">
+                                <lightning-input-field
+                                    key={singleField.field}
+                                    if:true={editMode}
+                                    field-name={singleField.field}
+                                    value={singleField.value}
+                                    disabled={singleField.readOnly}
+                                    required={singleField.mandatory}>
+                                </lightning-input-field>
+                                <lightning-layout key={singleField.field} if:false={editMode}>
+                                    <lightning-layout-item flexibility="auto">
+                                        <lightning-output-field
+                                            key={singleField.field} 
+                                            field-name={singleField.field}  
+                                            class="slds-border_bottom"> 
+                                        </lightning-output-field>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="slds-align-bottom slds-p-left_none slds-border_bottom">
+                                        <lightning-button-icon
+                                            if:false={disableEditButton}  
+                                            icon-name="utility:edit"
+                                            alternative-text="Edit"
+                                            title="Edit Field"
+                                            variant="bare"
+                                            size="medium"
+                                            onclick={handleEdit}>
+                                        </lightning-button-icon>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </template>
+                        </div>
+                    </div>
+                </lightning-accordion-section>
+            </template>
+        </lightning-accordion>
+        <!--Buttons Section-->
+        <div if:true={editMode} class="slds-m-vertical_x-large"></div>
+        <div if:true={editMode} class="slds-docked-form-footer">
+            <button if:true={showPopoverIcon} class="slds-button slds-button_icon slds-button_icon slds-button_icon-error slds-m-right_small" title="Resolve error(s)" onclick={handlePopover}>
+                <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                    <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#error"></use>
+                </svg>
+                <span class="slds-assistive-text">Resolve error(s)</span>
+            </button>
+            <lightning-button
+                label="Cancel"
+                variant="neutral"
+                onclick={handleCancel}
+                class="slds-m-right_x-small">  
+            </lightning-button>
+            <lightning-button
+                data-name="save"
+                label="Save"
+                variant="brand"
+                type="submit">  
+            </lightning-button>
+            <!--Error Popover Section-->
+            <section if:true={showPopoverDialog} aria-describedby="dialog-body-id-5" aria-labelledby="dialog-heading-id-2" class="slds-popover slds-popover_error slds-nubbin_bottom-left" role="dialog" style="position:absolute;bottom:56px;left:50%;margin-left:62px;transform:translateX(-50%)">
+                <button class="slds-button slds-button_icon slds-button_icon-small slds-float_right slds-popover__close slds-button_icon-inverse" title="Close" onclick={handlePopover}>
+                    <svg class="slds-button__icon" aria-hidden="true">
+                    <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#close"></use>
+                    </svg>
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+                <header class="slds-popover__header">
+                    <div class="slds-media slds-media_center slds-has-flexi-truncate ">
+                    <div class="slds-media__figure">
+                        <span class="slds-icon_container slds-icon-utility-error">
+                        <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+                            <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#error"></use>
+                        </svg>
+                        </span>
+                    </div>
+                    <div class="slds-media__body">
+                        <h2 class="slds-truncate slds-text-heading_medium" id="dialog-heading-id-2" title="We hit a snag.">We hit a snag.</h2>
+                    </div>
+                    </div>
+                </header>
+                <div class="slds-popover__body" id="dialog-body-id-5">
+                    <strong>Review the following fields</strong>
+                    <ul class="slds-list_dotted">
+                        <template for:each={popoverFields} for:item="pField">
+                            <li key={pField}>
+                                {pField}
+                            </li>
+                        </template>
+                    </ul>
+                </div>
+            </section>
+        </div>
+    </lightning-record-edit-form>
+</template>

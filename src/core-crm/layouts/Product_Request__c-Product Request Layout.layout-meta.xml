@@ -15,15 +15,15 @@
                 <field>Product_Request_Status__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
+                <behavior>Edit</behavior>
                 <field>Product_Request_Name__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
+                <behavior>Edit</behavior>
                 <field>Program_Type__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
+                <behavior>Edit</behavior>
                 <field>Program_Name__c</field>
             </layoutItems>
             <layoutItems>
@@ -115,7 +115,7 @@
                 <field>Session_Duration_Mins__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
+                <behavior>Edit</behavior>
                 <field>Activity_Name__c</field>
             </layoutItems>
             <layoutItems>
@@ -139,7 +139,7 @@
                 <field>Activity_Plan__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
+                <behavior>Edit</behavior>
                 <field>Professional_Advantage_Value__c</field>
             </layoutItems>
             <layoutItems>

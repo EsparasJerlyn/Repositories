@@ -4,6 +4,7 @@
     <active>true</active>
     <description>End Date is required to update Status from Define to Design</description>
     <errorConditionFormula>AND (
+Product_Specification__r.RecordType.DeveloperName=&apos;CCE_Program_Specification&apos;,
 ISCHANGED( Product_Request_Status__c ),
 ISPICKVAL( PRIORVALUE(Product_Request_Status__c ), &apos;Define&apos;),
 ISPICKVAL( Product_Request_Status__c, &apos;Design&apos;),
