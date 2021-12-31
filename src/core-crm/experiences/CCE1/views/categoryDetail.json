@@ -5,14 +5,9 @@
   "label" : "Category Detail",
   "regions" : [ {
     "components" : [ {
-      "componentAttributes" : {
-        "backgroundColor" : "rgba(0,0,0,0)",
-        "height" : 200,
-        "layout" : "cover",
-        "position" : "center center"
-      },
-      "componentName" : "b2b_buyer_builder:categoryBanner",
-      "id" : "136ede6e-dfe2-4233-aaae-4c4b33a2700a",
+      "componentAttributes" : { },
+      "componentName" : "c:pageBanner",
+      "id" : "c1c8991f-ac5d-4548-9db1-fcff723f0015",
       "renderPriority" : "NEUTRAL",
       "renditionMap" : { },
       "type" : "component"

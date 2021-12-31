@@ -1,0 +1,24 @@
+<template>
+    <div class="qutex-banner homepage">
+        <div class="full-panel single-image-content-panel image-right blue-boxed-text qutex-top-banner-panel" style={homeBannerStyle}>
+            <div class="qutex-x-banner-wrapper">
+                <div if:false={showIfStudy} class="qutex-x-banner container px-0" style={orgBannerStyle}></div>
+                <div if:true={showIfStudy} class="qutex-x-banner container px-0" style={individualBannerStyle}></div>
+            </div>
+            <div class="container">
+                <div class="row slds-grid slds-wrap">
+                    <div class="slds-size_1-of-1 slds-medium-size_10-of-12 content-container flex-items-xs-middle align-items-left qutex-content-outer-wrap">
+                        <div class="qutex-top-logo">
+                            <img class="hero-header__logo" src={qutexlogo}>
+                        </div>
+                        <div class="qutex-top-banner-wrap row no-gutters">
+                            <p class="qutex-top-banner-blurb">
+                                {bannerText}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
