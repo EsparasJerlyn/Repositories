@@ -32,19 +32,19 @@
     <navType>Console</navType>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Professional_Advantage_Lightning_Page_Layout</content>
+        <content>Corporate_Bundle_Lightning_Page_Layout</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Product_Request__c</pageOrSobjectType>
-        <recordType>Product_Request__c.Professional_Advantage_Request</recordType>
+        <recordType>Product_Request__c.Corporate_Bundle_Request</recordType>
         <type>Flexipage</type>
         <profile>QUTeX</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Professional_Advantage_Lightning_Page_Layout</content>
+        <content>Corporate_Bundle_Lightning_Page_Layout</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Product_Request__c</pageOrSobjectType>
-        <recordType>Product_Request__c.Professional_Advantage_Request</recordType>
+        <recordType>Product_Request__c.Corporate_Bundle_Request</recordType>
         <type>Flexipage</type>
         <profile>QUTeX</profile>
     </profileActionOverrides>

@@ -100,7 +100,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Professional_Advantage_Value__c</field>
+                <field>Corporate_Bundle_Value__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>

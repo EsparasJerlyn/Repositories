@@ -581,7 +581,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Product_Request__c.Professional_Advantage_Value__c</field>
+        <field>Product_Request__c.Corporate_Bundle_Value__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1043,7 +1043,7 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
-        <recordType>Product_Request__c.Professional_Advantage_Request</recordType>
+        <recordType>Product_Request__c.Corporate_Bundle_Request</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>

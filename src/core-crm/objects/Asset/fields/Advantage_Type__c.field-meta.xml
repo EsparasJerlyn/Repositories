@@ -16,8 +16,14 @@
                 <label>Business Advantage</label>
             </value>
             <value>
+                <fullName>Corporate Bundle</fullName>
+                <default>false</default>
+                <label>Corporate Bundle</label>
+            </value>
+            <value>
                 <fullName>Professional Advantage</fullName>
                 <default>false</default>
+                <isActive>false</isActive>
                 <label>Professional Advantage</label>
             </value>
         </valueSetDefinition>

@@ -23,7 +23,7 @@ import PR_PARENT from '@salesforce/schema/Product_Request__c.Parent_Product_Requ
 import PS_PARENT from '@salesforce/schema/Product_Request__c.Product_Specification__c';
 
 const PS_FILTER = ['Diagnostic Tool Request'];
-const PR_FILTER = ['Program Request','Stand-Alone Unit / Module Request','Professional Advantage Request'];
+const PR_FILTER = ['Program Request','Stand-Alone Unit / Module Request','Corporate Bundle Request'];
 const PS_OPE_FILTER = ['OPE Program Request','Single Product','Short Course','OPE Activity Request'];
 const PR_OPE_FILTER = PS_OPE_FILTER.slice(2);
 const OPE_RECTYPE = 'OPE_Program_Specification';

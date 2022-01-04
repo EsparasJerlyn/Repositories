@@ -1447,7 +1447,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Course__c.Professional_Advantage_Value__c</field>
+        <field>hed__Course__c.Corporate_Bundle_Value__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

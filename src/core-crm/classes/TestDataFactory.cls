@@ -349,7 +349,7 @@ public class TestDataFactory {
           Program_Type__c = 'Award Course',
           Program_Name__c = 'TestP ' + i,
           Activity_Name__c = 'Act Test ' + i,
-          Professional_Advantage_Value__c = 10.0
+          Corporate_Bundle_Value__c = 10.0
         )
       );
     }
