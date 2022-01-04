@@ -4,6 +4,8 @@
     <active>true</active>
     <description>Program Name is  Required for Product Specification Record to move the Stage from Define to Design</description>
     <errorConditionFormula>AND(
+ RecordType.DeveloperName =&apos;CCE_Program_Specification&apos;,
+ ISCHANGED( Stage__c ),
  NOT(ISPICKVAL( Stage__c, &apos;Define&apos;)),
  ISBLANK(  Program_Name__c )
 )</errorConditionFormula>
