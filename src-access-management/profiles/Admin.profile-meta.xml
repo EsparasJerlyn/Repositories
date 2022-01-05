@@ -535,6 +535,16 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Preferred_Full_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Preferred_Given_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Contact.Primary_Academic_Program__c</field>
         <readable>false</readable>
@@ -976,6 +986,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Lead.Preferred_Full_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Lead.Preferred_Given_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Lead.Rating</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1389,16 +1409,8 @@
         <field>Opportunity.Type</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>OpportunityContactRole.External_Id__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>OpportunityContactRole.Migration_Key__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
+
+
     <fieldPermissions>
         <editable>false</editable>
         <field>Program_Specification__c.Overall_Program_Outcome__c</field>
@@ -2277,10 +2289,12 @@
         <enabled>true</enabled>
         <name>ManageRoles</name>
     </userPermissions>
+    
     <userPermissions>
         <enabled>true</enabled>
         <name>ManageSandboxes</name>
     </userPermissions>
+
     <userPermissions>
         <enabled>true</enabled>
         <name>ManageSearchPromotionRules</name>

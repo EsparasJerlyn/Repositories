@@ -4,6 +4,7 @@
       "path": "src-env-specific-pre",
       "package": "src-env-specific-pre",
       "type": "metadata",
+      "default": true,
       "versionName": "Version 1.0.0.0",
       "versionNumber": "1.0.0.0"
     },
@@ -11,7 +12,6 @@
       "path": "src-access-management",
       "package": "src-access-management",
       "type": "metadata",
-      "default": true,
       "versionName": "Version 1.0.0.0",
       "versionNumber": "1.0.0.0"
     }
