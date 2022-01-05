@@ -21,6 +21,7 @@
       | marygrace.li@qut.edu.au   | December 13, 2021     | DEPP-174            | Added method creation of Acct,Contact,ByrGrp,ByrGrpMber,Product2 |
       | roy.nino.s.regala         | December 15, 2021     | DEPP-116            | Added Start date on course offerings                             |
       | johnbo.pineda@qut.edu.au  | December 21, 2021     | DEPP-1150           | Added method for creation of Pending Registration                |
+      | johnbo.pineda@qut.edu.au  | January 05, 2022      | DEPP-1382           | Added method for creation of Program Offering                    |
 */
 @IsTest
 public class TestDataFactory {
@@ -551,14 +552,16 @@ public class TestDataFactory {
   public static List<hed__Course_Enrollment__c> createTestCourseConnectionRecord(
     Integer nCourseConnection,
     Id conId,
-    List<hed__Course_Offering__c> courseOfferings
+    List<hed__Course_Offering__c> courseOfferings,
+    List<Program_Offering__c> programOfferings
   ) {
     List<hed__Course_Enrollment__c> courseConnectionRecord = new List<hed__Course_Enrollment__c>();
     for (Integer i = 0; i < nCourseConnection; i++) {
       courseConnectionRecord.add(
         new hed__Course_Enrollment__c(
           hed__Contact__c = conId,
-          hed__Course_Offering__c = courseOfferings[i].id
+          hed__Course_Offering__c = courseOfferings[i].id,
+          Program_Offering__c = programOfferings[i].id
         )
       );
     }
@@ -717,5 +720,26 @@ public class TestDataFactory {
       );
     }
     return pendingRegistrationRecord;
+  }
+
+  /**
+   * @description Method for creating test Program Offering records
+   * @param nProgramOffering - number of Program Offering to be created
+   * @param programPlans - Program Plan to be related to Program Offering
+   * @return programOfferingRecord - List of Pending Registration Created   */
+  public static List<Program_Offering__c> createTestProgramOfferingRecords(
+    Integer nProgramOffering,
+    List<hed__Program_Plan__c> programPlans
+  ) {
+    List<Program_Offering__c> programOfferingRecord = new List<Program_Offering__c>();
+    for (Integer i = 0; i < nProgramOffering; i++) {
+      programOfferingRecord.add(
+        new Program_Offering__c(
+          Name = 'Test Program Offering' + i,
+          hed_Program_Plan__c = programPlans[i].id
+        )
+      );
+    }
+    return programOfferingRecord;
   }
 }
