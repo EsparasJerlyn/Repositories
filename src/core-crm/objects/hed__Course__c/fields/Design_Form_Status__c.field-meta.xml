@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Design_Form_Status__c</fullName>
+    <externalId>false</externalId>
+    <label>Design Form Status</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Design Form Sent</fullName>
+                <default>false</default>
+                <label>Design Form Sent</label>
+            </value>
+            <value>
+                <fullName>Design Form Received</fullName>
+                <default>false</default>
+                <label>Design Form Received</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
