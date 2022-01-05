@@ -9,6 +9,14 @@
             "importCSVFilesAsIs": true
         },
         {
+            "query": "SELECT Id, Name, Description, IsActive FROM Pricebook2",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "Pricebook2",
+            "importCSVFilesAsIs": true
+        },
+        {
             "query": "SELECT IsActive, Pricebook2Id, UnitPrice, Product2Id FROM PricebookEntry",
             "operation": "Upsert",
             "externalId": "__Product Name",

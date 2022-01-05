@@ -9,6 +9,54 @@
             "importCSVFilesAsIs": true
         },
         {
+            "query": "SELECT BuyerGroupId,WebStoreId FROM WebStoreBuyerGroup",
+            "operation": "Upsert",
+            "externalId": "BuyerGroupId",
+            "useCSVValuesMapping": true,
+            "targetObject": "WebStoreBuyerGroup",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id, DefaultLanguage, Description, MaxValuesPerFacet, PaginationSize, Name, SupportedLanguages from WebStore",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "WebStore",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id, Name from ProductCatalog",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "ProductCatalog",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT CatalogId, Description, Name, ParentCategoryId, IsNavigational, SortOrder from ProductCategory",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "ProductCategory",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Name, Description, CanViewProduct, CanViewPrice, IsActive from CommerceEntitlementPolicy",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "CommerceEntitlementPolicy",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id, Name, BuyerId, BuyerStatus, IsActive, CommerceType from BuyerAccount",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "BuyerAccount",
+            "importCSVFilesAsIs": true
+        },
+        {
             "query": "SELECT Id, BuyerId, BuyerGroupId from BuyerGroupMember",
             "operation": "Upsert",
             "externalId": "BuyerId",
