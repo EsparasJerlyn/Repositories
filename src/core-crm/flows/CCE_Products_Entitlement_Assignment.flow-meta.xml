@@ -5,8 +5,8 @@
         <description>Verify if the Account has been enabled as partner and buyer</description>
         <name>Account_is_Enabled</name>
         <label>Account is Enabled</label>
-        <locationX>782</locationX>
-        <locationY>1223</locationY>
+        <locationX>774</locationX>
+        <locationY>1254</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Is_Enabled</name>
@@ -22,6 +22,44 @@
                 <targetReference>Get_Buyer_Group_Member</targetReference>
             </connector>
             <label>Is Enabled</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Verifies the ProductId is Null in the Commerce Entitlement Product</description>
+        <name>Checks_if_Product_Id_is_Null</name>
+        <label>Checks if Product Id is Null</label>
+        <locationX>645</locationX>
+        <locationY>1987</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Check_ProductId_Null</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Entitlement_Product.ProductId</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Product_assignment_to_an_entitlement</targetReference>
+            </connector>
+            <label>Check ProductId Null</label>
+        </rules>
+        <rules>
+            <name>Check_if_Product_is_OPE</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Family</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>OPE</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Entitlement_Product_to_Delete</targetReference>
+            </connector>
+            <label>Check if Product is OPE</label>
         </rules>
     </decisions>
     <decisions>
@@ -72,8 +110,8 @@
     <recordCreates>
         <name>Product_assignment_to_an_entitlement</name>
         <label>Product assignment to an entitlement</label>
-        <locationX>650</locationX>
-        <locationY>1823</locationY>
+        <locationX>503</locationX>
+        <locationY>2115</locationY>
         <inputAssignments>
             <field>PolicyId</field>
             <value>
@@ -89,6 +127,14 @@
         <object>CommerceEntitlementProduct</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordCreates>
+    <recordDeletes>
+        <description>Remove Product to the Entitlement once the product family has been changed to OPE.</description>
+        <name>Remove_Product_to_Entitlement</name>
+        <label>Remove Product to Entitlement</label>
+        <locationX>798</locationX>
+        <locationY>2296</locationY>
+        <inputReference>Get_Entitlement_Product_to_Delete</inputReference>
+    </recordDeletes>
     <recordLookups>
         <description>Get the Account of the Opportunity</description>
         <name>Get_Account</name>
@@ -158,8 +204,8 @@
         <description>Get the buyer group of the account</description>
         <name>Get_Buyer_Group_Member</name>
         <label>Get Buyer Group Member</label>
-        <locationX>650</locationX>
-        <locationY>1343</locationY>
+        <locationX>649</locationX>
+        <locationY>1305</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_Buyer_Group_of_Account</targetReference>
@@ -227,7 +273,7 @@
         <locationY>1703</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Product_assignment_to_an_entitlement</targetReference>
+            <targetReference>Get_Entitlement_Product</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -239,6 +285,50 @@
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
         <object>CommerceEntitlementPolicy</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>Gets the product assigned in the Entitlement</description>
+        <name>Get_Entitlement_Product</name>
+        <label>Get Entitlement Product</label>
+        <locationX>652</locationX>
+        <locationY>1831</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Checks_if_Product_Id_is_Null</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>ProductId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>CommerceEntitlementProduct</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>Gets the Entitlement Product to Delete once the Product Family is changed to OPE</description>
+        <name>Get_Entitlement_Product_to_Delete</name>
+        <label>Get Entitlement Product to Delete</label>
+        <locationX>801</locationX>
+        <locationY>2127</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Remove_Product_to_Entitlement</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>ProductId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>CommerceEntitlementProduct</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
@@ -308,17 +398,17 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <start>
-        <locationX>458</locationX>
-        <locationY>48</locationY>
+        <locationX>466</locationX>
+        <locationY>79</locationY>
         <connector>
             <targetReference>Product_Family_Null</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Family</field>
-            <operator>NotEqualTo</operator>
+            <operator>IsChanged</operator>
             <value>
-                <stringValue>OPE</stringValue>
+                <booleanValue>true</booleanValue>
             </value>
         </filters>
         <object>Product2</object>

@@ -9,7 +9,7 @@
  *    | Developer                 | Date                  | JIRA         | Change Summary                              |
       |---------------------------|-----------------------|--------------|---------------------------------------------|
       | eugene.andrew.abuan       | December 13, 2021     | DEPP-802     | Created file                                | 
-      |                           |                       |              |                                             | 
+      | eugene.andrew.abuan       | January 05, 2022      | DEPP - 1442  | Added another assert to cover FlowCoverage  | 
 */
 @IsTest(SeeAllData = false)
 private class ProductEntitlement_FlowTest {
@@ -48,6 +48,7 @@ private class ProductEntitlement_FlowTest {
         insert product;
         
         Test.startTest();
+        
         List<Account> acc = new List<Account>([SELECT Id FROM Account]);
         for(Account a : acc){
             a.IsPartner = true;
@@ -59,10 +60,15 @@ private class ProductEntitlement_FlowTest {
             p.Family = 'CCE';
         }
         update(prod);
+        System.Assert(![SELECT Id FROM CommerceEntitlementProduct].isEmpty(), 'No Product was Assigned to an Entitlement Policy');
+
+        for(Product2 p1 : prod){
+            p1.Family = 'OPE';
+        }
+        update(prod);
+        System.Assert([SELECT Id FROM CommerceEntitlementProduct].isEmpty(), 'Product has been removed');
 
         Test.stopTest();
-
-        System.Assert(![SELECT Id FROM CommerceEntitlementProduct].isEmpty(), 'No Product was Assigned to an Entitlement Policy');
 
     }
 }
