@@ -25,6 +25,7 @@ import {
     MessageContext
 } from 'lightning/messageService';
 import STATUSES_CHANNEL from '@salesforce/messageChannel/StatusesMessageChannel__c';
+import LWC_Error_General from '@salesforce/label/c.LWC_Error_General';
 import getMapping from '@salesforce/apex/CompanyInformationValidationCtrl.getMapping';
 import validateCompany from '@salesforce/apex/CompanyInformationValidationCtrl.validateCompany';
 
@@ -41,7 +42,6 @@ const COMPANY_MAPPING_API_NAME = 'Company_Mapping__c';
 const VAL_RULE_API_NAME = 'Validation_Rule_Fields__c';
 const ABN_CLASS = 'slds-border_bottom sf-blue-text';
 const MARGIN_TOPXLARGE_CLASS = ' slds-m-top_x-large';
-const MSG_ERROR = 'An error has been encountered. Please contact your Administrator.';
 const MSG_CONVERT_ERROR = 'You can\'t convert this lead if below contact information has not attempted validation.';
 const MSG_VAL_ERROR = ' The following fields need to be populated: ';
 const PHONE_OR_MOBILE = ['Phone','MobilePhone'];
@@ -56,7 +56,6 @@ export default class CompanyInformationValidation extends LightningElement {
     validationRuleFields = [];
     requiredFieldsToDisplay = [];
     entityNameValue;
-    errorMessage;
     disableEditButton;
     invalidConvertContact = false;
     isLoading = false;
@@ -84,7 +83,7 @@ export default class CompanyInformationValidation extends LightningElement {
                 ...addLeadFields
             ];
         }else if(error){
-            this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
+            this.generateToast('Error.',LWC_Error_General,'error');
         }
     }
 
@@ -142,7 +141,7 @@ export default class CompanyInformationValidation extends LightningElement {
 
             this.subscribeToMessageChannel();
         }else if(error){
-            this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
+            this.generateToast('Error.',LWC_Error_General,'error');
         }
     }
 
@@ -219,18 +218,6 @@ export default class CompanyInformationValidation extends LightningElement {
     }
 
     /**
-     * concatenates error name and message
-     */
-    generateErrorMessage(err){
-        let _errorMsg = ' (';
-
-        _errorMsg += err.name && err.message ? err.name + ': ' + err.message : err.body.message;
-        _errorMsg += ')';
-
-        return _errorMsg;
-    }
-
-    /**
      * concatenates object and field api name
      */
     generateFieldName(field){
@@ -282,7 +269,7 @@ export default class CompanyInformationValidation extends LightningElement {
             
         })
         .catch(error => {
-            this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
+            this.generateToast('Error.',LWC_Error_General,'error');
             this.isLoading = false;
         });
     }
@@ -336,7 +323,7 @@ export default class CompanyInformationValidation extends LightningElement {
             }
         })
         .catch(error => {
-            this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
+            this.generateToast('Error.',LWC_Error_General,'error');
         })
         .finally(() => {
             this.isLoading = false;

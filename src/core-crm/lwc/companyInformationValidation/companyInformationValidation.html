@@ -10,7 +10,6 @@
             </div>
         </slot>
         <div class="slds-m-top_large slds-m-horizontal_medium slds-text-align_center">
-            <p class="slds-text-color_destructive slds-box slds-theme_alert-texture" if:true={errorMessage}>{errorMessage}</p>
             <lightning-spinner if:true={isLoading} alternative-text="Validating..." size="small"></lightning-spinner>
         </div>
         <lightning-record-edit-form record-id={recordId} object-api-name={objectApiName} onsubmit={handleSaveButton} onsuccess={handleSuccess}>
