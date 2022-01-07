@@ -56,6 +56,10 @@
             <outputField>Personal_Mobile__c</outputField>
         </mappingFields>
         <mappingFields>
+            <inputField>Preferred_Given_Name__c</inputField>
+            <outputField>Preferred_Given_Name__c</outputField>
+        </mappingFields>
+        <mappingFields>
             <inputField>Work_Email__c</inputField>
             <outputField>hed__WorkEmail__c</outputField>
         </mappingFields>
