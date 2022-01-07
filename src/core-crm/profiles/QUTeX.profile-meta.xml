@@ -142,6 +142,10 @@
         <layout>hed__Course__c-OPE Short Course Page Layout</layout>
         <recordType>hed__Course__c.Short_Course</recordType>
     </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course__c-OPE Single Product Page Layout</layout>
+        <recordType>hed__Course__c.Single_Product</recordType>
+    </layoutAssignments>
     <recordTypeVisibilities>
         <default>false</default>
         <recordType>Account.Academic_Program</recordType>

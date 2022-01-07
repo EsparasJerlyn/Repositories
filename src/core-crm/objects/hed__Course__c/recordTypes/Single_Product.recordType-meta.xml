@@ -1,0 +1,491 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Single_Product</fullName>
+    <active>true</active>
+    <label>Single Product</label>
+    <picklistValues>
+        <picklist>Certificate_Type__c</picklist>
+        <values>
+            <fullName>Certificate of Achievement</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>QUTeX Digital Badge</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Cohort_Type__c</picklist>
+        <values>
+            <fullName>Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Individual</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Collaboation_External__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Delivery_Support__c</picklist>
+        <values>
+            <fullName>Catering</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Handouts Printed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Name Badges</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Others</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Prework communications</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Workbook Printed</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Delivery_Type__c</picklist>
+        <values>
+            <fullName>Blended</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Face to Face</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Virtual Classroom</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Design_Form_Status__c</picklist>
+        <values>
+            <fullName>Design Form Received</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Design Form Sent</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Diagnostic_Tool_Selection__c</picklist>
+        <values>
+            <fullName>DISC 363 For Leaders</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DISC Sales Profile</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DISC Workplace Profile</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TLC Leadership Check In</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TLC Leadership Circle Profile</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TLC Manager Edition</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Fees_Applicable__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Group_Dynamics_Tool__c</picklist>
+        <values>
+            <fullName>Prophet Team Insight Report</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TLC Collective Leadership Assessment</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Module_Category__c</picklist>
+        <values>
+            <fullName>Custom</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Open</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>QUT Only</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Module_Grading_Scheme__c</picklist>
+        <values>
+            <fullName>Marks</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Meets Requirements %2F Does not yet Meet Requirement</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pass %2F Fail</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Module_Type__c</picklist>
+        <values>
+            <fullName>Assessment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Learning</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Learning and Assessment</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Payment_Options__c</picklist>
+        <values>
+            <fullName>Advantage - Credit</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pay Later - Invoice</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pay Now - Credit Card</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pay Now - PayPal</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Previously_Developed_Content__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Primary_Delivery_Platform__c</picklist>
+        <values>
+            <fullName>Blackboard</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Blackboard Engage %28Custom Program%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Canvas %28QUT Online%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>FutureLearn</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Provider__c</picklist>
+        <values>
+            <fullName>QUT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>QUT and Third Party</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Third Party</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Resources_Required__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Timeline__c</picklist>
+        <values>
+            <fullName>Annually</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Monthly</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Quarterly</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Weekly</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Unit_Category__c</picklist>
+        <values>
+            <fullName>Administrative Unit</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>HDR %28Time Based%29 Unit</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other Unit Type</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Post Graduate Unit</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>QUTIC Unit</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Undergraduate Honours Unit</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Undergraduate Unit</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Unit_Mode__c</picklist>
+        <values>
+            <fullName>Block</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>External</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Internal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Online</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Volume_of_time__c</picklist>
+        <values>
+            <fullName>Days</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hours</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Minutes</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Months</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>hed__Academic_Level__c</picklist>
+        <values>
+            <fullName>Adult Education</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Doctoral</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Elementary</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Graduate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>High School</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Middle School</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Post-Baccalaureate Certificate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pre-K%2FPreschool</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Professional Education</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Undergraduate</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>hed__Subject__c</picklist>
+        <values>
+            <fullName>Agriculture</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Architecture</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Biology</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Business%2C Management%2C and Marketing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Communication</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Computer and Information Sciences</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Education</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Engineering</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>English Language and Literature%2FLetters</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Family and Consumer Sciences</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Foreign Languages</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>General Studies and Humanities</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Health Professions</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>History</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Legal Professions and Studies</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mathematics and Statistics</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Natural Resources and Conservation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Philosophy and Religious Studies</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Physical Sciences</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Psychology</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Social Sciences</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Visual and Performing Arts</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>
