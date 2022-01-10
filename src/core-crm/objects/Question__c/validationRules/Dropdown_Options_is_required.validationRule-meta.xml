@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Dropdown_Options_is_required</fullName>
+    <active>true</active>
+    <description>Dropdown Options is required when Type is Picklist or Multi-Select Picklist</description>
+    <errorConditionFormula>ISPICKVAL(Type__c, &quot;Picklist&quot;) ||  ISPICKVAL(Type__c, &quot;Multi-Select Picklist&quot;)</errorConditionFormula>
+    <errorDisplayField>Dropdown_Options__c</errorDisplayField>
+    <errorMessage>Dropdown Options is required when Type is Picklist or Multi-Select Picklist</errorMessage>
+</ValidationRule>

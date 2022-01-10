@@ -16,7 +16,7 @@
         <apexClass>CommonUtils</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-    <description>Buyer user permission sets</description>
+    <description>Learner Permission Set</description>
     <fieldPermissions>
         <editable>true</editable>
         <field>Answer__c.Contact__c</field>
@@ -393,7 +393,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
-    <label>Corporate Portal Base</label>
+    <label>OPE Portal Base</label>
     <license>Partner Community</license>
     <objectPermissions>
         <allowCreate>false</allowCreate>

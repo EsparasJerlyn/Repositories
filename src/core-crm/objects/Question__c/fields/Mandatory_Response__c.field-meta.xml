@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Mandatory_Response__c</fullName>
+    <description>The user cannot proceed to next process when this is true and Response doesn’t match.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The user cannot proceed to next process when this is true and Response doesn’t match. Ex. Yes (this will mean that when the response is NOT Yes then the user can’t proceed).</inlineHelpText>
+    <label>Mandatory Response</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>TextArea</type>
+</CustomField>

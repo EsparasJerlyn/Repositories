@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Dropdown_Options__c</fullName>
+    <description>This will render as picklist options when type is Picklist or Multi-Select Picklist.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Required when type is Picklist or Multi-Select Picklist. Add all options separated semi-colon(;). Please do not add semi-colon as part of options as this will serve as separator.</inlineHelpText>
+    <label>Dropdown Options</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>TextArea</type>
+</CustomField>
