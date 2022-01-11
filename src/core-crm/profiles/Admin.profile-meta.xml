@@ -3114,9 +3114,6 @@
         <recordType>Account.University_Department</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Answer__c-Answer Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
         <layout>Associated_Products__c-Associated Products Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -3212,12 +3209,6 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Product_Specification__c-Product Specification Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Question__c-Question Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Questionnaire__c-Questionnaire Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>TriggerHandler__mdt-Trigger Handler Layout</layout>

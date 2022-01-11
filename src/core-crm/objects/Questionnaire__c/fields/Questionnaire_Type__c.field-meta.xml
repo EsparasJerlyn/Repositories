@@ -26,11 +26,6 @@
                 <default>false</default>
                 <label>Application Questions</label>
             </value>
-            <value>
-                <fullName>Others</fullName>
-                <default>false</default>
-                <label>Others</label>
-            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
