@@ -1,62 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
-        <name>OPE_Activity_email</name>
-        <label>OPE Activity email</label>
-        <locationX>50</locationX>
-        <locationY>518</locationY>
+        <name>Design_Form_Email</name>
+        <label>Design Form Email</label>
+        <locationX>446</locationX>
+        <locationY>734</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
         <connector>
-            <targetReference>Update_OPE_activity_to_Design_Form_Sent</targetReference>
+            <targetReference>Update_Status_to_Design_Form_Sent</targetReference>
         </connector>
         <faultConnector>
-            <targetReference>SC_Error_Message</targetReference>
+            <targetReference>Design_Form_Error</targetReference>
         </faultConnector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>emailBody</name>
             <value>
-                <elementReference>OPE_Activity_Email_Content</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>emailAddresses</name>
-            <value>
-                <elementReference>Get_Product_Request_Record.Product_Specification__r.Requestor_Email__c</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>sendRichBody</name>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>emailSubject</name>
-            <value>
-                <stringValue>[QUTeX] Design Form</stringValue>
-            </value>
-        </inputParameters>
-    </actionCalls>
-    <actionCalls>
-        <name>Short_Course_Email</name>
-        <label>Short Course Email</label>
-        <locationX>578</locationX>
-        <locationY>518</locationY>
-        <actionName>emailSimple</actionName>
-        <actionType>emailSimple</actionType>
-        <connector>
-            <targetReference>Update_Short_Course_to_Design_Form_Sent</targetReference>
-        </connector>
-        <faultConnector>
-            <targetReference>OPE_Activity_Error</targetReference>
-        </faultConnector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
-        <inputParameters>
-            <name>emailBody</name>
-            <value>
-                <elementReference>Short_Course_Email_Content</elementReference>
+                <elementReference>DesignFormContent</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -79,29 +40,65 @@
         </inputParameters>
     </actionCalls>
     <apiVersion>53.0</apiVersion>
+    <assignments>
+        <name>Assign_OPE_Activity_Design_Form</name>
+        <label>Assign OPE Activity Design Form</label>
+        <locationX>314</locationX>
+        <locationY>518</locationY>
+        <assignmentItems>
+            <assignToReference>Record</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>OPE_Activity_Design_Form_Link</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Design_Form_Email</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Short_Course_Design_Form</name>
+        <label>Assign Short Course Design Form</label>
+        <locationX>50</locationX>
+        <locationY>518</locationY>
+        <assignmentItems>
+            <assignToReference>Record</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Short_Course_Design_Form_Link</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Design_Form_Email</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Single_Product_Design_Form</name>
+        <label>Assign Single Product Design Form</label>
+        <locationX>578</locationX>
+        <locationY>518</locationY>
+        <assignmentItems>
+            <assignToReference>Record</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Single_Product_Design_Form_Link</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Design_Form_Email</targetReference>
+        </connector>
+    </assignments>
     <decisions>
         <name>Check_Product_Request_RecordType</name>
         <label>Check Product Request RecordType</label>
-        <locationX>578</locationX>
-        <locationY>278</locationY>
+        <locationX>446</locationX>
+        <locationY>398</locationY>
+        <defaultConnector>
+            <targetReference>Design_Form_Email</targetReference>
+        </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
-            <name>If_OPE_Activity</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Get_Product_Request_Record.RecordType.DeveloperName</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>OPE_Activity_Request</stringValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Send_OPE_Activity_Design_Form_Screen</targetReference>
-            </connector>
-            <label>If OPE Activity</label>
-        </rules>
-        <rules>
-            <name>If_Short_Course</name>
+            <name>is_Short_Course</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
                 <leftValueReference>Get_Product_Request_Record.RecordType.DeveloperName</leftValueReference>
@@ -111,9 +108,39 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Send_SC_Design_Form_Screen</targetReference>
+                <targetReference>Assign_Short_Course_Design_Form</targetReference>
             </connector>
-            <label>If Short Course</label>
+            <label>is Short Course</label>
+        </rules>
+        <rules>
+            <name>is_OPE_Activity_Request</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Product_Request_Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>OPE_Activity_Request</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_OPE_Activity_Design_Form</targetReference>
+            </connector>
+            <label>is OPE Activity Request</label>
+        </rules>
+        <rules>
+            <name>is_Single_Product_Request</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Product_Request_Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Single_Product</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Single_Product_Design_Form</targetReference>
+            </connector>
+            <label>is Single Product</label>
         </rules>
     </decisions>
     <interviewLabel>Product Request Send De {!$Flow.CurrentDateTime}</interviewLabel>
@@ -140,12 +167,15 @@
     <recordLookups>
         <name>Get_Product_Request_Record</name>
         <label>Get Product Request Record</label>
-        <locationX>578</locationX>
+        <locationX>446</locationX>
         <locationY>158</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Check_Product_Request_RecordType</targetReference>
+            <targetReference>Send_Design_Form_Screen</targetReference>
         </connector>
+        <faultConnector>
+            <targetReference>Product_Request_Error</targetReference>
+        </faultConnector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
@@ -159,31 +189,13 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordUpdates>
-        <name>Update_OPE_activity_to_Design_Form_Sent</name>
-        <label>Update OPE activity to Design Form Sent</label>
-        <locationX>50</locationX>
-        <locationY>638</locationY>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>ProductRequestID__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>Get_Product_Request_Record.Id</elementReference>
-            </value>
-        </filters>
-        <inputAssignments>
-            <field>Design_Form_Status__c</field>
-            <value>
-                <stringValue>Design Form Sent</stringValue>
-            </value>
-        </inputAssignments>
-        <object>hed__Course__c</object>
-    </recordUpdates>
-    <recordUpdates>
-        <name>Update_Short_Course_to_Design_Form_Sent</name>
-        <label>Update Short Course to Design Form Sent</label>
-        <locationX>578</locationX>
-        <locationY>638</locationY>
+        <name>Update_Status_to_Design_Form_Sent</name>
+        <label>Update Status to Design Form Sent</label>
+        <locationX>446</locationX>
+        <locationY>854</locationY>
+        <faultConnector>
+            <targetReference>Update_Design_Error</targetReference>
+        </faultConnector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>ProductRequestID__c</field>
@@ -201,83 +213,97 @@
         <object>hed__Course__c</object>
     </recordUpdates>
     <screens>
-        <name>OPE_Activity_Error</name>
-        <label>OPE Activity Error</label>
-        <locationX>842</locationX>
-        <locationY>638</locationY>
+        <name>Design_Form_Error</name>
+        <label>Design Form Error</label>
+        <locationX>1282</locationX>
+        <locationY>854</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <fields>
-            <name>OPE_Activity_Error_Mess</name>
-            <fieldText>&lt;p&gt;There is something wrong.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(211, 27, 27);&quot;&gt;{!$Flow.FaultMessage}&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <name>Design_Error</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;color: rgb(202, 5, 5); font-size: 16px; background-color: rgb(255, 255, 255);&quot;&gt;Sorry we can&apos;t process your request at the time,. Please try again later&lt;/b&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
     </screens>
     <screens>
-        <name>SC_Error_Message</name>
-        <label>SC Error Message</label>
-        <locationX>314</locationX>
-        <locationY>638</locationY>
+        <name>Product_Request_Error</name>
+        <label>Product Request Error</label>
+        <locationX>1546</locationX>
+        <locationY>278</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <fields>
-            <name>SC_Error</name>
-            <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;There is something Wrong.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(211, 27, 27); font-size: 16px;&quot;&gt;{!$Flow.FaultMessage}&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <name>PR_Error</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 16px; color: rgb(202, 5, 5);&quot;&gt;Sorry we can&apos;t process your request at the time,. Please try again later&lt;/b&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
     </screens>
     <screens>
-        <name>Send_OPE_Activity_Design_Form_Screen</name>
-        <label>Send OPE Activity Design Form Screen</label>
-        <locationX>50</locationX>
-        <locationY>398</locationY>
+        <name>Send_Design_Form_Screen</name>
+        <label>Send Design Form Screen</label>
+        <locationX>446</locationX>
+        <locationY>278</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
-            <targetReference>OPE_Activity_email</targetReference>
+            <targetReference>Check_Product_Request_RecordType</targetReference>
         </connector>
         <fields>
-            <name>Requestor_Detail</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;Send Design Form to &lt;/span&gt;&lt;b style=&quot;font-size: 16px;&quot;&gt;{!Get_Product_Request_Record.Product_Specification__r.Requestor_Name__r.FirstName} {!Get_Product_Request_Record.Product_Specification__r.Requestor_Name__r.LastName} &lt;/b&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;(&lt;/span&gt;&lt;b style=&quot;font-size: 16px;&quot;&gt;{!Get_Product_Request_Record.Product_Specification__r.Requestor_Name__r.Email}&lt;/b&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;)?&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <name>Requestor_Details</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 16px; background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;Send Design Form to &lt;/span&gt;&lt;b style=&quot;font-size: 16px; background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;{!Get_Product_Request_Record.Product_Specification__r.Requestor_Name__r.FirstName} {!Get_Product_Request_Record.Product_Specification__r.Requestor_Name__r.LastName} &lt;/b&gt;&lt;span style=&quot;font-size: 16px; background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;(&lt;/span&gt;&lt;b style=&quot;font-size: 16px; background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;{!Get_Product_Request_Record.Product_Specification__r.Requestor_Name__r.Email}&lt;/b&gt;&lt;span style=&quot;font-size: 16px; background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;)?&lt;/span&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
     </screens>
     <screens>
-        <name>Send_SC_Design_Form_Screen</name>
-        <label>Send SC Design Form Screen</label>
-        <locationX>578</locationX>
-        <locationY>398</locationY>
+        <name>Update_Design_Error</name>
+        <label>Update  Design Error</label>
+        <locationX>1018</locationX>
+        <locationY>974</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
-        <connector>
-            <targetReference>Short_Course_Email</targetReference>
-        </connector>
         <fields>
-            <name>Requestor_SC_Detail</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;Send Design Form to &lt;/span&gt;&lt;b style=&quot;font-size: 16px;&quot;&gt;{!Get_Product_Request_Record.Product_Specification__r.Requestor_Name__r.FirstName} {!Get_Product_Request_Record.Product_Specification__r.Requestor_Name__r.LastName} &lt;/b&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;(&lt;/span&gt;&lt;b style=&quot;font-size: 16px;&quot;&gt;{!Get_Product_Request_Record.Product_Specification__r.Requestor_Name__r.Email}&lt;/b&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;)?&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <name>Update_Error</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;color: rgb(202, 5, 5); font-size: 16px; background-color: rgb(255, 255, 255);&quot;&gt;Sorry we can&apos;t process your request at the time,. Please try again later&lt;/b&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
     </screens>
     <start>
-        <locationX>452</locationX>
+        <locationX>320</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Get_Product_Request_Record</targetReference>
         </connector>
     </start>
     <status>Active</status>
+    <textTemplates>
+        <name>DesignFormContent</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>Dear &lt;b&gt;{!Get_Product_Request_Record.Product_Specification__r.Requestor_Name__r.FirstName}&lt;/b&gt;,
+&lt;br/&gt;&amp;nbsp;
+&lt;p&gt;Please see the link below to access the Design form:.&lt;/p&gt;
+&lt;p&gt;&lt;i&gt;{!Record}&lt;/i&gt;&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;If you have any further questions, please get in touch.&lt;/p&gt;
+&lt;br/&gt;
+&lt;p&gt;
+&lt;b&gt;The QUTeX Team&lt;/b&gt;&lt;br/&gt;
+07 3138 7733&lt;br/&gt;
+&lt;a href=&quot;mailto:qutex@qut.edu.au&quot;&gt;qutex@qut.edu.au&lt;/a&gt;&lt;br/&gt;
+&lt;a href=&quot;https://qut.edu.au/qutex&quot;&gt;qut.edu.au/qutex&lt;/a&gt;
+&lt;/p&gt;</text>
+    </textTemplates>
     <textTemplates>
         <name>OPE_Activity_Email_Content</name>
         <isViewedAsPlainText>true</isViewedAsPlainText>
@@ -313,6 +339,23 @@
 &lt;/p&gt;</text>
     </textTemplates>
     <variables>
+        <name>OPE_Activity_Design_Form_Link</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <stringValue>https://qut.tfaforms.net/f/activity-request-form?id={!Get_Product_Request_Record.Id}</stringValue>
+        </value>
+    </variables>
+    <variables>
+        <name>Record</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <name>recordId</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
@@ -320,10 +363,30 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
+        <name>Short_Course_Design_Form_Link</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <stringValue>https://qut.tfaforms.net/f/short-course-form?id={!Get_Product_Request_Record.Id}</stringValue>
+        </value>
+    </variables>
+    <variables>
         <name>ShortCourseId</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>Single_Product_Design_Form_Link</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <stringValue>https://qut.tfaforms.net/f/single-product-form?id={!Get_Product_Request_Record.Id}</stringValue>
+        </value>
     </variables>
 </Flow>
