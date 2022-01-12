@@ -29,8 +29,6 @@ private class ProductEntitlement_FlowTest {
         insert prodReq;
         List<hed__Course__c> courseList = TestDataFactory.createTestCourseRecords(1,acc?.Id,prodReq?.Id);
         insert courseList;
-        BuyerAccount baccs = new BuyerAccount(BuyerId = acc.id, Name = acc.Name,IsActive = true, CommerceType ='Seller');
-        insert baccs;
         BuyerGroup buyerGroup = new BuyerGroup(Name='Test Buyer Group');
         insert buyerGroup;
         BuyerGroupMember buyerGroupMember = new BuyerGroupMember(BuyerId = acc.Id, BuyerGroupId = buyerGroup.Id);

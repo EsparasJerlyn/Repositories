@@ -18,7 +18,6 @@ private class B2BGetInfoTest {
     @testSetup static void setupMethod() {
         Account acc = TestDataFactory.createTestAccount(true);
         Contact cont = TestDataFactory.createTestContact(true, acc.id);
-        BuyerAccount buyerAcct = TestDataFactory.createTestBuyerAccount(true, acc.id);
         BuyerGroup buyerGrp = TestDataFactory.createTestBuyerGroup(true);
         BuyerGroupMember bgm = TestDataFactory.createTestBuyerGroupMember(true, acc.id, buyerGrp.id);
         Product2 prd = TestDataFactory.createTestProduct2(true);  

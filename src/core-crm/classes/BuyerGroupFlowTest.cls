@@ -19,9 +19,6 @@ private class BuyerGroupFlowTest {
         Account acc = TestDataFactory.createTestAccountRecords(1).iterator().next();
         acc.RecordTypeId = BUSINESS_ACC_RECTYPEID;
         insert acc;
-        List<BuyerAccount> baccs = new List<BuyerAccount>();
-        baccs = TestDataFactory.createTestBuyerAccountRecords(1,acc?.Id,acc?.Name);
-        insert baccs;
         WebStore testWebStore = new WebStore(Name='CCE', DefaultLanguage='en_US');
         insert testWebStore;
         List <WebStore> webStore = new List <WebStore>([SELECT Id FROM WebStore WHERE Name='CCE' LIMIT 1]);
