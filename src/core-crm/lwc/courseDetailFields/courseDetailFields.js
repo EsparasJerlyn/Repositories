@@ -23,7 +23,7 @@ import COURSE_OBJECT from '@salesforce/schema/hed__Course__c';
 import getLayoutMapping from '@salesforce/apex/CourseDetailFieldsCtrl.getLayoutMapping';
 import getCourseId from '@salesforce/apex/CourseDetailFieldsCtrl.getCourseId';
 
-const EXCLUDED_PR_RTs = ['OPE_Program_Request','Single_Product'];
+const EXCLUDED_PR_RTs = ['OPE_Program_Request'];
 export default class CourseDetailFields extends LightningElement {
     @api recordId;
 
