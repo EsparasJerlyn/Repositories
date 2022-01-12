@@ -3408,6 +3408,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Product_Request__c.PRProduct_Subtype__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Product_Request__c.Parent_Product_Request__c</field>
         <readable>true</readable>
     </fieldPermissions>

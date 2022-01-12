@@ -20,7 +20,7 @@
     </values>
     <values>
         <field>Right_Column_Long__c</field>
-        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Name&quot;,&quot;mandatory&quot;:true},{&quot;field&quot;:&quot;Proposal_Title__c&quot;},{&quot;field&quot;:&quot;Risk_and_Opportunities__c&quot;},{&quot;field&quot;:&quot;Previously_Developed_Content__c&quot;},{&quot;field&quot;:&quot;Actual_Volume__c&quot;},{&quot;field&quot;:&quot;Location__c&quot;},{&quot;field&quot;:&quot;hed__Description__c&quot;}]</value>
+        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Name&quot;,&quot;mandatory&quot;:true},{&quot;field&quot;:&quot;Proposal_Title__c&quot;},{&quot;field&quot;:&quot;Risk_and_Opportunities__c&quot;},{&quot;field&quot;:&quot;Previously_Developed_Content__c&quot;},{&quot;field&quot;:&quot;Actual_Volume__c&quot;},{&quot;field&quot;:&quot;Location__c&quot;},{&quot;field&quot;:&quot;hed__Description__c&quot;},{&quot;field&quot;:&quot;Design_Form_Status__c&quot;}]</value>
     </values>
     <values>
         <field>Right_Column__c</field>
