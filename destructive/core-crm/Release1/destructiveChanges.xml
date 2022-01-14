@@ -111,6 +111,12 @@
         <name>CustomField</name>
     </types>
 
+    <types>
+        <members>Send_Email_Upon_Short_Course_Design_Submission</members>
+        <members>Short_Course_Design_Form_Email</members>
+        <name>Flow</name>
+    </types>
+
  
 
 
