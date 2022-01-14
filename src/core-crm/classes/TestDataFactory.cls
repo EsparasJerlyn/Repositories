@@ -22,6 +22,7 @@
       | roy.nino.s.regala         | December 15, 2021     | DEPP-116            | Added Start date on course offerings                             |
       | johnbo.pineda@qut.edu.au  | December 21, 2021     | DEPP-1150           | Added method for creation of Pending Registration                |
       | johnbo.pineda@qut.edu.au  | January 05, 2022      | DEPP-1382           | Added method for creation of Program Offering                    |
+      | arsenio.dayrit@qut.edu.au | January 12, 2022      | DEPP-1359           | Added method for creation of Product Ledger                      |
 */
 @IsTest
 public class TestDataFactory {
@@ -742,4 +743,32 @@ public class TestDataFactory {
     }
     return programOfferingRecord;
   }
-}
+
+ /**
+   * @description Method for creating test Product Ledger records
+   * @param numProductLedger number of product ledger
+   * @param courseEnrollement Id of related course enrollment
+   * @param assets Id of related Asset
+   * @return productLedger - list of product ledger
+   */
+  public static List<Product_Ledger__c> createTestProductLedgerRecords(
+    Integer numProductLedger,
+    Id courseEnrollement,
+    Id assets
+  ) {
+    List<Product_Ledger__c> productLedger = new List<Product_Ledger__c>();
+    
+    for (Integer i = 0 ; i < numProductLedger ; i++) {
+      productLedger.add(
+        new Product_Ledger__c(
+          Course_Connection__c = courseEnrollement,
+          Asset__c = assets
+        )
+      );
+    }
+
+    return productLedger;
+  }
+
+} 
+
