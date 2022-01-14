@@ -32,7 +32,7 @@ public with sharing class ProductDetailsCtrl {
         }
 
         if(productOnPage.Course__c != null){
-            courseOfferings = [SELECT Id, hed__Start_Date__c, hed__Faculty__r.name, hed__Faculty__r.description, Available_Seats__c, hed__Faculty__r.PhotoUrl, hed__Facility__r.Display_Name__c	
+            courseOfferings = [SELECT Id, hed__Start_Date__c, Available_Seats__c	
                                 FROM hed__Course_Offering__c 
                                 WHERE hed__Start_Date__c > TODAY 
                                 AND hed__Course__c =: productOnPage.Course__c
@@ -45,6 +45,34 @@ public with sharing class ProductDetailsCtrl {
     }
 
     /**
+     * @description inserts new contacts and course connections with link to selected offering
+     * @param learnerInfoList - ids of contact records 
+     * @param wrappedData - data aside from contact (course offering ID)
+     */
+    @AuraEnabled
+    public static void insertLearnerInfo(List<Contact> learnerInfoList, WrapperClass wrappedData){
+        try {
+            List<hed__Course_Enrollment__c> courseConnectionList = new List<hed__Course_Enrollment__c>();
+
+            insert(learnerInfoList);
+            for(Contact con: learnerInfoList){
+
+                courseConnectionList.add(new hed__Course_Enrollment__c(
+                    hed__Contact__c = con.Id,
+                    hed__Course_Offering__c = Id.valueOf(wrappedData.courseOfferingId),
+                    hed__Status__c = 'Current'));
+            }
+            insert(courseConnectionList);
+        } catch (Exception e) {
+            system.debug(e);
+            system.debug('error on ProductDetailsCtrl.insertLearnerInfo');
+            AuraHandledException auraEx = new AuraHandledException(e.getMessage());
+            throw auraEx;
+        }
+    }
+
+
+    /**
      * @description wrapper that contains list of course offerings and pricebook entries
      */
     public class ProductDetailsData{
@@ -52,5 +80,13 @@ public with sharing class ProductDetailsCtrl {
         public List<hed__Course_Offering__c> courseOfferingList;
         @AuraEnabled
         public List<PricebookEntry> priceBookEntryList;
+    }
+
+    /**
+     * @description wrapper that contains the additional data needed to insert records
+     */
+    public class WrapperClass{
+        @AuraEnabled
+        public String courseOfferingId {get; set;}
     }
 }

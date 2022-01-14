@@ -23,6 +23,7 @@
       |---------------------------|-----------------------|--------------|--------------------------------------------------------|
       | angelika.j.s.galang       | October 14, 2021      | DEPP-383     | Created file                                           | 
       | roy.nino.s.regala         | October 21, 2021      | DEPP-425     | Edited events and fixed bugs                           |
+      | aljohn.motas              | December 21, 2021     | DEPP-214     | Added Edit temporary data parameter                    |      
 */
 import { LightningElement, api, wire } from 'lwc';
 import { getObjectInfo } from 'lightning/uiObjectInfoApi';
@@ -37,6 +38,7 @@ export default class CustomCreateEditRecord extends LightningElement {
     @api recordTypeName;
     @api parentRecordTypeName;
     @api allowMultiCreate;
+    @api editTempData;
     @api withRecordTypeSelection;
     @api prePopulatedFields = {};
     @api recordForOpe;
@@ -73,7 +75,7 @@ export default class CustomCreateEditRecord extends LightningElement {
     get modalHeader(){
         let _modalHeader;
 
-        if(this.recordId){
+        if(this.recordId || this.editTempData){
             _modalHeader = 'Edit ' + this.objectLabel;
         }else if(!this.recordId && this.showRecordTypeSelection){
             _modalHeader = this.objectLabel + ' Record Types';

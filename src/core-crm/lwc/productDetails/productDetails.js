@@ -26,6 +26,7 @@ import createAndAddToList from '@salesforce/apex/B2BGetInfo.createAndAddToList';
 import getProductPrice from '@salesforce/apex/B2BGetInfo.getProductPrice';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { resolve } from 'c/cmsResourceResolver';
+import { refreshApex } from '@salesforce/apex';
 
 /**
  * A detailed display of a product.
@@ -149,7 +150,7 @@ export default class ProductDetails extends LightningElement {
      * @private
      */
     get hasProduct() {
-        return this.product.data !== undefined;
+        return this.product.data !== undefined && this.productDetails.data !== undefined;
     }
 
     /**
@@ -328,5 +329,9 @@ export default class ProductDetails extends LightningElement {
                 // For this sample, we can just log the error
                 console.log(e);
             });
+    }
+
+    handleRefresh(){
+        refreshApex(this.productDetails);
     }
 }

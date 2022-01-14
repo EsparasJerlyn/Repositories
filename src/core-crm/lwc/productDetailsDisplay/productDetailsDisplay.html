@@ -58,7 +58,7 @@
                 <span>
                   <div
                     class="slds-p-right_x-large product-bodydetails_red slds-text-align_center slds-p-vertical_small">
-                    {selectedCourseOffering.Available_Seats__c} Seats Available</div>
+                    {availableSeats} Seats Left</div>
                 </span>
               </template>
               <!-- Next Available Date -->
@@ -68,7 +68,7 @@
                   <lightning-layout vertical-align="center">
                     <lightning-layout-item>
                       <template if:true={showEnrollButton}>
-                        <lightning-button label={clickedRegisterLabel} variant="brand"
+                        <lightning-button label={clickedRegisterLabel} onclick={openRegisterModal} variant="brand"
                           class="slds-m-left_x-small slds-button_stretch slds-size_12-of-12"
                         >
                         </lightning-button>
@@ -292,6 +292,19 @@
         </div>
       </div>
       <!-- Recommendations -->
+      <!-- Recommendations -->
+      
+      <!-- <c-csv-bulk-registration>
+      </c-csv-bulk-registration> -->
+      <div if:true={bulkRegister}>
+        <c-csv-bulk-registration
+            course-offering={selectedCourseOffering}
+            onclosecsvmodal={handleClose}>
+        </c-csv-bulk-registration> 
+      </div>  
+
+      <!-- Recommendations -->
+
     </div>
     <!-- 4 - 12 -->
   </div>

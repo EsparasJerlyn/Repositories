@@ -6,10 +6,10 @@
  * @author Accenture
  *
  * @history
- *    | Developer                 | Date                  | JIRA      | Change Summary                  |
-      |---------------------------|-----------------------|-----------|---------------------------------|
-      | roy.nino.s.regala         | December 10, 2021     | DEPP116   | Created file                    | 
-      |                           |                       |           |                                 | 
+ *    | Developer                 | Date                  | JIRA      | Change Summary                                     |
+      |---------------------------|-----------------------|-----------|----------------------------------------------------|
+      | roy.nino.s.regala         | December 10, 2021     | DEPP116   | Created file                                       | 
+      | roy.nino.s.regala         | December 27, 2021     | DEPP1028  | Added testmethod for insertLearnerInfo             | 
 */
 @isTest(SeeAllData=false)
 private class ProductDetailsCtrlTest {
@@ -85,6 +85,46 @@ private class ProductDetailsCtrlTest {
             ProductDetailsCtrl.ProductDetailsData getProductDetails = new ProductDetailsCtrl.ProductDetailsData();
             try{
                 getProductDetails = ProductDetailsCtrl.getProductRelatedRecords(null); 
+            }catch(Exception e){
+                hasError = true;
+            }
+            System.assert(hasError,'has no error');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void testInsertLearnerInfo()
+    {
+        List<hed__Course_Offering__c> courseOffering = new List<hed__Course_Offering__c>([SELECT Id FROM hed__Course_Offering__c LIMIT 1]);
+        List<Contact> contacts = TestDataFactory.createTestContactRecords(100);
+        Test.startTest();
+        System.runAs(currentUser)
+        {  
+            ProductDetailsCtrl.WrapperClass wrappedData = new ProductDetailsCtrl.WrapperClass();
+            wrappedData.courseOfferingId = courseOffering[0].Id;
+
+            ProductDetailsCtrl.insertLearnerInfo(contacts,wrappedData);
+            System.assert(![SELECT ID FROM Contact].isEmpty(),'has no contacts created');
+            System.assert(![SELECT ID FROM hed__Course_Enrollment__c].isEmpty(),'has no contact enrollement created');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void testInsertLearnerInfoError()
+    {
+        List<hed__Course_Offering__c> courseOffering = new List<hed__Course_Offering__c>([SELECT Id FROM hed__Course_Offering__c LIMIT 1]);
+        List<Contact> contacts = TestDataFactory.createTestContactRecords(1);
+        contacts[0].Email = 'testemail';
+        boolean hasError = false;
+        Test.startTest();
+        System.runAs(currentUser)
+        {  
+            ProductDetailsCtrl.WrapperClass wrappedData = new ProductDetailsCtrl.WrapperClass();
+            wrappedData.courseOfferingId = courseOffering[0].Id;
+            try{
+                ProductDetailsCtrl.insertLearnerInfo(contacts,wrappedData);
             }catch(Exception e){
                 hasError = true;
             }

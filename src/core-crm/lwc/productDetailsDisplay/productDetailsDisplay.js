@@ -13,7 +13,9 @@
       | xenia.gaerlan             | Novemver 11, 2021     | DEPP-618             | Prescribed Program, Flexible Program         | 
       |                           |                       |                      | Course Unit Program UI Layouts               |
       | xenia.gaerlan             | Novemver 18, 2021     | DEPP-618             | GetProgramTypeCtrl                           | 
-      | roy.nino.s.regala         | December 6, 2021      | DEPP-116             | Removed unsused code and added field mapping |                                     |
+      | roy.nino.s.regala         | December 6, 2021      | DEPP-116             | Removed unsused code and added field mapping |  
+      | roy.nino.s.regala         | December 27, 2021     | DEPP-1028            | Added logiic to close modal and refresh      |
+      |                           |                       |                      | product records on parent -> productDetails  | 
  */
 import { LightningElement, api } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
@@ -47,6 +49,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     image3 = Recently3;
     selectedOfferingId = '';
     selectedDate;
+    
     //@wire(getWrapperProduct, { prodName: '$prodName'})
     //productDetails;
 
@@ -55,7 +58,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
 
     @api recordId;
     @api objectApiName;
-
+    
     //product fields to display
     @api overview;
     @api whoShouldParticipate;
@@ -168,6 +171,8 @@ export default class ProductDetailsDisplay extends NavigationMixin(
      */
     @api price;
 
+    bulkRegister=false;
+
     _invalidQuantity = false;
     _quantityFieldValue = 1;
     _categoryPath;
@@ -220,6 +225,22 @@ export default class ProductDetailsDisplay extends NavigationMixin(
      * @param {Category[]} newPath
      *  The new category "path" for the product.
      */
+
+    openRegisterModal(){
+        this.bulkRegister= true;
+    }
+
+    closeModal(){
+        this.bulkRegister= false;
+    }
+
+
+    handleClose(){
+        this.closeModal();
+        let event = new CustomEvent('refreshproduct');
+        this.dispatchEvent(event);
+    }
+
     resolveCategoryPath(newPath) {
         const path = [homePage].concat(
             newPath.map((level) => ({
@@ -259,7 +280,6 @@ export default class ProductDetailsDisplay extends NavigationMixin(
 
     /**
      * handles show button
-     *
      */
     handleShowClick(event) {
         const labelShow = event.target.label;
@@ -283,7 +303,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
         return foundCourseOffering ? foundCourseOffering : {};
     }
 
-    /**
+     /**
      * Indicates that user selected a course offering/date
      *
      * @type {Boolean}}
@@ -300,6 +320,10 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     get showEnrollButton() {
         return this.selectedCourseOffering.Available_Seats__c > 0 ? true : false;
     }
+
+    get availableSeats(){
+        return this.selectedCourseOffering.Available_Seats__c > 0 ? this.selectedCourseOffering.Available_Seats__c : 0;
+    } 
 
     /**
      * Indicates that product has no related couse offering
@@ -350,12 +374,18 @@ export default class ProductDetailsDisplay extends NavigationMixin(
         }
     }
 
+    /*
+    *adds suffix to the day of a date
+    */
     ordinal(day) {
         var s = ["th", "st", "nd", "rd"];
         var v = day % 100;
         return day + (s[(v - 20) % 10] || s[v] || s[0]);
     }
 
+    /*
+    * handles process when an offering is selected
+    */
     handlePickChange(event) {
         this.selectedDate = event.target.options.find(opt => opt.value === event.detail.value).label;
         this.selectedOfferingId = event.detail.value;
