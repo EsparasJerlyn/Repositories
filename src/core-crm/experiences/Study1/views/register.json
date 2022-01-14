@@ -21,20 +21,9 @@
       "renditionMap" : { },
       "type" : "component"
     }, {
-      "componentAttributes" : {
-        "confirmPasswordLabel" : "Confirm Password",
-        "emailLabel" : "Email",
-        "extraFieldsFieldSet" : "",
-        "firstnameLabel" : "First Name",
-        "includePasswordField" : false,
-        "lastnameLabel" : "Last Name",
-        "passwordLabel" : "Create Password",
-        "regConfirmUrl" : "./CheckPasswordResetEmail",
-        "startUrl" : "",
-        "submitButtonLabel" : "Sign Up"
-      },
-      "componentName" : "salesforceIdentity:selfRegister2",
-      "id" : "9334dbce-881a-4ba8-b11b-542c334a11ac",
+      "componentAttributes" : { },
+      "componentName" : "c:registrationForm",
+      "id" : "dd3f8849-5c76-4696-baa0-65707077f11c",
       "renderPriority" : "NEUTRAL",
       "renditionMap" : { },
       "type" : "component"

@@ -1,0 +1,104 @@
+<template>
+    <form>
+        <div class="main-container slds-grid slds-grid_vertical slds-gutters"> 
+            <!-- First Name -->
+            <div class="slds-col">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left tooltip">
+                        <lightning-icon class="input-icon" icon-name="utility:user" alternative-text="First Name" size="xx-small"></lightning-icon>
+                        <input type="text" 
+                            data-id="inputFirstName" 
+                            placeholder="First Name" 
+                            class="slds-input input-element" 
+                            value={firstName} 
+                            onchange={handleFirstNameChange} 
+                            required />
+                        <span class={requiredTooltipDisplayData.firstName}>This field is required.</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Last Name -->
+            <div class="slds-col">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left tooltip">
+                        <lightning-icon class="input-icon" icon-name="utility:user" alternative-text="Last Name" size="xx-small"></lightning-icon>
+                        <input 
+                            type="text" 
+                            data-id="inputLasrName" 
+                            placeholder="Last Name" 
+                            class="slds-input input-element" 
+                            value={lastName} 
+                            onchange={handleLastNameChange} required />
+                        <span class={requiredTooltipDisplayData.lastName}>This field is required.</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Email -->
+            <div class="slds-col tooltipEmail">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left tooltip">
+                        <lightning-icon class="input-icon" icon-name="utility:email" alternative-text="Email" size="xx-small"></lightning-icon>
+                        <input 
+                            type="text" 
+                            data-id="inputEmail" 
+                            placeholder="Email" 
+                            class="slds-input input-element" 
+                            value={email} 
+                            onkeyup={handleEmailChange} 
+                            pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$" 
+                            oninvalid={onEmailInvalid} 
+                            oninput={onEmailInput} 
+                            onclick={onEmailClick} 
+                            onblur={onEmailBlur}
+                            required/>
+                        <span class={requiredTooltipDisplayData.email}>This field is required.</span>
+                        <span class={errorTooltipDisplayData.email}>{emailError}</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Mobile -->
+            <div class="slds-col">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left tooltip">
+                        <lightning-icon class="input-icon" icon-name="utility:call" alternative-text="Mobile" size="xx-small"></lightning-icon>
+                        <input 
+                            type="text" 
+                            data-id="inputMobile" 
+                            placeholder="Mobile" 
+                            class="slds-input input-element" 
+                            value={mobile} 
+                            onchange={handleMobileChange} 
+                            required/>
+                            <span class={requiredTooltipDisplayData.mobile}>This field is required.</span>                                                
+                    </div>
+                </div>
+            </div>
+            <!-- Birthdate -->
+            <div class="slds-col">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left tooltip">
+                            <lightning-input
+                            type="date"
+                            required
+                            placeholder="Birthdate"
+                            class="datepicker"
+                            value={birthdate} 
+                            onchange={handleBirthdateChange}
+                            >
+                            </lightning-input>
+                        <span class={requiredTooltipDisplayData.birthdate}>This field is required.</span>                        
+                    </div>
+                </div>
+            </div>
+            <!-- Sign Up button -->
+            <div class="slds-col">
+                <button type="submit" class="login-button slds-button" onclick={handleRegister}>Sign Up</button>
+                <div if:true={loading} class="slds-is-relative" style="height: 80px;">
+                 <lightning-spinner
+                    alternative-text="Loading..." variant="brand" style="background: transparent;">
+                </lightning-spinner>
+                </div>
+            </div>
+        </div>
+    </form>
+</template>

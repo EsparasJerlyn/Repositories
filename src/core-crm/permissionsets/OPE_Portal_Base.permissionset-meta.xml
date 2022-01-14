@@ -392,6 +392,11 @@
         <field>Questionnaire__c.Questionnaire_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>User.Birthdate__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>OPE Portal Base</label>
     <license>Partner Community</license>
