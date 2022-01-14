@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Send_to_QUTeX</name>
+        <label>Send to QUTeX</label>
+        <locationX>446</locationX>
+        <locationY>911</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>CourseOwnerConfirmationEmail</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <stringValue>wingerden@mailinator.com</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <stringValue>[QUTeX] Design Form Received</stringValue>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <apiVersion>52.0</apiVersion>
+    <assignments>
+        <name>Activity_Template</name>
+        <label>Activity Template</label>
+        <locationX>50</locationX>
+        <locationY>695</locationY>
+        <assignmentItems>
+            <assignToReference>CourseOwnerConfirmationEmail</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>ActivityOwnerConfirmationEmail</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Send_to_QUTeX</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Short_Course_Template</name>
+        <label>Short Course Template</label>
+        <locationX>314</locationX>
+        <locationY>695</locationY>
+        <assignmentItems>
+            <assignToReference>CourseOwnerConfirmationEmail</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>ShortCourseOwnerConfirmationEmail</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Send_to_QUTeX</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Single_Product_Template</name>
+        <label>Single Product Template</label>
+        <locationX>578</locationX>
+        <locationY>695</locationY>
+        <assignmentItems>
+            <assignToReference>CourseOwnerConfirmationEmail</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>SingleProductOwnerConfirmationEmail</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Send_to_QUTeX</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <name>Is_OPE_Activity_Record</name>
+        <label>Is OPE Activity Record</label>
+        <locationX>446</locationX>
+        <locationY>575</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>OPE_Activity_Record</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Design_Form_Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Design Form Received</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>OPE_Activity</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Activity_Template</targetReference>
+            </connector>
+            <label>OPE Activity Record</label>
+        </rules>
+        <rules>
+            <name>Short_Course_Record</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Design_Form_Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Design Form Received</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Short_Course</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Short_Course_Template</targetReference>
+            </connector>
+            <label>Short Course Record</label>
+        </rules>
+        <rules>
+            <name>Single_Product_Record</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Design_Form_Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Design Form Received</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Single_Product</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Single_Product_Template</targetReference>
+            </connector>
+            <label>Single Product Record</label>
+        </rules>
+    </decisions>
+    <formulas>
+        <name>ProductRequestURL</name>
+        <dataType>String</dataType>
+        <expression>LEFT($Api.Enterprise_Server_URL_510, FIND( &apos;/services&apos;, $Api.Enterprise_Server_URL_510)) &amp;{!$Record.ProductRequestID__r.Id}</expression>
+    </formulas>
+    <interviewLabel>Send {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Send Email Upon Design Submission</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <name>Get_Course_Record</name>
+        <label>Get Course Record</label>
+        <locationX>446</locationX>
+        <locationY>335</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_User_Name</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>hed__Course__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_User_Name</name>
+        <label>Get User Name</label>
+        <locationX>446</locationX>
+        <locationY>455</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Is_OPE_Activity_Record</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_Course_Record.ProductRequestID__r.Owner:User.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>User</object>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>Name</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>320</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_Course_Record</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Design_Form_Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Design Form Received</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Design_Form_Status__c</field>
+            <operator>IsChanged</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <object>hed__Course__c</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <textTemplates>
+        <name>ActivityOwnerConfirmationEmail</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>Dear &lt;b&gt;{!Get_User_Name.Name}&lt;/b&gt;,
+
+&lt;br/&gt;&amp;nbsp;
+
+&lt;p&gt;The requestor has completed the design form for &lt;b&gt;{!$Record.Name}&lt;/b&gt;, please log into DEP to proceed with this product request &lt;b&gt;&lt;a href={!ProductRequestURL}&gt;{!$Record.ProductRequestID__r.Name}&lt;/a&gt;&lt;/b&gt;.&lt;/p&gt;
+
+
+
+&lt;br/&gt;
+
+&lt;p&gt;Kind Regards,&lt;/p&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <name>ShortCourseOwnerConfirmationEmail</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>Dear &lt;b&gt;{!Get_User_Name.Name}&lt;/b&gt;,
+
+&lt;br/&gt;&amp;nbsp;
+
+&lt;p&gt;The requestor has completed the design form for &lt;b&gt;{!$Record.Proposal_Title__c}&lt;/b&gt;, please log into DEP to proceed with this product request &lt;b&gt;&lt;a href={!ProductRequestURL}&gt;{!$Record.ProductRequestID__r.Name}&lt;/a&gt;&lt;/b&gt;.&lt;/p&gt;
+
+
+
+&lt;br/&gt;
+
+&lt;p&gt;Kind Regards,&lt;/p&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <name>SingleProductOwnerConfirmationEmail</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>Dear &lt;b&gt;{!Get_User_Name.Name}&lt;/b&gt;,
+
+&lt;br/&gt;&amp;nbsp;
+
+&lt;p&gt;The requestor has completed the design form for &lt;b&gt;{!$Record.Proposal_Title__c}&lt;/b&gt;, please log into DEP to proceed with this product request &lt;b&gt;&lt;a href={!ProductRequestURL}&gt;{!$Record.ProductRequestID__r.Name}&lt;/a&gt;&lt;/b&gt;.&lt;/p&gt;
+
+
+
+&lt;br/&gt;
+
+&lt;p&gt;Kind Regards,&lt;/p&gt;</text>
+    </textTemplates>
+    <variables>
+        <name>CourseOwnerConfirmationEmail</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>
