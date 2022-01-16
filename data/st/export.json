@@ -1,19 +1,19 @@
 {
     "objects": [
         {
-            "query": "SELECT Name,Id FROM BuyerGroup",
+            "query": "SELECT Id, Name, Description, Family, IsActive FROM Product2",
             "operation": "Upsert",
-            "externalId": "Id",
+            "externalId": "Name",
             "useCSVValuesMapping": true,
-            "targetObject": "BuyerGroup",
+            "targetObject": "Product2",
             "importCSVFilesAsIs": true
         },
         {
-            "query": "SELECT BuyerGroupId,WebStoreId FROM WebStoreBuyerGroup",
+            "query": "SELECT Id, Name, Description, IsActive FROM Pricebook2",
             "operation": "Upsert",
-            "externalId": "BuyerGroupId",
+            "externalId": "Name",
             "useCSVValuesMapping": true,
-            "targetObject": "WebStoreBuyerGroup",
+            "targetObject": "Pricebook2",
             "importCSVFilesAsIs": true
         },
         {
@@ -33,51 +33,11 @@
             "importCSVFilesAsIs": true
         },
         {
-            "query": "SELECT CatalogId, Description, Name, ParentCategoryId, IsNavigational, SortOrder from ProductCategory",
+            "query": "SELECT Id, CatalogId, Description, Name, ParentCategoryId, IsNavigational, SortOrder from ProductCategory",
             "operation": "Upsert",
             "externalId": "Name",
             "useCSVValuesMapping": true,
             "targetObject": "ProductCategory",
-            "importCSVFilesAsIs": true
-        },
-        {
-            "query": "SELECT Name, Description, CanViewProduct, CanViewPrice, IsActive from CommerceEntitlementPolicy",
-            "operation": "Upsert",
-            "externalId": "Name",
-            "useCSVValuesMapping": true,
-            "targetObject": "CommerceEntitlementPolicy",
-            "importCSVFilesAsIs": true
-        },
-        {
-            "query": "SELECT Id, Name, BuyerId, BuyerStatus, IsActive, CommerceType from BuyerAccount",
-            "operation": "Upsert",
-            "externalId": "Name",
-            "useCSVValuesMapping": true,
-            "targetObject": "BuyerAccount",
-            "importCSVFilesAsIs": true
-        },
-        {
-            "query": "SELECT Id, BuyerId, BuyerGroupId from BuyerGroupMember",
-            "operation": "Upsert",
-            "externalId": "BuyerId",
-            "useCSVValuesMapping": true,
-            "targetObject": "BuyerGroupMember",
-            "importCSVFilesAsIs": true
-        },
-        {
-            "query": "SELECT PolicyId, ProductId from CommerceEntitlementProduct",
-            "operation": "Upsert",
-            "externalId": "ProductId",
-            "useCSVValuesMapping": true,
-            "targetObject": "CommerceEntitlementProduct",
-            "importCSVFilesAsIs": true
-        },
-        {
-            "query": "SELECT Name, AccountId, LastName, FirstName, Email from Contact",
-            "operation": "Upsert",
-            "externalId": "Name",
-            "useCSVValuesMapping": true,
-            "targetObject": "Contact",
             "importCSVFilesAsIs": true
         },
         {
