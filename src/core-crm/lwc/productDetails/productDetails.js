@@ -166,6 +166,7 @@ export default class ProductDetails extends LightningElement {
                     name: category.name
                 })
             ),
+            registerInterestAvailable: this.product.data.fields.Register_Interest_Available__c?this.product.data.fields.Register_Interest_Available__c:false,
             overview: this.product.data.fields.Overview__c?this.htmlDecode(this.product.data.fields.Overview__c):'',
             evolveWithQutex: this.product.data.fields.Evolve_with_QUTeX__c?this.htmlDecode(this.product.data.fields.Evolve_with_QUTeX__c):'',
             whoShouldParticipate:  this.product.data.fields.Who_Should_Participate__c?this.htmlDecode(this.product.data.fields.Who_Should_Participate__c):'',
@@ -200,6 +201,15 @@ export default class ProductDetails extends LightningElement {
      */
     get priceBookEntryList(){
         return this.productDetails.data?this.productDetails.data.priceBookEntryList:[];
+    }
+
+    /**
+     * Gets product and its lookup fields
+     *
+     * @readonly
+     */
+     get productOnPage(){
+        return this.productDetails.data?this.productDetails.data.productOnPage:[];
     }
 
     /**

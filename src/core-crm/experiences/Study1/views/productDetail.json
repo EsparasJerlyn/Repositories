@@ -1,121 +1,43 @@
 {
   "appPageId" : "b28ff838-09a0-4bed-9c7e-7d9052f13951",
-  "componentName" : "siteforce:sldsTwoCol66Layout",
+  "componentName" : "siteforce:sldsOneColLayout",
   "id" : "85b8f4ec-c66a-4f11-821c-dcbce84c2893",
   "label" : "Product Detail",
   "regions" : [ {
     "components" : [ {
       "componentAttributes" : {
-        "breadcrumbsColor" : "",
-        "breadcrumbsFontSize" : "small"
+        "recordId" : "{!recordId}"
       },
-      "componentName" : "b2b_buyer_builder:productDetailsBreadcrumbs",
-      "id" : "8b39080f-602f-4c04-ae03-99c43be2045f",
+      "componentName" : "c:productBodyDetails",
+      "id" : "9374dabc-cc49-4b17-870b-16c49d720cd2",
       "renderPriority" : "NEUTRAL",
       "renditionMap" : { },
       "type" : "component"
     } ],
-    "id" : "cbbed5aa-b885-4951-aa4f-b561001d296b",
+    "id" : "fb79c78d-31c5-43b5-a12e-0faba236f162",
     "regionName" : "header",
     "type" : "region"
   }, {
     "components" : [ {
       "componentAttributes" : {
-        "carouselPosition" : "below",
-        "imageBorderColor" : "",
-        "showImageCarousel" : true
+        "effectiveAccountId" : "{!CurrentUser.effectiveAccountId}",
+        "recordId" : "{!recordId}"
       },
-      "componentName" : "b2b_buyer_builder:productDetailsGallery",
-      "id" : "4c7c04f9-55e2-4d5d-a713-51adf87ce1f4",
+      "componentName" : "c:productDetails",
+      "id" : "f1cf8276-f401-4a5d-94cc-a50c59348f19",
       "renderPriority" : "NEUTRAL",
       "renditionMap" : { },
       "type" : "component"
     } ],
-    "id" : "9ac66b88-b4b7-404a-baba-87e179baa9f6",
+    "id" : "50fcab64-5f7c-4b00-9819-8f93feea20c1",
     "regionName" : "content",
     "type" : "region"
   }, {
-    "components" : [ {
-      "componentAttributes" : {
-        "identifierName" : "SKU#",
-        "productDetailSummaryFieldMapping" : "",
-        "titleTextColor" : "",
-        "titleTextSize" : "medium"
-      },
-      "componentName" : "b2b_buyer_builder:productDetailsHeading",
-      "id" : "3423fa0d-5bb7-42e1-a726-87dd752f882e",
-      "renderPriority" : "NEUTRAL",
-      "renditionMap" : { },
-      "type" : "component"
-    }, {
-      "componentAttributes" : {
-        "addToCartButtonBackgroundColor" : "",
-        "addToCartButtonBackgroundHoverColor" : "",
-        "addToCartButtonBorderColor" : "",
-        "addToCartButtonBorderRadius" : "0",
-        "addToCartButtonText" : "Add To Cart",
-        "addToCartButtonTextColor" : "",
-        "addToCartButtonTextHoverColor" : "",
-        "addToListButtonBackgroundColor" : "",
-        "addToListButtonBackgroundHoverColor" : "",
-        "addToListButtonBorderColor" : "",
-        "addToListButtonBorderRadius" : "0",
-        "addToListButtonText" : "Add To List",
-        "addToListButtonTextColor" : "",
-        "addToListButtonTextHoverColor" : "",
-        "incrementValueGuideText" : "Sold in increments of {0}",
-        "maximumValueGuideText" : "Maximum quantity is {0}",
-        "minimumValueGuideText" : "Minimum quantity is {0}",
-        "negotiatedPriceLabel" : "Your Price",
-        "negotiatedPriceTextColor" : "",
-        "negotiatedPriceTextSize" : "small",
-        "originalPriceLabel" : "Original Price",
-        "originalPriceTextColor" : "",
-        "originalPriceTextSize" : "small",
-        "priceAdjustmentTiersBackgroundColor" : "rgba(0,0,0,0)",
-        "priceAdjustmentTiersBorderColor" : "",
-        "priceAdjustmentTiersBorderRadius" : "0",
-        "priceAdjustmentTiersDiscountRowLabel" : "Discount per Unit",
-        "priceAdjustmentTiersLabelTextColor" : "",
-        "priceAdjustmentTiersQuantityRowLabel" : "Quantity",
-        "priceAdjustmentTiersRowTitleTextColor" : "",
-        "priceAdjustmentTiersTextColor" : "",
-        "priceAdjustmentTiersTitleText" : "Tier Discounts",
-        "productVariantTitle" : "Product options:",
-        "quantitySelectorLabel" : "QTY",
-        "showAddToListButton" : true,
-        "showGuides" : true,
-        "showNegotiatedPrice" : true,
-        "showOriginalPrice" : true,
-        "showPriceAdjustmentTiers" : true,
-        "showProductDescription" : true,
-        "showProductImageInAddToList" : true,
-        "showProductVariantTitle" : true,
-        "unavailablePriceLabel" : "Price Unavailable"
-      },
-      "componentName" : "b2b_buyer_builder:productDetailsPurchaseOptions",
-      "id" : "a2851239-492b-4967-8993-c585ff75652a",
-      "renderPriority" : "NEUTRAL",
-      "renditionMap" : { },
-      "type" : "component"
-    }, {
-      "componentAttributes" : {
-        "expandRelatedFilesByDefault" : true,
-        "fileIconColor" : "",
-        "openFilesInNewTab" : true,
-        "titleText" : "Resources"
-      },
-      "componentName" : "b2b_buyer_builder:productDetailsRelatedFiles",
-      "id" : "83d0fea3-7699-4ac4-81ac-cd6f46933703",
-      "renderPriority" : "NEUTRAL",
-      "renditionMap" : { },
-      "type" : "component"
-    } ],
-    "id" : "22e73d3d-9e6b-4aa2-802d-f40befc5bd3f",
+    "id" : "bc2029a2-dc77-43c4-b5e6-4aa9962c3f89",
     "regionName" : "sidebar",
     "type" : "region"
   }, {
-    "id" : "9e47ddf6-9061-48a6-8499-a2ea621bf2d3",
+    "id" : "dc83268e-706e-49e7-a797-7385222d147a",
     "regionName" : "footer",
     "type" : "region"
   }, {
@@ -126,11 +48,11 @@
         "title" : "{!Record._Object}: {!Record._Title}"
       },
       "componentName" : "forceCommunity:seoAssistant",
-      "id" : "450e473f-d552-4427-8ac8-d00d03c5cf10",
+      "id" : "fbf1248e-b98b-470b-abf5-61fd58ace998",
       "renditionMap" : { },
       "type" : "component"
     } ],
-    "id" : "0daf068a-4fc8-4fe2-9866-078e572e60db",
+    "id" : "9cc8086e-2bff-49d3-9c8b-704f00e05aee",
     "regionName" : "sfdcHiddenRegion",
     "type" : "region"
   } ],

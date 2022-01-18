@@ -21,7 +21,7 @@ public with sharing class ProductDetailsCtrl {
         List<hed__Course_Offering__c> courseOfferings = new List<hed__Course_Offering__c>();
         List<PricebookEntry> pricebookEntries = new List<PricebookEntry>();
 
-        Product2 productOnPage =[SELECT Id,Course__c, 
+        Product2 productOnPage =[SELECT Id,Course__c, Program_Plan__c,
                                     (SELECT UnitPrice, Pricebook2.Name, Pricebook2.isStandard
                                     FROM PricebookEntries  
                                     WHERE IsActive = true ORDER BY CreatedDate,Pricebook2.IsStandard DESC)  
@@ -32,7 +32,7 @@ public with sharing class ProductDetailsCtrl {
         }
 
         if(productOnPage.Course__c != null){
-            courseOfferings = [SELECT Id, hed__Start_Date__c, Available_Seats__c	
+            courseOfferings = [SELECT Id, hed__Start_Date__c, Available_Seats__c, On_Hold_Seat__c	
                                 FROM hed__Course_Offering__c 
                                 WHERE hed__Start_Date__c > TODAY 
                                 AND hed__Course__c =: productOnPage.Course__c
@@ -41,6 +41,7 @@ public with sharing class ProductDetailsCtrl {
 
         prodDetailsData.priceBookEntryList = pricebookEntries;
         prodDetailsData.courseOfferingList = courseOfferings;
+        prodDetailsData.productOnPage = productOnPage;
         return prodDetailsData;
     }
 
@@ -80,6 +81,8 @@ public with sharing class ProductDetailsCtrl {
         public List<hed__Course_Offering__c> courseOfferingList;
         @AuraEnabled
         public List<PricebookEntry> priceBookEntryList;
+        @AuraEnabled
+        public Product2 productOnPage;
     }
 
     /**

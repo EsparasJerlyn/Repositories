@@ -24,6 +24,7 @@ import Facilitator from '@salesforce/resourceUrl/Facilitator';
 import Recently1 from '@salesforce/resourceUrl/Recently1';
 import Recently2 from '@salesforce/resourceUrl/Recently2';
 import Recently3 from '@salesforce/resourceUrl/Recently3';
+import BasePath from '@salesforce/community/basePath';
 
 // A fixed entry for the home page.
 const homePage = {
@@ -49,13 +50,6 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     image3 = Recently3;
     selectedOfferingId = '';
     selectedDate;
-    
-    //@wire(getWrapperProduct, { prodName: '$prodName'})
-    //productDetails;
-
-    //@wire(getWrapperContact, { strName: '$strName'})
-    //wrapperContacts
-
     @api recordId;
     @api objectApiName;
     
@@ -65,9 +59,11 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     @api coreConcepts;
     @api moreDetails;
     @api evolveWithQutex;
+    @api registerInterestAvailable;
 
     @api courseOfferings;
     @api priceBookEntries;
+    @api productOnPage;
 
     /**
      * A product image.
@@ -225,15 +221,31 @@ export default class ProductDetailsDisplay extends NavigationMixin(
      * @param {Category[]} newPath
      *  The new category "path" for the product.
      */
-
-    openRegisterModal(){
-        this.bulkRegister= true;
+     openRegisterModal(){
+        if(this.isCCEPortal){
+            this.bulkRegister= true;
+        }
     }
 
     closeModal(){
         this.bulkRegister= false;
     }
 
+
+    get isCCEPortal(){
+        return BasePath.toLowerCase().includes('cce');
+    }
+
+    get isOPEPortal(){
+        return BasePath.toLowerCase().includes('study');
+    }
+
+    get isOPEAndIsProgram(){
+        return this.isOPEPortal  && this.productOnPage.Program_Plan__c;
+    }
+
+
+    
 
     handleClose(){
         this.closeModal();
@@ -318,12 +330,30 @@ export default class ProductDetailsDisplay extends NavigationMixin(
      * @type {Boolean}}
      */
     get showEnrollButton() {
-        return this.selectedCourseOffering.Available_Seats__c > 0 ? true : false;
+        return this.selectedCourseOffering.Available_Seats__c > 0;
+    }
+
+    get showRegisterInterestButton() {
+        if(this.showEnrollButton 
+            && this.hasSelectedCourseOffering
+            && this.registerInterestAvailable === 'true'
+            && this.isOPEPortal){
+                return true;
+        }else{
+            return false;
+        }
     }
 
     get availableSeats(){
-        return this.selectedCourseOffering.Available_Seats__c > 0 ? this.selectedCourseOffering.Available_Seats__c : 0;
+        let availableSeatsTemp = this.selectedCourseOffering.Available_Seats__c > 0?this.selectedCourseOffering.Available_Seats__c:0;
+        let onHoldSeatsTemp = this.selectedCourseOffering.On_Hold_Seat__c > 0?this.selectedCourseOffering.On_Hold_Seat__c:0;
+        let seats = availableSeatsTemp - onHoldSeatsTemp;
+        return seats > 0?seats:0;
     } 
+
+    get plural(){
+        return this.availableSeats > 1?'s':'';
+    }
 
     /**
      * Indicates that product has no related couse offering

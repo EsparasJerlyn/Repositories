@@ -10,6 +10,7 @@
   <c-product-details-display
       if:true={hasProduct}
       category-path={displayableProduct.categoryPath}
+      program-plan={displayableProduct.programPlan}
       overview={displayableProduct.overview}
       evolve-with-qutex={displayableProduct.evolveWithQutex}
       who-should-participate={displayableProduct.whoShouldParticipate}
@@ -19,8 +20,10 @@
       in-stock={displayableProduct.inStock}
       name={displayableProduct.name}
       price={displayableProduct.price}
+      register-interest-available={displayableProduct.registerInterestAvailable}
       course-offerings={courseOfferingList}
       price-book-entries={priceBookEntryList}
+      product-on-page={productOnPage}
       onrefreshproduct={handleRefresh}
   >
   </c-product-details-display>
