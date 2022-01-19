@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Program_Offering__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>This will link to program offering that the learner successfully registered to for &apos;Register Interest&apos; process OR a link to the nominated program offering.</description>
+    <externalId>false</externalId>
+    <label>Program Offering</label>
+    <referenceTo>Program_Offering__c</referenceTo>
+    <relationshipLabel>Expression of Interests</relationshipLabel>
+    <relationshipName>Expression_of_Interests</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>
