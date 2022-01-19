@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Description__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">This record type will be used to set up Activities for a client which can be delivered in isolation of a part of a program.</value>
     </values>
     <values>
         <field>For_OPE__c</field>

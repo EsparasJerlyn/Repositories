@@ -3,6 +3,7 @@
     <fullName>OPE_Activity_Request</fullName>
     <active>true</active>
     <compactLayoutAssignment>OPE_Product_Request_Compact_Layout</compactLayoutAssignment>
+    <description>This record type will be used to set up Activities for a client which can be delivered in isolation of a part of a program.</description>
     <label>OPE Activity Request</label>
     <picklistValues>
         <picklist>Cohort_Type__c</picklist>

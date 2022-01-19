@@ -3,6 +3,7 @@
     <fullName>Single_Product</fullName>
     <active>true</active>
     <compactLayoutAssignment>OPE_Product_Request_Compact_Layout</compactLayoutAssignment>
+    <description>This record type will be used to request a Product with award units or Non-Award Modules with learning outcomes.</description>
     <label>Single Product</label>
     <picklistValues>
         <picklist>Cohort_Type__c</picklist>

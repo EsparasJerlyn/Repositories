@@ -3,6 +3,7 @@
     <fullName>Short_Course</fullName>
     <active>true</active>
     <compactLayoutAssignment>OPE_Product_Request_Compact_Layout</compactLayoutAssignment>
+    <description>This record type will be used to request a Product without learning outcomes.</description>
     <label>Short Course</label>
     <picklistValues>
         <picklist>Cohort_Type__c</picklist>

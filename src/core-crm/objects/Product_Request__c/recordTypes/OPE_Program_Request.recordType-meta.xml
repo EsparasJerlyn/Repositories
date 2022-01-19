@@ -3,6 +3,7 @@
     <fullName>OPE_Program_Request</fullName>
     <active>true</active>
     <compactLayoutAssignment>OPE_Product_Request_Compact_Layout</compactLayoutAssignment>
+    <description>This record type will be used to request a program. This can be Award Units and or Non-Award Modules mixed in with an array of products that are listed below.</description>
     <label>OPE Program Request</label>
     <picklistValues>
         <picklist>Cohort_Type__c</picklist>
