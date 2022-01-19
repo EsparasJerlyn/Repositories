@@ -21,7 +21,7 @@
     <values>
         <field>Right_Column_Long__c</field>
         <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Name&quot;,&quot;mandatory&quot;:true,&quot;blankSpaceBelow&quot;:true},{&quot;field&quot;:&quot;End_Date__c&quot;},{&quot;field&quot;:&quot;Actual_Volume__c&quot;},{&quot;field&quot;:&quot;End_Time__c&quot;},{&quot;field&quot;:&quot;Location__c&quot;},{&quot;field&quot;:&quot;hed__Description__c&quot;},
-{&quot;field&quot;:&quot;Design_Form_Status__c&quot;}]</value>
+{&quot;field&quot;:&quot;Design_Form_Status__c&quot;,&quot;readOnly&quot;:true}]</value>
     </values>
     <values>
         <field>Right_Column__c</field>
