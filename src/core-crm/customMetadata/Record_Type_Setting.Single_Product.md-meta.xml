@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Description__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">This record type will be used to request a Product with award units or Non-Award Modules with learning outcomes.</value>
     </values>
     <values>
         <field>For_OPE__c</field>
@@ -20,6 +20,6 @@
     </values>
     <values>
         <field>Parent_Record_Type__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">OPE Program Request</value>
     </values>
 </CustomMetadata>

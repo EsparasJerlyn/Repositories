@@ -25,7 +25,7 @@ import PS_PARENT from '@salesforce/schema/Product_Request__c.Product_Specificati
 const PS_FILTER = ['Diagnostic Tool Request'];
 const PR_FILTER = ['Program Request','Stand-Alone Unit / Module Request','Corporate Bundle Request'];
 const PS_OPE_FILTER = ['OPE Program Request','Single Product','Short Course','OPE Activity Request'];
-const PR_OPE_FILTER = PS_OPE_FILTER.slice(2);
+const PR_OPE_FILTER = PS_OPE_FILTER.slice(1);
 const OPE_RECTYPE = 'OPE_Program_Specification';
 const ACCORDION_SECTION = 'Product Requests';
 
