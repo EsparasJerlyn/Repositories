@@ -117,4 +117,28 @@
         </section>
         <div class="slds-backdrop slds-backdrop_open"></div>
     </template>
+
+    <template if:true={isRelatedModalOpen}>
+        <!-- Modal/Popup Box LWC starts here -->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-03" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header">
+                    <h2 id="modal-heading-03" class="slds-text-heading_medium slds-hyphenate">Enter {objectLabel} Name</h2>
+                </header>
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-10">
+                    <div class="slds-p-around_medium">
+                        <lightning-record-edit-form object-api-name={objectToBeCreated} onload={handleCreateLoad} onerror={handleRecordError} onsuccess={handleRecordCreation} onsubmit={handleSubmit}>
+                            <lightning-input-field field-name='Name' required></lightning-input-field>
+                            <div class="slds-float_right">
+                                <lightning-button data-name="save" label="Save" variant="brand" type="submit" class="slds-p-top_x-large slds-m-top_x-medium slds-float_right "></lightning-button>
+                            </div>
+                        </lightning-record-edit-form>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
 </template>

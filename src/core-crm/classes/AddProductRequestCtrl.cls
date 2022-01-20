@@ -3,10 +3,12 @@
  * @see ../lwc/addProductRequest
  * @author Accenture
  * @history
- *    | Developer                 | Date                  | JIRA                 | Change Summary                   |
-      |---------------------------|-----------------------|----------------------|----------------------------------|
-      | roy.nino.s.regala         | September 28, 2021    | DEPP-40,42           | Created file                     | 
-      | angelika.j.s.galang       | December 17, 2021     | DEPP-1088,1096       | Modified to handle OPE records   | 
+ *    | Developer                 | Date                  | JIRA                 | Change Summary                       |
+      |---------------------------|-----------------------|----------------------|--------------------------------------|
+      | roy.nino.s.regala         | September 28, 2021    | DEPP-40,42           | Created file                         | 
+      | angelika.j.s.galang       | December 17, 2021     | DEPP-1088,1096       | Modified to handle OPE records       | 
+      | adrian.c.habasa           | January  20, 2022     | DEPP-1471            | Added method to get QUTeX Account Id | 
+
  */
 public with sharing class AddProductRequestCtrl {
 
@@ -131,4 +133,13 @@ public with sharing class AddProductRequestCtrl {
         @AuraEnabled
         public Boolean isrecordtype;
     }
+
+     /**
+     * @description gets id of QUTeX Account
+     */
+    @AuraEnabled(cacheable=true)
+    public static String getAccountId(){
+      Account acct = [Select Id from Account WHERE Name ='QUTeX' LIMIT 1];
+      return acct.Id;
+   }
 }

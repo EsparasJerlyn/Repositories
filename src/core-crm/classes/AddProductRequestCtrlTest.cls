@@ -9,7 +9,7 @@
  *    | Developer                 | Date                  | JIRA      | Change Summary                  |
       |---------------------------|-----------------------|-----------|---------------------------------|
       | roy.nino.s.regala         | October 01, 2021      | DEPP40,42 | Created file                    | 
-      |                           |                       |           |                                 | 
+      | adrian.c.habasa           | January 20, 2022      | DEPP-1471 | Added Test Class Method         | 
 */
 @isTest(SeeAllData=false)
 private class AddProductRequestCtrlTest {
@@ -34,6 +34,22 @@ private class AddProductRequestCtrlTest {
             }
         }catch(Exception e){
             system.assertEquals('Error while getting record type and layout mapping.',e.getMessage(),'Exception should have been thrown');
+        }
+        Test.stopTest();
+    }
+
+
+    @isTest
+    private static void getQUTeXAccountId()
+    {
+        Test.startTest();
+        System.runAs(currentUser){
+           List<Account> acc= TestDataFactory.createTestAccountRecords(1);
+           Account a = new Account(Name = 'QUTeX');
+           acc.add(a);
+           insert acc;
+           String accId=AddProductRequestCtrl.getAccountId();
+           system.assert(!String.isBlank(accId),'No QUTeX Account Found');
         }
         Test.stopTest();
     }

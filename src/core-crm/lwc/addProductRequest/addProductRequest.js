@@ -10,18 +10,21 @@
       |---------------------------|-----------------------|----------------------|---------------------------------------------------------------------------|
       | roy.nino.s.regala         | September 27, 2021    | DEPP-40,42           | Created file                                                              | 
       | roy.nino.s.regala         | October   06, 2021    | DEPP-176             | Added functionality to show no of triads field depending on request type  |
-      | angelika.j.s.galang       | December 17, 2021     | DEPP-1088,1096       | Modified to handle OPE records                                            |  
- */
+      | angelika.j.s.galang       | December  17, 2021    | DEPP-1088,1096       | Modified to handle OPE records                                            |  
+      | adrian.c.habasa           | January   20, 2022    | DEPP-1471            | Added a pop up to input course/program plan name                          |  
+*/
 
 import { LightningElement, api, wire } from 'lwc';
 import { getObjectInfo } from 'lightning/uiObjectInfoApi';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { NavigationMixin } from 'lightning/navigation';
-import { createRecord } from 'lightning/uiRecordApi';
+import { createRecord,updateRecord } from 'lightning/uiRecordApi';
 import LWC_Error_General from '@salesforce/label/c.LWC_Error_General';
 import getFieldLayoutSettings from '@salesforce/apex/AddProductRequestCtrl.getFieldLayoutSettings';
+import getAccountId from '@salesforce/apex/AddProductRequestCtrl.getAccountId';
 import PRODUCT_REQUEST_OBJECT from '@salesforce/schema/Product_Request__c';
 import COURSE_OBJECT from '@salesforce/schema/hed__Course__c';
+import PROGRAM_PLAN_OBJECT from '@salesforce/schema/hed__Program_Plan__c';
 import PR_PARENT from '@salesforce/schema/Product_Request__c.Parent_Product_Request__c';
 import NO_OF_TRIADS from '@salesforce/schema/Product_Request__c.Number_of_Triads__c';
 import REQUEST_TYPE from '@salesforce/schema/Product_Request__c.Request_Type__c';
@@ -38,6 +41,7 @@ const RECORD_TYPE_ERROR = "No record types found.";
 const TRAIDS = "Triads";
 const SHOW_FIELD = "slds-show slds-form-element slds-form-element_stacked";
 const HIDE_FIELD = "slds-hide slds-form-element slds-form-element_stacked";
+const PROG_PLAN_REQUEST= "OPE Program Request";
 
 export default class AddProductRequest extends NavigationMixin(LightningElement) {
     @api productRequestForOpe;
@@ -54,6 +58,8 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
     isSelectionModalOpen = false;
     isCreationModalOpen = false;
     errorMessage = '';
+    isRelatedModalOpen=false;
+    accountId='';
 
     recordTypeLabel = RECORD_TYPE_LABEL;
 
@@ -63,7 +69,7 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
     parentName;
 
 
-    //gets record type and layout mapping
+    //gets record type,layout mapping and accountId
     connectedCallback() {
         let objectToCreate = this.productRequestForOpe ? COURSE_OBJECT.objectApiName : PRODUCT_REQUEST_OBJECT.objectApiName;
         getFieldLayoutSettings({objectString: objectToCreate, forOpe: this.productRequestForOpe})
@@ -74,6 +80,8 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
         .catch(error =>{
             this.showToast(ERROR_TITLE,LWC_Error_General,ERROR_VARIANT);
         });
+
+        
     }
 
     //gets object info of product request object
@@ -81,6 +89,17 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
     @wire(getObjectInfo, { objectApiName: PRODUCT_REQUEST_OBJECT})
     objectInfo;
 
+    //get object info of course object
+    //used to get recordtyeps
+    @wire(getObjectInfo, { objectApiName: COURSE_OBJECT})
+    courseObjectInfo;
+
+    //get object info of program plan object
+    //used to get recordtyeps
+    @wire(getObjectInfo, { objectApiName: PROGRAM_PLAN_OBJECT})
+    programPlanObjectInfo;
+
+    
     //sets record type options for the radio group
     get optionsMap(){
         return this.sortedRecordTypeMap;
@@ -99,6 +118,18 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
     //checks if user tries to creates a child of prod request
     get isChild(){
         return this.parentField === PR_PARENT.fieldApiName?true:false;
+    }
+
+    //sets the Object to be Created
+    get objectToBeCreated()
+    {
+        return this.prodReqSelectedRecType == PROG_PLAN_REQUEST ? PROGRAM_PLAN_OBJECT.objectApiName: COURSE_OBJECT.objectApiName;
+    }
+
+    //gets the Object Name
+    get objectLabel()
+    {
+        return this.prodReqSelectedRecType == PROG_PLAN_REQUEST? this.programPlanObjectInfo.data.label : this.courseObjectInfo.data.label;
     }
 
     //opens selection modal
@@ -158,22 +189,63 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
         }
     }
 
+    prodReqId;
+    prodReqSelectedRecType;
     createAndRedirectToProductRequest(){
         const prRtis = this.objectInfo.data.recordTypeInfos;
         let productRequestfields = {};
-        productRequestfields.Product_Request_Status__c = 'Design';
         productRequestfields.Parent_Product_Request__c = this.parentField == PR_PARENT.fieldApiName ? this.parentId : '';
         productRequestfields.Product_Specification__c = this.parentField !== PR_PARENT.fieldApiName ? this.parentId : '';
         productRequestfields.RecordTypeId = Object.keys(prRtis).find(rti => prRtis[rti].name == this.selectedRecordTypeName); 
 
         const fields = {...productRequestfields};
         const recordInput = { apiName: PRODUCT_REQUEST_OBJECT.objectApiName, fields};
- 
+        
         createRecord(recordInput)
         .then(record => {
-            this.showToast('Product Request created.','Redirecting...','success');
+            this.showToast('Product Request created.',this.selectedRecordTypeName,'success');
+            this.prodReqId=record.id;
+            this.prodReqSelectedRecType=this.selectedRecordTypeName;
             this.closeSelectionModal();
-            this.dispatchEvent(new CustomEvent('created'));
+            this.openRecordCreation();
+        })
+        .catch(error => {
+            this.showToast('Error.',LWC_Error_General,'error');
+        });
+    }
+
+    prRecordType;
+    handleSubmit(event){
+        event.preventDefault();
+        const programPlanRtis = this.programPlanObjectInfo.data.recordTypeInfos;
+        const courseRtis = this.courseObjectInfo.data.recordTypeInfos;
+        
+        let fields = event.detail.fields;
+        this.prRecordType = this.prodReqSelectedRecType.includes('OPE Activity Request') ? this.prodReqSelectedRecType.replace(' Request','') : this.prodReqSelectedRecType;
+
+        if(this.prodReqSelectedRecType != PROG_PLAN_REQUEST)
+        {
+            fields.ProductRequestID__c = this.prodReqId;
+            fields.RecordTypeId=Object.keys(courseRtis).find(rti => courseRtis[rti].name == this.prRecordType);
+            fields.hed__Account__c=this.accountId;
+        }
+        else
+        {
+            fields.Product_Request__c = this.prodReqId;
+            fields.RecordTypeId=Object.keys(programPlanRtis).find(rti => programPlanRtis[rti].name == this.prRecordType);
+        }
+        this.template.querySelector('lightning-record-edit-form').submit(fields);       
+    }
+    
+    
+    updateProductRequestStatusAndRedirect()
+    {
+        let productReqfields = {};
+        productReqfields.Id= this.prodReqId;
+        productReqfields.Product_Request_Status__c = 'Design';
+        const fields = {...productReqfields};
+        const recordInput = {fields};
+        updateRecord(recordInput).then((record) => {
             this[NavigationMixin.Navigate]({
                 type: 'standard__recordPage',
                 attributes: {
@@ -181,11 +253,35 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
                     objectApiName: PRODUCT_REQUEST_OBJECT.objectApiName,
                     actionName: 'view'
                 }
-            });
-        })
-        .catch(error => {
-            this.showToast('Error.',LWC_Error_General,'error');
+            })
+          });
+    }
+
+    handleCreateLoad()
+    {
+        getAccountId()
+        .then(result =>{
+            this.accountId = result;
         });
+    }
+
+    handleRecordCreation()
+    {
+        this.isRelatedModalOpen=false;
+        this.dispatchEvent(new CustomEvent('created'));
+        this.updateProductRequestStatusAndRedirect();
+    }
+
+    handleRecordError()
+    {
+        this.showToast('Error.',LWC_Error_General,'error');
+        this.isRelatedModalOpen=false;
+        this.dispatchEvent(new CustomEvent('created'));
+    }
+    
+    openRecordCreation()
+    {
+        this.isRelatedModalOpen=true;
     }
 
     closeCreationModal() {
@@ -217,6 +313,7 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
         this.showToast(SUCCESS_TITLE,SUCCESS_MESSAGE,SUCCESS_VARIANT);
         this.dispatchEvent(new CustomEvent('created'));
         this.closeCreationModal();
+       
     }
 
     handleError(event) {
