@@ -146,6 +146,13 @@
         <layout>hed__Course__c-OPE Single Product Page Layout</layout>
         <recordType>hed__Course__c.Single_Product</recordType>
     </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Program_Plan__c-OPE Program Request Page Layout</layout>
+        <recordType>hed__Program_Plan__c.OPE_Program_Request</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Program_Plan__c-OPE Program Request Page Layout</layout>
+    </layoutAssignments>
     <recordTypeVisibilities>
         <default>false</default>
         <recordType>Account.Academic_Program</recordType>

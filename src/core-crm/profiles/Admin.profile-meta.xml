@@ -3316,6 +3316,13 @@
         <recordType>hed__Course__c.Single_Product</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>hed__Program_Plan__c-OPE Program Request Page Layout</layout>
+        <recordType>hed__Program_Plan__c.OPE_Program_Request</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Program_Plan__c-OPE Program Request Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Lead-QUTeX Leads</layout>
     </layoutAssignments>
     <layoutAssignments>
