@@ -5,7 +5,8 @@
     <errorConditionFormula>AND (
  OR(
   RecordType.DeveloperName = &apos;OPE_Activity&apos;,
-  RecordType.DeveloperName = &apos;Short_Course&apos;  
+  RecordType.DeveloperName = &apos;Short_Course&apos;,
+  RecordType.DeveloperName = &apos;Single_Product&apos;  
  ), 
  OR(
   ISPICKVAL( ProductRequestID__r.Product_Request_Status__c, &apos;Design&apos;),

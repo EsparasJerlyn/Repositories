@@ -2707,6 +2707,11 @@
         <field>hed__Course__c.Minimum_Participants__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Course__c.OPE_Design_Complete__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
 	<fieldPermissions>
         <editable>true</editable>
         <field>hed__Course__c.Overview_Website__c</field>

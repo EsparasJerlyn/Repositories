@@ -3,7 +3,10 @@
     <fullName>Actual_Volume_is_required</fullName>
     <active>true</active>
     <errorConditionFormula>AND (
- RecordType.DeveloperName = &apos;Short_Course&apos;, 
+ OR(
+  RecordType.DeveloperName = &apos;Short_Course&apos;,
+  RecordType.DeveloperName = &apos;Single_Product&apos;  
+ ),  
  OR(
   ISPICKVAL( ProductRequestID__r.Product_Request_Status__c, &apos;Design&apos;),
   ISPICKVAL( ProductRequestID__r.Product_Request_Status__c, &apos;Release&apos;),
