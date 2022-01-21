@@ -116,12 +116,43 @@
         <members>Short_Course_Design_Form_Email</members>
         <name>Flow</name>
     </types>
-
- 
-
-
-
     
+    <types>
+        <members>hed__Course__c.Professional_Advantage_Value__c</members>
+        <members>Product_Request__c.Professional_Advantage_Value__c</members>
+        <name>CustomField</name>
+    </types>
+    <types>
+        <members>Product_Request__c-Professional Advantage Request Layout</members>
+        <name>Layout</name>
+    </types>
+    <types>
+        <members>Professional_Advantage_Lightning_Page_Layout</members>
+        <name>FlexiPage</name>
+    </types>
+    <types>
+        <members>Professional_Advantage_Request</members>
+        <name>PathAssistant</name>
+    </types>   
+    <types>
+        <members>Field_Layout_Setting.Professional_Advantage_Request_Summary</members>
+        <members>Field_Layout_Setting.Professional_Advantage_Request_Detail</members>
+        <members>Record_Type_Setting.Professional_Advantage_Request</members>
+        <name>CustomMetadata</name>
+    </types>    
+    <types>
+        <members>Product_Request__c.Professional_Advantage_Request</members>
+        <name>RecordType</name>
+    </types>
+    <types>    
+        <members>Product_Request__c.Open_Professional_Advantage_Requests</members>
+        <members>Product_Request__c.My_Open_Professional_Advantage_Requests</members>
+        <name>ListView</name>
+    </types>
+    <types>
+        <members>Product_Request__c.Professional_Advantage_Request_Compact_Layout</members>
+        <name>CompactLayout</name>
+    </types>
 
     <version>52.0</version>
 </Package>
