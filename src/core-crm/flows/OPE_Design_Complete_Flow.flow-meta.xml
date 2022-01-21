@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-    <apiVersion>54.0</apiVersion>
+    <apiVersion>52.0</apiVersion>
     <assignments>
         <name>Set_OPE_Design_Complete_to_False</name>
         <label>Set OPE Design Complete to False</label>
@@ -294,7 +294,7 @@
                 <leftValueReference>$Record.Is_Curriculum_Approved__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <booleanValue>false</booleanValue>
+                    <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <conditions>
@@ -583,7 +583,7 @@
         <recordTriggerType>Update</recordTriggerType>
         <triggerType>RecordBeforeSave</triggerType>
     </start>
-    <status>Draft</status>
+    <status>Active</status>
     <variables>
         <name>OPEDesignComplete</name>
         <dataType>Boolean</dataType>
