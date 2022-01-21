@@ -135,11 +135,11 @@
         <name>PathAssistant</name>
     </types>   
     <types>
-        <members>Field_Layout_Setting.Professional_Advantage_Request_Summary</members>
-        <members>Field_Layout_Setting.Professional_Advantage_Request_Detail</members>
-        <members>Record_Type_Setting.Professional_Advantage_Request</members>
+        <members>Field_Layout_Setting__mdt.Professional_Advantage_Request_Summary</members>
+        <members>Field_Layout_Setting__mdt.Professional_Advantage_Request_Detail</members>
+        <members>Record_Type_Setting__mdt.Professional_Advantage_Request</members>
         <name>CustomMetadata</name>
-    </types>    
+    </types>
     <types>
         <members>Product_Request__c.Professional_Advantage_Request</members>
         <name>RecordType</name>
