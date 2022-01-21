@@ -19,4 +19,9 @@
         <layout>Account-University And Educational Layout</layout>
         <recordType>Account.University_Department</recordType>
     </layoutAssignments>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Account.ParentId</field>
+        <readable>false</readable>
+    </fieldPermissions>
 </Profile>
