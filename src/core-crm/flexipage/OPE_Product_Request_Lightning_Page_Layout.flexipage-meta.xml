@@ -71,6 +71,15 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>setupRegistration</componentName>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-dab409dd-fab6-42dd-a853-d27465085b43</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
                 <componentInstanceProperties>
                     <name>parentFieldApiName</name>
                     <value>Product_Request__c.Id</value>
@@ -279,6 +288,19 @@
                 <componentInstanceProperties>
                     <name>title</name>
                     <value>Design</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-dab409dd-fab6-42dd-a853-d27465085b43</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Product Management</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
             </componentInstance>

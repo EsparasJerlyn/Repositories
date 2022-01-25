@@ -3,7 +3,10 @@
     <fullName>Dropdown_Options_is_required</fullName>
     <active>true</active>
     <description>Dropdown Options is required when Type is Picklist or Multi-Select Picklist</description>
-    <errorConditionFormula>ISPICKVAL(Type__c, &quot;Picklist&quot;) ||  ISPICKVAL(Type__c, &quot;Multi-Select Picklist&quot;)</errorConditionFormula>
+    <errorConditionFormula>AND(
+(ISPICKVAL(Type__c, &quot;Picklist&quot;) ||  ISPICKVAL(Type__c, &quot;Multi-Select Picklist&quot;)),
+ISBLANK( Dropdown_Options__c  ) 
+)</errorConditionFormula>
     <errorDisplayField>Dropdown_Options__c</errorDisplayField>
     <errorMessage>Dropdown Options is required when Type is Picklist or Multi-Select Picklist</errorMessage>
 </ValidationRule>

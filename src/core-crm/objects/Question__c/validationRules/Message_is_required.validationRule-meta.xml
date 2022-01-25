@@ -3,7 +3,10 @@
     <fullName>Message_is_required</fullName>
     <active>true</active>
     <description>Message is required when Mandatory Response is not blank.</description>
-    <errorConditionFormula>NOT( ISBLANK( Mandatory_Response__c ) )</errorConditionFormula>
+    <errorConditionFormula>AND(
+NOT( ISBLANK( Mandatory_Response__c ) ),
+ISBLANK( Message__c ) 
+)</errorConditionFormula>
     <errorDisplayField>Message__c</errorDisplayField>
     <errorMessage>Message is required when Mandatory Response is not blank.</errorMessage>
 </ValidationRule>

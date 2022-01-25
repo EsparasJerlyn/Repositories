@@ -23,11 +23,13 @@
       | johnbo.pineda@qut.edu.au  | December 21, 2021     | DEPP-1150           | Added method for creation of Pending Registration                |
       | johnbo.pineda@qut.edu.au  | January 05, 2022      | DEPP-1382           | Added method for creation of Program Offering                    |
       | arsenio.dayrit@qut.edu.au | January 12, 2022      | DEPP-1359           | Added method for creation of Product Ledger                      |
+      | angelika.j.s.galang       | January 25, 2022      | DEPP-1396           | Added method for creation of Questionnaire, Question, and Answer |
 */
 @IsTest
 public class TestDataFactory {
   private static final String STR_QUALIFY = 'Qualify';
   private static final String STR_IN_PROGRESS = 'In Progress';
+  private static final String STR_QUESTIONNAIRE_TYPE = 'Registration Criteria';
   private static final String TEST_BUYER_GROUP = 'Test Buyer Group';
   private static final String TEST_BUYER_ACCT = 'Test Buyer Account';
   private static final String TEST_ACCOUNT_NAME = 'Test Account';
@@ -768,6 +770,78 @@ public class TestDataFactory {
     }
 
     return productLedger;
+  }
+
+  /**
+   * @description Method for creating test Questionnaire records
+   * @param numQuestionnaires number of questionnaires
+   * @param parentRecord Id of parent record
+   * @param objectType api name of object the questionnaire is attached to
+   * @return questionnaires - list of questionnaires
+   */
+  public static List<Questionnaire__c> createTestQuestionnaireRecords(
+    Integer numQuestionnaires,
+    String parentRecord,
+    String objectType
+  ) {
+    List<Questionnaire__c> questionnaires = new List<Questionnaire__c>();
+    
+    for (Integer i = 0 ; i < numQuestionnaires ; i++) {
+      questionnaires.add(
+        new Questionnaire__c(
+          Questionnaire_Type__c = STR_QUESTIONNAIRE_TYPE,
+          Parent_Record_ID__c = parentRecord,
+          Object_Type__c = objectType
+        )
+      );
+    }
+
+    return questionnaires;
+  }
+
+  /**
+   * @description Method for creating test Question records
+   * @param numQuestion number of questions
+   * @return questions - list of questions
+   */
+  public static List<Question__c> createTestQuestionRecords(
+    Integer numQuestions
+  ) {
+    List<Question__c> questions = new List<Question__c>();
+    
+    for (Integer i = 0 ; i < numQuestions ; i++) {
+      questions.add(
+        new Question__c()
+      );
+    }
+
+    return questions;
+  }
+
+  /**
+   * @description Method for creating test Questionnaire records
+   * @param numAnswers number of questionnaires
+   * @param relatedQuestions Id of parent record
+   * @param relatedQuestionnaire api name of object the questionnaire is attached to
+   * @return questionnaires - list of questionnaires
+   */
+  public static List<Answer__c> createTestAnswerRecords(
+    Integer numAnswers,
+    Id relatedQuestionnaire,
+    List<Question__c> relatedQuestions
+  ) {
+    List<Answer__c> answers = new List<Answer__c>();
+    
+    for (Integer i = 0 ; i < numAnswers ; i++) {
+      answers.add(
+        new Answer__c(
+          Questionnaire__c = relatedQuestionnaire,
+          Question__c = relatedQuestions[i]?.Id
+        )
+      );
+    }
+
+    return answers;
   }
 
 } 

@@ -9,6 +9,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>AddProductRequestCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CourseDetailFieldsCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -33,11 +37,11 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>AddProductRequestCtrl</apexClass>
+        <apexClass>ProductRequestListCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ProductRequestListCtrl</apexClass>
+        <apexClass>SetupRegistrationCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <customPermissions>
@@ -637,6 +641,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Question__c.Dropdown_Options__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Question__c.Label__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
