@@ -134,7 +134,7 @@
         <members>Professional_Advantage_Request</members>
         <name>PathAssistant</name>
     </types>   
-    <types>
+    <!-- <types>
         <members>Field_Layout_Setting__mdt.Professional_Advantage_Request_Summary</members>
         <members>Field_Layout_Setting__mdt.Professional_Advantage_Request_Detail</members>
         <members>Record_Type_Setting__mdt.Professional_Advantage_Request</members>
@@ -152,7 +152,7 @@
     <types>
         <members>Product_Request__c.Professional_Advantage_Request_Compact_Layout</members>
         <name>CompactLayout</name>
-    </types>
+    </types> -->
 
     <version>52.0</version>
 </Package>
