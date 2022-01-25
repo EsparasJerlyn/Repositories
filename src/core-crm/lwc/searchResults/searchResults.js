@@ -1,16 +1,19 @@
-import { LightningElement, api} from 'lwc';
-import { NavigationMixin } from 'lightning/navigation';
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import { LightningElement, api } from "lwc";
+import { NavigationMixin } from "lightning/navigation";
+import { ShowToastEvent } from "lightning/platformShowToastEvent";
 
-import communityId from '@salesforce/community/Id';
-import productSearch from '@salesforce/apex/B2BSearchCtrl.productSearch';
-import { transformData } from './dataNormalizer';
-import getSortCollections from '@salesforce/apex/B2BSearchCtrl.getSortCollections';
-import { generateErrorMessage } from 'c/commonUtils';
-const STUDY_STORE = 'study';
+import communityId from "@salesforce/community/Id";
+import productSearch from "@salesforce/apex/B2BSearchCtrl.productSearch";
+import getCartSummary from "@salesforce/apex/B2BGetInfo.getCartSummary";
+import addToCart from "@salesforce/apex/B2BGetInfo.addToCart";
+import { transformData } from "./dataNormalizer";
+import getSortCollections from "@salesforce/apex/B2BSearchCtrl.getSortCollections";
+import { generateErrorMessage } from "c/commonUtils";
+const STUDY_STORE = "study";
 const ERROR_TITLE = "Error!";
 const ERROR_VARIANT = "error";
-const MSG_ERROR = "An error has been encountered. Please contact your Administrator.";
+const MSG_ERROR =
+  "An error has been encountered. Please contact your Administrator.";
 
 /**
  * A search resutls component that shows results of a product search or
@@ -20,9 +23,8 @@ const MSG_ERROR = "An error has been encountered. Please contact your Administra
  * 'B2B Custom Search Results'
  */
 export default class SearchResults extends NavigationMixin(LightningElement) {
-
   searchQuery;
-  
+
   /**
    * Gets the effective account - if any - of the user viewing the product.
    *
@@ -30,7 +32,7 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
    */
   @api
   get effectiveAccountId() {
-      return this._effectiveAccountId;
+    return this._effectiveAccountId;
   }
 
   /**
@@ -38,7 +40,8 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
    * and fetches updated cart information
    */
   set effectiveAccountId(newId) {
-      this._effectiveAccountId = newId;
+    this._effectiveAccountId = newId;
+    this.updateCartInformation();
   }
 
   /**
@@ -48,12 +51,12 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
    */
   @api
   get recordId() {
-      return this._recordId;
+    return this._recordId;
   }
   set recordId(value) {
-      this._recordId = value;
-      this._landingRecordId = value;
-      this.triggerProductSearch();
+    this._recordId = value;
+    this._landingRecordId = value;
+    this.triggerProductSearch();
   }
 
   /**
@@ -63,20 +66,20 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
    */
   @api
   get term() {
-      return this._term;
+    return this._term;
   }
   set term(value) {
-      this._term = value;
-      if (value) {
-          this.triggerProductSearch();
-      }
+    this._term = value;
+    if (value) {
+      this.triggerProductSearch();
+    }
   }
 
   get products() {
-      return this._products;
+    return this._products;
   }
   set products(value) {
-      this._products = value;
+    this._products = value;
   }
 
   /**
@@ -86,10 +89,10 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
    */
   @api
   get cardContentMapping() {
-      return this._cardContentMapping;
+    return this._cardContentMapping;
   }
   set cardContentMapping(value) {
-      this._cardContentMapping = value;
+    this._cardContentMapping = value;
   }
 
   /**
@@ -112,37 +115,40 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
    * Triggering the product search query
    */
   async triggerProductSearch() {
-   
-      if(this.sortRuleId == undefined) {
-          await this.findSortCollections();
-      }
-      const searchQuery = JSON.stringify({
-          searchTerm: this.term,
-          categoryId: this.recordId,
-          refinements: this._refinements,
-          // use fields for picking only specific fields
-          // using ./dataNormalizer's normalizedCardContentMapping
-          //fields: normalizedCardContentMapping(this._cardContentMapping),
-          page: this._pageNumber - 1,
-          includePrices: true,
-          sortRuleId: this.sortRuleId
-      });
+    if (this.sortRuleId == undefined) {
+      await this.findSortCollections();
+    }
+    const searchQuery = JSON.stringify({
+      searchTerm: this.term,
+      categoryId: this.recordId,
+      refinements: this._refinements,
+      // use fields for picking only specific fields
+      // using ./dataNormalizer's normalizedCardContentMapping
+      //fields: normalizedCardContentMapping(this._cardContentMapping),
+      page: this._pageNumber - 1,
+      includePrices: true,
+      sortRuleId: this.sortRuleId
+    });
 
-      this._isLoading = true;
+    this._isLoading = true;
 
-      productSearch({
-          communityId: communityId,
-          searchQuery: searchQuery,
-          effectiveAccountId: this.resolvedEffectiveAccountId
-      })
+    productSearch({
+      communityId: communityId,
+      searchQuery: searchQuery,
+      effectiveAccountId: this.resolvedEffectiveAccountId
+    })
       .then((result) => {
-          this.displayData = result;
-          this.products = result.productsPage.products;
-          this._isLoading = false;
+        this.displayData = result;
+        this.products = result.productsPage.products;
+        this._isLoading = false;
       })
       .catch((error) => {
-          this._isLoading = false;
-          this.showToast(ERROR_TITLE,MSG_ERROR + generateErrorMessage(error),ERROR_VARIANT);
+        this._isLoading = false;
+        this.showToast(
+          ERROR_TITLE,
+          MSG_ERROR + generateErrorMessage(error),
+          ERROR_VARIANT
+        );
       });
   }
 
@@ -155,16 +161,16 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
    * @private
    */
   get config() {
-      return {
-          layoutConfig: {
-              resultsLayout: this.resultsLayout,
-              cardConfig: {
-                  showImage: this.showProductImage,
-                  resultsLayout: this.resultsLayout,
-                  actionDisabled: this.isCartLocked
-              }
-          }
-      };
+    return {
+      layoutConfig: {
+        resultsLayout: this.resultsLayout,
+        cardConfig: {
+          showImage: this.showProductImage,
+          resultsLayout: this.resultsLayout,
+          actionDisabled: this.isCartLocked
+        }
+      }
+    };
   }
 
   /**
@@ -173,24 +179,24 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
    * @private
    */
   get displayData() {
-      return this._displayData || {};
+    return this._displayData || {};
   }
   set displayData(data) {
-      let theProducts = transformData(data, this._cardContentMapping);
+    let theProducts = transformData(data, this._cardContentMapping);
 
-      for(const prod of theProducts.layoutData) {
-          const product = data.productsPage.products.find(theProd => {
-              return theProd.id == prod.id;
-          });
+    for (const prod of theProducts.layoutData) {
+      const product = data.productsPage.products.find((theProd) => {
+        return theProd.id == prod.id;
+      });
 
-          prod.productCode = product.fields.ProductCode.value;
-      }
+      prod.productCode = product.fields.ProductCode.value;
+    }
 
-      if(this._shouldKeepCatList){
-          theProducts.categoriesData = this._displayData.categoriesData;
-      }
+    if (this._shouldKeepCatList) {
+      theProducts.categoriesData = this._displayData.categoriesData;
+    }
 
-      this._displayData = theProducts;
+    this._displayData = theProducts;
   }
 
   /**
@@ -201,7 +207,7 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
    * @private
    */
   get isLoading() {
-      return this._isLoading;
+    return this._isLoading;
   }
 
   /**
@@ -212,7 +218,7 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
    * @private
    */
   get hasMorePages() {
-      return this.displayData.total > this.displayData.pageSize;
+    return this.displayData.total > this.displayData.pageSize;
   }
 
   /**
@@ -223,7 +229,7 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
    * @private
    */
   get pageNumber() {
-      return this._pageNumber;
+    return this._pageNumber;
   }
 
   /**
@@ -234,24 +240,21 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
    * @private
    */
   get headerText() {
-      let text = '';
-      const totalItemCount = this.displayData.total;
-      const pageSize = this.displayData.pageSize;
+    let text = "";
+    const totalItemCount = this.displayData.total;
+    const pageSize = this.displayData.pageSize;
 
-      if (totalItemCount > 1) {
-          const startIndex = (this._pageNumber - 1) * pageSize + 1;
+    if (totalItemCount > 1) {
+      const startIndex = (this._pageNumber - 1) * pageSize + 1;
 
-          const endIndex = Math.min(
-              startIndex + pageSize - 1,
-              totalItemCount
-          );
+      const endIndex = Math.min(startIndex + pageSize - 1, totalItemCount);
 
-          text = `Displaying ${startIndex} - ${endIndex} of ${totalItemCount} courses`;
-      } else if (totalItemCount === 1) {
-          text = '1 Result';
-      }
+      text = `Displaying ${startIndex} - ${endIndex} of ${totalItemCount} courses`;
+    } else if (totalItemCount === 1) {
+      text = "1 Result";
+    }
 
-      return text;
+    return text;
   }
 
   /**
@@ -262,16 +265,16 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
    * @private
    */
   get resolvedEffectiveAccountId() {
-      const effectiveAcocuntId = this.effectiveAccountId || '';
-      let resolved = null;
+    const effectiveAcocuntId = this.effectiveAccountId || "";
+    let resolved = null;
 
-      if (
-          effectiveAcocuntId.length > 0 &&
-          effectiveAcocuntId !== '000000000000000'
-      ) {
-          resolved = effectiveAcocuntId;
-      }
-      return resolved;
+    if (
+      effectiveAcocuntId.length > 0 &&
+      effectiveAcocuntId !== "000000000000000"
+    ) {
+      resolved = effectiveAcocuntId;
+    }
+    return resolved;
   }
 
   /**
@@ -282,8 +285,59 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
    * @readonly
    */
   get isCartLocked() {
-      const cartStatus = (this._cartSummary || {}).status;
-      return cartStatus === 'Processing' || cartStatus === 'Checkout';
+    const cartStatus = (this._cartSummary || {}).status;
+    return cartStatus === "Processing" || cartStatus === "Checkout";
+  }
+
+  /**
+   * The connectedCallback() lifecycle hook fires when a component is inserted into the DOM.
+   */
+  connectedCallback() {
+    this.updateCartInformation();
+  }
+
+  /**
+   * Handles a user request to add the product to their active cart.
+   *
+   * @private
+   */
+  handleAction(evt) {
+    evt.stopPropagation();
+
+    addToCart({
+      communityId: communityId,
+      productId: evt.detail.productId,
+      quantity: "1",
+      effectiveAccountId: this.resolvedEffectiveAccountId
+    })
+      .then(() => {
+        this.dispatchEvent(
+          new CustomEvent("cartchanged", {
+            bubbles: true,
+            composed: true
+          })
+        );
+        this.dispatchEvent(
+          new ShowToastEvent({
+            title: "Success",
+            message: "Your cart has been updated.",
+            variant: "success",
+            mode: "dismissable"
+          })
+        );
+      })
+      .catch(() => {
+        this.dispatchEvent(
+          new ShowToastEvent({
+            title: "Error",
+            message:
+              "{0} could not be added to your cart at this time. Please try again later.",
+            messageData: [evt.detail.productName],
+            variant: "error",
+            mode: "dismissable"
+          })
+        );
+      });
   }
 
   /**
@@ -292,15 +346,15 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
    * @private
    */
   handleShowDetail(evt) {
-      evt.stopPropagation();
+    evt.stopPropagation();
 
-      this[NavigationMixin.Navigate]({
-          type: 'standard__recordPage',
-          attributes: {
-              recordId: evt.detail.productId,
-              actionName: 'view'
-          }
-      });
+    this[NavigationMixin.Navigate]({
+      type: "standard__recordPage",
+      attributes: {
+        recordId: evt.detail.productId,
+        actionName: "view"
+      }
+    });
   }
 
   /**
@@ -309,10 +363,10 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
    * @private
    */
   handlePreviousPage(evt) {
-      evt.stopPropagation();
+    evt.stopPropagation();
 
-      this._pageNumber = this._pageNumber - 1;
-      this.triggerProductSearch();
+    this._pageNumber = this._pageNumber - 1;
+    this.triggerProductSearch();
   }
 
   /**
@@ -321,10 +375,10 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
    * @private
    */
   handleNextPage(evt) {
-      evt.stopPropagation();
+    evt.stopPropagation();
 
-      this._pageNumber = this._pageNumber + 1;
-      this.triggerProductSearch();
+    this._pageNumber = this._pageNumber + 1;
+    this.triggerProductSearch();
   }
 
   /**
@@ -333,11 +387,11 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
    * @private
    */
   handleFacetValueUpdate(evt) {
-      evt.stopPropagation();
+    evt.stopPropagation();
 
-      this._refinements = evt.detail.refinements;
-      this._pageNumber = 1;
-      this.triggerProductSearch();
+    this._refinements = evt.detail.refinements;
+    this._pageNumber = 1;
+    this.triggerProductSearch();
   }
 
   /**
@@ -346,55 +400,81 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
    * @private
    */
   handleCategoryUpdate(evt) {
-      evt.stopPropagation();
+    evt.stopPropagation();
 
-      this._recordId = evt.detail.categoryId;
-      this._pageNumber = 1;
+    this._recordId = evt.detail.categoryId;
+    this._pageNumber = 1;
 
-      this._shouldKeepCatList = (evt.detail.shouldKeepCatList) ? evt.detail.shouldKeepCatList : false
-      this.triggerProductSearch();
+    this._shouldKeepCatList = evt.detail.shouldKeepCatList
+      ? evt.detail.shouldKeepCatList
+      : false;
+    this.triggerProductSearch();
+  }
+
+  /**
+   * Ensures cart information is up to date
+   */
+  updateCartInformation() {
+    getCartSummary({
+      communityId: communityId,
+      effectiveAccountId: this.resolvedEffectiveAccountId
+    })
+      .then((result) => {
+        this._cartSummary = result;
+      })
+      .catch((e) => {
+        // Handle cart summary error properly
+        // For this sample, we can just log the error
+        console.log(e);
+      });
   }
 
   get sortRuleId() {
-      return this._sortRuleId;
+    return this._sortRuleId;
   }
 
-  set sortRuleId( value ) {
-      this._sortRuleId = value;
+  set sortRuleId(value) {
+    this._sortRuleId = value;
   }
 
   /**
    * Handles sort
    */
   async findSortCollections() {
-      await getSortCollections({
-          communityId: communityId
-      }).then(result => {
-          result.sortRules.forEach(element => {
-                  this.sortRuleId = element.sortRuleId;
-          });
-      }).catch(error => {
-          this.showToast(ERROR_TITLE,MSG_ERROR + generateErrorMessage(error),ERROR_VARIANT);
+    await getSortCollections({
+      communityId: communityId
+    })
+      .then((result) => {
+        result.sortRules.forEach((element) => {
+          this.sortRuleId = element.sortRuleId;
+        });
+      })
+      .catch((error) => {
+        this.showToast(
+          ERROR_TITLE,
+          MSG_ERROR + generateErrorMessage(error),
+          ERROR_VARIANT
+        );
       });
   }
 
   /**
    * Handles hiding of filter section if store is not OPE/Study
    */
-    get showFiltersIfStudy(){
-        return (window.location.href.indexOf(STUDY_STORE) > -1 ? true : false);
-    }
+  get showFiltersIfStudy() {
+    return window.location.href.indexOf(STUDY_STORE) > -1 ? true : false;
+  }
 
-    //shows success or error messages
-    showToast(title,message,variant){
-        this.dispatchEvent(
-            new ShowToastEvent({
-                title: title,
-                message: message,
-                variant: variant
-            })
-        );
-    }
+  //shows success or error messages
+  showToast(title, message, variant) {
+    this.dispatchEvent(
+      new ShowToastEvent({
+        title: title,
+        message: message,
+        variant: variant
+      })
+    );
+  }
 
   _shouldKeepCatList = false;
   _displayData;

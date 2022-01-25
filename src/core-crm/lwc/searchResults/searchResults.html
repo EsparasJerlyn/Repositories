@@ -1,51 +1,57 @@
 <template>
-    <lightning-spinner
-        if:true={isLoading}
-        class="slds-is-absolute slds-align_absolute-center"
-        alternative-text="Loading products..."
-        size="medium"
-        variant="brand"
-    >
-    </lightning-spinner>
+  <lightning-spinner
+    if:true={isLoading}
+    class="slds-is-absolute slds-align_absolute-center"
+    alternative-text="Loading products..."
+    size="medium"
+    variant="brand"
+  >
+  </lightning-spinner>
 
-    <header class="slds-m-bottom_medium">
-        <div class="slds-grid slds-wrap">
-            <div class="aside-section slds-border_bottom slds-p-bottom_medium" if:true={showFiltersIfStudy}>
-                <p class="slds-truncate heading-text-courses">Filter courses</p>
-            </div>
-            <div class="main-section">
-                <p class="slds-truncate slds-text-heading_large header-text">{headerText}</p>
-            </div>
-        </div>
-    </header>
-    <article class="layout-contiainer">
-        <aside class="aside-section" if:true={showFiltersIfStudy}>
-            <c-search-filter
-                display-data={displayData.facetsData}
-                class="slds-p-bottom_medium search-filter-checkbox"
-                onfacetvalueupdate={handleFacetValueUpdate}
-            >
-            </c-search-filter>
-        </aside>
-       
-        <section class="main-section">
-            <c-search-layout
-                display-data={displayData.layoutData}
-                config={config.layoutConfig}
-                onshowdetail={handleShowDetail}
-                account-id={effectiveAccountId}
-            >
-            </c-search-layout>
-          
-            <c-search-paginator
-                if:true={hasMorePages}
-                page-number={pageNumber}
-                page-size={displayData.pageSize}
-                total-item-count={displayData.total}
-                onprevious={handlePreviousPage}
-                onnext={handleNextPage}
-            >
-            </c-search-paginator>
-        </section>
-    </article>
+  <header class="slds-m-bottom_medium">
+    <div class="slds-grid slds-wrap">
+      <div
+        class="aside-section slds-border_bottom slds-p-bottom_medium"
+        if:true={showFiltersIfStudy}
+      >
+        <p class="slds-truncate heading-text-courses">Filter courses</p>
+      </div>
+      <div class="main-section">
+        <p class="slds-truncate slds-text-heading_large header-text">
+          {headerText}
+        </p>
+      </div>
+    </div>
+  </header>
+  <article class="layout-contiainer">
+    <aside class="aside-section" if:true={showFiltersIfStudy}>
+      <c-search-filter
+        display-data={displayData.facetsData}
+        class="slds-p-bottom_medium search-filter-checkbox"
+        onfacetvalueupdate={handleFacetValueUpdate}
+      >
+      </c-search-filter>
+    </aside>
+
+    <section class="main-section">
+      <c-search-layout
+        display-data={displayData.layoutData}
+        config={config.layoutConfig}
+        oncalltoaction={handleAction}
+        onshowdetail={handleShowDetail}
+        account-id={effectiveAccountId}
+      >
+      </c-search-layout>
+
+      <c-search-paginator
+        if:true={hasMorePages}
+        page-number={pageNumber}
+        page-size={displayData.pageSize}
+        total-item-count={displayData.total}
+        onprevious={handlePreviousPage}
+        onnext={handleNextPage}
+      >
+      </c-search-paginator>
+    </section>
+  </article>
 </template>
