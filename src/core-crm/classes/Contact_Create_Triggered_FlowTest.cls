@@ -38,11 +38,9 @@ private class Contact_Create_Triggered_FlowTest {
             Test.startTest();
             insert(conList);
             Test.stopTest();
-			
-            Map<Id,Contact> insertedConMap = new Map<Id,Contact>([SELECT Id,AccountId FROM Contact LIMIT 100]);
 
-            List<hed__Affiliation__c> insertedAffiliationList = [SELECT Id FROM hed__Affiliation__c WHERE hed__Contact__c IN :insertedConMap.keyset()];
-            System.assert(insertedAffiliationList.size() == 100,'Affiliation records created did not match expected');
+            List<Contact> updatedContactList = new List<Contact>([SELECT Id FROM Contact WHERE hed__Primary_Organization__c != null]);
+            System.assert(updatedContactList.size() == 100,'Contacts where not updated');
         }
     }
 
