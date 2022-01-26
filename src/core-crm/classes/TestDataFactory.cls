@@ -23,6 +23,7 @@
       | johnbo.pineda@qut.edu.au  | December 21, 2021     | DEPP-1150           | Added method for creation of Pending Registration                |
       | johnbo.pineda@qut.edu.au  | January 05, 2022      | DEPP-1382           | Added method for creation of Program Offering                    |
       | arsenio.dayrit@qut.edu.au | January 12, 2022      | DEPP-1359           | Added method for creation of Product Ledger                      |
+      | adrian.c.habasa           | January 21, 2022      | DEPP-1463           | Added method for creation of Credential                           |
       | angelika.j.s.galang       | January 25, 2022      | DEPP-1396           | Added method for creation of Questionnaire, Question, and Answer |
 */
 @IsTest
@@ -772,6 +773,23 @@ public class TestDataFactory {
     return productLedger;
   }
 
+ /**
+   * @description Method for creating test Credential records
+   * @param numOfCredential number of Credential
+   * @return credential - list of Credential
+   */
+  public static List<Credential__c> createTestCredentialRecords(Integer numOfCredential)
+  {
+    List<Credential__c> credential = new List<Credential__c>();
+    for (Integer i = 0; i < numOfCredential; i++) {
+      credential.add(
+        new Credential__c(
+          Name= 'Test Credential' +  i
+        )
+      );
+    }
+    return credential;
+  }
   /**
    * @description Method for creating test Questionnaire records
    * @param numQuestionnaires number of questionnaires
