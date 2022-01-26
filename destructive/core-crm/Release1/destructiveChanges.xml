@@ -149,12 +149,10 @@
         <members>Product_Request__c.Professional_Advantage_Request_Compact_Layout</members>
         <name>CompactLayout</name>
     </types>
-    <!-- 
     <types>
         <members>Product_Request__c.Professional_Advantage_Request</members>
         <name>RecordType</name>
     </types> 
-    -->
 
     <version>52.0</version>
 </Package>
