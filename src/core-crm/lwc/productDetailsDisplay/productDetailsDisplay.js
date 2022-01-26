@@ -352,7 +352,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
 
   get showRegisterInterestButton() {
     if (
-      this.showEnrollButton &&
+      !this.showEnrollButton &&
       this.hasSelectedCourseOffering &&
       this.registerInterestAvailable === "true" &&
       this.isOPEPortal

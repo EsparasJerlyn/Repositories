@@ -354,6 +354,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Product2.Register_Interest_Available__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Product2.Who_Should_Participate__c</field>
         <readable>true</readable>
     </fieldPermissions>
