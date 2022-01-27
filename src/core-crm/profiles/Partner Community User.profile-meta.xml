@@ -9,4 +9,9 @@
     <layoutAssignments>
         <layout>Global-Chatter Publisher Layout</layout>
     </layoutAssignments>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Account.ParentId</field>
+        <readable>false</readable>
+    </fieldPermissions>
 </Profile>
