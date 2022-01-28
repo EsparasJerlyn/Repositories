@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CourseLoop_Full_Proposal_URL_is_required</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND (
+RecordType.DeveloperName = &apos;OPE_Program_Request&apos;,
+ISPICKVAL( Product_Request__r.Product_Request_Status__c , &apos;Design&apos;),
+AND(
+NOT (ISCHANGED( PP_Design_Form_Status__c ) ),
+OR(
+ISPICKVAL( PP_Design_Form_Status__c , &apos;Design Form Sent&apos;),
+ISPICKVAL( PP_Design_Form_Status__c , &apos;Design Form Received&apos;)
+)
+),
+ISBLANK( PP_Courseloop_Full_URL__c )
+)</errorConditionFormula>
+    <errorDisplayField>PP_Courseloop_Full_URL__c</errorDisplayField>
+    <errorMessage>“CourseLoop Full Proposal URL” is required to update the Product Request Status.</errorMessage>
+</ValidationRule>

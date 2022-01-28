@@ -3067,6 +3067,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>hed__Program_Plan__c.OPE_Design_Complete__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>hed__Program_Plan__c.Overview__c</field>
         <readable>true</readable>
     </fieldPermissions>

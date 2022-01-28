@@ -1,0 +1,9 @@
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>OPE_Design_Complete__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Used in flow to check if fields for OPE Program Plan design is complete.</description>
+    <externalId>false</externalId>
+    <label>OPE Design Complete</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

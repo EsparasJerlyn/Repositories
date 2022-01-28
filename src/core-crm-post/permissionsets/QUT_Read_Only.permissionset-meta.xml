@@ -6392,7 +6392,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>hed__Course__c.OPE_Design_Complete__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6974,6 +6974,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>hed__Program_Plan__c.More_Details__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>hed__Program_Plan__c.OPE_Design_Complete__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

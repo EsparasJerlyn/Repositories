@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Program_Plan_Code_is_required</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND (
+RecordType.DeveloperName = &apos;OPE_Program_Request&apos;,
+ISPICKVAL( Product_Request__r.Product_Request_Status__c , &apos;Design&apos;),
+AND(
+NOT (ISCHANGED( PP_Design_Form_Status__c ) ),
+OR(
+ISPICKVAL( PP_Design_Form_Status__c , &apos;Design Form Sent&apos;),
+ISPICKVAL( PP_Design_Form_Status__c , &apos;Design Form Received&apos;)
+)
+),
+ISBLANK( Program_Plan_Code__c )
+)</errorConditionFormula>
+    <errorDisplayField>Program_Plan_Code__c</errorDisplayField>
+    <errorMessage>“Program Plan Code” is required to update the Product Request Status.</errorMessage>
+</ValidationRule>

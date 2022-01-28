@@ -3,12 +3,14 @@
     <fullName>Previously_Developed_Content_is_required</fullName>
     <active>true</active>
     <errorConditionFormula>AND (
- RecordType.DeveloperName = &apos;Short_Course&apos;, 
- OR(
-  ISPICKVAL( ProductRequestID__r.Product_Request_Status__c, &apos;Design&apos;),
-  ISPICKVAL( ProductRequestID__r.Product_Request_Status__c, &apos;Release&apos;),
-  ISPICKVAL( ProductRequestID__r.Product_Request_Status__c, &apos;In Delivery&apos;),
-  ISPICKVAL( ProductRequestID__r.Product_Request_Status__c, &apos;Completed&apos;)
+ RecordType.DeveloperName = &apos;Short_Course&apos;,
+ ISPICKVAL( ProductRequestID__r.Product_Request_Status__c , &apos;Design&apos;),
+ AND(
+  NOT (ISCHANGED( Design_Form_Status__c ) ),
+  OR(
+   ISPICKVAL( Design_Form_Status__c , &apos;Design Form Sent&apos;),
+   ISPICKVAL( Design_Form_Status__c , &apos;Design Form Received&apos;)
+  ) 
  ),
  ISBLANK( TEXT( Previously_Developed_Content__c ) )
 )</errorConditionFormula>

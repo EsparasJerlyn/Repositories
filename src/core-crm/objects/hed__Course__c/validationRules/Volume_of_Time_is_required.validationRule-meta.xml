@@ -8,11 +8,13 @@
   RecordType.DeveloperName = &apos;Short_Course&apos;,
   RecordType.DeveloperName = &apos;Single_Product&apos;
  ), 
- OR(
-  ISPICKVAL( ProductRequestID__r.Product_Request_Status__c, &apos;Design&apos;),
-  ISPICKVAL( ProductRequestID__r.Product_Request_Status__c, &apos;Release&apos;),
-  ISPICKVAL( ProductRequestID__r.Product_Request_Status__c, &apos;In Delivery&apos;),
-  ISPICKVAL( ProductRequestID__r.Product_Request_Status__c, &apos;Completed&apos;)
+ ISPICKVAL( ProductRequestID__r.Product_Request_Status__c , &apos;Design&apos;),
+ AND(
+  NOT (ISCHANGED( Design_Form_Status__c ) ),
+  OR(
+   ISPICKVAL( Design_Form_Status__c , &apos;Design Form Sent&apos;),
+   ISPICKVAL( Design_Form_Status__c , &apos;Design Form Received&apos;)
+  ) 
  ),
  ISBLANK( TEXT ( Volume_of_time__c ) )
 )</errorConditionFormula>
