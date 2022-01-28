@@ -4,7 +4,7 @@
         <name>Design_Form_Email</name>
         <label>Design Form Email</label>
         <locationX>578</locationX>
-        <locationY>734</locationY>
+        <locationY>854</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
         <connector>
@@ -44,7 +44,7 @@
         <name>Assign_OPE_Activity_Design_Form</name>
         <label>Assign OPE Activity Design Form</label>
         <locationX>314</locationX>
-        <locationY>518</locationY>
+        <locationY>638</locationY>
         <assignmentItems>
             <assignToReference>Record</assignToReference>
             <operator>Assign</operator>
@@ -60,7 +60,7 @@
         <name>Assign_OPE_Program_Request_Design_Form</name>
         <label>Assign OPE Program Request Design Form</label>
         <locationX>842</locationX>
-        <locationY>518</locationY>
+        <locationY>638</locationY>
         <assignmentItems>
             <assignToReference>Record</assignToReference>
             <operator>Assign</operator>
@@ -83,7 +83,7 @@
         <name>Assign_Short_Course_Design_Form</name>
         <label>Assign Short Course Design Form</label>
         <locationX>50</locationX>
-        <locationY>518</locationY>
+        <locationY>638</locationY>
         <assignmentItems>
             <assignToReference>Record</assignToReference>
             <operator>Assign</operator>
@@ -99,7 +99,7 @@
         <name>Assign_Single_Product_Design_Form</name>
         <label>Assign Single Product Design Form</label>
         <locationX>578</locationX>
-        <locationY>518</locationY>
+        <locationY>638</locationY>
         <assignmentItems>
             <assignToReference>Record</assignToReference>
             <operator>Assign</operator>
@@ -115,10 +115,7 @@
         <name>Check_Product_Request_RecordType</name>
         <label>Check Product Request RecordType</label>
         <locationX>578</locationX>
-        <locationY>398</locationY>
-        <defaultConnector>
-            <targetReference>Design_Form_Email</targetReference>
-        </defaultConnector>
+        <locationY>518</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>is_Short_Course</name>
@@ -182,10 +179,47 @@
         </rules>
     </decisions>
     <decisions>
+        <name>Has_Assigned_Requestor</name>
+        <label>Has Assigned Requestor</label>
+        <locationX>1238</locationX>
+        <locationY>278</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Has_Req_Name_Assigned</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Product_Request_Record.Product_Specification__r.Requestor_Name__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Send_Design_Form_Screen</targetReference>
+            </connector>
+            <label>Has Req Name Assigned</label>
+        </rules>
+        <rules>
+            <name>Has_No_Req_Name_Assigned</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Product_Request_Record.Parent_Product_Request__r.Product_Specification__r.Requestor_Name__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Has_No_Requestor</targetReference>
+            </connector>
+            <label>Has No Req Name Assigned</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Update_what_object</name>
         <label>Update what object</label>
         <locationX>578</locationX>
-        <locationY>854</locationY>
+        <locationY>974</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>For_Program_Plan</name>
@@ -242,11 +276,11 @@
     <recordLookups>
         <name>Get_Product_Request_Record</name>
         <label>Get Product Request Record</label>
-        <locationX>578</locationX>
+        <locationX>1238</locationX>
         <locationY>158</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Send_Design_Form_Screen</targetReference>
+            <targetReference>Has_Assigned_Requestor</targetReference>
         </connector>
         <faultConnector>
             <targetReference>Product_Request_Error</targetReference>
@@ -267,7 +301,7 @@
         <name>Update_Program_Plan_Design_Form_Status</name>
         <label>Update Program Plan Design Form Status</label>
         <locationX>50</locationX>
-        <locationY>974</locationY>
+        <locationY>1094</locationY>
         <faultConnector>
             <targetReference>Update_Design_Error</targetReference>
         </faultConnector>
@@ -291,7 +325,7 @@
         <name>Update_Status_to_Design_Form_Sent</name>
         <label>Update Status to Design Form Sent</label>
         <locationX>578</locationX>
-        <locationY>974</locationY>
+        <locationY>1094</locationY>
         <faultConnector>
             <targetReference>Update_Design_Error</targetReference>
         </faultConnector>
@@ -315,7 +349,7 @@
         <name>Design_Form_Error</name>
         <label>Design Form Error</label>
         <locationX>1370</locationX>
-        <locationY>854</locationY>
+        <locationY>974</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -328,16 +362,32 @@
         <showHeader>true</showHeader>
     </screens>
     <screens>
+        <name>Has_No_Requestor</name>
+        <label>Has No Requestor</label>
+        <locationX>1634</locationX>
+        <locationY>398</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>No_Req</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 16px; color: rgb(255, 0, 0); background-color: rgb(255, 255, 255);&quot;&gt;Please assign &lt;/span&gt;&lt;b style=&quot;font-size: 16px; color: rgb(255, 0, 0); background-color: rgb(255, 255, 255);&quot;&gt;Requestor Name&lt;/b&gt;&lt;span style=&quot;font-size: 16px; color: rgb(255, 0, 0); background-color: rgb(255, 255, 255);&quot;&gt; to Proceed.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
         <name>Product_Request_Error</name>
         <label>Product Request Error</label>
-        <locationX>1634</locationX>
+        <locationX>2162</locationX>
         <locationY>278</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <fields>
             <name>PR_Error</name>
-            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 16px; color: rgb(202, 5, 5);&quot;&gt;Sorry we can&apos;t process your request at the time,. Please try again later&lt;/b&gt;&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;b style=&quot;font-size: 16px; color: rgb(202, 5, 5);&quot;&gt;Sorry we can&apos;t process your request at the time, Please try again later.&lt;/b&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
@@ -347,7 +397,7 @@
         <name>Send_Design_Form_Screen</name>
         <label>Send Design Form Screen</label>
         <locationX>578</locationX>
-        <locationY>278</locationY>
+        <locationY>398</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -366,7 +416,7 @@
         <name>Update_Design_Error</name>
         <label>Update  Design Error</label>
         <locationX>842</locationX>
-        <locationY>1094</locationY>
+        <locationY>1214</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -379,7 +429,7 @@
         <showHeader>true</showHeader>
     </screens>
     <start>
-        <locationX>452</locationX>
+        <locationX>1112</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Get_Product_Request_Record</targetReference>
