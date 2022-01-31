@@ -16,7 +16,7 @@
     </values>
     <values>
         <field>Record_Type_Setting__c</field>
-        <value xsi:type="xsd:string">OPE_Activity_Request</value>
+        <value xsi:type="xsd:string">OPE_Activity</value>
     </values>
     <values>
         <field>Right_Column_Long__c</field>

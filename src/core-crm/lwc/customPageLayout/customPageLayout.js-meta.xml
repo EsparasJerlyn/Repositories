@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>52.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__RecordPage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__RecordPage">
+            <property 
+                name="childObjectApiName"
+                label="Object API Name"
+                type="String"
+                description="API name of the object the layout is for."/>
+            <property
+                name="parentObjectApiName"
+                label="Parent Object API Name"
+                type="String"
+                description="API name of the parent object the layout is for."/>
+            <property
+                name="parentFieldApiName"
+                label="Parent Field API Name"
+                type="String"
+                description="API name of the parent field in the child object."/>
+            <property
+                name="grandParentFieldApiName"
+                label="Grandparent Field API Name"
+                type="String"
+                description="API name of the grandparent field in the child object. (This is for a parent-child-grandchild layout traversal.)"/>
+            <property
+                name="tab"
+                label="Tab"
+                type="String"
+                description="Tab where the layout is placed."/>
+            <property
+                name="forOpe"
+                label="Is the layout for OPE?"
+                type="Boolean"
+                description="Check if layout is for an OPE feature."/>
+            <property
+                name="withRecordType"
+                label="Does the object have record types?"
+                type="Boolean"
+                description="Check if object has record types."/>
+            <property
+                name="withMarkAsComplete"
+                label="Add Mark As Complete button?"
+                type="Boolean"
+                description="Check if Mark As Complete button has to be included."/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

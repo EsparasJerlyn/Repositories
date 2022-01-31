@@ -221,14 +221,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>CourseDetailFieldsCtrl</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>CourseDetailFieldsCtrlTest</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>CreateAssetCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -266,6 +258,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>CustomMetadataHandlerConfigProviderTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CustomPageLayoutCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CustomPageLayoutCtrlTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>

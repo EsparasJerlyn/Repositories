@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Left_Column_Long__c</field>
-        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;hed__Course_ID__c&quot;},{&quot;field&quot;:&quot;hed__Account__c&quot;,&quot;mandatory&quot;:true},{&quot;field&quot;:&quot;Start_Date__c&quot;},{&quot;field&quot;:&quot;Volume_of_time__c&quot;},{&quot;field&quot;:&quot;Start_Time__c&quot;},{&quot;field&quot;:&quot;Delivery_Type__c&quot;},{&quot;field&quot;:&quot;Location_Details__c&quot;}]</value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Left_Column__c</field>
@@ -16,11 +16,11 @@
     </values>
     <values>
         <field>Record_Type_Setting__c</field>
-        <value xsi:type="xsd:string">OPE_Program_Request</value>
+        <value xsi:type="xsd:string">OPE_Program</value>
     </values>
     <values>
         <field>Right_Column_Long__c</field>
-        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Name&quot;,&quot;mandatory&quot;:true},{&quot;field&quot;:&quot;End_Date__c&quot;},{&quot;field&quot;:&quot;Actual_Volume__c&quot;},{&quot;field&quot;:&quot;End_Time__c&quot;},{&quot;field&quot;:&quot;Location__c&quot;},{&quot;field&quot;:&quot;hed__Description__c&quot;}]</value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Right_Column__c</field>

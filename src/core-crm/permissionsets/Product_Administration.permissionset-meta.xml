@@ -13,10 +13,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>CourseDetailFieldsCtrl</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>CreateAssetCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -30,6 +26,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>CustomCreateEditRecordCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CustomPageLayoutCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>

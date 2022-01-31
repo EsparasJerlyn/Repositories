@@ -4,15 +4,14 @@
     </div>
     <lightning-record-edit-form 
         if:true={hasAccess}
-        object-api-name={courseApiName}
-        record-id={courseId}
-        record-type-id={courseRecordTypeId}
+        object-api-name={childObjectApiName}
+        record-id={childRecordId}
         onsubmit={handleSubmit}
         onsuccess={handleSuccess}
         onerror={handleError}>  
         <!--Record Create/Edit Section-->
         <lightning-accordion allow-multiple-sections-open active-section-name={activeSections}>
-            <lightning-spinner if:true={isLoading} alternative-text="Loading" size="small"></lightning-spinner> 
+            <lightning-spinner if:true={isLoading} alternative-text="Loading" size="small"></lightning-spinner>
             <template for:each={layoutToDisplay} for:item="layoutItem">
                 <lightning-accordion-section key={layoutItem.sectionLabel} name={layoutItem.sectionLabel} label={layoutItem.sectionLabel} class="accordion-section">
                     <div class="slds-grid slds-gutters slds-m-top_small">
@@ -120,12 +119,16 @@
         <!--Buttons Section-->
         <div if:true={editMode} class="slds-m-vertical_x-large"></div>
         <div if:true={editMode} class="slds-docked-form-footer">
-            <button if:true={showPopoverIcon} class="slds-button slds-button_icon slds-button_icon slds-button_icon-error slds-m-right_small" title="Resolve error(s)" onclick={handlePopover}>
-                <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
-                    <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#error"></use>
-                </svg>
-                <span class="slds-assistive-text">Resolve error(s)</span>
-            </button>
+            <lightning-icon 
+                if:true={showPopoverIcon}
+                icon-name="utility:error"
+                variant="error" 
+                size="small"
+                class="slds-m-right_x-small slds-m-top_xx-small"
+                alternative-text="Resolve error(s)" 
+                title="Resolve error (s)"
+                onclick={handlePopover}>
+            </lightning-icon>
             <lightning-button
                 label="Cancel"
                 variant="neutral"
@@ -139,24 +142,28 @@
             </lightning-button>
             <!--Error Popover Section-->
             <section if:true={showPopoverDialog} aria-describedby="dialog-body-id-5" aria-labelledby="dialog-heading-id-2" class="slds-popover slds-popover_error slds-nubbin_bottom-left" role="dialog" style="position:absolute;bottom:56px;left:50%;margin-left:62px;transform:translateX(-50%)">
-                <button class="slds-button slds-button_icon slds-button_icon-small slds-float_right slds-popover__close slds-button_icon-inverse" title="Close" onclick={handlePopover}>
-                    <svg class="slds-button__icon" aria-hidden="true">
-                    <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#close"></use>
-                    </svg>
-                    <span class="slds-assistive-text">Close</span>
-                </button>
                 <header class="slds-popover__header">
                     <div class="slds-media slds-media_center slds-has-flexi-truncate ">
-                    <div class="slds-media__figure">
-                        <span class="slds-icon_container slds-icon-utility-error">
-                        <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
-                            <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#error"></use>
-                        </svg>
-                        </span>
-                    </div>
-                    <div class="slds-media__body">
-                        <h2 class="slds-truncate slds-text-heading_medium" id="dialog-heading-id-2" title="We hit a snag.">We hit a snag.</h2>
-                    </div>
+                        <div class="slds-media__figure">
+                            <span class="slds-icon_container slds-icon-utility-error">
+                                <lightning-icon 
+                                    icon-name="utility:error"
+                                    variant="inverse" 
+                                    size="xx-small">
+                                </lightning-icon>
+                            </span>
+                        </div>
+                        <div class="slds-media__body">
+                            <h2 class="slds-truncate slds-text-heading_medium" id="dialog-heading-id-2" title="We hit a snag.">We hit a snag.</h2>
+                        </div>
+                        <lightning-icon 
+                            icon-name="utility:close"
+                            variant="inverse"
+                            size="xx-small"
+                            alternative-text="Close" 
+                            title="Close"
+                            onclick={handlePopover}>
+                        </lightning-icon>
                     </div>
                 </header>
                 <div class="slds-popover__body" id="dialog-body-id-5">
@@ -171,20 +178,20 @@
                 </div>
             </section>
         </div>
-        <div if:false={editMode} class="slds-grid slds-gutters slds-m-horizontal_xxx-small slds-m-vertical_small">
-            <div class="slds-col slds-size_1-of-1">
-                <i>{displayNote}</i>
-                <lightning-button 
-                    class="slds-float_right" 
-                    label="MARK AS COMPLETE" 
-                    title="MARK AS COMPLETE" 
-                    icon-name="utility:check" 
-                    icon-position="left" 
-                    variant="brand" 
-                    onclick={handleMarkAsComplete}
-                    disabled={opeDesignComplete}>
-                </lightning-button> 
-            </div>
-        </div>
     </lightning-record-edit-form>
+    <div if:true={showMarkAsComplete} class="slds-grid slds-gutters slds-m-horizontal_xxx-small slds-m-vertical_small">
+        <div class="slds-col slds-size_1-of-1">
+            <i>{displayNote}</i>
+            <lightning-button 
+                class="slds-float_right" 
+                label="MARK AS COMPLETE" 
+                title="MARK AS COMPLETE" 
+                icon-name="utility:check" 
+                icon-position="left" 
+                variant="brand" 
+                onclick={handleMarkAsComplete}
+                disabled={opeDesignComplete}>
+            </lightning-button> 
+        </div>
+    </div>
 </template>
