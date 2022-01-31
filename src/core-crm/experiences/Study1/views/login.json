@@ -31,7 +31,7 @@
       "componentAttributes" : {
         "headerText" : "",
         "showHeader" : false,
-        "useCommunityDomainSso" : false
+        "useCommunityDomainSso" : true
       },
       "componentName" : "salesforceIdentity:socialLogin2",
       "id" : "a3c270c3-7557-4a2a-b1a4-51bb8490e66b",
