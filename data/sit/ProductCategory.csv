@@ -1,6 +1,2 @@
-Id,CatalogId,Description,Name,ParentCategoryId,IsNavigational,SortOrder,Catalog.Name,ParentCategory.Name
-0ZG9r00000000BJGAY,0ZS9r000000004rGAA,,Program,,true,1,Study Catalog,
-0ZG9r00000000BKGAY,0ZS9r000000004rGAA,,Standalone Unit / Module,,true,2,Study Catalog,
-0ZG9r00000000BLGAY,0ZS9r000000004rGAA,,Activity,,true,3,Study Catalog,
-0ZG9r00000000BMGAY,0ZS9r000000004sGAA,,My Products,,true,,CCE Catalog,
-0ZG9r00000000BNGAY,0ZS9r000000004rGAA,,Workshop,,true,4,Study Catalog,
+Id,CatalogId,Description,Name,ParentCategoryId,IsNavigational,SortOrder,Catalog.Name,ParentCategory.Id
+0ZG9r00000000EaGAI,0ZS9r000000009iGAA,will house all the custom products that has been released,Custom Corporate Education,,true,1,CCE Catalog,

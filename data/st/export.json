@@ -1,23 +1,7 @@
 {
     "objects": [
         {
-            "query": "SELECT Id, Name, Description, Family, IsActive FROM Product2",
-            "operation": "Upsert",
-            "externalId": "Name",
-            "useCSVValuesMapping": true,
-            "targetObject": "Product2",
-            "importCSVFilesAsIs": true
-        },
-        {
-            "query": "SELECT Id, Name, Description, IsActive FROM Pricebook2",
-            "operation": "Upsert",
-            "externalId": "Name",
-            "useCSVValuesMapping": true,
-            "targetObject": "Pricebook2",
-            "importCSVFilesAsIs": true
-        },
-        {
-            "query": "SELECT Id, DefaultLanguage, Description, MaxValuesPerFacet, PaginationSize, Name, SupportedLanguages from WebStore",
+            "query": "SELECT Id, Name from WebStore",
             "operation": "Upsert",
             "externalId": "Name",
             "useCSVValuesMapping": true,
@@ -35,17 +19,9 @@
         {
             "query": "SELECT Id, CatalogId, Description, Name, ParentCategoryId, IsNavigational, SortOrder from ProductCategory",
             "operation": "Upsert",
-            "externalId": "Name",
+            "externalId": "Id",
             "useCSVValuesMapping": true,
             "targetObject": "ProductCategory",
-            "importCSVFilesAsIs": true
-        },
-        {
-            "query": "SELECT ProductCategoryId, IsPrimaryCategory, ProductId from ProductCategoryProduct",
-            "operation": "Upsert",
-            "externalId": "ProductCategoryId",
-            "useCSVValuesMapping": true,
-            "targetObject": "ProductCategoryProduct",
             "importCSVFilesAsIs": true
         },
         {
@@ -54,14 +30,6 @@
             "externalId": "ProductCatalogId",
             "useCSVValuesMapping": true,
             "targetObject": "WebStoreCatalog",
-            "importCSVFilesAsIs": true
-        },
-        {
-            "query": "SELECT IsActive, Pricebook2Id, Name, WebStoreId from WebStorePricebook",
-            "operation": "Upsert",
-            "externalId": "Name",
-            "useCSVValuesMapping": true,
-            "targetObject": "WebStorePricebook",
             "importCSVFilesAsIs": true
         }
     ]
