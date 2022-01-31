@@ -24,10 +24,8 @@ private class Update_Product_from_CourseTest{
 
     @isTest
     private static void createProductFromCourseTest(){
-        System.runAs(currentUser){     
-            hed__Facility__c facility = createFacility();
+        System.runAs(currentUser){              
             createCourse(opeActProdReqId);
-
             List<hed__Course__c> courses = [SELECT id, OPE_Design_Complete__c, ProductRequestID__c, Core_Concepts__c, 
                                                 hed__Description__c, End_Date__c, More_Details__c, 
                                                 Name, Overview__c, Start_Date__c, Who_Should_Participate__c 
@@ -35,21 +33,11 @@ private class Update_Product_from_CourseTest{
 
             for(hed__Course__c course : courses){                    
                 course.Start_Date__c = Date.newInstance(2022, 01, 20);
-                course.End_Date__c = Date.newInstance(2022, 02, 20);
-                course.Start_Time__c = Time.newInstance(3, 14, 15, 926);
-                course.End_Time__c = Time.newInstance(4, 14, 15, 926);
-                course.Fees_Applicable__c = 'Yes';
-                course.Fee_Amount__c = 1000.00;
-                course.External_Organisation__c = 'test';
-                course.Resource_Details__c = 'test';
-                course.Delivery_Comments__c = 'test';
-                course.Location__c = facility.Id;
-                course.Location_Details__c = 'test'; 
+                course.End_Date__c = Date.newInstance(2022, 02, 20);       
             }
-            update courses;
-
-            Test.startTest();
+            update courses;                
             
+            Test.startTest();
             List<Product_Request__c> productRequests = [SELECT Id, Product_Request_Status__c FROM Product_Request__c LIMIT 100];
             for(Product_Request__c productRequest : productRequests){
                 productRequest.Product_Request_Status__c = 'Release';
@@ -57,8 +45,8 @@ private class Update_Product_from_CourseTest{
             update productRequests;
 
             List<Product2> products = [SELECT Id, Core_Concepts__c, Description, End_Date__c, More_Details__c, 
-                                            Name, Overview__c, Start_Date__c, Who_Should_Participate__c 
-                                        FROM Product2 LIMIT 100];
+                    Name, Overview__c, Start_Date__c, Who_Should_Participate__c 
+                    FROM Product2 LIMIT 100];      
          
             Test.stopTest();
             System.assertEquals(courses.size(), products.size(), 'Product record must be created upon release of course in product request.');
@@ -128,13 +116,6 @@ private class Update_Product_from_CourseTest{
         }
     }
 
-    private static hed__Facility__c createFacility(){
-        hed__Facility__c facility = new hed__Facility__c();
-        facility.Name = 'test';
-        insert facility;
-        return facility;
-    }      
-
     private static void createCourse(String productRequestRecordType){
         System.runAs(currentUser){
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
@@ -146,25 +127,40 @@ private class Update_Product_from_CourseTest{
             }
             insert productRequests;
 
+            hed__Facility__c facility = new hed__Facility__c();
+            facility.Name = 'test';
+            insert facility;                
+
             List<hed__Course__c> courses = TestDataFactory.createTestCourseRecords(numberOfRecords, accounts[0].Id, productRequests[0].Id);
             for(Integer i = 0 ; i < courses.size() ; i++){
-                courses[i].RecordTypeId = opeActivityId;
                 courses[i].ProductRequestID__c = productRequests[i].Id;
-                courses[i].Volume_of_time__c = 'Days';
+                courses[i].RecordTypeId = opeActivityId;
+                courses[i].Start_Time__c = Time.newInstance(3, 14, 15, 926);
+                courses[i].End_Time__c = Time.newInstance(4, 14, 15, 926);                                
+                courses[i].Volume_of_time__c = 'Days';             
                 courses[i].Delivery_Type__c = 'Face to Face';
-                courses[i].hed__Description__c = 'test' + i;
+                courses[i].Location__c = facility.Id;
+                courses[i].Location_Details__c = 'test';                    
+                courses[i].hed__Description__c = 'test';
                 courses[i].Certificate_Type__c = 'Certificate of Achievement';
                 courses[i].Collaboation_External__c = 'Yes';
+                courses[i].External_Organisation__c = 'test';
                 courses[i].Activity_Outcomes__c = 'test';
                 courses[i].Overview_Website__c = 'test' + i;
                 courses[i].Search_Engine__c = 'test';
                 courses[i].Search_Terms__c = 'test';
-                courses[i].Content__c = 'test';
+                courses[i].Content__c = 'test';     
                 courses[i].Resources_Required__c = 'Yes';
-                courses[i].Participants__c = 'test';
+                courses[i].Resource_Details__c = 'test';   
                 courses[i].Minimum_Participants__c = 1;
-                courses[i].Maximum_Participants__c = 100;
-                courses[i].Delivery_Support__c = 'Others';
+                courses[i].Maximum_Participants__c = 100;                    
+                courses[i].Delivery_Support__c = 'Others';                
+                courses[i].Fees_Applicable__c = 'Yes';
+                courses[i].Fee_Amount__c = 1000.00;          
+                courses[i].Delivery_Comments__c = 'test';
+                courses[i].Core_Concepts__c = 'test';
+                courses[i].Overview__c = 'test';
+                courses[i].Owning_Faculty__c = accounts[0].Id;                
             }
             insert courses;
         }

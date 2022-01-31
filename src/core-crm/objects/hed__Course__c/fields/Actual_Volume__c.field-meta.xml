@@ -3,9 +3,11 @@
     <fullName>Actual_Volume__c</fullName>
     <externalId>false</externalId>
     <label>Actual Volume</label>
-    <precision>18</precision>
+    <precision>16</precision>
     <required>false</required>
-    <scale>2</scale>
+    <scale>0</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Number</type>
     <unique>false</unique>

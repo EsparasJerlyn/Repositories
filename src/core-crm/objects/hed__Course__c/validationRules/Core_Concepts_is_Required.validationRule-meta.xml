@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Core_Concepts_is_Required</fullName>
+    <active>true</active>
+    <description>&quot;Core Concepts&quot; is required to mark as complete.</description>
+    <errorConditionFormula>AND (
+
+  OR (RecordType.DeveloperName = &apos;OPE_Activity&apos;,
+      RecordType.DeveloperName = &apos;Short_Course&apos;,
+      RecordType.DeveloperName = &apos;Single_Product&apos;
+  ),
+
+ ISPICKVAL( ProductRequestID__r.Product_Request_Status__c , &apos;Design&apos;),
+ AND(
+  NOT (ISCHANGED( Design_Form_Status__c ) ),
+  OR(
+   ISPICKVAL( Design_Form_Status__c , &apos;Design Form Sent&apos;),
+   ISPICKVAL( Design_Form_Status__c , &apos;Design Form Received&apos;)
+  ) 
+ ),
+ LEN( Core_Concepts__c )=0
+)</errorConditionFormula>
+    <errorDisplayField>Core_Concepts__c</errorDisplayField>
+    <errorMessage>&quot;Core Concepts&quot; is required to mark as complete.</errorMessage>
+</ValidationRule>

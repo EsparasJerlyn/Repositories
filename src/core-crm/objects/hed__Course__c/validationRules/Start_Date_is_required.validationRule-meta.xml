@@ -3,7 +3,11 @@
     <fullName>Start_Date_is_required</fullName>
     <active>true</active>
     <errorConditionFormula>AND (
- RecordType.DeveloperName = &apos;OPE_Activity&apos;, 
+ OR(
+ RecordType.DeveloperName = &apos;OPE_Activity&apos;,
+ RecordType.DeveloperName = &apos;Short_Course&apos;,
+ RecordType.DeveloperName = &apos;Single_Product&apos;
+), 
  ISPICKVAL( ProductRequestID__r.Product_Request_Status__c , &apos;Design&apos;),
  AND(
   NOT (ISCHANGED( Design_Form_Status__c ) ),

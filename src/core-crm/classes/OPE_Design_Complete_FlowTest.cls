@@ -34,9 +34,7 @@ private class OPE_Design_Complete_FlowTest{
             Test.startTest();
             List<hed__Course__c> coursesToUpdate = [SELECT id, OPE_Design_Complete__c FROM hed__Course__c LIMIT 100];
             for(hed__Course__c course : coursesToUpdate){    
-                course.RecordTypeId = opeActivityId;
-                course.Start_Date__c = Date.newInstance(2022, 01, 20);
-                course.End_Date__c = Date.newInstance(2022, 02, 20);
+                course.RecordTypeId = opeActivityId;                
                 course.Start_Time__c = Time.newInstance(3, 14, 15, 926);
                 course.End_Time__c = Time.newInstance(4, 14, 15, 926);
                 course.Fees_Applicable__c = 'Yes';
@@ -51,12 +49,11 @@ private class OPE_Design_Complete_FlowTest{
 
             List<hed__Course__c> getCourses = [SELECT id, OPE_Design_Complete__c FROM hed__Course__c LIMIT 100];
 
-            for(hed__Course__c course : getCourses){    
+            for(hed__Course__c course : getCourses){   
                 if(course.OPE_Design_Complete__c == true){
                     opeDesignCompleteCounter++;
                 }
-            }
-                       
+            }                       
             Test.stopTest();
             System.assertEquals(numberOfRecords, opeDesignCompleteCounter,'Required fields must be completed.');          
         }
@@ -94,8 +91,7 @@ private class OPE_Design_Complete_FlowTest{
                 if(course.OPE_Design_Complete__c == true){
                     opeDesignCompleteCounter++;
                 }
-            }
-                       
+            }  
             Test.stopTest();
             System.assertEquals(numberOfRecords, opeDesignCompleteCounter,'Required fields must be completed.');          
         }
@@ -130,12 +126,11 @@ private class OPE_Design_Complete_FlowTest{
 
             List<hed__Course__c> getCourses = [SELECT id, OPE_Design_Complete__c FROM hed__Course__c LIMIT 100];
 
-            for(hed__Course__c course : getCourses){    
+            for(hed__Course__c course : getCourses){     
                 if(course.OPE_Design_Complete__c == true){
                     opeDesignCompleteCounter++;
                 }
-            }
-                       
+            }  
             Test.stopTest();
             System.assertEquals(numberOfRecords, opeDesignCompleteCounter,'Required fields must be completed.');          
         }
@@ -204,6 +199,11 @@ private class OPE_Design_Complete_FlowTest{
                 course.Minimum_Participants__c = 1;
                 course.Maximum_Participants__c = 100;
                 course.Delivery_Support__c = 'Others';
+                course.Overview__c = 'test';
+                course.Core_Concepts__c ='test';
+                course.Start_Date__c = Date.newInstance(2022, 01, 20);
+                course.End_Date__c = Date.newInstance(2022, 02, 20);
+                course.Owning_Faculty__c = accounts[0].Id;
             }
             insert courses;
         }
