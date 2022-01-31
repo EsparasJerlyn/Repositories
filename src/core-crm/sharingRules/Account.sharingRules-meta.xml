@@ -11,12 +11,13 @@
         <description>Account records will not be editable in DEP Salesforce if Organization_Unit_Code__c is not empty and not null</description>
         <label>Organization Unit Code Is Blank</label>
         <sharedTo>
-            <allInternalUsers/>
+            <allInternalUsers></allInternalUsers>
         </sharedTo>
         <criteriaItems>
             <field>Organization_Unit_Code__c</field>
             <operation>equals</operation>
-            <value/>
+            <value></value>
         </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
 </SharingRules>
