@@ -19,7 +19,7 @@
         {
             "query": "SELECT Id, CatalogId, Description, Name, ParentCategoryId, IsNavigational, SortOrder from ProductCategory",
             "operation": "Upsert",
-            "externalId": "Id",
+            "externalId": "Name",
             "useCSVValuesMapping": true,
             "targetObject": "ProductCategory",
             "importCSVFilesAsIs": true
@@ -32,7 +32,7 @@
             "targetObject": "WebStoreCatalog",
             "importCSVFilesAsIs": true
         },
-                {
+        {
             "query": "SELECT Id, Name, Family, IsActive FROM Product2",
             "operation": "Upsert",
             "externalId": "Name",
