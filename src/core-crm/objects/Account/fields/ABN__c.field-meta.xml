@@ -4,7 +4,7 @@
     <description>ABN (Australian Business Number) validated against the Australian Business Register</description>
     <externalId>false</externalId>
     <label>ABN</label>
-    <length>11</length>
+    <length>20</length>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>

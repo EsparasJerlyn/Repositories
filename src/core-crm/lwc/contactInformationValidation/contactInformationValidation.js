@@ -141,7 +141,8 @@ export default class ContactInformationValidation extends LightningElement {
     }
 
     get invalidConvert(){
-        return this.fieldsToDisplay.filter(field => field.statusValue == STR_NONE).length > 0 && 
+        return this.fieldsToDisplay.filter(field => field.label == 'Phone' && field.statusValue == STR_NONE ).length > 0 &&
+            this.fieldsToDisplay.filter(field => field.label == 'Mobile' && field.statusValue == STR_NONE ).length> 0 &&
             this.objectApiName == LEAD_SCHEMA.objectApiName;
     }
 
