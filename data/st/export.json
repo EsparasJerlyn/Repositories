@@ -19,7 +19,7 @@
         {
             "query": "SELECT Id, CatalogId, Description, Name, ParentCategoryId, IsNavigational, SortOrder from ProductCategory",
             "operation": "Upsert",
-            "externalId": "Id",
+            "externalId": "Name",
             "useCSVValuesMapping": true,
             "targetObject": "ProductCategory",
             "importCSVFilesAsIs": true
