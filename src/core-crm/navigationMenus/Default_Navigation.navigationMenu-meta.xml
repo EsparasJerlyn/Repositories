@@ -6,8 +6,15 @@
     <navigationMenuItem>
         <label>Storefront Categories</label>
         <position>1</position>
-        <publiclyAvailable>true</publiclyAvailable>
+        <publiclyAvailable>false</publiclyAvailable>
         <target>StorefrontCategories</target>
         <type>DataSourceDriven</type>
+    </navigationMenuItem>
+    <navigationMenuItem>
+        <label>Available to Buy</label>
+        <position>2</position>
+        <publiclyAvailable>true</publiclyAvailable>
+        <target>/available-to-buy</target>
+        <type>InternalLink</type>
     </navigationMenuItem>
 </NavigationMenu>

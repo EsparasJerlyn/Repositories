@@ -1,0 +1,41 @@
+{
+  "appPageId" : "e7a3f4f7-241b-44d0-9ebd-8a08684e8126",
+  "componentName" : "siteforce:sldsTwoCol66Layout",
+  "id" : "482b0b62-99eb-43a9-832f-2585d7247304",
+  "label" : "Available to Buy",
+  "regions" : [ {
+    "id" : "9b71d229-cd7c-4a80-b605-e2aae55136bd",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "id" : "d19e1799-c341-461e-9a4c-d445b83b2fcb",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "e93062bf-0361-47bb-9918-051903aeeb43",
+    "regionName" : "sidebar",
+    "type" : "region"
+  }, {
+    "id" : "c4e3ac86-f481-4142-b193-60f6b5224d59",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "customHeadTags" : "",
+        "description" : "",
+        "title" : "Available to Buy"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "7a7608c5-019e-4df2-9b9d-8736f153e443",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "4f97000d-e3c6-4148-83ef-73f55bcfaff4",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-available-to-buy"
+}
