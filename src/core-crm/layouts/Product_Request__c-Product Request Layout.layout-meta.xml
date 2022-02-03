@@ -274,6 +274,10 @@
         <fields>RECORDTYPE</fields>
         <relatedList>hed__Course__c.ProductRequestID__c</relatedList>
     </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>hed__Program_Plan__c.Product_Request__c</relatedList>
+    </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>
     <showInteractionLogPanel>false</showInteractionLogPanel>

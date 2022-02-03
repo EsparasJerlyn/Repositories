@@ -448,6 +448,66 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Communication_Schedule__c.EmailHow_many_days_before_session__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Communication_Schedule__c.Email_on_Registration__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Communication_Schedule__c.Email_on_completion__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Communication_Schedule__c.Email_on_final_confirmation__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Communication_Schedule__c.How_many_days_before_session__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Communication_Schedule__c.SMSHow_many_days_before_session__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Communication_Schedule__c.SMSHow_many_days_before_start__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Communication_Schedule__c.SMS_on_Registration__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Communication_Schedule__c.SMS_on_completion__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Communication_Schedule__c.SMS_on_final_confirmation__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Communication_Schedule__c.Send_SMS_before_session__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Communication_Schedule__c.Send_email_before_session__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>AuthorizationForm.DefaultAuthFormTextId</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3143,7 +3203,22 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>PricebookEntry.Early_Bird_Expiry_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>PricebookEntry.IsPaid__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>PricebookEntry.Number_of_Days__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>PricebookEntry.Standard_Price_Available_From__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3294,6 +3369,51 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Product2.Who_Should_Participate__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Product2.Decommission_Product__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Product2.Decommission_Reason__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Product2.Pay_later_due_days__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Financial_Split__c.Account_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Financial_Split__c.Account_GL_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Financial_Split__c.Account_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Financial_Split__c.Participating_School_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Financial_Split__c.Percentage_Split__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Financial_Split__c.QUTeX_Percentage_Split__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5948,6 +6068,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>hed__Course__c.Certificate_Details__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>hed__Course__c.Certificate_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6953,6 +7078,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>hed__Program_Plan__c.Certificate_Details__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>hed__Program_Plan__c.Core_Concepts__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7446,6 +7576,21 @@
         <field>Expression_of_Interest__c.Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Facilitator_Bio__c.Facilitator_Professional_Bio__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Facilitator_Bio__c.Facilitator__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Facilitator_Bio__c.Is_Primary__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>QUT Read Only</label>
     <license>Salesforce</license>
@@ -7563,6 +7708,15 @@
         <allowEdit>false</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
+        <object>Communication_Schedule__c</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>false</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>false</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
         <object>Associated_Products__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
@@ -7673,6 +7827,15 @@
         <modifyAllRecords>false</modifyAllRecords>
         <object>Case</object>
         <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>false</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>false</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>Facilitator_Bio__c</object>
+        <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
         <allowCreate>false</allowCreate>
@@ -8158,6 +8321,15 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
         <object>Product2</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>false</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>false</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>Financial_Split__c</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
