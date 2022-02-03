@@ -10,10 +10,15 @@
       |--------------------------------|-----------------------|------------------------|----------------------------------------------------------|
       | johnbo.pineda@qut.edu.au       | December 06, 2021     | DEPP-789               | Created file                                             |
       | johnbo.pineda@qut.edu.au       | January 05, 2021      | DEPP-1382              | Updated Test Class to include changes for DEPP-1382.     |
+      | johnbo.pineda@qut.edu.au       | January 31, 2021      | DEPP-1519              | Updated Test Class to include changes for DEPP-1519.     |
       |                                |                       |                        |                                                          |
  */
 @isTest(SeeAllData=false)
 public with sharing class CourseConnectionTriggerHandlerTest {
+  private static final Id STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
+    .get('Student')
+    .getRecordTypeId();
+
   private static User currentUser = TestDataFactory.createUserRecords(
       1,
       'QUTeX'
@@ -73,11 +78,16 @@ public with sharing class CourseConnectionTriggerHandlerTest {
         courseOfferings,
         programOfferings
       );
+
+      for (hed__Course_Enrollment__c courseConnection : courseConnections) {
+        courseConnection.RecordTypeId = STUDENT_RECTYPEID;
+      }
       insert courseConnections;
 
       Id courseOfferId = courseOfferings[0].Id;
       Id programOfferId = programOfferings[0].Id;
       hed__Course_Enrollment__c newCourseEnroll = new hed__Course_Enrollment__c();
+      newCourseEnroll.RecordTypeId = STUDENT_RECTYPEID;
       newCourseEnroll.hed__Contact__c = contacts[0].Id;
       newCourseEnroll.hed__Course_Offering__c = courseOfferId;
       newCourseEnroll.Program_Offering__c = programOfferId;
@@ -163,6 +173,10 @@ public with sharing class CourseConnectionTriggerHandlerTest {
         courseOfferings,
         programOfferings
       );
+
+      for (hed__Course_Enrollment__c courseConnection : courseConnections) {
+        courseConnection.RecordTypeId = STUDENT_RECTYPEID;
+      }
       insert courseConnections;
 
       Set<Id> courseOfferIdSet = new Set<Id>();
@@ -275,6 +289,10 @@ public with sharing class CourseConnectionTriggerHandlerTest {
         courseOfferings,
         programOfferings
       );
+
+      for (hed__Course_Enrollment__c courseConnection : courseConnections) {
+        courseConnection.RecordTypeId = STUDENT_RECTYPEID;
+      }
       insert courseConnections;
 
       Id courseOfferId = courseOfferings[0].Id;

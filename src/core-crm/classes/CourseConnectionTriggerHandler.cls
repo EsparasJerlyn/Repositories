@@ -9,10 +9,14 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                                           |
       |--------------------------------|-----------------------|------------------------|----------------------------------------------------------|
       | johnbo.pineda@qut.edu.au       | December 03, 2021     | DEPP-789               | Created file                                             |
-      | johnbo.pineda@qut.edu.au       | January 03, 2021      | DEPP-1382              | Updated Test Class to include changes for DEPP-1382.     |
+      | johnbo.pineda@qut.edu.au       | January 03, 2021      | DEPP-1382              | Updated Class to include changes for DEPP-1382.          |
+      | johnbo.pineda@qut.edu.au       | January 31, 2021      | DEPP-1519              | Updated Class to include changes for DEPP-1519.          |
       |                                |                       |                        |                                                          |
  */
-public without sharing class CourseConnectionTriggerHandler implements Disableable, AfterInsert, AfterUpdate, AfterDelete {
+public with sharing class CourseConnectionTriggerHandler implements Disableable, AfterInsert, AfterUpdate, AfterDelete {
+  public static final Id STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
+    .get('Student')
+    .getRecordTypeId();
   /**
    * @description update counter for Course Connections
    * @param newItems - List of hed__Course_Enrollment__c.Trigger.new
@@ -91,7 +95,8 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
         SELECT hed__Course_Offering__c, COUNT(Id) counter
         FROM hed__Course_Enrollment__c
         WHERE
-          hed__Course_Offering__c IN :courseOfferIdSet
+          RecordTypeId = :STUDENT_RECTYPEID
+          AND hed__Course_Offering__c IN :courseOfferIdSet
           AND hed__Status__c != 'Cancelled'
         GROUP BY hed__Course_Offering__c
       ];
@@ -111,7 +116,8 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
         SELECT Program_Offering__c, COUNT(Id) counter
         FROM hed__Course_Enrollment__c
         WHERE
-          Program_Offering__c IN :programOfferIdSet
+          RecordTypeId = :STUDENT_RECTYPEID
+          AND Program_Offering__c IN :programOfferIdSet
           AND hed__Status__c != 'Cancelled'
         GROUP BY Program_Offering__c
       ];
