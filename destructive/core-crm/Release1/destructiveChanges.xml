@@ -75,6 +75,11 @@
         <members>Study_Profile</members>
         <name>Profile</name>
     </types>
+    <types>
+        <members>OPE_Guest_Browsing</members>
+        <name>PermissionSet</name>
+    </types>
+
     <!--(End) Kindly comment out once it reaches PROD
         DEPP-415, DEPP-641, DEP1-653, DEPP-106, DEPP-236-->
 <!--<types>
