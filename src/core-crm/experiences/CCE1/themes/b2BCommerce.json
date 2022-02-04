@@ -105,13 +105,9 @@
           "type" : "region"
         }, {
           "components" : [ {
-            "componentAttributes" : {
-              "NavigationMenuEditorRefresh" : "",
-              "hideAppLauncher" : true,
-              "menuAlignment" : "left"
-            },
-            "componentName" : "forceCommunity:multiLevelNavigation",
-            "id" : "da454ff6-936f-41aa-b688-01724ccb1011",
+            "componentAttributes" : { },
+            "componentName" : "c:mainNavigationMenu",
+            "id" : "e239a747-93ea-4312-be56-224dbaa77bce",
             "renditionMap" : { },
             "type" : "component"
           } ],
@@ -248,13 +244,9 @@
           "type" : "region"
         }, {
           "components" : [ {
-            "componentAttributes" : {
-              "NavigationMenuEditorRefresh" : "Default_Navigation",
-              "hideAppLauncher" : true,
-              "menuAlignment" : "left"
-            },
-            "componentName" : "forceCommunity:multiLevelNavigation",
-            "id" : "f9f13dda-92c3-4ca8-9b1a-cfb757da3f2a",
+            "componentAttributes" : { },
+            "componentName" : "c:mainNavigationMenu",
+            "id" : "5012bf3b-6877-4646-9ef3-4e0e0e92da34",
             "renditionMap" : { },
             "type" : "component"
           } ],
