@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Contact__c</fullName>
+    <fullName>Question__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
-    <description>Link to the contact answering the questionnaire.</description>
+    <description>Link to the question record.</description>
     <externalId>false</externalId>
-    <label>Contact</label>
-    <referenceTo>Contact</referenceTo>
-    <relationshipLabel>Answers</relationshipLabel>
-    <relationshipName>Answers</relationshipName>
+    <label>Question</label>
+    <referenceTo>Question__c</referenceTo>
+    <relationshipLabel>Related Answers</relationshipLabel>
+    <relationshipName>Related_Answers</relationshipName>
     <required>false</required>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>

@@ -6,8 +6,8 @@
     <externalId>false</externalId>
     <label>Questionnaire</label>
     <referenceTo>Questionnaire__c</referenceTo>
-    <relationshipLabel>Answers</relationshipLabel>
-    <relationshipName>Answers</relationshipName>
+    <relationshipLabel>Related Answers</relationshipLabel>
+    <relationshipName>Related_Answers</relationshipName>
     <required>false</required>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>

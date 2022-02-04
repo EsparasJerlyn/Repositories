@@ -16,15 +16,16 @@
       | eccarius.karl.munoz       | November 25,2021      | DEPP-671            | Added method for creation of Products without related Course     |
       | eugene.andrew.abuan       | December 1,2021       | DEPP-771            | Added method for creation of Community User                      |
       | roy.nino.s.regala         | November 25,2021      | DEPP-362,38,37      | Added method for creation of Program Plan                        |
-      | johnbo.pineda@qut.edu.au  | December 6, 2021      | DEPP-789            | Added method for creation of Course Connection                   |
+      | john.bo.a.pineda          | December 6, 2021      | DEPP-789            | Added method for creation of Course Connection                   |
       | eugene.andrew.abuan       | December 10, 2021     | DEPP-100            | Added method for Buyer Account                                   |
       | marygrace.li@qut.edu.au   | December 13, 2021     | DEPP-174            | Added method creation of Acct,Contact,ByrGrp,ByrGrpMber,Product2 |
       | roy.nino.s.regala         | December 15, 2021     | DEPP-116            | Added Start date on course offerings                             |
-      | johnbo.pineda@qut.edu.au  | December 21, 2021     | DEPP-1150           | Added method for creation of Pending Registration                |
-      | johnbo.pineda@qut.edu.au  | January 05, 2022      | DEPP-1382           | Added method for creation of Program Offering                    |
+      | john.bo.a.pineda          | December 21, 2021     | DEPP-1150           | Added method for creation of Pending Registration                |
+      | john.bo.a.pineda          | January 05, 2022      | DEPP-1382           | Added method for creation of Program Offering                    |
       | arsenio.dayrit@qut.edu.au | January 12, 2022      | DEPP-1359           | Added method for creation of Product Ledger                      |
-      | adrian.c.habasa           | January 21, 2022      | DEPP-1463           | Added method for creation of Credential                           |
+      | adrian.c.habasa           | January 21, 2022      | DEPP-1463           | Added method for creation of Credential                          |
       | angelika.j.s.galang       | January 25, 2022      | DEPP-1396           | Added method for creation of Questionnaire, Question, and Answer |
+      | john.bo.a.pineda          | February 03, 2022     | DEPP-1396           | Updated method for Answer to Related Answer                      |
 */
 @IsTest
 public class TestDataFactory {
@@ -747,7 +748,7 @@ public class TestDataFactory {
     return programOfferingRecord;
   }
 
- /**
+  /**
    * @description Method for creating test Product Ledger records
    * @param numProductLedger number of product ledger
    * @param courseEnrollement Id of related course enrollment
@@ -760,8 +761,8 @@ public class TestDataFactory {
     Id assets
   ) {
     List<Product_Ledger__c> productLedger = new List<Product_Ledger__c>();
-    
-    for (Integer i = 0 ; i < numProductLedger ; i++) {
+
+    for (Integer i = 0; i < numProductLedger; i++) {
       productLedger.add(
         new Product_Ledger__c(
           Course_Connection__c = courseEnrollement,
@@ -773,20 +774,17 @@ public class TestDataFactory {
     return productLedger;
   }
 
- /**
+  /**
    * @description Method for creating test Credential records
    * @param numOfCredential number of Credential
    * @return credential - list of Credential
    */
-  public static List<Credential__c> createTestCredentialRecords(Integer numOfCredential)
-  {
+  public static List<Credential__c> createTestCredentialRecords(
+    Integer numOfCredential
+  ) {
     List<Credential__c> credential = new List<Credential__c>();
     for (Integer i = 0; i < numOfCredential; i++) {
-      credential.add(
-        new Credential__c(
-          Name= 'Test Credential' +  i
-        )
-      );
+      credential.add(new Credential__c(Name = 'Test Credential' + i));
     }
     return credential;
   }
@@ -803,8 +801,8 @@ public class TestDataFactory {
     String objectType
   ) {
     List<Questionnaire__c> questionnaires = new List<Questionnaire__c>();
-    
-    for (Integer i = 0 ; i < numQuestionnaires ; i++) {
+
+    for (Integer i = 0; i < numQuestionnaires; i++) {
       questionnaires.add(
         new Questionnaire__c(
           Questionnaire_Type__c = STR_QUESTIONNAIRE_TYPE,
@@ -826,41 +824,37 @@ public class TestDataFactory {
     Integer numQuestions
   ) {
     List<Question__c> questions = new List<Question__c>();
-    
-    for (Integer i = 0 ; i < numQuestions ; i++) {
-      questions.add(
-        new Question__c()
-      );
+
+    for (Integer i = 0; i < numQuestions; i++) {
+      questions.add(new Question__c());
     }
 
     return questions;
   }
 
   /**
-   * @description Method for creating test Questionnaire records
-   * @param numAnswers number of questionnaires
+   * @description Method for creating test Related Answer records
+   * @param numRelatedAnswers number of Related Answers
    * @param relatedQuestions Id of parent record
    * @param relatedQuestionnaire api name of object the questionnaire is attached to
-   * @return questionnaires - list of questionnaires
+   * @return questionnaires - list of Related Answers
    */
-  public static List<Answer__c> createTestAnswerRecords(
-    Integer numAnswers,
+  public static List<Related_Answer__c> createTestRelatedAnswerRecords(
+    Integer numRelatedAnswers,
     Id relatedQuestionnaire,
     List<Question__c> relatedQuestions
   ) {
-    List<Answer__c> answers = new List<Answer__c>();
-    
-    for (Integer i = 0 ; i < numAnswers ; i++) {
-      answers.add(
-        new Answer__c(
+    List<Related_Answer__c> relAnswers = new List<Related_Answer__c>();
+
+    for (Integer i = 0; i < numRelatedAnswers; i++) {
+      relAnswers.add(
+        new Related_Answer__c(
           Questionnaire__c = relatedQuestionnaire,
           Question__c = relatedQuestions[i]?.Id
         )
       );
     }
 
-    return answers;
+    return relAnswers;
   }
-
-} 
-
+}
