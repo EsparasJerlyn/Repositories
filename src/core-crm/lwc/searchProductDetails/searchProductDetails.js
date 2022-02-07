@@ -79,7 +79,6 @@ export default class SearchProductDetails extends LightningElement {
             productId: this.productId,
             effectiveAccountId: this.resolvedEffectiveAccountId
         }).then(info => {
-            console.log('info', info);
             this.productDetail.info = info;
             const productEvent = new CustomEvent("displayproductdesc", {
                 detail: info.fields.Description

@@ -1,14 +1,14 @@
 /**
- * @description Controller Class for productDetails LWC
+ * @description Controller Class for productDetails and productDetailsDisplay LWC
  * @see ../lwc/productDetails
  * @author Accenture
  * @history
- *    | Developer                 | Date                  | JIRA                 | Change Summary               |
-      |---------------------------|-----------------------|----------------------|------------------------------|
-      | roy.nino.s.regala         | December 03, 2021     | DEPP-116             | Created file                 |
-      |                           |                       |                      |                              | 
+ *    | Developer                 | Date                  | JIRA                 | Change Summary                             |
+      |---------------------------|-----------------------|----------------------|--------------------------------------------|
+      | roy.nino.s.regala         | December 03, 2021     | DEPP-116             | Created file                               |
+      | roy.nino.s.regala         | February 04, 2022     | DEPP-213             | Added insertion of Expression of Interest  | 
  */
-public with sharing class ProductDetailsCtrl {
+public without sharing class ProductDetailsCtrl {
     
      /**
      * @description fetches course offerings and pricebooks related to the product
@@ -20,6 +20,7 @@ public with sharing class ProductDetailsCtrl {
         ProductDetailsData prodDetailsData = new ProductDetailsData();
         List<hed__Course_Offering__c> courseOfferings = new List<hed__Course_Offering__c>();
         List<PricebookEntry> pricebookEntries = new List<PricebookEntry>();
+        List<hed__Course_Offering__c> filteredCourseOfferings = new List<hed__Course_Offering__c>();
 
         Product2 productOnPage =[SELECT Id,Course__c, Program_Plan__c,
                                     (SELECT UnitPrice, Pricebook2.Name, Pricebook2.isStandard
@@ -32,15 +33,25 @@ public with sharing class ProductDetailsCtrl {
         }
 
         if(productOnPage.Course__c != null){
+            
             courseOfferings = [SELECT Id, hed__Start_Date__c, Available_Seats__c, On_Hold_Seat__c	
                                 FROM hed__Course_Offering__c 
                                 WHERE hed__Start_Date__c > TODAY 
                                 AND hed__Course__c =: productOnPage.Course__c
                                 ORDER BY hed__Start_Date__c];
+
+            for(hed__Course_Offering__c courseOffering : courseOfferings){
+                Decimal availableSeatTemp = courseOffering.Available_Seats__c != null?courseOffering.Available_Seats__c:0;
+                Decimal onHoldSeatTemp = courseOffering.On_Hold_Seat__c != null?courseOffering.On_Hold_Seat__c:0;
+                Decimal answer = availableSeatTemp - onHoldSeatTemp;
+                if( answer > 0){
+                    filteredCourseOfferings.add(courseOffering);
+                }
+            }
         }
 
         prodDetailsData.priceBookEntryList = pricebookEntries;
-        prodDetailsData.courseOfferingList = courseOfferings;
+        prodDetailsData.courseOfferingList = filteredCourseOfferings;
         prodDetailsData.productOnPage = productOnPage;
         return prodDetailsData;
     }
@@ -70,6 +81,27 @@ public with sharing class ProductDetailsCtrl {
             AuraHandledException auraEx = new AuraHandledException(e.getMessage());
             throw auraEx;
         }
+    }
+
+    @AuraEnabled
+    public static void insertExpressionOfInterest(Id userId,Id productId){
+        User loggedInUser = [SELECT Id, Contact.Id FROM User WHERE Id =: userId];
+        List<Expression_of_Interest__c> existingInterest =  new List<Expression_of_Interest__c>([SELECT Id 
+                                                                                                FROM Expression_of_Interest__c 
+                                                                                                WHERE Contact__c =: loggedInUser.Contact.Id AND
+                                                                                                Product__c =: productId AND
+                                                                                                Type__c = 'Register Interest' AND
+                                                                                                Status__c = 'Active']);
+        if(!existingInterest.isEmpty()){
+            AuraHandledException auraEx = new AuraHandledException('Register Interest Exists');
+            throw auraEx;
+        }else{
+            Expression_of_Interest__c expressionOfInterest = new Expression_of_Interest__c( Contact__c = loggedInUser.Contact.Id, 
+                                                                                            Product__c = productId,
+                                                                                            Type__c = 'Register Interest',
+                                                                                            Status__c = 'Active'); 
+            insert(expressionOfInterest);   
+        }                                                                                 
     }
 
 

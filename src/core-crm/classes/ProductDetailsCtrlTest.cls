@@ -9,12 +9,12 @@
  *    | Developer                 | Date                  | JIRA      | Change Summary                                     |
       |---------------------------|-----------------------|-----------|----------------------------------------------------|
       | roy.nino.s.regala         | December 10, 2021     | DEPP116   | Created file                                       | 
-      | roy.nino.s.regala         | December 27, 2021     | DEPP1028  | Added testmethod for insertLearnerInfo             | 
+      | roy.nino.s.regala         | December 27, 2021     | DEPP1028  | Added testmethod for insertLearnerInfo             |
+	  | roy.nino.s.regala         | February 04, 2022     | DEPP213   | Added testmethod for insert Expression of Interest |
 */
 @isTest(SeeAllData=false)
 private class ProductDetailsCtrlTest {
     private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
-
     @testSetup static void setupMethod() {
        List<Account> accounts;
        List<hed__Term__c> terms;
@@ -27,6 +27,9 @@ private class ProductDetailsCtrlTest {
         
        accounts = TestDataFactory.createTestAccountRecords(100);
        insert accounts;
+       List<Contact> contacts = TestDataFactory.createTestContactRecords(1);
+       contacts[0].Email = 'testemailuserqut@email.com';
+       insert contacts;
        terms = TestDataFactory.createTestTermRecords(50,accounts[0].Id);
        insert terms;
        prodRequest = TestDataFactory.createTestProductRequestRecords(1);
@@ -116,7 +119,7 @@ private class ProductDetailsCtrlTest {
     {
         List<hed__Course_Offering__c> courseOffering = new List<hed__Course_Offering__c>([SELECT Id FROM hed__Course_Offering__c LIMIT 1]);
         List<Contact> contacts = TestDataFactory.createTestContactRecords(1);
-        contacts[0].Email = 'testemail';
+        insert contacts;
         boolean hasError = false;
         Test.startTest();
         System.runAs(currentUser)
@@ -131,6 +134,115 @@ private class ProductDetailsCtrlTest {
             System.assert(hasError,'has no error');
         }
         Test.stopTest();
+    }
+
+    @isTest
+    static void testInsertExpressionOfInterest()
+    {
+        UserRole portalRole = [Select Id From UserRole Where PortalType = 'None' Limit 1];
+        Profile profile1 = [Select Id from Profile where name = 'System Administrator'];
+        User portalAccountOwner1 = new User(
+        UserRoleId = portalRole.Id,
+        ProfileId = profile1.Id,
+        Username = System.now().millisecond() + 'Admin1@test.com',
+        Alias = 'batman',
+        Email='bruce.wayne@wayneenterprises.com',
+        EmailEncodingKey='UTF-8',
+        Firstname='Bruce',
+        Lastname='Wayne',
+        LanguageLocaleKey='en_US',
+        LocaleSidKey='en_US',
+        TimeZoneSidKey='America/Chicago'
+        );
+        Database.insert(portalAccountOwner1);
+
+        System.runAs ( portalAccountOwner1 ) {
+            //Create account
+            Account portalAccount1 = new Account(
+            Name = 'TestAccount',
+            OwnerId = portalAccountOwner1.Id
+            );
+            Database.insert(portalAccount1);
+            
+            //Create contact
+            Contact contact1 = new Contact(
+            FirstName = 'Test',
+            Lastname = 'McTesty',
+            AccountId = portalAccount1.Id,
+            Email = System.now().millisecond() + 'test@test.com'
+            );
+            Database.insert(contact1);
+            
+            //Create user
+            User portalUser = TestDataFactory.createPortalUserRecords(1,'Corporate Partner User',contact1.Id).iterator().next();
+            Database.insert(portalUser);
+
+            Product2 product = [SELECT Id FROM Product2 LIMIT 1];
+            Test.startTest();
+            
+            ProductDetailsCtrl.insertExpressionOfInterest(portalUser.Id,product.Id);
+            System.assert(![SELECT Id FROM Expression_of_interest__c].isEmpty(), 'No expression of interest created');
+            
+            Test.stopTest();
+        }
+
+        
+    }
+
+    @isTest
+    static void testInsertExpressionOfInterestError()
+    {
+        UserRole portalRole = [Select Id From UserRole Where PortalType = 'None' Limit 1];
+        Profile profile1 = [Select Id from Profile where name = 'System Administrator'];
+        User portalAccountOwner1 = new User(
+        UserRoleId = portalRole.Id,
+        ProfileId = profile1.Id,
+        Username = System.now().millisecond() + 'testAdmin2@test.com',
+        Alias = 'batman',
+        Email='bruce.wayne@wayneenterprises.com',
+        EmailEncodingKey='UTF-8',
+        Firstname='Bruce',
+        Lastname='Wayne',
+        LanguageLocaleKey='en_US',
+        LocaleSidKey='en_US',
+        TimeZoneSidKey='America/Chicago'
+        );
+        Database.insert(portalAccountOwner1);
+
+        System.runAs ( portalAccountOwner1 ) {
+            //Create account
+            Account portalAccount1 = new Account(
+            Name = 'TestAccount',
+            OwnerId = portalAccountOwner1.Id
+            );
+            Database.insert(portalAccount1);
+            
+            //Create contact
+            Contact contact1 = new Contact(
+            FirstName = 'Test',
+            Lastname = 'McTesty',
+            AccountId = portalAccount1.Id,
+            Email = System.now().millisecond() + 'test@test.com'
+            );
+            Database.insert(contact1);
+            
+            //Create user
+            User portalUser = TestDataFactory.createPortalUserRecords(1,'Corporate Partner User',contact1.Id).iterator().next();
+            Database.insert(portalUser);
+
+            Product2 product = [SELECT Id FROM Product2 LIMIT 1];
+            boolean hasError = false;
+            Test.startTest();
+                ProductDetailsCtrl.insertExpressionOfInterest(portalUser.Id,product.Id);
+                try{
+                    ProductDetailsCtrl.insertExpressionOfInterest(portalUser.Id,product.Id);
+                }catch(Exception e){
+                    hasError = true;
+                }
+                System.assert(hasError,'has no error');
+            Test.stopTest();
+        }
+
     }
 
 

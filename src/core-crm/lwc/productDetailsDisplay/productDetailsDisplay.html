@@ -85,17 +85,8 @@
                 <template if:true={hasSelectedCourseOffering}>
                   <span>
                     <template if:true={showEnrollButton}>
-                      <div
-                        class="slds-p-right_x-large product-bodydetails_red slds-text-align_center slds-p-vertical_small"
-                      >
+                      <div class="slds-p-right_x-large product-bodydetails_red slds-text-align_center slds-p-vertical_small">
                         {availableSeats} Seat{plural} Left
-                      </div>
-                    </template>
-                    <template if:false={showEnrollButton}>
-                      <div
-                        class="slds-p-right_x-large product-bodydetails_red slds-text-align_center slds-p-vertical_small"
-                      >
-                        No Available Seats
                       </div>
                     </template>
                   </span>
@@ -117,6 +108,7 @@
                           <lightning-button
                             label="REGISTER INTEREST"
                             variant="brand"
+                            onclick={registerInterest}
                             class="slds-m-left_x-small slds-button_stretch slds-size_12-of-12"
                           ></lightning-button>
                         </template>
@@ -283,7 +275,6 @@
       <div class="slds-col slds-size_1-of-1 slds-large-size_5-of-12">
         <!-- COURSE UNIT / MODULE PROGRAM -->
         <template if:true={hasSelectedCourseOffering}>
-          <template if:false={showRegVisible}>
             <!-- Facilitator -->
             <div class="product-grid slds-grid slds-wrap">
               <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12">
@@ -333,7 +324,6 @@
             </div>
             <!-- Faculty Location -->
             <br /><br />
-          </template>
           <!-- Register Interest -->
         </template>
         <!-- Trending -->

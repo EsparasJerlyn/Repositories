@@ -27,6 +27,7 @@ import getProductPrice from '@salesforce/apex/B2BGetInfo.getProductPrice';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { resolve } from 'c/cmsResourceResolver';
 import { refreshApex } from '@salesforce/apex';
+import isGuest from '@salesforce/user/isGuest';
 
 /**
  * A detailed display of a product.
@@ -49,7 +50,9 @@ export default class ProductDetails extends LightningElement {
      */
     set effectiveAccountId(newId) {
         this._effectiveAccountId = newId;
-        this.updateCartInformation();
+        if(!isGuest){
+            this.updateCartInformation();
+        }
     }
 
     /**
@@ -119,7 +122,9 @@ export default class ProductDetails extends LightningElement {
      * The connectedCallback() lifecycle hook fires when a component is inserted into the DOM.
      */
     connectedCallback() {
-        this.updateCartInformation();
+        if(!isGuest){
+            this.updateCartInformation();
+        }
     }
 
     /**

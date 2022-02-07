@@ -10,7 +10,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | marygrace.li@qut.edu.au        | December 8, 2021      | DEPP-174               | Created file                 | 
-      |                                |                       |                        |                              | 
+      | roy.nino.s.regala              | February 04, 2022     | DEPP-213               | Updated to api methods       | 
  */
 @isTest
 public class B2BSearchCtrlTest {
@@ -21,113 +21,35 @@ public class B2BSearchCtrlTest {
     }
 	
     @IsTest
-    private static void productSearchSuccess() {
-        Object result;
+    private static void productSearchTest() {
         String communityId = B2BUtils.getCommunityIdByName(COMMUNITY_NAME);
         Account account = TestDataFactory.createTestAccount(false);
         
-        Test.setMock(HttpCalloutMock.class, new B2BMockHttpResponseGenerator2());
-        
+        ConnectApi.ProductSearchInput searchQuery;
+        ConnectApi.ProductSearchResults result;
+
         Test.startTest();
-        try{
-        	result = B2BSearchCtrl.productSearch(communityId,'search query test', account.Id);
-        }catch(Exception ex){
-            System.debug(ex.getMessage());
-        }
+        
+        result = B2BSearchCtrl.searchProducts(communityId,account.Id, searchQuery);
+
         Test.stopTest();
-        System.assertEquals(true, true, 'not successful');
+
+        System.assertEquals(true, result == null, 'result is not null');
     }
 	
 	@IsTest
-    private static void productSearchError() {
+    private static void getSortRulesTest() {
         String communityId = B2BUtils.getCommunityIdByName(COMMUNITY_NAME);
-        Account account = TestDataFactory.createTestAccount(false);
-        
-        Test.setMock(HttpCalloutMock.class, new MockError());
-        String exceptionMessage;
+
+        ConnectApi.SortRulesCollection result;
+
         Test.startTest();
         
-        try{
-        	B2BSearchCtrl.productSearch(communityId,'search query test', account.Id);
-        }catch(Exception ex){
-            System.debug(ex.getMessage());
-            exceptionMessage = ex.getMessage();
-        }
+        	result = B2BSearchCtrl.getSortRules(communityId);
+
         Test.stopTest();
-       	System.assertEquals(true, exceptionMessage!= null, 'error');
+
+        System.assertEquals(true, result == null, 'result is not null');
     }
     
-    @IsTest
-    private static void getSortCollectionsSuccess() {
-        Object result;
-        String communityId = B2BUtils.getCommunityIdByName(COMMUNITY_NAME);
-        Account account = TestDataFactory.createTestAccount(false);
-        
-        Test.setMock(HttpCalloutMock.class, new B2BMockHttpResponseGenerator2());
-        Test.startTest();
-        try{
-        	result = B2BSearchCtrl.getSortCollections(communityId);
-        }catch(Exception ex){
-            System.debug(ex.getMessage());
-        }
-        Test.stopTest();
-        System.assertEquals(true, true, 'success');
-    }
-    
-    @IsTest
-    private static void getSortCollectionsError() {
-        String communityId = B2BUtils.getCommunityIdByName(COMMUNITY_NAME);
-        Account account = TestDataFactory.createTestAccount(false);
-        
-        Test.setMock(HttpCalloutMock.class, new MockError());
-        String exceptionMessage;
-        Test.startTest();
-        try{
-        	B2BSearchCtrl.getSortCollections(communityId);
-        }catch(Exception ex){
-            exceptionMessage = ex.getMessage();
-        }
-        Test.stopTest();
-        System.assertEquals(true, exceptionMessage!= null, 'error');
-    }
-    
-    private class MockError implements HttpCalloutMock {
-        public HTTPResponse respond(HTTPRequest req) {
-            HttpResponse res = new HttpResponse();
-            if(req.getEndpoint().contains('/search/sort-rules')){
-                System.assertEquals('GET', req.getMethod());
-       		 	// Create a fake response
-        		res.setHeader('Content-Type', 'application/json');
-        		res.setBody('{ "Response": "error" }');
-        		res.setStatusCode(500);
-        	}else if(req.getEndpoint().contains('/search/product-search')){
-            	System.assertEquals('POST', req.getMethod());
-       		 	// Create a fake response
-        		res.setHeader('Content-Type', 'application/json');
-        		res.setBody('{ "Response": "error" }');
-        		res.setStatusCode(500);
-        	}
-            return res;
-        }
-    }
-    
-    private class B2BMockHttpResponseGenerator2 implements HttpCalloutMock {
-        public HTTPResponse respond(HTTPRequest req) {
-            HttpResponse res = new HttpResponse();
-            if(req.getEndpoint().contains('/search/sort-rules')){
-                System.assertEquals('GET', req.getMethod());
-                // Create a fake response
-                res.setHeader('Content-Type', 'application/json');
-                res.setBody('{ "Response": "error" }');
-                res.setStatusCode(200);
-            }else if(req.getEndpoint().contains('/search/product-search')){
-                System.assertEquals('POST', req.getMethod());
-                // Create a fake response
-                res.setHeader('Content-Type', 'application/json');
-                res.setBody('{ "Response": "error" }');
-                res.setStatusCode(200);
-            }
-            return res;
-        }
-    }
 }

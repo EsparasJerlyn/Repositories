@@ -25,6 +25,7 @@
       | arsenio.dayrit@qut.edu.au | January 12, 2022      | DEPP-1359           | Added method for creation of Product Ledger                      |
       | adrian.c.habasa           | January 21, 2022      | DEPP-1463           | Added method for creation of Credential                          |
       | angelika.j.s.galang       | January 25, 2022      | DEPP-1396           | Added method for creation of Questionnaire, Question, and Answer |
+      | roy.nino.s.regala         | February 03, 2022     | DEPP-213            | Added nethod for creation of Expression of Interest              |
       | john.bo.a.pineda          | February 03, 2022     | DEPP-1396           | Updated method for Answer to Related Answer                      |
 */
 @IsTest
@@ -259,6 +260,39 @@ public class TestDataFactory {
   }
 
   /**
+   * @description Method for creating test User records
+   * @param numUsers - number of Users to be created
+   * @param profileName - profile name of Users to be created
+   * @return users - list of Users created
+   */
+  public static List<User> createPortalUserRecords(
+    Integer numUsers,
+    String profileName,
+    Id contactId
+  ) {
+    List<User> users = new List<User>();
+    Id userProfileId = getProfileId(profileName);
+    for (Integer i = 0; i < numUsers; i++) {
+      users.add(
+        new User(
+          Alias = 'puser',
+          Email = 'testPortaluser@mailinator.com',
+          EmailEncodingKey = 'UTF-8',
+          LastName = 'TestPortalUser',
+          ContactId = contactId,
+          LanguageLocaleKey = 'en_US',
+          LocaleSidKey = 'en_AU',
+          ProfileId = userProfileId,
+          TimeZoneSidKey = 'Australia/Sydney',
+          UserName = 'TestPortalUser.' + i + '@mailinator.com'
+        )
+      );
+    }
+
+    return users;
+  }
+
+  /**
    * @description Method for getting the Profile ID
    * @param profileName - name of the profile
    * @return ID of the profile
@@ -331,7 +365,8 @@ public class TestDataFactory {
           Name = 'CourseOffering ' + i,
           hed__Course__c = cour[i].id,
           hed__Term__c = terms[i].id,
-          hed__Start_Date__c = system.today() + 1
+          hed__Start_Date__c = system.today() + 2,
+          hed__Capacity__c = 10
         )
       );
     }
@@ -741,7 +776,9 @@ public class TestDataFactory {
       programOfferingRecord.add(
         new Program_Offering__c(
           Name = 'Test Program Offering' + i,
-          hed_Program_Plan__c = programPlans[i].id
+          hed_Program_Plan__c = programPlans[i].id,
+          hed_Capacity__c = 10,
+          Start_Date__c = system.today() + 1
         )
       );
     }
@@ -857,4 +894,33 @@ public class TestDataFactory {
 
     return relAnswers;
   }
-}
+
+  /**
+   * @description Method for creating test Expression of Interest records
+   * @param numInterests number of expression of interests
+   * @param contact contact of user registered his interest
+   * @param products list of products
+   */
+  public static List<Expression_of_Interest__c> createExpressionOfInterest(
+    Integer numInterests,
+    Contact contact,
+    List<Product2> products
+  ) {
+    List<Expression_of_Interest__c> interests = new List<Expression_of_Interest__c>();
+    
+    for (Integer i = 0 ; i < numInterests ; i++) {
+      interests.add(
+        new Expression_of_Interest__c(
+          Contact__c = contact.Id,
+          Product__c = products[i].Id,
+          Type__c = 'Register Interest',
+          Status__c = 'Active'
+        )
+      );
+    }
+
+    return interests;
+  }
+
+} 
+

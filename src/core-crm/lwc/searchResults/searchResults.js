@@ -1,14 +1,30 @@
-import { LightningElement, api } from "lwc";
+/**
+ * @description A LWC component to display searched products
+ *
+ * @see ../classes/B2BSearchCtrl.cls
+ * @see ../classes/B2BGetInfo.cls
+ * @see searchResults
+ * @author Accenture
+ *
+ * @history
+ *    | Developer                 | Date                  | JIRA                 | Change Summary                               |
+      |---------------------------|-----------------------|----------------------|----------------------------------------------|
+      | roy.nino.s.regala         | February 4, 2022      | DEPP-213             | Updated to adapt to API Method and guest user|
+ */
+
+import { LightningElement, api} from "lwc";
 import { NavigationMixin } from "lightning/navigation";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 
 import communityId from "@salesforce/community/Id";
-import productSearch from "@salesforce/apex/B2BSearchCtrl.productSearch";
+import productSearch from "@salesforce/apex/B2BSearchCtrl.searchProducts";
 import getCartSummary from "@salesforce/apex/B2BGetInfo.getCartSummary";
 import addToCart from "@salesforce/apex/B2BGetInfo.addToCart";
 import { transformData } from "./dataNormalizer";
-import getSortCollections from "@salesforce/apex/B2BSearchCtrl.getSortCollections";
+import getSortCollections from "@salesforce/apex/B2BSearchCtrl.getSortRules";
 import { generateErrorMessage } from "c/commonUtils";
+import isGuest from '@salesforce/user/isGuest';
+
 const STUDY_STORE = "study";
 const ERROR_TITLE = "Error!";
 const ERROR_VARIANT = "error";
@@ -41,7 +57,9 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
    */
   set effectiveAccountId(newId) {
     this._effectiveAccountId = newId;
-    this.updateCartInformation();
+    if(!isGuest){
+      this.updateCartInformation();
+    }
   }
 
   /**
@@ -114,11 +132,11 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
   /**
    * Triggering the product search query
    */
-  async triggerProductSearch() {
+   async triggerProductSearch() {
     if (this.sortRuleId == undefined) {
-      await this.findSortCollections();
+       await this.findSortCollections();
     }
-    const searchQuery = JSON.stringify({
+    const searchQuery = {
       searchTerm: this.term,
       categoryId: this.recordId,
       refinements: this._refinements,
@@ -128,14 +146,14 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
       page: this._pageNumber - 1,
       includePrices: true,
       sortRuleId: this.sortRuleId
-    });
+    };
 
     this._isLoading = true;
 
     productSearch({
       communityId: communityId,
-      searchQuery: searchQuery,
-      effectiveAccountId: this.resolvedEffectiveAccountId
+      effectiveAccountId: this.resolvedEffectiveAccountId,
+      searchQuery: searchQuery
     })
       .then((result) => {
         this.displayData = result;
@@ -184,18 +202,9 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
   set displayData(data) {
     let theProducts = transformData(data, this._cardContentMapping);
 
-    for (const prod of theProducts.layoutData) {
-      const product = data.productsPage.products.find((theProd) => {
-        return theProd.id == prod.id;
-      });
-
-      prod.productCode = product.fields.ProductCode.value;
-    }
-
     if (this._shouldKeepCatList) {
       theProducts.categoriesData = this._displayData.categoriesData;
     }
-
     this._displayData = theProducts;
   }
 
@@ -293,7 +302,9 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
    * The connectedCallback() lifecycle hook fires when a component is inserted into the DOM.
    */
   connectedCallback() {
-    this.updateCartInformation();
+    if(!isGuest){
+      this.updateCartInformation();
+    }
   }
 
   /**

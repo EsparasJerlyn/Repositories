@@ -16,16 +16,22 @@
       | roy.nino.s.regala         | December 6, 2021      | DEPP-116             | Removed unsused code and added field mapping |
       | roy.nino.s.regala         | December 27, 2021     | DEPP-1028            | Added logiic to close modal and refresh      |
       |                           |                       |                      | product records on parent -> productDetails  |
-      | john.bo.a.pineda          | January 19, 2022      | DEPP-1410            | Added logiic for add to cart                 |
+      | john.bo.a.pineda          | January 19, 2022      | DEPP-1410            | Added logic for add to cart                  |
+      | roy.nino.s.regala         | February 04, 2022     | DEPP-213             | Added logic for register interest            | 
  */
 import { LightningElement, api } from "lwc";
 import { NavigationMixin } from "lightning/navigation";
 /* Images */
-import Facilitator from "@salesforce/resourceUrl/Facilitator";
-import Recently1 from "@salesforce/resourceUrl/Recently1";
-import Recently2 from "@salesforce/resourceUrl/Recently2";
-import Recently3 from "@salesforce/resourceUrl/Recently3";
-import BasePath from "@salesforce/community/basePath";
+import Facilitator from '@salesforce/resourceUrl/Facilitator';
+import Recently1 from '@salesforce/resourceUrl/Recently1';
+import Recently2 from '@salesforce/resourceUrl/Recently2';
+import Recently3 from '@salesforce/resourceUrl/Recently3';
+import BasePath from '@salesforce/community/basePath';
+import insertExpressionOfInterest from '@salesforce/apex/ProductDetailsCtrl.insertExpressionOfInterest'
+import LWC_Error_General from '@salesforce/label/c.LWC_Error_General';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import userId from '@salesforce/user/Id';
+import isGuest from '@salesforce/user/isGuest';
 
 // A fixed entry for the home page.
 const homePage = {
@@ -35,6 +41,9 @@ const homePage = {
     pageName: "home"
   }
 };
+
+const MSG_ERROR = LWC_Error_General;
+const INTEREST_EXISTS_ERROR = 'You already registered your interest for this product.';
 
 /**
  * An organized display of product information.
@@ -65,6 +74,10 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   @api courseOfferings;
   @api priceBookEntries;
   @api productOnPage;
+
+  clickedRegisterLabel = 'ADD TO CART';
+  clickedShowLabel = 'SHOW MORE';
+  showVisible = false;
 
   /**
    * A product image.
@@ -299,12 +312,6 @@ export default class ProductDetailsDisplay extends NavigationMixin(
       });
   }
 
-  clickedRegisterLabel = "Add to cart";
-  showRegVisible = false;
-
-  clickedShowLabel = "SHOW MORE";
-  showVisible = false;
-
   /**
    * handles show button
    */
@@ -319,6 +326,41 @@ export default class ProductDetailsDisplay extends NavigationMixin(
       this.showVisible = false;
     }
   }
+
+  registerInterest(){
+    if(!isGuest){
+        insertExpressionOfInterest({
+          userId:userId, 
+          productId:this.productOnPage.Id
+      })
+      .then(()=>{
+          this.generateToast(
+              'Success!',
+              'Interest Registered',
+              'success')
+      })
+      .catch(error=>{
+          console.log(error);
+          if(error.body.message == 'Register Interest Exists'){
+            this.generateToast(
+              'Error.',
+              INTEREST_EXISTS_ERROR,
+              'error'
+            );
+          }else{
+            this.generateToast(
+              'Error.',
+              MSG_ERROR,
+              'error'
+            );
+          }
+          
+      })
+    }else{
+      window.location.replace(BasePath + 'login/');
+    }
+    
+}
 
   /**
    * Getter of selected course offering
@@ -353,7 +395,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   get showRegisterInterestButton() {
     if (
       !this.showEnrollButton &&
-      this.hasSelectedCourseOffering &&
+      this.hasNoRelatedCourseOfferings &&
       this.registerInterestAvailable === "true" &&
       this.isOPEPortal
     ) {
@@ -414,7 +456,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   }
 
   get optionsPlaceholder() {
-    return this.hasNoRelatedCourseOfferings ? "NOT AVAILABLE" : "SELECT A DATE";
+    return this.hasNoRelatedCourseOfferings ? "NO OFFERING AVAILABLE" : "SELECT A DATE";
   }
 
   get pickOptions() {
@@ -464,4 +506,17 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     ).label;
     this.selectedOfferingId = event.detail.value;
   }
+
+  /**
+     * creates toast notification
+     */
+   generateToast(_title,_message,_variant){
+    const evt = new ShowToastEvent({
+        title: _title,
+        message: _message,
+        variant: _variant,
+    });
+    this.dispatchEvent(evt);
+  }
+
 }
