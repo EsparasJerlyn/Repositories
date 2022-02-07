@@ -97,7 +97,7 @@ export default class CreateProductsAndOfferings extends LightningElement{
             this.filterParent = productRequestList.filter( (result) => result.Id !== this.recordId); 
             this.currentRecord = productRequestList.filter( (result) => result.Id === this.recordId)[0];
             this.programPlan = programPlanTemp;
-
+            
             this.programStructureComplete = this.currentRecord.Program_Structure_Complete__c; //variable that indicates that program structure stage is complete
             this.createProductComplete = this.currentRecord.Create_Product_Complete__c; //variable that indicates that create product stage is complete
             this.createOfferingComplete = this.currentRecord.Create_Offering_Complete__c;  //variable that indicates that create offering stage is complete
