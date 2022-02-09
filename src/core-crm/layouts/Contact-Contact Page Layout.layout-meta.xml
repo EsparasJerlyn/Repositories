@@ -108,6 +108,10 @@
                 <behavior>Edit</behavior>
                 <field>LinkedIn_Profile_URL__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Dietary_Requirement__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
