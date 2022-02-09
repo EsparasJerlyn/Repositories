@@ -899,6 +899,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>hed__Course_Enrollment__c.Marks__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>hed__Course_Enrollment__c.Program_Offering__c</field>
         <readable>true</readable>
     </fieldPermissions>
