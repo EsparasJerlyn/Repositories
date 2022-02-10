@@ -62,7 +62,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Certification_Type__c</field>
+                <field>Certificate_Type__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>

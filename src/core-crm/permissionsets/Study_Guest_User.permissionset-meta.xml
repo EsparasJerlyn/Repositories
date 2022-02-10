@@ -3,7 +3,7 @@
     <description>Permission Set for OPE/Study Guest Browsing.</description>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Product2.Certification_Type__c</field>
+        <field>Product2.Certificate_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
