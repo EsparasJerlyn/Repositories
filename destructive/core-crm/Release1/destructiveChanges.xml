@@ -163,7 +163,7 @@
     <types>
         <members>hed__Course__c.Certification_Type__c</members>
         <name>CustomField</name>
-    <types>
+    </types>
     <!-- fix for pipeline bug DEPP-1718 -->
 
     <version>52.0</version>
