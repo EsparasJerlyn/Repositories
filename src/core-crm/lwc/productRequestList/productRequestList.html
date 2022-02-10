@@ -1,6 +1,6 @@
 <template>
     <lightning-accordion allow-multiple-sections-open class="slds-grid slds-gutters slds-clearfix" 
-                            active-section-name={activeSections}>
+                            active-section-name={accordionSection}>
         <lightning-button label="ADD" title="Add" onclick={handleAddButton} variant="brand" icon-name="utility:add"
         icon-position="right" class="my-add-button"></lightning-button>
         <lightning-accordion-section key={accordionSection} name={accordionSection}

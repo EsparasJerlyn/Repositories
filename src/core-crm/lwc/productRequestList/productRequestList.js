@@ -28,11 +28,11 @@ const PS_OPE_FILTER = ['OPE Program Request','Single Product','Short Course','OP
 const PR_OPE_FILTER = PS_OPE_FILTER.slice(1);
 const OPE_RECTYPE = 'OPE_Program_Specification';
 const ACCORDION_SECTION = 'Product Requests';
+const OPE_ACCORDION_SECTION = 'Add Products';
 
 export default class ProductRequestList extends LightningElement {
     @api recordId;
-    
-    activeSections = [ACCORDION_SECTION];
+
     // definition of columns for the tree grid
     gridColumns;
     // data provided to the tree grid
@@ -95,7 +95,7 @@ export default class ProductRequestList extends LightningElement {
      * sets name of accordion header
      */
     get accordionSection(){
-        return ACCORDION_SECTION;
+        return this.isProdSpecOPE?OPE_ACCORDION_SECTION:ACCORDION_SECTION;
     }
     /**
      * checks if there are product requests
