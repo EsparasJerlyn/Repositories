@@ -163,6 +163,8 @@
     <types>
         <members>hed__Course__c.Certification_Type__c</members>
         <name>CustomField</name>
+        <members>Product2.Certification_Type__c</members>
+        <name>CustomField</name>
     </types>
     <!-- fix for pipeline bug DEPP-1718 -->
 
