@@ -18,26 +18,26 @@
                 <label>Certificate of Achievement</label>
             </value>
             <value>
-                <fullName>No</fullName>
+                <fullName>None</fullName>
                 <default>false</default>
-                <label>No</label>
+                <label>None</label>
+            </value>
+            <value>
+                <fullName>Certificate of Participation</fullName>
+                <default>false</default>
+                <label>Certificate of Participation</label>
             </value>
             <value>
                 <fullName>QUTeX Digital Badge</fullName>
                 <default>false</default>
                 <label>QUTeX Digital Badge</label>
+                <isActive>false</isActive>
             </value>
             <value>
                 <fullName>Certificate of Completion</fullName>
                 <default>false</default>
                 <isActive>false</isActive>
                 <label>Certificate of Completion</label>
-            </value>
-            <value>
-                <fullName>Certificate of Participation</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>Certificate of Participation</label>
             </value>
         </valueSetDefinition>
     </valueSet>

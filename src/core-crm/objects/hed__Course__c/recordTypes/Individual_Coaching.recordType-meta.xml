@@ -10,11 +10,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>No</fullName>
+            <fullName>None</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>QUTeX Digital Badge</fullName>
+            <fullName>Certificate of Participation</fullName>
             <default>false</default>
         </values>
     </picklistValues>
