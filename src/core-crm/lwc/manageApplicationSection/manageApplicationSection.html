@@ -1,0 +1,97 @@
+<template>   
+    <div class="slds-text-heading_small slds-p-bottom_x-small slds-border_bottom">
+        <strong>{sectionHeader}</strong>
+    </div> 
+    <lightning-layout horizontal-align="left" vertical-align="end">
+        <lightning-layout-item class="slds-size_1-of-3 slds-p-right_small slds-p-bottom_medium">
+            <div>
+                <lightning-input type="search" placeholder="Search Name" onchange={handleSearch} value={searchField}></lightning-input>
+            </div>
+        </lightning-layout-item>
+        <lightning-layout-item class="slds-size_1-of-3 slds-p-left_none slds-p-bottom_medium">
+            <div>
+                <lightning-button 
+                    class="slds-text-title_bold"
+                    variant="brand"
+                    label="Clear"
+                    onclick={handleClear}>
+                </lightning-button>
+            </div>
+        </lightning-layout-item>
+        <lightning-layout-item class="slds-size_1-of-3 slds-p-left_none slds-p-bottom_medium">
+            <div>
+                <lightning-combobox
+                    value={picklistValue}                    
+                    options={applicationStatusValues}
+                    onchange={handleAppStatus} 
+                ></lightning-combobox>
+            </div>
+        </lightning-layout-item>
+    </lightning-layout>
+    <lightning-spinner if:true={isLoading} alternative-text="Loading" size="small"></lightning-spinner>
+    <div class="slds-scrollable slds-p-bottom_medium">
+        <template if:true={tableData}>
+            <c-custom-datatable 
+                records={records} 
+                columns={columns}
+                onsave={handleSaveApplications}
+                enable-edit
+                onedit={handleOpenModal}>
+            </c-custom-datatable>                                
+        </template>
+        <template if:true={empty}>
+            <div class="slds-float_center">
+                {noRecordsFound}
+            </div>            
+        </template>
+        <template if:true={error}>
+            <div class="slds-float_center">
+                {noRecordsFound}
+            </div>            
+        </template>
+    </div>   
+    <template if:true={isModalOpen}>
+        <section  class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModalAction}>
+                       <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse" size="small" ></lightning-icon>
+                    </button>
+                    <h2 class="slds-text-heading_medium slds-hyphenate">{modalTitle}</h2>
+                 </header>
+
+                 <div class="slds-modal__content slds-p-around_medium ">
+                    <lightning-combobox
+                        label="Application Status"
+                        value={rowAppStatus}                    
+                        options={applicationStatusModal}
+                        onchange={handleModalPicklist} 
+                    ></lightning-combobox>         
+                    <template if:true={isForRejection}>
+                        <lightning-textarea name="reasonForRejection" value={rowRejectReason} onchange={handleTextArea} label="Reason for Rejection" maxlength="30000" placeholder="type reason for rejection here..."></lightning-textarea>
+                    </template>  
+                    <template if:false={isForRejection}>
+                        <lightning-textarea name="reasonForRejection" disabled label="Reason for Rejection"></lightning-textarea>
+                    </template>  
+                 </div>
+                 <footer class="slds-modal__footer">
+                    <lightning-button
+                        label="Cancel"
+                        variant="neutral"
+                        onclick={closeModalAction}>  
+                    </lightning-button>
+                    <lightning-button
+                            data-name="save"
+                            label="Save"
+                            variant="brand"
+                            onclick={handleModalSave}
+                            type="submit"
+                            class="slds-m-left_medium"
+                            disabled={isDisabled}>  
+                        </lightning-button>
+                </footer> 
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

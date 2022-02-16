@@ -1,0 +1,15 @@
+<template>        
+    <lightning-datatable 
+        key-field="id"         
+        columns={columns} 
+        data={records}               
+        sorted-direction={sortDirection}
+        sorted-by={sortBy}          
+        show-row-number-column
+        hide-checkbox-column 
+        draft-values={draftValues}
+        onsave={handleSave}
+        onsort={handleSort} 
+        onrowaction={handleRowActions}>
+    </lightning-datatable>         
+</template>
