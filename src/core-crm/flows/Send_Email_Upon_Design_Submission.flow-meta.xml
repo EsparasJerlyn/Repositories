@@ -17,7 +17,7 @@
         <inputParameters>
             <name>emailAddresses</name>
             <value>
-                <stringValue>wingerden@mailinator.com</stringValue>
+                <elementReference>$Label.QUTeX_Email</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
