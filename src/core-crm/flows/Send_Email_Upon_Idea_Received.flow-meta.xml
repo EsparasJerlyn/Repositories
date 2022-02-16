@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Send_Email_to_QUT</name>
+        <label>Send Email to QUT</label>
+        <locationX>50</locationX>
+        <locationY>1055</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>EmailForQut</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <elementReference>$Label.QUTeX_Email</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <stringValue>[QUTeX] An Idea Has Been Submitted</stringValue>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <actionCalls>
+        <name>Send_Email_to_Requestor</name>
+        <label>Send Email to Requestor</label>
+        <locationX>50</locationX>
+        <locationY>815</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <connector>
+            <targetReference>Get_User_Name</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>EmailForRequestor</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <elementReference>$Record.Requestor_Email__c</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <stringValue>[QUTeX] Idea Form Submitted</stringValue>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <apiVersion>54.0</apiVersion>
+    <decisions>
+        <name>Idea_Received_Status</name>
+        <label>Idea Received Status</label>
+        <locationX>182</locationX>
+        <locationY>575</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>yes</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Idea Received</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Get_OPE_Recordtype.DeveloperName</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Owner</targetReference>
+            </connector>
+            <label>yes</label>
+        </rules>
+    </decisions>
+    <formulas>
+        <name>ProductSpecificationURL</name>
+        <dataType>String</dataType>
+        <expression>LEFT($Api.Enterprise_Server_URL_510, FIND( &apos;/services&apos;, $Api.Enterprise_Server_URL_510)) &amp; {!$Record.Id}</expression>
+    </formulas>
+    <interviewLabel>Send Email Upon Idea Received {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Send Email Upon Idea Received</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <name>Get_OPE_Recordtype</name>
+        <label>Get OPE Recordtype</label>
+        <locationX>182</locationX>
+        <locationY>455</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Idea_Received_Status</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>OPE_Program_Specification</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>RecordType</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>get_Queues</name>
+        <label>get Queues</label>
+        <locationX>182</locationX>
+        <locationY>335</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_OPE_Recordtype</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>OPE_Product_Design</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Group</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_User_Name</name>
+        <label>Get User Name</label>
+        <locationX>50</locationX>
+        <locationY>935</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Send_Email_to_QUT</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.OwnerId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>User</object>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>Name</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <name>Update_Owner</name>
+        <label>Update Owner</label>
+        <locationX>50</locationX>
+        <locationY>695</locationY>
+        <connector>
+            <targetReference>Send_Email_to_Requestor</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>OwnerId</field>
+            <value>
+                <elementReference>get_Queues.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>56</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>get_Queues</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Idea Received</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Stage__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Idea</stringValue>
+            </value>
+        </filters>
+        <object>Product_Specification__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <textTemplates>
+        <name>EmailForQut</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>&lt;p&gt;Dear,&lt;br/&gt;&amp;nbsp;
+&lt;p&gt;An idea has been successfully submitted for consideration. Please review the idea and ascertain if you will be proceeding to design.&lt;/p&gt;
+&lt;p&gt;Please find the link to the idea below for your records.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;{!ProductSpecificationURL}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;b&gt;{!$Record.Name}&lt;/b&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Kind Regards,&lt;/p&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <name>EmailForRequestor</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>&lt;p&gt;Dear &lt;b&gt;{!$Record.Requestor_Name__r.FirstName}&lt;/b&gt;,&lt;br/&gt;&amp;nbsp;
+&lt;p&gt;Congratulations, your idea has been successfully submitted for consideration. A member of our QUTeX team will review your idea and will be in touch with you shortly.&lt;/p&gt;
+&lt;p&gt;Please find details of your idea below for your records.&lt;/p&gt;
+&lt;p&gt;&lt;i&gt;{!$Record.Idea_Summary__c}&lt;/i&gt;&lt;/p&gt;
+&lt;p&gt;We may email or call you requesting further information about your idea. Otherwise, someone from QUTeX will contact you with acceptance to the define process or a decline and the reason why.&lt;/p&gt;
+&lt;p&gt;If you have any further questions, please get in touch.&lt;/p&gt;
+&lt;p&gt;&lt;b&gt;The QUTeX Team&lt;/b&gt;&lt;/p&gt;
+&lt;p&gt;07 3138 7733&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;mailto:qutex@qut.edu.au&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;qutex@qut.edu.au&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://qut.edu.au/qutex&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;qut.edu.au/qutex&lt;/a&gt;&lt;/p&gt;</text>
+    </textTemplates>
+</Flow>
