@@ -27,6 +27,7 @@
       | angelika.j.s.galang       | January 25, 2022      | DEPP-1396           | Added method for creation of Questionnaire, Question, and Answer |
       | roy.nino.s.regala         | February 03, 2022     | DEPP-213            | Added nethod for creation of Expression of Interest              |
       | john.bo.a.pineda          | February 03, 2022     | DEPP-1396           | Updated method for Answer to Related Answer                      |
+      | adrian.c.habasa           | February 14, 2022     | DEPP-1247           | Added method for Session and Attendance Event                    |
 */
 @IsTest
 public class TestDataFactory {
@@ -921,6 +922,39 @@ public class TestDataFactory {
 
     return interests;
   }
+
+  
+  /**
+   * @description Method for creating test Session records
+   * @param numSessions number of Session record 
+   */
+  public static List<Session__c> createTestSessionRecords(Integer numSessions){  
+  List<Session__c> sessions = new List<Session__c>();
+
+    for (Integer i = 0; i < numSessions; i++) {
+      sessions.add(new Session__c(Session_Name__c = 'Session Test' + i));
+    }
+
+    return sessions;
+  }
+
+   /**
+   * @description Method for creating test Attendance Event records
+   * @param numAttendance number of Attendance record
+   * @param contId Id of contact to be related
+   * @param courseEnrollment Id of Course Connection to be related
+   * @param sessionId Id of Session to be related
+   */
+  public static List<hed__Attendance_Event__c> createTestAttendanceRecords(Integer numAttendance, Id contId, Id courseEnrollment, Id sessionId){  
+  List<hed__Attendance_Event__c> attendance = new List<hed__Attendance_Event__c>();
+
+    for (Integer i = 0; i < numAttendance; i++) {
+      attendance.add(new hed__Attendance_Event__c(hed__Contact__c = contId, hed__Course_Connection__c= courseEnrollment,Session__c = sessionId ));
+    }
+
+    return attendance;
+  }
+
 
 } 
 

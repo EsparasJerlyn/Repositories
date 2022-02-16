@@ -4108,6 +4108,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Session__c.Course_Offering__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Session__c.End_Time__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5949,6 +5954,16 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>hed__Attendance_Event__c.hed__Unexcused__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>hed__Attendance_Event__c.Present__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>hed__Attendance_Event__c.Session__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
