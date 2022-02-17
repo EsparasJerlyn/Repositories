@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Custom Welcome Email for Experience Builder</description>
+    <encodingKey>UTF-8</encodingKey>
+    <letterhead>UserCreationEmailHeader</letterhead>
+    <name>User Creation Welcome Email</name>
+    <style>formalLetter</style>
+    <subject>QUTeX: Sign-Up Confirmation</subject>
+    <textOnly>Hi {!Receiving_User.FirstName},
+
+
+Thank you for signing up with QUTeX! We look forward to welcoming you to QUTeX and supporting you on your journey to professional and personal success.
+
+
+To get started, go to {!Community.Url}
+
+
+Username: {!Receiving_User.Username}
+
+
+
+The QUTeX Team
+Phone: + 61 7 3138 7733 | Email: qutex@qut.edu.au
+QUTeX Professional and Executive Education for the Real World | QUTeX - Professional and executive education
+Follow QUTeX on LinkedIn | Subscribe to the QUTeX Connect Newsletter</textOnly>
+    <type>html</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

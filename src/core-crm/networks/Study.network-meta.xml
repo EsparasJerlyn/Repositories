@@ -51,5 +51,5 @@
         <standardTab>Chatter</standardTab>
     </tabs>
     <urlPathPrefix>study</urlPathPrefix>
-    <welcomeTemplate>unfiled$public/CommunityWelcomeEmailTemplate</welcomeTemplate>
+    <welcomeTemplate>unfiled$public/User_Creation_Welcome_Email</welcomeTemplate>
 </Network>
