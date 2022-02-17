@@ -6,9 +6,11 @@
     <errorConditionFormula>AND(
 RecordType.DeveloperName =&apos;OPE_Program_Specification&apos;,
 ISCHANGED(Stage__c),
-ISPICKVAL(PRIORVALUE(Stage__c),&apos;Qualify&apos;),
+OR(ISPICKVAL(PRIORVALUE(Stage__c),&apos;Qualify&apos;),
+ISPICKVAL(PRIORVALUE(Stage__c),&apos;Design&apos;)),
 OR(ISPICKVAL(Stage__c, &apos;Design&apos;),ISPICKVAL(Stage__c, &apos;Complete&apos;)),
-AND(ISPICKVAL(Requires_Director_Endorsement__c,&apos;Yes&apos;),ISBLANK(Endorsed_by__c))
+ISPICKVAL(Requires_Director_Endorsement__c,&apos;Yes&apos;),
+ISBLANK(Endorsed_by__c)
 )</errorConditionFormula>
     <errorDisplayField>Endorsed_by__c</errorDisplayField>
     <errorMessage>Endorsed by is required to proceed to Design.</errorMessage>
