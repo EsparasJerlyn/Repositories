@@ -34,39 +34,30 @@
                 <label>Doesnt meet Qualification</label>
             </value>
             <value>
-                <fullName>Define</fullName>
+                <fullName>Idea Received</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
-                <label>Define</label>
-            </value>
-            <value>
-                <fullName>Design</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>Design</label>
-            </value>
-            <value>
-                <fullName>Complete</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>Complete</label>
+                <label>Idea Received</label>
             </value>
         </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Idea</controllingFieldValue>
+            <valueName>Idea Sent</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Idea</controllingFieldValue>
+            <valueName>Idea Received</valueName>
+        </valueSettings>
         <valueSettings>
             <controllingFieldValue>Qualify</controllingFieldValue>
             <valueName>Qualification</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Not Proceeding</controllingFieldValue>
-            <valueName>Doesnt meet Qualification</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Not Proceeding</controllingFieldValue>
             <valueName>Existing Product</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Idea</controllingFieldValue>
-            <valueName>Idea Sent</valueName>
+            <controllingFieldValue>Not Proceeding</controllingFieldValue>
+            <valueName>Doesnt meet Qualification</valueName>
         </valueSettings>
     </valueSet>
 </CustomField>
