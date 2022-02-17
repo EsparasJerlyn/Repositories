@@ -4,7 +4,7 @@
     <assignments>
         <name>Set_OPE_Design_Complete_to_False</name>
         <label>Set OPE Design Complete to False</label>
-        <locationX>578</locationX>
+        <locationX>572</locationX>
         <locationY>1775</locationY>
         <assignmentItems>
             <assignToReference>$Record.OPE_Design_Complete__c</assignToReference>
@@ -17,7 +17,7 @@
     <assignments>
         <name>Set_OPE_Design_Complete_to_True</name>
         <label>Set OPE Design Complete to True</label>
-        <locationX>50</locationX>
+        <locationX>308</locationX>
         <locationY>1775</locationY>
         <assignmentItems>
             <assignToReference>$Record.OPE_Design_Complete__c</assignToReference>
@@ -30,7 +30,7 @@
     <decisions>
         <name>Validate_Common_Fields</name>
         <label>Validate Common Fields</label>
-        <locationX>578</locationX>
+        <locationX>572</locationX>
         <locationY>431</locationY>
         <defaultConnector>
             <targetReference>Set_OPE_Design_Complete_to_False</targetReference>
@@ -181,20 +181,20 @@
     <decisions>
         <name>Validate_Course_Fields_Per_Record_Type</name>
         <label>Validate Course Fields Per Record Type</label>
-        <locationX>314</locationX>
+        <locationX>176</locationX>
         <locationY>311</locationY>
         <defaultConnector>
             <targetReference>Set_OPE_Design_Complete_to_False</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
-            <name>OPE_Activity_Request_Valid</name>
+            <name>Activity_Request_Valid</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>OPE_Activity</stringValue>
+                    <stringValue>Activity</stringValue>
                 </rightValue>
             </conditions>
             <conditions>
@@ -214,7 +214,7 @@
             <connector>
                 <targetReference>Validate_Common_Fields</targetReference>
             </connector>
-            <label>OPE Activity Request Valid</label>
+            <label>Activity Request Valid</label>
         </rules>
         <rules>
             <name>Short_Course_Valid</name>
@@ -267,13 +267,13 @@
             <label>Short Course Valid</label>
         </rules>
         <rules>
-            <name>Single_Product_Valid</name>
+            <name>Module_Valid</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>Single_Product</stringValue>
+                    <stringValue>Module</stringValue>
                 </rightValue>
             </conditions>
             <conditions>
@@ -321,13 +321,70 @@
             <connector>
                 <targetReference>Validate_Common_Fields</targetReference>
             </connector>
-            <label>Single Product Valid</label>
+            <label>Module Valid</label>
+        </rules>
+        <rules>
+            <name>Unit_Valid</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Unit</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Proposal_Title__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Proposal_Description__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Risk_and_Opportunities__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Actual_Volume__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Is_Curriculum_Approved__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.CourseLoop_Full_Proposal_URL__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Validate_Common_Fields</targetReference>
+            </connector>
+            <label>Unit Valid</label>
         </rules>
     </decisions>
     <decisions>
         <name>Validate_Delivery_Support</name>
         <label>Validate Delivery Support</label>
-        <locationX>314</locationX>
+        <locationX>308</locationX>
         <locationY>1655</locationY>
         <defaultConnector>
             <targetReference>Set_OPE_Design_Complete_to_False</targetReference>
@@ -374,7 +431,7 @@
     <decisions>
         <name>Validate_Delivery_Type</name>
         <label>Validate Delivery Type</label>
-        <locationX>314</locationX>
+        <locationX>308</locationX>
         <locationY>551</locationY>
         <defaultConnector>
             <targetReference>Set_OPE_Design_Complete_to_False</targetReference>
@@ -428,7 +485,7 @@
     <decisions>
         <name>Validate_External_Org_Details</name>
         <label>Validate External Org Details</label>
-        <locationX>314</locationX>
+        <locationX>308</locationX>
         <locationY>1103</locationY>
         <defaultConnector>
             <targetReference>Set_OPE_Design_Complete_to_False</targetReference>
@@ -475,7 +532,7 @@
     <decisions>
         <name>Validate_Fee_Applicable</name>
         <label>Validate Fee Applicable</label>
-        <locationX>314</locationX>
+        <locationX>308</locationX>
         <locationY>827</locationY>
         <defaultConnector>
             <targetReference>Set_OPE_Design_Complete_to_False</targetReference>
@@ -522,7 +579,7 @@
     <decisions>
         <name>Validate_Resource_Details</name>
         <label>Validate Resource Details</label>
-        <locationX>314</locationX>
+        <locationX>308</locationX>
         <locationY>1379</locationY>
         <defaultConnector>
             <targetReference>Set_OPE_Design_Complete_to_False</targetReference>
@@ -588,7 +645,7 @@
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <start>
-        <locationX>188</locationX>
+        <locationX>50</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Validate_Course_Fields_Per_Record_Type</targetReference>

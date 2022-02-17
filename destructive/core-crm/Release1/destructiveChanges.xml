@@ -143,6 +143,10 @@
         <members>Field_Layout_Setting__mdt.Professional_Advantage_Request_Summary</members>
         <members>Field_Layout_Setting__mdt.Professional_Advantage_Request_Detail</members>
         <members>Record_Type_Setting__mdt.Professional_Advantage_Request</members>
+        <members>Record_Type_Setting__mdt.OPE_Activity</members>
+        <members>Record_Type_Setting__mdt.OPE_Program</members>
+        <members>Record_Type_Setting__mdt.OPE_Program_Request</members>
+        <members>Record_Type_Setting__mdt.Single_Product</members>
         <name>CustomMetadata</name>
     </types>
     <types>    

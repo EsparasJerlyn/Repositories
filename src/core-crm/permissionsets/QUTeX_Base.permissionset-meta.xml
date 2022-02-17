@@ -1104,6 +1104,22 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
+        <recordType>Product_Request__c.Activity</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Product_Request__c.Module</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Product_Request__c.Unit</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Product_Request__c.Program</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
         <recordType>Product_Request__c.OPE_Activity_Request</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
@@ -1153,6 +1169,14 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <recordType>hed__Course__c.Non_Award_Module</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>hed__Course__c.Unit</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>hed__Course__c.Module</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <tabSettings>

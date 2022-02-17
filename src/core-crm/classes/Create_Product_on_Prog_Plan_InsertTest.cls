@@ -15,7 +15,7 @@
 private class Create_Product_on_Prog_Plan_InsertTest {
 
     private static User currentUser = TestDataFactory.createUserRecords(1, 'QUTeX').iterator().next();
-    private static Id opeProgramRequest = Schema.SObjectType.hed__Program_Plan__c.getRecordTypeInfosByDeveloperName().get('OPE_Program_Request').getRecordTypeId();
+    private static Id opeProgramRequest = Schema.SObjectType.hed__Program_Plan__c.getRecordTypeInfosByDeveloperName().get('Program').getRecordTypeId();
     
     @IsTest
     private static void createProductOnProgramPlanInsertTest(){

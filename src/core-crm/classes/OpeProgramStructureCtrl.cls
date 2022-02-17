@@ -13,7 +13,7 @@
 */
 public with sharing class OpeProgramStructureCtrl {
 
-    private static String opeProgramRequest = 'OPE_Program_Request';
+    private static String opeProgramRequest = 'Program';
 
      /**`
      * @description get List of courses,product requests, and Program Plan

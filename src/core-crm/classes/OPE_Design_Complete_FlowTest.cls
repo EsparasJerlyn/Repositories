@@ -16,12 +16,12 @@ private class OPE_Design_Complete_FlowTest{
 
     private static User currentUser = TestDataFactory.createUserRecords(1, 'QUTeX').iterator().next();
     
-    private static Id opeActProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get('OPE_Activity_Request').getRecordTypeId();
-    private static Id opeActivityId = Schema.SObjectType.hed__Course__c.getRecordTypeInfosByDeveloperName().get('OPE_Activity').getRecordTypeId();
+    private static Id opeActProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get('Activity').getRecordTypeId();
+    private static Id opeActivityId = Schema.SObjectType.hed__Course__c.getRecordTypeInfosByDeveloperName().get('Activity').getRecordTypeId();
     private static Id opeShortProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get('Short_Course').getRecordTypeId();
     private static Id opeShortCourseId = Schema.SObjectType.hed__Course__c.getRecordTypeInfosByDeveloperName().get('Short_Course').getRecordTypeId();
-    private static Id opeSingleProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get('Single_Product').getRecordTypeId();
-    private static Id opeSingleProdId = Schema.SObjectType.hed__Course__c.getRecordTypeInfosByDeveloperName().get('Single_Product').getRecordTypeId();
+    private static Id opeSingleProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get('Module').getRecordTypeId();
+    private static Id opeSingleProdId = Schema.SObjectType.hed__Course__c.getRecordTypeInfosByDeveloperName().get('Module').getRecordTypeId();
     private static Integer numberOfRecords = 100;
      
     @isTest

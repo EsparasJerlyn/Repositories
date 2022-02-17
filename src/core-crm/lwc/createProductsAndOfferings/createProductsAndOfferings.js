@@ -27,7 +27,7 @@ import LWC_Error_MultiRecordTypes_CompleteStageOnParent	 from '@salesforce/label
 const MSG_ERROR = LWC_Error_General;
 const TAB_BOLD = "tab-bold";
 const MULTI_RT = ['Activity_Request','Coaching_Request','Diagnostic_Tool_Request','Educational_Consultancy_Request'];
-const PROGRAM_REQUEST_RT = 'Program_Request';
+const PROGRAM_REQUEST_RT = 'Program';
 const FLEXIBLE_TYPE = 'Flexible Program';
 const PRESCRIBED_TYPE = 'Prescribed Program';
 const OPTIONAL = 'Optional';

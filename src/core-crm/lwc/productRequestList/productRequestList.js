@@ -24,7 +24,7 @@ import PS_PARENT from '@salesforce/schema/Product_Request__c.Product_Specificati
 
 const PS_FILTER = ['Diagnostic Tool Request'];
 const PR_FILTER = ['Program Request','Stand-Alone Unit / Module Request','Corporate Bundle Request'];
-const PS_OPE_FILTER = ['OPE Program Request','Single Product','Short Course','OPE Activity Request'];
+const PS_OPE_FILTER = ['Program','Unit','Module','Short Course','Activity'];
 const PR_OPE_FILTER = PS_OPE_FILTER.slice(1);
 const OPE_RECTYPE = 'OPE_Program_Specification';
 const ACCORDION_SECTION = 'Product Requests';
@@ -161,7 +161,7 @@ export default class ProductRequestList extends LightningElement {
             newItem.ownerUrl = '/' + item.OwnerId;
             newItem.addChildButton = 
                 !isChild && 
-                (item.RecordType.DeveloperName === 'Program_Request' || item.RecordType.DeveloperName === 'OPE_Program_Request') &&
+                item.RecordType.DeveloperName === 'Program' &&
                 (item.Product_Specification__r.RecordType.DeveloperName === 'CCE_Program_Specification' || 
                 item.Product_Specification__r.RecordType.DeveloperName === 'OPE_Program_Specification') 
                 ? 'slds-show' : 'slds-hide';

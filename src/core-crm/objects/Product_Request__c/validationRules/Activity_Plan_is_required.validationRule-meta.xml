@@ -4,7 +4,7 @@
     <active>true</active>
     <description>Activity Plan is required to update Status from Define to Design.</description>
     <errorConditionFormula>AND (
- RecordType.DeveloperName = &apos;Educational_Consultancy_Request&apos;,
+ RecordType.DeveloperName = &apos;Educational_Consultancy&apos;,
  ISCHANGED( Product_Request_Status__c ),
  ISPICKVAL( PRIORVALUE(Product_Request_Status__c ), &apos;Define&apos;),
  ISPICKVAL( Product_Request_Status__c , &apos;Design&apos;),

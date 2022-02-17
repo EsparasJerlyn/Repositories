@@ -101,7 +101,7 @@ export default class GetCurriculum extends LightningElement {
     }
 
     get isProgramRequest(){
-        return this.productRequest['recordType'] == 'Program_Request';
+        return this.productRequest['recordType'] == 'Program';
     }
 
     get isNotDesign(){

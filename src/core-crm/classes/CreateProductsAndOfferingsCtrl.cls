@@ -12,7 +12,7 @@
  */
 public with sharing class CreateProductsAndOfferingsCtrl {
 
-    private static String programRequest = 'Program_Request';
+    private static String programRequest = 'Program';
 
     /**`
      * @description get List of courses, products, and course offerings related to a ProductRequest

@@ -1853,6 +1853,14 @@
         <recordType>hed__Course__c.OPE_Activity</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>hed__Course__c.Unit</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>hed__Course__c.Module</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
     <tabSettings>
         <tab>hed__Course__c</tab>
         <visibility>Visible</visibility>

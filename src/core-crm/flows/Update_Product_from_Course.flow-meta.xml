@@ -8,13 +8,13 @@
         <locationY>335</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
-            <name>OPE_Activity_Short_Course_Single_Product</name>
+            <name>Activity_Short_Course_Unit_Module</name>
             <conditionLogic>or</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>OPE_Activity_Request</stringValue>
+                    <stringValue>Activity</stringValue>
                 </rightValue>
             </conditions>
             <conditions>
@@ -28,13 +28,20 @@
                 <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>Single_Product</stringValue>
+                    <stringValue>Module</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Unit</stringValue>
                 </rightValue>
             </conditions>
             <connector>
                 <targetReference>Get_Course</targetReference>
             </connector>
-            <label>OPE Activity, Short Course, Single Product</label>
+            <label>Activity, Short Course, Unit, Module</label>
         </rules>
         <rules>
             <name>Program_Plan</name>
@@ -43,7 +50,7 @@
                 <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>OPE_Program_Request</stringValue>
+                    <stringValue>Program</stringValue>
                 </rightValue>
             </conditions>
             <connector>

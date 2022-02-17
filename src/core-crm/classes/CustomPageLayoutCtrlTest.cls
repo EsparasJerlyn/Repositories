@@ -17,7 +17,7 @@ private class CustomPageLayoutCtrlTest {
     private static final String COURSE_PR_FIELD = 'ProductRequestID__c';
     private static final String PRODUCT_API_NAME = Product2.SObjectType.getDescribe().getLocalName();
     private static final String PRODUCT_COURSE_FIELD = 'Course__c';
-    private static final String OPE_ACTIVITY = 'OPE_Activity';
+    private static final String OPE_ACTIVITY = 'Activity';
     private static User currentUser = TestDataFactory.createUserRecords(1, 'QUTeX').iterator().next();
 
     @testSetup static void setupMethod() {

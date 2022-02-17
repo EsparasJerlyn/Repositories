@@ -4,7 +4,10 @@
     <active>true</active>
     <description>Location is required for Coaching Request to move the status from define to design.</description>
     <errorConditionFormula>AND(
-RecordType.DeveloperName =&apos;Coaching_Request&apos;,
+OR(
+RecordType.DeveloperName =&apos;Individual_Coaching&apos;,
+RecordType.DeveloperName =&apos;Group_Coaching&apos;)
+,
 ISCHANGED(Product_Request_Status__c),
 ISPICKVAL(PRIORVALUE(Product_Request_Status__c),&apos;Define&apos;),
 ISPICKVAL(Product_Request_Status__c, &apos;Design&apos;),

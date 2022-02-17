@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>CourseLoop_Full_Proposal_URL_is_required</fullName>
-    <active>true</active>
+    <active>false</active>
     <description>“CourseLoop Full Proposal URL” is required to update the CourseLoop Full Proposal ID.</description>
     <errorConditionFormula>AND(
  OR(
-  RecordType.DeveloperName =&apos;Program_Request&apos;,
-  RecordType.DeveloperName =&apos;Stand_Alone_Unit_Module_Request&apos;
+  RecordType.DeveloperName =&apos;Program&apos;,
+  RecordType.DeveloperName =&apos;Unit&apos;,
+  RecordType.DeveloperName =&apos;Module&apos;
  ),
  NOT(ISPICKVAL( Product_Request_Status__c , &apos;Define&apos;)) ,
  ISBLANK(CourseLoop_Full_Proposal_URL__c)

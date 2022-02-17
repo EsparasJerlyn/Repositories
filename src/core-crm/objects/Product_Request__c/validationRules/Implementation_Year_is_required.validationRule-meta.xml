@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Implementation_Year_is_required</fullName>
-    <active>true</active>
+    <active>false</active>
     <description>Implementation Year is required when Status is changed to design</description>
     <errorConditionFormula>AND(
 ISCHANGED(Product_Request_Status__c),
-OR(RecordType.DeveloperName =&apos;Program_Request&apos;,
-RecordType.DeveloperName =&apos;Stand_Alone_Unit_Module_Request&apos;),
+OR(RecordType.DeveloperName =&apos;Program&apos;,
+RecordType.DeveloperName =&apos;Unit&apos;,
+RecordType.DeveloperName =&apos;Module&apos;),
 ISBLANK(Implementation_Year_v2__c), 
 ISPICKVAL(Product_Request_Status__c, &apos;Design&apos;) 
 )</errorConditionFormula>

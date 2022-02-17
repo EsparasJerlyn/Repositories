@@ -3,7 +3,7 @@
     <actionCalls>
         <name>Send_to_QUTeX</name>
         <label>Send to QUTeX</label>
-        <locationX>446</locationX>
+        <locationX>578</locationX>
         <locationY>911</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
@@ -51,6 +51,22 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Module_Template</name>
+        <label>Module Template</label>
+        <locationX>578</locationX>
+        <locationY>695</locationY>
+        <assignmentItems>
+            <assignToReference>CourseOwnerConfirmationEmail</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>SingleProductOwnerConfirmationEmail</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Send_to_QUTeX</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Short_Course_Template</name>
         <label>Short Course Template</label>
         <locationX>314</locationX>
@@ -67,9 +83,9 @@
         </connector>
     </assignments>
     <assignments>
-        <name>Single_Product_Template</name>
-        <label>Single Product Template</label>
-        <locationX>578</locationX>
+        <name>Unit_Template</name>
+        <label>Unit Template</label>
+        <locationX>842</locationX>
         <locationY>695</locationY>
         <assignmentItems>
             <assignToReference>CourseOwnerConfirmationEmail</assignToReference>
@@ -83,13 +99,13 @@
         </connector>
     </assignments>
     <decisions>
-        <name>Is_OPE_Activity_Record</name>
-        <label>Is OPE Activity Record</label>
-        <locationX>446</locationX>
+        <name>Is_Activity_Record</name>
+        <label>Is Activity Record</label>
+        <locationX>578</locationX>
         <locationY>575</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
-            <name>OPE_Activity_Record</name>
+            <name>Activity_Record</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.Design_Form_Status__c</leftValueReference>
@@ -102,13 +118,13 @@
                 <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>OPE_Activity</stringValue>
+                    <stringValue>Activity</stringValue>
                 </rightValue>
             </conditions>
             <connector>
                 <targetReference>Activity_Template</targetReference>
             </connector>
-            <label>OPE Activity Record</label>
+            <label>Activity Record</label>
         </rules>
         <rules>
             <name>Short_Course_Record</name>
@@ -133,7 +149,7 @@
             <label>Short Course Record</label>
         </rules>
         <rules>
-            <name>Single_Product_Record</name>
+            <name>Module_Record</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.Design_Form_Status__c</leftValueReference>
@@ -146,13 +162,35 @@
                 <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>Single_Product</stringValue>
+                    <stringValue>Module</stringValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Single_Product_Template</targetReference>
+                <targetReference>Module_Template</targetReference>
             </connector>
-            <label>Single Product Record</label>
+            <label>Module Record</label>
+        </rules>
+        <rules>
+            <name>Unit_Record</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Design_Form_Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Design Form Received</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Unit</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Unit_Template</targetReference>
+            </connector>
+            <label>Unit Record</label>
         </rules>
     </decisions>
     <formulas>
@@ -184,7 +222,7 @@
     <recordLookups>
         <name>Get_Course_Record</name>
         <label>Get Course Record</label>
-        <locationX>446</locationX>
+        <locationX>578</locationX>
         <locationY>335</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -205,11 +243,11 @@
     <recordLookups>
         <name>Get_User_Name</name>
         <label>Get User Name</label>
-        <locationX>446</locationX>
+        <locationX>578</locationX>
         <locationY>455</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Is_OPE_Activity_Record</targetReference>
+            <targetReference>Is_Activity_Record</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -226,7 +264,7 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <start>
-        <locationX>320</locationX>
+        <locationX>452</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Get_Course_Record</targetReference>
@@ -256,45 +294,45 @@
         <isViewedAsPlainText>true</isViewedAsPlainText>
         <text>Dear &lt;b&gt;{!Get_User_Name.Name}&lt;/b&gt;,
 
-&lt;br/&gt;&amp;nbsp;
+            &lt;br/&gt;&amp;nbsp;
 
-&lt;p&gt;The requestor has completed the design form for &lt;b&gt;{!$Record.Name}&lt;/b&gt;, please log into DEP to proceed with this product request &lt;b&gt;&lt;a href={!ProductRequestURL}&gt;{!$Record.ProductRequestID__r.Name}&lt;/a&gt;&lt;/b&gt;.&lt;/p&gt;
+            &lt;p&gt;The requestor has completed the design form for &lt;b&gt;{!$Record.Name}&lt;/b&gt;, please log into DEP to proceed with this product request &lt;b&gt;&lt;a href={!ProductRequestURL}&gt;{!$Record.ProductRequestID__r.Name}&lt;/a&gt;&lt;/b&gt;.&lt;/p&gt;
 
 
 
-&lt;br/&gt;
+            &lt;br/&gt;
 
-&lt;p&gt;Kind Regards,&lt;/p&gt;</text>
+            &lt;p&gt;Kind Regards,&lt;/p&gt;</text>
     </textTemplates>
     <textTemplates>
         <name>ShortCourseOwnerConfirmationEmail</name>
         <isViewedAsPlainText>true</isViewedAsPlainText>
         <text>Dear &lt;b&gt;{!Get_User_Name.Name}&lt;/b&gt;,
 
-&lt;br/&gt;&amp;nbsp;
+            &lt;br/&gt;&amp;nbsp;
 
-&lt;p&gt;The requestor has completed the design form for &lt;b&gt;{!$Record.Proposal_Title__c}&lt;/b&gt;, please log into DEP to proceed with this product request &lt;b&gt;&lt;a href={!ProductRequestURL}&gt;{!$Record.ProductRequestID__r.Name}&lt;/a&gt;&lt;/b&gt;.&lt;/p&gt;
+            &lt;p&gt;The requestor has completed the design form for &lt;b&gt;{!$Record.Proposal_Title__c}&lt;/b&gt;, please log into DEP to proceed with this product request &lt;b&gt;&lt;a href={!ProductRequestURL}&gt;{!$Record.ProductRequestID__r.Name}&lt;/a&gt;&lt;/b&gt;.&lt;/p&gt;
 
 
 
-&lt;br/&gt;
+            &lt;br/&gt;
 
-&lt;p&gt;Kind Regards,&lt;/p&gt;</text>
+            &lt;p&gt;Kind Regards,&lt;/p&gt;</text>
     </textTemplates>
     <textTemplates>
         <name>SingleProductOwnerConfirmationEmail</name>
         <isViewedAsPlainText>true</isViewedAsPlainText>
         <text>Dear &lt;b&gt;{!Get_User_Name.Name}&lt;/b&gt;,
 
-&lt;br/&gt;&amp;nbsp;
+            &lt;br/&gt;&amp;nbsp;
 
-&lt;p&gt;The requestor has completed the design form for &lt;b&gt;{!$Record.Proposal_Title__c}&lt;/b&gt;, please log into DEP to proceed with this product request &lt;b&gt;&lt;a href={!ProductRequestURL}&gt;{!$Record.ProductRequestID__r.Name}&lt;/a&gt;&lt;/b&gt;.&lt;/p&gt;
+            &lt;p&gt;The requestor has completed the design form for &lt;b&gt;{!$Record.Proposal_Title__c}&lt;/b&gt;, please log into DEP to proceed with this product request &lt;b&gt;&lt;a href={!ProductRequestURL}&gt;{!$Record.ProductRequestID__r.Name}&lt;/a&gt;&lt;/b&gt;.&lt;/p&gt;
 
 
 
-&lt;br/&gt;
+            &lt;br/&gt;
 
-&lt;p&gt;Kind Regards,&lt;/p&gt;</text>
+            &lt;p&gt;Kind Regards,&lt;/p&gt;</text>
     </textTemplates>
     <variables>
         <name>CourseOwnerConfirmationEmail</name>

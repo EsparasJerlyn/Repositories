@@ -2211,6 +2211,14 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
+        <recordType>hed__Course__c.Unit</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>hed__Course__c.Module</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
         <recordType>hed__Program_Plan__c.OPE_Program_Request</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>

@@ -5,7 +5,10 @@
     <errorConditionFormula>AND(
         OR(ISNEW(),
         ISCHANGED( Request_Type__c )),
-        RecordType.DeveloperName =&apos;Coaching_Request&apos;,
+        OR(
+           RecordType.DeveloperName =&apos;Individual_Coaching&apos;,
+           RecordType.DeveloperName =&apos;Group_Coaching&apos;
+        ),
         ISPICKVAL( Request_Type__c , &apos;Triads&apos;),
         ISBLANK( Number_of_Triads__c )
        )</errorConditionFormula>

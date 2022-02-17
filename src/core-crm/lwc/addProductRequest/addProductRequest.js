@@ -41,7 +41,7 @@ const RECORD_TYPE_ERROR = "No record types found.";
 const TRAIDS = "Triads";
 const SHOW_FIELD = "slds-show slds-form-element slds-form-element_stacked";
 const HIDE_FIELD = "slds-hide slds-form-element slds-form-element_stacked";
-const PROG_PLAN_REQUEST= "OPE Program Request";
+const PROG_PLAN_REQUEST= "Program";
 
 export default class AddProductRequest extends NavigationMixin(LightningElement) {
     @api productRequestForOpe;
@@ -221,7 +221,7 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
         const courseRtis = this.courseObjectInfo.data.recordTypeInfos;
         
         let fields = event.detail.fields;
-        this.prRecordType = this.prodReqSelectedRecType.includes('OPE Activity Request') ? this.prodReqSelectedRecType.replace(' Request','') : this.prodReqSelectedRecType;
+        this.prRecordType = this.prodReqSelectedRecType;
 
         if(this.prodReqSelectedRecType != PROG_PLAN_REQUEST)
         {

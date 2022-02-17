@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Description__c</field>
-        <value xsi:type="xsd:string">This record type will be used to request a Product without learning outcomes.</value>
+        <value xsi:type="xsd:string">This record type will be used to create a short without learning pathway.</value>
     </values>
     <values>
         <field>For_OPE__c</field>
@@ -16,10 +16,10 @@
     </values>
     <values>
         <field>Order__c</field>
-        <value xsi:type="xsd:double">3.0</value>
+        <value xsi:type="xsd:double">4.0</value>
     </values>
     <values>
         <field>Parent_Record_Type__c</field>
-        <value xsi:type="xsd:string">OPE Program Request</value>
+        <value xsi:type="xsd:string">Program</value>
     </values>
 </CustomMetadata>

@@ -5,7 +5,7 @@
     <description>Group Dynamic tool is  required for Diagnostic Tool Requests</description>
     <errorConditionFormula>AND(
      ISCHANGED( Product_Request_Status__c ) ,  
-     RecordType.DeveloperName = &apos;Diagnostic_Tool_Request&apos; ,
+     RecordType.DeveloperName = &apos;Diagnostic_Tool&apos; ,
      ISPICKVAL( PRIORVALUE(Product_Request_Status__c) , &apos;Define&apos;),
      ISPICKVAL( Product_Request_Status__c , &apos;Design&apos;),
      ISBLANK(TEXT(Group_Dynamics_Tool__c))

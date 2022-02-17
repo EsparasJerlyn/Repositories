@@ -15,8 +15,8 @@
 private class OPE_Design_Complete_Prog_Plan_FlowTest{
 
     private static User currentUser = TestDataFactory.createUserRecords(1, 'QUTeX').iterator().next();    
-    private static Id opeProgramReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get('Program_Request').getRecordTypeId();
-    private static Id opeProgramPlanReqId = Schema.SObjectType.hed__Program_Plan__c.getRecordTypeInfosByDeveloperName().get('OPE_Program_Request').getRecordTypeId();
+    private static Id opeProgramReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get('Program').getRecordTypeId();
+    private static Id opeProgramPlanReqId = Schema.SObjectType.hed__Program_Plan__c.getRecordTypeInfosByDeveloperName().get('Program').getRecordTypeId();
     private static Integer numberOfRecords = 100;
          
     @isTest

@@ -4,7 +4,7 @@
     <active>true</active>
     <errorConditionFormula>AND (
  OR(
-  RecordType.DeveloperName = &apos;OPE_Activity&apos;,
+  RecordType.DeveloperName = &apos;Activity&apos;,
   RecordType.DeveloperName = &apos;Short_Course&apos;  
  ),
  ISPICKVAL( ProductRequestID__r.Product_Request_Status__c , &apos;Design&apos;),

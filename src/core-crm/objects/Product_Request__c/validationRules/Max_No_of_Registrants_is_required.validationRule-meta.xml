@@ -5,10 +5,12 @@
     <description>Maximum No. of Registrants is required to update Status from Define to Design</description>
     <errorConditionFormula>AND (
     OR (
-        RecordType.DeveloperName = &apos;Activity_Request&apos;,
-        RecordType.DeveloperName = &apos;Coaching_Request&apos;,
-        RecordType.DeveloperName = &apos;Program_Request&apos;,
-        RecordType.DeveloperName = &apos;Stand_Alone_Unit_Module_Request&apos;
+        RecordType.DeveloperName = &apos;Activity&apos;,
+        RecordType.DeveloperName = &apos;Individual_Coaching&apos;,
+        RecordType.DeveloperName = &apos;Group_Coaching&apos;,
+        RecordType.DeveloperName = &apos;Program&apos;,
+        RecordType.DeveloperName = &apos;Unit&apos;,
+        RecordType.DeveloperName = &apos;Module&apos;
     ),
     ISCHANGED( Product_Request_Status__c ),
     ISPICKVAL( PRIORVALUE(Product_Request_Status__c ), &apos;Define&apos;),

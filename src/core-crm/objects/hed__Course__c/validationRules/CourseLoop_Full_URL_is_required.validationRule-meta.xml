@@ -3,7 +3,10 @@
     <fullName>CourseLoop_Full_URL_is_required</fullName>
     <active>true</active>
     <errorConditionFormula>AND (
-RecordType.DeveloperName = &apos;Single_Product&apos;,
+  OR(
+    RecordType.DeveloperName = &apos;Unit&apos;,
+    RecordType.DeveloperName = &apos;Module&apos;
+  ),
 ISPICKVAL( ProductRequestID__r.Product_Request_Status__c , &apos;Design&apos;),
  AND(
   NOT (ISCHANGED( Design_Form_Status__c ) ),

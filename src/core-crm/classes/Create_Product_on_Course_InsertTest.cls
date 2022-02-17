@@ -15,7 +15,7 @@
 private class Create_Product_on_Course_InsertTest {
 
     private static User currentUser = TestDataFactory.createUserRecords(1, 'QUTeX').iterator().next();
-    private static Id opeActivity = Schema.SObjectType.hed__Course__c.getRecordTypeInfosByDeveloperName().get('OPE_Activity').getRecordTypeId();
+    private static Id opeActivity = Schema.SObjectType.hed__Course__c.getRecordTypeInfosByDeveloperName().get('Activity').getRecordTypeId();
     
     @IsTest
     private static void createProductOnCourseInsertTest(){

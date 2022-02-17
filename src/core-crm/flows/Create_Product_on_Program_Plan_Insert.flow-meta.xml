@@ -8,13 +8,13 @@
         <locationY>335</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
-            <name>OPE_Program_Request</name>
+            <name>Program</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>OPE_Program_Request</stringValue>
+                    <stringValue>Program</stringValue>
                 </rightValue>
             </conditions>
             <connector>
