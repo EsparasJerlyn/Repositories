@@ -28,6 +28,8 @@
       | roy.nino.s.regala         | February 03, 2022     | DEPP-213            | Added nethod for creation of Expression of Interest              |
       | john.bo.a.pineda          | February 03, 2022     | DEPP-1396           | Updated method for Answer to Related Answer                      |
       | adrian.c.habasa           | February 14, 2022     | DEPP-1247           | Added method for Session and Attendance Event                    |
+      | eugene.andrew.abuan       | February 16, 2022     | DEPP-1265           | Added method for Creating Courses                                |
+      |                           |                       |                     |                                                                  |
 */
 @IsTest
 public class TestDataFactory {
@@ -221,7 +223,32 @@ public class TestDataFactory {
         new hed__Course__c(
           Name = 'Test Course ' + i,
           hed__Account__c = accId,
-          ProductRequestID__c = prodReqId
+          ProductRequestID__c = prodReqId,
+          Start_Time__c = Time.newInstance(3, 14, 15, 926),
+          End_Time__c = Time.newInstance(4, 14, 15, 926),
+          Volume_of_time__c = 'Days',
+          Delivery_Type__c = 'Face to Face',
+          Location_Details__c = 'test',
+          hed__Description__c = 'test',
+          Certificate_Type__c = 'Certificate of Achievement',
+          Collaboation_External__c = 'Yes',
+          External_Organisation__c = 'test',
+          Activity_Outcomes__c = 'test',
+          Overview_Website__c = 'test' + i,
+          Search_Engine__c = 'test',
+          Search_Terms__c = 'test',
+          Content__c = 'test',
+          Resources_Required__c = 'Yes',
+          Resource_Details__c = 'test',
+          Minimum_Participants__c = 1,
+          Maximum_Participants__c = 100,
+          Delivery_Support__c = 'Others',
+          Fees_Applicable__c = 'Yes',
+          Fee_Amount__c = 1000.00,
+          Delivery_Comments__c = 'test',
+          Core_Concepts__c = 'test',
+          Overview__c = 'test',
+          Owning_Faculty__c = accId
         )
       );
     }
