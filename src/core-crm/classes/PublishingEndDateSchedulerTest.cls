@@ -70,8 +70,18 @@ public class PublishingEndDateSchedulerTest {
          	List<CronTrigger> cts = [SELECT Id, TimesTriggered, NextFireTime FROM CronTrigger WHERE ID =: jobId ];
             
             DateTime midnight = Datetime.newInstance(date.today(), time.newInstance(0, 0, 0, 0));
-            System.assertEquals(midnight.addHours(24),cts[0].NextFireTime, 'Error Not Scheduled in Midnight');
+            String dayToday = midnight.format('EEEE');
 
+            if(dayToday == 'Friday'){
+                System.assertEquals(midnight.addDays(3),cts[0].NextFireTime, 'Error, Next fire is Not Monday');
+            }else if(dayToday =='Saturday'){
+                System.assertEquals(midnight.addDays(2),cts[0].NextFireTime, 'Error, Next fire is Not Monday');
+            }else if(dayToday == 'Sunday'){
+                System.assertEquals(midnight.addDays(1),cts[0].NextFireTime, 'Error, Next fire is Not Monday');
+            }
+            else{
+                System.assertEquals(midnight.addHours(24),cts[0].NextFireTime, 'Error Not Scheduled in Midnight');
+            }
         }
     }
 }
