@@ -137,7 +137,7 @@ export default class CompanyInformationValidation extends LightningElement {
             this.abnToValidate['loqateResponse'] = this.abn['loqateResponse'];
             this.abnToValidate['locale'] = null;
             this.abnToValidate[STR_STATUS_VAL_FIELD] = this.abn[STR_STATUS_VAL_FIELD];
-            this.abnToValidate[STR_VALUE] = this.abn[STR_VALUE].replace(/\s/g, '');
+            this.abnToValidate[STR_VALUE] = this.abn[STR_VALUE] ? this.abn[STR_VALUE].replace(/\s/g, '') : '';
 
             this.subscribeToMessageChannel();
         }else if(error){
