@@ -17,7 +17,7 @@
         <inputParameters>
             <name>emailAddresses</name>
             <value>
-                <elementReference>$Label.QUTeX_Email</elementReference>
+                <elementReference>$Setup.Flow_Automation_Settings__c.New_Idea_To_Email_Address__c</elementReference>
             </value>
         </inputParameters>
         <inputParameters>

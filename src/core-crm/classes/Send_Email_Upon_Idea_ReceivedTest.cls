@@ -13,13 +13,16 @@
 */
 @IsTest(SeeAllData = false)
 private with sharing class Send_Email_Upon_Idea_ReceivedTest {
-    
+    private static string PS_PROGRAM_SPEC = System.Label.RT_ProductSpecification_OPEProgramSpecification;
     private static User currentUser = TestDataFactory.createUserRecords(1, 'QUTeX').iterator().next();
-    private static Id opeProdSpecId = Schema.SObjectType.Product_Specification__c.getRecordTypeInfosByDeveloperName().get('OPE_Program_Specification').getRecordTypeId();
+    private static Id opeProdSpecId = Schema.SObjectType.Product_Specification__c.getRecordTypeInfosByDeveloperName().get(PS_PROGRAM_SPEC).getRecordTypeId();
 
     @isTest
     private static void emailUponIdeaReceived(){
         System.runAs(currentUser){
+            Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test@mailinator.com');
+            insert customEmail;
+            
             Account acc = TestDataFactory.createTestAccountRecords(1).iterator().next();
             insert acc;
 

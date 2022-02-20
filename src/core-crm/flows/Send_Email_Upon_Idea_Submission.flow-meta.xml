@@ -3,7 +3,7 @@
     <actionCalls>
         <name>Send_Email_to_QUTeX</name>
         <label>Send Email to QUTeX</label>
-        <locationX>1048</locationX>
+        <locationX>1047</locationX>
         <locationY>142</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
@@ -17,7 +17,7 @@
         <inputParameters>
             <name>emailAddresses</name>
             <value>
-                <elementReference>$Label.QUTeX_Email</elementReference>
+                <elementReference>$Setup.Flow_Automation_Settings__c.New_Idea_To_Email_Address__c</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -185,7 +185,7 @@
         <name>Get_User_Name</name>
         <label>Get User Name</label>
         <locationX>913</locationX>
-        <locationY>143</locationY>
+        <locationY>142</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Send_Email_to_QUTeX</targetReference>

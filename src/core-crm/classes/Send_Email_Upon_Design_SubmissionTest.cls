@@ -14,20 +14,30 @@
 */
 @IsTest(SeeAllData = false)
 private class Send_Email_Upon_Design_SubmissionTest {
+    private static string PS_PROGRAM_SPEC = System.Label.RT_ProductSpecification_OPEProgramSpecification;
+    private static string PR_SHORTCOURSE = System.Label.RT_ProductRequest_ShortCourse;
+    private static string PR_MODULE = System.Label.RT_ProductRequest_Program;
+    private static string PR_ACTIVITY = System.Label.RT_ProductRequest_Activity;
+    private static string C_ACTIVITY = System.Label.RT_ProductRequest_Activity;
+    private static string C_MODULE = System.Label.RT_Course_Module;
+    private static string C_SHORTCOURSE = System.Label.RT_Course_ShortCourse;
 
     private static User currentUser = TestDataFactory.createUserRecords(1, 'QUTeX').iterator().next();
-    private static Id opeProdSpecId = Schema.SObjectType.Product_Specification__c.getRecordTypeInfosByDeveloperName().get('OPE_Program_Specification').getRecordTypeId();
-    private static Id opeActProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get('OPE_Activity_Request').getRecordTypeId();
-    private static Id opeActivityId = Schema.SObjectType.hed__Course__c.getRecordTypeInfosByDeveloperName().get('OPE_Activity').getRecordTypeId();
-    private static Id opeShortProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get('Short_Course').getRecordTypeId();
-    private static Id opeShortCourseId = Schema.SObjectType.hed__Course__c.getRecordTypeInfosByDeveloperName().get('Short_Course').getRecordTypeId();
-    private static Id opeSingleProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get('Single_Product').getRecordTypeId();
-    private static Id opeSingleProdId = Schema.SObjectType.hed__Course__c.getRecordTypeInfosByDeveloperName().get('Single_Product').getRecordTypeId();
+    private static Id opeProdSpecId = Schema.SObjectType.Product_Specification__c.getRecordTypeInfosByDeveloperName().get(PS_PROGRAM_SPEC).getRecordTypeId();
+    private static Id opeActProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_ACTIVITY).getRecordTypeId();
+    private static Id opeActivityId = Schema.SObjectType.hed__Course__c.getRecordTypeInfosByDeveloperName().get(C_ACTIVITY).getRecordTypeId();
+    private static Id opeShortProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_SHORTCOURSE).getRecordTypeId();
+    private static Id opeShortCourseId = Schema.SObjectType.hed__Course__c.getRecordTypeInfosByDeveloperName().get(C_SHORTCOURSE).getRecordTypeId();
+    private static Id opeSingleProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_MODULE).getRecordTypeId();
+    private static Id opeSingleProdId = Schema.SObjectType.hed__Course__c.getRecordTypeInfosByDeveloperName().get(C_MODULE).getRecordTypeId();
     private static Integer numberOfRecords = 100;
 
     @isTest
     private static void emailActivityUponSubmissionTest(){
         System.runAs(currentUser){
+            Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test@mailinator.com');
+            insert customEmail;
+            
             List<Account> acc = TestDataFactory.createTestAccountRecords(1);
             insert acc;
 
@@ -115,6 +125,8 @@ private class Send_Email_Upon_Design_SubmissionTest {
     @isTest
     private static void emailShortCourseOwnerUponSubmissionTest(){
         System.runAs(currentUser){
+            Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test@mailinator.com');
+            insert customEmail;
             List<Account> acc = TestDataFactory.createTestAccountRecords(1);
             insert acc;
 
@@ -201,6 +213,9 @@ private class Send_Email_Upon_Design_SubmissionTest {
     @isTest
     private static void emailSingleProductOwnerUponSubmissionTest(){
         System.runAs(currentUser){
+            Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test@mailinator.com');
+            insert customEmail;
+
             List<Account> acc = TestDataFactory.createTestAccountRecords(1);
             insert acc;
 

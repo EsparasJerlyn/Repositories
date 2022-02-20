@@ -14,11 +14,14 @@
 */
 @IsTest(SeeAllData = false)
 private class Send_Program_Plan_Design_FormTest {
+    private static string PR_PROGRAM = System.Label.RT_ProductRequest_Program;
+    private static string PP_PROGRAM = System.Label.RT_ProgramPlan_Program;
+    private static string PS_PROGRAM_SPEC = System.Label.RT_ProductSpecification_OPEProgramSpecification;
 
     private static User currentUser = TestDataFactory.createUserRecords(1, 'QUTeX').iterator().next();
-    private static Id opeProdSpecId = Schema.SObjectType.Product_Specification__c.getRecordTypeInfosByDeveloperName().get('OPE_Program_Specification').getRecordTypeId();
-    private static Id opeProgProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get('OPE_Program_Request').getRecordTypeId();
-     private static Id opeProgPlanId = Schema.SObjectType.hed__Program_Plan__c.getRecordTypeInfosByDeveloperName().get('OPE_Program_Request').getRecordTypeId();
+    private static Id opeProdSpecId = Schema.SObjectType.Product_Specification__c.getRecordTypeInfosByDeveloperName().get(PS_PROGRAM_SPEC).getRecordTypeId();
+    private static Id opeProgProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_PROGRAM).getRecordTypeId();
+    private static Id opeProgPlanId = Schema.SObjectType.hed__Program_Plan__c.getRecordTypeInfosByDeveloperName().get(PP_PROGRAM).getRecordTypeId();
 
 
     @isTest
@@ -26,6 +29,8 @@ private class Send_Program_Plan_Design_FormTest {
     {
         System.runAs(currentUser)
         {
+            Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test@mailinator.com');
+            insert customEmail;
             List<Account> acc = TestDataFactory.createTestAccountRecords(1);
             insert acc;
 
