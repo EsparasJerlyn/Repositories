@@ -55,6 +55,14 @@
             "useCSVValuesMapping": true,
             "targetObject": "WebStore",
             "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Name, New_Idea_To_Email_Address__c FROM Flow_Automation_Settings__c",
+            "operation": "Upsert",
+            "externalId": "New_Idea_To_Email_Address__c",
+            "useCSVValuesMapping": true,
+            "targetObject": "Flow_Automation_Settings__c",
+            "importCSVFilesAsIs": true
         }
     ]
 }
