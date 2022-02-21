@@ -90,13 +90,20 @@
         <members>Opportunity_to_Program_Specs_Flow-1</members>
         <name>Flow</name>
     </types>-->
-
+  <!--(Start) As part of DEPP-1352, This is to delete fields on SIT/ST added on DEPP-1262. Kindly comment out once it reaches PROD-->
+  <types>
+    <members>Answer__c.Question__c</members>
+    <members>Answer__c.Questionnaire__c</members>
+    <members>Answer__c.Contact__c</members>
+    <name>CustomField</name>
+  </types>
+  <!--(End) As part of DEPP-1352, This is to delete fields on SIT/ST added on DEPP-1262. Kindly comment out once it reaches PROD-->
 
     <types>
         <members>Program_Specification__c</members>
         <name>CustomObject</name>
     </types>
-    
+
     <types>
         <members>Product_Ledger__c.Purchased_Price__c</members>
         <name>CustomField</name>
@@ -121,7 +128,7 @@
         <members>Short_Course_Design_Form_Email</members>
         <name>Flow</name>
     </types>
-    
+
     <types>
         <members>hed__Course__c.Professional_Advantage_Value__c</members>
         <members>Product_Request__c.Professional_Advantage_Value__c</members>
@@ -138,7 +145,7 @@
     <types>
         <members>Professional_Advantage_Request</members>
         <name>PathAssistant</name>
-    </types>   
+    </types>
     <types>
         <members>Field_Layout_Setting__mdt.Professional_Advantage_Request_Summary</members>
         <members>Field_Layout_Setting__mdt.Professional_Advantage_Request_Detail</members>
@@ -149,7 +156,7 @@
         <members>Record_Type_Setting__mdt.Single_Product</members>
         <name>CustomMetadata</name>
     </types>
-    <types>    
+    <types>
         <members>Product_Request__c.Open_Professional_Advantage_Requests</members>
         <members>Product_Request__c.My_Open_Professional_Advantage_Requests</members>
         <name>ListView</name>
@@ -161,7 +168,7 @@
     <types>
         <members>Product_Request__c.Professional_Advantage_Request</members>
         <name>RecordType</name>
-    </types> 
+    </types>
 
     <!-- fix for pipeline bug DEPP-1718 -->
     <types>

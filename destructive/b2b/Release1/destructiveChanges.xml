@@ -4,13 +4,5 @@
     <members>ProductCatalog</members>
     <name>SharingRules</name>
   </types>
-  <!--(Start) As part of DEPP-1352, This is to delete fields on SIT/ST added on DEPP-1262-->
-  <types>
-    <members>Answer__c.Question__c</members>
-    <members>Answer__c.Questionnaire__c</members>
-    <members>Answer__c.Contact__c</members>
-    <name>CustomField</name>
-  </types>
-  <!--(End) As part of DEPP-1352, This is to delete fields on SIT/ST added on DEPP-1262-->
   <version>52.0</version>
 </Package>

@@ -935,7 +935,7 @@ public class TestDataFactory {
     List<Product2> products
   ) {
     List<Expression_of_Interest__c> interests = new List<Expression_of_Interest__c>();
-    
+
     for (Integer i = 0 ; i < numInterests ; i++) {
       interests.add(
         new Expression_of_Interest__c(
@@ -950,12 +950,12 @@ public class TestDataFactory {
     return interests;
   }
 
-  
+
   /**
    * @description Method for creating test Session records
-   * @param numSessions number of Session record 
+   * @param numSessions number of Session record
    */
-  public static List<Session__c> createTestSessionRecords(Integer numSessions){  
+  public static List<Session__c> createTestSessionRecords(Integer numSessions){
   List<Session__c> sessions = new List<Session__c>();
 
     for (Integer i = 0; i < numSessions; i++) {
@@ -972,7 +972,7 @@ public class TestDataFactory {
    * @param courseEnrollment Id of Course Connection to be related
    * @param sessionId Id of Session to be related
    */
-  public static List<hed__Attendance_Event__c> createTestAttendanceRecords(Integer numAttendance, Id contId, Id courseEnrollment, Id sessionId){  
+  public static List<hed__Attendance_Event__c> createTestAttendanceRecords(Integer numAttendance, Id contId, Id courseEnrollment, Id sessionId){
   List<hed__Attendance_Event__c> attendance = new List<hed__Attendance_Event__c>();
 
     for (Integer i = 0; i < numAttendance; i++) {
@@ -983,5 +983,5 @@ public class TestDataFactory {
   }
 
 
-} 
+}
 
