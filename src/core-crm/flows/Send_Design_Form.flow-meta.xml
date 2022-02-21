@@ -446,7 +446,7 @@
     <screens>
         <name>Update_Design_Error</name>
         <label>Update  Design Error</label>
-        <locationX>446</locationX>
+        <locationX>974</locationX>
         <locationY>1214</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
@@ -478,11 +478,9 @@
             &lt;p&gt;If you have any further questions, please get in touch.&lt;/p&gt;
             &lt;br/&gt;
             &lt;p&gt;
-            &lt;b&gt;The QUTeX Team&lt;/b&gt;&lt;br/&gt;
-            07 3138 7733&lt;br/&gt;
-            &lt;a href=&quot;mailto:qutex@qut.edu.au&quot;&gt;qutex@qut.edu.au&lt;/a&gt;&lt;br/&gt;
-            &lt;a href=&quot;https://qut.edu.au/qutex&quot;&gt;qut.edu.au/qutex&lt;/a&gt;
-            &lt;/p&gt;</text>
+          &lt;p&gt;Kind Regards,&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;The QUTeX Team&lt;/strong&gt;&lt;br&gt;Phone: +61 7 3138 7733 | Email: &lt;a href=&quot;mailto:qutex@qut.edu.au&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;qutex@qut.edu.au&lt;/a&gt;&lt;br&gt;QUTeX Professional and Executive Education for the Real World | &lt;a href=&quot;https://qut.edu.au/qutex&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;www.qut.edu.au/qutex&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.linkedin.com/showcase/14561011/admin/&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;Follow&lt;/a&gt; QUTeX on LinkedIn | &lt;a href=&quot;https://alumni-and-friends.qut.edu.au/qutex-connect-subscription&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;Subscribe&lt;/a&gt; to the QUTeX Connect Newsletter&lt;/p&gt;</text>
     </textTemplates>
     <textTemplates>
         <name>OPE_Activity_Email_Content</name>
