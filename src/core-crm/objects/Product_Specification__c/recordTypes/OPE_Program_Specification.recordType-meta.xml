@@ -217,7 +217,15 @@
     <picklistValues>
         <picklist>Status__c</picklist>
         <values>
-            <fullName>Doesnt meet Qualification</fullName>
+            <fullName>Complete</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Design</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Does Not Meet Qualification</fullName>
             <default>false</default>
         </values>
         <values>
@@ -225,7 +233,15 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Idea Received</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Idea Sent</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New</fullName>
             <default>false</default>
         </values>
         <values>
