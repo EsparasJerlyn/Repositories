@@ -85,13 +85,6 @@
         <value>test-qutex@qut.edu.au</value>
     </labels>
     <labels>
-        <fullName>Publishing_End_Date_Cron_Expression</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Publishing End Date Cron Expression</shortDescription>
-        <value>0 0 0 ? * MON-FRI</value>
-    </labels>
-    <labels>
         <fullName>RT_Course_Activity</fullName>
         <categories>RecordType,Course</categories>
         <language>en_US</language>

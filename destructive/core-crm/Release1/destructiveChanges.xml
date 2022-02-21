@@ -176,6 +176,17 @@
         <name>CustomField</name>
     </types>
     <!-- fix for pipeline bug DEPP-1718 -->
+    
+    <!-- fix for Apex Issue DEPP 1256 -->
+    <types>
+        <members>PublishingEndDateScheduler</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>PublishingEndDateSchedulerTest</members>
+        <name>ApexClass</name>
+    </types>
+    <!-- fix for Apex Issue DEPP 1256 -->
 
     <version>52.0</version>
 </Package>
