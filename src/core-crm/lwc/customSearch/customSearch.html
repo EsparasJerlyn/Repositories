@@ -1,0 +1,83 @@
+<template>
+    <div class="slds-form-element slds-m-around_x-small">
+        <label if:true={searchLabel} class="slds-form-element__label" for="combobox-id-1" id="combobox-label-id-33">
+            <span if:true={required} class="slds-text-color_destructive">* </span>{searchLabel}
+        </label>
+        <div class="slds-form-element__control">
+            <div class="slds-combobox_container">
+                <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click search-results" aria-expanded="true" aria-haspopup="listbox" role="combobox">
+                    <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                        <span if:true={customSelect} class="slds-icon_container slds-combobox__input-entity-icon">
+                            <lightning-icon
+                                icon-name={searchItemIcon}
+                                size="small"
+                            ></lightning-icon>
+                        </span>
+                        <button 
+                            if:true={customSelect}
+                            type="button"
+                            class="slds-input_faux slds-combobox__input slds-combobox__input-value">
+                            <span class="slds-m-left_medium slds-truncate">{selectedItemName}</span>
+                        </button>
+                        <button if:true={customSelect} class="slds-button slds-button_icon slds-input__icon slds-input__icon_right" onclick={handleRemoveSelected}>
+                            <lightning-icon
+                                icon-name="utility:close"
+                                size="x-small"
+                            ></lightning-icon>
+                        </button>
+                        <input 
+                            if:false={customSelect} 
+                            type="text"
+                            class="slds-input slds-combobox__input input-search"
+                            id="combobox-id-1"
+                            aria-autocomplete="list"
+                            aria-controls="listbox-id-1"
+                            aria-expanded="false"
+                            aria-haspopup="listbox"
+                            role="combobox"
+                            placeholder={searchInputPlaceholder}
+                            onclick={handleSearchClick}
+                            onkeydown={handleSearchKeydown}
+                            onblur={handleSearchBlur}
+                            oninput={handleItemSearch}/>
+                        <lightning-icon
+                            if:false={customSelect} 
+                            icon-name="utility:search"
+                            size="x-small"
+                            alternative-text="Search"
+                            class="slds-input__icon slds-input__icon_right">
+                        </lightning-icon>
+                    </div>
+                    <div id="listbox-id-1" class="slds-dropdown slds-dropdown_length-with-icon-7 slds-dropdown_fluid" role="listbox">
+                        <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                            <template for:each={searchItemsToDisplay} for:item="item">
+                                <li key={item.id} role="presentation" class="slds-listbox__item">
+                                    <div
+                                        id={item.id}
+                                        data-recordid={item.id}
+                                        class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
+                                        role="option"
+                                        onmousedown={handleItemClick}>
+                                        <span class="slds-media__figure slds-listbox__option-icon">
+                                            <span class="slds-icon_container slds-icon-standard-account">
+                                                <lightning-icon
+                                                    icon-name={searchItemIcon}
+                                                    size="small"
+                                                ></lightning-icon>
+                                            </span>
+                                        </span>
+                                        <span class="slds-media__body">
+                                            <span class="slds-listbox__option-text slds-listbox__option-text_entity">{item.label}</span>
+                                            <span class="slds-listbox__option-meta slds-listbox__option-meta_entity slds-truncate">{item.meta}</span>
+                                        </span>
+                                    </div>
+                                </li>
+                            </template>
+                        </ul>
+                        <p if:true={noItemsAvailable} class="slds-align_absolute-center">No available items.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

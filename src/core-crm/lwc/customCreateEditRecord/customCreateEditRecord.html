@@ -39,6 +39,7 @@
                                     <div class="slds-grid slds-gutters">
                                         <div class="slds-col slds-size_1-of-2">
                                             <template for:each={layoutItem.leftColumn} for:item="leftField">
+                                                <div key={leftField.field} if:true={leftField.blankSpaceAbove} class="slds-p-top_medium slds-m-top_xx-large"></div> 
                                                 <lightning-input-field
                                                     key={leftField.field}
                                                     field-name={leftField.field}
@@ -50,6 +51,7 @@
                                         </div>
                                         <div class="slds-col slds-size_1-of-2">
                                             <template for:each={layoutItem.rightColumn} for:item="rightField">
+                                                <div key={rightField.field} if:true={rightField.blankSpaceAbove} class="slds-p-top_medium slds-m-top_xx-large"></div> 
                                                 <lightning-input-field
                                                     key={rightField.field}
                                                     field-name={rightField.field}
@@ -62,7 +64,8 @@
                                     </div>
                                     <div class="slds-grid slds-gutters">
                                         <div class="slds-col slds-size_1-of-1">
-                                            <template for:each={layoutItem.singleColumn} for:item="singleField">
+                                            <template for:each={layoutItem.singleColumn} for:item="singleField"> 
+                                                <div key={singleField.field} if:true={singleField.blankSpaceAbove} class="slds-p-top_medium slds-m-top_xx-large"></div> 
                                                 <lightning-input-field
                                                     key={singleField.field}
                                                     field-name={singleField.field}

@@ -97,6 +97,11 @@ export default class ProductRequestList extends LightningElement {
     get accordionSection(){
         return this.isProdSpecOPE?OPE_ACCORDION_SECTION:ACCORDION_SECTION;
     }
+
+    get activeSections(){
+        return this.accordionSection ? [this.accordionSection] : [];
+    }
+
     /**
      * checks if there are product requests
      */
@@ -107,6 +112,7 @@ export default class ProductRequestList extends LightningElement {
     get isProdSpecOPE(){
         return this.prodSpecRecordType == OPE_RECTYPE;
     }
+
 
     prodSpecRecordType;
     @wire(getRecord, { recordId: '$recordId', fields: [PS_RECORD_TYPE] })

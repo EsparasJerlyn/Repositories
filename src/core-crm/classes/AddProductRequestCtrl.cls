@@ -38,13 +38,13 @@ public with sharing class AddProductRequestCtrl {
                 //setup recordtype details                                    
                 recordTypeOrder = new RecordTypeOrderDetails();
                 recordTypeOrder.recordTypeName = fls.Record_Type_Setting__r.Label;
-                recordTypeOrder.order = String.valueOf(fls.Record_Type_Setting__r.Order__c);
+                recordTypeOrder.order = Integer.valueOf(fls.Record_Type_Setting__r.Order__c);
                 recordTypeOrder.description = fls.Record_Type_Setting__r.Description__c;
                 recordTypeOrderMap.put(fls.Record_Type_Setting__r.Label,recordTypeOrder);
                 //setup layout/section details
                 section = new SectionDetails();
                 section.label = fls.Label;
-                section.order = string.valueOf(fls.Order__c);
+                section.order = Integer.valueOf(fls.Order__c);
                 colDetails = new List<FieldDetails>();
                 if(fls.Left_Column_Long__c != null){
                     colDetails.addAll((List<FieldDetails>)JSON.deserialize(fls.Left_Column_Long__c,List<FieldDetails>.class));
@@ -75,7 +75,6 @@ public with sharing class AddProductRequestCtrl {
                 auraEx.setMessage('Error while getting record type and layout mapping.');
                 throw auraEx;
             }
-    
         } catch (Exception e) {
             AuraHandledException auraEx = new AuraHandledException(e.getMessage());
             auraEx.setMessage('Error while getting record type and layout mapping.');
@@ -100,7 +99,7 @@ public with sharing class AddProductRequestCtrl {
         @AuraEnabled
         public String label;
         @AuraEnabled
-        public String order;
+        public Integer order;
         @AuraEnabled
         public List<FieldDetails> leftColumn;
         @AuraEnabled
@@ -116,7 +115,7 @@ public with sharing class AddProductRequestCtrl {
         @AuraEnabled
         public String recordTypeName;
         @AuraEnabled
-        public String order;
+        public Integer order;
         @AuraEnabled
         public String description;
 

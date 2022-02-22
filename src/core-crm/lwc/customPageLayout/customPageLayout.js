@@ -6,8 +6,18 @@
  * @author Accenture
  * 
  * @usage 
- *      Please see the customPageLayout.js-meta.xml file to view available inputs
- *      (currently enabled for record pages)
+ *      @parameters
+ *      record-id (string, required) : ID of the record page the layout is in
+ *      object-api-name (string, required) : API name of the object the layout is in
+ *      child-object-api-name (string, required) : API name of the object the layout is for
+ *      parent-object-api-name (string, required) : API name of the parent object the layout is for
+ *      parent-field-api-name (string, required) : API name of the parent field in the child object
+ *      grand-parent-field-api-name (string, optional) : API name of the grandparent field in the child object (This is for a parent-child-grandchild layout traversal)
+ *      tab (string, optional) : Tab where the layout is placed
+ *      for-ope (string, optional) : Set to true if layout is for an OPE feature
+ *      with-record-type (string, optional) : Set to true if object has record types
+ *      with-mark-as-complete (string, optional) : Set to true if Mark As Complete button has to be included
+ *      parent-section-label (string, optional) : For individual sections use-case and not entire layout 
  *      
  * @history
  *    | Developer                 | Date                  | JIRA                | Change Summary                                         |
@@ -19,12 +29,12 @@
 import { LightningElement, api, wire, track } from 'lwc';
 import { getRecord, getFieldValue, updateRecord } from 'lightning/uiRecordApi';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import { getObjectInfo } from 'lightning/uiObjectInfoApi';
 import LWC_Error_General from '@salesforce/label/c.LWC_Error_General';
+import PL_ProductRequest_Release from '@salesforce/label/c.PL_ProductRequest_Release';
 import HAS_PERMISSION from '@salesforce/customPermission/EditDesignAndReleaseTabsOfProductRequest';
 import COURSE from '@salesforce/schema/hed__Course__c';
 import C_OPE_DESIGN_COMPLETE from '@salesforce/schema/hed__Course__c.OPE_Design_Complete__c';
-import PRODUCT from '@salesforce/schema/Product2';
-import P_ID from '@salesforce/schema/Product2.Id';
 import PROGRAM_PLAN from '@salesforce/schema/hed__Program_Plan__c';
 import PP_OPE_DESIGN_COMPLETE from '@salesforce/schema/hed__Program_Plan__c.OPE_Design_Complete__c';
 import PRODUCT_REQUEST from '@salesforce/schema/Product_Request__c';
@@ -36,15 +46,11 @@ import getChildRecordId from '@salesforce/apex/CustomPageLayoutCtrl.getChildReco
 //this contains flag fields for mark as complete button
 const OPE_COMPLETE_FIELDS = {
     [COURSE.objectApiName] : C_OPE_DESIGN_COMPLETE,
-    [PROGRAM_PLAN.objectApiName] : PP_OPE_DESIGN_COMPLETE,
-    [PRODUCT.objectApiName] : P_ID
-};
-
-//this contains object labels for objects without record types
-const OBJECT_LABELS = {
-    [PRODUCT.objectApiName] : 'Products'
+    [PROGRAM_PLAN.objectApiName] : PP_OPE_DESIGN_COMPLETE
 };
 export default class CustomPageLayout extends LightningElement {
+    @api recordId;
+    @api objectApiName;
     @api childObjectApiName;
     @api parentObjectApiName;
     @api parentFieldApiName;
@@ -53,9 +59,7 @@ export default class CustomPageLayout extends LightningElement {
     @api forOpe;
     @api withRecordType;
     @api withMarkAsComplete;
-    
-    @api recordId;
-    @api objectApiName;
+    @api parentSectionLabel;
     
     @track parentRecord = {};
     childRecordId;
@@ -69,6 +73,7 @@ export default class CustomPageLayout extends LightningElement {
     showPopoverIcon = false;
     showPopoverDialog = false;
     opeDesignValue;
+    programTypeFields = {};
 
     //gets necessary parent fields
     //note: add conditions if another parent is to be added
@@ -112,7 +117,7 @@ export default class CustomPageLayout extends LightningElement {
 
     //disables edit button if status does not match specified tab
     get disableEditButton(){
-        return this.parentRecord.status !== this.tab;
+        return this.tab && this.parentRecord.status !== this.tab;
     }
 
     //decides whether to enable/disable mark as complete button
@@ -149,16 +154,25 @@ export default class CustomPageLayout extends LightningElement {
         if(result.data){
             this.parentRecord.status = getFieldValue(result.data,PR_STATUS);
             this.parentRecord.rtDevName = getFieldValue(result.data,PR_RT_DEV_NAME);
-            if(this.withRecordType){
-                this.childRecordTypeDevName = 
-                    this.parentRecord.rtDevName.includes('_Request') && this.childObjectApiName == COURSE.objectApiName ? 
-                    this.parentRecord.rtDevName.replace('_Request','') : this.parentRecord.rtDevName;
-            }else{
-                this.childRecordTypeDevName = 'All_OPE_' + OBJECT_LABELS[this.childObjectApiName];
-            }
-            this.getRecordLayout();
         }else if(result.error){
             this.generateToast('Error.',LWC_Error_General,'error');
+        }
+    }
+    
+    /**
+     * gets info of child object
+     */
+    @wire(getObjectInfo, { objectApiName: '$childObjectApiName'})
+    handleChildObjectInfo(result){
+        if(result.data){
+            if(this.withRecordType){
+                this.childRecordTypeDevName = this.parentRecord.rtDevName;
+            }else{
+                //condition for layouts with no record types
+                //metadata is named as All_OPE_<Object_Label>
+                this.childRecordTypeDevName = 'All_OPE_' + result.data.labelPlural.replace(' ','_');
+            }
+            this.getRecordLayout();
         }
     }
 
@@ -213,6 +227,9 @@ export default class CustomPageLayout extends LightningElement {
      * formats layout columns for UI rendering
      */
     formatLayoutToDisplay(){
+        this.layoutMapping = this.parentSectionLabel ? 
+            this.layoutMapping.filter(layout => layout.MasterLabel == this.parentSectionLabel) : 
+            this.layoutMapping.filter(layout => layout.Order__c);
         this.layoutToDisplay = this.layoutMapping.map(layout => {
             let layoutItem = {};
             layoutItem.sectionLabel = layout.MasterLabel;
@@ -237,22 +254,20 @@ export default class CustomPageLayout extends LightningElement {
     handleMarkAsComplete(){
         const fields = {};
         fields.Id = this.recordId;
-        fields.Product_Request_Status__c = 'Release';
-        const recordInput = { fields };
-        updateRecord(recordInput)
-        .then(() => {
-            this.generateToast('Success!','Design marked as complete.','success');
-        })
-        .catch(error => {
-            this.generateToast('Error.',LWC_Error_General,'error');
-        })
+        fields.Product_Request_Status__c = PL_ProductRequest_Release;
+        this.handleUpdateRecord(fields,true);
     }
 
     /**
      * method for handling record edit form submission
      */
-    handleSubmit(){
+    handleSubmit(event){
         this.isLoading = true;
+        //for OPE Program Request
+        if(this.childObjectApiName == PROGRAM_PLAN.objectApiName){
+            this.programTypeFields.Id = this.recordId;
+            this.programTypeFields.OPE_Program_Plan_Type__c = event.detail.fields.Program_Type__c;
+        }
     }
 
     /**
@@ -263,6 +278,10 @@ export default class CustomPageLayout extends LightningElement {
         this.editMode = false;
         this.generateToast('Success!','Record Updated.','success');
         this.resetPopover();
+        //for OPE Program Request
+        if(this.childObjectApiName == PROGRAM_PLAN.objectApiName){
+            this.handleUpdateRecord(this.programTypeFields,false);
+        }
     }
     
     /**
@@ -301,6 +320,23 @@ export default class CustomPageLayout extends LightningElement {
         this.showPopoverIcon = false;
         this.showPopoverDialog = false;
         this.popoverFields = [];
+    }
+
+    /**
+     * updates record given fields
+     */
+    handleUpdateRecord(fieldsToUpdate,markAsComplete){
+        const fields = {...fieldsToUpdate};
+        const recordInput = { fields };
+        updateRecord(recordInput)
+        .then(() => {
+            if(markAsComplete){
+                this.generateToast('Success!','Design marked as completed.','success');
+            }
+        })
+        .catch(error => {
+            this.generateToast('Error.',LWC_Error_General,'error');
+        });
     }
 
     /**

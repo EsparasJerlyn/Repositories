@@ -24,6 +24,22 @@
         <value>An error has been encountered. Please contact your administrator.</value>
     </labels>
     <labels>
+        <fullName>LWC_Error_MultiRecordTypes_CompleteStageOnParent</fullName>
+        <categories>LWC,Error</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>LWC_Error_MultiRecordTypes_CompleteStageOnParent</shortDescription>
+        <value>PLEASE COMPLETE THE RELEASE STAGE OF THIS PRODUCT &lt;br&gt; &lt;div class=&apos;slds-align_absolute-center&apos;&gt; ON YOUR PARENT PROGRAM PRODUCT REQUEST &lt;/div&gt;</value>
+    </labels>
+    <labels>
+        <fullName>LWC_Error_ProgramRequest_ChildrenNotInReleaseStage</fullName>
+        <categories>LWC,Error</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>LWC_Error_ProgramRequest_ChildrenNotInReleaseStage</shortDescription>
+        <value>PLEASE ENSURE THAT ALL CHILD PRODUCT REQUESTS &lt;br&gt; &lt;div class=&apos;slds-align_absolute-center&apos;&gt; ARE IN A RELEASE STATUS &lt;/div&gt;</value>
+    </labels>
+    <labels>
         <fullName>LWC_HelpText_FlexibleProgram</fullName>
         <categories>LWC,HelpText</categories>
         <language>en_US</language>
@@ -48,11 +64,57 @@
         <value>Prescribed Program - A user will need to create 1 offering for the program and 1 offering for each course.</value>
     </labels>
     <labels>
+        <fullName>LWC_HelpText_StandardPriceBookRequired</fullName>
+        <categories>LWC,HelpText</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>LWC_HelpText_StandardPriceBookRequired</shortDescription>
+        <value>Please create first the standard pricing before creating pricing for non standard pricebooks.</value>
+    </labels>
+    <labels>
         <fullName>Minimum_Search_Term_Length</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Minimum Search Term Length</shortDescription>
         <value>2</value>
+    </labels>
+    <labels>
+        <fullName>PL_ProductRequest_Design</fullName>
+        <categories>Picklist,ProductRequest</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PL_ProductRequest_Design</shortDescription>
+        <value>Design</value>
+    </labels>
+    <labels>
+        <fullName>PL_ProductRequest_InDelivery</fullName>
+        <categories>Picklist,ProductRequest</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PL_ProductRequest_InDelivery</shortDescription>
+        <value>In Delivery</value>
+    </labels>
+    <labels>
+        <fullName>PL_ProductRequest_Release</fullName>
+        <categories>Picklist,ProductRequest</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PL_ProductRequest_Release</shortDescription>
+        <value>Release</value>
+    </labels>
+    <labels>
+        <fullName>Publishing_End_Date_Cron_Expression</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Publishing End Date Cron Expression</shortDescription>
+        <value>0 0 0 ? * MON-FRI</value>
+    </labels>
+    <labels>
+        <fullName>QUTeX_Email</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>QUT Email used in flows</shortDescription>
+        <value>test-qutex@qut.edu.au</value>
     </labels>
     <labels>
         <fullName>Search_Delay</fullName>
@@ -62,27 +124,20 @@
         <value>300</value>
     </labels>
     <labels>
-        <fullName>LWC_Error_MultiRecordTypes_CompleteStageOnParent</fullName>
-        <categories>LWC,Error</categories>
+        <fullName>Tab_ProductRequest_ProductManagement</fullName>
+        <categories>Tab,ProductRequest</categories>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>LWC_Error_MultiRecordTypes_CompleteStageOnParent</shortDescription>
-        <value>PLEASE COMPLETE THE RELEASE STAGE OF THIS PRODUCT &lt;br&gt; &lt;div class=&apos;slds-align_absolute-center&apos;&gt; ON YOUR PARENT PROGRAM PRODUCT REQUEST &lt;/div&gt;</value>
+        <shortDescription>Tab_ProductRequest_ProductManagement</shortDescription>
+        <value>Product Management</value>
     </labels>
     <labels>
-        <fullName>LWC_Error_ProgramRequest_ChildrenNotInReleaseStage</fullName>
-        <categories>LWC,Error</categories>
+        <fullName>Tab_ProductRequest_ProductOffering</fullName>
+        <categories>Tab,ProductRequest</categories>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>LWC_Error_ProgramRequest_ChildrenNotInReleaseStage</shortDescription>
-        <value>PLEASE ENSURE THAT ALL CHILD PRODUCT REQUESTS &lt;br&gt; &lt;div class=&apos;slds-align_absolute-center&apos;&gt; ARE IN A RELEASE STATUS &lt;/div&gt;</value>
-    </labels>
-    <labels>
-        <fullName>QUTeX_Email</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>QUT Email used in flows</shortDescription>
-        <value>test-qutex@qut.edu.au</value>
+        <shortDescription>Tab_ProductRequest_ProductOffering</shortDescription>
+        <value>Product Offering</value>
     </labels>
     <labels>
         <fullName>RT_Course_Activity</fullName>

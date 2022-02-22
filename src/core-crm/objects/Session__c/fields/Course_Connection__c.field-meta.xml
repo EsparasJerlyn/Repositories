@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Course_Connection__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <externalId>false</externalId>
+    <label>Facilitator</label>
+    <lookupFilter>
+        <active>true</active>
+        <errorMessage>Selected facilitator is not available for this product offering.</errorMessage>
+        <filterItems>
+            <field>hed__Course_Enrollment__c.RecordType.DeveloperName</field>
+            <operation>equals</operation>
+            <value>Faculty</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>hed__Course_Enrollment__c</referenceTo>
+    <relationshipLabel>Sessions</relationshipLabel>
+    <relationshipName>Sessions</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

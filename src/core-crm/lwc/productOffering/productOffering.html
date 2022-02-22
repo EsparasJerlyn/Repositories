@@ -1,0 +1,241 @@
+<template>
+    <!--Reusable LWC for creating records-->
+    <template if:true={newRecord}>
+        <c-custom-create-edit-record 
+            object-api-name={objectToCreate}
+            onsave={handleSaveRecord}
+            onclose={handleCloseRecord}
+            record-for-ope
+        ></c-custom-create-edit-record>
+    </template>
+    <lightning-spinner if:true={isLoading} alternative-text="Loading..." size="small"></lightning-spinner> 
+    <div if:false={hasAccess} class="slds-text-align_center slds-p-around_large">
+        <p><strong>You don't have access to this feature.</strong></p>
+    </div>
+    <div if:true={hasAccess}>
+        <div class="slds-grid slds-gutters slds-m-bottom_x-small">
+            <div class="slds-col slds-size_1-of-1">
+                <lightning-button
+                    label="Add New Product Offering"
+                    title="Add New Product Offering"
+                    icon-name="utility:add"
+                    onclick={handleNewOffering} 
+                    variant="brand"
+                    class="slds-float_right">
+                </lightning-button>
+            </div>
+        </div>
+        <div if:false={showProductOfferings} class="slds-text-align_center slds-p-around_medium">
+            <p><strong>No product offering found.</strong></p>
+        </div>
+        <lightning-accordion if:true={showProductOfferings} active-section-name={activeMainSections} allow-multiple-sections-open>
+            <template for:each={productOfferings} for:item="offering">
+                <div key={offering.Id} class="relative-position">
+                    <lightning-button
+                        label="Clone"
+                        title="Clone"
+                        data-name={offering.Id}
+                        icon-name="utility:copy"
+                        onclick={handleCloneOffering} 
+                        variant="brand-outline"
+                        class="section-button">
+                    </lightning-button>
+                    <!--Product Offering Overview Section-->
+                    <lightning-button-icon 
+                        data-name={offering.Id}
+                        icon-name="utility:info_alt"
+                        size="medium"
+                        variant="bare"
+                        onmouseover={handleShowPopover}
+                        onmouseout={handleHidePopover}
+                        class="section-button section-button-icon">
+                    </lightning-button-icon>
+                    <section 
+                        if:true={offering.showPopover}
+                        aria-labelledby="panel-heading-id"
+                        class="slds-popover slds-popover_panel slds-nubbin_right-top section-button section-overview"
+                        role="dialog">
+                        <div class="slds-popover__header">
+                            <header class="slds-media slds-media_center slds-m-bottom_small">
+                                <lightning-icon 
+                                    icon-name="standard:service_appointment"
+                                    class="slds-m-right_small"
+                                ></lightning-icon>
+                                <div class="slds-media__body">
+                                    <h2 class="slds-text-heading_small slds-hyphenate">
+                                        Product Offering Overview
+                                    </h2>
+                                </div>
+                            </header>
+                            <footer class="slds-grid slds-wrap slds-grid_pull-padded">
+                                <div class="slds-p-horizontal_small slds-size_1-of-1 slds-p-bottom_x-small">
+                                    <dl>
+                                        <dt>
+                                            <p class="slds-popover_panel__label slds-truncate slds-text-body_small">
+                                                Delivery Type
+                                            </p>
+                                        </dt>
+                                        <dd>{offering.Delivery_Type__c}</dd>
+                                    </dl>
+                                </div>
+                                <div class="slds-p-horizontal_small slds-size_1-of-2 slds-p-bottom_x-small">
+                                    <dl>
+                                        <dt>
+                                            <p class="slds-popover_panel__label slds-truncate slds-text-body_small">
+                                                Start Date
+                                            </p>
+                                        </dt>
+                                        <dd>{offering.Start_Date__c}</dd>
+                                    </dl>
+                                </div>
+                                <div class="slds-p-horizontal_small slds-size_1-of-2 slds-p-bottom_x-small">
+                                    <dl>
+                                        <dt>
+                                            <p class="slds-popover_panel__label slds-truncate slds-text-body_small">
+                                                End Date
+                                            </p>
+                                        </dt>
+                                        <dd>{offering.End_Date__c}</dd>
+                                    </dl>
+                                </div>
+                                <div class="slds-p-horizontal_small slds-size_1-of-2 slds-p-bottom_x-small">
+                                    <dl>
+                                    <dt>
+                                        <p class="slds-popover_panel__label slds-truncate slds-text-body_small">
+                                            Registration Start Date
+                                        </p>
+                                    </dt>
+                                    <dd>{offering.Registration_Start_Date__c}</dd>
+                                    </dl>
+                                </div>
+                                <div class="slds-p-horizontal_small slds-size_1-of-2 slds-p-bottom_x-small">
+                                    <dl>
+                                    <dt>
+                                        <p class="slds-popover_panel__label slds-truncate slds-text-body_small">
+                                            Registration End Date
+                                        </p>
+                                    </dt>
+                                    <dd>{offering.Registration_End_Date__c}</dd>
+                                    </dl>
+                                </div>
+                            </footer>
+                        </div>
+                    </section>
+                    <lightning-accordion-section name={offering.Id} label={offering.label} class="accordion-section">
+                        <!--Custom LWC for adding sessions-->   
+                        <template if:true={offering.newSession}>
+                            <c-add-new-session 
+                                course-offering-id={offering.Id}
+                                custom-lookup-items={offering.relatedFacilitators}
+                                onsessionsuccess={handleSuccessSession}
+                                onsessionclose={handleCloseSession}
+                            ></c-add-new-session >
+                        </template>
+                        <lightning-accordion if:false={isOpeProgramRequest} allow-multiple-sections-open>
+                            <!--Facilitators Section-->
+                            <div class="slds-m-top_small relative-position">
+                                <span class="slds-badge slds-badge_inverse small-button custom-badge">
+                                    {offering.relatedFacilitators.length}
+                                </span>
+                                <lightning-button
+                                    label="ADD NEW FACILITATOR"
+                                    title="Add New Facilitator"
+                                    data-name={offering.Id}
+                                    icon-name="utility:add"
+                                    onclick={handleAddFacilitator}
+                                    class="section-button small-button">
+                                </lightning-button>
+                                <lightning-accordion-section name="facilitatorDetails" label="Facilitator Details" class="nested-accordion-section">
+                                    <c-custom-search
+                                        search-label="Existing Facilitators"
+                                        search-input-placeholder="Search existing facilitators..."
+                                        search-items={offering.biosToSearch}
+                                        search-item-icon="standard:orchestrator"
+                                        parent-id={offering.Id}
+                                        onitemselect={handleSearchSelect}
+                                    ></c-custom-search>
+                                    <div if:false={offering.showFacilitatorTable} class="slds-text-align_center slds-p-around_medium">
+                                        <p><strong>No facilitator found.</strong></p>
+                                    </div>
+                                    <div if:true={offering.showFacilitatorTable} class="slds-m-vertical_medium slds-scrollable max-height">
+                                        <lightning-datatable
+                                            key-field="Id"
+                                            data={offering.relatedFacilitators}
+                                            columns={facilitatorColumns}
+                                            onrowaction={handleRowAction}
+                                            hide-checkbox-column
+                                            show-row-number-column
+                                        ></lightning-datatable>
+                                    </div>
+                                </lightning-accordion-section>
+                            </div>
+                            <!--Sessions Section-->
+                            <div class="relative-position">
+                                <span class="slds-badge slds-badge_inverse small-button custom-badge">
+                                    {offering.relatedSessions.length}
+                                </span>
+                                <lightning-button
+                                    label="ADD NEW SESSION"
+                                    title="Add New Session"
+                                    data-name={offering.Id}
+                                    icon-name="utility:add"
+                                    onclick={handleAddSession}
+                                    class="section-button small-button"
+                                    disabled={offering.disableSession}>
+                                </lightning-button>
+                                <lightning-helptext 
+                                    if:true={offering.disableSession}
+                                    icon-name="utility:help"
+                                    content="Please add at least one (1) facilitator to add a session."
+                                    class="section-button section-button-help">
+                                </lightning-helptext>
+                                <lightning-accordion-section name="sessionDetails" label="Session Details" class="nested-accordion-section">
+                                    <div if:false={offering.showSessionTable} class="slds-text-align_center slds-p-around_medium">
+                                        <p><strong>No session found.</strong></p>
+                                    </div>
+                                    <div if:true={offering.showSessionTable} class="slds-m-vertical_medium slds-scrollable max-height">
+                                        <lightning-datatable
+                                            key-field="Id"
+                                            data={offering.relatedSessions}
+                                            columns={sessionColumns}
+                                            onrowaction={handleRowAction}
+                                            hide-checkbox-column
+                                            show-row-number-column
+                                        ></lightning-datatable>
+                                    </div>
+                                </lightning-accordion-section>
+                            </div>
+                        </lightning-accordion>
+                    </lightning-accordion-section>
+                </div>
+            </template>
+        </lightning-accordion>
+        <!--Confirm Clone Modal Section-->
+        <section if:true={showConfirmClone} role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={handleCloseClone}>
+                    <lightning-icon
+                        icon-name="utility:close"
+                        alternative-text="Close"
+                        variant="inverse"
+                        size="small">
+                    </lightning-icon>
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+                <div class="slds-modal__header">
+                    <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Clone Confirmation</h1>
+                </div>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <p class="slds-text-align_center slds-p-around_large">
+                        Are you sure you want to clone <strong>{offeringToClone.label}</strong>?
+                    </p>
+                </div>
+                <div class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={handleCloseClone}>Cancel</button>
+                    <button data-name={offeringToClone.Id} class="slds-button slds-button_brand" onclick={handleConfirmClone}>Confirm</button>
+                </div>
+            </div>
+        </section>
+        <div if:true={showConfirmClone} class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </div>
+</template>

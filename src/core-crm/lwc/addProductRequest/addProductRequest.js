@@ -15,7 +15,7 @@
 */
 
 import { LightningElement, api, wire } from 'lwc';
-import { getObjectInfo } from 'lightning/uiObjectInfoApi';
+import { getObjectInfo, getPicklistValues } from 'lightning/uiObjectInfoApi';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { NavigationMixin } from 'lightning/navigation';
 import { createRecord,updateRecord } from 'lightning/uiRecordApi';
@@ -25,6 +25,8 @@ import getAccountId from '@salesforce/apex/AddProductRequestCtrl.getAccountId';
 import PRODUCT_REQUEST_OBJECT from '@salesforce/schema/Product_Request__c';
 import COURSE_OBJECT from '@salesforce/schema/hed__Course__c';
 import PROGRAM_PLAN_OBJECT from '@salesforce/schema/hed__Program_Plan__c';
+import PP_PROGRAM_TYPE from '@salesforce/schema/hed__Program_Plan__c.Program_Type__c';
+import PR_OPE_TYPE from '@salesforce/schema/Product_Request__c.OPE_Program_Plan_Type__c';
 import PR_PARENT from '@salesforce/schema/Product_Request__c.Parent_Product_Request__c';
 import NO_OF_TRIADS from '@salesforce/schema/Product_Request__c.Number_of_Triads__c';
 import REQUEST_TYPE from '@salesforce/schema/Product_Request__c.Request_Type__c';
@@ -60,6 +62,7 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
     errorMessage = '';
     isRelatedModalOpen=false;
     accountId='';
+    programTypeDefaultValue='';
 
     recordTypeLabel = RECORD_TYPE_LABEL;
 
@@ -98,6 +101,16 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
     //used to get recordtyeps
     @wire(getObjectInfo, { objectApiName: PROGRAM_PLAN_OBJECT})
     programPlanObjectInfo;
+
+    //gets picklist values of program type field
+    @wire(getPicklistValues, { recordTypeId: '$programPlanObjectInfo.data.defaultRecordTypeId', fieldApiName: PP_PROGRAM_TYPE })
+    handleProgramTypes(result){
+        if(result.data){
+            this.programTypeDefaultValue = result.data.defaultValue.value;
+        }else if(result.error){
+            this.showToast('Error.',LWC_Error_General,'error');
+        }
+    }
 
     
     //sets record type options for the radio group
@@ -154,12 +167,12 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
             let filteredRecordTypes = this.productRequestForOpe ?
             this.recordTypeOrderMap.filter(filterKey => filter.includes(filterKey.recordTypeName)) :
             this.recordTypeOrderMap.filter(filterKey => !filter.includes(filterKey.recordTypeName));
+            filteredRecordTypes = this.sortMap(filteredRecordTypes);
             this.sortedRecordTypeMap = filteredRecordTypes.map(key =>{
                 return {
                     label : key.recordTypeName,
                     description : key.description,
                     value : recordTypeInfoMap[key.recordTypeName]
-
                 }
             });
             this.isSelectionModalOpen = true;
@@ -243,6 +256,9 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
         let productReqfields = {};
         productReqfields.Id= this.prodReqId;
         productReqfields.Product_Request_Status__c = 'Design';
+        if(this.prodReqSelectedRecType == PROG_PLAN_REQUEST){
+            productReqfields[PR_OPE_TYPE.fieldApiName] = this.programTypeDefaultValue;
+        }
         const fields = {...productReqfields};
         const recordInput = {fields};
         updateRecord(recordInput).then((record) => {

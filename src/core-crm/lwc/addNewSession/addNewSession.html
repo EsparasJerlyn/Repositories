@@ -1,0 +1,98 @@
+<template>
+    <div class="slds-modal slds-fade-in-open slds-backdrop">  
+        <div class="slds-modal__container">  
+            <div class="slds-modal__header">  
+                <lightning-button-icon
+                    icon-name="utility:close"
+                    alternative-text="Close this window"
+                    size="large"  
+                    variant="bare-inverse"
+                    onclick={handleCloseSession}
+                    class="slds-modal__close">  
+                </lightning-button-icon>  
+                <h2>Create Session</h2>  
+            </div>  
+            <lightning-record-edit-form
+                object-api-name={sessionApiName}
+                onsubmit={handleSubmitSession}
+                onsuccess={handleSuccessSession}>  
+                <div class="slds-modal__content slds-p-around_medium">
+                    <lightning-accordion active-section-name={activeSections} allow-multiple-sections-open>
+                        <template for:each={layoutToDisplay} for:item="layoutItem">
+                            <lightning-accordion-section
+                                key={layoutItem.sectionLabel}
+                                name={layoutItem.sectionLabel}
+                                label={layoutItem.sectionLabel}
+                                class="accordion-section">
+                                <div key={layoutItem.sectionLabel} class="slds-grid slds-gutters">
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <template for:each={layoutItem.leftColumn} for:item="leftField">
+                                            <template if:true={leftField.customLookup}>
+                                                <c-custom-search
+                                                    key={leftField.field}
+                                                    search-label="Facilitator"
+                                                    search-input-placeholder="Search Facilitators..."
+                                                    search-items={lookupItemsFormatted}
+                                                    search-item-icon="standard:orchestrator"
+                                                    onitemselect={handleLookupSelect}
+                                                    onitemremove={handleLookupRemove}
+                                                    custom-lookup
+                                                    required
+                                                ></c-custom-search>
+                                                <span
+                                                    key={leftField.field} 
+                                                    if:true={showErrorMessage}
+                                                    class="slds-text-body_small slds-text-color_destructive slds-m-left_small">
+                                                    Complete this field.
+                                                </span>
+                                            </template>
+                                            <lightning-input-field
+                                                if:false={leftField.customLookup}
+                                                key={leftField.field}
+                                                field-name={leftField.field}
+                                                required={leftField.mandatory}>
+                                            </lightning-input-field>
+                                        </template>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <template for:each={layoutItem.rightColumn} for:item="rightField">
+                                            <lightning-input-field
+                                                key={rightField.field}
+                                                field-name={rightField.field}
+                                                required={rightField.mandatory}>
+                                            </lightning-input-field>
+                                        </template>
+                                    </div>
+                                </div>
+                                <div key={layoutItem.sectionLabel} class="slds-grid slds-gutters">
+                                    <div class="slds-col slds-size_1-of-1">
+                                        <template for:each={layoutItem.singleColumn} for:item="singleField">
+                                            <lightning-input-field
+                                                key={singleField.field}
+                                                field-name={singleField.field}
+                                                required={singleField.mandatory}>
+                                            </lightning-input-field>
+                                        </template>
+                                    </div>
+                                </div>
+                            </lightning-accordion-section>
+                        </template>
+                    </lightning-accordion>
+                </div>  
+                <footer class="slds-modal__footer">
+                    <lightning-button
+                        label="Cancel"
+                        variant="neutral"
+                        onclick={handleCloseSession}>  
+                    </lightning-button>
+                    <lightning-button
+                        label="Save"
+                        variant="brand"
+                        type="submit"
+                        class="slds-m-left_small"
+                    ></lightning-button>
+                </footer>
+            </lightning-record-edit-form>
+        </div>  
+    </div> 
+</template>
