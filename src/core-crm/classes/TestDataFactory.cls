@@ -198,6 +198,7 @@ public class TestDataFactory {
       ps.Opportunity_Name__c = ops[i].id;
       ps.Stage__c = 'Define';
       ps.Client_Review_Required__c = 'N/A';
+      ps.Requestor_Name__c =  contacts[i].id;
       productSpecifications.add(ps);
     }
 
