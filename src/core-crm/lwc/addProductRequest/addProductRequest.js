@@ -1,17 +1,18 @@
 /**
- * @description A LWC component for creation of Product Request Record 
+ * @description A LWC component for creation of Product Request Record
  *
  * @see ../classes/AddProductRequestCtrl.cls
- * 
+ *
  * @author Accenture
  *
  * @history
  *    | Developer                 | Date                  | JIRA                 | Change Summary                                                            |
       |---------------------------|-----------------------|----------------------|---------------------------------------------------------------------------|
-      | roy.nino.s.regala         | September 27, 2021    | DEPP-40,42           | Created file                                                              | 
+      | roy.nino.s.regala         | September 27, 2021    | DEPP-40,42           | Created file                                                              |
       | roy.nino.s.regala         | October   06, 2021    | DEPP-176             | Added functionality to show no of triads field depending on request type  |
-      | angelika.j.s.galang       | December  17, 2021    | DEPP-1088,1096       | Modified to handle OPE records                                            |  
-      | adrian.c.habasa           | January   20, 2022    | DEPP-1471            | Added a pop up to input course/program plan name                          |  
+      | angelika.j.s.galang       | December  17, 2021    | DEPP-1088,1096       | Modified to handle OPE records                                            |
+      | adrian.c.habasa           | January   20, 2022    | DEPP-1471            | Added a pop up to input course/program plan name                          |
+      | john.bo.a.pineda          | February  22, 2022    | DEPP-1791            | Modified logic to create Product Request after saving Related Object Name |
 */
 
 import { LightningElement, api, wire } from 'lwc';
@@ -67,7 +68,7 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
     recordTypeLabel = RECORD_TYPE_LABEL;
 
     //data from parent
-    parentId; 
+    parentId;
     parentField;
     parentName;
 
@@ -83,8 +84,6 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
         .catch(error =>{
             this.showToast(ERROR_TITLE,LWC_Error_General,ERROR_VARIANT);
         });
-
-        
     }
 
     //gets object info of product request object
@@ -112,7 +111,6 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
         }
     }
 
-    
     //sets record type options for the radio group
     get optionsMap(){
         return this.sortedRecordTypeMap;
@@ -159,7 +157,7 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
             let filteredKeys = this.productRequestForOpe ?
             Object.keys(recordTypeInfo).filter(filterKey => filter.includes(recordTypeInfo[filterKey].name)) :
             Object.keys(recordTypeInfo).filter(filterKey => !filter.includes(recordTypeInfo[filterKey].name));
-            
+
             filteredKeys.map(key => {
                 recordTypeInfoMap[recordTypeInfo[key].name] = recordTypeInfo[key].recordTypeId;
             });
@@ -193,7 +191,7 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
             this.isSelectionModalOpen = false;
             this.isCreationModalOpen = true;
             this.layoutMapping = this.sortMap(this.fieldLayoutMap[this.selectedRecordTypeName]);
-            
+
             const sectionNames = [];
             this.layoutMapping.map(key => {
                 sectionNames.push(key.label);
@@ -205,22 +203,26 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
     prodReqId;
     prodReqSelectedRecType;
     createAndRedirectToProductRequest(){
+        this.isSelectionModalOpen = false
+        this.openRecordCreation();
+    }
+
+    createProductRequest(){
         const prRtis = this.objectInfo.data.recordTypeInfos;
         let productRequestfields = {};
         productRequestfields.Parent_Product_Request__c = this.parentField == PR_PARENT.fieldApiName ? this.parentId : '';
         productRequestfields.Product_Specification__c = this.parentField !== PR_PARENT.fieldApiName ? this.parentId : '';
-        productRequestfields.RecordTypeId = Object.keys(prRtis).find(rti => prRtis[rti].name == this.selectedRecordTypeName); 
+        productRequestfields.RecordTypeId = Object.keys(prRtis).find(rti => prRtis[rti].name == this.selectedRecordTypeName);
 
         const fields = {...productRequestfields};
         const recordInput = { apiName: PRODUCT_REQUEST_OBJECT.objectApiName, fields};
-        
+
         createRecord(recordInput)
         .then(record => {
             this.showToast('Product Request created.',this.selectedRecordTypeName,'success');
             this.prodReqId=record.id;
             this.prodReqSelectedRecType=this.selectedRecordTypeName;
-            this.closeSelectionModal();
-            this.openRecordCreation();
+            this.setRecordTypeDetails('');
         })
         .catch(error => {
             this.showToast('Error.',LWC_Error_General,'error');
@@ -229,10 +231,11 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
 
     prRecordType;
     handleSubmit(event){
+        this.createProductRequest();
         event.preventDefault();
         const programPlanRtis = this.programPlanObjectInfo.data.recordTypeInfos;
         const courseRtis = this.courseObjectInfo.data.recordTypeInfos;
-        
+
         let fields = event.detail.fields;
         this.prRecordType = this.prodReqSelectedRecType;
 
@@ -247,10 +250,9 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
             fields.Product_Request__c = this.prodReqId;
             fields.RecordTypeId=Object.keys(programPlanRtis).find(rti => programPlanRtis[rti].name == this.prRecordType);
         }
-        this.template.querySelector('lightning-record-edit-form').submit(fields);       
+        this.template.querySelector('lightning-record-edit-form').submit(fields);
     }
-    
-    
+
     updateProductRequestStatusAndRedirect()
     {
         let productReqfields = {};
@@ -294,10 +296,16 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
         this.isRelatedModalOpen=false;
         this.dispatchEvent(new CustomEvent('created'));
     }
-    
+
     openRecordCreation()
     {
         this.isRelatedModalOpen=true;
+    }
+
+    closeRecordCreation()
+    {
+        this.isRelatedModalOpen=false;
+        this.setRecordTypeDetails('');
     }
 
     closeCreationModal() {
@@ -329,7 +337,6 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
         this.showToast(SUCCESS_TITLE,SUCCESS_MESSAGE,SUCCESS_VARIANT);
         this.dispatchEvent(new CustomEvent('created'));
         this.closeCreationModal();
-       
     }
 
     handleError(event) {
@@ -352,7 +359,7 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
             this.setFieldVisibility(event.target.value);
         }
     }
-    
+
     setFieldVisibility(requestType){
         [...this.template.querySelectorAll('lightning-input-field')]
         .filter( element => element.fieldName === NO_OF_TRIADS.fieldApiName)
@@ -372,5 +379,5 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
                 variant: variant
             })
         );
-    }  
+    }
 }

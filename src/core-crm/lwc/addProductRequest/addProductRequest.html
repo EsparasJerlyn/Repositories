@@ -20,7 +20,7 @@
                             <div class="slds-col slds-size_1-of-2 slds-text-align_left slds-m-left_large slds-p-vertical_small parent-name">
                                 <h2>{parentName}</h2>
                             </div>
-                        </div>    
+                        </div>
                     </template>
                     <slot name="title-text">
                         <div id="modal-heading-01" class="modal-heading slds-text-heading_medium slds-text-align_left title-text slds-box slds-theme_shade width-expanded">{modalName}</div>
@@ -70,7 +70,7 @@
                     <h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate slds-float_left title-text modal-heading">{selectedRecordTypeName}</h2>
                 </header>
                 <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
-                    <lightning-record-edit-form object-api-name="Product_Request__c" onsuccess={handleSuccess} onerror={handleError} record-type-id={selectedRecordType} onload={handleLoad}>
+                    <lightning-record-edit-form object-api-name="Product_Request__c" onerror={handleError} record-type-id={selectedRecordType} onload={handleLoad}>
                         <lightning-accordion allow-multiple-sections-open class="slds-grid slds-gutters"
                             active-section-name={activeSections}>
                             <template class="slds-col slds-size_1-of-2" for:each={layoutMapping} for:item="accordion_item">
@@ -124,6 +124,13 @@
             <div class="slds-modal__container">
                 <!-- Modal/Popup Box LWC header here -->
                 <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeRecordCreation}>
+                        <lightning-icon icon-name="utility:close"
+                            alternative-text="close"
+                            variant="inverse"
+                            size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
                     <h2 id="modal-heading-03" class="slds-text-heading_medium slds-hyphenate">Enter {objectLabel} Name</h2>
                 </header>
                 <!-- Modal/Popup Box LWC body starts here -->
