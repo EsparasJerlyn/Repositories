@@ -38,6 +38,10 @@
                 <behavior>Readonly</behavior>
                 <field>Course_Offering_End_Date__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Cart_ID__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
