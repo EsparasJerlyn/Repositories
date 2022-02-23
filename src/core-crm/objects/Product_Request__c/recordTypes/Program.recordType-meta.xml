@@ -2,7 +2,7 @@
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Program</fullName>
     <active>true</active>
-    <compactLayoutAssignment>Program_Request_Compact_Layout</compactLayoutAssignment>
+    <compactLayoutAssignment>OPE_Product_Request_Compact_Layout</compactLayoutAssignment>
     <description>This record type will be used to create a Program. This can be a combination of a Unit, a Module, a Short Course, or an Activity.</description>
     <label>Program</label>
     <picklistValues>
@@ -61,11 +61,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>In Delivery</fullName>
+            <fullName>Design</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Design</fullName>
+            <fullName>In Delivery</fullName>
             <default>false</default>
         </values>
         <values>
