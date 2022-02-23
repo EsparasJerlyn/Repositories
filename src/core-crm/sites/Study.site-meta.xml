@@ -23,7 +23,7 @@
     <referrerPolicyOriginWhenCrossOrigin>true</referrerPolicyOriginWhenCrossOrigin>
     <selfRegPage>CommunitiesSelfReg</selfRegPage>
     <siteAdmin>cicd.integration@qut.edu.au.dep</siteAdmin>
-    <siteGuestRecordDefaultOwner>cicd.integration@qut.edu.au.dep</siteGuestRecordDefaultOwner>
+    <siteGuestRecordDefaultOwner>sysadmin.integration@qut.edu.au.dep</siteGuestRecordDefaultOwner>
     <siteType>ChatterNetwork</siteType>
     <subdomain>qut360</subdomain>
     <urlPathPrefix>study</urlPathPrefix>
