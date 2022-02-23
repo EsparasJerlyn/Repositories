@@ -64,6 +64,10 @@
                 <behavior>Edit</behavior>
                 <field>Purchased_Price__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Paid_in_Full__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>

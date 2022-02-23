@@ -16,7 +16,8 @@ public with sharing class ProductOfferingCtrl {
     private static final String COURSE_OFFERING_API_NAME = hed__Course_Offering__c.SObjectType.getDescribe().getLocalName();
     private static final String STR_QUTEX = 'QUTeX';
     private static final String STR_QUTEX_TERM = STR_QUTEX + ' Term';
-
+    private static final Id FACULTY_REC_TYPE = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get('Faculty').getRecordTypeId();
+     
     /**
      * @description fetches id of term named 'QUTeX Term' if existing; creates one if not
      * @return id of QUTeX Term
@@ -165,7 +166,7 @@ public with sharing class ProductOfferingCtrl {
                         hed__Course_Offering__c, Facilitator_Bio__r.Facilitator_Professional_Bio__c,
                         Facilitator_Bio__r.Facilitator__c,Facilitator_Bio__r.Facilitator__r.Name, hed__Contact__c
                 FROM hed__Course_Enrollment__c
-                WHERE hed__Course_Offering__c IN :poIDs
+                WHERE hed__Course_Offering__c IN :poIDs AND RecordTypeId =: FACULTY_REC_TYPE
             ];
             
             poData.relatedSessions = [

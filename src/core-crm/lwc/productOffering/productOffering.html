@@ -209,6 +209,16 @@
                     </lightning-accordion-section>
                 </div>
             </template>
+            <lightning-accordion-section name="manageRegistrations" label="Manage Registration" class="accordion-section">
+                <div class="slds-scrollable slds-p-bottom_medium slds-m-top_small">
+                    <c-manage-registration-section prod-req-id={recordId}></c-manage-registration-section>                    
+                </div> 
+            </lightning-accordion-section>
+            <lightning-accordion-section name="manageApplications" label="Manage Application" class="accordion-section">
+                <div class="slds-scrollable slds-p-bottom_medium slds-m-top_small">
+                    <c-manage-application-section prod-req-id={recordId}></c-manage-application-section>                    
+                </div>               
+            </lightning-accordion-section>
         </lightning-accordion>
         <!--Confirm Clone Modal Section-->
         <section if:true={showConfirmClone} role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" class="slds-modal slds-fade-in-open">
