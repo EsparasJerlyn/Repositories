@@ -136,7 +136,7 @@
                 <!-- Modal/Popup Box LWC body starts here -->
                 <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-10">
                     <div class="slds-p-around_medium">
-                        <lightning-record-edit-form object-api-name={objectToBeCreated} onload={handleCreateLoad} onerror={handleRecordError} onsuccess={handleRecordCreation} onsubmit={handleSubmit}>
+                        <lightning-record-edit-form object-api-name={objectToBeCreated} onload={handleCreateLoad} onerror={handleRecordError} onsuccess={handleRecordCreation} onsubmit={createProductRequest}>
                             <lightning-input-field field-name='Name' required></lightning-input-field>
                             <div class="slds-float_right">
                                 <lightning-button data-name="save" label="Save" variant="brand" type="submit" class="slds-p-top_x-large slds-m-top_x-medium slds-float_right "></lightning-button>

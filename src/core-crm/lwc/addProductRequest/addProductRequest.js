@@ -207,7 +207,8 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
         this.openRecordCreation();
     }
 
-    createProductRequest(){
+    createProductRequest(event){
+        event.preventDefault();
         const prRtis = this.objectInfo.data.recordTypeInfos;
         let productRequestfields = {};
         productRequestfields.Parent_Product_Request__c = this.parentField == PR_PARENT.fieldApiName ? this.parentId : '';
@@ -223,6 +224,7 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
             this.prodReqId=record.id;
             this.prodReqSelectedRecType=this.selectedRecordTypeName;
             this.setRecordTypeDetails('');
+            this.handleSubmit(event);
         })
         .catch(error => {
             this.showToast('Error.',LWC_Error_General,'error');
@@ -231,8 +233,6 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
 
     prRecordType;
     handleSubmit(event){
-        this.createProductRequest();
-        event.preventDefault();
         const programPlanRtis = this.programPlanObjectInfo.data.recordTypeInfos;
         const courseRtis = this.courseObjectInfo.data.recordTypeInfos;
 
