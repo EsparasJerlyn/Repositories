@@ -251,7 +251,7 @@
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
                         <operator>EQUAL</operator>
-                        <rightValue>Activity_Request</rightValue>
+                        <rightValue>Activity</rightValue>
                     </criteria>
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
@@ -450,7 +450,7 @@
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
                         <operator>EQUAL</operator>
-                        <rightValue>Activity_Request</rightValue>
+                        <rightValue>Activity</rightValue>
                     </criteria>
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>

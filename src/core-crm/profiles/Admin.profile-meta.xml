@@ -3683,6 +3683,10 @@
         <recordType>Product_Request__c.Activity_Request</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Product_Request__c-Activity Request Layout</layout>
+        <recordType>Product_Request__c.Activity</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Product_Request__c-Coaching Request Layout</layout>
         <recordType>Product_Request__c.Coaching_Request</recordType>
     </layoutAssignments>
@@ -4140,7 +4144,7 @@
         <visible>false</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
-        <default>false</default>
+        <default>true</default>
         <recordType>Product_Request__c.Activity</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
@@ -4160,7 +4164,7 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
-        <default>true</default>
+        <default>false</default>
         <recordType>Product_Request__c.Activity_Request</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>

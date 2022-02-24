@@ -11,7 +11,7 @@
     <filters>
         <field>RECORDTYPE</field>
         <operation>equals</operation>
-        <value>Product_Request__c.Activity_Request</value>
+        <value>Product_Request__c.Activity</value>
     </filters>
     <filters>
         <field>Product_Request_Status__c</field>

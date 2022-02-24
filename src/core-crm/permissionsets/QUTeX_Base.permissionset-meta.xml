@@ -1084,6 +1084,10 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
+        <recordType>Product_Request__c.Activity</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
         <recordType>Product_Request__c.Activity_Request</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>

@@ -13,7 +13,7 @@
 public with sharing class ManageApplicationSectionCtrl {
 
      private static Id studentRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get('Student').getRecordTypeId();
-     private static Id programPlanRecType = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get('OPE_Program_Request').getRecordTypeId();
+     private static Id programPlanRecType = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get('Program').getRecordTypeId();
 
      /**
       * @description Retrieves list of Application details of students

@@ -15,8 +15,8 @@ public with sharing class ManageRegistrationSectionCtrlTest{
 
      private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
      private static Id studentRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get('Student').getRecordTypeId();
-     private static Id opeActProdReqRecType = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get('OPE_Activity_Request').getRecordTypeId();
-     private static Id programPlanRecType = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get('OPE_Program_Request').getRecordTypeId();
+     private static Id opeActProdReqRecType = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get('Activity').getRecordTypeId();
+     private static Id programPlanRecType = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get('Program').getRecordTypeId();
      private static Integer numberOfRecords = 100;
 
      @IsTest
