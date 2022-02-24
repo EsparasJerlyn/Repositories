@@ -1128,14 +1128,6 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
-        <recordType>Product_Request__c.OPE_Program_Request</recordType>
-        <visible>true</visible>
-    </recordTypeVisibilities>
-    <recordTypeVisibilities>
-        <recordType>Product_Request__c.Program_Request</recordType>
-        <visible>true</visible>
-    </recordTypeVisibilities>
-    <recordTypeVisibilities>
         <recordType>Product_Request__c.Short_Course</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>

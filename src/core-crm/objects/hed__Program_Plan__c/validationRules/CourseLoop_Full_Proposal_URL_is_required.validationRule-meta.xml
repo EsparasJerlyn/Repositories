@@ -3,7 +3,7 @@
     <fullName>CourseLoop_Full_Proposal_URL_is_required</fullName>
     <active>true</active>
     <errorConditionFormula>AND (
-RecordType.DeveloperName = &apos;OPE_Program_Request&apos;,
+RecordType.DeveloperName = &apos;Program&apos;,
 ISPICKVAL( Product_Request__r.Product_Request_Status__c , &apos;Design&apos;),
 AND(
 NOT (ISCHANGED( PP_Design_Form_Status__c ) ),

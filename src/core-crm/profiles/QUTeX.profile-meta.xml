@@ -121,10 +121,6 @@
         <recordType>Product_Request__c.Corporate_Bundle_Request</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Product_Request__c-Program Request Layout</layout>
-        <recordType>Product_Request__c.Program_Request</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
         <layout>Product_Request__c-Stand-Alone Unit %2F Module Request Layout</layout>
         <recordType>Product_Request__c.Stand_Alone_Unit_Module_Request</recordType>
     </layoutAssignments>
@@ -150,10 +146,6 @@
     <layoutAssignments>
         <layout>hed__Course__c-OPE Single Product Page Layout</layout>
         <recordType>hed__Course__c.Single_Product</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>hed__Program_Plan__c-OPE Program Request Page Layout</layout>
-        <recordType>hed__Program_Plan__c.OPE_Program_Request</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>hed__Program_Plan__c-OPE Program Request Page Layout</layout>

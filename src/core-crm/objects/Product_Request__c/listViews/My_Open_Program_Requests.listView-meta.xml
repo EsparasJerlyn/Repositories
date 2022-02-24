@@ -17,7 +17,7 @@
     <filters>
         <field>RECORDTYPE</field>
         <operation>equals</operation>
-        <value>Product_Request__c.Program_Request</value>
+        <value>Product_Request__c.Program</value>
     </filters>
     <label>My Open Program Request</label>
 </ListView>

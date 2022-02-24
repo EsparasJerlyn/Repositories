@@ -20,10 +20,10 @@
             <connector>
                 <targetReference>Create_Product_Record</targetReference>
             </connector>
-            <label>OPE Program Request</label>
+            <label>Program</label>
         </rules>
     </decisions>
-    <description>Creates related Product record when an OPE Program Plan record is inserted</description>
+    <description>Creates related Product record when a Program Plan record is inserted</description>
     <interviewLabel>Create Product on Program Plan Insert {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Create Product on Program Plan Insert</label>
     <processMetadataValues>
