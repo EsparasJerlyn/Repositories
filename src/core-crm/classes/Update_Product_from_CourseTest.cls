@@ -14,12 +14,18 @@
 @IsTest(SeeAllData = false)
 private class Update_Product_from_CourseTest{
 
+    private static string PR_ACTIVITY = System.Label.RT_ProductRequest_Activity;
+    private static string PR_PROGRAM = System.Label.RT_ProductRequest_Program;
+    private static string COURSE_ACTIVITY = System.Label.RT_Course_Activity;
+    private static string PP_PROGRAM = System.Label.RT_ProductRequest_Program;
+
+
     private static User currentUser = TestDataFactory.createUserRecords(1, 'QUTeX').iterator().next();
     
-    private static Id opeActProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get('Activity').getRecordTypeId();
-    private static Id opeActivityId = Schema.SObjectType.hed__Course__c.getRecordTypeInfosByDeveloperName().get('Activity').getRecordTypeId();
-    private static Id opeProgramReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get('Program').getRecordTypeId();
-    private static Id opeProgramPlanReqId = Schema.SObjectType.hed__Program_Plan__c.getRecordTypeInfosByDeveloperName().get('Program').getRecordTypeId();
+    private static Id opeActProdReqId =  Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_ACTIVITY).getRecordTypeId();
+    private static Id opeActivityId = Schema.SObjectType.hed__Course__c.getRecordTypeInfosByDeveloperName().get(COURSE_ACTIVITY).getRecordTypeId();
+    private static Id opeProgProdReqId =  Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_PROGRAM).getRecordTypeId();
+    private static Id opeProgPlanId = Schema.SObjectType.hed__Program_Plan__c.getRecordTypeInfosByDeveloperName().get(PP_PROGRAM).getRecordTypeId();
     private static Integer numberOfRecords = 100;         
 
     @isTest
@@ -64,7 +70,7 @@ private class Update_Product_from_CourseTest{
     @isTest
     private static void createProductFromProgramPlanTest(){
         System.runAs(currentUser){                 
-            createProgramPlan(opeProgramReqId);
+            createProgramPlan(opeProgProdReqId);
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
             insert accounts;
 
@@ -177,7 +183,7 @@ private class Update_Product_from_CourseTest{
 
             List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(numberOfRecords);
             for(hed__Program_Plan__c programPlan : programPlans){
-                programPlan.RecordTypeId = opeProgramPlanReqId;
+                programPlan.RecordTypeId = opeProgPlanId;
             }
             insert programPlans;                   
         }

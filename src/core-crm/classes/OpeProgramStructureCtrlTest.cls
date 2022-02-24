@@ -13,9 +13,14 @@
 */
 @isTest
 public with sharing class OpeProgramStructureCtrlTest {
+
+    private static string PR_PROGRAM = System.Label.RT_ProductRequest_Program;
+    private static string PR_ACTIVITY = System.Label.RT_ProductRequest_Activity;
+    
+
     private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
-    private static Id opeProgProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get('Program').getRecordTypeId();
-    private static Id opeActProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get('Activity').getRecordTypeId();
+    private static Id opeProgProdReqId =  Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_PROGRAM).getRecordTypeId();
+    private static Id opeActProdReqId =  Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_ACTIVITY).getRecordTypeId();
 
     @isTest
     private static void getRelatedRecordsTest()
@@ -26,7 +31,7 @@ public with sharing class OpeProgramStructureCtrlTest {
 
         List<Product_Request__c> prodRequestOPEProgramRequest;
         prodRequestOPEProgramRequest = TestDataFactory.createTestProductRequestRecords(1);
-        prodRequestOPEProgramRequest[0].Product_Request_Name__c = 'Program';
+        prodRequestOPEProgramRequest[0].Product_Request_Name__c = PR_PROGRAM;
         prodRequestOPEProgramRequest[0].RecordTypeId = opeProgProdReqId;
         insert prodRequestOPEProgramRequest;
 
