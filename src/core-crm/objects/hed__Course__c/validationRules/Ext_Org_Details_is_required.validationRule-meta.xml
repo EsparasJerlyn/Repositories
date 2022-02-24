@@ -17,7 +17,7 @@
    ISPICKVAL( Design_Form_Status__c , &apos;Design Form Received&apos;)
   ) 
  ),
- ISPICKVAL(  Collaboation_External__c , &apos;Yes&apos;),
+ ISPICKVAL(  Collaboration_with_External_Organisation__c , &apos;Yes&apos;),
  ISBLANK(  External_Organisation__c )
 )</errorConditionFormula>
     <errorDisplayField>External_Organisation__c</errorDisplayField>

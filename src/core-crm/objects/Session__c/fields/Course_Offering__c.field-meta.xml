@@ -2,6 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Course_Offering__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
+    <description>The Course Offering this Session relates to</description>
     <externalId>false</externalId>
     <label>Course Offering</label>
     <referenceTo>hed__Course_Offering__c</referenceTo>

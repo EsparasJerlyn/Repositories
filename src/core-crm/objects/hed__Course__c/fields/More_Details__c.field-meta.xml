@@ -3,7 +3,7 @@
     <fullName>More_Details__c</fullName>
     <externalId>false</externalId>
     <label>More Details</label>
-    <length>4000</length>
+    <length>131072</length>
     <trackTrending>false</trackTrending>
     <type>Html</type>
     <visibleLines>25</visibleLines>

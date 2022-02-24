@@ -10,27 +10,32 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>None</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Certificate of Participation</fullName>
             <default>false</default>
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>Cohort_Type__c</picklist>
+        <picklist>Coach_Type__c</picklist>
         <values>
-            <fullName>Group</fullName>
+            <fullName>External Contractor</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Individual</fullName>
+            <fullName>QUT Contractor</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>QUT Sessional Staff</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>QUT Staff</fullName>
             <default>false</default>
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>Collaboation_External__c</picklist>
+        <!-- Renamed from Collaboation_External__c-->
+        <picklist>Collaboration_with_External_Organisation__c</picklist>
         <values>
             <fullName>No</fullName>
             <default>false</default>
@@ -81,53 +86,19 @@
             <fullName>Virtual Classroom</fullName>
             <default>false</default>
         </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Diagnostic_Tool_Selection__c</picklist>
         <values>
-            <fullName>DISC 363 For Leaders</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>DISC Sales Profile</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>DISC Workplace Profile</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>TLC Leadership Check In</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>TLC Leadership Circle Profile</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>TLC Manager Edition</fullName>
+            <fullName>Online</fullName> <!-- Added Value-->
             <default>false</default>
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>Fees_Applicable__c</picklist>
+        <picklist>Design_Form_Status__c</picklist>
         <values>
-            <fullName>No</fullName>
+            <fullName>Design Form Received</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Yes</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Group_Dynamics_Tool__c</picklist>
-        <values>
-            <fullName>Prophet Team Insight Report</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>TLC Collective Leadership Assessment</fullName>
+            <fullName>Design Form Sent</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -147,21 +118,6 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>Module_Grading_Scheme__c</picklist>
-        <values>
-            <fullName>Marks</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Meets Requirements %2F Does not yet Meet Requirement</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Pass %2F Fail</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
         <picklist>Module_Type__c</picklist>
         <values>
             <fullName>Assessment</fullName>
@@ -173,25 +129,6 @@
         </values>
         <values>
             <fullName>Learning and Assessment</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Payment_Options__c</picklist>
-        <values>
-            <fullName>Advantage - Credit</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Pay Later - Invoice</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Pay Now - Credit Card</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Pay Now - PayPal</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -230,32 +167,6 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>Provider__c</picklist>
-        <values>
-            <fullName>QUT</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>QUT and Third Party</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Third Party</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Resources_Required__c</picklist>
-        <values>
-            <fullName>No</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Yes</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
         <picklist>Timeline__c</picklist>
         <values>
             <fullName>Annually</fullName>
@@ -271,6 +182,21 @@
         </values>
         <values>
             <fullName>Weekly</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Type_of_Individual_Coaching__c</picklist>
+        <values>
+            <fullName>Diagnostic Tool Debrief</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Individual</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Triads</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -306,40 +232,21 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>Unit_Mode__c</picklist>
+        <picklist>Unit_Type__c</picklist>
         <values>
-            <fullName>Block</fullName>
+            <fullName>Aliance Unit</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>External</fullName>
+            <fullName>Non-Assessable Unit</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Internal</fullName>
+            <fullName>Thesis</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Online</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Volume_of_time__c</picklist>
-        <values>
-            <fullName>Days</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Hours</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Minutes</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Months</fullName>
+            <fullName>Unit</fullName>
             <default>false</default>
         </values>
     </picklistValues>

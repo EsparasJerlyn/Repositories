@@ -19,14 +19,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Current</fullName>
-            <default>true</default>
-        </values>
-        <values>
-            <fullName>Former</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Not Completed</fullName>
             <default>false</default>
         </values>

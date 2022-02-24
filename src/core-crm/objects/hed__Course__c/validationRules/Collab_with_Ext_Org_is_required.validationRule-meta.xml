@@ -17,8 +17,8 @@
    ISPICKVAL( Design_Form_Status__c , &apos;Design Form Received&apos;)
   ) 
  ),
- ISBLANK( TEXT ( Collaboation_External__c ) )
+ ISBLANK( TEXT ( Collaboration_with_External_Organisation__c ) )
 )</errorConditionFormula>
-    <errorDisplayField>Collaboation_External__c</errorDisplayField>
+    <errorDisplayField>Collaboration_with_External_Organisation__c</errorDisplayField>
     <errorMessage>“Collaboration with External Organisation” is required to update the Product Request Status.</errorMessage>
 </ValidationRule>

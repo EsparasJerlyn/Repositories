@@ -4,8 +4,6 @@
     <externalId>false</externalId>
     <label>Certificate Type</label>
     <required>false</required>
-    <trackFeedHistory>false</trackFeedHistory>
-    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
@@ -18,26 +16,21 @@
                 <label>Certificate of Achievement</label>
             </value>
             <value>
-                <fullName>None</fullName>
-                <default>false</default>
-                <label>None</label>
-            </value>
-            <value>
                 <fullName>Certificate of Participation</fullName>
                 <default>false</default>
                 <label>Certificate of Participation</label>
-            </value>
-            <value>
-                <fullName>QUTeX Digital Badge</fullName>
-                <default>false</default>
-                <label>QUTeX Digital Badge</label>
-                <isActive>false</isActive>
             </value>
             <value>
                 <fullName>Certificate of Completion</fullName>
                 <default>false</default>
                 <isActive>false</isActive>
                 <label>Certificate of Completion</label>
+            </value>
+            <value>
+                <fullName>QUTeX Digital Badge</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>QUTeX Digital Badge</label>
             </value>
         </valueSetDefinition>
     </valueSet>

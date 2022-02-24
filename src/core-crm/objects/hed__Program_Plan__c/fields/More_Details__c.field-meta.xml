@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>More_Details__c</fullName>
+    <description>Additional information about the Program Plan.</description>
     <externalId>false</externalId>
     <label>More Details</label>
-    <length>4000</length>
+    <length>131072</length>
     <trackTrending>false</trackTrending>
     <type>Html</type>
     <visibleLines>25</visibleLines>

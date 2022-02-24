@@ -5,7 +5,7 @@
     <description>This record type will be used to create a Program. This can be a combination of a Unit, a Module, a Short Course, or an Activity.</description>
     <label>Program</label>
     <picklistValues>
-        <picklist>Course_Type__c</picklist>
+        <picklist>Type__c</picklist> <!-- Rename from Course_Type__c-->
         <values>
             <fullName>Associate Degree</fullName>
             <default>false</default>

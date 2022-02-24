@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Core_Concepts__c</fullName>
+    <description>From Courseloop - can&apos;t be overwritten for Curriculum record types</description>
     <externalId>false</externalId>
     <label>Core Concepts</label>
-    <length>2000</length>
+    <length>131072</length>
     <trackTrending>false</trackTrending>
     <type>Html</type>
     <visibleLines>25</visibleLines>

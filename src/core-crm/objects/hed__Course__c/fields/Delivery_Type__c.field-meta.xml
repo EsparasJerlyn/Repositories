@@ -25,6 +25,11 @@
                 <default>false</default>
                 <label>Blended</label>
             </value>
+            <value>
+                <fullName>Online</fullName>
+                <default>false</default>
+                <label>Online</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

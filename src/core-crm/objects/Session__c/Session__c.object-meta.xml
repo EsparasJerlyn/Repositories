@@ -155,9 +155,8 @@
     <externalSharingModel>Private</externalSharingModel>
     <label>Session</label>
     <nameField>
-        <displayFormat>CL-{0000000}</displayFormat>
-        <label>Session ID</label>
-        <type>AutoNumber</type>
+        <label>Session Name</label>
+        <type>Text</type>
     </nameField>
     <pluralLabel>Sessions</pluralLabel>
     <searchLayouts></searchLayouts>

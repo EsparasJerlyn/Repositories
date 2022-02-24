@@ -4,7 +4,7 @@
     <active>true</active>
     <label>OPE Program Request</label>
     <picklistValues>
-        <picklist>Course_Type__c</picklist>
+        <picklist>Type__c</picklist> <!-- Rename from Course_Type__c-->
         <values>
             <fullName>Associate Degree</fullName>
             <default>false</default>

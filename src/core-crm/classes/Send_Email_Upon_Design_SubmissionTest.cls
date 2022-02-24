@@ -103,7 +103,7 @@ private class Send_Email_Upon_Design_SubmissionTest {
                 course[i].Enrolment_Rules__c = 'test';
                 course[i].Participants__c = 'test';
                 course[i].Minimum_Participants__c = 100;
-                course[i].Maximum_Participants__c = 1000;
+                //course[i].Maximum_Participants__c = 1000;
                 course[i].Delivery_Support__c = 'Catering';
                 course[i].Delivery_Comments__c = 'test';
             }
@@ -192,7 +192,7 @@ private class Send_Email_Upon_Design_SubmissionTest {
                 course[i].Content__c = 'test';
                 course[i].Resource_Details__c = 'test';
                 course[i].Participants__c = 'test';
-                course[i].Maximum_Participants__c = 1000;
+                //course[i].Maximum_Participants__c = 1000;
                 course[i].Delivery_Comments__c = 'test';
             }
             insert course;
@@ -281,7 +281,7 @@ private class Send_Email_Upon_Design_SubmissionTest {
                 course[i].Content__c = 'test';
                 course[i].Resource_Details__c = 'test';
                 course[i].Participants__c = 'test';
-                course[i].Maximum_Participants__c = 1000;
+                //course[i].Maximum_Participants__c = 1000;
                 course[i].Delivery_Comments__c = 'test';
             }
             insert course;
