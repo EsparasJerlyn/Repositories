@@ -13,9 +13,12 @@
 */
 @IsTest(SeeAllData = false)
 private class Create_Product_on_Course_InsertTest {
+    
+    private static final String QUTEX = System.Label.QUTeX;
+    private static final String PR_ACTIVITY = System.Label.RT_ProductRequest_Activity;
 
-    private static User currentUser = TestDataFactory.createUserRecords(1, 'QUTeX').iterator().next();
-    private static Id opeActivity = Schema.SObjectType.hed__Course__c.getRecordTypeInfosByDeveloperName().get('Activity').getRecordTypeId();
+    private static User currentUser = TestDataFactory.createUserRecords(1, QUTEX).iterator().next();
+    private static Id opeActivity = Schema.SObjectType.hed__Course__c.getRecordTypeInfosByDeveloperName().get(PR_ACTIVITY).getRecordTypeId();
     
     @IsTest
     private static void createProductOnCourseInsertTest(){

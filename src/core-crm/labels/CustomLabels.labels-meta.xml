@@ -227,4 +227,11 @@
         <shortDescription>RT_ProgramPlan_Program</shortDescription>
         <value>Program</value>
     </labels>
+    <labels>
+        <fullName>QUTeX</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>QUTeX</shortDescription>
+        <value>QUTeX</value>
+    </labels>
 </CustomLabels>
