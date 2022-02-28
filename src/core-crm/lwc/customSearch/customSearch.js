@@ -18,9 +18,12 @@ export default class CustomSearch extends LightningElement {
     @api parentId; //id of related parent
     @api customLookup; //determines if used as a custom lookup (not normal search)
     @api required; //determines if lookup field is required
+    @api itemServerName; //name of record that is saved in database
+    @api itemId; //id of the record selected
+    @api newRecordAvailable; //indicates that creating a new record is available
+    @api objectLabelName;// name of the object to be created for creating new record
 
     searchBoxOpen = false;
-    customSelect = false;
     selectedItem = '';
     
     @api
@@ -40,6 +43,39 @@ export default class CustomSearch extends LightningElement {
         return this.searchItemsToDisplay.length == 0;
     }
 
+    get customSelect(){
+        if((this.itemServerName || this.selectedItemName) && this.customLookup){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    get hasInitialItemName(){
+        return this.itemServerName?true:false;
+    }
+
+    get selectedItemName(){
+        //shows the item name of the record from database
+        if(this.itemServerName){ 
+            return this.itemServerName;
+        //if there is no selected item yet
+        }else if(!this.itemId){
+            return '';
+        //if there is a selcted item, search for the name from the searchitems
+        }else if(this.itemId && this.searchItems.find(item => item.id == this.itemId)){
+            return this.itemId && this.searchItems.find(item => item.id == this.itemId).label;
+        //else empty
+        }else{
+            
+            return '';
+        }
+    }
+
+    get itemUrl(){
+        return '/' + this.itemId;
+    }
+    
     handleSearchClick(){
         this.template.querySelector(".search-results").classList.add("slds-is-open");
         this.template.querySelector(".input-search").classList.add("slds-has-focus");
@@ -71,12 +107,14 @@ export default class CustomSearch extends LightningElement {
 
     handleItemClick(event){
         let itemId = event.currentTarget.dataset.recordid;
-        if(this.customLookup){
-            this.selectedItemName = this.searchItems.find(item => item.id == itemId).label;
-            this.customSelect = true;
-        }
+
+        this.selectedItem = itemId;
+
         const selectionEvent = new CustomEvent('itemselect',{
-            detail: {
+            bubbles    : true,
+            composed   : true,
+            cancelable : true,
+            detail     : {
                 value:itemId,
                 parent:this.parentId
             }
@@ -86,10 +124,31 @@ export default class CustomSearch extends LightningElement {
         this.handleSearchBlur();
     }
 
+    handleNewRecord(){
+        const createEvent = new CustomEvent('create',{
+            bubbles    : true,
+            composed   : true,
+            cancelable : true,
+            detail     : {
+                parent:this.parentId
+            }
+        });
+        this.dispatchEvent(createEvent);
+    }
+    
     handleRemoveSelected(event){
         event.preventDefault();
-        this.customSelect = false;
-        const removeEvent = new CustomEvent('itemremove');
+        let selectedItem = this.itemId?this.itemId:this.selectedItem;
+        const removeEvent = new CustomEvent('itemremove',{
+            bubbles    : true,
+            composed   : true,
+            cancelable : true,
+            detail     : {
+                value:selectedItem
+            }
+        });
         this.dispatchEvent(removeEvent);
+        this.selectedItem = '';
     }
+
 }

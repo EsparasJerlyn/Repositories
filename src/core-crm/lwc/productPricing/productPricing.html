@@ -1,0 +1,45 @@
+<template>
+    <template if:true={isCreateRecord}>
+        <c-custom-create-edit-record 
+            object-api-name={objApiName}
+            pre-populated-fields={prefields}
+            onsave={handleNewPricebookSave}
+            onclose={handleCloseModal}
+        ></c-custom-create-edit-record>
+    </template>
+    <lightning-accordion class="slds-grid slds-gutters slds-clearfix slds-m-horizontal_xx-small" allow-multiple-sections-open active-section-name="product pricing">
+        <lightning-button label="Add Pricing" title="Add Pricing" data-name="Pricing" disabled={disableAddPricing} icon-name="utility:add"
+            onclick={handleAddPriceBooks} variant="brand" class="add-pricing-button">
+        </lightning-button>
+        <lightning-accordion-section name="product pricing" label="Product Pricing" class="accordion-section">   
+            <template if:true={isLoading}>
+                <lightning-spinner class="slds-m-top_large" alternative-text="Loading" size="small"></lightning-spinner>
+            </template> 
+            <template if:false={isLoading}>
+                <template if:true={hasPbEntries}>
+                    <div class="slds-scrollable slds-p-bottom_medium slds-m-vertical_medium">
+                        <c-product-pricing-data-table key-field="id"
+                                data={formattedPricebookEntries}
+                                columns={columns}
+                                onsave={handleSave}
+                                draft-values={draftValues}
+                                onitemselect={handleItemSelect}
+                                onitemremove={handleItemRemove}
+                                oncreate={handleCreate}
+                                errors={errors}
+                                oncancel={handleCancel}
+                                onrowaction={handleRowActions}
+                                oncellchange={handleCellChange}
+                                hide-checkbox-column>
+                        </c-product-pricing-data-table>
+                    </div>                      
+                </template>
+                <template if:false={hasPbEntries}>
+                    <div class="slds-text-align_center slds-p-around_large">
+                        <p><strong>No pricebook entries found. Add by selecting the 'Add Pricing' button.</strong></p>
+                    </div>
+                </template> 
+            </template>                       
+        </lightning-accordion-section>
+    </lightning-accordion>
+</template>

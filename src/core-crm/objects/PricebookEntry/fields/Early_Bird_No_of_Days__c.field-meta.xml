@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Early_Bird_No_of_Days__c</fullName>
+    <externalId>false</externalId>
+    <inlineHelpText>This field will control the visibility of the number of days for each product for the early bird price book entry to be removed before offering on Commerce Cloud.</inlineHelpText>
+    <label>Early Bird No. of Days</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

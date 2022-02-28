@@ -3208,6 +3208,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>PricebookEntry.Early_Bird_No_of_Days__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>PricebookEntry.IsPaid__c</field>
         <readable>true</readable>
     </fieldPermissions>

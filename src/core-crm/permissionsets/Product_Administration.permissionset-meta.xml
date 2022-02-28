@@ -49,6 +49,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>PricebookEntryCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ProductOfferingCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -381,6 +385,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>PricebookEntry.Early_Bird_Expiry_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>PricebookEntry.Early_Bird_No_of_Days__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
