@@ -15,14 +15,18 @@
 private class OPE_Design_Complete_FlowTest{
 
     private static User currentUser = TestDataFactory.createUserRecords(1, 'QUTeX').iterator().next();
-    private static String rtProdRequestMmodule = System.Label.RT_ProductRequest_Module;
-    private static String rtCourseMmodule = System.Label.RT_Course_Module;
-    private static Id opeActProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get('Activity').getRecordTypeId();
-    private static Id opeActivityId = Schema.SObjectType.hed__Course__c.getRecordTypeInfosByDeveloperName().get('Activity').getRecordTypeId();
-    private static Id opeShortProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get('Short_Course').getRecordTypeId();
-    private static Id opeShortCourseId = Schema.SObjectType.hed__Course__c.getRecordTypeInfosByDeveloperName().get('Short_Course').getRecordTypeId();
-    private static Id opeModuleProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(rtProdRequestMmodule).getRecordTypeId();
-    private static Id opeModuleProdId = Schema.SObjectType.hed__Course__c.getRecordTypeInfosByDeveloperName().get(rtCourseMmodule).getRecordTypeId();
+    private static String rtProdRequestActivity = System.Label.RT_ProductRequest_Activity;
+    private static String rtCourseActivity = System.Label.RT_Course_Activity;    
+    private static String rtProdRequestShrtCrs = System.Label.RT_ProductRequest_ShortCourse;
+    private static String rtCourseShrtCrs = System.Label.RT_Course_ShortCourse;
+    private static String rtProdRequestModule = System.Label.RT_ProductRequest_Module;
+    private static String rtCourseModule = System.Label.RT_Course_Module;
+    private static Id opeActProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(rtProdRequestActivity).getRecordTypeId();
+    private static Id opeActivityId = Schema.SObjectType.hed__Course__c.getRecordTypeInfosByDeveloperName().get(rtCourseActivity).getRecordTypeId();
+    private static Id opeShortProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(rtProdRequestShrtCrs).getRecordTypeId();
+    private static Id opeShortCourseId = Schema.SObjectType.hed__Course__c.getRecordTypeInfosByDeveloperName().get(rtCourseShrtCrs).getRecordTypeId();
+    private static Id opeModuleProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(rtProdRequestModule).getRecordTypeId();
+    private static Id opeModuleProdId = Schema.SObjectType.hed__Course__c.getRecordTypeInfosByDeveloperName().get(rtCourseModule).getRecordTypeId();
     private static Integer numberOfRecords = 100;
      
     @isTest

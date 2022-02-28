@@ -14,9 +14,12 @@
 @IsTest(SeeAllData = false)
 private class OPE_Design_Complete_Prog_Plan_FlowTest{
 
+    private static string PR_PROGRAM = System.Label.RT_ProductRequest_Program;    
+    private static string PP_PROGRAM = System.Label.RT_ProgramPlan_Program;
+
     private static User currentUser = TestDataFactory.createUserRecords(1, 'QUTeX').iterator().next();    
-    private static Id opeProgramReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get('Program').getRecordTypeId();
-    private static Id opeProgramPlanReqId = Schema.SObjectType.hed__Program_Plan__c.getRecordTypeInfosByDeveloperName().get('Program').getRecordTypeId();
+    private static Id opeProgramReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_PROGRAM).getRecordTypeId();
+    private static Id opeProgramPlanReqId = Schema.SObjectType.hed__Program_Plan__c.getRecordTypeInfosByDeveloperName().get(PP_PROGRAM).getRecordTypeId();
     private static Integer numberOfRecords = 100;
          
     @isTest
