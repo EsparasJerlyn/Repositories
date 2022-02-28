@@ -1,0 +1,55 @@
+<template>
+    <div if:false={hasAccess} class="slds-text-align_center slds-p-around_large">
+        <p><strong>You don't have access to this feature.</strong></p>
+    </div>
+    <div if:true={hasAccess}>
+        <div if:true={showSection} class="slds-m-vertical_xx-small">
+            <c-product-pricing
+                record-id={recordId}>
+            </c-product-pricing>
+        </div>
+        <div if:true={showSection} class="slds-m-vertical_xx-small">
+            <c-ope-custom-page-layout
+                record-id={recordId}
+                object-api-name={objectApiName}
+                section-label="Payment Options"
+                is-grandchild>
+            </c-ope-custom-page-layout>
+        </div>
+        <div if:true={showSection} class="slds-m-vertical_xx-small">
+            <c-financial-split
+                record-id={recordId}
+                object-api-name={objectApiName}
+            ></c-financial-split>
+        </div>
+        <div if:true={showSection} class="slds-m-vertical_xx-small">
+            <c-ope-custom-page-layout
+                record-id={recordId}
+                object-api-name={objectApiName}
+                section-label="Communication Schedule"
+                grandchild-object="Communication_Schedule__c"
+                is-grandchild>
+            </c-ope-custom-page-layout>
+        </div>
+        <div class="slds-m-vertical_xx-small">
+            <c-ope-custom-page-layout
+                record-id={recordId}
+                object-api-name={objectApiName}
+                section-label="Certificate">
+            </c-ope-custom-page-layout>
+        </div>
+        <div class="slds-m-vertical_xx-small">
+            <c-setup-registration
+                record-id={recordId}
+            ></c-setup-registration>
+        </div>
+        <div class="slds-m-vertical_xx-small">
+            <c-ope-custom-page-layout
+                record-id={recordId}
+                object-api-name={objectApiName}
+                section-label="Decommission Product"
+                is-grandchild>
+            </c-ope-custom-page-layout>
+        </div>
+    </div>
+</template>

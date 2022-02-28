@@ -155,8 +155,9 @@
     <externalSharingModel>Private</externalSharingModel>
     <label>Communication Schedule</label>
     <nameField>
+        <displayFormat>CS-{00000}</displayFormat>
         <label>Communication Schedule Name</label>
-        <type>Text</type>
+        <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Communication Schedules</pluralLabel>
     <searchLayouts></searchLayouts>

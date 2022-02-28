@@ -23,7 +23,7 @@
             <label>Program</label>
         </rules>
     </decisions>
-    <description>Creates related Product record when a Program Plan record is inserted</description>
+    <description>Creates related Product and Communication Schedule records when an OPE Program Plan record is inserted</description>
     <interviewLabel>Create Product on Program Plan Insert {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Create Product on Program Plan Insert</label>
     <processMetadataValues>
@@ -46,10 +46,27 @@
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <recordCreates>
+        <name>Create_Communication_Schedule_Record</name>
+        <label>Create Communication Schedule Record</label>
+        <locationX>50</locationX>
+        <locationY>575</locationY>
+        <inputAssignments>
+            <field>Program_Plan__c</field>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Communication_Schedule__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordCreates>
         <name>Create_Product_Record</name>
         <label>Create Product Record</label>
         <locationX>50</locationX>
         <locationY>455</locationY>
+        <connector>
+            <targetReference>Create_Communication_Schedule_Record</targetReference>
+        </connector>
         <inputAssignments>
             <field>Family</field>
             <value>

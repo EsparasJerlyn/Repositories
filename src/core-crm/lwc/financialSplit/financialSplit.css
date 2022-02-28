@@ -2,38 +2,23 @@
     --sds-c-accordion-summary-color-background : #f3f2f2;
     --sds-c-accordion-color-border : white;
     --sds-c-accordion-heading-font-size : medium;
+    --sds-c-accordion-sizing-border : 5px;
 }
 
-.create-questionnaire-button{
+.new-button{
     position: absolute;
     right: 30px;
-    top: 5px;
+    top: 10px;
     z-index: 2;
     float: right;
 }
 
-.create-questionnaire-help{
+.new-button-help{
     right: 10px;
-}
-
-.black-border{
-    border-color: black;
-}
-
-.small-text{
-    font-size: xx-small;
 }
 
 .max-height{
     max-height: 400px;
-}
-
-.custom-height{
-    height: 275px;
-}
-
-.custom-hover:hover{
-    text-decoration: underline;
 }
 
 ::-webkit-scrollbar {

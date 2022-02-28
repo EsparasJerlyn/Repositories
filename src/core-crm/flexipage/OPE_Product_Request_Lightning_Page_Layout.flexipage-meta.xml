@@ -365,15 +365,7 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentInstanceProperties>
-                    <name>decorate</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>richTextValue</name>
-                    <value>&lt;p&gt;Placeholder&lt;/p&gt;</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:richText</componentName>
+                <componentName>productManagement</componentName>
             </componentInstance>
         </itemInstances>
         <name>Facet-231a1e84-93f0-4fda-a8ed-5b67bf4977ce</name>
@@ -998,15 +990,7 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentInstanceProperties>
-                    <name>decorate</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>richTextValue</name>
-                    <value>&lt;p&gt;Placeholder&lt;/p&gt;</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:richText</componentName>
+                <componentName>productManagement</componentName>
             </componentInstance>
         </itemInstances>
         <name>Facet-1a762d4a-6eb7-4da6-9803-bbf933ac634c</name>
@@ -1651,15 +1635,7 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentInstanceProperties>
-                    <name>decorate</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>richTextValue</name>
-                    <value>&lt;p&gt;Placeholder&lt;/p&gt;</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:richText</componentName>
+                <componentName>productManagement</componentName>
             </componentInstance>
         </itemInstances>
         <name>Facet-eybd5jvdh59</name>
@@ -2321,15 +2297,7 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentInstanceProperties>
-                    <name>decorate</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>richTextValue</name>
-                    <value>&lt;p&gt;Placeholder&lt;/p&gt;</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:richText</componentName>
+                <componentName>productManagement</componentName>
             </componentInstance>
         </itemInstances>
         <name>Facet-32nl88gmo1q</name>

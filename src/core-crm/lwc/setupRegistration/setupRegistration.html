@@ -5,8 +5,8 @@
     </div>
     <lightning-accordion 
         if:true={hasAccess} 
-        class="slds-grid slds-gutters slds-clearfix slds-m-horizontal_xx-small" 
-        active-section-name="setupRegistration"
+        class="slds-clearfix" 
+        active-section-name="registrationCriteria"
         allow-multiple-sections-open >
         <lightning-button
             label="Create Questionnaire"
@@ -23,7 +23,7 @@
             content="You've maximized all questionnaires for this product request."
             class="create-questionnaire-button create-questionnaire-help">
         </lightning-helptext>
-        <lightning-accordion-section name="setupRegistration" label="Setup Registration" class="accordion-section">
+        <lightning-accordion-section name="registrationCriteria" label="Registration Criteria" class="accordion-section">
             <div if:false={showContent} class="slds-text-align_center slds-p-around_large">
                 <p><strong>No questionnaire found. Add by selecting the 'Create Questionnaire' button.</strong></p>
             </div>
@@ -171,27 +171,27 @@
                                             min="1" 
                                             max={selectedQuestionnaire.relatedQuestions.length}>
                                     </div>
-                                    <div class="slds-col slds-size_2-of-12 slds-hyphenate slds-p-around_none slds-border_bottom">
+                                    <div class="slds-col slds-size_2-of-12  slds-p-around_none slds-border_bottom">
                                         <p class="slds-p-right_small slds-p-bottom_small">
                                             {question.label}
                                         </p>
                                     </div>
-                                    <div class="slds-col slds-size_2-of-12 slds-hyphenate slds-p-around_none slds-border_bottom"> 
+                                    <div class="slds-col slds-size_2-of-12  slds-p-around_none slds-border_bottom"> 
                                         <p class="slds-p-right_small slds-p-bottom_small">
                                             {question.type}
                                         </p>
                                     </div>
-                                    <div class="slds-col slds-size_2-of-12 slds-hyphenate slds-p-around_none slds-border_bottom"> 
+                                    <div class="slds-col slds-size_2-of-12  slds-p-around_none slds-border_bottom"> 
                                         <p class="slds-p-right_small slds-p-bottom_small">
                                             {question.dropdownOptions}
                                         </p>
                                     </div>
-                                    <div class="slds-col slds-size_2-of-12 slds-hyphenate slds-p-around_none slds-border_bottom"> 
+                                    <div class="slds-col slds-size_2-of-12  slds-p-around_none slds-border_bottom"> 
                                         <p class="slds-p-right_small slds-p-bottom_small">
                                             {question.mandatoryResponse}
                                         </p>
                                     </div>
-                                    <div class="slds-col slds-size_2-of-12 slds-hyphenate slds-p-around_none slds-border_bottom"> 
+                                    <div class="slds-col slds-size_2-of-12  slds-p-around_none slds-border_bottom"> 
                                         <p class="slds-p-right_small slds-p-bottom_small">
                                             {question.message}
                                         </p>

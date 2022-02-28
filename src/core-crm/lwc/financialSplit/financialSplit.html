@@ -1,0 +1,44 @@
+<template>
+    <lightning-accordion active-section-name="financialSplit" allow-multiple-sections-open>
+        <lightning-button
+            variant="brand"
+            label="New"
+            title="New"
+            icon-name="utility:add"
+            onclick={handleNewFinancialSplit}
+            disabled={disableNewButton}
+            class="new-button">
+        </lightning-button>
+        <lightning-helptext 
+            if:true={disableNewButton}
+            content="Please select Save or Cancel before adding a new record."
+            class="new-button new-button-help">
+        </lightning-helptext>
+        <lightning-accordion-section name="financialSplit" label="Financial Split" class="accordion-section">
+            <div if:false={showFinancialSplitTable} class="slds-text-align_center slds-p-around_large">
+                <p><strong>No financial split found. Add by selecting the 'New' button.</strong></p>
+            </div>
+            <div if:true={showFinancialSplitTable} class="slds-m-vertical_medium slds-scrollable max-height" onitemregister={handleItemRegister}>
+                <div if:true={showPercentError} class="slds-text-color_destructive slds-text-align_center">
+                    <p><strong>Please ensure the percentage split of this product equals to 100%</strong></p>
+                    <p class="slds-m-bottom_small slds-text-body_small">(Current active total: {currentTotal}%)</p>
+                </div>
+                <c-financial-split-data-table
+                    key-field="id"
+                    data={financialSplitData}
+                    columns={financialSplitColumns}
+                    onrowaction={handleDeleteRow}
+                    onsave={handleSaveFinancialSplits}
+                    oncancel={handleCancel}
+                    oncellchange={handleCellChange}
+                    onitemselect={handleItemSelect}
+                    onnameupdate={handleNameUpdate}
+                    draft-values={draftValues}
+                    errors={datatableErrors}
+                    hide-checkbox-column
+                    show-row-number-column
+                ></c-financial-split-data-table>
+            </div>
+        </lightning-accordion-section>
+    </lightning-accordion>
+</template>

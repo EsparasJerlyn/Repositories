@@ -983,6 +983,29 @@ public class TestDataFactory {
     return attendance;
   }
 
+  /**
+   * @description Method for creating test Financial Split records
+   * @param numFinSplits number of financial splits
+   * @param courseId id of related course
+   * @return finSplits - list of financial splits
+   */
+  public static List<Financial_Split__c> createTestFinancialSplitRecords(
+    Integer numFinSplits,
+    Id courseId
+  ) {
+    List<Financial_Split__c> finSplits = new List<Financial_Split__c>();
+
+    for (Integer i = 0 ; i < numFinSplits ; i++) {
+      finSplits.add(
+        new Financial_Split__c(
+          Course__c = courseId
+        )
+      );
+    }
+
+    return finSplits;
+  }
+
 
 }
 
