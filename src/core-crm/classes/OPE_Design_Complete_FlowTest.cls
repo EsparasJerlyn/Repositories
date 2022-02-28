@@ -15,13 +15,14 @@
 private class OPE_Design_Complete_FlowTest{
 
     private static User currentUser = TestDataFactory.createUserRecords(1, 'QUTeX').iterator().next();
-    
+    private static String rtProdRequestMmodule = System.Label.RT_ProductRequest_Module;
+    private static String rtCourseMmodule = System.Label.RT_Course_Module;
     private static Id opeActProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get('Activity').getRecordTypeId();
     private static Id opeActivityId = Schema.SObjectType.hed__Course__c.getRecordTypeInfosByDeveloperName().get('Activity').getRecordTypeId();
     private static Id opeShortProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get('Short_Course').getRecordTypeId();
     private static Id opeShortCourseId = Schema.SObjectType.hed__Course__c.getRecordTypeInfosByDeveloperName().get('Short_Course').getRecordTypeId();
-    private static Id opeSingleProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get('Module').getRecordTypeId();
-    private static Id opeSingleProdId = Schema.SObjectType.hed__Course__c.getRecordTypeInfosByDeveloperName().get('Module').getRecordTypeId();
+    private static Id opeModuleProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(rtProdRequestMmodule).getRecordTypeId();
+    private static Id opeModuleProdId = Schema.SObjectType.hed__Course__c.getRecordTypeInfosByDeveloperName().get(rtCourseMmodule).getRecordTypeId();
     private static Integer numberOfRecords = 100;
      
     @isTest
@@ -102,12 +103,12 @@ private class OPE_Design_Complete_FlowTest{
         System.runAs(currentUser){     
             Integer opeDesignCompleteCounter = 0;            
             hed__Facility__c facility = createFacility();
-            createCourse(opeSingleProdReqId);
+            createCourse(opeModuleProdReqId);
 
             Test.startTest();
             List<hed__Course__c> coursesToUpdate = [SELECT id, OPE_Design_Complete__c FROM hed__Course__c LIMIT 100];
             for(hed__Course__c course : coursesToUpdate){    
-                course.RecordTypeId = opeSingleProdId;
+                course.RecordTypeId = opeModuleProdId;
                 course.Proposal_Title__c = 'test';
                 course.Proposal_Description__c = 'test';
                 course.Risk_and_Opportunities__c = 'test';

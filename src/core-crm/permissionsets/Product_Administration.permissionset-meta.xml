@@ -2276,10 +2276,6 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
-        <recordType>hed__Course__c.Single_Product</recordType>
-        <visible>true</visible>
-    </recordTypeVisibilities>
-    <recordTypeVisibilities>
         <recordType>hed__Course__c.Individual_Coaching</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
@@ -2289,10 +2285,6 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <recordType>hed__Course__c.OPE_Activity</recordType>
-        <visible>true</visible>
-    </recordTypeVisibilities>
-    <recordTypeVisibilities>
-        <recordType>hed__Course__c.Single_Product</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>

@@ -45,10 +45,6 @@
         <label></label>
         <name>Short_Course</name>
     </recordTypes>
-    <recordTypes>
-        <label></label>
-        <name>Single_Product</name>
-    </recordTypes>
     <startsWith>Consonant</startsWith>
     <validationRules>
         <errorMessage></errorMessage>

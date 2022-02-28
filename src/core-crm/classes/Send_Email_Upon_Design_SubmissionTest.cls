@@ -250,7 +250,7 @@ private class Send_Email_Upon_Design_SubmissionTest {
             List<hed__Course__c> course = TestDataFactory.createTestCourseRecords(numberOfRecords, acc[0].Id, pr[0].Id);
             for(Integer i = 0 ; i < course.size() ; i++){
                 course[i].RecordTypeId = opeSingleProdId;
-                course[i].hed__Course_ID__c = 'Single Product Test';
+                course[i].hed__Course_ID__c = 'Module Product Test';
                 course[i].hed__Account__c = acc[0].Id;
                 course[i].Proposal_Description__c = 'test1';
                 course[i].Curriculum_Leads__c = acc[0].Id;
@@ -258,7 +258,7 @@ private class Send_Email_Upon_Design_SubmissionTest {
                 course[i].Delivery_Type__c = 'Blended';
                 course[i].Location_Details__c = 'test1';
                 course[i].Name = 'test1';
-                course[i].Proposal_Title__c = 'Single Product Proposal Title Test';
+                course[i].Proposal_Title__c = 'Module Product Proposal Title Test';
                 course[i].Risk_and_Opportunities__c = 'test1';
                 course[i].Previously_Developed_Content__c = 'Yes';
                 course[i].Actual_Volume__c = 12.00;
