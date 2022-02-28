@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>OPE_Objects_w_o_RT</fullName>
+    <columns>Order__c</columns>
+    <columns>MasterLabel</columns>
+    <columns>DeveloperName</columns>
+    <columns>Description__c</columns>
+    <columns>Object_Type__c</columns>
+    <columns>Parent_Record_Type__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>DeveloperName</field>
+        <operation>contains</operation>
+        <value>All</value>
+    </filters>
+    <filters>
+        <field>For_OPE__c</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
+    <label>OPE - Objects w/o RT</label>
+</ListView>

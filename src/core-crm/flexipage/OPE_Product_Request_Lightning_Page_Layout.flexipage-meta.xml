@@ -65,7 +65,7 @@
                     <name>tab</name>
                     <value>{!$Label.PL_ProductRequest_Design}</value>
                 </componentInstanceProperties>
-                <componentName>opeCustomPageLayout</componentName>
+                <componentName>customLayoutHandler</componentName>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -335,7 +335,7 @@
                     <name>tab</name>
                     <value>{!$Label.PL_ProductRequest_Design}</value>
                 </componentInstanceProperties>
-                <componentName>opeCustomPageLayout</componentName>
+                <componentName>customLayoutHandler</componentName>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -659,7 +659,7 @@
                     <name>tab</name>
                     <value>{!$Label.PL_ProductRequest_Design}</value>
                 </componentInstanceProperties>
-                <componentName>opeCustomPageLayout</componentName>
+                <componentName>customLayoutHandler</componentName>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -684,7 +684,7 @@
                     <name>tab</name>
                     <value>{!$Label.PL_ProductRequest_Release}</value>
                 </componentInstanceProperties>
-                <componentName>opeCustomPageLayout</componentName>
+                <componentName>customLayoutHandler</componentName>
             </componentInstance>
         </itemInstances>
         <name>Facet-vtwjiusufw9</name>
@@ -955,7 +955,7 @@
                     <name>tab</name>
                     <value>{!$Label.PL_ProductRequest_Design}</value>
                 </componentInstanceProperties>
-                <componentName>opeCustomPageLayout</componentName>
+                <componentName>customLayoutHandler</componentName>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -980,7 +980,7 @@
                     <name>tab</name>
                     <value>{!$Label.PL_ProductRequest_Release}</value>
                 </componentInstanceProperties>
-                <componentName>opeCustomPageLayout</componentName>
+                <componentName>customLayoutHandler</componentName>
             </componentInstance>
         </itemInstances>
         <name>Facet-kay97k53o8</name>
@@ -1303,7 +1303,7 @@
                     <name>tab</name>
                     <value>{!$Label.PL_ProductRequest_Design}</value>
                 </componentInstanceProperties>
-                <componentName>opeCustomPageLayout</componentName>
+                <componentName>customLayoutHandler</componentName>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1328,7 +1328,7 @@
                     <name>tab</name>
                     <value>{!$Label.PL_ProductRequest_Release}</value>
                 </componentInstanceProperties>
-                <componentName>opeCustomPageLayout</componentName>
+                <componentName>customLayoutHandler</componentName>
             </componentInstance>
         </itemInstances>
         <name>Facet-h8wi3mzaleq</name>
@@ -1599,7 +1599,7 @@
                     <name>tab</name>
                     <value>{!$Label.PL_ProductRequest_Design}</value>
                 </componentInstanceProperties>
-                <componentName>opeCustomPageLayout</componentName>
+                <componentName>customLayoutHandler</componentName>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1624,7 +1624,7 @@
                     <name>tab</name>
                     <value>{!$Label.PL_ProductRequest_Release}</value>
                 </componentInstanceProperties>
-                <componentName>opeCustomPageLayout</componentName>
+                <componentName>customLayoutHandler</componentName>
             </componentInstance>
         </itemInstances>
         <name>Facet-5k0xt3mru5m</name>
@@ -1973,7 +1973,7 @@
                     <name>tab</name>
                     <value>{!$Label.PL_ProductRequest_Design}</value>
                 </componentInstanceProperties>
-                <componentName>opeCustomPageLayout</componentName>
+                <componentName>customLayoutHandler</componentName>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1998,7 +1998,7 @@
                     <name>tab</name>
                     <value>{!$Label.PL_ProductRequest_Release}</value>
                 </componentInstanceProperties>
-                <componentName>opeCustomPageLayout</componentName>
+                <componentName>customLayoutHandler</componentName>
             </componentInstance>
         </itemInstances>
         <name>Facet-9p9aeffvbsa</name>
@@ -2269,7 +2269,7 @@
                     <name>tab</name>
                     <value>{!$Label.PL_ProductRequest_Design}</value>
                 </componentInstanceProperties>
-                <componentName>opeCustomPageLayout</componentName>
+                <componentName>customLayoutHandler</componentName>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -2294,7 +2294,7 @@
                     <name>tab</name>
                     <value>{!$Label.PL_ProductRequest_Release}</value>
                 </componentInstanceProperties>
-                <componentName>opeCustomPageLayout</componentName>
+                <componentName>customLayoutHandler</componentName>
             </componentInstance>
         </itemInstances>
         <name>Facet-bvtf8wb7sxc</name>

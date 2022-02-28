@@ -1,5 +1,5 @@
 /**
- * @description A custom LWC for handling the customPageLayout LWC 
+ * @description A custom LWC for handling the customPageLayout/customSectionLayout LWC 
  *              and assigning values to display the correct layout
  *
  * @author Accenture
@@ -65,7 +65,7 @@ export default class OpeCustomPageLayout extends LightningElement {
 
     @track layoutInfo = {};
     hasLoaded = false;
-    isOpeProgramRequest = false;
+    isProgram = false;
 
     /**
      * gets parent record details
@@ -73,9 +73,9 @@ export default class OpeCustomPageLayout extends LightningElement {
     @wire(getRecord, { recordId: '$recordId', fields: [PR_RT_DEV_NAME] })
     handleParentRecord(result){
         if(result.data){
-            this.isOpeProgramRequest = getFieldValue(result.data,PR_RT_DEV_NAME) == RT_ProductRequest_Program;
+            this.isProgram = getFieldValue(result.data,PR_RT_DEV_NAME) == RT_ProductRequest_Program;
             if(this.tab == PL_ProductRequest_Design){
-                //design tab includes a mark as complete button and record types
+                //design tab includes a mark as complete button
                 //only 1 level of traversal is needed (e.g. Course/Program Plan -> Product Request)
                 this.assignLevelOneOverwrite();
             }else if(this.tab == PL_ProductRequest_Release){
@@ -100,25 +100,24 @@ export default class OpeCustomPageLayout extends LightningElement {
     }
 
     assignLevelOne(){
-        this.layoutInfo = this.isOpeProgramRequest ? LEVEL_ONE.PROGRAM_PLAN : LEVEL_ONE.COURSE;
+        this.layoutInfo = this.isProgram ? LEVEL_ONE.PROGRAM_PLAN : LEVEL_ONE.COURSE;
     }
 
     assignLevelOneOverwrite(){
-        this.layoutInfo = this.isOpeProgramRequest ? this.addBooleanKeys(LEVEL_ONE.PROGRAM_PLAN) : this.addBooleanKeys(LEVEL_ONE.COURSE);
+        this.layoutInfo = this.isProgram ? this.addBooleanKeys(LEVEL_ONE.PROGRAM_PLAN) : this.addBooleanKeys(LEVEL_ONE.COURSE);
     }
 
     assignLevelTwo(){
-        this.layoutInfo = this.isOpeProgramRequest ? LEVEL_TWO.PROGRAM_PLAN : LEVEL_TWO.COURSE;
+        this.layoutInfo = this.isProgram ? LEVEL_TWO.PROGRAM_PLAN : LEVEL_TWO.COURSE;
     }
 
     assignLevelTwoOverwrite(){
-        this.layoutInfo = this.isOpeProgramRequest ? this.overwriteChild(LEVEL_TWO.PROGRAM_PLAN) : this.overwriteChild(LEVEL_TWO.COURSE);
+        this.layoutInfo = this.isProgram ? this.overwriteChild(LEVEL_TWO.PROGRAM_PLAN) : this.overwriteChild(LEVEL_TWO.COURSE);
     }
 
     addBooleanKeys(info){
         return {
             ...info,
-            recordType : true,
             markAsComplete : true
         };
     }

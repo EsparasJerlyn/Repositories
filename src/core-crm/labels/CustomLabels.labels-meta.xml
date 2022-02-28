@@ -32,6 +32,14 @@
         <value>PLEASE COMPLETE THE RELEASE STAGE OF THIS PRODUCT &lt;br&gt; &lt;div class=&apos;slds-align_absolute-center&apos;&gt; ON YOUR PARENT PROGRAM PRODUCT REQUEST &lt;/div&gt;</value>
     </labels>
     <labels>
+        <fullName>LWC_Error_NoAccess</fullName>
+        <categories>LWC,Error</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>LWC_Error_NoAccess</shortDescription>
+        <value>You don&apos;t have access to this feature.</value>
+    </labels>
+    <labels>
         <fullName>LWC_Error_ProgramRequest_ChildrenNotInReleaseStage</fullName>
         <categories>LWC,Error</categories>
         <language>en_US</language>
@@ -72,6 +80,62 @@
         <value>Please create first the standard pricing before creating pricing for non standard pricebooks.</value>
     </labels>
     <labels>
+        <fullName>LWC_List_CCEChildFilter</fullName>
+        <categories>LWC,List</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>LWC_List_CCEChildFilter</shortDescription>
+        <value>Coaching Request,Diagnostic Tool Request,Educational Consultancy Request,Activity</value>
+    </labels>
+    <labels>
+        <fullName>LWC_List_CCEParentFilter</fullName>
+        <categories>LWC,List</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>LWC_List_CCEParentFilter</shortDescription>
+        <value>Program,Stand-Alone Unit / Module Request,Coaching Request,Educational Consultancy Request,Activity,Corporate Bundle Request</value>
+    </labels>
+    <labels>
+        <fullName>LWC_List_OPEChildFilter</fullName>
+        <categories>LWC,List</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>LWC_List_OPEChildFilter</shortDescription>
+        <value>Unit,Module,Short Course,Activity</value>
+    </labels>
+    <labels>
+        <fullName>LWC_List_OPEParentFilter</fullName>
+        <categories>LWC,List</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>LWC_List_OPEParentFilter</shortDescription>
+        <value>Program,Unit,Module,Short Course,Activity</value>
+    </labels>
+    <labels>
+        <fullName>LWC_Note_CourseCompletion</fullName>
+        <categories>LWC,Note</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>LWC_Note_CourseCompletion</shortDescription>
+        <value>Note: Please input required fields for course to mark as complete.</value>
+    </labels>
+    <labels>
+        <fullName>LWC_Note_ProgramPlanCompletion</fullName>
+        <categories>LWC,Note</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>LWC_Note_ProgramPlanCompletion</shortDescription>
+        <value>Note: Please input required fields for program plan to mark as complete.</value>
+    </labels>
+    <labels>
+        <fullName>LWC_Toast_DesignComplete</fullName>
+        <categories>LWC,Toast</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>LWC_Toast_DesignComplete</shortDescription>
+        <value>Design marked as complete.</value>
+    </labels>
+    <labels>
         <fullName>Minimum_Search_Term_Length</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -110,34 +174,18 @@
         <value>0 0 0 ? * MON-FRI</value>
     </labels>
     <labels>
+        <fullName>QUTeX</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>QUTeX</shortDescription>
+        <value>QUTeX</value>
+    </labels>
+    <labels>
         <fullName>QUTeX_Email</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>QUT Email used in flows</shortDescription>
         <value>test-qutex@qut.edu.au</value>
-    </labels>
-    <labels>
-        <fullName>Search_Delay</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Search Delay</shortDescription>
-        <value>300</value>
-    </labels>
-    <labels>
-        <fullName>Tab_ProductRequest_ProductManagement</fullName>
-        <categories>Tab,ProductRequest</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Tab_ProductRequest_ProductManagement</shortDescription>
-        <value>Product Management</value>
-    </labels>
-    <labels>
-        <fullName>Tab_ProductRequest_ProductOffering</fullName>
-        <categories>Tab,ProductRequest</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Tab_ProductRequest_ProductOffering</shortDescription>
-        <value>Product Offering</value>
     </labels>
     <labels>
         <fullName>RT_Course_Activity</fullName>
@@ -228,10 +276,26 @@
         <value>Program</value>
     </labels>
     <labels>
-        <fullName>QUTeX</fullName>
+        <fullName>Search_Delay</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>QUTeX</shortDescription>
-        <value>QUTeX</value>
+        <shortDescription>Search Delay</shortDescription>
+        <value>300</value>
+    </labels>
+    <labels>
+        <fullName>Tab_ProductRequest_ProductManagement</fullName>
+        <categories>Tab,ProductRequest</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Tab_ProductRequest_ProductManagement</shortDescription>
+        <value>Product Management</value>
+    </labels>
+    <labels>
+        <fullName>Tab_ProductRequest_ProductOffering</fullName>
+        <categories>Tab,ProductRequest</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Tab_ProductRequest_ProductOffering</shortDescription>
+        <value>Product Offering</value>
     </labels>
 </CustomLabels>

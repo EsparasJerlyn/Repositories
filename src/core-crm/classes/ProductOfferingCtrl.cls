@@ -139,7 +139,7 @@ public with sharing class ProductOfferingCtrl {
         Map<String,String> parentInfo,
         Map<String,String> childInfo
     ){
-        Id parentId = CustomPageLayoutCtrl.getChildRecordId(
+        Id parentId = CustomLayoutCtrl.getChildRecordId(
             productRequestId,
             parentInfo.get('field'),
             parentInfo.get('objectType'),

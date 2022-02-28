@@ -14,6 +14,31 @@ public with sharing class AddProductRequestCtrl {
 
     /**
      * @description get record type settings and field layout settings 
+     * @param objectType - object api name of the current record the lwc is at
+     * @param filter - id of record types to query
+     * @return list of record type mapping
+     */
+    @AuraEnabled(cacheable=true)
+    public static List<Map<String,String>> getRecordTypes(String objectType, List<Id> filter){
+        List<Map<String,String>> recordTypeMap = new List<Map<String,String>>();
+        
+        for(RecordType rec : [
+            SELECT Id, Name, Description
+            FROM RecordType
+            WHERE SobjectType =: objectType
+            AND Id IN :filter
+        ]){
+            recordTypeMap.add(new Map<String,String>{
+                'label' => rec.Name,
+                'description' => rec.Description,
+                'value' => rec.Id
+            });
+        }
+        return recordTypeMap;
+    }   
+
+    /**
+     * @description get record type settings and field layout settings 
      * @param objectString - object api name of the current record the lwc is at
      * @return metadata mapping
      */

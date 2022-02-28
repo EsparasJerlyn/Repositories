@@ -1,7 +1,7 @@
 /**
- * @description Test class for CustomPageLayoutCtrl
+ * @description Test class for CustomLayoutCtrl
  *
- * @see CustomPageLayoutCtrlTest.cls
+ * @see CustomLayoutCtrl
  * 
  * @author Accenture
  *      
@@ -11,7 +11,7 @@
       | angelika.j.s.galang       | January 26, 2022      | DEPP-838,1299,1407   | Created file                                           |                           | 
 */
 @IsTest(SeeAllData = false)
-private class CustomPageLayoutCtrlTest {
+private class CustomLayoutCtrlTest {
     
     private static final String COURSE_API_NAME = hed__Course__c.SObjectType.getDescribe().getLocalName();
     private static final String COURSE_PR_FIELD = 'ProductRequestID__c';
@@ -37,7 +37,7 @@ private class CustomPageLayoutCtrlTest {
             Product_Request__c pr = [SELECT Id FROM Product_Request__c LIMIT 1];
             hed__Course__c course = [SELECT Id FROM hed__Course__c LIMIT 1];
             Test.startTest();
-            Id courseId = CustomPageLayoutCtrl.getChildRecordId(pr?.Id, COURSE_PR_FIELD, COURSE_API_NAME, new Map<String,String>());
+            Id courseId = CustomLayoutCtrl.getChildRecordId(pr?.Id, COURSE_PR_FIELD, COURSE_API_NAME, new Map<String,String>());
             Test.stopTest();
             System.assertEquals(course?.Id, courseId, 'Course Id did not match expected.');
         }
@@ -52,7 +52,7 @@ private class CustomPageLayoutCtrlTest {
             grandChild.put('objectApiName',PRODUCT_API_NAME);
             grandChild.put('conditionField',PRODUCT_COURSE_FIELD);
             Test.startTest();
-            Id productId = CustomPageLayoutCtrl.getChildRecordId(pr?.Id, COURSE_PR_FIELD, COURSE_API_NAME, grandChild);
+            Id productId = CustomLayoutCtrl.getChildRecordId(pr?.Id, COURSE_PR_FIELD, COURSE_API_NAME, grandChild);
             Test.stopTest();
             System.assertEquals(product?.Id, productId, 'Product Id did not match expected.');
         }
@@ -62,7 +62,7 @@ private class CustomPageLayoutCtrlTest {
     private static void getLayoutMappingTest(){
         System.runAs(currentUser){
             Test.startTest();
-            List<Field_Layout_Setting__mdt> fieldLayoutList = CustomPageLayoutCtrl.getLayoutMapping(COURSE_API_NAME,OPE_ACTIVITY,true);
+            List<Field_Layout_Setting__mdt> fieldLayoutList = CustomLayoutCtrl.getLayoutMapping(COURSE_API_NAME,OPE_ACTIVITY,true);
             Test.stopTest();
             System.assert(fieldLayoutList.size() == 3, 'Field Layout Setting list did not match expected.');
         }

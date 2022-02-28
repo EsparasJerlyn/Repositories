@@ -13,8 +13,12 @@
 */
 @isTest(SeeAllData=false)
 private class AddProductRequestCtrlTest {
-    private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
 
+    private static final String PRODUCT_REQ_API_NAME = Product_Request__c.SObjectType.getDescribe().getLocalName();
+    private static final String ACTIVITY = System.Label.RT_ProductRequest_Activity;
+    private static final Id ACTIVITY_ID = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(ACTIVITY).getRecordTypeId();
+    private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
+    
     static testMethod void testGetFieldLayoutSettings() {
         Test.startTest();
         System.runAs(currentUser){
@@ -38,10 +42,8 @@ private class AddProductRequestCtrlTest {
         Test.stopTest();
     }
 
-
     @isTest
-    private static void getQUTeXAccountId()
-    {
+    private static void testGetQUTeXAccountId(){
         Test.startTest();
         System.runAs(currentUser){
            List<Account> acc= TestDataFactory.createTestAccountRecords(1);
@@ -54,5 +56,13 @@ private class AddProductRequestCtrlTest {
         Test.stopTest();
     }
 
-
+    @isTest
+    private static void testGetRecordTypes(){
+        System.runAs(currentUser){
+            Test.startTest();
+            List<Map<String,String>> recordTypeMap = AddProductRequestCtrl.getRecordTypes(PRODUCT_REQ_API_NAME,new List<Id>{ACTIVITY_ID});
+            Test.stopTest();
+            System.assertEquals(ACTIVITY, recordTypeMap[0].get('label'), 'Record type did not match as expected');
+        }
+    }
 }

@@ -17,16 +17,22 @@ import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
 import { refreshApex } from '@salesforce/apex';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import LWC_Error_General from '@salesforce/label/c.LWC_Error_General';
+import LWC_List_CCEParentFilter from '@salesforce/label/c.LWC_List_CCEParentFilter';
+import LWC_List_CCEChildFilter from '@salesforce/label/c.LWC_List_CCEChildFilter';
+import LWC_List_OPEParentFilter from '@salesforce/label/c.LWC_List_OPEParentFilter';
+import LWC_List_OPEChildFilter from '@salesforce/label/c.LWC_List_OPEChildFilter';
+import RT_ProductSpecification_OPEProgramSpecification from '@salesforce/label/c.RT_ProductSpecification_OPEProgramSpecification';
+import RT_ProductRequest_Program from '@salesforce/label/c.RT_ProductRequest_Program';
 import getProductRequests from '@salesforce/apex/ProductRequestListCtrl.getProductRequests';
 import PS_RECORD_TYPE from '@salesforce/schema/Product_Specification__c.RecordType.DeveloperName';
 import PR_PARENT from '@salesforce/schema/Product_Request__c.Parent_Product_Request__c';
 import PS_PARENT from '@salesforce/schema/Product_Request__c.Product_Specification__c';
 
-const PS_FILTER = ['Diagnostic Tool Request'];
-const PR_FILTER = ['Program Request','Stand-Alone Unit / Module Request','Corporate Bundle Request'];
-const PS_OPE_FILTER = ['Program','Unit','Module','Short Course','Activity'];
-const PR_OPE_FILTER = PS_OPE_FILTER.slice(1);
-const OPE_RECTYPE = 'OPE_Program_Specification';
+const COMMA = ',';
+const PS_FILTER = LWC_List_CCEParentFilter.split(COMMA);
+const PR_FILTER = LWC_List_CCEChildFilter.split(COMMA);
+const PS_OPE_FILTER = LWC_List_OPEParentFilter.split(COMMA);
+const PR_OPE_FILTER = LWC_List_OPEChildFilter.split(COMMA);
 const ACCORDION_SECTION = 'Product Requests';
 const OPE_ACCORDION_SECTION = 'Add Products';
 
@@ -110,7 +116,7 @@ export default class ProductRequestList extends LightningElement {
     }
 
     get isProdSpecOPE(){
-        return this.prodSpecRecordType == OPE_RECTYPE;
+        return this.prodSpecRecordType == RT_ProductSpecification_OPEProgramSpecification;
     }
 
 
@@ -167,9 +173,7 @@ export default class ProductRequestList extends LightningElement {
             newItem.ownerUrl = '/' + item.OwnerId;
             newItem.addChildButton = 
                 !isChild && 
-                item.RecordType.DeveloperName === 'Program' &&
-                (item.Product_Specification__r.RecordType.DeveloperName === 'CCE_Program_Specification' || 
-                item.Product_Specification__r.RecordType.DeveloperName === 'OPE_Program_Specification') 
+                item.RecordType.DeveloperName === RT_ProductRequest_Program 
                 ? 'slds-show' : 'slds-hide';
 
             return newItem;

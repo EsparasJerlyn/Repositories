@@ -1,7 +1,8 @@
 /**
- * @description Controller class for Custom Page Layout LWC
+ * @description Controller class for Custom Page and Section Layouts LWC
  *
  * @see ../lwc/customPageLayout
+ * @see ../lwc/customSectionLayout
  * 
  * @author Accenture
  *      
@@ -11,7 +12,7 @@
       | angelika.j.s.galang       | January 26, 2022      | DEPP-838,1299,1407   | Created file                                           |
       |                           |                       |                      |                                                        | 
 */
-public with sharing class CustomPageLayoutCtrl {
+public with sharing class CustomLayoutCtrl {
 
     private static final String ID = 'Id';
     
