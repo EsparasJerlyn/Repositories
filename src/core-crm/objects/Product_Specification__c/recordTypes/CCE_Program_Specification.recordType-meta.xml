@@ -138,6 +138,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Module</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Program</fullName>
             <default>false</default>
         </values>
@@ -146,7 +150,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Single Product</fullName>
+            <fullName>Unit</fullName>
             <default>false</default>
         </values>
     </picklistValues>

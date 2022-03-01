@@ -67,7 +67,7 @@ public with sharing class Prod_Specs_Send_EmailTest {
                 uProdSpecs.Market_Need__c = 'Yes';
                 uProdSpecs.QUTeX_Capacity__c = 'Yes';
                 uProdSpecs.QUT_Faculty_Capacity__c = 'Yes';
-                uProdSpecs.Product_Type__c = 'Single Product';
+                uProdSpecs.Product_Type__c = 'Unit';
                 uProdSpecs.Product_Subtype__c = 'Short Course';
                 getUpdatedProductSpecsRecord.add(uProdSpecs);
             }

@@ -13,9 +13,19 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Single Product</fullName>
+                <fullName>Program</fullName>
                 <default>false</default>
-                <label>Single Product</label>
+                <label>Program</label>
+            </value>
+            <value>
+                <fullName>Unit</fullName>
+                <default>false</default>
+                <label>Unit</label>
+            </value>
+            <value>
+                <fullName>Module</fullName>
+                <default>false</default>
+                <label>Module</label>
             </value>
             <value>
                 <fullName>Short Course</fullName>
@@ -23,14 +33,15 @@
                 <label>Short Course</label>
             </value>
             <value>
-                <fullName>Program</fullName>
-                <default>false</default>
-                <label>Program</label>
-            </value>
-            <value>
                 <fullName>Activity</fullName>
                 <default>false</default>
                 <label>Activity</label>
+            </value>
+            <value>
+                <fullName>Single Product</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Single Product</label>
             </value>
         </valueSetDefinition>
     </valueSet>
