@@ -39,14 +39,13 @@ private with sharing class Send_Email_Upon_Idea_ReceivedTest {
             for(Integer i =0;i<prodSpecList.size();i++){
                 prodSpecList[i].RecordTypeId = opeProdSpecId;
                 prodSpecList[i].Stage__c = 'Idea';
-                prodSpecList[i].Status__c = 'Idea Sent';
                 prodSpecList[i].Requestor_Name__c = conList[i].Id;
             }
             insert prodSpecList;
 
             Test.startTest();
             for(Product_Specification__c ps : prodSpecList){
-                ps.Status__c = 'Idea Received';
+                ps.Status__c = 'New';
             }
             update prodSpecList;
             Test.stopTest();

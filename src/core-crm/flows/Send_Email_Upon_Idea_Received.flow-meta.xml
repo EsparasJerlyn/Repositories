@@ -83,7 +83,7 @@
                 <leftValueReference>$Record.Status__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>Idea Received</stringValue>
+                    <stringValue>New</stringValue>
                 </rightValue>
             </conditions>
             <conditions>
@@ -217,7 +217,7 @@
             <field>Status__c</field>
             <operator>EqualTo</operator>
             <value>
-                <stringValue>Idea Received</stringValue>
+                <stringValue>New</stringValue>
             </value>
         </filters>
         <filters>
