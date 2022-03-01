@@ -8,13 +8,16 @@
  *    | Developer                 | Date                  | JIRA                 | Change Summary               |
       |---------------------------|-----------------------|----------------------|------------------------------|
       | eccarius.karl.munoz       | February 08, 2022     | DEPP-1483            | Created file                 | 
+      | eccarius.karl.munoz       | February 28, 2022     | DEPP-1819            | Removed handling for Program | 
+      |                           |                       |                      | Plan due to program offering | 
+      |                           |                       |                      | id removal.                  | 
       |                           |                       |                      |                              | 
  */
 public with sharing class ManageApplicationSectionCtrl {
 
-     private static Id studentRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get('Student').getRecordTypeId();
-     private static Id programPlanRecType = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get('Program').getRecordTypeId();
-
+     private static string studentRT = System.Label.RT_CourseConnection_Student;
+     private static Id studentRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(studentRT).getRecordTypeId();
+     
      /**
       * @description Retrieves list of Application details of students
       * @param prodReqId - Record ID from record page
@@ -23,12 +26,8 @@ public with sharing class ManageApplicationSectionCtrl {
      @AuraEnabled(cacheable=true)
      public static List<ManageApplicationDetails> getStudentApplications(String prodReqId){
           List<ManageApplicationDetails> response = new List<ManageApplicationDetails>();
-          Product_Request__c productRequest = [SELECT RecordTypeId FROM Product_Request__c WHERE Id =: prodReqId LIMIT 1];       
-          if(productRequest.RecordTypeId != programPlanRecType){
-               response = getNonProgPlanApplications(prodReqId);
-          }else{
-               response = getProgPlanApplications(prodReqId);
-          }   
+          Product_Request__c productRequest = [SELECT RecordTypeId FROM Product_Request__c WHERE Id =: prodReqId LIMIT 1];                 
+          response = getNonProgPlanApplications(prodReqId);
           return response;
      }
 
@@ -54,48 +53,6 @@ public with sharing class ManageApplicationSectionCtrl {
                SELECT Id, hed__Contact__c, hed__Contact__r.Name 
                  FROM hed__Course_Enrollment__c 
                 WHERE hed__Course_Offering__c =: courseOfferingId AND RecordTypeId =: studentRecTypeId
-          ];
-
-          for(hed__Course_Enrollment__c student : courseConnections){
-               for(Questionnaire_Response_Summary__c question : questionnaireResponseList){
-                    if(question.Contact__c == student.hed__Contact__c){
-                         ManageApplicationDetails appDetails = new ManageApplicationDetails();
-                         appDetails.id = question.Id;
-                         appDetails.contactFullName = student.hed__Contact__r.Name;
-                         appDetails.applicationStatus = question.Application_Status__c;
-                         appDetails.reasonForRejection = question.Reason_for_Rejection__c;
-                         if(question.Questionnaire__r.Questionnaire_Type__c == 'Application Questions'){
-                              appDetails.applicationURL = '/' + question.Id;
-                              appDetails.applicationName = question.Name;
-                         }                         
-                         response.add(appDetails);
-                    }                    
-               }
-          }
-          return response;
-     }
-
-     /**
-      * @description Retrieves list of Application details of students for Program Plan
-      * @param prodReqId - Record ID from record page
-      * @return List of ManageApplicationDetails
-      */
-     private static List<ManageApplicationDetails> getProgPlanApplications(String prodReqId){
-          List<ManageApplicationDetails> response = new List<ManageApplicationDetails>();
-          Id programOfferingId = [SELECT Id FROM Program_Offering__c WHERE hed_Program_Plan__c IN (
-               SELECT Id FROM hed__Program_Plan__c WHERE Product_Request__c =: prodReqId) LIMIT 1]?.Id;
-          if(programOfferingId == null){
-               return new List<ManageApplicationDetails>();
-          }     
-          List<Questionnaire_Response_Summary__c> questionnaireResponseList = [
-               SELECT Id, Name, Contact__c, Questionnaire__r.Questionnaire_Type__c, Application_Status__c, Reason_for_Rejection__c 
-                 FROM Questionnaire_Response_Summary__c 
-                WHERE Program_Offering__c =: programOfferingId
-          ];
-          List<hed__Course_Enrollment__c > courseConnections = [
-               SELECT Id, hed__Contact__c, hed__Contact__r.Name 
-                 FROM hed__Course_Enrollment__c 
-                WHERE Program_Offering__c =: programOfferingId AND RecordTypeId =: studentRecTypeId
           ];
 
           for(hed__Course_Enrollment__c student : courseConnections){

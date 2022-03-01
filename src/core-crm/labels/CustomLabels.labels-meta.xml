@@ -298,4 +298,12 @@
         <shortDescription>Tab_ProductRequest_ProductOffering</shortDescription>
         <value>Product Offering</value>
     </labels>
+    <labels>
+        <fullName>RT_CourseConnection_Student</fullName>
+        <categories>RecordType,CourseConnection</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RT_CourseConnection_Student</shortDescription>
+        <value>Student</value>
+    </labels>
 </CustomLabels>

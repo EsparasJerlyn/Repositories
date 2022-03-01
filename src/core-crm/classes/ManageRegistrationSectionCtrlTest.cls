@@ -8,15 +8,19 @@
  *    | Developer                 | Date                  | JIRA                 | Change Summary               |
       |---------------------------|-----------------------|----------------------|------------------------------|
       | eccarius.karl.munoz       | February 08, 2022     | DEPP-1482            | Created file                 | 
-      |                           |                       |                      |                              | 
+      | eccarius.karl.munoz       | February 28, 2022     | DEPP-1819            | Removed handling for Program | 
+      |                           |                       |                      | Plan due to program offering | 
+      |                           |                       |                      | id removal.                  | 
+      |                           |                       |                      |                              |
  */
 @isTest(SeeAllData=false)
 public with sharing class ManageRegistrationSectionCtrlTest{
 
      private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
-     private static Id studentRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get('Student').getRecordTypeId();
-     private static Id opeActProdReqRecType = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get('Activity').getRecordTypeId();
-     private static Id programPlanRecType = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get('Program').getRecordTypeId();
+     private static string studentRT = System.Label.RT_CourseConnection_Student;
+     private static String rtProdRequestActivity = System.Label.RT_ProductRequest_Activity;
+     private static Id studentRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(studentRT).getRecordTypeId();
+     private static Id opeActProdReqRecType = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(rtProdRequestActivity).getRecordTypeId();
      private static Integer numberOfRecords = 100;
 
      @IsTest
@@ -49,19 +53,7 @@ public with sharing class ManageRegistrationSectionCtrlTest{
                Test.stopTest();
                System.assertEquals(numberOfRecords, registrationDetails.size(), 'Incorrect number of records retrieved.');
           }      
-     }
-
-     @IsTest
-     static void getRegDetailsForProgPlanTest(){        
-          System.runAs(currentUser){               
-               createRecord(programPlanRecType);  
-               String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;             
-               Test.startTest();
-               List<ManageRegistrationSectionCtrl.ManageRegistrationDetails> registrationDetails = ManageRegistrationSectionCtrl.getRegistrationDetails(prodReqId);      
-               Test.stopTest();
-               System.assertEquals(numberOfRecords, registrationDetails.size(), 'Incorrect number of records retrieved.');
-          }      
-     }
+     }    
 
      @IsTest
      static void updateRegistrationTest(){        
@@ -92,23 +84,7 @@ public with sharing class ManageRegistrationSectionCtrlTest{
                Test.stopTest();
                System.assertNotEquals(numberOfRecords, regDetails.size(), 'Records to be retrieved must be link with an offering.');
           }      
-     }    
-     
-     @IsTest
-     static void getStudRegPPNoOfferingTest(){        
-          System.runAs(currentUser){               
-               List<Product_Request__c> productRequests = TestDataFactory.createTestProductRequestRecords(1);
-               for(Product_Request__c productRequest : productRequests){
-                    productRequest.RecordTypeId = programPlanRecType;
-               }
-               insert productRequests;
-               String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;             
-               Test.startTest();
-               List<ManageRegistrationSectionCtrl.ManageRegistrationDetails> regDetails = ManageRegistrationSectionCtrl.getRegistrationDetails(prodReqId);      
-               Test.stopTest();
-               System.assertNotEquals(numberOfRecords, regDetails.size(), 'Records to be retrieved must be link with an offering.');
-          }      
-     } 
+     }             
 
      private static void createRecord(String productRequestRecordType){
           System.runAs(currentUser){
@@ -123,29 +99,16 @@ public with sharing class ManageRegistrationSectionCtrlTest{
                }
                insert productRequests;
 
-               if(productRequestRecordType == programPlanRecType){
-                    List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(1);
-                    for(hed__Program_Plan__c programPlan : programPlans){
-                         programPlan.Product_Request__c = productRequests[0].Id;
-                    }
-                    insert programPlans;     
-                    
-                    List<Program_Offering__c> programOfferings = TestDataFactory.createTestProgramOfferingRecords(1, programPlans);
-                    insert programOfferings;  
+               List<hed__Course__c> courses = TestDataFactory.createTestCourseRecords(1, accounts[0].Id, productRequests[0].Id);
+               insert courses;
 
-                    offeringId = programOfferings[0].Id;
-               }else{
-                    List<hed__Course__c> courses = TestDataFactory.createTestCourseRecords(1, accounts[0].Id, productRequests[0].Id);
-                    insert courses;
+               List<hed__Term__c> terms = TestDataFactory.createTestTermRecords(1, accounts[0].Id);
+               insert terms;
 
-                    List<hed__Term__c> terms = TestDataFactory.createTestTermRecords(1, accounts[0].Id);
-                    insert terms;
+               List<hed__Course_Offering__c> courseOfferings = TestDataFactory.createTestCourseOfferingRecord(1, courses, terms);
+               insert courseOfferings;
 
-                    List<hed__Course_Offering__c> courseOfferings = TestDataFactory.createTestCourseOfferingRecord(1, courses, terms);
-                    insert courseOfferings;
-
-                    offeringId = courseOfferings[0].Id;                    
-               }          
+               offeringId = courseOfferings[0].Id;          
 
                List<Contact> contacts = TestDataFactory.createTestContactRecords(numberOfRecords);
                insert contacts;
@@ -156,11 +119,7 @@ public with sharing class ManageRegistrationSectionCtrlTest{
                     student.hed__Contact__c = contact.Id;
                     student.RecordTypeId = studentRecTypeId;
                     student.Paid_in_Full__c = 'Yes';
-                    if(productRequestRecordType == programPlanRecType){
-                         student.Program_Offering__c = offeringId;
-                    }else{
-                         student.hed__Course_Offering__c = offeringId;
-                    }
+                    student.hed__Course_Offering__c = offeringId;
                     students.add(student);
                }
                insert students;
@@ -175,11 +134,7 @@ public with sharing class ManageRegistrationSectionCtrlTest{
                     questionResp.Contact__c = contact.Id;
                     questionResp.Registration_Status__c = 'Confirmed';       
                     questionResp.Questionnaire__c =  questionnaire.Id;          
-                    if(productRequestRecordType == programPlanRecType){
-                         questionResp.Program_Offering__c = offeringId;
-                    }else{
-                         questionResp.Course_Offering__c = offeringId;
-                    }
+                    questionResp.Course_Offering__c = offeringId;
                     questionnaireResponseList.add(questionResp);
                }
                insert questionnaireResponseList;
