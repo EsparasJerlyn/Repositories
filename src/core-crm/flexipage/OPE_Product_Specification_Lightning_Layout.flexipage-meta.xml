@@ -74,6 +74,167 @@
                 <componentName>force:detailPanel</componentName>
             </componentInstance>
         </itemInstances>
+        <name>Facet-1b91dd10-a9f4-4df6-b0ce-529878416b33</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>parentFieldApiName</name>
+                    <value>Product_Specification__c.Id</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListApiName</name>
+                    <value>Associated_Accounts__r</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListComponentOverride</name>
+                    <value>NONE</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>rowsToDisplay</name>
+                    <value>10</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showActionBar</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentName>force:relatedListSingleContainer</componentName>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>parentFieldApiName</name>
+                    <value>Product_Specification__c.Id</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListApiName</name>
+                    <value>AttachedContentDocuments</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListComponentOverride</name>
+                    <value>NONE</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>rowsToDisplay</name>
+                    <value>10</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showActionBar</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentName>force:relatedListSingleContainer</componentName>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-7c921b6e-cd9a-49a0-9a95-539fbecadb6c</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>parentFieldApiName</name>
+                    <value>Product_Specification__c.Id</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListApiName</name>
+                    <value>Histories</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListComponentOverride</name>
+                    <value>NONE</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>rowsToDisplay</name>
+                    <value>10</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showActionBar</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentName>force:relatedListSingleContainer</componentName>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-0d05cf43-84a8-484f-96c4-0e8a9fe721c3</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentName>forceChatter:recordFeedContainer</componentName>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-ahue7pomsz</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>active</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-1b91dd10-a9f4-4df6-b0ce-529878416b33</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Request</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-7c921b6e-cd9a-49a0-9a95-539fbecadb6c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Related</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-0d05cf43-84a8-484f-96c4-0e8a9fe721c3</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>History</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-ahue7pomsz</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Conversation</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-5119677d-3e37-443a-9d22-c7f2735c73ea</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentName>force:detailPanel</componentName>
+            </componentInstance>
+        </itemInstances>
         <mode>Replace</mode>
         <name>detailTabContent</name>
         <type>Facet</type>
@@ -259,14 +420,49 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>tabs</name>
-                    <value>maintabs</value>
+                    <value>Facet-5119677d-3e37-443a-9d22-c7f2735c73ea</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
+                <visibilityRule>
+                    <booleanFilter>1 OR 2</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.Stage__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Idea</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.Stage__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Qualify</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
-                <componentName>force:recordDetailPanelMobile</componentName>
+                <componentInstanceProperties>
+                    <name>tabs</name>
+                    <value>maintabs</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tabset</componentName>
+                <visibilityRule>
+                    <booleanFilter>1 OR 2 OR 3</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.Stage__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Design</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.Stage__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Not Proceeding</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.Stage__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Complete</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
