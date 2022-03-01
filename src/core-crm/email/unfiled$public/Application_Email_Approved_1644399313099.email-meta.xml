@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Application Email Approved</name>
+    <relatedEntityType>Questionnaire_Response_Summary__c</relatedEntityType>
+    <style>none</style>
+    <subject>Congratulations, your application has been approved</subject>
+    <type>custom</type>
+    <uiType>SFX</uiType>
+</EmailTemplate>

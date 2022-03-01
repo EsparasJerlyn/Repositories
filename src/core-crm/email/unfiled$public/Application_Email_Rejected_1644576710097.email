@@ -1,0 +1,23 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">
+<p>Dear {{{Questionnaire_Response_Summary__c.First_Name__c}}},&nbsp;</p>
+
+<p>Thank you for applying for {{{Questionnaire_Response_Summary__c.Course_Name__c}}}.</p>
+
+<p>We regret to advise that your application hasn’t been successful.<br />
+{{{Questionnaire_Response_Summary__c.Reason_for_Rejection__c}}}</p>
+We look forward to seeing you soon. To continue expanding your professional and personal success&nbsp;<a href="https://www.qut.edu.au/study/professional-and-executive-education/courses"><u>click here</u></a>&nbsp;to check out what else QUTeX has to offer.&nbsp;<br />
+<br />
+Regards,<br />
+<br />
+<strong>The QUTeX Team</strong><br />
+QUTeX Professional and Executive Education for the Real World<br />
+P: + 61 7 3138 7733 | E:&nbsp;<a href="mailto:qutex@qut.edu.au">qutex@qut.edu.au</a> |&nbsp;&nbsp;<a href="http://www.qut.edu.au/qutex">QUTeX - Professional and executive education</a> &nbsp;&nbsp;<br />
+<a href="https://www.linkedin.com/showcase/14561011/admin/"><strong><u>Follow</u></strong></a> QUTeX on<strong> </strong>LinkedIn<strong> | </strong><a href="https://alumni-and-friends.qut.edu.au/qutex-connect-subscription"><strong><u>Subscribe</u></strong></a> to the QUTeX Connect Newsletter&nbsp;
+
+<p>&nbsp;</p>
+
+</body></html>

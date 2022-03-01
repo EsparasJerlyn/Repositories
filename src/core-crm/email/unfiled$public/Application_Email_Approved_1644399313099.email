@@ -1,0 +1,22 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">
+<p>Dear {{{Questionnaire_Response_Summary__c.First_Name__c}}},&nbsp;</p>
+
+<p>Thank you for applying for {{{Questionnaire_Response_Summary__c.Course_Name__c}}}.&nbsp;&nbsp;</p>
+
+<p>We are pleased to advise that your application has been successful. To complete your registration <a href="https://www.qut.edu.au/study/professional-and-executive-education/courses"><u>click here</u></a>.&nbsp;</p>
+
+<p>Please find the invoice attached.&nbsp;<br />
+<br />
+We look forward to seeing you soon.<br />
+Regards,&nbsp;<br />
+<br />
+<strong>The QUTeX Team</strong><br />
+QUTeX Professional and Executive Education for the Real World<br />
+P: + 61 7 3138 7733 | E:&nbsp;<a href="mailto:qutex@qut.edu.au">qutex@qut.edu.au</a> |&nbsp;<a href="http://www.qut.edu.au/qutex">QUTeX - Professional and executive education</a> &nbsp;&nbsp;<br />
+<a href="https://www.linkedin.com/showcase/14561011/admin/"><strong><u>Follow</u></strong></a> QUTeX on<strong> </strong>LinkedIn<strong> | </strong><a href="https://alumni-and-friends.qut.edu.au/qutex-connect-subscription"><strong><u>Subscribe</u></strong></a> to the QUTeX Connect Newsletter&nbsp;</p>
+
+</body></html>

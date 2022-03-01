@@ -27,6 +27,7 @@
       | angelika.j.s.galang       | January 25, 2022      | DEPP-1396           | Added method for creation of Questionnaire, Question, and Answer |
       | roy.nino.s.regala         | February 03, 2022     | DEPP-213            | Added nethod for creation of Expression of Interest              |
       | john.bo.a.pineda          | February 03, 2022     | DEPP-1396           | Updated method for Answer to Related Answer                      |
+      | arsenio.jr.dayrit         | February 14, 2022     | DEPP-1538           | Added method for creation of Questionnaire response summary      |
       | adrian.c.habasa           | February 14, 2022     | DEPP-1247           | Added method for Session and Attendance Event                    |
       | eugene.andrew.abuan       | February 16, 2022     | DEPP-1265           | Added method for Creating Courses                                |
       |                           |                       |                     |                                                                  |
@@ -951,6 +952,31 @@ public class TestDataFactory {
     return interests;
   }
 
+    /**
+   * @description Method for creating test  questionnaire response summary records
+   * @param numQuestionnaireResponseSummary number of questionnaire response summary
+   * @param contact contact to be relate in questionnaire response summary records
+   * @param courseOff List of related course offering
+   * @return questionnaireResponseSumm - list of questionnaire response summary
+   */
+  public static List<Questionnaire_Response_Summary__c> createTestQuestionnaireResponseSummaryRecords(
+    Integer numQuestionnaireResponseSummary,
+    List<hed__Course_Offering__c> courseOff,
+    Contact contact
+  ) {
+    List<Questionnaire_Response_Summary__c> questionnaireResponseSumm = new List<Questionnaire_Response_Summary__c>();
+
+    for (Integer i = 0; i < numQuestionnaireResponseSummary; i++) {
+      questionnaireResponseSumm.add(
+        new Questionnaire_Response_Summary__c(
+          Contact__c = contact.Id,
+          Course_Offering__c = courseOff[i].Id
+        )
+      );
+    }
+
+    return questionnaireResponseSumm;
+  }
 
   /**
    * @description Method for creating test Session records

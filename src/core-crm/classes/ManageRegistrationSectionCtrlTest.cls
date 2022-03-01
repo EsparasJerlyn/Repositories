@@ -111,6 +111,9 @@ public with sharing class ManageRegistrationSectionCtrlTest{
                offeringId = courseOfferings[0].Id;          
 
                List<Contact> contacts = TestDataFactory.createTestContactRecords(numberOfRecords);
+               for(Integer i =0;i<contacts.size();i++){
+                    contacts[i].Email = 'testIdeaFormUser'+i+'@mailinator.com';
+                }
                insert contacts;
 
                List<hed__Course_Enrollment__c> students = new List<hed__Course_Enrollment__c>();
