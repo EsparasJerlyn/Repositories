@@ -87,14 +87,14 @@ private class Update_Product_from_CourseTest{
             for(Integer i = 0 ; i < programPlansToUpdate.size() ; i++){
                 programPlansToUpdate[i].Name = 'test' + i;
                 programPlansToUpdate[i].Product_Request__c  = productRequests[i].Id;
-                programPlansToUpdate[i].Program_Plan_Code__c = 'test' + i;
+                programPlansToUpdate[i].Code__c = 'test' + i;
                 programPlansToUpdate[i].Program_Type__c  = 'Prescribed Program';
                 programPlansToUpdate[i].Owning_Faculty__c  = accounts[0].Id;
                 programPlansToUpdate[i].hed__Start_Date__c  = Date.newInstance(2022, 01, 20);
                 programPlansToUpdate[i].hed__End_Date__c  = Date.newInstance(2022, 02, 20);
                 programPlansToUpdate[i].Overview__c  = 'test' + i;
                 programPlansToUpdate[i].Core_Concepts__c  = 'test' + i;
-                programPlansToUpdate[i].PP_Courseloop_Full_URL__c  = 'test' + i;
+                programPlansToUpdate[i].Courseloop_Full_URL__c  = 'test' + i;
                 programPlansToUpdate[i].PP_Is_curriculum_approved__c  = true;
             }
             update programPlansToUpdate;
@@ -141,28 +141,18 @@ private class Update_Product_from_CourseTest{
             for(Integer i = 0 ; i < courses.size() ; i++){
                 courses[i].ProductRequestID__c = productRequests[i].Id;
                 courses[i].RecordTypeId = opeActivityId;
-                courses[i].Start_Time__c = Time.newInstance(3, 14, 15, 926);
-                courses[i].End_Time__c = Time.newInstance(4, 14, 15, 926);                                
-                courses[i].Volume_of_time__c = 'Days';             
                 courses[i].Delivery_Type__c = 'Face to Face';
                 courses[i].Location__c = facility.Id;
                 courses[i].Location_Details__c = 'test';                    
                 courses[i].hed__Description__c = 'test';
                 courses[i].Certificate_Type__c = 'Certificate of Achievement';
-                courses[i].Collaboation_External__c = 'Yes';
+                courses[i].Collaboration_with_External_Organisation__c = 'Yes';
                 courses[i].External_Organisation__c = 'test';
-                courses[i].Activity_Outcomes__c = 'test';
-                courses[i].Overview_Website__c = 'test' + i;
-                courses[i].Search_Engine__c = 'test';
-                courses[i].Search_Terms__c = 'test';
                 courses[i].Content__c = 'test';     
-                courses[i].Resources_Required__c = 'Yes';
                 courses[i].Resource_Details__c = 'test';   
                 courses[i].Minimum_Participants__c = 1;
                 courses[i].Maximum_Participants__c = 100;                    
                 courses[i].Delivery_Support__c = 'Others';                
-                courses[i].Fees_Applicable__c = 'Yes';
-                courses[i].Fee_Amount__c = 1000.00;          
                 courses[i].Delivery_Comments__c = 'test';
                 courses[i].Core_Concepts__c = 'test';
                 courses[i].Overview__c = 'test';

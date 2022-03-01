@@ -73,20 +73,12 @@ public with sharing class CourseConnectionTriggerHandler implements Disableable,
         if (String.isNotBlank(crseEnroll.hed__Course_Offering__c)) {
           courseOfferIdSet.add(crseEnroll.hed__Course_Offering__c);
         }
-
-        if (String.isNotBlank(crseEnroll.Program_Offering__c)) {
-          programOfferIdSet.add(crseEnroll.Program_Offering__c);
-        }
       }
 
       if (crseEnrollListOld != null) {
         for (hed__Course_Enrollment__c crseEnrollOld : crseEnrollListOld) {
           if (String.isNotBlank(crseEnrollOld.hed__Course_Offering__c)) {
             courseOfferIdSet.add(crseEnrollOld.hed__Course_Offering__c);
-          }
-
-          if (String.isNotBlank(crseEnrollOld.Program_Offering__c)) {
-            programOfferIdSet.add(crseEnrollOld.Program_Offering__c);
           }
         }
       }
@@ -112,27 +104,6 @@ public with sharing class CourseConnectionTriggerHandler implements Disableable,
         }
       }
 
-      List<AggregateResult> aggrProgramOfferList = [
-        SELECT Program_Offering__c, COUNT(Id) counter
-        FROM hed__Course_Enrollment__c
-        WHERE
-          RecordTypeId = :STUDENT_RECTYPEID
-          AND Program_Offering__c IN :programOfferIdSet
-          AND hed__Status__c != 'Cancelled'
-        GROUP BY Program_Offering__c
-      ];
-
-      for (AggregateResult aggrProgramOffer : aggrProgramOfferList) {
-        if (
-          String.isNotBlank((Id) aggrProgramOffer.get('Program_Offering__c'))
-        ) {
-          programOfferMap.put(
-            (Id) aggrProgramOffer.get('Program_Offering__c'),
-            (Integer) aggrProgramOffer.get('counter')
-          );
-        }
-      }
-
       List<hed__Course_Offering__c> courseOfferList = [
         SELECT Id, Total_Course_Connections__c
         FROM hed__Course_Offering__c
@@ -151,23 +122,6 @@ public with sharing class CourseConnectionTriggerHandler implements Disableable,
 
       update courseOfferList;
 
-      List<Program_Offering__c> programOfferList = [
-        SELECT Id, Total_Course_Connections__c
-        FROM Program_Offering__c
-        WHERE Id IN :programOfferIdSet
-      ];
-
-      for (Program_Offering__c programOffer : programOfferList) {
-        if (programOfferMap.containsKey(programOffer.Id)) {
-          programOffer.Total_Course_Connections__c = programOfferMap.get(
-            programOffer.Id
-          );
-        } else {
-          programOffer.Total_Course_Connections__c = 0;
-        }
-      }
-
-      update programOfferList;
     } catch (Exception e) {
       System.debug(
         'Error on CourseConnectionTriggerHandler.updateCourseConnectionCounter'

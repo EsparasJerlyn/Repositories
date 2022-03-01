@@ -8,8 +8,9 @@
  * @history
  *    | Developer                 | Date                  | JIRA     | Change Summary                  |
       |---------------------------|-----------------------|----------|---------------------------------|
-      | arsenio.dayrit@qut.edu.au | January 12, 2022      | DEPP-1359| Created file                    | 
-      |                           |                       |          |                                 |
+      | arsenio.dayrit@qut.edu.au | January 12, 2022      | DEPP-1359| Created file                    |
+      | justine.javier@qut.edu.au | February 25, 2022     | DEPP-1819| Removed Program_Offering logic  |
+ 	  |                           |                       |          |                                 |
 */
 @isTest(SeeAllData = false)
 public with sharing class GetUpdatePurchasedPriceFlowTest {
@@ -43,7 +44,7 @@ public with sharing class GetUpdatePurchasedPriceFlowTest {
 
             List<hed__Course_Offering__c> courseOfferings = TestDataFactory.createTestCourseOfferingRecord(10, courses, terms);
             insert courseOfferings;
-            
+
             List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(10);
             insert programPlans;
 
@@ -52,8 +53,8 @@ public with sharing class GetUpdatePurchasedPriceFlowTest {
 
             List<Asset> assetRec = TestDataFactory.createTestAssetRecords(1,acc[0].Id,prodRequest[0].Id);
             insert assetRec;
-            
-            List<hed__Course_Enrollment__c> courseConnection = TestDataFactory.createTestCourseConnectionRecord(10, conList[0].Id,courseOfferings,programOfferings );
+
+            List<hed__Course_Enrollment__c> courseConnection = TestDataFactory.createTestCourseConnectionRecord(10, conList[0].Id,courseOfferings);
             for(hed__Course_Enrollment__c courseCon : courseConnection){
                 courseCon.Purchased_Price__c = 100;
             }
@@ -67,7 +68,7 @@ public with sharing class GetUpdatePurchasedPriceFlowTest {
             for(hed__Course_Enrollment__c courseRec : courseConnection){
                 courseRec.Purchased_Price__c = 1000;
             }
-            update courseConnection;   
+            update courseConnection;
 
             Test.stopTest();
 
@@ -75,9 +76,8 @@ public with sharing class GetUpdatePurchasedPriceFlowTest {
             for(Product_Ledger__c checkProdLedger : updateProdLedger){
                 System.assertEquals(1000, checkProdLedger.Purchased_Price_v2__c, 'not equal value');
             }
-         
+
         }
-   
+
     }
 }
-

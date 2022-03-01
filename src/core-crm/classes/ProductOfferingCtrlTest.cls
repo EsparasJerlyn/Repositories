@@ -2,13 +2,13 @@
  * @description Test class for Product Offering Controller
  *
  * @see ProductOfferingCtrl
- * 
+ *
  * @author Accenture
- *      
+ *
  * @history
  *    | Developer                 | Date                  | JIRA         | Change Summary                                |
       |---------------------------|-----------------------|--------------|-----------------------------------------------|
-      | aljohn.motas              | February 8, 2022      | DEPP-1258    | Created file                                  | 
+      | aljohn.motas              | February 8, 2022      | DEPP-1258    | Created file                                  |
       |                           |                       |              |                                               |
 */
 @isTest(SeeAllData=false)
@@ -30,7 +30,7 @@ public class ProductOfferingCtrlTest {
         Test.stopTest();
 
     }
-    
+
 
     @isTest
     static void getAllFacilitatorBioTest() {
@@ -59,9 +59,7 @@ public class ProductOfferingCtrlTest {
         insert courseOfferings;
 		List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(25);
         insert programPlans;
-        List<Program_Offering__c> programOfferings = TestDataFactory.createTestProgramOfferingRecords(25, programPlans);
-        insert programOfferings;
-        List<hed__Course_Enrollment__c> courseConnections =  TestDataFactory.createTestCourseConnectionRecord(25,contact1?.Id,courseOfferings,programOfferings);
+        List<hed__Course_Enrollment__c> courseConnections =  TestDataFactory.createTestCourseConnectionRecord(25,contact1?.Id,courseOfferings);
 		insert courseConnections;
         System.debug(courseConnections);
         Test.startTest();
@@ -71,8 +69,8 @@ public class ProductOfferingCtrlTest {
         List<hed__Course_Enrollment__c> updatedCourseConnections = [Select hed__Account__c From hed__Course_Enrollment__c Where hed__Account__c =: accounts[0].Id];
         System.assertEquals(1, updatedCourseConnections.size());
     }
-    
-    
+
+
     @isTest
     static void getProductOfferingDataTest() {
 		List<Product_Request__c> prodRequest =new List<Product_Request__c>();
@@ -81,19 +79,19 @@ public class ProductOfferingCtrlTest {
 		String PROGRAM_OFFERING_FIELDS = 'Id,Delivery_Type__c,Start_Date__c,Registration_Start_Date__c,'+
     		'Registration_End_Date__c,End_Date__c,hed_Program_Plan__c';
 		String COURSE_OFFERING_FIELDS ='Id,Delivery_Type__c,hed__Start_Date__c,Registration_Start_Date__c,'+
-    		'Registration_End_Date__c,hed__End_Date__c,hed__Course__c,hed__Term__c';        
+    		'Registration_End_Date__c,hed__End_Date__c,hed__Course__c,hed__Term__c';
         String productRequestId;
         Map<String,String> parentInfo = new Map<String,String>();
         parentInfo.put('objectType','hed__Program_Plan__c');
         parentInfo.put('field','Product_Request__c');
         Map<String,String> childInfo = new Map<String,String>();
-        childInfo.put('objectType','Program_Offering__c');        
-        childInfo.put('fields',PROGRAM_OFFERING_FIELDS);        
-        childInfo.put('conditionField','hed_Program_Plan__c');        
+        childInfo.put('objectType','Program_Offering__c');
+        childInfo.put('fields',PROGRAM_OFFERING_FIELDS);
+        childInfo.put('conditionField','hed_Program_Plan__c');
 
         List<hed__Program_Plan__c> programPlans = new List<hed__Program_Plan__c>();
         List<Program_Offering__c> programOfferings = new List<Program_Offering__c>();
-      
+
         prodRequest = TestDataFactory.createTestProductRequestRecords(1);
         insert prodRequest;
         System.debug('prodRequest');
@@ -113,22 +111,12 @@ public class ProductOfferingCtrlTest {
           );
         insert programOfferings;
 
-//        List<hed__Course_Offering__c> courseOfferings = new List<hed__Course_Offering__c>();        
-//        List<Contact> contacts = TestDataFactory.createTestContactRecords(1);
-//        insert contacts;
-//        List<hed__Course_Enrollment__c> courseConnections = TestDataFactory.createTestCourseConnectionRecord(1, contacts[0].Id, courseOfferings, programOfferings);
-//        insert courseConnections;
-        
-	        Test.startTest();
-	        ProductOfferingCtrl.ProductOfferingData POD = ProductOfferingCtrl.getProductOfferingData(productRequestId,parentInfo,childInfo);
-    	    System.debug('POD'+POD);        
-        	Test.stopTest();
-
+        Test.startTest();
+        ProductOfferingCtrl.ProductOfferingData POD = ProductOfferingCtrl.getProductOfferingData(productRequestId,parentInfo,childInfo);
+        System.debug('POD'+POD);
+        Test.stopTest();
     }
-    
-    
-    
-    
+
     @isTest
     static void cloneProductOfferingDataTest() {
         Account acc = new Account(Name='QUTeX');
@@ -151,11 +139,9 @@ public class ProductOfferingCtrlTest {
         insert courseOfferings;
 		List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(25);
         insert programPlans;
-        List<Program_Offering__c> programOfferings = TestDataFactory.createTestProgramOfferingRecords(25, programPlans);
-        insert programOfferings;
-        List<hed__Course_Enrollment__c> facilitators =  TestDataFactory.createTestCourseConnectionRecord(1,contact1?.Id,courseOfferings,programOfferings);
+        List<hed__Course_Enrollment__c> facilitators =  TestDataFactory.createTestCourseConnectionRecord(1,contact1?.Id,courseOfferings);
         List<Session__c> sessions = new List<Session__c>();
-        sessions.add(new Session__c(Session_Name__c='Test'));
+        sessions.add(new Session__c(Name='Test'));
         String termId = ProductOfferingCtrl.getTermId();
         Map<String,Object> productOffering = new Map<String,Object>();
         productOffering.put('Delivery_Type__c','Online Classroom');

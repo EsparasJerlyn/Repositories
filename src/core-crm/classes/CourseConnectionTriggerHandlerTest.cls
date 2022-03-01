@@ -66,17 +66,10 @@ public with sharing class CourseConnectionTriggerHandlerTest {
       );
       insert programPlans;
 
-      List<Program_Offering__c> programOfferings = TestDataFactory.createTestProgramOfferingRecords(
-        10,
-        programPlans
-      );
-      insert programOfferings;
-
       List<hed__Course_Enrollment__c> courseConnections = TestDataFactory.createTestCourseConnectionRecord(
         10,
         contacts[0].Id,
-        courseOfferings,
-        programOfferings
+        courseOfferings
       );
 
       for (hed__Course_Enrollment__c courseConnection : courseConnections) {
@@ -85,12 +78,10 @@ public with sharing class CourseConnectionTriggerHandlerTest {
       insert courseConnections;
 
       Id courseOfferId = courseOfferings[0].Id;
-      Id programOfferId = programOfferings[0].Id;
       hed__Course_Enrollment__c newCourseEnroll = new hed__Course_Enrollment__c();
       newCourseEnroll.RecordTypeId = STUDENT_RECTYPEID;
       newCourseEnroll.hed__Contact__c = contacts[0].Id;
       newCourseEnroll.hed__Course_Offering__c = courseOfferId;
-      newCourseEnroll.Program_Offering__c = programOfferId;
 
       insert newCourseEnroll;
       Test.stopTest();
@@ -101,23 +92,12 @@ public with sharing class CourseConnectionTriggerHandlerTest {
         WHERE Id = :courseOfferId
       ];
 
-      List<Program_Offering__c> programOfferingsResult = [
-        SELECT Id, Total_Course_Connections__c
-        FROM Program_Offering__c
-        WHERE Id = :programOfferId
-      ];
-
       System.assertEquals(
         2,
         courseOfferingsResult[0].Total_Course_Connections__c,
         'Total Course Connection Count for Course Offering after creating new Course Connection'
       );
 
-      System.assertEquals(
-        2,
-        programOfferingsResult[0].Total_Course_Connections__c,
-        'Total Course Connection Count for Program Offering after creating new Course Connection'
-      );
     }
   }
 
@@ -161,17 +141,10 @@ public with sharing class CourseConnectionTriggerHandlerTest {
       );
       insert programPlans;
 
-      List<Program_Offering__c> programOfferings = TestDataFactory.createTestProgramOfferingRecords(
-        10,
-        programPlans
-      );
-      insert programOfferings;
-
       List<hed__Course_Enrollment__c> courseConnections = TestDataFactory.createTestCourseConnectionRecord(
         10,
         contacts[0].Id,
-        courseOfferings,
-        programOfferings
+        courseOfferings
       );
 
       for (hed__Course_Enrollment__c courseConnection : courseConnections) {
@@ -183,19 +156,14 @@ public with sharing class CourseConnectionTriggerHandlerTest {
       courseOfferIdSet.add(courseOfferings[0].Id);
       courseOfferIdSet.add(courseOfferings[1].Id);
 
-      Set<Id> programOfferIdSet = new Set<Id>();
-      programOfferIdSet.add(programOfferings[0].Id);
-      programOfferIdSet.add(programOfferings[1].Id);
-
       List<hed__Course_Enrollment__c> courseEnrollList = [
-        SELECT Id, hed__Course_Offering__c, Program_Offering__c
+        SELECT Id, hed__Course_Offering__c
         FROM hed__Course_Enrollment__c
         WHERE hed__Course_Offering__c = :courseOfferIdSet
       ];
 
       for (hed__Course_Enrollment__c courseEnroll : courseEnrollList) {
         courseEnroll.hed__Course_Offering__c = courseOfferings[0].Id;
-        courseEnroll.Program_Offering__c = programOfferings[0].Id;
       }
 
       update courseEnrollList;
@@ -205,12 +173,6 @@ public with sharing class CourseConnectionTriggerHandlerTest {
         SELECT Id, Total_Course_Connections__c
         FROM hed__Course_Offering__c
         WHERE Id = :courseOfferIdSet
-      ];
-
-      List<Program_Offering__c> programOfferingsResult = [
-        SELECT Id, Total_Course_Connections__c
-        FROM Program_Offering__c
-        WHERE Id = :programOfferIdSet
       ];
 
       System.assertEquals(
@@ -224,16 +186,6 @@ public with sharing class CourseConnectionTriggerHandlerTest {
         'Total Course Connection Count of Course Connection 2 after updating Course Connection 2 have the same Course Offer as Course Connection 1'
       );
 
-      System.assertEquals(
-        2,
-        programOfferingsResult[0].Total_Course_Connections__c,
-        'Total Course Connection Count of Course Connection 1 after updating Course Connection 2 have the same Program Offer'
-      );
-      System.assertEquals(
-        0,
-        programOfferingsResult[1].Total_Course_Connections__c,
-        'Total Course Connection Count of Course Connection 2 after updating Course Connection 2 have the same Program Offer as Course Connection 1'
-      );
     }
   }
 
@@ -277,17 +229,10 @@ public with sharing class CourseConnectionTriggerHandlerTest {
       );
       insert programPlans;
 
-      List<Program_Offering__c> programOfferings = TestDataFactory.createTestProgramOfferingRecords(
-        10,
-        programPlans
-      );
-      insert programOfferings;
-
       List<hed__Course_Enrollment__c> courseConnections = TestDataFactory.createTestCourseConnectionRecord(
         10,
         contacts[0].Id,
-        courseOfferings,
-        programOfferings
+        courseOfferings
       );
 
       for (hed__Course_Enrollment__c courseConnection : courseConnections) {
@@ -296,7 +241,6 @@ public with sharing class CourseConnectionTriggerHandlerTest {
       insert courseConnections;
 
       Id courseOfferId = courseOfferings[0].Id;
-      Id programOfferId = programOfferings[0].Id;
 
       List<hed__Course_Enrollment__c> courseEnrollList = [
         SELECT Id
@@ -311,12 +255,6 @@ public with sharing class CourseConnectionTriggerHandlerTest {
         SELECT Id, Total_Course_Connections__c
         FROM hed__Course_Offering__c
         WHERE Id = :courseOfferId
-      ];
-
-      List<Program_Offering__c> programOfferingsResult = [
-        SELECT Id, Total_Course_Connections__c
-        FROM Program_Offering__c
-        WHERE Id = :programOfferId
       ];
 
       System.assertEquals(

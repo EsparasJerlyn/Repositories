@@ -149,17 +149,17 @@
     <types>
         <members>Field_Layout_Setting__mdt.Professional_Advantage_Request_Summary</members>
         <members>Field_Layout_Setting__mdt.Professional_Advantage_Request_Detail</members>
-        <!-- <members>Field_Layout_Setting__mdt.OPE_Additional_Information</members>
+        <members>Field_Layout_Setting__mdt.OPE_Additional_Information</members>
         <members>Field_Layout_Setting__mdt.OPE_CourseLoop_Details</members>
         <members>Field_Layout_Setting__mdt.OPE_Program_Fees</members>
         <members>Field_Layout_Setting__mdt.OPE_Program_Plan_Detail</members>
-        <members>Field_Layout_Setting__mdt.OPE_Program_Plan_Overview</members> -->
+        <members>Field_Layout_Setting__mdt.OPE_Program_Plan_Overview</members>
         <members>Record_Type_Setting__mdt.Professional_Advantage_Request</members>
         <members>Record_Type_Setting__mdt.OPE_Activity</members>
         <members>Record_Type_Setting__mdt.OPE_Program</members>
         <members>Record_Type_Setting__mdt.OPE_Program_Request</members>
         <members>Record_Type_Setting__mdt.Single_Product</members>
-        <!-- <members>Record_Type_Setting__mdt.Program_Plan</members> -->
+        <members>Record_Type_Setting__mdt.Program_Plan</members>
         <name>CustomMetadata</name>
     </types>
     <types>
@@ -184,7 +184,7 @@
         <name>CustomField</name>
     </types>
     <!-- fix for pipeline bug DEPP-1718 -->
-    
+
     <!-- fix for Apex Issue DEPP 1256 -->
     <!-- <types>
         <members>PublishingEndDateScheduler</members>
@@ -195,6 +195,69 @@
         <name>ApexClass</name>
     </types> -->
     <!-- fix for Apex Issue DEPP 1256 -->
+
+    <!-- for DEPP-1819-->
+    <types>
+        <member>hed__Program_Plan__c.PP_Courseloop_Full__c</member>
+        <member>hed__Program_Plan__c.Is_Custom_Award__c</member>
+        <member>hed__Program_Plan__c.Work_Experience_Required__c</member>
+        <member>hed__Course__c.Activity_Description__c</member>
+        <member>hed__Course__c.Activity_Name__c</member>
+        <member>hed__Course__c.Activity_Outcomes__c</member>
+        <member>hed__Course__c.Activity_Plan__c</member>
+        <member>hed__Course__c.Actual_Volume__c</member>
+        <member>hed__Course__c.Additional_End_Date__c</member>
+        <member>hed__Course__c.Certificate_Details__c</member>
+        <member>hed__Course__c.Cohort_Type__c</member>
+        <member>hed__Course__c.Corporate_Bundle_Value__c</member>
+        <member>hed__Course__c.Curriculum_Leads__c</member>
+        <member>hed__Course__c.Diagnostic_Tool_Selection__c</member>
+        <member>hed__Course__c.End_Time__c</member>
+        <member>hed__Course__c.Fee_Amount__c</member>
+        <member>hed__Course__c.Fees_Applicable__c</member>
+        <member>hed__Course__c.Group_Dynamics_Tool__c</member>
+        <member>hed__Course__c.Module_Grading_Scheme__c</member>
+        <member>hed__Course__c.Number_Of_Hours_Per_Participant__c</member>
+        <member>hed__Course__c.Number_Of_Participants_Per_Group__c</member>
+        <member>hed__Course__c.Number_of_Sessions_Per_Group__c</member>
+        <member>hed__Course__c.Number_of_Triads__c</member>
+        <member>hed__Course__c.Overview_Website__c</member>
+        <member>hed__Course__c.Participants__c</member>
+        <member>hed__Course__c.Payment_Options__c</member>
+        <member>hed__Course__c.Problem_Definition__c</member>
+        <member>hed__Course__c.Proposal_Description__c</member>
+        <member>hed__Course__c.Provider__c</member>
+        <member>hed__Course__c.Resources_Required__c</member>
+        <member>hed__Course__c.Risk_and_Opportunities__c</member>
+        <member>hed__Course__c.Search_Engine__c</member>
+        <member>hed__Course__c.Search_Terms__c</member>
+        <member>hed__Course__c.Session_Duration_Mins__c</member>
+        <member>hed__Course__c.Start_Time__c</member>
+        <member>hed__Course__c.Unit_Mode__c</member>
+        <member>hed__Course__c.Volume_of_time__c</member>
+        <member>Session__c.Session_Name__c</member>
+        <member>hed__Course_Enrollment__c.Course_Connection_Value__c</member>
+        <member>hed__Course_Enrollment__c.Program_Offering__c</member>
+        <member>Financial_Split__c.QUTeX_Percentage_Split__c</member>
+        <name>CustomField</name>
+    </types>
+
+    <types>
+        <members>hed__Course__c.Proposal_Description_is_required</members>
+        <members>hed__Course__c.Risk_and_Opportunities_is_required</members>
+        <members>hed__Course__c.Volume_of_Time_is_required</members>
+        <members>hed__Course__c.Actual_Volume_is_required</members>
+        <members>hed__Course__c.Start_Time_is_required</members>
+        <members>hed__Course__c.End_Time_is_required</members>
+        <members>hed__Course__c.Fee_Applicable_is_required</members>
+        <members>hed__Course__c.Fee_is_required</members>
+        <members>hed__Course__c.Activity_Outcomes_is_required</members>
+        <members>hed__Course__c.Overview_for_website_is_required</members>
+        <members>hed__Course__c.Resources_Required_is_required</members>
+        <members>hed__Course__c.Search_Engine_desc_is_required</members>
+        <members>hed__Course__c.Search_Terms</members>
+        <name>ValidationRule</name>
+    </types>
 
     <version>52.0</version>
 </Package>

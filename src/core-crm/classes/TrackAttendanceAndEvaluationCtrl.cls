@@ -29,7 +29,7 @@ public with sharing class TrackAttendanceAndEvaluationCtrl {
                                                                                                   FROM hed__Course_Offering__c 
                                                                                                   WHERE hed__Course__c =: courseId]);
 
-          List<Session__c> sessionlist = [Select Id, Name, Start_Time__c,Session_Name__c, End_Time__c, Course_Offering__c,
+          List<Session__c> sessionlist = [Select Id, Name, Start_Time__c,/*Session_Name__c,*/ End_Time__c, Course_Offering__c,
                                         (Select Id, Name,Present__c,hed__Course_Connection__r.hed__Contact__r.Name FROM Attendance_Events__r WHERE hed__Course_Connection__r.RecordTypeId=:studentRTId) 
                                         FROM Session__c 
                                         WHERE Course_Offering__c in:courseOfferingMap.keySet()];
@@ -115,4 +115,3 @@ public with sharing class TrackAttendanceAndEvaluationCtrl {
         }
     }
 }
-  

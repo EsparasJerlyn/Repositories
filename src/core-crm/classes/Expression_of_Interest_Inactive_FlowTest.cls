@@ -9,15 +9,15 @@
  *    | Developer                 | Date                  | JIRA         | Change Summary                              |
       |---------------------------|-----------------------|--------------|---------------------------------------------|
       | roy.nino.s.regala         | February 04, 2022     | DEPP-213     | Created file                                |
-      |                           |                       |              |                                             | 
-      |                           |                       |              |                                             | 
+      | justine.javier@qut.edu.au | February 25, 2022     | DEPP-1819    | Removed Program_Offering__c logic           |                                             |
+      |                           |                       |              |                                             |
 */
 @IsTest(SeeAllData = false)
 private class Expression_of_Interest_Inactive_FlowTest{
 
     @isTest
     private static void setToInactiveTest()
-    {   
+    {
 
         User portalAccountOwner1 = TestDataFactory.createUserRecords(1,'System Administrator').iterator().next();
         UserRole portalRole = [Select Id From UserRole Where PortalType = 'None' Limit 1];
@@ -31,7 +31,7 @@ private class Expression_of_Interest_Inactive_FlowTest{
             OwnerId = portalAccountOwner1.Id
             );
             Database.insert(portalAccount1);
-            
+
             //Create contact
             Contact contact1 = new Contact(
             FirstName = 'Test',
@@ -40,7 +40,7 @@ private class Expression_of_Interest_Inactive_FlowTest{
             Email = System.now().millisecond() + 'test@test.com'
             );
             Database.insert(contact1);
-            
+
             //Create user
             User portalUser = TestDataFactory.createPortalUserRecords(1,'Corporate Partner User',contact1.Id).iterator().next();
             Database.insert(portalUser);
@@ -58,7 +58,7 @@ private class Expression_of_Interest_Inactive_FlowTest{
             Pricebook2 priceBook;
             PricebookEntry priceBookEntry;
 
-                
+
             accounts = TestDataFactory.createTestAccountRecords(1);
             insert accounts;
             terms = TestDataFactory.createTestTermRecords(25,accounts[0].Id);
@@ -86,7 +86,7 @@ private class Expression_of_Interest_Inactive_FlowTest{
             insert interests;
 
             Test.startTest();
-            courseConnections = TestDataFactory.createTestCourseConnectionRecord(25,portalUser.contactId,courseofferings,programOfferings);
+            courseConnections = TestDataFactory.createTestCourseConnectionRecord(25,portalUser.contactId,courseofferings);
             for(hed__Course_Enrollment__c cc: courseConnections){
                 cc.hed__Status__c = 'Current';
             }
@@ -94,7 +94,7 @@ private class Expression_of_Interest_Inactive_FlowTest{
             System.assertEquals(true,![SELECT Id from Expression_of_interest__c].isEmpty(),'Expression of interest status was not set to inactive');
             Test.stopTest();
         }
-        
-        
+
+
     }
 }

@@ -40,13 +40,6 @@
             <name>Validated</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>$Record.Volume_of_time__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
                 <leftValueReference>$Record.Delivery_Type__c</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
@@ -68,35 +61,7 @@
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>$Record.Collaboation_External__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.Activity_Outcomes__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.Overview_Website__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.Search_Engine__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.Search_Terms__c</leftValueReference>
+                <leftValueReference>$Record.Collaboration_with_External_Organisation__c</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
@@ -104,13 +69,6 @@
             </conditions>
             <conditions>
                 <leftValueReference>$Record.Content__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.Resources_Required__c</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
@@ -197,20 +155,6 @@
                     <stringValue>Activity</stringValue>
                 </rightValue>
             </conditions>
-            <conditions>
-                <leftValueReference>$Record.Start_Time__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.End_Time__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
             <connector>
                 <targetReference>Validate_Common_Fields</targetReference>
             </connector>
@@ -224,34 +168,6 @@
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>Short_Course</stringValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.Proposal_Title__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.Proposal_Description__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.Risk_and_Opportunities__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.Actual_Volume__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
             <conditions>
@@ -274,34 +190,6 @@
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>Module</stringValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.Proposal_Title__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.Proposal_Description__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.Risk_and_Opportunities__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.Actual_Volume__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
             <conditions>
@@ -331,34 +219,6 @@
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>Unit</stringValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.Proposal_Title__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.Proposal_Description__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.Risk_and_Opportunities__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.Actual_Volume__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
             <conditions>
@@ -462,7 +322,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Validate_Fee_Applicable</targetReference>
+                <targetReference>Validate_External_Org_Details</targetReference>
             </connector>
             <label>Face to Face</label>
         </rules>
@@ -477,7 +337,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Validate_Fee_Applicable</targetReference>
+                <targetReference>Validate_External_Org_Details</targetReference>
             </connector>
             <label>Not Face to Face</label>
         </rules>
@@ -495,7 +355,7 @@
             <name>External_Org</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>$Record.Collaboation_External__c</leftValueReference>
+                <leftValueReference>$Record.Collaboration_with_External_Organisation__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>Yes</stringValue>
@@ -517,7 +377,7 @@
             <name>Not_External_Org</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>$Record.Collaboation_External__c</leftValueReference>
+                <leftValueReference>$Record.Collaboration_with_External_Organisation__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>No</stringValue>
@@ -527,53 +387,6 @@
                 <targetReference>Validate_Resource_Details</targetReference>
             </connector>
             <label>Not External Org</label>
-        </rules>
-    </decisions>
-    <decisions>
-        <name>Validate_Fee_Applicable</name>
-        <label>Validate Fee Applicable</label>
-        <locationX>308</locationX>
-        <locationY>827</locationY>
-        <defaultConnector>
-            <targetReference>Set_OPE_Design_Complete_to_False</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
-        <rules>
-            <name>Fee_Applicable</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>$Record.Fees_Applicable__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>Yes</stringValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.Fee_Amount__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Validate_External_Org_Details</targetReference>
-            </connector>
-            <label>Fee Applicable</label>
-        </rules>
-        <rules>
-            <name>Fee_Not_Applicable</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>$Record.Fees_Applicable__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>No</stringValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Validate_External_Org_Details</targetReference>
-            </connector>
-            <label>Fee Not Applicable</label>
         </rules>
     </decisions>
     <decisions>
@@ -589,13 +402,6 @@
             <name>Resource_Required</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>$Record.Resources_Required__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>Yes</stringValue>
-                </rightValue>
-            </conditions>
-            <conditions>
                 <leftValueReference>$Record.Resource_Details__c</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
@@ -606,21 +412,6 @@
                 <targetReference>Validate_Delivery_Support</targetReference>
             </connector>
             <label>Resource Required</label>
-        </rules>
-        <rules>
-            <name>Resource_Not_Required</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>$Record.Resources_Required__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>No</stringValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Validate_Delivery_Support</targetReference>
-            </connector>
-            <label>Resource Not Required</label>
         </rules>
     </decisions>
     <interviewLabel>OPE Design Complete Flow {!$Flow.CurrentDateTime}</interviewLabel>

@@ -54,7 +54,7 @@
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>$Record.Program_Plan_Code__c</leftValueReference>
+                <leftValueReference>$Record.Code__c</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
@@ -110,7 +110,7 @@
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>$Record.PP_Courseloop_Full_URL__c</leftValueReference>
+                <leftValueReference>$Record.Courseloop_Full_URL__c</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>

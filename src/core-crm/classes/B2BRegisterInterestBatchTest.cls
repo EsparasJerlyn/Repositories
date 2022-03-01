@@ -8,12 +8,12 @@
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
-      | roy.nino.s.regala              | February 03, 2022     | DEPP-213               | Created file                 | 
-      |                                |                       |                        |                              | 
+      | roy.nino.s.regala              | February 03, 2022     | DEPP-213               | Created file                 |
+      |                                |                       |                        |                              |
  */
 @IsTest
 public class B2BRegisterInterestBatchTest {
-    
+
     @testSetup static void setupMethod() {
         List<Account> accounts;
         List<Contact> contacts;
@@ -27,7 +27,7 @@ public class B2BRegisterInterestBatchTest {
         List<Expression_of_Interest__c> interests;
         Pricebook2 priceBook;
         PricebookEntry priceBookEntry;
-         
+
         accounts = TestDataFactory.createTestAccountRecords(1);
         insert accounts;
         contacts = TestDataFactory.createTestContactRecords(1);
@@ -56,30 +56,30 @@ public class B2BRegisterInterestBatchTest {
         insert courseOfferings;
         interests = TestDataFactory.createExpressionOfInterest(25,contacts[0],products);
         insert interests;
-        
-        
-    }  
-    
-    
+
+
+    }
+
+
     @IsTest
     public static void testRegisterInterest() {
         String htmlValue = 'Contact_FirstName Contact_LastName Product_Name Product_URL';
         Id userId = UserInfo.getUserId();
-        EmailTemplate e = new EmailTemplate(developerName = 'Offering_Available_Email_Notification', 
+        EmailTemplate e = new EmailTemplate(developerName = 'Offering_Available_Email_Notification',
                                             HtmlValue = htmlValue,
-                                            TemplateType= 'Text', 
-                                            Name = 'Offering_Available_Email_Notification', 
+                                            TemplateType= 'Text',
+                                            Name = 'Offering_Available_Email_Notification',
                                             folderId = userId
-                                            ); 
+                                            );
         insert e;
         Test.startTest();
         Id batchJobId = Database.executeBatch(new B2BRegisterInterestBatch(), 200);
-        system.assertEquals(0, 
+        system.assertEquals(0,
                             Limits.getEmailInvocations(),
                             'Number of email invocations not as expected'
                             );
         Test.stopTest();
     }
-    
-      
+
+
 }

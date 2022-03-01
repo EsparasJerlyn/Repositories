@@ -8,8 +8,8 @@
  * @history
  *    | Developer                 | Date                  | JIRA      | Change Summary                  |
       |---------------------------|-----------------------|-----------|---------------------------------|
-      | adrian.c.habasa           | Febuary 14, 2022      | DEPP-1247 | Created file                    | 
-      |                           |                       |           |                                 | 
+      | adrian.c.habasa           | Febuary 14, 2022      | DEPP-1247 | Created file                    |
+      |                           |                       |           |                                 |
 */
 @isTest
 public with sharing class TrackAttendanceAndEvaluationCtrlTest {
@@ -20,7 +20,7 @@ public with sharing class TrackAttendanceAndEvaluationCtrlTest {
 
     @TestSetup
     static void setupMethod(){
-        
+
         List<Contact> contacts;
         contacts = TestDataFactory.createTestContactRecords(1);
         insert contacts;
@@ -39,14 +39,14 @@ public with sharing class TrackAttendanceAndEvaluationCtrlTest {
         prodRequest[0].RecordTypeId = shortCourseProdReqId;
         insert prodRequest;
 
-        List<hed__Program_Plan__c> programPlans;   
+        List<hed__Program_Plan__c> programPlans;
         programPlans = TestDataFactory.createTestProgramPlanRecords(25);
         insert programPlans;
 
         List<Program_Offering__c> programOfferings;
         programOfferings = TestDataFactory.createTestProgramOfferingRecords(25, programPlans);
         insert programOfferings;
-        
+
         List<hed__Course__c> courses;
         courses = TestDataFactory.createTestCourseRecords(1,accounts[0].Id,prodRequest[0].Id);
         insert courses;
@@ -63,7 +63,7 @@ public with sharing class TrackAttendanceAndEvaluationCtrlTest {
         insert sessions;
 
         List<hed__Course_Enrollment__c> students;
-        students = TestDataFactory.createTestCourseConnectionRecord(1,contacts[0].Id,courseOfferings,programOfferings);
+        students = TestDataFactory.createTestCourseConnectionRecord(1,contacts[0].Id,courseOfferings);
         students[0].RecordTypeId =studentRTId;
 
         insert students;
@@ -79,12 +79,12 @@ public with sharing class TrackAttendanceAndEvaluationCtrlTest {
 
         Test.startTest();
          System.runAs(currentUser)
-        {   
-         
-            List<TrackAttendanceAndEvaluationCtrl.CourseRelatedRecords> getRecords = new List<TrackAttendanceAndEvaluationCtrl.CourseRelatedRecords>();
-            getRecords = TrackAttendanceAndEvaluationCtrl.getRelatedCourseOfferingsAndSessions(string.valueOf([SELECT Id FROM Product_Request__c WHERE RecordTypeId =:shortCourseProdReqId LIMIT 1].Id));  
+        {
 
-            System.assert(!getRecords.isEmpty(), 'No records retrieved.');    
+            List<TrackAttendanceAndEvaluationCtrl.CourseRelatedRecords> getRecords = new List<TrackAttendanceAndEvaluationCtrl.CourseRelatedRecords>();
+            getRecords = TrackAttendanceAndEvaluationCtrl.getRelatedCourseOfferingsAndSessions(string.valueOf([SELECT Id FROM Product_Request__c WHERE RecordTypeId =:shortCourseProdReqId LIMIT 1].Id));
+
+            System.assert(!getRecords.isEmpty(), 'No records retrieved.'); 
         }
         Test.stopTest();
     }
@@ -94,15 +94,15 @@ public with sharing class TrackAttendanceAndEvaluationCtrlTest {
     {
         Test.startTest();
         System.runAs(currentUser)
-        {      
+        {
             List<hed__Attendance_Event__c> attedanceToUpdate = new List<hed__Attendance_Event__c>([SELECT Id FROM hed__Attendance_Event__c LIMIT 1]);
             attedanceToUpdate[0].Present__c = true;
 
-            TrackAttendanceAndEvaluationCtrl.upsertAttendance(attedanceToUpdate);  
+            TrackAttendanceAndEvaluationCtrl.upsertAttendance(attedanceToUpdate);
             System.assert(![SELECT Id FROM hed__Attendance_Event__c WHERE Present__c = true].isEmpty(),'Error updating attendance');
-           
+
         }
         Test.stopTest();
-    }    
+    }
 
 }

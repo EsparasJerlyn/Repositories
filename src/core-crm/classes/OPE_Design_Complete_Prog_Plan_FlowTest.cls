@@ -8,25 +8,22 @@
  * @history
  *    | Developer                 | Date                  | JIRA         | Change Summary                              |
       |---------------------------|-----------------------|--------------|---------------------------------------------|
-      | eccarius.munoz            | January 24, 2022      | DEPP-1477    | Created File                                | 
-      |                           |                       |              |                                             | 
+      | eccarius.munoz            | January 24, 2022      | DEPP-1477    | Created File                                |
+      |                           |                       |              |                                             |
 */
 @IsTest(SeeAllData = false)
 private class OPE_Design_Complete_Prog_Plan_FlowTest{
 
-    private static string PR_PROGRAM = System.Label.RT_ProductRequest_Program;    
-    private static string PP_PROGRAM = System.Label.RT_ProgramPlan_Program;
-
-    private static User currentUser = TestDataFactory.createUserRecords(1, 'QUTeX').iterator().next();    
-    private static Id opeProgramReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_PROGRAM).getRecordTypeId();
-    private static Id opeProgramPlanReqId = Schema.SObjectType.hed__Program_Plan__c.getRecordTypeInfosByDeveloperName().get(PP_PROGRAM).getRecordTypeId();
+    private static User currentUser = TestDataFactory.createUserRecords(1, 'QUTeX').iterator().next();
+    private static Id opeProgramReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get('Program').getRecordTypeId();
+    private static Id opeProgramPlanReqId = Schema.SObjectType.hed__Program_Plan__c.getRecordTypeInfosByDeveloperName().get('Program').getRecordTypeId();
     private static Integer numberOfRecords = 100;
-         
+
     @isTest
     private static void updateOPEProgramTest(){
-        System.runAs(currentUser){     
+        System.runAs(currentUser){
             Integer numberOfCompleted = 0;
-            
+
             createProgramPlan(opeProgramReqId);
 
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
@@ -41,37 +38,37 @@ private class OPE_Design_Complete_Prog_Plan_FlowTest{
                 programPlansToUpdate[i].Name = 'test' + i;
                 programPlansToUpdate[i].RecordTypeId = opeProgramPlanReqId;
                 programPlansToUpdate[i].Product_Request__c  = productRequests[i].Id;
-                programPlansToUpdate[i].Program_Plan_Code__c = 'test' + i;
+                programPlansToUpdate[i].Code__c = 'test' + i;
                 programPlansToUpdate[i].Program_Type__c  = 'Prescribed Program';
                 programPlansToUpdate[i].Owning_Faculty__c  = accounts[0].Id;
                 programPlansToUpdate[i].hed__Start_Date__c  = Date.newInstance(2022, 01, 20);
                 programPlansToUpdate[i].hed__End_Date__c  = Date.newInstance(2022, 02, 20);
                 programPlansToUpdate[i].Overview__c  = 'test' + i;
                 programPlansToUpdate[i].Core_Concepts__c  = 'test' + i;
-                programPlansToUpdate[i].PP_Courseloop_Full_URL__c  = 'test' + i;
+                programPlansToUpdate[i].Courseloop_Full_URL__c  = 'test' + i;
                 programPlansToUpdate[i].PP_Is_curriculum_approved__c  = true;
             }
             update programPlansToUpdate;
-            
+
             List<hed__Program_Plan__c> programPlans = [SELECT Id, OPE_Design_Complete__c  FROM hed__Program_Plan__c LIMIT 100];
 
-            for(hed__Program_Plan__c programPlan : programPlans){  
+            for(hed__Program_Plan__c programPlan : programPlans){
                 if(programPlan.OPE_Design_Complete__c == true){
                     numberOfCompleted++;
                 }
             }
-                       
+
             Test.stopTest();
 
-            System.assertEquals(numberOfRecords, numberOfCompleted,'Required fields must be completed.');          
+            System.assertEquals(numberOfRecords, numberOfCompleted,'Required fields must be completed.');
         }
-    } 
+    }
 
     @isTest
     private static void updateIncompleteOPEProgramTest(){
-        System.runAs(currentUser){     
+        System.runAs(currentUser){
             Integer numberOfCompleted = 0;
-            
+
             createProgramPlan(opeProgramReqId);
 
             Test.startTest();
@@ -83,26 +80,26 @@ private class OPE_Design_Complete_Prog_Plan_FlowTest{
                 programPlansToUpdate[i].Name = 'test' + i;
                 programPlansToUpdate[i].RecordTypeId = opeProgramPlanReqId;
                 programPlansToUpdate[i].Product_Request__c  = productRequests[i].Id;
-                programPlansToUpdate[i].Program_Plan_Code__c = 'test' + i;
+                programPlansToUpdate[i].Code__c = 'test' + i;
             }
             update programPlansToUpdate;
-            
+
             List<hed__Program_Plan__c> programPlans = [SELECT Id, OPE_Design_Complete__c  FROM hed__Program_Plan__c LIMIT 100];
 
-            for(hed__Program_Plan__c programPlan : programPlans){  
+            for(hed__Program_Plan__c programPlan : programPlans){
                 if(programPlan.OPE_Design_Complete__c == true){
                     numberOfCompleted++;
                 }
             }
-                       
+
             Test.stopTest();
-            
-            System.assertEquals(0, numberOfCompleted,'Program Plan OPE Design Complete field should not be completed.');          
+
+            System.assertEquals(0, numberOfCompleted,'Program Plan OPE Design Complete field should not be completed.');
         }
-    } 
+    }
 
     private static void createProgramPlan(String productRequestRecordType){
-        System.runAs(currentUser){            
+        System.runAs(currentUser){
             List<Product_Request__c> productRequests = TestDataFactory.createTestProductRequestRecords(numberOfRecords);
             for(Product_Request__c productRequest : productRequests){
                 productRequest.RecordTypeId = productRequestRecordType;
@@ -110,7 +107,7 @@ private class OPE_Design_Complete_Prog_Plan_FlowTest{
             insert productRequests;
 
             List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(numberOfRecords);
-            insert programPlans;             
+            insert programPlans;
         }
-    }       
+    }
 }

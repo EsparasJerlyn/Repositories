@@ -226,27 +226,17 @@ public class TestDataFactory {
           Name = 'Test Course ' + i,
           hed__Account__c = accId,
           ProductRequestID__c = prodReqId,
-          Start_Time__c = Time.newInstance(3, 14, 15, 926),
-          End_Time__c = Time.newInstance(4, 14, 15, 926),
-          Volume_of_time__c = 'Days',
           Delivery_Type__c = 'Face to Face',
           Location_Details__c = 'test',
           hed__Description__c = 'test',
           Certificate_Type__c = 'Certificate of Achievement',
-          Collaboation_External__c = 'Yes',
+          Collaboration_with_External_Organisation__c = 'Yes',
           External_Organisation__c = 'test',
-          Activity_Outcomes__c = 'test',
-          Overview_Website__c = 'test' + i,
-          Search_Engine__c = 'test',
-          Search_Terms__c = 'test',
           Content__c = 'test',
-          Resources_Required__c = 'Yes',
           Resource_Details__c = 'test',
           Minimum_Participants__c = 1,
           Maximum_Participants__c = 100,
           Delivery_Support__c = 'Others',
-          Fees_Applicable__c = 'Yes',
-          Fee_Amount__c = 1000.00,
           Delivery_Comments__c = 'test',
           Core_Concepts__c = 'test',
           Overview__c = 'test',
@@ -622,16 +612,14 @@ public class TestDataFactory {
   public static List<hed__Course_Enrollment__c> createTestCourseConnectionRecord(
     Integer nCourseConnection,
     Id conId,
-    List<hed__Course_Offering__c> courseOfferings,
-    List<Program_Offering__c> programOfferings
+    List<hed__Course_Offering__c> courseOfferings
   ) {
     List<hed__Course_Enrollment__c> courseConnectionRecord = new List<hed__Course_Enrollment__c>();
     for (Integer i = 0; i < nCourseConnection; i++) {
       courseConnectionRecord.add(
         new hed__Course_Enrollment__c(
           hed__Contact__c = conId,
-          hed__Course_Offering__c = courseOfferings[i].id,
-          Program_Offering__c = programOfferings[i].id
+          hed__Course_Offering__c = courseOfferings[i].id
         )
       );
     }
@@ -784,8 +772,7 @@ public class TestDataFactory {
       pendingRegistrationRecord.add(
         new Pending_Registration__c(
           Contact__c = conId,
-          Course_Offering__c = courseOfferings[i].id,
-          Start_Time__c = System.now()
+          Course_Offering__c = courseOfferings[i].id
         )
       );
     }
@@ -797,7 +784,7 @@ public class TestDataFactory {
    * @param nProgramOffering - number of Program Offering to be created
    * @param programPlans - Program Plan to be related to Program Offering
    * @return programOfferingRecord - List of Pending Registration Created   */
-  public static List<Program_Offering__c> createTestProgramOfferingRecords(
+   public static List<Program_Offering__c> createTestProgramOfferingRecords(
     Integer nProgramOffering,
     List<hed__Program_Plan__c> programPlans
   ) {
@@ -986,7 +973,7 @@ public class TestDataFactory {
   List<Session__c> sessions = new List<Session__c>();
 
     for (Integer i = 0; i < numSessions; i++) {
-      sessions.add(new Session__c(Session_Name__c = 'Session Test' + i));
+      sessions.add(new Session__c(Name = 'Session Test' + i));
     }
 
     return sessions;
@@ -999,7 +986,7 @@ public class TestDataFactory {
    * @param courseEnrollment Id of Course Connection to be related
    * @param sessionId Id of Session to be related
    */
-  public static List<hed__Attendance_Event__c> createTestAttendanceRecords(Integer numAttendance, Id contId, Id courseEnrollment, Id sessionId){
+   public static List<hed__Attendance_Event__c> createTestAttendanceRecords(Integer numAttendance, Id contId, Id courseEnrollment, Id sessionId){
   List<hed__Attendance_Event__c> attendance = new List<hed__Attendance_Event__c>();
 
     for (Integer i = 0; i < numAttendance; i++) {
@@ -1034,4 +1021,3 @@ public class TestDataFactory {
 
 
 }
-

@@ -170,7 +170,7 @@ public with sharing class ProductOfferingCtrl {
             ];
             
             poData.relatedSessions = [
-                SELECT Id, Session_Name__c, Session_Type__c,  Course_Connection__c, Course_Connection__r.hed__Contact__c,
+                SELECT Id, Name, Session_Type__c,  Course_Connection__c, Course_Connection__r.hed__Contact__c,
                         Course_Connection__r.hed__Contact__r.Name, Course_Offering__c, Facilitator__c,
                         Start_Time__c, End_Time__c, Location__c, Location__r.Name, Location_Detail__c
                 FROM Session__c 

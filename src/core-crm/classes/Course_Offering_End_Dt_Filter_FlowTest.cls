@@ -10,7 +10,7 @@
       |---------------------------|-----------------------|--------------|------------------------------------------------------------------------------------------|
       | eccarius.munoz            | December 24, 2021     | DEPP-1109    | Created file                                                                             |
       | johnbo.pineda@qut.edu.au  | January 05, 2022      | DEPP-1382    | Modified to accommodate changes to TestDataFactory for createTestCourseConnectionRecord. |
-      |                           |                       |              |                                                                                          |
+      | justine.javier@qut.edu.au | February 25, 2022     | DEPP-1819    | Removed Program_Offering__c logic       													|                                                                                          |
 
 */
 @IsTest(SeeAllData = false)
@@ -43,10 +43,7 @@ private class Course_Offering_End_Dt_Filter_FlowTest{
             List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(1);
             insert programPlans;
 
-            List<Program_Offering__c> programOfferings = TestDataFactory.createTestProgramOfferingRecords(1, programPlans);
-            insert programOfferings;
-
-            List<hed__Course_Enrollment__c> courseConnections = TestDataFactory.createTestCourseConnectionRecord(1, contacts[0].Id, courseOfferings, programOfferings);
+            List<hed__Course_Enrollment__c> courseConnections = TestDataFactory.createTestCourseConnectionRecord(1, contacts[0].Id, courseOfferings);
             insert courseConnections;
 
             List<Asset> assets = TestDataFactory.createTestAssetRecords(10, accounts[0].Id, prodRequest[0].Id);

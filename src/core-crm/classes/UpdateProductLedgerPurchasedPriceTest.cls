@@ -8,7 +8,7 @@
  * @history
  *    | Developer                 | Date                  | JIRA     | Change Summary                  |
       |---------------------------|-----------------------|----------|---------------------------------|
-      | arsenio.dayrit@qut.edu.au | January 12, 2022      | DEPP-1359| Created file                    | 
+      | arsenio.dayrit@qut.edu.au | January 12, 2022      | DEPP-1359| Created file                    |
       |                           |                       |          |                                 |
 */
 @isTest(SeeAllData = false)
@@ -43,17 +43,14 @@ public with sharing class UpdateProductLedgerPurchasedPriceTest {
 
             List<hed__Course_Offering__c> courseOfferings = TestDataFactory.createTestCourseOfferingRecord(10, courses, terms);
             insert courseOfferings;
-            
+
             List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(10);
             insert programPlans;
 
-            List<Program_Offering__c> programOfferings = TestDataFactory.createTestProgramOfferingRecords(10, programPlans);
-            insert programOfferings;
-
             List<Asset> assetRec = TestDataFactory.createTestAssetRecords(1,acc[0].Id,prodRequest[0].Id);
             insert assetRec;
-            
-            List<hed__Course_Enrollment__c> courseConnection = TestDataFactory.createTestCourseConnectionRecord(10, conList[0].Id,courseOfferings,programOfferings );
+
+            List<hed__Course_Enrollment__c> courseConnection = TestDataFactory.createTestCourseConnectionRecord(10, conList[0].Id,courseOfferings);
             for(hed__Course_Enrollment__c courseCon : courseConnection){
                 courseCon.Purchased_Price__c = 100;
             }
@@ -64,12 +61,12 @@ public with sharing class UpdateProductLedgerPurchasedPriceTest {
             insert prodLedger;
             Test.stopTest();
 
-            List<Product_Ledger__c> updateProdLedger = [SELECT id, Purchased_Price_v2__c FROM Product_Ledger__c LIMIT 100]; 
+            List<Product_Ledger__c> updateProdLedger = [SELECT id, Purchased_Price_v2__c FROM Product_Ledger__c LIMIT 100];
             for(Product_Ledger__c checkProdLedger : updateProdLedger){
                 System.assertEquals(100, checkProdLedger.Purchased_Price_v2__c, 'not equal value');
             }
-         
+
         }
-   
-    }   
+
+    }
 }
