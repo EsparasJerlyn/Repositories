@@ -147,19 +147,49 @@
         <name>PathAssistant</name>
     </types>
     <types>
-        <members>Field_Layout_Setting__mdt.Professional_Advantage_Request_Summary</members>
+        <!--<members>Field_Layout_Setting__mdt.Professional_Advantage_Request_Summary</members>
         <members>Field_Layout_Setting__mdt.Professional_Advantage_Request_Detail</members>
+        <members>Record_Type_Setting__mdt.Professional_Advantage_Request</members>
+        <members>Record_Type_Setting__mdt.OPE_Activity</members>
+        <members>Record_Type_Setting__mdt.OPE_Program</members>
+        <members>Record_Type_Setting__mdt.OPE_Program_Request</members>
+        <members>Record_Type_Setting__mdt.Single_Product</members>-->
+
+        <members>Field_Layout_Setting__mdt.OPE_Product_Overview</members>
+        <members>Field_Layout_Setting__mdt.OPE_Publishing_Dates</members>
+        <members>Field_Layout_Setting__mdt.OPE_Quality_Assurance_Endorsement</members>
+        <members>Field_Layout_Setting__mdt.OPE_Program_CourseLoop_Details</members>
+        <members>Field_Layout_Setting__mdt.OPE_Program_Detail</members>
+        <members>Field_Layout_Setting__mdt.OPE_Program_Information</members>
+        <members>Field_Layout_Setting__mdt.OPE_Program_Overview</members>
+        <members>Field_Layout_Setting__mdt.Unit_CourseLoop_Details</members>
+        <members>Field_Layout_Setting__mdt.Unit_Detail</members>
+        <members>Field_Layout_Setting__mdt.Unit_Fees</members>
+        <members>Field_Layout_Setting__mdt.Unit_Information</members>
+        <members>Field_Layout_Setting__mdt.OPE_Single_Product_CourseLoop_Details</members>
+        <members>Field_Layout_Setting__mdt.OPE_Single_Product_Detail</members>
+        <members>Field_Layout_Setting__mdt.OPE_Single_Product_Fees</members>
+        <members>Field_Layout_Setting__mdt.OPE_Single_Product_Information</members>
+        <members>Field_Layout_Setting__mdt.OPE_Short_Course_Design_Detail</members>
+        <members>Field_Layout_Setting__mdt.OPE_Short_Course_Fees</members>
+        <members>Field_Layout_Setting__mdt.OPE_Short_Course_Information</members>
+        <members>Field_Layout_Setting__mdt.OPE_Activity_Detail</members>
+        <members>Field_Layout_Setting__mdt.OPE_Activity_Fees</members>
+        <members>Field_Layout_Setting__mdt.OPE_Activity_Information</members>
+        <members>Field_Layout_Setting__mdt.Program_for_Modal</members>
         <members>Field_Layout_Setting__mdt.OPE_Additional_Information</members>
         <members>Field_Layout_Setting__mdt.OPE_CourseLoop_Details</members>
         <members>Field_Layout_Setting__mdt.OPE_Program_Fees</members>
         <members>Field_Layout_Setting__mdt.OPE_Program_Plan_Detail</members>
         <members>Field_Layout_Setting__mdt.OPE_Program_Plan_Overview</members>
-        <members>Record_Type_Setting__mdt.Professional_Advantage_Request</members>
-        <members>Record_Type_Setting__mdt.OPE_Activity</members>
-        <members>Record_Type_Setting__mdt.OPE_Program</members>
-        <members>Record_Type_Setting__mdt.OPE_Program_Request</members>
-        <members>Record_Type_Setting__mdt.Single_Product</members>
+        <members>Record_Type_Setting__mdt.OPE_Activity_Request</members>
+        <members>Record_Type_Setting__mdt.Program_for_Modal</members>
         <members>Record_Type_Setting__mdt.Program_Plan</members>
+        <members>Record_Type_Setting__mdt.Program</members>
+        <members>Record_Type_Setting__mdt.Unit</members>
+        <members>Record_Type_Setting__mdt.Module</members>
+        <members>Record_Type_Setting__mdt.Short_Course</members>
+        <members>Record_Type_Setting__mdt.Activity</members>
         <name>CustomMetadata</name>
     </types>
     <types>
@@ -195,6 +225,15 @@
         <name>ApexClass</name>
     </types> -->
     <!-- fix for Apex Issue DEPP 1256 -->
+    <types>
+        <members>CustomPageLayoutCtrl</members>
+        <members>CustomPageLayoutCtrlTest</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>opeCustomPageLayout</members>
+        <name>LightningComponentBundle</name>
+    </types>
 
     <!-- for DEPP-1819-->
     <types>
