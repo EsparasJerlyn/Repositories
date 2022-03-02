@@ -146,6 +146,10 @@
     <layoutAssignments>
         <layout>hed__Program_Plan__c-OPE Program Request Page Layout</layout>
     </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Program_Plan__c-Program Page Layout</layout>
+        <recordType>hed__Program_Plan__c.Program</recordType>
+    </layoutAssignments>
     <recordTypeVisibilities>
         <default>false</default>
         <recordType>Account.Academic_Program</recordType>
