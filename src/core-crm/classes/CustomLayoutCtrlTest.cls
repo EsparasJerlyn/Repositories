@@ -17,7 +17,8 @@ private class CustomLayoutCtrlTest {
     private static final String COURSE_PR_FIELD = 'ProductRequestID__c';
     private static final String PRODUCT_API_NAME = Product2.SObjectType.getDescribe().getLocalName();
     private static final String PRODUCT_COURSE_FIELD = 'Course__c';
-    private static final String OPE_ACTIVITY = 'Activity';
+    private static final String COMMUNICATION_SCHEDULE_API_NAME = Communication_Schedule__c.SObjectType.getDescribe().getLocalName();
+    private static final String MDT_COMMUNICATION_SCHEDULE = 'All_OPE_Communication_Schedules';
     private static User currentUser = TestDataFactory.createUserRecords(1, 'QUTeX').iterator().next();
 
     @testSetup static void setupMethod() {
@@ -62,9 +63,9 @@ private class CustomLayoutCtrlTest {
     private static void getLayoutMappingTest(){
         System.runAs(currentUser){
             Test.startTest();
-            List<Field_Layout_Setting__mdt> fieldLayoutList = CustomLayoutCtrl.getLayoutMapping(COURSE_API_NAME,OPE_ACTIVITY,true);
+            List<Field_Layout_Setting__mdt> fieldLayoutList = CustomLayoutCtrl.getLayoutMapping(COMMUNICATION_SCHEDULE_API_NAME,MDT_COMMUNICATION_SCHEDULE,true);
             Test.stopTest();
-            System.assert(fieldLayoutList.size() == 3, 'Field Layout Setting list did not match expected.');
+            System.assert(fieldLayoutList.size() == 1, 'Field Layout Setting list did not match expected.');
         }
     }
 

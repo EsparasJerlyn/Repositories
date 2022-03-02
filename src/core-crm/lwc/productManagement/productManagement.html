@@ -9,12 +9,12 @@
             </c-product-pricing>
         </div>
         <div if:true={showSection} class="slds-m-vertical_xx-small">
-            <c-ope-custom-page-layout
+            <c-custom-layout-handler
                 record-id={recordId}
                 object-api-name={objectApiName}
                 section-label="Payment Options"
                 is-grandchild>
-            </c-ope-custom-page-layout>
+            </c-custom-layout-handler>
         </div>
         <div if:true={showSection} class="slds-m-vertical_xx-small">
             <c-financial-split
@@ -23,20 +23,20 @@
             ></c-financial-split>
         </div>
         <div if:true={showSection} class="slds-m-vertical_xx-small">
-            <c-ope-custom-page-layout
+            <c-custom-layout-handler
                 record-id={recordId}
                 object-api-name={objectApiName}
                 section-label="Communication Schedule"
                 grandchild-object="Communication_Schedule__c"
                 is-grandchild>
-            </c-ope-custom-page-layout>
+            </c-custom-layout-handler>
         </div>
         <div class="slds-m-vertical_xx-small">
-            <c-ope-custom-page-layout
+            <c-custom-layout-handler
                 record-id={recordId}
                 object-api-name={objectApiName}
                 section-label="Certificate">
-            </c-ope-custom-page-layout>
+            </c-custom-layout-handler>
         </div>
         <div class="slds-m-vertical_xx-small">
             <c-setup-registration
@@ -44,12 +44,12 @@
             ></c-setup-registration>
         </div>
         <div class="slds-m-vertical_xx-small">
-            <c-ope-custom-page-layout
+            <c-custom-layout-handler
                 record-id={recordId}
                 object-api-name={objectApiName}
                 section-label="Decommission Product"
                 is-grandchild>
-            </c-ope-custom-page-layout>
+            </c-custom-layout-handler>
         </div>
     </div>
 </template>
