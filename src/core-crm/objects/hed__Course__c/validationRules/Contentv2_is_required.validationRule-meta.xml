@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Content_is_required</fullName>
+    <fullName>Contentv2_is_required</fullName>
     <active>true</active>
     <errorConditionFormula>AND (
  OR(
@@ -17,8 +17,8 @@
    ISPICKVAL( Design_Form_Status__c , &apos;Design Form Received&apos;)
   ) 
  ),
- ISBLANK( Content__c )
+ ISBLANK( Contentv2__c )
 )</errorConditionFormula>
-    <errorDisplayField>Content__c</errorDisplayField>
+    <errorDisplayField>Contentv2__c</errorDisplayField>
     <errorMessage>“Content” is required to update the Product Request Status.</errorMessage>
 </ValidationRule>

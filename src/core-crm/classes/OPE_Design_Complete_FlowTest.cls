@@ -37,7 +37,7 @@ private class OPE_Design_Complete_FlowTest{
             for(hed__Course__c course : coursesToUpdate){
                 course.RecordTypeId = opeActivityId;
                 course.External_Organisation__c = 'test';
-                course.Resource_Details__c = 'test';
+                course.Resource_Detailsv2__c = 'test';
                 course.Delivery_Comments__c = 'test';
                 course.Location__c = facility.Id;
                 course.Location_Details__c = 'test';
@@ -70,7 +70,7 @@ private class OPE_Design_Complete_FlowTest{
                 course.Proposal_Title__c = 'Short1';
                 course.Previously_Developed_Content__c = 'Yes';
                 course.External_Organisation__c = 'test';
-                course.Resource_Details__c = 'test';
+                course.Resource_Detailsv2__c = 'test';
                 course.Delivery_Comments__c = 'test';
                 course.Location__c = facility.Id;
                 course.Location_Details__c = 'test';
@@ -98,13 +98,13 @@ private class OPE_Design_Complete_FlowTest{
 
             Test.startTest();
             List<hed__Course__c> coursesToUpdate = [SELECT id, OPE_Design_Complete__c FROM hed__Course__c LIMIT 100];
-            for(hed__Course__c course : coursesToUpdate){    
+            for(hed__Course__c course : coursesToUpdate){
                 course.RecordTypeId = opeModuleProdId;
                 course.Proposal_Title__c = 'test';
                 course.Is_Curriculum_Approved__c = true;
                 course.CourseLoop_Full_Proposal_URL__c = 'test';
                 course.External_Organisation__c = 'test';
-                course.Resource_Details__c = 'test';
+                course.Resource_Detailsv2__c = 'test';
                 course.Delivery_Comments__c = 'test';
                 course.Location__c = facility.Id;
                 course.Location_Details__c = 'test';
@@ -174,7 +174,7 @@ private class OPE_Design_Complete_FlowTest{
                 course.hed__Description__c = 'test';
                 course.Certificate_Type__c = 'Certificate of Achievement';
                 course.Collaboration_with_External_Organisation__c = 'Yes';
-                course.Content__c = 'test';
+                course.Contentv2__c = 'test';
                 course.Minimum_Participants__c = 1;
                 course.Maximum_Participants__c = 100;
                 course.Delivery_Support__c = 'Others';

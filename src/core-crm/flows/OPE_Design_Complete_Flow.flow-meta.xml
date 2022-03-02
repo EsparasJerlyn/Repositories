@@ -68,7 +68,7 @@
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>$Record.Content__c</leftValueReference>
+                <leftValueReference>$Record.Contentv2__c</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
@@ -402,7 +402,7 @@
             <name>Resource_Required</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>$Record.Resource_Details__c</leftValueReference>
+                <leftValueReference>$Record.Resource_Detailsv2__c</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
