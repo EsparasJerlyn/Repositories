@@ -216,14 +216,11 @@
     <!-- fix for pipeline bug DEPP-1718 -->
 
     <!-- fix for Apex Issue DEPP 1256 -->
-    <!-- <types>
-        <members>PublishingEndDateScheduler</members>
-        <name>ApexClass</name>
-    </types>
     <types>
+        <members>PublishingEndDateScheduler</members>
         <members>PublishingEndDateSchedulerTest</members>
         <name>ApexClass</name>
-    </types> -->
+    </types>
     <!-- fix for Apex Issue DEPP 1256 -->
     <types>
         <members>CustomPageLayoutCtrl</members>
