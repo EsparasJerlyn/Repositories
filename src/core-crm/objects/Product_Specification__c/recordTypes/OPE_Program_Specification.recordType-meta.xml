@@ -237,10 +237,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Idea Received</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Idea Sent</fullName>
             <default>false</default>
         </values>

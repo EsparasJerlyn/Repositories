@@ -23,11 +23,6 @@
                 <label>Idea Sent</label>
             </value>
             <value>
-                <fullName>Idea Received</fullName>
-                <default>false</default>
-                <label>Idea Received</label>
-            </value>
-            <value>
                 <fullName>Qualification</fullName>
                 <default>false</default>
                 <label>Qualification</label>
@@ -62,10 +57,6 @@
             <valueName>Idea Sent</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Idea</controllingFieldValue>
-            <valueName>Idea Received</valueName>
-        </valueSettings>
-        <valueSettings>
             <controllingFieldValue>Qualify</controllingFieldValue>
             <valueName>Qualification</valueName>
         </valueSettings>
@@ -74,16 +65,16 @@
             <valueName>Design</valueName>
         </valueSettings>
         <valueSettings>
+            <controllingFieldValue>Complete</controllingFieldValue>
+            <valueName>Complete</valueName>
+        </valueSettings>
+        <valueSettings>
             <controllingFieldValue>Not Proceeding</controllingFieldValue>
             <valueName>Does Not Meet Qualification</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Not Proceeding</controllingFieldValue>
             <valueName>Existing Product</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Complete</controllingFieldValue>
-            <valueName>Complete</valueName>
         </valueSettings>
     </valueSet>
 </CustomField>
