@@ -81,11 +81,11 @@
         <layout>Account-University And Educational Layout</layout>
         <recordType>Account.University_Department</recordType>
     </layoutAssignments>
-    <layoutAssignments>
-        <layout>Opportunity-Opportunity Details</layout>
-    </layoutAssignments>
  <layoutAssignments>
         <layout>Outlook-Outlook Integration Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Opportunity-QUTeX Opportunity Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Opportunity-QUTeX Opportunity Layout</layout>

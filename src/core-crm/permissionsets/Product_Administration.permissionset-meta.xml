@@ -894,7 +894,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Questionnaire_Response_Summary__c.Course_Name__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -2358,6 +2358,10 @@
     </recordTypeVisibilities>
     <tabSettings>
         <tab>Credential__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>Questionnaire_Response_Summary__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>

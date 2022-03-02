@@ -3701,10 +3701,10 @@
         <layout>Loqate_Component__mdt-Loqate Component Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Opportunity-Opportunity Details</layout>
+        <layout>Opportunity-QUTeX Opportunity Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Opportunity-Opportunity Details</layout>
+        <layout>Opportunity-QUTeX Opportunity Layout</layout>
         <recordType>Opportunity.QUTex_CCE</recordType>
     </layoutAssignments>
     <layoutAssignments>
