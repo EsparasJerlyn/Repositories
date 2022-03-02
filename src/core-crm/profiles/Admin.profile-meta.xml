@@ -3041,7 +3041,7 @@
         <editable>true</editable>
         <field>Product2.Publishing_Start_date__c</field>
         <readable>true</readable>
-    </fieldPermissions> 
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Financial_Split__c.Account_Code__c</field>
@@ -3697,6 +3697,10 @@
         <recordType>hed__Course__c.Short_Course</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>hed__Course__c-OPE Unit Page Layout</layout>
+        <recordType>hed__Course__c.Unit</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>hed__Program_Plan__c-OPE Program Request Page Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -3876,7 +3880,7 @@
         <modifyAllRecords>false</modifyAllRecords>
         <object>Invoice__c</object>
         <viewAllRecords>false</viewAllRecords>
-    </objectPermissions>    
+    </objectPermissions>
     <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>true</allowDelete>

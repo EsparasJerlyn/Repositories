@@ -144,6 +144,10 @@
         <recordType>hed__Course__c.Short_Course</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>hed__Course__c-OPE Unit Page Layout</layout>
+        <recordType>hed__Course__c.Unit</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>hed__Program_Plan__c-OPE Program Request Page Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
