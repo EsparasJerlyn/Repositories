@@ -1,8 +1,8 @@
 name: "IT1FebMC Deploy (7am AEST)"
 
 resources:
-  repoIT1FebMCories:
-    - repoIT1FebMCory: SFDX-PIPELINES
+  repositories:
+    - repository: SFDX-PIPELINES
       type: bitbucket
       endpoint: Bitbucket_QUT
       name: qutdev/sfdx-pipelines
