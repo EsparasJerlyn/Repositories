@@ -181,7 +181,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Is_Custom_Award__c</field>
+                <field>PP_Is_curriculum_approved__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
