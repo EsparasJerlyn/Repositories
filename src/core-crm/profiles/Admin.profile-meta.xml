@@ -3782,6 +3782,9 @@
     <layoutAssignments>
         <layout>Product_Ledger__c-Product Ledger Layout</layout>
     </layoutAssignments>
+    <layoutAssignments>
+        <layout>Questionnaire_Response_Summary__c-Questionnaire Response Summary Layout</layout>
+    </layoutAssignments>
     <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>true</allowDelete>
@@ -4280,6 +4283,10 @@
     <tabVisibilities>
         <tab>Program_Offering__c</tab>
         <visibility>Hidden</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Questionnaire_Response_Summary__c</tab>
+        <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>Session__c</tab>
