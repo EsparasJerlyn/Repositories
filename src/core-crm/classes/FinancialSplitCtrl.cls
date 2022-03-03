@@ -26,7 +26,12 @@ public with sharing class FinancialSplitCtrl {
     */
     @AuraEnabled(cacheable=true)
     public static Id getQutexId(String qutex){
-        return [SELECT Id FROM Account WHERE Name =: qutex]?.Id;
+        return [
+            SELECT Id
+            FROM Account
+            WHERE Name =: qutex
+            LIMIT 1
+        ]?.Id;
     }
 
     /**
