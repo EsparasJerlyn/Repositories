@@ -205,8 +205,16 @@ export default class ProductBulkRegistration extends NavigationMixin(
     validateSalutation(Salutation){
         return this.pickList.includes(Salutation)?true:false;
     }
+    validateDate(Birthdate){
+        return Birthdate === 'Invalid Date'?false:true;
+    }
     parseDate(date){
-        return date?new Date(date.replace('\r','')).toLocaleDateString('en-US'):''
+        if(date.replace('\r','') === ''){
+            return '';
+        }else{
+            return date?new Date(date.replace('\r','')).toLocaleDateString('en-US'):'';
+        }
+        
     }
     rowvalidation(){
         let rowsValidation={};
@@ -217,6 +225,7 @@ export default class ProductBulkRegistration extends NavigationMixin(
             if(!this.validatePhone(contact.MobilePhone))fieldNames.push('MobilePhone');
             if(!this.validatePhone(contact.Phone))fieldNames.push('Phone');
             if(!this.validateSalutation(contact.Salutation))fieldNames.push('Salutation');
+            if(!this.validateDate(contact.Birthdate))fieldNames.push('Birthdate');
             if(fieldNames.length>0){
                 rowsValidation[contact.id]={
                     title: 'We found an error/s.',
@@ -243,7 +252,7 @@ export default class ProductBulkRegistration extends NavigationMixin(
                 let id=index+"";
                     return {
                     ...contact,
-                    Birthdate:this.parseDate(contact.Birthdate),
+                    Birthdate:contact.Birthdate?this.parseDate(contact.Birthdate):'',
                     id
                     }
             });
@@ -275,7 +284,6 @@ export default class ProductBulkRegistration extends NavigationMixin(
     handleGetCourses({data,error}){
         if(data){
             this.csvUrl = "/cce/sfsites/c/cms/delivery/media/"+data.contentKey;
-            console.log(this.csvUrl,"url");
         }else if(error){
             this.generateToast('Error.',ERROR_MSG,'error');
         }
