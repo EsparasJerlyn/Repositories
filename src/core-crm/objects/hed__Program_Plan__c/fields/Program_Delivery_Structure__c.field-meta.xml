@@ -11,24 +11,14 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Face To Face</fullName>
+                <fullName>Prescribed Program</fullName>
                 <default>false</default>
-                <label>Face To Face</label>
+                <label>Prescribed Program</label>
             </value>
             <value>
-                <fullName>Virtual Classroom</fullName>
-                <default>false</default>
-                <label>Virtual Classroom</label>
-            </value>
-            <value>
-                <fullName>Blended</fullName>
-                <default>false</default>
-                <label>Blended</label>
-            </value>
-            <value>
-                <fullName>Online</fullName>
-                <default>false</default>
-                <label>Online</label>
+                <fullName>Flexible Program</fullName>
+                <default>true</default>
+                <label>Flexible Program</label>
             </value>
         </valueSetDefinition>
     </valueSet>
