@@ -63,6 +63,14 @@
             "useCSVValuesMapping": true,
             "targetObject": "Flow_Automation_Settings__c",
             "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id, Name from Account",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "Account",
+            "importCSVFilesAsIs": true
         }
     ]
 }
