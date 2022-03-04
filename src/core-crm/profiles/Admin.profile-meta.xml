@@ -2619,6 +2619,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>hed__Course__c.Unit_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Course__c.Volume_of_Learning_hours__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>hed__Course__c.Who_Should_Participate__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2664,7 +2674,17 @@
     </fieldPermissions>
 	<fieldPermissions>
         <editable>true</editable>
+        <field>hed__Course__c.Collaboration_with_External_Organisation__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
         <field>hed__Course__c.Content__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Course__c.Contentv2__c</field>
         <readable>true</readable>
     </fieldPermissions>
 	<fieldPermissions>
@@ -2707,9 +2727,19 @@
         <field>hed__Course__c.Fees_Applicable__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Course__c.Field_of_Education__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
 	<fieldPermissions>
         <editable>true</editable>
         <field>hed__Course__c.Location_Details__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Course__c.LMS_Content_Delivery_Location__c</field>
         <readable>true</readable>
     </fieldPermissions>
 	<fieldPermissions>
@@ -2740,6 +2770,11 @@
 	<fieldPermissions>
         <editable>true</editable>
         <field>hed__Course__c.Resource_Details__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Course__c.Resource_Detailsv2__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

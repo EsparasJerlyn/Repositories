@@ -119,15 +119,19 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>hed__Description__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Previously_Developed_Content__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Content__c</field>
+                <field>Contentv2__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Resource_Details__c</field>
+                <field>Resource_Detailsv2__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -136,6 +140,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Who_Should_Participate__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Core_Concepts__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
