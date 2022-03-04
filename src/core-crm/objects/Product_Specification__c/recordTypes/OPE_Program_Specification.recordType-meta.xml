@@ -105,33 +105,6 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>Product_Subtype__c</picklist>
-        <values>
-            <fullName>Discussion Forum</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Event</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Information Session</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Master Class</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Microcredential</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Short Course</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
         <picklist>Product_Type__c</picklist>
         <values>
             <fullName>Activity</fullName>

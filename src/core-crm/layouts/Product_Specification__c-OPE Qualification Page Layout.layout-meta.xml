@@ -36,11 +36,7 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Product_Type__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Product_Subtype__c</field>
-            </layoutItems>
+            </layoutItems>            
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Requires_Director_Endorsement__c</field>

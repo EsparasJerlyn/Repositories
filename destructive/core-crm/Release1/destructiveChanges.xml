@@ -300,5 +300,15 @@
         <name>ValidationRule</name>
     </types>
 
+    <!-- DEPP-1912 -->
+    <types>
+        <members>Product_Request__c.PRProduct_Subtype__c</members>
+        <members>Product_Specification__c.Product_Subtype__c</members>
+        <name>CustomField</name>
+    </types>
+    <types>
+        <members>Product_Specification__c.Product_Subtype_is_required</members>
+        <name>ValidationRule</name>
+    </types>
     <version>52.0</version>
 </Package>
