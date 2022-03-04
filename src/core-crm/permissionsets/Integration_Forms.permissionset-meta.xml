@@ -1687,7 +1687,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>hed__Course__c.Collaboration_with_External_Organisation__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>hed__Course__c.Content__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Course__c.Contentv2__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1753,6 +1763,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course__c.Enrolment_Rules__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Course__c.Enrolment_Rulesv2__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1892,6 +1907,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>hed__Course__c.Previously_Developed_Content__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>hed__Course__c.Primary_Delivery_Platform__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1923,6 +1943,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course__c.Resource_Details__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Course__c.Resource_Detailsv2__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1972,7 +1997,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Course__c.Unit_Mode__c</field>
+        <field>hed__Course__c.Volume_of_Learning_hours__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2008,11 +2033,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course__c.hed__Description__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>hed__Course__c.hed__Extended_Description__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2112,17 +2132,42 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Program_Plan__c.Accreditation_End__c</field>
+        <field>hed__Program_Plan__c.Accreditation_End_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Program_Plan__c.Accreditation_Start__c</field>
+        <field>hed__Program_Plan__c.Accreditation_Start_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Program_Plan__c.Associated_Standard_Award__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Program_Plan__c.Blue_Card_Required__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Program_Plan__c.Certificate_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Program_Plan__c.Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Program_Plan__c.Collaboration_with_External_Organisation__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Program_Plan__c.Completion_Requirements__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2137,7 +2182,27 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>hed__Program_Plan__c.Delivery_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Program_Plan__c.Designated_Units__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Program_Plan__c.Early_Exit_Options__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>hed__Program_Plan__c.Field_of_Education__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Program_Plan__c.Implementation_Year__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2147,7 +2212,32 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>hed__Program_Plan__c.Location__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Program_Plan__c.Maximum_Participants__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Program_Plan__c.Minimum_Participants__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>hed__Program_Plan__c.More_Details__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Program_Plan__c.OPE_Design_Complete__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Program_Plan__c.Other_Completion_Requirements__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2168,6 +2258,31 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Program_Plan__c.Product_Request__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Program_Plan__c.Program_Delivery_Structure__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Program_Plan__c.Program_Description__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Program_Plan__c.Program_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Program_Plan__c.Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Program_Plan__c.Volume_of_Learning_Hours__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
