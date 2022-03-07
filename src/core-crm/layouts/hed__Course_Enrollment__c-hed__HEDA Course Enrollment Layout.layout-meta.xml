@@ -27,10 +27,6 @@
                 <field>hed__Primary__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Course_Connection_Value__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Course_Offering_Start_Date__c</field>
             </layoutItems>

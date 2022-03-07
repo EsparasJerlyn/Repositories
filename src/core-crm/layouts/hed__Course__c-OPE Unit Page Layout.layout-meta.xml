@@ -145,10 +145,6 @@
                 <behavior>Edit</behavior>
                 <field>Core_Concepts__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Enrolment_Rules__c</field>
-            </layoutItems>
         </layoutColumns>
         <style>OneColumn</style>
     </layoutSections>

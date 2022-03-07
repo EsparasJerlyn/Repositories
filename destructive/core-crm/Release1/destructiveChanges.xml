@@ -2,10 +2,10 @@
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <!--(Start) Kindly comment out once it reaches PROD
         DEPP-415, DEPP-641, DEP1-653, DEPP-106, DEPP-236-->
-    <types>
+    <!--<types>
         <members>Create_Contact_Role_for_Opportunity_Manual_Creation-1</members>
         <name>Flow</name>
-    </types>
+    </types>-->
     <types>
         <members>Account.Custom_Lead_Allow_Not_Duplicate_Rule</members>
         <name>DuplicateRule</name>
@@ -123,11 +123,11 @@
         <name>CustomField</name>
     </types>
 
-    <types>
+    <!--<types>
         <members>Send_Email_Upon_Short_Course_Design_Submission</members>
         <members>Short_Course_Design_Form_Email</members>
         <name>Flow</name>
-    </types>
+    </types>-->
 
     <types>
         <members>hed__Course__c.Professional_Advantage_Value__c</members>
@@ -225,6 +225,8 @@
     <types>
         <members>CustomPageLayoutCtrl</members>
         <members>CustomPageLayoutCtrlTest</members>
+        <members>Send_Email_OPE_Activity_SubmissionTest</members>
+        <members>Send_Email_Upon_SC_Design_SubmissionTest</members>
         <name>ApexClass</name>
     </types>
     <types>

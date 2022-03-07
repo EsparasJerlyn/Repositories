@@ -103,10 +103,6 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Is_Custom_Award__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Field_of_Education__c</field>
             </layoutItems>
             <layoutItems>
@@ -116,10 +112,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Other_Completion_Requirements__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Work_Experience_Required__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -158,10 +150,6 @@
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>PP_Courseloop_Full__c</field>
-            </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>PP_Courseloop_Full_URL__c</field>
