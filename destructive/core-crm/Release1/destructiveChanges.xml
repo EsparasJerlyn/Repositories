@@ -304,6 +304,24 @@
         <name>ValidationRule</name>
     </types>
 
+    <!--DEPP-1904:-->
+    <types>
+        <members>Invoice__c.Amount__c</members>
+        <members>Invoice__c.Cart__c</members>
+        <members>Invoice__c.Course_Connection__c</members>
+        <members>Invoice__c.Due_Date__c</members>
+        <members>Invoice__c.Payee_ABN__c</members>
+        <members>Invoice__c.Payee_Billing_Address__c</members>
+        <members>Invoice__c.Payee_Email_Address__c</members>
+        <members>Invoice__c.Payee_Name__c</members>
+        <members>Invoice__c.Status__c</members>
+        <name>CustomField</name>
+    </types>
+    <types>
+        <members>Invoice__c</members>
+        <name>CustomObject</name>
+    </types>
+
     <!-- DEPP-1912 -->
     <types>
         <members>Product_Request__c.PRProduct_Subtype__c</members>
