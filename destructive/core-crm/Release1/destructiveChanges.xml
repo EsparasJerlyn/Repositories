@@ -184,12 +184,14 @@
         <members>Field_Layout_Setting__mdt.OPE_Program_Plan_Overview</members>
         <members>Record_Type_Setting__mdt.OPE_Activity_Request</members>
         <members>Record_Type_Setting__mdt.Program_for_Modal</members>
+        <members>Record_Type_Setting__mdt.Short_Course</members>
+        <!-- DEPP-2022 add these back in when you figure out deployment issue 
         <members>Record_Type_Setting__mdt.Program_Plan</members>
         <members>Record_Type_Setting__mdt.Program</members>
         <members>Record_Type_Setting__mdt.Unit</members>
         <members>Record_Type_Setting__mdt.Module</members>
-        <members>Record_Type_Setting__mdt.Short_Course</members>
         <members>Record_Type_Setting__mdt.Activity</members>
+        -->
         <name>CustomMetadata</name>
     </types>
     <types>
