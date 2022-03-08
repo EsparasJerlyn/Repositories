@@ -120,7 +120,7 @@
             <assignToReference>Record</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>Module_Design_Form_Link</elementReference>
+                <elementReference>UnitDesignFormLink</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -543,7 +543,7 @@
         <isInput>false</isInput>
         <isOutput>false</isOutput>
         <value>
-            <stringValue>https://qut.tfaforms.net/f/single-product-form?id={!Get_Product_Request_Record.Id}</stringValue>
+            <stringValue>https://qut.tfaforms.net/f/module-form?id={!Get_Product_Request_Record.Id}</stringValue>
         </value>
     </variables>
     <variables>
@@ -586,5 +586,15 @@
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>UnitDesignFormLink</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <stringValue>https://qut.tfaforms.net/f/unit-form?id={!Get_Product_Request_Record.Id}</stringValue>
+        </value>
     </variables>
 </Flow>
