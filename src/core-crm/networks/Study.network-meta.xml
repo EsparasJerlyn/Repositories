@@ -40,7 +40,7 @@
         <selfRegProfilePageOverrideSetting>Designer</selfRegProfilePageOverrideSetting>
     </networkPageOverrides>
     <picassoSite>Study1</picassoSite>
-    <selfRegistration>false</selfRegistration>
+    <selfRegistration>true</selfRegistration>
     <sendWelcomeEmail>true</sendWelcomeEmail>
     <site>Study</site>
     <status>Live</status>
