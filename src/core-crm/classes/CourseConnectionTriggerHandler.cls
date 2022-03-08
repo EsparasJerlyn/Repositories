@@ -6,14 +6,14 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                                           |
-      |--------------------------------|-----------------------|------------------------|----------------------------------------------------------|
-      | johnbo.pineda@qut.edu.au       | December 03, 2021     | DEPP-789               | Created file                                             |
-      | johnbo.pineda@qut.edu.au       | January 03, 2021      | DEPP-1382              | Updated Class to include changes for DEPP-1382.          |
-      | johnbo.pineda@qut.edu.au       | January 31, 2021      | DEPP-1519              | Updated Class to include changes for DEPP-1519.          |
-      |                                |                       |                        |                                                          |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                                                |
+      |--------------------------------|-----------------------|------------------------|-------------------------------------------------------------------------------|
+      | johnbo.pineda@qut.edu.au       | December 03, 2021     | DEPP-789               | Created file                                                                  |
+      | johnbo.pineda@qut.edu.au       | January 03, 2022      | DEPP-1382              | Updated Class to include changes for DEPP-1382.                               |
+      | johnbo.pineda@qut.edu.au       | January 31, 2022      | DEPP-1519              | Updated Class to include changes for DEPP-1519.                               |
+      | roy.nino.s.regala@qut.edu.au   | March 04, 2022        | DEPP-1985              | External user is trying to update the field,removed with sharing restriction  |
  */
-public with sharing class CourseConnectionTriggerHandler implements Disableable, AfterInsert, AfterUpdate, AfterDelete {
+public without sharing class CourseConnectionTriggerHandler implements Disableable, AfterInsert, AfterUpdate, AfterDelete {
   public static final Id STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
     .get('Student')
     .getRecordTypeId();

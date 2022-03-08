@@ -7,9 +7,13 @@
       |---------------------------|-----------------------|----------------------|--------------------------------------------|
       | roy.nino.s.regala         | December 03, 2021     | DEPP-116             | Created file                               |
       | roy.nino.s.regala         | February 04, 2022     | DEPP-213             | Added insertion of Expression of Interest  | 
+      | roy.nino.s.regala         | March 04, 2022        | DEPP-1985            | Bug fix added recordtype                   |
  */
 public without sharing class ProductDetailsCtrl {
-    
+    public static final Id STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
+    .get('Student')
+    .getRecordTypeId();
+
      /**
      * @description fetches course offerings and pricebooks related to the product
      * @param productId - id of product on productdetailpage
@@ -70,6 +74,7 @@ public without sharing class ProductDetailsCtrl {
             for(Contact con: learnerInfoList){
 
                 courseConnectionList.add(new hed__Course_Enrollment__c(
+                    RecordTypeId = STUDENT_RECTYPEID,
                     hed__Contact__c = con.Id,
                     hed__Course_Offering__c = Id.valueOf(wrappedData.courseOfferingId),
                     hed__Status__c = 'Current'));
