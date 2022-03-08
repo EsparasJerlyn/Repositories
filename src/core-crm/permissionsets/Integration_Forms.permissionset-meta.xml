@@ -1572,11 +1572,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Course_Offering__c.Delivery_Type__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>hed__Course_Offering__c.External_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1632,17 +1627,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Course__c.Blackboard_Content_Delivery_Location__c</field>
+        <field>hed__Course__c.LMS_Content_Delivery_Location__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course__c.Certificate_Type__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>hed__Course__c.Collaboation_External__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

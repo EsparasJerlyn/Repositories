@@ -1227,7 +1227,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Course__c.Blackboard_Content_Delivery_Location__c</field>
+        <field>hed__Course__c.LMS_Content_Delivery_Location__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1237,7 +1237,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Course__c.Collaboation_External__c</field>
+        <field>hed__Course__c.Collaboration_with_External_Organisation__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
