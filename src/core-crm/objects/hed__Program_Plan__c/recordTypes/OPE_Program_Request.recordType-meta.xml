@@ -92,26 +92,7 @@
             <fullName>Design Form Sent</fullName>
             <default>false</default>
         </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Payment_Options__c</picklist>
-        <values>
-            <fullName>Advantage - Credit</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Pay Later - Invoice</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Pay Now - Credit Card</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Pay Now - PayPal</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
+    </picklistValues>    
     <picklistValues>
         <picklist>Program_Type__c</picklist>
         <values>

@@ -99,18 +99,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Overview_Website__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Search_Terms__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Resources_Required__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Enrolment_Rulesv2__c</field>
             </layoutItems>
             <layoutItems>
@@ -134,14 +122,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>External_Organisation__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Activity_Outcomes__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Search_Engine__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

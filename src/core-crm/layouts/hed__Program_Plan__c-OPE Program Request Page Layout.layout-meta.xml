@@ -23,7 +23,7 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Program_Plan_Code__c</field>
+                <field>Code__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -64,7 +64,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Accreditation_Start__c</field>
+                <field>Accreditation_Start_Date__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -86,11 +86,11 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Course_Type__c</field>
+                <field>Type__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Accreditation_End__c</field>
+                <field>Accreditation_End_Date__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
@@ -125,7 +125,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Completion_Requirements_Designated__c</field>
+                <field>Completion_Requirements__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -142,7 +142,7 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>PP_Courseloop_Initital_URL__c</field>
+                <field>Courseloop_Initital_URL__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -152,7 +152,7 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>PP_Courseloop_Full_URL__c</field>
+                <field>Courseloop_Full_URL__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
