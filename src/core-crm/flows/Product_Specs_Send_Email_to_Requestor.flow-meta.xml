@@ -157,18 +157,15 @@
     <textTemplates>
         <name>sendEmailTemplate</name>
         <isViewedAsPlainText>true</isViewedAsPlainText>
-        <text>Dear &lt;b&gt;{!$Record.Requestor_Name__r.FirstName}&lt;/b&gt;,
-&lt;br/&gt;&amp;nbsp;
+        <text>&lt;p&gt;Dear &lt;strong&gt;{!$Record.Requestor_Name__r.FirstName}&lt;/strong&gt;,&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
 &lt;p&gt;Congratulations, your idea has been accepted and progressing to the design stage.&lt;/p&gt;
 &lt;p&gt;We will be sending you a link to our design form which will allow you to expand on your idea. This stage will allow your idea to take shape into a potential QUTeX product and start shaping a proposal to be endorsed and approved.&lt;/p&gt;
 &lt;p&gt;If you have any further questions, please get in touch.&lt;/p&gt;
-&lt;br/&gt;
-&lt;p&gt;
-&lt;b&gt;The QUTeX Team&lt;/b&gt;&lt;br/&gt;
-07 3138 7733&lt;br/&gt;
-&lt;a href=&quot;mailto:qutex@qut.edu.au&quot;&gt;qutex@qut.edu.au&lt;/a&gt;&lt;br/&gt;
-&lt;a href=&quot;https://qut.edu.au/qutex&quot;&gt;qut.edu.au/qutex&lt;/a&gt;
-&lt;/p&gt;</text>
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+&lt;p&gt;Kind Regards,&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;The QUTeX Team&lt;/strong&gt;&lt;br&gt;Phone: +61 7 3138 7733 | Email: &lt;a href=&quot;mailto:qutex@qut.edu.au&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;qutex@qut.edu.au&lt;/a&gt;&lt;br&gt;QUTeX Professional and Executive Education for the Real World | &lt;a href=&quot;https://qut.edu.au/qutex&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;www.qut.edu.au/qutex&lt;/a&gt;&lt;a href=&quot;https://www.linkedin.com/showcase/14561011/admin/&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.linkedin.com/showcase/14561011/admin/&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;Follow&lt;/a&gt; QUTeX on LinkedIn | &lt;a href=&quot;https://alumni-and-friends.qut.edu.au/qutex-connect-subscription&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;Subscribe&lt;/a&gt; to the QUTeX Connect Newsletter&lt;/p&gt;</text>
     </textTemplates>
     <variables>
         <name>recordTypeId</name>
