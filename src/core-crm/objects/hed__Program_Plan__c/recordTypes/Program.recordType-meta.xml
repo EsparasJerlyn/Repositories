@@ -114,6 +114,17 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Program_Delivery_Structure__c</picklist>
+        <values>
+            <fullName>Flexible Program</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Prescribed Program</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Program_Type__c</picklist>
         <values>
             <fullName>Flexible Program</fullName>
