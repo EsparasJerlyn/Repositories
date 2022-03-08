@@ -71,6 +71,13 @@
             "useCSVValuesMapping": true,
             "targetObject": "Account",
             "importCSVFilesAsIs": true
+        },{
+            "query": "SELECT Id, Name from Contact",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "Contact",
+            "importCSVFilesAsIs": true
         }
     ]
 }
