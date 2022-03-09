@@ -12,10 +12,12 @@
       |                           |                       |              |                                                        |
 */
 import { LightningElement, api, wire, track } from 'lwc';
-import { getRecord, getFieldValue, createRecord, updateRecord, deleteRecord } from 'lightning/uiRecordApi';
+import { getRecord, getFieldValue, createRecord, updateRecord } from 'lightning/uiRecordApi';
 import { refreshApex } from "@salesforce/apex";
 import { getObjectInfo } from 'lightning/uiObjectInfoApi';
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
+import { loadStyle } from 'lightning/platformResourceLoader';
+import customDataTableStyle from '@salesforce/resourceUrl/CustomDataTable';
 import HAS_PERMISSION from "@salesforce/customPermission/EditDesignAndReleaseTabsOfProductRequest";
 import RT_ProductRequest_Program from '@salesforce/label/c.RT_ProductRequest_Program';
 import LWC_Error_General from "@salesforce/label/c.LWC_Error_General";
@@ -31,52 +33,26 @@ import C_PRODUCT_REQUEST from '@salesforce/schema/hed__Course__c.ProductRequestI
 import PP_PRODUCT_REQUEST from '@salesforce/schema/hed__Program_Plan__c.Product_Request__c';
 import PR_RT_DEV_NAME from '@salesforce/schema/Product_Request__c.RecordType.DeveloperName';
 import getProductOfferingData from "@salesforce/apex/ProductOfferingCtrl.getProductOfferingData";
-import cloneProductOfferingData from "@salesforce/apex/ProductOfferingCtrl.cloneProductOfferingData";
 import getTermId from "@salesforce/apex/ProductOfferingCtrl.getTermId";
 import getAllFacilitatorBio from "@salesforce/apex/ProductOfferingCtrl.getAllFacilitatorBio";
 import updateCourseConnections from "@salesforce/apex/ProductOfferingCtrl.updateCourseConnections";
+import getLayoutMapping from '@salesforce/apex/CustomLayoutCtrl.getLayoutMapping';
 
-const SESSION_ACTIONS = [
-    {label: 'Delete', name: 'delete' }
-];
-const SESSION_COLUMNS = [
-    { label: 'Session Name', fieldName: 'Session_Name__c', wrapText: true},
-    { label: 'Session Type', fieldName: 'Session_Type__c', wrapText: true },
-    { label: 'Facilitator', fieldName: 'contactUrl', type: 'url',
-        typeAttributes: { label: { fieldName: 'contactName' } }
-    },
-    { label: 'Start Time', fieldName: 'Start_Time__c', wrapText: true },
-    { label: 'End Time', fieldName: 'End_Time__c', wrapText: true },
-    { label: 'Location', fieldName: 'locUrl', type: 'url',
-        typeAttributes: { label: { fieldName: 'locName' } }
-    },
-    { label: 'Location Details', fieldName: 'Location_Detail__c', wrapText: true },
-    { type: 'action', typeAttributes: { rowActions: SESSION_ACTIONS } }
-];
 const DATE_OPTIONS = { year: 'numeric', month: 'short', day: '2-digit' };
-const DATETIME_OPTIONS = { ...DATE_OPTIONS, hour:'2-digit', minute:'2-digit' };
-const PROGRAM_OFFERING_FIELDS = 
-    'Id,Delivery_Type__c,Start_Date__c,Registration_Start_Date__c,'+
-    'Registration_End_Date__c,End_Date__c,hed_Program_Plan__c';
-const COURSE_OFFERING_FIELDS = 
-    'Id,Delivery_Type__c,hed__Start_Date__c,Registration_Start_Date__c,'+
-    'Registration_End_Date__c,hed__End_Date__c,hed__Course__c,hed__Term__c';
+const PROGRAM_OFFERING_FIELDS = 'Id,Delivery_Type__c,Start_Date__c,End_Date__c,IsActive__c,CreatedDate';
+const COURSE_OFFERING_FIELDS = 'Id,Delivery_Type__c,hed__Start_Date__c,hed__End_Date__c,IsActive__c,CreatedDate';
 
 export default class ProductOffering extends LightningElement {
     @api recordId;
+    @api objectApiName;
     
-    facilitatorColumns = [];
-    sessionColumns = SESSION_COLUMNS;
     parentInfoMap;
     childInfoMap;
     activeMainSections = [];
     @track productOfferings = [];
-    productOfferingsToClone = [];
     allFacilitatorBios = [];
     processedBios = [];
     isLoading = false;
-    showConfirmClone = false;
-    showPopover = false;
     newRecord = false;
     hasLoaded = false;
     isOpeProgramRequest= false;
@@ -84,30 +60,7 @@ export default class ProductOffering extends LightningElement {
     parentIdToCreate;
     parentId;
     termId;
-    offeringToClone;
-
-    //constructs columns for facilitator table
-    constructor(){
-        super();
-        this.facilitatorColumns = [
-            { label: 'ID', fieldName: 'Name' },
-            { label: 'Facilitator', fieldName: 'contactUrl', type: 'url',
-                typeAttributes: { label: { fieldName: 'contactName' } }
-            },
-            { label: 'Professional Bio', fieldName: 'professionalBio', wrapText: true },
-            { label: 'Is Primary?', fieldName: 'hed__Primary__c', type:'boolean' },
-            { type: 'action', typeAttributes: { rowActions: this.facilitatorActions } }
-        ];
-    }
-
-    //dynamic setting of facilitator actions
-    facilitatorActions(row, doneCallback){
-        const actions = [
-            {label: 'Set as Primary', name: 'favorite', disabled : row.hed__Primary__c },
-            {label: 'Delete', name: 'delete', disabled : row.disableRemove }
-        ];
-        doneCallback(actions);
-    }
+    layoutItem = {};
 
     //decides if user has access to this feature
     get hasAccess(){
@@ -116,11 +69,15 @@ export default class ProductOffering extends LightningElement {
 
     //decides to show helptext when there's no offering
     get showProductOfferings(){
-        return this.productOfferings.length > 0;
+        return this.productOfferings.length > 0 && this.layoutItem;
     }
 
-    //gets QUTeX Term id on load
+    //gets QUTeX Term id and loads css
     connectedCallback(){
+        Promise.all([
+            loadStyle(this, customDataTableStyle)
+        ]).then(() => { });
+
         getTermId({})
         .then((termIdResult) => {
             this.termId = termIdResult;
@@ -133,6 +90,17 @@ export default class ProductOffering extends LightningElement {
     //stores object info of course connection
     @wire(getObjectInfo, { objectApiName: COURSE_CONNECTION.objectApiName })
     courseConnectionInfo;
+
+    childRecordTypeDevName;
+    @wire(getObjectInfo, { objectApiName: '$childInfoMap.objectType'})
+    handleChildObjectInfo(result){
+        if(result.data){
+            //condition for layouts with no record types
+            //metadata is named as All_OPE_<Object_Plural_Label>
+            this.childRecordTypeDevName = 'All_OPE_' + result.data.labelPlural.replace(' ','_');
+            this.getOfferingLayout();
+        }
+    }
 
     //gets all facilitator bios available
     bioResult;
@@ -193,16 +161,38 @@ export default class ProductOffering extends LightningElement {
         }
     }
 
+    //gets product offering overview layout from metadata
+    getOfferingLayout(){
+        getLayoutMapping({
+            objApiName : this.childInfoMap.objectType,
+            rtDevName : this.childRecordTypeDevName,
+            isOpe : true
+        })
+        .then(result => {
+            this.layoutItem.sectionLabel = result[0].MasterLabel;
+            this.layoutItem.leftColumn = 
+                result[0].Left_Column_Long__c ? 
+                JSON.parse(result[0].Left_Column_Long__c) : null;
+            this.layoutItem.rightColumn = 
+                result[0].Right_Column_Long__c ? 
+                JSON.parse(result[0].Right_Column_Long__c) : null;
+            this.layoutItem.singleColumn = 
+                result[0].Single_Column_Long__c ? 
+                JSON.parse(result[0].Single_Column_Long__c) : null;
+        })
+        .catch(error =>{
+            this.generateToast('Error.',LWC_Error_General,'error');
+        });
+    }
+
     //formats offering data into a display-ready type
     formatOfferingData(offeringData){
-        this.productOfferingsToClone = [];
         let offerings = [];
-        let ctr = 1;
         offeringData.productOfferings.forEach(offering => {
             let facis = offeringData.relatedFacilitators.filter(faci => faci[this.childInfoMap.objectType] == offering.Id);
             let sesh = offeringData.relatedSessions.filter(sesh => sesh.Course_Offering__c == offering.Id);
-            let relFaci = this.formatFacilitators(facis,sesh);
-            let relSesh = this.formatSessions(sesh);
+            let relFaci = this.formatFacilitators(facis);
+            let relSesh = this.formatSessions(sesh,relFaci);
             let startDate = 
                 this.childInfoMap.objectType == COURSE_OFFERING.objectApiName ?
                 this.formatDate(offering.hed__Start_Date__c) :
@@ -214,11 +204,12 @@ export default class ProductOffering extends LightningElement {
             offerings.push(
                 {
                     ...offering,
-                    Registration_Start_Date__c: this.formatDate(offering.Registration_Start_Date__c),
-                    Registration_End_Date__c: this.formatDate(offering.Registration_End_Date__c),
-                    Start_Date__c:startDate,
-                    End_Date__c:endDate,
-                    label : 'Product Offering ' + ctr + ' (' + startDate + ' to ' + endDate + ')',
+                    badgeClass: offering.IsActive__c ?
+                        'slds-badge slds-theme_success section-button section-badge' :
+                        'slds-badge slds-badge_inverse section-button section-badge',
+                    badgeIcon: offering.IsActive__c ? 'utility:success' : 'utility:choice',
+                    badgeLabel: offering.IsActive__c ? 'Active' : 'Inactive',
+                    label : offering.Delivery_Type__c + ' (' + startDate + ' to ' + endDate + ')',
                     relatedFacilitators : relFaci,
                     relatedSessions : relSesh,
                     showFacilitatorTable : relFaci.length > 0,
@@ -228,48 +219,49 @@ export default class ProductOffering extends LightningElement {
                         this.getBiosToSearch(facis.map(faci=>{return faci.Facilitator_Bio__c})) : []
                 }
             );
-            this.productOfferingsToClone.push(
-                {
-                    ...offering,
-                    facilitators:facis.map(({ Id,Name, ...item }) => item),
-                    sessions:sesh.map(({ Id, ...item }) => item)
-                }
-            );
-            ctr++;
         });
-        this.activeMainSections = offerings.map(offer => {return offer.Id});
+        this.activeMainSections = offerings.filter(
+            offer => offer.IsActive__c
+        ).map(
+            offer => {return offer.Id}
+        );
         return offerings;
     }
 
     //formats facilitators into a display-ready type
-    formatFacilitators(facilitators,relatedSessions){
-        return facilitators.map(item => {
+    formatFacilitators(facilitators){
+        return facilitators.map((item,index) => {
             return {
                 ...item,
-                contactName:item.Facilitator_Bio__r.Facilitator__r.Name,
-                contactUrl:'/'+item.Facilitator_Bio__r.Facilitator__c,
-                professionalBio:item.Facilitator_Bio__r.Facilitator_Professional_Bio__c ? 
-                    this.removeHtmlTags(
-                        item.Facilitator_Bio__r.Facilitator_Professional_Bio__c
-                    ) : '',
-                disableRemove : 
-                    relatedSessions.map(sesh => {return sesh.Course_Connection__c}).
-                    includes(item.Id) || item.hed__Primary__c
+                rowId: 'row-'+index,
+                contactName: item.Facilitator_Bio__r.Facilitator__r.Name,
+                contactId:item.Facilitator_Bio__r.Facilitator__c,
+                bio:item.Facilitator_Bio__r.Facilitator_Professional_Bio__c,
+                customLookupClass: 'slds-cell-edit',
+                customRichtextClass: 'slds-cell-edit'
             }
         });
     }
 
     //formats sessions into a display-ready type
-    formatSessions(sessions){
-        return sessions.map(item => {
+    formatSessions(sessions,relatedFacis){
+        return sessions.map((item,index) => {
             return {
                 ...item,
+                rowId: 'row-'+index,
                 contactName:item.Course_Connection__r.hed__Contact__c ? item.Course_Connection__r.hed__Contact__r.Name : '',
-                contactUrl:item.Course_Connection__r.hed__Contact__c ? '/'+item.Course_Connection__r.hed__Contact__c : '',
-                locName:item.Location__c ? item.Location__r.Name : '',
-                locUrl:item.Location__c ? '/'+item.Location__c : '',
-                Start_Time__c:item.Start_Time__c ? this.formatDateTime(item.Start_Time__c) : '',
-                End_Time__c:item.End_Time__c ? this.formatDateTime(item.End_Time__c) : ''
+                relatedFacilitators: relatedFacis.map(item =>{
+                    return {
+                        id:item.Id,
+                        label:item.contactName,
+                        meta:item.Name,
+                    }
+                }),
+                customPicklistClass: 'slds-cell-edit',
+                customSearchClass: 'slds-cell-edit',
+                customStartTimeClass: 'slds-cell-edit',
+                customEndTimeClass: 'slds-cell-edit',
+                customLookupClass: 'slds-cell-edit'
             }
         });
     }
@@ -298,11 +290,6 @@ export default class ProductOffering extends LightningElement {
         return new Date(date).toLocaleDateString('en-AU',DATE_OPTIONS);
     }
 
-    //converts datetime fields in AU format
-    formatDateTime(dateTime){
-        return new Date(dateTime).toLocaleDateString('en-AU',DATETIME_OPTIONS);
-    }
-
     //removes html tags from rich text fields
     removeHtmlTags(str){
         return str.replace(/(<([^>]+)>)/gi, "");
@@ -315,6 +302,20 @@ export default class ProductOffering extends LightningElement {
         this.parentIdToCreate = this.parentId;
     }
 
+    //refreshes data
+    handleRefreshData(event){
+        this.isLoading = true;
+        refreshApex(this.offeringResult)
+        .then(() => {
+            this.isLoading = false;
+        });
+        if(event && event.detail){
+            if(event.detail.refreshBio){
+                refreshApex(this.bioResult);
+            }
+        }
+    }
+
     //creates course connection for selected facilitator on search
     handleSearchSelect(event){
         let selected = event.detail;
@@ -324,48 +325,7 @@ export default class ProductOffering extends LightningElement {
                 bio.Id == selected.value).Facilitator__c
         }
         this.parentIdToCreate = selected.parent;
-        this.handleCreateCourseConnection(bioFields);
-        
-    }
-
-    //shows confirmation modal for clone
-    handleCloneOffering(event){
-        this.showConfirmClone = true;
-        this.offeringToClone = this.productOfferings.find(offer => offer.Id == event.target.dataset.name);
-    }
-
-    //calls apex method that clones selected offering and related data
-    handleConfirmClone(event){
-        this.handleCloseClone();
-        this.isLoading = true;
-        this.offeringToClone = this.productOfferingsToClone.find(offer => offer.Id == event.target.dataset.name);
-        let _productOffering = {...this.offeringToClone};
-        delete _productOffering.Id;
-        delete _productOffering.facilitators;
-        delete _productOffering.sessions;
-        cloneProductOfferingData({
-            objectType: this.childInfoMap.objectType,
-            productOffering : _productOffering,
-            facilitators: this.offeringToClone.facilitators,
-            sessions: this.offeringToClone.sessions
-        })
-        .then(() => {
-            this.generateToast("Success!", "Product Offering cloned.", "success");
-        })
-        .catch((error) => {
-            this.generateToast("Error.", LWC_Error_General, "error");
-        })
-        .finally(() => {
-            refreshApex(this.offeringResult)
-            .then(() => {
-                this.isLoading = false
-            });
-        });
-    }
-
-    //hides confirmation modal for clone
-    handleCloseClone(){
-        this.showConfirmClone = false;
+        this.handleCreateCourseConnection(bioFields); 
     }
 
     //opens create modal for facilitator
@@ -387,7 +347,7 @@ export default class ProductOffering extends LightningElement {
 
     //refreshes data and hides create modal of session upon successful save
     handleSuccessSession(){
-        refreshApex(this.offeringResult);
+        this.handleRefreshData();
         this.handleCloseSession();
     }
 
@@ -396,24 +356,6 @@ export default class ProductOffering extends LightningElement {
         this.productOfferings.forEach(offering => {
             if(offering.Id == this.parentIdToCreate){
                 offering.newSession = false;
-            }
-        })
-    }
-
-    //shows info for offering
-    handleShowPopover(event){
-        this.productOfferings.forEach(offering => {
-            if(offering.Id == event.target.dataset.name){
-                offering.showPopover = true;
-            }
-        })
-    }
-
-    //hides info for offering
-    handleHidePopover(event){
-        this.productOfferings.forEach(offering => {
-            if(offering.Id == event.target.dataset.name){
-                offering.showPopover = false;
             }
         })
     }
@@ -460,19 +402,9 @@ export default class ProductOffering extends LightningElement {
         );
     }
 
-    //handles row action for facilitator and session tables
-    handleRowAction(event){
-        const actionName = event.detail.action.name;
-        const rowId = event.detail.row.Id;
-        if(actionName == 'favorite'){
-            this.handleUpdateFacilitators(rowId);
-        }else if(actionName == 'delete'){
-            this.handleDeleteRow(rowId);
-        }
-    }
-
     //updates course connections when Set as Primary is selected
-    handleUpdateFacilitators(facilitatorId){
+    handleUpdateFacilitators(event){
+        let facilitatorId = event.detail.value;
         this.isLoading = true;
         let valuesToUpdate = [];
         let isFaciRelated;
@@ -548,24 +480,6 @@ export default class ProductOffering extends LightningElement {
         })
          .catch((error) => {
             this.generateToast("Error.", LWC_Error_General, "error");
-        });
-    }
-
-    //deletes record from the database
-    handleDeleteRow(recordToDelete) {
-        this.isLoading = true;
-        deleteRecord(recordToDelete)
-        .then(() => {
-           this.generateToast('Success!','Record deleted.','success')
-        })
-        .catch((error) => {
-           this.generateToast("Error.", LWC_Error_General, "error");
-        })
-        .finally(() => {
-            refreshApex(this.offeringResult)
-            .then(() => {
-                this.isLoading = false
-            });
         });
     }
 

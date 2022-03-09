@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Left_Column_Long__c</field>
-        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Session_Name__c&quot;,&quot;mandatory&quot;:true},{&quot;field&quot;:&quot;Start_Time__c&quot;,&quot;mandatory&quot;:true},{&quot;field&quot;:&quot;Course_Connection__c&quot;,&quot;mandatory&quot;:true,&quot;customLookup&quot;:true}]</value>
+        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Name&quot;,&quot;mandatory&quot;:true},{&quot;field&quot;:&quot;Start_Time__c&quot;,&quot;mandatory&quot;:true},{&quot;field&quot;:&quot;Course_Connection__c&quot;,&quot;mandatory&quot;:true,&quot;customLookup&quot;:true}]</value>
     </values>
     <values>
         <field>Left_Column__c</field>
@@ -20,7 +20,7 @@
     </values>
     <values>
         <field>Right_Column_Long__c</field>
-        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Session_Type__c&quot;},{&quot;field&quot;:&quot;End_Time__c&quot;,&quot;mandatory&quot;:true},{&quot;field&quot;:&quot;Location__c&quot;}]</value>
+        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Session_Type__c&quot;},{&quot;field&quot;:&quot;End_Time__c&quot;,&quot;mandatory&quot;:true},{&quot;field&quot;:&quot;Location__c&quot;,&quot;mandatory&quot;:true}]</value>
     </values>
     <values>
         <field>Right_Column__c</field>

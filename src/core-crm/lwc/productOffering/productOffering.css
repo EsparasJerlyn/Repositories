@@ -20,32 +20,13 @@
     float: right;
 }
 
-.section-button-icon{
-    right: 130px;
-    top: 15px;
-}
-
 .section-button-help{
     right: 10px;
     top: 5px;
 }
 
-.section-overview{
-    right: 160px;
-    top: 0px;
-    z-index: 3;
-}
-
-.custom-badge{
-    position: absolute;
-    left: 150px;
-    top: 15px;
-    z-index: 2;
-    float: left;
-}
-
-.relative-position{
-    position: relative;
+.section-badge{
+    top:15px;
 }
 
 .max-height{
@@ -54,6 +35,10 @@
 
 .small-button{
     font-size: x-small;
+}
+
+.black-border{
+    border-color: black;
 }
 
 ::-webkit-scrollbar {

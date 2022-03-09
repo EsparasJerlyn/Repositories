@@ -47,7 +47,38 @@ public with sharing class ProductOfferingCtrl {
         return [
             SELECT Id, Facilitator__c, Facilitator__r.Name, Facilitator_Professional_Bio__c
             FROM Facilitator_Bio__c
+            ORDER BY Facilitator__r.Name
         ];
+    }
+
+    /**
+     * @description updates list of session records
+     * @param sessionData - list of course connections
+    */
+    @AuraEnabled
+    public static void updateSessionData(List<Session__c> sessionData){
+        if(!sessionData.isEmpty()){
+            update sessionData;
+        }
+    }
+
+    /**
+    * @description Updates Course Connection and Facilitator Bio records
+    * @param facilitatorData - map of facilitator data
+    */
+    @AuraEnabled
+    public static void updateFacilitatorData(Map<String,List<SObject>> facilitatorData){  
+        updateCourseConnections(
+            (List<hed__Course_Enrollment__c>)facilitatorData
+            .get('courseConnections')
+        );
+
+        List<Facilitator_Bio__c> facilitatorBios = 
+            (List<Facilitator_Bio__c>)facilitatorData
+            .get('facilitatorBios');
+        if(!facilitatorBios.isEmpty()){
+            update facilitatorBios;
+        }
     }
 
     /**
@@ -58,70 +89,6 @@ public with sharing class ProductOfferingCtrl {
     public static void updateCourseConnections(List<hed__Course_Enrollment__c> courseConnections){
         if(!courseConnections.isEmpty()){
             update courseConnections;
-        }
-    }
-
-    /**
-     * @description clones given product offering together with its related
-     *              course connection and session records (if not empty)
-     * @param objectType - object api name of offering to be created
-     * @param productOffering - map of fieldApiName-value pair of offering
-     * @param facilitators - list of course connections
-     * @param sessions - list of sessions
-    */
-    @AuraEnabled
-    public static void cloneProductOfferingData(
-        String objectType,
-        Map<String,Object> productOffering,
-        List<hed__Course_Enrollment__c> facilitators,
-        List<Session__c> sessions
-    ){
-        Schema.SObjectType objType = Schema.getGlobalDescribe().get(objectType);
-        SObject offering = objType.newSObject();
-        for(String fieldApiName : productOffering.keySet()){
-            if(fieldApiName.toLowerCase().contains('date')){
-                offering.put(fieldApiName,Date.valueOf((String)productOffering.get(fieldApiName)));
-            }else{
-                offering.put(fieldApiName,productOffering.get(fieldApiName));
-            }
-        }
-        Database.SaveResult srRes = Database.insert(offering, true);
-
-        if(srRes.isSuccess()) {
-            Map<Id,Id> contactCourseConnectionMap = new Map<Id,Id>();
-
-            if(!facilitators.isEmpty()){
-                Id primaryFacilitatorId;    
-                for(hed__Course_Enrollment__c faci : facilitators){
-                    faci.hed__Course_Offering__c = srRes.getId();
-                }
-                insert facilitators;
-                //process list after insertion to get id
-                for(hed__Course_Enrollment__c faci : facilitators){
-                    contactCourseConnectionMap.put(faci.hed__Contact__c,faci.Id);
-                    if(faci.hed__Primary__c){
-                        primaryFacilitatorId = faci.Id;
-                    }
-                }
-                offering.put('Primary_Facilitator__c',primaryFacilitatorId);
-                Database.update(offering);
-            }
-
-            if(!sessions.isEmpty()){
-                for(Session__c sesh : sessions){
-                    sesh.Course_Offering__c = srRes.getId();
-                    sesh.Course_Connection__c = contactCourseConnectionMap.get(sesh.Facilitator__c);
-                }
-                insert sessions;
-            }
-        }
-        else {
-            //operation failed, so get all errors                
-            for(Database.Error err : srRes.getErrors()) {
-                System.debug('The following error has occurred.');                    
-                System.debug(err.getStatusCode() + ': ' + err.getMessage());
-                System.debug('Product Offering fields that affected this error: ' + err.getFields());
-            }
         }
     }
 
@@ -155,7 +122,8 @@ public with sharing class ProductOfferingCtrl {
             'SELECT ' + childInfo.get('fields') +
             ' FROM ' + childInfo.get('objectType') +
             ' WHERE ' + childInfo.get('conditionField') + 
-            ' = \'' + String.escapeSingleQuotes(parentId) + '\''
+            ' = \'' + String.escapeSingleQuotes(parentId) + 
+            '\' ORDER BY IsActive__c DESC,CreatedDate'
         );
         for(SObject po : poData.productOfferings){
             poIDs.add( (Id) po.get('Id') );
@@ -164,17 +132,21 @@ public with sharing class ProductOfferingCtrl {
             poData.relatedFacilitators = [
                 SELECT Id, Name, Facilitator_Bio__c, Facilitator_Bio__r.Name, RecordTypeId, hed__Primary__c, 
                         hed__Course_Offering__c, Facilitator_Bio__r.Facilitator_Professional_Bio__c,
-                        Facilitator_Bio__r.Facilitator__c,Facilitator_Bio__r.Facilitator__r.Name, hed__Contact__c
+                        Facilitator_Bio__r.Facilitator__c,Facilitator_Bio__r.Facilitator__r.Name, hed__Contact__c,
+                        IsActive__c,CreatedDate
                 FROM hed__Course_Enrollment__c
                 WHERE hed__Course_Offering__c IN :poIDs AND RecordTypeId =: FACULTY_REC_TYPE
+                ORDER BY IsActive__c DESC,CreatedDate
             ];
             
             poData.relatedSessions = [
                 SELECT Id, Name, Session_Type__c,  Course_Connection__c, Course_Connection__r.hed__Contact__c,
                         Course_Connection__r.hed__Contact__r.Name, Course_Offering__c, Facilitator__c,
-                        Start_Time__c, End_Time__c, Location__c, Location__r.Name, Location_Detail__c
+                        Start_Time__c, End_Time__c, Location__c, Location__r.Name, Location_Detail__c,
+                        IsActive__c,CreatedDate
                 FROM Session__c 
                 WHERE Course_Offering__c IN :poIDs
+                ORDER BY IsActive__c DESC,CreatedDate
             ];
         }
         

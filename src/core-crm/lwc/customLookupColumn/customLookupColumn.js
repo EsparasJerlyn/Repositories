@@ -27,10 +27,6 @@ export default class CustomLookupColumn extends LightningElement {
         return this.lookupValue ? '/' + this.lookupValue : '';
     }
 
-    get showErrorMessage(){
-        return this.lookupValue ? false : true;
-    }
-
     renderedCallback() {
         if (!this.guid) {
             this.guid = this.template.querySelector('.lookupBlock').getAttribute('id');
@@ -73,7 +69,7 @@ export default class CustomLookupColumn extends LightningElement {
         event.preventDefault();
         this.lookupValue = event.detail.value[0];
         this.showLookup = this.lookupValue ? false : true;
-        this.dispatchCustomEvent('itemselect',this.lookupValue);
+        this.dispatchCustomEvent('lookupselect',this.lookupValue);
     }
 
     handleEdit(event){
@@ -81,7 +77,7 @@ export default class CustomLookupColumn extends LightningElement {
         event.stopPropagation();
         this.lookupValue = undefined;
         this.showLookup = true;
-        this.dispatchCustomEvent('itemselect',this.lookupValue);
+        this.dispatchCustomEvent('lookupselect',this.lookupValue);
     }
 
     dispatchCustomEvent(eventName,value){

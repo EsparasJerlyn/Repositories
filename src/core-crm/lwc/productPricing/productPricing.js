@@ -36,7 +36,8 @@ const columns = [
             lookupItems: {fieldName:'Pricebooks'},
             itemServerName:{fieldName:'PricebookServerName'},
             itemId:{fieldName:'Pricebook2Id'},
-            objectLabelName:'Pricebook'
+            objectLabelName:'Pricebook',
+            newRecordAvailable:true
         },
         cellAttributes:{
             alignment: 'center',

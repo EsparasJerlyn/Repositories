@@ -18,7 +18,7 @@
             <template if:false={isLoading}>
                 <template if:true={hasPbEntries}>
                     <div class="slds-scrollable slds-p-bottom_medium slds-m-vertical_medium">
-                        <c-product-pricing-data-table key-field="id"
+                        <c-custom-datatable-columned key-field="id"
                                 data={formattedPricebookEntries}
                                 columns={columns}
                                 onsave={handleSave}
@@ -31,7 +31,7 @@
                                 onrowaction={handleRowActions}
                                 oncellchange={handleCellChange}
                                 hide-checkbox-column>
-                        </c-product-pricing-data-table>
+                        </c-custom-datatable-columned>
                     </div>                      
                 </template>
                 <template if:false={hasPbEntries}>

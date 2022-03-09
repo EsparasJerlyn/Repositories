@@ -1,5 +1,6 @@
 /**
- * @description A custom LWC for showing different section layouts on a parent record page
+ * @description A custom LWC for showing single section layouts on a parent record page
+ *              from metadata (with accordion section/toggle)
  *
  * @see ../classes/CustomLayoutCtrl.cls
  * 
@@ -23,7 +24,7 @@
       | eccarius.munoz            | January 21, 2022      | DEPP-1344,1303,1222 | Added handling for OPE Design Completion               |
       |                           |                       |                     |                                                        |
 */
-import { LightningElement, api, wire} from 'lwc';
+import { LightningElement, api, wire, track} from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { getObjectInfo } from 'lightning/uiObjectInfoApi';
 import LWC_Error_General from '@salesforce/label/c.LWC_Error_General';
@@ -42,11 +43,9 @@ export default class CustomSectionLayout extends LightningElement {
     
     childRecordId;
     childRecordTypeDevName;
-    activeSections = [];
+    @track activeSections = [];
     layoutMapping = [];
-    layoutToDisplay = [];
-    isLoading = false;
-    editMode = false;
+    layoutItem = {};
 
     //decides if layout is a grandchild (2-object relationship traversal)
     get isGrandChild(){
@@ -71,6 +70,11 @@ export default class CustomSectionLayout extends LightningElement {
             _data.conditionField = this.parentFieldApiName;
         }
         return _data;
+    }
+
+    //decides whether to show accordion section
+    get showAccordion(){
+        return this.activeSections.length > 0 && this.parentSectionLabel;
     }
 
     
@@ -108,7 +112,6 @@ export default class CustomSectionLayout extends LightningElement {
      * calls apex method to get UI layout from metadata
      */
     getRecordLayout(){
-        this.isLoading = true;
         getLayoutMapping({objApiName : this.childObjectApiName, rtDevName : this.childRecordTypeDevName, isOpe : this.forOpe})
         .then(result => {
             this.layoutMapping = [...result];
@@ -116,9 +119,6 @@ export default class CustomSectionLayout extends LightningElement {
         })
         .catch(error =>{
             this.generateToast('Error.',LWC_Error_General,'error');
-        })
-        .finally(() => {
-            this.isLoading = false;
         });
     }
 
@@ -129,51 +129,19 @@ export default class CustomSectionLayout extends LightningElement {
         this.layoutMapping = this.parentSectionLabel ? 
             this.layoutMapping.filter(layout => layout.MasterLabel == this.parentSectionLabel) : 
             this.layoutMapping.filter(layout => layout.Order__c);
-        this.layoutToDisplay = this.layoutMapping.map(layout => {
-            let layoutItem = {};
-            layoutItem.sectionLabel = layout.MasterLabel;
-            layoutItem.leftColumn = layout.Left_Column_Long__c ? JSON.parse(layout.Left_Column_Long__c) : null;
-            layoutItem.rightColumn = layout.Right_Column_Long__c ? JSON.parse(layout.Right_Column_Long__c) : null;
-            layoutItem.singleColumn = layout.Single_Column_Long__c ? JSON.parse(layout.Single_Column_Long__c) : null;
-            return layoutItem;
-        });
-        this.activeSections = this.layoutToDisplay.map(layout => {return layout.sectionLabel});
-    }
 
-    /**
-     * enables edit mode
-     */
-    handleEdit(){
-        this.editMode = true;
-    }
+        this.layoutItem.sectionLabel = this.layoutMapping[0].MasterLabel;
+        this.layoutItem.leftColumn = 
+            this.layoutMapping[0].Left_Column_Long__c ? 
+            JSON.parse(this.layoutMapping[0].Left_Column_Long__c) : null;
+        this.layoutItem.rightColumn = 
+            this.layoutMapping[0].Right_Column_Long__c ? 
+            JSON.parse(this.layoutMapping[0].Right_Column_Long__c) : null;
+        this.layoutItem.singleColumn = 
+            this.layoutMapping[0].Single_Column_Long__c ? 
+            JSON.parse(this.layoutMapping[0].Single_Column_Long__c) : null;
 
-    /**
-     * method for handling record edit form submission
-     */
-    handleSubmit(){
-        this.isLoading = true;
-    }
-
-    /**
-     * method for handling succesful save on record edit form
-     */
-    handleSuccess(){
-        this.isLoading = false;
-        this.editMode = false;
-    }
-    
-    /**
-     * method for handling record edit form errors
-     */
-    handleError(){
-        this.isLoading = false;
-    }
-    
-    /**
-     * disables edit mode
-     */
-    handleCancel(){
-        this.editMode = false;
+        this.activeSections.push(this.layoutItem.sectionLabel);
     }
 
     /**

@@ -1,0 +1,123 @@
+<template>
+    <lightning-record-edit-form
+        object-api-name={childObjectApiName}
+        record-id={childRecordId}
+        onload={handleLoad}
+        onsubmit={handleSubmit}
+        onsuccess={handleSuccess}
+        onerror={handleError}>  
+        <lightning-messages></lightning-messages>
+        <lightning-spinner if:true={isLoading} alternative-text="Loading" size="small"></lightning-spinner>
+        <div class="slds-grid slds-gutters slds-m-top_small">
+            <div if:true={layoutItem.leftColumn} class="slds-col slds-size_1-of-2">
+                <template for:each={layoutItem.leftColumn} for:item="leftField">
+                    <lightning-input-field
+                        key={leftField.field}
+                        if:true={editMode}
+                        field-name={leftField.field}
+                        value={leftField.value}
+                        disabled={leftField.readOnly}
+                        required={leftField.mandatory}>
+                    </lightning-input-field>
+                    <lightning-layout key={leftField.field} if:false={editMode} class="slds-m-around_small">
+                        <lightning-layout-item flexibility="auto" class="slds-p-horizontal_none slds-border_bottom">
+                            <lightning-output-field
+                                key={leftField.field} 
+                                field-name={leftField.field}
+                                class="slds-m-bottom_none">
+                            </lightning-output-field>
+                            </lightning-layout-item>
+                            <lightning-layout-item class="slds-align-bottom slds-p-left_none slds-border_bottom">
+                                <lightning-button-icon
+                                    icon-name="utility:edit"
+                                    alternative-text="Edit"
+                                    title="Edit Field"
+                                    variant="bare"
+                                    size="medium"
+                                    onclick={handleEdit}
+                                ></lightning-button-icon>
+                        </lightning-layout-item>
+                    </lightning-layout> 
+                </template>
+            </div>
+            <div if:true={layoutItem.rightColumn} class="slds-col slds-size_1-of-2">
+                <template for:each={layoutItem.rightColumn} for:item="rightField">
+                    <lightning-input-field
+                        key={rightField.field}
+                        if:true={editMode}
+                        field-name={rightField.field}
+                        value={rightField.value}
+                        disabled={rightField.readOnly}
+                        required={rightField.mandatory}>
+                    </lightning-input-field>
+                    <lightning-layout key={rightField.field} if:false={editMode} class="slds-m-around_small">
+                        <lightning-layout-item flexibility="auto" class="slds-p-horizontal_none slds-border_bottom">
+                            <lightning-output-field 
+                                    key={rightField.field} 
+                                    field-name={rightField.field}
+                                    class="slds-m-bottom_none">
+                            </lightning-output-field>
+                        </lightning-layout-item>   
+                        <lightning-layout-item class="slds-align-bottom slds-p-left_none slds-border_bottom">
+                            <lightning-button-icon 
+                                icon-name="utility:edit"
+                                alternative-text="Edit"
+                                title="Edit Field"
+                                variant="bare"
+                                size="medium"
+                                onclick={handleEdit}>
+                            </lightning-button-icon>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </template>
+            </div>
+            <div if:true={layoutItem.singleColumn} class="slds-col slds-size_1-of-1">
+                <template for:each={layoutItem.singleColumn} for:item="singleField">
+                    <lightning-input-field
+                        key={singleField.field}
+                        if:true={editMode}
+                        field-name={singleField.field}
+                        value={singleField.value}
+                        disabled={singleField.readOnly}
+                        required={singleField.mandatory}>
+                    </lightning-input-field>
+                    <lightning-layout key={singleField.field} if:false={editMode}>
+                        <lightning-layout-item flexibility="auto">
+                            <lightning-output-field
+                                key={singleField.field} 
+                                field-name={singleField.field}  
+                                class="slds-border_bottom"> 
+                            </lightning-output-field>
+                        </lightning-layout-item>
+                        <lightning-layout-item class="slds-align-bottom slds-p-left_none slds-border_bottom">
+                            <lightning-button-icon
+                                icon-name="utility:edit"
+                                alternative-text="Edit"
+                                title="Edit Field"
+                                variant="bare"
+                                size="medium"
+                                onclick={handleEdit}>
+                            </lightning-button-icon>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </template>
+            </div>
+        </div>
+        <!--Buttons Section-->
+        <div if:true={editMode} class="slds-text-align_center slds-theme_shade">
+            <div class="slds-p-vertical_x-small">
+                <lightning-button
+                    label="Cancel"
+                    variant="neutral"
+                    onclick={handleCancel}
+                    class="slds-m-right_x-small">  
+                </lightning-button>
+                <lightning-button
+                    label="Save"
+                    variant="brand"
+                    type="submit"
+                ></lightning-button>
+            </div>
+        </div>
+    </lightning-record-edit-form>
+</template>

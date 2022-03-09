@@ -1,13 +1,14 @@
 /**
- * @description A custom LWC for showing custom search or lookup component
+ * @description A custom LWC for showing custom search or 
+ *              lookup component (for pre-defined lookup items)
  * 
  * @author Accenture
  *      
  * @history
- *    | Developer                 | Date                  | JIRA         | Change Summary                                         |
-      |---------------------------|-----------------------|--------------|--------------------------------------------------------|
-      | angelika.j.s.galang       | February 11, 2022     | DEPP-1258    | Created file                                           | 
-      |                           |                       |              |                                                        |
+ *    | Developer                 | Date                  | JIRA                | Change Summary                                         |
+      |---------------------------|-----------------------|---------------------|--------------------------------------------------------|
+      | angelika.j.s.galang       | February 11, 2022     | DEPP-1258           | Created file                                           | 
+      | roy.nino.s.regala         | February 20, 2022     | DEPP-1773,1406,1257 | Edited to work as a custom column in datatables        | 
 */
 import { LightningElement, api, track } from 'lwc';
 
@@ -22,6 +23,7 @@ export default class CustomSearch extends LightningElement {
     @api itemId; //id of the record selected
     @api newRecordAvailable; //indicates that creating a new record is available
     @api objectLabelName;// name of the object to be created for creating new record
+    @api showEditButton;
 
     searchBoxOpen = false;
     selectedItem = '';
@@ -52,7 +54,9 @@ export default class CustomSearch extends LightningElement {
     }
 
     get hasInitialItemName(){
-        return this.itemServerName?true:false;
+        return this.itemServerName || 
+            (this.showEditButton && this.selectedItemName) ?
+            true : false;
     }
 
     get selectedItemName(){
@@ -64,7 +68,7 @@ export default class CustomSearch extends LightningElement {
             return '';
         //if there is a selcted item, search for the name from the searchitems
         }else if(this.itemId && this.searchItems.find(item => item.id == this.itemId)){
-            return this.itemId && this.searchItems.find(item => item.id == this.itemId).label;
+            return this.searchItems.find(item => item.id == this.itemId).label;
         //else empty
         }else{
             
@@ -76,6 +80,21 @@ export default class CustomSearch extends LightningElement {
         return '/' + this.itemId;
     }
     
+    handleEdit(){
+        this.itemId = undefined;
+        this.itemServerName = undefined;
+        const editEvent = new CustomEvent('itemselect',{
+            bubbles    : true,
+            composed   : true,
+            cancelable : true,
+            detail     : {
+                value:undefined,
+                parent:this.parentId
+            }
+        });
+        this.dispatchEvent(editEvent);
+    }
+
     handleSearchClick(){
         this.template.querySelector(".search-results").classList.add("slds-is-open");
         this.template.querySelector(".input-search").classList.add("slds-has-focus");
@@ -107,7 +126,9 @@ export default class CustomSearch extends LightningElement {
 
     handleItemClick(event){
         let itemId = event.currentTarget.dataset.recordid;
-
+        if(this.showEditButton){
+            this.itemId = itemId;
+        }
         this.selectedItem = itemId;
 
         const selectionEvent = new CustomEvent('itemselect',{

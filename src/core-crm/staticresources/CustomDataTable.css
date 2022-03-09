@@ -2,7 +2,9 @@
     z-index: 999;
 }
 
-.slds-grid .slds-truncate {
+.slds-grid .slds-truncate,
+.slds-grid .cell-output,
+.full-width {
     width: 100%
 }
 

@@ -3,16 +3,10 @@
         <div if:true={showLookup} class="lookup-container">
             <lightning-record-edit-form object-api-name={tableObjectType}>
                 <div class="slds-popover slds-popover_edit slds-popover__body">
-                    <p
-                        if:true={showErrorMessage}
-                        class="slds-text-body_small slds-text-color_destructive slds-m-bottom_xx-small">
-                        Complete this field.
-                    </p>
                     <lightning-input-field
                         field-name={lookupFieldName}
                         value={lookupValue}
                         onchange={handleLookupChange}
-                        onblur={handleLookupBlur}
                         variant="label-hidden"
                     ></lightning-input-field>
                 </div>

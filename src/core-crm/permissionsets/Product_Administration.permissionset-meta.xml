@@ -803,6 +803,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Program_Offering__c.IsActive__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Program_Offering__c.Registration_Start_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -946,6 +951,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Session__c.IsActive__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Session__c.Location_Detail__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1007,6 +1017,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course_Enrollment__c.Facilitator_Bio__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Course_Enrollment__c.IsActive__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1141,7 +1156,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>hed__Course_Offering__c.IsActive__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>hed__Course_Offering__c.On_Hold_Seat__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Course_Offering__c.Primary_Facilitator__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

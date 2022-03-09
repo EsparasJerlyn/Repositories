@@ -21,7 +21,7 @@
     </values>
     <values>
         <field>Right_Column_Long__c</field>
-        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;End_Date__c&quot;, &quot;mandatory&quot;:true,&quot;blankSpaceAbove&quot;:true},{&quot;field&quot;:&quot;Registration_End_Date__c&quot;, &quot;mandatory&quot;:true}]</value>
+        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;IsActive__c&quot;},{&quot;field&quot;:&quot;End_Date__c&quot;, &quot;mandatory&quot;:true},{&quot;field&quot;:&quot;Registration_End_Date__c&quot;, &quot;mandatory&quot;:true}]</value>
     </values>
     <values>
         <field>Right_Column__c</field>

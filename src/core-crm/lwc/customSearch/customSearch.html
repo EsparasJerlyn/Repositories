@@ -1,13 +1,26 @@
 <template>
-    <lightning-formatted-url
-        if:true={hasInitialItemName}
-        value={itemUrl}
-        tooltip={selectedItemName}
-        label={selectedItemName}
-        target="_top" >
-    </lightning-formatted-url>
+    <div if:true={hasInitialItemName}>
+        <span class="slds-grid slds-grid_align-spread slds-cell-edit slds-align_absolute-center">
+            <span class="slds-truncate">
+                <lightning-formatted-url
+                    value={itemUrl}
+                    tooltip={selectedItemName}
+                    label={selectedItemName}
+                    target="_top" >
+                </lightning-formatted-url>
+            </span>
+            <button if:true={showEditButton} class="slds-button slds-button_icon slds-cell-edit__button slds-m-left_x-small" tabindex="-1"
+                title="Edit" onclick={handleEdit}>
+                <svg class="slds-button__icon slds-button__icon_hint slds-button__icon_lock slds-button__icon_small slds-button__icon_edit slds-icon slds-icon-text-default slds-icon_xx-small"
+                    aria-hidden="true">
+                    <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg?cache=9.37.1#edit"></use>
+                </svg>
+                <span class="slds-assistive-text">Edit</span>
+            </button>
+        </span>
+    </div>
 
-    <div if:false={hasInitialItemName} class="slds-form-element slds-m-around_x-small ">
+    <div if:false={hasInitialItemName} class="slds-form-element slds-m-around_x-small">
         <label if:true={searchLabel} class="slds-form-element__label" for="combobox-id-1" id="combobox-label-id-33">
             <span if:true={required} class="slds-text-color_destructive">* </span>{searchLabel}
         </label>
