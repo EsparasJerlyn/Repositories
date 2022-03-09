@@ -3580,7 +3580,7 @@
         <editable>false</editable>
         <field>Product_Request__c.Owning_Faculty__c</field>
         <readable>true</readable>
-    </fieldPermissions>    
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Product_Request__c.Parent_Product_Request__c</field>
@@ -3725,7 +3725,7 @@
         <editable>false</editable>
         <field>Product_Specification__c.Primary_Faculty__c</field>
         <readable>true</readable>
-    </fieldPermissions>    
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Product_Specification__c.Product_Type__c</field>
@@ -6368,6 +6368,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>hed__Course_Offering__c.Delivery_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>hed__Course_Offering__c.External_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6625,7 +6630,7 @@
         <editable>false</editable>
         <field>hed__Course__c.Volume_of_Learning_hours__c</field>
         <readable>true</readable>
-    </fieldPermissions>    
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>hed__Course__c.Who_Should_Participate__c</field>

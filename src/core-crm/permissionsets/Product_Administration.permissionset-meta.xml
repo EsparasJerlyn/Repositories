@@ -1136,6 +1136,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>hed__Course_Offering__c.Delivery_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>hed__Course_Offering__c.On_Hold_Seat__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1553,7 +1558,7 @@
         <editable>true</editable>
         <field>hed__Program_Plan__c.Owning_Faculty__c</field>
         <readable>true</readable>
-    </fieldPermissions>    
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Program_Plan__c.Product_Request__c</field>
