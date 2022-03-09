@@ -5,7 +5,6 @@
         onsubmit={handleSubmit}
         onsuccess={handleSuccess}
         onerror={handleError}>  
-        <lightning-messages></lightning-messages>
         <!--Record Create/Edit Section-->
         <lightning-accordion allow-multiple-sections-open active-section-name={activeSections}>
             <lightning-spinner if:true={isLoading} alternative-text="Loading" size="small"></lightning-spinner>
