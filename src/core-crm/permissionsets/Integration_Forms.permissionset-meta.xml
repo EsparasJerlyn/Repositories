@@ -1707,6 +1707,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>hed__Course__c.Field_of_Education__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>hed__Course__c.Implementation_Year__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1813,6 +1818,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course__c.Unit_Category__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Course__c.Unit_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
