@@ -19,7 +19,7 @@
 								<template for:each={section.layoutRows} for:item="layoutRow">
 									<template for:each={layoutRow.layoutItems} for:item="layoutItem">
 										<template for:each={layoutItem.layoutComponents} for:item="layoutComponent">
-											<lightning-layout-item 
+											<lightning-layout-item
 												if:true={layoutComponent.apiName}
 												key={layoutComponent.apiName}
 												size={section.fieldSize}
@@ -28,27 +28,31 @@
 												<lightning-input-field
 													if:true={editMode}
 													field-name={layoutComponent.apiName}
-													required={layoutItem.required}>
-												</lightning-input-field>
+													required={layoutItem.required}
+													class={layoutComponent.apiName}
+												></lightning-input-field>
 												<lightning-layout if:false={editMode} class="slds-m-around_xx-small">
 													<lightning-layout-item flexibility="auto" class="slds-p-horizontal_none slds-border_bottom">
+														<span data-field={layoutComponent.apiName} class="slds-form-element__label">{layoutComponent.label}</span>
 														<lightning-output-field
 															field-name={layoutComponent.apiName}
 															class="slds-m-bottom_none"
+															variant="label-hidden"
 														></lightning-output-field>
 													</lightning-layout-item>
 													<lightning-layout-item class="slds-p-left_none slds-border_bottom">
 														<lightning-button-icon
-															if:false={disableEditButton}  
+															if:false={disableEditButton}
 															icon-name="utility:edit"
 															alternative-text="Edit"
 															title="Edit Field"
 															variant="bare"
 															size="medium"
 															onclick={handleEdit}
+															class={layoutComponent.apiName}
 														></lightning-button-icon>
 													</lightning-layout-item>
-												</lightning-layout> 
+												</lightning-layout>
 											</lightning-layout-item>
 										</template>
 									</template>
@@ -64,28 +68,28 @@
 					label="Cancel"
 					variant="neutral"
 					onclick={handleCancel}
-					class="slds-m-right_x-small">  
+					class="slds-m-right_x-small">
 				</lightning-button>
 				<lightning-button
 					label="Save"
 					variant="brand"
-					type="submit">  
+					type="submit">
 				</lightning-button>
 			</div>
 		</lightning-record-edit-form>
 		<div if:true={showMarkAsComplete} class="slds-grid slds-gutters slds-m-horizontal_xxx-small slds-m-vertical_small">
 			<div class="slds-col slds-size_1-of-1">
 				<i>{displayNote}</i>
-				<lightning-button 
-					class="slds-float_right" 
-					label="MARK AS COMPLETE" 
-					title="MARK AS COMPLETE" 
-					icon-name="utility:check" 
-					icon-position="left" 
-					variant="brand" 
+				<lightning-button
+					class="slds-float_right"
+					label="MARK AS COMPLETE"
+					title="MARK AS COMPLETE"
+					icon-name="utility:check"
+					icon-position="left"
+					variant="brand"
 					onclick={handleMarkAsComplete}
 					disabled={opeDesignComplete}>
-				</lightning-button> 
+				</lightning-button>
 			</div>
 		</div>
 	</lightning-accordion>

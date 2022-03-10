@@ -2437,6 +2437,16 @@
         <field>hed__Course__c.End_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Course__c.Enrolment_Rulesv2__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Course__c.Evolve_with_QUTeX__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
          <editable>true</editable>
         <field>hed__Course__c.Implementation_Year__c</field>
@@ -2490,6 +2500,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course__c.Owning_School_Discipline_Area__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Course__c.Previously_Developed_Content__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

@@ -139,6 +139,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Evolve_with_QUTeX__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Who_Should_Participate__c</field>
             </layoutItems>
             <layoutItems>

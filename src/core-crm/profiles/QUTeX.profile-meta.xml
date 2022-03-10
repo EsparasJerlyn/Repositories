@@ -142,7 +142,15 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>hed__Course__c-OPE Activity Page Layout</layout>
+        <recordType>hed__Course__c.Activity</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course__c-OPE Activity Page Layout</layout>
         <recordType>hed__Course__c.OPE_Activity</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course__c-OPE Module Page Layout</layout>
+        <recordType>hed__Course__c.Module</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>hed__Course__c-OPE Short Course Page Layout</layout>
