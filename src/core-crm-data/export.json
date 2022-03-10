@@ -78,6 +78,14 @@
             "useCSVValuesMapping": true,
             "targetObject": "Contact",
             "importCSVFilesAsIs": true
+        },
+        {
+            "query": "Select Id, Name, RecordTypeId, Organization_Unit_Level__c from Account",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "Account",
+            "importCSVFilesAsIs": true
         }
     ]
 }
