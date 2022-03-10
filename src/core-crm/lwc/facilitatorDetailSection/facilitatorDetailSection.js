@@ -35,7 +35,7 @@ const FACILITATOR_COLUMNS = [
         wrapText: true
     },
     { 
-        label: 'Is Active?',
+        label: 'IsActive',
         fieldName: 'IsActive__c',
         type:'boolean',
         editable: true,

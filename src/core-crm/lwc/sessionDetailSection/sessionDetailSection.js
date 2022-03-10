@@ -84,7 +84,7 @@ const SESSION_COLUMNS = [
         editable: true   
     },
     { label: 'Location Details', fieldName: 'Location_Detail__c', wrapText: true, editable: true },
-    { label: 'Is Active?', fieldName: 'IsActive__c', type:'boolean', editable: true, initialWidth: 100 }
+    { label: 'IsActive', fieldName: 'IsActive__c', type:'boolean', editable: true, initialWidth: 100 }
 ];
 export default class SessionDetailSection extends LightningElement {
     @api showSessionTable;
