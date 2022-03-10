@@ -31,6 +31,10 @@
                 <behavior>Edit</behavior>
                 <field>Professional_Profile__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>QUT_Staff_Email__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

@@ -3,8 +3,8 @@
     <actionCalls>
         <name>Send_Email</name>
         <label>Send Email</label>
-        <locationX>446</locationX>
-        <locationY>854</locationY>
+        <locationX>578</locationX>
+        <locationY>638</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
         <connector>
@@ -45,11 +45,56 @@
             </value>
         </inputParameters>
     </actionCalls>
+    <actionCalls>
+        <name>Send_Email_0</name>
+        <label>Send Email</label>
+        <locationX>50</locationX>
+        <locationY>638</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <connector>
+            <targetReference>Update_Status_Value</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Unhandled_Error</targetReference>
+        </faultConnector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>Email_Content</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <elementReference>Get_Product_Specification_Details.Requestor_Name__r.QUT_Staff_Email__c</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderAddress</name>
+            <value>
+                <stringValue>qutex@qut.edu.au</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <stringValue>[QUTeX] Idea Form</stringValue>
+            </value>
+        </inputParameters>
+    </actionCalls>
     <apiVersion>52.0</apiVersion>
     <assignments>
         <name>External_URL</name>
         <label>External URL</label>
-        <locationX>314</locationX>
+        <locationX>578</locationX>
         <locationY>398</locationY>
         <assignmentItems>
             <assignToReference>Endpoint_URL</assignToReference>
@@ -75,14 +120,14 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Send_Idea_Form_Screen</targetReference>
+            <targetReference>Send_Idea_Form_Screen_0</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Update_Status_Value</name>
         <label>Update Status Value</label>
-        <locationX>446</locationX>
-        <locationY>974</locationY>
+        <locationX>710</locationX>
+        <locationY>890</locationY>
         <assignmentItems>
             <assignToReference>Get_Product_Specification_Details.Status__c</assignToReference>
             <operator>Assign</operator>
@@ -97,7 +142,7 @@
     <decisions>
         <name>Requestor_Type</name>
         <label>Requestor Type</label>
-        <locationX>446</locationX>
+        <locationX>710</locationX>
         <locationY>278</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -184,7 +229,7 @@
     <recordLookups>
         <name>Get_Product_Specification_Details</name>
         <label>Get Product Specification Details</label>
-        <locationX>446</locationX>
+        <locationX>710</locationX>
         <locationY>158</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -208,8 +253,8 @@
     <recordUpdates>
         <name>Update_Product_Specification_Record</name>
         <label>Update Product Specification Record</label>
-        <locationX>446</locationX>
-        <locationY>1094</locationY>
+        <locationX>710</locationX>
+        <locationY>1010</locationY>
         <faultConnector>
             <targetReference>Unhandled_Error</targetReference>
         </faultConnector>
@@ -218,7 +263,7 @@
     <screens>
         <name>No_Requestor_Assigned</name>
         <label>No Requestor Assigned</label>
-        <locationX>578</locationX>
+        <locationX>1106</locationX>
         <locationY>398</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
@@ -234,8 +279,8 @@
     <screens>
         <name>Send_Idea_Form_Screen</name>
         <label>Send Idea Form Screen</label>
-        <locationX>446</locationX>
-        <locationY>734</locationY>
+        <locationX>578</locationX>
+        <locationY>518</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -244,7 +289,26 @@
         </connector>
         <fields>
             <name>Contact_Details</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 16px;&quot;&gt;Send Idea Form to &lt;/span&gt;&lt;b style=&quot;color: rgb(0, 0, 0); font-size: 16px;&quot;&gt;{!Get_Product_Specification_Details.Requestor_Name__r.FirstName} {!Get_Product_Specification_Details.Requestor_Name__r.LastName} &lt;/b&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 16px;&quot;&gt;(&lt;/span&gt;&lt;b style=&quot;color: rgb(0, 0, 0); font-size: 16px;&quot;&gt;{!Get_Product_Specification_Details.Requestor_Name__r.Email}&lt;/b&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 16px;&quot;&gt;)?&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 16px; color: rgb(0, 0, 0);&quot;&gt;Send Idea Form to &lt;/span&gt;&lt;b style=&quot;font-size: 16px; color: rgb(0, 0, 0);&quot;&gt;{!Get_Product_Specification_Details.Requestor_Name__r.FirstName} {!Get_Product_Specification_Details.Requestor_Name__r.LastName} &lt;/b&gt;&lt;span style=&quot;font-size: 16px; color: rgb(0, 0, 0);&quot;&gt;(&lt;/span&gt;&lt;b style=&quot;font-size: 16px; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);&quot;&gt;{!Get_Product_Specification_Details.Requestor_Name__r.Email}&lt;/b&gt;&lt;span style=&quot;font-size: 16px; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);&quot;&gt;)&lt;/span&gt;&lt;span style=&quot;font-size: 16px; color: rgb(0, 0, 0);&quot;&gt;?&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>Send_Idea_Form_Screen_0</name>
+        <label>Send Idea Form Screen</label>
+        <locationX>50</locationX>
+        <locationY>518</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>Send_Email_0</targetReference>
+        </connector>
+        <fields>
+            <name>Contact_Details_0</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 16px;&quot;&gt;Send Idea Form to &lt;/span&gt;&lt;b style=&quot;color: rgb(0, 0, 0); font-size: 16px;&quot;&gt;{!Get_Product_Specification_Details.Requestor_Name__r.FirstName} {!Get_Product_Specification_Details.Requestor_Name__r.LastName} &lt;/b&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 16px;&quot;&gt;(&lt;/span&gt;&lt;b style=&quot;color: rgb(0, 0, 0); font-size: 16px;&quot;&gt;{!Get_Product_Specification_Details.QUT_Staff_Email__c}&lt;/b&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 16px; background-color: rgb(255, 255, 255);&quot;&gt;)&lt;/span&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 16px;&quot;&gt;?&lt;/span&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
@@ -253,8 +317,8 @@
     <screens>
         <name>Unhandled_Error</name>
         <label>Unhandled Error</label>
-        <locationX>1106</locationX>
-        <locationY>1214</locationY>
+        <locationX>1634</locationX>
+        <locationY>1130</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -267,7 +331,7 @@
         <showHeader>false</showHeader>
     </screens>
     <start>
-        <locationX>320</locationX>
+        <locationX>584</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Get_Product_Specification_Details</targetReference>
