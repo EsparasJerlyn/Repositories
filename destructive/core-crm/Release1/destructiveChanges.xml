@@ -185,7 +185,7 @@
         <members>Record_Type_Setting__mdt.OPE_Activity_Request</members>
         <members>Record_Type_Setting__mdt.Program_for_Modal</members>
         <members>Record_Type_Setting__mdt.Short_Course</members>
-        <!-- DEPP-2022 add these back in when you figure out deployment issue 
+        <!-- DEPP-2022 add these back in when you figure out deployment issue
         <members>Record_Type_Setting__mdt.Program_Plan</members>
         <members>Record_Type_Setting__mdt.Program</members>
         <members>Record_Type_Setting__mdt.Unit</members>
@@ -332,5 +332,12 @@
         <members>Product_Specification__c.Product_Subtype_is_required</members>
         <name>ValidationRule</name>
     </types>
+
+    <!-- DEPP-2020 -->
+    <types>
+        <members>QUTeX_Email</members>
+        <name>CustomLabel</name>
+    </types>
+
     <version>52.0</version>
 </Package>

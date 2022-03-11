@@ -181,13 +181,6 @@
         <value>QUTeX</value>
     </labels>
     <labels>
-        <fullName>QUTeX_Email</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>QUT Email used in flows</shortDescription>
-        <value>test-qutex@qut.edu.au</value>
-    </labels>
-    <labels>
         <fullName>RT_Course_Activity</fullName>
         <categories>RecordType,Course</categories>
         <language>en_US</language>
