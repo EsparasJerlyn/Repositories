@@ -65,26 +65,18 @@
             "importCSVFilesAsIs": true
         },
         {
-            "query": "SELECT Id, Name from Account",
+            "query": "SELECT Id,Name,IsPartner,IsCustomerPortal,AccountSource,IsBuyer from Account",
             "operation": "Upsert",
             "externalId": "Name",
             "useCSVValuesMapping": true,
             "targetObject": "Account",
             "importCSVFilesAsIs": true
         },{
-            "query": "SELECT Id, Name from Contact",
+            "query": "SELECT Id,Name,AccountId,LastName,FirstName,Email from Contact",
             "operation": "Upsert",
             "externalId": "Name",
             "useCSVValuesMapping": true,
             "targetObject": "Contact",
-            "importCSVFilesAsIs": true
-        },
-        {
-            "query": "Select Id, Name, RecordTypeId, Organization_Unit_Level__c from Account",
-            "operation": "Upsert",
-            "externalId": "Name",
-            "useCSVValuesMapping": true,
-            "targetObject": "Account",
             "importCSVFilesAsIs": true
         }
     ]

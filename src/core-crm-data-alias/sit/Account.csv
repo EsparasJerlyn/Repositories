@@ -1,3 +1,5 @@
-Id,Name,RecordTypeId,Organization_Unit_Level__c,RecordType.$$DeveloperName$NamespacePrefix$SobjectType
-0019r000002ja4cAAA,Participating School 2,0128q0000004JlaAAE,3,University_Department;Account
-0019r000002jbzyAAA,Participating School 1,0128q0000004JlaAAE,3,University_Department;Account
+Id,Name,IsPartner,IsCustomerPortal,AccountSource,IsBuyer
+0019r000002WIS5AAO,QUTeX,FALSE,FALSE,'',FALSE
+0019n000001yOenAAE,United BC Corp,FALSE,FALSE,,TRUE
+0019n000001yOeoAAE,Central Perc Co.,FALSE,FALSE,,TRUE
+0019n000001yOepAAE,Test Corporation,FALSE,FALSE,Outbound Enquiry,TRUE
