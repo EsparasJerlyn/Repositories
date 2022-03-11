@@ -123,6 +123,10 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>hed__Description__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Program_Description__c</field>
             </layoutItems>
             <layoutItems>
@@ -131,11 +135,15 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Core_Concepts__c</field>
+                <field>Evolve_with_QUTeX__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Who_Should_Participate__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Core_Concepts__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

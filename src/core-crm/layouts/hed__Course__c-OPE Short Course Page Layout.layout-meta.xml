@@ -133,6 +133,10 @@
                 <behavior>Edit</behavior>
                 <field>Enrolment_Rulesv2__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>More_Details__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>OneColumn</style>
     </layoutSections>
