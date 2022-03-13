@@ -203,10 +203,10 @@
         <members>Product_Request__c.Professional_Advantage_Request_Compact_Layout</members>
         <name>CompactLayout</name>
     </types>
-    <!-- <types>
+    <types>
         <members>Product_Request__c.Professional_Advantage_Request</members>
         <name>RecordType</name>
-    </types> -->
+    </types>
 
     <!-- fix for pipeline bug DEPP-1718 -->
     <types>
