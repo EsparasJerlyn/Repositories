@@ -80,15 +80,14 @@
                         disabled={singleField.readOnly}
                         required={singleField.mandatory}>
                     </lightning-input-field>
-                    <lightning-layout key={singleField.field} if:false={editMode}>
+                    <lightning-layout key={singleField.field} if:false={editMode} class="slds-border_bottom">
                         <lightning-layout-item flexibility="auto">
                             <lightning-output-field
                                 key={singleField.field} 
                                 field-name={singleField.field}  
-                                class="slds-border_bottom"> 
-                            </lightning-output-field>
+                            ></lightning-output-field>
                         </lightning-layout-item>
-                        <lightning-layout-item class="slds-align-bottom slds-p-left_none slds-border_bottom">
+                        <lightning-layout-item class="slds-p-left_none">
                             <lightning-button-icon
                                 icon-name="utility:edit"
                                 alternative-text="Edit"

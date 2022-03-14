@@ -20,7 +20,7 @@
     </values>
     <values>
         <field>Right_Column_Long__c</field>
-        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Certificate_Details__c&quot;}]</value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Right_Column__c</field>
