@@ -60,7 +60,7 @@
         <customLabel>true</customLabel>
         <detailHeading>true</detailHeading>
         <editHeading>true</editHeading>
-        <label>Short Course Detials</label>
+        <label>Short Course Details</label>
         <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -215,7 +215,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h9p0000001c4r</masterLabel>
+        <masterLabel>00hAD00000013AL</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>
