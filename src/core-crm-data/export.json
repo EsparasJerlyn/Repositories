@@ -65,6 +65,16 @@
             "importCSVFilesAsIs": true
         },
         {
+            "query": "SELECT Name,Internal_Url__c,External_Url__c FROM Idea_Form_Url_Setting__c",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "Idea_Form_Url_Setting__c",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id, Name from Account",
+            "query": "SELECT Id,Name,IsPartner,IsCustomerPortal,AccountSource,IsBuyer from Account",
             "query": "Select Id, DeveloperName, SObjectType From RecordType Where SObjectType='Account'",
             "operation": "Upsert",
             "externalId": "DeveloperName",

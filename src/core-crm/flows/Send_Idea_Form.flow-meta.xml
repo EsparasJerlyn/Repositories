@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
-        <name>Send_Email</name>
-        <label>Send Email</label>
-        <locationX>578</locationX>
+        <name>Send_Email_External</name>
+        <label>Send Email External</label>
+        <locationX>314</locationX>
         <locationY>638</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
         <connector>
             <targetReference>Update_Status_Value</targetReference>
         </connector>
-        <faultConnector>
-            <targetReference>Unhandled_Error</targetReference>
-        </faultConnector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>emailBody</name>
@@ -23,7 +20,7 @@
         <inputParameters>
             <name>emailAddresses</name>
             <value>
-                <elementReference>Get_Product_Specification_Details.Requestor_Name__r.Email</elementReference>
+                <elementReference>Get_Product_Specification_Details.Requestor_Email__c</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -46,8 +43,8 @@
         </inputParameters>
     </actionCalls>
     <actionCalls>
-        <name>Send_Email_0</name>
-        <label>Send Email</label>
+        <name>Send_Email_Internal</name>
+        <label>Send Email Internal</label>
         <locationX>50</locationX>
         <locationY>638</locationY>
         <actionName>emailSimple</actionName>
@@ -55,9 +52,6 @@
         <connector>
             <targetReference>Update_Status_Value</targetReference>
         </connector>
-        <faultConnector>
-            <targetReference>Unhandled_Error</targetReference>
-        </faultConnector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>emailBody</name>
@@ -68,7 +62,7 @@
         <inputParameters>
             <name>emailAddresses</name>
             <value>
-                <elementReference>Get_Product_Specification_Details.Requestor_Name__r.QUT_Staff_Email__c</elementReference>
+                <elementReference>Get_Product_Specification_Details.QUT_Staff_Email__c</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -94,17 +88,17 @@
     <assignments>
         <name>External_URL</name>
         <label>External URL</label>
-        <locationX>578</locationX>
+        <locationX>314</locationX>
         <locationY>398</locationY>
         <assignmentItems>
             <assignToReference>Endpoint_URL</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue>idea-form-external?id={!recordId}</stringValue>
+                <stringValue>{!$Setup.Idea_Form_Url_Setting__c.External_Url__c}?id={!recordId}</stringValue>
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Send_Idea_Form_Screen</targetReference>
+            <targetReference>External_Display</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -116,18 +110,18 @@
             <assignToReference>Endpoint_URL</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue>idea-form-internal?id={!recordId}</stringValue>
+                <stringValue>{!$Setup.Idea_Form_Url_Setting__c.Internal_Url__c}?id={!recordId}</stringValue>
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Send_Idea_Form_Screen_0</targetReference>
+            <targetReference>Internal_Display</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Update_Status_Value</name>
         <label>Update Status Value</label>
         <locationX>710</locationX>
-        <locationY>890</locationY>
+        <locationY>854</locationY>
         <assignmentItems>
             <assignToReference>Get_Product_Specification_Details.Status__c</assignToReference>
             <operator>Assign</operator>
@@ -149,14 +143,21 @@
             <name>Internal_Requestor</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Get_Product_Specification_Details.Requestor_Name__r.QUT_Employee_ID__c</leftValueReference>
+                <leftValueReference>Get_Product_Specification_Details.Requestor_Name__c</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>Get_Product_Specification_Details.Requestor_Name__c</leftValueReference>
+                <leftValueReference>Get_Product_Specification_Details.Requestor_Internal_External__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Internal</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_Product_Specification_Details.QUT_Staff_Email__c</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
@@ -171,14 +172,28 @@
             <name>External_Requestor</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Get_Product_Specification_Details.Requestor_Name__r.QUT_Employee_ID__c</leftValueReference>
+                <leftValueReference>Get_Product_Specification_Details.Requestor_Name__c</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
-                    <booleanValue>true</booleanValue>
+                    <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>Get_Product_Specification_Details.Requestor_Name__c</leftValueReference>
+                <leftValueReference>Get_Product_Specification_Details.Requestor_Internal_External__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>External</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_Product_Specification_Details.Requestor_Mobile__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_Product_Specification_Details.Requestor_Email__c</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
@@ -203,6 +218,57 @@
                 <targetReference>No_Requestor_Assigned</targetReference>
             </connector>
             <label>No Requestor</label>
+        </rules>
+        <rules>
+            <name>No_QUT_Staff_Email</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Product_Specification_Details.Requestor_Internal_External__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Internal</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_Product_Specification_Details.QUT_Staff_Email__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Qut_Staff_Email_Display</targetReference>
+            </connector>
+            <label>No QUT Staff Email</label>
+        </rules>
+        <rules>
+            <name>No_Email_and_Mobile</name>
+            <conditionLogic>1 AND (2 OR 3)</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Product_Specification_Details.Requestor_Internal_External__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>External</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_Product_Specification_Details.Requestor_Email__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_Product_Specification_Details.Requestor_Mobile__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Email_And_Moblie_Display</targetReference>
+            </connector>
+            <label>No Email and Mobile</label>
         </rules>
     </decisions>
     <interviewLabel>Send Idea Form {!$Flow.CurrentDateTime}</interviewLabel>
@@ -254,16 +320,73 @@
         <name>Update_Product_Specification_Record</name>
         <label>Update Product Specification Record</label>
         <locationX>710</locationX>
-        <locationY>1010</locationY>
+        <locationY>974</locationY>
         <faultConnector>
             <targetReference>Unhandled_Error</targetReference>
         </faultConnector>
         <inputReference>Get_Product_Specification_Details</inputReference>
     </recordUpdates>
     <screens>
+        <name>Email_And_Moblie_Display</name>
+        <label>Email And Moblie Display</label>
+        <locationX>1106</locationX>
+        <locationY>398</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>Update_Status_Value</targetReference>
+        </connector>
+        <fields>
+            <name>Email_And_Mobile_Required</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;b style=&quot;color: rgb(255, 0, 0); font-size: 16px; background-color: rgb(255, 255, 255);&quot;&gt;Requestor Email &lt;/b&gt;&lt;span style=&quot;color: rgb(255, 0, 0); font-size: 16px; background-color: rgb(255, 255, 255);&quot;&gt;and&lt;/span&gt;&lt;b style=&quot;color: rgb(255, 0, 0); font-size: 16px; background-color: rgb(255, 255, 255);&quot;&gt; Requestor Mobile&lt;/b&gt;&lt;span style=&quot;color: rgb(255, 0, 0); font-size: 16px; background-color: rgb(255, 255, 255);&quot;&gt;&amp;nbsp;are required to Proceed.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>External_Display</name>
+        <label>External Display</label>
+        <locationX>314</locationX>
+        <locationY>518</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>Send_Email_External</targetReference>
+        </connector>
+        <fields>
+            <name>External_contact</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 16px; background-color: rgb(255, 255, 255);&quot;&gt;Send Idea Form to &lt;/span&gt;&lt;b style=&quot;color: rgb(0, 0, 0); font-size: 16px; background-color: rgb(255, 255, 255);&quot;&gt;{!Get_Product_Specification_Details.Requestor_Name__r.FirstName} {!Get_Product_Specification_Details.Requestor_Name__r.LastName} &lt;/b&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 16px; background-color: rgb(255, 255, 255);&quot;&gt;(&lt;/span&gt;&lt;b style=&quot;color: rgb(0, 0, 0); font-size: 16px; background-color: rgb(255, 255, 255);&quot;&gt;{!Get_Product_Specification_Details.Requestor_Name__r.Email}&lt;/b&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 16px; background-color: rgb(255, 255, 255);&quot;&gt;)?&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>Internal_Display</name>
+        <label>Internal Display</label>
+        <locationX>50</locationX>
+        <locationY>518</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>Send_Email_Internal</targetReference>
+        </connector>
+        <fields>
+            <name>Internal_Contact</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 16px; background-color: rgb(255, 255, 255);&quot;&gt;Send Idea Form to &lt;/span&gt;&lt;b style=&quot;color: rgb(0, 0, 0); font-size: 16px; background-color: rgb(255, 255, 255);&quot;&gt;{!Get_Product_Specification_Details.Requestor_Name__r.FirstName} {!Get_Product_Specification_Details.Requestor_Name__r.LastName} &lt;/b&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 16px; background-color: rgb(255, 255, 255);&quot;&gt;(&lt;/span&gt;&lt;b style=&quot;color: rgb(0, 0, 0); font-size: 16px; background-color: rgb(255, 255, 255);&quot;&gt;{!Get_Product_Specification_Details.Requestor_Name__r.QUT_Staff_Email__c}&lt;/b&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 16px; background-color: rgb(255, 255, 255);&quot;&gt;)?&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
         <name>No_Requestor_Assigned</name>
         <label>No Requestor Assigned</label>
-        <locationX>1106</locationX>
+        <locationX>578</locationX>
         <locationY>398</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
@@ -277,38 +400,19 @@
         <showHeader>false</showHeader>
     </screens>
     <screens>
-        <name>Send_Idea_Form_Screen</name>
-        <label>Send Idea Form Screen</label>
-        <locationX>578</locationX>
-        <locationY>518</locationY>
+        <name>Qut_Staff_Email_Display</name>
+        <label>Qut Staff Email Display</label>
+        <locationX>842</locationX>
+        <locationY>398</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
-            <targetReference>Send_Email</targetReference>
+            <targetReference>Update_Status_Value</targetReference>
         </connector>
         <fields>
-            <name>Contact_Details</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 16px; color: rgb(0, 0, 0);&quot;&gt;Send Idea Form to &lt;/span&gt;&lt;b style=&quot;font-size: 16px; color: rgb(0, 0, 0);&quot;&gt;{!Get_Product_Specification_Details.Requestor_Name__r.FirstName} {!Get_Product_Specification_Details.Requestor_Name__r.LastName} &lt;/b&gt;&lt;span style=&quot;font-size: 16px; color: rgb(0, 0, 0);&quot;&gt;(&lt;/span&gt;&lt;b style=&quot;font-size: 16px; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);&quot;&gt;{!Get_Product_Specification_Details.Requestor_Name__r.Email}&lt;/b&gt;&lt;span style=&quot;font-size: 16px; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);&quot;&gt;)&lt;/span&gt;&lt;span style=&quot;font-size: 16px; color: rgb(0, 0, 0);&quot;&gt;?&lt;/span&gt;&lt;/p&gt;</fieldText>
-            <fieldType>DisplayText</fieldType>
-        </fields>
-        <showFooter>true</showFooter>
-        <showHeader>true</showHeader>
-    </screens>
-    <screens>
-        <name>Send_Idea_Form_Screen_0</name>
-        <label>Send Idea Form Screen</label>
-        <locationX>50</locationX>
-        <locationY>518</locationY>
-        <allowBack>false</allowBack>
-        <allowFinish>true</allowFinish>
-        <allowPause>false</allowPause>
-        <connector>
-            <targetReference>Send_Email_0</targetReference>
-        </connector>
-        <fields>
-            <name>Contact_Details_0</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 16px;&quot;&gt;Send Idea Form to &lt;/span&gt;&lt;b style=&quot;color: rgb(0, 0, 0); font-size: 16px;&quot;&gt;{!Get_Product_Specification_Details.Requestor_Name__r.FirstName} {!Get_Product_Specification_Details.Requestor_Name__r.LastName} &lt;/b&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 16px;&quot;&gt;(&lt;/span&gt;&lt;b style=&quot;color: rgb(0, 0, 0); font-size: 16px;&quot;&gt;{!Get_Product_Specification_Details.QUT_Staff_Email__c}&lt;/b&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 16px; background-color: rgb(255, 255, 255);&quot;&gt;)&lt;/span&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 16px;&quot;&gt;?&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <name>Qut_Staff_Email_Required</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;b style=&quot;background-color: rgb(255, 255, 255); font-size: 16px; color: rgb(255, 0, 0);&quot;&gt;QUT Staff Email&lt;/b&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 16px; color: rgb(255, 0, 0);&quot;&gt;&amp;nbsp;is required to Proceed.&lt;/span&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
@@ -318,7 +422,7 @@
         <name>Unhandled_Error</name>
         <label>Unhandled Error</label>
         <locationX>1634</locationX>
-        <locationY>1130</locationY>
+        <locationY>1094</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -355,7 +459,7 @@
     <textTemplates>
         <name>Form_URL</name>
         <isViewedAsPlainText>false</isViewedAsPlainText>
-        <text>&lt;p&gt;&lt;span style=&quot;font-size: 15px; font-family: &amp;quot;Segoe UI&amp;quot;, &amp;quot;Segoe UI Web (West European)&amp;quot;, &amp;quot;Segoe UI&amp;quot;, -apple-system, BlinkMacSystemFont, Roboto, &amp;quot;Helvetica Neue&amp;quot;, sans-serif; background-color: rgb(255, 255, 255);&quot;&gt;https://qut.tfaforms.net/f/{!Endpoint_URL}&lt;/span&gt;&lt;/p&gt;</text>
+        <text>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-family: &amp;quot;Segoe UI&amp;quot;, &amp;quot;Segoe UI Web (West European)&amp;quot;, &amp;quot;Segoe UI&amp;quot;, -apple-system, BlinkMacSystemFont, Roboto, &amp;quot;Helvetica Neue&amp;quot;, sans-serif; font-size: 15px;&quot;&gt;{!Endpoint_URL}&lt;/span&gt;&lt;/p&gt;</text>
     </textTemplates>
     <variables>
         <name>Endpoint_URL</name>
