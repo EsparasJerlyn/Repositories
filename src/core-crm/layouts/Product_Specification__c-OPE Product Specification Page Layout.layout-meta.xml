@@ -57,6 +57,10 @@
                 <behavior>Edit</behavior>
                 <field>Primary_Faculty__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Requestor_Internal_External__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
@@ -118,7 +122,7 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Product_Type__c</field>
-            </layoutItems>            
+            </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Requires_Director_Endorsement__c</field>
@@ -173,7 +177,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00hBo000000039K</masterLabel>
+        <masterLabel>00h9p0000001Yj4</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>
