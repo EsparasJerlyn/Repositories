@@ -38,7 +38,6 @@ private class PricebookEntryCtrlTest {
         List<Product_Request__c> prodRequest;
         prodRequest = TestDataFactory.createTestProductRequestRecords(1);
         prodRequest[0].RecordTypeId = opeModuleReqId;
-        prodRequest[0].Parent_Product_Request__c = prodRequestOPEProgramRequest[0].Id;
         insert prodRequest;
 
         List<hed__Course__c> courses;

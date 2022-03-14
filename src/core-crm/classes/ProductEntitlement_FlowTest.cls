@@ -25,7 +25,7 @@ private class ProductEntitlement_FlowTest {
         insert oppList;
         Product_Specification__c prodSpec = TestDataFactory.createTestProductSpecsRecords(1,conList,oppList).iterator().next();
         insert prodSpec;
-        Product_Request__c prodReq = TestDataFactory.createTestProductRequestRecords(1,new List<Product_Request__c>(),prodSpec?.Id).iterator().next();
+        Product_Request__c prodReq = TestDataFactory.createTestProductRequestRecords(1,prodSpec?.Id).iterator().next();
         insert prodReq;
         List<hed__Course__c> courseList = TestDataFactory.createTestCourseRecords(1,acc?.Id,prodReq?.Id);
         insert courseList;

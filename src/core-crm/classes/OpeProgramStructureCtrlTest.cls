@@ -21,35 +21,41 @@ public with sharing class OpeProgramStructureCtrlTest {
     private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
     private static Id opeProgProdReqId =  Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_PROGRAM).getRecordTypeId();
     private static Id opeActProdReqId =  Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_ACTIVITY).getRecordTypeId();
-
-    @isTest
-    private static void getRelatedRecordsTest()
-    {
+    @testSetup static void setupMethod() {
         List<Account> accounts;
         accounts = TestDataFactory.createTestAccountRecords(1);
         insert accounts;
-
+    
         List<Product_Request__c> prodRequestOPEProgramRequest;
         prodRequestOPEProgramRequest = TestDataFactory.createTestProductRequestRecords(1);
         prodRequestOPEProgramRequest[0].Product_Request_Name__c = PR_PROGRAM;
         prodRequestOPEProgramRequest[0].RecordTypeId = opeProgProdReqId;
         insert prodRequestOPEProgramRequest;
-
+    
         List<hed__Program_Plan__c> programPlanList;
         programPlanList = TestDataFactory.createTestProgramPlanRecords(1);
         programPlanList[0].Product_Request__c = prodRequestOPEProgramRequest[0].Id;
         insert programPlanList;
-
+    
         List<Product_Request__c> prodRequest;
-
+    
         prodRequest = TestDataFactory.createTestProductRequestRecords(1);
         prodRequest[0].RecordTypeId = opeActProdReqId;
-        prodRequest[0].Parent_Product_Request__c = prodRequestOPEProgramRequest[0].Id;
         insert prodRequest;
-
+    
         List<hed__Course__c> courses;
         courses = TestDataFactory.createTestCourseRecords(1,accounts[0].Id,prodRequest[0].Id);
         insert courses;
+        
+        List<Related_Product_Request__c> relatedProductRequests;
+        relatedProductRequests = TestDataFactory.createTestRelatedPRRecords(1,prodRequest,prodRequestOPEProgramRequest);
+        insert relatedProductRequests;
+    }
+    
+
+    @isTest
+    private static void getRelatedRecordsTest()
+    {
 
         Test.startTest();
          System.runAs(currentUser)
@@ -66,6 +72,35 @@ public with sharing class OpeProgramStructureCtrlTest {
         Test.stopTest();
         
     }
+
+
+    @isTest
+    private static void upsertProgramPlanAndPlanRequirementTest()
+    {
+        List<hed__Course__c> course = [SELECT Id FROM hed__Course__c];
+        List<hed__Program_Plan__c> program = [SELECT Id, Program_Delivery_Structure__c FROM hed__Program_Plan__c];
+        List<hed__Plan_Requirement__c> newPlanReqToUpsert = new List<hed__Plan_Requirement__c>();
+
+        Test.startTest();
+        System.runAs(currentUser)
+        {   
+         hed__Plan_Requirement__c newPlanRequirement = new hed__Plan_Requirement__c(
+            hed__Sequence__c = 1,
+            hed__Category__c = 'Optional',
+            hed__Course__c = course[0].Id,
+            hed__Program_Plan__c = program[0].Id
+         );
+        newPlanReqToUpsert.add(newPlanRequirement);
+        program[0].Program_Delivery_Structure__c = 'Flexible Program';
+        OpeProgramStructureCtrl.upsertProgramPlanAndPlanRequirement(newPlanReqToUpsert,program[0]);
+        }
+
+        System.assert(![SELECT ID FROM hed__Plan_Requirement__c].isEmpty(),'Error while createing plan requirement');
+        System.assert(![SELECT ID FROM hed__Program_Plan__c WHERE Program_Delivery_Structure__c = 'Flexible Program'].isEmpty(),'Error while createing plan requirement');
+        Test.stopTest();
+    }
+
+
 
 
 }

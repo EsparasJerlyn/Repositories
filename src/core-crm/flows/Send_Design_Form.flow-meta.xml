@@ -234,7 +234,7 @@
             <name>Has_No_Req_Name_Assigned</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Get_Product_Request_Record.Parent_Product_Request__r.Product_Specification__r.Requestor_Name__c</leftValueReference>
+                <leftValueReference>Get_Product_Request_Record.Product_Specification__r.Requestor_Name__c</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>

@@ -6,10 +6,10 @@
  * @author Accenture
  *
  * @history
- *    | Developer                 | Date                  | JIRA      | Change Summary                  |
-      |---------------------------|-----------------------|-----------|---------------------------------|
-      | adrian.c.habasa           | Febuary 04, 2022      | DEPP-1427 | Created file                    | 
-      |                           |                       |           |                                 | 
+ *    | Developer                 | Date                  | JIRA      | Change Summary                              |
+      |---------------------------|-----------------------|-----------|---------------------------------------------|
+      | adrian.c.habasa           | Febuary 04, 2022      | DEPP-1427 | Created file                                | 
+      | roy.nino.s.regala         | March 10, 2022        | DEPP-1747 | Updated to adapt to new field and data model| 
 */
 public with sharing class OpeProgramStructureCtrl {
 
@@ -28,31 +28,26 @@ public with sharing class OpeProgramStructureCtrl {
             try{
 
                 OpeProductRequestAndCourse prodReqAndCourseData = new OpeProductRequestAndCourse();
+                Set<Id> courseProdRequestIds = new Set<Id>();
 
-                List<Product_Request__c> childAndParentProdRequestList = new List<Product_Request__c>();
-                Map<Id,Product_Request__c> childAndParentProdRequestMap = new Map<Id,Product_Request__c>([SELECT Id, Name, RecordType.DeveloperName, RecordTypeId, Product_Request_Status__c, 
-                                                                                                         Parent_Product_Request__c, Parent_Product_Request__r.Name, Product_Request_Name__c
-                                                                                                         FROM Product_Request__c
-                                                                                                         WHERE Id =: productRequestId 
-                                                                                                         OR Parent_Product_Request__c =: productRequestId]);
-                                                                                                    
-                List<hed__Program_Plan__c> relatedProgramPlanList = new List<hed__Program_Plan__c>([SELECT Id, Name, Program_Type__c, hed__Start_Date__c, hed__End_Date__c 
+                List<hed__Program_Plan__c> relatedProgramPlanList = new List<hed__Program_Plan__c>([SELECT Id, Name, Program_Delivery_Structure__c, hed__Start_Date__c, hed__End_Date__c 
                                                                                                         FROM hed__Program_Plan__c WHERE Product_Request__c =: productRequestId]);
 
-
-                if(childAndParentProdRequestMap.get(productRequestId).RecordType.DeveloperName == opeProgramRequest){    
-                    childAndParentProdRequestList = childAndParentProdRequestMap.values();
-                }else{
-                    childAndParentProdRequestList.add(childAndParentProdRequestMap.get(productRequestId));
+                List<Related_Product_Request__c> relatedProductRequests = new List<Related_Product_Request__c>([SELECT Id, Program__c, Course__c 
+                                                                                                                FROM Related_Product_Request__c 
+                                                                                                                WHERE Program__c =: productRequestId]);                                                                                               
+                for(Related_Product_Request__c relatedPR : relatedProductRequests){
+                    courseProdRequestIds.add(relatedPR.Course__c);
                 }
-
-                List<hed__Course__c> coursesList =new List<hed__Course__c>([SELECT Id,Name,RecordType.Name, Start_Date__c, End_Date__c,
-                                                                           (SELECT Id, hed__Sequence__c, hed__Category__c from hed__Plan_Requirements__r)
+                List<hed__Course__c> coursesList = new List<hed__Course__c>([SELECT Id,Name,RecordType.Name, Start_Date__c, End_Date__c,
+                                                                           (SELECT Id, hed__Sequence__c, hed__Category__c from hed__Plan_Requirements__r WHERE hed__Program_Plan__c =:relatedProgramPlanList)
                                                                            FROM hed__Course__c 
-                                                                           WHERE ProductRequestID__c in:childAndParentProdRequestList]);
+                                                                           WHERE ProductRequestID__c in:courseProdRequestIds]);
+
+                                                                                                    
+                
                 
                 prodReqAndCourseData.courseList = coursesList;
-                prodReqAndCourseData.productRequestList= childAndParentProdRequestList;
                 prodReqAndCourseData.programPlanList= relatedProgramPlanList;
 
                 return prodReqAndCourseData;
@@ -60,12 +55,24 @@ public with sharing class OpeProgramStructureCtrl {
             }catch(Exception e){ throw auraEx; }
     }
 
+    /**
+     * @description insert Plan Requirement records
+     * @param planRequirementToUpdate - plan requirement list to update
+     */
+    @AuraEnabled
+    public static void upsertProgramPlanAndPlanRequirement(List<hed__Plan_Requirement__c> recordsToUpsert, hed__Program_Plan__c recordToUpdate){
+        if(!recordsToUpsert.isEmpty()){
+            upsert(recordsToUpsert);
+        }
+        if(recordToUpdate != null){
+            update(recordToUpdate);
+        }
+    }
+
     //wrapper class, Holds List of Courses, Product Request and Program Plan
     public class OpeProductRequestAndCourse{
         @AuraEnabled
         public List<hed__Course__c> courseList;
-        @AuraEnabled
-        public List<Product_Request__c> productRequestList;
         @AuraEnabled
         public List<hed__Program_Plan__c> programPlanList;
        

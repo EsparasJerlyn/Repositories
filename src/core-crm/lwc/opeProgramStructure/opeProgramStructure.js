@@ -2,9 +2,10 @@
  * @description An LWC component for ope program structure
  * @author Accenture
  * @history
- *    | Developer                 | Date                  | JIRA                            | Change Summary                       |
-      |---------------------------|-----------------------|---------------------------------|--------------------------------------|
-      | adrian.c.habasa           | Febuary 4, 2022       | DEPP-1427                       | Created                              |
+ *    | Developer                 | Date                  | JIRA                            | Change Summary                              |
+      |---------------------------|-----------------------|---------------------------------|---------------------------------------------|
+      | adrian.c.habasa           | Febuary 4, 2022       | DEPP-1427                       | Created                                     |
+      | roy.nino.s.regala         | March 10, 2022        | DEPP-1747                       | Updated to adapt to new field and data model|
  */
 import { LightningElement,wire,api} from 'lwc';
 import getProdReqAndCourse from '@salesforce/apex/OpeProgramStructureCtrl.getProdReqAndCourse';
@@ -33,7 +34,10 @@ export default class OpeProgramStructure extends LightningElement {
             this.listOfRecords = result;
             let coursesList = this.listOfRecords.data.courseList;
             let programPlanTemp = this.listOfRecords.data.programPlanList?this.listOfRecords.data.programPlanList[0]:{};
+            //check if atleast one course has a plan requirement already
+            this.hasPlanRequirementOnRender = coursesList.find(filterKey => filterKey.hed__Plan_Requirements__r)?true:false; 
             this.programPlan = programPlanTemp;
+
             this.formatCourseData(coursesList);
             this.isLoading = false;
         }
@@ -49,7 +53,7 @@ export default class OpeProgramStructure extends LightningElement {
      *getter for default plan requirement category
      */
     get planRequirementCategory(){
-        return this.programPlan?(this.programPlan.Program_Type__c === FLEXIBLE_TYPE?OPTIONAL:this.programPlan.Program_Type__c === PRESCRIBED_TYPE?REQUIRED:OPTIONAL):'';
+        return this.programPlan?(this.programPlan.Program_Delivery_Structure__c === FLEXIBLE_TYPE?OPTIONAL:this.programPlan.Program_Delivery_Structure__c === PRESCRIBED_TYPE?REQUIRED:OPTIONAL):'';
     }
 
     /*
@@ -101,7 +105,6 @@ export default class OpeProgramStructure extends LightningElement {
      */
     formatPlanRequirementData(listToFormat,course,counter){
         if(listToFormat){
-            this.hasPlanRequirementOnRender = true;
             return listToFormat.map(item =>{
                 let newItem = {};
                 newItem.recordId = item.Id;
@@ -115,7 +118,7 @@ export default class OpeProgramStructure extends LightningElement {
         }else{
             let newItem = {};
             newItem.recordId = null;
-            newItem.sequence = counter;
+            newItem.sequence = this.hasPlanRequirementOnRender?'':counter; //empty if there is already a saved plan requirement
             newItem.category = this.planRequirementCategory;
             newItem.recordtype = course.RecordType?course.RecordType.Name:'';
             newItem.coursename = course.Name;

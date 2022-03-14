@@ -13,10 +13,10 @@
                 Program Type
             </div>
             <div class="slds-col slds-size_3-of-12 slds-m-bottom_medium">
-                <template if:true={programTypePicklistValues.data}>
+                <template if:true={programDeliveryStructurePicklistValues.data}>
                     <lightning-combobox name="progress"
-                                        value={programTypeValue}
-                                        options={programTypePicklistValues.data.values}
+                                        value={programDeliveryStructureValue}
+                                        options={programDeliveryStructurePicklistValues.data.values}
                                         onchange={handleTypeChange}
                                         class="inputStyle"
                                         disabled={cantEdit}>

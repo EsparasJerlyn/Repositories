@@ -10,15 +10,16 @@
       |                           |                       |                     |                                                        |
 */
 import { LightningElement, api, wire} from 'lwc';
-import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
 import HAS_PERMISSION from '@salesforce/customPermission/EditDesignAndReleaseTabsOfProductRequest';
-import PR_PARENT_TYPE from '@salesforce/schema/Product_Request__c.Parent_Product_Request__r.OPE_Program_Plan_Type__c';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import LWC_Error_General from '@salesforce/label/c.LWC_Error_General';
+import checkParentProgramType from '@salesforce/apex/ProductManagementCtrl.checkParentProgramType';
 
-const PRESCRIBED_PROGRAM = 'Prescribed Program';
 export default class ProductManagement extends LightningElement {
     @api recordId;
     @api objectApiName;
-
+    
+    parentIsPrescribed = false;
     //decides if user has access to this feature
     get hasAccess(){
         return HAS_PERMISSION;
@@ -26,13 +27,32 @@ export default class ProductManagement extends LightningElement {
 
     //decides if user should see pricing options
     get showSection(){
-        if(this.productRequest){
-            return getFieldValue(this.productRequest.data,PR_PARENT_TYPE) !== PRESCRIBED_PROGRAM;
-        }
-        return false;
+        return this.parentIsPrescribed;
     }
 
-    //gets product request details
-    @wire(getRecord, { recordId: '$recordId', fields: [PR_PARENT_TYPE] })
-    productRequest;
+    parentProgramType
+    @wire(checkParentProgramType,{productRequestId: '$recordId'})
+    checkParentProgramType(result){
+        if(result.data != undefined)
+        {
+            this.parentIsPrescribed = result.data;
+        }
+        else if(result.error)
+        {  
+            this.generateToast('Error!',LWC_Error_General,'error');
+        }
+    }
+
+    /**
+     * creates toast notification
+     */
+     generateToast(_title,_message,_variant){
+        const evt = new ShowToastEvent({
+            title: _title,
+            message: _message,
+            variant: _variant,
+        });
+        this.dispatchEvent(evt);
+    }
+    
 }

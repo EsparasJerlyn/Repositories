@@ -1,18 +1,18 @@
 /**
- * @description Tests the Product Request Controller Test Class
+ * @description Tests the ProductManagementCtrl Test Class
  *
- * @see ProductRequestListCtrl
+ * @see ProductManagementCtrl
  *
  * @author Accenture
  *
  * @history
  *    | Developer                 | Date                  | JIRA      | Change Summary                  |
       |---------------------------|-----------------------|-----------|---------------------------------|
-      | roy.nino.s.regala         | October 01, 2021      | DEPP40,42 | Created file                    | 
+      | roy.nino.s.regala         | March 10, 2022        | DEPP1747  | Created file                    | 
       |                           |                       |           |                                 | 
 */
 @isTest(SeeAllData=false)
-private class ProductRequestListCtrlTest {
+private class ProductManagementCtrlTest {
     private static string PR_PROGRAM = System.Label.RT_ProductRequest_Program;
     private static string PR_ACTIVITY = System.Label.RT_ProductRequest_Activity;
     
@@ -42,6 +42,7 @@ private class ProductRequestListCtrlTest {
         prodRequestOPEProgramRequest = TestDataFactory.createTestProductRequestRecords(1,productSpecs[0].Id);
         prodRequestOPEProgramRequest[0].Product_Request_Name__c = PR_PROGRAM;
         prodRequestOPEProgramRequest[0].RecordTypeId = opeProgProdReqId;
+        prodRequestOPEProgramRequest[0].OPE_Program_Plan_Type__c = 'Flexible Program';
         insert prodRequestOPEProgramRequest;
     
         List<hed__Program_Plan__c> programPlanList;
@@ -65,13 +66,24 @@ private class ProductRequestListCtrlTest {
         
     }   
 
-    static testMethod void testGetProductRequests() {
+    static testMethod void testCheckParentProgramTypeTrue() {
         Test.startTest();
         System.runAs(currentUser){
-            ProductRequestListCtrl.ProductRequestData getProdReqs = new ProductRequestListCtrl.ProductRequestData();
-            getProdReqs = ProductRequestListCtrl.getProductRequests(string.valueOf([SELECT Id FROM Product_Specification__c Limit 1].Id));
-            system.assert( !getProdReqs.parentList.isEmpty(), 'unable to get parent product requests');
-            system.assert( !getProdReqs.parentChildMap.isEmpty(), 'unable to get parent child map product requests');
+            Boolean hasNoPrescribedProgramAsParent;
+            hasNoPrescribedProgramAsParent = ProductManagementCtrl.checkParentProgramType([SELECT Id FROM Product_Request__c WHERE RecordTypeId =: opeActProdReqId LIMIT 1][0].Id);
+            system.assert( hasNoPrescribedProgramAsParent, 'Parent product request should not be a prescribed program');
+        }
+
+        Test.stopTest();
+    }
+
+    static testMethod void testCheckParentProgramTypeFalse() {
+        Test.startTest();
+        System.runAs(currentUser){
+            Boolean hasNoPrescribedProgramAsParent;
+            update(new Product_Request__c(Id = [SELECT Id FROM Product_Request__c WHERE RecordTypeId =: opeProgProdReqId LIMIT 1][0].Id, OPE_Program_Plan_Type__c ='Prescribed Program'));
+            hasNoPrescribedProgramAsParent = ProductManagementCtrl.checkParentProgramType([SELECT Id FROM Product_Request__c WHERE RecordTypeId =: opeActProdReqId LIMIT 1][0].Id);
+            system.assert( !hasNoPrescribedProgramAsParent, 'Parent product request should be a prescribed program');
         }
 
         Test.stopTest();

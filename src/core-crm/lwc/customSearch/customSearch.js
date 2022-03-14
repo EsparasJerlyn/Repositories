@@ -23,10 +23,14 @@ export default class CustomSearch extends LightningElement {
     @api itemId; //id of the record selected
     @api newRecordAvailable; //indicates that creating a new record is available
     @api objectLabelName;// name of the object to be created for creating new record
+    @api customServerSearch; //enables database search on clicking button
+    @api searchInProgress;
     @api showEditButton;
+
 
     searchBoxOpen = false;
     selectedItem = '';
+    filterString ='';
     
     @api
     get searchItems() { //pass with the ff properties: id,label,meta
@@ -79,7 +83,11 @@ export default class CustomSearch extends LightningElement {
     get itemUrl(){
         return '/' + this.itemId;
     }
-    
+
+    get isSearching(){
+        return this.searchBoxOpen && this.customServerSearch;
+    }
+
     handleEdit(){
         this.itemId = undefined;
         this.itemServerName = undefined;
@@ -95,15 +103,35 @@ export default class CustomSearch extends LightningElement {
         this.dispatchEvent(editEvent);
     }
 
-    handleSearchClick(){
+
+    showSearchBox(){
         this.template.querySelector(".search-results").classList.add("slds-is-open");
         this.template.querySelector(".input-search").classList.add("slds-has-focus");
         this.searchBoxOpen = true;
     }
 
+    handleSearchClick(){
+        this.showSearchBox();
+    }
+
     handleSearchKeydown(event){
         if (event.code == "Escape") {
             this.handleSearchBlur();
+        }
+    }
+
+    handleSearchKeyUp(){
+        if(this.filterString !== '' && this.filterString && this.filterString.length > 2 && this.customServerSearch){
+            const searchEvent = new CustomEvent('search',{
+                bubbles    : true,
+                composed   : true,
+                cancelable : true,
+                detail     : {
+                    filterString:this.filterString
+                }
+            });
+            this.dispatchEvent(searchEvent);
+            this.showSearchBox();
         }
     }
 
@@ -114,10 +142,16 @@ export default class CustomSearch extends LightningElement {
     }
 
     handleItemSearch(event){
-        let filterString = event.target.value;
-        if(filterString){
+        if(this.customServerSearch){
+            const percentLookupRegex = /^%|%$/g;
+            this.filterString = event.target.value.replace(percentLookupRegex, '');
+        }else{
+            this.filterString = event.target.value;
+        }
+        
+        if(this.filterString && !this.customServerSearch){
             this.searchItemsToDisplay = this.searchItems.filter((question) =>
-                question.label.toLowerCase().includes(filterString.toLowerCase())
+                question.label.toLowerCase().includes(this.filterString.toLowerCase())
             );
         }else{
             this.searchItemsToDisplay = this.searchItems;
@@ -170,6 +204,7 @@ export default class CustomSearch extends LightningElement {
         });
         this.dispatchEvent(removeEvent);
         this.selectedItem = '';
+        this.filterString = '';
     }
 
 }

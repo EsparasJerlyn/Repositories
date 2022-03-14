@@ -11,10 +11,10 @@ import { LightningElement, api, wire } from 'lwc';
 import { getPicklistValues } from 'lightning/uiObjectInfoApi';
 import { getObjectInfo } from 'lightning/uiObjectInfoApi';
 import PROGRAM_PLAN_OBJECT from '@salesforce/schema/hed__Program_Plan__c';
-import PROGRAM_TYPE_FIELD from '@salesforce/schema/hed__Program_Plan__c.Program_Type__c';
+import PROGRAM_DELIVERY_STRUCTURE_FIELD from '@salesforce/schema/hed__Program_Plan__c.Program_Delivery_Structure__c';
 import HAS_PERMISSION from '@salesforce/customPermission/EditDesignAndReleaseTabsOfProductRequest';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import upsertProgramPlanAndPlanRequirement from '@salesforce/apex/CreateProductsAndOfferingsCtrl.upsertProgramPlanAndPlanRequirement'; 
+import upsertProgramPlanAndPlanRequirement from '@salesforce/apex/OpeProgramStructureCtrl.upsertProgramPlanAndPlanRequirement'; 
 
 const COLUMNS = [
     { 
@@ -49,8 +49,8 @@ export default class ProgramStructure extends LightningElement {
     mandatory = true;
     editable = false;
     hasSavedSequence = false;
-    programType = 'Flexible Program';
-    programTypeValue;
+    programDeliveryStructure = 'Flexible Program';
+    programDeliveryStructureValue;
     
 
     /*
@@ -62,15 +62,15 @@ export default class ProgramStructure extends LightningElement {
     /*
     *gets picklist values of program type field of program plan
     */
-    @wire(getPicklistValues, { recordTypeId: '$objectInfo.data.defaultRecordTypeId', fieldApiName: PROGRAM_TYPE_FIELD})
-    programTypePicklistValues;
+    @wire(getPicklistValues, { recordTypeId: '$objectInfo.data.defaultRecordTypeId', fieldApiName: PROGRAM_DELIVERY_STRUCTURE_FIELD})
+    programDeliveryStructurePicklistValues;
 
     /*
     *sets value of draft table and program type
     */
     connectedCallback(){
        this.draftTableData = this.tableData;
-       this.programTypeValue = this.programPlan?(this.programPlan.Program_Type__c?this.programPlan.Program_Type__c:this.programType):'';
+       this.programDeliveryStructureValue = this.programPlan?(this.programPlan.Program_Delivery_Structure__c?this.programPlan.Program_Delivery_Structure__c:this.programDeliveryStructure):'';
     }
 
     /*
@@ -127,7 +127,7 @@ export default class ProgramStructure extends LightningElement {
         this.draftTableData  = this.draftTableData.map(row=>({
             ...row,category:event.target.value ==='Flexible Program'?'Optional':event.target.value === 'Prescribed Program'?'Required':'',
         }));
-        this.programType = event.target.value;
+        this.programDeliveryStructure = event.target.value;
     }
     
     /*
@@ -143,7 +143,7 @@ export default class ProgramStructure extends LightningElement {
      @api 
      handleCancel(){
          this.draftTableData = this.tableData.map(row=>({
-            ...row,category:this.programType === 'Flexible Program'?'Optional':'Required',
+            ...row,category:this.programDeliveryStructure === 'Flexible Program'?'Optional':'Required',
         }));
          this.editable = false;
      }
@@ -191,7 +191,7 @@ export default class ProgramStructure extends LightningElement {
             planRequirement['hed__Program_Plan__c'] = this.programPlan.Id; 
             return planRequirement;
         })
-        recordsToUpsert.programPlan.Program_Type__c = this.programType;
+        recordsToUpsert.programPlan.Program_Delivery_Structure__c = this.programDeliveryStructure;
         return recordsToUpsert; 
     }
 

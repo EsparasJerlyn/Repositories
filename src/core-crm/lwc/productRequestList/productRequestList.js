@@ -11,6 +11,7 @@
       | angelika.j.s.galang       | September 30, 2021    | DEPP-40,42           | Created file                          |
       | roy.nino.s.regala         | October 01,2021       | DEPP-40,42           | Updated to work with addProductRequest|
       | angelika.j.s.galang       | December 17, 2021     | DEPP-1088,1096       | Modified to handle OPE records        | 
+      | roy.nino.s.regala         | March 05, 2022        | DEPP-1747            | Updated Parent to child relationship  |
  */
 import { LightningElement, wire,api } from 'lwc';
 import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
@@ -25,8 +26,9 @@ import RT_ProductSpecification_OPEProgramSpecification from '@salesforce/label/c
 import RT_ProductRequest_Program from '@salesforce/label/c.RT_ProductRequest_Program';
 import getProductRequests from '@salesforce/apex/ProductRequestListCtrl.getProductRequests';
 import PS_RECORD_TYPE from '@salesforce/schema/Product_Specification__c.RecordType.DeveloperName';
-import PR_PARENT from '@salesforce/schema/Product_Request__c.Parent_Product_Request__c';
-import PS_PARENT from '@salesforce/schema/Product_Request__c.Product_Specification__c';
+import getFieldLayoutSettings from '@salesforce/apex/AddProductRequestCtrl.getFieldLayoutSettings';
+import PRODUCT_REQUEST_OBJECT from '@salesforce/schema/Product_Request__c';
+import getRecordTypes from '@salesforce/apex/AddProductRequestCtrl.getRecordTypes';
 
 const COMMA = ',';
 const PS_FILTER = LWC_List_CCEParentFilter.split(COMMA);
@@ -47,7 +49,12 @@ export default class ProductRequestList extends LightningElement {
     isLoading = true;
     showProductRequest = false;
     errorMessage = '';
-
+    recordTypeOrderMap;
+    fieldLayoutMap;
+    isAddExistingOpen = false;
+    recordTypeOrderMapOpe;
+    recordTypeOrderMapCce;
+    
     /**
      * constructs the header of lightning data grid
      */
@@ -94,7 +101,7 @@ export default class ProductRequestList extends LightningElement {
                     variant: 'brand',
                     class: {fieldName:'addChildButton'},
                 }
-            }
+            }     
         ];
     }
     /**
@@ -116,19 +123,7 @@ export default class ProductRequestList extends LightningElement {
     }
 
     get isProdSpecOPE(){
-        return this.prodSpecRecordType == RT_ProductSpecification_OPEProgramSpecification;
-    }
-
-
-    prodSpecRecordType;
-    @wire(getRecord, { recordId: '$recordId', fields: [PS_RECORD_TYPE] })
-    handleProductSpecification(result){
-        if(result.data){
-           this.prodSpecRecordType = getFieldValue(result.data, PS_RECORD_TYPE);
-           this.showProductRequest = true;
-        }else if(result.error){
-            this.generateToast('Error.',LWC_Error_General,'error');
-        }
+        return this.prodSpecRecordType == RT_ProductSpecification_OPEProgramSpecification?true:false;
     }
 
     productRequests;
@@ -136,8 +131,8 @@ export default class ProductRequestList extends LightningElement {
     getProductRequests(result){
         if(result.data){
             this.productRequests = result;
-            let parentProductRequests = this.formatData(this.productRequests.data.parentList);
-            let parentChildProductRequests = this.productRequests.data.parentChildMap;
+            let parentProductRequests = this.formatData(this.productRequests.data.parentList); //all product requests that has a child
+            let parentChildProductRequests = this.productRequests.data.parentChildMap; // map of product request to its children
             parentProductRequests.forEach(parentProdReq =>{
                 let childProdReqs = 
                     parentChildProductRequests[parentProdReq.recordId] ?
@@ -146,14 +141,70 @@ export default class ProductRequestList extends LightningElement {
                 if(childProdReqs.length > 0){
                     parentProdReq._children = [...childProdReqs];
                 }
-
                 this.gridData = [parentProdReq, ...this.gridData];
             });
-            this.isLoading = false;
         }else if(result.error){
             this.generateToast('Error.',LWC_Error_General,'error');
-            this.isLoading = false;
         }
+        this.isLoading = false;
+    }
+
+    prodSpecRecordType;
+    @wire(getRecord, { recordId: '$recordId', fields: [PS_RECORD_TYPE] })
+    handleProductSpecification(result){
+        if(result.data){
+           this.prodSpecRecordType = getFieldValue(result.data, PS_RECORD_TYPE);
+           this.showProductRequest = true;
+            if(!this.isProdSpecOPE){
+                getFieldLayoutSettings({
+                    objectString: PRODUCT_REQUEST_OBJECT.objectApiName,
+                    forOpe: this.isProdSpecOPE
+                })
+                .then(result =>{
+                    this.recordTypeOrderMapCce = this.sortMap(result.recordTypeOrderedList);
+                    this.fieldLayoutMap = result.fieldLayoutMap;
+                })
+                .catch(error =>{
+                    console.log(error);
+                    this.generateToast('Error.',LWC_Error_General,'error');
+                }); 
+            }else{
+                getRecordTypes({
+                    objectType: PRODUCT_REQUEST_OBJECT.objectApiName
+                })
+                .then(result =>{
+                    this.recordTypeOrderMapOpe = [...result];
+                })
+                .catch(error =>{
+                    console.log(error);
+                    this.generateToast('Error.',LWC_Error_General,'error');
+                });
+            }
+        }else if(result.error){
+            this.generateToast('Error.',LWC_Error_General,'error');
+        }   
+    }
+
+    /*
+    * formats the product request records for the customSearch lwc
+    */
+    formatSearchItem(item){
+        let searchItem = {};
+        searchItem.id = item.recordId;
+        searchItem.label = item.courseName?item.courseName:'';
+        searchItem.meta = item.recordType;
+        return searchItem;
+    }
+
+    //sorts list by order field
+    sortMap(dataMap){
+        let sortByOrder = dataMap.slice(0);
+        if(sortByOrder.length > 0){
+            sortByOrder.sort((a,b)  => {
+                return a.order - b.order;
+            });
+        }
+        return sortByOrder;
     }
 
     /**
@@ -162,20 +213,23 @@ export default class ProductRequestList extends LightningElement {
      formatData(listToFormat,isChild){
         return listToFormat.map(item =>{
             let newItem = {};
-
             newItem.recordId = item.Id;
-            newItem.parentId = item.Parent_Product_Request__c;
             newItem.id = item.Name;
             newItem.idUrl = '/' + item.Id;
             newItem.recordType = item.RecordType.Name;
             newItem.name = item.Product_Request_Name__c;
             newItem.owner = item.Owner.Name;
             newItem.ownerUrl = '/' + item.OwnerId;
+            if(item.Program_Plans__r && item.Program_Plans__r[0] && item.Program_Plans__r[0].Program_Delivery_Structure__c === 'Flexible Program'){
+                newItem.isFlexibleProgram = true;
+            }
+            if(item.Courses__r && item.Courses__r[0] && item.Courses__r[0].Name){
+                newItem.courseName = item.Courses__r[0].Name;
+            }
             newItem.addChildButton = 
                 !isChild && 
                 item.RecordType.DeveloperName === RT_ProductRequest_Program 
-                ? 'slds-show' : 'slds-hide';
-
+                ?  'slds-show': 'slds-hide';
             return newItem;
         });
     }
@@ -186,15 +240,25 @@ export default class ProductRequestList extends LightningElement {
     handleRowAction(event){
         const row = event.detail.row;
         let filter = this.isProdSpecOPE ? PR_OPE_FILTER : PR_FILTER;
-        this.openChildModal(filter,row.recordId,PR_PARENT.fieldApiName,row.id);
+        let currentChildren = this.productRequests.data.parentChildMap[row.recordId]?this.productRequests.data.parentChildMap[row.recordId]:[];
+        let newRecord = row.isFlexibleProgram?false:true;
+        this.template.querySelector("c-add-product-request").openSelectionModal(newRecord,row,filter,currentChildren,true,this.prodSpecData());
+        
     }
 
+    prodSpecData(){
+        let productSpecObj = {};
+        productSpecObj.recordType = this.prodSpecRecordType;
+        productSpecObj.id = this.recordId;
+        return productSpecObj;
+    }
+    
     /**
      * handles action and data when ADD button is clicked
      */
     handleAddButton(){
         let filter = this.isProdSpecOPE ? PS_OPE_FILTER : PS_FILTER;
-        this.openChildModal(filter,this.recordId,PS_PARENT.fieldApiName,'');
+        this.template.querySelector("c-add-product-request").openSelectionModal(true,[],filter,[],false,this.prodSpecData());
     }
 
     /**
@@ -204,14 +268,6 @@ export default class ProductRequestList extends LightningElement {
         this.isLoading = true;
         this.gridData = [];
         refreshApex(this.productRequests);
-    }
-
-    /**
-     * opens recordtype selection modal of addProductRequest child compoent
-     * passes needed data as well
-     */
-    openChildModal(filter,id,field,name){
-        this.template.querySelector("c-add-product-request").openSelectionModal(filter,id,field,name);
     }
 
     /**

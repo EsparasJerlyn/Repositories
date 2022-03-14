@@ -35,3 +35,8 @@
   .orange-background{
     background-color: orange;
 }
+
+.slds-modal__content {
+    overflow: visible;
+    overflow-y: visible;
+}

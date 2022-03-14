@@ -57,6 +57,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ProductManagementCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ProductOfferingCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -930,15 +934,27 @@
         <editable>true</editable>
         <field>Related_Answer__c.Sequence__c</field>
         <readable>true</readable>
-    </fieldPermissions><fieldPermissions>
-    <editable>true</editable>
-    <field>Session__c.Course_Connection__c</field>
-    <readable>true</readable>
-</fieldPermissions><fieldPermissions>
-    <editable>true</editable>
-    <field>Session__c.Course_Offering__c</field>
-    <readable>true</readable>
-</fieldPermissions>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Related_Product_Request__c.Course__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Related_Product_Request__c.Program__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Session__c.Course_Connection__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Session__c.Course_Offering__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Session__c.End_Time__c</field>
@@ -2013,6 +2029,15 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>Related_Answer__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>Related_Product_Request__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>

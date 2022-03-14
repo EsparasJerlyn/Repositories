@@ -19,7 +19,6 @@
             </button>
         </span>
     </div>
-
     <div if:false={hasInitialItemName} class="slds-form-element slds-m-around_x-small">
         <label if:true={searchLabel} class="slds-form-element__label" for="combobox-id-1" id="combobox-label-id-33">
             <span if:true={required} class="slds-text-color_destructive">* </span>{searchLabel}
@@ -59,6 +58,7 @@
                             placeholder={searchInputPlaceholder}
                             onclick={handleSearchClick}
                             onkeydown={handleSearchKeydown}
+                            onkeyup={handleSearchKeyUp}
                             onblur={handleSearchBlur}
                             oninput={handleItemSearch}/>
                         <lightning-icon
@@ -69,8 +69,13 @@
                             class="slds-input__icon slds-input__icon_right">
                         </lightning-icon>
                     </div>
-                    <div id="listbox-id-1" class="slds-dropdown slds-dropdown_length-with-icon-7 slds-dropdown_fluid" role="listbox">
-                        <p if:true={noItemsAvailable} class="slds-align_absolute-center"> No available items.</p>
+                    <div id="listbox-id-1" class="slds-dropdown slds-dropdown_length-with-icon-5 slds-dropdown_fluid" role="listbox">
+                        <template if:true={customServerSearch}>
+                            <lightning-spinner if:true={searchInProgress} alternative-text="Loading" size="small"></lightning-spinner>
+                        </template>
+                        <template if:false={newRecordAvailable}>
+                            <p if:true={noItemsAvailable} class="slds-align_absolute-center"> No available items.</p>
+                        </template>
                         <ul class="slds-listbox slds-listbox_vertical" role="presentation">
                             <template for:each={searchItemsToDisplay} for:item="item">
                                 <li key={item.id} role="presentation" class="slds-listbox__item">
@@ -98,7 +103,7 @@
                             <template if:true={newRecordAvailable}>
                                 <li role="presentation" class="slds-listbox__item">
                                     <div
-                                        class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
+                                        class="slds-media slds-listbox__option slds-listbox__option_entity"
                                         role="option"
                                         onmousedown={handleNewRecord}>
                                         <span class="slds-media__figure slds-listbox__option-icon">

@@ -2,11 +2,12 @@
  * @description An LWC component for creating products and offerings
  * @author Accenture
  * @history
- *    | Developer                 | Date                  | JIRA                            | Change Summary                       |
-      |---------------------------|-----------------------|---------------------------------|--------------------------------------|
-      | roy.nino.s.regala         | October 18, 2021      | DEPP-425 DEPP-476               | Created                              |
-      | eugene.andrew.abuan       | November 9, 2021      | DEPP-35                         | Added a getProductRequests function  |
-      | roy.nino.s.reagala        | November 15, 2021     | DEPP-362 DEPP-38 DEPP-37 DEPP-35| Added program request RT scenario    | 
+ *    | Developer                 | Date                  | JIRA                            | Change Summary                                                                 |
+      |---------------------------|-----------------------|---------------------------------|--------------------------------------------------------------------------------|
+      | roy.nino.s.regala         | October 18, 2021      | DEPP-425 DEPP-476               | Created                                                                        |
+      | eugene.andrew.abuan       | November 9, 2021      | DEPP-35                         | Added a getProductRequests function                                            |
+      | roy.nino.s.regala         | November 15, 2021     | DEPP-362 DEPP-38 DEPP-37 DEPP-35| Added program request RT scenario                                              | 
+      | roy.nino.s.regala         | March 10, 2021        | DEPP-1747                       | Commented out Parent Product Request field, CCE build will be decomissioned    | 
  */
 import { LightningElement,wire,api} from 'lwc';
 import getCourses from '@salesforce/apex/CreateProductsAndOfferingsCtrl.getRelatedCourse';
@@ -91,7 +92,7 @@ export default class CreateProductsAndOfferings extends LightningElement{
             let programPlanTemp = this.listCourses.data.programPlanList?this.listCourses.data.programPlanList[0]:{};
             let programPlanProductTemp = this.listCourses.data.programPlanProductMap;
             let productRequestList = this.listCourses.data.productRequestList; //child and parent prod request
-
+            this.hasPlanRequirementOnRender = coursesList.find(filterKey => filterKey.hed__Plan_Requirements__r)?true:false; 
             this.programPlanHasProduct = !HAS_PERMISSION?true:Object.keys(programPlanProductTemp).length > 0;
             this.programPlanHasProgramOffering = programPlanTemp?programPlanTemp.Program_Offering__r?programPlanTemp.Program_Offering__r.length > 0?true:false:false:false;
             this.filterParent = productRequestList.filter( (result) => result.Id !== this.recordId); 
@@ -110,7 +111,6 @@ export default class CreateProductsAndOfferings extends LightningElement{
             //you are on a solo record
             if(this.filterParent.length === 0){
                 productRequestList.forEach( hasChild => {
-                    let hasParentReq = hasChild.Parent_Product_Request__r;
                     // Child Product Request
                     if(hasParentReq){
                       this.parentName = hasParentReq.Name;
@@ -412,7 +412,6 @@ export default class CreateProductsAndOfferings extends LightningElement{
     */
     formatPlanRequirementData(listToFormat,course,counter){
         if(listToFormat){
-            this.hasPlanRequirementOnRender = true;
             return listToFormat.map(item =>{
                 let newItem = {};
                 newItem.recordId = item.Id;
@@ -426,7 +425,7 @@ export default class CreateProductsAndOfferings extends LightningElement{
         }else{
             let newItem = {};
             newItem.recordId = null;
-            newItem.sequence = counter;
+            newItem.sequence = this.hasPlanRequirementOnRender?'':counter; //empty if there is already a saved plan requirement
             newItem.category = this.planRequirementCategory;
             newItem.recordtype = course.RecordType?course.RecordType.Name:'';
             newItem.coursename = course.Name;

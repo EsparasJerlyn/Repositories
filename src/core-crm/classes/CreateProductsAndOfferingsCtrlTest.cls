@@ -106,24 +106,4 @@ public with sharing class CreateProductsAndOfferingsCtrlTest {
         }
         Test.stopTest();
     }
-
-    @isTest
-    static void testUpsertProgramPlanAndPlanRequirement()
-    {
-        Test.startTest();
-        System.runAs(currentUser)
-        {      
-            List<hed__Program_Plan__c> programPlan = new List<hed__Program_Plan__c>([SELECT Id FROM hed__Program_Plan__c LIMIT 1]);
-            List<hed__Plan_Requirement__c> planRequirements = new List<hed__Plan_Requirement__c>();
-            planRequirements.add(new hed__Plan_Requirement__c(Name = 'Test Name'));
-            programPlan[0].Name = 'TESTUPDATENAME';
-
-            CreateProductsAndOfferingsCtrl.upsertProgramPlanAndPlanRequirement(planRequirements, programPlan[0]);  
-            System.assert(![SELECT Id FROM hed__Plan_Requirement__c WHERE Name = 'Test Name'].isEmpty(),'Error upserting plan requirement');
-            System.assert(![SELECT Id FROM hed__Program_Plan__c WHERE Name = 'TESTUPDATENAME'].isEmpty(),'Error updating program plan');
-        }
-        Test.stopTest();
-    }
-
-   
 }

@@ -56,10 +56,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Parent_Product_Request__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Request_Type__c</field>
             </layoutItems>
             <layoutItems>
@@ -259,10 +255,6 @@
     </platformActionList>
     <relatedLists>
         <relatedList>RelatedEntityHistoryList</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <relatedList>Product_Request__c.Parent_Product_Request__c</relatedList>
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>

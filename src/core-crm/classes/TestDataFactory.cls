@@ -154,13 +154,11 @@ public class TestDataFactory {
   /**
    * @description Method for creating test Product Request records
    * @param numProductRequest number of product request
-   * @param parentProdReqs list of parent product requests
    * @param prodSpecId list of product specification
    * @return prodRequest - list of product requests
    */
   public static List<Product_Request__c> createTestProductRequestRecords(
     Integer numProductRequest,
-    List<Product_Request__c> parentProdReqs,
     Id prodSpecId
   ) {
     List<Product_Request__c> prodRequest = new List<Product_Request__c>();
@@ -168,9 +166,6 @@ public class TestDataFactory {
     for (Integer i = 0; i < numProductRequest; i++) {
       Product_Request__c pr = new Product_Request__c();
       pr.Product_Request_Name__c = 'TEST PR ' + i;
-      pr.Parent_Product_Request__c = !parentProdReqs.isEmpty()
-        ? parentProdReqs[i].id
-        : null;
       pr.Product_Specification__c = prodSpecId;
       prodRequest.add(pr);
     }
@@ -1017,6 +1012,31 @@ public class TestDataFactory {
     }
 
     return finSplits;
+  }
+
+
+  /**
+   * @description Method for creating test Related Product Requests
+   * @param numRelatedPR number of records
+   * @param courseProdReqId id of related course PR
+   * @param programProdReqId id of related program PR
+   * @return relatedPrList - list of related product requests
+  */
+  public static List<Related_Product_Request__c> createTestRelatedPRRecords(
+    Integer numRelatedPR,
+    List<Product_Request__c> courseProdReqId,
+    List<Product_Request__c> programProdReqId
+  ) {
+    List<Related_Product_Request__c> relatedPrList = new List<Related_Product_Request__c>();
+    for (Integer i = 0 ; i < numRelatedPR ; i++) {
+      relatedPrList.add(
+        new Related_Product_Request__c(
+          Course__c = courseProdReqId[i].Id,
+          Program__c = programProdReqId[i].Id
+        )
+      );
+    }
+    return relatedPrList;
   }
 
 
