@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SE_Funding_Source__c</fullName>
+    <description>Profile Type = Someone Else
+
+Indicates how an international student plans to fund their studies.</description>
+    <externalId>false</externalId>
+    <label>SE Funding Source</label>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>I will fund my studies myself</fullName>
+                <default>false</default>
+                <label>I will fund my studies myself</label>
+            </value>
+            <value>
+                <fullName>My family will fund my studies</fullName>
+                <default>false</default>
+                <label>My family will fund my studies</label>
+            </value>
+            <value>
+                <fullName>I already have a scholarship, loan or sponsorship</fullName>
+                <default>false</default>
+                <label>I already have a scholarship, loan or sponsorship</label>
+            </value>
+            <value>
+                <fullName>I need a full scholarship</fullName>
+                <default>false</default>
+                <label>I need a full scholarship</label>
+            </value>
+            <value>
+                <fullName>I am not sure</fullName>
+                <default>false</default>
+                <label>I am not sure</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
