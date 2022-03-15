@@ -95,6 +95,25 @@ public class TestDataFactory {
     return leads;
   }
 
+    /**
+   * @description Method for creating test Individual records
+   * @param numIndividuals - number of Individuals to be created
+   * @return individuals - list of Individuals created
+   */
+  public static List<Individual> createTestIndividualRecords(Integer numIndividuals) {
+    List<Individual> individuals = new List<Individual>();
+
+    for (Integer i = 0; i < numIndividuals; i++) {
+      individuals.add(
+        new Individual(
+          LastName = 'TestLastName' + i
+        )
+      );
+    }
+
+    return individuals;
+  }
+
   /**
    * @description Method for creating test Opportunity records
    * @param numOpps - number of Opportunities to be created
