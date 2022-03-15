@@ -3,7 +3,11 @@
     <fullName>Start_Date_is_Future_Date</fullName>
     <active>true</active>
     <description>Checks if start date is future date</description>
-    <errorConditionFormula>OR( hed__Start_Date__c &lt; TODAY(),  hed__Start_Date__c == TODAY())</errorConditionFormula>
+    <errorConditionFormula>AND (
+RecordType.DeveloperName = &apos;Program&apos;,
+ISPICKVAL( Product_Request__r.Product_Request_Status__c , &apos;Design&apos;),
+OR( hed__Start_Date__c &lt; TODAY(),  hed__Start_Date__c == TODAY())
+)</errorConditionFormula>
     <errorDisplayField>hed__Start_Date__c</errorDisplayField>
     <errorMessage>Start Date must be a Future Date</errorMessage>
 </ValidationRule>
