@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>MobilePhone</fullName>
+    <fullName>Name</fullName>
     <securityClassification>Sensitive</securityClassification>
-    <description>The lead’s mobile phone number.</description>
-    <trackFeedHistory>false</trackFeedHistory>
+    <trackFeedHistory>true</trackFeedHistory>
+    <trackHistory>false</trackHistory>
 </CustomField>
