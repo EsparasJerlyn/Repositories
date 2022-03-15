@@ -73,8 +73,6 @@
             "importCSVFilesAsIs": true
         },
         {
-            "query": "SELECT Id, Name from Account",
-            "query": "SELECT Id,Name,IsPartner,IsCustomerPortal,AccountSource,IsBuyer from Account",
             "query": "Select Id, DeveloperName, SObjectType From RecordType Where SObjectType='Account'",
             "operation": "Upsert",
             "externalId": "DeveloperName",
