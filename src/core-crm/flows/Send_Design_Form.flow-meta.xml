@@ -3,7 +3,7 @@
     <actionCalls>
         <name>Design_Form_Email</name>
         <label>Design Form Email</label>
-        <locationX>710</locationX>
+        <locationX>974</locationX>
         <locationY>854</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
@@ -43,7 +43,7 @@
     <assignments>
         <name>Assign_Activity_Design_Form</name>
         <label>Assign Activity Design Form</label>
-        <locationX>314</locationX>
+        <locationX>578</locationX>
         <locationY>638</locationY>
         <assignmentItems>
             <assignToReference>Record</assignToReference>
@@ -59,7 +59,7 @@
     <assignments>
         <name>Assign_Module_Design_Form</name>
         <label>Assign Module Design Form</label>
-        <locationX>578</locationX>
+        <locationX>842</locationX>
         <locationY>638</locationY>
         <assignmentItems>
             <assignToReference>Record</assignToReference>
@@ -75,7 +75,7 @@
     <assignments>
         <name>Assign_Program_Request_Design_Form</name>
         <label>Assign Program Request Design Form</label>
-        <locationX>1106</locationX>
+        <locationX>1370</locationX>
         <locationY>638</locationY>
         <assignmentItems>
             <assignToReference>Record</assignToReference>
@@ -98,7 +98,7 @@
     <assignments>
         <name>Assign_Short_Course_Design_Form</name>
         <label>Assign Short Course Design Form</label>
-        <locationX>50</locationX>
+        <locationX>314</locationX>
         <locationY>638</locationY>
         <assignmentItems>
             <assignToReference>Record</assignToReference>
@@ -114,7 +114,7 @@
     <assignments>
         <name>Assign_Unit_Design_Form</name>
         <label>Assign Unit Design Form</label>
-        <locationX>842</locationX>
+        <locationX>1106</locationX>
         <locationY>638</locationY>
         <assignmentItems>
             <assignToReference>Record</assignToReference>
@@ -130,7 +130,7 @@
     <decisions>
         <name>Check_Product_Request_RecordType</name>
         <label>Check Product Request RecordType</label>
-        <locationX>710</locationX>
+        <locationX>974</locationX>
         <locationY>518</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -210,9 +210,31 @@
         </rules>
     </decisions>
     <decisions>
+        <name>Course_Design_Sent</name>
+        <label>Course Design Sent</label>
+        <locationX>1106</locationX>
+        <locationY>1214</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Not_Sent</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Course_Record.Design_Form_Status__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Status_to_Design_Form_Sent</targetReference>
+            </connector>
+            <label>Not Sent</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Has_Assigned_Requestor</name>
         <label>Has Assigned Requestor</label>
-        <locationX>1436</locationX>
+        <locationX>1700</locationX>
         <locationY>278</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -247,9 +269,31 @@
         </rules>
     </decisions>
     <decisions>
+        <name>Is_Program_Design_Sent</name>
+        <label>Is Program Design Sent</label>
+        <locationX>314</locationX>
+        <locationY>1214</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>No</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Program_Plan_Record.PP_Design_Form_Status__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Program_Plan_Design_Form_Status</targetReference>
+            </connector>
+            <label>No</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Update_what_object</name>
         <label>Update what object</label>
-        <locationX>710</locationX>
+        <locationX>974</locationX>
         <locationY>974</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -263,7 +307,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Update_Program_Plan_Design_Form_Status</targetReference>
+                <targetReference>Get_Program_Plan_Record</targetReference>
             </connector>
             <label>For Program Plan</label>
         </rules>
@@ -278,7 +322,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Update_Status_to_Design_Form_Sent</targetReference>
+                <targetReference>Get_Course_Record</targetReference>
             </connector>
             <label>For Course</label>
         </rules>
@@ -305,9 +349,30 @@
     </processMetadataValues>
     <processType>Flow</processType>
     <recordLookups>
+        <name>Get_Course_Record</name>
+        <label>Get Course Record</label>
+        <locationX>1106</locationX>
+        <locationY>1094</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Course_Design_Sent</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>ProductRequestID__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_Product_Request_Record.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>hed__Course__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>Get_Product_Request_Record</name>
         <label>Get Product Request Record</label>
-        <locationX>1436</locationX>
+        <locationX>1700</locationX>
         <locationY>158</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -328,11 +393,32 @@
         <object>Product_Request__c</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
+    <recordLookups>
+        <name>Get_Program_Plan_Record</name>
+        <label>Get Program Plan Record</label>
+        <locationX>314</locationX>
+        <locationY>1094</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Is_Program_Design_Sent</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Product_Request__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_Product_Request_Record.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>hed__Program_Plan__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
     <recordUpdates>
         <name>Update_Program_Plan_Design_Form_Status</name>
         <label>Update Program Plan Design Form Status</label>
-        <locationX>182</locationX>
-        <locationY>1094</locationY>
+        <locationX>50</locationX>
+        <locationY>1334</locationY>
         <faultConnector>
             <targetReference>Update_Design_Error</targetReference>
         </faultConnector>
@@ -355,8 +441,8 @@
     <recordUpdates>
         <name>Update_Status_to_Design_Form_Sent</name>
         <label>Update Status to Design Form Sent</label>
-        <locationX>710</locationX>
-        <locationY>1094</locationY>
+        <locationX>842</locationX>
+        <locationY>1334</locationY>
         <faultConnector>
             <targetReference>Update_Design_Error</targetReference>
         </faultConnector>
@@ -379,7 +465,7 @@
     <screens>
         <name>Design_Form_Error</name>
         <label>Design Form Error</label>
-        <locationX>1634</locationX>
+        <locationX>1898</locationX>
         <locationY>974</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
@@ -395,7 +481,7 @@
     <screens>
         <name>Has_No_Requestor</name>
         <label>Has No Requestor</label>
-        <locationX>1898</locationX>
+        <locationX>2162</locationX>
         <locationY>398</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -411,7 +497,7 @@
     <screens>
         <name>Product_Request_Error</name>
         <label>Product Request Error</label>
-        <locationX>2426</locationX>
+        <locationX>2690</locationX>
         <locationY>278</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
@@ -427,7 +513,7 @@
     <screens>
         <name>Send_Design_Form_Screen</name>
         <label>Send Design Form Screen</label>
-        <locationX>710</locationX>
+        <locationX>974</locationX>
         <locationY>398</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
@@ -446,8 +532,8 @@
     <screens>
         <name>Update_Design_Error</name>
         <label>Update  Design Error</label>
-        <locationX>974</locationX>
-        <locationY>1214</locationY>
+        <locationX>1106</locationX>
+        <locationY>1454</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -460,7 +546,7 @@
         <showHeader>true</showHeader>
     </screens>
     <start>
-        <locationX>1310</locationX>
+        <locationX>1574</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Get_Product_Request_Record</targetReference>
