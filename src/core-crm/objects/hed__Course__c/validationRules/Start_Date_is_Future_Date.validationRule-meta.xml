@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Start_Date_is_Future_Date</fullName>
+    <active>true</active>
+    <description>Checks if start date is future date</description>
+    <errorConditionFormula>OR(Start_Date__c  &lt;  TODAY(),  Start_Date__c == TODAY())</errorConditionFormula>
+    <errorDisplayField>Start_Date__c</errorDisplayField>
+    <errorMessage>Start Date must be a Future Date</errorMessage>
+</ValidationRule>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Implementation_Year_Numeric_Only</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND (
+  NOT (ISBLANK( Implementation_Year__c  ) ),
+  NOT( ISNUMBER( Implementation_Year__c  ) )
+ )</errorConditionFormula>
+    <errorDisplayField>Implementation_Year__c</errorDisplayField>
+    <errorMessage>Please enter numbers only.</errorMessage>
+</ValidationRule>

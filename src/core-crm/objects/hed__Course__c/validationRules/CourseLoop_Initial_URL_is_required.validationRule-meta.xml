@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CourseLoop_Initial_URL_is_required</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND (
+  OR(
+    RecordType.DeveloperName = &apos;Unit&apos;,
+    RecordType.DeveloperName = &apos;Module&apos;
+  ),
+ISPICKVAL( ProductRequestID__r.Product_Request_Status__c , &apos;Design&apos;),
+ AND(
+  NOT (ISCHANGED( Design_Form_Status__c ) ),
+  OR(
+   ISPICKVAL( Design_Form_Status__c , &apos;Design Form Sent&apos;),
+   ISPICKVAL( Design_Form_Status__c , &apos;Design Form Received&apos;)
+  ) 
+ ),
+ISBLANK( CourseLoop_Initial_Proposal_URL__c )
+)</errorConditionFormula>
+    <errorDisplayField>CourseLoop_Initial_Proposal_URL__c</errorDisplayField>
+    <errorMessage>&apos;CourseLoop Initial Proposal URL&apos; is required.</errorMessage>
+</ValidationRule>

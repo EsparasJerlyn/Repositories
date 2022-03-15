@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Owning_School_is_required</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND (
+  OR(
+   RecordType.DeveloperName = &apos;Activity&apos;,
+   RecordType.DeveloperName = &apos;Short_Course&apos;,
+   RecordType.DeveloperName = &apos;Unit&apos;,
+   RecordType.DeveloperName = &apos;Module&apos;
+  ), 
+ ISPICKVAL( ProductRequestID__r.Product_Request_Status__c , &apos;Design&apos;),
+ AND(
+  NOT (ISCHANGED( Design_Form_Status__c ) ),
+  OR(
+   ISPICKVAL( Design_Form_Status__c , &apos;Design Form Sent&apos;),
+   ISPICKVAL( Design_Form_Status__c , &apos;Design Form Received&apos;)
+  ) 
+ ),
+ ISBLANK( Owning_School_Discipline_Area__c )
+)</errorConditionFormula>
+    <errorDisplayField>Owning_School_Discipline_Area__c</errorDisplayField>
+    <errorMessage>“Owning School / Discipline / Area” is required to update the Product Request Status.</errorMessage>
+</ValidationRule>

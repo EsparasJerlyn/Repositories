@@ -46,7 +46,7 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>Delivery_Support__c</picklist>
+        <picklist>Delivery_Support_v2__c</picklist>
         <values>
             <fullName>Catering</fullName>
             <default>false</default>

@@ -22,8 +22,7 @@ private class Send_Program_Plan_Design_FormTest {
     private static Id opeProdSpecId = Schema.SObjectType.Product_Specification__c.getRecordTypeInfosByDeveloperName().get(PS_PROGRAM_SPEC).getRecordTypeId();
     private static Id opeProgProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_PROGRAM).getRecordTypeId();
     private static Id opeProgPlanId = Schema.SObjectType.hed__Program_Plan__c.getRecordTypeInfosByDeveloperName().get(PP_PROGRAM).getRecordTypeId();
-
-
+  
     @isTest
     private static void emailProgramDesignCompletionTest()
     {
@@ -63,6 +62,9 @@ private class Send_Program_Plan_Design_FormTest {
 
             List<hed__Program_Plan__c> progPlan = TestDataFactory.createTestProgramPlanRecords(100);
             
+            Date startDate = date.today().addDays(1);
+            Date endDate = startDate.addDays(1);
+
             for(Integer i=0; i<progPlan.size(); i++)
             {
                 progPlan[i].RecordTypeId = opeProgPlanId;
@@ -71,8 +73,8 @@ private class Send_Program_Plan_Design_FormTest {
                 progPlan[i].Product_Request__c = pr[0].Id;
                 progPlan[i].Accreditation_End_Date__c= Date.newInstance(2022, 01, 06);
                 progPlan[i].Accreditation_Start_Date__c = Date.newInstance(2022, 01, 06);
-                progPlan[i].hed__Start_Date__c = Date.newInstance(2022, 01, 06);
-                progPlan[i].hed__End_Date__c = Date.newInstance(2022, 01, 06);
+                progPlan[i].hed__Start_Date__c = startDate;
+                progPlan[i].hed__End_Date__c = endDate;
                 progPlan[i].Name='Test Program Plan';
                 progPlan[i].hed__Description__c = 'Test Description';
                 progPlan[i].Who_Should_Participate__c = 'Test Participate';

@@ -33,6 +33,9 @@ private class OPE_Design_Complete_Prog_Plan_FlowTest{
 
             List<Product_Request__c> productRequests = [SELECT Id FROM Product_Request__c LIMIT 100];
 
+            Date startDate = date.today().addDays(1);
+            Date endDate = startDate.addDays(1);
+
             List<hed__Program_Plan__c> programPlansToUpdate = [SELECT Id, OPE_Design_Complete__c  FROM hed__Program_Plan__c LIMIT 100];
             for(Integer i = 0 ; i < programPlansToUpdate.size() ; i++){
                 programPlansToUpdate[i].Name = 'test' + i;
@@ -41,8 +44,8 @@ private class OPE_Design_Complete_Prog_Plan_FlowTest{
                 programPlansToUpdate[i].Code__c = 'test' + i;
                 programPlansToUpdate[i].Program_Type__c  = 'Prescribed Program';
                 programPlansToUpdate[i].Owning_Faculty__c  = accounts[0].Id;
-                programPlansToUpdate[i].hed__Start_Date__c  = Date.newInstance(2022, 01, 20);
-                programPlansToUpdate[i].hed__End_Date__c  = Date.newInstance(2022, 02, 20);
+                programPlansToUpdate[i].hed__Start_Date__c  = startDate;
+                programPlansToUpdate[i].hed__End_Date__c  = endDate;
                 programPlansToUpdate[i].Overview__c  = 'test' + i;
                 programPlansToUpdate[i].Core_Concepts__c  = 'test' + i;
                 programPlansToUpdate[i].Courseloop_Full_URL__c  = 'test' + i;

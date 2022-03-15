@@ -231,7 +231,7 @@ public class TestDataFactory {
           Resource_Detailsv2__c = 'test',
           Minimum_Participants__c = 1,
           Maximum_Participants__c = 100,
-          Delivery_Support__c = 'Others',
+          Delivery_Support_v2__c = 'Others',
           Delivery_Comments__c = 'test',
           Core_Concepts__c = 'test',
           Overview__c = 'test',

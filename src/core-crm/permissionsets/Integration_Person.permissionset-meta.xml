@@ -1272,7 +1272,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Course__c.Delivery_Support__c</field>
+        <field>hed__Course__c.Delivery_Support_v2__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

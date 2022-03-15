@@ -69,14 +69,17 @@ private class Send_Email_Upon_Design_SubmissionTest {
             }
             insert pr;
 
+            Date startDate = date.today().addDays(1);
+            Date endDate = startDate.addDays(1);
+
             List<hed__Course__c> course = TestDataFactory.createTestCourseRecords(numberOfRecords,acc[0].Id,pr[0].Id);
             for(Integer i = 0 ; i < course.size() ; i++){
                 course[i].RecordTypeId = opeActivityId;
                 course[i].hed__Course_ID__c = 'testActivity101';
                 course[i].hed__Account__c = acc[0].Id;
                 course[i].Name = 'NameActivity1';
-                course[i].Start_Date__c = Date.newInstance(2022, 01, 06);
-                course[i].End_Date__c = Date.newInstance(2022, 01, 10);
+                course[i].Start_Date__c = startDate;
+                course[i].End_Date__c = endDate;
                 course[i].Delivery_Type__c = 'Blended';
                 course[i].Location__c = fac.Id;
                 course[i].Location_Details__c = 'test1';
@@ -90,7 +93,7 @@ private class Send_Email_Upon_Design_SubmissionTest {
                 course[i].Enrolment_Rulesv2__c = 'test';
                 course[i].Minimum_Participants__c = 10;
                 course[i].Maximum_Participants__c = 100;
-                course[i].Delivery_Support__c = 'Catering';
+                course[i].Delivery_Support_v2__c = 'Catering';
                 course[i].Delivery_Comments__c = 'test';
             }
             insert course;
@@ -161,7 +164,7 @@ private class Send_Email_Upon_Design_SubmissionTest {
                 course[i].Collaboration_with_External_Organisation__c = 'Yes';
                 course[i].Enrolment_Rulesv2__c = 'test';
                 course[i].Minimum_Participants__c = 10;
-                course[i].Delivery_Support__c = 'Catering';
+                course[i].Delivery_Support_v2__c = 'Catering';
                 course[i].External_Organisation__c = 'test';
                 course[i].Contentv2__c = 'test';
                 course[i].Resource_Detailsv2__c = 'test';
@@ -237,7 +240,7 @@ private class Send_Email_Upon_Design_SubmissionTest {
                 course[i].Certificate_Type__c = 'Certificate of Achievement';
                 course[i].Collaboration_with_External_Organisation__c = 'Yes';
                 course[i].Minimum_Participants__c = 100;
-                course[i].Delivery_Support__c = 'Catering';
+                course[i].Delivery_Support_v2__c = 'Catering';
                 course[i].External_Organisation__c = 'test';
                 course[i].Contentv2__c = 'test';
                 course[i].Resource_Detailsv2__c = 'test';
