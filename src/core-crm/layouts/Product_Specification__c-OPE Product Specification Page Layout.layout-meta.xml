@@ -58,7 +58,7 @@
                 <field>Primary_Faculty__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>Requestor_Internal_External__c</field>
             </layoutItems>
         </layoutColumns>
