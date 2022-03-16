@@ -6418,6 +6418,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>hed__Course_Offering__c.Course_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>hed__Course_Offering__c.Delivery_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6434,6 +6439,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>hed__Course_Offering__c.Evaluation_Summary__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>hed__Course_Offering__c.Primary_Delivery_Platform__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
