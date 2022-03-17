@@ -111,6 +111,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>CartItem.External_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Contact.ContactMailingAddress_Validation__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -682,6 +687,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Expression_of_Interest__c.Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>WebCart.External_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>

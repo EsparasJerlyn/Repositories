@@ -807,6 +807,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>CartItem.External_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Contact.ATSI_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4328,6 +4333,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Marketing_Segmentation__c.Secondary_School_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>WebCart.External_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <layoutAssignments>

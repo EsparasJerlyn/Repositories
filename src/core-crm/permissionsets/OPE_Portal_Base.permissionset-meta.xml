@@ -38,6 +38,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>CartItem.External_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>ContactPointAddress.ActiveFromDate</field>
         <readable>true</readable>
@@ -500,6 +505,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Facilitator_Bio__c.Is_Primary__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>WebCart.External_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
