@@ -1,243 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-    <!--(Start) Kindly comment out once it reaches PROD
-        DEPP-415, DEPP-641, DEP1-653, DEPP-106, DEPP-236-->
-    <!--<types>
-        <members>Create_Contact_Role_for_Opportunity_Manual_Creation-1</members>
-        <name>Flow</name>
-    </types>-->
     <types>
-        <members>Account.Custom_Lead_Allow_Not_Duplicate_Rule</members>
-        <name>DuplicateRule</name>
-    </types>
-    <types>
-        <members>Contact.Standard_Rule_for_Contacts_with_Duplicate_Leads</members>
-        <name>DuplicateRule</name>
-    </types>
-    <types>
-        <members>Contact.Custom_Lead_Allow_No_Duplicate_Rule</members>
-        <name>DuplicateRule</name>
-    </types>
-    <types>
-        <members>Lead.Standard_Rule_for_Leads_with_Duplicate_Contacts</members>
-        <name>DuplicateRule</name>
-    </types>
-    <types>
-        <members>Account.Custom_Lead_Account_Matching_Rule</members>
-        <name>MatchingRule</name>
-    </types>
-    <types>
-        <members>Contact.Custom_Lead_Contact_Allow_Matching_Rule</members>
-        <name>MatchingRule</name>
-    </types>
-    <types>
-        <members>Contact.Custom_Lead_Contact_Allow_No_Matching_Rule</members>
-        <name>MatchingRule</name>
-    </types>
-    <types>
-        <members>Contact.Custom_Lead_Allow_No_Matching_Rule_v2</members>
-        <name>MatchingRule</name>
-    </types>
-    <types>
-        <members>Lead.Custom_Lead_Matching_Rule_and_Duplicate_Rule</members>
-        <name>MatchingRule</name>
-    </types>
-    <types>
-        <members>Opportunity.Record_Qualification_Assessment</members>
-        <name>ValidationRule</name>
-    </types>
-    <types>
-        <members>Opportunity.Financial_Viability_is_Required</members>
-        <name>ValidationRule</name>
-    </types>
-    <types>
-        <members>Opportunity.Qualification_Summary_is_Required</members>
-        <name>ValidationRule</name>
-    </types>
-    <types>
-        <members>Opportunity.Revenue_Potential_is_Required</members>
-        <name>ValidationRule</name>
-    </types>
-    <types>
-        <members>Opportunity.Technical_Capability_is_Required</members>
-        <name>ValidationRule</name>
-    </types>
-    <types>
-        <members>Lead.LeadEmail_Validation__c</members>
-        <members>Lead.LeadPersonalEmail_Validation__c</members>
-        <members>Lead.WorkEmail_Validation__c</members>
-        <members>Contact.ContactEmail_Validation__c</members>
-        <members>Contact.ContactPersonalEmail_Validation__c</members>
-        <members>Contact.ContactWorkEmail_Validation__c</members>
-        <name>CustomField</name>
-    </types>
-    <types>
-        <members>Study_Profile</members>
-        <name>Profile</name>
-    </types>
-    <types>
-        <members>OPE_Guest_Browsing</members>
-        <name>PermissionSet</name>
-    </types>
-
-    <!--(End) Kindly comment out once it reaches PROD
-        DEPP-415, DEPP-641, DEP1-653, DEPP-106, DEPP-236-->
-<!--<types>
-        <members>Program_Specification_Record_Page</members>
-        <name>FlexiPage</name>
-    </types>
-    <types>
-        <members>Opportunity_to_Program_Specs_Flow-1</members>
-        <name>Flow</name>
-    </types>-->
-  <!--(Start) As part of DEPP-1352, This is to delete fields on SIT/ST added on DEPP-1262. Kindly comment out once it reaches PROD-->
-  <types>
-    <members>Answer__c.Question__c</members>
-    <members>Answer__c.Questionnaire__c</members>
-    <members>Answer__c.Contact__c</members>
-    <name>CustomField</name>
-  </types>
-  <!--(End) As part of DEPP-1352, This is to delete fields on SIT/ST added on DEPP-1262. Kindly comment out once it reaches PROD-->
-
-    <types>
-        <members>Program_Specification__c</members>
-        <name>CustomObject</name>
-    </types>
-
-    <types>
-        <members>Product_Ledger__c.Purchased_Price__c</members>
-        <name>CustomField</name>
-    </types>
-    <types>
-        <members>Product_Request__c.Implementation_Year__c</members>
-        <name>CustomField</name>
-    </types>
-
-    <!--<types>
-        <members>Product_Specification_CCE</members>
-        <name>PathAssistant</name>
-    </types> -->
-
-    <types>
-        <members>Product_Specification__c.Product_Sub_Type__c</members>
-        <name>CustomField</name>
-    </types>
-
-    <!--<types>
-        <members>Send_Email_Upon_Short_Course_Design_Submission</members>
-        <members>Short_Course_Design_Form_Email</members>
-        <name>Flow</name>
-    </types>-->
-
-    <types>
-        <members>hed__Course__c.Professional_Advantage_Value__c</members>
-        <members>Product_Request__c.Professional_Advantage_Value__c</members>
-        <name>CustomField</name>
-    </types>
-    <types>
-        <members>Product_Request__c-Professional Advantage Request Layout</members>
-        <name>Layout</name>
-    </types>
-    <types>
-        <members>Professional_Advantage_Lightning_Page_Layout</members>
-        <name>FlexiPage</name>
-    </types>
-    <types>
-        <members>Professional_Advantage_Request</members>
-        <name>PathAssistant</name>
-    </types>
-    <types>
-        <!--<members>Field_Layout_Setting__mdt.Professional_Advantage_Request_Summary</members>
-        <members>Field_Layout_Setting__mdt.Professional_Advantage_Request_Detail</members>
-        <members>Record_Type_Setting__mdt.Professional_Advantage_Request</members>
-        <members>Record_Type_Setting__mdt.OPE_Activity</members>
-        <members>Record_Type_Setting__mdt.OPE_Program</members>
-        <members>Record_Type_Setting__mdt.OPE_Program_Request</members>
-        <members>Record_Type_Setting__mdt.Single_Product</members>-->
-
-        <members>Field_Layout_Setting__mdt.OPE_Product_Overview</members>
-        <members>Field_Layout_Setting__mdt.OPE_Publishing_Dates</members>
-        <members>Field_Layout_Setting__mdt.OPE_Quality_Assurance_Endorsement</members>
-        <members>Field_Layout_Setting__mdt.OPE_Program_CourseLoop_Details</members>
-        <members>Field_Layout_Setting__mdt.OPE_Program_Detail</members>
-        <members>Field_Layout_Setting__mdt.OPE_Program_Information</members>
-        <members>Field_Layout_Setting__mdt.OPE_Program_Overview</members>
-        <members>Field_Layout_Setting__mdt.Unit_CourseLoop_Details</members>
-        <members>Field_Layout_Setting__mdt.Unit_Detail</members>
-        <members>Field_Layout_Setting__mdt.Unit_Fees</members>
-        <members>Field_Layout_Setting__mdt.Unit_Information</members>
-        <members>Field_Layout_Setting__mdt.OPE_Single_Product_CourseLoop_Details</members>
-        <members>Field_Layout_Setting__mdt.OPE_Single_Product_Detail</members>
-        <members>Field_Layout_Setting__mdt.OPE_Single_Product_Fees</members>
-        <members>Field_Layout_Setting__mdt.OPE_Single_Product_Information</members>
-        <members>Field_Layout_Setting__mdt.OPE_Short_Course_Design_Detail</members>
-        <members>Field_Layout_Setting__mdt.OPE_Short_Course_Fees</members>
-        <members>Field_Layout_Setting__mdt.OPE_Short_Course_Information</members>
-        <members>Field_Layout_Setting__mdt.OPE_Activity_Detail</members>
-        <members>Field_Layout_Setting__mdt.OPE_Activity_Fees</members>
-        <members>Field_Layout_Setting__mdt.OPE_Activity_Information</members>
-        <members>Field_Layout_Setting__mdt.Program_for_Modal</members>
-        <members>Field_Layout_Setting__mdt.OPE_Additional_Information</members>
-        <members>Field_Layout_Setting__mdt.OPE_CourseLoop_Details</members>
-        <members>Field_Layout_Setting__mdt.OPE_Program_Fees</members>
-        <members>Field_Layout_Setting__mdt.OPE_Program_Plan_Detail</members>
-        <members>Field_Layout_Setting__mdt.OPE_Program_Plan_Overview</members>
-        <members>Record_Type_Setting__mdt.OPE_Activity_Request</members>
-        <members>Record_Type_Setting__mdt.Program_for_Modal</members>
-        <members>Record_Type_Setting__mdt.Short_Course</members>
-        <!-- DEPP-2022 add these back in when you figure out deployment issue
-        <members>Record_Type_Setting__mdt.Program_Plan</members>
-        <members>Record_Type_Setting__mdt.Program</members>
-        <members>Record_Type_Setting__mdt.Unit</members>
-        <members>Record_Type_Setting__mdt.Module</members>
-        <members>Record_Type_Setting__mdt.Activity</members>
-        -->
-        <name>CustomMetadata</name>
-    </types>
-    <types>
-        <members>Product_Request__c.Open_Professional_Advantage_Requests</members>
-        <members>Product_Request__c.My_Open_Professional_Advantage_Requests</members>
-        <name>ListView</name>
+        <!--(Start) DEPP 1256 -->
+        <members>CustomPageLayoutCtrl</members>
+        <members>CustomPageLayoutCtrlTest</members>
+        <members>PublishingEndDateScheduler</members>
+        <members>PublishingEndDateSchedulerTest</members>
+        <members>Send_Email_OPE_Activity_SubmissionTest</members>
+        <members>Send_Email_Upon_SC_Design_SubmissionTest</members>
+        <!--(End) DEPP 1256 -->
+        <name>ApexClass</name>
     </types>
     <types>
         <members>Product_Request__c.Professional_Advantage_Request_Compact_Layout</members>
         <name>CompactLayout</name>
     </types>
     <types>
-        <members>Product_Request__c.Professional_Advantage_Request</members>
-        <name>RecordType</name>
-    </types>
-
-    <!-- fix for pipeline bug DEPP-1718 -->
-    <types>
-        <members>Product2.Certification_Type__c</members>
-        <name>CustomField</name>
-        <members>hed__Course__c.Certification_Type__c</members>
-        <name>CustomField</name>
-    </types>
-    <!-- fix for pipeline bug DEPP-1718 -->
-
-    <!-- fix for Apex Issue DEPP 1256 -->
-    <types>
-        <members>PublishingEndDateScheduler</members>
-        <members>PublishingEndDateSchedulerTest</members>
-        <name>ApexClass</name>
-    </types>
-    <!-- fix for Apex Issue DEPP 1256 -->
-    <types>
-        <members>CustomPageLayoutCtrl</members>
-        <members>CustomPageLayoutCtrlTest</members>
-        <members>Send_Email_OPE_Activity_SubmissionTest</members>
-        <members>Send_Email_Upon_SC_Design_SubmissionTest</members>
-        <name>ApexClass</name>
-    </types>
-    <types>
-        <members>opeCustomPageLayout</members>
-        <name>LightningComponentBundle</name>
-    </types>
-
-    <!-- for DEPP-1819-->
-    <types>
+        <!--(Start) DEPP-1819-->
+        <members>Financial_Split__c.QUTeX_Percentage_Split__c</members>
         <members>hed__Program_Plan__c.PP_Courseloop_Full__c</members>
         <members>hed__Program_Plan__c.Is_Custom_Award__c</members>
         <members>hed__Program_Plan__c.Work_Experience_Required__c</members>
@@ -278,13 +58,145 @@
         <members>hed__Course__c.Content__c</members>
         <members>hed__Course__c.Enrolment_Rules__c</members>
         <members>hed__Course__c.Resource_Details__c</members>
-        <members>Session__c.Session_Name__c</members>
         <members>hed__Course_Enrollment__c.Course_Connection_Value__c</members>
         <members>hed__Course_Enrollment__c.Program_Offering__c</members>
-        <members>Financial_Split__c.QUTeX_Percentage_Split__c</members>
+        <members>Session__c.Session_Name__c</members>
+        <!--(End) DEPP-1819-->
+        <!--(Start) DEPP-1904 -->
+        <members>Invoice__c.Amount__c</members>
+        <members>Invoice__c.Cart__c</members>
+        <members>Invoice__c.Course_Connection__c</members>
+        <members>Invoice__c.Due_Date__c</members>
+        <members>Invoice__c.Payee_ABN__c</members>
+        <members>Invoice__c.Payee_Billing_Address__c</members>
+        <members>Invoice__c.Payee_Email_Address__c</members>
+        <members>Invoice__c.Payee_Name__c</members>
+        <members>Invoice__c.Status__c</members>
+        <!--(End) DEPP-1904 -->
+        <members>Product2.Certification_Type__c</members><!-- DEPP-1718 -->
+        <members>hed__Course__c.Certification_Type__c</members><!-- DEPP-1718 -->
+        <members>Product_Request__c.Parent_Product_Request__c</members><!--DEPP-1747-->
+        <members>Product_Request__c.PRProduct_Subtype__c</members><!-- DEPP-1912 -->
+        <members>Product_Specification__c.Product_Subtype__c</members><!-- DEPP-1912 -->
+        <members>Answer__c.Question__c</members>
+        <members>Answer__c.Questionnaire__c</members>
+        <members>Answer__c.Contact__c</members>
+        <members>Contact.ContactEmail_Validation__c</members>
+        <members>Contact.ContactPersonalEmail_Validation__c</members>
+        <members>Contact.ContactWorkEmail_Validation__c</members>
+        <members>hed__Course__c.Professional_Advantage_Value__c</members>
+        <members>Lead.LeadEmail_Validation__c</members>
+        <members>Lead.LeadPersonalEmail_Validation__c</members>
+        <members>Lead.WorkEmail_Validation__c</members>
+        <members>Product_Ledger__c.Purchased_Price__c</members>
+        <members>Product_Request__c.Implementation_Year__c</members>
+        <members>Product_Specification__c.Product_Sub_Type__c</members>
+        <members>Product_Request__c.Professional_Advantage_Value__c</members>
         <name>CustomField</name>
     </types>
-
+    <types>
+        <members>QUTeX_Email</members><!-- DEPP-2020 -->
+        <name>CustomLabel</name>
+    </types>
+    <types>
+        <members>Field_Layout_Setting__mdt.OPE_Product_Overview</members>
+        <members>Field_Layout_Setting__mdt.OPE_Publishing_Dates</members>
+        <members>Field_Layout_Setting__mdt.OPE_Quality_Assurance_Endorsement</members>
+        <members>Field_Layout_Setting__mdt.OPE_Program_CourseLoop_Details</members>
+        <members>Field_Layout_Setting__mdt.OPE_Program_Detail</members>
+        <members>Field_Layout_Setting__mdt.OPE_Program_Information</members>
+        <members>Field_Layout_Setting__mdt.OPE_Program_Overview</members>
+        <members>Field_Layout_Setting__mdt.Unit_CourseLoop_Details</members>
+        <members>Field_Layout_Setting__mdt.Unit_Detail</members>
+        <members>Field_Layout_Setting__mdt.Unit_Fees</members>
+        <members>Field_Layout_Setting__mdt.Unit_Information</members>
+        <members>Field_Layout_Setting__mdt.OPE_Single_Product_CourseLoop_Details</members>
+        <members>Field_Layout_Setting__mdt.OPE_Single_Product_Detail</members>
+        <members>Field_Layout_Setting__mdt.OPE_Single_Product_Fees</members>
+        <members>Field_Layout_Setting__mdt.OPE_Single_Product_Information</members>
+        <members>Field_Layout_Setting__mdt.OPE_Short_Course_Design_Detail</members>
+        <members>Field_Layout_Setting__mdt.OPE_Short_Course_Fees</members>
+        <members>Field_Layout_Setting__mdt.OPE_Short_Course_Information</members>
+        <members>Field_Layout_Setting__mdt.OPE_Activity_Detail</members>
+        <members>Field_Layout_Setting__mdt.OPE_Activity_Fees</members>
+        <members>Field_Layout_Setting__mdt.OPE_Activity_Information</members>
+        <members>Field_Layout_Setting__mdt.Program_for_Modal</members>
+        <members>Field_Layout_Setting__mdt.OPE_Additional_Information</members>
+        <members>Field_Layout_Setting__mdt.OPE_CourseLoop_Details</members>
+        <members>Field_Layout_Setting__mdt.OPE_Program_Fees</members>
+        <members>Field_Layout_Setting__mdt.OPE_Program_Plan_Detail</members>
+        <members>Field_Layout_Setting__mdt.OPE_Program_Plan_Overview</members>
+        <members>Record_Type_Setting__mdt.OPE_Activity_Request</members>
+        <members>Record_Type_Setting__mdt.Program_for_Modal</members>
+        <members>Record_Type_Setting__mdt.Short_Course</members>
+        <!-- DEPP-2022 add these back in when you figure out deployment issue
+        <members>Record_Type_Setting__mdt.Program_Plan</members>
+        <members>Record_Type_Setting__mdt.Program</members>
+        <members>Record_Type_Setting__mdt.Unit</members>
+        <members>Record_Type_Setting__mdt.Module</members>
+        <members>Record_Type_Setting__mdt.Activity</members> -->
+        <!--<members>Field_Layout_Setting__mdt.Professional_Advantage_Request_Summary</members>
+        <members>Field_Layout_Setting__mdt.Professional_Advantage_Request_Detail</members>
+        <members>Record_Type_Setting__mdt.Professional_Advantage_Request</members>
+        <members>Record_Type_Setting__mdt.OPE_Activity</members>
+        <members>Record_Type_Setting__mdt.OPE_Program</members>
+        <members>Record_Type_Setting__mdt.OPE_Program_Request</members>
+        <members>Record_Type_Setting__mdt.Single_Product</members> -->
+        <name>CustomMetadata</name>
+    </types>
+    <types>
+        <members>Invoice__c</members>
+        <members>Program_Specification__c</members>
+        <name>CustomObject</name>
+    </types>
+    <types>
+        <members>Account.Custom_Lead_Allow_Not_Duplicate_Rule</members>
+        <members>Contact.Standard_Rule_for_Contacts_with_Duplicate_Leads</members>
+        <members>Contact.Custom_Lead_Allow_No_Duplicate_Rule</members>
+        <members>Lead.Standard_Rule_for_Leads_with_Duplicate_Contacts</members>
+        <name>DuplicateRule</name>
+    </types>
+    <types>
+        <members>Professional_Advantage_Lightning_Page_Layout</members>
+        <name>FlexiPage</name>
+    </types>
+    <types>
+        <members>Product_Request__c-Professional Advantage Request Layout</members>
+        <name>Layout</name>
+    </types>
+    <types>
+        <members>opeCustomPageLayout</members>
+        <name>LightningComponentBundle</name>
+    </types>
+    <types>
+        <members>Product_Request__c.Open_Professional_Advantage_Requests</members>
+        <members>Product_Request__c.My_Open_Professional_Advantage_Requests</members>
+        <name>ListView</name>
+    </types>
+    <types>
+        <members>Account.Custom_Lead_Account_Matching_Rule</members>
+        <members>Contact.Custom_Lead_Contact_Allow_Matching_Rule</members>
+        <members>Contact.Custom_Lead_Contact_Allow_No_Matching_Rule</members>
+        <members>Contact.Custom_Lead_Allow_No_Matching_Rule_v2</members>
+        <members>Lead.Custom_Lead_Matching_Rule_and_Duplicate_Rule</members>
+        <name>MatchingRule</name>
+    </types>
+    <types>
+        <members>Professional_Advantage_Request</members>
+        <name>PathAssistant</name>
+    </types>
+    <types>
+        <members>OPE_Guest_Browsing</members>
+        <name>PermissionSet</name>
+    </types>
+    <types>
+        <members>Study_Profile</members>
+        <name>Profile</name>
+    </types>
+    <types>
+        <members>Product_Request__c.Professional_Advantage_Request</members>
+        <name>RecordType</name>
+    </types>
     <types>
         <members>hed__Course__c.Proposal_Description_is_required</members>
         <members>hed__Course__c.Risk_and_Opportunities_is_required</members>
@@ -301,49 +213,44 @@
         <members>hed__Course__c.Search_Terms</members>
         <members>hed__Course__c.Content_is_required</members>
         <members>hed__Course__c.Resource_Details_is_required</members>
-        <name>ValidationRule</name>
-    </types>
-
-    <!--DEPP-1904:-->
-    <types>
-        <members>Invoice__c.Amount__c</members>
-        <members>Invoice__c.Cart__c</members>
-        <members>Invoice__c.Course_Connection__c</members>
-        <members>Invoice__c.Due_Date__c</members>
-        <members>Invoice__c.Payee_ABN__c</members>
-        <members>Invoice__c.Payee_Billing_Address__c</members>
-        <members>Invoice__c.Payee_Email_Address__c</members>
-        <members>Invoice__c.Payee_Name__c</members>
-        <members>Invoice__c.Status__c</members>
-        <name>CustomField</name>
-    </types>
-    <types>
-        <members>Invoice__c</members>
-        <name>CustomObject</name>
-    </types>
-
-    <!-- DEPP-1912 -->
-    <types>
-        <members>Product_Request__c.PRProduct_Subtype__c</members>
-        <members>Product_Specification__c.Product_Subtype__c</members>
-        <name>CustomField</name>
-    </types>
-    <types>
         <members>Product_Specification__c.Product_Subtype_is_required</members>
+        <members>Opportunity.Record_Qualification_Assessment</members>
+        <members>Opportunity.Financial_Viability_is_Required</members>
+        <members>Opportunity.Qualification_Summary_is_Required</members>
+        <members>Opportunity.Revenue_Potential_is_Required</members>
+        <members>Opportunity.Technical_Capability_is_Required</members>
         <name>ValidationRule</name>
     </types>
 
-    <!-- DEPP-2020 -->
-    <types>
-        <members>QUTeX_Email</members>
-        <name>CustomLabel</name>
-    </types>
+    <!--(Start) Kindly comment out once it reaches PROD
+    DEPP-415, DEPP-641, DEP1-653, DEPP-106, DEPP-236-->
+    <!--<types>
+        <members>Create_Contact_Role_for_Opportunity_Manual_Creation-1</members>
+        <name>Flow</name>
+    </types>-->
 
-    <!--DEPP-1747-->
-    <types>
-        <members>Product_Request__c.Parent_Product_Request__c</members>
-        <name>CustomField</name>
+    <!--(End) Kindly comment out once it reaches PROD
+        DEPP-415, DEPP-641, DEP1-653, DEPP-106, DEPP-236-->
+    <!--<types>
+        <members>Program_Specification_Record_Page</members>
+        <name>FlexiPage</name>
     </types>
+    <types>
+        <members>Opportunity_to_Program_Specs_Flow-1</members>
+        <name>Flow</name>
+    </types>-->
+    <!--(Start) As part of DEPP-1352, This is to delete fields on SIT/ST added on DEPP-1262. Kindly comment out once it reaches PROD-->
+    <!--(End) As part of DEPP-1352, This is to delete fields on SIT/ST added on DEPP-1262. Kindly comment out once it reaches PROD-->
 
+    <!--<types>
+        <members>Product_Specification_CCE</members>
+        <name>PathAssistant</name>
+    </types> -->
+
+    <!--<types>
+        <members>Send_Email_Upon_Short_Course_Design_Submission</members>
+        <members>Short_Course_Design_Form_Email</members>
+    <name>Flow</name>
+    </types>-->
     <version>52.0</version>
 </Package>
