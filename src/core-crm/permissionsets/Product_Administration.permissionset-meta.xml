@@ -363,11 +363,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Contact.Nominated_Student_ID__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Contact.QUT_Staff_Username__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1886,7 +1881,7 @@
         <field>hed__Program_Plan__c.hed__Version__c</field>
         <readable>true</readable>
     </fieldPermissions>
-     <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>WebCart.External_Id__c</field>
         <readable>true</readable>
