@@ -1053,11 +1053,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>hed__Course_Enrollment__c.Course_Offering_Name__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>hed__Course_Enrollment__c.Course_Offering_Start_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
