@@ -2334,4 +2334,8 @@
         <tab>standard-PromotionsWorkspace</tab>
         <visibility>Visible</visibility>
     </tabSettings>
+    <tabSettings>
+        <tab>standard-Coupon</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>    
 </PermissionSet>

@@ -164,6 +164,15 @@
         <layout>hed__Program_Plan__c-OPE Program Request Page Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+    <layout>Promotion-Promotion Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>PromotionTarget-Promotion Target Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Coupon-Coupon Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>hed__Program_Plan__c-Program Page Layout</layout>
         <recordType>hed__Program_Plan__c.Program</recordType>
     </layoutAssignments>
