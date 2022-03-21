@@ -84,11 +84,56 @@
             </value>
         </inputParameters>
     </actionCalls>
+    <actionCalls>
+        <name>Send_Email_0</name>
+        <label>Send Email</label>
+        <locationX>50</locationX>
+        <locationY>638</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <connector>
+            <targetReference>Update_Status_Value</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Unhandled_Error</targetReference>
+        </faultConnector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>Email_Content</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <elementReference>Get_Product_Specification_Details.Requestor_Name__r.QUT_Staff_Email__c</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderAddress</name>
+            <value>
+                <stringValue>qutex@qut.edu.au</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <stringValue>[QUTeX] Idea Form</stringValue>
+            </value>
+        </inputParameters>
+    </actionCalls>
     <apiVersion>52.0</apiVersion>
     <assignments>
         <name>External_URL</name>
         <label>External URL</label>
-        <locationX>314</locationX>
+        <locationX>578</locationX>
         <locationY>398</locationY>
         <assignmentItems>
             <assignToReference>Endpoint_URL</assignToReference>
@@ -386,7 +431,7 @@
     <screens>
         <name>No_Requestor_Assigned</name>
         <label>No Requestor Assigned</label>
-        <locationX>578</locationX>
+        <locationX>1106</locationX>
         <locationY>398</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>

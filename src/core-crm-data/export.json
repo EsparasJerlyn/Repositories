@@ -89,7 +89,7 @@
             "importCSVFilesAsIs": true
         },
         {
-            "query": "SELECT Id,Name,AccountId,LastName,FirstName,Email from Contact",
+            "query": "SELECT Id,Name,AccountId,LastName,FirstName,hed__Chosen_Full_Name__c,Salutation,Email,QUT_Staff_Email__c,QUT_Employee_Id__c,QUT_Identity_Id__c,QUT_Student_ID__c,Birthdate,Migration_Key__c,Description from Contact",
             "operation": "Upsert",
             "externalId": "Name",
             "useCSVValuesMapping": true,
