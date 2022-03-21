@@ -43,6 +43,13 @@
                 record-id={recordId}
             ></c-setup-registration>
         </div>
+        <div if:false={HideContentSection} class="slds-m-vertical_xx-small">
+            <c-custom-layout-handler
+                record-id={recordId}
+                object-api-name={objectApiName}
+                section-label="Content">
+            </c-custom-layout-handler>
+        </div>
         <div class="slds-m-vertical_xx-small">
             <c-custom-layout-handler
                 record-id={recordId}

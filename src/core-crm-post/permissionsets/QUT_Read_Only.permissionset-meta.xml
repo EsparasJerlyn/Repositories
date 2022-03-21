@@ -6228,6 +6228,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>hed__Course__c.Mark_Content_as_Complete__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>hed__Course_Enrollment__c.Cart_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
