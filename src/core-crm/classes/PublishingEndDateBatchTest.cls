@@ -13,18 +13,53 @@
  */
 @IsTest(SeeAllData=false) 
 public with sharing class PublishingEndDateBatchTest {
-    
+    private static final String PR_IN_DELIVERY = System.Label.PL_ProductRequest_InDelivery;
+    private static string PR_PROGRAM = System.Label.RT_ProductRequest_Program;
+    private static string PR_SHORTCOURSE = System.Label.RT_ProductRequest_ShortCourse;
     private static User currentUser = TestDataFactory.createUserRecords(1, 'QUTeX').iterator().next();
-    private static Id opeShortProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get('Short_Course').getRecordTypeId();
-    private static Id opeShortCourseId = Schema.SObjectType.hed__Course__c.getRecordTypeInfosByDeveloperName().get('Short_Course').getRecordTypeId();
-    private static Integer numberOfRecords = 100; 
+    private static Id opeShortProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_SHORTCOURSE).getRecordTypeId();
+    private static Id opeShortCourseId = Schema.SObjectType.hed__Course__c.getRecordTypeInfosByDeveloperName().get(PR_SHORTCOURSE).getRecordTypeId();
+    private static Id opeProgProdReqId =  Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_PROGRAM).getRecordTypeId();
+    private static Integer numberOfRecords = 50; 
 	
     @TestSetup
     static void setupMethod(){
         List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
         insert accounts;
 
-        List<Product_Request__c> productRequests = TestDataFactory.createTestProductRequestRecords(numberOfRecords);
+        List<Contact> contacts;
+        contacts = TestDataFactory.createTestContactRecords(1);
+        insert contacts;
+        
+        List<Opportunity> opps;
+        opps = TestDataFactory.createTestOpportunityRecords(1,accounts[0].Id,contacts[0].Id);
+        insert opps;
+
+        List<Product_Specification__c> productSpecs;
+        productSpecs = TestDataFactory.createTestProductSpecsRecords(1,contacts,opps);
+        insert productSpecs;
+    
+        List<Product_Request__c> prodRequestOPEProgramRequest;
+        prodRequestOPEProgramRequest = TestDataFactory.createTestProductRequestRecords(numberOfRecords,productSpecs[0].Id);
+        for(Product_Request__c productRequest : prodRequestOPEProgramRequest){
+            productRequest.Product_Request_Name__c = PR_PROGRAM;
+            productRequest.Product_Request_Status__c = PR_IN_DELIVERY;
+            productRequest.RecordTypeId = opeProgProdReqId;
+        }
+        
+        insert prodRequestOPEProgramRequest;
+
+        List<hed__Program_Plan__c> programPlanList;
+        programPlanList = TestDataFactory.createTestProgramPlanRecords(numberOfRecords);
+        for(Integer i = 0; i<prodRequestOPEProgramRequest.size(); i++){
+            programPlanList[i].Product_Request__c = prodRequestOPEProgramRequest[i].Id;
+            programPlanList[i].hed__End_Date__c = date.today();
+            programPlanList[i].Program_Delivery_Structure__c = 'Prescribed Program';
+        }
+        insert programPlanList;
+
+
+        List<Product_Request__c> productRequests = TestDataFactory.createTestProductRequestRecords(numberOfRecords,productSpecs[0].Id);
         for(Product_Request__c productRequest : productRequests){
             productRequest.RecordTypeId = opeShortProdReqId;
         }
@@ -52,14 +87,14 @@ public with sharing class PublishingEndDateBatchTest {
     
             try{
                 
-            List<Product_Request__c> productRequests = [SELECT Id, Product_Request_Status__c FROM Product_Request__c LIMIT 100];
+            List<Product_Request__c> productRequests = [SELECT Id, Product_Request_Status__c FROM Product_Request__c WHERE RecordTypeId =: opeShortProdReqId];
             for(Product_Request__c productRequest : productRequests){
-                productRequest.Product_Request_Status__c = 'In Delivery';
+                productRequest.Product_Request_Status__c = PR_IN_DELIVERY;
             }
             List<hed__Course__c> courses = [SELECT Id,ProductRequestID__c FROM hed__Course__c];
             update productRequests;
             
-            List<Product2> products = [SELECT Id,Publishing_End_date__c,IsActive,Course__r.ProductRequestID__c FROM Product2 LIMIT 100];
+            List<Product2> products = [SELECT Id,Publishing_End_date__c,IsActive,Course__r.ProductRequestID__c FROM Product2 WHERE Course__r.ProductRequestID__c != NULL];
             for(Product2 product : products){
                 product.IsActive = true;
                 product.Decommission_Product__c = true;
@@ -81,6 +116,38 @@ public with sharing class PublishingEndDateBatchTest {
             }catch(Exception e){
                System.debug('ERROR: ' + e.getMessage());
             }
+        }
+    }
+
+    @IsTest
+    public static void testPublishingEndDateBatchWithParent() {  
+        System.runAs(currentUser){     
+            
+            List<Product_Request__c> childProductRequest = [SELECT Id FROM Product_Request__c WHERE RecordTypeId =: opeShortProdReqId];
+            List<Product_Request__c> parentProductRequest = [SELECT Id FROM Product_Request__c WHERE RecordTypeId =: opeProgProdReqId];
+            
+            List<Product2> products = [SELECT Id,Publishing_End_date__c,IsActive,Course__r.ProductRequestID__c FROM Product2 WHERE Program_Plan__r.Product_Request__c != NULL];
+            for(Product2 product : products){
+                product.IsActive = true;
+                product.Decommission_Product__c = false;
+                product.Decommission_Reason__c = 'test';
+                product.Publishing_End_date__c = date.today();
+            }
+            update products;
+
+            List<Related_Product_Request__c> relatedProductRequests;
+            relatedProductRequests = TestDataFactory.createTestRelatedPRRecords(50,childProductRequest,parentProductRequest);
+            insert relatedProductRequests;
+
+            Test.startTest();
+        
+            PublishingEndDateBatch batch = new PublishingEndDateBatch();
+            Id batchId = Database.executeBatch(batch);
+
+            System.assert(![SELECT Id FROM AsyncApexJob WHERE ApexClass.Name = 'PublishingEndDateBatch'].isEmpty() , 'PublishingEndDate Job was not executed');
+            
+            Test.stopTest();
+
         }
     }
  }

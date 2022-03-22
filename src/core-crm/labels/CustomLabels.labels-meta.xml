@@ -175,6 +175,14 @@
         <value>Release</value>
     </labels>
     <labels>
+        <fullName>PL_ProductSpecification_Complete</fullName>
+        <categories>Picklist,ProductSpecification</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PL_ProductSpecification_Complete</shortDescription>
+        <value>Complete</value>
+    </labels>
+    <labels>
         <fullName>Publishing_End_Date_Cron_Expression</fullName>
         <language>en_US</language>
         <protected>false</protected>
