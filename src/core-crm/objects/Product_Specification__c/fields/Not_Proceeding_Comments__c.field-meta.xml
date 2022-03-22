@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Not_Proceeding_Comments__c</fullName>
+    <defaultValue>(&quot;Please be advised that this comment will be shared with the requestor.&quot;)</defaultValue>
     <externalId>false</externalId>
     <label>Not Proceeding Comments</label>
     <length>1000</length>
