@@ -35,6 +35,7 @@ const STR_QUESTION = "Question";
 const STR_QUESTIONNAIRE = "Questionnaire";
 export default class SetupRegistration extends LightningElement {
   @api recordId;
+  @api isStatusCompleted;
 
   questionColumns = [
     { label: "Sequence", class: COLUMN_CLASS + COL_ONE },
@@ -96,7 +97,12 @@ export default class SetupRegistration extends LightningElement {
 
   //decides if create questionnaire button should be disabled
   get disableCreateQuestionnaire() {
-    return this.questionnaireOptions.length == 0;
+    return this.questionnaireOptions.length == 0 || this.isStatusCompleted;
+  }
+
+  //decides if create questionnaire button should be disabled
+  get disableCreateQuestionnaireHelp() {
+    return this.questionnaireOptions.length == 0 && !this.isStatusCompleted;
   }
 
   //decides if question columns should appear

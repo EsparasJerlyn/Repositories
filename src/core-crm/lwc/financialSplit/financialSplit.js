@@ -40,28 +40,41 @@ const FINANCIAL_SPLIT_COLUMNS = [
             rowRecordId: { fieldName: 'Id' },
             lookupValue: { fieldName: 'Participating_School_Name__c' },
             lookupValueFieldName: [ACC_NAME],
-            lookupFieldName: 'Participating_School_Name__c'
+            lookupFieldName: 'Participating_School_Name__c',
+            editable: { fieldName: 'editable' } 
         },
         cellAttributes: {
             class: { fieldName: 'schoolNameClass' }
-        },
-        editable: true    
+        }   
     },
-    { label: 'Account Name', fieldName: 'Account_Name__c', editable: true },
+    { 
+        label: 'Account Name',
+        fieldName: 'Account_Name__c',
+        editable: { fieldName: 'editable' } 
+    },
     { 
         label: 'Account Code',
         fieldName: 'Account_Code__c',
-        type: 'number', 
-        editable: true
+        type: 'number',
+        editable: { fieldName: 'editable' } 
     },
     { 
         label: 'Account GL Code',
         fieldName: 'Account_GL_Code__c',
-        type: 'number', 
-        editable: true
+        type: 'number',
+        editable: { fieldName: 'editable' } 
     },
-    { label: 'Percentage Split', fieldName: 'Percentage_split__c', editable: true },
-    { label: 'Active', fieldName: 'IsActive__c', type: 'boolean', editable: true },
+    { 
+        label: 'Percentage Split',
+        fieldName: 'Percentage_split__c',
+        editable: { fieldName: 'editable' } 
+    },
+    { 
+        label: 'Active',
+        fieldName: 'IsActive__c',
+        type: 'boolean',
+        editable: { fieldName: 'editable' } 
+    },
     { 
         label: 'Action',
         type: 'button-icon',
@@ -76,6 +89,7 @@ const FINANCIAL_SPLIT_COLUMNS = [
 export default class FinancialSplit extends LightningElement {
     @api recordId;
     @api objectApiName;
+    @api isStatusCompleted;
 
     financialSplitData = [];
     financialSplitColumns = FINANCIAL_SPLIT_COLUMNS;
@@ -151,7 +165,8 @@ export default class FinancialSplit extends LightningElement {
             (
                 this.financialSplitData.length == 1 &&
                 this.financialSplitData[0].Id == undefined 
-            );
+            ) ||
+            this.isStatusCompleted;
     }
     
     //gets product request details
@@ -190,7 +205,8 @@ export default class FinancialSplit extends LightningElement {
                     Percentage_split__c : data.Percentage_split__c ? data.Percentage_split__c + '%' : '',
                     schoolName:data.Participating_School_Name__r.Name,
                     schoolNameClass: 'slds-cell-edit',
-                    deleteDisabled: true
+                    deleteDisabled: true,
+                    editable: !this.isStatusCompleted
                 }
             });
             this.financialSplitDataCopy = this.financialSplitData.map(data =>{
@@ -282,7 +298,8 @@ export default class FinancialSplit extends LightningElement {
             Percentage_split__c: undefined,
             IsActive__c: true,
             schoolNameClass: 'slds-cell-edit',
-            deleteDisabled: schoolId ? true : false
+            deleteDisabled: schoolId ? true : false,
+            editable: !this.isStatusCompleted
         };
     }
 

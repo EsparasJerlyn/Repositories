@@ -19,7 +19,10 @@ import { LightningElement, api, wire } from 'lwc';
 import { getObjectInfo, getPicklistValues } from 'lightning/uiObjectInfoApi';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { NavigationMixin } from 'lightning/navigation';
-import { createRecord,updateRecord } from 'lightning/uiRecordApi';
+import { createRecord, updateRecord, getRecord, getFieldValue } from 'lightning/uiRecordApi';
+import CURRENT_USER_ID from '@salesforce/user/Id';
+import USER_NAME from '@salesforce/schema/User.Name';
+import USER_DIVISION from '@salesforce/schema/User.Division';
 import LWC_Error_General from '@salesforce/label/c.LWC_Error_General';
 import RT_ProductRequest_Program from '@salesforce/label/c.RT_ProductRequest_Program';
 import PRODUCT_REQUEST_OBJECT from '@salesforce/schema/Product_Request__c';
@@ -33,6 +36,7 @@ import NO_OF_TRIADS from '@salesforce/schema/Product_Request__c.Number_of_Triads
 import REQUEST_TYPE from '@salesforce/schema/Product_Request__c.Request_Type__c';
 import getAccountId from '@salesforce/apex/AddProductRequestCtrl.getAccountId';
 import getSearchedCourseProductRequests from '@salesforce/apex/AddProductRequestCtrl.getSearchedCourseProductRequests';
+import getSearchedUsers from '@salesforce/apex/AddProductRequestCtrl.getSearchedUsers';
 
 const PROD_REQUESTS = "Product Requests";
 const CHILD_PROD_REQUEST = "Child Product Requests";
@@ -219,7 +223,6 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
             this.searchInProgress = false;
         })
         .catch(error =>{
-            console.log(error);
             this.showToastoast('Error.',LWC_Error_General,'error');
         });
     }
@@ -269,8 +272,6 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
         this.selectedRecordType = type;
         this.selectedRecordTypeName =  this.selectedRecordType === ''?'':this.sortedRecordTypeMap.find(item => item.value === this.selectedRecordType).label;
     }
-
-    /* ------- Product Request Selection Methods End ------- */
 
     /* ------- Product Request Create Methods Start (CCE) ------- */
 
@@ -350,7 +351,32 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
 
     /* ------- Course / Program Plan Create Methods Start (OPE) ------- */
 
-    //gets QUTeX id on form load
+    //custom user lookup variables
+    userSearchItems = [];
+    showOwnerError = false;
+    searchUserInProgress = false;
+    selectedUserId;
+    
+    //gets current user details
+    userResult;
+    @wire(getRecord, { recordId: CURRENT_USER_ID, fields: [USER_NAME,USER_DIVISION] })
+    handleUserRecord(result){
+        if(result.data){
+            this.userResult = result.data;
+            this.assignCurrentUserDetails();
+        }
+    }
+
+    assignCurrentUserDetails(){
+        this.selectedUserId = CURRENT_USER_ID;
+        this.userSearchItems = [{
+            id:CURRENT_USER_ID,
+            label:getFieldValue(this.userResult,USER_NAME),
+            meta:getFieldValue(this.userResult,USER_DIVISION)
+        }];
+    }
+
+    //gets QUTeX id on form load 
     handleCreateLoad(){
         getAccountId()
         .then(result =>{
@@ -358,38 +384,70 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
         });
     }
 
-    //creates product request on save
-    createProductRequest(event){
-        event.preventDefault();
-        this.saveInProgress = true;
-
-        const prRtis = this.objectInfo.data.recordTypeInfos;
-        let productRequestfields = {};
-        productRequestfields.Product_Specification__c  = this.prodSpecData.id;
-        productRequestfields.RecordTypeId = Object.keys(prRtis).find(rti => prRtis[rti].name == this.selectedRecordTypeName);
-
-        const fields = {...productRequestfields};
-        const recordInput = { apiName: PRODUCT_REQUEST_OBJECT.objectApiName, fields};
-        createRecord(recordInput)
-        .then(record => {
-            this.prodReqId=record.id;
-            this.showToast('Product Request created.',this.selectedRecordTypeName,SUCCESS_VARIANT);
-            if(this.isChild){
-                this.createRelatedProdRequest(this.prodReqId);
-            }
-            this.handleSubmit(event);
+    //returns list of users based on input
+    handleUserSearch(event){
+        this.searchUserInProgress = true;
+        getSearchedUsers({ filterString: event.detail.filterString })
+        .then(result =>{
+            this.userSearchItems = result;
         })
-        .catch(error => {
-            console.log(error);
-            this.showToast(ERROR_TITLE,LWC_Error_General,ERROR_VARIANT);
+        .finally(()=>{
+            this.searchUserInProgress = false;
+        })
+        .catch(error =>{
+            this.showToastoast('Error.',LWC_Error_General,'error');
         });
     }
 
+    //sets selected user id
+    handleUserSelect(event){
+        this.showOwnerError = false;
+        this.selectedUserId = event.detail.value;
+    }
+
+    //removes selected user
+    handleUserRemove(){
+        this.selectedUserId = undefined;
+        this.userSearchItems = [];
+    }
+
+    //creates product request on save
+    createProductRequest(event){
+        event.preventDefault();
+        if(!this.selectedUserId){
+            this.showOwnerError = true;
+        }else{
+            this.saveInProgress = true;
+
+            const prRtis = this.objectInfo.data.recordTypeInfos;
+            let productRequestfields = {};
+            productRequestfields.Product_Specification__c  = this.prodSpecData.id;
+            productRequestfields.RecordTypeId = Object.keys(prRtis).find(rti => prRtis[rti].name == this.selectedRecordTypeName);
+
+            const fields = {...productRequestfields};
+            const recordInput = { apiName: PRODUCT_REQUEST_OBJECT.objectApiName, fields};
+            createRecord(recordInput)
+            .then(record => {
+                this.prodReqId=record.id;
+                this.showToast('Product Request created.',this.selectedRecordTypeName,SUCCESS_VARIANT);
+                if(this.isChild){
+                    this.createRelatedProdRequest(this.prodReqId);
+                }
+                this.handleSubmit(event);
+            })
+            .catch(error => {
+                this.showToast(ERROR_TITLE,LWC_Error_General,ERROR_VARIANT);
+            });
+        }
+    }
+
+    //adds existing product request under a parent
     handleAddExistingProductRequest(){
         this.savingExistingPR = true;
         this.createRelatedProdRequest(this.existingProdReqId);
     }
 
+    //creates related product request record on added existing 
     createRelatedProdRequest(prodReqId){
         let relatedProdFields = {};
         relatedProdFields.Program__c = this.parentRecord.recordId;
@@ -406,15 +464,12 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
             }
         })
         .catch(error => {
-            console.log(error);
             this.showToast(ERROR_TITLE,LWC_Error_General,ERROR_VARIANT);
         })
         .finally(() =>{
             this.resetSelectionModalFlags();
         })
     }
-
-    
 
     //creates course/program plan on save
     handleSubmit(event){
@@ -441,12 +496,12 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
         let productReqfields = {};
         productReqfields.Id= this.prodReqId;
         productReqfields.Product_Request_Status__c = 'Design';
+        productReqfields.OwnerId = this.selectedUserId;
         if(this.selectedRecordTypeName == PROG_PLAN_REQUEST){
             productReqfields[PR_OPE_TYPE.fieldApiName] = this.programTypeDefaultValue;
         }
         const fields = {...productReqfields};
         const recordInput = {fields};
-        this.dispatchEvent(new CustomEvent('created'));
         updateRecord(recordInput).then((record) => {
             this[NavigationMixin.Navigate]({
                 type: 'standard__recordPage',
@@ -459,8 +514,8 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
         })
         .finally(() => {
             this.saveInProgress = false;
-            this.isRelatedModalOpen=false;
-            this.setRecordTypeDetails('');
+            this.dispatchEvent(new CustomEvent('created'));
+            this.closeRecordCreation();
         });
     }
 
@@ -471,11 +526,13 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
 
     //closes course/program plan name form modal
     closeRecordCreation(){
-        this.isRelatedModalOpen=false;
+        this.showOwnerError = false;
+        this.isRelatedModalOpen = false;
+        this.assignCurrentUserDetails();
         this.setRecordTypeDetails('');
     }
 
-    /* ------- Course / Program Plan Create Methods End ------- */
+    /* ------- Course / Program Plan Create Methods End (OPE) ------- */
 
     //shows success or error messages
     showToast(title,message,variant){

@@ -107,7 +107,6 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
-            
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -371,7 +370,6 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
-            
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -658,7 +656,6 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
-           
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -948,7 +945,6 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
-            
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1225,6 +1221,24 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>productOffering</componentName>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-b171a36a-9422-472c-aae4-24989f994c4d</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentName>productManagement</componentName>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-x34bmu70ox</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
                 <componentInstanceProperties>
                     <name>parentFieldApiName</name>
                     <value>Product_Request__c.Id</value>
@@ -1246,7 +1260,6 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
-            
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1418,6 +1431,32 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
+                    <value>Facet-b171a36a-9422-472c-aae4-24989f994c4d</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>{!$Label.Tab_ProductRequest_ProductOffering}</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-x34bmu70ox</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>{!$Label.Tab_ProductRequest_ProductManagement}</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
                     <value>Facet-qhs7mhds7wk</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -1545,7 +1584,6 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
-           
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1860,7 +1898,6 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
-            
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -2519,9 +2556,9 @@
                         <rightValue>In Delivery</rightValue>
                     </criteria>
                     <criteria>
-                        <leftValue>{!Record.OPE_Program_Plan_Type__c}</leftValue>
+                        <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
                         <operator>EQUAL</operator>
-                        <rightValue>Flexible Program</rightValue>
+                        <rightValue>Program</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>
@@ -2541,9 +2578,9 @@
                         <rightValue>In Delivery</rightValue>
                     </criteria>
                     <criteria>
-                        <leftValue>{!Record.OPE_Program_Plan_Type__c}</leftValue>
+                        <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
                         <operator>NE</operator>
-                        <rightValue>Flexible Program</rightValue>
+                        <rightValue>Program</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>

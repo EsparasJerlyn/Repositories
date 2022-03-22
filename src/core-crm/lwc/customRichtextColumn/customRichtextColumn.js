@@ -13,6 +13,7 @@ import { LightningElement, api, track } from 'lwc';
 
 export default class CustomRichtextColumn extends LightningElement {
     @api rowDraftId;
+    @api editable;
 
     @api
     get richtextValue() {

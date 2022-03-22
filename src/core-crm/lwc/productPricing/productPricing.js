@@ -90,7 +90,7 @@ const columns = [
         cellAttributes:{
             alignment: 'left'
         },
-        editable:true
+        editable:{fieldName:'editable'}
     },
     { 
         label: 'Action', 
@@ -129,7 +129,8 @@ export default class ProductPricing extends LightningElement {
 
     /* get Pricebook Entry record */
 
-    @api recordId
+    @api recordId;
+    @api isStatusCompleted;
 
     pbEntries;
     @wire(getPricebookEntries, {prodReqId : "$recordId"})
@@ -185,7 +186,12 @@ export default class ProductPricing extends LightningElement {
     * getter to disable add pricing button
     */
     get disableAddPricing(){
-        if(this.formattedPricebookEntries && this.formattedPricebookEntries.length === 1 && this.formattedPricebookEntries[0].Id === undefined){
+        if(
+            (this.formattedPricebookEntries &&
+            this.formattedPricebookEntries.length === 1 &&
+            this.formattedPricebookEntries[0].Id === undefined) ||
+            this.isStatusCompleted
+        ){
             return true;
         }else{
             return false;
@@ -205,10 +211,11 @@ export default class ProductPricing extends LightningElement {
             newItem.Pricebooks = this.formattedPricebooks;
             newItem.PriceBookClass = 'slds-cell-edit';
             newItem.PricebookServerName = item.Pricebook2?item.Pricebook2.Name:undefined;
-            newItem.NotStandard = item.Pricebook2.IsStandard?false:true;
-            newItem.IsEarlyBird = item.Pricebook2.Name === 'Early Bird'?true:false;
+            newItem.NotStandard = item.Pricebook2.IsStandard || this.isStatusCompleted?false:true;
+            newItem.IsEarlyBird = item.Pricebook2.Name === 'Early Bird' && !this.isStatusCompleted?true:false;
             newItem.DisableButton = true;
-            newItem.HasNoDiscount = item.Discount__c?false:true;
+            newItem.HasNoDiscount = item.Discount__c || this.isStatusCompleted?false:true;
+            newItem.editable = this.isStatusCompleted?false:true;
             return newItem;
         });
     }

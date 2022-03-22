@@ -117,4 +117,13 @@ public class ProductOfferingCtrlTest {
         }
     }
 
+    @isTest
+    static void getOfferingLayoutTest() {
+        System.runAs(currentUser){
+            Test.startTest();
+            Map<String,List<Field_Layout_Setting__mdt>> layoutMap = ProductOfferingCtrl.getOfferingLayout();
+            Test.stopTest();
+            System.assertEquals(2, layoutMap.keySet().size(),'Layout map not as expected');
+        }
+    }
 }

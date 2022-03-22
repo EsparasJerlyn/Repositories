@@ -13,12 +13,12 @@ const FACILITATOR_COLUMNS = [
             rowDraftId: { fieldName: 'rowId' },
             lookupValue: { fieldName: 'contactId' },
             lookupValueFieldName: [CONTACT_NAME],
-            lookupFieldName: 'Facilitator__c'
+            lookupFieldName: 'Facilitator__c',
+            editable: { fieldName: 'editable' }
         },
         cellAttributes: {
             class: { fieldName: 'customLookupClass' }
         },
-        editable: true,
         initialWidth: 200    
     },
     { 
@@ -26,19 +26,19 @@ const FACILITATOR_COLUMNS = [
         type: 'customRichtextColumn',
         typeAttributes: {
             rowDraftId: { fieldName: 'rowId' },
-            richtextValue: { fieldName: 'bio' }
+            richtextValue: { fieldName: 'bio' },
+            editable: { fieldName: 'editable' }
         },
         cellAttributes: {
             class: { fieldName: 'customRichtextClass' }
         },
-        editable: true,
         wrapText: true
     },
     { 
         label: 'IsActive',
         fieldName: 'IsActive__c',
         type:'boolean',
-        editable: true,
+        editable: { fieldName: 'editable' },
         initialWidth: 100,
         cellAttributes: { alignment: 'center' }
     },
@@ -50,7 +50,7 @@ const FACILITATOR_COLUMNS = [
             iconName: 'utility:favorite',
             title: 'Set As Primary',
             name: 'setAsPrimary',
-            disabled: { fieldName: 'hed__Primary__c' }
+            disabled: { fieldName: 'disableSetAsPrimary' }
         },
         initialWidth: 120
     }
@@ -59,7 +59,8 @@ export default class FacilitatorDetailSection extends LightningElement {
     @api biosToSearch;
     @api offeringId;
     @api showFacilitatorTable;
-    
+    @api isStatusCompleted;
+
     @api
     get relatedFacilitators() {
         return this._relatedFacilitators;

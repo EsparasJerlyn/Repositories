@@ -37,6 +37,7 @@ const COLUMN_HEADER = 'First Name,Last Name,Contact Email,Birthdate,Registration
 export default class ManageRegistrationSection extends LightningElement {
 
     @api prodReqId;
+    @api enableEdit;
 
     searchField = '';
     picklistValue = '';

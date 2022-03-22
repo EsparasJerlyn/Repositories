@@ -178,6 +178,25 @@
                             onsuccess={updateProductRequestStatusAndRedirect}
                             onsubmit={createProductRequest}>
                             <lightning-input-field field-name='Name' required></lightning-input-field>
+                            <c-custom-search
+                                search-label="Owner"
+                                search-input-placeholder="Search Users..."
+                                search-items={userSearchItems}
+                                search-item-icon="standard:user"
+                                item-id={selectedUserId}
+                                search-in-progress={searchUserInProgress}
+                                onitemselect={handleUserSelect}
+                                onitemremove={handleUserRemove}
+                                onsearch={handleUserSearch}
+                                custom-lookup
+                                custom-server-search
+                                required
+                            ></c-custom-search>
+                            <span
+                                if:true={showOwnerError}
+                                class="slds-text-body_small slds-text-color_destructive slds-m-left_small">
+                                Complete this field.
+                            </span>
                             <div class="slds-float_right">
                                 <lightning-button 
                                     data-name="save"

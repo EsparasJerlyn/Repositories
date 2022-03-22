@@ -19,6 +19,7 @@ export default class CustomLookupColumn extends LightningElement {
     @api lookupValue;
     @api lookupValueFieldName;
     @api lookupFieldName;
+    @api editable;
 
     showLookup = false;
     lookupValueName;

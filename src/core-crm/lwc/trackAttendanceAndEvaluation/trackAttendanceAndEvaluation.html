@@ -49,12 +49,18 @@
                                     {data.contactName}
                                 </div>
                                 <div class="slds-col slds-size_2-of-4 slds-p-vertical_x-small slds-p-left_x-small"> 
-                                    <lightning-input type="checkbox" name={data.courseConnectionId} onchange={handleAttendanceChange} checked={data.isPresent}></lightning-input>      
+                                    <lightning-input 
+                                        disabled={isStatusCompleted}
+                                        type="checkbox"
+                                        name={data.courseConnectionId}
+                                        onchange={handleAttendanceChange}
+                                        checked={data.isPresent}
+                                    ></lightning-input>      
                                 </div>
                             </div>
                         </template>
                     </template>
-                    <div class="slds-p-bottom_small slds-p-right_small  slds-clearfix">
+                    <div if:false={isStatusCompleted} class="slds-p-bottom_small slds-p-right_small slds-clearfix">
                         <lightning-button  class="slds-m-vertical_small slds-m-right_small slds-float_right" label="Cancel" title="Cancel" variant="neutral" onclick={handleCancel}></lightning-button>
                         <lightning-button disabled={cantSave} class="slds-m-vertical_small slds-m-right_small slds-float_right" label="Save" title="Save" variant="brand" onclick={handleSave}></lightning-button>
                     </div>

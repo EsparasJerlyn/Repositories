@@ -3,7 +3,12 @@ import FACILITY_NAME from '@salesforce/schema/hed__Facility__c.Name';
 import updateSessionData from "@salesforce/apex/ProductOfferingCtrl.updateSessionData";
 
 const SESSION_COLUMNS = [
-    { label: 'Session Name', fieldName: 'Name', wrapText: true, editable: true},
+    { 
+        label: 'Session Name',
+        fieldName: 'Name',
+        wrapText: true,
+        editable: { fieldName: 'editable' },
+    },
     { 
         label: 'Session Type',
         type: 'customPicklistColumn',
@@ -11,12 +16,12 @@ const SESSION_COLUMNS = [
             tableObjectType: 'Session__c',
             rowDraftId: { fieldName: 'rowId' },
             picklistValue: { fieldName: 'Session_Type__c' },
-            picklistFieldName: 'Session_Type__c'
+            picklistFieldName: 'Session_Type__c',
+            editable: { fieldName: 'editable' } 
         },
         cellAttributes: {
             class: { fieldName: 'customPicklistClass' }
-        },
-        editable: true   
+        }
     },
     {
         label: 'Facilitator', 
@@ -30,12 +35,11 @@ const SESSION_COLUMNS = [
             lookupItems: { fieldName:'relatedFacilitators' },
             itemServerName:{ fieldName:'contactName' },
             itemId:{ fieldName:'Course_Connection__c' },
-            showEditButton: true
+            editable: { fieldName: 'editable' } 
         },
         cellAttributes:{
             class: { fieldName:'customSearchClass' }
-        },
-        editable:true
+        }
     },
     { 
         label: 'Start Time',
@@ -44,13 +48,13 @@ const SESSION_COLUMNS = [
             tableObjectType: 'Session__c',
             rowDraftId: { fieldName: 'rowId' },
             datetimeValue: { fieldName: 'Start_Time__c' },
-            datetimeFieldName: 'Start_Time__c'
+            datetimeFieldName: 'Start_Time__c',
+            editable: { fieldName: 'editable' } 
         },
         cellAttributes: {
             class: { fieldName: 'customStartTimeClass' }
         },
-        wrapText: true,
-        editable: true   
+        wrapText: true  
     },
     { 
         label: 'End Time',
@@ -59,13 +63,13 @@ const SESSION_COLUMNS = [
             tableObjectType: 'Session__c',
             rowDraftId: { fieldName: 'rowId' },
             datetimeValue: { fieldName: 'End_Time__c' },
-            datetimeFieldName: 'End_Time__c'
+            datetimeFieldName: 'End_Time__c',
+            editable: { fieldName: 'editable' } 
         },
         cellAttributes: {
             class: { fieldName: 'customEndTimeClass' }
         },
-        wrapText: true,
-        editable: true   
+        wrapText: true  
     },
     { 
         label: 'Location',
@@ -76,15 +80,26 @@ const SESSION_COLUMNS = [
             rowRecordId: { fieldName: 'Id' },
             lookupValue: { fieldName: 'Location__c' },
             lookupValueFieldName: [FACILITY_NAME],
-            lookupFieldName: 'Location__c'
+            lookupFieldName: 'Location__c',
+            editable: { fieldName: 'editable' } 
         },
         cellAttributes: {
             class: { fieldName: 'customLookupClass' }
-        },
-        editable: true   
+        }  
     },
-    { label: 'Location Details', fieldName: 'Location_Detail__c', wrapText: true, editable: true },
-    { label: 'IsActive', fieldName: 'IsActive__c', type:'boolean', editable: true, initialWidth: 100 }
+    {
+        label: 'Location Details',
+        fieldName: 'Location_Detail__c',
+        wrapText: true,
+        editable: { fieldName: 'editable' } 
+    },
+    { 
+        label: 'IsActive',
+        fieldName: 'IsActive__c',
+        type:'boolean',
+        editable: { fieldName: 'editable' } ,
+        initialWidth: 100
+    }
 ];
 export default class SessionDetailSection extends LightningElement {
     @api showSessionTable;

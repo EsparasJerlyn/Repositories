@@ -28,7 +28,7 @@
         <span class="slds-grid slds-grid_align-spread slds-cell-edit slds-align_absolute-center">
             <lightning-formatted-rich-text value={richtextValue} class="cell-output">
             </lightning-formatted-rich-text>
-            <button class="slds-button slds-button_icon slds-cell-edit__button slds-m-left_x-small" tabindex="-1"
+            <button if:true={editable} class="slds-button slds-button_icon slds-cell-edit__button slds-m-left_x-small" tabindex="-1"
                 title="Edit" onclick={handleEdit}>
                 <svg class="slds-button__icon slds-button__icon_hint slds-button__icon_lock slds-button__icon_small slds-button__icon_edit slds-icon slds-icon-text-default slds-icon_xx-small"
                     aria-hidden="true">

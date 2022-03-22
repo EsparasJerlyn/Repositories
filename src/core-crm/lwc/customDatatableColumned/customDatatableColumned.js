@@ -30,7 +30,8 @@ export default class CustomDatatableColumned extends LightningDatatable {
                 'itemId',
                 'objectLabelName',
                 'newRecordAvailable',
-                'showEditButton'
+                'showEditButton',
+                'editable'
             ],
         },
         customLookupColumn: {
@@ -41,7 +42,8 @@ export default class CustomDatatableColumned extends LightningDatatable {
                 'rowRecordId',
                 'lookupValue',
                 'lookupFieldName',
-                'lookupValueFieldName'
+                'lookupValueFieldName',
+                'editable'
             ]
         },
         customPicklistColumn: {
@@ -50,7 +52,8 @@ export default class CustomDatatableColumned extends LightningDatatable {
                 'tableObjectType',
                 'rowDraftId', 
                 'picklistValue',
-                'picklistFieldName'
+                'picklistFieldName',
+                'editable'
             ]
         },
         customDatetimeColumn: {
@@ -60,13 +63,15 @@ export default class CustomDatatableColumned extends LightningDatatable {
                 'rowDraftId', 
                 'datetimeValue',
                 'datetimeFieldName',
+                'editable'
             ]
         },
         customRichtextColumn: {
             template: customRichtextColumn,
             typeAttributes: [
                 'rowDraftId', 
-                'richtextValue'
+                'richtextValue',
+                'editable'
             ]
         }
     }

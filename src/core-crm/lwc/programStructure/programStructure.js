@@ -43,6 +43,7 @@ export default class ProgramStructure extends LightningElement {
     @api programPlan = {}; //program plan from parent
     @api markedAsComplete; //indicates that program structure is marked as complete
     @api hasPlanRequirementOnRender; //indicates that plan requirement records is already created
+    @api isStatusNotDesign; //indicates if product request is not on Design stage
     draftTableData = [];//draft plan requirement data
     columns = COLUMNS;
     errors = {};
@@ -84,7 +85,7 @@ export default class ProgramStructure extends LightningElement {
     *decides if edit button is clickable
     */
     get canEdit(){
-        return this.editable || this.markedAsComplete || !HAS_PERMISSION;
+        return this.editable || this.markedAsComplete || !HAS_PERMISSION || this.isStatusNotDesign;
     }
 
     /*
@@ -99,7 +100,11 @@ export default class ProgramStructure extends LightningElement {
     *save can be clickable as well if it has a plan requirement on render and sequence is valid
     */
     get cantSave(){
-        return (!this.sequenceEdited && this.hasPlanRequirementOnRender) || this.sequenceHasRepeatsEmptyAndZeroes || this.markedAsComplete || !HAS_PERMISSION;
+        return (!this.sequenceEdited && this.hasPlanRequirementOnRender) || 
+            this.sequenceHasRepeatsEmptyAndZeroes ||
+            this.markedAsComplete ||
+            !HAS_PERMISSION ||
+            this.isStatusNotDesign;
     }
 
     /*

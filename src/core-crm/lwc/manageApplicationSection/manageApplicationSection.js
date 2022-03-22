@@ -33,6 +33,7 @@ const SECTION_HEADER = 'Manage Applications Overview';
 export default class ManageApplicationSection extends LightningElement {   
 
     @api prodReqId;
+    @api enableEdit;
 
     searchField = '';  
     picklistValue = '';

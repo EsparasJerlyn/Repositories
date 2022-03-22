@@ -12,6 +12,12 @@
  */
 global class PublishingEndDateBatch implements Database.Batchable<sObject>
 {
+
+    private static final String PR_IN_DELIVERY = System.Label.PL_ProductRequest_InDelivery;
+    private static final String PR_COMPLETED = System.Label.PL_ProductRequest_Completed;
+    private static final String COURSE_OFFERING_API_NAME = hed__Course_Offering__c.SObjectType.getDescribe().getLocalName();
+    private static final String PROGRAM_OFFERING_API_NAME = Program_Offering__c.SObjectType.getDescribe().getLocalName();
+
     /**
     * @description Method to query the product records
     * @param BC - BatchableContext
@@ -19,13 +25,15 @@ global class PublishingEndDateBatch implements Database.Batchable<sObject>
     */
     global Database.QueryLocator start(Database.BatchableContext BC)
     {
-        Date today = System.today();
-        String query = 'SELECT Id, Course__r.ProductRequestID__r.Product_Request_Status__c, Publishing_End_date__c,';
-			   query += 'Course__r.ProductRequestID__c, IsActive ';
-               query += 'FROM Product2 ' ;
-               query += 'WHERE IsActive = True ';
-               query += 'AND Course__r.ProductRequestID__r.Product_Request_Status__c !=\'Completed\' ';
-               query += 'AND Publishing_End_date__c <= today ';
+        String query = 
+            'SELECT Id,Course__r.ProductRequestID__c,Program_Plan__r.Product_Request__c,' +
+            'Course__r.ProductRequestID__r.Product_Request_Status__c,Program_Plan__r.Product_Request__r.Product_Request_Status__c' +
+            ' FROM Product2' +
+            ' WHERE IsActive = True' +
+            ' AND Decommission_Product__c = True' +
+            ' AND Publishing_End_date__c <= TODAY' +
+            ' AND (Course__r.ProductRequestID__r.Product_Request_Status__c = \'' + PR_IN_DELIVERY + '\'' +
+            ' OR Program_Plan__r.Product_Request__r.Product_Request_Status__c = \'' + PR_IN_DELIVERY + '\')';
         return Database.getQueryLocator(query);
     }
 
@@ -38,29 +46,50 @@ global class PublishingEndDateBatch implements Database.Batchable<sObject>
     global void execute(Database.BatchableContext BC, List<Product2> productList)
     {
         try{ 
-            Set<Id> prId = new Set<Id>();
-        
+            Set<Id> productRequestIDs = new Set<Id>();
+            
             //Setting IsActive to false and adding the corresponding product request Id
-            for(product2 p : productList){
-                p.IsActive = false;
-                prId.add(p.Course__r.ProductRequestID__c);
+            for(Product2 product : productList){
+                product.IsActive = false;
+                //for products with related courses
+                if(
+                    product.Course__r.ProductRequestID__c != null &&
+                    product.Course__r.ProductRequestID__r.Product_Request_Status__c == PR_IN_DELIVERY
+                ){
+                    productRequestIDs.add(product.Course__r.ProductRequestID__c);
+                }
+                //for products with related program plans
+                else if(
+                    product.Program_Plan__r.Product_Request__c != null &&
+                    product.Program_Plan__r.Product_Request__r.Product_Request_Status__c == PR_IN_DELIVERY
+                ){
+                    productRequestIDs.add(product.Program_Plan__r.Product_Request__c);
+                }
             }
-            
-            List<Product_Request__c> listProductRequests = new List<Product_Request__c>();      
-            listProductRequests = [SELECT Id from Product_Request__c WHERE Id IN :prId];
-            
-            //Setting Product Request Status to Complete
-            for(Product_Request__c pr :listProductRequests){
-                pr.Product_Request_Status__c = 'Completed';
-            }
-            
             update(productList);
-            update(listProductRequests);
-        }catch(Exception e){
-           System.debug('ERROR: ' + e.getMessage());
 
+            List<Product_Request__c> productRequestList = new List<Product_Request__c>(
+                [
+                    SELECT Id 
+                    FROM Product_Request__c
+                    WHERE Id IN :productRequestIDs
+                ]
+            );     
+            
+            if(!productRequestList.isEmpty()){
+                //Setting Product Request Status to Completed
+                for(Product_Request__c productRequest : productRequestList){
+                    productRequest.Product_Request_Status__c = PR_COMPLETED;
+                }
+                update(productRequestList);
+            }
+        }catch(Exception e){
+           System.debug('PublishingEndDateBatch Error: ' + e.getMessage());
         }
        
     }  
-    global void finish(Database.BatchableContext BC) {}
+    global void finish(Database.BatchableContext BC) {
+        Database.executeBatch(new OfferingStartDateBatch(COURSE_OFFERING_API_NAME));
+        Database.executeBatch(new OfferingStartDateBatch(PROGRAM_OFFERING_API_NAME));
+    }
 }

@@ -25,7 +25,7 @@ export default class CustomSearch extends LightningElement {
     @api objectLabelName;// name of the object to be created for creating new record
     @api customServerSearch; //enables database search on clicking button
     @api searchInProgress;
-    @api showEditButton;
+    @api editable;
 
 
     searchBoxOpen = false;
@@ -59,7 +59,7 @@ export default class CustomSearch extends LightningElement {
 
     get hasInitialItemName(){
         return this.itemServerName || 
-            (this.showEditButton && this.selectedItemName) ?
+            (this.editable && this.selectedItemName) ?
             true : false;
     }
 
@@ -82,10 +82,6 @@ export default class CustomSearch extends LightningElement {
 
     get itemUrl(){
         return '/' + this.itemId;
-    }
-
-    get isSearching(){
-        return this.searchBoxOpen && this.customServerSearch;
     }
 
     handleEdit(){
@@ -160,7 +156,7 @@ export default class CustomSearch extends LightningElement {
 
     handleItemClick(event){
         let itemId = event.currentTarget.dataset.recordid;
-        if(this.showEditButton){
+        if(this.editable){
             this.itemId = itemId;
         }
         this.selectedItem = itemId;

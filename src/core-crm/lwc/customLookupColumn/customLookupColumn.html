@@ -18,7 +18,7 @@
                     <lightning-formatted-url value={lookupUrl} label={lookupValueName} target="_top">
                     </lightning-formatted-url>
                 </span>
-                <button data-id={rowRecordId} class="slds-button slds-button_icon slds-cell-edit__button slds-m-left_x-small" tabindex="-1"
+                <button if:true={editable} data-id={rowRecordId} class="slds-button slds-button_icon slds-cell-edit__button slds-m-left_x-small" tabindex="-1"
                     title="Edit" onclick={handleEdit}>
                     <svg class="slds-button__icon slds-button__icon_hint slds-button__icon_lock slds-button__icon_small slds-button__icon_edit slds-icon slds-icon-text-default slds-icon_xx-small"
                         aria-hidden="true">

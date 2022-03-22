@@ -14,6 +14,33 @@
 public with sharing class AddProductRequestCtrl {
 
     /**
+     * @description get list of users searched 
+     * @param filterString - search string for filter
+     * @return list of users formatted for customSearch
+     */
+    @AuraEnabled(cacheable=true)
+    public static List<Map<String,String>> getSearchedUsers(String filterString){
+        filterString = '%' + filterString + '%';
+        List<Map<String,String>> userMap = new List<Map<String,String>>();
+        
+        for(User usr : [
+            SELECT Id, Name, Division
+            FROM User
+            WHERE (
+                Name LIKE :filterString OR
+                Name = :filterString
+            )
+        ]){
+            userMap.add(new Map<String,String>{
+                'id' => usr.Id,
+                'label' => usr.Name,
+                'meta' => usr.Division
+            });
+        }
+        return userMap;
+    }   
+
+    /**
      * @description get record type settings and field layout settings 
      * @param filterString - search string for filter
      * @param filterPRList - all current children of program

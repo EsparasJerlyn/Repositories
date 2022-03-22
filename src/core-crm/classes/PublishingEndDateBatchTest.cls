@@ -41,6 +41,9 @@ public with sharing class PublishingEndDateBatchTest {
             courses[i].Location__c = facility.Id;             
         }
         insert courses;
+
+        List<Product2> products = TestDataFactory.createTestProductRecords(numberOfRecords,courses);
+        insert products;
     }
     
     @IsTest
@@ -51,13 +54,16 @@ public with sharing class PublishingEndDateBatchTest {
                 
             List<Product_Request__c> productRequests = [SELECT Id, Product_Request_Status__c FROM Product_Request__c LIMIT 100];
             for(Product_Request__c productRequest : productRequests){
-                productRequest.Product_Request_Status__c = 'Release';
+                productRequest.Product_Request_Status__c = 'In Delivery';
             }
             List<hed__Course__c> courses = [SELECT Id,ProductRequestID__c FROM hed__Course__c];
             update productRequests;
             
             List<Product2> products = [SELECT Id,Publishing_End_date__c,IsActive,Course__r.ProductRequestID__c FROM Product2 LIMIT 100];
             for(Product2 product : products){
+                product.IsActive = true;
+                product.Decommission_Product__c = true;
+                product.Decommission_Reason__c = 'test';
                 product.Publishing_End_date__c = date.today();
             }
             update products;
@@ -69,7 +75,7 @@ public with sharing class PublishingEndDateBatchTest {
             
             Test.stopTest();
             
-            System.assert(![SELECT Id FROM AsyncApexJob].isEmpty() , 'PublishingEndDate Job was not executed');
+            System.assert(![SELECT Id FROM AsyncApexJob WHERE ApexClass.Name = 'PublishingEndDateBatch'].isEmpty() , 'PublishingEndDate Job was not executed');
     
                 
             }catch(Exception e){

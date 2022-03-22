@@ -3461,6 +3461,11 @@
         <field>Financial_Split__c.Program_Plan__c</field>
         <readable>true</readable>
     </fieldPermissions>
+     <fieldPermissions>
+        <editable>false</editable>
+        <field>Product2.Professional_Level__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Product2.Publishing_End_date__c</field>

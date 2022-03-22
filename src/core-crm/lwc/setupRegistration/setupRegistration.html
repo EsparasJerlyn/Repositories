@@ -19,7 +19,7 @@
             disabled={disableCreateQuestionnaire}>
         </lightning-button>
         <lightning-helptext 
-            if:true={disableCreateQuestionnaire}
+            if:true={disableCreateQuestionnaireHelp}
             content="You've maximized all questionnaires for this product request."
             class="create-questionnaire-button create-questionnaire-help">
         </lightning-helptext>
@@ -78,12 +78,13 @@
                                     icon-name="utility:add"
                                     onclick={handleCreateRecord} 
                                     variant="brand"
-                                    class="slds-float_right">
+                                    class="slds-float_right"
+                                    disabled={isStatusCompleted}>
                                 </lightning-button>
                             </div>
                         </div>
                         <!--Search Input Section-->
-                        <div class="slds-form-element slds-m-around_x-small">
+                        <div if:false={isStatusCompleted} class="slds-form-element slds-m-around_x-small">
                             <label class="slds-form-element__label" for="combobox-id-1" id="combobox-label-id-33">
                                 Existing Questions
                                 <span if:true={searchBoxOpen} class="slds-m-left_medium small-text"><i>Press the 'Esc' key to close the search box.</i></span>
@@ -169,7 +170,8 @@
                                             step="1" 
                                             value={question.sequence} 
                                             min="1" 
-                                            max={selectedQuestionnaire.relatedQuestions.length}>
+                                            max={selectedQuestionnaire.relatedQuestions.length}
+                                            disabled={isStatusCompleted}>
                                     </div>
                                     <div class="slds-col slds-size_2-of-12  slds-p-around_none slds-border_bottom">
                                         <p class="slds-p-right_small slds-p-bottom_small">
@@ -205,7 +207,8 @@
                                                 icon-name="utility:edit"
                                                 data-name={question.id}
                                                 onclick={handleEditQuestion}
-                                                size="small">
+                                                size="small"
+                                                disabled={isStatusCompleted}>
                                             </lightning-button-icon>
                                             <lightning-button-icon
                                                 title="Remove Question"
@@ -213,7 +216,8 @@
                                                 icon-name="utility:delete"
                                                 data-name={question.answerId}
                                                 onclick={handleRemoveQuestion}
-                                                size="small">
+                                                size="small"
+                                                disabled={isStatusCompleted}>
                                             </lightning-button-icon>
                                         </lightning-button-group>
                                     </div>

@@ -8,12 +8,15 @@
  */
 
 import { LightningElement,wire,api } from 'lwc';
+import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
 import getRelatedCourseOfferingsAndSessions from '@salesforce/apex/TrackAttendanceAndEvaluationCtrl.getRelatedCourseOfferingsAndSessions';
 import upsertAttendance  from '@salesforce/apex/TrackAttendanceAndEvaluationCtrl.upsertAttendance';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { refreshApex } from '@salesforce/apex';
 import LWC_Error_General from '@salesforce/label/c.LWC_Error_General';
 import HAS_PERMISSION from '@salesforce/customPermission/EditDesignAndReleaseTabsOfProductRequest';
+import PRODUCT_REQUEST_STATUS from '@salesforce/schema/Product_Request__c.Product_Request_Status__c';
+import PL_ProductRequest_Completed from '@salesforce/label/c.PL_ProductRequest_Completed';
 
 const SUCCESS_TITLE = 'Success!';
 const SUCCESS_MSG = 'Record(s) successfully saved.';
@@ -45,7 +48,18 @@ export default class TrackAttendanceAndEvaluation extends LightningElement {
     studentData = [];
     columns = [ { label: 'Name', fieldName: 'name' }, 
     { label: 'Present', fieldName: 'Present__c', type:'boolean', editable: true}];
-    
+    isStatusCompleted;
+
+    /**
+     * gets product request status
+    */
+    @wire(getRecord, { recordId: '$recordId', fields: [PRODUCT_REQUEST_STATUS] })
+    handleParentRecord(result){
+        if(result.data){
+            this.isStatusCompleted = getFieldValue(result.data,PRODUCT_REQUEST_STATUS) == PL_ProductRequest_Completed;
+        }
+    }
+
     listOfRecords;
     @wire(getRelatedCourseOfferingsAndSessions,{productRequestId:'$recordId'})
     relatedRecord(result)
@@ -85,7 +99,7 @@ export default class TrackAttendanceAndEvaluation extends LightningElement {
         return sessionList.map(item =>{
             let newItem = {};
             newItem.value = item.Id;
-            newItem.label = item.Session_Name__c + '    ' +this.formatDate(item.Start_Time__c) + '      ' + this.formatTime(String(item.Start_Time__c));
+            newItem.label = item.Name + '    ' +this.formatDate(item.Start_Time__c) + '      ' + this.formatTime(String(item.Start_Time__c));
             return newItem;
         });
     }

@@ -15,10 +15,11 @@ export default class CustomLightningFields extends LightningElement {
     @api childObjectApiName;
     @api childRecordId;
     @api layoutItem;
+    @api showEditButton;
 
     editMode = false;
     isLoading = true;
-
+    
     /**
      * stops spinner on form load
      */

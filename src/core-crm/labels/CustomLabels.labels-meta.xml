@@ -143,6 +143,14 @@
         <value>2</value>
     </labels>
     <labels>
+        <fullName>PL_ProductRequest_Completed</fullName>
+        <categories>Picklist,ProductRequest</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PL_ProductRequest_Completed</shortDescription>
+        <value>Completed</value>
+    </labels>
+    <labels>
         <fullName>PL_ProductRequest_Design</fullName>
         <categories>Picklist,ProductRequest</categories>
         <language>en_US</language>

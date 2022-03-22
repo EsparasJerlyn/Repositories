@@ -22,6 +22,7 @@ export default class CustomDatetimeColumn extends LightningElement {
     @api tableObjectType;
     @api rowDraftId;
     @api datetimeFieldName;
+    @api editable;
 
     @api
     get datetimeValue() {

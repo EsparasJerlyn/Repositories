@@ -5,14 +5,16 @@
     <div if:true={hasAccess}>
         <div if:true={showSection} class="slds-m-vertical_xx-small">
             <c-product-pricing
-                record-id={recordId}>
-            </c-product-pricing>
+                record-id={recordId}
+                is-status-completed={isStatusCompleted}
+            ></c-product-pricing>
         </div>
         <div class="slds-m-vertical_xx-small">
             <c-custom-layout-handler
                 record-id={recordId}
                 object-api-name={objectApiName}
                 section-label="Payment Options"
+                show-edit-button={showEditButton}
                 is-grandchild>
             </c-custom-layout-handler>
         </div>
@@ -20,6 +22,7 @@
             <c-financial-split
                 record-id={recordId}
                 object-api-name={objectApiName}
+                is-status-completed={isStatusCompleted}
             ></c-financial-split>
         </div>
         <div if:true={showSection} class="slds-m-vertical_xx-small">
@@ -28,6 +31,7 @@
                 object-api-name={objectApiName}
                 section-label="Communication Schedule"
                 grandchild-object="Communication_Schedule__c"
+                show-edit-button={showEditButton}
                 is-grandchild>
             </c-custom-layout-handler>
         </div>
@@ -35,15 +39,17 @@
             <c-custom-layout-handler
                 record-id={recordId}
                 object-api-name={objectApiName}
-                section-label="Certificate">
+                section-label="Certificate"
+                show-edit-button={showEditButton}>
             </c-custom-layout-handler>
         </div>
         <div class="slds-m-vertical_xx-small">
             <c-setup-registration
                 record-id={recordId}
+                is-status-completed={isStatusCompleted}
             ></c-setup-registration>
         </div>
-        <div if:false={HideContentSection} class="slds-m-vertical_xx-small">
+        <div if:false={hideContentSection} class="slds-m-vertical_xx-small">
             <c-custom-layout-handler
                 record-id={recordId}
                 object-api-name={objectApiName}
@@ -55,6 +61,7 @@
                 record-id={recordId}
                 object-api-name={objectApiName}
                 section-label="Decommission Product"
+                show-edit-button={showEditButton}
                 is-grandchild>
             </c-custom-layout-handler>
         </div>

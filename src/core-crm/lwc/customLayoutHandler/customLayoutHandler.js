@@ -62,6 +62,7 @@ export default class OpeCustomPageLayout extends LightningElement {
     @api sectionLabel //section label of a particular part of the layout
     @api isGrandchild; //determines if there is 2-level traversal
     @api grandchildObject; //overwrite the default child object of level 2 traversals
+    @api showEditButton; //determines if layout is editable
 
     @track layoutInfo = {};
     hasLoaded = false;

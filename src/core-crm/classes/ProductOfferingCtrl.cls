@@ -12,12 +12,42 @@
       |                           |                       |              |                                               |
 */
 public with sharing class ProductOfferingCtrl {
-
+    
     private static final String COURSE_OFFERING_API_NAME = hed__Course_Offering__c.SObjectType.getDescribe().getLocalName();
+    private static final String COURSE_OFFERING_LABEL = hed__Course_Offering__c.sObjectType.getDescribe().getLabelPlural();
+    private static final String PROGRAM_OFFERING_API_NAME = Program_Offering__c.SObjectType.getDescribe().getLocalName();
+    private static final String PROGRAM_OFFERING_LABEL = Program_Offering__c.sObjectType.getDescribe().getLabelPlural();
     private static final String STR_QUTEX = 'QUTeX';
     private static final String STR_QUTEX_TERM = STR_QUTEX + ' Term';
+    private static final String STR_ALL_OPE = 'All_OPE_';//metadata is named as All_OPE_<Object_Plural_Label>
     private static final Id FACULTY_REC_TYPE = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get('Faculty').getRecordTypeId();
-     
+    
+    /**
+     * @description fetches all available facilitator bios in the org
+     * @return list of facilitator bios
+    */
+    @AuraEnabled(cacheable=true)
+    public static Map<String,List<Field_Layout_Setting__mdt>> getOfferingLayout(){
+        Map<String,List<Field_Layout_Setting__mdt>> layoutMap = new Map<String,List<Field_Layout_Setting__mdt>>();
+        layoutMap.put(
+            COURSE_OFFERING_API_NAME,
+            CustomLayoutCtrl.getLayoutMapping(
+                COURSE_OFFERING_API_NAME,
+                STR_ALL_OPE + COURSE_OFFERING_LABEL.replace(' ','_'),
+                true
+            )
+        );
+        layoutMap.put(
+            PROGRAM_OFFERING_API_NAME,
+            CustomLayoutCtrl.getLayoutMapping(
+                PROGRAM_OFFERING_API_NAME,
+                STR_ALL_OPE + PROGRAM_OFFERING_LABEL.replace(' ','_'),
+                true
+            )
+        );
+        return layoutMap;
+    }
+
     /**
      * @description fetches id of term named 'QUTeX Term' if existing; creates one if not
      * @return id of QUTeX Term

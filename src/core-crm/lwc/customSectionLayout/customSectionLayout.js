@@ -40,6 +40,7 @@ export default class CustomSectionLayout extends LightningElement {
     @api grandParentFieldApiName;
     @api forOpe;
     @api parentSectionLabel;
+    @api showEditButton;
     
     childRecordId;
     childRecordTypeDevName;

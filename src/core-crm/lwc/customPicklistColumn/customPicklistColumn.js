@@ -16,6 +16,7 @@ export default class CustomPicklistColumn extends LightningElement {
     @api rowDraftId;
     @api picklistValue;
     @api picklistFieldName;
+    @api editable;
 
     showPicklist = false;
 

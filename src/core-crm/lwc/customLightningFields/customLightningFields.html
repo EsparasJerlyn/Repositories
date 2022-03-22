@@ -28,6 +28,7 @@
                             </lightning-layout-item>
                             <lightning-layout-item class="slds-align-bottom slds-p-left_none slds-border_bottom">
                                 <lightning-button-icon
+                                    if:true={showEditButton}
                                     icon-name="utility:edit"
                                     alternative-text="Edit"
                                     title="Edit Field"
@@ -59,6 +60,7 @@
                         </lightning-layout-item>   
                         <lightning-layout-item class="slds-align-bottom slds-p-left_none slds-border_bottom">
                             <lightning-button-icon 
+                                if:true={showEditButton}
                                 icon-name="utility:edit"
                                 alternative-text="Edit"
                                 title="Edit Field"
@@ -89,6 +91,7 @@
                         </lightning-layout-item>
                         <lightning-layout-item class="slds-p-left_none">
                             <lightning-button-icon
+                                if:true={showEditButton}
                                 icon-name="utility:edit"
                                 alternative-text="Edit"
                                 title="Edit Field"

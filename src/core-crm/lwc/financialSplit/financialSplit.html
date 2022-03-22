@@ -9,11 +9,6 @@
             disabled={disableNewButton}
             class="new-button">
         </lightning-button>
-        <lightning-helptext 
-            if:true={disableNewButton}
-            content="Please select Save or Cancel before adding a new record."
-            class="new-button new-button-help">
-        </lightning-helptext>
         <lightning-accordion-section name="financialSplit" label="Financial Split" class="accordion-section">
             <div if:false={showFinancialSplitTable} class="slds-text-align_center slds-p-around_large">
                 <p><strong>No financial split found. Add by selecting the 'New' button.</strong></p>

@@ -20,6 +20,7 @@ import { loadStyle } from 'lightning/platformResourceLoader';
 import customDataTableStyle from '@salesforce/resourceUrl/CustomDataTable';
 import HAS_PERMISSION from "@salesforce/customPermission/EditDesignAndReleaseTabsOfProductRequest";
 import RT_ProductRequest_Program from '@salesforce/label/c.RT_ProductRequest_Program';
+import PL_ProductRequest_Completed from '@salesforce/label/c.PL_ProductRequest_Completed';
 import LWC_Error_General from "@salesforce/label/c.LWC_Error_General";
 import COURSE from "@salesforce/schema/hed__Course__c";
 import COURSE_OFFERING from "@salesforce/schema/hed__Course_Offering__c";
@@ -32,11 +33,12 @@ import PROGRAM_PLAN from "@salesforce/schema/hed__Program_Plan__c";
 import C_PRODUCT_REQUEST from '@salesforce/schema/hed__Course__c.ProductRequestID__c';
 import PP_PRODUCT_REQUEST from '@salesforce/schema/hed__Program_Plan__c.Product_Request__c';
 import PR_RT_DEV_NAME from '@salesforce/schema/Product_Request__c.RecordType.DeveloperName';
+import PR_STATUS from '@salesforce/schema/Product_Request__c.Product_Request_Status__c';
 import getProductOfferingData from "@salesforce/apex/ProductOfferingCtrl.getProductOfferingData";
 import getTermId from "@salesforce/apex/ProductOfferingCtrl.getTermId";
 import getAllFacilitatorBio from "@salesforce/apex/ProductOfferingCtrl.getAllFacilitatorBio";
 import updateCourseConnections from "@salesforce/apex/ProductOfferingCtrl.updateCourseConnections";
-import getLayoutMapping from '@salesforce/apex/CustomLayoutCtrl.getLayoutMapping';
+import getOfferingLayout from '@salesforce/apex/ProductOfferingCtrl.getOfferingLayout';
 
 const DATE_OPTIONS = { year: 'numeric', month: 'short', day: '2-digit' };
 const PROGRAM_OFFERING_FIELDS = 'Id,Delivery_Type__c,Start_Date__c,End_Date__c,IsActive__c,CreatedDate';
@@ -60,7 +62,8 @@ export default class ProductOffering extends LightningElement {
     parentIdToCreate;
     parentId;
     termId;
-    layoutItem = {};
+    layoutMap = {};
+    isStatusCompleted;
 
     //decides if user has access to this feature
     get hasAccess(){
@@ -72,13 +75,32 @@ export default class ProductOffering extends LightningElement {
         return this.productOfferings.length > 0 && this.layoutItem;
     }
 
+    //decides to show edit buttons
+    get showEditButton(){
+        return !this.isStatusCompleted;
+    }
+
+    //gets offering layout if maps are populated
+    get layoutItem(){
+        if(this.layoutMap && this.childInfoMap){
+            return this.layoutMap[this.childInfoMap.objectType];
+        }
+        return;
+    }
+
     //gets QUTeX Term id and loads css
     connectedCallback(){
         Promise.all([
             loadStyle(this, customDataTableStyle)
         ]).then(() => { });
 
-        getTermId({})
+        getOfferingLayout({})
+        .then((layoutMap) => {
+            Object.keys(layoutMap).forEach(key => {
+                this.layoutMap[key] = this.formatLayout(layoutMap[key][0]);
+            });
+            return getTermId({});
+        })
         .then((termIdResult) => {
             this.termId = termIdResult;
         })
@@ -90,17 +112,6 @@ export default class ProductOffering extends LightningElement {
     //stores object info of course connection
     @wire(getObjectInfo, { objectApiName: COURSE_CONNECTION.objectApiName })
     courseConnectionInfo;
-
-    childRecordTypeDevName;
-    @wire(getObjectInfo, { objectApiName: '$childInfoMap.objectType'})
-    handleChildObjectInfo(result){
-        if(result.data){
-            //condition for layouts with no record types
-            //metadata is named as All_OPE_<Object_Plural_Label>
-            this.childRecordTypeDevName = 'All_OPE_' + result.data.labelPlural.replace(' ','_');
-            this.getOfferingLayout();
-        }
-    }
 
     //gets all facilitator bios available
     bioResult;
@@ -124,9 +135,10 @@ export default class ProductOffering extends LightningElement {
 
     //gets product request details
     //assigns if data is for course or program plan
-    @wire(getRecord, { recordId: '$recordId', fields: [PR_RT_DEV_NAME] })
+    @wire(getRecord, { recordId: '$recordId', fields: [PR_RT_DEV_NAME,PR_STATUS] })
     handleProductRequest(result){
         if(result.data){
+            this.isStatusCompleted = getFieldValue(result.data,PR_STATUS) == PL_ProductRequest_Completed;
             this.isOpeProgramRequest = getFieldValue(result.data,PR_RT_DEV_NAME) == RT_ProductRequest_Program;
             this.parentInfoMap = {
                 field : this.isOpeProgramRequest ? PP_PRODUCT_REQUEST.fieldApiName : C_PRODUCT_REQUEST.fieldApiName,
@@ -162,27 +174,18 @@ export default class ProductOffering extends LightningElement {
     }
 
     //gets product offering overview layout from metadata
-    getOfferingLayout(){
-        getLayoutMapping({
-            objApiName : this.childInfoMap.objectType,
-            rtDevName : this.childRecordTypeDevName,
-            isOpe : true
-        })
-        .then(result => {
-            this.layoutItem.sectionLabel = result[0].MasterLabel;
-            this.layoutItem.leftColumn = 
-                result[0].Left_Column_Long__c ? 
-                JSON.parse(result[0].Left_Column_Long__c) : null;
-            this.layoutItem.rightColumn = 
-                result[0].Right_Column_Long__c ? 
-                JSON.parse(result[0].Right_Column_Long__c) : null;
-            this.layoutItem.singleColumn = 
-                result[0].Single_Column_Long__c ? 
-                JSON.parse(result[0].Single_Column_Long__c) : null;
-        })
-        .catch(error =>{
-            this.generateToast('Error.',LWC_Error_General,'error');
-        });
+    formatLayout(layout){
+        return {
+            sectionLabel : layout.MasterLabel,
+            leftColumn : 
+                layout.Left_Column_Long__c ?
+                JSON.parse(layout.Left_Column_Long__c) : null,
+            rightColumn : 
+                layout.Right_Column_Long__c ? 
+                JSON.parse(layout.Right_Column_Long__c) : null,
+            singleColumn : layout.Single_Column_Long__c ? 
+                JSON.parse(layout.Single_Column_Long__c) : null
+        };
     }
 
     //formats offering data into a display-ready type
@@ -214,7 +217,8 @@ export default class ProductOffering extends LightningElement {
                     relatedSessions : relSesh,
                     showFacilitatorTable : relFaci.length > 0,
                     showSessionTable : relSesh.length > 0,
-                    disableSession : relFaci.length == 0,
+                    disableSession : relFaci.length == 0 || this.isStatusCompleted,
+                    showHelp : relFaci.length == 0 && this.showEditButton, 
                     biosToSearch : this.hasLoaded ? 
                         this.getBiosToSearch(facis.map(faci=>{return faci.Facilitator_Bio__c})) : []
                 }
@@ -238,7 +242,9 @@ export default class ProductOffering extends LightningElement {
                 contactId:item.Facilitator_Bio__r.Facilitator__c,
                 bio:item.Facilitator_Bio__r.Facilitator_Professional_Bio__c,
                 customLookupClass: 'slds-cell-edit',
-                customRichtextClass: 'slds-cell-edit'
+                customRichtextClass: 'slds-cell-edit',
+                editable: this.showEditButton,
+                disableSetAsPrimary: item.hed__Primary__c || this.isStatusCompleted
             }
         });
     }
@@ -261,7 +267,8 @@ export default class ProductOffering extends LightningElement {
                 customSearchClass: 'slds-cell-edit',
                 customStartTimeClass: 'slds-cell-edit',
                 customEndTimeClass: 'slds-cell-edit',
-                customLookupClass: 'slds-cell-edit'
+                customLookupClass: 'slds-cell-edit',
+                editable: this.showEditButton,
             }
         });
     }

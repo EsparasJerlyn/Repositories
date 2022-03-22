@@ -8,9 +8,12 @@
       | roy.nino.s.regala         | March 10, 2022        | DEPP-1747                       | Updated to adapt to new field and data model|
  */
 import { LightningElement,wire,api} from 'lwc';
-import getProdReqAndCourse from '@salesforce/apex/OpeProgramStructureCtrl.getProdReqAndCourse';
+import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
 import { refreshApex } from '@salesforce/apex';
 import HAS_PERMISSION from '@salesforce/customPermission/EditDesignAndReleaseTabsOfProductRequest';
+import PL_ProductRequest_Design from '@salesforce/label/c.PL_ProductRequest_Design';
+import PRODUCT_REQUEST_STATUS from '@salesforce/schema/Product_Request__c.Product_Request_Status__c';
+import getProdReqAndCourse from '@salesforce/apex/OpeProgramStructureCtrl.getProdReqAndCourse';
 
 const FLEXIBLE_TYPE = 'Flexible Program';
 const PRESCRIBED_TYPE = 'Prescribed Program';
@@ -25,6 +28,17 @@ export default class OpeProgramStructure extends LightningElement {
     tableData=[];
     hasPlanRequirementOnRender=false;
     isLoading= true;
+    isStatusNotDesign;
+
+    /**
+     * gets product request status
+    */
+    @wire(getRecord, { recordId: '$recordId', fields: [PRODUCT_REQUEST_STATUS] })
+    handleParentRecord(result){
+        if(result.data){
+            this.isStatusNotDesign = getFieldValue(result.data,PRODUCT_REQUEST_STATUS) !== PL_ProductRequest_Design;
+        }
+    }
 
     listOfRecords;
     @wire(getProdReqAndCourse,{productRequestId: '$recordId'})
