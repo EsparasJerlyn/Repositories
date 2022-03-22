@@ -3,8 +3,8 @@
     <actionCalls>
         <name>Design_Form_Email</name>
         <label>Design Form Email</label>
-        <locationX>974</locationX>
-        <locationY>854</locationY>
+        <locationX>1942</locationX>
+        <locationY>1070</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
         <connector>
@@ -41,15 +41,15 @@
     </actionCalls>
     <apiVersion>53.0</apiVersion>
     <assignments>
-        <name>Assign_Activity_Design_Form</name>
-        <label>Assign Activity Design Form</label>
-        <locationX>578</locationX>
-        <locationY>638</locationY>
+        <name>Activity_For_External</name>
+        <label>Activity For External</label>
+        <locationX>754</locationX>
+        <locationY>758</locationY>
         <assignmentItems>
             <assignToReference>Record</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>Activity_Design_Form_Link</elementReference>
+                <elementReference>Activity_Design_Form_Link_External</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -57,15 +57,15 @@
         </connector>
     </assignments>
     <assignments>
-        <name>Assign_Module_Design_Form</name>
-        <label>Assign Module Design Form</label>
-        <locationX>842</locationX>
-        <locationY>638</locationY>
+        <name>Activity_For_Internal</name>
+        <label>Activity For Internal</label>
+        <locationX>1018</locationX>
+        <locationY>758</locationY>
         <assignmentItems>
             <assignToReference>Record</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>Module_Design_Form_Link</elementReference>
+                <elementReference>Activity_Design_Form_Link_Internal</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -73,22 +73,15 @@
         </connector>
     </assignments>
     <assignments>
-        <name>Assign_Program_Request_Design_Form</name>
-        <label>Assign Program Request Design Form</label>
-        <locationX>1370</locationX>
-        <locationY>638</locationY>
+        <name>Module_for_External</name>
+        <label>Module for External</label>
+        <locationX>1458</locationX>
+        <locationY>758</locationY>
         <assignmentItems>
             <assignToReference>Record</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>Program_Request_Design_Form_Link</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>isForProgramPlan</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <booleanValue>true</booleanValue>
+                <elementReference>Module_Design_Form_Link_External</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -96,15 +89,79 @@
         </connector>
     </assignments>
     <assignments>
-        <name>Assign_Short_Course_Design_Form</name>
-        <label>Assign Short Course Design Form</label>
+        <name>Module_for_Internal</name>
+        <label>Module for Internal</label>
+        <locationX>1722</locationX>
+        <locationY>758</locationY>
+        <assignmentItems>
+            <assignToReference>Record</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Module_Design_Form_Link_Internal</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Design_Form_Email</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Program_for_External</name>
+        <label>Program for External</label>
+        <locationX>2866</locationX>
+        <locationY>758</locationY>
+        <assignmentItems>
+            <assignToReference>Record</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Program_Design_Form_Link_External</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Design_Form_Email</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Program_for_Internal</name>
+        <label>Program for Internal</label>
+        <locationX>3130</locationX>
+        <locationY>758</locationY>
+        <assignmentItems>
+            <assignToReference>Record</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Program_Design_Form_Link_Internal</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Design_Form_Email</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Short_Course_for_External</name>
+        <label>Short Course for External</label>
+        <locationX>50</locationX>
+        <locationY>758</locationY>
+        <assignmentItems>
+            <assignToReference>Record</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Short_Course_Design_Form_Link_External</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Design_Form_Email</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Short_Course_For_Internal</name>
+        <label>Short Course For Internal</label>
         <locationX>314</locationX>
-        <locationY>638</locationY>
+        <locationY>758</locationY>
         <assignmentItems>
             <assignToReference>Record</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>Short_Course_Design_Form_Link</elementReference>
+                <elementReference>Short_Course_Design_Form_Link_Internal</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -112,15 +169,31 @@
         </connector>
     </assignments>
     <assignments>
-        <name>Assign_Unit_Design_Form</name>
-        <label>Assign Unit Design Form</label>
-        <locationX>1106</locationX>
-        <locationY>638</locationY>
+        <name>Unit_for_External</name>
+        <label>Unit for External</label>
+        <locationX>2162</locationX>
+        <locationY>758</locationY>
         <assignmentItems>
             <assignToReference>Record</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>UnitDesignFormLink</elementReference>
+                <elementReference>Unit_Design_Form_Link_External</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Design_Form_Email</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Unit_for_Internal</name>
+        <label>Unit for Internal</label>
+        <locationX>2426</locationX>
+        <locationY>758</locationY>
+        <assignmentItems>
+            <assignToReference>Record</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Unit_Design_Form_Link_Internal</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -128,9 +201,49 @@
         </connector>
     </assignments>
     <decisions>
+        <name>Activity_Internal_or_External</name>
+        <label>Activity Internal or External</label>
+        <locationX>1018</locationX>
+        <locationY>638</locationY>
+        <defaultConnector>
+            <targetReference>Design_Form_Email</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Actvity_External</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Product_Request_Record.Product_Specification__r.Requestor_Internal_External__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>External</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Activity_For_External</targetReference>
+            </connector>
+            <label>Actvity External</label>
+        </rules>
+        <rules>
+            <name>Activity_Internal</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Product_Request_Record.Product_Specification__r.Requestor_Internal_External__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Internal</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Activity_For_Internal</targetReference>
+            </connector>
+            <label>Activity Internal</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Check_Product_Request_RecordType</name>
         <label>Check Product Request RecordType</label>
-        <locationX>974</locationX>
+        <locationX>1942</locationX>
         <locationY>518</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -144,7 +257,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Assign_Short_Course_Design_Form</targetReference>
+                <targetReference>Short_Course_Internal_or_External</targetReference>
             </connector>
             <label>is Short Course</label>
         </rules>
@@ -159,7 +272,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Assign_Activity_Design_Form</targetReference>
+                <targetReference>Activity_Internal_or_External</targetReference>
             </connector>
             <label>is Activity Request</label>
         </rules>
@@ -174,7 +287,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Assign_Module_Design_Form</targetReference>
+                <targetReference>Module_Internal_or_External</targetReference>
             </connector>
             <label>is Module</label>
         </rules>
@@ -189,7 +302,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Assign_Unit_Design_Form</targetReference>
+                <targetReference>Unit_Internal_or_External</targetReference>
             </connector>
             <label>is Unit</label>
         </rules>
@@ -204,7 +317,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Assign_Program_Request_Design_Form</targetReference>
+                <targetReference>Program_Internal_or_External</targetReference>
             </connector>
             <label>is Program plan</label>
         </rules>
@@ -212,8 +325,8 @@
     <decisions>
         <name>Course_Design_Sent</name>
         <label>Course Design Sent</label>
-        <locationX>1106</locationX>
-        <locationY>1214</locationY>
+        <locationX>2074</locationX>
+        <locationY>1430</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Not_Sent</name>
@@ -234,7 +347,7 @@
     <decisions>
         <name>Has_Assigned_Requestor</name>
         <label>Has Assigned Requestor</label>
-        <locationX>1700</locationX>
+        <locationX>3284</locationX>
         <locationY>278</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -245,6 +358,13 @@
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_Product_Request_Record.Product_Specification__r.Requestor_Name__r.ContactMobile_Validation__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Valid</stringValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -262,17 +382,39 @@
                     <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>Get_Product_Request_Record.Product_Specification__r.Requestor_Name__r.ContactMobile_Validation__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Valid</stringValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>Has_No_Requestor</targetReference>
             </connector>
             <label>Has No Req Name Assigned</label>
         </rules>
+        <rules>
+            <name>Mobile_Not_Valid</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Product_Request_Record.Product_Specification__r.Requestor_Name__r.ContactMobile_Validation__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Valid</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Mobile_Not_Valid_Error</targetReference>
+            </connector>
+            <label>Mobile Not Valid</label>
+        </rules>
     </decisions>
     <decisions>
         <name>Is_Program_Design_Sent</name>
         <label>Is Program Design Sent</label>
-        <locationX>314</locationX>
-        <locationY>1214</locationY>
+        <locationX>1282</locationX>
+        <locationY>1430</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>No</name>
@@ -291,10 +433,170 @@
         </rules>
     </decisions>
     <decisions>
+        <name>Module_Internal_or_External</name>
+        <label>Module Internal or External</label>
+        <locationX>1722</locationX>
+        <locationY>638</locationY>
+        <defaultConnector>
+            <targetReference>Design_Form_Email</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Module_External</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Product_Request_Record.Product_Specification__r.Requestor_Internal_External__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>External</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Module_for_External</targetReference>
+            </connector>
+            <label>Module External</label>
+        </rules>
+        <rules>
+            <name>Module_Internal</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Product_Request_Record.Product_Specification__r.Requestor_Internal_External__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Internal</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Module_for_Internal</targetReference>
+            </connector>
+            <label>Module Internal</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Program_Internal_or_External</name>
+        <label>Program Internal or External</label>
+        <locationX>3130</locationX>
+        <locationY>638</locationY>
+        <defaultConnector>
+            <targetReference>Design_Form_Email</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Program_External</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Product_Request_Record.Product_Specification__r.Requestor_Internal_External__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>External</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Program_for_External</targetReference>
+            </connector>
+            <label>Program External</label>
+        </rules>
+        <rules>
+            <name>Program_Internal</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Product_Request_Record.Product_Specification__r.Requestor_Internal_External__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Internal</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Program_for_Internal</targetReference>
+            </connector>
+            <label>Program Internal</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Short_Course_Internal_or_External</name>
+        <label>Short Course Internal or External</label>
+        <locationX>314</locationX>
+        <locationY>638</locationY>
+        <defaultConnector>
+            <targetReference>Design_Form_Email</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Short_Course_External</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Product_Request_Record.Product_Specification__r.Requestor_Internal_External__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>External</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Short_Course_for_External</targetReference>
+            </connector>
+            <label>Short Course External</label>
+        </rules>
+        <rules>
+            <name>Short_Course_Internal</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Product_Request_Record.Product_Specification__r.Requestor_Internal_External__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Internal</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Short_Course_For_Internal</targetReference>
+            </connector>
+            <label>Short Course Internal</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Unit_Internal_or_External</name>
+        <label>Unit Internal or External</label>
+        <locationX>2426</locationX>
+        <locationY>638</locationY>
+        <defaultConnector>
+            <targetReference>Design_Form_Email</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Unit_External</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Product_Request_Record.Product_Specification__r.Requestor_Internal_External__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>External</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Unit_for_External</targetReference>
+            </connector>
+            <label>Unit External</label>
+        </rules>
+        <rules>
+            <name>Unit_Internal</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Product_Request_Record.Product_Specification__r.Requestor_Internal_External__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Internal</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Unit_for_Internal</targetReference>
+            </connector>
+            <label>Unit Internal</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Update_what_object</name>
         <label>Update what object</label>
-        <locationX>974</locationX>
-        <locationY>974</locationY>
+        <locationX>1942</locationX>
+        <locationY>1190</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>For_Program_Plan</name>
@@ -351,8 +653,8 @@
     <recordLookups>
         <name>Get_Course_Record</name>
         <label>Get Course Record</label>
-        <locationX>1106</locationX>
-        <locationY>1094</locationY>
+        <locationX>2074</locationX>
+        <locationY>1310</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Course_Design_Sent</targetReference>
@@ -372,7 +674,7 @@
     <recordLookups>
         <name>Get_Product_Request_Record</name>
         <label>Get Product Request Record</label>
-        <locationX>1700</locationX>
+        <locationX>3284</locationX>
         <locationY>158</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -396,8 +698,8 @@
     <recordLookups>
         <name>Get_Program_Plan_Record</name>
         <label>Get Program Plan Record</label>
-        <locationX>314</locationX>
-        <locationY>1094</locationY>
+        <locationX>1282</locationX>
+        <locationY>1310</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Is_Program_Design_Sent</targetReference>
@@ -417,8 +719,8 @@
     <recordUpdates>
         <name>Update_Program_Plan_Design_Form_Status</name>
         <label>Update Program Plan Design Form Status</label>
-        <locationX>50</locationX>
-        <locationY>1334</locationY>
+        <locationX>1018</locationX>
+        <locationY>1550</locationY>
         <faultConnector>
             <targetReference>Update_Design_Error</targetReference>
         </faultConnector>
@@ -441,8 +743,8 @@
     <recordUpdates>
         <name>Update_Status_to_Design_Form_Sent</name>
         <label>Update Status to Design Form Sent</label>
-        <locationX>842</locationX>
-        <locationY>1334</locationY>
+        <locationX>1810</locationX>
+        <locationY>1550</locationY>
         <faultConnector>
             <targetReference>Update_Design_Error</targetReference>
         </faultConnector>
@@ -465,8 +767,8 @@
     <screens>
         <name>Design_Form_Error</name>
         <label>Design Form Error</label>
-        <locationX>1898</locationX>
-        <locationY>974</locationY>
+        <locationX>3834</locationX>
+        <locationY>1190</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -481,7 +783,7 @@
     <screens>
         <name>Has_No_Requestor</name>
         <label>Has No Requestor</label>
-        <locationX>2162</locationX>
+        <locationX>4098</locationX>
         <locationY>398</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -495,9 +797,25 @@
         <showHeader>false</showHeader>
     </screens>
     <screens>
+        <name>Mobile_Not_Valid_Error</name>
+        <label>Mobile Not Valid Error</label>
+        <locationX>4362</locationX>
+        <locationY>398</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>Not_Valid_Message</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 16px; color: rgb(255, 0, 0); background-color: rgb(255, 255, 255);&quot;&gt;Please ensure that &lt;/span&gt;&lt;b style=&quot;font-size: 16px; color: rgb(255, 0, 0); background-color: rgb(255, 255, 255);&quot;&gt;Requestor Mobile&lt;/b&gt;&lt;span style=&quot;font-size: 16px; color: rgb(255, 0, 0); background-color: rgb(255, 255, 255);&quot;&gt; is Valid.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
         <name>Product_Request_Error</name>
         <label>Product Request Error</label>
-        <locationX>2690</locationX>
+        <locationX>4890</locationX>
         <locationY>278</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
@@ -513,7 +831,7 @@
     <screens>
         <name>Send_Design_Form_Screen</name>
         <label>Send Design Form Screen</label>
-        <locationX>974</locationX>
+        <locationX>1942</locationX>
         <locationY>398</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
@@ -532,8 +850,8 @@
     <screens>
         <name>Update_Design_Error</name>
         <label>Update  Design Error</label>
-        <locationX>1106</locationX>
-        <locationY>1454</locationY>
+        <locationX>2074</locationX>
+        <locationY>1670</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -546,7 +864,7 @@
         <showHeader>true</showHeader>
     </screens>
     <start>
-        <locationX>1574</locationX>
+        <locationX>3158</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Get_Product_Request_Record</targetReference>
@@ -603,7 +921,17 @@
             &lt;/p&gt;</text>
     </textTemplates>
     <variables>
-        <name>Activity_Design_Form_Link</name>
+        <name>Activity_Design_Form_Link_External</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <stringValue>https://qut.tfaforms.net/f/activity-request-form-external?id={!Get_Product_Request_Record.Id}</stringValue>
+        </value>
+    </variables>
+    <variables>
+        <name>Activity_Design_Form_Link_Internal</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
@@ -623,7 +951,17 @@
         </value>
     </variables>
     <variables>
-        <name>Module_Design_Form_Link</name>
+        <name>Module_Design_Form_Link_External</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <stringValue>https://qut.tfaforms.net/f/module-form-external?id={!Get_Product_Request_Record.Id}</stringValue>
+        </value>
+    </variables>
+    <variables>
+        <name>Module_Design_Form_Link_Internal</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
@@ -633,7 +971,17 @@
         </value>
     </variables>
     <variables>
-        <name>Program_Request_Design_Form_Link</name>
+        <name>Program_Design_Form_Link_External</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <stringValue>https://qut.tfaforms.net/f/program-design-form-external?id={!Get_Product_Request_Record.Id}</stringValue>
+        </value>
+    </variables>
+    <variables>
+        <name>Program_Design_Form_Link_Internal</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
@@ -657,7 +1005,17 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
-        <name>Short_Course_Design_Form_Link</name>
+        <name>Short_Course_Design_Form_Link_External</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <stringValue>https://qut.tfaforms.net/f/short-course-form-external?id={!Get_Product_Request_Record.Id}</stringValue>
+        </value>
+    </variables>
+    <variables>
+        <name>Short_Course_Design_Form_Link_Internal</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
@@ -674,7 +1032,17 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
-        <name>UnitDesignFormLink</name>
+        <name>Unit_Design_Form_Link_External</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <stringValue>https://qut.tfaforms.net/f/unit-form-external?id={!Get_Product_Request_Record.Id}</stringValue>
+        </value>
+    </variables>
+    <variables>
+        <name>Unit_Design_Form_Link_Internal</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
