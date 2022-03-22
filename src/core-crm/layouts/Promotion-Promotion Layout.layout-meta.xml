@@ -190,7 +190,6 @@
         <excludeButtons>New</excludeButtons>
         <fields>Name</fields>
         <fields>TargetType</fields>
-        <fields>Target</fields>
         <fields>AdjustmentType</fields>
         <fields>AdjustmentPercent</fields>
         <fields>AdjustmentAmount</fields>

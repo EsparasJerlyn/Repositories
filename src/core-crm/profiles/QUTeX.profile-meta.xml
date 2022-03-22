@@ -164,7 +164,7 @@
         <layout>hed__Program_Plan__c-OPE Program Request Page Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-    <layout>Promotion-Promotion Layout</layout>
+        <layout>Promotion-Promotion Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>PromotionTarget-Promotion Target Layout</layout>

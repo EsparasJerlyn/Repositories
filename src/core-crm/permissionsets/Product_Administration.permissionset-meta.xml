@@ -2068,9 +2068,9 @@
         <allowDelete>true</allowDelete>
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
-        <modifyAllRecords>false</modifyAllRecords>
+        <modifyAllRecords>true</modifyAllRecords>
         <object>Coupon</object>
-        <viewAllRecords>false</viewAllRecords>
+        <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
         <allowCreate>true</allowCreate>
@@ -2472,6 +2472,10 @@
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
+        <tab>standard-Coupon</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>    
         <tab>standard-Pricebook2</tab>
         <visibility>Visible</visibility>
     </tabSettings>
@@ -2481,10 +2485,6 @@
     </tabSettings>
     <tabSettings>
         <tab>standard-PromotionsWorkspace</tab>
-        <visibility>Visible</visibility>
-    </tabSettings>
-    <tabSettings>
-        <tab>standard-Coupon</tab>
         <visibility>Visible</visibility>
     </tabSettings>
 </PermissionSet>
