@@ -1,23 +1,25 @@
 /**
  * @description Controller Class for manageApplicationSection LWC
  * @see ../lwc/manageApplicationSection
- * 
+ *
  * @author Accenture
- * 
+ *
  * @history
  *    | Developer                 | Date                  | JIRA                 | Change Summary               |
       |---------------------------|-----------------------|----------------------|------------------------------|
-      | eccarius.karl.munoz       | February 08, 2022     | DEPP-1483            | Created file                 | 
-      | eccarius.karl.munoz       | February 28, 2022     | DEPP-1819            | Removed handling for Program | 
-      |                           |                       |                      | Plan due to program offering | 
-      |                           |                       |                      | id removal.                  | 
-      |                           |                       |                      |                              | 
- */
+      | eccarius.karl.munoz       | February 08, 2022     | DEPP-1483            | Created file                 |
+      | eccarius.karl.munoz       | February 28, 2022     | DEPP-1819            | Removed handling for Program |
+      |                           |                       |                      | Plan due to program offering |
+      |                           |                       |                      | id removal.                  |
+      |                           |                       |                      |                              |
+      | john.bo.a.pineda          | March 10, 2022        | DEPP-1463            | Modified Query to filter     |
+      |                           |                       |                      | only Application Questions   |
+*/
 public with sharing class ManageApplicationSectionCtrl {
 
      private static string studentRT = System.Label.RT_CourseConnection_Student;
      private static Id studentRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(studentRT).getRecordTypeId();
-     
+
      /**
       * @description Retrieves list of Application details of students
       * @param prodReqId - Record ID from record page
@@ -26,7 +28,7 @@ public with sharing class ManageApplicationSectionCtrl {
      @AuraEnabled(cacheable=true)
      public static List<ManageApplicationDetails> getStudentApplications(String prodReqId){
           List<ManageApplicationDetails> response = new List<ManageApplicationDetails>();
-          Product_Request__c productRequest = [SELECT RecordTypeId FROM Product_Request__c WHERE Id =: prodReqId LIMIT 1];                 
+          Product_Request__c productRequest = [SELECT RecordTypeId FROM Product_Request__c WHERE Id =: prodReqId LIMIT 1];
           response = getNonProgPlanApplications(prodReqId);
           return response;
      }
@@ -38,20 +40,20 @@ public with sharing class ManageApplicationSectionCtrl {
       */
      private static List<ManageApplicationDetails> getNonProgPlanApplications(String prodReqId){
           List<ManageApplicationDetails> response = new List<ManageApplicationDetails>();
-          
+
           Id courseOfferingId = [SELECT Id FROM hed__Course_Offering__c WHERE hed__Course__c IN (
                                    SELECT Id FROM hed__Course__c WHERE ProductRequestID__c =: prodReqId)]?.Id;
           if(courseOfferingId == null){
                return new List<ManageApplicationDetails>();
           }
           List<Questionnaire_Response_Summary__c> questionnaireResponseList = [
-               SELECT Id, Name, Contact__c, Questionnaire__r.Questionnaire_Type__c, Application_Status__c, Reason_for_Rejection__c 
-                 FROM Questionnaire_Response_Summary__c 
-                WHERE Course_Offering__c =: courseOfferingId 
+               SELECT Id, Name, Contact__c, Questionnaire__r.Questionnaire_Type__c, Application_Status__c, Reason_for_Rejection__c
+                 FROM Questionnaire_Response_Summary__c
+                WHERE Course_Offering__c =: courseOfferingId AND Questionnaire__r.Questionnaire_Type__c = 'Application Questions'
           ];
           List<hed__Course_Enrollment__c > courseConnections = [
-               SELECT Id, hed__Contact__c, hed__Contact__r.Name 
-                 FROM hed__Course_Enrollment__c 
+               SELECT Id, hed__Contact__c, hed__Contact__r.Name
+                 FROM hed__Course_Enrollment__c
                 WHERE hed__Course_Offering__c =: courseOfferingId AND RecordTypeId =: studentRecTypeId
           ];
 
@@ -66,9 +68,9 @@ public with sharing class ManageApplicationSectionCtrl {
                          if(question.Questionnaire__r.Questionnaire_Type__c == 'Application Questions'){
                               appDetails.applicationURL = '/' + question.Id;
                               appDetails.applicationName = question.Name;
-                         }                         
+                         }
                          response.add(appDetails);
-                    }                    
+                    }
                }
           }
           return response;
@@ -78,11 +80,11 @@ public with sharing class ManageApplicationSectionCtrl {
       * @description Updates Application details of students
       * @param id
       * @param applicationStatus
-      * @param reasonForRejection 
+      * @param reasonForRejection
       * @return String
       */
      @AuraEnabled
-     public static String updateStudentApplication(String id, String applicationStatus, String reasonForRejection){ 
+     public static String updateStudentApplication(String id, String applicationStatus, String reasonForRejection){
           Questionnaire_Response_Summary__c questionnaire = new Questionnaire_Response_Summary__c();
           questionnaire.Id = id;
           questionnaire.Application_Status__c = applicationStatus;
@@ -94,8 +96,8 @@ public with sharing class ManageApplicationSectionCtrl {
           catch (Exception e) {
                return 'The following exception has occurred: ' + e.getMessage();
           }
-     }   
-     
+     }
+
      @AuraEnabled(cacheable=true)
      public static List<String> getApplicationStatusValues(){
           List<String> response = new List<String>();
@@ -128,7 +130,7 @@ public with sharing class ManageApplicationSectionCtrl {
           @AuraEnabled
           public String applicationStatus;
           @AuraEnabled
-          public String reasonForRejection;          
+          public String reasonForRejection;
       }
 
 }

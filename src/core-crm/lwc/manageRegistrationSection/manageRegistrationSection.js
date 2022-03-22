@@ -1,16 +1,18 @@
 /**
- * @description Lightning Web Component for manage registration section in product offerings 
+ * @description Lightning Web Component for manage registration section in product offerings
  *              tab located in product request ope page..
- * 
+ *
  * @see ../classes/ManageRegistrationSectionCtrl.cls
- * 
+ *
  * @author Accenture
- * 
+ *
  * @history
  *    | Developer                 | Date                  | JIRA                 | Change Summary               |
       |---------------------------|-----------------------|----------------------|------------------------------|
-      | eccarius.karl.munoz       | February 09, 2022     | DEPP-1482            | Created file                 | 
-      |                           |                       |                      |                              | 
+      | eccarius.karl.munoz       | February 09, 2022     | DEPP-1482            | Created file                 |
+      | eugene.andrew.abuan       | March 10, 2022        | DEPP-2037            | Modified to add Export       |
+      |                           |                       |                      | Learners List button logic   |
+      |                           |                       |                      |                              |
  */
 
 import { api, LightningElement, wire } from 'lwc';
@@ -30,12 +32,13 @@ const ERROR_VARIANT = 'error';
 const NO_REC_FOUND = 'No record(s) found.';
 const MODAL_TITLE = 'Registration Details'
 const SECTION_HEADER = 'Manage Registrations Overview';
+const COLUMN_HEADER = 'First Name,Last Name,Contact Email,Birthdate,Registration Status,LMS Integration Status'
 
 export default class ManageRegistrationSection extends LightningElement {
 
     @api prodReqId;
 
-    searchField = '';  
+    searchField = '';
     picklistValue = '';
     rowRegStatus = '';
     rowPaidInFull = '';
@@ -48,18 +51,20 @@ export default class ManageRegistrationSection extends LightningElement {
     isDisabled = true;
     isForRejection = false;
     error;
-    registrationStatusValues;  
+    registrationStatusValues;
     registrationStatusModal;
     paidInFullValues;
     records = [];
-    recordsTemp = [];    
+    recordsTemp = [];
 
     columns = [
         { label: 'Full Name', fieldName: 'contactFullName', type: 'text', sortable: true },
+        { label: 'Payment Method', fieldName: 'paymentMethod', type: 'text', sortable: true },
         { label: 'Paid in Full', fieldName: 'paidInFull', type: 'text', sortable: true },
         { label: 'Registration Status', fieldName: 'registrationStatus', type: 'text', sortable: true },
+        { label: 'LMS Integration Status', fieldName: 'lmsIntegrationStatus', type: 'text', sortable: true },
         { label: 'Registration Questions', fieldName: 'applicationURL', sortable: true, type: 'url', typeAttributes: {label: 'View', target: '_blank'} }
-    ];        
+    ];
 
     //Retrieves Student Registration
     tableData;
@@ -67,9 +72,9 @@ export default class ManageRegistrationSection extends LightningElement {
     wiredRegistrationDetails(result) {
         this.isLoading = true;
         this.tableData = result;
-        if(result.data){                 
-            this.records = result.data;   
-            this.recordsTemp = result.data;             
+        if(result.data){
+            this.records = result.data;
+            this.recordsTemp = result.data;
             if(this.records.length === 0){
                 this.empty = true;
             }
@@ -80,8 +85,8 @@ export default class ManageRegistrationSection extends LightningElement {
             this.recordsTemp = undefined;
             this.error = result.error;
             this.isLoading = false;
-        }    
-    }    
+        }
+    }
 
     //Retrieves Registration Status Picklist Values
     @wire(getRegistrationStatusValues)
@@ -89,14 +94,14 @@ export default class ManageRegistrationSection extends LightningElement {
         if(result.data) {
             const resp = result.data;
             this.registrationStatusValues = resp.map(type => {
-                return { label: type,  value: type };
-            });    
+                return { label: type, value: type };
+            });
             this.registrationStatusModal = resp.map(type => {
-                return { label: type,  value: type };
-            });   
+                return { label: type, value: type };
+            });
             this.registrationStatusValues.unshift({ label: 'All', value: '' });
         }
-    }    
+    }
 
     //Retrieves Paid in Full Picklist Values
     @wire(getPaidInFullValues)
@@ -104,10 +109,10 @@ export default class ManageRegistrationSection extends LightningElement {
         if(result.data) {
             const resp = result.data;
             this.paidInFullValues = resp.map(type => {
-                return { label: type,  value: type };
-            });    
+                return { label: type, value: type };
+            });
         }
-    } 
+    }
 
     //handles opening of modal
     handleOpenModal(event){
@@ -118,7 +123,7 @@ export default class ManageRegistrationSection extends LightningElement {
         this.rowId = row.id;
         this.modalName = row.contactFullName;
         this.rowQuestId = row.questionId;
-    }   
+    }
 
     closeModalAction(){
         this.isModalOpen = false;
@@ -127,42 +132,43 @@ export default class ManageRegistrationSection extends LightningElement {
 
     handlePaidInFull(event){
         this.isDisabled = false;
-        this.rowPaidInFull = event.detail.value;            
+        this.rowPaidInFull = event.detail.value;
     }
-    
+
     handleRegStatusModal(event){
-        this.isDisabled = false;    
-        this.rowRegStatus = event.detail.value;            
-    }    
+        this.isDisabled = false;
+        this.rowRegStatus = event.detail.value;
+    }
 
     //handles saving of record from modal
     handleModalSave(){
         let response;
-        this.isLoading = true;          
+        this.isLoading = true;
         this.isModalOpen = false;
         this.isDisabled = true;
-        updateRegistration({ 
-            id: this.rowId, 
-            questionId: this.rowQuestId, 
-            registrationStatus : this.rowRegStatus, 
-            paidInFull : this.rowPaidInFull })
+        updateRegistration({
+            id: this.rowId,
+            questionId: this.rowQuestId,
+            registrationStatus: this.rowRegStatus,
+            paidInFull: this.rowPaidInFull
+        })
             .then((result) => {
                 response = result;
             })
-            .catch((error) => {                    
+            .catch((error) => {
                 response = error;
             })
             .finally(() => {
                 this.picklistValue = '';
                 this.searchField = '';
-                this.isLoading = false;   
+                this.isLoading = false;
                 if(response === 'Success'){
                     this.generateToast(SUCCESS_TITLE, SUCCESS_MSG, SUCCESS_VARIANT);
-                }else{
+                } else {
                     this.generateToast(ERROR_TITLE, LWC_Error_General, ERROR_VARIANT);
                 }
                 refreshApex(this.tableData);
-            });   
+            });
     }
 
     handleSearch(event){
@@ -179,14 +185,14 @@ export default class ManageRegistrationSection extends LightningElement {
     searchRecord(){
         if(this.searchField || this.picklistValue){
             this.empty = false;
-            this.records = [...this.recordsTemp];      
+            this.records = [...this.recordsTemp];
             this.records = this.records
-                .filter( product => product.contactFullName.toLowerCase().includes(this.searchField.toLowerCase()))
-                .filter( product => product.registrationStatus && product.registrationStatus.includes(this.picklistValue)
-            );           
-        }else{
+                .filter(product => product.contactFullName.toLowerCase().includes(this.searchField.toLowerCase()))
+                .filter(product => product.registrationStatus && product.registrationStatus.includes(this.picklistValue)
+            );
+        } else {
             this.empty = false;
-            this.records = [...this.recordsTemp];          
+            this.records = [...this.recordsTemp];
         }
         if(this.records.length === 0){
             this.empty = true;
@@ -204,15 +210,59 @@ export default class ManageRegistrationSection extends LightningElement {
         this.searchRecord();
     }
 
+    //handles the exporting of list of learners via csv file.
+    handleExportLearnersList(){
+
+        let rowEnd = '\n';
+        let csvString = '';
+        let arrangedKeys = ['contactFirstName', 'contactLastName', 'contactEmail', 'contactBirthdate', 'registrationStatus', 'lmsIntegrationStatus'];
+
+        // this set elminates the duplicates if have any duplicate keys
+        let rowData = new Set();
+
+        // Array.from() method returns an Array object from any object with a length property or an iterable object.
+        rowData = Array.from(arrangedKeys);
+
+        csvString += COLUMN_HEADER;
+        csvString += rowEnd;
+
+        // main for loop to get the data based on key value
+        for(let i=0; i < this.records.length; i++){
+            let colValue = 0;
+            // validating keys in data
+            for(let key in rowData) {
+                if(rowData.hasOwnProperty(key)) {
+                    let rowKey = rowData[key];
+                    // add , after every value except the first.
+                    if(colValue > 0){
+                        csvString += ',';
+                    }
+                    // If the column is undefined, it as blank in the CSV file.
+                    let value = this.records[i][rowKey] === undefined ? '' : this.records[i][rowKey];
+                    csvString += '"'+ value +'"';
+                    colValue++;
+                }
+            }
+            csvString += rowEnd;
+        }
+        // Creating anchor element to download
+        let downloadElement = document.createElement('a');
+        downloadElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csvString);
+        downloadElement.target = '_self';
+        downloadElement.download = 'Exported Learners List.csv';
+        document.body.appendChild(downloadElement);
+        downloadElement.click();
+    }
+
     //Function to generate toastmessage
-    generateToast(_title,_message,_variant){
+    generateToast(_title, _message, _variant){
         const evt = new ShowToastEvent({
             title: _title,
             message: _message,
             variant: _variant,
         });
         this.dispatchEvent(evt);
-    }   
+    }
 
     get modalTitle(){ return MODAL_TITLE; }
     get modalName() {return this.modalName;}

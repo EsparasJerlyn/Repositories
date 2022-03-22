@@ -1,34 +1,38 @@
 /**
  * @description Controller Class for manageRegistrationSection LWC
  * @see ../lwc/manageRegistrationSection
- * 
+ *
  * @author Accenture
- * 
+ *
  * @history
  *    | Developer                 | Date                  | JIRA                 | Change Summary               |
       |---------------------------|-----------------------|----------------------|------------------------------|
-      | eccarius.karl.munoz       | February 09, 2022     | DEPP-1482            | Created file                 | 
-      | eccarius.karl.munoz       | February 28, 2022     | DEPP-1819            | Removed handling for Program | 
-      |                           |                       |                      | Plan due to program offering | 
-      |                           |                       |                      | id removal.                  | 
-      |                           |                       |                      |                              | 
+      | eccarius.karl.munoz       | February 09, 2022     | DEPP-1482            | Created file                 |
+      | eccarius.karl.munoz       | February 28, 2022     | DEPP-1819            | Removed handling for Program |
+      |                           |                       |                      | Plan due to program offering |
+      |                           |                       |                      | id removal.                  |
+      |                           |                       |                      |                              |
+      | john.bo.a.pineda          | March 10, 2022        | DEPP-1463            | Modified code to include     |
+      |                           |                       |                      | additional fields for        |
+      |                           |                       |                      | Export Learners List and     |
+      |                           |                       |                      | Query to filter only         |
+      |                           |                       |                      | Registration Questions       |
+      |                           |                       |                      |                              |
  */
 public with sharing class ManageRegistrationSectionCtrl {
 
      private static string studentRT = System.Label.RT_CourseConnection_Student;
      private static Id studentRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(studentRT).getRecordTypeId();
-     
+
      /**
       * @description Retrieves list of Registration details of students
       * @param prodReqId - Record ID from record page
       * @return List of ManageRegistrationDetails
       */
      @AuraEnabled(cacheable=true)
-     public static List<ManageRegistrationDetails> getRegistrationDetails(String prodReqId){          
-          List<ManageRegistrationDetails> response = new List<ManageRegistrationDetails>();
-          Product_Request__c productRequest = [SELECT RecordTypeId FROM Product_Request__c WHERE Id =: prodReqId LIMIT 1];       
-          response = getNonProgPlanRegistrations(prodReqId);          
-          return response;
+     public static List<ManageRegistrationDetails> getRegistrationDetails(String prodReqId){
+          Product_Request__c productRequest = [SELECT RecordTypeId FROM Product_Request__c WHERE Id =: prodReqId LIMIT 1];
+          return getNonProgPlanRegistrations(prodReqId);
      }
 
      /**
@@ -44,13 +48,13 @@ public with sharing class ManageRegistrationSectionCtrl {
                return new List<ManageRegistrationDetails>();
           }
           List<Questionnaire_Response_Summary__c> questionnaireResponseList = [
-               SELECT Id, Name, Contact__c, Course_Offering__c, Questionnaire__c, Questionnaire__r.Questionnaire_Type__c, Registration_Status__c 
-                 FROM Questionnaire_Response_Summary__c 
-                WHERE Course_Offering__c =: courseOfferingId
+               SELECT Id, Name, Contact__c, Course_Offering__c, Questionnaire__c, Questionnaire__r.Questionnaire_Type__c, Registration_Status__c
+                 FROM Questionnaire_Response_Summary__c
+                WHERE Course_Offering__c =: courseOfferingId AND Questionnaire__r.Questionnaire_Type__c = 'Registration Questions'
           ];
           List<hed__Course_Enrollment__c > courseConnections = [
-               SELECT Id, Name, hed__Contact__c, hed__Contact__r.Name, hed__Course_Offering__c, Paid_in_Full__c, hed__Status__c 
-                 FROM hed__Course_Enrollment__c 
+               SELECT Id, Name, hed__Contact__c, hed__Contact__r.Name, hed__Course_Offering__c, Paid_in_Full__c, hed__Status__c, LMS_Integration_Status__c, hed__Contact__r.FirstName, hed__Contact__r.LastName, hed__Contact__r.Birthdate, hed__Contact__r.Email, Payment_Method__c
+                 FROM hed__Course_Enrollment__c
                 WHERE hed__Course_Offering__c =: courseOfferingId AND RecordTypeId =: studentRecTypeId
           ];
           for(hed__Course_Enrollment__c student : courseConnections){
@@ -62,16 +66,23 @@ public with sharing class ManageRegistrationSectionCtrl {
                          regDetails.contactFullName = student.hed__Contact__r.Name;
                          regDetails.paidInFull = student.Paid_in_Full__c;
                          regDetails.registrationStatus = question.Registration_Status__c;
+                         regDetails.lmsIntegrationStatus = student.LMS_Integration_Status__c;
+                         regDetails.contactFirstName = student.hed__Contact__r.FirstName;
+                         regDetails.contactLastName = student.hed__Contact__r.LastName;
+                         regDetails.contactBirthdate = student.hed__Contact__r.Birthdate;
+                         regDetails.contactEmail = student.hed__Contact__r.Email;
+                         regDetails.paymentMethod = student.Payment_Method__c;
+
                          if(question.Questionnaire__r.Questionnaire_Type__c == 'Registration Questions'){
                               regDetails.applicationURL = '/' + question.Id;
                               regDetails.applicationName = question.Name;
-                         }                         
+                         }
                          response.add(regDetails);
-                    }                    
+                    }
                }
           }
           return response;
-     }     
+     }
 
      /**
       * @description Updates Registration details of students
@@ -82,7 +93,7 @@ public with sharing class ManageRegistrationSectionCtrl {
       * @return String
       */
      @AuraEnabled
-     public static String updateRegistration(String id, String questionId, String registrationStatus, String paidInFull){ 
+     public static String updateRegistration(String id, String questionId, String registrationStatus, String paidInFull){
           hed__Course_Enrollment__c student = new hed__Course_Enrollment__c();
           student.Id = id;
           student.Paid_in_Full__c = paidInFull;
@@ -95,14 +106,14 @@ public with sharing class ManageRegistrationSectionCtrl {
                }
                if(questionnaire.Id !=null){
                     update questionnaire;
-               }               
+               }
                return 'Success';
           }
           catch (Exception e) {
                return 'The following exception has occurred: ' + e.getMessage();
           }
-     }  
-      
+     }
+
      /**
       *  @description Retrieves list of picklist values for paid in full field
       *  @return List<String>
@@ -160,8 +171,20 @@ public with sharing class ManageRegistrationSectionCtrl {
           @AuraEnabled
           public String registrationStatus;
           @AuraEnabled
-          public String applicationName;      
+          public String lmsIntegrationStatus;
           @AuraEnabled
-          public String applicationURL;  
-      }     
+          public String contactFirstName;
+          @AuraEnabled
+          public String contactLastName;
+          @AuraEnabled
+          public Date contactBirthdate;
+          @AuraEnabled
+          public String contactEmail;
+          @AuraEnabled
+          public String paymentMethod;
+          @AuraEnabled
+          public String applicationName;
+          @AuraEnabled
+          public String applicationURL;
+      }
 }
