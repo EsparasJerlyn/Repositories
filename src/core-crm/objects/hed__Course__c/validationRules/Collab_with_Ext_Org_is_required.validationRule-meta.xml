@@ -15,9 +15,10 @@
   OR(
    ISPICKVAL( Design_Form_Status__c , &apos;Design Form Sent&apos;),
    ISPICKVAL( Design_Form_Status__c , &apos;Design Form Received&apos;)
-  ) 
+  )
  ),
- ISBLANK( TEXT ( Collaboration_with_External_Organisation__c ) )
+ ISBLANK( TEXT ( Collaboration_with_External_Organisation__c )),
+ Mark_Design_Stage_as_Complete__c = true
 )</errorConditionFormula>
     <errorDisplayField>Collaboration_with_External_Organisation__c</errorDisplayField>
     <errorMessage>“Collaboration with External Organisation” is required to update the Product Request Status.</errorMessage>

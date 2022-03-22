@@ -12,7 +12,8 @@ ISPICKVAL( PP_Design_Form_Status__c , &apos;Design Form Sent&apos;),
 ISPICKVAL( PP_Design_Form_Status__c , &apos;Design Form Received&apos;)
 )
 ),
-ISBLANK( hed__End_Date__c )
+ISBLANK( hed__End_Date__c ),
+Mark_Design_Stage_as_Complete__c = true
 )</errorConditionFormula>
     <errorDisplayField>hed__End_Date__c</errorDisplayField>
     <errorMessage>“End Date” is required to update the Product Request Status.</errorMessage>

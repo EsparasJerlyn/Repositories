@@ -15,10 +15,11 @@
   OR(
    ISPICKVAL( Design_Form_Status__c , &apos;Design Form Sent&apos;),
    ISPICKVAL( Design_Form_Status__c , &apos;Design Form Received&apos;)
-  ) 
+  )
  ),
  ISPICKVAL(  Collaboration_with_External_Organisation__c , &apos;Yes&apos;),
- ISBLANK(  External_Organisation__c )
+ ISBLANK(  External_Organisation__c ),
+ Mark_Design_Stage_as_Complete__c = true
 )</errorConditionFormula>
     <errorDisplayField>External_Organisation__c</errorDisplayField>
     <errorMessage>“External Organisation Details” is required to update the Product Request Status.</errorMessage>

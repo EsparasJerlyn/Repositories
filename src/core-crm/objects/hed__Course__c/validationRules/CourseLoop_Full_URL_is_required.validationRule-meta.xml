@@ -13,9 +13,10 @@ ISPICKVAL( ProductRequestID__r.Product_Request_Status__c , &apos;Design&apos;),
   OR(
    ISPICKVAL( Design_Form_Status__c , &apos;Design Form Sent&apos;),
    ISPICKVAL( Design_Form_Status__c , &apos;Design Form Received&apos;)
-  ) 
+  )
  ),
-ISBLANK( CourseLoop_Full_Proposal_URL__c )
+ISBLANK( CourseLoop_Full_Proposal_URL__c ),
+Mark_Design_Stage_as_Complete__c = true
 )</errorConditionFormula>
     <errorDisplayField>CourseLoop_Full_Proposal_URL__c</errorDisplayField>
     <errorMessage>&apos;CourseLoop Full Proposal URL&apos; is required.</errorMessage>

@@ -3,16 +3,17 @@
     <fullName>Credits_is_required</fullName>
     <active>true</active>
     <errorConditionFormula>AND (
- RecordType.DeveloperName = &apos;Unit&apos;, 
+ RecordType.DeveloperName = &apos;Unit&apos;,
  ISPICKVAL( ProductRequestID__r.Product_Request_Status__c , &apos;Design&apos;),
  AND(
   NOT (ISCHANGED( Design_Form_Status__c ) ),
   OR(
    ISPICKVAL( Design_Form_Status__c , &apos;Design Form Sent&apos;),
    ISPICKVAL( Design_Form_Status__c , &apos;Design Form Received&apos;)
-  ) 
+  )
  ),
- ISBLANK(  Credits__c )
+ ISBLANK(  Credits__c ),
+ Mark_Design_Stage_as_Complete__c = true
 )</errorConditionFormula>
     <errorDisplayField>Credits__c</errorDisplayField>
     <errorMessage>“Credits” is required to update the Product Request Status.</errorMessage>

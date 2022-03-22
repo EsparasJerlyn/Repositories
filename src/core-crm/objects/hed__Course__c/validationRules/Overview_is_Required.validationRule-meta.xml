@@ -8,7 +8,7 @@
   OR (  RecordType.DeveloperName = &apos;Activity&apos;,
         RecordType.DeveloperName = &apos;Short_Course&apos;,
         RecordType.DeveloperName = &apos;Unit&apos;,
-        RecordType.DeveloperName = &apos;Module&apos; 
+        RecordType.DeveloperName = &apos;Module&apos;
   ),
 
  ISPICKVAL( ProductRequestID__r.Product_Request_Status__c , &apos;Design&apos;),
@@ -17,9 +17,10 @@
   OR(
    ISPICKVAL( Design_Form_Status__c , &apos;Design Form Sent&apos;),
    ISPICKVAL( Design_Form_Status__c , &apos;Design Form Received&apos;)
-  ) 
+  )
  ),
- LEN( Overview__c )=0
+ LEN( Overview__c )=0,
+ Mark_Design_Stage_as_Complete__c = true
 )</errorConditionFormula>
     <errorDisplayField>Overview__c</errorDisplayField>
     <errorMessage>&quot;Overview&quot; is required to mark as complete.</errorMessage>

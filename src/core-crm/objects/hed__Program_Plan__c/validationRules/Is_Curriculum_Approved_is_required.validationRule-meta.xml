@@ -12,7 +12,8 @@ ISPICKVAL( PP_Design_Form_Status__c , &apos;Design Form Sent&apos;),
 ISPICKVAL( PP_Design_Form_Status__c , &apos;Design Form Received&apos;)
 )
 ),
- PP_Is_curriculum_approved__c = false
+ PP_Is_curriculum_approved__c = false,
+ Mark_Design_Stage_as_Complete__c = true
 )</errorConditionFormula>
     <errorDisplayField>PP_Is_curriculum_approved__c</errorDisplayField>
     <errorMessage>“Is Curriculum Approved” is required to update the Product Request Status.</errorMessage>

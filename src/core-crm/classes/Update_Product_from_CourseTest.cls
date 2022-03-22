@@ -9,7 +9,7 @@
  *    | Developer                 | Date                  | JIRA         | Change Summary                              |
       |---------------------------|-----------------------|--------------|---------------------------------------------|
       | eccarius.munoz            | January 28, 2022      | DEPP-1472    | Created File                                |
-      |                           |                       |              |                                             |
+      | justine.javier            | March 22, 2022        | DEPP-2086    | Added MMark_Design_Stage_as_Complete__c     |
 */
 @IsTest(SeeAllData = false)
 private class Update_Product_from_CourseTest{
@@ -31,9 +31,9 @@ private class Update_Product_from_CourseTest{
 
     @isTest
     private static void createProductFromCourseTest(){
-        System.runAs(currentUser){            
+        System.runAs(currentUser){
             createCourse(opeActProdReqId);
-            List<hed__Course__c> courses = [SELECT id, OPE_Design_Complete__c, ProductRequestID__c, Core_Concepts__c,
+            List<hed__Course__c> courses = [SELECT id, ProductRequestID__c, Core_Concepts__c,
                                                 hed__Description__c, End_Date__c, More_Details__c,
                                                 Name, Overview__c, Start_Date__c, Who_Should_Participate__c
                                             FROM hed__Course__c LIMIT 100];
@@ -80,7 +80,7 @@ private class Update_Product_from_CourseTest{
             List<Product_Request__c> productRequests = [SELECT Id, Product_Request_Status__c FROM Product_Request__c LIMIT 100];
 
 
-            List<hed__Program_Plan__c> programPlansToUpdate = [SELECT Id, OPE_Design_Complete__c, Product_Request__c, Core_Concepts__c,
+            List<hed__Program_Plan__c> programPlansToUpdate = [SELECT Id, Product_Request__c, Core_Concepts__c,
                                                                     hed__Description__c, hed__End_Date__c, More_Details__c,
                                                                     Name, Overview__c, hed__Start_Date__c, Who_Should_Participate__c
                                                                 FROM hed__Program_Plan__c LIMIT 100];
@@ -97,6 +97,7 @@ private class Update_Product_from_CourseTest{
                 programPlansToUpdate[i].Core_Concepts__c  = 'test' + i;
                 programPlansToUpdate[i].Courseloop_Full_URL__c  = 'test' + i;
                 programPlansToUpdate[i].PP_Is_curriculum_approved__c  = true;
+                programPlansToUpdate[i].Mark_Design_Stage_as_Complete__c=true;
             }
             update programPlansToUpdate;
 
@@ -150,7 +151,7 @@ private class Update_Product_from_CourseTest{
                 courses[i].Primary_Delivery_Platform__c = 'Blackboard';
                 courses[i].Owning_Faculty__c = accounts[0].Id;
                 courses[i].Owning_School_Discipline_Area__c = accounts[0].Id;
-                courses[i].Overview__c = 'test';  
+                courses[i].Overview__c = 'test';
                 courses[i].Location__c = facility.Id;
                 courses[i].Location_Details__c = 'test';
                 courses[i].Minimum_Participants__c = 1;
@@ -164,6 +165,7 @@ private class Update_Product_from_CourseTest{
                 courses[i].CourseLoop_Initial_Proposal_URL__c = 'test';
                 courses[i].Is_Curriculum_Approved__c = true;
                 courses[i].CourseLoop_Full_Proposal_URL__c = 'test';
+                courses[i].Mark_Design_Stage_as_Complete__c = true;
             }
             insert courses;
         }

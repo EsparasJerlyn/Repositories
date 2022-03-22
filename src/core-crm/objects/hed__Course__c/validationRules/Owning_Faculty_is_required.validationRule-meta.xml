@@ -8,7 +8,7 @@
   OR (  RecordType.DeveloperName = &apos;Activity&apos;,
         RecordType.DeveloperName = &apos;Short_Course&apos;,
         RecordType.DeveloperName = &apos;Unit&apos;,
-        RecordType.DeveloperName = &apos;Module&apos; 
+        RecordType.DeveloperName = &apos;Module&apos;
   ),
 
  ISPICKVAL( ProductRequestID__r.Product_Request_Status__c , &apos;Design&apos;),
@@ -17,9 +17,10 @@
   OR(
    ISPICKVAL( Design_Form_Status__c , &apos;Design Form Sent&apos;),
    ISPICKVAL( Design_Form_Status__c , &apos;Design Form Received&apos;)
-  ) 
+  )
  ),
- ISBLANK( Owning_Faculty__c )
+ ISBLANK( Owning_Faculty__c ),
+ Mark_Design_Stage_as_Complete__c = true
 )</errorConditionFormula>
     <errorDisplayField>Owning_Faculty__c</errorDisplayField>
     <errorMessage>&quot;Owning Faculty&quot; is required to mark as complete.</errorMessage>

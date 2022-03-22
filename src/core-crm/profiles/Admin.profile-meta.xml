@@ -2497,6 +2497,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>hed__Course__c.Mark_Design_Stage_as_Complete__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>hed__Course__c.Module_Category__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3403,6 +3408,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Program_Plan__c.IsComplete__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Program_Plan__c.Mark_Design_Stage_as_Complete__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

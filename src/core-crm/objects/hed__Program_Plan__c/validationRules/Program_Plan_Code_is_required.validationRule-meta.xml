@@ -12,7 +12,8 @@ ISPICKVAL( PP_Design_Form_Status__c , &apos;Design Form Sent&apos;),
 ISPICKVAL( PP_Design_Form_Status__c , &apos;Design Form Received&apos;)
 )
 ),
-ISBLANK( Code__c )
+ISBLANK( Code__c ),
+Mark_Design_Stage_as_Complete__c = true
 )</errorConditionFormula>
     <errorDisplayField>Code__c</errorDisplayField>
     <errorMessage>“Program Plan Code” is required to update the Product Request Status.</errorMessage>

@@ -14,7 +14,6 @@
  *      parent-field-api-name (string, required) : API name of the parent field in the child object
  *      grand-parent-field-api-name (string, optional) : API name of the grandparent field in the child object (This is for a parent-child-grandchild layout traversal)
  *      tab (string, optional) : Tab where the layout is placed
- *      with-mark-as-complete (string, optional) : Set to true if Mark As Complete button has to be included
  *      
  * @history
  *    | Developer                 | Date                  | JIRA                | Change Summary                                         |
@@ -29,22 +28,12 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import LWC_Error_General from '@salesforce/label/c.LWC_Error_General';
 import LWC_Error_NoAccess from '@salesforce/label/c.LWC_Error_NoAccess';
 import LWC_Toast_DesignComplete from '@salesforce/label/c.LWC_Toast_DesignComplete';
-import LWC_Note_CourseCompletion from '@salesforce/label/c.LWC_Note_CourseCompletion';
-import LWC_Note_ProgramPlanCompletion from '@salesforce/label/c.LWC_Note_ProgramPlanCompletion';
 import PL_ProductRequest_Release from '@salesforce/label/c.PL_ProductRequest_Release';
 import HAS_PERMISSION from '@salesforce/customPermission/EditDesignAndReleaseTabsOfProductRequest';
-import COURSE from '@salesforce/schema/hed__Course__c';
-import C_OPE_DESIGN_COMPLETE from '@salesforce/schema/hed__Course__c.OPE_Design_Complete__c';
 import PROGRAM_PLAN from '@salesforce/schema/hed__Program_Plan__c';
-import PP_OPE_DESIGN_COMPLETE from '@salesforce/schema/hed__Program_Plan__c.OPE_Design_Complete__c';
 import PR_STATUS from '@salesforce/schema/Product_Request__c.Product_Request_Status__c';
 import getChildRecordId from '@salesforce/apex/CustomLayoutCtrl.getChildRecordId';
 
-//this contains flag fields for mark as complete button
-const OPE_COMPLETE_FIELDS = {
-    [COURSE.objectApiName] : C_OPE_DESIGN_COMPLETE,
-    [PROGRAM_PLAN.objectApiName] : PP_OPE_DESIGN_COMPLETE
-};
 export default class CreateRecordUI extends LightningElement {
     @api objectApiName;
     @api recordId;
@@ -53,7 +42,6 @@ export default class CreateRecordUI extends LightningElement {
     @api parentObjectApiName;
     @api parentFieldApiName;
     @api grandParentFieldApiName;
-    @api withMarkAsComplete;
     @api tab;
     @api isProgram;
     
@@ -62,9 +50,9 @@ export default class CreateRecordUI extends LightningElement {
     activeSections = [];
     uiRecord;
     childRecordId;
-    opeDesignValue;
     editMode = false;
     isLoading = true;
+    isComplete;
 
     //decides if user has access to this feature
     get hasAccess(){
@@ -106,37 +94,9 @@ export default class CreateRecordUI extends LightningElement {
         return _data;
     }
 
-    //decides if the layout has a mark as complete button
-    get showMarkAsComplete(){
-        return this.withMarkAsComplete && !this.editMode;
-    }
-
     //disables edit button if status does not match specified tab
     get disableEditButton(){
         return this.tab && this.parentRecord.status !== this.tab;
-    }
-
-    //decides whether to enable/disable mark as complete button
-    get opeDesignComplete() {
-        if(this.disableEditButton){
-            return true;
-        }
-        return this.opeDesignValue ? false : true;
-    }
-
-    //decides if text note should display
-    get displayNote(){
-        if(this.disableEditButton || this.opeDesignValue){
-            return '';
-        }
-        return this.isProgram ? 
-            LWC_Note_ProgramPlanCompletion : 
-            LWC_Note_CourseCompletion;
-    }
-
-    //gets flag field for mark as complete
-    get childCompleteField(){
-        return [OPE_COMPLETE_FIELDS[this.childObjectApiName]];
     }
 
     //gets product request status
@@ -144,16 +104,6 @@ export default class CreateRecordUI extends LightningElement {
     handleParentRecord(result){
         if(result.data){
             this.parentRecord.status = getFieldValue(result.data,PR_STATUS);
-        }else if(result.error){
-            this.generateToast('Error.',LWC_Error_General,'error');
-        }
-    }
-
-    //gets value of flag field for mark as complete
-    @wire(getRecord, { recordId: '$childRecordId', fields: '$childCompleteField' })
-    handleChildRecord(result){
-        if(result.data){
-            this.opeDesignValue = getFieldValue(result.data, OPE_COMPLETE_FIELDS[this.childObjectApiName]);
         }else if(result.error){
             this.generateToast('Error.',LWC_Error_General,'error');
         }
@@ -207,12 +157,13 @@ export default class CreateRecordUI extends LightningElement {
 
     //enables spinner on save
     handleSubmit(event){
+        let eventFields = event.detail.fields;
         this.isLoading = true;
-
+        this.isComplete = eventFields.Mark_Design_Stage_as_Complete__c;
         //for Program record type (real-time product request tab update)
         if(this.childObjectApiName == PROGRAM_PLAN.objectApiName){
             this.programTypeFields.Id = this.recordId;
-            this.programTypeFields.OPE_Program_Plan_Type__c = event.detail.fields.Program_Type__c;
+            this.programTypeFields.OPE_Program_Plan_Type__c = eventFields.Program_Type__c;
         }
     }
 
@@ -221,6 +172,11 @@ export default class CreateRecordUI extends LightningElement {
         this.editMode = false;
         this.isLoading = false;
         
+        //checks if design stage is marked as complete
+        if(this.isComplete){
+            this.handleMarkAsComplete();
+        }
+
         //for Program record type (real-time product request tab update)
         if(this.childObjectApiName == PROGRAM_PLAN.objectApiName){
             this.handleUpdateRecord(this.programTypeFields,false);

@@ -17,7 +17,8 @@
    ISPICKVAL( Design_Form_Status__c , &apos;Design Form Received&apos;)
   )
  ),
- ISBLANK( Resource_Detailsv2__c )
+ ISBLANK( Resource_Detailsv2__c ),
+ Mark_Design_Stage_as_Complete__c = true
 )</errorConditionFormula>
     <errorDisplayField>Resource_Detailsv2__c</errorDisplayField>
     <errorMessage>“Resource Details” is required to update the Product Request Status.</errorMessage>

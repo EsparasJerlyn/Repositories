@@ -12,7 +12,8 @@ ISPICKVAL( PP_Design_Form_Status__c , &apos;Design Form Sent&apos;),
 ISPICKVAL( PP_Design_Form_Status__c , &apos;Design Form Received&apos;)
 )
 ),
-LEN (Core_Concepts__c ) = 0
+LEN (Core_Concepts__c ) = 0,
+Mark_Design_Stage_as_Complete__c = true
 )</errorConditionFormula>
     <errorDisplayField>Core_Concepts__c</errorDisplayField>
     <errorMessage>“Core Concepts” is required to update the Product Request Status.</errorMessage>

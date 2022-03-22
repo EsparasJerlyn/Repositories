@@ -10,9 +10,10 @@
   OR(
    ISPICKVAL( Design_Form_Status__c , &apos;Design Form Sent&apos;),
    ISPICKVAL( Design_Form_Status__c , &apos;Design Form Received&apos;)
-  ) 
+  )
  ),
- ISBLANK( TEXT ( Unit_Category__c ) )
+ ISBLANK( TEXT ( Unit_Category__c ) ),
+ Mark_Design_Stage_as_Complete__c = true
 )</errorConditionFormula>
     <errorDisplayField>Unit_Category__c</errorDisplayField>
     <errorMessage>“Unit Category” is required to update the Product Request Status.</errorMessage>

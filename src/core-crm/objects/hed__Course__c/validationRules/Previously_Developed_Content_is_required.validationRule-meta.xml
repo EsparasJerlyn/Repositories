@@ -10,9 +10,10 @@
   OR(
    ISPICKVAL( Design_Form_Status__c , &apos;Design Form Sent&apos;),
    ISPICKVAL( Design_Form_Status__c , &apos;Design Form Received&apos;)
-  ) 
+  )
  ),
- ISBLANK( TEXT( Previously_Developed_Content__c ) )
+ ISBLANK( TEXT( Previously_Developed_Content__c ) ),
+ Mark_Design_Stage_as_Complete__c = true
 )</errorConditionFormula>
     <errorDisplayField>Previously_Developed_Content__c</errorDisplayField>
     <errorMessage>“Previously Developed Content” is required to update the Product Request Status.</errorMessage>

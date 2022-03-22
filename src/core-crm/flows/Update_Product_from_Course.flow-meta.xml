@@ -98,7 +98,7 @@
             </value>
         </filters>
         <filters>
-            <field>OPE_Design_Complete__c</field>
+            <field>Mark_Design_Stage_as_Complete__c</field>
             <operator>EqualTo</operator>
             <value>
                 <booleanValue>true</booleanValue>
@@ -126,7 +126,7 @@
             </value>
         </filters>
         <filters>
-            <field>OPE_Design_Complete__c</field>
+            <field>Mark_Design_Stage_as_Complete__c</field>
             <operator>EqualTo</operator>
             <value>
                 <booleanValue>true</booleanValue>

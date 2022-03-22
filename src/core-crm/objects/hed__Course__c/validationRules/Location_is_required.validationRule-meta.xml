@@ -7,7 +7,7 @@
   RecordType.DeveloperName = &apos;Activity&apos;,
   RecordType.DeveloperName = &apos;Short_Course&apos;,
   RecordType.DeveloperName = &apos;Unit&apos;,
-  RecordType.DeveloperName = &apos;Module&apos; 
+  RecordType.DeveloperName = &apos;Module&apos;
  ),
  ISPICKVAL( ProductRequestID__r.Product_Request_Status__c , &apos;Design&apos;),
  AND(
@@ -15,10 +15,11 @@
   OR(
    ISPICKVAL( Design_Form_Status__c , &apos;Design Form Sent&apos;),
    ISPICKVAL( Design_Form_Status__c , &apos;Design Form Received&apos;)
-  ) 
+  )
  ),
  ISPICKVAL( Delivery_Type__c , &apos;Face to Face&apos;),
- ISBLANK( Location__c )
+ ISBLANK( Location__c ),
+ Mark_Design_Stage_as_Complete__c = true
 )</errorConditionFormula>
     <errorDisplayField>Location__c</errorDisplayField>
     <errorMessage>“Location” is required to update the Product Request Status.</errorMessage>

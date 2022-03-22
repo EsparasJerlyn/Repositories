@@ -15,9 +15,10 @@
   OR(
    ISPICKVAL( Design_Form_Status__c , &apos;Design Form Sent&apos;),
    ISPICKVAL( Design_Form_Status__c , &apos;Design Form Received&apos;)
-  ) 
+  )
  ),
- ISBLANK( TEXT ( Certificate_Type__c ) )
+ ISBLANK( TEXT ( Certificate_Type__c ) ),
+ Mark_Design_Stage_as_Complete__c = true
 )</errorConditionFormula>
     <errorDisplayField>Certificate_Type__c</errorDisplayField>
     <errorMessage>“Certificate Type” is required to update the Product Request Status.</errorMessage>

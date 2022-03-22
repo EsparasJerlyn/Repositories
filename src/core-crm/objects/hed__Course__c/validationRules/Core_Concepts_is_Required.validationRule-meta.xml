@@ -18,9 +18,10 @@
   OR(
    ISPICKVAL( Design_Form_Status__c , &apos;Design Form Sent&apos;),
    ISPICKVAL( Design_Form_Status__c , &apos;Design Form Received&apos;)
-  ) 
+  )
  ),
- LEN( Core_Concepts__c )=0
+ LEN( Core_Concepts__c )=0,
+ Mark_Design_Stage_as_Complete__c = true
 )</errorConditionFormula>
     <errorDisplayField>Core_Concepts__c</errorDisplayField>
     <errorMessage>&quot;Core Concepts&quot; is required to mark as complete.</errorMessage>

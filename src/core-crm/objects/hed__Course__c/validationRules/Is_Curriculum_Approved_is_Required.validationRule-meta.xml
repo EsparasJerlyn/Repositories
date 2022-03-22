@@ -14,9 +14,10 @@ ISPICKVAL( ProductRequestID__r.Product_Request_Status__c , &apos;Design&apos;),
   OR(
    ISPICKVAL( Design_Form_Status__c , &apos;Design Form Sent&apos;),
    ISPICKVAL( Design_Form_Status__c , &apos;Design Form Received&apos;)
-  ) 
+  )
  ),
-Is_Curriculum_Approved__c = false
+Is_Curriculum_Approved__c = false,
+Mark_Design_Stage_as_Complete__c = true
 )</errorConditionFormula>
     <errorDisplayField>Is_Curriculum_Approved__c</errorDisplayField>
     <errorMessage>&apos;Is Curriculum Approved&apos; is required.</errorMessage>

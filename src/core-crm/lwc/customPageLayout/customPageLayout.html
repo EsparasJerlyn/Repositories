@@ -77,20 +77,5 @@
 				</lightning-button>
 			</div>
 		</lightning-record-edit-form>
-		<div if:true={showMarkAsComplete} class="slds-grid slds-gutters slds-m-horizontal_xxx-small slds-m-vertical_small">
-			<div class="slds-col slds-size_1-of-1">
-				<i>{displayNote}</i>
-				<lightning-button
-					class="slds-float_right"
-					label="MARK AS COMPLETE"
-					title="MARK AS COMPLETE"
-					icon-name="utility:check"
-					icon-position="left"
-					variant="brand"
-					onclick={handleMarkAsComplete}
-					disabled={opeDesignComplete}>
-				</lightning-button>
-			</div>
-		</div>
 	</lightning-accordion>
 </template>

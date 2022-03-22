@@ -76,9 +76,8 @@ export default class OpeCustomPageLayout extends LightningElement {
         if(result.data){
             this.isProgram = getFieldValue(result.data,PR_RT_DEV_NAME) == RT_ProductRequest_Program;
             if(this.tab == PL_ProductRequest_Design){
-                //design tab includes a mark as complete button
                 //only 1 level of traversal is needed (e.g. Course/Program Plan -> Product Request)
-                this.assignLevelOneOverwrite();
+                this.assignLevelOne();
             }else if(this.tab == PL_ProductRequest_Release){
                 //release tab defaults to Product object as the child
                 //2 levels of traversal are needed (e.g. Product -> Course/Program Plan -> Product Request)
@@ -104,23 +103,12 @@ export default class OpeCustomPageLayout extends LightningElement {
         this.layoutInfo = this.isProgram ? LEVEL_ONE.PROGRAM_PLAN : LEVEL_ONE.COURSE;
     }
 
-    assignLevelOneOverwrite(){
-        this.layoutInfo = this.isProgram ? this.addBooleanKeys(LEVEL_ONE.PROGRAM_PLAN) : this.addBooleanKeys(LEVEL_ONE.COURSE);
-    }
-
     assignLevelTwo(){
         this.layoutInfo = this.isProgram ? LEVEL_TWO.PROGRAM_PLAN : LEVEL_TWO.COURSE;
     }
 
     assignLevelTwoOverwrite(){
         this.layoutInfo = this.isProgram ? this.overwriteChild(LEVEL_TWO.PROGRAM_PLAN) : this.overwriteChild(LEVEL_TWO.COURSE);
-    }
-
-    addBooleanKeys(info){
-        return {
-            ...info,
-            markAsComplete : true
-        };
     }
 
     overwriteChild(info){

@@ -15,9 +15,10 @@
   OR(
    ISPICKVAL( Design_Form_Status__c , &apos;Design Form Sent&apos;),
    ISPICKVAL( Design_Form_Status__c , &apos;Design Form Received&apos;)
-  ) 
+  )
  ),
- ISBLANK( hed__Description__c )
+ ISBLANK( hed__Description__c ),
+ Mark_Design_Stage_as_Complete__c = true
 )</errorConditionFormula>
     <errorDisplayField>hed__Description__c</errorDisplayField>
     <errorMessage>“Description” is required to update the Product Request Status.</errorMessage>

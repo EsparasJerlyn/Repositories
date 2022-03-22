@@ -12,7 +12,8 @@ ISPICKVAL( PP_Design_Form_Status__c , &apos;Design Form Sent&apos;),
 ISPICKVAL( PP_Design_Form_Status__c , &apos;Design Form Received&apos;)
 )
 ),
-LEN (Overview__c ) = 0
+LEN (Overview__c ) = 0,
+Mark_Design_Stage_as_Complete__c = true
 )</errorConditionFormula>
     <errorDisplayField>Overview__c</errorDisplayField>
     <errorMessage>“Overview” is required to update the Product Request Status.</errorMessage>

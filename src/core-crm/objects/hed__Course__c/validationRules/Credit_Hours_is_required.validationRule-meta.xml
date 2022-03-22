@@ -10,9 +10,10 @@
   OR(
    ISPICKVAL( Design_Form_Status__c , &apos;Design Form Sent&apos;),
    ISPICKVAL( Design_Form_Status__c , &apos;Design Form Received&apos;)
-  ) 
+  )
  ),
- ISBLANK( hed__Credit_Hours__c )
+ ISBLANK( hed__Credit_Hours__c ),
+ Mark_Design_Stage_as_Complete__c = true
 )</errorConditionFormula>
     <errorDisplayField>hed__Credit_Hours__c</errorDisplayField>
     <errorMessage>“Credit Hours” is required to update the Product Request Status.</errorMessage>

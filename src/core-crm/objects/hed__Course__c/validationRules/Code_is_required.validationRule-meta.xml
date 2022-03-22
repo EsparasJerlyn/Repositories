@@ -17,7 +17,8 @@
    ISPICKVAL( Design_Form_Status__c , &apos;Design Form Received&apos;)
   ) 
  ),
- ISBLANK( Course_Code__c )
+ ISBLANK( Course_Code__c ),
+ Mark_Design_Stage_as_Complete__c = true
 )</errorConditionFormula>
     <errorDisplayField>Course_Code__c</errorDisplayField>
     <errorMessage>“Code” is required to update the Product Request Status.</errorMessage>

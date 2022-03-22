@@ -10,9 +10,10 @@
   OR(
    ISPICKVAL( PP_Design_Form_Status__c , &apos;Design Form Sent&apos;),
    ISPICKVAL( PP_Design_Form_Status__c , &apos;Design Form Received&apos;)
-  ) 
+  )
  ),
- ISBLANK( Name )
+ ISBLANK( Name ),
+ Mark_Design_Stage_as_Complete__c = true
 )</errorConditionFormula>
     <errorDisplayField>Name</errorDisplayField>
     <errorMessage>“Program Plan Name” is required to update the Product Request Status.</errorMessage>
