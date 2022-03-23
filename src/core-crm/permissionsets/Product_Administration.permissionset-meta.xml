@@ -1218,6 +1218,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>hed__Course_Enrollment__c.Transaction_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>hed__Course_Enrollment__c.hed__Account__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2475,7 +2480,7 @@
         <tab>standard-Coupon</tab>
         <visibility>Visible</visibility>
     </tabSettings>
-    <tabSettings>    
+    <tabSettings>
         <tab>standard-Pricebook2</tab>
         <visibility>Visible</visibility>
     </tabSettings>
