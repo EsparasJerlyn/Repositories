@@ -46,7 +46,9 @@
         <members>hed__Course__c.Payment_Options__c</members>
         <members>hed__Course__c.Problem_Definition__c</members>
         <members>hed__Course__c.Proposal_Description__c</members>
-        <members>hed__Course__c.Provider__c</members>
+        <!-- for 1819 update: Provider field is needed -->
+        <!-- <members>hed__Course__c.Provider__c</members> -->
+        <!-- end-->
         <members>hed__Course__c.Resources_Required__c</members>
         <members>hed__Course__c.Risk_and_Opportunities__c</members>
         <members>hed__Course__c.Search_Engine__c</members>
