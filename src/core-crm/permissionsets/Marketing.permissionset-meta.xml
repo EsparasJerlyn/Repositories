@@ -310,6 +310,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Marketing_Course_Application__c.Agency_Country__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Marketing_Course_Application__c.Agency_Email__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -560,6 +565,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Marketing_Interaction__c.Country_Joining_From__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Marketing_Interaction__c.Discount_Amount__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -740,6 +750,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Marketing_Segmentation__c.My_Country_Of_Citizenship__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Marketing_Segmentation__c.My_Country_Of_Residency__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Marketing_Segmentation__c.My_Current_Education_Level__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -911,6 +931,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Marketing_Segmentation__c.SE_Completed_Education_Level__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Marketing_Segmentation__c.SE_Country_Of_Citizenship__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Marketing_Segmentation__c.SE_Country_Of_Residency__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1100,6 +1130,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Marketing_Staging__c.Agency_Country__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Marketing_Staging__c.Agency_Email__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1161,6 +1196,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Marketing_Staging__c.Contact__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Marketing_Staging__c.Country_Joining_From__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1431,6 +1471,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Marketing_Staging__c.My_Completed_Education_Level__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Marketing_Staging__c.My_Country_Of_Citizenship__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Marketing_Staging__c.My_Country_Of_Residency__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1706,6 +1756,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Marketing_Staging__c.SE_Completed_Education_Level__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Marketing_Staging__c.SE_Country_Of_Citizenship__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Marketing_Staging__c.SE_Country_Of_Residency__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
