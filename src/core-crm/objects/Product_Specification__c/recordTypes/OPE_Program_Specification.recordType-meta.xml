@@ -180,7 +180,7 @@
         </values>
         <values>
             <fullName>Idea</fullName>
-            <default>false</default>
+            <default>true</default>
         </values>
         <values>
             <fullName>Not Proceeding</fullName>
