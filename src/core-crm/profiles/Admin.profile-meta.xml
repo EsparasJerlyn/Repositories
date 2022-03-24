@@ -1832,6 +1832,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Product_Request__c.Not_Proceeding_Comments__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Product_Request__c.Number_Of_Groups__c</field>
         <readable>true</readable>
     </fieldPermissions>

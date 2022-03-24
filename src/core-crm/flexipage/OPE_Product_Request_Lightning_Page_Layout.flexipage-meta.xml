@@ -2456,6 +2456,62 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
+                    <name>tab</name>
+                    <value>{!$Label.PL_ProductRequest_Design}</value>
+                </componentInstanceProperties>
+                <componentName>customLayoutHandler</componentName>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-f250c819-ebe6-4f15-bf7a-f743377dcaa3</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>tab</name>
+                    <value>{!$Label.PL_ProductRequest_Release}</value>
+                </componentInstanceProperties>
+                <componentName>customLayoutHandler</componentName>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-mngrv1af5j</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-f250c819-ebe6-4f15-bf7a-f743377dcaa3</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>{!$Label.PL_ProductRequest_Design}</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-mngrv1af5j</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>{!$Label.PL_ProductRequest_Release}</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-db8c42d8-3815-4efb-984d-3a9eea8d4d37</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
                     <name>tabs</name>
                     <value>Facet-trso9ua5qbh</value>
                 </componentInstanceProperties>
@@ -2625,6 +2681,22 @@
                         <leftValue>{!Record.OPE_Program_Plan_Type__c}</leftValue>
                         <operator>NE</operator>
                         <rightValue>Flexible Program</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>tabs</name>
+                    <value>Facet-db8c42d8-3815-4efb-984d-3a9eea8d4d37</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tabset</componentName>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Product_Request_Status__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Not Proceeding</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>

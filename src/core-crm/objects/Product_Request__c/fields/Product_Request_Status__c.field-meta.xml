@@ -36,6 +36,11 @@
                 <default>false</default>
                 <label>Completed</label>
             </value>
+            <value>
+                <fullName>Not Proceeding</fullName>
+                <default>false</default>
+                <label>Not Proceeding</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

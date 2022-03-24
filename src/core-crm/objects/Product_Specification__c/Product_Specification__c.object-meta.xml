@@ -164,7 +164,7 @@
     <pluralLabel>Product Specifications</pluralLabel>
     <recordTypeTrackFeedHistory>false</recordTypeTrackFeedHistory>
     <recordTypeTrackHistory>false</recordTypeTrackHistory>
-    <searchLayouts></searchLayouts>
-    <sharingModel>ReadWrite</sharingModel>
+    <searchLayouts/>
+    <sharingModel>Read</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>

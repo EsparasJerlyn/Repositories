@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Design_Stage_Validation</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+ RecordType.DeveloperName = &apos;OPE_Program_Specification&apos;,
+ ISPICKVAL( PRIORVALUE ( Stage__c ), &apos;Design&apos; ),
+ OR(
+  AND(
+   ISCHANGED( Stage__c ),   
+   OR(
+    ISPICKVAL( Stage__c, &apos;Idea&apos; ),
+    ISPICKVAL( Stage__c, &apos;Qualify&apos; ),
+    ISBLANK( TEXT( Stage__c ) )
+   )   
+  ),
+  OR(
+   ISCHANGED ( Requestor_Name__c ),
+   ISCHANGED ( Requestor_Preferred_Contact_Number__c ),
+   ISCHANGED ( LinkedIn_Profile_URL__c ),
+   ISCHANGED ( Primary_Faculty__c ),
+   ISCHANGED ( Professional_Profile__c ),
+   ISCHANGED ( Requestor_Internal_External__c ),
+   ISCHANGED ( Idea_Summary__c ),
+   ISCHANGED ( Competitor_Summary__c ),
+   ISCHANGED ( Market_Research__c ),
+   ISCHANGED ( Existing_Product__c ),
+   ISCHANGED ( Financial_Viability__c ),
+   ISCHANGED ( Market_Need__c ),
+   ISCHANGED ( QUTeX_Capacity__c ),
+   ISCHANGED ( QUT_Faculty_Capacity__c ),
+   ISCHANGED ( Supporting_Comments__c ),
+   ISCHANGED ( Product_Type__c ),
+   ISCHANGED ( Requires_Director_Endorsement__c ),
+   ISCHANGED ( Endorsed_by__c ),
+   ISCHANGED ( Not_Proceeding_Comments__c )
+  )  
+ )
+)</errorConditionFormula>
+    <errorMessage>Update of Product Specification details is not allowed once stage is in &quot;Design&quot;.</errorMessage>
+</ValidationRule>

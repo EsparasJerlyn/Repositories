@@ -9,13 +9,14 @@
  *    | Developer                 | Date                  | JIRA      | Change Summary                  |
       |---------------------------|-----------------------|-----------|---------------------------------|
       | roy.nino.s.regala         | October 01, 2021      | DEPP40,42 | Created file                    | 
+      | eccarius.munoz            | March 24, 2022        | DEPP-1888 | Added test method for record    | 
+      |                           |                       |           | update to Not Proceeding        |
       |                           |                       |           |                                 | 
 */
 @isTest(SeeAllData=false)
 private class ProductRequestListCtrlTest {
     private static string PR_PROGRAM = System.Label.RT_ProductRequest_Program;
-    private static string PR_ACTIVITY = System.Label.RT_ProductRequest_Activity;
-    
+    private static string PR_ACTIVITY = System.Label.RT_ProductRequest_Activity;    
 
     private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
     private static Id opeProgProdReqId =  Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_PROGRAM).getRecordTypeId();
@@ -74,6 +75,16 @@ private class ProductRequestListCtrlTest {
             system.assert( !getProdReqs.parentChildMap.isEmpty(), 'unable to get parent child map product requests');
         }
 
+        Test.stopTest();
+    }
+
+    static testMethod void testUpdateProdReqToNotProceeding() {
+        Test.startTest();
+        System.runAs(currentUser){
+            Id productRequestId = [SELECT Id, Name, Product_Request_Status__c FROM Product_Request__c LIMIT 1].Id;
+            String response = ProductRequestListCtrl.updateProdReqToNotProceeding(productRequestId, PR_PROGRAM, 'notProceedingComment', false);
+            System.assertEquals('Success', response, 'Failed to update record.');    
+        }
         Test.stopTest();
     }
 

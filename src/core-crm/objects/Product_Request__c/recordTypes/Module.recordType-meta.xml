@@ -69,6 +69,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Not Proceeding</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Release</fullName>
             <default>false</default>
         </values>

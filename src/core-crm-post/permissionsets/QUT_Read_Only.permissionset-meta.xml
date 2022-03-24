@@ -3633,6 +3633,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Product_Request__c.Not_Proceeding_Comments__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Product_Request__c.Program_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>

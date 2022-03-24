@@ -7,8 +7,12 @@
       |---------------------------|-----------------------|----------------------|------------------------------|
       | angelika.j.s.galang       | September 30, 2021    | DEPP-40,42           | Created file                 |
       | roy.nino.s.regala         | March 10, 2022        | DEPP-1747            | Updated to suit new datamodel| 
+      | eccarius.karl.munoz       | March 23, 2022        | DEPP-1888            | Added update method for      |
+      |                           |                       |                      | Not Proceeding               | 
  */
 public with sharing class ProductRequestListCtrl {
+    private static string PR_PROGRAM = System.Label.RT_ProductRequest_Program;
+    
     /**
      * @description do callout to loqate
      * @param productSpecificationId - id of productSpecification
@@ -43,10 +47,12 @@ public with sharing class ProductRequestListCtrl {
             //all non children product request
             Map<Id,Product_Request__c> productRequestMap = new Map<Id,Product_Request__c>(
                 [
-                    SELECT Id, Name, RecordType.Name, Product_Request_Name__c,  
+                    SELECT Id, Name, RecordType.Name, Product_Request_Name__c, Not_Proceeding_Comments__c,
+                           Product_Request_Status__c,RecordType.DeveloperName,  
                            Product_Specification__c, OwnerId, Owner.Name, 
                            Product_Specification__r.RecordType.DeveloperName,
-                           RecordType.DeveloperName,(SELECT Id, Program_Delivery_Structure__c FROM Program_Plans__r),
+                           Product_Specification__r.Stage__c,
+                           (SELECT Id, Name, Program_Delivery_Structure__c FROM Program_Plans__r),
                            (SELECT Id, Name FROM Courses__r)
                     FROM Product_Request__c
                     WHERE Product_Specification__c =: productSpecificationId
@@ -59,10 +65,12 @@ public with sharing class ProductRequestListCtrl {
             //all children
             Map<Id,Product_Request__c> courseProductRequestMap = new Map<Id,Product_Request__c>(
                 [
-                    SELECT Id, Name, RecordType.Name, Product_Request_Name__c,  
+                    SELECT Id, Name, RecordType.Name, Product_Request_Name__c, Not_Proceeding_Comments__c,
+                           Product_Request_Status__c,RecordType.DeveloperName,   
                            Product_Specification__c, OwnerId, Owner.Name, 
                            Product_Specification__r.RecordType.DeveloperName,
-                           RecordType.DeveloperName,(SELECT Id, Program_Delivery_Structure__c FROM Program_Plans__r),
+                           Product_Specification__r.Stage__c,
+                           (SELECT Id, Name, Program_Delivery_Structure__c FROM Program_Plans__r),
                            (SELECT Id, Name FROM Courses__r)
                     FROM Product_Request__c
                     WHERE ID IN: courseProdRequestIds 
@@ -90,6 +98,44 @@ public with sharing class ProductRequestListCtrl {
 
         }catch(Exception e){ throw auraEx; }
         
+    }
+    
+    /**
+     * @description Updates Registration details of students
+    * @param id - id of product request selected
+    * @param recordType - record type of product request selected
+    * @param notProceedingComments - not proceeding comments inputted from modal
+    * @param ifFlexibleProgram - determines flexible program
+    * @return String
+    */
+    @AuraEnabled
+    public static String updateProdReqToNotProceeding(String id, String recordType, String notProceedingComment, Boolean ifFlexibleProgram){
+        String response='';
+        List<Product_Request__c> productRequestsToUpdate = new List<Product_Request__c>();    
+        Product_Request__c productRequest = new Product_Request__c();
+        productRequest.id = id;
+        productRequest.Not_Proceeding_Comments__c = notProceedingComment;
+        productRequest.Product_Request_Status__c = 'Not Proceeding';
+        productRequestsToUpdate.add(productRequest);
+
+        if(recordType == PR_PROGRAM && !ifFlexibleProgram){
+            List<Related_Product_Request__c> relatedProducts = [SELECT Id, Course__c FROM Related_Product_Request__c where Program__c =: id];            
+            for(Related_Product_Request__c relatedProduct : relatedProducts){
+                Product_Request__c prodReq = new Product_Request__c();
+                prodReq.Id = relatedProduct.Course__c;
+                prodReq.Product_Request_Status__c = 'Not Proceeding';
+                productRequestsToUpdate.add(prodReq);
+            }
+        }
+
+        try{
+            update productRequestsToUpdate;
+            response = 'Success';
+        }catch(Exception e){
+            response = 'The following exception has occurred: ' + e.getMessage();
+        }
+
+        return response;
     }
     
     /**
