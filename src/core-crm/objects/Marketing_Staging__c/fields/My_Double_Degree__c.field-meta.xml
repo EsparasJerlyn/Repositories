@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>My_Double_Degree__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Profile Type = Myself
+
+Indicates whether the marketing person is interested in receiving information about double degrees.</description>
+    <externalId>false</externalId>
+    <label>My Double Degree</label>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

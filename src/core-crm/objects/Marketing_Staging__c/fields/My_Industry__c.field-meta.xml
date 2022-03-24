@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>My_Industry__c</fullName>
+    <description>Profile Type = Myself
+
+The industry classification assigned to an organization which describes the predominant business activity.
+Refer to Australian and New Zealand Standard Industrial Classification (ANZSIC), 2006 (Revision 2.0), ABS Catalogue No 1292.0 or NAT 1827-6:2014 (BIC)</description>
+    <externalId>false</externalId>
+    <label>My Industry</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>A - Agriculture, Forestry and Fishing</fullName>
+                <default>false</default>
+                <label>A - Agriculture, Forestry and Fishing</label>
+            </value>
+            <value>
+                <fullName>B - Mining</fullName>
+                <default>false</default>
+                <label>B - Mining</label>
+            </value>
+            <value>
+                <fullName>C - Manufacturing</fullName>
+                <default>false</default>
+                <label>C - Manufacturing</label>
+            </value>
+            <value>
+                <fullName>D - Electricity, Gas, Water and Waste Services</fullName>
+                <default>false</default>
+                <label>D - Electricity, Gas, Water and Waste Services</label>
+            </value>
+            <value>
+                <fullName>E - Construction</fullName>
+                <default>false</default>
+                <label>E - Construction</label>
+            </value>
+            <value>
+                <fullName>F - Wholesale Trade</fullName>
+                <default>false</default>
+                <label>F - Wholesale Trade</label>
+            </value>
+            <value>
+                <fullName>G - Retail Trade</fullName>
+                <default>false</default>
+                <label>G - Retail Trade</label>
+            </value>
+            <value>
+                <fullName>H - Accommodation and Food Services</fullName>
+                <default>false</default>
+                <label>H - Accommodation and Food Services</label>
+            </value>
+            <value>
+                <fullName>I - Transport, Postal and Warehousing</fullName>
+                <default>false</default>
+                <label>I - Transport, Postal and Warehousing</label>
+            </value>
+            <value>
+                <fullName>J - Information Media and Telecommunications</fullName>
+                <default>false</default>
+                <label>J - Information Media and Telecommunications</label>
+            </value>
+            <value>
+                <fullName>K - Financial and Insurance Services</fullName>
+                <default>false</default>
+                <label>K - Financial and Insurance Services</label>
+            </value>
+            <value>
+                <fullName>L - Rental, Hiring and Real Estate Services</fullName>
+                <default>false</default>
+                <label>L - Rental, Hiring and Real Estate Services</label>
+            </value>
+            <value>
+                <fullName>M - Professional, Scientific and Technical Services</fullName>
+                <default>false</default>
+                <label>M - Professional, Scientific and Technical Services</label>
+            </value>
+            <value>
+                <fullName>N - Administrative and Support Services</fullName>
+                <default>false</default>
+                <label>N - Administrative and Support Services</label>
+            </value>
+            <value>
+                <fullName>O - Public Administration and Safety</fullName>
+                <default>false</default>
+                <label>O - Public Administration and Safety</label>
+            </value>
+            <value>
+                <fullName>P - Education and Training</fullName>
+                <default>false</default>
+                <label>P - Education and Training</label>
+            </value>
+            <value>
+                <fullName>Q - Health Care and Social Assistance</fullName>
+                <default>false</default>
+                <label>Q - Health Care and Social Assistance</label>
+            </value>
+            <value>
+                <fullName>R - Arts and Recreation Services</fullName>
+                <default>false</default>
+                <label>R - Arts and Recreation Services</label>
+            </value>
+            <value>
+                <fullName>S - Other Services</fullName>
+                <default>false</default>
+                <label>S - Other Services</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

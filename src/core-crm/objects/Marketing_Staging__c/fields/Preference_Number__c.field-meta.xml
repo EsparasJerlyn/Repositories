@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Preference_Number__c</fullName>
+    <description>Specific to QTAC application data. Each student&apos;s QTAC application can have up to 6 course preferences which means there can be up to 6 records for a single QTAC Application Id.</description>
+    <externalId>false</externalId>
+    <label>Preference Number</label>
+    <precision>2</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

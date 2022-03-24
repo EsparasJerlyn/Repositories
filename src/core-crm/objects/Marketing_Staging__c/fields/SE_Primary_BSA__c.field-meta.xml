@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>SE_Current_Education_Level__c</fullName>
+    <fullName>SE_Primary_BSA__c</fullName>
     <description>Profile Type = Someone Else
 
-The education level being studied by the Marketing Person.</description>
+The primary BSA a marketing person has expressed interest in receiving marketing material about. For &apos;Domestic&apos; marketing persons, they have the option to choose a primary and a secondary BSA, whereas &apos;International&apos; can only select 1 BSA of interest.</description>
     <externalId>false</externalId>
-    <label>SE Current Education Level</label>
+    <label>SE Primary BSA</label>
     <required>false</required>
     <securityClassification>Official</securityClassification>
     <trackHistory>false</trackHistory>
@@ -16,64 +16,64 @@ The education level being studied by the Marketing Person.</description>
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>In Year 7 or below</fullName>
+                <fullName>I am not sure</fullName>
                 <default>false</default>
-                <label>In Year 7 or below</label>
+                <label>I am not sure</label>
             </value>
             <value>
-                <fullName>In Year 8</fullName>
+                <fullName>Architecture and Built Environment</fullName>
                 <default>false</default>
-                <label>In Year 8</label>
+                <label>Architecture and Built Environment</label>
             </value>
             <value>
-                <fullName>In Year 9</fullName>
+                <fullName>Business</fullName>
                 <default>false</default>
-                <label>In Year 9</label>
+                <label>Business</label>
             </value>
             <value>
-                <fullName>In Year 10</fullName>
+                <fullName>Creative Industries</fullName>
                 <default>false</default>
-                <label>In Year 10</label>
+                <label>Creative Industries</label>
             </value>
             <value>
-                <fullName>In Year 11</fullName>
+                <fullName>Education</fullName>
                 <default>false</default>
-                <label>In Year 11</label>
+                <label>Education</label>
             </value>
             <value>
-                <fullName>In Year 12</fullName>
+                <fullName>Engineering</fullName>
                 <default>false</default>
-                <label>In Year 12</label>
+                <label>Engineering</label>
             </value>
             <value>
-                <fullName>Completed Year 12 or equivalent</fullName>
+                <fullName>Health</fullName>
                 <default>false</default>
-                <label>Completed Year 12 or equivalent</label>
+                <label>Health</label>
             </value>
             <value>
-                <fullName>Studying at TAFE</fullName>
+                <fullName>Information Technology</fullName>
                 <default>false</default>
-                <label>Studying at TAFE</label>
+                <label>Information Technology</label>
             </value>
             <value>
-                <fullName>Completed a TAFE Qualification</fullName>
+                <fullName>Justice</fullName>
                 <default>false</default>
-                <label>Completed a TAFE Qualification</label>
+                <label>Justice</label>
             </value>
             <value>
-                <fullName>Have work experience</fullName>
+                <fullName>Law</fullName>
                 <default>false</default>
-                <label>Have work experience</label>
+                <label>Law</label>
             </value>
             <value>
-                <fullName>Currently Studying at University</fullName>
+                <fullName>Mathematics</fullName>
                 <default>false</default>
-                <label>Currently Studying at University</label>
+                <label>Mathematics</label>
             </value>
             <value>
-                <fullName>Completed a University Degree</fullName>
+                <fullName>Science</fullName>
                 <default>false</default>
-                <label>Completed a University Degree</label>
+                <label>Science</label>
             </value>
         </valueSetDefinition>
     </valueSet>

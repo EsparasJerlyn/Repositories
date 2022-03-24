@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SE_Secondary_Study_Level__c</fullName>
+    <description>Profile Type = Someone Else
+
+The secondary level of study a marketing person has expressed interest in receiving marketing material about. (Note: For Domestic ONLY).</description>
+    <externalId>false</externalId>
+    <label>SE Secondary Study Level</label>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Undergraduate</fullName>
+                <default>false</default>
+                <label>Undergraduate</label>
+            </value>
+            <value>
+                <fullName>Postgraduate</fullName>
+                <default>false</default>
+                <label>Postgraduate</label>
+            </value>
+            <value>
+                <fullName>Higher Degree Research</fullName>
+                <default>false</default>
+                <label>Higher Degree Research</label>
+            </value>
+            <value>
+                <fullName>Short Courses and Professional Development</fullName>
+                <default>false</default>
+                <label>Short Courses and Professional Development</label>
+            </value>
+            <value>
+                <fullName>Exchange and Study Abroad (1 or 2 Semesters Only)</fullName>
+                <default>false</default>
+                <label>Exchange and Study Abroad (1 or 2 Semesters Only)</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

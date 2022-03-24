@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Consent_Source_Category__c</fullName>
+    <description>Identifies where the marketing person;&apos;s consent came from. This should reuse the business values from the Lead Source Category.</description>
+    <externalId>false</externalId>
+    <label>Consent Source Category</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Enquiry</fullName>
+                <default>false</default>
+                <label>Enquiry</label>
+            </value>
+            <value>
+                <fullName>Event</fullName>
+                <default>false</default>
+                <label>Event</label>
+            </value>
+            <value>
+                <fullName>Lead Ad</fullName>
+                <default>false</default>
+                <label>Lead Ad</label>
+            </value>
+            <value>
+                <fullName>Web Form</fullName>
+                <default>false</default>
+                <label>Web Form</label>
+            </value>
+            <value>
+                <fullName>Outreach Activity</fullName>
+                <default>false</default>
+                <label>Outreach Activity</label>
+            </value>
+            <value>
+                <fullName>Referral Partner</fullName>
+                <default>false</default>
+                <label>Referral Partner</label>
+            </value>
+            <value>
+                <fullName>Strategic Partner</fullName>
+                <default>false</default>
+                <label>Strategic Partner</label>
+            </value>
+            <value>
+                <fullName>Study Application</fullName>
+                <default>false</default>
+                <label>Study Application</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
