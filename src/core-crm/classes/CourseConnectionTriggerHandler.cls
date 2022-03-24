@@ -12,11 +12,23 @@
       | johnbo.pineda@qut.edu.au       | January 03, 2022      | DEPP-1382              | Updated Class to include changes for DEPP-1382.                               |
       | johnbo.pineda@qut.edu.au       | January 31, 2022      | DEPP-1519              | Updated Class to include changes for DEPP-1519.                               |
       | roy.nino.s.regala@qut.edu.au   | March 04, 2022        | DEPP-1985              | External user is trying to update the field,removed with sharing restriction  |
+      | eugene.andrew.abuan            | March 22, 2022        | DEPP-1991              | Added Class for Before Insert                                                 |
+
  */
-public without sharing class CourseConnectionTriggerHandler implements Disableable, AfterInsert, AfterUpdate, AfterDelete {
+public without sharing class CourseConnectionTriggerHandler implements Disableable, BeforeInsert, AfterInsert, AfterUpdate, AfterDelete {
   public static final Id STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
     .get('Student')
     .getRecordTypeId();
+    
+  /**
+  * @description calls the ExternalIdHelper function to update the External Id
+  * @param newItems - List of hed__Course_Enrollment__c.Trigger.new
+  */
+  public void beforeInsert(List<SObject> newItems) {
+    SetExternalIdHelper.updateExternalId(newItems);
+  }
+  
+    
   /**
    * @description update counter for Course Connections
    * @param newItems - List of hed__Course_Enrollment__c.Trigger.new
