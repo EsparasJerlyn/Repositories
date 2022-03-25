@@ -9,8 +9,10 @@
      ISPICKVAL( Ready_for_publishing__c , &apos;&apos; ) 
    ),
    OR(
-     ISCHANGED(Start_Date__c),
-     ISCHANGED(End_Date__c)
+     ISCHANGED(Publishing_Start_date__c ),
+     ISCHANGED(Publishing_End_date__c ),
+     NOT ( ISBLANK ( Publishing_Start_date__c ) ),
+     NOT ( ISBLANK ( Publishing_End_date__c ) )
    )
 )</errorConditionFormula>
     <errorDisplayField>Ready_for_publishing__c</errorDisplayField>

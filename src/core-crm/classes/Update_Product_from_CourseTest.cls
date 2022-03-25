@@ -35,7 +35,8 @@ private class Update_Product_from_CourseTest{
             createCourse(opeActProdReqId);
             List<hed__Course__c> courses = [SELECT id, ProductRequestID__c, Core_Concepts__c,
                                                 hed__Description__c, End_Date__c, More_Details__c,
-                                                Name, Overview__c, Start_Date__c, Who_Should_Participate__c
+                                                Name, Overview__c, Start_Date__c, Who_Should_Participate__c,
+                                                Evolve_with_QUTeX__c
                                             FROM hed__Course__c LIMIT 100];
 
             for(hed__Course__c course : courses){
@@ -52,7 +53,7 @@ private class Update_Product_from_CourseTest{
             update productRequests;
 
             List<Product2> products = [SELECT Id, Core_Concepts__c, Description, End_Date__c, More_Details__c,
-                    Name, Overview__c, Start_Date__c, Who_Should_Participate__c
+                    Name, Overview__c, Start_Date__c, Who_Should_Participate__c, Evolve_with_QUTeX__c
                     FROM Product2 LIMIT 100];
 
             Test.stopTest();
@@ -64,6 +65,10 @@ private class Update_Product_from_CourseTest{
                 System.assertEquals(courses[i].Name, products[i].Name, 'Name must be the same.');
                 System.assertEquals(courses[i].Overview__c, products[i].Overview__c, 'Overview must be the same.');
                 System.assertEquals(courses[i].Who_Should_Participate__c, products[i].Who_Should_Participate__c, 'Who Should Participate must be the same.');
+                System.assertEquals(courses[i].Evolve_with_QUTeX__c, products[i].Evolve_with_QUTeX__c, 'Evolve with QUTeX must be the same.');
+                System.assertEquals(courses[i].Start_Date__c, products[i].Start_Date__c, 'Start Date must be the same.');
+                System.assertEquals(courses[i].End_Date__c, products[i].End_Date__c, 'End Date must be the same.');
+
             }
         }
     }
@@ -82,8 +87,9 @@ private class Update_Product_from_CourseTest{
 
             List<hed__Program_Plan__c> programPlansToUpdate = [SELECT Id, Product_Request__c, Core_Concepts__c,
                                                                     hed__Description__c, hed__End_Date__c, More_Details__c,
-                                                                    Name, Overview__c, hed__Start_Date__c, Who_Should_Participate__c
-                                                                FROM hed__Program_Plan__c LIMIT 100];
+                                                                    Name, Overview__c, hed__Start_Date__c, Who_Should_Participate__c,
+                                                                    Evolve_with_QUTeX__c
+                                                                    FROM hed__Program_Plan__c LIMIT 100];
 
             for(Integer i = 0 ; i < programPlansToUpdate.size() ; i++){
                 programPlansToUpdate[i].Name = 'test' + i;
@@ -107,7 +113,9 @@ private class Update_Product_from_CourseTest{
             update productRequests;
 
             List<Product2> products = [SELECT Id, Core_Concepts__c, Description, End_Date__c, More_Details__c,
-                                            Name, Overview__c, Start_Date__c, Who_Should_Participate__c
+                                            Name, Overview__c, Start_Date__c, Who_Should_Participate__c,
+                                            Evolve_with_QUTeX__c
+
                                         FROM Product2 LIMIT 100];
 
             Test.stopTest();
@@ -120,6 +128,9 @@ private class Update_Product_from_CourseTest{
                 System.assertEquals(programPlansToUpdate[i].Name, products[i].Name, 'Name must be the same.');
                 System.assertEquals(programPlansToUpdate[i].Overview__c, products[i].Overview__c, 'Overview must be the same.');
                 System.assertEquals(programPlansToUpdate[i].Who_Should_Participate__c, products[i].Who_Should_Participate__c, 'Who Should Participate must be the same.');
+                System.assertEquals(programPlansToUpdate[i].Evolve_with_QUTeX__c, products[i].Evolve_with_QUTeX__c, 'Evolve with QUTeX must be the same.');
+                System.assertEquals(programPlansToUpdate[i].hed__End_Date__c, products[i].End_Date__c, 'End Date must be the same.');
+                System.assertEquals(programPlansToUpdate[i].hed__Start_Date__c, products[i].Start_Date__c, 'Start Date must be the same.');
             }
         }
     }

@@ -115,7 +115,7 @@
         <locationY>455</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Update_Course_Product_0</targetReference>
+            <targetReference>Update_Program_Product</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -162,6 +162,18 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>End_Date__c</field>
+            <value>
+                <elementReference>Get_Course.End_Date__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Evolve_with_QUTeX__c</field>
+            <value>
+                <elementReference>Get_Course.Evolve_with_QUTeX__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>More_Details__c</field>
             <value>
                 <elementReference>Get_Course.More_Details__c</elementReference>
@@ -180,6 +192,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>Start_Date__c</field>
+            <value>
+                <elementReference>Get_Course.Start_Date__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>Who_Should_Participate__c</field>
             <value>
                 <elementReference>Get_Course.Who_Should_Participate__c</elementReference>
@@ -188,8 +206,8 @@
         <object>Product2</object>
     </recordUpdates>
     <recordUpdates>
-        <name>Update_Course_Product_0</name>
-        <label>Update Course Product</label>
+        <name>Update_Program_Product</name>
+        <label>Update Program Product</label>
         <locationX>314</locationX>
         <locationY>575</locationY>
         <filterLogic>and</filterLogic>
@@ -213,6 +231,18 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>End_Date__c</field>
+            <value>
+                <elementReference>Get_Program_Plan.hed__End_Date__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Evolve_with_QUTeX__c</field>
+            <value>
+                <elementReference>Get_Program_Plan.Evolve_with_QUTeX__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>More_Details__c</field>
             <value>
                 <elementReference>Get_Program_Plan.More_Details__c</elementReference>
@@ -228,6 +258,12 @@
             <field>Overview__c</field>
             <value>
                 <elementReference>Get_Program_Plan.Overview__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Start_Date__c</field>
+            <value>
+                <elementReference>Get_Program_Plan.hed__Start_Date__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>

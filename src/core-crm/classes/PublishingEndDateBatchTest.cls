@@ -94,12 +94,15 @@ public with sharing class PublishingEndDateBatchTest {
             List<hed__Course__c> courses = [SELECT Id,ProductRequestID__c FROM hed__Course__c];
             update productRequests;
             
-            List<Product2> products = [SELECT Id,Publishing_End_date__c,IsActive,Course__r.ProductRequestID__c FROM Product2 WHERE Course__r.ProductRequestID__c != NULL];
+            List<Product2> products = [SELECT Id,Publishing_End_date__c,IsActive,Course__r.ProductRequestID__c, Publishing_Start_date__c, QA_Review_Completed__c,Ready_for_publishing__c  FROM Product2 WHERE Course__r.ProductRequestID__c != NULL];
             for(Product2 product : products){
                 product.IsActive = true;
                 product.Decommission_Product__c = true;
                 product.Decommission_Reason__c = 'test';
                 product.Publishing_End_date__c = date.today();
+                product.Publishing_Start_date__c = date.today() - 1;
+                product.QA_Review_Completed__c = 'Yes';
+                product.Ready_for_publishing__c = 'Yes';
             }
             update products;
             
@@ -126,12 +129,15 @@ public with sharing class PublishingEndDateBatchTest {
             List<Product_Request__c> childProductRequest = [SELECT Id FROM Product_Request__c WHERE RecordTypeId =: opeShortProdReqId];
             List<Product_Request__c> parentProductRequest = [SELECT Id FROM Product_Request__c WHERE RecordTypeId =: opeProgProdReqId];
             
-            List<Product2> products = [SELECT Id,Publishing_End_date__c,IsActive,Course__r.ProductRequestID__c FROM Product2 WHERE Program_Plan__r.Product_Request__c != NULL];
+            List<Product2> products = [SELECT Id,Publishing_End_date__c,IsActive,Course__r.ProductRequestID__c, Publishing_Start_date__c, QA_Review_Completed__c,Ready_for_publishing__c  FROM Product2 WHERE Program_Plan__r.Product_Request__c != NULL];
             for(Product2 product : products){
                 product.IsActive = true;
                 product.Decommission_Product__c = false;
                 product.Decommission_Reason__c = 'test';
                 product.Publishing_End_date__c = date.today();
+                product.Publishing_Start_date__c = date.today() - 1;
+                product.QA_Review_Completed__c = 'Yes';
+                product.Ready_for_publishing__c = 'Yes';
             }
             update products;
 
