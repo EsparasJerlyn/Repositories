@@ -18,6 +18,24 @@
         <type>Flexipage</type>
         <pageOrSobjectType>Product_Request__c</pageOrSobjectType>
     </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>Questionnaire_Response_Summary_Lightning_Page_Layout</content>
+        <formFactor>Large</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+        <pageOrSobjectType>Questionnaire_Response_Summary__c</pageOrSobjectType>
+        </actionOverrides>
+        <actionOverrides>
+        <actionName>View</actionName>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>Questionnaire_Response_Summary_Lightning_Page_Layout</content>
+        <formFactor>Small</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+        <pageOrSobjectType>Questionnaire_Response_Summary__c</pageOrSobjectType>
+    </actionOverrides>
     <brand>
         <headerColor>#113B71</headerColor>
         <logo>QUT_logo_Blue_RGB_PNG_11</logo>
