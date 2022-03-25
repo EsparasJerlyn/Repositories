@@ -26,7 +26,7 @@ export default class ProductManagement extends LightningElement {
     
     parentIsPrescribed = false;
     isStatusCompleted;
-    isProgram;
+    isProgram = true;
 
     //decides if user has access to this feature
     get hasAccess(){
@@ -45,7 +45,12 @@ export default class ProductManagement extends LightningElement {
 
     //checks if product request is program
     get hideContentSection(){
-        return this.isProgram === RT_ProductRequest_Program;
+        if(this.isProgram === RT_ProductRequest_Program){
+            return this.isProgram;
+        }else{
+            return this.isStatusCompleted;
+        }
+
     }
 
     /**
