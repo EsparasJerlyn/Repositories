@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Custom metadata for setting of fields available per Evaluation Type of an Offering.</description>
+    <label>Offering Evaluation Setting</label>
+    <pluralLabel>Offering Evaluation Settings</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

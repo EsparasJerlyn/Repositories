@@ -7,8 +7,8 @@
             <lightning-spinner class="slds-m-top_large" alternative-text="Loading" size="medium"></lightning-spinner>
         </template>
         <template if:false={isLoading}>
-            <lightning-accordion allow-multiple-sections-open active-section-name="Track Attendance">
-                <lightning-accordion-section name="Track Attendance" label="Track Attendance"  class="accordion-section">
+            <lightning-accordion allow-multiple-sections-open active-section-name={activeSections}>
+                <lightning-accordion-section name="trackAttendance" label="Track Attendance"  class="accordion-section">
                 <lightning-combobox
                     class="slds-text-title_bold"
                     name="course offering"
@@ -66,9 +66,10 @@
                     </div>
                 </template>
                 </lightning-accordion-section>
-                <lightning-accordion-section name="Evaluation" label="Evaluation"  class="accordion-section">
-                    <p>LWC PLACEHOLDER</p>
-                </lightning-accordion-section>
+                <c-evaluation-section
+                    offering-data={offeringData}
+                    is-status-completed={isStatusCompleted}
+                ></c-evaluation-section>
             </lightning-accordion>
         </template>
     </template>

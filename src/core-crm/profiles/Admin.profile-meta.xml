@@ -305,6 +305,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>EvaluationSectionCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>EvaluationSectionCtrlTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>FinancialSplitCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1471,6 +1479,11 @@
         <editable>false</editable>
         <field>Loqate_Component__mdt.Validation_Rule_Fields__c</field>
         <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Offering_Evaluation_Setting__mdt.Fields__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -3149,6 +3162,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>hed__Course_Offering__c.Evaluation_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>hed__Course_Offering__c.Facilitator_Knowledge__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4508,6 +4526,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Loqate_Component__mdt-Loqate Component Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Offering_Evaluation_Setting__mdt-Offering Evaluation Setting Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Opportunity-QUTeX Opportunity Layout</layout>

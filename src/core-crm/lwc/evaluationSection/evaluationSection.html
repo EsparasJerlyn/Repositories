@@ -1,0 +1,238 @@
+<template>
+    <!--Create Evaluation Modal-->
+    <div if:true={createEvaluation} class="slds-modal slds-fade-in-open slds-backdrop">  
+        <div class="slds-modal__container">  
+            <div class="slds-modal__header">  
+                <lightning-button-icon
+                    icon-name="utility:close"
+                    alternative-text="Close this window"
+                    size="large"  
+                    variant="bare-inverse"
+                    onclick={handleCloseModal}
+                    class="slds-modal__close">  
+                </lightning-button-icon>  
+                <h2>Create Evaluation</h2>  
+            </div>  
+            <lightning-record-edit-form
+                object-api-name="hed__Course_Offering__c"
+                record-id={selectedOffering}
+                onsubmit={handleSubmitModal}
+                onsuccess={handleSuccessModal}
+                onerror={handleErrorModal}>  
+                <div class="slds-modal__content slds-p-around_medium slds-is-relative">
+                    <lightning-spinner
+                        if:true={isModalLoading}
+                        alternative-text="Loading..."
+                        size="small"
+                    ></lightning-spinner>
+                    <lightning-combobox
+                        label="Product Offering"
+                        value={selectedOffering}
+                        placeholder="Select Product Offering"
+                        options={offeringToEvaluate}
+                        onchange={handleOfferingChange}>
+                    </lightning-combobox>
+                    <lightning-input-field
+                        if:true={selectedOffering}
+                        field-name="Evaluation_Type__c"
+                        onchange={handleEvaluationChange}
+                    ></lightning-input-field>
+                </div>  
+                <footer class="slds-modal__footer">
+                    <lightning-button
+                        label="Cancel"
+                        variant="neutral"
+                        onclick={handleCloseModal}
+                    ></lightning-button>
+                    <lightning-button
+                        label="Save"
+                        variant="brand"
+                        type="submit"
+                        class="slds-m-left_small"
+                        disabled={disableSaveOnModal}
+                    ></lightning-button>
+                </footer>
+            </lightning-record-edit-form>
+        </div>  
+    </div> 
+    <!--Confirm Evaluation Update Modal-->
+    <div if:true={evaluationTypeUpdated} class="slds-modal slds-fade-in-open slds-backdrop">  
+        <div class="slds-modal__container">  
+            <div class="slds-modal__header">  
+                <lightning-button-icon
+                    icon-name="utility:close"
+                    alternative-text="Close this window"
+                    size="large"  
+                    variant="bare-inverse"
+                    onclick={handleCloseConfirm}
+                    class="slds-modal__close">  
+                </lightning-button-icon>  
+                <h2>Confirmation</h2>  
+            </div>  
+            <div class="slds-modal__content slds-p-around_medium">
+                <p class="slds-text-align_center">
+                    Please be advised that if you change the Evaluation Type, you will lose the existing data.
+                </p>
+                <p class="slds-text-align_center">
+                    Are you sure you want to proceed with the change?
+                </p>
+            </div>  
+            <footer class="slds-modal__footer">
+                <lightning-button
+                    label="No"
+                    variant="neutral"
+                    onclick={handleCloseConfirm}
+                ></lightning-button>
+                <lightning-button
+                    label="Yes"
+                    variant="brand"
+                    onclick={handleUpdateEvaluationType}
+                    class="slds-m-left_small"
+                ></lightning-button>
+            </footer>
+        </div>  
+    </div> 
+    <!--Evaluation Items Section-->
+    <div class="slds-is-relative">
+        <lightning-button
+            label="Create Evaluation"
+            title="Create Evaluation"
+            icon-name="utility:add"
+            onclick={handleCreateEvaluation} 
+            variant="brand"
+            class="create-evaluation-button"
+            disabled={disableCreateEvaluation}>
+        </lightning-button>
+        <lightning-accordion-section name="evaluations" label="Evaluations"  class="accordion-section">
+            <div if:true={noEvaluationFound} class="slds-text-align_center slds-p-around_medium">
+                <p><strong>No evaluation found.</strong></p>
+            </div>
+            <lightning-accordion allow-multiple-sections-open>
+                <lightning-spinner
+                    if:true={isLoading}
+                    alternative-text="Loading..."
+                    size="small"
+                ></lightning-spinner>
+                <template for:each={offeringToDisplay} for:item="offering">
+                    <lightning-accordion-section
+                        key={offering.value}
+                        name={offering.value}
+                        label={offering.label}
+                        class="slds-m-top_xx-small nested-accordion-section">
+                        <div class="slds-m-horizontal_xx-large">
+                            <div class="slds-m-vertical_small">
+                                <lightning-combobox
+                                    if:true={offering.evaluationTypeEditMode}
+                                    class="slds-text-title_bold half-width"
+                                    value={offering.evaluationType}
+                                    placeholder="Select Evaluation Type"
+                                    options={evaluationTypes.data.values}
+                                    onchange={handleEvaluationChange}>
+                                </lightning-combobox>
+                                <div class="half-width">
+                                    <lightning-button-icon
+                                        if:true={offering.evaluationTypeEditMode}
+                                        data-name={offering.value}
+                                        icon-name="utility:check" 
+                                        size="x-small"
+                                        variant="border-filled"
+                                        alternative-text="Confirm"
+                                        onclick={handleShowConfirm}
+                                        class="slds-float_right"
+                                        disabled={disableConfirm}>
+                                    </lightning-button-icon>
+                                    <lightning-button-icon
+                                        if:true={offering.evaluationTypeEditMode}
+                                        data-name={offering.value}
+                                        icon-name="utility:close" 
+                                        size="x-small"
+                                        variant="border-filled"
+                                        alternative-text="Cancel"
+                                        class="slds-m-right_xx-small slds-float_right"
+                                        onclick={handleCancelEvaluationType}>
+                                    </lightning-button-icon>
+                                </div>
+                                <span if:false={offering.evaluationTypeEditMode} class="slds-text-heading_large">
+                                    <strong>{offering.evaluationType}</strong>
+                                </span>
+                                <span if:false={isStatusCompleted}>
+                                    <lightning-button-icon
+                                        if:false={offering.evaluationTypeEditMode}
+                                        data-name={offering.value}
+                                        icon-name="utility:edit"
+                                        alternative-text="Edit"
+                                        title="Edit Evaluation Type"
+                                        variant="bare"
+                                        size="small"
+                                        onclick={handleEditEvaluationType}
+                                        class="slds-m-left_small"
+                                    ></lightning-button-icon>
+                                </span>
+                                <p class="slds-text-body_small slds-m-top_small">
+                                    <i>EVALUATION TYPE</i>
+                                </p>
+                            </div>
+                            <lightning-record-edit-form
+                                object-api-name="hed__Course_Offering__c"
+                                record-id={offering.value}
+                                onsubmit={handleSubmit}
+                                onsuccess={handleSuccess}
+                                onerror={handleError}>
+                                <template for:each={offering.fields} for:item="field">
+                                    <lightning-layout key={field.apiName} size="12" class="slds-border_bottom">
+                                        <lightning-layout-item size="7" class="slds-align-middle slds-p-right_small">
+                                            <span class="slds-text-heading_small">{field.helpText}</span>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="4">
+                                            <lightning-input-field
+                                                if:true={offering.editMode}
+                                                field-name={field.apiName}
+                                                variant="label-stacked"
+                                            ></lightning-input-field>
+                                            <lightning-output-field
+                                                if:false={offering.editMode}
+                                                field-name={field.apiName}
+                                                variant="label-stacked"
+                                            ></lightning-output-field>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="1" class="slds-align-middle">
+                                            <div if:false={isStatusCompleted}> 
+                                                <lightning-button-icon
+                                                    if:false={offering.editMode}
+                                                    data-name={offering.value}
+                                                    icon-name="utility:edit"
+                                                    alternative-text="Edit"
+                                                    title="Edit"
+                                                    variant="bare"
+                                                    size="medium"
+                                                    onclick={handleEdit}
+                                                    class="slds-float_right"
+                                                ></lightning-button-icon>
+                                            </div>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </template>
+                                <div if:true={offering.editMode} class="slds-docked-form-footer">
+                                    <lightning-button
+                                        data-name={offering.value}
+                                        label="Cancel"
+                                        variant="neutral"
+                                        onclick={handleCancel}
+                                    ></lightning-button>
+                                    <lightning-button
+                                        data-name={offering.value}
+                                        label="Save"
+                                        variant="brand"
+                                        type="submit"
+                                        onclick={handleSave}
+                                        class="slds-m-left_small"
+                                    ></lightning-button>
+                                </div>
+                            </lightning-record-edit-form>
+                        </div>
+                    </lightning-accordion-section>
+                </template>
+            </lightning-accordion>
+        </lightning-accordion-section>
+    </div>
+</template>

@@ -48,7 +48,12 @@ export default class TrackAttendanceAndEvaluation extends LightningElement {
     studentData = [];
     columns = [ { label: 'Name', fieldName: 'name' }, 
     { label: 'Present', fieldName: 'Present__c', type:'boolean', editable: true}];
+    activeSections = ['trackAttendance','evaluations'];
     isStatusCompleted;
+    
+    get hasAccess(){
+        return HAS_PERMISSION;
+    }
 
     /**
      * gets product request status
@@ -88,7 +93,8 @@ export default class TrackAttendanceAndEvaluation extends LightningElement {
         return listToFormat.map(item =>{
             let newItem = {};
             newItem.value = item.id;
-            newItem.label = 'Start Date:    ' +  this.formatDate(item.startDate) + '    ' +  'End Date:     ' + this.formatDate(item.endDate) ;
+            newItem.label = item.deliveryType + ' (' +  this.formatDate(item.startDate) + ' to ' + this.formatDate(item.endDate) + ')' ;
+            newItem.evaluationType = item.evaluationType;
             return newItem;
         });
     }
@@ -99,7 +105,7 @@ export default class TrackAttendanceAndEvaluation extends LightningElement {
         return sessionList.map(item =>{
             let newItem = {};
             newItem.value = item.Id;
-            newItem.label = item.Name + '    ' +this.formatDate(item.Start_Time__c) + '      ' + this.formatTime(String(item.Start_Time__c));
+            newItem.label = item.Name + ' (' +this.formatDate(item.Start_Time__c) + ', ' + this.formatTime(String(item.Start_Time__c)) + ')';
             return newItem;
         });
     }
@@ -224,11 +230,9 @@ export default class TrackAttendanceAndEvaluation extends LightningElement {
     this.createdAttendance= false;
    }
 
-   get hasAccess(){
-        return HAS_PERMISSION;
-    }
-     /*
-    *generates toasts
+   
+    /*
+    * generates toasts
     */
     generateToast(_title,_message,_variant){
         const evt = new ShowToastEvent({
