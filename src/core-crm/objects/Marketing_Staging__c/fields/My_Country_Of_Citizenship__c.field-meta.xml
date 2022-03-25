@@ -12,6 +12,6 @@ Indicates the country the international student is a citizen of.</description>
     <type>Picklist</type>
     <valueSet>
         <restricted>true</restricted>
-        <valueSetName>Countries</valueSetName>
+        <valueSetName>Country</valueSetName>
     </valueSet>
 </CustomField>

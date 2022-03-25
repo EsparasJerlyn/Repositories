@@ -10,6 +10,6 @@
     <type>Picklist</type>
     <valueSet>
         <restricted>true</restricted>
-        <valueSetName>Countries</valueSetName>
+        <valueSetName>Country</valueSetName>
     </valueSet>
 </CustomField>
