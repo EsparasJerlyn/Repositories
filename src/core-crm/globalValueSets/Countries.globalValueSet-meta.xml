@@ -1245,6 +1245,6 @@
         <default>false</default>
         <label>Zimbabwe</label>
     </customValue>
-    <masterLabel>Country</masterLabel>
+    <masterLabel>Countries</masterLabel>
     <sorted>false</sorted>
 </GlobalValueSet>
