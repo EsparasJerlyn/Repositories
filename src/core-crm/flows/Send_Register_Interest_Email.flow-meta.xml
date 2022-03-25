@@ -30,7 +30,13 @@
         <inputParameters>
             <name>senderAddress</name>
             <value>
-                <stringValue>qutex@qut.edu.au</stringValue>
+                <elementReference>$Setup.Flow_Automation_Settings__c.New_Idea_To_Email_Address__c</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderType</name>
+            <value>
+                <stringValue>OrgWideEmailAddress</stringValue>
             </value>
         </inputParameters>
         <inputParameters>

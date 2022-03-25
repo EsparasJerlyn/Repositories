@@ -89,6 +89,9 @@ global class B2BRegisterInterestBatch implements Database.Batchable<sObject>
         if(!interestEmailRecipientsSet.isEmpty()){
             List<Domain> domain = new List<Domain>([SELECT Id, Domain FROM Domain]);
             List<EmailTemplate> emailTemplateList = new List<EmailTemplate>([SELECT Id, HTMLValue from EmailTemplate WHERE DeveloperName = 'Offering_Available_Email_Notification']);
+            OrgWideEmailAddress owea = new OrgWideEmailAddress();
+            owea = [SELECT Id, Address, DisplayName FROM OrgWideEmailAddress WHERE DisplayName='QUTeX'];
+
             String basePortalUrl ='';
             if(!domain.isEmpty()){
                 basePortalUrl= 'https://' + domain[0].Domain + '/study/s/product/';
@@ -106,6 +109,10 @@ global class B2BRegisterInterestBatch implements Database.Batchable<sObject>
                     lstSendToEmails.add(expresionOfInterestMap.get(interestId).Contact__r.Email);
                 
                     objEmail.setToAddresses(lstSendToEmails);
+
+                    if(owea != null){
+                        objEmail.setOrgWideEmailAddressId(owea.Id);
+                    }
 
                     //Set Email Subject
                     objEmail.setSubject(expresionOfInterestMap.get(interestId).Product__r.Name);

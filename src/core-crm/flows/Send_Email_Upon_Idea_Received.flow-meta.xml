@@ -27,6 +27,18 @@
             </value>
         </inputParameters>
         <inputParameters>
+            <name>senderAddress</name>
+            <value>
+                <elementReference>$Setup.Flow_Automation_Settings__c.New_Idea_To_Email_Address__c</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderType</name>
+            <value>
+                <stringValue>OrgWideEmailAddress</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
             <name>emailSubject</name>
             <value>
                 <stringValue>[QUTeX] An Idea Has Been Submitted</stringValue>
@@ -60,6 +72,18 @@
             <name>sendRichBody</name>
             <value>
                 <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderAddress</name>
+            <value>
+                <elementReference>$Setup.Flow_Automation_Settings__c.New_Idea_To_Email_Address__c</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderType</name>
+            <value>
+                <stringValue>OrgWideEmailAddress</stringValue>
             </value>
         </inputParameters>
         <inputParameters>

@@ -20,7 +20,7 @@ private class Send_Email_Upon_Idea_SubmissionTest {
     @isTest
     private static void emailUponSubmissionTest(){
         System.runAs(currentUser){
-            Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test@mailinator.com');
+            Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@qut.edu.au');
             insert customEmail;
             
             Account acc = TestDataFactory.createTestAccountRecords(1).iterator().next();

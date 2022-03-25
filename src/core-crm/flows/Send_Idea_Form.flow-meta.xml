@@ -32,7 +32,13 @@
         <inputParameters>
             <name>senderAddress</name>
             <value>
-                <stringValue>qutex@qut.edu.au</stringValue>
+                <elementReference>$Setup.Flow_Automation_Settings__c.New_Idea_To_Email_Address__c</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderType</name>
+            <value>
+                <stringValue>OrgWideEmailAddress</stringValue>
             </value>
         </inputParameters>
         <inputParameters>
@@ -74,52 +80,13 @@
         <inputParameters>
             <name>senderAddress</name>
             <value>
-                <stringValue>qutex@qut.edu.au</stringValue>
+                <elementReference>$Setup.Flow_Automation_Settings__c.New_Idea_To_Email_Address__c</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
-            <name>emailSubject</name>
+            <name>senderType</name>
             <value>
-                <stringValue>[QUTeX] Idea Form</stringValue>
-            </value>
-        </inputParameters>
-    </actionCalls>
-    <actionCalls>
-        <name>Send_Email_0</name>
-        <label>Send Email</label>
-        <locationX>50</locationX>
-        <locationY>638</locationY>
-        <actionName>emailSimple</actionName>
-        <actionType>emailSimple</actionType>
-        <connector>
-            <targetReference>Update_Status_Value</targetReference>
-        </connector>
-        <faultConnector>
-            <targetReference>Unhandled_Error</targetReference>
-        </faultConnector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
-        <inputParameters>
-            <name>emailBody</name>
-            <value>
-                <elementReference>Email_Content</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>emailAddresses</name>
-            <value>
-                <elementReference>Get_Product_Specification_Details.Requestor_Name__r.QUT_Staff_Email__c</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>sendRichBody</name>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>senderAddress</name>
-            <value>
-                <stringValue>qutex@qut.edu.au</stringValue>
+                <stringValue>OrgWideEmailAddress</stringValue>
             </value>
         </inputParameters>
         <inputParameters>
@@ -133,7 +100,7 @@
     <assignments>
         <name>External_URL</name>
         <label>External URL</label>
-        <locationX>578</locationX>
+        <locationX>314</locationX>
         <locationY>398</locationY>
         <assignmentItems>
             <assignToReference>Endpoint_URL</assignToReference>
@@ -379,9 +346,6 @@
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
-        <connector>
-            <targetReference>Update_Status_Value</targetReference>
-        </connector>
         <fields>
             <name>Email_And_Mobile_Required</name>
             <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;b style=&quot;color: rgb(255, 0, 0); font-size: 16px; background-color: rgb(255, 255, 255);&quot;&gt;Requestor Email &lt;/b&gt;&lt;span style=&quot;color: rgb(255, 0, 0); font-size: 16px; background-color: rgb(255, 255, 255);&quot;&gt;and&lt;/span&gt;&lt;b style=&quot;color: rgb(255, 0, 0); font-size: 16px; background-color: rgb(255, 255, 255);&quot;&gt; Requestor Mobile&lt;/b&gt;&lt;span style=&quot;color: rgb(255, 0, 0); font-size: 16px; background-color: rgb(255, 255, 255);&quot;&gt;&amp;nbsp;are required to Proceed.&lt;/span&gt;&lt;/p&gt;</fieldText>
@@ -431,7 +395,7 @@
     <screens>
         <name>No_Requestor_Assigned</name>
         <label>No Requestor Assigned</label>
-        <locationX>1106</locationX>
+        <locationX>578</locationX>
         <locationY>398</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
@@ -452,9 +416,6 @@
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
-        <connector>
-            <targetReference>Update_Status_Value</targetReference>
-        </connector>
         <fields>
             <name>Qut_Staff_Email_Required</name>
             <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;b style=&quot;background-color: rgb(255, 255, 255); font-size: 16px; color: rgb(255, 0, 0);&quot;&gt;QUT Staff Email&lt;/b&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 16px; color: rgb(255, 0, 0);&quot;&gt;&amp;nbsp;is required to Proceed.&lt;/span&gt;&lt;/p&gt;</fieldText>

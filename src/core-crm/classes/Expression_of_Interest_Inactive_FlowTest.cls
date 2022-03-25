@@ -18,13 +18,16 @@ private class Expression_of_Interest_Inactive_FlowTest{
     @isTest
     private static void setToInactiveTest()
     {
-
         User portalAccountOwner1 = TestDataFactory.createUserRecords(1,'System Administrator').iterator().next();
         UserRole portalRole = [Select Id From UserRole Where PortalType = 'None' Limit 1];
         portalAccountOwner1.UserRoleId = portalRole.Id;
         Database.insert(portalAccountOwner1);
 
         System.runAs ( portalAccountOwner1 ) {
+            
+            Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@qut.edu.au');
+            insert customEmail;
+            
             //Create account
             Account portalAccount1 = new Account(
             Name = 'TestAccount',

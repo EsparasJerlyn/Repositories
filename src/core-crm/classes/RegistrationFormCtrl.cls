@@ -90,7 +90,13 @@ public without sharing class RegistrationFormCtrl {
 
             Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
             List<EmailTemplate> welcomeTemplate = new List<EmailTemplate>([Select Id from EmailTemplate where name = 'Experience Cloud: New Member Welcome Email']);
-
+            OrgWideEmailAddress owea = new OrgWideEmailAddress();
+            owea = [SELECT Id, Address, DisplayName FROM OrgWideEmailAddress WHERE DisplayName='QUTeX'];
+            if(owea != null)
+            {
+                mail.setOrgWideEmailAddressId(owea.Id);
+            }
+            
             mail.setTargetObjectId(u.Id);
             mail.setTemplateId(welcomeTemplate[0].Id);
             mail.setSaveAsActivity(false);

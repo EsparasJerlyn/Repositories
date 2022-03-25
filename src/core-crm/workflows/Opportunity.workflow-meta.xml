@@ -7,7 +7,8 @@
         <recipients>
             <type>owner</type>
         </recipients>
-        <senderType>CurrentUser</senderType>
+        <senderAddress>test-qutex@qut.edu.au</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
         <template>unfiled$public/Rejected_Proposal_Email_Template</template>
     </alerts>
     <fieldUpdates>

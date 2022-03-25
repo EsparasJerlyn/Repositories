@@ -15,6 +15,9 @@
 public class B2BRegisterInterestBatchTest {
 
     @testSetup static void setupMethod() {
+        Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@qut.edu.au');
+        insert customEmail;
+         
         List<Account> accounts;
         List<Contact> contacts;
         List<hed__Term__c> terms;

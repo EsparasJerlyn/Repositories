@@ -28,7 +28,7 @@ private class Send_Program_Plan_Design_FormTest {
     {
         System.runAs(currentUser)
         {
-            Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test@mailinator.com');
+            Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@qut.edu.au');
             insert customEmail;
             List<Account> acc = TestDataFactory.createTestAccountRecords(1);
             insert acc;

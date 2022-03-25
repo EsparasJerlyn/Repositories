@@ -8,7 +8,8 @@
             <field>Contact__c</field>
             <type>contactLookup</type>
         </recipients>
-        <senderType>CurrentUser</senderType>
+        <senderAddress>test-qutex@qut.edu.au</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
         <template>unfiled$public/Application_Email_Approved_1644399313099</template>
     </alerts>
     <alerts>
@@ -19,7 +20,8 @@
             <field>Contact__c</field>
             <type>contactLookup</type>
         </recipients>
-        <senderType>CurrentUser</senderType>
+        <senderAddress>test-qutex@qut.edu.au</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
         <template>unfiled$public/Application_Email_Rejected_1644576710097</template>
     </alerts>
 </Workflow>

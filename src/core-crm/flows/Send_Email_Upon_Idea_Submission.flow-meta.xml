@@ -3,8 +3,8 @@
     <actionCalls>
         <name>Send_Email_to_QUTeX</name>
         <label>Send Email to QUTeX</label>
-        <locationX>1047</locationX>
-        <locationY>142</locationY>
+        <locationX>1046</locationX>
+        <locationY>136</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -27,6 +27,18 @@
             </value>
         </inputParameters>
         <inputParameters>
+            <name>senderAddress</name>
+            <value>
+                <elementReference>$Setup.Flow_Automation_Settings__c.New_Idea_To_Email_Address__c</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderType</name>
+            <value>
+                <stringValue>OrgWideEmailAddress</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
             <name>emailSubject</name>
             <value>
                 <stringValue>[QUTeX] An Idea Has Been Submitted</stringValue>
@@ -36,8 +48,8 @@
     <actionCalls>
         <name>Send_Email_to_Requestor</name>
         <label>Send Email to Requestor</label>
-        <locationX>759</locationX>
-        <locationY>142</locationY>
+        <locationX>758</locationX>
+        <locationY>140</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
         <connector>
@@ -65,7 +77,13 @@
         <inputParameters>
             <name>senderAddress</name>
             <value>
-                <elementReference>QUTeXEmail</elementReference>
+                <elementReference>$Setup.Flow_Automation_Settings__c.New_Idea_To_Email_Address__c</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderType</name>
+            <value>
+                <stringValue>OrgWideEmailAddress</stringValue>
             </value>
         </inputParameters>
         <inputParameters>
@@ -76,13 +94,6 @@
         </inputParameters>
     </actionCalls>
     <apiVersion>52.0</apiVersion>
-    <constants>
-        <name>QUTeXEmail</name>
-        <dataType>String</dataType>
-        <value>
-            <stringValue>qutex@qut.edu.au</stringValue>
-        </value>
-    </constants>
     <decisions>
         <name>Is_Idea_for_Qualification</name>
         <label>Is Idea for Qualification?</label>
@@ -206,7 +217,7 @@
     </recordLookups>
     <start>
         <locationX>49</locationX>
-        <locationY>60</locationY>
+        <locationY>57</locationY>
         <connector>
             <targetReference>Get_OPE_Record_Type</targetReference>
         </connector>
