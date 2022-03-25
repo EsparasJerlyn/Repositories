@@ -8,6 +8,5 @@
  ISPICKVAL( PRIORVALUE ( Stage__c ), &apos;Qualify&apos; ),
  ISPICKVAL( Stage__c, &apos;Idea&apos; )
 )</errorConditionFormula>
-    <errorDisplayField>Stage__c</errorDisplayField>
     <errorMessage>Update of stage from &quot;Qualify&quot; back to &quot;Idea&quot; is not allowed.</errorMessage>
 </ValidationRule>

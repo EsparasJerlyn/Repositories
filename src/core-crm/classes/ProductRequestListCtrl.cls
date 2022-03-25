@@ -124,6 +124,7 @@ public with sharing class ProductRequestListCtrl {
                 Product_Request__c prodReq = new Product_Request__c();
                 prodReq.Id = relatedProduct.Course__c;
                 prodReq.Product_Request_Status__c = 'Not Proceeding';
+                prodReq.Not_Proceeding_Comments__c = notProceedingComment;
                 productRequestsToUpdate.add(prodReq);
             }
         }
