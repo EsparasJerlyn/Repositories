@@ -9,13 +9,7 @@
   RecordType.DeveloperName = &apos;Unit&apos;,
   RecordType.DeveloperName = &apos;Module&apos;
  ),
- ISPICKVAL( ProductRequestID__r.Product_Request_Status__c , &apos;Design&apos;),
- AND(
-  NOT (ISCHANGED( Design_Form_Status__c ) ),
-  OR(
-   ISPICKVAL( Design_Form_Status__c , &apos;Design Form Sent&apos;),
-   ISPICKVAL( Design_Form_Status__c , &apos;Design Form Received&apos;)
-  )
+ ISPICKVAL( ProductRequestID__r.Product_Request_Status__c , &apos;Design&apos;
  ),
  ISPICKVAL( Delivery_Type__c , &apos;Face to Face&apos;),
  ISBLANK( Location__c ),
