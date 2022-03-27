@@ -25,7 +25,7 @@ private class Expression_of_Interest_Inactive_FlowTest{
 
         System.runAs ( portalAccountOwner1 ) {
             
-            Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@qut.edu.au');
+            Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
             insert customEmail;
             
             //Create account

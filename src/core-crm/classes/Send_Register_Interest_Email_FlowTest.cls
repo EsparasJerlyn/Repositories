@@ -18,7 +18,7 @@ private class Send_Register_Interest_Email_FlowTest{
     @isTest
     private static void sendEmailTest()
     {   
-        Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@qut.edu.au');
+        Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
         insert customEmail;
         
         User portalAccountOwner1 = TestDataFactory.createUserRecords(1,'System Administrator').iterator().next();

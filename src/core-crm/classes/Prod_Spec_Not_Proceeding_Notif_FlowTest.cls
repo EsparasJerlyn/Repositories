@@ -22,7 +22,7 @@ private class Prod_Spec_Not_Proceeding_Notif_FlowTest{
     private static void insertUpdateLeadRecordTest(){  
         System.runAs(currentUser){
             
-            Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@qut.edu.au');
+            Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
             insert customEmail;
 
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
