@@ -22,6 +22,15 @@ pr:
 variables:
   - group: SF_CICD
 
+parameters:
+- name: INCLUDE_SANDBOX_REFRESH_STEP_LoadUsers
+  displayName: Include Add/Update Test Users
+  type: string
+  default: "Yes"
+  values:
+  - "Yes"
+  - "No"
+
 stages:
   - stage: PiplineJob
     displayName: "Validate"
@@ -53,4 +62,7 @@ stages:
                 - template: yml/templates/sfdx-deploy-and-post-deploy.yml@SFDX-PIPELINES
                   parameters:
                     validateOrDeploy: "Deploy"
+                - template: yml/templates/sfdx-deploy-test-users.yml@SFDX-PIPELINES
+                  parameters:
+                    INCLUDE_SANDBOX_REFRESH_STEP_LoadUsers: "${{ parameters.INCLUDE_SANDBOX_REFRESH_STEP_LoadUsers }}"
                 - template: yml/templates/sfdx-logout.yml@SFDX-PIPELINES
