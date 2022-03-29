@@ -17,69 +17,87 @@
       |                           |                       |                      | Export Learners List and     |
       |                           |                       |                      | Query to filter only         |
       |                           |                       |                      | Registration Questions       |
-      |                           |                       |                      |                              |
+      | roy.nino.s.regala         | March 25, 2022        | DEPP-1539            | Add registration             |
  */
 public with sharing class ManageRegistrationSectionCtrl {
 
      private static string studentRT = System.Label.RT_CourseConnection_Student;
      private static Id studentRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(studentRT).getRecordTypeId();
 
+
      /**
-      * @description Retrieves list of Registration details of students
+      * @description Retrieves list of related answers
       * @param prodReqId - Record ID from record page
-      * @return List of ManageRegistrationDetails
+      * @return List of Related_Answer__c
       */
-     @AuraEnabled(cacheable=true)
-     public static List<ManageRegistrationDetails> getRegistrationDetails(String prodReqId){
-          Product_Request__c productRequest = [SELECT RecordTypeId FROM Product_Request__c WHERE Id =: prodReqId LIMIT 1];
-          return getNonProgPlanRegistrations(prodReqId);
+     @AuraEnabled(cacheable=true)  
+     public static List<Related_Answer__c> getQuestions(String productReqId){
+          List<Related_Answer__c> relatedAnswersList = new List<Related_Answer__c>(
+               [
+                    SELECT Id, Question__r.Type__c, Question__r.Label__c, Sequence__c, 
+                    Questionnaire__r.Parent_Record_ID__c, Question__r.Mandatory_Response__c, 
+                    Question__r.Message__c, Questionnaire__r.Questionnaire_Type__c,
+                    Question__r.Dropdown_Options__c
+                    FROM Related_Answer__c
+                    WHERE Questionnaire__r.Parent_Record_ID__c =: productReqId
+                    AND (Questionnaire__r.Questionnaire_Type__c = 'Registration Questions' 
+                    OR Questionnaire__r.Questionnaire_Type__c = 'Registration Criteria')
+                    ORDER BY Questionnaire__r.Questionnaire_Type__c, Sequence__c 
+               ]
+          );
+          return relatedAnswersList;
      }
 
      /**
       * @description Retrieves list of Registration details of students for Non Program Plan
-      * @param prodReqId - Record ID from record page
+      * @param childRecordId - Record ID of course offering
       * @return List of ManageRegistrationDetails
       */
-     private static List<ManageRegistrationDetails> getNonProgPlanRegistrations(String prodReqId){
+     @AuraEnabled(cacheable=true)
+     public static List<ManageRegistrationDetails> getNonProgPlanRegistrations(String childRecordId){
           List<ManageRegistrationDetails> response = new List<ManageRegistrationDetails>();
-          Id courseOfferingId = [SELECT Id FROM hed__Course_Offering__c WHERE hed__Course__c IN (
-                                   SELECT Id FROM hed__Course__c WHERE ProductRequestID__c =: prodReqId) LIMIT 1]?.Id;
-          if(courseOfferingId == null){
+          Map<Id,Questionnaire_Response_Summary__c> contactToQRSummary = new Map<Id,Questionnaire_Response_Summary__c>();
+          //Id courseOfferingId = [SELECT Id FROM hed__Course_Offering__c WHERE Id =: childRecordId]?.Id;
+          if(childRecordId == null){
                return new List<ManageRegistrationDetails>();
           }
           List<Questionnaire_Response_Summary__c> questionnaireResponseList = [
                SELECT Id, Name, Contact__c, Course_Offering__c, Questionnaire__c, Questionnaire__r.Questionnaire_Type__c, Registration_Status__c
                  FROM Questionnaire_Response_Summary__c
-                WHERE Course_Offering__c =: courseOfferingId AND Questionnaire__r.Questionnaire_Type__c = 'Registration Questions'
+                WHERE Course_Offering__c =: childRecordId AND Questionnaire__r.Questionnaire_Type__c = 'Registration Questions'
           ];
+
+          for(Questionnaire_Response_Summary__c qResSummary: questionnaireResponseList){
+               contactToQRSummary.put(qResSummary.Contact__c,qResSummary);
+          }
+
           List<hed__Course_Enrollment__c > courseConnections = [
                SELECT Id, Name, hed__Contact__c, hed__Contact__r.Name, hed__Course_Offering__c, Paid_in_Full__c, hed__Status__c, LMS_Integration_Status__c, hed__Contact__r.FirstName, hed__Contact__r.LastName, hed__Contact__r.Birthdate, hed__Contact__r.Email, Payment_Method__c
                  FROM hed__Course_Enrollment__c
-                WHERE hed__Course_Offering__c =: courseOfferingId AND RecordTypeId =: studentRecTypeId
+                WHERE hed__Course_Offering__c =: childRecordId AND RecordTypeId =: studentRecTypeId
           ];
-          for(hed__Course_Enrollment__c student : courseConnections){
-               for(Questionnaire_Response_Summary__c question : questionnaireResponseList){
-                    if(question.Contact__c == student.hed__Contact__c){
-                         ManageRegistrationDetails regDetails = new ManageRegistrationDetails();
-                         regDetails.id = student.Id;
-                         regDetails.questionId = question.Id;
-                         regDetails.contactFullName = student.hed__Contact__r.Name;
-                         regDetails.paidInFull = student.Paid_in_Full__c;
-                         regDetails.registrationStatus = question.Registration_Status__c;
-                         regDetails.lmsIntegrationStatus = student.LMS_Integration_Status__c;
-                         regDetails.contactFirstName = student.hed__Contact__r.FirstName;
-                         regDetails.contactLastName = student.hed__Contact__r.LastName;
-                         regDetails.contactBirthdate = student.hed__Contact__r.Birthdate;
-                         regDetails.contactEmail = student.hed__Contact__r.Email;
-                         regDetails.paymentMethod = student.Payment_Method__c;
 
-                         if(question.Questionnaire__r.Questionnaire_Type__c == 'Registration Questions'){
-                              regDetails.applicationURL = '/' + question.Id;
-                              regDetails.applicationName = question.Name;
-                         }
-                         response.add(regDetails);
+          for(hed__Course_Enrollment__c student : courseConnections){
+               ManageRegistrationDetails regDetails = new ManageRegistrationDetails();
+               regDetails.id = student.Id;
+               regDetails.contactId = student.hed__Contact__c;
+               regDetails.contactFullName = student.hed__Contact__r.Name;
+               regDetails.paidInFull = student.Paid_in_Full__c;
+               regDetails.lmsIntegrationStatus = student.LMS_Integration_Status__c;
+               regDetails.contactFirstName = student.hed__Contact__r.FirstName;
+               regDetails.contactLastName = student.hed__Contact__r.LastName;
+               regDetails.contactBirthdate = student.hed__Contact__r.Birthdate;
+               regDetails.contactEmail = student.hed__Contact__r.Email;
+               regDetails.paymentMethod = student.Payment_Method__c;
+               if(contactToQRSummary.containsKey(student.hed__Contact__c)){
+                    regDetails.questionId = contactToQRSummary.get(student.hed__Contact__c).Id;
+                    regDetails.registrationStatus = contactToQRSummary.get(student.hed__Contact__c).Registration_Status__c;
+                    if(contactToQRSummary.get(student.hed__Contact__c).Questionnaire__c != NULL && contactToQRSummary.get(student.hed__Contact__c).Questionnaire__r.Questionnaire_Type__c == 'Registration Questions'){
+                         regDetails.applicationURL = '/' +  contactToQRSummary.get(student.hed__Contact__c).Id;
+                         regDetails.applicationName =  contactToQRSummary.get(student.hed__Contact__c).Name;
                     }
                }
+               response.add(regDetails);
           }
           return response;
      }
@@ -157,11 +175,174 @@ public with sharing class ManageRegistrationSectionCtrl {
      }
 
      /**
+     * @description get list of contacts searched 
+     * @param filterString - search string for filter
+     * @param filterContacts - list of contact ids
+     * @return list of map of formatted contacts for customSearch
+     */
+    @AuraEnabled(cacheable=true)
+    public static List<Map<String,String>> getSearchedContacts(String filterString, List<Id> filterContacts){
+        filterString = '%' + filterString + '%';
+        List<Map<String,String>> contactMap = new List<Map<String,String>>();
+        
+        for(Contact con : [
+            SELECT Id, Name, Email
+            FROM Contact
+            WHERE (
+                Name LIKE :filterString OR
+                Name = :filterString 
+            ) AND Id NOT IN:filterContacts 
+            LIMIT 15
+        ]){
+          contactMap.add(new Map<String,String>{
+                'id' => con.Id,
+                'label' => con.Name,
+                'meta' => con.Email
+            });
+        }
+        return contactMap;
+    }  
+
+    /**
+     * @description get list of contacts searched 
+     * @param contactRecord - contact to create
+     * @param courseOfferingId - course offering id
+     * @param relatedAnswerList - related answer records
+     * @param answerList - answer records to be inserted
+     * @param fileUpload - file to upload
+     */
+    @AuraEnabled
+    public static void addRegistration(Contact contactRecord, String courseOfferingId, List<Related_Answer__c> relatedAnswerList, List<Answer__c> answerList, String fileUpload){
+          
+          List<FileUpload> parsedFileUpload = new List<FileUpload>();
+          if(fileUpload != ''){
+               parsedFileUpload = (List<FileUpload>) JSON.deserialize(fileUpload, List<FileUpload>.class);
+          }
+
+          List<Questionnaire_Response_Summary__c> questionnaireSummaryToInsert = new List<Questionnaire_Response_Summary__c>();
+          Map<String,String> cvToRelatedAnswerMap = new Map<String,String>();
+          List<ContentDocumentLink> contentDocLinkListToInsert = new List<ContentDocumentLink>();
+          List<ContentVersion> cvListToInsertList = new List<ContentVersion>();
+          Map<Id,Id> relatedAnswerToQuestionnaireMap = new Map<Id,Id>();
+          Map<Id,Id> questionnaireToqResSummaryMap = new Map<Id,Id>();
+          Map<Id,Id> relatedAnswerToAnswerMap = new Map<Id,Id>();
+          Set<Id> questionnaireIds = new Set<Id>();
+
+          List<Answer__c> answersToInsert = new List<Answer__c>();
+          Map<Id,Answer__c> answersToUpdate = new Map<Id,Answer__c>();
+
+          if(contactRecord.Id == NULL){
+               insert contactRecord;
+          }
+
+          for(Related_Answer__c relatedA: relatedAnswerList){
+               questionnaireIds.add(relatedA.Questionnaire__c);
+               relatedAnswerToQuestionnaireMap.put(relatedA.Id,relatedA.Questionnaire__c);
+          }
+
+          Questionnaire_Response_Summary__c qResSummary;
+
+          for(Id qId:questionnaireIds){
+               qResSummary = new Questionnaire_Response_Summary__c();
+               qResSummary.Questionnaire__c = qId;
+               qResSummary.Course_Offering__c = courseOfferingId;
+               qResSummary.Contact__c = contactRecord.Id;
+               questionnaireSummaryToInsert.add(qResSummary);
+          }
+
+          if(!questionnaireSummaryToInsert.isEmpty()){
+               insert questionnaireSummaryToInsert;
+          }
+
+          for(Questionnaire_Response_Summary__c questionResSummary: questionnaireSummaryToInsert){
+               questionnaireToqResSummaryMap.put(questionResSummary.Questionnaire__c,questionResSummary.Id);
+          }
+
+          if(!answerList.isEmpty()){
+               for(Answer__c a: answerList){
+                    a.Questionnaire_Response_Summary__c = questionnaireToqResSummaryMap.get(relatedAnswerToQuestionnaireMap.get(a.Related_Answer__c));
+                    answersToInsert.add(a);
+               }
+               insert answersToInsert;
+          }
+
+          for(Answer__c ans :answersToInsert){
+               relatedAnswerToAnswerMap.put(ans.Related_Answer__c,ans.Id);
+          }
+
+          for(FileUpload file: parsedFileUpload){
+               if(relatedAnswerToAnswerMap.containsKey(file.RelatedAnswerId)){
+                    ContentVersion cv = createContentVersion(file.Base64, file.FileName);
+                    cvToRelatedAnswerMap.put(cv.Title,file.RelatedAnswerId);
+                    cvListToInsertList.add(cv);
+               }
+          }
+
+          if(!cvListToInsertList.isEmpty()){
+               insert cvListToInsertList;
+          }
+
+          List<ContentVersion> newContentVersionList = new List<ContentVersion>(
+               [
+                    SELECT ContentDocumentId, Title
+                    FROM ContentVersion 
+                    WHERE Id IN:cvListToInsertList
+               ]
+          );
+
+          if(!newContentVersionList.isEmpty()){
+               ContentDocumentLink cdl;
+               Answer__c updateAnswer;
+               for(ContentVersion cv:newContentVersionList){
+                    String test = relatedAnswerToAnswerMap.get(cvToRelatedAnswerMap.get(cv.Title));
+                    cdl = new ContentDocumentLink(
+                         ContentDocumentId = cv.ContentDocumentId,
+                         LinkedEntityId = relatedAnswerToAnswerMap.get(cvToRelatedAnswerMap.get(cv.Title)),
+                         ShareType = 'V'
+                    );
+                    updateAnswer = new Answer__c(
+                         Id = cdl.LinkedEntityId,
+                         Response__c = cv.ContentDocumentId
+                    );
+                    answersToUpdate.put(updateAnswer.Id,updateAnswer);
+                    contentDocLinkListToInsert.add(cdl);
+               }
+          }
+
+          if(!contentDocLinkListToInsert.isEmpty()){
+               insert contentDocLinkListToInsert;
+          }
+
+          if(!answersToUpdate.keySet().isEmpty()){
+               update answersToUpdate.values();
+          }
+
+          hed__Course_Enrollment__c newCourseConnection = new hed__Course_Enrollment__c
+               (
+               hed__Course_Offering__c = courseOfferingId,
+               hed__Contact__c =  contactRecord.Id,
+               RecordTypeId = studentRecTypeId,
+               hed__Status__c = 'Active'
+               );
+          insert newCourseConnection;
+    }  
+
+    private static ContentVersion createContentVersion(String base64, String filename) {
+          ContentVersion cv = new ContentVersion();
+          cv.VersionData = EncodingUtil.base64Decode(base64);
+          cv.Title = filename;
+          cv.PathOnClient = filename;
+          return cv;
+     }
+
+     /**
       * @description Wrapper class that holds data to be displayed
       */
      public class ManageRegistrationDetails{
           @AuraEnabled
           public String id;
+          @AuraEnabled
+          public String contactId;
           @AuraEnabled
           public String questionId;
           @AuraEnabled
@@ -186,5 +367,17 @@ public with sharing class ManageRegistrationSectionCtrl {
           public String applicationName;
           @AuraEnabled
           public String applicationURL;
+      }
+
+      /**
+      * @description Wrapper class that holds the file uploaded by user
+      */
+      public class FileUpload{
+          @AuraEnabled
+          public String Base64;
+          @AuraEnabled
+          public String FileName;
+          @AuraEnabled
+          public String RelatedAnswerId;
       }
 }

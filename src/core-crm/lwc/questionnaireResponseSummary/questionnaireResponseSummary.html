@@ -61,12 +61,22 @@
         class="slds-size_1-of-12 slds-m-bottom_medium"
       >
       </lightning-layout-item>
-      <lightning-layout-item
+      <template if:true={qa.isFile}>
+        <lightning-layout-item
+        key={qa.aId}
+        class="slds-size_5-of-12 slds-m-bottom_medium slds-box slds-box_xx-small"
+      >
+      <lightning-formatted-url value={qa.answer} label='View File' target="_top"></lightning-formatted-url> 
+      </lightning-layout-item>
+      </template>
+      <template if:false={qa.isFile}>
+        <lightning-layout-item
         key={qa.aId}
         class="slds-size_5-of-12 slds-m-bottom_medium slds-box slds-box_xx-small"
       >
         <p class="slds-form-element__label">{qa.answer}</p>
       </lightning-layout-item>
+      </template>
     </template>
   </lightning-layout>
   <div

@@ -118,8 +118,10 @@
                                 <lightning-accordion-section name="manageRegistrations" label="Manage Registration" class="nested-accordion-section">
                                     <div class="slds-scrollable slds-p-bottom_medium slds-m-top_small">
                                         <c-manage-registration-section
+                                            child-record-id={offering.Id}
                                             prod-req-id={recordId}
                                             enable-edit={showEditButton}
+                                            disabled={isStatusCompleted}
                                         ></c-manage-registration-section>                    
                                     </div> 
                                 </lightning-accordion-section>

@@ -47,11 +47,11 @@ public with sharing class ManageRegistrationSectionCtrlTest{
      static void getRegDetailsForNonProgPlanTest(){        
           System.runAs(currentUser){               
                createRecord(opeActProdReqRecType);  
-               String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;             
+               String childRecordId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;             
                Test.startTest();
-               List<ManageRegistrationSectionCtrl.ManageRegistrationDetails> registrationDetails = ManageRegistrationSectionCtrl.getRegistrationDetails(prodReqId);      
+               List<ManageRegistrationSectionCtrl.ManageRegistrationDetails> registrationDetails = ManageRegistrationSectionCtrl.getNonProgPlanRegistrations(childRecordId);      
                Test.stopTest();
-               System.assertEquals(numberOfRecords, registrationDetails.size(), 'Incorrect number of records retrieved.');
+              System.assertEquals(numberOfRecords, registrationDetails.size(), 'Incorrect number of records retrieved.');
           }      
      }    
 
@@ -68,23 +68,72 @@ public with sharing class ManageRegistrationSectionCtrlTest{
                Test.stopTest();
                System.assertEquals('Success', updateReponse, 'Update of record failed.');
           }      
-     }   
+     }  
+     
+     @IsTest
+     static void getQuestionsTest(){        
+          System.runAs(currentUser){     
+               createRecord(opeActProdReqRecType); 
+               String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;           
+               Test.startTest();
+               List<Related_Answer__c> relatedAnswerList = ManageRegistrationSectionCtrl.getQuestions(prodReqId); 
+               Test.stopTest();
+               system.assert(!relatedAnswerList.isEmpty(),'Empty related answer');
+          }      
+     }  
 
      @IsTest
-     static void getStudRegNoOfferingTest(){        
-          System.runAs(currentUser){               
-               List<Product_Request__c> productRequests = TestDataFactory.createTestProductRequestRecords(1);
-               for(Product_Request__c productRequest : productRequests){
-                    productRequest.RecordTypeId = opeActProdReqRecType;
-               }
-               insert productRequests;
-               String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;             
+     static void getSearchedContactsTest(){        
+          System.runAs(currentUser){     
+               createRecord(opeActProdReqRecType); 
+               String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;           
                Test.startTest();
-               List<ManageRegistrationSectionCtrl.ManageRegistrationDetails> regDetails = ManageRegistrationSectionCtrl.getRegistrationDetails(prodReqId);      
+               List<Map<String,String>> contactMap = ManageRegistrationSectionCtrl.getSearchedContacts('Test',new List<Id>()); 
                Test.stopTest();
-               System.assertNotEquals(numberOfRecords, regDetails.size(), 'Records to be retrieved must be link with an offering.');
+               system.assert(!contactMap.isEmpty(),'Empty contact map');
           }      
-     }             
+     }  
+
+     @IsTest
+     static void addRegistrationTest(){        
+          System.runAs(currentUser){     
+               createRecord(opeActProdReqRecType); 
+               String cOfferingId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;
+               Contact newContact = new Contact(FirstName = 'testqtest', LastName = 'testqtest', Email = 'testqtest@emailemail.com');  
+
+               Id relatedQuestionnaireId = [SELECT Id FROM Questionnaire__c  LIMIT 1].Id;
+               
+               List<Question__c> questionList = TestDataFactory.createTestQuestionRecords(5);
+               insert questionList;
+
+               List<Related_Answer__c> relatedAnswers = TestDataFactory.createTestRelatedAnswerRecords(5,relatedQuestionnaireId,questionList);
+               insert relatedAnswers;
+               List<ManageRegistrationSectionCtrl.FileUpload> fileLoadList = new List<ManageRegistrationSectionCtrl.FileUpload>();
+               List<Answer__c> answerList = new List<Answer__c>();
+               Answer__c newAnswer;
+               ManageRegistrationSectionCtrl.FileUpload fileLoad = new ManageRegistrationSectionCtrl.FileUpload();
+               for(Related_Answer__c relatedA: relatedAnswers){
+                    newAnswer = new Answer__c(
+                         Response__c = relatedA.Id,
+                         Related_Answer__c = relatedA.Id
+                    );
+                    answerList.add(newAnswer);
+
+                    fileLoad.Base64 = 'Test Content';
+                    fileLoad.FileName = relatedA.Id;
+                    fileLoad.RelatedAnswerId = relatedA.Id;
+
+                    fileLoadList.add(fileLoad);
+               }
+               
+               Test.startTest();
+               ManageRegistrationSectionCtrl.addRegistration(newContact,cOfferingId,relatedAnswers,answerList,JSON.serialize(fileLoadList)); 
+               Test.stopTest();
+               system.assert(![SELECT Id FROM ContentVersion].isEmpty(), 'Document not created');
+               system.assert(![SELECT Id FROM Answer__c].isEmpty(), 'Answer not created');
+          }      
+     } 
+
 
      private static void createRecord(String productRequestRecordType){
           System.runAs(currentUser){
@@ -129,6 +178,7 @@ public with sharing class ManageRegistrationSectionCtrlTest{
 
                Questionnaire__c questionnaire = new Questionnaire__c();
                questionnaire.Questionnaire_Type__c = 'Registration Questions';
+               questionnaire.Parent_Record_ID__c = productRequests[0].Id;
                insert questionnaire;
                     
                List<Questionnaire_Response_Summary__c> questionnaireResponseList = new List<Questionnaire_Response_Summary__c>();
@@ -141,6 +191,9 @@ public with sharing class ManageRegistrationSectionCtrlTest{
                     questionnaireResponseList.add(questionResp);
                }
                insert questionnaireResponseList;
+
+               Related_Answer__c mewRelatedAnswer = new Related_Answer__c(Questionnaire__c = questionnaire.Id);
+               insert mewRelatedAnswer;
           }
      } 
 }

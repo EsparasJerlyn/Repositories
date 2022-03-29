@@ -35,7 +35,7 @@ public with sharing class QuestionnaireResponseSummaryCtrl {
           Questionnaire__r.Questionnaire_Type__c,
           Questionnaire__r.Parent_Record_ID__c
         FROM Questionnaire_Response_Summary__c
-        WHERE Id = :qrsId
+        WHERE Id = :qrsId 
         LIMIT 1
       ];
 
@@ -73,6 +73,7 @@ public with sharing class QuestionnaireResponseSummaryCtrl {
           Id,
           Related_Answer__r.Question__c,
           Related_Answer__r.Question__r.Label__c,
+          Related_Answer__r.Question__r.Type__c,
           Response__c,
           Related_Answer__r.Sequence__c
         FROM Answer__c
@@ -87,7 +88,13 @@ public with sharing class QuestionnaireResponseSummaryCtrl {
           qaWrapper.qId = ans.Related_Answer__r.Question__c;
           qaWrapper.question = ans.Related_Answer__r.Question__r.Label__c;
           qaWrapper.aId = ans.Id;
-          qaWrapper.answer = ans.Response__c;
+          if(ans.Related_Answer__r.Question__r.Type__c == 'File Upload'){
+            qaWrapper.answer = '/' + ans.Response__c;
+            qaWrapper.isFile = true;
+          }else{
+            qaWrapper.answer = ans.Response__c;
+            qaWrapper.isFile = false;
+          }
           qaWrapper.qaSequence = String.valueOf(
             ans.Related_Answer__r.Sequence__c
           );
@@ -162,6 +169,8 @@ public with sharing class QuestionnaireResponseSummaryCtrl {
     public String aId;
     @AuraEnabled
     public String answer;
+    @AuraEnabled
+    public Boolean isFile;
     @AuraEnabled
     public String qaSequence;
   }

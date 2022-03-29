@@ -12,18 +12,20 @@
       | eccarius.karl.munoz       | February 09, 2022     | DEPP-1482            | Created file                 |
       | eugene.andrew.abuan       | March 10, 2022        | DEPP-2037            | Modified to add Export       |
       |                           |                       |                      | Learners List button logic   |
-      |                           |                       |                      |                              |
+      | roy.nino.regala           | March 29, 2022        | DEPP-1539            | Added Add Registration       |
  */
 
 import { api, LightningElement, wire } from 'lwc';
 import { refreshApex } from '@salesforce/apex';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import getRegistrationDetails from '@salesforce/apex/ManageRegistrationSectionCtrl.getRegistrationDetails';
+import getNonProgPlanRegistrations from '@salesforce/apex/ManageRegistrationSectionCtrl.getNonProgPlanRegistrations';
 import updateRegistration from '@salesforce/apex/ManageRegistrationSectionCtrl.updateRegistration';
 import getRegistrationStatusValues from '@salesforce/apex/ManageRegistrationSectionCtrl.getRegistrationStatusValues';
 import getPaidInFullValues from '@salesforce/apex/ManageRegistrationSectionCtrl.getPaidInFullValues';
+import getSearchedContacts from '@salesforce/apex/ManageRegistrationSectionCtrl.getSearchedContacts';
+import getQuestions from "@salesforce/apex/ManageRegistrationSectionCtrl.getQuestions";
+import addRegistration from '@salesforce/apex/ManageRegistrationSectionCtrl.addRegistration';
 import LWC_Error_General from '@salesforce/label/c.LWC_Error_General';
-
 const SUCCESS_MSG = 'Record successfully updated.';
 const SUCCESS_TITLE = 'Success!';
 const ERROR_TITLE = 'Error!';
@@ -38,6 +40,8 @@ export default class ManageRegistrationSection extends LightningElement {
 
     @api prodReqId;
     @api enableEdit;
+    @api childRecordId;
+    @api disabled;
 
     searchField = '';
     picklistValue = '';
@@ -58,26 +62,52 @@ export default class ManageRegistrationSection extends LightningElement {
     records = [];
     recordsTemp = [];
 
+    //addcontact variables
+    contactSearchItems = [];
+    contactId;
+    searchInProgress;
+    objectLabelName = 'Contact';
+    objectToBeCreated ='Contact';
+    isAddContact = false;
+    isCreateContact = false;
+    isEditContact = false;
+    saveInProgress = false;
+    contactList;
+    formLoading = false;
+    contactFields;
+
+    //registration Response variables
+    isRespondQuestions;
+    responseData;
+    questions;
+
+
+
     columns = [
         { label: 'Full Name', fieldName: 'contactFullName', type: 'text', sortable: true },
         { label: 'Payment Method', fieldName: 'paymentMethod', type: 'text', sortable: true },
         { label: 'Paid in Full', fieldName: 'paidInFull', type: 'text', sortable: true },
         { label: 'Registration Status', fieldName: 'registrationStatus', type: 'text', sortable: true },
         { label: 'LMS Integration Status', fieldName: 'lmsIntegrationStatus', type: 'text', sortable: true },
-        { label: 'Registration Questions', fieldName: 'applicationURL', sortable: true, type: 'url', typeAttributes: {label: 'View', target: '_blank'} }
+        { label: 'Registration Questions', fieldName: 'applicationURL', sortable: true, type: 'url', typeAttributes: {label: 'View', target: '_blank'} },
     ];
 
-    //Retrieves Student Registration
+    //Retrieves questionnaire data related to the product request
     tableData;
-    @wire(getRegistrationDetails, {prodReqId : '$prodReqId'})
-    wiredRegistrationDetails(result) {
+    @wire(getNonProgPlanRegistrations, {childRecordId : '$childRecordId'})
+    getNonProgPlanRegistrations(result) {
         this.isLoading = true;
         this.tableData = result;
         if(result.data){
             this.records = result.data;
+            this.contactList = result.data.map(item => {
+                return item.contactId;
+            });
             this.recordsTemp = result.data;
             if(this.records.length === 0){
                 this.empty = true;
+            }else{
+                this.empty = false;
             }
             this.error = undefined;
             this.isLoading = false;
@@ -115,9 +145,24 @@ export default class ManageRegistrationSection extends LightningElement {
         }
     }
 
+    //Retrieves Questionnaire Summary Details
+    @wire(getQuestions, { productReqId: '$prodReqId' })
+    getQuestions(result) {
+        if(result.data){
+            this.responseData = result;
+            this.questions = this.formatQuestions(result.data);
+        }else if(result.error){
+            this.generateToast('Error.',LWC_Error_General,'error');
+        }
+    }
+
     //handles opening of modal
-    handleOpenModal(event){
+    handleEditContact(event){
         this.isModalOpen = true;
+        this.isEditContact = true;
+        this.isAddContact = false;
+        this.isCreateContact = false;
+        this.isRespondQuestions = false;
         const row = event.detail;
         this.rowPaidInFull = row.paidInFull;
         this.rowRegStatus = row.registrationStatus;
@@ -126,9 +171,247 @@ export default class ManageRegistrationSection extends LightningElement {
         this.rowQuestId = row.questionId;
     }
 
+    //handles opening of modal
+    handleAddContact(){
+        this.isModalOpen = true;
+        this.isEditContact = false;
+        this.isAddContact = true;
+        this.isCreateContact = false;
+        this.isRespondQuestions = false;
+    }
+
+    handleRespondQuestions(){
+        this.isModalOpen = true;
+        this.isEditContact = false;
+        this.isAddContact = false;
+        this.isCreateContact = false;
+        this.isRespondQuestions = true;
+    }
+
+    handleCreateNewRecord(){
+        this.formLoading = true;
+        this.isModalOpen = true;
+        this.isEditContact = false;
+        this.isAddContact = false;
+        this.isCreateContact = true;
+        this.isRespondQuestions = false;
+    }
+
+    formatQuestions(items){
+        let questions = items.map(item =>{
+            let newItem = {};
+            let newOptions = [];
+            newItem.Id = item.Id;
+            if(item.Question__c){
+                newItem.QuestionId = item.Question__r.Id;
+                newItem.Label = item.Question__r.Label__c;
+                newItem.MandatoryResponse = item.Question__r.Mandatory_Response__c;
+                newItem.Message = item.Question__r.Message__c;
+                newItem.Type = item.Question__r.Type__c;
+                newItem.IsText = item.Question__r.Type__c == 'Text'?true:false;
+                newItem.IsCheckbox = item.Question__r.Type__c == 'Checkbox'?true:false;
+                newItem.IsNumber = item.Question__r.Type__c == 'Number'?true:false;
+                newItem.IsDate = item.Question__r.Type__c == 'Date'?true:false;
+                newItem.IsPicklist = item.Question__r.Type__c == 'Picklist'?true:false;
+                newItem.IsMultiPicklist = item.Question__r.Type__c == 'Multi-Select Picklist'?true:false;
+                newItem.IsFileUpload = item.Question__r.Type__c == 'File Upload'?true:false;
+                if(item.Question__r.Dropdown_Options__c){
+                    newOptions = item.Question__r.Dropdown_Options__c.split(';').map(key =>{
+                        return {label: key, value: key};
+                    });
+                }
+                newItem.Options = newOptions;
+                newItem.Answer = newItem.IsCheckbox?'false':'';
+            }
+            newItem.QuestionnaireId = item.Questionnaire__c;
+            newItem.IsCriteria = item.Questionnaire__r.Questionnaire_Type__c == 'Registration Criteria'?true:false;
+            newItem.IsQuestion = item.Questionnaire__r.Questionnaire_Type__c == 'Registration Questions'?true:false;
+            newItem.Sequence = item.Sequence__c;
+            newItem.ErrorMessage = '';
+            newItem.FileData = undefined;
+            return newItem;
+        });
+
+        return questions;
+    }
+
+    handleChange(event){
+        this.questions = this.questions.map(row=>{
+            if(event.target.name === row.Id && row.IsCheckbox){
+                row.Answer = event.detail.checked.toString();
+            }else if(event.target.name === row.Id && row.IsFileUpload){
+                row.Answer = event.detail.value.toString();
+                const file = event.target.files[0];
+                let reader = new FileReader();
+                reader.onload = () => {
+                    let base64 = reader.result.split(',')[1];
+                    row.FileData = {
+                        'filename': file.name,
+                        'base64': base64,
+                        'recordId': undefined
+                    };
+                }
+                reader.readAsDataURL(file);
+            }else if(event.target.name === row.Id && row.IsMultiPicklist){
+                row.Answer = event.detail.value?event.detail.value.toString().replace(/,/g, ';'):row.Answer;
+            }else if(event.target.name === row.Id){
+                row.Answer = event.detail.value?event.detail.value.toString():row.Answer;
+            }
+            return row;
+        });
+    }
+
+    handleBlur(){
+        this.questions = this.questions.map(row=>{
+            if(row.IsCriteria && row.Answer!= '' && row.Answer.toUpperCase() != row.MandatoryResponse.toUpperCase()){
+                row.Answer = '';
+                row.ErrorMessage = row.Message?row.Message:'You are not qualified to proceed with registration.';
+            }else if(row.IsCriteria && row.Answer!= '' && row.Answer.toUpperCase() == row.MandatoryResponse.toUpperCase()){
+                row.ErrorMessage = '';
+            }
+            return row;
+        });
+    }
+
+    handleSearchContact(event){
+        this.searchInProgress = true;
+        getSearchedContacts({
+            filterString: event.detail.filterString,
+            filterContacts: this.contactList
+        })
+        .then(result =>{
+            if(result){
+                this.contactSearchItems = result;
+            }else{
+                this.contactSearchItems = [];
+            }
+        })
+        .finally(()=>{
+            this.searchInProgress = false;
+        })
+        .catch(error =>{
+            this.generateToast('Error.',LWC_Error_General,'error');
+        });
+    }
+
+    handleCreateContact(event){
+        event.preventDefault();
+        let fields = event.detail.fields;
+        this.contactFields = fields;
+        if(this.hasQuestions){
+            this.handleRespondQuestions();
+        }else{
+            this.isLoading = true;
+            this.saveInProgress = true;
+            this.saveRegistration(fields,this.childRecordId,[],[],'');
+        }
+    }
+
+
+    handleExistingContact(){
+        let fields = {};
+        fields.Id = this.contactId;
+        this.contactFields = fields;
+        if(this.hasQuestions){
+            this.handleRespondQuestions();
+        }else{
+            this.isLoading = true;
+            this.saveInProgress = true;
+            this.saveRegistration(fields,this.childRecordId,[],[],'');
+        }
+    }
+
+    handleSaveResponse(){
+        this.isLoading = true;
+        this.saveInProgress = true;
+        this.saveRegistration(this.contactFields,this.childRecordId,this.responseData.data,this.createAnswerRecord(),JSON.stringify(this.createFileUploadMap()));
+        this.resetResponses();
+    }
+
+    resetResponses(){
+        this.questions = this.questions.map(item =>{
+            item.Answer = item.IsCheckbox?item.Answer:'';
+            item.ErrorMessage = '';
+            item.FileData = undefined;
+            return item;
+        });
+    }
+
+    createFileUploadMap(){
+        let fileUpload = [];
+        fileUpload = this.questions.map(item =>{
+            if(item.IsFileUpload){
+                let record = {};
+                record.RelatedAnswerId = item.Id;
+                record.Base64 = item.FileData.base64;
+                record.FileName = item.FileData.filename;
+                return record;
+            }
+        });
+        
+        return fileUpload.filter(key => key !== undefined)?fileUpload.filter(key => key !== undefined):fileUpload;
+    }
+
+    createAnswerRecord(){
+        let answerRecords = {};
+        answerRecords = this.questions.map(item =>{
+            let record = {};
+            record.Related_Answer__c = item.Id;
+            record.Response__c = item.Answer;
+            record.Sequence__c =item.Sequence;
+            return record;
+        });
+        return answerRecords;
+    }
+
+    saveRegistration(contact,courseOffering,relatedAnswer,answer,fileUpload){
+        addRegistration({
+            contactRecord:contact,
+            courseOfferingId:courseOffering,
+            relatedAnswerList:relatedAnswer,
+            answerList:answer,
+            fileUpload:fileUpload
+        })
+        .then(() =>{
+                this.generateToast(SUCCESS_TITLE, 'Registration Successful', SUCCESS_VARIANT);
+                refreshApex(this.tableData);
+        })
+        .finally(()=>{
+            this.saveInProgress = false;
+            this.isModalOpen = false;
+            this.isEditContact = false;
+            this.isAddContact = false;
+            this.isCreateContact = false;
+            this.isLoading = false;
+            this.saveInProgress = false;
+            this.contactId = '';
+            this.contactSearchItems = [];
+        })
+        .catch(error =>{
+            this.generateToast('Error.',LWC_Error_General,'error');
+        });
+    }
+
+    handleLookupSelect(event){
+        this.contactId = event.detail.value;
+    }
+
+    handleLookupRemove(){
+        this.contactId = '';
+        this.contactSearchItems = [];
+    }
+
     closeModalAction(){
         this.isModalOpen = false;
         this.isDisabled = true;
+        this.contactId = undefined;
+    }
+
+    closeManageResponse(){
+        this.isModalOpen = false;
+        this.isDisabled = true;
+        this.contactId = undefined;
+        this.resetResponses();
     }
 
     handlePaidInFull(event){
@@ -136,9 +419,18 @@ export default class ManageRegistrationSection extends LightningElement {
         this.rowPaidInFull = event.detail.value;
     }
 
+    handleFormLoad(){
+        this.formLoading = false;
+    }
+
     handleRegStatusModal(event){
         this.isDisabled = false;
         this.rowRegStatus = event.detail.value;
+    }
+
+    //shows toast on error upon saving the course/program plan
+    handleRecordError(){
+        this.generateToast('Error.',LWC_Error_General,'error');
     }
 
     //handles saving of record from modal
@@ -269,4 +561,23 @@ export default class ManageRegistrationSection extends LightningElement {
     get modalName() {return this.modalName;}
     get noRecordsFound(){ return NO_REC_FOUND; }
     get sectionHeader(){ return SECTION_HEADER; }
+    get disableSaveExisting(){
+        return this.saveInProgress || !this.contactId;
+    }
+    get hasQuestions(){
+        return this.questions && this.questions.length > 0?true:false;
+    }
+    get disableResponseSave(){
+        let tempQuestions = this.questions.filter(row => row.IsCriteria && row.Answer!= '' && row.Answer.toUpperCase() != row.MandatoryResponse.toUpperCase());
+        if(
+            (tempQuestions && tempQuestions.length > 0) ||
+            (this.questions && 
+             this.questions.filter(item => item.Answer == '' || item.Answer == undefined) && 
+             this.questions.filter(item => item.Answer == '' || item.Answer == undefined).length > 0)
+          ){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
