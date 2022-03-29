@@ -1047,6 +1047,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Session__c.IsActive__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Session__c.Location_Detail__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1153,6 +1158,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>hed__Course_Enrollment__c.Gender__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Course_Enrollment__c.IsActive__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1272,6 +1282,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>hed__Course_Enrollment__c.hed__Primary__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>hed__Course_Enrollment__c.hed__Program_Enrollment__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1357,6 +1372,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>hed__Course_Offering__c.Content_Challenged_Thinking__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>hed__Course_Offering__c.Delivery_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1392,6 +1412,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>hed__Course_Offering__c.IsActive__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>hed__Course_Offering__c.LMS_Quality__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1408,6 +1433,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course_Offering__c.Peer_Engagement__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Course_Offering__c.Primary_Facilitator__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
