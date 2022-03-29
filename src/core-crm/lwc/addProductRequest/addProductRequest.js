@@ -16,7 +16,7 @@
 */
 
 import { LightningElement, api, wire } from 'lwc';
-import { getObjectInfo, getPicklistValues } from 'lightning/uiObjectInfoApi';
+import { getObjectInfo } from 'lightning/uiObjectInfoApi';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { NavigationMixin } from 'lightning/navigation';
 import { createRecord, updateRecord, getRecord, getFieldValue } from 'lightning/uiRecordApi';
@@ -29,7 +29,6 @@ import PRODUCT_REQUEST_OBJECT from '@salesforce/schema/Product_Request__c';
 import RELATED_PRODUCT_REQUEST_OBJECT from '@salesforce/schema/Related_Product_Request__c';
 import COURSE_OBJECT from '@salesforce/schema/hed__Course__c';
 import PROGRAM_PLAN_OBJECT from '@salesforce/schema/hed__Program_Plan__c';
-import PP_PROGRAM_TYPE from '@salesforce/schema/hed__Program_Plan__c.Program_Delivery_Structure__c';
 import PR_OPE_TYPE from '@salesforce/schema/Product_Request__c.OPE_Program_Plan_Type__c';
 import PROD_SPEC_APINAME from '@salesforce/schema/Product_Request__c.Product_Specification__c';
 import NO_OF_TRIADS from '@salesforce/schema/Product_Request__c.Number_of_Triads__c';
@@ -71,7 +70,6 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
     errorMessage = '';
     isRelatedModalOpen=false;
     accountId='';
-    programTypeDefaultValue='';
     saveInProgress = false;
     existingProdReqId='';
     savingExistingPR = false;
@@ -79,6 +77,7 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
     searchInProgress = false;
     objectLabelName = 'Product Request';
     prodReqId;
+    programDeliveryStructure;
 
     recordTypeLabel = RECORD_TYPE_LABEL;
 
@@ -104,15 +103,20 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
     get modalName(){
         return this.isChild?CHILD_PROD_REQUEST:PROD_REQUESTS;
     }
+    
+    //checks if user selected Program 
+    get isProgramSelected(){
+        return this.selectedRecordTypeName == PROG_PLAN_REQUEST;
+    }
 
     //sets the Object to be Created
     get objectToBeCreated(){
-        return this.selectedRecordTypeName == PROG_PLAN_REQUEST ? PROGRAM_PLAN_OBJECT.objectApiName: COURSE_OBJECT.objectApiName;
+        return this.isProgramSelected ? PROGRAM_PLAN_OBJECT.objectApiName: COURSE_OBJECT.objectApiName;
     }
 
     //gets the Object Name
     get objectLabel(){
-        return this.selectedRecordTypeName == PROG_PLAN_REQUEST? this.programPlanObjectInfo.data.label : this.courseObjectInfo.data.label;
+        return this.isProgramSelected ? this.programPlanObjectInfo.data.label : this.courseObjectInfo.data.label;
     }
 
     get disableAddExistingButton(){
@@ -134,15 +138,6 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
     @wire(getObjectInfo, { objectApiName: PROGRAM_PLAN_OBJECT})
     programPlanObjectInfo;
 
-    //gets picklist values of program type field
-    @wire(getPicklistValues, { recordTypeId: '$programPlanObjectInfo.data.defaultRecordTypeId', fieldApiName: PP_PROGRAM_TYPE })
-    handleProgramTypes(result){
-        if(result.data){
-            this.programTypeDefaultValue = result.data.defaultValue.value;
-        }else if(result.error){
-            this.showToast(ERROR_TITLE,LWC_Error_General,ERROR_VARIANT);
-        }
-    }
     //opens selection modal
     //sort,filter and show recordtypes for seletion
     @api openSelectionModal(newRecord,row,filter,currentChildren,isChild,prodSpec) {
@@ -478,7 +473,7 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
 
         let fields = event.detail.fields;
 
-        if(this.selectedRecordTypeName != PROG_PLAN_REQUEST){
+        if(!this.isProgramSelected){
             fields.ProductRequestID__c = this.prodReqId;
             fields.RecordTypeId=Object.keys(courseRtis).find(rti => courseRtis[rti].name == this.selectedRecordTypeName);
             fields.hed__Account__c=this.accountId;
@@ -486,6 +481,7 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
         else{
             fields.Product_Request__c = this.prodReqId;
             fields.RecordTypeId=Object.keys(programPlanRtis).find(rti => programPlanRtis[rti].name == this.selectedRecordTypeName);
+            this.programDeliveryStructure = fields.Program_Delivery_Structure__c;
         }
         this.template.querySelector('lightning-record-edit-form').submit(fields);
     }
@@ -497,8 +493,8 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
         productReqfields.Id= this.prodReqId;
         productReqfields.Product_Request_Status__c = 'Design';
         productReqfields.OwnerId = this.selectedUserId;
-        if(this.selectedRecordTypeName == PROG_PLAN_REQUEST){
-            productReqfields[PR_OPE_TYPE.fieldApiName] = this.programTypeDefaultValue;
+        if(this.isProgramSelected){
+            productReqfields[PR_OPE_TYPE.fieldApiName] = this.programDeliveryStructure;
         }
         const fields = {...productReqfields};
         const recordInput = {fields};
@@ -528,6 +524,7 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
     closeRecordCreation(){
         this.showOwnerError = false;
         this.isRelatedModalOpen = false;
+        this.programDeliveryStructure = undefined;
         this.assignCurrentUserDetails();
         this.setRecordTypeDetails('');
     }

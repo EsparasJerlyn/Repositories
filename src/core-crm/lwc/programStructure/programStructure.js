@@ -8,10 +8,9 @@
  */
 
 import { LightningElement, api, wire } from 'lwc';
-import { getPicklistValues } from 'lightning/uiObjectInfoApi';
 import { getObjectInfo } from 'lightning/uiObjectInfoApi';
+import LWC_Error_General from "@salesforce/label/c.LWC_Error_General";
 import PROGRAM_PLAN_OBJECT from '@salesforce/schema/hed__Program_Plan__c';
-import PROGRAM_DELIVERY_STRUCTURE_FIELD from '@salesforce/schema/hed__Program_Plan__c.Program_Delivery_Structure__c';
 import HAS_PERMISSION from '@salesforce/customPermission/EditDesignAndReleaseTabsOfProductRequest';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import upsertProgramPlanAndPlanRequirement from '@salesforce/apex/OpeProgramStructureCtrl.upsertProgramPlanAndPlanRequirement'; 
@@ -44,13 +43,13 @@ export default class ProgramStructure extends LightningElement {
     @api markedAsComplete; //indicates that program structure is marked as complete
     @api hasPlanRequirementOnRender; //indicates that plan requirement records is already created
     @api isStatusNotDesign; //indicates if product request is not on Design stage
+
     draftTableData = [];//draft plan requirement data
     columns = COLUMNS;
     errors = {};
     mandatory = true;
     editable = false;
     hasSavedSequence = false;
-    programDeliveryStructure = 'Flexible Program';
     programDeliveryStructureValue;
     
 
@@ -61,17 +60,11 @@ export default class ProgramStructure extends LightningElement {
     objectInfo;
 
     /*
-    *gets picklist values of program type field of program plan
-    */
-    @wire(getPicklistValues, { recordTypeId: '$objectInfo.data.defaultRecordTypeId', fieldApiName: PROGRAM_DELIVERY_STRUCTURE_FIELD})
-    programDeliveryStructurePicklistValues;
-
-    /*
     *sets value of draft table and program type
     */
     connectedCallback(){
        this.draftTableData = this.tableData;
-       this.programDeliveryStructureValue = this.programPlan?(this.programPlan.Program_Delivery_Structure__c?this.programPlan.Program_Delivery_Structure__c:this.programDeliveryStructure):'';
+       this.programDeliveryStructureValue = this.programPlan.Program_Delivery_Structure__c;
     }
 
     /*
@@ -123,17 +116,6 @@ export default class ProgramStructure extends LightningElement {
         });
         return [...new Set(sequences)].length !== this.tableData.length;
     }
-
-    /*
-    *updates category column of draft table
-    *and stores program type in a variable
-    */
-    handleTypeChange(event){
-        this.draftTableData  = this.draftTableData.map(row=>({
-            ...row,category:event.target.value ==='Flexible Program'?'Optional':event.target.value === 'Prescribed Program'?'Required':'',
-        }));
-        this.programDeliveryStructure = event.target.value;
-    }
     
     /*
     *indicates that user is trying to edit the sequence
@@ -148,7 +130,7 @@ export default class ProgramStructure extends LightningElement {
      @api 
      handleCancel(){
          this.draftTableData = this.tableData.map(row=>({
-            ...row,category:this.programDeliveryStructure === 'Flexible Program'?'Optional':'Required',
+            ...row,category:this.programDeliveryStructureValue === 'Flexible Program'?'Optional':'Required',
         }));
          this.editable = false;
      }
@@ -166,17 +148,15 @@ export default class ProgramStructure extends LightningElement {
     *upserts the program plan and plan requirement
     */
      handleSave(){
-         upsertProgramPlanAndPlanRequirement({recordsToUpsert:this.createObjectRecord().planRequirement,recordToUpdate:this.createObjectRecord().programPlan})
+         upsertProgramPlanAndPlanRequirement({recordsToUpsert:this.createObjectRecord().planRequirement})
         .then(()=>{
+            this.generateToast('Success!','Plan Requirement records saved','success');
             const programStructureSaved = new CustomEvent('programstrucuresaved');
             this.dispatchEvent(programStructureSaved);
         })
-        .finally(()=>{
-            this.generateToast('Success!','Plan Requirement records saved','success');
-        })
-        .catch(()=>{
-            this.generateToast('Error.',MSG_ERROR,'error');
-        })
+        .catch((error)=>{
+            this.generateToast('Error.',LWC_Error_General,'error');
+        });
      }
 
      /*
@@ -195,8 +175,7 @@ export default class ProgramStructure extends LightningElement {
             planRequirement['hed__Course__c'] = result.courseid;
             planRequirement['hed__Program_Plan__c'] = this.programPlan.Id; 
             return planRequirement;
-        })
-        recordsToUpsert.programPlan.Program_Delivery_Structure__c = this.programDeliveryStructure;
+        });
         return recordsToUpsert; 
     }
 

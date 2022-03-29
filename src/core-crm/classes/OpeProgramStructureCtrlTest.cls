@@ -92,11 +92,10 @@ public with sharing class OpeProgramStructureCtrlTest {
          );
         newPlanReqToUpsert.add(newPlanRequirement);
         program[0].Program_Delivery_Structure__c = 'Flexible Program';
-        OpeProgramStructureCtrl.upsertProgramPlanAndPlanRequirement(newPlanReqToUpsert,program[0]);
+        OpeProgramStructureCtrl.upsertProgramPlanAndPlanRequirement(newPlanReqToUpsert);
         }
 
         System.assert(![SELECT ID FROM hed__Plan_Requirement__c].isEmpty(),'Error while createing plan requirement');
-        System.assert(![SELECT ID FROM hed__Program_Plan__c WHERE Program_Delivery_Structure__c = 'Flexible Program'].isEmpty(),'Error while createing plan requirement');
         Test.stopTest();
     }
 

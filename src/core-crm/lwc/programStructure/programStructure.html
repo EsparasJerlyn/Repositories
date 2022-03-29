@@ -1,30 +1,22 @@
 <template>
     <div class="slds-m-horizontal_small slds-m-bottom_small">
         <div class="slds-grid slds-gutters">
-            <div class="slds-col slds-size_2-of-12 slds-p-vertical_small slds-border_bottom text-bold"> 
-                Program Name
+            <div class="slds-col slds-size_3-of-12 slds-p-vertical_small"> 
+                <strong>Program Name</strong>
             </div>
-            <div class="slds-col slds-size_10-of-12 slds-p-vertical_small slds-border_bottom"> 
-                <lightning-formatted-url value={programNameUrl} label={programPlan.Name} tooltip={programPlan.Name} target="_top" class="slds-m-left-xx_small" ></lightning-formatted-url> 
-            </div>
-        </div>
-        <div class="slds-grid slds-gutters">
-            <div class="slds-col slds-size_2-of-12 slds-m-top_large"> 
-                Program Type
-            </div>
-            <div class="slds-col slds-size_3-of-12 slds-m-bottom_medium">
-                <template if:true={programDeliveryStructurePicklistValues.data}>
-                    <lightning-combobox name="progress"
-                                        value={programDeliveryStructureValue}
-                                        options={programDeliveryStructurePicklistValues.data.values}
-                                        onchange={handleTypeChange}
-                                        class="inputStyle"
-                                        disabled={cantEdit}>
-                    </lightning-combobox>
-                </template>
+            <div class="slds-col slds-size_3-of-12 slds-p-vertical_small"> 
+                <lightning-formatted-url value={programNameUrl} label={programPlan.Name} tooltip={programPlan.Name} target="_top"></lightning-formatted-url> 
             </div>
         </div>
-        <div class="slds-text-title_bold slds-m-bottom_small slds-p-bottom_small slds-border_bottom">
+        <div class="slds-grid slds-gutters slds-border_bottom">
+            <div class="slds-col slds-size_3-of-12 slds-m-bottom_small"> 
+                <strong>Program Delivery Structure</strong>
+            </div>
+            <div class="slds-col slds-size_3-of-12 slds-m-bottom_small slds-box slds-box_x-small slds-theme_shade">
+                {programDeliveryStructureValue}
+            </div>
+        </div>
+        <div class="slds-text-title_bold slds-m-bottom_small slds-p-vertical_small slds-border_bottom">
             Set Up Program Plan Delivery Structure
         </div>
         <div class="slds-grid slds slds-p-bottom_small">

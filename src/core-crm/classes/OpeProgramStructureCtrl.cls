@@ -60,12 +60,9 @@ public with sharing class OpeProgramStructureCtrl {
      * @param planRequirementToUpdate - plan requirement list to update
      */
     @AuraEnabled
-    public static void upsertProgramPlanAndPlanRequirement(List<hed__Plan_Requirement__c> recordsToUpsert, hed__Program_Plan__c recordToUpdate){
+    public static void upsertProgramPlanAndPlanRequirement(List<hed__Plan_Requirement__c> recordsToUpsert){
         if(!recordsToUpsert.isEmpty()){
             upsert(recordsToUpsert);
-        }
-        if(recordToUpdate != null){
-            update(recordToUpdate);
         }
     }
 

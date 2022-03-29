@@ -177,7 +177,15 @@
                             onerror={handleRecordError}
                             onsuccess={updateProductRequestStatusAndRedirect}
                             onsubmit={createProductRequest}>
-                            <lightning-input-field field-name='Name' required></lightning-input-field>
+                            <lightning-input-field 
+                                field-name='Name'
+                                required
+                            ></lightning-input-field>
+                            <lightning-input-field
+                                if:true={isProgramSelected}
+                                field-name='Program_Delivery_Structure__c'
+                                required
+                            ></lightning-input-field>
                             <c-custom-search
                                 search-label="Owner"
                                 search-input-placeholder="Search Users..."

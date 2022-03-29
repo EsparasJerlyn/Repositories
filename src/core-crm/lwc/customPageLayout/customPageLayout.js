@@ -30,7 +30,6 @@ import LWC_Error_NoAccess from '@salesforce/label/c.LWC_Error_NoAccess';
 import LWC_Toast_DesignComplete from '@salesforce/label/c.LWC_Toast_DesignComplete';
 import PL_ProductRequest_Release from '@salesforce/label/c.PL_ProductRequest_Release';
 import HAS_PERMISSION from '@salesforce/customPermission/EditDesignAndReleaseTabsOfProductRequest';
-import PROGRAM_PLAN from '@salesforce/schema/hed__Program_Plan__c';
 import PR_STATUS from '@salesforce/schema/Product_Request__c.Product_Request_Status__c';
 import getChildRecordId from '@salesforce/apex/CustomLayoutCtrl.getChildRecordId';
 
@@ -46,7 +45,6 @@ export default class CreateRecordUI extends LightningElement {
     @api isProgram;
     
     @track parentRecord = {};
-    programTypeFields = {};
     activeSections = [];
     uiRecord;
     childRecordId;
@@ -160,11 +158,6 @@ export default class CreateRecordUI extends LightningElement {
         let eventFields = event.detail.fields;
         this.isLoading = true;
         this.isComplete = eventFields.Mark_Design_Stage_as_Complete__c;
-        //for Program record type (real-time product request tab update)
-        if(this.childObjectApiName == PROGRAM_PLAN.objectApiName){
-            this.programTypeFields.Id = this.recordId;
-            this.programTypeFields.OPE_Program_Plan_Type__c = eventFields.Program_Type__c;
-        }
     }
 
     //disables spinner and edit mode on success
@@ -175,11 +168,6 @@ export default class CreateRecordUI extends LightningElement {
         //checks if design stage is marked as complete
         if(this.isComplete){
             this.handleMarkAsComplete();
-        }
-
-        //for Program record type (real-time product request tab update)
-        if(this.childObjectApiName == PROGRAM_PLAN.objectApiName){
-            this.handleUpdateRecord(this.programTypeFields,false);
         }
     }
 
