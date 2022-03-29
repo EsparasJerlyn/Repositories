@@ -5,7 +5,8 @@
     <errorConditionFormula>AND(
 NOT(ISPICKVAL( ProductRequestID__r.Product_Request_Status__c , &apos;Completed&apos;)),
 Mark_Content_as_Complete__c = true,
-ISBLANK(  Other_Content_Delivery_Location__c )
+ISBLANK(  Other_Content_Delivery_Location__c ),
+ISBLANK( LMS_Content_Delivery_Location__c)
 )</errorConditionFormula>
     <errorDisplayField>Other_Content_Delivery_Location__c</errorDisplayField>
     <errorMessage>Other Content Delivery Location is required</errorMessage>
