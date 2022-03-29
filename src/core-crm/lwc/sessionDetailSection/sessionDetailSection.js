@@ -207,7 +207,7 @@ export default class SessionDetailSection extends LightningElement {
         this.handleCustomColumnEdit(
             event.detail.draftId,
             'Location__c',
-            event.detail.value,
+            event.detail.value ? event.detail.value : '',
             'customLookupClass'
         );
     }
@@ -258,10 +258,6 @@ export default class SessionDetailSection extends LightningElement {
                     draft.Name === undefined ?
                     unsavedItem.Name :
                     draft.Name,
-                Location__c: 
-                    draft.Location__c === undefined ?
-                    unsavedItem.Location__c :
-                    draft.Location__c,
                 Course_Connection__c: 
                     draft.Course_Connection__c === undefined ?
                     unsavedItem.Course_Connection__c :
@@ -305,12 +301,6 @@ export default class SessionDetailSection extends LightningElement {
             if(!record.Name){
                 fieldNames.push('Name');
                 messages.push('Session Name is required');
-            }
-            //location validation
-            if(!record.Location__c){
-                fieldNames.push('Location__c');
-                messages.push('Location is required');
-                this.addErrorOutline(record.rowId,'customLookupClass');
             }
             //course connection (facilitator) validation
             if(!record.Course_Connection__c){

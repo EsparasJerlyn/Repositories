@@ -20,7 +20,7 @@
     </values>
     <values>
         <field>Right_Column_Long__c</field>
-        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Session_Type__c&quot;},{&quot;field&quot;:&quot;End_Time__c&quot;,&quot;mandatory&quot;:true},{&quot;field&quot;:&quot;Location__c&quot;,&quot;mandatory&quot;:true}]</value>
+        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Session_Type__c&quot;},{&quot;field&quot;:&quot;End_Time__c&quot;,&quot;mandatory&quot;:true},{&quot;field&quot;:&quot;Location__c&quot;}]</value>
     </values>
     <values>
         <field>Right_Column__c</field>
