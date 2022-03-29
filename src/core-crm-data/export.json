@@ -73,9 +73,9 @@
             "importCSVFilesAsIs": true
         },
         {
-            "query": "Select Id, DeveloperName, SObjectType From RecordType Where SObjectType='Account'",
+            "query": "Select Id, DeveloperName, SObjectType From RecordType Where SObjectType IN ('Account','hed__Course__c','hed__Course_Enrollment__c','Product_Request__c','Product_Specification__c')",
             "operation": "Upsert",
-            "externalId": "DeveloperName",
+            "externalId": "DeveloperName;SobjectType",
             "useCSVValuesMapping": true,
             "targetObject": "RecordType",
             "importCSVFilesAsIs": true
@@ -94,6 +94,102 @@
             "externalId": "Name",
             "useCSVValuesMapping": true,
             "targetObject": "Contact",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id, RecordTypeId, Name, Client_Review_Required__c, IsExternal_Requestor__c, Requestor_Internal_External__c, Requestor_Name__c, Stage__c, Status__c FROM Product_Specification__c",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "Product_Specification__c",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id, RecordTypeId, Name, Create_Offering_Complete__c, Create_Product_Complete__c, Is_Curriculum_Approved__c, Product_Request_Status__c, Product_Specification__c, Program_Structure_Complete__c FROM Product_Request__c",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "Product_Request__c",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id, Name, hed__Account__c FROM hed__Term__c",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "hed__Term__c",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id, Name, RecordTypeId, Recordtype_Name__c, IsComplete__c, Is_Curriculum_Approved__c, Mark_Content_as_Complete__c, Mark_Design_Stage_as_Complete__c, OPE_Design_Complete__c, ProductRequestID__c, hed__Account__c FROM hed__Course__c",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "hed__Course__c",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id, Name, Delivery_Type__c, IsActive__c, Registration_End_Date__c, Registration_Start_Date__c, Total_Course_Connections__c, Visible_on_Website__c, hed__Course__c, hed__End_Date__c, hed__Start_Date__c, hed__Term__c FROM hed__Course_Offering__c",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "hed__Course_Offering__c",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id, RecordTypeId, Recordtype_Name__c, Name, Amount__c, IsActive__c, LMS_Integration_Status__c, Paid_in_Full__c, Payment_Method__c, Transaction_ID__c, hed__Contact__c, hed__Course_Offering__c, hed__Primary__c, hed__Status__c FROM hed__Course_Enrollment__c",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "hed__Course_Enrollment__c",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id, RecordTypeId, Recordtype_Name__c, Name, Amount__c, IsActive__c, LMS_Integration_Status__c, Paid_in_Full__c, Payment_Method__c, Transaction_ID__c, hed__Contact__c, hed__Course_Offering__c, hed__Primary__c, hed__Status__c FROM hed__Course_Enrollment__c",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "hed__Course_Enrollment__c",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id, Name, Object_Type__c, Parent_Record_ID__c, Questionnaire_Type__c FROM Questionnaire__c",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "Questionnaire__c",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id, Name, Label__c, Type__c FROM Question__c",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "Question__c",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id, Name, Application_Status__c, Contact__c, Course_Offering__c, Questionnaire__c, Registration_Status__c FROM Questionnaire_Response_Summary__c",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "Questionnaire_Response_Summary__c",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id, Name, Question__c, Questionnaire__c, Sequence__c FROM Related_Answer__c",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "Related_Answer__c",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id, Name, Questionnaire_Response_Summary__c, Related_Answer__c, Response__c, Sequence__c FROM Answer__c",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "Answer__c",
             "importCSVFilesAsIs": true
         }
     ]
