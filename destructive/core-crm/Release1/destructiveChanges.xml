@@ -266,6 +266,10 @@
         <members>hed__Course__c.Search_Terms</members>
         <members>hed__Course__c.Content_is_required</members>
         <members>hed__Course__c.Resource_Details_is_required</members>
+        <!--(Start) DEPP-2142 -->
+        <members>hed__Course__c.Start_Date_is_Future_Date</members> 
+        <members>hed__Program_Plan__c.Start_Date_is_Future_Date</members> 
+        <!--(End) DEPP-2142 -->
         <members>Product_Specification__c.Product_Subtype_is_required</members>
         <members>Opportunity.Record_Qualification_Assessment</members>
         <members>Opportunity.Financial_Viability_is_Required</members>

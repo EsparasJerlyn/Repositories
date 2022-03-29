@@ -11,7 +11,7 @@ RecordType.DeveloperName = &apos;Unit&apos;,
 RecordType.DeveloperName = &apos;Module&apos;
 ),
 ISPICKVAL( ProductRequestID__r.Product_Request_Status__c , &apos;Design&apos;),
-OR(Start_Date__c &gt;  End_Date__c, Start_Date__c ==  End_Date__c)
+Start_Date__c &gt;  End_Date__c
 )</errorConditionFormula>
     <errorDisplayField>End_Date__c</errorDisplayField>
     <errorMessage>End Date must be greater than Start Date</errorMessage>

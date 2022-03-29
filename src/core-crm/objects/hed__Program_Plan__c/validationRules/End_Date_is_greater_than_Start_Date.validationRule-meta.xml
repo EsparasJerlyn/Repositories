@@ -5,7 +5,7 @@
     <errorConditionFormula>AND (
 RecordType.DeveloperName = &apos;Program&apos;,
 ISPICKVAL( Product_Request__r.Product_Request_Status__c , &apos;Design&apos;),
-OR( hed__Start_Date__c &gt;  hed__End_Date__c ,  hed__Start_Date__c ==  hed__End_Date__c )
+hed__Start_Date__c &gt;  hed__End_Date__c
 )</errorConditionFormula>
     <errorDisplayField>hed__End_Date__c</errorDisplayField>
     <errorMessage>End Date must be greater than Start Date</errorMessage>
