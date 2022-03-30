@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Left_Column_Long__c</field>
-        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Email_on_Registration__c&quot;},{&quot;field&quot;:&quot;Send_email_before_session__c&quot;},{&quot;field&quot;:&quot;Send_SMS_before_session__c&quot;},{&quot;field&quot;:&quot;Email_on_completion__c&quot;},{&quot;field&quot;:&quot;Email_on_final_confirmation__c&quot;},{&quot;field&quot;:&quot;SMS_on_final_confirmation__c&quot;}]</value>
+        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Email_on_Registration__c&quot;},{&quot;field&quot;:&quot;Send_email_before_session__c&quot;},{&quot;field&quot;:&quot;Email_on_completion__c&quot;},{&quot;field&quot;:&quot;Email_on_final_confirmation__c&quot;}]</value>
     </values>
     <values>
         <field>Left_Column__c</field>
@@ -20,7 +20,7 @@
     </values>
     <values>
         <field>Right_Column_Long__c</field>
-        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;SMS_on_Registration__c&quot;},{&quot;field&quot;:&quot;EmailHow_many_days_before_session__c&quot;},{&quot;field&quot;:&quot;SMSHow_many_days_before_session__c&quot;},{&quot;field&quot;:&quot;SMS_on_completion__c&quot;},{&quot;field&quot;:&quot;How_many_days_before_session__c&quot;},{&quot;field&quot;:&quot;SMSHow_many_days_before_start__c&quot;}]</value>
+        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;EmailHow_many_days_before_session__c&quot;},{&quot;field&quot;:&quot;How_many_days_before_session__c&quot;}]</value>
     </values>
     <values>
         <field>Right_Column__c</field>
