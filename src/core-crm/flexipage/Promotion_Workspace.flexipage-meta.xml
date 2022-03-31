@@ -10,7 +10,7 @@
                             <value>CustomButton.Promotion.Create_Coupon</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>CustomButton.Promotion.Create_Discount</value>
+                            <value>Promotion.Create_New_Discount</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Edit</value>

@@ -936,6 +936,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>PromotionTarget.Promotion__c</field>
+        <readable>true</readable>
+    </fieldPermissions>   
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Question__c.Dropdown_Options__c</field>
         <readable>true</readable>
     </fieldPermissions>
