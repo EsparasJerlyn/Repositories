@@ -41,9 +41,7 @@ export default class CustomDatetimeColumn extends LightningElement {
     get datetimeValueFormatted(){
         if(this.datetimeValueCopy){
             const newDate = new Date(this.datetimeValueCopy);
-            //+2 added since org locale is already AU, and setting en-AU delays 2hours
-            //remove if AU users encounter advanced times
-            newDate.setHours(newDate.getHours() + 2);
+            newDate.setHours(newDate.getHours());
             return newDate.toLocaleDateString('en-AU',DATETIME_OPTIONS);
         }
         return;
