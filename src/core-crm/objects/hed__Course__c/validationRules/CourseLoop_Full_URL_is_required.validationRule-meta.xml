@@ -8,13 +8,6 @@
     RecordType.DeveloperName = &apos;Module&apos;
   ),
 ISPICKVAL( ProductRequestID__r.Product_Request_Status__c , &apos;Design&apos;),
- AND(
-  NOT (ISCHANGED( Design_Form_Status__c ) ),
-  OR(
-   ISPICKVAL( Design_Form_Status__c , &apos;Design Form Sent&apos;),
-   ISPICKVAL( Design_Form_Status__c , &apos;Design Form Received&apos;)
-  )
- ),
 ISBLANK( CourseLoop_Full_Proposal_URL__c ),
 Mark_Design_Stage_as_Complete__c = true
 )</errorConditionFormula>
