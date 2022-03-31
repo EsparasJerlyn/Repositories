@@ -24,7 +24,7 @@ a0T9r000000042M,TRUE,FALSE,CON_CannotDelete_TDTM,,,1,Contact,hed,BeforeDelete,FA
 a0T9r000000042N,TRUE,FALSE,ACCT_CannotDelete_TDTM,,,1,Account,hed,BeforeDelete,FALSE,
 a0T9r000000042O,TRUE,FALSE,ADDR_CannotDelete_TDTM,,,1,Address__c,hed,BeforeDelete,FALSE,
 a0T9r000000042P,TRUE,FALSE,CENR_AcademicProgram_TDTM,,,1,Course_Enrollment__c,hed,BeforeInsert;BeforeUpdate,FALSE,
-a0T9r000000042Q,TRUE,FALSE,CCON_Faculty_TDTM,,,1,Course_Enrollment__c,hed,BeforeInsert;AfterInsert;AfterUpdate;AfterDelete,FALSE,
+a0T9r000000042Q,FALSE,FALSE,CCON_Faculty_TDTM,,,1,Course_Enrollment__c,hed,BeforeInsert;AfterInsert;AfterUpdate;AfterDelete,TRUE,
 a0T9r000000042R,TRUE,FALSE,PPlan_Primary_TDTM,,,1,Program_Plan__c,hed,AfterInsert;AfterUpdate,FALSE,
 a0T9r000000042S,TRUE,FALSE,PPlan_CannotDelete_TDTM,,,1,Program_Plan__c,hed,BeforeDelete,FALSE,
 a0T9r000000042T,TRUE,FALSE,PReq_CannotDelete_TDTM,,,1,Plan_Requirement__c,hed,BeforeDelete,FALSE,
