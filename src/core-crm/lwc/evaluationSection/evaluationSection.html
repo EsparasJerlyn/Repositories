@@ -14,7 +14,7 @@
                 <h2>Create Evaluation</h2>  
             </div>  
             <lightning-record-edit-form
-                object-api-name="hed__Course_Offering__c"
+                object-api-name={objectToEvaluate}
                 record-id={selectedOffering}
                 onsubmit={handleSubmitModal}
                 onsuccess={handleSuccessModal}
@@ -34,7 +34,7 @@
                     </lightning-combobox>
                     <lightning-input-field
                         if:true={selectedOffering}
-                        field-name="Evaluation_Type__c"
+                        field-name={evaluationTypeApiName}
                         onchange={handleEvaluationChange}
                     ></lightning-input-field>
                 </div>  
@@ -103,6 +103,11 @@
             class="create-evaluation-button"
             disabled={disableCreateEvaluation}>
         </lightning-button>
+        <lightning-helptext 
+            if:true={disableCreateEvaluation}
+            content="No available product offering to evaluate."
+            class="create-evaluation-button create-evaluation-help">
+        </lightning-helptext>
         <lightning-accordion-section name="evaluations" label="Evaluations"  class="accordion-section">
             <div if:true={noEvaluationFound} class="slds-text-align_center slds-p-around_medium">
                 <p><strong>No evaluation found.</strong></p>
@@ -173,7 +178,7 @@
                                 </p>
                             </div>
                             <lightning-record-edit-form
-                                object-api-name="hed__Course_Offering__c"
+                                object-api-name={objectToEvaluate}
                                 record-id={offering.value}
                                 onsubmit={handleSubmit}
                                 onsuccess={handleSuccess}

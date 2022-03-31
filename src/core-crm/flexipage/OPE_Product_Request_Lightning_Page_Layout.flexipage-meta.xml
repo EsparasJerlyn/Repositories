@@ -86,6 +86,15 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>productManagement</componentName>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-8747c370-f431-436a-80fd-0a6e6cc35db9</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
                 <componentInstanceProperties>
                     <name>parentFieldApiName</name>
                     <value>Product_Request__c.Id</value>
@@ -257,6 +266,19 @@
                 <componentInstanceProperties>
                     <name>title</name>
                     <value>{!$Label.PL_ProductRequest_Design}</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-8747c370-f431-436a-80fd-0a6e6cc35db9</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>{!$Label.Tab_ProductRequest_ProductManagement}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
             </componentInstance>
@@ -635,6 +657,15 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>productManagement</componentName>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-0t6uq093rmo</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
                 <componentInstanceProperties>
                     <name>parentFieldApiName</name>
                     <value>Product_Request__c.Id</value>
@@ -819,6 +850,19 @@
                 <componentInstanceProperties>
                     <name>title</name>
                     <value>{!$Label.PL_ProductRequest_Release}</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-0t6uq093rmo</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>{!$Label.Tab_ProductRequest_ProductManagement}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
             </componentInstance>
@@ -1221,15 +1265,6 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>productOffering</componentName>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-b171a36a-9422-472c-aae4-24989f994c4d</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
                 <componentName>productManagement</componentName>
             </componentInstance>
         </itemInstances>
@@ -1423,19 +1458,6 @@
                 <componentInstanceProperties>
                     <name>title</name>
                     <value>{!$Label.PL_ProductRequest_Release}</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-b171a36a-9422-472c-aae4-24989f994c4d</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>{!$Label.Tab_ProductRequest_ProductOffering}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
             </componentInstance>
@@ -1877,6 +1899,15 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>productManagement</componentName>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-3083af3f-2c9b-47b0-bbcf-ee483e605b74</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
                 <componentInstanceProperties>
                     <name>parentFieldApiName</name>
                     <value>Product_Request__c.Id</value>
@@ -2061,6 +2092,19 @@
                 <componentInstanceProperties>
                     <name>title</name>
                     <value>{!$Label.PL_ProductRequest_Release}</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-3083af3f-2c9b-47b0-bbcf-ee483e605b74</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>{!$Label.Tab_ProductRequest_ProductManagement}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
             </componentInstance>
@@ -2612,9 +2656,9 @@
                         <rightValue>In Delivery</rightValue>
                     </criteria>
                     <criteria>
-                        <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
+                        <leftValue>{!Record.OPE_Program_Plan_Type__c}</leftValue>
                         <operator>EQUAL</operator>
-                        <rightValue>Program</rightValue>
+                        <rightValue>Flexible Program</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>
@@ -2634,9 +2678,9 @@
                         <rightValue>In Delivery</rightValue>
                     </criteria>
                     <criteria>
-                        <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
+                        <leftValue>{!Record.OPE_Program_Plan_Type__c}</leftValue>
                         <operator>NE</operator>
-                        <rightValue>Program</rightValue>
+                        <rightValue>Flexible Program</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>

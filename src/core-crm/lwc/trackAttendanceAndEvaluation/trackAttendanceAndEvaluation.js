@@ -14,8 +14,10 @@ import upsertAttendance  from '@salesforce/apex/TrackAttendanceAndEvaluationCtrl
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { refreshApex } from '@salesforce/apex';
 import LWC_Error_General from '@salesforce/label/c.LWC_Error_General';
+import RT_ProductRequest_Program from '@salesforce/label/c.RT_ProductRequest_Program';
 import HAS_PERMISSION from '@salesforce/customPermission/EditDesignAndReleaseTabsOfProductRequest';
-import PRODUCT_REQUEST_STATUS from '@salesforce/schema/Product_Request__c.Product_Request_Status__c';
+import PR_STATUS from '@salesforce/schema/Product_Request__c.Product_Request_Status__c';
+import PR_RECORD_TYPE from '@salesforce/schema/Product_Request__c.RecordType.DeveloperName';
 import PL_ProductRequest_Completed from '@salesforce/label/c.PL_ProductRequest_Completed';
 
 const SUCCESS_TITLE = 'Success!';
@@ -50,6 +52,7 @@ export default class TrackAttendanceAndEvaluation extends LightningElement {
     { label: 'Present', fieldName: 'Present__c', type:'boolean', editable: true}];
     activeSections = ['trackAttendance','evaluations'];
     isStatusCompleted;
+    showAttendance = false;
     
     get hasAccess(){
         return HAS_PERMISSION;
@@ -58,10 +61,11 @@ export default class TrackAttendanceAndEvaluation extends LightningElement {
     /**
      * gets product request status
     */
-    @wire(getRecord, { recordId: '$recordId', fields: [PRODUCT_REQUEST_STATUS] })
+    @wire(getRecord, { recordId: '$recordId', fields: [PR_STATUS,PR_RECORD_TYPE] })
     handleParentRecord(result){
         if(result.data){
-            this.isStatusCompleted = getFieldValue(result.data,PRODUCT_REQUEST_STATUS) == PL_ProductRequest_Completed;
+            this.isStatusCompleted = getFieldValue(result.data,PR_STATUS) == PL_ProductRequest_Completed;
+            this.showAttendance = getFieldValue(result.data,PR_RECORD_TYPE) !== RT_ProductRequest_Program;
         }
     }
 

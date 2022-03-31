@@ -17,12 +17,17 @@ import { updateRecord } from 'lightning/uiRecordApi';
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import LWC_Error_General from "@salesforce/label/c.LWC_Error_General";
 import COURSE_OFFERING from '@salesforce/schema/hed__Course_Offering__c';
-import CO_EVALUATION_TYPE from '@salesforce/schema/hed__Course_Offering__c.Evaluation_Type__c';
+import PROGRAM_OFFERING from '@salesforce/schema/Program_Offering__c';
+import EVALUATION_TYPE from '@salesforce/schema/hed__Course_Offering__c.Evaluation_Type__c';
 import getEvaluationFields  from '@salesforce/apex/EvaluationSectionCtrl.getEvaluationFields';
+import getRelatedProgramOfferings  from '@salesforce/apex/EvaluationSectionCtrl.getRelatedProgramOfferings';
 
+const DATE_OPTIONS = { year: 'numeric', month: 'short', day: '2-digit' };
 export default class EvaluationSection extends LightningElement {
+    @api recordId;
     @api offeringData;
     @api isStatusCompleted;
+    @api isNonProgram;
 
     createEvaluation = false;
     isModalLoading = false;
@@ -31,7 +36,7 @@ export default class EvaluationSection extends LightningElement {
     selectedOffering;
     selectedEvaluation;
     savedOfferingId;
-    courseOfferingInfo;
+    offeringInfo;
     evaluationFields = {};
     @track offeringToDisplay = [];
 
@@ -64,25 +69,36 @@ export default class EvaluationSection extends LightningElement {
         return this.offeringToDisplay.length == 0;
     }
 
-    //gets Course Offering object information
-    @wire(getObjectInfo, { objectApiName: COURSE_OFFERING })
-    getCourseOfferingInfo(result) {
+    //gets object to evaluate
+    get objectToEvaluate(){
+        return this.isNonProgram ? COURSE_OFFERING.objectApiName : PROGRAM_OFFERING.objectApiName;
+    }
+
+    //gets evaluation type field api name
+    get evaluationTypeApiName(){
+        return EVALUATION_TYPE.fieldApiName;
+    }
+
+    //gets Offering object information
+    @wire(getObjectInfo, { objectApiName: '$objectToEvaluate' })
+    getOfferingInfo(result) {
         if (result.data){
-            this.courseOfferingInfo = result.data;
+            this.offeringInfo = result.data;
+            this.handleGetEvaluationFields();
         }
     }
 
     //get Evaluation Type picklist values
     @wire(getPicklistValues,
         {
-            recordTypeId: '$courseOfferingInfo.defaultRecordTypeId',
-            fieldApiName: CO_EVALUATION_TYPE
+            recordTypeId: '$offeringInfo.defaultRecordTypeId',
+            fieldApiName: EVALUATION_TYPE
         }
     )
     evaluationTypes;
 
     //gets evaluation fields and its helptexts on load
-    connectedCallback(){
+    handleGetEvaluationFields(){
         getEvaluationFields({})
         .then(result => {
             result.forEach(mdt => {
@@ -92,20 +108,11 @@ export default class EvaluationSection extends LightningElement {
                 this.evaluationFields[evalType] = this.evaluationFields[evalType].map(field => {
                     return {
                         apiName : field,
-                        helpText : this.courseOfferingInfo.fields[field].inlineHelpText
+                        helpText : this.offeringInfo.fields[field].inlineHelpText
                     }
                 });
             });
-            this.offeringToDisplay = this.offeringData.filter(
-                offering => offering.evaluationType
-            ).map(offering => {
-                return {
-                    ...offering,
-                    editMode: false,
-                    evaluationTypeEditMode: false,
-                    fields: this.evaluationFields[offering.evaluationType]
-                };
-            });
+            this.getOfferingData();
         })
         .catch(error => {
             this.generateToast('Error.',LWC_Error_General,'error');
@@ -113,6 +120,53 @@ export default class EvaluationSection extends LightningElement {
         .finally(() => {
             this.isLoading = false;
         });
+    }
+
+    //assigns offering data to display
+    getOfferingData(){
+        if(this.isNonProgram){
+            this.formatOfferingToDisplay();
+        }else{ //for program offerings
+            this.isLoading = true;
+            getRelatedProgramOfferings({productRequestId : this.recordId})
+            .then(result => {
+                this.offeringData = result.map(offering=> {
+                    return {
+                        ...offering,
+                        label: 
+                            offering.deliveryType + 
+                            ' (' +  this.formatDate(offering.startDate) + 
+                            ' to ' + this.formatDate(offering.endDate) + ')'
+                    }
+                });
+                this.formatOfferingToDisplay();
+            })
+            .catch(error => {
+                this.generateToast('Error.',LWC_Error_General,'error');
+            })
+            .finally(() => {
+                this.isLoading = false;
+            });
+        }
+    }
+
+    //gets offerings with evaluation types
+    formatOfferingToDisplay(){
+        this.offeringToDisplay = this.offeringData.filter(
+            offering => offering.evaluationType
+        ).map(offering => {
+            return {
+                ...offering,
+                editMode: false,
+                evaluationTypeEditMode: false,
+                fields: this.evaluationFields[offering.evaluationType]
+            };
+        });
+    }
+    
+    //formats date to AU format
+    formatDate(date){
+        return new Date(date).toLocaleDateString('en-AU',DATE_OPTIONS);
     }
 
     /* Create Evaluation Modal Start */

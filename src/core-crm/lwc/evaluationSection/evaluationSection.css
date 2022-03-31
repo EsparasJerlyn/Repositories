@@ -20,6 +20,10 @@
     float: right;
 }
 
+.create-evaluation-help{
+    right: 10px;
+}
+
 .slds-modal__content {
     overflow: visible;
     overflow-y: visible;

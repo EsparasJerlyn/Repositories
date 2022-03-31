@@ -183,6 +183,14 @@
         <value>Complete</value>
     </labels>
     <labels>
+        <fullName>PL_ProgramPlan_PrescribedProgram</fullName>
+        <categories>Picklist,ProgramPlan</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PL_ProgramPlan_PrescribedProgram</shortDescription>
+        <value>Prescribed Program</value>
+    </labels>
+    <labels>
         <fullName>Publishing_End_Date_Cron_Expression</fullName>
         <language>en_US</language>
         <protected>false</protected>
