@@ -425,9 +425,7 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
             .then(record => {
                 this.prodReqId=record.id;
                 this.showToast('Product Request created.',this.selectedRecordTypeName,SUCCESS_VARIANT);
-                if(this.isChild){
-                    this.createRelatedProdRequest(this.prodReqId);
-                }
+               
                 this.handleSubmit(event);
             })
             .catch(error => {
@@ -444,6 +442,7 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
 
     //creates related product request record on added existing 
     createRelatedProdRequest(prodReqId){
+      
         let relatedProdFields = {};
         relatedProdFields.Program__c = this.parentRecord.recordId;
         relatedProdFields.Course__c = prodReqId;
@@ -489,6 +488,10 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
     //updates product request status after course/program plan insert to avoid hitting validation rules
     //navigates to updated product request after
     updateProductRequestStatusAndRedirect(event){
+
+        if(this.isChild){
+            this.createRelatedProdRequest(this.prodReqId);
+        }
         let productReqfields = {};
         productReqfields.Id= this.prodReqId;
         productReqfields.Product_Request_Status__c = 'Design';
