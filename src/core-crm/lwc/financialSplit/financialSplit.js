@@ -55,13 +55,13 @@ const FINANCIAL_SPLIT_COLUMNS = [
     { 
         label: 'Account Code',
         fieldName: 'Account_Code__c',
-        type: 'number',
+        type: 'text',
         editable: { fieldName: 'editable' } 
     },
     { 
         label: 'Account GL Code',
         fieldName: 'Account_GL_Code__c',
-        type: 'number',
+        type: 'text',
         editable: { fieldName: 'editable' } 
     },
     { 
@@ -161,8 +161,7 @@ export default class FinancialSplit extends LightningElement {
 
     //decides if New button should be disabled
     get disableNewButton(){
-        return this.draftValues.length > 0 ||
-            (
+        return (
                 this.financialSplitData.length == 1 &&
                 this.financialSplitData[0].Id == undefined 
             ) ||
@@ -283,11 +282,19 @@ export default class FinancialSplit extends LightningElement {
                 this.financialSplitData.length == 0 ?
                 this.qutexId : undefined
             )
-        ];
+        ];    
     }
 
     //returns new row data
     newRowData(schoolId){
+        if(schoolId){
+            let copyDraftValues = JSON.parse(JSON.stringify(this.draftValues));
+            let updateItem = {};
+            updateItem.id = 'row-' + this.financialSplitData.length;
+            updateItem.Account_GL_Code__c = '';
+            updateItem.Percentage_split__c = '';
+            this.draftValues = [...copyDraftValues,updateItem];
+        }
         return {
             rowId: 'row-' + this.financialSplitData.length,
             Participating_School_Name__c: schoolId,
@@ -298,7 +305,7 @@ export default class FinancialSplit extends LightningElement {
             Percentage_split__c: undefined,
             IsActive__c: true,
             schoolNameClass: 'slds-cell-edit',
-            deleteDisabled: schoolId ? true : false,
+            deleteDisabled: false,
             editable: !this.isStatusCompleted
         };
     }
@@ -340,6 +347,11 @@ export default class FinancialSplit extends LightningElement {
     updateDraftValues(updateItem) {
         let draftValueChanged = false;
         let copyDraftValues = JSON.parse(JSON.stringify(this.draftValues));
+        //append % if none to sting if discount is populated
+        if(updateItem.Percentage_split__c){
+            updateItem.Percentage_split__c = updateItem.Percentage_split__c.includes('%')?updateItem.Percentage_split__c:updateItem.Percentage_split__c + '%';
+        }
+
         copyDraftValues.forEach((item) => {
             if (item.id === updateItem.id) {
                 for (let field in updateItem) {
