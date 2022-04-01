@@ -27,21 +27,10 @@ public class PublishingEndDateBatchSchedulerTest {
             
             Test.stopTest();
             
-            List<CronTrigger> cts = [SELECT Id, TimesTriggered, NextFireTime FROM CronTrigger WHERE ID =: jobId ];
+            List<CronTrigger> cts = [SELECT Id, TimesTriggered, NextFireTime,CronExpression FROM CronTrigger WHERE ID =: jobId ];
             
-            DateTime midnight = Datetime.newInstance(date.today(), time.newInstance(0, 0, 0, 0));
-            String dayToday = midnight.format('EEEE');
-            
-            if(dayToday == 'Friday'){
-                System.assertEquals(midnight.addDays(3),cts[0].NextFireTime, 'Error, Next fire is Not Monday');
-            }else if(dayToday =='Saturday'){
-                System.assertEquals(midnight.addDays(2),cts[0].NextFireTime, 'Error, Next fire is Not Monday');
-            }else if(dayToday == 'Sunday'){
-                System.assertEquals(midnight.addDays(1),cts[0].NextFireTime, 'Error, Next fire is Not Monday');
-            }
-            else{
-                System.assertEquals(midnight.addHours(24),cts[0].NextFireTime, 'Error Not Scheduled in Midnight');
-            }
+            System.assertEquals(cronExpression, cts[0].CronExpression,'Cron Expression Time is different');
+            System.assertEquals(0, cts[0].TimesTriggered,'Times Triggered is not equal to zero');
         }
     }
 }
