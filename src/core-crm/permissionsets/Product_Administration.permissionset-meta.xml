@@ -911,6 +911,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Program_Offering__c.IsActive__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Program_Offering__c.Registration_End_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
