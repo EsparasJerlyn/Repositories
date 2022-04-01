@@ -42,7 +42,7 @@ private class OPE_Design_Complete_Prog_Plan_FlowTest{
                 programPlansToUpdate[i].RecordTypeId = opeProgramPlanReqId;
                 programPlansToUpdate[i].Product_Request__c  = productRequests[i].Id;
                 programPlansToUpdate[i].Code__c = 'test' + i;
-                programPlansToUpdate[i].Program_Type__c  = 'Prescribed Program';
+                programPlansToUpdate[i].Program_Type__c  = 'Award Course';
                 programPlansToUpdate[i].Owning_Faculty__c  = accounts[0].Id;
                 programPlansToUpdate[i].hed__Start_Date__c  = startDate;
                 programPlansToUpdate[i].hed__End_Date__c  = endDate;

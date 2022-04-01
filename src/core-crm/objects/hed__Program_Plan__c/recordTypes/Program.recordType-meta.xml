@@ -108,11 +108,23 @@
     <picklistValues>
         <picklist>Program_Type__c</picklist>
         <values>
-            <fullName>Flexible Program</fullName>
-            <default>true</default>
+            <fullName>Award Course</fullName>
+            <default>false</default>
         </values>
         <values>
-            <fullName>Prescribed Program</fullName>
+            <fullName>Custom Award Course %28Based on existing%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Custom Award Course %28Not Base on existing%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Double Degree</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Open or Custom Program</fullName>
             <default>false</default>
         </values>
     </picklistValues>

@@ -84,7 +84,7 @@ private class Send_Program_Plan_Design_FormTest {
                 progPlan[i].Blue_Card_Required__c = true;
                 progPlan[i].More_Details__c = 'Test Details';
                 progPlan[i].Code__c ='123';
-                progPlan[i].Program_Type__c= 'Prescribed Program';
+                progPlan[i].Program_Type__c= 'Award Course';
                 progPlan[i].PP_Is_curriculum_approved__c = true;
                 progPlan[i].Courseloop_Full_URL__c = 'CourseLoop.com';
                 progPlan[i].Credential__c=credList[0].Id;
