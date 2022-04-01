@@ -11,24 +11,38 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
+                <fullName>Pay Now</fullName>
+                <default>false</default>
+                <label>Pay Now</label>
+            </value>
+            <value>
+                <fullName>Invoice</fullName>
+                <default>false</default>
+                <label>Invoice</label>
+            </value>
+            <value>
+                <fullName>Advantage - Credit</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Advantage - Credit</label>
+            </value>
+            <value>
+                <fullName>Pay Later - Invoice</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Pay Later - Invoice</label>
+            </value>
+            <value>
                 <fullName>Pay Now - Credit Card</fullName>
                 <default>false</default>
+                <isActive>false</isActive>
                 <label>Pay Now - Credit Card</label>
             </value>
             <value>
                 <fullName>Pay Now - PayPal</fullName>
                 <default>false</default>
+                <isActive>false</isActive>
                 <label>Pay Now - PayPal</label>
-            </value>
-            <value>
-                <fullName>Pay Later - Invoice</fullName>
-                <default>false</default>
-                <label>Pay Later - Invoice</label>
-            </value>
-            <value>
-                <fullName>Advantage - Credit</fullName>
-                <default>false</default>
-                <label>Advantage - Credit</label>
             </value>
         </valueSetDefinition>
     </valueSet>
