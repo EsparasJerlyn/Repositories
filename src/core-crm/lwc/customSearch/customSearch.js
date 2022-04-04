@@ -24,8 +24,9 @@ export default class CustomSearch extends LightningElement {
     @api newRecordAvailable; //indicates that creating a new record is available
     @api objectLabelName;// name of the object to be created for creating new record
     @api customServerSearch; //enables database search on clicking button
-    @api searchInProgress;
-    @api editable;
+    @api searchInProgress; //shows/hides spinner
+    @api editable; //shows/hides edit button
+    @api emptyMessage; //custom message if search items to display isempty
 
 
     searchBoxOpen = false;
@@ -84,6 +85,11 @@ export default class CustomSearch extends LightningElement {
         return '/' + this.itemId;
     }
 
+    get noItemsMessage(){
+        return this.emptyMessage && this.filterString.length < 3 && this.searchItemsToDisplay.length == 0 ? 
+            this.emptyMessage : 'No results for <strong>' + this.filterString + '</strong>';
+    }
+
     handleEdit(){
         this.itemId = undefined;
         this.itemServerName = undefined;
@@ -135,6 +141,10 @@ export default class CustomSearch extends LightningElement {
         this.template.querySelector(".search-results").classList.remove("slds-is-open");
         this.template.querySelector(".input-search").classList.remove("slds-has-focus");
         this.searchBoxOpen = false;
+        if(!this.filterString){
+            const blurEvent = new CustomEvent('emptyblur');
+            this.dispatchEvent(blurEvent);
+        }
     }
 
     handleItemSearch(event){

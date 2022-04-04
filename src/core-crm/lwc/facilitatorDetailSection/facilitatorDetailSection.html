@@ -4,10 +4,15 @@
         if:false={isStatusCompleted}
         search-label="Existing Facilitators"
         search-input-placeholder="Search existing facilitators..."
-        search-items={biosToSearch}
+        search-items={facilitatorSearchItems}
         search-item-icon="standard:orchestrator"
+        search-in-progress={facilitatorSearchInProgress}
         parent-id={offeringId}
+        empty-message="Enter at least three (3) characters to show results..."
         onitemselect={handleSearchSelect}
+        onsearch={handleFacilitatorSearch}
+        onemptyblur={resetFacilitatorSearchItems}
+        custom-server-search
     ></c-custom-search>
     <div if:false={showFacilitatorTable} class="slds-text-align_center slds-p-around_medium">
         <p><strong>No facilitator found.</strong></p>

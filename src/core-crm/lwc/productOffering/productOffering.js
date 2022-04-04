@@ -36,7 +36,6 @@ import PR_RT_DEV_NAME from '@salesforce/schema/Product_Request__c.RecordType.Dev
 import PR_STATUS from '@salesforce/schema/Product_Request__c.Product_Request_Status__c';
 import getProductOfferingData from "@salesforce/apex/ProductOfferingCtrl.getProductOfferingData";
 import getTermId from "@salesforce/apex/ProductOfferingCtrl.getTermId";
-import getAllFacilitatorBio from "@salesforce/apex/ProductOfferingCtrl.getAllFacilitatorBio";
 import updateCourseConnections from "@salesforce/apex/ProductOfferingCtrl.updateCourseConnections";
 import getOfferingLayout from '@salesforce/apex/ProductOfferingCtrl.getOfferingLayout';
 
@@ -52,17 +51,15 @@ export default class ProductOffering extends LightningElement {
     childInfoMap;
     activeMainSections = [];
     @track productOfferings = [];
-    allFacilitatorBios = [];
-    processedBios = [];
-    isLoading = false;
+    isLoading = true;
     newRecord = false;
-    hasLoaded = false;
     isOpeProgramRequest= false;
     objectToCreate = '';
     parentIdToCreate;
     parentId;
     termId;
     layoutMap = {};
+    layoutItem;
     isStatusCompleted;
 
     //decides if user has access to this feature
@@ -80,25 +77,12 @@ export default class ProductOffering extends LightningElement {
         return !this.isStatusCompleted;
     }
 
-    //gets offering layout if maps are populated
-    get layoutItem(){
-        if(this.layoutMap && this.childInfoMap){
-            return this.layoutMap[this.childInfoMap.objectType];
-        }
-        return;
-    }
-
     //gets QUTeX Term id and loads css
     connectedCallback(){
         Promise.all([
             loadStyle(this, customDataTableStyle)
-        ]).then(() => { });
-
-        getOfferingLayout({})
-        .then((layoutMap) => {
-            Object.keys(layoutMap).forEach(key => {
-                this.layoutMap[key] = this.formatLayout(layoutMap[key][0]);
-            });
+        ])
+        .then(() => { 
             return getTermId({});
         })
         .then((termIdResult) => {
@@ -112,26 +96,6 @@ export default class ProductOffering extends LightningElement {
     //stores object info of course connection
     @wire(getObjectInfo, { objectApiName: COURSE_CONNECTION.objectApiName })
     courseConnectionInfo;
-
-    //gets all facilitator bios available
-    bioResult;
-    @wire(getAllFacilitatorBio)
-    handleBio(result){
-        if(result.data){
-            this.bioResult = result;
-            this.allFacilitatorBios = this.bioResult.data;
-            this.processedBios = this.allFacilitatorBios.map(bio => {
-                return {
-                    id:bio.Id,
-                    label:bio.Facilitator__r.Name,
-                    meta:
-                        bio.Facilitator_Professional_Bio__c ? 
-                        this.removeHtmlTags(bio.Facilitator_Professional_Bio__c) : ''
-                }
-            });
-            this.formatBios();
-        }
-    }
 
     //gets product request details
     //assigns if data is for course or program plan
@@ -149,6 +113,9 @@ export default class ProductOffering extends LightningElement {
                 objectType : this.isOpeProgramRequest ? PROGRAM_OFFERING.objectApiName : COURSE_OFFERING.objectApiName,
                 conditionField : this.isOpeProgramRequest ? PO_PROGRAM_PLAN.fieldApiName : CO_COURSE.fieldApiName
             };
+            if(!this.layoutItem){
+                this.handleGetOfferingLayout();
+            }
         }else if(result.error){
             this.generateToast('Error.',LWC_Error_General,'error');
         }
@@ -162,15 +129,27 @@ export default class ProductOffering extends LightningElement {
         childInfo : "$childInfoMap"
     })
     handleGetProductOfferingData(result){
-        this.isLoading = true;
         if(result.data){
             this.offeringResult = result;
             this.parentId = this.offeringResult.data.parentId;
             this.productOfferings = this.formatOfferingData(this.offeringResult.data);
-            this.isLoading = false;
         }else if(result.error){
             this.generateToast('Error.',LWC_Error_General,'error');
         }
+    }
+
+    //gets the layout for the offering details
+    handleGetOfferingLayout(){
+        getOfferingLayout({})
+        .then((layoutMap) => {
+            Object.keys(layoutMap).forEach(key => {
+                this.layoutMap[key] = this.formatLayout(layoutMap[key][0]);
+            });
+            this.layoutItem = this.layoutMap[this.childInfoMap.objectType];
+        })
+        .catch((error) => {
+            this.generateToast("Error.", LWC_Error_General, "error");
+        });
     }
 
     //gets product offering overview layout from metadata
@@ -187,7 +166,7 @@ export default class ProductOffering extends LightningElement {
                 JSON.parse(layout.Single_Column_Long__c) : null
         };
     }
-
+    
     //formats offering data into a display-ready type
     formatOfferingData(offeringData){
         let offerings = [];
@@ -218,9 +197,7 @@ export default class ProductOffering extends LightningElement {
                     showFacilitatorTable : relFaci.length > 0,
                     showSessionTable : relSesh.length > 0,
                     disableSession : relFaci.length == 0 || this.isStatusCompleted,
-                    showHelp : relFaci.length == 0 && this.showEditButton, 
-                    biosToSearch : this.hasLoaded ? 
-                        this.getBiosToSearch(facis.map(faci=>{return faci.Facilitator_Bio__c})) : []
+                    showHelp : relFaci.length == 0 && this.showEditButton
                 }
             );
         });
@@ -229,6 +206,7 @@ export default class ProductOffering extends LightningElement {
         ).map(
             offer => {return offer.Id}
         );
+        this.isLoading = false;
         return offerings;
     }
 
@@ -273,33 +251,9 @@ export default class ProductOffering extends LightningElement {
         });
     }
 
-    //formats bios not added to offering for search feature (on load)
-    formatBios(){
-        this.productOfferings = this.productOfferings.map(offer => {
-            let relatedFaciIds = offer.relatedFacilitators.map(faci=>{return faci.Facilitator_Bio__c});
-            return {
-                ...offer,
-                biosToSearch:this.getBiosToSearch(relatedFaciIds)
-            }
-        });
-        this.hasLoaded = true;
-    }
-
-    //formats bios not added to offering for search feature
-    getBiosToSearch(relatedFaciIds){
-        return this.processedBios.filter(bio => 
-            !relatedFaciIds.includes(bio.id)
-        );
-    }
-
     //converts date fields in AU format
     formatDate(date){
         return new Date(date).toLocaleDateString('en-AU',DATE_OPTIONS);
-    }
-
-    //removes html tags from rich text fields
-    removeHtmlTags(str){
-        return str.replace(/(<([^>]+)>)/gi, "");
     }
 
     //opens create modal for course/program offering
@@ -310,17 +264,12 @@ export default class ProductOffering extends LightningElement {
     }
 
     //refreshes data
-    handleRefreshData(event){
+    handleRefreshData(){
         this.isLoading = true;
         refreshApex(this.offeringResult)
         .then(() => {
             this.isLoading = false;
         });
-        if(event && event.detail){
-            if(event.detail.refreshBio){
-                refreshApex(this.bioResult);
-            }
-        }
     }
 
     //creates course connection for selected facilitator on search
@@ -328,8 +277,7 @@ export default class ProductOffering extends LightningElement {
         let selected = event.detail;
         let bioFields = {
             Id: selected.value,
-            Facilitator__c:this.allFacilitatorBios.find(bio => 
-                bio.Id == selected.value).Facilitator__c
+            Facilitator__c: selected.contactId
         }
         this.parentIdToCreate = selected.parent;
         this.handleCreateCourseConnection(bioFields); 
@@ -375,7 +323,6 @@ export default class ProductOffering extends LightningElement {
             try{
                 const createdFaci = await createRecord(recordInput);
                 fields.Id = createdFaci.id;
-                refreshApex(this.bioResult);
                 this.handleCreateCourseConnection(fields);
             }catch(error){
                 this.generateToast("Error.", LWC_Error_General, "error");
@@ -439,10 +386,7 @@ export default class ProductOffering extends LightningElement {
             this.generateToast("Error.", LWC_Error_General, "error");
         })
         .finally(() => {
-            refreshApex(this.offeringResult)
-            .then(() => {
-                this.isLoading = false
-            });
+            this.handleRefreshData();
         });
     }
 
@@ -472,10 +416,7 @@ export default class ProductOffering extends LightningElement {
             this.generateToast('Error.',LWC_Error_General,'error');
         })
         .finally(() => {
-            refreshApex(this.offeringResult)
-            .then(() => {
-                this.isLoading = false
-            });
+            this.handleRefreshData();
         });
     }
 

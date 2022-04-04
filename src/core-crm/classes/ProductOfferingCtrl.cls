@@ -69,16 +69,34 @@ public with sharing class ProductOfferingCtrl {
     }
 
     /**
-     * @description fetches all available facilitator bios in the org
-     * @return list of facilitator bios
+     * @description get list of facilitators searched 
+     * @param filterString - search string for filter
+     * @return list of facilitators formatted for customSearch
     */
     @AuraEnabled(cacheable=true)
-    public static List<Facilitator_Bio__c> getAllFacilitatorBio(){
-        return [
+    public static List<Map<String,String>> getSearchedFacilitator(String filterString, List<Id> addedFacilitators){
+        filterString = '%' + filterString + '%';
+        List<Map<String,String>> facilitatorMap = new List<Map<String,String>>();
+
+        for(Facilitator_Bio__c faciBio : [
             SELECT Id, Facilitator__c, Facilitator__r.Name, Facilitator_Professional_Bio__c
             FROM Facilitator_Bio__c
+            WHERE Id NOT IN :addedFacilitators
+            AND (
+                Facilitator__r.Name LIKE :filterString OR
+                Facilitator__r.Name = :filterString
+            )
             ORDER BY Facilitator__r.Name
-        ];
+        ]){
+            facilitatorMap.add(new Map<String,String>{
+                'id' => faciBio.Id,
+                'label' => faciBio.Facilitator__r.Name,
+                'meta' => faciBio.Facilitator_Professional_Bio__c,
+                'relatedContact' => faciBio.Facilitator__c
+            });
+        }
+
+        return facilitatorMap;
     }
 
     /**

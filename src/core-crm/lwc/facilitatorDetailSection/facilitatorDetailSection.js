@@ -1,6 +1,7 @@
 import { LightningElement, api, track } from 'lwc';
 import CONTACT_NAME from '@salesforce/schema/Contact.Name';
 import updateFacilitatorData from "@salesforce/apex/ProductOfferingCtrl.updateFacilitatorData";
+import getSearchedFacilitator from "@salesforce/apex/ProductOfferingCtrl.getSearchedFacilitator";
 
 const FACILITATOR_COLUMNS = [
     { label: 'ID', fieldName: 'Name', initialWidth: 100 },
@@ -56,7 +57,6 @@ const FACILITATOR_COLUMNS = [
     }
 ];
 export default class FacilitatorDetailSection extends LightningElement {
-    @api biosToSearch;
     @api offeringId;
     @api showFacilitatorTable;
     @api isStatusCompleted;
@@ -69,15 +69,19 @@ export default class FacilitatorDetailSection extends LightningElement {
         this.setAttribute('relatedFacilitators', value);
         this._relatedFacilitators = value;
         this.relatedFacilitatorsCopy = value;
+        this.relatedFacilitatorBios = value.map(faci => {return faci.Facilitator_Bio__c});
     }
 
     @track _relatedFacilitators;
     @track relatedFacilitatorsCopy;
+    relatedFacilitatorBios;
     facilitatorColumns = FACILITATOR_COLUMNS;
     draftValues = [];
     datatableErrors = {};
     isLoading = false;
     privateChildren = {}; //used to get the customLookupColumn as private childern 
+    facilitatorSearchItems = [];
+    facilitatorSearchInProgress = false;
 
     //add click event listener on load
     renderedCallback() {
@@ -120,9 +124,45 @@ export default class FacilitatorDetailSection extends LightningElement {
         this.privateChildren[item.name][item.guid] = item;
     }
 
+    //returns list of facilitators based on input
+    handleFacilitatorSearch(event){
+        this.facilitatorSearchInProgress = true;
+        getSearchedFacilitator({ 
+            filterString: event.detail.filterString,
+            addedFacilitators: this.relatedFacilitatorBios 
+        })
+        .then(result =>{
+            this.facilitatorSearchItems = result.map(faci => {
+                return {
+                    ...faci,
+                    meta: this.removeHtmlTags(faci.meta)
+                }
+            });
+        })
+        .catch(error =>{
+        })
+        .finally(() => {
+            this.facilitatorSearchInProgress = false;
+        });
+    }
+
+    //removes html tags from rich text fields
+    removeHtmlTags(str){
+        return str.replace(/(<([^>]+)>)/gi, "");
+    }
+
     //dispatches event when search item is selected
     handleSearchSelect(event){
+        event.detail.contactId = this.facilitatorSearchItems.find(
+            faci => faci.id == event.detail.value
+        ).relatedContact;
         this.dispatchEvent(new CustomEvent('searchselect',event));
+        this.resetFacilitatorSearchItems();
+    }
+    
+    //sets facilitatorSearchItems to empty list
+    resetFacilitatorSearchItems(){
+        this.facilitatorSearchItems = [];
     }
 
     //dispatches event when row action is triggered

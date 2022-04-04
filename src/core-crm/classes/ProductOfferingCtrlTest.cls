@@ -31,11 +31,22 @@ public class ProductOfferingCtrlTest {
     }
 
     @isTest
-    static void getAllFacilitatorBioTest() {
+    static void getSearchedFacilitatorTest() {
         System.runAs(currentUser){
+            Contact con = TestDataFactory.createTestContactRecords(1).iterator().next();
+            con.FirstName = 'Test';
+            con.LastName = 'Contact';
+            insert con;
+            Facilitator_Bio__c faciBio = new Facilitator_Bio__c(
+                Facilitator__c = con?.Id
+            );
+            insert faciBio;
+
             Test.startTest();
-            ProductOfferingCtrl.getAllFacilitatorBio();
+            List<Map<String,String>> facilitators = ProductOfferingCtrl.getSearchedFacilitator('test',new List<Id>{});
             Test.stopTest();
+
+            System.assertEquals('Test Contact', facilitators[0].get('label'),'Facilitator Name did not match as expected');
         }
     }
 
