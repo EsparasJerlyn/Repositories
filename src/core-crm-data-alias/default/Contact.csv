@@ -1,6 +1,6 @@
 Id,Name,AccountId,LastName,FirstName,hed__Chosen_Full_Name__c,Salutation,Email,QUT_Staff_Email__c,QUT_Employee_Id__c,QUT_Identity_Id__c,QUT_Student_ID__c,Birthdate,Migration_Key__c,Description
 0039r000000HGYDAA4,John Bond,0019n000001yOeoAAE,Bond,John,,,marygrace.li@qut.edu.au,romanill@qut.edu.au,,,,,,
-0039r000000HGYEAA4,Lauren Boyle,0019n000001yOenAAE,Boyle,Lauren,,,marygrace.li@qut.edu.au,castillp@qut.edu.au,,,,,,
+0039r000000HGYEAA4,Lauren Boyle,0019n000001yOenAAE,Boyle,Lauren,,,marygrace.li@qut.edu.au,castillp@qut.edu.au,SAD342,,,,,
 0039r000000HGYFAA4,Arthur Song,0019n000001yOenAAE,Song,Arthur,,,marygrace.li@qut.edu.au,,,,,,,
 0039r000000HGYGAA4,Hann Solo,0019n000001yOenAAE,Solo,Hann,,,marygrace.li@qut.edu.au,,,,,,,
 0039r000000HGYHAA4,Ana Banana,0019n000001yOepAAE,Banana,Ana,,,ana.dumangas@qut.edu.au,,,,,,,
