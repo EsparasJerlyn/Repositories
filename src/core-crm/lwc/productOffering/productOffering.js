@@ -222,7 +222,9 @@ export default class ProductOffering extends LightningElement {
                 customLookupClass: 'slds-cell-edit',
                 customRichtextClass: 'slds-cell-edit',
                 editable: this.showEditButton,
-                disableSetAsPrimary: item.hed__Primary__c || this.isStatusCompleted
+                helpText: item.hed__Primary__c?'Unset As Primary':'Set As Primary',
+                variantName: item.hed__Primary__c?'Brand':'',
+                disableSetAsPrimary: this.isStatusCompleted         
             }
         });
     }
@@ -366,10 +368,14 @@ export default class ProductOffering extends LightningElement {
             isFaciRelated = this.productOfferings[i].relatedFacilitators.find(faci => faci.Id == facilitatorId);
             if(isFaciRelated){
                 valuesToUpdate = this.productOfferings[i].relatedFacilitators.map(faci => {
-                    return {
-                        Id:faci.Id,
-                        hed__Primary__c:faci.Id == facilitatorId
+                    let newItem = {};
+                    newItem.Id = faci.Id;
+                    if(faci.Id == facilitatorId){
+                        newItem.hed__Primary__c = !faci.hed__Primary__c;
+                    }else{
+                        newItem.hed__Primary__c = false;
                     }
+                    return newItem;
                 });
                 break;
             }

@@ -49,8 +49,9 @@ const FACILITATOR_COLUMNS = [
         typeAttributes:
         {
             iconName: 'utility:favorite',
-            title: 'Set As Primary',
+            title: {fieldName: 'helpText'},
             name: 'setAsPrimary',
+            variant:{ fieldName: 'variantName' },
             disabled: { fieldName: 'disableSetAsPrimary' }
         },
         initialWidth: 120
