@@ -770,30 +770,6 @@ public class TestDataFactory {
   }
 
   /**
-   * @description Method for creating Pending Registration Record
-   * @param nPendingRegistration - number of Pending Registration to be created
-   * @param conId - Contact Id to be related to Pending Registration
-   * @param courseOfferings - Course Offerings to be related to Pending Registration
-   * @return pendingRegistrationRecord - List of Pending Registration Created
-   */
-  public static List<Pending_Registration__c> createTestPendingRegistrationRecord(
-    Integer nPendingRegistration,
-    Id conId,
-    List<hed__Course_Offering__c> courseOfferings
-  ) {
-    List<Pending_Registration__c> pendingRegistrationRecord = new List<Pending_Registration__c>();
-    for (Integer i = 0; i < nPendingRegistration; i++) {
-      pendingRegistrationRecord.add(
-        new Pending_Registration__c(
-          Contact__c = conId,
-          Course_Offering__c = courseOfferings[i].id
-        )
-      );
-    }
-    return pendingRegistrationRecord;
-  }
-
-  /**
    * @description Method for creating test Program Offering records
    * @param nProgramOffering - number of Program Offering to be created
    * @param programPlans - Program Plan to be related to Program Offering
