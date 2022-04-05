@@ -25,7 +25,10 @@ public with sharing class RegistrationFormCtrlTest {
             testAccount.Name = 'Test Account12345';
             insert testAccount;
 
-            String page = RegistrationFormCtrl.registerUser('Test','User','testuser12345#_@test.com','12345', date.newinstance(1960, 2, 17));
+            String uniqueID = GenerateUniqueId.getUUID();
+            String emailTest = 'testUser' + uniqueID + '@test.com';
+            
+            String page = RegistrationFormCtrl.registerUser('Test','User',emailTest,'12345', date.newinstance(1960, 2, 17));
             System.assert(page !=null,'Page must not be null');
         }
         Test.stopTest();
