@@ -33,14 +33,6 @@
             "importCSVFilesAsIs": true
         },
         {
-            "query": "SELECT Name,Id,Description FROM BuyerGroup",
-            "operation": "Upsert",
-            "externalId": "Id",
-            "useCSVValuesMapping": true,
-            "targetObject": "BuyerGroup",
-            "importCSVFilesAsIs": true
-        },
-        {
             "query": "SELECT BuyerGroupId,WebStoreId FROM WebStoreBuyerGroup",
             "operation": "Upsert",
             "externalId": "BuyerGroupId",
@@ -145,14 +137,6 @@
             "importCSVFilesAsIs": true
         },
         {
-            "query": "SELECT Id, RecordTypeId, Recordtype_Name__c, Name, Amount__c, IsActive__c, LMS_Integration_Status__c, Paid_in_Full__c, Payment_Method__c, Transaction_ID__c, hed__Contact__c, hed__Course_Offering__c, hed__Primary__c, hed__Status__c FROM hed__Course_Enrollment__c",
-            "operation": "Upsert",
-            "externalId": "Name",
-            "useCSVValuesMapping": true,
-            "targetObject": "hed__Course_Enrollment__c",
-            "importCSVFilesAsIs": true
-        },
-        {
             "query": "SELECT Id, Name, Object_Type__c, Parent_Record_ID__c, Questionnaire_Type__c FROM Questionnaire__c",
             "operation": "Upsert",
             "externalId": "Name",
@@ -190,6 +174,38 @@
             "externalId": "Name",
             "useCSVValuesMapping": true,
             "targetObject": "Answer__c",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "Select Id, Name from CommerceEntitlementPolicy",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "CommerceEntitlementPolicy",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Name,Id,Description FROM BuyerGroup",
+            "operation": "Upsert",
+            "externalId": "Id",
+            "useCSVValuesMapping": true,
+            "targetObject": "BuyerGroup",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT BuyerGroupId,PolicyId from CommerceEntitlementBuyerGroup",
+            "operation": "Upsert",
+            "externalId": "Id",
+            "useCSVValuesMapping": true,
+            "targetObject": "CommerceEntitlementBuyerGroup",
+            "importCSVFilesAsIs": true
+        },
+		{
+            "query": "SELECT Id, BuyerId,BuyerGroupId from BuyerGroupMember",
+            "operation": "Upsert",
+            "externalId": "Id",
+            "useCSVValuesMapping": true,
+            "targetObject": "BuyerGroupMember",
             "importCSVFilesAsIs": true
         }
     ]
