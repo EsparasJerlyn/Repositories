@@ -42,7 +42,7 @@ export default class SetupRegistration extends LightningElement {
     { label: "Label", class: COLUMN_CLASS + COL_TWO },
     { label: "Type", class: COLUMN_CLASS + COL_TWO },
     { label: "Dropdown Options", class: COLUMN_CLASS + COL_TWO },
-    { label: "Mandatory Response", class: COLUMN_CLASS + COL_TWO },
+    { label: "Acceptable Response", class: COLUMN_CLASS + COL_TWO },
     { label: "Message", class: COLUMN_CLASS + COL_TWO },
     { label: "Action", class: COLUMN_CLASS + COL_ONE }
   ];
@@ -260,7 +260,7 @@ export default class SetupRegistration extends LightningElement {
         _question.label = question.Label__c;
         _question.type = question.Type__c;
         _question.dropdownOptions = question.Dropdown_Options__c;
-        _question.mandatoryResponse = question.Mandatory_Response__c;
+        _question.acceptableResponse = question.Acceptable_Response__c;
         _question.message = question.Message__c;
         _question.editable = question.Related_Answers__r.find(
           (answer) => answer.Name < relatedAnswer.Name

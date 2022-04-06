@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Acceptable_Response__c</fullName>
+    <externalId>false</externalId>
+    <inlineHelpText>Please enter the acceptable response when setting-up Registration Criteria. This will restrict the learner from proceeding to registration if the response doesn’t match the acceptable response.</inlineHelpText>
+    <label>Acceptable Response</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>TextArea</type>
+</CustomField>

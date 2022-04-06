@@ -20,7 +20,7 @@
     </values>
     <values>
         <field>Right_Column_Long__c</field>
-        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;EmailHow_many_days_before_session__c&quot;},{&quot;field&quot;:&quot;How_many_days_before_session__c&quot;}]</value>
+        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;EmailHow_many_days_before_session__c&quot;},{&quot;field&quot;:&quot;Days_before_Start_Date__c&quot;}]</value>
     </values>
     <values>
         <field>Right_Column__c</field>

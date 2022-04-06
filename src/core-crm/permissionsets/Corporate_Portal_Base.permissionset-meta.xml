@@ -509,7 +509,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Facilitator_Bio__c.Facilitator_Professional_Bio__c</field>
+        <field>Facilitator_Bio__c.Professional_Bio__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

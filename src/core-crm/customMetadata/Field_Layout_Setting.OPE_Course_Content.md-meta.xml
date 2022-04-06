@@ -5,7 +5,7 @@
     <values>
         <field>Left_Column_Long__c</field>
         <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Mark_Content_as_Complete__c&quot;},
-{&quot;field&quot;:&quot;LMS_Content_Delivery_Location__c&quot;}]</value>
+{&quot;field&quot;:&quot;LMS_Site_URL__c&quot;}]</value>
     </values>
     <values>
         <field>Left_Column__c</field>
@@ -21,7 +21,7 @@
     </values>
     <values>
         <field>Right_Column_Long__c</field>
-        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Other_Content_Delivery_Location__c&quot;}]</value>
+        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Content_Location__c&quot;}]</value>
     </values>
     <values>
         <field>Right_Column__c</field>

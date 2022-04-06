@@ -22,7 +22,6 @@ export default class AddNewSession extends LightningElement {
     layoutToDisplay = [];
     lookupItemsFormatted = [];
     activeSections = [];
-    showErrorMessage = false;
     courseConnectionId;
 
     get sessionApiName(){
@@ -57,7 +56,6 @@ export default class AddNewSession extends LightningElement {
     }
     
     handleLookupSelect(event){
-        this.showErrorMessage = false;
         this.courseConnectionId = event.detail.value;
     }
 
@@ -67,17 +65,13 @@ export default class AddNewSession extends LightningElement {
 
     handleSubmitSession(event){
         event.preventDefault();
-        if(!this.courseConnectionId){
-            this.showErrorMessage = true;
-        }else{
-            let fields = event.detail.fields;
-            fields.Course_Offering__c = this.courseOfferingId;
-            fields.Course_Connection__c = this.courseConnectionId;
-            fields.Facilitator__c = this.customLookupItems.find(
-                item => item.Id == this.courseConnectionId
-            ).hed__Contact__c;
-            this.template.querySelector("lightning-record-edit-form").submit(fields);
-        }
+        let fields = event.detail.fields;
+        let lookupItem = this.customLookupItems.find(item => item.Id == this.courseConnectionId);
+        fields.Course_Offering__c = this.courseOfferingId;
+        fields.Course_Connection__c = this.courseConnectionId;
+        fields.Facilitator__c = lookupItem ? lookupItem.hed__Contact__c : undefined;
+        this.template.querySelector("lightning-record-edit-form").submit(fields);
+        
     }
 
     handleSuccessSession(){

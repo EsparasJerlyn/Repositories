@@ -20,7 +20,7 @@
     </values>
     <values>
         <field>Right_Column_Long__c</field>
-        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Pay_later_due_days__c&quot;}]</value>
+        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Invoice_Payment_Terms__c&quot;}]</value>
     </values>
     <values>
         <field>Right_Column__c</field>

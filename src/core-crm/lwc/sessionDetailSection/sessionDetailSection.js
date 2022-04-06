@@ -184,7 +184,7 @@ export default class SessionDetailSection extends LightningElement {
         this.handleCustomColumnEdit(
             event.detail.parent,
             'Course_Connection__c',
-            event.detail.value,
+            event.detail.value ? event.detail.value : '',
             'customSearchClass'
         );
     }
@@ -257,11 +257,7 @@ export default class SessionDetailSection extends LightningElement {
                 Name:
                     draft.Name === undefined ?
                     unsavedItem.Name :
-                    draft.Name,
-                Course_Connection__c: 
-                    draft.Course_Connection__c === undefined ?
-                    unsavedItem.Course_Connection__c :
-                    draft.Course_Connection__c
+                    draft.Name
             };
         });
 
@@ -301,12 +297,6 @@ export default class SessionDetailSection extends LightningElement {
             if(!record.Name){
                 fieldNames.push('Name');
                 messages.push('Session Name is required');
-            }
-            //course connection (facilitator) validation
-            if(!record.Course_Connection__c){
-                fieldNames.push('Course_Connection__c');
-                messages.push('Facilitator is required');
-                this.addErrorOutline(record.rowId,'customSearchClass');
             }
             
             if(fieldNames.length > 0){

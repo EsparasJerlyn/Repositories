@@ -79,7 +79,7 @@ public with sharing class ProductOfferingCtrl {
         List<Map<String,String>> facilitatorMap = new List<Map<String,String>>();
 
         for(Facilitator_Bio__c faciBio : [
-            SELECT Id, Facilitator__c, Facilitator__r.Name, Facilitator_Professional_Bio__c
+            SELECT Id, Facilitator__c, Facilitator__r.Name, Professional_Bio__c
             FROM Facilitator_Bio__c
             WHERE Id NOT IN :addedFacilitators
             AND (
@@ -91,7 +91,7 @@ public with sharing class ProductOfferingCtrl {
             facilitatorMap.add(new Map<String,String>{
                 'id' => faciBio.Id,
                 'label' => faciBio.Facilitator__r.Name,
-                'meta' => faciBio.Facilitator_Professional_Bio__c,
+                'meta' => faciBio.Professional_Bio__c,
                 'relatedContact' => faciBio.Facilitator__c
             });
         }
@@ -179,7 +179,7 @@ public with sharing class ProductOfferingCtrl {
         if(childInfo.get('objectType') == COURSE_OFFERING_API_NAME){
             poData.relatedFacilitators = [
                 SELECT Id, Name, Facilitator_Bio__c, Facilitator_Bio__r.Name, RecordTypeId, hed__Primary__c, 
-                        hed__Course_Offering__c, Facilitator_Bio__r.Facilitator_Professional_Bio__c,
+                        hed__Course_Offering__c, Facilitator_Bio__r.Professional_Bio__c,
                         Facilitator_Bio__r.Facilitator__c,Facilitator_Bio__r.Facilitator__r.Name, hed__Contact__c,
                         IsActive__c,CreatedDate
                 FROM hed__Course_Enrollment__c

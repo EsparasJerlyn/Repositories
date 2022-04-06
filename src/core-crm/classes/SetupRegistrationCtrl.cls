@@ -27,7 +27,7 @@ public with sharing class SetupRegistrationCtrl {
           Id,
           Dropdown_Options__c,
           Label__c,
-          Mandatory_Response__c,
+          Acceptable_Response__c,
           Message__c,
           Type__c,
           (

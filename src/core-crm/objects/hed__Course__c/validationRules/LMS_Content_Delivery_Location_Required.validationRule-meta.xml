@@ -5,9 +5,9 @@
     <errorConditionFormula>AND(
     NOT(ISPICKVAL( ProductRequestID__r.Product_Request_Status__c , &apos;Completed&apos;)),
     Mark_Content_as_Complete__c = true,
-    ISBLANK( LMS_Content_Delivery_Location__c),
-    ISBLANK(  Other_Content_Delivery_Location__c) 
+    ISBLANK(LMS_Site_URL__c),
+    ISBLANK(Content_Location__c) 
 )</errorConditionFormula>
-    <errorDisplayField>LMS_Content_Delivery_Location__c</errorDisplayField>
-    <errorMessage>LMS Content Delivery Location is required</errorMessage>
+    <errorDisplayField>LMS_Site_URL__c</errorDisplayField>
+    <errorMessage>LMS Site URL is required</errorMessage>
 </ValidationRule>

@@ -22,18 +22,11 @@ const FACILITATOR_COLUMNS = [
         },
         initialWidth: 200    
     },
-    { 
+    {
         label: 'Professional Bio',
-        type: 'customRichtextColumn',
-        typeAttributes: {
-            rowDraftId: { fieldName: 'rowId' },
-            richtextValue: { fieldName: 'bio' },
-            editable: { fieldName: 'editable' }
-        },
-        cellAttributes: {
-            class: { fieldName: 'customRichtextClass' }
-        },
-        wrapText: true
+        fieldName: 'bio',
+        wrapText: true,
+        editable: { fieldName: 'editable' } 
     },
     { 
         label: 'IsActive',
@@ -136,7 +129,7 @@ export default class FacilitatorDetailSection extends LightningElement {
             this.facilitatorSearchItems = result.map(faci => {
                 return {
                     ...faci,
-                    meta: this.removeHtmlTags(faci.meta)
+                    meta: faci.meta
                 }
             });
         })
@@ -145,11 +138,6 @@ export default class FacilitatorDetailSection extends LightningElement {
         .finally(() => {
             this.facilitatorSearchInProgress = false;
         });
-    }
-
-    //removes html tags from rich text fields
-    removeHtmlTags(str){
-        return str.replace(/(<([^>]+)>)/gi, "");
     }
 
     //dispatches event when search item is selected
@@ -190,17 +178,6 @@ export default class FacilitatorDetailSection extends LightningElement {
             'contactId',
             event.detail.value,
             'customLookupClass'
-        );
-    }
-
-    //updates data and drafts to edited values 
-    //if custom richtext is changed
-    handleRichtextEdit(event){
-        this.handleCustomColumnEdit(
-            event.detail.draftId,
-            'bio',
-            event.detail.value,
-            'customRichtextClass'
         );
     }
 
@@ -276,7 +253,7 @@ export default class FacilitatorDetailSection extends LightningElement {
                 return {
                     Id:this.relatedFacilitatorsCopy.find(faci => faci.rowId == draft.id).Facilitator_Bio__c,
                     Facilitator__c:draft.contactId,
-                    Facilitator_Professional_Bio__c:draft.bio
+                    Professional_Bio__c:draft.bio
                 }
             });
             let updatedData = {
@@ -321,7 +298,6 @@ export default class FacilitatorDetailSection extends LightningElement {
             if(!record.bio){
                 fieldNames.push('bio');
                 messages.push('Professional bio is required');
-                this.addErrorOutline(record.rowId,'customRichtextClass');
             }
             
             if(fieldNames.length > 0){

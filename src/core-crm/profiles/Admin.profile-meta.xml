@@ -2194,6 +2194,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Question__c.Acceptable_Response__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Question__c.Dropdown_Options__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2450,6 +2455,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course__c.LMS_Content_Delivery_Location__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Course__c.LMS_Site_URL__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Course__c.Content_Location__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2984,6 +2999,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Product2.Invoice_Payment_Terms__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Product2.Pay_later_due_days__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3418,6 +3438,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Communication_Schedule__c.Days_before_Start_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Communication_Schedule__c.EmailHow_many_days_before_session__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3708,7 +3733,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Facilitator_Bio__c.Facilitator_Professional_Bio__c</field>
+        <field>Facilitator_Bio__c.Professional_Bio__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

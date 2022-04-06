@@ -28,7 +28,7 @@
     </values>
     <values>
         <field>Single_Column_Long__c</field>
-        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Facilitator__c&quot;,&quot;mandatory&quot;:true},{&quot;field&quot;:&quot;Facilitator_Professional_Bio__c&quot;,&quot;mandatory&quot;:true}]</value>
+        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Facilitator__c&quot;,&quot;mandatory&quot;:true},{&quot;field&quot;:&quot;Professional_Bio__c&quot;,&quot;mandatory&quot;:true}]</value>
     </values>
     <values>
         <field>Single_Column__c</field>

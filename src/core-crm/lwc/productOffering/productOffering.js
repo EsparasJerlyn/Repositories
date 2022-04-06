@@ -218,7 +218,7 @@ export default class ProductOffering extends LightningElement {
                 rowId: 'row-'+index,
                 contactName: item.Facilitator_Bio__r.Facilitator__r.Name,
                 contactId:item.Facilitator_Bio__r.Facilitator__c,
-                bio:item.Facilitator_Bio__r.Facilitator_Professional_Bio__c,
+                bio:item.Facilitator_Bio__r.Professional_Bio__c,
                 customLookupClass: 'slds-cell-edit',
                 customRichtextClass: 'slds-cell-edit',
                 editable: this.showEditButton,
@@ -235,7 +235,9 @@ export default class ProductOffering extends LightningElement {
             return {
                 ...item,
                 rowId: 'row-'+index,
-                contactName:item.Course_Connection__r.hed__Contact__c ? item.Course_Connection__r.hed__Contact__r.Name : '',
+                contactName:
+                    item.Course_Connection__c && item.Course_Connection__r.hed__Contact__c ? 
+                    item.Course_Connection__r.hed__Contact__r.Name : '',
                 relatedFacilitators: relatedFacis.map(item =>{
                     return {
                         id:item.Id,

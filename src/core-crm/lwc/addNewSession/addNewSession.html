@@ -38,14 +38,7 @@
                                                     onitemremove={handleLookupRemove}
                                                     item-id={courseConnectionId}
                                                     custom-lookup
-                                                    required
                                                 ></c-custom-search>
-                                                <span
-                                                    key={leftField.field} 
-                                                    if:true={showErrorMessage}
-                                                    class="slds-text-body_small slds-text-color_destructive slds-m-left_small">
-                                                    Complete this field.
-                                                </span>
                                             </template>
                                             <lightning-input-field
                                                 if:false={leftField.customLookup}
