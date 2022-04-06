@@ -2464,7 +2464,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Course__c.Content_Location__c</field>
+        <field>hed__Course__c.Content_Locationv2__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
