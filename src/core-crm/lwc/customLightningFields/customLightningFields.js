@@ -19,7 +19,11 @@ export default class CustomLightningFields extends LightningElement {
 
     editMode = false;
     isLoading = true;
-    
+    showPopoverIcon = false;
+    showPopoverDialog = false;
+    popoverErrorMessages = [];
+    formFields = [];
+
     /**
      * stops spinner on form load
      */
@@ -37,8 +41,10 @@ export default class CustomLightningFields extends LightningElement {
     /**
      * method for handling record edit form submission
      */
-    handleSubmit(){
+    handleSubmit(event){
         this.isLoading = true;
+        this.formFields = Object.keys(event.detail.fields);
+        this.resetPopover();
     }
 
     /**
@@ -47,14 +53,35 @@ export default class CustomLightningFields extends LightningElement {
     handleSuccess(){
         this.isLoading = false;
         this.editMode = false;
+        this.resetPopover();
         this.dispatchEvent(new CustomEvent('recordupdate'));
     }
 
     /**
      * method for handling record edit form errors
      */
-    handleError(){
+    handleError(event){
         this.isLoading = false;
+
+        //for error messages not visible on shown fields
+        this.popoverErrorMessages = [];
+        let fieldErrors = event.detail.output.fieldErrors;
+        Object.keys(fieldErrors).forEach(fieldError => {
+            if(!this.formFields.includes(fieldErrors[fieldError][0].field)){
+                this.popoverErrorMessages.unshift(fieldErrors[fieldError][0].message);
+            }
+        });
+        if(this.popoverErrorMessages.length > 0){  
+            this.showPopoverIcon = true;
+            this.showPopoverDialog = true;
+        }
+    }
+
+    /**
+     * shows/hides the popover error dialog
+     */
+    handlePopover(){
+        this.showPopoverDialog = this.showPopoverDialog ? false : true;
     }
 
     /**
@@ -62,6 +89,16 @@ export default class CustomLightningFields extends LightningElement {
      */
     handleCancel(){
         this.editMode = false;
+        this.resetPopover();
+    }
+
+    /**
+     * hides popover
+     */
+    resetPopover(){
+        this.showPopoverIcon = false;
+        this.showPopoverDialog = false;
+        this.popoverErrorMessages = [];
     }
 
 }
