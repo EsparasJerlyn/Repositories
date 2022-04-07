@@ -488,11 +488,11 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
     //updates product request status after course/program plan insert to avoid hitting validation rules
     //navigates to updated product request after
     updateProductRequestStatusAndRedirect(event){
-
+        let productReqfields = {};
         if(this.isChild){
             this.createRelatedProdRequest(this.prodReqId);
+            productReqfields.Child_of_Prescribed_Program__c = this.parentRecord.isPrescribedProgram;
         }
-        let productReqfields = {};
         productReqfields.Id= this.prodReqId;
         productReqfields.Product_Request_Status__c = 'Design';
         productReqfields.OwnerId = this.selectedUserId;

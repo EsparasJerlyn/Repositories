@@ -34,6 +34,7 @@ import C_PRODUCT_REQUEST from '@salesforce/schema/hed__Course__c.ProductRequestI
 import PP_PRODUCT_REQUEST from '@salesforce/schema/hed__Program_Plan__c.Product_Request__c';
 import PR_RT_DEV_NAME from '@salesforce/schema/Product_Request__c.RecordType.DeveloperName';
 import PR_STATUS from '@salesforce/schema/Product_Request__c.Product_Request_Status__c';
+import PRESCRIBED_CHILD from '@salesforce/schema/Product_Request__c.Child_of_Prescribed_Program__c';
 import getProductOfferingData from "@salesforce/apex/ProductOfferingCtrl.getProductOfferingData";
 import getTermId from "@salesforce/apex/ProductOfferingCtrl.getTermId";
 import updateCourseConnections from "@salesforce/apex/ProductOfferingCtrl.updateCourseConnections";
@@ -61,6 +62,8 @@ export default class ProductOffering extends LightningElement {
     layoutMap = {};
     layoutItem;
     isStatusCompleted;
+    childOfPrescribedProgram = false;
+
 
     //decides if user has access to this feature
     get hasAccess(){
@@ -99,11 +102,12 @@ export default class ProductOffering extends LightningElement {
 
     //gets product request details
     //assigns if data is for course or program plan
-    @wire(getRecord, { recordId: '$recordId', fields: [PR_RT_DEV_NAME,PR_STATUS] })
+    @wire(getRecord, { recordId: '$recordId', fields: [PR_RT_DEV_NAME,PR_STATUS,PRESCRIBED_CHILD] })
     handleProductRequest(result){
         if(result.data){
             this.isStatusCompleted = getFieldValue(result.data,PR_STATUS) == PL_ProductRequest_Completed;
             this.isOpeProgramRequest = getFieldValue(result.data,PR_RT_DEV_NAME) == RT_ProductRequest_Program;
+            this.childOfPrescribedProgram = getFieldValue(result.data,PRESCRIBED_CHILD);
             this.parentInfoMap = {
                 field : this.isOpeProgramRequest ? PP_PRODUCT_REQUEST.fieldApiName : C_PRODUCT_REQUEST.fieldApiName,
                 objectType : this.isOpeProgramRequest ? PROGRAM_PLAN.objectApiName :COURSE.objectApiName

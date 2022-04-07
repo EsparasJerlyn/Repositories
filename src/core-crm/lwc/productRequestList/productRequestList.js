@@ -244,6 +244,9 @@ export default class ProductRequestList extends LightningElement {
             if(item.Program_Plans__r && item.Program_Plans__r[0] && item.Program_Plans__r[0].Program_Delivery_Structure__c === 'Flexible Program'){
                 newItem.isFlexibleProgram = true;
             }
+            if(item.Program_Plans__r && item.Program_Plans__r[0] && item.Program_Plans__r[0].Program_Delivery_Structure__c === 'Prescribed Program'){
+                newItem.isPrescribedProgram = true;
+            }
             if(item.Courses__r && item.Courses__r[0] && item.Courses__r[0].Name){
                 newItem.courseName = item.Courses__r[0].Name;
             }           

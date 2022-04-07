@@ -66,7 +66,9 @@
                         </div>
                     </template>
                 </lightning-accordion-section>
+
                 <c-evaluation-section
+                    if:true={showEvaluation}
                     record-id={recordId}
                     offering-data={offeringData}
                     is-status-completed={isStatusCompleted}

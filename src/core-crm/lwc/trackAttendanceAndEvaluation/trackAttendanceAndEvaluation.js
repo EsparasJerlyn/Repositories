@@ -19,6 +19,7 @@ import HAS_PERMISSION from '@salesforce/customPermission/EditDesignAndReleaseTab
 import PR_STATUS from '@salesforce/schema/Product_Request__c.Product_Request_Status__c';
 import PR_RECORD_TYPE from '@salesforce/schema/Product_Request__c.RecordType.DeveloperName';
 import PL_ProductRequest_Completed from '@salesforce/label/c.PL_ProductRequest_Completed';
+import PRESCRIBED_CHILD from '@salesforce/schema/Product_Request__c.Child_of_Prescribed_Program__c';
 
 const SUCCESS_TITLE = 'Success!';
 const SUCCESS_MSG = 'Record(s) successfully saved.';
@@ -53,6 +54,7 @@ export default class TrackAttendanceAndEvaluation extends LightningElement {
     activeSections = ['trackAttendance','evaluations'];
     isStatusCompleted;
     showAttendance = false;
+    showEvaluation = false;
     
     get hasAccess(){
         return HAS_PERMISSION;
@@ -61,11 +63,12 @@ export default class TrackAttendanceAndEvaluation extends LightningElement {
     /**
      * gets product request status
     */
-    @wire(getRecord, { recordId: '$recordId', fields: [PR_STATUS,PR_RECORD_TYPE] })
+    @wire(getRecord, { recordId: '$recordId', fields: [PR_STATUS,PR_RECORD_TYPE,PRESCRIBED_CHILD] })
     handleParentRecord(result){
         if(result.data){
             this.isStatusCompleted = getFieldValue(result.data,PR_STATUS) == PL_ProductRequest_Completed;
             this.showAttendance = getFieldValue(result.data,PR_RECORD_TYPE) !== RT_ProductRequest_Program;
+            this.showEvaluation = !getFieldValue(result.data,PRESCRIBED_CHILD);
         }
     }
 
