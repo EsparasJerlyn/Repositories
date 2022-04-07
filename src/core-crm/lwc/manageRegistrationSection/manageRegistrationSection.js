@@ -81,8 +81,6 @@ export default class ManageRegistrationSection extends LightningElement {
     responseData;
     questions;
 
-
-
     columns = [
         { label: 'Full Name', fieldName: 'contactFullName', type: 'text', sortable: true },
         { label: 'Payment Method', fieldName: 'paymentMethod', type: 'text', sortable: true },

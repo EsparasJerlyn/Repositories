@@ -124,6 +124,14 @@
                                         ></c-manage-registration-section>                    
                                     </div> 
                                 </lightning-accordion-section>
+                                <lightning-accordion-section name="manageCertificate" label="Manage Certificate" class="nested-accordion-section">
+                                    <div class="slds-scrollable slds-p-bottom_medium slds-m-top_small">
+                                        <c-manage-certificates
+                                            offering-id={offering.Id}
+                                            prod-req-id={recordId}
+                                        ></c-manage-certificates>    
+                                    </div> 
+                                </lightning-accordion-section>
                             </div>
                         </lightning-accordion>                        
                     </lightning-accordion-section>

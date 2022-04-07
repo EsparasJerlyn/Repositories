@@ -1,0 +1,36 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">
+<div style="text-align: center;"><br />
+<span style="font-size:36px;">Certificate of Participation</span></div>
+
+<div style="text-align: center;"><br />
+<br />
+This is to certify that<br />
+<br />
+<br />
+<span style="font-size:36px;"><b>{fullName}</b></span><br />
+<br />
+<br />
+Has participated in the QUTeX course<br />
+<br />
+<br />
+<span style="font-size:36px;"><b>{courseName}</b></span><br />
+<br />
+<br />
+<br />
+and in evidence whereof this certificate is awarded&nbsp;<br />
+{dateToday}<br />
+<br />
+<br />
+<b>Facilitated by {facilitator}</b><br />
+<br />
+&nbsp;</div>
+
+<div id="" style="left: 233.833px; top: 227.333px;">&nbsp;</div>
+
+<div id="" style="left: 233.833px; top: 227.333px; text-align: center;"><b>Queensland University of Technology</b></div>
+
+</body></html>

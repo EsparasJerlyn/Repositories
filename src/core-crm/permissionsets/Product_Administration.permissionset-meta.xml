@@ -49,6 +49,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ManageCertificateSectionCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>    
+    <classAccesses>
         <apexClass>ManageRegistrationSectionCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1268,6 +1272,11 @@
         <field>hed__Course_Enrollment__c.Marks__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>hed__Course_Enrollment__c.Marks_Description__c</field>
+        <readable>true</readable>
+    </fieldPermissions>    
     <fieldPermissions>
         <editable>false</editable>
         <field>hed__Course_Enrollment__c.Mobile__c</field>
