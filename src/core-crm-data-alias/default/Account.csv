@@ -5,3 +5,4 @@ Id,Name,IsPartner,IsCustomerPortal,AccountSource,IsBuyer,RecordTypeId,Organizati
 0019n000001yOepAAE,Test Corporation,FALSE,FALSE,Outbound Enquiry,TRUE,0128q0000004JlWAAU,''
 0019r000002lVbzAAE,Participating School 2,false,false,,false,0128q0000004JlaAAE,3
 0019r000002lVc0AAE,Participating School 1,false,false,,false,0128q0000004JlaAAE,3
+0019r000002uJDKAA2,OPE Catalogue,true,false,Outbound Enquiry,true,0128q0000004JlWAAU,''
