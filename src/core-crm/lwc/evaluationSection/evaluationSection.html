@@ -184,23 +184,21 @@
                                 onsuccess={handleSuccess}
                                 onerror={handleError}>
                                 <template for:each={offering.fields} for:item="field">
-                                    <lightning-layout key={field.apiName} size="12" class="slds-border_bottom">
-                                        <lightning-layout-item size="7" class="slds-align-middle slds-p-right_small">
-                                            <span class="slds-text-heading_small">{field.helpText}</span>
-                                        </lightning-layout-item>
-                                        <lightning-layout-item size="4">
+                                    <lightning-layout key={field.apiName} size="8" class="slds-align_absolute-center">
+                                        <lightning-layout-item size="6">
                                             <lightning-input-field
                                                 if:true={offering.editMode}
                                                 field-name={field.apiName}
-                                                variant="label-stacked"
+                                                variant="label-inline"
                                             ></lightning-input-field>
                                             <lightning-output-field
                                                 if:false={offering.editMode}
                                                 field-name={field.apiName}
-                                                variant="label-stacked"
+                                                variant="label-inline"
+                                                class="slds-p-horizontal_none slds-border_bottom"
                                             ></lightning-output-field>
                                         </lightning-layout-item>
-                                        <lightning-layout-item size="1" class="slds-align-middle">
+                                        <lightning-layout-item size="2">
                                             <div if:false={isStatusCompleted}> 
                                                 <lightning-button-icon
                                                     if:false={offering.editMode}
@@ -211,7 +209,7 @@
                                                     variant="bare"
                                                     size="medium"
                                                     onclick={handleEdit}
-                                                    class="slds-float_right"
+                                                    class="slds-float_none"
                                                 ></lightning-button-icon>
                                             </div>
                                         </lightning-layout-item>
