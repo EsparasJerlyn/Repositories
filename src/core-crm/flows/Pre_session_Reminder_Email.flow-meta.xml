@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
-        <name>Send_Notification</name>
+        <name>Send_Notification_0</name>
         <label>Send Notification</label>
-        <locationX>264</locationX>
-        <locationY>996</locationY>
+        <locationX>704</locationX>
+        <locationY>1236</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
         <connector>
-            <targetReference>Loop_Course_Connection</targetReference>
+            <targetReference>Loop_Session_Record</targetReference>
         </connector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
@@ -46,7 +46,7 @@
     <assignments>
         <name>AssignValuetoEmail</name>
         <label>AssignValuetoEmail</label>
-        <locationX>550</locationX>
+        <locationX>748</locationX>
         <locationY>636</locationY>
         <assignmentItems>
             <assignToReference>LearnerEmail</assignToReference>
@@ -98,20 +98,20 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Check_Registration_Email_option</targetReference>
+            <targetReference>Check_Send_Email_Before_Session</targetReference>
         </connector>
     </assignments>
     <decisions>
-        <name>Check_No_of_Days</name>
+        <name>Check_No_of_Days_0</name>
         <label>Check No of Days</label>
-        <locationX>396</locationX>
-        <locationY>876</locationY>
+        <locationX>836</locationX>
+        <locationY>1116</locationY>
         <defaultConnector>
-            <targetReference>Loop_Course_Connection</targetReference>
+            <targetReference>Loop_Session_Record</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>No - No. of Days is equal to Email Days</defaultConnectorLabel>
         <rules>
-            <name>Yes_No_of_Days_is_equal_to_Email_Days</name>
+            <name>Yes_No_of_Days_is_equal_to_Email_Days_0</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
                 <leftValueReference>NoOfDays</leftValueReference>
@@ -121,40 +121,40 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Send_Notification</targetReference>
+                <targetReference>Send_Notification_0</targetReference>
             </connector>
             <label>Yes - No. of Days is equal to Email Days</label>
         </rules>
     </decisions>
     <decisions>
-        <name>Check_Registration_Email_option</name>
-        <label>Check Registration Email option</label>
-        <locationX>550</locationX>
+        <name>Check_Send_Email_Before_Session</name>
+        <label>Check Send Email Before Session</label>
+        <locationX>748</locationX>
         <locationY>756</locationY>
         <defaultConnector>
             <targetReference>Loop_Course_Connection</targetReference>
         </defaultConnector>
-        <defaultConnectorLabel>No - Registration Email is false</defaultConnectorLabel>
+        <defaultConnectorLabel>No - Send Email Before Session is false</defaultConnectorLabel>
         <rules>
-            <name>Yes_Registration_Email_is_True</name>
+            <name>Yes_Send_Email_Before_Session_is_True</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Get_Comm_Schedule.Email_on_Registration__c</leftValueReference>
+                <leftValueReference>Get_Comm_Schedule.Send_email_before_session__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Check_No_of_Days</targetReference>
+                <targetReference>Get_Session_Records</targetReference>
             </connector>
-            <label>Yes - Registration Email is True</label>
+            <label>Yes - Send Email Before Session is True</label>
         </rules>
     </decisions>
     <formulas>
         <name>NoOfDays</name>
         <dataType>Number</dataType>
-        <expression>{!Loop_Course_Connection.hed__Course_Offering__r.hed__Start_Date__c} - today()</expression>
+        <expression>{!Loop_Session_Record.Start_Time__c} - {!$Flow.CurrentDateTime}</expression>
         <scale>0</scale>
     </formulas>
     <interviewLabel>Pre-session Reminder Email {!$Flow.CurrentDateTime}</interviewLabel>
@@ -169,6 +169,20 @@
         <nextValueConnector>
             <targetReference>Get_Comm_Schedule</targetReference>
         </nextValueConnector>
+    </loops>
+    <loops>
+        <name>Loop_Session_Record</name>
+        <label>Loop Session Record</label>
+        <locationX>616</locationX>
+        <locationY>996</locationY>
+        <collectionReference>Get_Session_Records</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Check_No_of_Days_0</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Loop_Course_Connection</targetReference>
+        </noMoreValuesConnector>
     </loops>
     <processMetadataValues>
         <name>BuilderType</name>
@@ -192,7 +206,7 @@
     <recordLookups>
         <name>Get_Comm_Schedule</name>
         <label>Get Comm Schedule</label>
-        <locationX>550</locationX>
+        <locationX>748</locationX>
         <locationY>516</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -204,13 +218,6 @@
             <operator>EqualTo</operator>
             <value>
                 <elementReference>Loop_Course_Connection.hed__Course_Offering__r.hed__Course__r.Id</elementReference>
-            </value>
-        </filters>
-        <filters>
-            <field>Send_email_before_session__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>Yes_Registration_Email_is_True</elementReference>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
@@ -250,6 +257,34 @@
         </filters>
         <getFirstRecordOnly>false</getFirstRecordOnly>
         <object>hed__Course_Enrollment__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Session_Records</name>
+        <label>Get Session Records</label>
+        <locationX>616</locationX>
+        <locationY>876</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Loop_Session_Record</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Course_Offering__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Loop_Course_Connection.hed__Course_Offering__r.Id</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Start_Time__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Session__c</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <start>
