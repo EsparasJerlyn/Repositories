@@ -1,0 +1,45 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">
+<p><span style="font-size:14px;">Dear {fullname},</span><br />
+<br />
+<span style="font-size:14px;">Thank you for registering. We look forward to welcoming you to QUTeX and supporting you on your journey to professional and personal success.<br />
+<br />
+A final confirmation email will be sent to you prior to the course commencing. This will include the information you need for the course.<br />
+<br />
+Please find attached the invoice and let us know as soon as possible if you require any changes.</span><br />
+<br />
+<b><span style="font-size:20px;">Registration</span></b></p>
+
+<p><b><span style="font-size:14px;">Name: {name}<br />
+<br />
+Amount: {amount}</span></b><br />
+<br />
+<b><span style="font-size:14px;">Paid in Full: {paid}</span></b><br />
+<br />
+<span style="font-size:14px;">If you have any questions regarding your registration details or payment please contact QUTeX. Please refer to the <a href="https://www.qut.edu.au/study/professional-and-executive-education/terms-and-conditions">QUTeX T&amp;C's</a> regarding our cancellation policy.<br />
+<br />
+To continue expanding your professional and personal success <a href="https://www.qut.edu.au/study/professional-and-executive-education/courses">click here</a> to check out what else QUTeX has to offer.<br />
+<br />
+<br />
+Kind&nbsp;Regards,&nbsp;<br />
+<br />
+<strong>The QUTeX Team</strong><br />
+Phone: + 61 7 3138 7733 | Email:&nbsp;<a href="mailto:qutex@qut.edu.au">qutex@qut.edu.au</a> <br />
+QUTeX Professional and Executive Education for the Real World&nbsp;| <a href="https://qut.edu.au/qutex" rel="noopener noreferrer" target="_blank">www.qut.edu.au/qutex</a><br />
+<br />
+<a href="https://www.linkedin.com/showcase/14561011/admin/"><strong><u>Follow</u></strong></a> QUTeX on<strong> </strong>LinkedIn<strong> | </strong><a href="https://alumni-and-friends.qut.edu.au/qutex-connect-subscription"><strong><u>Subscribe</u></strong></a> to the QUTeX Connect Newsletter&nbsp;</span><br />
+<br />
+&nbsp;</p>
+
+<div id="" style="left: 8px; top: 16px;">&nbsp;</div>
+
+<div id="" style="left: 8px; top: 16px;">&nbsp;</div>
+
+<div id="" style="left: 8px; top: 804.5px;">&nbsp;</div>
+
+<div id="" style="left: 8px; top: 804.5px;">&nbsp;</div>
+
+</body></html>

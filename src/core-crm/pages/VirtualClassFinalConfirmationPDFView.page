@@ -1,0 +1,45 @@
+<apex:page controller="VirtualFinalConfirmationEmailCtrl" applyHtmlTag="false" showHeader="false" renderAs="pdf">
+    <html style="overflow-y: hidden;">
+
+    <head>
+        <title></title>
+    </head>
+
+    <body style="height: auto; min-height: auto;font-family:&quot;Times New Roman&quot;,serif">
+        <p>
+            <span style="font-family: Arial, sans-serif; font-weight: bold; font-size: 18pt; color: rgb(0, 102, 185);">QUTeX {!courseConnect.Course_Offering_Name__c}</span>
+            <br />
+        </p>
+        <br />
+        <b>Session Summary</b>
+        <br />
+        <apex:repeat value="{!sessions}" var="session">
+            <div>
+                <i>
+                    <b><apex:outputText value="{!session.Name}" />:&nbsp;</b>
+                    <apex:outputText value="{0, date,EEEE d MMMM','  yyyy '|' h:mma}">
+                        <apex:param value="{!session.Start_Time__c}" />
+                    </apex:outputText>
+                    <apex:outputText> - </apex:outputText>
+                    <apex:outputText value="{0, date,h:mma z}">
+                        <apex:param value="{!session.End_Time__c}" />
+                    </apex:outputText>
+                </i>
+            </div>
+        </apex:repeat>
+        <br />
+        <br />
+        <apex:repeat value="{!sessions}" var="session">
+            <div>
+                <b><apex:outputText value="{!session.Name}" /> Details:</b>
+            </div>
+            <br />
+            <div>
+                <apex:outputText value="{!session.Location_Detail__c}" />
+            </div>
+            <br />
+        </apex:repeat>
+    </body>
+
+    </html>
+</apex:page>
