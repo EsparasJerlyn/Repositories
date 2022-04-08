@@ -13,7 +13,7 @@
       |                           |                       |                     |                                                        |
 */
 
-import { LightningElement, wire, api } from 'lwc';
+import { LightningElement, wire, api,track } from 'lwc';
 import getPricebookEntries from '@salesforce/apex/PricebookEntryCtrl.getPricebookEntries';
 import upsertPricebookEntries from '@salesforce/apex/PricebookEntryCtrl.upsertPricebookEntries';
 import { refreshApex } from '@salesforce/apex';
@@ -22,6 +22,10 @@ import LWC_Error_General from '@salesforce/label/c.LWC_Error_General';
 import { loadStyle } from 'lightning/platformResourceLoader';
 import customDataTableStyle from '@salesforce/resourceUrl/CustomDataTable';
 import { createRecord } from 'lightning/uiRecordApi';
+import promotionName from '@salesforce/schema/Promotion.Name';
+import promotionDescription from '@salesforce/schema/Promotion.Description';
+import promotionObjective from '@salesforce/schema/Promotion.Objective';
+import promotionIsActive from '@salesforce/schema/Promotion.IsActive';
 
 const columns = [
     {
@@ -127,6 +131,35 @@ export default class ProductPricing extends LightningElement {
     prefields;
     
 
+    /*  Voucher Modal */
+    PromotionFieldList = [promotionName,promotionDescription,promotionObjective,promotionIsActive];
+   
+    @track customFormModal = false; 
+    customShowModalPopup() {            
+        this.customFormModal = true;
+    }
+    customHideModalPopup() {     
+        this.customFormModal = false;
+    }
+    closeModal() {    
+        this.customFormModal = false;   
+    }
+
+    @api PromotionObjectApiName='Promotion';
+
+ 
+    contactHandleUpdate(event){
+      this.customFormModal = false;   
+        const evt = new ShowToastEvent({
+            title:'Voucher Added',
+            message:'' + event.detail.fields.Name.value + 'is successfully added',
+            variant:'success',
+          })
+          this.dispatchEvent(evt);      
+    }   
+
+
+    /*  */
     /* get Pricebook Entry record */
 
     @api recordId;
@@ -523,8 +556,9 @@ export default class ProductPricing extends LightningElement {
             //update the unitprice and add it to the records to upsert
             filteredRecords.map(key => {
                 let newItem = {};
+                let newUnitPrice_temp = this.standardPriceDraft - (this.standardPriceDraft * (parseInt(key.Discount__c.slice(0,-1))/100)); 
                 newItem.Discount__c = key.Discount__c;
-                newItem.UnitPrice = this.standardPriceDraft - (this.standardPriceDraft * (parseInt(key.Discount__c.slice(0,-1))/100));
+                newItem.UnitPrice = newUnitPrice_temp.toFixed();
                 newItem.RowId = key.RowId;
                 newItem.Id = key.Id;
                 tempRecord = [...tempRecord,newItem];
@@ -624,7 +658,7 @@ export default class ProductPricing extends LightningElement {
             }else{
                 newItem.UnitPrice = item.UnitPrice === undefined?priceBookTemp.UnitPrice:item.UnitPrice;
             }
-
+            newItem.UnitPrice = newItem.UnitPrice .toFixed();
             newItem.Product2Id = item.Product2Id === undefined?priceBookTemp.Product2Id:item.Product2Id;
             return newItem;
         });

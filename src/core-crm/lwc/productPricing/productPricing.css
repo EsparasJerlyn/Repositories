@@ -7,6 +7,14 @@
 
 .add-pricing-button{
     position: absolute;
+    right: 180px;
+    top: 10px;
+    z-index: 2;
+    float: right;
+}
+
+.add-voucher-button{
+    position: absolute;
     right: 30px;
     top: 10px;
     z-index: 2;
