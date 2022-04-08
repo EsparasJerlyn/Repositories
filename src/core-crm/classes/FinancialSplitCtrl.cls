@@ -49,12 +49,14 @@ public with sharing class FinancialSplitCtrl {
         String childObjectType, 
         Map<String,String> grandChildInfo
     ){  
-        return CustomLayoutCtrl.getChildRecordId(
+        String field = 'Id ';
+        return CustomLayoutCtrl.getParentRecord(
             parentId,
             parentField,
             childObjectType,
+            field,
             grandChildInfo
-        );
+        )?.Id;
     }
 
     /**

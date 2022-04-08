@@ -154,18 +154,24 @@ public with sharing class ProductOfferingCtrl {
         Map<String,String> parentInfo,
         Map<String,String> childInfo
     ){
-        Id parentId = CustomLayoutCtrl.getChildRecordId(
+        
+        String fields = 'Id, Maximum_Participants__c, Minimum_Participants__c ';
+        sObject parentRecord = CustomLayoutCtrl.getParentRecord(
             productRequestId,
             parentInfo.get('field'),
             parentInfo.get('objectType'),
+            fields,
             new Map<String,String>()
         );
-        
+
+        Id parentId = parentRecord?.Id;
+
         List<Id> poIDs = new List<Id>();
         ProductOfferingData poData = new ProductOfferingData();
         poData.relatedFacilitators = new List<hed__Course_Enrollment__c>();
         poData.relatedSessions = new List<Session__c>();
         poData.parentId = parentId;
+        poData.parentRecord = parentRecord;
         poData.productOfferings = Database.query(
             'SELECT ' + childInfo.get('fields') +
             ' FROM ' + childInfo.get('objectType') +
@@ -208,6 +214,8 @@ public with sharing class ProductOfferingCtrl {
     public class ProductOfferingData{
         @AuraEnabled 
         public Id parentId;
+        @AuraEnabled 
+        public sObject parentRecord;
         @AuraEnabled
         public List<SObject> productOfferings;
         @AuraEnabled 

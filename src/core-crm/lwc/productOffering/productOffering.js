@@ -43,7 +43,6 @@ import getOfferingLayout from '@salesforce/apex/ProductOfferingCtrl.getOfferingL
 const DATE_OPTIONS = { year: 'numeric', month: 'short', day: '2-digit' };
 const PROGRAM_OFFERING_FIELDS = 'Id,Delivery_Type__c,Start_Date__c,End_Date__c,IsActive__c,CreatedDate';
 const COURSE_OFFERING_FIELDS = 'Id,Delivery_Type__c,hed__Start_Date__c,hed__End_Date__c,IsActive__c,CreatedDate';
-
 export default class ProductOffering extends LightningElement {
     @api recordId;
     @api objectApiName;
@@ -63,6 +62,8 @@ export default class ProductOffering extends LightningElement {
     layoutItem;
     isStatusCompleted;
     childOfPrescribedProgram = false;
+    prePopulatedFields = {};
+    parentRecord;
 
 
     //decides if user has access to this feature
@@ -136,8 +137,10 @@ export default class ProductOffering extends LightningElement {
         if(result.data){
             this.offeringResult = result;
             this.parentId = this.offeringResult.data.parentId;
+            this.parentRecord = this.offeringResult.data.parentRecord;
             this.productOfferings = this.formatOfferingData(this.offeringResult.data);
         }else if(result.error){
+            console.log(result.error);
             this.generateToast('Error.',LWC_Error_General,'error');
         }
     }
@@ -269,6 +272,18 @@ export default class ProductOffering extends LightningElement {
         this.newRecord = true;
         this.objectToCreate = this.childInfoMap.objectType;
         this.parentIdToCreate = this.parentId;
+        if(this.objectToCreate == 'hed__Course_Offering__c'){
+            this.prePopulatedFields = {
+                'Minimum_Participants__c':this.parentRecord.Minimum_Participants__c,
+                'hed__Capacity__c': this.parentRecord.Maximum_Participants__c
+            }
+        }else if(this.objectToCreate == 'Program_Offering__c'){
+            this.prePopulatedFields = {
+                'Minimum_Participants__c': this.parentRecord.Minimum_Participants__c,
+                'hed_Capacity__c': this.parentRecord.Maximum_Participants__c
+            }
+        }
+        
     }
 
     //refreshes data
@@ -405,6 +420,7 @@ export default class ProductOffering extends LightningElement {
     //hides create modal
     handleCloseRecord(){
         this.newRecord = false;
+        this.prePopulatedFields = {};
     }
 
     //saves record into the database

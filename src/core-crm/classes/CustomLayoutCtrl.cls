@@ -15,7 +15,6 @@
 public with sharing class CustomLayoutCtrl {
 
     private static final String ID = 'Id';
-    
     /**
     * @description Method for getting the Id of related child of parent record
     * @param parentId - Id of Parent
@@ -45,6 +44,29 @@ public with sharing class CustomLayoutCtrl {
         }
     }
 
+    @AuraEnabled(cacheable=true)
+    public static sObject getParentRecord(
+        String parentId,
+        String parentField, 
+        String childObjectType, 
+        String fields,
+        Map<String,String> grandChildInfo
+    ){  
+        sObject currentRecord = queryRecordObject(fields, childObjectType, parentField, parentId);
+        if(grandChildInfo.isEmpty()){
+            return currentRecord;
+        }else{
+            Id parent = currentRecord.Id;
+            return queryRecordObject(
+                fields,
+                grandChildInfo.get('objectApiName'),
+                grandChildInfo.get('conditionField'),
+                parent
+            );
+        }
+    }
+    
+
     /**
     * @description Method for getting the Id of an SObject
     * @param fields - fields to query
@@ -69,6 +91,35 @@ public with sharing class CustomLayoutCtrl {
                 
         if(!records.isEmpty()){
             record = (Id) records.iterator().next().get(ID);
+        }
+
+        return record;
+    }
+
+    /**
+    * @description Method for getting the Id of an SObject
+    * @param fields - fields to query
+    * @param objectApiName - object to query from
+    * @param conditionField - field api name for condition
+    * @param conditionValue -value of condition
+    * @return Id of SObject record
+    */
+    private static sObject queryRecordObject(
+        String fields,
+        String objectApiName,
+        String conditionField,
+        String conditionValue
+    ){
+        sObject record;
+        String queryStr = 
+            'SELECT ' + fields + 
+            ' FROM ' + objectApiName + 
+            ' WHERE ' + conditionField + ' = \'' + String.escapeSingleQuotes(conditionValue) + 
+            '\' LIMIT 1';
+        List<SObject> records = Database.query(queryStr);
+                
+        if(!records.isEmpty()){
+            record = (sObject) records.iterator().next();
         }
 
         return record;

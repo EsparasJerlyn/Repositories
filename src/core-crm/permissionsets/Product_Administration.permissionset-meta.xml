@@ -1036,6 +1036,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Program_Offering__c.hed_Capacity__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Program_Offering__c.Minimum_Participants__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Promotion.IsCommercePromotion</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1556,6 +1566,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>hed__Course_Offering__c.Minimum_Participants__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>hed__Course_Offering__c.On_Hold_Seat__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1607,6 +1622,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course_Offering__c.Visible_on_Website__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Course_Offering__c.hed__Capacity__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

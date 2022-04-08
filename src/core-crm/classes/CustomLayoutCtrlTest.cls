@@ -45,6 +45,19 @@ private class CustomLayoutCtrlTest {
     }
 
     @IsTest
+    private static void getParentRecordTest(){
+        System.runAs(currentUser){
+            Product_Request__c pr = [SELECT Id FROM Product_Request__c LIMIT 1];
+            hed__Course__c course = [SELECT Id FROM hed__Course__c LIMIT 1];
+            Test.startTest();
+            sObject courseRecord = CustomLayoutCtrl.getParentRecord(pr?.Id, COURSE_PR_FIELD, COURSE_API_NAME, 'Id ', new Map<String,String>());
+
+            Test.stopTest();
+            System.assertEquals(courseRecord?.Id, course.Id, 'Course did not match expected.');
+        }
+    }
+
+    @IsTest
     private static void getGrandChildRecordIdTest(){
         System.runAs(currentUser){
             Product_Request__c pr = [SELECT Id FROM Product_Request__c LIMIT 1];
@@ -56,6 +69,21 @@ private class CustomLayoutCtrlTest {
             Id productId = CustomLayoutCtrl.getChildRecordId(pr?.Id, COURSE_PR_FIELD, COURSE_API_NAME, grandChild);
             Test.stopTest();
             System.assertEquals(product?.Id, productId, 'Product Id did not match expected.');
+        }
+    }
+
+    @IsTest
+    private static void getGrandParentRecordTest(){
+        System.runAs(currentUser){
+            Product_Request__c pr = [SELECT Id FROM Product_Request__c LIMIT 1];
+            Product2 product = [SELECT Id FROM Product2 LIMIT 1];
+            Map<String,String> grandChild = new Map<String,String>();
+            grandChild.put('objectApiName',PRODUCT_API_NAME);
+            grandChild.put('conditionField',PRODUCT_COURSE_FIELD);
+            Test.startTest();
+            sObject productRecord = CustomLayoutCtrl.getParentRecord(pr?.Id, COURSE_PR_FIELD, COURSE_API_NAME,'Id ', grandChild);
+            Test.stopTest();
+            System.assertEquals(productRecord?.Id, product.Id, 'Product Id did not match expected.');
         }
     }
 
