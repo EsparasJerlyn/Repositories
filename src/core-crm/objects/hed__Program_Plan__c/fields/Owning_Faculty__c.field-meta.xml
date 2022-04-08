@@ -4,6 +4,7 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <description>This field is used to store the Program Plan&apos;s owning faculty.</description>
     <externalId>false</externalId>
+    <inlineHelpText>CourseLoop Field</inlineHelpText>
     <label>Owning Faculty</label>
     <referenceTo>Account</referenceTo>
     <relationshipLabel>Program Plans (Owning Faculty)</relationshipLabel>

@@ -80,11 +80,15 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Field_of_Education__c</field>
+                <field>Location__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Minimum_Participants__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Field_of_Education__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -106,7 +110,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Location__c</field>
+                <field>Location_Details__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -127,10 +131,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Program_Description__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Overview__c</field>
             </layoutItems>
             <layoutItems>
@@ -144,6 +144,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Core_Concepts__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Enrolment_Rules__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -234,7 +238,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h9r0000001LLn</masterLabel>
+        <masterLabel>00h9h0000000qbK</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

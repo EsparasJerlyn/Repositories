@@ -3,6 +3,7 @@
     <fullName>Course_Code__c</fullName>
     <description>Course code is the QUT unique business identifier assigned to a Course.</description>
     <externalId>false</externalId>
+    <inlineHelpText>This is a code that uniquely identifies the QUTeX product/course. Codes are in the format @@@###, where @ is an alphabetic character and # is a numeric character.</inlineHelpText>
     <label>Code</label>
     <length>255</length>
     <required>false</required>

@@ -101,7 +101,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>LWC_List_OPEChildFilter</shortDescription>
-        <value>Unit,Module,Short Course,Activity</value>
+        <value>Module,Short Course,Activity</value>
     </labels>
     <labels>
         <fullName>LWC_List_OPEParentFilter</fullName>
@@ -109,7 +109,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>LWC_List_OPEParentFilter</shortDescription>
-        <value>Program,Unit,Module,Short Course,Activity</value>
+        <value>Program,Module,Short Course,Activity</value>
     </labels>
     <labels>
         <fullName>LWC_Note_CourseCompletion</fullName>

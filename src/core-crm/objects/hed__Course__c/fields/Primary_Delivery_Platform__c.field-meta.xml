@@ -2,6 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Primary_Delivery_Platform__c</fullName>
     <externalId>false</externalId>
+    <inlineHelpText>CourseLoop Field</inlineHelpText>
     <label>Primary Delivery Platform</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

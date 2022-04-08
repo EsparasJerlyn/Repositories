@@ -3,6 +3,7 @@
     <fullName>Owning_Faculty__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <externalId>false</externalId>
+    <inlineHelpText>CourseLoop Field</inlineHelpText>
     <label>Owning Faculty</label>
     <referenceTo>Account</referenceTo>
     <relationshipLabel>Courses (Owning Faculty)</relationshipLabel>
