@@ -109,6 +109,13 @@ export default class ManageRegistrationSection extends LightningElement {
             }
             this.error = undefined;
             this.isLoading = false;
+            this.dispatchEvent(new CustomEvent('setemails', {
+                detail: {
+                    value : this.records.filter(
+                        record => record.registrationStatus == 'Confirmed'
+                    ).map(record => {return record.contactEmail})
+                }
+            })); 
         } else if(result.error){
             this.records = undefined;
             this.recordsTemp = undefined;

@@ -1034,5 +1034,46 @@ public class TestDataFactory {
     return relatedPrList;
   }
 
+  /**
+   * @description Method for creating test Adhoc Communication records
+   * @param numAdhocComms number of records
+   * @return adhocCommsList - list of adhoc communication records
+  */
+  public static List<Adhoc_Communication__c> createTestAdhocCommsRecords(
+    Integer numAdhocComms
+  ) {
+    List<Adhoc_Communication__c> adhocCommsList = new List<Adhoc_Communication__c>();
+    for (Integer i = 0 ; i < numAdhocComms ; i++) {
+      adhocCommsList.add(
+        new Adhoc_Communication__c()
+      );
+    }
+    return adhocCommsList;
+  }
+
+  /**
+   * @description Method for creating test Document records
+   * @param numDocs number of records
+   * @param docNames name of documents
+   * @param folderName folder where document is placed
+   * @return docsList - list of document records
+  */
+  public static List<Document> createTestDocumentRecords(
+    Integer numDocs,
+    List<String> docNames,
+    String folderName
+  ) {
+    Id queriedFolderId = [Select Id From Folder Where Name =: folderName LIMIT 1]?.Id;
+    List<Document> docsList = new List<Document>();
+    for (Integer i = 0 ; i < numDocs ; i++) {
+      docsList.add(
+        new Document(
+          Name = docNames[i],
+          FolderId = queriedFolderId
+        )
+      );
+    }
+    return docsList;
+  }
 
 }

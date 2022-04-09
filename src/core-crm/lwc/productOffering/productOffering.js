@@ -61,6 +61,7 @@ export default class ProductOffering extends LightningElement {
     layoutMap = {};
     layoutItem;
     isStatusCompleted;
+    registeredLearnerEmails = [];
     childOfPrescribedProgram = false;
     prePopulatedFields = {};
     parentRecord;
@@ -467,5 +468,10 @@ export default class ProductOffering extends LightningElement {
             variant: _variant
         });
         this.dispatchEvent(evt);
+    }
+
+    //stores registered learners' emails from manageRegistraionSection
+    setLearnerEmails(event){
+        this.registeredLearnerEmails = event.detail.value;
     }
 }

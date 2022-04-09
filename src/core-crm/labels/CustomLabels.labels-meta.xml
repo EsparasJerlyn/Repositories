@@ -8,6 +8,22 @@
         <value>0 0 8 ? * MON-FRI</value>
     </labels>
     <labels>
+        <fullName>DOC_Email_Header</fullName>
+        <categories>Document</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DOC_Email_Header</shortDescription>
+        <value>QUTeXEmailHeader</value>
+    </labels>
+    <labels>
+        <fullName>DOC_Email_Footer</fullName>
+        <categories>Document</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DOC_Email_Footer</shortDescription>
+        <value>QUTeXEmailFooter</value>
+    </labels>
+    <labels>
         <fullName>ESBEndpointCreateContract</fullName>
         <categories>Endpoint</categories>
         <language>en_US</language>

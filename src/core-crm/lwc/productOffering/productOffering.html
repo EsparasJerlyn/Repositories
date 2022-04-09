@@ -123,6 +123,7 @@
                                                 prod-req-id={recordId}
                                                 enable-edit={showEditButton}
                                                 disabled={isStatusCompleted}
+                                                onsetemails={setLearnerEmails}
                                             ></c-manage-registration-section>                    
                                         </div> 
                                     </lightning-accordion-section>
@@ -133,6 +134,16 @@
                                                 prod-req-id={recordId}
                                             ></c-manage-certificates>    
                                         </div> 
+                                    </lightning-accordion-section>
+                                    <lightning-accordion-section name="manageAdhocCommunication" label="Manage Ad-hoc Communication" class="nested-accordion-section">
+                                        <c-manage-adhoc-comms-section
+                                            record-id={recordId}
+                                            object-api-name={objectApiName}
+                                            offering-id={offering.Id}
+                                            is-status-completed={isStatusCompleted}
+                                            is-program={isOpeProgramRequest}
+                                            registered-learner-emails={registeredLearnerEmails}
+                                        ></c-manage-adhoc-comms-section>
                                     </lightning-accordion-section>
                                 </template>
                             </div>
