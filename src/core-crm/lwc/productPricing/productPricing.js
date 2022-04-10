@@ -8,6 +8,7 @@
  * @history
  *    | Developer                 | Date                  | JIRA                | Change Summary                                         |
       |---------------------------|-----------------------|---------------------|--------------------------------------------------------|
+      | marlon.vasquez            | April 07, 2022        | DEPP-2245           | Add Voucher button                                     |
       | arsenio.Jr.dayrit         | February 07, 2022     | DEPP-1406           | Created file                                           |
       | roy.nino.s.regala         | February 10, 2022     | DEPP-1773,1406,1257 | Added,create,edit,delete pricebook entries             |
       |                           |                       |                     |                                                        |
@@ -22,11 +23,12 @@ import LWC_Error_General from '@salesforce/label/c.LWC_Error_General';
 import { loadStyle } from 'lightning/platformResourceLoader';
 import customDataTableStyle from '@salesforce/resourceUrl/CustomDataTable';
 import { createRecord } from 'lightning/uiRecordApi';
+import promotionId from '@salesforce/schema/Promotion.Id';
 import promotionName from '@salesforce/schema/Promotion.Name';
 import promotionDescription from '@salesforce/schema/Promotion.Description';
 import promotionObjective from '@salesforce/schema/Promotion.Objective';
 import promotionIsActive from '@salesforce/schema/Promotion.IsActive';
-
+import { NavigationMixin } from 'lightning/navigation';
 const columns = [
     {
         label: 'Price Book Selection', 
@@ -110,7 +112,7 @@ const columns = [
     }
 ];
 
-export default class ProductPricing extends LightningElement {
+export default class ProductPricing extends NavigationMixin(LightningElement) {
 
     priceBookEntryRecords = [];
     sortedPriceBooks = [];
@@ -130,39 +132,45 @@ export default class ProductPricing extends LightningElement {
     objApiName;
     prefields;
     
-
+    @api recordId;
     /*  Voucher Modal */
-    PromotionFieldList = [promotionName,promotionDescription,promotionObjective,promotionIsActive];
+    PromotionFieldList = [promotionId,promotionName,promotionDescription,promotionObjective,promotionIsActive];
    
-    @track customFormModal = false; 
-    customShowModalPopup() {            
-        this.customFormModal = true;
+    @track createVoucherForm = false; 
+    ShowVoucherForm() {            
+        this.createVoucherForm = true;
     }
-    customHideModalPopup() {     
-        this.customFormModal = false;
-    }
-    closeModal() {    
-        this.customFormModal = false;   
+    HideShowVoucherForm() {     
+        this.createVoucherForm = false;
     }
 
     @api PromotionObjectApiName='Promotion';
 
- 
-    contactHandleUpdate(event){
-      this.customFormModal = false;   
+   
+    createVoucher(event){
+
+      this.createVoucherForm = false;   
         const evt = new ShowToastEvent({
             title:'Voucher Added',
-            message:'' + event.detail.fields.Name.value + 'is successfully added',
+            message: event.detail.fields.Name.value + ' is successfully added',
             variant:'success',
-          })
-          this.dispatchEvent(evt);      
+          });
+          this.dispatchEvent(evt);   
+          
+          this[NavigationMixin.Navigate]({
+            type: 'standard__recordPage',
+            attributes: {
+                recordId: event.detail.id,
+                objectApname : 'Promotion',
+                actionName: 'view'
+            },
+           });         
     }   
-
 
     /*  */
     /* get Pricebook Entry record */
 
-    @api recordId;
+  
     @api isStatusCompleted;
 
     pbEntries;

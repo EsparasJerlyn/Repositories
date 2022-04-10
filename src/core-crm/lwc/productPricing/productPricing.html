@@ -1,29 +1,46 @@
 <template>
-    <template if:true={customFormModal}>
-        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
-            <div class="slds-modal__container">
-                <!-- modal body start -->
-                <div class="slds-modal__content">
-                <header class="slds-modal__header">
-                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={customHideModalPopup}>
-                    <lightning-icon icon-name="utility:close"
-                    alternative-text="close"
-                    variant="inverse"
-                    size="small" ></lightning-icon>
-                    <span class="slds-assistive-text">Close</span>
-                    </button>
-                    <h2 class="slds-text-heading_medium slds-hyphenate">Add Voucher</h2>
-                </header>
-                <div class="slds-p-horizontal_medium">
-        <lightning-record-form object-api-name={PromotionObjectApiName} fields={PromotionFieldList}  onsuccess={contactHandleUpdate} oncancel={closeModal}  ></lightning-record-form>
-    </div>
-    </div>
-    </div>
-    </div>
-    </section>
-    <div class="slds-backdrop slds-backdrop_open">
-    </div>
-    </template>
+    <template if:true={createVoucherForm}>
+        <section
+          role="dialog"
+          tabindex="-1"
+          aria-labelledby="modal-heading-01"
+          aria-modal="true"
+          aria-describedby="modal-content-id-1"
+          class="slds-modal slds-fade-in-open"
+        >
+          <div class="slds-modal__container">
+            <!-- Header Start -->
+            <header class="slds-modal__header">
+              <lightning-button-icon
+                class="slds-modal__close"
+                title="Close"
+                icon-name="utility:close"
+                icon-class="slds-button_icon-inverse"
+                onclick={HideShowVoucherForm}
+              ></lightning-button-icon>
+    
+              <h2 class="slds-text-heading_medium slds-hyphenate header-string">
+                Add Voucher
+              </h2>
+            </header>
+            <!-- Header End -->
+            <div
+              class="slds-modal__content slds-p-around_medium"
+              id="modal-content-id-1"
+            >
+              <slot>
+                <p>
+                    <lightning-record-form object-api-name={PromotionObjectApiName} fields={PromotionFieldList}  onsuccess={createVoucher} oncancel={HideShowVoucherForm}  ></lightning-record-form>
+                </p>
+              </slot>
+            </div>
+          </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+      </template>
+
+
+ 
     <template if:true={isCreateRecord}>
         <c-custom-create-edit-record 
             object-api-name={objApiName}
@@ -36,8 +53,8 @@
         <lightning-button label="Add Pricing" title="Add Pricing" data-name="Pricing" disabled={disableAddPricing} icon-name="utility:add"
             onclick={handleAddPriceBooks} variant="brand" class="add-pricing-button">
         </lightning-button>
-        <lightning-button label="Add Vouchers" title="Add Vouchers" data-name="Pricing" disabled={disableCreatePromotion} icon-name="utility:add"
-            onclick={customShowModalPopup} variant="brand" class=" add-voucher-button">
+        <lightning-button label="Add Vouchers" title="Add Vouchers" data-name="Pricing"  icon-name="utility:add"
+            onclick={ShowVoucherForm} variant="brand" class=" add-voucher-button">
         </lightning-button>   
            
         <lightning-accordion-section name="product pricing" label="Pricing" class="accordion-section">   
