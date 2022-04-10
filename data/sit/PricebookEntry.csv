@@ -1,9 +1,0 @@
-Id,IsActive,Pricebook2Id,UnitPrice,Product2Id,Pricebook2.Name,Product2.Name
-01u9r00000041kFAAQ,TRUE,01s5g0000014NeIAAU,500,01t9n0000006ULDAA2,Standard Price Book,Prescribed Program Plan
-01u9r00000041kHAAQ,TRUE,01s5g0000014NeIAAU,500,01t9n0000006ULEAA2,Standard Price Book,Flexible Program Plan
-01u9r00000041kJAAQ,TRUE,01s5g0000014NeIAAU,500,01t9n0000006ULBAA2,Standard Price Book,Single Course
-01u9r00000041kLAAQ,TRUE,01s5g0000014NeIAAU,500,01t9n0000006ULCAA2,Standard Price Book,Workshop
-01u9r00000041kGAAQ,TRUE,01s9r00000000hZAAQ,300,01t9n0000006ULDAA2,Custom Corporate Products & Services,Prescribed Program Plan
-01u9r00000041kIAAQ,TRUE,01s9r00000000hZAAQ,300,01t9n0000006ULEAA2,Custom Corporate Products & Services,Flexible Program Plan
-01u9r00000041kKAAQ,TRUE,01s9r00000000hZAAQ,300,01t9n0000006ULBAA2,Custom Corporate Products & Services,Single Course
-01u9h0000003DojAAE,TRUE,01s9r00000000hZAAQ,300,01t9n0000006ULCAA2,Custom Corporate Products & Services,Workshop

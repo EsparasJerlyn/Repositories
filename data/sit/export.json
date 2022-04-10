@@ -1,59 +1,11 @@
 {
     "objects": [
         {
-            "query": "SELECT Id, Name from WebStore",
-            "operation": "Upsert",
-            "externalId": "Name",
-            "useCSVValuesMapping": true,
-            "targetObject": "WebStore",
-            "importCSVFilesAsIs": true
-        },
-        {
-            "query": "SELECT Id, Name from ProductCatalog",
-            "operation": "Upsert",
-            "externalId": "Name",
-            "useCSVValuesMapping": true,
-            "targetObject": "ProductCatalog",
-            "importCSVFilesAsIs": true
-        },
-        {
-            "query": "SELECT Id, CatalogId, Description, Name, ParentCategoryId, IsNavigational, SortOrder from ProductCategory",
-            "operation": "Upsert",
-            "externalId": "Name",
-            "useCSVValuesMapping": true,
-            "targetObject": "ProductCategory",
-            "importCSVFilesAsIs": true
-        },
-        {
             "query": "SELECT ProductCatalogId, SalesStoreId from WebStoreCatalog",
             "operation": "Upsert",
             "externalId": "ProductCatalogId",
             "useCSVValuesMapping": true,
             "targetObject": "WebStoreCatalog",
-            "importCSVFilesAsIs": true
-        },
-        {
-            "query": "SELECT Id, Name, Family, IsActive FROM Product2",
-            "operation": "Upsert",
-            "externalId": "Name",
-            "useCSVValuesMapping": true,
-            "targetObject": "Product2",
-            "importCSVFilesAsIs": true
-        },
-        {
-            "query": "SELECT Id, Name, Description, IsActive FROM Pricebook2",
-            "operation": "Upsert",
-            "externalId": "Name",
-            "useCSVValuesMapping": true,
-            "targetObject": "Pricebook2",
-            "importCSVFilesAsIs": true
-        },
-        {
-            "query": "SELECT IsActive, Pricebook2Id, UnitPrice, Product2Id FROM PricebookEntry",
-            "operation": "Upsert",
-            "externalId": "__Product Name",
-            "useCSVValuesMapping": true,
-            "targetObject": "PricebookEntry",
             "importCSVFilesAsIs": true
         },
         {

@@ -1,7 +1,7 @@
 {
     "objects": [
         {
-            "query": "SELECT Id, Name, Family, IsActive FROM Product2",
+            "query": "SELECT Id, Name, Description, Family, IsActive FROM Product2",
             "operation": "Upsert",
             "externalId": "Name",
             "useCSVValuesMapping": true,
@@ -49,6 +49,22 @@
             "importCSVFilesAsIs": true
         },
         {
+            "query": "SELECT Id, Name from ProductCatalog",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "ProductCatalog",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id, CatalogId, Description, Name, ParentCategoryId, IsNavigational, SortOrder from ProductCategory",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "ProductCategory",
+            "importCSVFilesAsIs": true
+        },
+        {
             "query": "SELECT Name, New_Idea_To_Email_Address__c FROM Flow_Automation_Settings__c",
             "operation": "Upsert",
             "externalId": "New_Idea_To_Email_Address__c",
@@ -86,6 +102,14 @@
             "externalId": "Name",
             "useCSVValuesMapping": true,
             "targetObject": "Contact",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id, Name, BuyerId, BuyerStatus, IsActive, CommerceType, Buyer.Name from BuyerAccount",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "BuyerAccount",
             "importCSVFilesAsIs": true
         },
         {
@@ -177,7 +201,7 @@
             "importCSVFilesAsIs": true
         },
         {
-            "query": "Select Id, Name from CommerceEntitlementPolicy",
+            "query": "Select Id, Name, Description, CanViewProduct, CanViewPrice, IsActive from CommerceEntitlementPolicy",
             "operation": "Upsert",
             "externalId": "Name",
             "useCSVValuesMapping": true,
@@ -206,6 +230,22 @@
             "externalId": "Id",
             "useCSVValuesMapping": true,
             "targetObject": "BuyerGroupMember",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id,BuyerGroupId,Name,IsActive,Pricebook2Id,Priority,BuyerGroup.Id,Pricebook2.Name from BuyerGroupPricebook",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "BuyerGroupPricebook",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id,BuyerGroupId,PolicyId,BuyerGroup.Id,Policy.Name from CommerceEntitlementBuyerGroup",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "CommerceEntitlementBuyerGroup",
             "importCSVFilesAsIs": true
         }
     ]

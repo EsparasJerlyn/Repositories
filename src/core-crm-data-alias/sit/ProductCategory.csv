@@ -1,0 +1,3 @@
+Id,CatalogId,Description,Name,ParentCategoryId,IsNavigational,SortOrder,Catalog.Name,ParentCategory.Id
+0ZG9r00000000EaGAI,0ZS9r000000009iGAA,will house all the custom products that has been released,Custom Corporate Education,,true,1,CCE Catalog,
+0ZG9h00000000cjGAA,0ZS9r000000009iGAA,will house all the OPE product catalogue chosen for a Corporate Bundle products,Corporate Bundle,,true,2,CCE Catalog,
