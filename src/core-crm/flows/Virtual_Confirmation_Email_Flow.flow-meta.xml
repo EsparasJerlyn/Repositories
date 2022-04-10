@@ -1,44 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
-        <name>Send_Notification</name>
-        <label>Send Notification</label>
+        <name>Send_Email_and_PDF_for_Virtual_Final_Confirmation</name>
+        <label>Send Email and PDF for Virtual Final Confirmation</label>
         <locationX>264</locationX>
-        <locationY>996</locationY>
-        <actionName>emailSimple</actionName>
-        <actionType>emailSimple</actionType>
+        <locationY>1116</locationY>
+        <actionName>VirtualFinalConfirmationEmailCtrl</actionName>
+        <actionType>apex</actionType>
         <connector>
             <targetReference>Loop_Course_Connection</targetReference>
         </connector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
-            <name>emailBody</name>
+            <name>courseConnectionParams</name>
             <value>
-                <elementReference>FaceToFaceConfirmationEmail</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>emailAddresses</name>
-            <value>
-                <elementReference>LearnerEmail</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>sendRichBody</name>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>senderAddress</name>
-            <value>
-                <stringValue>qutex@qut.edu.au</stringValue>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>emailSubject</name>
-            <value>
-                <stringValue>Face To Face Final Confirmation Email</stringValue>
+                <elementReference>generatePDFEmailArgs</elementReference>
             </value>
         </inputParameters>
     </actionCalls>
@@ -101,6 +77,50 @@
             <targetReference>Check_Final_Confirmation_Email</targetReference>
         </connector>
     </assignments>
+    <assignments>
+        <name>setPDFEmailArgs</name>
+        <label>setPDFEmailArgs</label>
+        <locationX>264</locationX>
+        <locationY>996</locationY>
+        <assignmentItems>
+            <assignToReference>generatePDFEmailArgs</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop_Course_Connection.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>generatePDFEmailArgs</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop_Course_Connection.Course_Offering_Name__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>generatePDFEmailArgs</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop_Course_Connection.hed__Contact__r.FirstName</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>generatePDFEmailArgs</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop_Course_Connection.hed__Contact__r.LastName</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>generatePDFEmailArgs</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop_Course_Connection.hed__Contact__r.Email</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Send_Email_and_PDF_for_Virtual_Final_Confirmation</targetReference>
+        </connector>
+    </assignments>
     <decisions>
         <name>Check_Final_Confirmation_Email</name>
         <label>Check Final Confirmation Email</label>
@@ -149,11 +169,11 @@
                 <leftValueReference>DeliveryType</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>Face-to-Face</stringValue>
+                    <stringValue>Virtual</stringValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Send_Notification</targetReference>
+                <targetReference>setPDFEmailArgs</targetReference>
             </connector>
             <label>Yes - No. of Days is equal to Email Days</label>
         </rules>
@@ -164,8 +184,8 @@
         <expression>{!Loop_Course_Connection.Course_Offering_Start_Date__c} - today()</expression>
         <scale>0</scale>
     </formulas>
-    <interviewLabel>Face To Face {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>Face-Face Final Confirmation Email</label>
+    <interviewLabel>Virtual Confirmation Email Flow {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Virtual Confirmation Email Flow</label>
     <loops>
         <name>Loop_Course_Connection</name>
         <label>Loop Course Connection</label>
@@ -301,6 +321,13 @@
         <name>DeliveryType</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>generatePDFEmailArgs</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
         <isInput>true</isInput>
         <isOutput>true</isOutput>
     </variables>
