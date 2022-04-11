@@ -12,17 +12,20 @@
       |                           |                       |              |                                                        |
 */
 import { LightningElement, api } from 'lwc';
-import SESSION_OBJECT from "@salesforce/schema/Session__c";
+import SESSION_OBJECT from '@salesforce/schema/Session__c';
 import getLayoutMapping from '@salesforce/apex/CustomCreateEditRecordCtrl.getLayoutMapping';
+import SESSION_NAME from '@salesforce/schema/Session__c.Name';
 
+const SESSION = 'Session';
 export default class AddNewSession extends LightningElement {
     @api courseOfferingId; //id of parent course offering
     @api customLookupItems; //list of search items
+    @api courseConnectionId;
 
     layoutToDisplay = [];
     lookupItemsFormatted = [];
     activeSections = [];
-    courseConnectionId;
+    showFacilitatorError = false;
 
     get sessionApiName(){
         return SESSION_OBJECT.objectApiName;
@@ -42,7 +45,12 @@ export default class AddNewSession extends LightningElement {
                 let layoutItem = {};
                 layoutItem.sectionLabel = layout.MasterLabel;
                 layoutItem.leftColumn = layout.Left_Column_Long__c ?
-                    JSON.parse(layout.Left_Column_Long__c) : null;
+                    JSON.parse(layout.Left_Column_Long__c).map(layoutItem => {
+                        return {
+                            ...layoutItem,
+                            value : layoutItem.field == SESSION_NAME.fieldApiName ? SESSION : undefined
+                        }
+                    }) : null;
                 layoutItem.rightColumn = layout.Right_Column_Long__c ?
                     JSON.parse(layout.Right_Column_Long__c) : null;
                 layoutItem.singleColumn = layout.Single_Column_Long__c ?
@@ -57,6 +65,7 @@ export default class AddNewSession extends LightningElement {
     
     handleLookupSelect(event){
         this.courseConnectionId = event.detail.value;
+        this.showFacilitatorError = false;
     }
 
     handleLookupRemove(){
@@ -66,12 +75,15 @@ export default class AddNewSession extends LightningElement {
     handleSubmitSession(event){
         event.preventDefault();
         let fields = event.detail.fields;
-        let lookupItem = this.customLookupItems.find(item => item.Id == this.courseConnectionId);
-        fields.Course_Offering__c = this.courseOfferingId;
-        fields.Course_Connection__c = this.courseConnectionId;
-        fields.Facilitator__c = lookupItem ? lookupItem.hed__Contact__c : undefined;
+        if(!fields.Is_Managed_Externally__c && !this.courseConnectionId){
+            this.showFacilitatorError = true;
+        }else{
+            let lookupItem = this.customLookupItems.find(item => item.Id == this.courseConnectionId);
+            fields.Facilitator__c = lookupItem ? lookupItem.hed__Contact__c : undefined;
+            fields.Course_Connection__c = this.courseConnectionId;   
+            fields.Course_Offering__c = this.courseOfferingId;
+        }
         this.template.querySelector("lightning-record-edit-form").submit(fields);
-        
     }
 
     handleSuccessSession(){

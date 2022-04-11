@@ -112,7 +112,7 @@ export default class TrackAttendanceAndEvaluation extends LightningElement {
         return sessionList.map(item =>{
             let newItem = {};
             newItem.value = item.Id;
-            newItem.label = item.Name + ' (' +this.formatDate(item.Start_Time__c) + ', ' + this.formatTime(String(item.Start_Time__c)) + ')';
+            newItem.label = item.Name + ' (' +this.formatDate(item.Date__c) + ', ' + item.Start_Time_v2__c + ')';
             return newItem;
         });
     }

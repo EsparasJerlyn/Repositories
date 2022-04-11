@@ -76,6 +76,7 @@ export default class FacilitatorDetailSection extends LightningElement {
     privateChildren = {}; //used to get the customLookupColumn as private childern 
     facilitatorSearchItems = [];
     facilitatorSearchInProgress = false;
+    objectLabelName = 'Facilitator';
 
     //add click event listener on load
     renderedCallback() {
@@ -334,5 +335,11 @@ export default class FacilitatorDetailSection extends LightningElement {
         this.datatableErrors = {};
         this.draftValues = [];
         this.handleWindowOnclick('reset');
+    }
+
+    handleCreateNewRecord(){
+        this.dispatchEvent(new CustomEvent('newfacilitator',{
+            detail: this.offeringId
+        }));
     }
 }

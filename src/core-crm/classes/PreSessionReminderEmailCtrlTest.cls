@@ -1,6 +1,6 @@
 /**
  * @description Test class for Pre-Session Reminder Email Template
- *
+ * @see PreSessionReminderEmailCtrl
  *
  * @history
  *
@@ -75,9 +75,18 @@ public with sharing class PreSessionReminderEmailCtrlTest {
       insert courseConnections;
 
       List<Session__c> sessions = TestDataFactory.createTestSessionRecords(10);
+      hed__Facility__c fac = new hed__Facility__c();
+      fac.Name = 'test';
+      insert fac;
+        
       for (Session__c session : sessions) {
         session.Course_Connection__c = courseConnections[0].Id;
         session.Course_Offering__c = courseOfferings[0].Id;
+        session.Date__c =  Date.newInstance(2022, 01, 06);
+        session.Start_Time_v2__c =Time.newInstance(15, 12, 30, 0);
+        session.End_Time_v2__c =Time.newInstance(15, 12, 30, 0);
+        session.Facilitator__c = contacts[0].Id; 
+        session.Location__c = fac.Id;  
       }
       insert sessions;
 

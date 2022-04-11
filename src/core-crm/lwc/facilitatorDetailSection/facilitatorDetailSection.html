@@ -13,6 +13,9 @@
         onsearch={handleFacilitatorSearch}
         onemptyblur={resetFacilitatorSearchItems}
         custom-server-search
+        oncreate={handleCreateNewRecord}
+        object-label-name={objectLabelName}
+        new-record-available
     ></c-custom-search>
     <div if:false={showFacilitatorTable} class="slds-text-align_center slds-p-around_medium">
         <p><strong>No facilitator found.</strong></p>

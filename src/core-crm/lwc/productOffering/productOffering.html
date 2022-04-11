@@ -55,6 +55,7 @@
                             <c-add-new-session 
                                 course-offering-id={offering.Id}
                                 custom-lookup-items={offering.relatedFacilitators}
+                                course-connection-id={offering.primaryFaci}
                                 onsessionsuccess={handleSuccessSession}
                                 onsessionclose={handleCloseSession}
                             ></c-add-new-session >
@@ -62,7 +63,7 @@
                         <lightning-accordion if:false={isOpeProgramRequest} allow-multiple-sections-open>
                             <!--Facilitators Section-->
                             <div class="slds-m-top_small slds-is-relative">
-                                <lightning-button
+                                <!--lightning-button
                                     label="ADD NEW FACILITATOR"
                                     title="Add New Facilitator"
                                     data-name={offering.Id}
@@ -70,7 +71,7 @@
                                     onclick={handleAddFacilitator}
                                     class="section-button small-button"
                                     disabled={isStatusCompleted}>
-                                </lightning-button>
+                                </lightning-button-->
                                 <lightning-accordion-section name="facilitatorDetails" label="Facilitator Details" class="nested-accordion-section">
                                     <c-facilitator-detail-section
                                         is-status-completed={isStatusCompleted}
@@ -79,6 +80,7 @@
                                         related-facilitators={offering.relatedFacilitators}
                                         onsetasprimary={handleUpdateFacilitators}
                                         onsearchselect={handleSearchSelect}
+                                        onnewfacilitator={handleAddFacilitator}
                                         ontablesave={handleRefreshData}
                                     ></c-facilitator-detail-section>
                                 </lightning-accordion-section>

@@ -43,11 +43,12 @@ public with sharing class PreSessionReminderEmailCtrl {
           Course_Offering__c,
           Course_Connection__r.Name,
           Name,
-          Start_Time__c,
-          End_Time__c,
+          Date__c,
+          Start_Time_v2__c,
+          End_Time_v2__c,
           Location__c,
           Location_Name__c,
-          Location_Detail__c
+          Location_Detail_v2__c
         FROM Session__c
         WHERE Course_Connection__c = :courseConnectionId
       ];

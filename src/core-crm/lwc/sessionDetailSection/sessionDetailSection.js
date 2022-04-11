@@ -42,13 +42,13 @@ const SESSION_COLUMNS = [
         }
     },
     { 
-        label: 'Start Time',
+        label: 'Date',
         type: 'customDatetimeColumn',
         typeAttributes: {
             tableObjectType: 'Session__c',
             rowDraftId: { fieldName: 'rowId' },
-            datetimeValue: { fieldName: 'Start_Time__c' },
-            datetimeFieldName: 'Start_Time__c',
+            datetimeValue: { fieldName: 'Date__c' },
+            datetimeFieldName: 'Date__c',
             editable: { fieldName: 'editable' } 
         },
         cellAttributes: {
@@ -57,19 +57,30 @@ const SESSION_COLUMNS = [
         wrapText: true  
     },
     { 
-        label: 'End Time',
-        type: 'customDatetimeColumn',
-        typeAttributes: {
-            tableObjectType: 'Session__c',
-            rowDraftId: { fieldName: 'rowId' },
-            datetimeValue: { fieldName: 'End_Time__c' },
-            datetimeFieldName: 'End_Time__c',
-            editable: { fieldName: 'editable' } 
+        label: 'Start Time',
+        fieldName: 'Start_Time_v2__c',
+        type: 'date',
+        typeAttributes:{
+            hour:'2-digit',
+            minute:'2-digit',
+            second:'2-digit',
+            hour12:true
         },
-        cellAttributes: {
-            class: { fieldName: 'customEndTimeClass' }
-        },
+        editable: { fieldName: 'editable' },
         wrapText: true  
+    },
+    { 
+        label: 'End Time',
+        fieldName: 'End_Time_v2__c',
+        type: 'date',
+        typeAttributes:{
+            hour:'2-digit',
+            minute:'2-digit',
+            second:'2-digit',
+            hour12:true
+        },
+        editable: { fieldName: 'editable' },
+        wrapText: true,  
     },
     { 
         label: 'Location',
@@ -89,7 +100,7 @@ const SESSION_COLUMNS = [
     },
     {
         label: 'Location Details',
-        fieldName: 'Location_Detail__c',
+        fieldName: 'Location_Detail_v2__c',
         wrapText: true,
         editable: { fieldName: 'editable' } 
     },
@@ -196,7 +207,7 @@ export default class SessionDetailSection extends LightningElement {
             event.detail.draftId,
             event.detail.fieldName,
             event.detail.value,
-            event.detail.fieldName == 'Start_Time__c' ?
+            event.detail.fieldName == 'Start_Time_v2__c' ?
                 'customStartTimeClass' : 'customEndTimeClass' 
         );
     }

@@ -137,4 +137,5 @@ public class ProductOfferingCtrlTest {
             System.assertEquals(2, layoutMap.keySet().size(),'Layout map not as expected');
         }
     }
+    
 }

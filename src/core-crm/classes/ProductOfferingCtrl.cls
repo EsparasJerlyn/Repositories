@@ -196,7 +196,7 @@ public with sharing class ProductOfferingCtrl {
             poData.relatedSessions = [
                 SELECT Id, Name, Session_Type__c,  Course_Connection__c, Course_Connection__r.hed__Contact__c,
                         Course_Connection__r.hed__Contact__r.Name, Course_Offering__c, Facilitator__c,
-                        Start_Time__c, End_Time__c, Location__c, Location__r.Name, Location_Detail__c,
+                        Date__c, Start_Time_v2__c, End_Time_v2__c, Location__c, Location__r.Name, Location_Detail_v2__c,
                         IsActive__c,CreatedDate
                 FROM Session__c 
                 WHERE Course_Offering__c IN :poIDs

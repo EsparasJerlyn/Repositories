@@ -180,6 +180,7 @@ export default class ProductOffering extends LightningElement {
         let offerings = [];
         offeringData.productOfferings.forEach(offering => {
             let facis = offeringData.relatedFacilitators.filter(faci => faci[this.childInfoMap.objectType] == offering.Id);
+            let primaryFaci = offeringData.relatedFacilitators.find(faci => faci[this.childInfoMap.objectType] == offering.Id && faci.hed__Primary__c == true).Id;
             let sesh = offeringData.relatedSessions.filter(sesh => sesh.Course_Offering__c == offering.Id);
             let relFaci = this.formatFacilitators(facis);
             let relSesh = this.formatSessions(sesh,relFaci);
@@ -201,6 +202,7 @@ export default class ProductOffering extends LightningElement {
                     badgeLabel: offering.IsActive__c ? 'Active' : 'Inactive',
                     label : offering.Delivery_Type__c + ' (' + startDate + ' to ' + endDate + ')',
                     relatedFacilitators : relFaci,
+                    primaryFaci: primaryFaci,
                     relatedSessions : relSesh,
                     showFacilitatorTable : relFaci.length > 0,
                     showSessionTable : relSesh.length > 0,
@@ -311,7 +313,7 @@ export default class ProductOffering extends LightningElement {
     handleAddFacilitator(event){
         this.newRecord = true;
         this.objectToCreate = FACILITATOR_BIO.objectApiName;
-        this.parentIdToCreate = event.target.dataset.name;
+        this.parentIdToCreate = event.detail;
     }
 
     //opens create modal for session

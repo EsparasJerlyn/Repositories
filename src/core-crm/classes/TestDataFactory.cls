@@ -30,6 +30,7 @@
       | arsenio.jr.dayrit         | February 14, 2022     | DEPP-1538           | Added method for creation of Questionnaire response summary      |
       | adrian.c.habasa           | February 14, 2022     | DEPP-1247           | Added method for Session and Attendance Event                    |
       | eugene.andrew.abuan       | February 16, 2022     | DEPP-1265           | Added method for Creating Courses                                |
+      | keno.domienri.dico        | April 11, 2022        | DEPP-1543           | Added method for Creating Communication Schedule                 |
       |                           |                       |                     |                                                                  |
 */
 @IsTest
@@ -1074,6 +1075,30 @@ public class TestDataFactory {
       );
     }
     return docsList;
+  }
+
+  /**
+   * @description Method for creating Communication Schedule
+   * @param nCommSched - number of Communication Schedule to be created
+   * @param course - List of Course to be related to Communication Schedule
+   * @param progPlan - List of Program Plan to be related to Communication Schedule
+   * @return commSched - List of Communication Schedule Created
+   */
+  public static List<Communication_Schedule__c> createTestCommunicationScheduleRecords(
+    Integer nCommSched,
+    List<hed__Course__c> course,
+    List<hed__Program_Plan__c> progPlan
+  ) {
+    List<Communication_Schedule__c> commSched = new List<Communication_Schedule__c>();
+    for (Integer i = 0; i < nCommSched; i++) {
+      commSched.add(
+        new Communication_Schedule__c(
+          Program_Plan__c = progPlan[i].Id,
+          Course__c = course[i].Id
+        )
+      );
+    }
+    return commSched;
   }
 
 }

@@ -174,7 +174,7 @@
     <formulas>
         <name>NoOfDays</name>
         <dataType>Number</dataType>
-        <expression>{!Loop_Session_Record.Start_Time__c} - {!$Flow.CurrentDateTime}</expression>
+        <expression>{!Loop_Session_Record.Date__c} - {!$Flow.CurrentDate}</expression>
         <scale>0</scale>
     </formulas>
     <interviewLabel>Pre-session Reminder Email {!$Flow.CurrentDateTime}</interviewLabel>
@@ -297,7 +297,7 @@
             </value>
         </filters>
         <filters>
-            <field>Start_Time__c</field>
+            <field>Date__c</field>
             <operator>IsNull</operator>
             <value>
                 <booleanValue>false</booleanValue>

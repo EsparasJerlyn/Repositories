@@ -58,8 +58,16 @@ public with sharing class TrackAttendanceAndEvaluationCtrlTest {
         List<Session__c> sessions;
         sessions = TestDataFactory.createTestSessionRecords(1);
         sessions[0].Course_Offering__c = courseOfferings[0].Id;
-        sessions[0].Start_Time__c =Datetime.newInstance(2014, 9, 15, 12, 30, 0);
-        sessions[0].End_Time__c =Datetime.newInstance(2014, 9, 15, 12, 30, 0);
+        sessions[0].Date__c =  Date.newInstance(2022, 01, 06);
+        sessions[0].Start_Time_v2__c =Time.newInstance(15, 12, 30, 0);
+        sessions[0].End_Time_v2__c =Time.newInstance(15, 12, 30, 0);
+        sessions[0].Facilitator__c = contacts[0].Id; 
+        
+        hed__Facility__c fac = new hed__Facility__c();
+        fac.Name = 'test';
+        insert fac;
+        
+        sessions[0].Location__c = fac.Id; 
         insert sessions;
 
         List<hed__Course_Enrollment__c> students;

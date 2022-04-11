@@ -39,11 +39,18 @@
                                                     item-id={courseConnectionId}
                                                     custom-lookup
                                                 ></c-custom-search>
+                                                <span
+                                                    key={leftField.field}
+                                                    if:true={showFacilitatorError}
+                                                    class="slds-text-body_small slds-text-color_destructive slds-m-left_small">
+                                                    Facilitator is required
+                                                </span>
                                             </template>
                                             <lightning-input-field
                                                 if:false={leftField.customLookup}
                                                 key={leftField.field}
                                                 field-name={leftField.field}
+                                                value={leftField.value}
                                                 required={leftField.mandatory}>
                                             </lightning-input-field>
                                         </template>
