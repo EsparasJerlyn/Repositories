@@ -1,7 +1,7 @@
 /**
- * @description Test Class for Pre- Session ReminderEmail Confirmation flow
+ * @description Test Class for  Post Course Completion Email flow
  *
- * @see ../flows/Pre-session Reminder Email
+ * @see ../flows/ Post Course Completion Email
  *
  * @author Accenture
  *
@@ -12,7 +12,7 @@
       |                           |                       |              |                                             |
 */
 @IsTest(SeeAllData=false)
-private class PreSessionReminderEmailFlowTest {
+private class PostCourseCompletionEmailFlowTest {
   private static final Id STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
     .get('Student')
     .getRecordTypeId();
@@ -25,7 +25,7 @@ private class PreSessionReminderEmailFlowTest {
     .next();
 
   @IsTest
-  private static void PreSessionEmailTest() {
+  private static void PostCompletionEmailTest() {
     System.runAs(currentUser) {
       List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
       insert accounts;
@@ -75,21 +75,6 @@ private class PreSessionReminderEmailFlowTest {
       }
       insert commSchedules;
 
-      List<Session__c> sessions = TestDataFactory.createTestSessionRecords(1);
-      sessions[0].Course_Offering__c = courseOfferings[0].Id;
-      sessions[0].Date__c =  Date.newInstance(2022, 01, 06);
-      sessions[0].Start_Time_v2__c =Time.newInstance(15, 12, 30, 0);
-      sessions[0].End_Time_v2__c =Time.newInstance(15, 12, 30, 0);
-      sessions[0].Facilitator__c = contacts[0].Id; 
-      
-      hed__Facility__c fac = new hed__Facility__c();
-      fac.Name = 'test';
-      insert fac;      
-
-      sessions[0].Location__c = fac.Id; 
-      insert sessions;
-        
-        
       Test.startTest();
       List<hed__Course_Enrollment__c> courseConnections = TestDataFactory.createTestCourseConnectionRecord(
         10,
@@ -100,11 +85,10 @@ private class PreSessionReminderEmailFlowTest {
       for (hed__Course_Enrollment__c courseConnection : courseConnections) {
         courseConnection.RecordTypeId = STUDENT_RECTYPEID;
         courseConnection.Amount__c = 100;
-        courseConnection.Paid_in_Full__c = 'Yes';
+        courseConnection.Paid_in_Full__c = '';
       }
       insert courseConnections;
 
-             
         
         
       System.assertEquals(

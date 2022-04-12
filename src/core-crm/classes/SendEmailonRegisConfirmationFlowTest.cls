@@ -1,18 +1,18 @@
 /**
- * @description Test Class for Pre- Session ReminderEmail Confirmation flow
+ * @description Test Class for Send Email on Registration Confirmation flow
  *
- * @see ../flows/Pre-session Reminder Email
+ * @see ../flows/Send_Email_on_Regis_Confirmation_Flow
  *
  * @author Accenture
  *
  * @history
  *    | Developer                 | Date                  | JIRA         | Change Summary                              |
       |---------------------------|-----------------------|--------------|---------------------------------------------|
-      | marlon.vasquez            | April 8, 2022         | DEPP-1543    | Created file                                |
+      | keno.domienri.dico        | April 11, 2022        | DEPP-1543    | Created file                                |
       |                           |                       |              |                                             |
 */
 @IsTest(SeeAllData=false)
-private class PreSessionReminderEmailFlowTest {
+private class SendEmailonRegisConfirmationFlowTest {
   private static final Id STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
     .get('Student')
     .getRecordTypeId();
@@ -25,8 +25,9 @@ private class PreSessionReminderEmailFlowTest {
     .next();
 
   @IsTest
-  private static void PreSessionEmailTest() {
+  private static void sendEmailOnRegConfirmTest() {
     System.runAs(currentUser) {
+      Test.startTest();
       List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
       insert accounts;
 
@@ -75,38 +76,19 @@ private class PreSessionReminderEmailFlowTest {
       }
       insert commSchedules;
 
-      List<Session__c> sessions = TestDataFactory.createTestSessionRecords(1);
-      sessions[0].Course_Offering__c = courseOfferings[0].Id;
-      sessions[0].Date__c =  Date.newInstance(2022, 01, 06);
-      sessions[0].Start_Time_v2__c =Time.newInstance(15, 12, 30, 0);
-      sessions[0].End_Time_v2__c =Time.newInstance(15, 12, 30, 0);
-      sessions[0].Facilitator__c = contacts[0].Id; 
-      
-      hed__Facility__c fac = new hed__Facility__c();
-      fac.Name = 'test';
-      insert fac;      
-
-      sessions[0].Location__c = fac.Id; 
-      insert sessions;
-        
-        
-      Test.startTest();
       List<hed__Course_Enrollment__c> courseConnections = TestDataFactory.createTestCourseConnectionRecord(
-        10,
+        1,
         contacts[0].Id,
         courseOfferings
       );
 
       for (hed__Course_Enrollment__c courseConnection : courseConnections) {
         courseConnection.RecordTypeId = STUDENT_RECTYPEID;
-        courseConnection.Amount__c = 100;
+        courseConnection.Amount__c = 100.00;
         courseConnection.Paid_in_Full__c = 'Yes';
       }
       insert courseConnections;
 
-             
-        
-        
       System.assertEquals(
         1,
         Limits.getEmailInvocations(),
