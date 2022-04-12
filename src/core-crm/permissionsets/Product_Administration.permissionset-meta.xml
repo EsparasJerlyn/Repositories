@@ -41,6 +41,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>EmailTemplateCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>EvaluationSectionCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -397,6 +401,26 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Communication_Schedule__c.How_many_days_before_session__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Communication_Schedule__c.Notification_Before_Session_Template__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Communication_Schedule__c.On_Completion_Template__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Communication_Schedule__c.On_Final_Confirmation_Template__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Communication_Schedule__c.On_Registration_Template__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

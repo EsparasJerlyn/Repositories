@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>On_Final_Confirmation_Template__c</fullName>
+    <description>Email template to be used for Final Confirmation Email</description>
+    <externalId>false</externalId>
+    <label>On Final Confirmation Template</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>TextArea</type>
+</CustomField>

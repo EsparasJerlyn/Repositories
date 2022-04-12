@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Notification_Before_Session_Template__c</fullName>
+    <description>Email template to be used for notification before session starts</description>
+    <externalId>false</externalId>
+    <label>Notification Before Session Template</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>TextArea</type>
+</CustomField>

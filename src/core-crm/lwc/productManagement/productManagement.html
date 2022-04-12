@@ -34,14 +34,11 @@
             </c-custom-layout-handler>
         </div>
         <div if:true={showPricingAndCommunication} class="slds-m-vertical_xx-small">
-            <c-custom-layout-handler
-                record-id={recordId}
-                object-api-name={objectApiName}
-                section-label="Set-up Communications"
-                grandchild-object="Communication_Schedule__c"
-                show-edit-button={showEditButton}
-                is-grandchild>
-            </c-custom-layout-handler>
+            <c-setup-communication
+                product-request-id={recordId}
+                is-status-completed={isStatusCompleted}
+                is-program={isProgram}
+            ></c-setup-communication>
         </div>
         <div if:true={isPrescribedOrNonProgram} class="slds-m-vertical_xx-small">
             <c-setup-registration

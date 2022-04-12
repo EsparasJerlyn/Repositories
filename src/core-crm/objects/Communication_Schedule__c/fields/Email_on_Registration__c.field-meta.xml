@@ -3,6 +3,7 @@
     <fullName>Email_on_Registration__c</fullName>
     <defaultValue>false</defaultValue>
     <externalId>false</externalId>
+    <inlineHelpText>The email will be automatically sent to the learner upon their registration into the product.</inlineHelpText>
     <label>Send Email on Registration</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
