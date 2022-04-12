@@ -111,6 +111,11 @@ export default class ManageAdhocCommsSection extends LightningElement {
         return ADHOC_COMMS.objectApiName;
     }
 
+    //returns true when adhoc data is empty
+    get isAdhocDataEmpty(){
+        return this.adhocData.length == 0;
+    }
+
     //fetches related adhoc communication records via apex
     adhocResult = [];
     @wire(getAdhocCommunications, { 
@@ -183,29 +188,33 @@ export default class ManageAdhocCommsSection extends LightningElement {
             this.showComms = true;
         //sends email to registred learners via apex
         }else if(actionName == 'send_email'){
-            this.isLoading = true;
-            sendEmailToRegisteredLearners({
-                emailSubject : row.Subject__c,
-                emailContent : row.Email_Content__c,
-                learnerEmails : this.registeredLearnerEmails
-            })
-            .then(result => {
-                if(result == 'success'){
-                    let fields = {
-                        Id : row.Id,
-                        IsSent__c : true
-                    };
-                    this.handleUpdateRecord(fields,'Email sent to registered learners.');
-                }else{
+            if(this.registeredLearnerEmails.length == 0){
+                this.generateToast('Email not sent.', 'No confirmed registered learner found.', 'error');
+            }else{
+                this.isLoading = true;
+                sendEmailToRegisteredLearners({
+                    emailSubject : row.Subject__c,
+                    emailContent : row.Email_Content__c,
+                    learnerEmails : this.registeredLearnerEmails
+                })
+                .then(result => {
+                    if(result == 'success'){
+                        let fields = {
+                            Id : row.Id,
+                            IsSent__c : true
+                        };
+                        this.handleUpdateRecord(fields,'Email sent to registered learners.');
+                    }else{
+                        this.generateToast("Error.", LWC_Error_General, "error");
+                    }
+                })
+                .catch(error => {
                     this.generateToast("Error.", LWC_Error_General, "error");
-                }
-            })
-            .catch(error => {
-                this.generateToast("Error.", LWC_Error_General, "error");
-            })
-            .finally(() => {
-                this.isLoading = false;
-            });
+                })
+                .finally(() => {
+                    this.isLoading = false;
+                });
+            }
         }
         
     }
