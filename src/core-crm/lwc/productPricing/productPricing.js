@@ -595,7 +595,7 @@ export default class ProductPricing extends NavigationMixin(LightningElement) {
                     }
                 }
             }
-            if((!item.UnitPrice ||(item.UnitPrice && item.UnitPrice <= 0)) && !item.Discount__c){
+            if((isNaN(item.UnitPrice) || item.UnitPrice <= 0) && !item.Discount__c){
                 messages.push('List Price is required.');
                 fieldNames.push('UnitPrice');
             }
@@ -666,7 +666,7 @@ export default class ProductPricing extends NavigationMixin(LightningElement) {
             }else{
                 newItem.UnitPrice = item.UnitPrice === undefined?priceBookTemp.UnitPrice:item.UnitPrice;
             }
-            newItem.UnitPrice = newItem.UnitPrice .toFixed();
+            newItem.UnitPrice = parseFloat(newItem.UnitPrice).toFixed();
             newItem.Product2Id = item.Product2Id === undefined?priceBookTemp.Product2Id:item.Product2Id;
             return newItem;
         });
