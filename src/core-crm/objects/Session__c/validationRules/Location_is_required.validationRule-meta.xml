@@ -4,6 +4,7 @@
     <active>true</active>
     <errorConditionFormula>AND(
  Is_Managed_Externally__c = false,
+ NOT(ISPICKVAL(Session_Type__c, &apos;Virtual Class&apos;)),
  ISBLANK( Location__c ) 
 )</errorConditionFormula>
     <errorDisplayField>Location__c</errorDisplayField>
