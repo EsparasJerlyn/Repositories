@@ -41,14 +41,25 @@ const SESSION_COLUMNS = [
             class: { fieldName:'customSearchClass' }
         }
     },
+    {
+        label: "Date",
+        fieldName: "Date__c",
+        type: "date-local",
+        typeAttributes:{
+            month: "2-digit",
+            day: "2-digit"
+        },
+        editable: { fieldName: 'editable' },
+        wrapText: true  
+    },
     { 
-        label: 'Date',
+        label: 'Start Time',
         type: 'customDatetimeColumn',
         typeAttributes: {
             tableObjectType: 'Session__c',
             rowDraftId: { fieldName: 'rowId' },
-            datetimeValue: { fieldName: 'Date__c' },
-            datetimeFieldName: 'Date__c',
+            datetimeValue: { fieldName: 'Start_Time_v2__c' },
+            datetimeFieldName: 'Start_Time_v2__c',
             editable: { fieldName: 'editable' } 
         },
         cellAttributes: {
@@ -57,30 +68,19 @@ const SESSION_COLUMNS = [
         wrapText: true  
     },
     { 
-        label: 'Start Time',
-        fieldName: 'Start_Time_v2__c',
-        type: 'date',
-        typeAttributes:{
-            hour:'2-digit',
-            minute:'2-digit',
-            second:'2-digit',
-            hour12:true
-        },
-        editable: { fieldName: 'editable' },
-        wrapText: true  
-    },
-    { 
         label: 'End Time',
-        fieldName: 'End_Time_v2__c',
-        type: 'date',
-        typeAttributes:{
-            hour:'2-digit',
-            minute:'2-digit',
-            second:'2-digit',
-            hour12:true
+        type: 'customDatetimeColumn',
+        typeAttributes: {
+            tableObjectType: 'Session__c',
+            rowDraftId: { fieldName: 'rowId' },
+            datetimeValue: { fieldName: 'End_Time_v2__c' },
+            datetimeFieldName: 'End_Time_v2__c',
+            editable: { fieldName: 'editable' } 
         },
-        editable: { fieldName: 'editable' },
-        wrapText: true,  
+        cellAttributes: {
+            class: { fieldName: 'customEndTimeClass' }
+        },
+        wrapText: true  
     },
     { 
         label: 'Location',
@@ -98,11 +98,24 @@ const SESSION_COLUMNS = [
             class: { fieldName: 'customLookupClass' }
         }  
     },
-    {
+    /*{
         label: 'Location Details',
         fieldName: 'Location_Detail_v2__c',
         wrapText: true,
         editable: { fieldName: 'editable' } 
+    },*/
+    { 
+        label: 'Location Details',
+        type: 'customRichtextColumn',
+        typeAttributes: {
+            rowDraftId: { fieldName: 'rowId' },
+            richtextValue: { fieldName: 'Location_Detail_v2__c' },
+            editable: { fieldName: 'editable' }
+        },
+        cellAttributes: {
+            class: { fieldName: 'customRichtextClass' }
+        },
+        wrapText: true
     },
     { 
         label: 'IsActive',
@@ -223,6 +236,17 @@ export default class SessionDetailSection extends LightningElement {
         );
     }
 
+    //updates data and drafts to edited values 
+    //if custom richtext is changed
+    handleRichtextEdit(event){
+        this.handleCustomColumnEdit(
+            event.detail.draftId,
+            'Location_Detail_v2__c',
+            event.detail.value ? event.detail.value : '',
+            'customRichtextClass'
+        );
+    }
+
     //updates data and drafts to edited values
     handleCustomColumnEdit(rowId,prop,value,classProp){
         this.relatedSessionsCopy = this.relatedSessionsCopy.map(data => {
@@ -268,7 +292,19 @@ export default class SessionDetailSection extends LightningElement {
                 Name:
                     draft.Name === undefined ?
                     unsavedItem.Name :
-                    draft.Name
+                    draft.Name,
+                Date__c:
+                    draft.Date__c === undefined ?
+                    unsavedItem.Date__c :
+                    draft.Date__c,
+                Start_Time_v2__c:
+                    draft.Start_Time_v2__c === undefined ?
+                    unsavedItem.Start_Time_v2__c :
+                    draft.Start_Time_v2__c,
+                End_Time_v2__c:
+                    draft.End_Time_v2__c === undefined ?
+                    unsavedItem.End_Time_v2__c :
+                    draft.End_Time_v2__c
             };
         });
 
@@ -309,7 +345,18 @@ export default class SessionDetailSection extends LightningElement {
                 fieldNames.push('Name');
                 messages.push('Session Name is required');
             }
-            
+            //date validation
+            if(!record.Date__c){
+                fieldNames.push('Date__c');
+                messages.push('Date is required');
+            }
+            //start & end time validation
+            if(record.End_Time_v2__c <= record.Start_Time_v2__c){
+                fieldNames.push('End_Time_v2__c');
+                messages.push('Should be greater than start time');
+                this.addErrorOutline(record.rowId,'customEndTimeClass');
+            }
+
             if(fieldNames.length > 0){
                 rowsValidation[record.rowId] =
                 {

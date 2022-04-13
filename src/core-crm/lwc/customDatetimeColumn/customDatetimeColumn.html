@@ -1,43 +1,26 @@
 <template>
-    <div if:true={showDatetime}>
+    <div if:true={showDatetime} class="lookup-container">
         <lightning-record-edit-form object-api-name={tableObjectType}>
             <div class="slds-popover slds-popover_edit slds-popover__body">
-                <span 
-                    if:true={showErrorMessage}
-                    class="slds-text-body_small slds-text-color_destructive">
-                    Date and Time are required
-                </span>
                 <lightning-input-field
                     field-name={datetimeFieldName}
-                    value={datetimeValue}
+                    value={datetimeValueFormatted}
                     onchange={handleDatetimeChange}
                     variant="label-hidden"
                 ></lightning-input-field>
-                <div class="slds-m-top_xx-small slds-float_right">
-                    <lightning-button-icon
-                        icon-name="utility:check" 
-                        size="x-small"
-                        variant="border-filled"
-                        alternative-text="Confirm"
-                        disabled={showErrorMessage}
-                        onclick={handleConfirm}>
-                    </lightning-button-icon>
-                    <lightning-button-icon
-                        icon-name="utility:close" 
-                        size="x-small"
-                        variant="border-filled"
-                        alternative-text="Cancel"
-                        class="slds-m-left_xx-small"
-                        onclick={handleCancel}>
-                    </lightning-button-icon>
-                </div>
             </div>
         </lightning-record-edit-form>
     </div>
     <div if:false={showDatetime} class="slds-table_edit_container slds-is-relative">
         <span class="slds-grid slds-grid_align-spread slds-cell-edit slds-align_absolute-center">
             <span class="cell-output">
-                {datetimeValueFormatted}
+                <lightning-formatted-date-time
+                    value={datetimeValue}
+                    hour="numeric"
+                    minute="numeric" 
+                    time-zone="UTC"
+                    hour12
+                ></lightning-formatted-date-time>
             </span>
             <button if:true={editable} class="slds-button slds-button_icon slds-cell-edit__button slds-m-left_x-small" tabindex="-1"
                 title="Edit" onclick={handleEdit}>

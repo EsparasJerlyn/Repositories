@@ -230,7 +230,6 @@ export default class ProductOffering extends LightningElement {
                 contactId:item.Facilitator_Bio__r.Facilitator__c,
                 bio:item.Facilitator_Bio__r.Professional_Bio__c,
                 customLookupClass: 'slds-cell-edit',
-                customRichtextClass: 'slds-cell-edit',
                 editable: this.showEditButton,
                 helpText: item.hed__Primary__c?'Unset As Primary':'Set As Primary',
                 variantName: item.hed__Primary__c?'Brand':'',
@@ -260,6 +259,7 @@ export default class ProductOffering extends LightningElement {
                 customStartTimeClass: 'slds-cell-edit',
                 customEndTimeClass: 'slds-cell-edit',
                 customLookupClass: 'slds-cell-edit',
+                customRichtextClass: 'slds-cell-edit',
                 editable: this.showEditButton,
             }
         });
