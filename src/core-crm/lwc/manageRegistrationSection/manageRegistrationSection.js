@@ -22,6 +22,7 @@ import getNonProgPlanRegistrations from '@salesforce/apex/ManageRegistrationSect
 import updateRegistration from '@salesforce/apex/ManageRegistrationSectionCtrl.updateRegistration';
 import getRegistrationStatusValues from '@salesforce/apex/ManageRegistrationSectionCtrl.getRegistrationStatusValues';
 import getPaidInFullValues from '@salesforce/apex/ManageRegistrationSectionCtrl.getPaidInFullValues';
+import getPricingValidationValues from '@salesforce/apex/ManageRegistrationSectionCtrl.getPricingValidationValues';
 import getSearchedContacts from '@salesforce/apex/ManageRegistrationSectionCtrl.getSearchedContacts';
 import getQuestions from "@salesforce/apex/ManageRegistrationSectionCtrl.getQuestions";
 import addRegistration from '@salesforce/apex/ManageRegistrationSectionCtrl.addRegistration';
@@ -58,6 +59,8 @@ export default class ManageRegistrationSection extends LightningElement {
     error;
     registrationStatusValues;
     registrationStatusModal;
+    pricingValidationValues;
+    pricingValidation;
     paidInFullValues;
     records = [];
     recordsTemp = [];
@@ -81,8 +84,12 @@ export default class ManageRegistrationSection extends LightningElement {
     responseData;
     questions;
 
+    selectedPricing;
+
     columns = [
         { label: 'Full Name', fieldName: 'contactFullName', type: 'text', sortable: true },
+        { label: 'Selected Pricing', fieldName: 'selectedPricing', type: 'text', sortable: true, wrapText: true },
+        { label: 'Pricing Validation', fieldName: 'pricingValidation', type: 'text', sortable: true },
         { label: 'Payment Method', fieldName: 'paymentMethod', type: 'text', sortable: true },
         { label: 'Paid in Full', fieldName: 'paidInFull', type: 'text', sortable: true },
         { label: 'Registration Status', fieldName: 'registrationStatus', type: 'text', sortable: true },
@@ -161,6 +168,18 @@ export default class ManageRegistrationSection extends LightningElement {
         }
     }
 
+    //Retrieves Pricing validation values
+    @wire(getPricingValidationValues)
+    getPricingValidationValues(result){
+        if(result.data) {
+            const resp = result.data;
+            this.pricingValidationValues = resp.map(type => {
+                return { label: type, value: type };
+            });
+            this.pricingValidationValues.unshift({ label: 'None', value: '' });
+        }
+    }  
+
     //handles opening of modal
     handleEditContact(event){
         this.isModalOpen = true;
@@ -174,6 +193,7 @@ export default class ManageRegistrationSection extends LightningElement {
         this.rowId = row.id;
         this.modalName = row.contactFullName;
         this.rowQuestId = row.questionId;
+        this.pricingValidation = row.pricingValidation;
     }
 
     //handles opening of modal
@@ -424,6 +444,11 @@ export default class ManageRegistrationSection extends LightningElement {
         this.rowPaidInFull = event.detail.value;
     }
 
+    handlePricingValidation(event){
+        this.isDisabled = false;
+        this.pricingValidation = event.detail.value;
+    }
+
     handleFormLoad(){
         this.formLoading = false;
     }
@@ -448,7 +473,8 @@ export default class ManageRegistrationSection extends LightningElement {
             id: this.rowId,
             questionId: this.rowQuestId,
             registrationStatus: this.rowRegStatus,
-            paidInFull: this.rowPaidInFull
+            paidInFull: this.rowPaidInFull,
+            pricingValidation: this.pricingValidation
         })
             .then((result) => {
                 response = result;

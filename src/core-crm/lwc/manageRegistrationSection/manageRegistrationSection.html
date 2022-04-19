@@ -179,6 +179,12 @@
                             options={paidInFullValues}
                             onchange={handlePaidInFull}>
                         </lightning-combobox><br />
+                        <lightning-combobox
+                            label="Pricing Validation"
+                            value={pricingValidation}
+                            options={pricingValidationValues}
+                            onchange={handlePricingValidation}>
+                        </lightning-combobox><br />
                         <template if:true={rowQuestId}>
                             <lightning-combobox
                             label="Registration Status"

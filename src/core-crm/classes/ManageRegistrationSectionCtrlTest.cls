@@ -62,9 +62,10 @@ public with sharing class ManageRegistrationSectionCtrlTest{
                String studentId = [SELECT Id FROM hed__Course_Enrollment__c LIMIT 1].Id;
                String questionId = [SELECT Id FROM Questionnaire_Response_Summary__c LIMIT 1].Id;
                String regStatus= 'Confirmed';
-               String paidInFull= 'No';           
+               String paidInFull= 'No';    
+               String pricingValidation= 'Successful';           
                Test.startTest();
-               String updateReponse = ManageRegistrationSectionCtrl.updateRegistration(studentId, questionId, regStatus, paidInFull); 
+               String updateReponse = ManageRegistrationSectionCtrl.updateRegistration(studentId, questionId, regStatus, paidInFull, pricingValidation); 
                Test.stopTest();
                System.assertEquals('Success', updateReponse, 'Update of record failed.');
           }      

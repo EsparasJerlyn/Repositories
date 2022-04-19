@@ -370,6 +370,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>CartItem.Pricebook_Entry_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Communication_Schedule__c.Course__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1437,6 +1442,11 @@
         <field>hed__Course_Enrollment__c.Payment_Method__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Course_Enrollment__c.Pricing_Validation__c</field>
+        <readable>true</readable>
+    </fieldPermissions>    
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course_Enrollment__c.Purchased_Price__c</field>

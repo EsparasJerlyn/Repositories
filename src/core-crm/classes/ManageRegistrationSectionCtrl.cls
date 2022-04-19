@@ -18,12 +18,17 @@
       |                           |                       |                      | Query to filter only         |
       |                           |                       |                      | Registration Questions       |
       | roy.nino.s.regala         | March 25, 2022        | DEPP-1539            | Add registration             |
- */
+      | eccarius.karl.munoz       | April 19, 2022        | DEPP-2157            | 1.) Added Selected Pricing   |
+      |                           |                       |                      | and Pricing Validation in    |
+      |                           |                       |                      | the table column.           |
+      |                           |                       |                      | 2.) Updated handling for     |
+      |                           |                       |                      | Edit row action to include   |
+      |                           |                       |                      | Pricing Validation update.   |
+*/
 public with sharing class ManageRegistrationSectionCtrl {
 
      private static string studentRT = System.Label.RT_CourseConnection_Student;
      private static Id studentRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(studentRT).getRecordTypeId();
-
 
      /**
       * @description Retrieves list of related answers
@@ -68,14 +73,31 @@ public with sharing class ManageRegistrationSectionCtrl {
           ];
 
           for(Questionnaire_Response_Summary__c qResSummary: questionnaireResponseList){
-               contactToQRSummary.put(qResSummary.Contact__c,qResSummary);
+               contactToQRSummary.put(qResSummary.Contact__c, qResSummary);
           }
 
           List<hed__Course_Enrollment__c > courseConnections = [
-               SELECT Id, Name, hed__Contact__c, hed__Contact__r.Name, hed__Course_Offering__c, Paid_in_Full__c, hed__Status__c, LMS_Integration_Status__c, hed__Contact__r.FirstName, hed__Contact__r.LastName, hed__Contact__r.Birthdate, hed__Contact__r.Email, Payment_Method__c
+               SELECT Id, Name, hed__Contact__c, hed__Contact__r.Name, Pricing_Validation__c, hed__Course_Offering__c, 
+                    Paid_in_Full__c, hed__Status__c, LMS_Integration_Status__c, hed__Contact__r.FirstName, hed__Contact__r.LastName, 
+                    hed__Contact__r.Birthdate, hed__Contact__r.Email, Payment_Method__c, Cart_Item__r.Pricebook_Entry_ID__c
                  FROM hed__Course_Enrollment__c
                 WHERE hed__Course_Offering__c =: childRecordId AND RecordTypeId =: studentRecTypeId
           ];
+
+          Set<String> priceBookEntryIdSet = new Set<String>();
+          Map<Id, Id> studentInitMap = new Map<Id, Id>();
+          Map<Id, String> studentWithPricingMap = new Map<Id, String>();
+          for(hed__Course_Enrollment__c student : courseConnections){
+               priceBookEntryIdSet.add(student.Cart_Item__r.Pricebook_Entry_ID__c);
+               studentInitMap.put(student.Cart_Item__r.Pricebook_Entry_ID__c, student.hed__Contact__c); 
+          }    
+
+          List<PricebookEntry> priceBookEntryList = [SELECT Id, Pricebook2.Name, Name FROM PricebookEntry WHERE Id IN : priceBookEntryIdSet];
+          for(PricebookEntry p : priceBookEntryList){               
+               if(studentInitMap.containsKey(p.Id)){                   
+                    studentWithPricingMap.put(studentInitMap.get(p.Id), p.Pricebook2.Name);
+               }
+          }
 
           for(hed__Course_Enrollment__c student : courseConnections){
                ManageRegistrationDetails regDetails = new ManageRegistrationDetails();
@@ -88,7 +110,11 @@ public with sharing class ManageRegistrationSectionCtrl {
                regDetails.contactLastName = student.hed__Contact__r.LastName;
                regDetails.contactBirthdate = student.hed__Contact__r.Birthdate;
                regDetails.contactEmail = student.hed__Contact__r.Email;
-               regDetails.paymentMethod = student.Payment_Method__c;
+               regDetails.paymentMethod = student.Payment_Method__c;               
+               if(studentWithPricingMap.containsKey(student.hed__Contact__c)){
+                    regDetails.selectedPricing = studentWithPricingMap.get(student.hed__Contact__c);
+               }                               
+               regDetails.pricingValidation = student.Pricing_Validation__c;
                if(contactToQRSummary.containsKey(student.hed__Contact__c)){
                     regDetails.questionId = contactToQRSummary.get(student.hed__Contact__c).Id;
                     regDetails.registrationStatus = contactToQRSummary.get(student.hed__Contact__c).Registration_Status__c;
@@ -108,13 +134,15 @@ public with sharing class ManageRegistrationSectionCtrl {
       * @param questionId - question id of student selected
       * @param registrationStatus - registration status of student selected
       * @param paidInFull - paid in full field of student selected
+      * @param pricingValidation - pricing validation field of student selected
       * @return String
       */
      @AuraEnabled
-     public static String updateRegistration(String id, String questionId, String registrationStatus, String paidInFull){
+     public static String updateRegistration(String id, String questionId, String registrationStatus, String paidInFull, String pricingValidation){
           hed__Course_Enrollment__c student = new hed__Course_Enrollment__c();
           student.Id = id;
           student.Paid_in_Full__c = paidInFull;
+          student.Pricing_Validation__c = pricingValidation;
           Questionnaire_Response_Summary__c questionnaire = new Questionnaire_Response_Summary__c();
           questionnaire.Id = questionId;
           questionnaire.Registration_Status__c = registrationStatus;
@@ -162,6 +190,27 @@ public with sharing class ManageRegistrationSectionCtrl {
           List<String> response = new List<String>();
           String strObjectName = 'Questionnaire_Response_Summary__c';
           String strPicklistField = 'Registration_Status__c';
+          Map<String, String> mapPickListValues = new Map<String, String>();
+          Schema.SObjectType objSobjectType = Schema.getGlobalDescribe().get(strObjectName);
+          Schema.DescribeSObjectResult objDescribeSobject = objSobjectType.getDescribe();
+          Map<String, Schema.SObjectField> mapFields = objDescribeSobject.fields.getMap();
+          List<Schema.PicklistEntry> lstPickListValues = mapFields.get(strPicklistField).getDescribe().getPickListValues();
+          for (Schema.PicklistEntry objPickList : lstPickListValues) {
+               String val = objPickList.getValue();
+               response.add(val);
+          }
+          return response;
+     }
+
+     /**
+      *  @description Retrieves list of picklist values for pricing validation field
+      *  @return List<String>
+      */
+     @AuraEnabled(cacheable=true)
+     public static List<String> getPricingValidationValues(){
+          List<String> response = new List<String>();
+          String strObjectName = 'hed__Course_Enrollment__c';
+          String strPicklistField = 'Pricing_Validation__c';
           Map<String, String> mapPickListValues = new Map<String, String>();
           Schema.SObjectType objSobjectType = Schema.getGlobalDescribe().get(strObjectName);
           Schema.DescribeSObjectResult objDescribeSobject = objSobjectType.getDescribe();
@@ -367,6 +416,10 @@ public with sharing class ManageRegistrationSectionCtrl {
           public String applicationName;
           @AuraEnabled
           public String applicationURL;
+          @AuraEnabled
+          public String pricingValidation;
+          @AuraEnabled
+          public String selectedPricing;
       }
 
       /**

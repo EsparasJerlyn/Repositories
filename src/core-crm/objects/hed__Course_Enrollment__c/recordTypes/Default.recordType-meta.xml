@@ -5,6 +5,58 @@
     <description>A Default Record Type for use in testing. This Record Type should only be enabled and visible for System Administrators.</description>
     <label>Default</label>
     <picklistValues>
+        <picklist>LMS_Integration_Status__c</picklist>
+        <values>
+            <fullName>Fail</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not-Ready</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sent</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Success</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Paid_in_Full__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Payment_Method__c</picklist>
+        <values>
+            <fullName>Invoice</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pay Now</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Pricing_Validation__c</picklist>
+        <values>
+            <fullName>Successful</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unsuccessful</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>hed__Status__c</picklist>
         <values>
             <fullName>Active</fullName>
