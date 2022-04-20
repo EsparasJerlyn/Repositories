@@ -121,7 +121,7 @@
             "importCSVFilesAsIs": true
         },
         {
-            "query": "SELECT Id, RecordTypeId, Name, Create_Offering_Complete__c, Create_Product_Complete__c, Is_Curriculum_Approved__c, Product_Request_Status__c, Product_Specification__c, Program_Structure_Complete__c FROM Product_Request__c",
+            "query": "SELECT Id, RecordTypeId, Name, Create_Offering_Complete__c, Create_Product_Complete__c, Product_Request_Status__c, Product_Specification__c, Program_Structure_Complete__c FROM Product_Request__c",
             "operation": "Upsert",
             "externalId": "Name",
             "useCSVValuesMapping": true,

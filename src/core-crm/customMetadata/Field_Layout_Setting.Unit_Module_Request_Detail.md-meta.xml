@@ -4,11 +4,11 @@
     <protected>false</protected>
     <values>
         <field>Left_Column_Long__c</field>
-        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Implementation_Year_v2__c&quot;},{&quot;field&quot;:&quot;Start_Date__c&quot;},{&quot;field&quot;:&quot;End_Date__c&quot;}]</value>
+        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Start_Date__c&quot;},{&quot;field&quot;:&quot;End_Date__c&quot;}]</value>
     </values>
     <values>
         <field>Left_Column__c</field>
-        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Implementation_Year_v2__c&quot;},{&quot;field&quot;:&quot;Start_Date__c&quot;},{&quot;field&quot;:&quot;End_Date__c&quot;}]</value>
+        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Start_Date__c&quot;},{&quot;field&quot;:&quot;End_Date__c&quot;}]</value>
     </values>
     <values>
         <field>Order__c</field>
@@ -20,18 +20,18 @@
     </values>
     <values>
         <field>Right_Column_Long__c</field>
-        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Unit_Module_Name__c&quot;,&quot;mandatory&quot;:true},{&quot;field&quot;:&quot;Owning_Faculty__c&quot;},{&quot;field&quot;:&quot;Maximum_Number_Of_Registrants__c&quot;}]</value>
+        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Unit_Module_Name__c&quot;,&quot;mandatory&quot;:true}]</value>
     </values>
     <values>
         <field>Right_Column__c</field>
-        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Unit_Module_Name__c&quot;,&quot;mandatory&quot;:true},{&quot;field&quot;:&quot;Owning_Faculty__c&quot;},{&quot;field&quot;:&quot;Maximum_Number_Of_Registrants__c&quot;}]</value>
+        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Unit_Module_Name__c&quot;,&quot;mandatory&quot;:true}]</value>
     </values>
     <values>
         <field>Single_Column_Long__c</field>
-        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Outcome_Description__c&quot;}]</value>
+        <value xsi:type="xsd:string"></value>
     </values>
     <values>
         <field>Single_Column__c</field>
-        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Outcome_Description__c&quot;}]</value>
+        <value xsi:type="xsd:string"></value>
     </values>
 </CustomMetadata>

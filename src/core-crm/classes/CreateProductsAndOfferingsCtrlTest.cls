@@ -98,11 +98,11 @@ public with sharing class CreateProductsAndOfferingsCtrlTest {
             List<Product_Request__c> productRequestToUpdate = new List<Product_Request__c>();
             List<Product_Request__c> productRequestList  = new List<Product_Request__c>([SELECT Id FROM Product_Request__c WHERE RecordTypeId =:programRequestRTId]);
             for(Product_Request__c productRequest: productRequestList){
-                productRequest.Program_Name__c = 'TESTUPDATE';
+                productRequest.Product_Request_Status__c = 'Design';
                 productRequestToUpdate.add(productRequest);
             }
             CreateProductsAndOfferingsCtrl.updateProductRequests(productRequestToUpdate);  
-            System.assert(![SELECT Id FROM Product_Request__c WHERE Program_Name__c = 'TESTUPDATE'].isEmpty(),'Error Updating product requests');
+            System.assert(![SELECT Id FROM Product_Request__c WHERE Product_Request_Status__c = 'Design'].isEmpty(),'Error Updating product requests');
         }
         Test.stopTest();
     }

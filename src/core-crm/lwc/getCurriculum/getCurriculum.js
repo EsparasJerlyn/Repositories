@@ -25,12 +25,6 @@ import getExistingCurriculumItems from '@salesforce/apex/GetCurriculumCtrl.getEx
 import HAS_PERMISSION from '@salesforce/customPermission/EditDesignAndReleaseTabsOfProductRequest';
 import COURSE_SCHEMA from '@salesforce/schema/hed__Course__c';
 import PROG_PLAN_SCHEMA from '@salesforce/schema/hed__Program_Plan__c';
-import PROP_ID from '@salesforce/schema/Product_Request__c.CourseLoop_Full_Proposal_ID__c';
-import PROP_URL from '@salesforce/schema/Product_Request__c.CourseLoop_Full_Proposal_URL__c';
-import PROP_APPROVED from '@salesforce/schema/Product_Request__c.Is_Curriculum_Approved__c';
-import IMP_YR from '@salesforce/schema/Product_Request__c.Implementation_Year_v2__c';
-import OWN_FAC from '@salesforce/schema/Product_Request__c.Owning_Faculty__c';
-import OWN_FAC_NAME from '@salesforce/schema/Product_Request__c.Owning_Faculty__r.Name';
 import PR_STATUS from '@salesforce/schema/Product_Request__c.Product_Request_Status__c';
 import REC_TYPE from '@salesforce/schema/Product_Request__c.RecordType.DeveloperName';
 
@@ -87,11 +81,6 @@ export default class GetCurriculum extends LightningElement {
     get helpText(){
         return LWC_HelpText_GetCurriculumButton;
     }
-
-    get proposalIdApiName(){
-        return PROP_ID.fieldApiName;
-    }
-
     get isAllComplete(){
         let allData = [];
         this.curriculumItemsList.forEach(item => {
@@ -155,27 +144,14 @@ export default class GetCurriculum extends LightningElement {
     @track productRequest = {};
     @wire(getRecord, { 
         recordId: '$recordId', 
-        fields: [PROP_ID,PROP_URL,PROP_APPROVED,IMP_YR,PR_STATUS,OWN_FAC,OWN_FAC_NAME,REC_TYPE] 
+        fields: [PR_STATUS,REC_TYPE] 
     })
     handleProductRequest(result){
         this.isLoading = true;
         if(result.data){
             this.proposalDetails = [];
-            this.productRequest['proposalId'] = getFieldValue(result.data,PROP_ID);
-            this.productRequest['proposalUrl'] = getFieldValue(result.data,PROP_URL);
-            this.productRequest['proposalApproved'] = getFieldValue(result.data,PROP_APPROVED);
-            this.productRequest['implementationYear'] = getFieldValue(result.data,IMP_YR);
             this.productRequest['status'] = getFieldValue(result.data,PR_STATUS);
-            this.productRequest['owningFacultyUrl'] = '/' + getFieldValue(result.data,OWN_FAC);
-            this.productRequest['owningFaculty'] = getFieldValue(result.data,OWN_FAC_NAME);
             this.productRequest['recordType'] = getFieldValue(result.data,REC_TYPE);
-            if(!getFieldValue(result.data,PROP_ID)){
-                this.proposalDetails.push('"CourseLoop Full Proposal ID"');
-            }if(!getFieldValue(result.data,PROP_URL)){
-                this.proposalDetails.push('"CourseLoop Full Proposal URL"');
-            }if(!getFieldValue(result.data,PROP_APPROVED)){
-                this.proposalDetails.push('"Is Curriculum Approved"');   
-            }
         }else if(result.error){
             this.generateToast('Error.',LWC_Error_General,'error');
         }

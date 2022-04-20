@@ -421,11 +421,7 @@ public class TestDataFactory {
       prodRequest.add(
         new Product_Request__c(
           Product_Request_Status__c = 'Define',
-          Product_Request_Name__c = 'Test ' + i,
-          Program_Type__c = 'Award Course',
-          Program_Name__c = 'TestP ' + i,
-          Activity_Name__c = 'Act Test ' + i,
-          Corporate_Bundle_Value__c = 10.0
+          Product_Request_Name__c = 'Test ' + i
         )
       );
     }

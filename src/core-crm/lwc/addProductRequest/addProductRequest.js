@@ -31,8 +31,6 @@ import COURSE_OBJECT from '@salesforce/schema/hed__Course__c';
 import PROGRAM_PLAN_OBJECT from '@salesforce/schema/hed__Program_Plan__c';
 import PR_OPE_TYPE from '@salesforce/schema/Product_Request__c.OPE_Program_Plan_Type__c';
 import PROD_SPEC_APINAME from '@salesforce/schema/Product_Request__c.Product_Specification__c';
-import NO_OF_TRIADS from '@salesforce/schema/Product_Request__c.Number_of_Triads__c';
-import REQUEST_TYPE from '@salesforce/schema/Product_Request__c.Request_Type__c';
 import getAccountId from '@salesforce/apex/AddProductRequestCtrl.getAccountId';
 import getSearchedCourseProductRequests from '@salesforce/apex/AddProductRequestCtrl.getSearchedCourseProductRequests';
 import getSearchedUsers from '@salesforce/apex/AddProductRequestCtrl.getSearchedUsers';
@@ -324,17 +322,9 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
         this.isLoading = false;
     }
 
-    //handles product request create form change
-    handleChange(event){
-        if(event.target.fieldName === REQUEST_TYPE.fieldApiName){
-            this.setFieldVisibility(event.target.value);
-        }
-    }
-
     //shows the dependent field if conditions satisfy
     setFieldVisibility(requestType){
         [...this.template.querySelectorAll('lightning-input-field')]
-        .filter( element => element.fieldName === NO_OF_TRIADS.fieldApiName)
         .forEach(element => {
             element.className = requestType === TRAIDS?SHOW_FIELD:HIDE_FIELD; //show field if triads is selected
             element.value = requestType === TRAIDS?element.value:null; //reset value when request type is not triads

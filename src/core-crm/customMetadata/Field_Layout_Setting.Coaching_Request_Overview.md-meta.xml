@@ -4,11 +4,11 @@
     <protected>false</protected>
     <values>
         <field>Left_Column_Long__c</field>
-        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Request_Type__c&quot;,&quot;mandatory&quot;:true},{&quot;field&quot;:&quot;Number_of_Triads__c&quot;},{&quot;field&quot;:&quot;Start_Date__c&quot;},{&quot;field&quot;:&quot;End_Date__c&quot;},{&quot;field&quot;:&quot;Session_Duration_Mins__c&quot;}]</value>
+        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Start_Date__c&quot;},{&quot;field&quot;:&quot;End_Date__c&quot;}]</value>
     </values>
     <values>
         <field>Left_Column__c</field>
-        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Request_Type__c&quot;,&quot;mandatory&quot;:true},{&quot;field&quot;:&quot;Number_of_Triads__c&quot;},{&quot;field&quot;:&quot;Start_Date__c&quot;},{&quot;field&quot;:&quot;End_Date__c&quot;},{&quot;field&quot;:&quot;Session_Duration_Mins__c&quot;}]</value>
+        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Start_Date__c&quot;},{&quot;field&quot;:&quot;End_Date__c&quot;}]</value>
     </values>
     <values>
         <field>Order__c</field>
@@ -20,11 +20,11 @@
     </values>
     <values>
         <field>Right_Column_Long__c</field>
-        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Number_Of_Hours_Per_Participant__c&quot;},{&quot;field&quot;:&quot;Number_Of_Groups__c&quot;},{&quot;field&quot;:&quot;Number_Of_Participants_Per_Group__c&quot;},{&quot;field&quot;:&quot;Number_of_Sessions_Per_Group__c&quot;}]</value>
+        <value xsi:type="xsd:string"></value>
     </values>
     <values>
         <field>Right_Column__c</field>
-        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Number_Of_Hours_Per_Participant__c&quot;},{&quot;field&quot;:&quot;Number_Of_Groups__c&quot;},{&quot;field&quot;:&quot;Number_Of_Participants_Per_Group__c&quot;},{&quot;field&quot;:&quot;Number_of_Sessions_Per_Group__c&quot;}]</value>
+        <value xsi:type="xsd:string"></value>
     </values>
     <values>
         <field>Single_Column_Long__c</field>

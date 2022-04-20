@@ -28,10 +28,10 @@
     </values>
     <values>
         <field>Single_Column_Long__c</field>
-        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Outcome_Description__c&quot;}]</value>
+        <value xsi:type="xsd:string"></value>
     </values>
     <values>
         <field>Single_Column__c</field>
-        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Outcome_Description__c&quot;}]</value>
+        <value xsi:type="xsd:string"></value>
     </values>
 </CustomMetadata>
