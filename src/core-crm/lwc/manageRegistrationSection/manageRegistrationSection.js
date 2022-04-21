@@ -95,6 +95,18 @@ export default class ManageRegistrationSection extends LightningElement {
         { label: 'Registration Status', fieldName: 'registrationStatus', type: 'text', sortable: true },
         { label: 'LMS Integration Status', fieldName: 'lmsIntegrationStatus', type: 'text', sortable: true },
         { label: 'Registration Questions', fieldName: 'applicationURL', sortable: true, type: 'url', typeAttributes: {label: 'View', target: '_blank'} },
+        {
+            type: 'button',
+            typeAttributes: {
+                label: 'Regenerate Invoice',
+                name: 'regenerate_invoice',
+                title: 'Regenerate Invoice',
+                disabled: false,
+                variant: 'brand',
+                class: {fieldName:'regenerateInvoiceButton'}
+            },
+            initialWidth: 200
+        }
     ];
 
     //Retrieves questionnaire data related to the product request
@@ -104,7 +116,14 @@ export default class ManageRegistrationSection extends LightningElement {
         this.isLoading = true;
         this.tableData = result;
         if(result.data){
-            this.records = result.data;
+            this.records = result.data.map(data => {
+                return {
+                    ...data,
+                    regenerateInvoiceButton: 
+                        data.isGroupRegistered ?
+                        'slds-show slds-text-align_center' : 'slds-hide'
+                }
+            });
             this.contactList = result.data.map(item => {
                 return item.contactId;
             });

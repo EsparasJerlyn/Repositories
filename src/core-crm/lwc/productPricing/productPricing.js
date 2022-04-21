@@ -22,7 +22,7 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import LWC_Error_General from '@salesforce/label/c.LWC_Error_General';
 import { loadStyle } from 'lightning/platformResourceLoader';
 import customDataTableStyle from '@salesforce/resourceUrl/CustomDataTable';
-import { createRecord } from 'lightning/uiRecordApi';
+import { createRecord, updateRecord } from 'lightning/uiRecordApi';
 import promotionId from '@salesforce/schema/Promotion.Id';
 import promotionName from '@salesforce/schema/Promotion.Name';
 import promotionDescription from '@salesforce/schema/Promotion.Description';
@@ -112,6 +112,7 @@ const columns = [
     }
 ];
 
+const GROUP_BOOKING = 'Group Booking';
 export default class ProductPricing extends NavigationMixin(LightningElement) {
 
     priceBookEntryRecords = [];
@@ -521,9 +522,8 @@ export default class ProductPricing extends NavigationMixin(LightningElement) {
                 //calculate all list prices of non standard with discounts
                 recordToUpsertTemp = this.calculateListPrices(recordToUpsertTemp);
             }
-
             upsertPricebookEntries({pbToUpsert:recordToUpsertTemp.map(key => { 
-                delete key.RowId; 
+                delete key.RowId;
                 if(key.Discount__c){
                     key.Discount__c = key.Discount__c.includes('%')?parseInt(key.Discount__c.slice(0,-1)):parseInt(key.Discount__c);
                 }
@@ -531,6 +531,15 @@ export default class ProductPricing extends NavigationMixin(LightningElement) {
             })})
             .then(()=>{
                 this.isLoading = true;
+                let groupBookingIdUnsaved = this.priceBooks.find(pb => pb.Name == GROUP_BOOKING)?.Id;
+                let groupBookingIdSaved = this.formattedPricebookEntries.find(pbEntry => pbEntry.PricebookServerName == GROUP_BOOKING)?.Pricebook2Id;
+                let groupBookingId = groupBookingIdUnsaved ? groupBookingIdUnsaved : groupBookingIdSaved;
+                if(groupBookingId){
+                    let groupBookingToUpsert = recordToUpsertTemp.find(record => record.Pricebook2Id == groupBookingId);
+                    if(groupBookingToUpsert){
+                        this.updateProductGroupRegistration(groupBookingToUpsert.IsActive);
+                    }
+                }
                 refreshApex(this.pbEntries)
                 .finally(()=>{
                     this.standardListPriceChanged = false;
@@ -542,12 +551,30 @@ export default class ProductPricing extends NavigationMixin(LightningElement) {
                 });
             })
             .catch((error)=>{
-                console.log(error);
                 this.generateToast('Error.',LWC_Error_General,'error');
             })
         }
     } 
     
+    /**
+     * updates Is Group Registration Available field of product to true
+     * if Group Booking pricebook has been added
+     */
+    updateProductGroupRegistration(isGroupBookingActive){
+        let fields = {
+            Id : this.productId,
+            Is_Group_Booking_Active__c : isGroupBookingActive,
+            Is_Group_Registration_Available__c : isGroupBookingActive
+        };
+        const recordInput = { fields };
+        updateRecord(recordInput)
+        .then(() => {
+        })
+         .catch((error) => {
+            this.generateToast("Error.", LWC_Error_General, "error");
+        });
+    }
+
     /*
     *calculates the discounted unit price of non standard pricebook entries
     */
@@ -739,7 +766,6 @@ export default class ProductPricing extends NavigationMixin(LightningElement) {
                 this.addNewPriceBookToSelection(newSelection);
             }
         }).catch(error => {
-            console.log(error);
             this.generateToast('Error.',LWC_Error_General,'error');
         })
         

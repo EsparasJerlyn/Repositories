@@ -79,7 +79,7 @@ public with sharing class ManageRegistrationSectionCtrl {
           List<hed__Course_Enrollment__c > courseConnections = [
                SELECT Id, Name, hed__Contact__c, hed__Contact__r.Name, Pricing_Validation__c, hed__Course_Offering__c, 
                     Paid_in_Full__c, hed__Status__c, LMS_Integration_Status__c, hed__Contact__r.FirstName, hed__Contact__r.LastName, 
-                    hed__Contact__r.Birthdate, hed__Contact__r.Email, Payment_Method__c, Cart_Item__r.Pricebook_Entry_ID__c
+                    hed__Contact__r.Birthdate, hed__Contact__r.Email, Payment_Method__c, Cart_Item__r.Pricebook_Entry_ID__c, Is_Group_Registered__c
                  FROM hed__Course_Enrollment__c
                 WHERE hed__Course_Offering__c =: childRecordId AND RecordTypeId =: studentRecTypeId
           ];
@@ -110,7 +110,8 @@ public with sharing class ManageRegistrationSectionCtrl {
                regDetails.contactLastName = student.hed__Contact__r.LastName;
                regDetails.contactBirthdate = student.hed__Contact__r.Birthdate;
                regDetails.contactEmail = student.hed__Contact__r.Email;
-               regDetails.paymentMethod = student.Payment_Method__c;               
+               regDetails.paymentMethod = student.Payment_Method__c;
+               regDetails.isGroupRegistered = student.Is_Group_Registered__c;       
                if(studentWithPricingMap.containsKey(student.hed__Contact__c)){
                     regDetails.selectedPricing = studentWithPricingMap.get(student.hed__Contact__c);
                }                               
@@ -416,6 +417,8 @@ public with sharing class ManageRegistrationSectionCtrl {
           public String applicationName;
           @AuraEnabled
           public String applicationURL;
+          @AuraEnabled
+          public Boolean isGroupRegistered;
           @AuraEnabled
           public String pricingValidation;
           @AuraEnabled

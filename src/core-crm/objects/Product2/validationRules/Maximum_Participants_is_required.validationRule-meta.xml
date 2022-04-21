@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Maximum_Participants_is_required</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+ Is_Group_Registration_Available__c = true,
+ ISBLANK( Maximum_Participants_Group__c ) 
+)</errorConditionFormula>
+    <errorDisplayField>Maximum_Participants_Group__c</errorDisplayField>
+    <errorMessage>Maximum Participants (Group) is required</errorMessage>
+</ValidationRule>

@@ -3011,6 +3011,26 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Product2.Is_Group_Booking_Active__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Product2.Is_Group_Registration_Available__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Product2.Maximum_Participants_Group__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Product2.Minimum_Participants_Group__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Financial_Split__c.Account_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3082,6 +3102,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course_Enrollment__c.IsActive__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Course_Enrollment__c.Is_Group_Registered__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

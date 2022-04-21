@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_Group_Booking_Active__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>This is a hidden flag field to determine if Group Booking PriceBook has been added and is active under the Product Management tab of Product Request.</description>
+    <externalId>false</externalId>
+    <label>Is Group Booking Active</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>
