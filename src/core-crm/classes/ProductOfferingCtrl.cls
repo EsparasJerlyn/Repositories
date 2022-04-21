@@ -9,7 +9,7 @@
  *    | Developer                 | Date                  | JIRA         | Change Summary                                |
       |---------------------------|-----------------------|--------------|-----------------------------------------------|
       | angelika.j.s.galang       | February 8, 2022      | DEPP-1258    | Created file                                  | 
-      |                           |                       |              |                                               |
+      | roy.nino.s.regala         | April 20, 2022        | DEPP-2138    | Updated to enable user to search contacts     |
 */
 public with sharing class ProductOfferingCtrl {
     
@@ -97,6 +97,34 @@ public with sharing class ProductOfferingCtrl {
         }
 
         return facilitatorMap;
+    }
+
+    /**
+     * @description get list of contact searched 
+     * @param filterString - search string for filter
+     * @return list of contacts formatted for customSearch
+     */
+    @AuraEnabled(cacheable=true)
+    public static List<Map<String,String>> getSearchContacts(String filterString){
+        filterString = '%' + filterString + '%';
+        List<Map<String,String>> contactMap = new List<Map<String,String>>();
+        
+        for(Contact con : [
+            SELECT Id, Name, Email
+            FROM Contact
+            WHERE (
+                Name LIKE :filterString OR
+                Name = :filterString
+            )
+            LIMIT 15
+        ]){
+            contactMap.add(new Map<String,String>{
+                'id' => con.Id,
+                'label' => con.Name,
+                'meta' => con.Email
+            });
+        }
+        return contactMap;
     }
 
     /**

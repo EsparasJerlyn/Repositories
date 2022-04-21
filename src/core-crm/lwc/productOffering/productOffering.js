@@ -9,7 +9,7 @@
  *    | Developer                 | Date                  | JIRA         | Change Summary                                         |
       |---------------------------|-----------------------|--------------|--------------------------------------------------------|
       | angelika.j.s.galang       | February 8, 2022      | DEPP-1258    | Created file                                           | 
-      |                           |                       |              |                                                        |
+      | roy.nino.s.regala         | April, 20, 2022       | DEPP-2318    | Added option to add new contact/facilitator            |
 */
 import { LightningElement, api, wire, track } from 'lwc';
 import { getRecord, getFieldValue, createRecord, updateRecord } from 'lightning/uiRecordApi';
@@ -39,6 +39,8 @@ import getProductOfferingData from "@salesforce/apex/ProductOfferingCtrl.getProd
 import getTermId from "@salesforce/apex/ProductOfferingCtrl.getTermId";
 import updateCourseConnections from "@salesforce/apex/ProductOfferingCtrl.updateCourseConnections";
 import getOfferingLayout from '@salesforce/apex/ProductOfferingCtrl.getOfferingLayout';
+import getSearchContacts from "@salesforce/apex/ProductOfferingCtrl.getSearchContacts";
+
 
 const DATE_OPTIONS = { year: 'numeric', month: 'short', day: '2-digit' };
 const PROGRAM_OFFERING_FIELDS = 'Id,Delivery_Type__c,Start_Date__c,End_Date__c,IsActive__c,CreatedDate';
@@ -65,6 +67,19 @@ export default class ProductOffering extends LightningElement {
     childOfPrescribedProgram = false;
     prePopulatedFields = {};
     parentRecord;
+    newFacilitatorBio;
+    objectLabel;
+
+    //custom contact lookup variables
+    contactSearchItems = [];
+    showContactError = false;
+    searchContactInProgress = false;
+    selectedContactId;
+    saveInProgress;
+    objectLabelName = 'Facilitator';
+    contactName = '';
+    contactEmail = '';
+    
 
 
     //decides if user has access to this feature
@@ -141,7 +156,6 @@ export default class ProductOffering extends LightningElement {
             this.parentRecord = this.offeringResult.data.parentRecord;
             this.productOfferings = this.formatOfferingData(this.offeringResult.data);
         }else if(result.error){
-            console.log(result.error);
             this.generateToast('Error.',LWC_Error_General,'error');
         }
     }
@@ -295,6 +309,10 @@ export default class ProductOffering extends LightningElement {
         refreshApex(this.offeringResult)
         .then(() => {
             this.isLoading = false;
+        })
+        .finally(()=>{
+            this.isLoading = false;
+            this.saveInProgress = false;
         });
     }
 
@@ -311,9 +329,20 @@ export default class ProductOffering extends LightningElement {
 
     //opens create modal for facilitator
     handleAddFacilitator(event){
-        this.newRecord = true;
+        if(event && event.detail){
+            this.parentIdToCreate =event.detail;
+        }
+        this.newFacilitatorBio = true;
+
+        this.objectLabel = 'Contact';
         this.objectToCreate = FACILITATOR_BIO.objectApiName;
-        this.parentIdToCreate = event.detail;
+    }
+
+    //handle creation of new contact modal
+    handleNewContact(){
+        this.newRecord = true;
+        this.objectToCreate = 'Contact';
+        this.newFacilitatorBio = false;
     }
 
     //opens create modal for session
@@ -341,17 +370,65 @@ export default class ProductOffering extends LightningElement {
         })
     }
 
+    //handle submission of facilitator bio details
+    handleSubmitFacilitator(event){
+        event.preventDefault();
+        let fields = event.detail.fields;
+        if(!this.selectedContactId){
+            this.showOwnerError = true;
+        }else{
+            this.handleSaveRecord(fields);
+        }
+    }
+
+    //sets selected contact id
+    handleContactSelect(event){
+        this.showContactError = false;
+        this.selectedContactId = event.detail.value;
+    }
+
+    //removes selected contact
+    handleContactRemove(){
+        this.selectedContactId = undefined;
+        this.contactSearchItems = [];
+    }
+
+    //returns list of contacts based on input
+    handleContactSearch(event){
+        this.searchContactInProgress = true;
+        getSearchContacts({ filterString: event.detail.filterString })
+        .then(result =>{
+            this.contactSearchItems = result;
+        })
+        .finally(()=>{
+            this.searchContactInProgress = false;
+        })
+        .catch(error =>{
+            this.generateToast('Error.',LWC_Error_General,'error');
+        });
+    }
+
+
     //handles field assignments before committing to the database
     async handleSaveRecord(event){
+        this.saveInProgress = true;
         let fields = {...event.detail};
+        if(fields.FirstName && fields.LastName){
+            this.objectToCreate = 'Contact';
+            this.contactName = fields.FirstName + ' ' + fields.LastName;
+            this.contactEmail = fields.Email;
+        }
         if(this.objectToCreate == FACILITATOR_BIO.objectApiName){
+            fields.Facilitator__c = this.selectedContactId;
             const recordInput = { apiName: FACILITATOR_BIO.objectApiName, fields };
             try{
                 const createdFaci = await createRecord(recordInput);
                 fields.Id = createdFaci.id;
                 this.handleCreateCourseConnection(fields);
+                this.handleCloseNewBio();
             }catch(error){
                 this.generateToast("Error.", LWC_Error_General, "error");
+                this.handleCloseNewBio();
             }
         }else{
             if(this.objectToCreate == COURSE_OFFERING.objectApiName){
@@ -424,7 +501,18 @@ export default class ProductOffering extends LightningElement {
     handleCloseRecord(){
         this.newRecord = false;
         this.prePopulatedFields = {};
+        if(this.objectToCreate == 'Contact'){
+            this.handleAddFacilitator();
+        }
     }
+
+    handleCloseNewBio(){
+        this.newFacilitatorBio = false;
+        this.showContactError = false;
+        this.saveInProgress = false;
+        this.selectedContactId = '';
+    }
+
 
     //saves record into the database
     handleCreateRecord(fieldsToCreate,objectType,updateOffering){
@@ -442,12 +530,28 @@ export default class ProductOffering extends LightningElement {
                 };
                 this.handleUpdateRecord(offeringFields);
            }
+
+           if(objectType == 'Contact'){
+               this.selectedContactId = record.id;
+               let item = {};
+               item.id = record.id;
+               item.label = this.contactName;
+               item.meta  = this.contactEmail;
+               this.contactSearchItems.push(item);
+           }
         })
         .catch(error => {
             this.generateToast('Error.',LWC_Error_General,'error');
         })
         .finally(() => {
-            this.handleRefreshData();
+            if(objectType == 'Contact'){
+               this.handleCloseRecord();
+               this.isLoading = false;
+               this.saveInProgress = false;
+            }else{
+                this.handleRefreshData();
+            }
+            
         });
     }
 

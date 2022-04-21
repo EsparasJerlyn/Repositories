@@ -9,6 +9,70 @@
             record-for-ope
         ></c-custom-create-edit-record>
     </template>
+    <template if:true={newFacilitatorBio}>
+        <!-- Modal/Popup Box LWC starts here -->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={handleCloseNewBio}>
+                        <lightning-icon icon-name="utility:close"
+                            alternative-text="close"
+                            variant="inverse"
+                            size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Create Facilitator Bio</h2>
+                </header>
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <div class="slds-p-around_medium slds-is-relative">
+                        <lightning-spinner if:true={saveInProgress} alternative-text="Loading" size="small"></lightning-spinner>
+                        <lightning-record-edit-form
+                            object-api-name={objectToCreate}
+                            onerror={handleRecordError}
+                            onsubmit={handleSubmitFacilitator}>
+                                <c-custom-search
+                                search-label="Facilitor"
+                                search-input-placeholder="Search Facilitators..."
+                                search-items={contactSearchItems}
+                                search-item-icon="standard:contact"
+                                item-id={selectedContactId}
+                                empty-message="Enter at least three (3) characters to show results..."
+                                search-in-progress={searchContactProgress}
+                                onitemselect={handleContactSelect}
+                                onitemremove={handleContactRemove}
+                                onsearch={handleContactSearch}
+                                custom-lookup
+                                custom-server-search
+                                oncreate={handleNewContact}
+                                required
+                                object-label-name={objectLabelName}
+                                new-record-available
+                                ></c-custom-search>
+                            <span
+                                if:true={showContactError}
+                                class="slds-text-body_small slds-text-color_destructive slds-m-left_small">
+                                Complete this field.
+                            </span>
+                            <lightning-input-field field-name='Professional_Bio__c' required></lightning-input-field>
+                            <div class="slds-float_right">
+                                <lightning-button 
+                                    data-name={offering}
+                                    label="Save"
+                                    variant="brand"
+                                    type="submit"
+                                    class="slds-p-top_x-large slds-m-top_x-medium slds-float_right"
+                                    disabled={saveInProgress}
+                                ></lightning-button>
+                            </div>
+                        </lightning-record-edit-form>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
     <lightning-spinner if:true={isLoading} alternative-text="Loading..." size="small"></lightning-spinner> 
     <div if:false={hasAccess} class="slds-text-align_center slds-p-around_large">
         <p><strong>You don't have access to this feature.</strong></p>

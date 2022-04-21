@@ -51,6 +51,22 @@ public class ProductOfferingCtrlTest {
     }
 
     @isTest
+    static void getSearchedContactTest() {
+        System.runAs(currentUser){
+            Contact con = TestDataFactory.createTestContactRecords(1).iterator().next();
+            con.FirstName = 'Test';
+            con.LastName = 'Contact';
+            insert con;
+
+            Test.startTest();
+            List<Map<String,String>> contacts = ProductOfferingCtrl.getSearchContacts('test');
+            Test.stopTest();
+
+            System.assertEquals('Test Contact', contacts[0].get('label'),'Contact Name did not match as expected');
+        }
+    }
+
+    @isTest
     static void updateFacilitatorDataTest() {
         System.runAs(currentUser){
             Contact con = TestDataFactory.createTestContactRecords(1).iterator().next();
