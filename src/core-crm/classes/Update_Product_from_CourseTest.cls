@@ -34,7 +34,7 @@ private class Update_Product_from_CourseTest{
         System.runAs(currentUser){
             createCourse(opeActProdReqId);
             List<hed__Course__c> courses = [SELECT id, ProductRequestID__c, Core_Concepts__c,
-                                                hed__Description__c, End_Date__c, More_Details__c,
+                                                Description__c, End_Date__c, More_Details__c,
                                                 Name, Overview__c, Start_Date__c, Who_Should_Participate__c,
                                                 Evolve_with_QUTeX__c
                                             FROM hed__Course__c LIMIT 100];
@@ -60,7 +60,7 @@ private class Update_Product_from_CourseTest{
             System.assertEquals(courses.size(), products.size(), 'Product record must be created upon release of course in product request.');
             for(Integer i=0; i<numberOfRecords; i++){
                 System.assertEquals(courses[i].Core_Concepts__c, products[i].Core_Concepts__c, 'Core Concept must be the same.');
-                System.assertEquals(courses[i].hed__Description__c, products[i].Description, 'Description must be the same.');
+                System.assertEquals(courses[i].Description__c, products[i].Description, 'Description must be the same.');
                 System.assertEquals(courses[i].More_Details__c, products[i].More_Details__c, 'More Details must be the same.');
                 System.assertEquals(courses[i].Name, products[i].Name, 'Name must be the same.');
                 System.assertEquals(courses[i].Overview__c, products[i].Overview__c, 'Overview must be the same.');
@@ -158,7 +158,7 @@ private class Update_Product_from_CourseTest{
                 courses[i].Volume_of_Learning_hours__c = 2;
                 courses[i].Certificate_Type__c = 'Certificate of Achievement';
                 courses[i].Delivery_Type__c = 'Face to Face';
-                courses[i].hed__Description__c = 'test';
+                courses[i].Description__c = 'test';
                 courses[i].Primary_Delivery_Platform__c = 'Blackboard';
                 courses[i].Owning_Faculty__c = accounts[0].Id;
                 courses[i].Owning_School_Discipline_Area__c = accounts[0].Id;

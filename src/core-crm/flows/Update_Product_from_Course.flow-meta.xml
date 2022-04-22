@@ -158,7 +158,7 @@
         <inputAssignments>
             <field>Description</field>
             <value>
-                <elementReference>Get_Course.hed__Description__c</elementReference>
+                <elementReference>Get_Course.Description__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>

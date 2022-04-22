@@ -11,7 +11,7 @@
       | eugene.andrew.abuan            | March 22, 2022        | DEPP-1991              | Created file                 |
       |                                |                       |                        |                              |
  */
-trigger CartItemTrigger on CartItem (before insert) {
+trigger CartItemTrigger on CartItem (before insert, after insert, after delete, after update) {
     TriggerDispatcher.dispatch(
         TriggerHandlerFactory.getHandlersForSObjectType(
             'CartItem'

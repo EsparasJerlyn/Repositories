@@ -10,9 +10,9 @@
   RecordType.DeveloperName = &apos;Module&apos;
  ),
  ISPICKVAL( ProductRequestID__r.Product_Request_Status__c , &apos;Design&apos;),
- ISBLANK( hed__Description__c ),
+ ISBLANK( Description__c ),
  Mark_Design_Stage_as_Complete__c = true
 )</errorConditionFormula>
-    <errorDisplayField>hed__Description__c</errorDisplayField>
+    <errorDisplayField>Description__c</errorDisplayField>
     <errorMessage>“Description” is required to update the Product Request Status.</errorMessage>
 </ValidationRule>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Contentv2__c</fullName>
+    <fullName>Content__c</fullName>
+    <description>The content section is a brief statement of the major topics to be covered. Can be in bullet point format.</description>
     <externalId>false</externalId>
-    <inlineHelpText>The content section is a brief statement of the major topics to be covered. Can be in bullet point format.</inlineHelpText>
     <label>Content</label>
-    <length>131072</length>
+    <length>75000</length>
     <trackTrending>false</trackTrending>
-    <type>Html</type>
+    <type>LongTextArea</type>
     <visibleLines>25</visibleLines>
 </CustomField>

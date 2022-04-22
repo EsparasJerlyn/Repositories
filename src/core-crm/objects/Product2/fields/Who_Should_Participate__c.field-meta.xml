@@ -3,7 +3,7 @@
     <fullName>Who_Should_Participate__c</fullName>
     <externalId>false</externalId>
     <label>Who Should Participate?</label>
-    <length>2000</length>
+    <length>75000</length>
     <trackHistory>false</trackHistory>
     <type>Html</type>
     <visibleLines>25</visibleLines>

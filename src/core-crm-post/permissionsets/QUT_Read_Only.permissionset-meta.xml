@@ -868,6 +868,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>CartItem.Course_Offering__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>CartItem.Program_Offering__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Case.AccountId</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3287,6 +3297,16 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Product2.Description__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Product2.Product_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Product2.Product_Type__c</field>
         <readable>true</readable>
@@ -3749,6 +3769,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Program_Offering__c.Available_Seats__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Program_Offering__c.Checkout_Cart_Items_Count__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6507,6 +6532,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>hed__Course_Offering__c.Checkout_Cart_Items_Count__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>hed__Course_Offering__c.Administrative_Support__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6667,7 +6697,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>hed__Course__c.Contentv2__c</field>
+        <field>hed__Course__c.Content__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6822,7 +6852,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>hed__Course__c.Resource_Detailsv2__c</field>
+        <field>hed__Course__c.Resource_Details__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6877,7 +6907,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>hed__Course__c.hed__Description__c</field>
+        <field>hed__Course__c.Description__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

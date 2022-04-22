@@ -65,9 +65,6 @@
         <members>hed__Course__c.Start_Time__c</members>
         <members>hed__Course__c.Unit_Mode__c</members>
         <members>hed__Course__c.Volume_of_time__c</members>
-        <members>hed__Course__c.Content__c</members>
-        <members>hed__Course__c.Enrolment_Rules__c</members>
-        <members>hed__Course__c.Resource_Details__c</members>
         <members>hed__Course_Enrollment__c.Course_Connection_Value__c</members>
         <members>hed__Course_Enrollment__c.Program_Offering__c</members>
         <members>Session__c.Session_Name__c</members>
@@ -269,9 +266,9 @@
         <members>hed__Course__c.Start_Time__c</members>
         <members>hed__Course__c.Unit_Mode__c</members>
         <members>hed__Course__c.Volume_of_time__c</members>
-        <members>hed__Course__c.Content__c</members>
-        <members>hed__Course__c.Enrolment_Rules__c</members>
-        <members>hed__Course__c.Resource_Details__c</members>
+        <members>hed__Course__c.Contentv2__c</members>
+        <members>hed__Course__c.Enrolment_Rulesv2__c</members>
+        <members>hed__Course__c.Resource_Detailsv2__c</members>
         <members>Session__c.Session_Name__c</members>
         <members>hed__Course_Enrollment__c.Course_Connection_Value__c</members>
         <members>hed__Course_Enrollment__c.Program_Offering__c</members>
@@ -336,8 +333,8 @@
         <members>hed__Course__c.Resources_Required_is_required</members>
         <members>hed__Course__c.Search_Engine_desc_is_required</members>
         <members>hed__Course__c.Search_Terms</members>
-        <members>hed__Course__c.Content_is_required</members>
-        <members>hed__Course__c.Resource_Details_is_required</members>
+        <members>hed__Course__c.Contentv2_is_required</members>
+        <members>hed__Course__c.Resource_Detailsv2_is_required</members>
         <!--(Start) DEPP-2142 -->
         <members>hed__Course__c.Start_Date_is_Future_Date</members> 
         <members>hed__Program_Plan__c.Start_Date_is_Future_Date</members> 

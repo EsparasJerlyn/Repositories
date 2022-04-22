@@ -946,6 +946,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>CartItem.Course_Offering__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>CartItem.Program_Offering__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Contact.ATSI_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2516,7 +2526,7 @@
     </fieldPermissions>
      <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Course__c.Enrolment_Rulesv2__c</field>
+        <field>hed__Course__c.Enrolment_Rules__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2646,7 +2656,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Course__c.hed__Description__c</field>
+        <field>hed__Course__c.Description__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2666,7 +2676,7 @@
     </fieldPermissions>
 	<fieldPermissions>
         <editable>true</editable>
-        <field>hed__Course__c.Contentv2__c</field>
+        <field>hed__Course__c.Content__c</field>
         <readable>true</readable>
     </fieldPermissions>
 	<fieldPermissions>
@@ -2721,7 +2731,7 @@
     </fieldPermissions>
 	<fieldPermissions>
         <editable>true</editable>
-        <field>hed__Course__c.Resource_Detailsv2__c</field>
+        <field>hed__Course__c.Resource_Details__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2757,6 +2767,16 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Product2.Certificate_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Product2.Description__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Product2.Product_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3156,6 +3176,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>hed__Course_Offering__c.Checkout_Cart_Items_Count__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>hed__Course_Offering__c.Administrative_Support__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3362,6 +3387,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Program_Offering__c.End_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Program_Offering__c.Checkout_Cart_Items_Count__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4601,6 +4631,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>WebCart.External_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>WebCart.Payment_URL__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>WebCart.Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

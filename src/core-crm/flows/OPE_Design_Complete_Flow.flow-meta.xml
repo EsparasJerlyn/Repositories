@@ -110,7 +110,7 @@
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>$Record.hed__Description__c</leftValueReference>
+                <leftValueReference>$Record.Description__c</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>

@@ -210,7 +210,7 @@ private class OPE_Design_Complete_FlowTest{
                 course.Volume_of_Learning_hours__c = 2;
                 course.Certificate_Type__c = 'Certificate of Achievement';
                 course.Delivery_Type__c = 'Face to Face';
-                course.hed__Description__c = 'test';
+                course.Description__c = 'test';
                 course.Primary_Delivery_Platform__c = 'Blackboard';
                 course.Owning_Faculty__c = accounts[0].Id;
                 course.Owning_School_Discipline_Area__c = accounts[0].Id;

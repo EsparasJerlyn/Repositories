@@ -1,0 +1,76 @@
+/**
+ * @description Test Class for Update Product Code Flow
+ *
+ * @see ../flows/Update_Product_Code_Flow
+ *
+ * @author Accenture
+ *
+ * @history
+ *    | Developer                 | Date                  | JIRA         | Change Summary                              |
+      |---------------------------|-----------------------|--------------|---------------------------------------------|
+      | arsenio.jr.dayrit         | April 07, 2022        | DEPP-2057    | Created file                                |
+      |                           |                       |              |                                             | 
+      |                           |                       |              |                                             | 
+*/
+@IsTest(SeeAllData = false)
+private class UpdateProductCodeFlowTest{
+    private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
+    private static Integer numberOfRecords = 10; 
+  
+    @isTest
+    private static void updateProductCodeTest(){
+        System.runAs(currentUser){
+
+            List<Account> accounts;
+            accounts = TestDataFactory.createTestAccountRecords(1);
+            insert accounts;
+
+            List<Contact> contacts;
+            contacts = TestDataFactory.createTestContactRecords(1);
+            insert contacts;
+            
+            List<Opportunity> opps;
+            opps = TestDataFactory.createTestOpportunityRecords(1,accounts[0].Id,contacts[0].Id);
+            insert opps;
+
+            List<Product_Specification__c> productSpecs;
+            productSpecs = TestDataFactory.createTestProductSpecsRecords(1,contacts,opps);
+            insert productSpecs;
+            
+            List<Product_Request__c> prodRequestOPEProgramRequest;
+            prodRequestOPEProgramRequest = TestDataFactory.createTestProductRequestRecords(1,productSpecs[0].Id);
+            insert prodRequestOPEProgramRequest;
+        
+            List<hed__Program_Plan__c> programPlanList;
+            programPlanList = TestDataFactory.createTestProgramPlanRecords(1);
+            insert programPlanList;
+            
+            List<Product_Request__c> prodRequest;
+            prodRequest = TestDataFactory.createTestProductRequestRecords(1,productSpecs[0].Id);
+            insert prodRequest;
+            
+
+            List<hed__Course__c> courses;
+            courses = TestDataFactory.createTestCourseRecords(numberOfRecords,accounts[0].Id,prodRequest[0].Id);
+            insert courses;
+
+
+           List<Product2> products = TestDataFactory.createTestProductRecords(numberOfRecords, courses);
+           for(Integer i = 0 ; i > products.size() ; i++){
+                products[i].Course__c = courses[i].id;
+                products[i].ProductCode = 'Test'+i;
+           }
+
+           Test.startTest();
+           insert products;
+           Test.stopTest();
+
+           List<Product2> prodRec = [SELECT Id, Name, Product_Code__c, ProductCode FROM Product2 LIMIT 100];
+           for(Product2 checkProd : prodRec){
+           System.assertEquals(checkProd.Product_Code__c, checkProd.ProductCode, 'custom product code must be the same with standard product code');
+           }
+
+
+        }
+    }
+}
