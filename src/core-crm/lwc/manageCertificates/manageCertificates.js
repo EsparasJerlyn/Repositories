@@ -178,6 +178,8 @@ export default class ManageCertificates extends NavigationMixin(LightningElement
                 this.generateToast(SUCCESS_TITLE, 'Email Sent', SUCCESS_VARIANT);
             }else if(result == 'No Certificate Type'){
                 this.generateToast(ERROR_TITLE, NO_CERT_TYPE, ERROR_VARIANT);
+            }else{
+                this.generateToast(ERROR_TITLE, LWC_Error_General, ERROR_VARIANT);
             }
         }).catch(error => {
             console.error('Error: ' + JSON.stringify(error));

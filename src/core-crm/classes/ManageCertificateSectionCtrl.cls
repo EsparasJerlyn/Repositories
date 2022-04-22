@@ -156,7 +156,7 @@ public with sharing class ManageCertificateSectionCtrl {
 
                EmailTemplate coverTemplate = getEmailTemplate('Send Certificate');   
                EmailTemplate attachTemplate = getEmailTemplate(type);
-
+               Study_Store_URL_Settings__c storeLinkSettings = Study_Store_URL_Settings__c.getOrgDefaults();
                if(coverTemplate != null){                    
                     List<Messaging.SingleEmailMessage> emailList = new List<Messaging.SingleEmailMessage>();
                     Map <Id, ContentVersion> pdfContentMap = new Map <Id, ContentVersion>();
@@ -164,8 +164,8 @@ public with sharing class ManageCertificateSectionCtrl {
                          ManageCertificateDetails certDetails = dataMap.get(id);
                          String mailSubject = 'QUTeX - ' + certDetails.courseName;
                          Map<String, String> coverEmailParams = new Map<String, String> {
-                              '{coursename}' => certDetails.courseName,  
-                              '{name}' => certDetails.contactFullName
+                              '{name}' => certDetails.contactFullName,
+                              '{storeLink}' => String.valueOf(storeLinkSettings.Study_Store_Link__c)
                          };
                          pdfContentMap.putAll(createPDF(id, certDetails, attachTemplate));
                          Blob pdfContent = pdfContentMap.get(id).VersionData;

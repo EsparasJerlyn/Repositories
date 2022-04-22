@@ -35,6 +35,8 @@ public with sharing class ManageCertificateSectionCtrlTest {
     @IsTest
     static void sendEmailTest(){        
         System.runAs(currentUser){               
+            Study_Store_URL_Settings__c studyStore = new Study_Store_URL_Settings__c(Study_Store_Link__c = 'https://studystorelinktest.com/');
+            insert studyStore;
             createRecord(opeActProdReqRecType);  
             String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;     
             String offeringId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;    
