@@ -157,6 +157,7 @@
     <nameField>
         <displayFormat>MCA - {000000000}</displayFormat>
         <label>Name</label>
+        <securityClassification>Official</securityClassification>
         <trackHistory>false</trackHistory>
         <type>AutoNumber</type>
     </nameField>
