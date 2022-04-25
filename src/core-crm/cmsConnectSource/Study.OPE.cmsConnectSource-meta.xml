@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CMSConnectSource xmlns="http://soap.sforce.com/2006/04/metadata">
+  <connectionType>Public</connectionType>
+  <developerName>OPE</developerName>
+  <languageEnabled>N</languageEnabled>
+  <masterLabel>QUT</masterLabel>
+  <personalizationEnabled>N</personalizationEnabled>
+  <sortOrder>1</sortOrder>
+  <status>ACTIVE</status>
+  <type>Other</type>
+  <websiteUrl>https://www.qut.edu.au</websiteUrl>
+</CMSConnectSource>
