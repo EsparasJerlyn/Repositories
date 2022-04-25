@@ -4,7 +4,7 @@
     <description>From Courseloop - can&apos;t be overwritten for Curriculum record types</description>
     <externalId>false</externalId>
     <label>Core Concepts</label>
-    <length>20000</length>
+    <length>1000</length>
     <trackTrending>false</trackTrending>
     <type>LongTextArea</type>
     <visibleLines>25</visibleLines>

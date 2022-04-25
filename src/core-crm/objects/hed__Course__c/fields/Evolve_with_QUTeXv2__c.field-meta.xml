@@ -3,7 +3,7 @@
     <fullName>Evolve_with_QUTeXv2__c</fullName>
     <externalId>false</externalId>
     <label>Evolve with QUTeX</label>
-    <length>10000</length>
+    <length>1000</length>
     <trackTrending>false</trackTrending>
     <type>LongTextArea</type>
     <visibleLines>25</visibleLines>
