@@ -253,8 +253,8 @@ public class TestDataFactory {
           Maximum_Participants__c = 100,
           Delivery_Support_v2__c = 'Others',
           Delivery_Comments__c = 'test',
-          Core_Concepts__c = 'test',
-          Overview__c = 'test',
+          Core_Conceptsv2__c = 'test',
+          Overviewv2__c = 'test',
           Owning_Faculty__c = accId
         )
       );

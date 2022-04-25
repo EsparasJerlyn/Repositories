@@ -33,10 +33,10 @@ private class Update_Product_from_CourseTest{
     private static void createProductFromCourseTest(){
         System.runAs(currentUser){
             createCourse(opeActProdReqId);
-            List<hed__Course__c> courses = [SELECT id, ProductRequestID__c, Core_Concepts__c,
-                                                Description__c, End_Date__c, More_Details__c,
-                                                Name, Overview__c, Start_Date__c, Who_Should_Participate__c,
-                                                Evolve_with_QUTeX__c
+            List<hed__Course__c> courses = [SELECT id, ProductRequestID__c, Core_Conceptsv2__c,
+                                                Description__c, End_Date__c, More_Detailsv2__c,
+                                                Name, Overviewv2__c, Start_Date__c, Who_Should_Participatev2__c,
+                                                Evolve_with_QUTeXv2__c
                                             FROM hed__Course__c LIMIT 100];
 
             for(hed__Course__c course : courses){
@@ -59,13 +59,13 @@ private class Update_Product_from_CourseTest{
             Test.stopTest();
             System.assertEquals(courses.size(), products.size(), 'Product record must be created upon release of course in product request.');
             for(Integer i=0; i<numberOfRecords; i++){
-                System.assertEquals(courses[i].Core_Concepts__c, products[i].Core_Concepts__c, 'Core Concept must be the same.');
+                System.assertEquals(courses[i].Core_Conceptsv2__c, products[i].Core_Concepts__c, 'Core Concept must be the same.');
                 System.assertEquals(courses[i].Description__c, products[i].Description, 'Description must be the same.');
-                System.assertEquals(courses[i].More_Details__c, products[i].More_Details__c, 'More Details must be the same.');
+                System.assertEquals(courses[i].More_Detailsv2__c, products[i].More_Details__c, 'More Details must be the same.');
                 System.assertEquals(courses[i].Name, products[i].Name, 'Name must be the same.');
-                System.assertEquals(courses[i].Overview__c, products[i].Overview__c, 'Overview must be the same.');
-                System.assertEquals(courses[i].Who_Should_Participate__c, products[i].Who_Should_Participate__c, 'Who Should Participate must be the same.');
-                System.assertEquals(courses[i].Evolve_with_QUTeX__c, products[i].Evolve_with_QUTeX__c, 'Evolve with QUTeX must be the same.');
+                System.assertEquals(courses[i].Overviewv2__c, products[i].Overview__c, 'Overview must be the same.');
+                System.assertEquals(courses[i].Who_Should_Participatev2__c, products[i].Who_Should_Participate__c, 'Who Should Participate must be the same.');
+                System.assertEquals(courses[i].Evolve_with_QUTeXv2__c, products[i].Evolve_with_QUTeX__c, 'Evolve with QUTeX must be the same.');
                 System.assertEquals(courses[i].Start_Date__c, products[i].Start_Date__c, 'Start Date must be the same.');
                 System.assertEquals(courses[i].End_Date__c, products[i].End_Date__c, 'End Date must be the same.');
 
@@ -162,7 +162,7 @@ private class Update_Product_from_CourseTest{
                 courses[i].Primary_Delivery_Platform__c = 'Blackboard';
                 courses[i].Owning_Faculty__c = accounts[0].Id;
                 courses[i].Owning_School_Discipline_Area__c = accounts[0].Id;
-                courses[i].Overview__c = 'test';
+                courses[i].Overviewv2__c = 'test';
                 courses[i].Location__c = facility.Id;
                 courses[i].Location_Details__c = 'test';
                 courses[i].Minimum_Participants__c = 1;

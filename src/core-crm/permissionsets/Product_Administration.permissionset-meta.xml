@@ -1814,7 +1814,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Course__c.Core_Concepts__c</field>
+        <field>hed__Course__c.Core_Conceptsv2__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1850,6 +1850,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course__c.Delivery_Comments__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Course__c.Delivery_Support_v2__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1899,11 +1904,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Course__c.Core_Concepts__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>hed__Course__c.Course_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1924,11 +1924,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Course__c.Delivery_Support_v2__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>hed__Course__c.Delivery_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1944,7 +1939,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Course__c.Evolve_with_QUTeX__c</field>
+        <field>hed__Course__c.Evolve_with_QUTeXv2__c</field>
         <readable>true</readable>
     </fieldPermissions>    
     <fieldPermissions>
@@ -2019,7 +2014,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Course__c.More_Details__c</field>
+        <field>hed__Course__c.More_Detailsv2__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2034,12 +2029,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Course__c.Other_Content_Delivery_Location__c</field>
+        <field>hed__Course__c.Other_Content_Delivery_Locationv2__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Course__c.Overview__c</field>
+        <field>hed__Course__c.Overviewv2__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2114,7 +2109,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Course__c.Who_Should_Participate__c</field>
+        <field>hed__Course__c.Who_Should_Participatev2__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

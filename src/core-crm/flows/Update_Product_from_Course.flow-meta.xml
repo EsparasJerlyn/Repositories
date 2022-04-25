@@ -152,7 +152,7 @@
         <inputAssignments>
             <field>Core_Concepts__c</field>
             <value>
-                <elementReference>Get_Course.Core_Concepts__c</elementReference>
+                <elementReference>Get_Course.Core_Conceptsv2__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -170,13 +170,13 @@
         <inputAssignments>
             <field>Evolve_with_QUTeX__c</field>
             <value>
-                <elementReference>Get_Course.Evolve_with_QUTeX__c</elementReference>
+                <elementReference>Get_Course.Evolve_with_QUTeXv2__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
             <field>More_Details__c</field>
             <value>
-                <elementReference>Get_Course.More_Details__c</elementReference>
+                <elementReference>Get_Course.More_Detailsv2__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -188,7 +188,7 @@
         <inputAssignments>
             <field>Overview__c</field>
             <value>
-                <elementReference>Get_Course.Overview__c</elementReference>
+                <elementReference>Get_Course.Overviewv2__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -200,7 +200,7 @@
         <inputAssignments>
             <field>Who_Should_Participate__c</field>
             <value>
-                <elementReference>Get_Course.Who_Should_Participate__c</elementReference>
+                <elementReference>Get_Course.Who_Should_Participatev2__c</elementReference>
             </value>
         </inputAssignments>
         <object>Product2</object>

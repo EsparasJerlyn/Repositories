@@ -266,9 +266,18 @@
         <members>hed__Course__c.Start_Time__c</members>
         <members>hed__Course__c.Unit_Mode__c</members>
         <members>hed__Course__c.Volume_of_time__c</members>
+        <!-- DEPP-2057 start -->
         <members>hed__Course__c.Contentv2__c</members>
         <members>hed__Course__c.Enrolment_Rulesv2__c</members>
         <members>hed__Course__c.Resource_Detailsv2__c</members>
+        <members>hed__Course__c.Core_Concepts__c</members>
+        <members>hed__Course__c.Evolve_with_QUTeX__c</members>
+        <members>hed__Course__c.More_Details__c</members>
+        <members>hed__Course__c.Overview__c</members>
+        <members>hed__Course__c.Who_Should_Participate__c</members>
+        <members>hed__Course__c.Outcome__c</members>
+        <members>hed__Course__c.Other_Content_Delivery_Location__c</members>
+        <!-- DEPP-2057 end -->
         <members>Session__c.Session_Name__c</members>
         <members>hed__Course_Enrollment__c.Course_Connection_Value__c</members>
         <members>hed__Course_Enrollment__c.Program_Offering__c</members>
@@ -335,6 +344,8 @@
         <members>hed__Course__c.Search_Terms</members>
         <members>hed__Course__c.Contentv2_is_required</members>
         <members>hed__Course__c.Resource_Detailsv2_is_required</members>
+        <members>hed__Course__c.Core_Concepts_is_Required</members><!-- DEPP-2057 -->
+        <members>hed__Course__c.Overview_is_Required</members><!-- DEPP-2057 -->
         <!--(Start) DEPP-2142 -->
         <members>hed__Course__c.Start_Date_is_Future_Date</members> 
         <members>hed__Program_Plan__c.Start_Date_is_Future_Date</members> 

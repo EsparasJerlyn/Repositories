@@ -52,11 +52,11 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Overview__c</field>
+                <field>Overviewv2__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Core_Concepts__c</field>
+                <field>Core_Conceptsv2__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -96,7 +96,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Outcome__c</field>
+                <field>Outcomev2__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -146,7 +146,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Other_Content_Delivery_Location__c</field>
+                <field>Other_Content_Delivery_Locationv2__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -162,11 +162,11 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Who_Should_Participate__c</field>
+                <field>Who_Should_Participatev2__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>More_Details__c</field>
+                <field>More_Detailsv2__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

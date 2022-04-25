@@ -103,19 +103,19 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Overview__c</field>
+                <field>Overviewv2__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Evolve_with_QUTeX__c</field>
+                <field>Evolve_with_QUTeXv2__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Who_Should_Participate__c</field>
+                <field>Who_Should_Participatev2__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Core_Concepts__c</field>
+                <field>Core_Conceptsv2__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -123,7 +123,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>More_Details__c</field>
+                <field>More_Detailsv2__c</field>
             </layoutItems>
         </layoutColumns>
         <style>OneColumn</style>
@@ -136,15 +136,14 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Previously_Developed_Content__c</field>
+                <field>Content__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Content__c</field>
+                <field>Previously_Developed_Content__c</field>
             </layoutItems>
         </layoutColumns>
-        <layoutColumns/>
-        <style>TwoColumnsLeftToRight</style>
+        <style>OneColumn</style>
     </layoutSections>
     <layoutSections>
         <customLabel>true</customLabel>
@@ -154,7 +153,7 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Delivery_Support_v2__c</field>
+                <field>Delivery_Support__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -239,7 +238,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h9h0000000w41</masterLabel>
+        <masterLabel>00h9r0000001Xdg</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

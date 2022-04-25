@@ -214,7 +214,7 @@ private class OPE_Design_Complete_FlowTest{
                 course.Primary_Delivery_Platform__c = 'Blackboard';
                 course.Owning_Faculty__c = accounts[0].Id;
                 course.Owning_School_Discipline_Area__c = accounts[0].Id;
-                course.Overview__c = 'test';  
+                course.Overviewv2__c = 'test';  
                 course.Minimum_Participants__c = 1;
                 course.Maximum_Participants__c = 10;
                 course.Location__c = facility.Id;
