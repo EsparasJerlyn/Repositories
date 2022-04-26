@@ -373,11 +373,14 @@ export default class ProductOffering extends LightningElement {
     //handle submission of facilitator bio details
     handleSubmitFacilitator(event){
         event.preventDefault();
-        let fields = event.detail.fields;
+        let eventObj = {
+            detail:event.detail.fields
+        };
+
         if(!this.selectedContactId){
             this.showOwnerError = true;
         }else{
-            this.handleSaveRecord(fields);
+            this.handleSaveRecord(eventObj);
         }
     }
 
