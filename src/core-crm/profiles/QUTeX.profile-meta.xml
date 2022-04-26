@@ -72,8 +72,8 @@
         <recordType>Account.Business_Organization</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Account-Account Layout</layout>
-        <recordType>Account.HH_Account</recordType>
+        <layout>Contact-Contact Page Layout</layout>
+        <recordType>Contact.Person</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Account-Account Layout</layout>
@@ -187,9 +187,9 @@
         <visible>false</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
-        <default>false</default>
+        <default>true</default>
         <personAccountDefault>true</personAccountDefault>
-        <recordType>Account.Administrative</recordType>
+        <recordType>Contact.Person</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
