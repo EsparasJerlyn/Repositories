@@ -863,7 +863,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>CartItem.Pricebook_Entry_ID__c</field>
+        <field>CartItem.Pricebook_entry_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

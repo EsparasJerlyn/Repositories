@@ -147,6 +147,16 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>CartItem.Pricebook_entry_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Alumni_Verified__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Contact.Birthdate</field>
         <readable>true</readable>
@@ -203,6 +213,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Contact.Current_Learner_Verified__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Contact.Dietary_Requirement__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -234,6 +249,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.QUT_Student_Username__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Staff_Verified__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -513,6 +533,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>WebCart.External_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>hed__Address__c.Parent_Lead__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -529,6 +554,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Address__c.hed__Address_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Course_Enrollment__c.Pricing_Validation__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

@@ -5,6 +5,7 @@
     <externalId>false</externalId>
     <label>Pricing Validation</label>
     <required>false</required>
+    <securityClassification>Sensitive</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
