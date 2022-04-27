@@ -21,13 +21,6 @@
       "renditionMap" : { },
       "type" : "component"
     }, {
-      "componentAttributes" : { },
-      "componentName" : "c:registrationForm",
-      "id" : "dd3f8849-5c76-4696-baa0-65707077f11c",
-      "renderPriority" : "NEUTRAL",
-      "renditionMap" : { },
-      "type" : "component"
-    }, {
       "componentAttributes" : {
         "headerText" : "",
         "showHeader" : false,

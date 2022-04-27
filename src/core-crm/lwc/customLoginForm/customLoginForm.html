@@ -1,0 +1,8 @@
+<template>
+    <div>
+        <a onclick={handleOnClick} class="register-text">Register</a>
+        <template if:true={openModal}>
+            <c-registration-form onclose={handleModalClosed}></c-registration-form>
+        </template>
+    </div>
+</template>

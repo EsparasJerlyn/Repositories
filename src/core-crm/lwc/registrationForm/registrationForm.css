@@ -1,43 +1,231 @@
-.sub-heading {
 
-    font-size: 14px;
-    color: rgb(255, 255, 255);
+.heading{
+  font-style: normal;
+  font-family: "ProximaNova-Bold";
+  font-weight: 700;
+  font-size: 44px;
+  color: #0066B9;
+  margin: 32px 0px;
 }
 
-.input-icon {
+/* .text-align-center {
+  text-align: center;
+  margin: 16px 0px;
+} */
 
-    position: absolute;
-    margin: 0.9rem 0.7rem;
+.sso-text{
+  color: #0066B9;
+  text-decoration: underline;
 }
-.input-element {
-
-    padding: 0.5rem 0rem 0.5rem 2rem;
-    font-size: 14px;
-}
-
-.datepicker {
-  line-height: 0;
-}
-.text-align-center {
-    text-align: center;
+.text{
+  font-size: 18px;
 }
 
-.register-text {
+.indicate-text{
+  margin: 32px 0px 16px 0px;
+}
+
+/* Modal */
+.modal {
+  display: block; 
+  position: fixed; 
+  z-index: 10;
+  padding-top: 100px; 
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%; 
+  overflow: auto;
+  background-color: rgb(0, 0, 0); 
+  background-color: rgba(0, 0, 0, 0.4); 
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #FFFFFF;
+  margin: auto;
+  border: 1px solid #888;
+  width: 806px;
+  height: 100%;
+  top: 50%;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: "ProximaNova";
+  overflow-y: scroll;
+}
+
+.modal-content::-webkit-scrollbar{
+  display: none;
+}
+
+/* The Close Button */
+/* .x-button {
+  color: #0066B9;
+  font-size: 32px;
+  font-weight: bold;
+}
+.x-button:hover,
+.x-button:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+} */
+
+.button {
+  background-color: #0066B9;   
+  color: rgb(255, 255, 255);
+  font-weight: 700;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border: none;
+}
+
+.cancel-button{
+  background: #FFFFFF;  
+  border: 2px solid #0066B9;
+  box-sizing: border-box;
+  font-weight: 700;
+
+}
+.footer-button{
+  width: 175px;
+  height: 48px;
+  left: 420px;
+  bottom: 32px;
+}
+
+.form-margin{
+  margin: 10px 130px;
+}
+
+.linkedIn-button{
+  position: static;
+  width: 269px;
+  left: 237px;
+  top: 74px;
+}
+.modal-footer{
+  background: #FFFFFF;  
+  position: sticky;
+  height: 112px;
+  left: 0px;
+  bottom: 0px;
+}
+.label-text{
+  font-weight: 700;
+  color: #1C1C1C;
+  font-size: 18px;
+  line-height: 21px;
+}
+.required-text{
+  color: #B90015;
+}
+
+.center{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.input-element{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 1px 16px;
+  position: static;
+  height: 48px;
+  left: 0px;
+  border: 1px solid #0066B9;
+  box-sizing: border-box;
+  flex: none;
+  align-self: stretch;
+  flex-grow: 0;
+  margin: 8px 0px;
+} 
+
+.input-text-area{
+  height: 112px !important;
+
+}
+
+.error-message {
+  color: #B90015;
+  visibility: hidden;
+}
+.error-message-hide {
+  visibility: hidden;
+  display: none;
+}
+
+.error-message-show {
+  display: block;
+  visibility: visible !important;
+}
+
+.border-error {
+  border-color: #B90015 !important;
+}
+.check-box{
+  border-color: #0066B9;
+}
+
+
+/* Mobile CSS */
+@media screen and (max-width: 767px) {
+  .modal-content {
+    width: 100%;
+  }
+  .heading{
+    font-size: 30px;
+    margin: 16px 0px;
+  }
+  .form-margin{
+    margin: 10px 16px;
+  }
+
+  .slds-p-right_large, .slds-p-right--large{
+    padding-right: 0px;
+  }
+}
+
+
+
+/* .register-text {
 
     color: #CCBFBF;
     font-size: 14px;
     float: right;
-}
+} */
 
-.error {
+/* .error {
 
     text-align: center;
     word-break: break-word;
     max-width: 20rem;
     color: #ff9e9e;
-}
+} */
+/* .sub-heading {
 
-.register-heading {
+  font-size: 14px;
+  color: rgb(255, 255, 255);
+} */
+
+/* .input-icon {
+
+  position: absolute;
+  margin: 0.9rem 0.7rem;
+} */
+
+
+/* .datepicker {
+line-height: 0;
+} */
+
+
+/* .register-heading {
 
     max-width: 25rem;
     font-weight: 700;
@@ -54,8 +242,8 @@
     position: relative;   
     border-bottom: 1px dotted black;
   }
-  
-  .tooltip .tooltiptext {
+   */
+  /* .tooltip .tooltiptext {
     visibility: hidden;
     max-width: 250px;
     width: max-content;
@@ -118,15 +306,5 @@
   .tooltipHide {
 
     display: none;
-  }
-.login-button {
+  } */
 
-    background-color: #2574A9;   
-    color: rgb(255, 255, 255);
-    text-align: center;
-    width: 100%;
-    display: block;
-    padding: 0.5rem;
-    font-size: 16px;
-    font-family: 'Roboto Condensed';
-}

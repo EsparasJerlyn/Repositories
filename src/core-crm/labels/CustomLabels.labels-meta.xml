@@ -347,4 +347,46 @@
         <shortDescription>RT_CourseConnection_Student</shortDescription>
         <value>Student</value>
     </labels>
+    <labels>
+        <fullName>QUT_RegistrationForm_Header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>QUT_RegistrationForm_Header</shortDescription>
+        <value>Tell us about you</value>
+    </labels>
+    <labels>
+        <fullName>QUT_RegistrationForm_IndicatesRequiredField</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>QUT_RegistrationForm_IndicatesRequiredField</shortDescription>
+        <value>Indicates a required field</value>
+    </labels>
+    <labels>
+        <fullName>QUT_RegistrationForm_PrivacyPolicy</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>QUT_RegistrationForm_PrivacyPolicy</shortDescription>
+        <value>I agree to the privacy policy</value>
+    </labels>
+    <labels>
+        <fullName>QUT_RegistrationForm_RegisterWithLinkedIn</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>QUT_RegistrationForm_RegisterWithLinkedIn</shortDescription>
+        <value>Register with LinkedIn</value>
+    </labels>
+    <labels>
+        <fullName>QUT_RegistrationForm_SSO</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>QUT_RegistrationForm_SSO</shortDescription>
+        <value>Previously studied with QUTeX? Login instead</value>
+    </labels>
+    <labels>
+        <fullName>QUT_RegistrationForm_subHeader</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>QUT_RegistrationForm_subHeader</shortDescription>
+        <value>Register to participate in professional and executive education</value>
+    </labels>
 </CustomLabels>

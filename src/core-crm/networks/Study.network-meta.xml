@@ -29,7 +29,7 @@
     <forgotPasswordTemplate>unfiled$public/CommunityForgotPasswordEmailTemplate</forgotPasswordTemplate>
     <gatherCustomerSentimentData>false</gatherCustomerSentimentData>
     <networkMemberGroups>
-        <permissionSet>OPE_Portal_Base</permissionSet>
+        <permissionSet>OPE_Portal</permissionSet>
         <profile>Admin</profile>
     </networkMemberGroups>
     <networkPageOverrides>

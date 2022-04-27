@@ -1,104 +1,198 @@
 <template>
-    <form>
-        <div class="main-container slds-grid slds-grid_vertical slds-gutters"> 
-            <!-- First Name -->
-            <div class="slds-col">
-                <div class="slds-form-element">
-                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left tooltip">
-                        <lightning-icon class="input-icon" icon-name="utility:user" alternative-text="First Name" size="xx-small"></lightning-icon>
-                        <input type="text" 
-                            data-id="inputFirstName" 
-                            placeholder="First Name" 
-                            class="slds-input input-element" 
-                            value={firstName} 
-                            onchange={handleFirstNameChange} 
-                            required />
-                        <span class={requiredTooltipDisplayData.firstName}>This field is required.</span>
+    <!-- TO DO: MODAL -->
+    <div id="regModal" class="modal">
+        <div class="modal-content text">
+            <div class="slds-m-top_small slds-m-right_x-large slds-p-right_large slds-clearfix"> <!--X button -->
+                <span class=" slds-float_right" onclick={closeModal}><img src={xButton}></span>
+            </div>
+            <div class="slds-text-align_center slds-m-vertical_medium"><!--Static Contents-->
+                <p class="heading">{label.header}</p>
+                <p>{label.subHeader}</p>
+            </div>
+            <div><!--SSO Links-->
+                <div class="slds-text-align_center slds-m-vertical_medium slds-m-horizontal_small slds-p-horizontal_small">
+                    <a href="" class="sso-text">{label.qutSSOText}</a>
+                </div>
+                <div class="center">
+                    <button 
+                        onclick={handleLinkedInOnClick} 
+                        class="button slds-button slds-p-vertical_small slds-p-horizontal_xx-large"
+                        > 
+                        <img src ={linkedInLogo} class="slds-m-around_x-small">
+                        {label.registerWithLinkedIn}</button>
+                </div>
+            </div>
+            <form id="form">
+                <div class="form-margin"><!--Form-->
+                    <div class="indicate-text">
+                        <span class="required-text">* </span><span style="font-style: italic">{label.requiredField}</span>
+                    </div>
+                    <div class="slds-grid slds-grid_vertical">
+                        <!--First Name and Last Name-->
+                        <div class=" slds-grid slds-gutters slds-wrap">
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2">
+                                <div class="slds-form-element">
+                                    <label for="fname" class="label-text slds-form-element__label">First Name </label> <span class="required-text" >*</span><br>
+                                    <div class="slds-form-element__control">
+                                        <input
+                                            type="text"
+                                            id="fname"
+                                            value={firstName} 
+                                            onchange={handleFirstNameChange} 
+                                            class={requiredInputClass.firstName}
+                                        >
+                                    </div>
+                                    <small class={requiredDisplayData.firstName}>{requiredErrorMessage}</small>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2">
+                                <div class="slds-form-element">
+                                    <label for="flast" class="label-text">Last Name </label> <span class="required-text" >*</span><br>
+                                    <div class="slds-form-element__control  ">
+                                        <input
+                                            type="text"
+                                            id="flast"
+                                            value={lastName} 
+                                            onchange={handleLastNameChange}
+                                            class={requiredInputClass.lastName}
+                                        >
+                                    </div>
+                                    <small class={requiredDisplayData.lastName}>{requiredErrorMessage}</small>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Email-->
+                        <div class="slds col slds-m-top_medium">
+                            <div class="slds-form-element">
+                                <label for="email" class="label-text">Email </label> <span class="required-text" >*</span><br>
+                                <div class="slds-form-element__control">
+                                    <input
+                                        type="text"
+                                        id="email"
+                                        value={email}
+                                        onchange={handleEmailChange}
+                                        class={requiredInputClass.email}
+                                    >
+                                </div>
+                                <small class={requiredDisplayData.email}>{emailErrorMessage}</small>
+                            </div>
+                        </div>
+                        <!--Mobile-->
+                        <div class="slds col slds-m-top_medium">
+                        <div class="slds-form-element">
+                                <label for="mobile" class="label-text">Mobile </label> <span class="required-text" >*</span><br>
+                                <div class="slds-form-element__control">
+                                    <input
+                                        type="text"
+                                        id="mobile"
+                                        value={mobile}
+                                        onchange={handleMobileChange}
+                                        class={requiredInputClass.mobile}
+                                    >
+                                </div>
+                                <small class={requiredDisplayData.mobile}>{requiredErrorMessage}</small>
+                            </div>
+                        </div>
+                        <!--Birthdate-->
+                        <span class="label-text slds-m-top_medium">What is your date of Birth?</span><br>
+                        <div class="slds-grid slds-gutters">
+                            <!--Date-->
+                            <div class="slds-col slds-size_1-of-3" >
+                                <div class="slds-form-element">
+                                    <label for="day" class="label-text">Date </label> <span class="required-text" >*</span><br>
+                                    <div class="slds-form-element__control">
+                                        <input
+                                            type="text"
+                                            id="date"
+                                            value={date}
+                                            onchange={handleDayChange}
+                                            class={requiredInputClass.date}
+                                            maxlength="2"
+                                        >
+                                    </div>
+                                    <small class={requiredDisplayData.date}>{dateErrorMessage}</small>
+                                </div>
+                            </div>
+                            <!--Month-->
+                            <div class="slds-col slds-size_1-of-3" >
+                                <div class="slds-form-element">
+                                    <label for="month" class="label-text">Month </label> <span class="required-text" >*</span><br>
+                                    <div class="slds-form-element__control" >
+                                        <input
+                                            type="text"
+                                            id="month"
+                                            value={month}
+                                            onchange={handleMonthChange}
+                                            class={requiredInputClass.month}
+                                            maxlength="2"
+                                        >
+                                    </div>
+                                    <small class={requiredDisplayData.month}>{monthErrorMessage}</small>
+                                </div>
+                            </div>
+                            <!--Year-->
+                            <div class="slds-col slds-size_1-of-3" >
+                                <div class="slds-form-element">
+                                    <label for="year" class="label-text">Year </label> <span class="required-text" >*</span>
+                                    <div class="slds-form-element__control" >
+                                        <input
+                                            type="text"
+                                            id="year"
+                                            value={year}
+                                            onchange={handleYearChange}
+                                            class={requiredInputClass.year}
+                                            maxlength="4"
+                                        >
+                                    </div>
+                                    <small class={requiredDisplayData.year}>{yearErrorMessage}</small>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Dietary Requirements-->
+                        <div class="slds col slds-m-top_medium">
+                            <div class="slds-form-element">
+                                <label for="dietaryReq" class="label-text">Dietary Requirements</label>
+                                <div class="slds-form-element__control">
+                                    <textarea
+                                        id="dietaryReq"
+                                        name="dietaryReq"
+                                        class="slds-textarea input-element input-text-area"
+                                    >
+                                    </textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Check box -->
+                        <div class="slds-m-top_small">
+                            <div class="slds-form-element__control">
+                                <div class="slds-checkbox ">
+                                <input 
+                                    type="checkbox" 
+                                    name="privacy-checkbox" 
+                                    id="privacy-checkbox"
+                                    value="Agree"
+                                    onchange={handleCheckBox}
+                                    >
+                                <label class="slds-checkbox__label" for="privacy-checkbox">
+                                    <span class={requiredInputClass.checkbox}></span>
+                                    <span class="text"> {label.privacyPolicy} </span>
+                                </label>
+                                <small class={requiredDisplayData.checkbox}>{requiredErrorMessage}</small>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <!-- Last Name -->
-            <div class="slds-col">
-                <div class="slds-form-element">
-                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left tooltip">
-                        <lightning-icon class="input-icon" icon-name="utility:user" alternative-text="Last Name" size="xx-small"></lightning-icon>
-                        <input 
-                            type="text" 
-                            data-id="inputLasrName" 
-                            placeholder="Last Name" 
-                            class="slds-input input-element" 
-                            value={lastName} 
-                            onchange={handleLastNameChange} required />
-                        <span class={requiredTooltipDisplayData.lastName}>This field is required.</span>
+                <!--Modal Footer Buttons-->
+                <div class="modal-footer slds-grid slds-gutters center">
+                    <div class="slds-col slds-size_1-of-2 slds-clearfix ">
+                        <button class="cancel-button footer-button slds-float_right" onclick={closeModal}>Cancel</button>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2">
+                        <button type="submit" class="button footer-button" onclick={handleRegister}>Continue</button>
                     </div>
                 </div>
-            </div>
-            <!-- Email -->
-            <div class="slds-col tooltipEmail">
-                <div class="slds-form-element">
-                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left tooltip">
-                        <lightning-icon class="input-icon" icon-name="utility:email" alternative-text="Email" size="xx-small"></lightning-icon>
-                        <input 
-                            type="text" 
-                            data-id="inputEmail" 
-                            placeholder="Email" 
-                            class="slds-input input-element" 
-                            value={email} 
-                            onkeyup={handleEmailChange} 
-                            pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$" 
-                            oninvalid={onEmailInvalid} 
-                            oninput={onEmailInput} 
-                            onclick={onEmailClick} 
-                            onblur={onEmailBlur}
-                            required/>
-                        <span class={requiredTooltipDisplayData.email}>This field is required.</span>
-                        <span class={errorTooltipDisplayData.email}>{emailError}</span>
-                    </div>
-                </div>
-            </div>
-            <!-- Mobile -->
-            <div class="slds-col">
-                <div class="slds-form-element">
-                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left tooltip">
-                        <lightning-icon class="input-icon" icon-name="utility:call" alternative-text="Mobile" size="xx-small"></lightning-icon>
-                        <input 
-                            type="text" 
-                            data-id="inputMobile" 
-                            placeholder="Mobile" 
-                            class="slds-input input-element" 
-                            value={mobile} 
-                            onchange={handleMobileChange} 
-                            required/>
-                            <span class={requiredTooltipDisplayData.mobile}>This field is required.</span>                                                
-                    </div>
-                </div>
-            </div>
-            <!-- Birthdate -->
-            <div class="slds-col">
-                <div class="slds-form-element">
-                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left tooltip">
-                            <lightning-input
-                            type="date"
-                            required
-                            placeholder="Birthdate"
-                            class="datepicker"
-                            value={birthdate} 
-                            onchange={handleBirthdateChange}
-                            >
-                            </lightning-input>
-                        <span class={requiredTooltipDisplayData.birthdate}>This field is required.</span>                        
-                    </div>
-                </div>
-            </div>
-            <!-- Sign Up button -->
-            <div class="slds-col">
-                <button type="submit" class="login-button slds-button" onclick={handleRegister}>Sign Up</button>
-                <div if:true={loading} class="slds-is-relative" style="height: 80px;">
-                 <lightning-spinner
-                    alternative-text="Loading..." variant="brand" style="background: transparent;">
-                </lightning-spinner>
-                </div>
-            </div>
+            </form>
         </div>
-    </form>
+    </div>
 </template>
