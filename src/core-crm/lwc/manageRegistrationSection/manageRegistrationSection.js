@@ -249,7 +249,7 @@ export default class ManageRegistrationSection extends LightningElement {
             if(item.Question__c){
                 newItem.QuestionId = item.Question__r.Id;
                 newItem.Label = item.Question__r.Label__c;
-                newItem.MandatoryResponse = item.Question__r.Mandatory_Response__c;
+                newItem.MandatoryResponse = item.Question__r.Acceptable_Response__c;
                 newItem.Message = item.Question__r.Message__c;
                 newItem.Type = item.Question__r.Type__c;
                 newItem.IsText = item.Question__r.Type__c == 'Text'?true:false;

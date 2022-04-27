@@ -40,7 +40,7 @@ public with sharing class ManageRegistrationSectionCtrl {
           List<Related_Answer__c> relatedAnswersList = new List<Related_Answer__c>(
                [
                     SELECT Id, Question__r.Type__c, Question__r.Label__c, Sequence__c, 
-                    Questionnaire__r.Parent_Record_ID__c, Question__r.Mandatory_Response__c, 
+                    Questionnaire__r.Parent_Record_ID__c, Question__r.Acceptable_Response__c, 
                     Question__r.Message__c, Questionnaire__r.Questionnaire_Type__c,
                     Question__r.Dropdown_Options__c
                     FROM Related_Answer__c
