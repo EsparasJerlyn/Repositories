@@ -17,6 +17,7 @@ import { refreshApex } from "@salesforce/apex";
 import { getObjectInfo } from 'lightning/uiObjectInfoApi';
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import { loadStyle } from 'lightning/platformResourceLoader';
+import { NavigationMixin } from 'lightning/navigation';
 import customDataTableStyle from '@salesforce/resourceUrl/CustomDataTable';
 import HAS_PERMISSION from "@salesforce/customPermission/EditDesignAndReleaseTabsOfProductRequest";
 import RT_ProductRequest_Program from '@salesforce/label/c.RT_ProductRequest_Program';
@@ -45,7 +46,8 @@ import getSearchContacts from "@salesforce/apex/ProductOfferingCtrl.getSearchCon
 const DATE_OPTIONS = { year: 'numeric', month: 'short', day: '2-digit' };
 const PROGRAM_OFFERING_FIELDS = 'Id,Delivery_Type__c,Start_Date__c,End_Date__c,IsActive__c,CreatedDate';
 const COURSE_OFFERING_FIELDS = 'Id,Delivery_Type__c,hed__Start_Date__c,hed__End_Date__c,IsActive__c,CreatedDate';
-export default class ProductOffering extends LightningElement {
+
+export default class ProductOffering extends NavigationMixin(LightningElement) {
     @api recordId;
     @api objectApiName;
     
@@ -95,6 +97,11 @@ export default class ProductOffering extends LightningElement {
     //decides to show edit buttons
     get showEditButton(){
         return !this.isStatusCompleted;
+    }
+
+    //disables print name badges
+    get disablePrintNameBadges(){
+        return this.isStatusCompleted || this.childInfoMap.objectType == PROGRAM_OFFERING.objectApiName;
     }
 
     //gets QUTeX Term id and loads css
@@ -566,6 +573,18 @@ export default class ProductOffering extends LightningElement {
         })
          .catch((error) => {
             this.generateToast("Error.", LWC_Error_General, "error");
+        });
+    }
+
+    //redirects user to offering record page
+    handlePrintNameBadges(event){
+        this[NavigationMixin.Navigate]({
+            type: 'standard__recordPage',
+            attributes: {
+                recordId: event.target.dataset.name,
+                objectApiName: this.childInfoMap.objectType,
+                actionName: 'view'
+            }
         });
     }
 

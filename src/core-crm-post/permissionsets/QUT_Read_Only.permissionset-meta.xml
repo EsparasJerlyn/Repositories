@@ -1093,6 +1093,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Contact.Company_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.Position__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Contact.ContactWorkPhone_Locale__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6683,6 +6693,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>hed__Course__c.LMS_Site_URL__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>hed__Course__c.LogoUrl__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

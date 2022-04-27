@@ -103,6 +103,16 @@
                         </span>
                         {offering.badgeLabel}
                     </span>
+                    <lightning-button
+                        variant="brand-outline"
+                        label="PRINT NAME BADGES"
+                        title="Print Name Badges"
+                        data-name={offering.Id}
+                        icon-name="utility:print"
+                        onclick={handlePrintNameBadges}
+                        class="section-button small-button"
+                        disabled={disablePrintNameBadges}>
+                    </lightning-button>
                     <lightning-accordion-section name={offering.Id} label={offering.label} class="accordion-section">
                         <!--Product Offering Details Section-->
                         <div class="slds-box slds-m-top_small black-border">

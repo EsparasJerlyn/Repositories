@@ -8,6 +8,14 @@
         <value>0 0 8 ? * MON-FRI</value>
     </labels>
     <labels>
+        <fullName>DOC_Badge_Logo</fullName>
+        <categories>Document</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DOC_Badge_Logo</shortDescription>
+        <value>QUT_Badge_Logo</value>
+    </labels>
+    <labels>
         <fullName>DOC_Email_Header</fullName>
         <categories>Document</categories>
         <language>en_US</language>
