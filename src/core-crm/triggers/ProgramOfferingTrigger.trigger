@@ -1,6 +1,6 @@
 /**
- * @description Trigger for hed__Course_Offerring__c to populate external Id during before insert
- * @see CourseOfferingTriggerHandler
+ * @description Trigger for Program_Offering__c to populate external Id during before insert
+ * @see ProgramOfferingTriggerHandler
  *
  * @author Accenture
  *
@@ -8,13 +8,13 @@
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
-      | eugene.andrew.abuan            | March 22, 2022        | DEPP-1991              | Created file                 |
+      | roy.nino.s.regala              | April 04, 2022        | DEPP-1687              | Created file                 |
       |                                |                       |                        |                              |
  */
-trigger CourseOfferingTrigger on hed__Course_Offering__c (before insert, after insert) {
+trigger ProgramOfferingTrigger on Program_Offering__c ( after insert) {
     TriggerDispatcher.dispatch(
     TriggerHandlerFactory.getHandlersForSObjectType(
-      'hed__Course_Offering__c'
+      'Program_Offering__c'
     ),
     Trigger.operationType
   );

@@ -12,7 +12,7 @@
       |                                |                       |                        |                              |
  */
 
-public without sharing class CourseOfferingTriggerHandler implements Disableable, BeforeInsert {
+public without sharing class CourseOfferingTriggerHandler implements Disableable, BeforeInsert, AfterInsert {
 
 /**
  * @description calls the ExternalIdHelper function to update the External Id
@@ -20,6 +20,14 @@ public without sharing class CourseOfferingTriggerHandler implements Disableable
  */
   public void beforeInsert(List<SObject> newItems) {
     SetExternalIdHelper.updateExternalId(newItems);
+  }
+
+    /**
+   * @description performs afterinsert event for hed__Course_Offering object
+   * @param newItems - List of hed__Course_Offering__c.Trigger.new
+   */
+  public void afterInsert(Map<Id,SObject> newItems) {
+    SendNewOfferingNotificationHelper.sendCourseOfferingAvailabiltyNotification((List<hed__Course_Offering__c>) newItems.values());
   }
   
 /**

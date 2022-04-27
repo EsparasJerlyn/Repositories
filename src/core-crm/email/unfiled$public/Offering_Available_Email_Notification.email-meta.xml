@@ -5,7 +5,7 @@
     <encodingKey>UTF-8</encodingKey>
     <name>Offering Available Email Notification</name>
     <style>none</style>
-    <subject>Product_Name</subject>
+    <subject>{productName}</subject>
     <type>custom</type>
     <uiType>SFX</uiType>
 </EmailTemplate>

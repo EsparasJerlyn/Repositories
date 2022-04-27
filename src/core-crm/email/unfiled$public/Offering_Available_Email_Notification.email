@@ -3,14 +3,16 @@
 	<title></title>
 </head>
 <body style="height: auto; min-height: auto;">
-<p><span style="font-size:14px;">Dear Contact_FirstName Contact_LastName,<br />
+<p><span style="font-size:14px;">Dear {contactFirstName} {contactLastName},<br />
 <br />
-Thank you for registering interest for the&nbsp;<b><i>QUTeX Product_Name</i></b>.</span></p>
+Thank you for registering interest for the <b><i>QUTeX {productName}</i></b>.</span></p>
 
-<p><span style="font-size:14px;">We are writing to advise that the QUTeX <em>Product_Name</em>&nbsp;is available for registration.<br />
-Please go to<i>&nbsp;</i><a href="Product_URL" rel="noopener noreferrer" target="_blank"><i>Product_URL</i></a>&nbsp;to complete registration.</span></p>
+<p><span style="font-size:14px;">We are writing to advise that the QUTeX <i>{productName}</i></span><span style="font-size:14px;">&nbsp;is available for registration.<br />
+Please go to<i>&nbsp;</i><a href="{productURL}" rel="noopener noreferrer" target="_blank"><i>{productURL}</i></a>&nbsp;to complete registration.</span></p>
 
 <p><span style="font-size:14px;">Should you have any questions, please feel free to contact the QUTeX team using the details below.<br />
+<br />
+If you wish to opt out from further notification regarding the offering availability, please go to <a href="{optOutURL}" rel="noopener noreferrer" target="_blank"><i>{optOutURL}</i></a>&nbsp;.<br />
 <br />
 <br />
 Kind&nbsp;Regards,&nbsp;<br />
