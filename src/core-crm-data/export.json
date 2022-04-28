@@ -247,23 +247,6 @@
             "useCSVValuesMapping": true,
             "targetObject": "CommerceEntitlementBuyerGroup",
             "importCSVFilesAsIs": true
-        },
-        {
-            "query": "SELECT Id, Name, LetterheadHeader, LetterheadFooter FROM EnhancedLetterhead",
-            "operation": "Upsert",
-            "externalId": "Id",
-            "useCSVValuesMapping": true,
-            "targetObject": "EnhancedLetterhead",
-            "importCSVFilesAsIs": true
-        },
-        {
-            "query": "SELECT Id,IsActive,Name,DeveloperName,EnhancedLetterheadId FROM EmailTemplate",
-            "operation": "Upsert",
-            "externalId": "Id",
-            "useCSVValuesMapping": true,
-            "targetObject": "EmailTemplate",
-            "importCSVFilesAsIs": true
         }
-
     ]
 }
