@@ -512,8 +512,15 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
         this.newRecord = false;
         this.prePopulatedFields = {};
         if(this.objectToCreate == 'Contact'){
-            this.handleAddFacilitator();
+            this.handleReopenAddFacilitator();
         }
+    }
+
+    //opens create modal for facilitator
+    handleReopenAddFacilitator(){
+        this.newFacilitatorBio = true;
+        this.objectLabel = 'Contact';
+        this.objectToCreate = FACILITATOR_BIO.objectApiName;
     }
 
     handleCloseNewBio(){
@@ -547,7 +554,7 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
                item.id = record.id;
                item.label = this.contactName;
                item.meta  = this.contactEmail;
-               this.contactSearchItems.push(item);
+               this.contactSearchItems = [...this.contactSearchItems,item];
            }
         })
         .catch(error => {
