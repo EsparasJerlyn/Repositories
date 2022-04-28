@@ -153,7 +153,7 @@
             "importCSVFilesAsIs": true
         },
         {
-            "query": "SELECT Id, RecordTypeId, Recordtype_Name__c, Name, Amount__c, IsActive__c, LMS_Integration_Status__c, Paid_in_Full__c, Payment_Method__c, Transaction_ID__c, hed__Contact__c, hed__Course_Offering__c, hed__Primary__c, hed__Status__c FROM hed__Course_Enrollment__c",
+            "query": "SELECT Id, RecordTypeId, Recordtype_Name__c, Name, Amount__c, IsActive__c, LMS_Integration_Status__c, Paid_in_Full__c, Payment_Method__c, Transaction_ID__c, hed__Contact__c, hed__Course_Offering__c, hed__Primary__c, hed__Status__c, Is_Group_Registered__c FROM hed__Course_Enrollment__c",
             "operation": "Upsert",
             "externalId": "Name",
             "useCSVValuesMapping": true,
