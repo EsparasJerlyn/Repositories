@@ -31,6 +31,14 @@ parameters:
   - "Yes"
   - "No"
 
+- name: PACKAGE_DEPLOYMENT_DELTA_TYPE
+  displayName: Package Deployment Delta Type
+  type: string
+  default: "Last 5 days"
+  values:
+  - "Diff from main"
+  - "Last 5 days"
+
 stages:
   - stage: PiplineJob
     displayName: "Validate"
@@ -57,6 +65,8 @@ stages:
                 - template: yml/templates/sfdx-init.yml@SFDX-PIPELINES
                 - template: yml/templates/sfdx-login.yml@SFDX-PIPELINES
                 - template: yml/templates/sfdx-build-package.yml@SFDX-PIPELINES
+                  parameters:
+                    PACKAGE_DEPLOYMENT_DELTA_TYPE: "${{ parameters.PACKAGE_DEPLOYMENT_DELTA_TYPE }}"
                 - template: yml/templates/sfdx-scan-code.yml@SFDX-PIPELINES
                 - template: yml/templates/sfdx-pre-deploy-steps.yml@SFDX-PIPELINES
                 - template: yml/templates/sfdx-deploy-and-post-deploy.yml@SFDX-PIPELINES
