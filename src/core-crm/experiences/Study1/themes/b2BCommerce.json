@@ -1,6 +1,6 @@
 {
   "activeBrandingSetId" : "7a8d0f86-280a-4be6-b2f5-077b88f28e03",
-  "customCSS" : "",
+  "customCSS" : "@font-face {\n  font-family: \"ProximaNova\";\n  src: url(\"/sfsites/c/resource/QUTCustomFont/ProximaNova/ProximaNova-Regular.ttf\") format(\"TrueType\");\n}\n\n@font-face {\n  font-family: \"ProximaNova-Bold\";\n  src: url(\"/sfsites/c/resource/QUTCustomFont/ProximaNova/ProximaNova-Bold.ttf\") format(\"TrueType\");\n}",
   "developerName" : "b2b",
   "id" : "cf916f6c-4a47-4eda-b212-0ee6bd1cc3bc",
   "label" : "B2B Commerce",

@@ -9,23 +9,10 @@
   </lightning-spinner>
   <c-product-details-display
     if:true={hasProduct}
-    category-path={displayableProduct.categoryPath}
-    program-plan={displayableProduct.programPlan}
-    overview={displayableProduct.overview}
-    evolve-with-qutex={displayableProduct.evolveWithQutex}
-    who-should-participate={displayableProduct.whoShouldParticipate}
-    core-concepts={displayableProduct.coreConcepts}
-    more-details={displayableProduct.moreDetails}
-    image={displayableProduct.image}
-    in-stock={displayableProduct.inStock}
-    name={displayableProduct.name}
-    price={displayableProduct.price}
-    register-interest-available={displayableProduct.registerInterestAvailable}
-    course-offerings={courseOfferingList}
+    product-details={productOnPage}
     price-book-entries={priceBookEntryList}
-    product-on-page={productOnPage}
-    onrefreshproduct={handleRefresh}
-    onaddtocart={addToCart}
+    delivery-options={deliveryOptions}
+    onaddtocart={addToCartItem}
   >
   </c-product-details-display>
 </template>

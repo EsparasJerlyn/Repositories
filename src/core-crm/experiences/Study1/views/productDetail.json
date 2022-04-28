@@ -4,16 +4,6 @@
   "id" : "85b8f4ec-c66a-4f11-821c-dcbce84c2893",
   "label" : "Product Detail",
   "regions" : [ {
-    "components" : [ {
-      "componentAttributes" : {
-        "recordId" : "{!recordId}"
-      },
-      "componentName" : "c:productBodyDetails",
-      "id" : "9374dabc-cc49-4b17-870b-16c49d720cd2",
-      "renderPriority" : "NEUTRAL",
-      "renditionMap" : { },
-      "type" : "component"
-    } ],
     "id" : "fb79c78d-31c5-43b5-a12e-0faba236f162",
     "regionName" : "header",
     "type" : "region"

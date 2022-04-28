@@ -16,9 +16,9 @@
                 <label>Online Classroom</label>
             </value>
             <value>
-                <fullName>Online Self paced</fullName>
+                <fullName>Online Self-paced</fullName>
                 <default>false</default>
-                <label>Online Self paced</label>
+                <label>Online Self-paced</label>
             </value>
             <value>
                 <fullName>Brisbane Classroom</fullName>

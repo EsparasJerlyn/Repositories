@@ -389,4 +389,144 @@
         <shortDescription>QUT_RegistrationForm_subHeader</shortDescription>
         <value>Register to participate in professional and executive education</value>
     </labels>
+    <labels>
+        <fullName>QUT_ProductDetail_Overview</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>QUT_ProductDetail_Overview</shortDescription>
+        <value>Overview</value>
+    </labels>
+    <labels>
+        <fullName>QUT_ProductDetail_CoreConcepts</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>QUT_ProductDetail_CoreConcepts</shortDescription>
+        <value>Core concepts</value>
+    </labels>
+    <labels>
+        <fullName>QUT_ProductDetail_EvolveWithQUTeX</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>QUT_ProductDetail_EvolveWithQUTeX</shortDescription>
+        <value>Evolve with QUTeX</value>
+    </labels>
+    <labels>
+        <fullName>QUT_ProductDetail_WhoShouldParticipate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>QUT_ProductDetail_WhoShouldParticipate</shortDescription>
+        <value>Who should participate</value>
+    </labels>
+    <labels>
+        <fullName>QUT_ProductDetail_Facilitator</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>QUT_ProductDetail_Facilitator</shortDescription>
+        <value>Facilitator</value>
+    </labels>
+    <labels>
+        <fullName>QUT_ProductDetail_Location</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>QUT_ProductDetail_Location</shortDescription>
+        <value>Location</value>
+    </labels>
+    <labels>
+        <fullName>QUT_ProductDetail_Details</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>QUT_ProductDetail_Details</shortDescription>
+        <value>Details</value>
+    </labels>
+    <labels>
+        <fullName>QUT_ProductDetail_Duration</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>QUT_ProductDetail_Duration</shortDescription>
+        <value>Duration</value>
+    </labels>
+    <labels>
+        <fullName>QUT_ProductDetail_Delivery</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>QUT_ProductDetail_Delivery</shortDescription>
+        <value>Delivery</value>
+    </labels>
+    <labels>
+        <fullName>QUT_ProductDetail_Delivery_Placeholder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>QUT_ProductDetail_Delivery_Placeholder</shortDescription>
+        <value>Choose delivery method</value>
+    </labels>
+    <labels>
+        <fullName>QUT_ProductDetail_AvailableStartDates</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>QUT_ProductDetail_AvailableStartDates</shortDescription>
+        <value>Available start dates</value>
+    </labels>
+    <labels>
+        <fullName>QUT_ProductDetail_AvailableStartDates_Placeholder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>QUT_ProductDetail_AvailableStartDates_Placeholder</shortDescription>
+        <value>Choose start date</value>
+    </labels>
+    <labels>
+        <fullName>QUT_ProductDetail_Pricing</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>QUT_ProductDetail_Pricing</shortDescription>
+        <value>Pricing</value>
+    </labels>
+    <labels>
+        <fullName>QUT_ProductDetail_Pricing_Placeholder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>QUT_ProductDetail_Pricing_Placeholder</shortDescription>
+        <value>Choose pricing</value>
+    </labels>
+    <labels>
+        <fullName>QUT_ProductDetail_AddToCart</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>QUT_ProductDetail_AddToCart</shortDescription>
+        <value>ADD TO CART</value>
+    </labels>
+    <labels>
+        <fullName>QUT_ProductDetail_RegisterInterest</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>QUT_ProductDetail_RegisterInterest</shortDescription>
+        <value>REGISTER INTEREST</value>
+    </labels>
+    <labels>
+        <fullName>QUT_ProductDetail_SubHeader</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>QUT_ProductDetail_SubHeader</shortDescription>
+        <value>Ensure you get your preferred outcome by securing your knowledge of psychological negotiation techniques.</value>
+    </labels>
+    <labels>
+        <fullName>QUT_ProductDetail_CourseSeatLeft</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>QUT_ProductDetail_CourseSeatLeft</shortDescription>
+        <value>seat left for this course</value>
+    </labels>
+    <labels>
+        <fullName>QUT_ProductDetail_CourseSeatsLeft</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>QUT_ProductDetail_CourseSeatsLeft</shortDescription>
+        <value>seats left for this course</value>
+    </labels>
+    <labels>
+        <fullName>QUT_Contact_ContactImageError</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>QUT_Contact_ContactImageError</shortDescription>
+        <value>Multiple Image file found. Please limit Image file to only 1 Image.</value>
+    </labels>
 </CustomLabels>

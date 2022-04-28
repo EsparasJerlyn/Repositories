@@ -17,176 +17,87 @@
       | roy.nino.s.regala         | December 27, 2021     | DEPP-1028            | Added logiic to close modal and refresh      |
       |                           |                       |                      | product records on parent -> productDetails  |
       | john.bo.a.pineda          | January 19, 2022      | DEPP-1410            | Added logic for add to cart                  |
-      | roy.nino.s.regala         | February 04, 2022     | DEPP-213             | Added logic for register interest            | 
+      | roy.nino.s.regala         | February 04, 2022     | DEPP-213             | Added logic for register interest            |
+      | john.bo.a.pineda          | April 11, 2022        | DEPP-1211            | Modified logic for new UI                    |
  */
-import { LightningElement, api } from "lwc";
+import { LightningElement, wire, api, track } from "lwc";
 import { NavigationMixin } from "lightning/navigation";
-/* Images */
-import Facilitator from '@salesforce/resourceUrl/Facilitator';
-import Recently1 from '@salesforce/resourceUrl/Recently1';
-import Recently2 from '@salesforce/resourceUrl/Recently2';
-import Recently3 from '@salesforce/resourceUrl/Recently3';
-import BasePath from '@salesforce/community/basePath';
-import insertExpressionOfInterest from '@salesforce/apex/ProductDetailsCtrl.insertExpressionOfInterest'
-import LWC_Error_General from '@salesforce/label/c.LWC_Error_General';
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import userId from '@salesforce/user/Id';
-import isGuest from '@salesforce/user/isGuest';
+import { loadStyle } from "lightning/platformResourceLoader";
+import { ShowToastEvent } from "lightning/platformShowToastEvent";
+import BasePath from "@salesforce/community/basePath";
+import userId from "@salesforce/user/Id";
+import isGuest from "@salesforce/user/isGuest";
+import customSR from "@salesforce/resourceUrl/QUTCustomLwcCss";
+import qutResourceImg from "@salesforce/resourceUrl/QUTImages";
+//import insertExpressionOfInterest from "@salesforce/apex/ProductDetailsCtrl.insertExpressionOfInterest";
+import getRelatedCourseOffering from "@salesforce/apex/ProductDetailsCtrl.getCourseOfferingRelatedRecords";
+import overview from "@salesforce/label/c.QUT_ProductDetail_Overview";
+import evolveWithQUTeX from "@salesforce/label/c.QUT_ProductDetail_EvolveWithQUTeX";
+import whoShouldParticipate from "@salesforce/label/c.QUT_ProductDetail_WhoShouldParticipate";
+import coreConcepts from "@salesforce/label/c.QUT_ProductDetail_CoreConcepts";
+import facilitator from "@salesforce/label/c.QUT_ProductDetail_Facilitator";
+import location from "@salesforce/label/c.QUT_ProductDetail_Location";
+import details from "@salesforce/label/c.QUT_ProductDetail_Details";
+import duration from "@salesforce/label/c.QUT_ProductDetail_Duration";
+import delivery from "@salesforce/label/c.QUT_ProductDetail_Delivery";
+import deliveryPlaceholder from "@salesforce/label/c.QUT_ProductDetail_Delivery_Placeholder";
+import availableStartDates from "@salesforce/label/c.QUT_ProductDetail_AvailableStartDates";
+import availableStartDatesPlaceholder from "@salesforce/label/c.QUT_ProductDetail_AvailableStartDates_Placeholder";
+import pricing from "@salesforce/label/c.QUT_ProductDetail_Pricing";
+import pricingPlaceholder from "@salesforce/label/c.QUT_ProductDetail_Pricing_Placeholder";
+import addToCart from "@salesforce/label/c.QUT_ProductDetail_AddToCart";
+import registerInterest from "@salesforce/label/c.QUT_ProductDetail_RegisterInterest";
+import subHeader from "@salesforce/label/c.QUT_ProductDetail_SubHeader";
+import LWC_Error_General from "@salesforce/label/c.LWC_Error_General";
 
-// A fixed entry for the home page.
-const homePage = {
-  name: "Home",
-  type: "standard__namedPage",
-  attributes: {
-    pageName: "home"
-  }
-};
+const INTEREST_EXISTS_ERROR =
+  "You already registered your interest for this product.";
 
-const MSG_ERROR = LWC_Error_General;
-const INTEREST_EXISTS_ERROR = 'You already registered your interest for this product.';
-
-/**
- * An organized display of product information.
- *
- * @fires ProductDetailsDisplay#addtocart
- * @fires ProductDetailsDisplay#createandaddtolist
- */
 export default class ProductDetailsDisplay extends NavigationMixin(
   LightningElement
 ) {
-  facilitator = Facilitator;
-  image1 = Recently1;
-  image2 = Recently2;
-  image3 = Recently3;
-  selectedOfferingId = "";
-  selectedDate;
+  // Init Variables
   @api recordId;
   @api objectApiName;
-
-  //product fields to display
-  @api overview;
-  @api whoShouldParticipate;
-  @api coreConcepts;
-  @api moreDetails;
-  @api evolveWithQutex;
-  @api registerInterestAvailable;
-
-  @api courseOfferings;
+  @api productDetails;
   @api priceBookEntries;
-  @api productOnPage;
+  @api deliveryOptions;
 
-  clickedRegisterLabel = 'ADD TO CART';
-  clickedShowLabel = 'SHOW MORE';
-  showVisible = false;
+  @track courseOfferings = [];
+  @track selectedCourseOffering;
+  @track selectedCourseOfferingLocation;
+  @track selectedCourseOfferingFacilitator = [];
+  @track selectedPriceBookEntry;
+  @track disableAvailStartDate = true;
+  @track disablePriceBookEntry = true;
+  @track disableAddToCart = true;
+  @track displayAddToCart = true;
+  @track facilitator;
+  @track displayFacilitatorNav = true;
+  @track facilitatorIndex = 0;
 
-  /**
-   * A product image.
-   * @typedef {object} Image
-   *
-   * @property {string} url
-   *  The URL of an image.
-   *
-   * @property {string} alternativeText
-   *  The alternative display text of the image.
-   */
-
-  /**
-   * A product category.
-   * @typedef {object} Category
-   *
-   * @property {string} id
-   *  The unique identifier of a category.
-   *
-   * @property {string} name
-   *  The localized display name of a category.
-   */
-
-  /**
-   * A product price.
-   * @typedef {object} Price
-   *
-   * @property {string} negotiated
-   *  The negotiated price of a product.
-   *
-   * @property {string} currency
-   *  The ISO 4217 currency code of the price.
-   */
-
-  /**
-   * A product field.
-   * @typedef {object} CustomField
-   *
-   * @property {string} name
-   *  The name of the custom field.
-   *
-   * @property {string} value
-   *  The value of the custom field.
-   */
-
-  /**
-   * An iterable Field for display.
-   * @typedef {CustomField} IterableField
-   *
-   * @property {number} id
-   *  A unique identifier for the field.
-   */
-
-  /**
-   * Gets or sets which custom fields should be displayed (if supplied).
-   *
-   * @type {CustomField[]}
-   */
-  @api customFields;
-
-  /**
-   * Gets or sets whether the cart is locked
-   *
-   * @type {boolean}
-   */
-  @api cartLocked;
-
-  /**
-   * Gets or sets the name of the product.
-   *
-   * @type {string}
-   */
-  @api description;
-
-  /**
-   * Gets or sets the product image.
-   *
-   * @type {Image}
-   */
-  @api image;
-
-  /**
-   * Gets or sets whether the product is "in stock."
-   *
-   * @type {boolean}
-   */
-  @api inStock = false;
-
-  /**
-   * Gets or sets the name of the product.
-   *
-   * @type {string}
-   */
-  @api name;
-
-  /**
-   * Gets or sets the price - if known - of the product.
-   * If this property is specified as undefined, the price is shown as being unavailable.
-   *
-   * @type {Price}
-   */
-  @api price;
+  // Set Custom Labels
+  label = {
+    overview,
+    evolveWithQUTeX,
+    whoShouldParticipate,
+    coreConcepts,
+    facilitator,
+    location,
+    details,
+    duration,
+    delivery,
+    deliveryPlaceholder,
+    availableStartDates,
+    availableStartDatesPlaceholder,
+    pricing,
+    pricingPlaceholder,
+    addToCart,
+    registerInterest,
+    subHeader
+  };
 
   bulkRegister = false;
-
-  _invalidQuantity = false;
-  _quantityFieldValue = 1;
-  _categoryPath;
-  _resolvedCategoryPath = [];
 
   // A bit of coordination logic so that we can resolve product URLs after the component is connected to the DOM,
   // which the NavigationMixin implicitly requires to function properly.
@@ -197,6 +108,16 @@ export default class ProductDetailsDisplay extends NavigationMixin(
 
   connectedCallback() {
     this._resolveConnected();
+    // Load Default Icons
+    this.accordionIcon = qutResourceImg + "/QUTImages/Icon/accordionClose.svg";
+    this.comboBoxUp = qutResourceImg + "/QUTImages/Icon/comboBoxUp.svg";
+    this.comboBoxDown = qutResourceImg + "/QUTImages/Icon/comboBoxDown.svg";
+    this.durationIcon = qutResourceImg + "/QUTImages/Icon/duration.svg";
+  }
+
+  /* Load Custom CSS */
+  renderedCallback() {
+    Promise.all([loadStyle(this, customSR + "/qutCustomLwcCss.css")]);
   }
 
   disconnectedCallback() {
@@ -205,37 +126,8 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     });
   }
 
-  /**
-   * Gets or sets the ordered hierarchy of categories to which the product belongs, ordered from least to most specific.
-   *
-   * @type {Category[]}
-   */
-  @api
-  get categoryPath() {
-    return this._categoryPath;
-  }
-
-  set categoryPath(newPath) {
-    this._categoryPath = newPath;
-    this.resolveCategoryPath(newPath || []);
-  }
-
-  /**
-   * Getter that indicates that product has a price
-   *
-   * @type {Category[]}
-   */
-  get hasPrice() {
-    return ((this.price || {}).negotiated || "").length > 0;
-  }
-
-  /**
-   * Updates the breadcrumb path for the product, resolving the categories to URLs for use as breadcrumbs.
-   *
-   * @param {Category[]} newPath
-   *  The new category "path" for the product.
-   */
-  openRegisterModal() {
+  /* Comment out temporarily old logic used for bulk register*/
+  /* openRegisterModal() {
     if (this.isCCEPortal) {
       this.bulkRegister = true;
     }
@@ -261,140 +153,36 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     this.closeModal();
     let event = new CustomEvent("refreshproduct");
     this.dispatchEvent(event);
-  }
+  } */
 
-  /**
-   * Emits a notification that the user wants to add the item to their cart.
-   *
-   * @fires ProductDetailsDisplay#addtocart
-   * @private
-   */
+  // Emits a notification that the user wants to add the item to their cart.
   notifyAddToCart() {
-    let quantity = this._quantityFieldValue;
-    this.dispatchEvent(
-      new CustomEvent("addtocart", {
-        detail: {
-          quantity
-        }
-      })
-    );
-    this.openRegisterModal();
-  }
-
-  resolveCategoryPath(newPath) {
-    const path = [homePage].concat(
-      newPath.map((level) => ({
-        name: level.name,
-        type: "standard__recordPage",
-        attributes: {
-          actionName: "view",
-          recordId: level.id
-        }
-      }))
-    );
-
-    this._connected
-      .then(() => {
-        const levelsResolved = path.map((level) =>
-          this[NavigationMixin.GenerateUrl]({
-            type: level.type,
-            attributes: level.attributes
-          }).then((url) => ({
-            name: level.name,
-            url: url
-          }))
-        );
-
-        return Promise.all(levelsResolved);
-      })
-      .then((levels) => {
-        this._resolvedCategoryPath = levels;
-      });
-  }
-
-  /**
-   * handles show button
-   */
-  handleShowClick(event) {
-    const labelShow = event.target.label;
-
-    if (labelShow === "SHOW MORE") {
-      this.clickedShowLabel = "HIDE";
-      this.showVisible = true;
-    } else if (labelShow === "HIDE") {
-      this.clickedShowLabel = "SHOW MORE";
-      this.showVisible = false;
-    }
-  }
-
-  registerInterest(){
-    if(!isGuest){
-        insertExpressionOfInterest({
-          userId:userId, 
-          productId:this.productOnPage.Id
-      })
-      .then(()=>{
-          this.generateToast(
-              'Success!',
-              'Interest Registered',
-              'success')
-      })
-      .catch(error=>{
-          console.log(error);
-          if(error.body.message == 'Register Interest Exists'){
-            this.generateToast(
-              'Error.',
-              INTEREST_EXISTS_ERROR,
-              'error'
-            );
-          }else{
-            this.generateToast(
-              'Error.',
-              MSG_ERROR,
-              'error'
-            );
+    // Call AddToCart
+    if (!isGuest) {
+      // let quantity = 1;
+      let courseOfferingId = this.selectedCourseOffering;
+      //let programOfferingId = this.selectedCourseOffering;
+      let pricebookEntryId = this.selectedPriceBookEntry;
+      this.dispatchEvent(
+        new CustomEvent("addtocart", {
+          detail: {
+            courseOfferingId,
+            pricebookEntryId
           }
-          
-      })
-    }else{
-      window.location.replace(BasePath + 'login/');
+        })
+      );
+    } else {
+      // Redirect to login with startURL on current Product Detail
+      window.location.replace(
+        BasePath + "/login?startURL=" + window.location.pathname
+      );
     }
-    
-}
-
-  /**
-   * Getter of selected course offering
-   *
-   * @type {Object}
-   */
-  get selectedCourseOffering() {
-    let foundCourseOffering = this.courseOfferings.find(
-      (key) => key.Id === this.selectedOfferingId
-    );
-    return foundCourseOffering ? foundCourseOffering : {};
-  }
-
-  /**
-   * Indicates that user selected a course offering/date
-   *
-   * @type {Boolean}}
-   */
-  get hasSelectedCourseOffering() {
-    return this.selectedCourseOffering.Id ? true : false;
-  }
-
-  /**
-   * Shows the enroll/register button
-   *
-   * @type {Boolean}}
-   */
-  get showEnrollButton() {
-    return this.selectedCourseOffering.Available_Seats__c > 0;
+    /* Comment out for bulk register */
+    /* this.openRegisterModal(); */
   }
 
   get showRegisterInterestButton() {
     if (
-      !this.showEnrollButton &&
       this.hasNoRelatedCourseOfferings &&
       this.registerInterestAvailable === "true" &&
       this.isOPEPortal
@@ -405,118 +193,169 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     }
   }
 
-  get availableSeats() {
-    let availableSeatsTemp =
-      this.selectedCourseOffering.Available_Seats__c > 0
-        ? this.selectedCourseOffering.Available_Seats__c
-        : 0;
-    let onHoldSeatsTemp =
-      this.selectedCourseOffering.On_Hold_Seat__c > 0
-        ? this.selectedCourseOffering.On_Hold_Seat__c
-        : 0;
-    let seats = availableSeatsTemp - onHoldSeatsTemp;
-    return seats > 0 ? seats : 0;
-  }
-
-  get plural() {
-    return this.availableSeats > 1 ? "s" : "";
-  }
-
-  /**
-   * Indicates that product has no related couse offering
-   *
-   * @type {Boolean}}
-   */
-  get hasNoRelatedCourseOfferings() {
-    return this.pickOptions.length === 0;
-  }
-
-  /**
-   * Gets the prices and st
-   *
-   * @type {Object}}
-   */
-  get prices() {
-    let pricesObj = [];
-    if (this.priceBookEntries && this.priceBookEntries.length > 0) {
-      pricesObj = this.priceBookEntries
-        .filter((filterKey) => filterKey.UnitPrice)
-        .map((key) => {
-          return {
-            priceBookName: key.Pricebook2.Name,
-            unitPrice: parseInt(key.UnitPrice).toLocaleString("en-US", {
-              style: "currency",
-              currency: "USD"
-            })
-          };
+  // Register Interest
+  /* registerInterest() {
+    if (!isGuest) {
+      insertExpressionOfInterest({
+        userId: userId,
+        productId: this.productDetails.Id
+      })
+        .then(() => {
+          this.generateToast("Success!", "Interest Registered", "success");
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.body.message == "Register Interest Exists") {
+            this.generateToast("Error.", INTEREST_EXISTS_ERROR, "error");
+          } else {
+            this.generateToast("Error.", LWC_Error_General, "error");
+          }
         });
-      return pricesObj;
-    }
-    return pricesObj;
-  }
-
-  get optionsPlaceholder() {
-    return this.hasNoRelatedCourseOfferings ? "NO OFFERING AVAILABLE" : "SELECT A DATE";
-  }
-
-  get pickOptions() {
-    if (this.courseOfferings && this.courseOfferings.length > 0) {
-      let options = this.courseOfferings
-        .filter((filterKey) => filterKey.hed__Start_Date__c)
-        .map((key) => {
-          return {
-            label:
-              this.ordinal(
-                new Date(key.hed__Start_Date__c).toLocaleDateString("en-US", {
-                  day: "numeric"
-                })
-              ) +
-              " " +
-              new Date(key.hed__Start_Date__c).toLocaleDateString("en-US", {
-                month: "long"
-              }) +
-              " " +
-              new Date(key.hed__Start_Date__c).toLocaleDateString("en-US", {
-                year: "numeric"
-              }),
-            value: key.Id
-          };
-        });
-      return options;
     } else {
-      return [];
+      window.location.replace(BasePath + "login/");
+    }
+  } */
+
+  // Accordion Toggle logic
+  handleAccordionToggle(event) {
+    // Get Aria Expanded value
+    let accordionAriaExpanded = event.currentTarget;
+    // Get Closest Section Element
+    let accordionSection = event.currentTarget.closest("section");
+    // Get Content Element
+    let accordionContent = accordionSection.querySelector(".accordionContent");
+    // Get Button Icon Element
+    let accordionIcon = accordionSection.querySelector(".slds-button__icon");
+
+    // Toggle Values
+    accordionSection.classList.toggle("slds-is-open");
+    if (accordionAriaExpanded.getAttribute("aria-expanded") == "true") {
+      accordionAriaExpanded.setAttribute("aria-expanded", "false");
+      accordionContent.setAttribute("hidden");
+      accordionIcon.setAttribute(
+        "src",
+        qutResourceImg + "/QUTImages/Icon/accordionClose.svg"
+      );
+    } else {
+      accordionAriaExpanded.setAttribute("aria-expanded", "true");
+      accordionContent.removeAttribute("hidden");
+      accordionIcon.setAttribute(
+        "src",
+        qutResourceImg + "/QUTImages/Icon/accordionOpen.svg"
+      );
     }
   }
 
-  /*
-   *adds suffix to the day of a date
-   */
-  ordinal(day) {
-    var s = ["th", "st", "nd", "rd"];
-    var v = day % 100;
-    return day + (s[(v - 20) % 10] || s[v] || s[0]);
+  // Retrieve Related Course Offering from Delivery Picklist Selected
+  handleDeliverySelected(event) {
+    if (event.detail) {
+      let yourSelectedValues = [];
+
+      event.detail.forEach(function (eachItem) {
+        yourSelectedValues.push(eachItem.value);
+      });
+
+      getRelatedCourseOffering({
+        courseId: this.productDetails.Course__c,
+        deliveryParam: yourSelectedValues
+      })
+        .then((results) => {
+          this.courseOfferings = undefined;
+          this.selectedCourseOffering = undefined;
+          this.selectedCourseOfferingLocation = undefined;
+          this.selectedCourseOfferingFacilitator = undefined;
+          this.facilitator = undefined;
+          this.displayFacilitatorNav = true;
+          this.facilitatorIndex = 0;
+          this.selectedPriceBookEntry = undefined;
+          this.disableAvailStartDate = true;
+          this.disablePriceBookEntry = true;
+          this.disableAddToCart = true;
+
+          if (results.length > 0) {
+            this.courseOfferings = results;
+            this.disableAvailStartDate = false;
+          }
+        })
+        .catch((e) => {
+          this.generateToast("Error.", LWC_Error_General, "error");
+        });
+    }
   }
 
-  /*
-   * handles process when an offering is selected
-   */
-  handlePickChange(event) {
-    this.selectedDate = event.target.options.find(
-      (opt) => opt.value === event.detail.value
-    ).label;
-    this.selectedOfferingId = event.detail.value;
+  // Set Selected Course Offering value
+  handleStartDateSelected(event) {
+    this.displayFacilitatorNav = true;
+    this.selectedCourseOffering = event.detail.value;
+    this.courseOfferings.forEach((cOffer) => {
+      if (cOffer.value === this.selectedCourseOffering) {
+        this.selectedCourseOfferingLocation = cOffer.location;
+        this.selectedCourseOfferingFacilitator = cOffer.facilitator;
+        if (this.selectedCourseOfferingFacilitator.length > 0) {
+          this.setFacilitatorToDisplay();
+          if (this.selectedCourseOfferingFacilitator.length == 1) {
+            this.displayFacilitatorNav = false;
+          }
+        }
+      }
+    });
+    this.disablePriceBookEntry = false;
   }
 
-  /**
-     * creates toast notification
-     */
-   generateToast(_title,_message,_variant){
+  handlePreviousFacilitator() {
+    if (this.facilitatorIndex == 0) {
+      // If First Index, get Last Index
+      this.facilitatorIndex = this.selectedCourseOfferingFacilitator.length - 1;
+    } else {
+      // Else get previous Index
+      this.facilitatorIndex--;
+    }
+    this.setFacilitatorToDisplay();
+  }
+
+  handleNextFacilitator() {
+    if (
+      this.facilitatorIndex ==
+      this.selectedCourseOfferingFacilitator.length - 1
+    ) {
+      // If Last Index, get First Index
+      this.facilitatorIndex = 0;
+    } else {
+      // Else get next Index
+      this.facilitatorIndex++;
+    }
+    this.setFacilitatorToDisplay();
+  }
+
+  // Set Facilitator Displayed
+  setFacilitatorToDisplay() {
+    this.facilitator =
+      this.selectedCourseOfferingFacilitator[this.facilitatorIndex];
+  }
+
+  // Set Selected Price Book Entry value
+  handlePricebookSelected(event) {
+    this.selectedPriceBookEntry = event.detail.value;
+    this.disableAddToCart = false;
+    this.priceBookEntries.forEach((pBookEntry) => {
+      if (
+        pBookEntry.value === this.selectedPriceBookEntry &&
+        pBookEntry.label == "Group Booking"
+      ) {
+        this.displayAddToCart = false;
+      } else {
+        this.displayAddToCart = true;
+      }
+    });
+  }
+
+  // Creates toast notification
+  generateToast(_title, _message, _variant) {
     const evt = new ShowToastEvent({
-        title: _title,
-        message: _message,
-        variant: _variant,
+      title: _title,
+      message: _message,
+      variant: _variant
     });
     this.dispatchEvent(evt);
   }
-
 }

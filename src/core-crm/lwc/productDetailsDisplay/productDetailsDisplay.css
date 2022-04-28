@@ -1,132 +1,123 @@
 :host {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
 }
 
-lightning-breadcrumbs {
-    display: block;
-}
-.slds-modal__container {
-    max-width: 80rem !important;
-    width: 80% !important;
-}
-
-.product-information {
-    display: flex;
+.header {
+  background: none;
+  font-family: "ProximaNova-Bold";
+  font-style: normal;
+  font-size: 66px;
+  line-height: 69px;
+  color: #0066b9;
 }
 
-figure {
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    width: 400px;
-    height: 400px;
+.subHeader {
+  background: none;
+  font-family: "ProximaNova-Bold";
+  font-style: normal;
+  font-size: 18px;
+  line-height: 21px;
+  color: #1c1c1c;
+  margin-bottom: 32px;
 }
 
-img {
-    object-fit: contain;
+.slds-accordion__section.slds-is-open .slds-accordion__summary {
+  background: #0066b9;
 }
 
-.heading {
-    flex-grow: 1;
+.slds-accordion__summary-heading .slds-button:focus {
+  text-decoration: none;
 }
 
-.details-area {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    align-items: stretch;
-    min-height: 400px;
+.slds-accordion__section.slds-is-open .accordionHeader {
+  color: #ffffff;
 }
 
-.price {
-    align-self: end;
+.slds-accordion__list-item {
+  border-top: none;
+  border-bottom: 2px solid #0066b9;
 }
 
-/* CSS Styling for narrow screens (e.g. phones) */
-@media only screen and (max-width: 48em) {
-    /* SLDS token: mqSmall */
-    .product-information {
-        flex-direction: column;
-    }
-
-    .details-area {
-        padding-top: var(--lwc-spacingSmall);
-    }
-
-    .image {
-        align-self: center;
-    }
-
-    figure {
-        width: 200px;
-        height: 200px;
-    }
+.slds-accordion__summary {
+  padding: 0;
 }
 
-.product-bodydetails{
-    font-weight: light;
-    font-weight: 1000;
-    color:#333333;
+.slds-accordion__summary-heading {
+  padding: 16px;
+  margin: auto;
 }
 
-.product-bodytitle{
-    font-weight: bold;
-    font-weight: 1000;
-    color:#333333;
+.accordionHeader {
+  font-family: "ProximaNova-Bold";
+  font-style: normal;
+  font-size: 23px;
+  line-height: 28px;
+  color: #0066b9;
+  margin-right: auto;
 }
 
-.product-bodydetails_label{
-  font-weight: bold;
-  font-weight: 1000;
-  color:#2574A9;
+.accordionContent {
+  padding: 16px 0 0;
+  font-family: "ProximaNova";
+  font-style: normal;
+  font-size: 18px;
+  line-height: 21px;
+  color: #1c1c1c;
 }
 
-.product-bodydetails_red{
-  font-weight: bold;
-  font-weight: 1000;
-  color:#eb0c0c;
+.rightColumn {
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
+  margin-left: 32px;
+  padding: 16px;
 }
 
-.product-grid{
-  background-color:rgb(245, 245, 240);
+.durationTitle {
+  font-family: "ProximaNova-Bold";
+  font-style: normal;
+  font-size: 23px;
+  line-height: 28px;
+  color: #1c1c1c;
 }
 
-.parent-name{
-  color:#003b6f;
+.durationValue {
+  font-family: "ProximaNova";
+  font-size: 18px;
+  line-height: 21px;
+  color: #1c1c1c;
 }
 
-.banner {
-    margin: 0 auto;
-    width: 1000;
-    height: 500;
+.facilImage {
+  border-radius: 50%;
+  width: 214px;
+  height: 214px;
+  border: 1px solid #dbdbdb;
+  box-sizing: border-box;
+  background-color: #dbdbdb;
+}
+
+.facilName {
+  font-family: "ProximaNova-Bold";
+  font-style: normal;
+  font-size: 23px;
+  line-height: 28px;
+  color: #0066b9;
+}
+
+.facilBio {
+  font-family: "ProximaNova";
+  font-style: normal;
+  font-size: 18px;
+  line-height: 21px;
+  color: #1c1c1c;
+}
+
+/* Mobile CSS */
+@media screen and (max-width: 767px) {
+  .rightColumn {
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
+    margin-left: 0;
+    padding: 16px;
   }
-
-  .courseBanner {
-    font-size: 2rem;
-    font-weight: bolder;
-    color: white;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    position: absolute;
-    bottom: 50px;
-    padding-left: 30px;
-  }
-  
-  .courseBannerDetails {
-    font-size: 1.5rem;
-    font-weight: bolder;
-    color: white;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    position: absolute;
-    bottom: 70px;
-    padding-left: 30px;
-  }
-
-.showMore {
-    width: 400;
-    height: 400;
-    color: #333333;
-    /*align-self: center;*/
-    padding-right: 40px;
 }

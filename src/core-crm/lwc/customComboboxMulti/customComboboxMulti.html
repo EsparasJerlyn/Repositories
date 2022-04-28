@@ -1,0 +1,91 @@
+<template>
+  <div class="slds-form-element">
+    <!-- Field Label -->
+    <label if:true={label} class="slds-form-element__label">
+      <abbr if:true={required} title="required" class="slds-required">*</abbr>
+      {label}
+    </label>
+    <!-- Combobox Container -->
+    <div class="slds-form-element__control">
+      <div class="slds-combobox_container">
+        <div
+          class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-picklist multi-select-combobox__dropdown"
+        >
+          <div
+            class="slds-combobox_form-element slds-input-has-icon slds-input-has-icon_right"
+            role="none"
+          >
+            <!-- Readonly Input to display selected value -->
+            <input
+              type="text"
+              class="slds-combobox__input multi-select-combobox__input"
+              aria-controls="multi-pick-list-dropdown-items"
+              role="textbox"
+              placeholder={placeholder}
+              value={selectedItems}
+              required={required}
+              disabled={isDisabled}
+              readonly
+            />
+            <!-- Down Arrow icon div if dropdown close -->
+            <div if:false={isDropdownOpen} class="comboBoxIconClose">
+              <span
+                if:false={useCustomIcon}
+                class="slds-icon_container slds-icon-utility-down slds-input__icon slds-input__icon_right multi-select-combobox__icon"
+              >
+                <lightning-icon icon-name={sldsIconDown} size="x-small">
+                </lightning-icon>
+              </span>
+              <div if:true={useCustomIcon} class="customIconContainer">
+                <img class="customIconStyle" src={customIconDown} alt="" />
+              </div>
+            </div>
+            <!-- Up Arrow icon div if dropdown open -->
+            <div
+              if:true={isDropdownOpen}
+              class="comboBoxIconOpen"
+              onclick={close}
+            >
+              <span
+                if:false={useCustomIcon}
+                class="slds-icon_container slds-icon-utility-up slds-input__icon slds-input__icon_right multi-select-combobox__icon"
+              >
+                <lightning-icon icon-name={sldsIconUp} size="x-small">
+                </lightning-icon>
+              </span>
+              <div if:true={useCustomIcon} class="customIconContainer">
+                <img class="customIconStyle" src={customIconUp} alt="" />
+              </div>
+            </div>
+          </div>
+          <!-- List box to show dropdown options -->
+          <div
+            class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid multi-select-combobox__listbox"
+            role="listbox"
+          >
+            <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+              <!-- Display each option in the list -->
+              <template for:each={currentOptions} for:item="item">
+                <c-custom-combobox-multi-item
+                  key={item.value}
+                  item={item}
+                  onchange={handleChange}
+                >
+                </c-custom-combobox-multi-item>
+              </template>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Display pill for Selected values -->
+    <div if:true={hasPillsEnabled}>
+      <lightning-pill-container
+        if:true={isVisible}
+        items={selectedOptions}
+        variant="bare"
+        onitemremove={handleRemove}
+      ></lightning-pill-container>
+    </div>
+  </div>
+</template>

@@ -389,6 +389,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Product2.Delivery__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Product2.Evolve_with_QUTeX__c</field>
         <readable>true</readable>
     </fieldPermissions>
