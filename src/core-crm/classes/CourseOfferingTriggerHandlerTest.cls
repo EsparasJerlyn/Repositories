@@ -14,6 +14,8 @@
 @isTest(SeeAllData=false)
 public with sharing class CourseOfferingTriggerHandlerTest {
     private static User currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
+    private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
+    private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
 
     @IsTest
     private static void insertCourseConnectionTest() {
@@ -21,6 +23,10 @@ public with sharing class CourseOfferingTriggerHandlerTest {
             Test.startTest();
 
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
+            for(Account account : accounts){
+                account.RecordTypeId = ACCT_UNIV_DEP_ID;
+                account.Organization_Unit_Level__c = '2';
+            }            
             insert accounts;
     
             List<Contact> contacts = TestDataFactory.createTestContactRecords(1);

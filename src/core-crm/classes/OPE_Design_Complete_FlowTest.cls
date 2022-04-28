@@ -16,24 +16,27 @@
 private class OPE_Design_Complete_FlowTest{
 
     private static User currentUser = TestDataFactory.createUserRecords(1, 'QUTeX').iterator().next();
-    private static String PR_MODULE = System.Label.RT_ProductRequest_Module;
-    private static String C_MODULE = System.Label.RT_Course_Module;
-    private static string PR_SHORTCOURSE = System.Label.RT_ProductRequest_ShortCourse;
-    private static string C_SHORTCOURSE = System.Label.RT_Course_ShortCourse;
-    private static string PR_ACTIVITY = System.Label.RT_ProductRequest_Activity;
-    private static string C_ACTIVITY = System.Label.RT_Course_Activity;
-    private static string PR_UNIT = System.Label.RT_ProductRequest_Unit;
-    private static string C_UNIT = System.Label.RT_ProductRequest_Unit; 
+    private static final String PR_MODULE = System.Label.RT_ProductRequest_Module;
+    private static final String C_MODULE = System.Label.RT_Course_Module;
+    private static final string PR_SHORTCOURSE = System.Label.RT_ProductRequest_ShortCourse;
+    private static final string C_SHORTCOURSE = System.Label.RT_Course_ShortCourse;
+    private static final string PR_ACTIVITY = System.Label.RT_ProductRequest_Activity;
+    private static final string C_ACTIVITY = System.Label.RT_Course_Activity;
+    private static final string PR_UNIT = System.Label.RT_ProductRequest_Unit;
+    private static final string C_UNIT = System.Label.RT_ProductRequest_Unit; 
+    private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;    
     
-    private static Id opeActProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_ACTIVITY).getRecordTypeId();
-    private static Id opeActivityId = Schema.SObjectType.hed__Course__c.getRecordTypeInfosByDeveloperName().get(C_ACTIVITY).getRecordTypeId();
-    private static Id opeShortProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_SHORTCOURSE).getRecordTypeId();
-    private static Id opeShortCourseId = Schema.SObjectType.hed__Course__c.getRecordTypeInfosByDeveloperName().get(C_SHORTCOURSE).getRecordTypeId();
-    private static Id opeModuleProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_MODULE).getRecordTypeId();
-    private static Id opeModuleId = Schema.SObjectType.hed__Course__c.getRecordTypeInfosByDeveloperName().get(C_MODULE).getRecordTypeId();
-    private static Id opeUnitProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_UNIT).getRecordTypeId();
-    private static Id opeUnitId = Schema.SObjectType.hed__Course__c.getRecordTypeInfosByDeveloperName().get(C_UNIT).getRecordTypeId();
-    private static Integer numberOfRecords = 100;
+    private static final Id opeActProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_ACTIVITY).getRecordTypeId();
+    private static final Id opeActivityId = Schema.SObjectType.hed__Course__c.getRecordTypeInfosByDeveloperName().get(C_ACTIVITY).getRecordTypeId();
+    private static final Id opeShortProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_SHORTCOURSE).getRecordTypeId();
+    private static final Id opeShortCourseId = Schema.SObjectType.hed__Course__c.getRecordTypeInfosByDeveloperName().get(C_SHORTCOURSE).getRecordTypeId();
+    private static final Id opeModuleProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_MODULE).getRecordTypeId();
+    private static final Id opeModuleId = Schema.SObjectType.hed__Course__c.getRecordTypeInfosByDeveloperName().get(C_MODULE).getRecordTypeId();
+    private static final Id opeUnitProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_UNIT).getRecordTypeId();
+    private static final Id opeUnitId = Schema.SObjectType.hed__Course__c.getRecordTypeInfosByDeveloperName().get(C_UNIT).getRecordTypeId();
+    private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
+    
+    private static final Integer numberOfRecords = 100;
 
     @isTest
     private static void updateActivityCourseTest(){
@@ -180,7 +183,7 @@ private class OPE_Design_Complete_FlowTest{
 
     private static hed__Facility__c createFacility(){
         hed__Facility__c facility = new hed__Facility__c();
-        facility.Name = 'test';
+        facility.Name = 'Externals';
         insert facility;
         return facility;
     }
@@ -191,7 +194,18 @@ private class OPE_Design_Complete_FlowTest{
             hed__Facility__c facility = createFacility();
 
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
+            for(Account account : accounts){
+                account.RecordTypeId = ACCT_UNIV_DEP_ID;
+                account.Organization_Unit_Level__c = '2';
+            }
             insert accounts;
+
+            List<Account> accountsForOwningSchool = TestDataFactory.createTestAccountRecords(1);
+            for(Account account : accountsForOwningSchool){
+                account.RecordTypeId = ACCT_UNIV_DEP_ID;
+                account.Organization_Unit_Level__c = '3';
+            }
+            insert accountsForOwningSchool;
 
             List<Product_Request__c> productRequests = TestDataFactory.createTestProductRequestRecords(1);
             for(Product_Request__c productRequest : productRequests){
@@ -213,7 +227,7 @@ private class OPE_Design_Complete_FlowTest{
                 course.Description__c = 'test';
                 course.Primary_Delivery_Platform__c = 'Blackboard';
                 course.Owning_Faculty__c = accounts[0].Id;
-                course.Owning_School_Discipline_Area__c = accounts[0].Id;
+                course.Owning_School_Discipline_Area__c = accountsForOwningSchool[0].Id;
                 course.Overviewv2__c = 'test';  
                 course.Minimum_Participants__c = 1;
                 course.Maximum_Participants__c = 10;

@@ -14,18 +14,21 @@
 @IsTest(SeeAllData = false)
 private class Update_Product_from_CourseTest{
 
-    private static string PR_ACTIVITY = System.Label.RT_ProductRequest_Activity;
-    private static string PR_PROGRAM = System.Label.RT_ProductRequest_Program;
-    private static string COURSE_ACTIVITY = System.Label.RT_Course_Activity;
-    private static string PP_PROGRAM = System.Label.RT_ProductRequest_Program;
-
     private static User currentUser = TestDataFactory.createUserRecords(1, 'QUTeX').iterator().next();
 
-    private static Id opeActProdReqId =  Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_ACTIVITY).getRecordTypeId();
-    private static Id opeActivityId = Schema.SObjectType.hed__Course__c.getRecordTypeInfosByDeveloperName().get(COURSE_ACTIVITY).getRecordTypeId();
-    private static Id opeProgProdReqId =  Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_PROGRAM).getRecordTypeId();
-    private static Id opeProgPlanId = Schema.SObjectType.hed__Program_Plan__c.getRecordTypeInfosByDeveloperName().get(PP_PROGRAM).getRecordTypeId();
-    private static Integer numberOfRecords = 100;
+    private static final string PR_ACTIVITY = System.Label.RT_ProductRequest_Activity;
+    private static final string PR_PROGRAM = System.Label.RT_ProductRequest_Program;
+    private static final string COURSE_ACTIVITY = System.Label.RT_Course_Activity;
+    private static final string PP_PROGRAM = System.Label.RT_ProductRequest_Program;
+    private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;   
+
+    private static final Id opeActProdReqId =  Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_ACTIVITY).getRecordTypeId();
+    private static final Id opeActivityId = Schema.SObjectType.hed__Course__c.getRecordTypeInfosByDeveloperName().get(COURSE_ACTIVITY).getRecordTypeId();
+    private static final Id opeProgProdReqId =  Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_PROGRAM).getRecordTypeId();
+    private static final Id opeProgPlanId = Schema.SObjectType.hed__Program_Plan__c.getRecordTypeInfosByDeveloperName().get(PP_PROGRAM).getRecordTypeId();
+    private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
+
+    private static final Integer numberOfRecords = 100;
     private static Date startDate = date.today().addDays(1);
     private static Date endDate = startDate.addDays(1);
 
@@ -78,6 +81,10 @@ private class Update_Product_from_CourseTest{
         System.runAs(currentUser){
             createProgramPlan(opeProgProdReqId);
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
+            for(Account account : accounts){
+                account.RecordTypeId = ACCT_UNIV_DEP_ID;
+                account.Organization_Unit_Level__c = '2';
+            }
             insert accounts;
 
             Test.startTest();
@@ -138,7 +145,18 @@ private class Update_Product_from_CourseTest{
     private static void createCourse(String productRequestRecordType){
         System.runAs(currentUser){
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
+            for(Account account : accounts){
+                account.RecordTypeId = ACCT_UNIV_DEP_ID;
+                account.Organization_Unit_Level__c = '2';
+            }
             insert accounts;
+
+            List<Account> owningSchoolAccounts = TestDataFactory.createTestAccountRecords(1);
+            for(Account account : owningSchoolAccounts){
+                account.RecordTypeId = ACCT_UNIV_DEP_ID;
+                account.Organization_Unit_Level__c = '3';
+            }
+            insert owningSchoolAccounts;
 
             List<Product_Request__c> productRequests = TestDataFactory.createTestProductRequestRecords(numberOfRecords);
             for(Product_Request__c productRequest : productRequests){
@@ -147,7 +165,7 @@ private class Update_Product_from_CourseTest{
             insert productRequests;
 
             hed__Facility__c facility = new hed__Facility__c();
-            facility.Name = 'test';
+            facility.Name = 'Externals';
             insert facility;
 
             List<hed__Course__c> courses = TestDataFactory.createTestCourseRecords(numberOfRecords, accounts[0].Id, productRequests[0].Id);
@@ -161,7 +179,7 @@ private class Update_Product_from_CourseTest{
                 courses[i].Description__c = 'test';
                 courses[i].Primary_Delivery_Platform__c = 'Blackboard';
                 courses[i].Owning_Faculty__c = accounts[0].Id;
-                courses[i].Owning_School_Discipline_Area__c = accounts[0].Id;
+                courses[i].Owning_School_Discipline_Area__c = owningSchoolAccounts[0].Id;
                 courses[i].Overviewv2__c = 'test';
                 courses[i].Location__c = facility.Id;
                 courses[i].Location_Details__c = 'test';

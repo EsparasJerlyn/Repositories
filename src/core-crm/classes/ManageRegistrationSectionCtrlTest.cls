@@ -17,11 +17,13 @@
 public with sharing class ManageRegistrationSectionCtrlTest{
 
      private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
-     private static string studentRT = System.Label.RT_CourseConnection_Student;
-     private static String rtProdRequestActivity = System.Label.RT_ProductRequest_Activity;
-     private static Id studentRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(studentRT).getRecordTypeId();
-     private static Id opeActProdReqRecType = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(rtProdRequestActivity).getRecordTypeId();
-     private static Integer numberOfRecords = 100;
+     private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
+     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
+     private static final string studentRT = System.Label.RT_CourseConnection_Student;
+     private static final String rtProdRequestActivity = System.Label.RT_ProductRequest_Activity;
+     private static final Id studentRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(studentRT).getRecordTypeId();
+     private static final Id opeActProdReqRecType = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(rtProdRequestActivity).getRecordTypeId();
+     private static final Integer numberOfRecords = 100;
 
      @IsTest
      static void getPaidInFullValuesTest(){        
@@ -141,6 +143,10 @@ public with sharing class ManageRegistrationSectionCtrlTest{
                Id offeringId = null;
 
                List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
+               for(Account account : accounts){
+                    account.RecordTypeId = ACCT_UNIV_DEP_ID;
+                    account.Organization_Unit_Level__c = '2';
+                }
                insert accounts;
                
                List<Product_Request__c> productRequests = TestDataFactory.createTestProductRequestRecords(1);

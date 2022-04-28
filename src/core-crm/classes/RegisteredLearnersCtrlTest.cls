@@ -15,9 +15,15 @@
 private with sharing class RegisteredLearnersCtrlTest {
     
     private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
-    private static Map <String,Schema.RecordTypeInfo> courseConnectionRecordTypes = hed__Course_Enrollment__c.sObjectType.getDescribe().getRecordTypeInfosByName();
-    private static Id shortCourseProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get('Short_Course').getRecordTypeId();
-    private static Id studentRTId = courseConnectionRecordTypes.get('Student').getRecordTypeId();
+    
+    private static final string PR_SHORTCOURSE = System.Label.RT_ProductRequest_ShortCourse;
+    private static final Id shortCourseProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_SHORTCOURSE).getRecordTypeId();
+    
+    private static string studentRT = System.Label.RT_CourseConnection_Student;
+    private static Id studentRTId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(studentRT).getRecordTypeId();
+
+    private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
+    private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
     
     @TestSetup
     private static void setupMethod(){
@@ -27,6 +33,10 @@ private with sharing class RegisteredLearnersCtrlTest {
 
         List<Account> accounts;
         accounts = TestDataFactory.createTestAccountRecords(1);
+        for(Account account : accounts){
+            account.RecordTypeId = ACCT_UNIV_DEP_ID;
+            account.Organization_Unit_Level__c = '2';
+        }
         insert accounts;
 
         List<hed__Term__c> terms;

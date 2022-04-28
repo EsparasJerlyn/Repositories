@@ -529,4 +529,12 @@
         <shortDescription>QUT_Contact_ContactImageError</shortDescription>
         <value>Multiple Image file found. Please limit Image file to only 1 Image.</value>
     </labels>
+    <labels>
+        <fullName>RT_Account_University_Department</fullName>
+        <categories>RecordType,Account</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RT_Account_University_Department</shortDescription>
+        <value>University_Department</value>
+    </labels>
 </CustomLabels>

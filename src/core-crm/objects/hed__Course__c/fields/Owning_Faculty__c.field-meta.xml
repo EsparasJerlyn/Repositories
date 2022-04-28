@@ -5,6 +5,20 @@
     <externalId>false</externalId>
     <inlineHelpText>CourseLoop Field</inlineHelpText>
     <label>Owning Faculty</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>Account.RecordType.Name</field>
+            <operation>equals</operation>
+            <value>University Department</value>
+        </filterItems>
+        <filterItems>
+            <field>Account.Organization_Unit_Level__c</field>
+            <operation>equals</operation>
+            <value>2</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
     <referenceTo>Account</referenceTo>
     <relationshipLabel>Courses (Owning Faculty)</relationshipLabel>
     <relationshipName>Courses1</relationshipName>

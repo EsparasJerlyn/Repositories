@@ -4,6 +4,15 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <externalId>false</externalId>
     <label>Location</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>hed__Facility__c.Name</field>
+            <operation>contains</operation>
+            <value>&apos;QUT Kelvin Grove&apos;, &apos;QUT Garden Point&apos;, &apos;QUT Canberra&apos;, &apos;QUT Sydney&apos;, &apos;QUT Melbourne&apos;, &apos;Web Conference&apos;, &apos;Externals&apos;</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
     <referenceTo>hed__Facility__c</referenceTo>
     <relationshipLabel>Courses</relationshipLabel>
     <relationshipName>Courses</relationshipName>

@@ -15,6 +15,8 @@
 */
 @isTest(SeeAllData=false)
 private class ProductDetailsCtrlTest {
+  private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
+  private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
   public static final Id FACULTY_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
     .get('Faculty')
     .getRecordTypeId();
@@ -31,6 +33,10 @@ private class ProductDetailsCtrlTest {
     System.runAs(currentUser) {
       Test.startTest();
       List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
+      for(Account account : accounts){
+        account.RecordTypeId = ACCT_UNIV_DEP_ID;
+        account.Organization_Unit_Level__c = '2';
+    }
       insert accounts;
 
       List<Contact> contacts = TestDataFactory.createTestContactRecords(1);
