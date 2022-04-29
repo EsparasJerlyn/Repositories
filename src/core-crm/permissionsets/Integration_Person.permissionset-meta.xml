@@ -6228,6 +6228,10 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
+        <recordType>hed__Course_Enrollment__c.Student_Program</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
         <recordType>hed__Course__c.Activity</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
