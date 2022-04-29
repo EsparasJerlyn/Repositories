@@ -247,6 +247,14 @@
             "useCSVValuesMapping": true,
             "targetObject": "CommerceEntitlementBuyerGroup",
             "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id, Name from hed__Facility__c",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "hed__Facility__c",
+            "importCSVFilesAsIs": true
         }
     ]
 }
