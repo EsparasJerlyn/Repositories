@@ -17,6 +17,8 @@ public with sharing class TrackAttendanceAndEvaluationCtrlTest {
    private static Map <String,Schema.RecordTypeInfo> courseConnectionRecordTypes = hed__Course_Enrollment__c.sObjectType.getDescribe().getRecordTypeInfosByName();
    private static Id shortCourseProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get('Short_Course').getRecordTypeId();
    private static Id studentRTId = courseConnectionRecordTypes.get('Student').getRecordTypeId();
+   private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
+   private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
 
     @TestSetup
     static void setupMethod(){
@@ -27,6 +29,10 @@ public with sharing class TrackAttendanceAndEvaluationCtrlTest {
 
         List<Account> accounts;
         accounts = TestDataFactory.createTestAccountRecords(1);
+        for(Account acc : accounts){
+            acc.RecordTypeId = ACCT_UNIV_DEP_ID;
+            acc.Organization_Unit_Level__c = '2';
+        }
         insert accounts;
 
         List<hed__Term__c> terms;
@@ -61,13 +67,13 @@ public with sharing class TrackAttendanceAndEvaluationCtrlTest {
         sessions[0].Date__c =  Date.newInstance(2022, 01, 06);
         sessions[0].Start_Time_v2__c =Time.newInstance(15, 12, 30, 0);
         sessions[0].End_Time_v2__c =Time.newInstance(15, 12, 30, 0);
-        sessions[0].Facilitator__c = contacts[0].Id; 
-        
+        sessions[0].Facilitator__c = contacts[0].Id;
+
         hed__Facility__c fac = new hed__Facility__c();
         fac.Name = 'test';
         insert fac;
-        
-        sessions[0].Location__c = fac.Id; 
+
+        sessions[0].Location__c = fac.Id;
         insert sessions;
 
         List<hed__Course_Enrollment__c> students;
@@ -92,7 +98,7 @@ public with sharing class TrackAttendanceAndEvaluationCtrlTest {
             List<TrackAttendanceAndEvaluationCtrl.CourseRelatedRecords> getRecords = new List<TrackAttendanceAndEvaluationCtrl.CourseRelatedRecords>();
             getRecords = TrackAttendanceAndEvaluationCtrl.getRelatedCourseOfferingsAndSessions(string.valueOf([SELECT Id FROM Product_Request__c WHERE RecordTypeId =:shortCourseProdReqId LIMIT 1].Id));
 
-            System.assert(!getRecords.isEmpty(), 'No records retrieved.'); 
+            System.assert(!getRecords.isEmpty(), 'No records retrieved.');
         }
         Test.stopTest();
     }

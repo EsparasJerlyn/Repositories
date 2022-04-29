@@ -18,6 +18,8 @@ public with sharing class CourseConnectionTriggerHandlerTest {
   private static final Id STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
     .get('Student')
     .getRecordTypeId();
+  private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
+  private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
 
   private static User currentUser = TestDataFactory.createUserRecords(
       1,
@@ -31,6 +33,10 @@ public with sharing class CourseConnectionTriggerHandlerTest {
     System.runAs(currentUser) {
       Test.startTest();
       List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
+      for(Account acc : accounts){
+        acc.RecordTypeId = ACCT_UNIV_DEP_ID;
+        acc.Organization_Unit_Level__c = '2';
+      }
       insert accounts;
 
       List<Contact> contacts = TestDataFactory.createTestContactRecords(1);
@@ -106,6 +112,10 @@ public with sharing class CourseConnectionTriggerHandlerTest {
     System.runAs(currentUser) {
       Test.startTest();
       List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
+      for(Account acc : accounts){
+        acc.RecordTypeId = ACCT_UNIV_DEP_ID;
+        acc.Organization_Unit_Level__c = '2';
+      }
       insert accounts;
 
       List<Contact> contacts = TestDataFactory.createTestContactRecords(1);
@@ -194,6 +204,10 @@ public with sharing class CourseConnectionTriggerHandlerTest {
     System.runAs(currentUser) {
       Test.startTest();
       List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
+      for(Account acc : accounts){
+        acc.RecordTypeId = ACCT_UNIV_DEP_ID;
+        acc.Organization_Unit_Level__c = '2';
+      }
       insert accounts;
 
       List<Contact> contacts = TestDataFactory.createTestContactRecords(1);

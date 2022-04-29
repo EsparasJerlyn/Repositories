@@ -1,17 +1,17 @@
 /**
  * @description Test Class for ManageApplicationSectionCtrl
  * @see ../class/ManageApplicationSectionCtrl
- * 
+ *
  * @author Accenture
- * 
+ *
  * @history
  *    | Developer                 | Date                  | JIRA                 | Change Summary               |
       |---------------------------|-----------------------|----------------------|------------------------------|
-      | eccarius.karl.munoz       | February 08, 2022     | DEPP-1483            | Created file                 | 
-      | eccarius.karl.munoz       | February 28, 2022     | DEPP-1819            | Removed handling for Program | 
-      |                           |                       |                      | Plan due to program offering | 
-      |                           |                       |                      | id removal.                  | 
-      |                           |                       |                      |                              | 
+      | eccarius.karl.munoz       | February 08, 2022     | DEPP-1483            | Created file                 |
+      | eccarius.karl.munoz       | February 28, 2022     | DEPP-1819            | Removed handling for Program |
+      |                           |                       |                      | Plan due to program offering |
+      |                           |                       |                      | id removal.                  |
+      |                           |                       |                      |                              |
  */
 @isTest(SeeAllData=false)
 public with sharing class ManageApplicationSectionCtrlTest {
@@ -22,66 +22,72 @@ public with sharing class ManageApplicationSectionCtrlTest {
      private static Id studentRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(studentRT).getRecordTypeId();
      private static Id opeActProdReqRecType = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(rtProdRequestActivity).getRecordTypeId();
      private static Integer numberOfRecords = 100;
+     private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
+     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
 
      @IsTest
-     static void getApplicationStatusValuesTest(){        
-          System.runAs(currentUser){               
+     static void getApplicationStatusValuesTest(){
+          System.runAs(currentUser){
                Test.startTest();
-               List<String> appStatusValues = ManageApplicationSectionCtrl.getApplicationStatusValues();                 
+               List<String> appStatusValues = ManageApplicationSectionCtrl.getApplicationStatusValues();
                Test.stopTest();
                System.assert(!appStatusValues.isEmpty(), 'Application Status Values must not be empty.');
-          }      
-     } 
-
-     @IsTest
-     static void getStudentApplicationsTest(){        
-          System.runAs(currentUser){               
-               createRecord(opeActProdReqRecType);  
-               String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;             
-               Test.startTest();
-               List<ManageApplicationSectionCtrl.ManageApplicationDetails> applicationDetails = ManageApplicationSectionCtrl.getStudentApplications(prodReqId);      
-               Test.stopTest();
-               System.assertEquals(numberOfRecords, applicationDetails.size(), 'Incorrect number of records retrieved.');
-          }      
+          }
      }
 
      @IsTest
-     static void updateStudentApplicationTest(){        
-          System.runAs(currentUser){     
-               createRecord(opeActProdReqRecType);    
-               String questionId = [SELECT Id FROM Questionnaire_Response_Summary__c LIMIT 1].Id;
-               String applicationStatus= 'Rejected';
-               String reasonForRejection= 'Test Update';           
+     static void getStudentApplicationsTest(){
+          System.runAs(currentUser){
+               createRecord(opeActProdReqRecType);
+               String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;
                Test.startTest();
-               String updateReponse = ManageApplicationSectionCtrl.updateStudentApplication(questionId, applicationStatus, reasonForRejection); 
+               List<ManageApplicationSectionCtrl.ManageApplicationDetails> applicationDetails = ManageApplicationSectionCtrl.getStudentApplications(prodReqId);
                Test.stopTest();
-               System.assertEquals('Success', updateReponse, 'Update of record failed.');
-          }      
-     } 
+               System.assertEquals(numberOfRecords, applicationDetails.size(), 'Incorrect number of records retrieved.');
+          }
+     }
 
      @IsTest
-     static void getStudAppNoOfferingTest(){        
-          System.runAs(currentUser){               
+     static void updateStudentApplicationTest(){
+          System.runAs(currentUser){
+               createRecord(opeActProdReqRecType);
+               String questionId = [SELECT Id FROM Questionnaire_Response_Summary__c LIMIT 1].Id;
+               String applicationStatus= 'Rejected';
+               String reasonForRejection= 'Test Update';
+               Test.startTest();
+               String updateReponse = ManageApplicationSectionCtrl.updateStudentApplication(questionId, applicationStatus, reasonForRejection);
+               Test.stopTest();
+               System.assertEquals('Success', updateReponse, 'Update of record failed.');
+          }
+     }
+
+     @IsTest
+     static void getStudAppNoOfferingTest(){
+          System.runAs(currentUser){
                List<Product_Request__c> productRequests = TestDataFactory.createTestProductRequestRecords(1);
                for(Product_Request__c productRequest : productRequests){
                     productRequest.RecordTypeId = opeActProdReqRecType;
                }
                insert productRequests;
-               String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;             
+               String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;
                Test.startTest();
-               List<ManageApplicationSectionCtrl.ManageApplicationDetails> applicationDetails = ManageApplicationSectionCtrl.getStudentApplications(prodReqId);      
+               List<ManageApplicationSectionCtrl.ManageApplicationDetails> applicationDetails = ManageApplicationSectionCtrl.getStudentApplications(prodReqId);
                Test.stopTest();
                System.assertNotEquals(numberOfRecords, applicationDetails.size(), 'Records to be retrieved must be link with an offering.');
-          }      
-     }            
+          }
+     }
 
      private static void createRecord(String productRequestRecordType){
           System.runAs(currentUser){
                Id offeringId = null;
 
                List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
+               for(Account acc : accounts){
+                    acc.RecordTypeId = ACCT_UNIV_DEP_ID;
+                    acc.Organization_Unit_Level__c = '2';
+               }
                insert accounts;
-               
+
                List<Product_Request__c> productRequests = TestDataFactory.createTestProductRequestRecords(1);
                for(Product_Request__c productRequest : productRequests){
                     productRequest.RecordTypeId = productRequestRecordType;
@@ -97,7 +103,7 @@ public with sharing class ManageApplicationSectionCtrlTest {
                List<hed__Course_Offering__c> courseOfferings = TestDataFactory.createTestCourseOfferingRecord(1, courses, terms);
                insert courseOfferings;
 
-               offeringId = courseOfferings[0].Id;         
+               offeringId = courseOfferings[0].Id;
 
                List<Contact> contacts = TestDataFactory.createTestContactRecords(numberOfRecords);
                for(Integer i =0;i<contacts.size();i++){
@@ -119,18 +125,18 @@ public with sharing class ManageApplicationSectionCtrlTest {
                Questionnaire__c questionnaire = new Questionnaire__c();
                questionnaire.Questionnaire_Type__c = 'Application Questions';
                insert questionnaire;
-                    
+
                List<Questionnaire_Response_Summary__c> questionnaireResponseList = new List<Questionnaire_Response_Summary__c>();
                for(Contact contact : contacts){
                     Questionnaire_Response_Summary__c questionResp = new Questionnaire_Response_Summary__c();
                     questionResp.Contact__c = contact.Id;
-                    questionResp.Application_Status__c = 'Pending';  
-                    questionResp.Questionnaire__c =  questionnaire.Id;          
+                    questionResp.Application_Status__c = 'Pending';
+                    questionResp.Questionnaire__c =  questionnaire.Id;
                     questionResp.Course_Offering__c = offeringId;
                     questionnaireResponseList.add(questionResp);
                }
                insert questionnaireResponseList;
           }
-     } 
+     }
 
 }

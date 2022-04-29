@@ -8,14 +8,15 @@
  * @history
  *    | Developer                 | Date                  | JIRA      | Change Summary                  |
       |---------------------------|-----------------------|-----------|---------------------------------|
-      | roy.nino.s.regala         | March 10, 2022        | DEPP1747  | Created file                    | 
-      |                           |                       |           |                                 | 
+      | roy.nino.s.regala         | March 10, 2022        | DEPP1747  | Created file                    |
+      |                           |                       |           |                                 |
 */
 @isTest(SeeAllData=false)
 private class ProductManagementCtrlTest {
     private static string PR_PROGRAM = System.Label.RT_ProductRequest_Program;
     private static string PR_ACTIVITY = System.Label.RT_ProductRequest_Activity;
-    
+    private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
+    private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
 
     private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
     private static Id opeProgProdReqId =  Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_PROGRAM).getRecordTypeId();
@@ -24,12 +25,16 @@ private class ProductManagementCtrlTest {
     @testSetup static void setupMethod() {
         List<Account> accounts;
         accounts = TestDataFactory.createTestAccountRecords(1);
+        for(Account acc : accounts){
+            acc.RecordTypeId = ACCT_UNIV_DEP_ID;
+            acc.Organization_Unit_Level__c = '2';
+        }
         insert accounts;
 
         List<Contact> contacts;
         contacts = TestDataFactory.createTestContactRecords(1);
         insert contacts;
-        
+
         List<Opportunity> opps;
         opps = TestDataFactory.createTestOpportunityRecords(1,accounts[0].Id,contacts[0].Id);
         insert opps;
@@ -37,34 +42,34 @@ private class ProductManagementCtrlTest {
         List<Product_Specification__c> productSpecs;
         productSpecs = TestDataFactory.createTestProductSpecsRecords(1,contacts,opps);
         insert productSpecs;
-    
+
         List<Product_Request__c> prodRequestOPEProgramRequest;
         prodRequestOPEProgramRequest = TestDataFactory.createTestProductRequestRecords(1,productSpecs[0].Id);
         prodRequestOPEProgramRequest[0].Product_Request_Name__c = PR_PROGRAM;
         prodRequestOPEProgramRequest[0].RecordTypeId = opeProgProdReqId;
         prodRequestOPEProgramRequest[0].OPE_Program_Plan_Type__c = 'Flexible Program';
         insert prodRequestOPEProgramRequest;
-    
+
         List<hed__Program_Plan__c> programPlanList;
         programPlanList = TestDataFactory.createTestProgramPlanRecords(1);
         programPlanList[0].Product_Request__c = prodRequestOPEProgramRequest[0].Id;
         insert programPlanList;
-    
+
         List<Product_Request__c> prodRequest;
-    
+
         prodRequest = TestDataFactory.createTestProductRequestRecords(1,productSpecs[0].Id);
         prodRequest[0].RecordTypeId = opeActProdReqId;
         insert prodRequest;
-    
+
         List<hed__Course__c> courses;
         courses = TestDataFactory.createTestCourseRecords(1,accounts[0].Id,prodRequest[0].Id);
         insert courses;
-        
+
         List<Related_Product_Request__c> relatedProductRequests;
         relatedProductRequests = TestDataFactory.createTestRelatedPRRecords(1,prodRequest,prodRequestOPEProgramRequest);
         insert relatedProductRequests;
-        
-    }   
+
+    }
 
     static testMethod void testCheckParentProgramTypeTrue() {
         Test.startTest();

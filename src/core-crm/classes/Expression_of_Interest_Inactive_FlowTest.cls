@@ -14,6 +14,8 @@
 */
 @IsTest(SeeAllData = false)
 private class Expression_of_Interest_Inactive_FlowTest{
+    private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
+    private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
 
     @isTest
     private static void setToInactiveTest()
@@ -24,10 +26,10 @@ private class Expression_of_Interest_Inactive_FlowTest{
         Database.insert(portalAccountOwner1);
 
         System.runAs ( portalAccountOwner1 ) {
-            
+
             Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
             insert customEmail;
-            
+
             //Create account
             Account portalAccount1 = new Account(
             Name = 'TestAccount',
@@ -63,6 +65,10 @@ private class Expression_of_Interest_Inactive_FlowTest{
 
 
             accounts = TestDataFactory.createTestAccountRecords(1);
+            for(Account acc : accounts){
+                acc.RecordTypeId = ACCT_UNIV_DEP_ID;
+                acc.Organization_Unit_Level__c = '2';
+            }
             insert accounts;
             terms = TestDataFactory.createTestTermRecords(25,accounts[0].Id);
             insert terms;

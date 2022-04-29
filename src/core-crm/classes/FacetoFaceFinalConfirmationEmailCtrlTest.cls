@@ -14,6 +14,8 @@ public with sharing class FacetoFaceFinalConfirmationEmailCtrlTest {
   private static final Id STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
     .get('Student')
     .getRecordTypeId();
+  private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
+  private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
 
   private static User currentUser = TestDataFactory.createUserRecords(
       1,
@@ -27,6 +29,10 @@ public with sharing class FacetoFaceFinalConfirmationEmailCtrlTest {
     System.runAs(currentUser) {
       Test.startTest();
       List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
+      for(Account acc : accounts){
+        acc.RecordTypeId = ACCT_UNIV_DEP_ID;
+        acc.Organization_Unit_Level__c = '2';
+      }
       insert accounts;
 
       List<Contact> contacts = TestDataFactory.createTestContactRecords(1);
@@ -78,17 +84,17 @@ public with sharing class FacetoFaceFinalConfirmationEmailCtrlTest {
       hed__Facility__c fac = new hed__Facility__c();
       fac.Name = 'test';
       insert fac;
-        
+
       for (Session__c session : sessions) {
         session.Course_Connection__c = courseConnections[0].Id;
         session.Course_Offering__c = courseOfferings[0].Id;
         session.Date__c =  Date.newInstance(2022, 01, 06);
         session.Start_Time_v2__c =Time.newInstance(15, 12, 30, 0);
         session.End_Time_v2__c =Time.newInstance(15, 12, 30, 0);
-        session.Facilitator__c = contacts[0].Id; 
-        session.Location__c = fac.Id;  
+        session.Facilitator__c = contacts[0].Id;
+        session.Location__c = fac.Id;
       }
-      
+
       insert sessions;
 
       PageReference pageRef = Page.FacetoFaceFinalConfirmationPDFView;

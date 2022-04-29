@@ -8,20 +8,24 @@
  * @history
  *    | Developer                 | Date                  | JIRA      | Change Summary                  |
       |---------------------------|-----------------------|-----------|---------------------------------|
-      | marlon.vasquez            | February 15, 2022     | DEPP1834  | Created file                    | 
-      |                           |                       |           |                                 | 
+      | marlon.vasquez            | February 15, 2022     | DEPP1834  | Created file                    |
+      |                           |                       |           |                                 |
 */
 @IsTest
 private class FinancialSplitCtrlTest {
-	
+
     private static final String QUTEX = System.Label.QUTeX;
     private static final String COURSE_API_NAME = hed__Course__c.SObjectType.getDescribe().getLocalName();
     private static final String COURSE_PR_FIELD = 'ProductRequestID__c';
     private static final String FS_COURSE_FIELD = 'Course__c';
     private static User currentUser = TestDataFactory.createUserRecords(1, QUTEX).iterator().next();
+    private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
+    private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
 
     @testSetup static void setupMethod() {
         Account acc = TestDataFactory.createTestAccountRecords(1).iterator().next();
+        acc.RecordTypeId = ACCT_UNIV_DEP_ID;
+        acc.Organization_Unit_Level__c = '2';
         acc.Name = QUTEX;
         insert acc;
         Product_Request__c pr = TestDataFactory.createTestProductRequestRecords(1).iterator().next();
@@ -31,7 +35,7 @@ private class FinancialSplitCtrlTest {
         List<Financial_Split__c> financialSplits = TestDataFactory.createTestFinancialSplitRecords(1,course?.Id);
         insert financialSplits;
     }
-	
+
     @IsTest
     private static void getQutexIdTest(){
         System.runAs(currentUser){
@@ -42,7 +46,7 @@ private class FinancialSplitCtrlTest {
             System.assertEquals(qutexAcc?.Id, qutexId,'QUTeX account did not match');
         }
     }
-    
+
     @IsTest
     private static void getParentIdTest(){
         System.runAs(currentUser){
@@ -78,5 +82,5 @@ private class FinancialSplitCtrlTest {
             System.assertEquals(2, insertedFinancialSplits.size(),'Number of expected upserted financial splits did not match');
         }
     }
-    
+
 }

@@ -9,8 +9,8 @@
  *    | Developer                 | Date                  | JIRA         | Change Summary                              |
       |---------------------------|-----------------------|--------------|---------------------------------------------|
       | adrian.c.habasa           | January 21, 2022      | DEPP-1463    | Created file                                |
-      |                           |                       |              |                                             | 
-      |                           |                       |              |                                             | 
+      |                           |                       |              |                                             |
+      |                           |                       |              |                                             |
 */
 @IsTest(SeeAllData = false)
 private class Send_Program_Plan_Design_FormTest {
@@ -22,7 +22,10 @@ private class Send_Program_Plan_Design_FormTest {
     private static Id opeProdSpecId = Schema.SObjectType.Product_Specification__c.getRecordTypeInfosByDeveloperName().get(PS_PROGRAM_SPEC).getRecordTypeId();
     private static Id opeProgProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_PROGRAM).getRecordTypeId();
     private static Id opeProgPlanId = Schema.SObjectType.hed__Program_Plan__c.getRecordTypeInfosByDeveloperName().get(PP_PROGRAM).getRecordTypeId();
-  
+
+    private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
+    private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
+
     @isTest
     private static void emailProgramDesignCompletionTest()
     {
@@ -31,6 +34,10 @@ private class Send_Program_Plan_Design_FormTest {
             Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
             insert customEmail;
             List<Account> acc = TestDataFactory.createTestAccountRecords(1);
+            for(Account account : acc){
+                account.RecordTypeId = ACCT_UNIV_DEP_ID;
+                account.Organization_Unit_Level__c = '2';
+            }
             insert acc;
 
             List<Contact> conList = TestDataFactory.createTestContactRecords(1);
@@ -41,7 +48,7 @@ private class Send_Program_Plan_Design_FormTest {
 
             List<Credential__c> credList = TestDataFactory.createTestCredentialRecords(1);
             insert credList;
-            
+
             List<Opportunity> oppList = TestDataFactory.createTestOpportunityRecords(1,acc[0].Id,conList.iterator().next()?.Id);
             insert oppList;
 
@@ -61,7 +68,7 @@ private class Send_Program_Plan_Design_FormTest {
             insert pr;
 
             List<hed__Program_Plan__c> progPlan = TestDataFactory.createTestProgramPlanRecords(100);
-            
+
             Date startDate = date.today().addDays(1);
             Date endDate = startDate.addDays(1);
 
@@ -90,7 +97,7 @@ private class Send_Program_Plan_Design_FormTest {
                 progPlan[i].Credential__c=credList[0].Id;
                 progPlan[i].PP_Design_Form_Status__c = 'Design Form Sent';
             }
-            insert progPlan; 
+            insert progPlan;
 
             List<hed__Program_Plan__c> getProgPlan = new List<hed__Program_Plan__c>();
             List<hed__Program_Plan__c> progPlanRec = [SELECT id, PP_Design_Form_Status__c FROM hed__Program_Plan__c LIMIT 100];
@@ -101,7 +108,7 @@ private class Send_Program_Plan_Design_FormTest {
             }
             update getProgPlan;
             Test.stopTest();
-            
+
             System.assertEquals(0, Limits.getEmailInvocations(),'Number of email invocations not as expected');
         }
     }

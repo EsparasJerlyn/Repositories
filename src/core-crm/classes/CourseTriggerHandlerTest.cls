@@ -17,6 +17,8 @@ public with sharing class CourseTriggerHandlerTest {
     private static User currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
     private static Id opeShortProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get('Short_Course').getRecordTypeId();
     private static Id opeShortCourseId = Schema.SObjectType.hed__Course__c.getRecordTypeInfosByDeveloperName().get('Short_Course').getRecordTypeId();
+    private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
+    private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
 
     @IsTest
     private static void insertCourseTest() {
@@ -24,6 +26,10 @@ public with sharing class CourseTriggerHandlerTest {
             Test.startTest();
 
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
+            for(Account acc : accounts){
+                acc.RecordTypeId = ACCT_UNIV_DEP_ID;
+                acc.Organization_Unit_Level__c = '2';
+            }
             insert accounts;
 
             List<Product_Request__c> productRequests = TestDataFactory.createTestProductRequestRecords(10);
@@ -33,14 +39,14 @@ public with sharing class CourseTriggerHandlerTest {
             insert productRequests;
 
             hed__Facility__c facility = new hed__Facility__c();
-            facility.Name = 'test';
-            insert facility;                
+            facility.Name = 'Externals';
+            insert facility;
 
             List<hed__Course__c> courses = TestDataFactory.createTestCourseRecords(10, accounts[0].Id, productRequests[0].Id);
             for(Integer i = 0 ; i < courses.size() ; i++){
                 courses[i].ProductRequestID__c = productRequests[i].Id;
                 courses[i].RecordTypeId = opeShortCourseId;
-                courses[i].Location__c = facility.Id;             
+                courses[i].Location__c = facility.Id;
             }
             insert courses;
             Test.stopTest();

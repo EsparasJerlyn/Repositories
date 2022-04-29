@@ -8,8 +8,8 @@
  * @history
  *    | Developer                 | Date                  | JIRA      | Change Summary                  |
       |---------------------------|-----------------------|-----------|---------------------------------|
-      | roy.nino.s.regala         | October 01, 2021      | DEPP40,42 | Created file                    | 
-      | adrian.c.habasa           | January 20, 2022      | DEPP-1471 | Added Test Class Method         | 
+      | roy.nino.s.regala         | October 01, 2021      | DEPP40,42 | Created file                    |
+      | adrian.c.habasa           | January 20, 2022      | DEPP-1471 | Added Test Class Method         |
 */
 @isTest(SeeAllData=false)
 private class AddProductRequestCtrlTest {
@@ -22,7 +22,9 @@ private class AddProductRequestCtrlTest {
     private static Id opeProgProdReqId =  Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_PROGRAM).getRecordTypeId();
     private static final String PRODUCT_SPEC_RT = System.Label.RT_ProductSpecification_OPEProgramSpecification;
     private static Id opeProdSpecId = Schema.SObjectType.Product_Specification__c.getRecordTypeInfosByDeveloperName().get(PRODUCT_SPEC_RT).getRecordTypeId();
-    
+    private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
+    private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
+
     static testMethod void testGetFieldLayoutSettings() {
         Test.startTest();
         System.runAs(currentUser){
@@ -74,6 +76,10 @@ private class AddProductRequestCtrlTest {
     private static void testGetSearchedCourseProductRequests(){
         List<Account> accounts;
         accounts = TestDataFactory.createTestAccountRecords(1);
+        for(Account acc : accounts){
+            acc.RecordTypeId = ACCT_UNIV_DEP_ID;
+            acc.Organization_Unit_Level__c = '2';
+        }
         insert accounts;
         List<Contact> conList;
         conList = TestDataFactory.createTestContactRecords(1);

@@ -1,5 +1,5 @@
 /**
- * @description Test Class for Product Entitlement Assignment 
+ * @description Test Class for Product Entitlement Assignment
  *
  * @see ../flows/CCE_Products_Entitlement_Assignment
  *
@@ -8,20 +8,27 @@
  * @history
  *    | Developer                 | Date                  | JIRA         | Change Summary                              |
       |---------------------------|-----------------------|--------------|---------------------------------------------|
-      | eugene.andrew.abuan       | December 13, 2021     | DEPP-802     | Created file                                | 
-      | eugene.andrew.abuan       | January 05, 2022      | DEPP - 1442  | Added another assert to cover FlowCoverage  | 
+      | eugene.andrew.abuan       | December 13, 2021     | DEPP-802     | Created file                                |
+      | eugene.andrew.abuan       | January 05, 2022      | DEPP - 1442  | Added another assert to cover FlowCoverage  |
 */
 @IsTest(SeeAllData = false)
 private class ProductEntitlement_FlowTest {
     private static final Id BUSINESS_ACC_RECTYPEID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get('Business_Organization').getRecordTypeId();
-    
+    private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
+    private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
+
     @testSetup static void setupMethod() {
 
         Account acc = TestDataFactory.createTestAccountRecords(1).iterator().next();
+        acc.RecordTypeId = ACCT_UNIV_DEP_ID;
+        acc.Organization_Unit_Level__c = '2';
         insert acc;
+        Account buyerAcc = TestDataFactory.createTestAccountRecords(1).iterator().next();
+        buyerAcc.RecordTypeId = BUSINESS_ACC_RECTYPEID;
+        insert buyerAcc;
         List<Contact> conList = TestDataFactory.createTestContactRecords(1);
         insert conList;
-        List<Opportunity> oppList = TestDataFactory.createTestOpportunityRecords(1,acc?.Id,conList.iterator().next()?.Id);
+        List<Opportunity> oppList = TestDataFactory.createTestOpportunityRecords(1,buyerAcc?.Id,conList.iterator().next()?.Id);
         insert oppList;
         Product_Specification__c prodSpec = TestDataFactory.createTestProductSpecsRecords(1,conList,oppList).iterator().next();
         insert prodSpec;
@@ -31,7 +38,7 @@ private class ProductEntitlement_FlowTest {
         insert courseList;
         BuyerGroup buyerGroup = new BuyerGroup(Name='Test Buyer Group');
         insert buyerGroup;
-        BuyerGroupMember buyerGroupMember = new BuyerGroupMember(BuyerId = acc.Id, BuyerGroupId = buyerGroup.Id);
+        BuyerGroupMember buyerGroupMember = new BuyerGroupMember(BuyerId = buyerAcc.Id, BuyerGroupId = buyerGroup.Id);
         insert buyerGroupMember;
         CommerceEntitlementPolicy commerceEntl = new CommerceEntitlementPolicy(Name = 'Test Entitlement', CanViewProduct = true, CanViewPrice = true, IsActive = true);
         insert commerceEntl;
@@ -44,10 +51,10 @@ private class ProductEntitlement_FlowTest {
         List<hed__Course__c> courseList = ([SELECT Id, ProductRequestID__c FROM hed__Course__c]);
         List<Product2> product = TestDataFactory.createTestProductRecords(1,courseList);
         insert product;
-        
+
         Test.startTest();
-        
-        List<Account> acc = new List<Account>([SELECT Id FROM Account]);
+
+        List<Account> acc = new List<Account>([SELECT Id FROM Account WHERE RecordTypeId = :BUSINESS_ACC_RECTYPEID]);
         for(Account a : acc){
             a.IsPartner = true;
         }

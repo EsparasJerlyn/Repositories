@@ -8,20 +8,24 @@
  * @history
  *    | Developer                 | Date                  | JIRA      | Change Summary                  |
       |---------------------------|-----------------------|-----------|---------------------------------|
-      | aljohn.motas              | November 16, 2021     |  DEPP-649 | Created file                    | 
+      | aljohn.motas              | November 16, 2021     |  DEPP-649 | Created file                    |
       | eccarius.karl.munoz       | November 23, 2021     |  DEPP-663 | Modified getCoursesTest to      |
-      |                           |                       |           | align with GetCurriculumCtrl    | 
-      |                           |                       |           | method update.                  | 
-      |                           |                       |           |                                 | 
+      |                           |                       |           | align with GetCurriculumCtrl    |
+      |                           |                       |           | method update.                  |
+      |                           |                       |           |                                 |
 */
 @isTest(SeeAllData=false)
 public class GetCurriculumCtrlTest {
     private static final String STR_QUTEX = 'QUTeX';
     private static User currentUser = TestDataFactory.createUserRecords(1, STR_QUTEX).iterator().next();
     private static final Integer NUMBER_OF_RECORDS = 100;
+    private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
+    private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
 
     @testSetup static void setupMethod() {
         Account acc = TestDataFactory.createTestAccountRecords(1).iterator().next();
+        acc.RecordTypeId = ACCT_UNIV_DEP_ID;
+        acc.Organization_Unit_Level__c = '2';
         insert acc;
 
         List<Contact> conList = TestDataFactory.createTestContactRecords(1);
@@ -43,7 +47,7 @@ public class GetCurriculumCtrlTest {
         Test.startTest();
         insert(courseList);
         Test.stopTest();
-    }   
+    }
 
     @IsTest
     private static void getCoursesTest(){
@@ -51,7 +55,7 @@ public class GetCurriculumCtrlTest {
         Integer expectedResult = 100;
         System.runAs(currentUser){
             Id prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1]?.Id;
-            GetCurriculumCtrl.ExistingCurriculumItems courseListToTest = GetCurriculumCtrl.getExistingCurriculumItems(prodReqId, true);                        
+            GetCurriculumCtrl.ExistingCurriculumItems courseListToTest = GetCurriculumCtrl.getExistingCurriculumItems(prodReqId, true);
             System.assertEquals(expectedResult, courseListToTest.courses.size(), 'Course list did not match expected.');
         }
         Test.stopTest();

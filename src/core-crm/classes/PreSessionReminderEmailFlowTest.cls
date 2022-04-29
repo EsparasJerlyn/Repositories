@@ -24,10 +24,17 @@ private class PreSessionReminderEmailFlowTest {
     .iterator()
     .next();
 
+    private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
+    private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
+
   @IsTest
   private static void PreSessionEmailTest() {
     System.runAs(currentUser) {
       List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
+      for(Account acc : accounts){
+        acc.RecordTypeId = ACCT_UNIV_DEP_ID;
+        acc.Organization_Unit_Level__c = '2';
+      }
       insert accounts;
 
       List<Contact> contacts = TestDataFactory.createTestContactRecords(1);
@@ -80,16 +87,16 @@ private class PreSessionReminderEmailFlowTest {
       sessions[0].Date__c =  Date.newInstance(2022, 01, 06);
       sessions[0].Start_Time_v2__c =Time.newInstance(15, 12, 30, 0);
       sessions[0].End_Time_v2__c =Time.newInstance(15, 12, 30, 0);
-      sessions[0].Facilitator__c = contacts[0].Id; 
-      
+      sessions[0].Facilitator__c = contacts[0].Id;
+
       hed__Facility__c fac = new hed__Facility__c();
       fac.Name = 'test';
-      insert fac;      
+      insert fac;
 
-      sessions[0].Location__c = fac.Id; 
+      sessions[0].Location__c = fac.Id;
       insert sessions;
-        
-        
+
+
       Test.startTest();
       List<hed__Course_Enrollment__c> courseConnections = TestDataFactory.createTestCourseConnectionRecord(
         10,
@@ -104,9 +111,9 @@ private class PreSessionReminderEmailFlowTest {
       }
       insert courseConnections;
 
-             
-        
-        
+
+
+
       System.assertEquals(
         1,
         Limits.getEmailInvocations(),

@@ -2,17 +2,17 @@
  * @description Test class for CustomLayoutCtrl
  *
  * @see CustomLayoutCtrl
- * 
+ *
  * @author Accenture
- *      
+ *
  * @history
  *    | Developer                 | Date                  | JIRA                 | Change Summary                                         |
       |---------------------------|-----------------------|----------------------|--------------------------------------------------------|
-      | angelika.j.s.galang       | January 26, 2022      | DEPP-838,1299,1407   | Created file                                           |                           | 
+      | angelika.j.s.galang       | January 26, 2022      | DEPP-838,1299,1407   | Created file                                           |                           |
 */
 @IsTest(SeeAllData = false)
 private class CustomLayoutCtrlTest {
-    
+
     private static final String COURSE_API_NAME = hed__Course__c.SObjectType.getDescribe().getLocalName();
     private static final String COURSE_PR_FIELD = 'ProductRequestID__c';
     private static final String PRODUCT_API_NAME = Product2.SObjectType.getDescribe().getLocalName();
@@ -20,9 +20,13 @@ private class CustomLayoutCtrlTest {
     private static final String COMMUNICATION_SCHEDULE_API_NAME = Communication_Schedule__c.SObjectType.getDescribe().getLocalName();
     private static final String MDT_COMMUNICATION_SCHEDULE = 'All_OPE_Communication_Schedules';
     private static User currentUser = TestDataFactory.createUserRecords(1, 'QUTeX').iterator().next();
+    private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
+    private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
 
     @testSetup static void setupMethod() {
         Account acc = TestDataFactory.createTestAccountRecords(1).iterator().next();
+        acc.RecordTypeId = ACCT_UNIV_DEP_ID;
+        acc.Organization_Unit_Level__c = '2';
         insert acc;
         Product_Request__c pr = TestDataFactory.createTestProductRequestRecords(1).iterator().next();
         insert pr;

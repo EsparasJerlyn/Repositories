@@ -1,5 +1,5 @@
 /**
- * @description Tests the CreateCoursesCtrl class 
+ * @description Tests the CreateCoursesCtrl class
  *
  * @see CreateCoursesCtrl
  *
@@ -8,7 +8,7 @@
  * @history
  *    | Developer                 | Date                  | JIRA     | Change Summary                  |
       |---------------------------|-----------------------|----------|---------------------------------|
-      | angelika.j.s.galang       | October 25, 2021      | DEPP-383 | Created file                    | 
+      | angelika.j.s.galang       | October 25, 2021      | DEPP-383 | Created file                    |
       |                           |                       |          |                                 |
 */
 @IsTest(SeeAllData = false)
@@ -16,9 +16,13 @@ private class CreateCoursesCtrlTest {
 
     private static final String STR_QUTEX = 'QUTeX';
     private static User currentUser = TestDataFactory.createUserRecords(1, STR_QUTEX).iterator().next();
+    private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
+    private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
 
     @testSetup static void setupMethod() {
         Account acc = TestDataFactory.createTestAccountRecords(1).iterator().next();
+        acc.RecordTypeId = ACCT_UNIV_DEP_ID;
+        acc.Organization_Unit_Level__c = '2';
         insert acc;
 
         List<Contact> conList = TestDataFactory.createTestContactRecords(1);
@@ -40,7 +44,7 @@ private class CreateCoursesCtrlTest {
         Test.startTest();
         insert(courseList);
         Test.stopTest();
-    }   
+    }
 
     @IsTest
     private static void getCoursesTest(){
@@ -48,7 +52,7 @@ private class CreateCoursesCtrlTest {
         System.runAs(currentUser){
             Id prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1]?.Id;
             List<hed__Course__c> courseListToTest = CreateCoursesCtrl.getCourses(prodReqId);
-            
+
             System.assertEquals(50, courseListToTest.size(), 'Course list did not match expected.');
         }
         Test.stopTest();

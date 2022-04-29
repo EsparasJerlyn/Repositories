@@ -15,12 +15,18 @@
 public with sharing class UpdateProductLedgerPurchasedPriceTest {
 
     private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
+    private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
+    private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
 
     @isTest
     private static void updateProductLedgerPurchasedPrice(){
         System.runAs(currentUser){
 
             List<Account> acc = TestDataFactory.createTestAccountRecords(1);
+            for(Account account : acc){
+                account.RecordTypeId = ACCT_UNIV_DEP_ID;
+                account.Organization_Unit_Level__c = '2';
+            }
             insert acc;
 
             List<Contact> conList = TestDataFactory.createTestContactRecords(1);

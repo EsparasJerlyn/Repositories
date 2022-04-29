@@ -24,11 +24,18 @@ private class SendEmailonRegisConfirmationFlowTest {
     .iterator()
     .next();
 
+  private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
+  private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
+
   @IsTest
   private static void sendEmailOnRegConfirmTest() {
     System.runAs(currentUser) {
       Test.startTest();
       List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
+      for(Account acc : accounts){
+        acc.RecordTypeId = ACCT_UNIV_DEP_ID;
+        acc.Organization_Unit_Level__c = '2';
+      }
       insert accounts;
 
       List<Contact> contacts = TestDataFactory.createTestContactRecords(1);

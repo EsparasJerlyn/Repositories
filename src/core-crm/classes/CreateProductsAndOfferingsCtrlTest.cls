@@ -8,18 +8,20 @@
  * @history
  *    | Developer                 | Date                  | JIRA             | Change Summary                                                                                                              |
       |---------------------------|-----------------------|------------------|-----------------------------------------------------------------------------------------------------------------------------|
-      | adrian.c.habasa           | October 18, 2021      | DEPP-476         | Created file                                                                                                                | 
-      | eugene.andrew.abuan       | November 9, 2021      | DEPP-35          | Added method testGetProductRequests                                                                                         | 
-      | roy.nino.s.regala         | November 25, 2021     | DEPP-362,38,37   | Added method testGetRelatedCourseProgramRequestRecordType, testUpdateProductRequests,testUpsertProgramPlanAndPlanRequirement| 
+      | adrian.c.habasa           | October 18, 2021      | DEPP-476         | Created file                                                                                                                |
+      | eugene.andrew.abuan       | November 9, 2021      | DEPP-35          | Added method testGetProductRequests                                                                                         |
+      | roy.nino.s.regala         | November 25, 2021     | DEPP-362,38,37   | Added method testGetRelatedCourseProgramRequestRecordType, testUpdateProductRequests,testUpsertProgramPlanAndPlanRequirement|
 */
 
 @isTest
 public with sharing class CreateProductsAndOfferingsCtrlTest {
-   
+
    private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
    private static Map <String,Schema.RecordTypeInfo> productRequestRecordTypes = Product_Request__c.sObjectType.getDescribe().getRecordTypeInfosByName();
    private static Id programRequestRTId = productRequestRecordTypes.get('Program Request').getRecordTypeId();
-   
+   private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
+   private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
+
    @testSetup static void setupMethod()
    {
        List<Account> accounts;
@@ -32,6 +34,10 @@ public with sharing class CreateProductsAndOfferingsCtrlTest {
        List<hed__Program_Plan__c> programPlanList;
        List<hed__Term__c> terms;
        accounts = TestDataFactory.createTestAccountRecords(1);
+       for(Account acc : accounts){
+        acc.RecordTypeId = ACCT_UNIV_DEP_ID;
+        acc.Organization_Unit_Level__c = '2';
+       }
        insert accounts;
        terms = TestDataFactory.createTestTermRecords(100,accounts[0].Id);
        insert terms;
@@ -68,9 +74,9 @@ public with sharing class CreateProductsAndOfferingsCtrlTest {
     {
         Test.startTest();
         System.runAs(currentUser)
-        {   
+        {
             CreateProductsAndOfferingsCtrl.CourseWithOfferings getCourses = new CreateProductsAndOfferingsCtrl.CourseWithOfferings();
-            getCourses = CreateProductsAndOfferingsCtrl.getRelatedCourse(string.valueOf([SELECT Id FROM Product_Request__c LIMIT 1].Id));  
+            getCourses = CreateProductsAndOfferingsCtrl.getRelatedCourse(string.valueOf([SELECT Id FROM Product_Request__c LIMIT 1].Id));
             System.assert(!getCourses.courseList.isEmpty(),'Error while getting data');
         }
         Test.stopTest();
@@ -81,9 +87,9 @@ public with sharing class CreateProductsAndOfferingsCtrlTest {
     {
         Test.startTest();
         System.runAs(currentUser)
-        {   
+        {
             CreateProductsAndOfferingsCtrl.CourseWithOfferings getCourses = new CreateProductsAndOfferingsCtrl.CourseWithOfferings();
-            getCourses = CreateProductsAndOfferingsCtrl.getRelatedCourse(string.valueOf([SELECT Id FROM Product_Request__c WHERE RecordTypeId =:programRequestRTId LIMIT 1].Id));  
+            getCourses = CreateProductsAndOfferingsCtrl.getRelatedCourse(string.valueOf([SELECT Id FROM Product_Request__c WHERE RecordTypeId =:programRequestRTId LIMIT 1].Id));
             System.assert(!getCourses.courseList.isEmpty(),'Error while getting data');
         }
         Test.stopTest();
@@ -94,14 +100,14 @@ public with sharing class CreateProductsAndOfferingsCtrlTest {
     {
         Test.startTest();
         System.runAs(currentUser)
-        {   
+        {
             List<Product_Request__c> productRequestToUpdate = new List<Product_Request__c>();
             List<Product_Request__c> productRequestList  = new List<Product_Request__c>([SELECT Id FROM Product_Request__c WHERE RecordTypeId =:programRequestRTId]);
             for(Product_Request__c productRequest: productRequestList){
                 productRequest.Product_Request_Status__c = 'Design';
                 productRequestToUpdate.add(productRequest);
             }
-            CreateProductsAndOfferingsCtrl.updateProductRequests(productRequestToUpdate);  
+            CreateProductsAndOfferingsCtrl.updateProductRequests(productRequestToUpdate);
             System.assert(![SELECT Id FROM Product_Request__c WHERE Product_Request_Status__c = 'Design'].isEmpty(),'Error Updating product requests');
         }
         Test.stopTest();

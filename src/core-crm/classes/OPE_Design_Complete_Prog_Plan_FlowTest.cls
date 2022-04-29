@@ -18,6 +18,8 @@ private class OPE_Design_Complete_Prog_Plan_FlowTest{
     private static Id opeProgramReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get('Program').getRecordTypeId();
     private static Id opeProgramPlanReqId = Schema.SObjectType.hed__Program_Plan__c.getRecordTypeInfosByDeveloperName().get('Program').getRecordTypeId();
     private static Integer numberOfRecords = 100;
+    private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
+    private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
 
     @isTest
     private static void updateOPEProgramTest(){
@@ -27,6 +29,10 @@ private class OPE_Design_Complete_Prog_Plan_FlowTest{
             createProgramPlan(opeProgramReqId);
 
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
+            for(Account acc : accounts){
+                acc.RecordTypeId = ACCT_UNIV_DEP_ID;
+                acc.Organization_Unit_Level__c = '2';
+            }
             insert accounts;
 
             Test.startTest();

@@ -13,11 +13,13 @@
  */
 @IsTest
 public class B2BRegisterInterestBatchTest {
+    private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
+    private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
 
     @testSetup static void setupMethod() {
         Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
         insert customEmail;
-         
+
         List<Account> accounts;
         List<Contact> contacts;
         List<hed__Term__c> terms;
@@ -32,6 +34,10 @@ public class B2BRegisterInterestBatchTest {
         PricebookEntry priceBookEntry;
 
         accounts = TestDataFactory.createTestAccountRecords(1);
+        for(Account acc : accounts){
+            acc.RecordTypeId = ACCT_UNIV_DEP_ID;
+            acc.Organization_Unit_Level__c = '2';
+        }
         insert accounts;
         contacts = TestDataFactory.createTestContactRecords(1);
         contacts[0].email ='testquttestqut@email.com';

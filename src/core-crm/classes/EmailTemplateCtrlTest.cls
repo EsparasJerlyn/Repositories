@@ -5,11 +5,16 @@ public with sharing class EmailTemplateCtrlTest {
     private static User currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
     private static Id opeProgProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_PROGRAM).getRecordTypeId();
     private static Id opeModuleReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_MODULE).getRecordTypeId();
-
+    private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
+    private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
 
     @testSetup static void setupMethod() {
         List<Account> accounts;
         accounts = TestDataFactory.createTestAccountRecords(1);
+        for(Account acc : accounts){
+            acc.RecordTypeId = ACCT_UNIV_DEP_ID;
+            acc.Organization_Unit_Level__c = '2';
+        }
         insert accounts;
 
         List<Product_Request__c> prodRequestOPEProgramRequest;
@@ -62,7 +67,7 @@ public with sharing class EmailTemplateCtrlTest {
         EmailTemplate e = new EmailTemplate (developerName = 'testEmail', TemplateType= 'Text', Name = 'testEmail');
         e.FolderId = UserInfo.getUserId();
         insert e;
-		
+
         List<EmailTemplate> email = new List<EmailTemplate>();
         email = [SELECT Id, Name FROM EmailTemplate LIMIT 10];
         List<String> emailNames = new List <String>();
@@ -88,12 +93,12 @@ public with sharing class EmailTemplateCtrlTest {
             getComSchedData = EmailTemplateCtrl.getCommunicationData(emailNames, String.valueOf(moduleId), String.valueOf(programId));
             System.Assert(!getComSchedData.defaultEmail.isEmpty(),'Error while getting default email');
             System.AssertEquals(getComSchedData.deliveryType, 'Face to Face','Error while getting delivery type');
-            
+
         }
         Test.stopTest();
 
     }
-    
+
     @IsTest
     static void getCommunicationDataProgramTest(){
         Id programId;
@@ -103,7 +108,7 @@ public with sharing class EmailTemplateCtrlTest {
         EmailTemplate e = new EmailTemplate (developerName = 'testEmail', TemplateType= 'Text', Name = 'testEmail');
         e.FolderId = UserInfo.getUserId();
         insert e;
-		
+
         List<EmailTemplate> email = new List<EmailTemplate>();
         email = [SELECT Id, Name FROM EmailTemplate LIMIT 10];
         List<String> emailNames = new List <String>();
@@ -129,7 +134,7 @@ public with sharing class EmailTemplateCtrlTest {
             getComSchedData = EmailTemplateCtrl.getCommunicationData(emailNames, String.valueOf(programId), 'Program');
             System.Assert(!getComSchedData.defaultEmail.isEmpty(),'Error while getting default email');
             //System.AssertEquals(getComSchedData.deliveryType, 'Face to Face','Error while getting delivery type');
-            
+
         }
         Test.stopTest();
 

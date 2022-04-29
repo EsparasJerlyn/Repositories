@@ -32,6 +32,9 @@ private class Send_Email_Upon_Design_SubmissionTest {
     private static Id opeSingleProdId = Schema.SObjectType.hed__Course__c.getRecordTypeInfosByDeveloperName().get(C_MODULE).getRecordTypeId();
     private static Integer numberOfRecords = 100;
 
+    private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
+    private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
+
     @isTest
     private static void emailActivityUponSubmissionTest(){
         System.runAs(currentUser){
@@ -39,6 +42,10 @@ private class Send_Email_Upon_Design_SubmissionTest {
             insert customEmail;
 
             List<Account> acc = TestDataFactory.createTestAccountRecords(1);
+            for(Account account : acc){
+                account.RecordTypeId = ACCT_UNIV_DEP_ID;
+                account.Organization_Unit_Level__c = '2';
+            }
             insert acc;
 
             List<Contact> conList = TestDataFactory.createTestContactRecords(1);
@@ -48,7 +55,7 @@ private class Send_Email_Upon_Design_SubmissionTest {
             insert conList;
 
             hed__Facility__c fac = new hed__Facility__c();
-            fac.Name = 'test';
+            fac.Name = 'Externals';
             insert fac;
 
             List<Opportunity> oppList = TestDataFactory.createTestOpportunityRecords(1,acc[0].Id,conList.iterator().next()?.Id);
@@ -117,6 +124,10 @@ private class Send_Email_Upon_Design_SubmissionTest {
             Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
             insert customEmail;
             List<Account> acc = TestDataFactory.createTestAccountRecords(1);
+            for(Account account : acc){
+                account.RecordTypeId = ACCT_UNIV_DEP_ID;
+                account.Organization_Unit_Level__c = '2';
+            }
             insert acc;
 
             List<Contact> conList = TestDataFactory.createTestContactRecords(1);
@@ -126,7 +137,7 @@ private class Send_Email_Upon_Design_SubmissionTest {
             insert conList;
 
             hed__Facility__c fac = new hed__Facility__c();
-            fac.Name = 'test';
+            fac.Name = 'Externals';
             insert fac;
 
             List<Opportunity> oppList = TestDataFactory.createTestOpportunityRecords(1,acc[0].Id,conList.iterator().next()?.Id);
@@ -194,6 +205,10 @@ private class Send_Email_Upon_Design_SubmissionTest {
             insert customEmail;
 
             List<Account> acc = TestDataFactory.createTestAccountRecords(1);
+            for(Account account : acc){
+                account.RecordTypeId = ACCT_UNIV_DEP_ID;
+                account.Organization_Unit_Level__c = '2';
+            }
             insert acc;
 
             List<Contact> conList = TestDataFactory.createTestContactRecords(numberOfRecords);
@@ -203,7 +218,7 @@ private class Send_Email_Upon_Design_SubmissionTest {
             insert conList;
 
             hed__Facility__c fac = new hed__Facility__c();
-            fac.Name = 'test';
+            fac.Name = 'Externals';
             insert fac;
 
             List<Opportunity> oppList = TestDataFactory.createTestOpportunityRecords(numberOfRecords, acc[0].Id, conList.iterator().next()?.Id);
