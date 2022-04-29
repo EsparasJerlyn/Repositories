@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Program_Offering__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Linked to the enrolled program offering of a Prescribed Program</description>
+    <externalId>false</externalId>
+    <label>Program Offering</label>
+    <referenceTo>Program_Offering__c</referenceTo>
+    <relationshipLabel>Course Connections</relationshipLabel>
+    <relationshipName>Course_Connections</relationshipName>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

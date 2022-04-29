@@ -3,9 +3,9 @@
     <fullName>Volume_of_Learning_hours__c</fullName>
     <externalId>false</externalId>
     <label>Volume of Learning (hours)</label>
-    <precision>4</precision>
+    <precision>6</precision>
     <required>false</required>
-    <scale>0</scale>
+    <scale>2</scale>
     <trackTrending>false</trackTrending>
     <type>Number</type>
     <unique>false</unique>
