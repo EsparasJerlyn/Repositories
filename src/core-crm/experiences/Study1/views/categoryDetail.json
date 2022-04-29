@@ -17,6 +17,20 @@
     "type" : "region"
   }, {
     "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:storeBreadrumbs",
+      "id" : "c85895dc-98f3-4a3a-af02-a80339e1f9fb",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    }, {
+      "componentAttributes" : { },
+      "componentName" : "c:storeBanner",
+      "id" : "311d937c-b74a-42a4-a0bd-fb6231e6cc7d",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    }, {
       "componentAttributes" : {
         "effectiveAccountId" : "{!CurrentUser.effectiveAccountId}",
         "recordId" : "{!recordId}",
