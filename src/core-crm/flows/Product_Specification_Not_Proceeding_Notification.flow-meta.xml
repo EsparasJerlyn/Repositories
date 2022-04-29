@@ -97,7 +97,7 @@
             <field>Status__c</field>
             <operator>EqualTo</operator>
             <value>
-                <stringValue>Doesnt meet Qualification</stringValue>
+                <stringValue>Does Not Meet Qualification</stringValue>
             </value>
         </filters>
         <object>Product_Specification__c</object>
