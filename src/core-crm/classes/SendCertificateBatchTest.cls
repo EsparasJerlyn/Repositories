@@ -1,17 +1,16 @@
 /**
- * @description Test Class for ManageCertificateSectionCtrl
- * @see ../class/ManageCertificateSectionCtrl
+ * @description Test Class for SendCertificateBatchTest
+ * @see ../class/SendCertificateBatch
  *
  * @author Accenture
  *
  * @history
  *    | Developer                 | Date                  | JIRA                 | Change Summary               |
       |---------------------------|-----------------------|----------------------|------------------------------|
-      | eccarius.karl.munoz       | April 06, 2022        | DEPP-1560            | Created file                 |
-      | roy.nino.s.regala         | May 02, 2022          | DEPP-1478            |                              | 
+      | roy.nino.s.regala         | May 02, 2022          | DEPP-1478            | CreatedFile                  | 
  */
 @isTest(SeeAllData=false)
-public with sharing class ManageCertificateSectionCtrlTest {
+public with sharing class SendCertificateBatchTest {
     private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
     private static string studentRT = System.Label.RT_CourseConnection_Student;
     private static String rtProdRequestActivity = System.Label.RT_ProductRequest_Activity;
@@ -20,19 +19,6 @@ public with sharing class ManageCertificateSectionCtrlTest {
     private static Integer numberOfRecords = 100;
     private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
-
-    @IsTest
-    static void getRegDetailsForNonProgPlanTest(){
-        System.runAs(currentUser){
-            createRecord(opeActProdReqRecType);
-            String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;
-            String offeringId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;
-            Test.startTest();
-            List<ManageCertificateSectionCtrl.ManageCertificateDetails> certificateDetails = ManageCertificateSectionCtrl.getCertificateDetails(prodReqId, offeringId);
-            Test.stopTest();
-            System.assertEquals(numberOfRecords, certificateDetails.size(), 'Incorrect number of records retrieved.');
-        }
-    }
 
     @IsTest
     static void sendEmailTest(){
@@ -47,38 +33,6 @@ public with sharing class ManageCertificateSectionCtrlTest {
             String result = ManageCertificateSectionCtrl.sendEmail(certificateDetails);
             Test.stopTest();
             System.assertEquals('Success', result, result);
-        }
-    }
-
-    @IsTest
-    static void previewPDFTest(){
-        System.runAs(currentUser){
-            createRecord(opeActProdReqRecType);
-            String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;
-            String offeringId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;
-            Test.startTest();
-            List<ManageCertificateSectionCtrl.ManageCertificateDetails> certificateDetails = ManageCertificateSectionCtrl.getCertificateDetails(prodReqId, offeringId);
-            Id result = ManageCertificateSectionCtrl.previewPdf(certificateDetails);
-            System.debug('ID: ' + result);
-            Test.stopTest();
-            System.assert(result!=null, 'Unable to retrieve content document ID.');
-        }
-    }
-
-    @IsTest
-    static void updateCourseConnDetailsTest(){
-        System.runAs(currentUser){
-            createRecord(opeActProdReqRecType);
-            String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;
-            String offeringId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;
-            List<ManageCertificateSectionCtrl.ManageCertificateDetails> certificateDetails = ManageCertificateSectionCtrl.getCertificateDetails(prodReqId, offeringId);
-            for(ManageCertificateSectionCtrl.ManageCertificateDetails certificateDetail : certificateDetails){
-                certificateDetail.marks = 90;
-            }
-            Test.startTest();
-            String updateReponse = ManageCertificateSectionCtrl.updateCourseConnDetails(certificateDetails);
-            Test.stopTest();
-            System.assertEquals('Success', updateReponse, 'Update of record failed.');
         }
     }
 

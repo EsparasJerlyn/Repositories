@@ -348,6 +348,14 @@
         <value>Student</value>
     </labels>
     <labels>
+        <fullName>RT_CourseConnection_Faculty</fullName>
+        <categories>RecordType,CourseConnection</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RT_CourseConnection_Faculty</shortDescription>
+        <value>Faculty</value>
+    </labels>
+    <labels>
         <fullName>QUT_RegistrationForm_Header</fullName>
         <language>en_US</language>
         <protected>false</protected>

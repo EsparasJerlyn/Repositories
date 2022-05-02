@@ -4,7 +4,11 @@
     <protected>false</protected>
     <values>
         <field>Left_Column_Long__c</field>
-        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Certificate_Type__c&quot;}]</value>
+        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Left_Signature__c&quot;},
+{&quot;field&quot;:&quot;Top_Left_Signature_Text__c&quot;},
+{&quot;field&quot;:&quot;Middle_Left_Signature_Text__c&quot;},
+{&quot;field&quot;:&quot;Bottom_Left_Signature_Text__c&quot;},{&quot;field&quot;:&quot;Certificate_Type__c&quot;},
+{&quot;field&quot;:&quot;Partner_Logo__c&quot;}]</value>
     </values>
     <values>
         <field>Left_Column__c</field>
@@ -20,7 +24,10 @@
     </values>
     <values>
         <field>Right_Column_Long__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Right_Signature__c&quot;},
+{&quot;field&quot;:&quot;Top_Right_Signature_Text__c&quot;},
+{&quot;field&quot;:&quot;Middle_Right_Signature_Text__c&quot;},
+{&quot;field&quot;:&quot;Bottom_Right_Signature_Text__c&quot;}]</value>
     </values>
     <values>
         <field>Right_Column__c</field>

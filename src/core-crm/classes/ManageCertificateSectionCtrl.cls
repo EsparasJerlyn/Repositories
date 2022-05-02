@@ -10,7 +10,7 @@
       | eccarius.karl.munoz       | February 14, 2022     | DEPP-1560            | Created file                 | 
       | eccarius.karl.munoz       | March 31, 2022        | DEPP-1560            | Added method for PDF         | 
       |                           |                       |                      | Generation                   | 
-      |                           |                       |                      |                              | 
+      | roy.nino.s.regala         | May 02, 2022          | DEPP-1478            |                              | 
  */
 public with sharing class ManageCertificateSectionCtrl {
      
@@ -132,6 +132,7 @@ public with sharing class ManageCertificateSectionCtrl {
      public static String sendEmail(Object data){
           String response = '';
           try{                            
+               List<OrgWideEmailAddress> owea = [SELECT Id, Address, DisplayName FROM OrgWideEmailAddress WHERE DisplayName='QUTeX' LIMIT 1];
                List<ManageCertificateDetails> wrapperList = (List<ManageCertificateDetails>) JSON.deserialize(
                     JSON.serialize(data),
                     List<ManageCertificateDetails>.class
@@ -142,84 +143,81 @@ public with sharing class ManageCertificateSectionCtrl {
                     dataMap.put(certDetails.id, certDetails);
                     type = certDetails.certificateType;
                }    
-
-               if(type == null){ return 'No Certificate Type'; }
-
-               List<Id> contentDocumentIdList = new List<Id>();
-               Map<Id, ContentDocumentLink> contentDocumentMap = new Map <Id, ContentDocumentLink>();
-               List<ContentDocumentLink> contentDocumentList = [SELECT ContentDocumentId, LinkedEntityId FROM ContentDocumentLink WHERE LinkedEntityId IN : dataMap.keySet()];
-               for(ContentDocumentLink contentDocument : contentDocumentList){
-                    contentDocumentMap.put(contentDocument.ContentDocumentId, contentDocument);
-                    contentDocumentIdList.add(contentDocument.ContentDocumentId);
-               }
-               removePDF(contentDocumentIdList);
-
-               EmailTemplate coverTemplate = getEmailTemplate('Send Certificate');   
-               EmailTemplate attachTemplate = getEmailTemplate(type);
-               Study_Store_URL_Settings__c storeLinkSettings = Study_Store_URL_Settings__c.getOrgDefaults();
-               if(coverTemplate != null){                    
-                    List<Messaging.SingleEmailMessage> emailList = new List<Messaging.SingleEmailMessage>();
-                    Map <Id, ContentVersion> pdfContentMap = new Map <Id, ContentVersion>();
-                    for(ID id : dataMap.keySet()){
-                         ManageCertificateDetails certDetails = dataMap.get(id);
-                         String mailSubject = 'QUTeX - ' + certDetails.courseName;
-                         Map<String, String> coverEmailParams = new Map<String, String> {
-                              '{name}' => certDetails.contactFullName,
-                              '{storeLink}' => String.valueOf(storeLinkSettings.Study_Store_Link__c)
-                         };
-                         pdfContentMap.putAll(createPDF(id, certDetails, attachTemplate));
-                         Blob pdfContent = pdfContentMap.get(id).VersionData;
-                         Messaging.SingleEmailMessage mail = emailBuilder(certDetails.contactEmail, mailSubject, coverTemplate.HtmlValue, coverEmailParams);
-                         Messaging.EmailFileAttachment attachment = attachmentBuilder(type + '.pdf', pdfContent);  
-                         mail.setFileAttachments(new Messaging.EmailFileAttachment[] { attachment });                         
-                         emailList.add(mail);  
-                    }
-
-                    insert pdfContentMap.values();
-
-                    List<ContentVersion> contentVersionList = [SELECT PathOnClient, ContentDocumentId, VersionData FROM ContentVersion WHERE Id IN : pdfContentMap.values()];
-
-                    Map <String,ContentVersion> content2 = new Map <String,ContentVersion>();
-                    for(ContentVersion contentVersion : contentVersionList){
-                         content2.put(contentVersion.PathOnClient, contentVersion);
-                    }
-
-                    List<ContentDocumentLink> contentDocuLinkList = new List<ContentDocumentLink>();
-                    for(ID id : pdfContentMap.keySet()){
-                         ContentDocumentLink contentDocuLink = new ContentDocumentLink();
-                         contentDocuLink.LinkedEntityId = id;
-                         contentDocuLink.ContentDocumentId = content2.get(pdfContentMap.get(id).PathOnClient).ContentDocumentId;
-                         contentDocuLink.shareType = 'V';
-                         contentDocuLinkList.add(contentDocuLink);
-                    }
-
-                    insert contentDocuLinkList;
-
-                    if(!emailList.isEmpty()){
-                         Messaging.SendEmailResult[] results = Messaging.sendEmail(emailList);
-                         if (results[0].success) {
-                              response = 'Success';
-                         } else {
-                              response = 'Failed';
+               //check if data is more than 14
+               if(dataMap.keySet().size() > 14){
+                    SendCertificateBatch objbatch = new SendCertificateBatch();
+                    objbatch.courseConnectionIds = dataMap.keySet();   
+                    Database.executeBatch(objbatch, 14);
+                    response = 'Success';
+               }else{
+                    if(type == null){ return 'No Certificate Type'; }
+     
+                    EmailTemplate coverTemplate = getEmailTemplate('Send Certificate');   
+                    EmailTemplate attachTemplate = getEmailTemplate(type);
+                    Study_Store_URL_Settings__c storeLinkSettings = Study_Store_URL_Settings__c.getOrgDefaults();
+                    if(coverTemplate != null){                    
+                         List<Messaging.SingleEmailMessage> emailList = new List<Messaging.SingleEmailMessage>();
+                         Map <Id, ContentVersion> pdfContentMap = new Map <Id, ContentVersion>();
+                         for(ID id : dataMap.keySet()){
+                              ManageCertificateDetails certDetails = dataMap.get(id);
+                              String mailSubject = 'QUTeX - ' + certDetails.courseName;
+                              Map<String, String> coverEmailParams = new Map<String, String> {
+                                   '{name}' => certDetails.contactFullName,
+                                   '{storeLink}' => String.valueOf(storeLinkSettings.Study_Store_Link__c)
+                              };
+                              pdfContentMap.putAll(createPDF(id, certDetails, attachTemplate));
+                              Blob pdfContent = pdfContentMap.get(id).VersionData;
+                              Messaging.SingleEmailMessage mail = emailBuilder(certDetails.contactEmail, mailSubject, coverTemplate.HtmlValue, coverEmailParams);
+                              Messaging.EmailFileAttachment attachment = attachmentBuilder(type + '.pdf', pdfContent);  
+                              mail.setFileAttachments(new Messaging.EmailFileAttachment[] { attachment });          
+                              if(!owea.isEmpty()){
+                                   mail.setOrgWideEmailAddressId(owea[0].Id);
+                               }
+                                          
+                              emailList.add(mail);  
                          }
-                     }else{
-                         response = 'No emails to be sent';
-                     }      
+     
+                         insert pdfContentMap.values();
+     
+                         List<ContentVersion> contentVersionList = [SELECT PathOnClient, ContentDocumentId, VersionData FROM ContentVersion WHERE Id IN : pdfContentMap.values()];
+     
+                         Map <String,ContentVersion> content2 = new Map <String,ContentVersion>();
+                         for(ContentVersion contentVersion : contentVersionList){
+                              content2.put(contentVersion.PathOnClient, contentVersion);
+                         }
+     
+                         List<ContentDocumentLink> contentDocuLinkList = new List<ContentDocumentLink>();
+                         for(ID id : pdfContentMap.keySet()){
+                              ContentDocumentLink contentDocuLink = new ContentDocumentLink();
+                              contentDocuLink.LinkedEntityId = id;
+                              contentDocuLink.ContentDocumentId = content2.get(pdfContentMap.get(id).PathOnClient).ContentDocumentId;
+                              contentDocuLink.ShareType = 'I';
+                              contentDocuLink.Visibility = 'AllUsers';
+                              contentDocuLinkList.add(contentDocuLink);
+                         }
+     
+                         insert contentDocuLinkList;
+     
+                         if(!emailList.isEmpty()){
+                              Messaging.SendEmailResult[] results = Messaging.sendEmail(emailList);
+                              if (results[0].success) {
+                                   response = 'Success';
+                              } else {
+                                   response = 'Failed';
+                              }
+                          }else{
+                              response = 'No emails to be sent';
+                          }      
+                    }
                }
+               
 
           }catch(Exception e){
                response = 'Response: ' +  response + 'Error: ' + e.getMessage();
+               system.debug(e.getMessage());
+               system.debug(e.getStackTraceString()); 
           }          
           return response;
-     }
-
-     private static void removePDF(List<Id> contentDocumentIdList){
-          List<ContentDocument> contentDocument = [SELECT Id FROM ContentDocument Where Id IN : contentDocumentIdList];
-          try{
-               delete contentDocument;
-          }catch(Exception e){
-               throw new AuraHandledException(e.getMessage());
-          }          
      }
 
      private static Map<Id, ContentVersion> createPDF(Id id, ManageCertificateDetails certDetails, EmailTemplate attachTemplate){
@@ -229,41 +227,28 @@ public with sharing class ManageCertificateSectionCtrl {
           String certOfAchievement = 'Certificate of Achievement';
           Date dt = date.today();
           String dateTodayString = dt.format();
-          
-          Blob strPdfBody = null;
-          if (type == certOfParticipation){               
-               Map<String, String> attachmentParams = new Map<String, String> {
-                    '{courseName}' => certDetails.courseName, 
-                    '{fullName}' => certDetails.contactFullName,
-                    '{facilitator}' => certDetails.contactFullName,
-                    '{dateToday}' => dateTodayString
-               };
-               String body = attachTemplate.HtmlValue;
-               body = setBodyValues(body, attachmentParams);
-               Blob strPdf = Blob.toPDF(body);
-               strPdfBody = strPdf;
-          }else if(type == certOfAchievement){
-               Map<String, String> attachmentParams = new Map<String, String> {
-                    '{courseName}' => certDetails.courseName, 
-                    '{fullName}' => certDetails.contactFullName,
-                    '{startDate}' => certDetails.startDate,
-                    '{endDate}' => certDetails.endDate,
-                    '{mark}' => String.valueOf(certDetails.marks),
-                    '{markDesc}' => certDetails.marksDesc,                    
-                    '{facilitator}' => certDetails.contactFullName,
-                    '{dateToday}' => dateTodayString
-               };
-               String body = attachTemplate.HtmlValue;
-               body = setBodyValues(body, attachmentParams);
-               Blob strPdf = Blob.toPDF(body);
-               strPdfBody = strPdf;
+          PageReference pdf;
+          if(type == certOfParticipation){
+               pdf = new PageReference(
+                    '/apex/CertificateOfParticipationPDFView?courseConnectionId=' +
+                    id
+               );
+          }else{
+               pdf = new PageReference(
+                    '/apex/CertificateOfAchievementPDFView?courseConnectionId=' +
+                    id
+               );
           }
 
           ContentVersion contentVersion = new ContentVersion();
           contentVersion.ContentLocation = 'S';
           contentVersion.PathOnClient = id + '-' + type + '.pdf';
           contentVersion.Title = type;
-          contentVersion.VersionData = strPdfBody;
+          if(Test.isRunningTest()) { 
+               contentVersion.VersionData = blob.valueOf('Unit.Test');
+          } else {
+               contentVersion.VersionData = pdf.getContent();
+          }
           responseMap.put(id, contentVersion);
           return responseMap;
      }
@@ -293,16 +278,6 @@ public with sharing class ManageCertificateSectionCtrl {
 
           EmailTemplate attachTemplate = getEmailTemplate(type);
 
-          List<Id> contentDocumentIdList = new List<Id>();
-          Id contentDocumentId = null;
-          List<ContentDocumentLink> contentDocList = [SELECT ContentDocumentId FROM ContentDocumentLink WHERE LinkedEntityId =: recId LIMIT 1];
-          for(ContentDocumentLink contentDoc : contentDocList){
-               contentDocumentId = contentDoc.ContentDocumentId;
-               contentDocumentIdList.add(contentDocumentId);
-          }
-          
-          removePDF(contentDocumentIdList);
-
           Map<Id, ContentVersion> contentMap = createPDF(recId, certDetails, attachTemplate);
           insert contentMap.values();
 
@@ -312,7 +287,8 @@ public with sharing class ManageCertificateSectionCtrl {
                ContentDocumentLink contentDocuLink = new ContentDocumentLink();
                contentDocuLink.LinkedEntityId = recId;
                contentDocuLink.ContentDocumentId = contentVersion.ContentDocumentId;
-               contentDocuLink.shareType = 'V';
+               contentDocuLink.ShareType = 'I';
+               contentDocuLink.Visibility = 'AllUsers';
                contentDocuLinkList.add(contentDocuLink);
 
                response = contentVersion.ContentDocumentId;
@@ -327,7 +303,6 @@ public with sharing class ManageCertificateSectionCtrl {
                for(String key : params.keySet()){
                     string val = params.get(key);
                     body = body.replace(key,val);
-                    system.debug('body:' + body);
                }
           }
           return body;
