@@ -283,6 +283,20 @@
         <members>hed__Course_Offering__c.Total_Course_Connections__c</members>
         <members>Program_Offering__c.Total_Course_Connections__c</members>
         <members>Financial_Split__c.QUTeX_Percentage_Split__c</members>
+        <!-- DEPP-2347 start -->
+        <members>Marketing_Staging__c.My_Completed_Education_Level__c</members>
+        <members>Marketing_Staging__c.My_Current_Education_Level__c</members>
+        <members>Marketing_Staging__c.ORG_Completed_Education_Level__c</members>
+        <members>Marketing_Staging__c.ORG_Current_Education_Level__c</members>
+        <members>Marketing_Staging__c.SE_Completed_Education_Level__c</members>
+        <members>Marketing_Staging__c.SE_Current_Education_Level__c</members>
+        <members>Marketing_Segmentation__c.My_Completed_Education_Level__c</members>
+        <members>Marketing_Segmentation__c.My_Current_Education_Level__c</members>
+        <members>Marketing_Segmentation__c.ORG_Completed_Education_Level__c</members>
+        <members>Marketing_Segmentation__c.ORG_Current_Education_Level__c</members>
+        <members>Marketing_Segmentation__c.SE_Completed_Education_Level__c</members>
+        <members>Marketing_Segmentation__c.SE_Current_Education_Level__c</members>
+        <!-- DEPP-2347 end -->
         <name>CustomField</name>
     </types>
 

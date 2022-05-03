@@ -765,11 +765,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Marketing_Segmentation__c.My_Completed_Education_Level__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Marketing_Segmentation__c.My_Country_Of_Citizenship__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -780,7 +775,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Marketing_Segmentation__c.My_Current_Education_Level__c</field>
+        <field>Marketing_Segmentation__c.My_Education_Level__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -925,17 +920,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Marketing_Segmentation__c.ORG_Completed_Education_Level__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Marketing_Segmentation__c.ORG_Country_Of_Residency__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Marketing_Segmentation__c.ORG_Current_Education_Level__c</field>
+        <field>Marketing_Segmentation__c.ORG_Education_Level__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1045,11 +1035,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Marketing_Segmentation__c.SE_Completed_Education_Level__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Marketing_Segmentation__c.SE_Country_Of_Citizenship__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1060,7 +1045,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Marketing_Segmentation__c.SE_Current_Education_Level__c</field>
+        <field>Marketing_Segmentation__c.SE_Education_Level__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1595,11 +1580,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Marketing_Staging__c.My_Completed_Education_Level__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Marketing_Staging__c.My_Country_Of_Citizenship__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1610,7 +1590,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Marketing_Staging__c.My_Current_Education_Level__c</field>
+        <field>Marketing_Staging__c.My_Education_Level__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1755,17 +1735,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Marketing_Staging__c.ORG_Completed_Education_Level__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Marketing_Staging__c.ORG_Country_Of_Residency__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Marketing_Staging__c.ORG_Current_Education_Level__c</field>
+        <field>Marketing_Staging__c.ORG_Education_Level__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1980,11 +1955,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Marketing_Staging__c.SE_Completed_Education_Level__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Marketing_Staging__c.SE_Country_Of_Citizenship__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1995,7 +1965,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Marketing_Staging__c.SE_Current_Education_Level__c</field>
+        <field>Marketing_Staging__c.SE_Education_Level__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
