@@ -89,7 +89,7 @@
             "importCSVFilesAsIs": true
         },
         {
-            "query": "SELECT Id,Name, IsPartner,IsCustomerPortal,AccountSource,IsBuyer, RecordTypeId, Organization_Unit_Level__c from Account",
+            "query": "SELECT Id,Name, IsPartner,IsCustomerPortal,AccountSource,IsBuyer, RecordTypeId, Organization_Unit_Level__c, OwnerId, Owner.Name from Account",
             "operation": "Upsert",
             "externalId": "Name",
             "useCSVValuesMapping": true,
