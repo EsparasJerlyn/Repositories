@@ -60,6 +60,7 @@ private with sharing class RegisteredLearnersCtrlTest {
         List<hed__Course_Enrollment__c> students;
         students = TestDataFactory.createTestCourseConnectionRecord(1,contacts[0].Id,courseOfferings);
         students[0].RecordTypeId =studentRTId;
+        students[0].hed__Status__c = 'Active';
         insert students;
         
         List<Questionnaire_Response_Summary__c> qRs = TestDataFactory.createTestQuestionnaireResponseSummaryRecords(1,courseOfferings,contacts[0]);

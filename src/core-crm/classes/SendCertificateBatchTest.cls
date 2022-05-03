@@ -29,7 +29,7 @@ public with sharing class SendCertificateBatchTest {
             String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;
             String offeringId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;
             Test.startTest();
-            List<ManageCertificateSectionCtrl.ManageCertificateDetails> certificateDetails = ManageCertificateSectionCtrl.getCertificateDetails(prodReqId, offeringId);
+            List<ManageCertificateSectionCtrl.ManageCertificateDetails> certificateDetails = ManageCertificateSectionCtrl.getCertificateDetails(offeringId, false);
             String result = ManageCertificateSectionCtrl.sendEmail(certificateDetails);
             Test.stopTest();
             System.assertEquals('Success', result, result);

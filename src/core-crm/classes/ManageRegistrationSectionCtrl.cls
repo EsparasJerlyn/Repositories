@@ -20,15 +20,20 @@
       | roy.nino.s.regala         | March 25, 2022        | DEPP-1539            | Add registration             |
       | eccarius.karl.munoz       | April 19, 2022        | DEPP-2157            | 1.) Added Selected Pricing   |
       |                           |                       |                      | and Pricing Validation in    |
-      |                           |                       |                      | the table column.           |
+      |                           |                       |                      | the table column.            |
       |                           |                       |                      | 2.) Updated handling for     |
       |                           |                       |                      | Edit row action to include   |
       |                           |                       |                      | Pricing Validation update.   |
+      |                           |                       |                      |                              |
+      | eccarius.karl.munoz       | May 03, 2022          | DEPP-2314            | Added handling for Program   |
+      |                           |                       |                      | Presribed                    |
 */
 public with sharing class ManageRegistrationSectionCtrl {
 
      private static string studentRT = System.Label.RT_CourseConnection_Student;
      private static Id studentRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(studentRT).getRecordTypeId();
+     private static string studentProgramRT = System.Label.RT_CourseConnection_Student_Program;
+     private static Id studentProgramRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(studentProgramRT).getRecordTypeId();
 
      /**
       * @description Retrieves list of related answers
@@ -59,7 +64,7 @@ public with sharing class ManageRegistrationSectionCtrl {
       * @return List of ManageRegistrationDetails
       */
      @AuraEnabled(cacheable=true)
-     public static List<ManageRegistrationDetails> getNonProgPlanRegistrations(String childRecordId){
+     public static List<ManageRegistrationDetails> getRegistrations(String childRecordId){
           List<ManageRegistrationDetails> response = new List<ManageRegistrationDetails>();
           Map<Id,Questionnaire_Response_Summary__c> contactToQRSummary = new Map<Id,Questionnaire_Response_Summary__c>();
           //Id courseOfferingId = [SELECT Id FROM hed__Course_Offering__c WHERE Id =: childRecordId]?.Id;
@@ -69,7 +74,7 @@ public with sharing class ManageRegistrationSectionCtrl {
           List<Questionnaire_Response_Summary__c> questionnaireResponseList = [
                SELECT Id, Name, Contact__c, Course_Offering__c, Questionnaire__c, Questionnaire__r.Questionnaire_Type__c, Registration_Status__c
                  FROM Questionnaire_Response_Summary__c
-                WHERE Course_Offering__c =: childRecordId AND Questionnaire__r.Questionnaire_Type__c = 'Registration Questions'
+                WHERE Questionnaire__r.Questionnaire_Type__c = 'Registration Questions' AND (Course_Offering__c =: childRecordId OR Program_Offering__c  =: childRecordId)
           ];
 
           for(Questionnaire_Response_Summary__c qResSummary: questionnaireResponseList){
@@ -81,7 +86,9 @@ public with sharing class ManageRegistrationSectionCtrl {
                     Paid_in_Full__c, hed__Status__c, LMS_Integration_Status__c, hed__Contact__r.FirstName, hed__Contact__r.LastName, 
                     hed__Contact__r.Birthdate, hed__Contact__r.Email, Payment_Method__c, Cart_Item__r.Pricebook_Entry_ID__c, Is_Group_Registered__c
                  FROM hed__Course_Enrollment__c
-                WHERE hed__Course_Offering__c =: childRecordId AND RecordTypeId =: studentRecTypeId
+                WHERE 
+                    RecordTypeId IN (:studentRecTypeId, :studentProgramRecTypeId) 
+                    AND (hed__Course_Offering__c =: childRecordId OR (Program_Offering__c  =: childRecordId AND hed__Course_Offering__c = null ))
           ];
 
           Set<String> priceBookEntryIdSet = new Set<String>();
@@ -111,14 +118,14 @@ public with sharing class ManageRegistrationSectionCtrl {
                regDetails.contactBirthdate = student.hed__Contact__r.Birthdate;
                regDetails.contactEmail = student.hed__Contact__r.Email;
                regDetails.paymentMethod = student.Payment_Method__c;
-               regDetails.isGroupRegistered = student.Is_Group_Registered__c;       
+               regDetails.isGroupRegistered = student.Is_Group_Registered__c;   
+               regDetails.registrationStatus = student.hed__Status__c;
                if(studentWithPricingMap.containsKey(student.hed__Contact__c)){
                     regDetails.selectedPricing = studentWithPricingMap.get(student.hed__Contact__c);
                }                               
                regDetails.pricingValidation = student.Pricing_Validation__c;
                if(contactToQRSummary.containsKey(student.hed__Contact__c)){
                     regDetails.questionId = contactToQRSummary.get(student.hed__Contact__c).Id;
-                    regDetails.registrationStatus = contactToQRSummary.get(student.hed__Contact__c).Registration_Status__c;
                     if(contactToQRSummary.get(student.hed__Contact__c).Questionnaire__c != NULL && contactToQRSummary.get(student.hed__Contact__c).Questionnaire__r.Questionnaire_Type__c == 'Registration Questions'){
                          regDetails.applicationURL = '/' +  contactToQRSummary.get(student.hed__Contact__c).Id;
                          regDetails.applicationName =  contactToQRSummary.get(student.hed__Contact__c).Name;
@@ -139,17 +146,32 @@ public with sharing class ManageRegistrationSectionCtrl {
       * @return String
       */
      @AuraEnabled
-     public static String updateRegistration(String id, String questionId, String registrationStatus, String paidInFull, String pricingValidation){
-          hed__Course_Enrollment__c student = new hed__Course_Enrollment__c();
-          student.Id = id;
-          student.Paid_in_Full__c = paidInFull;
-          student.Pricing_Validation__c = pricingValidation;
+     public static String updateRegistration(String id, String questionId, String registrationStatus, String paidInFull, String pricingValidation, String programOfferingId, String contactId){
+          List<hed__Course_Enrollment__c> studentsToUpdate = new List<hed__Course_Enrollment__c>();
+          hed__Course_Enrollment__c studentFromParentOffering = new hed__Course_Enrollment__c();
+          studentFromParentOffering.Id = id;
+          studentFromParentOffering.Paid_in_Full__c = paidInFull;
+          studentFromParentOffering.Pricing_Validation__c = pricingValidation;
+          studentFromParentOffering.hed__Status__c = registrationStatus;
+          studentsToUpdate.add(studentFromParentOffering);
+
+          if(programOfferingId != ''){
+               List<hed__Course_Enrollment__c> students = [SELECT Id, Paid_in_Full__c, Pricing_Validation__c FROM hed__Course_Enrollment__c WHERE hed__Course_Offering__c != NULL AND Program_Offering__c =: programOfferingId AND hed__Contact__c =: contactId];
+               for(hed__Course_Enrollment__c student : students){
+                    hed__Course_Enrollment__c learner = new hed__Course_Enrollment__c();
+                    learner.Id = student.id;
+                    learner.Paid_in_Full__c = paidInFull;
+                    learner.Pricing_Validation__c = pricingValidation;
+                    learner.hed__Status__c = registrationStatus;
+                    studentsToUpdate.add(learner);                 
+               }
+          }                 
+
           Questionnaire_Response_Summary__c questionnaire = new Questionnaire_Response_Summary__c();
           questionnaire.Id = questionId;
-          questionnaire.Registration_Status__c = registrationStatus;
           try {
-               if(student.Id !=null){
-                    update student;
+               if(studentsToUpdate.size() > 0){
+                    update studentsToUpdate;
                }
                if(questionnaire.Id !=null){
                     update questionnaire;
@@ -189,8 +211,8 @@ public with sharing class ManageRegistrationSectionCtrl {
      @AuraEnabled(cacheable=true)
      public static List<String> getRegistrationStatusValues(){
           List<String> response = new List<String>();
-          String strObjectName = 'Questionnaire_Response_Summary__c';
-          String strPicklistField = 'Registration_Status__c';
+          String strObjectName = 'hed__Course_Enrollment__c';
+          String strPicklistField = 'hed__Status__c';
           Map<String, String> mapPickListValues = new Map<String, String>();
           Schema.SObjectType objSobjectType = Schema.getGlobalDescribe().get(strObjectName);
           Schema.DescribeSObjectResult objDescribeSobject = objSobjectType.getDescribe();
@@ -262,8 +284,7 @@ public with sharing class ManageRegistrationSectionCtrl {
      * @param fileUpload - file to upload
      */
     @AuraEnabled
-    public static void addRegistration(Contact contactRecord, String courseOfferingId, List<Related_Answer__c> relatedAnswerList, List<Answer__c> answerList, String fileUpload){
-          
+    public static void addRegistration(Contact contactRecord, String offeringId, List<Related_Answer__c> relatedAnswerList, List<Answer__c> answerList, String fileUpload, Boolean prescribedProgram){
           List<FileUpload> parsedFileUpload = new List<FileUpload>();
           if(fileUpload != ''){
                parsedFileUpload = (List<FileUpload>) JSON.deserialize(fileUpload, List<FileUpload>.class);
@@ -295,7 +316,12 @@ public with sharing class ManageRegistrationSectionCtrl {
           for(Id qId:questionnaireIds){
                qResSummary = new Questionnaire_Response_Summary__c();
                qResSummary.Questionnaire__c = qId;
-               qResSummary.Course_Offering__c = courseOfferingId;
+               if(!prescribedProgram){
+                    qResSummary.Course_Offering__c = offeringId;
+               }else{
+                    qResSummary.Program_Offering__c = offeringId;
+               }  
+               qResSummary.Registration_Status__c = 'Confirmed';             
                qResSummary.Contact__c = contactRecord.Id;
                questionnaireSummaryToInsert.add(qResSummary);
           }
@@ -367,14 +393,31 @@ public with sharing class ManageRegistrationSectionCtrl {
                update answersToUpdate.values();
           }
 
-          hed__Course_Enrollment__c newCourseConnection = new hed__Course_Enrollment__c
-               (
-               hed__Course_Offering__c = courseOfferingId,
-               hed__Contact__c =  contactRecord.Id,
-               RecordTypeId = studentRecTypeId,
-               hed__Status__c = 'Active'
-               );
-          insert newCourseConnection;
+          List<hed__Course_Enrollment__c> courseConnectionList = new List<hed__Course_Enrollment__c>();
+          hed__Course_Enrollment__c newCourseConnection = new hed__Course_Enrollment__c();          
+          newCourseConnection.hed__Contact__c =  contactRecord.Id;          
+          newCourseConnection.hed__Status__c = 'Active';
+          if(!prescribedProgram){               
+               newCourseConnection.hed__Course_Offering__c = offeringId;
+               newCourseConnection.RecordTypeId = studentRecTypeId;
+               courseConnectionList.add(newCourseConnection);
+          }else{               
+               newCourseConnection.Program_Offering__c = offeringId;
+               newCourseConnection.RecordTypeId = studentProgramRecTypeId;
+               courseConnectionList.add(newCourseConnection);
+               List<hed__Course_Offering__c> childOfferings = [SELECT Id FROM hed__Course_Offering__c WHERE Program_Offering__c =: offeringId];
+               for(hed__Course_Offering__c childOffering : childOfferings){
+                    hed__Course_Enrollment__c childCourseConnection = new hed__Course_Enrollment__c();          
+                    childCourseConnection.hed__Contact__c =  contactRecord.Id;          
+                    childCourseConnection.hed__Status__c = 'Active';
+                    childCourseConnection.Program_Offering__c = offeringId;
+                    childCourseConnection.hed__Course_Offering__c = childOffering.Id;
+                    childCourseConnection.RecordTypeId = studentRecTypeId;
+                    courseConnectionList.add(childCourseConnection);
+               }
+          }
+
+          insert courseConnectionList;
     }  
 
     private static ContentVersion createContentVersion(String base64, String filename) {

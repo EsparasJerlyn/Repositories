@@ -34,6 +34,7 @@ export default class ManageApplicationSection extends LightningElement {
 
     @api prodReqId;
     @api enableEdit;
+    @api offeringId;
 
     searchField = '';  
     picklistValue = '';
@@ -60,11 +61,11 @@ export default class ManageApplicationSection extends LightningElement {
 
     //Retrieves Student Applications
     tableData;
-    @wire(getStudentApplications, {prodReqId : "$prodReqId"})
+    @wire(getStudentApplications, {offeringId : "$offeringId"})
     wiredStudentApplication(result) {
         this.isLoading = true;
         this.tableData = result;
-        if(result.data){                  
+        if(result.data){                 
             this.records = result.data;   
             this.recordsTemp = result.data;             
             if(this.records.length === 0){

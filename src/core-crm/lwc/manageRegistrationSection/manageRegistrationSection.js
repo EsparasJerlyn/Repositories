@@ -13,12 +13,13 @@
       | eugene.andrew.abuan       | March 10, 2022        | DEPP-2037            | Modified to add Export       |
       |                           |                       |                      | Learners List button logic   |
       | roy.nino.regala           | March 29, 2022        | DEPP-1539            | Added Add Registration       |
+      | eccarius.karl.munoz       | May 03, 2022          | DEPP-2314            | Handling for Prescribed Prog.|
  */
 
 import { api, LightningElement, wire } from 'lwc';
 import { refreshApex } from '@salesforce/apex';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import getNonProgPlanRegistrations from '@salesforce/apex/ManageRegistrationSectionCtrl.getNonProgPlanRegistrations';
+import getRegistrations from '@salesforce/apex/ManageRegistrationSectionCtrl.getRegistrations';
 import updateRegistration from '@salesforce/apex/ManageRegistrationSectionCtrl.updateRegistration';
 import getRegistrationStatusValues from '@salesforce/apex/ManageRegistrationSectionCtrl.getRegistrationStatusValues';
 import getPaidInFullValues from '@salesforce/apex/ManageRegistrationSectionCtrl.getPaidInFullValues';
@@ -43,6 +44,7 @@ export default class ManageRegistrationSection extends LightningElement {
     @api enableEdit;
     @api childRecordId;
     @api disabled;
+    @api prescribedProgram;
 
     searchField = '';
     picklistValue = '';
@@ -50,6 +52,7 @@ export default class ManageRegistrationSection extends LightningElement {
     rowPaidInFull = '';
     rowId = '';
     rowQuestId = '';
+    rowContactId = '';
     modalName = '';
     isModalOpen = false;
     isLoading = false;
@@ -96,6 +99,7 @@ export default class ManageRegistrationSection extends LightningElement {
         { label: 'LMS Integration Status', fieldName: 'lmsIntegrationStatus', type: 'text', sortable: true },
         { label: 'Registration Questions', fieldName: 'applicationURL', sortable: true, type: 'url', typeAttributes: {label: 'View', target: '_blank'} },
         {
+            label: 'Regenerate Invoice',
             type: 'button',
             typeAttributes: {
                 label: 'Regenerate Invoice',
@@ -111,8 +115,8 @@ export default class ManageRegistrationSection extends LightningElement {
 
     //Retrieves questionnaire data related to the product request
     tableData;
-    @wire(getNonProgPlanRegistrations, {childRecordId : '$childRecordId'})
-    getNonProgPlanRegistrations(result) {
+    @wire(getRegistrations, {childRecordId : '$childRecordId'})
+    getRegistrations(result) {
         this.isLoading = true;
         this.tableData = result;
         if(result.data){
@@ -213,6 +217,7 @@ export default class ManageRegistrationSection extends LightningElement {
         this.modalName = row.contactFullName;
         this.rowQuestId = row.questionId;
         this.pricingValidation = row.pricingValidation;
+        this.rowContactId = row.contactId;
     }
 
     //handles opening of modal
@@ -347,7 +352,7 @@ export default class ManageRegistrationSection extends LightningElement {
         }else{
             this.isLoading = true;
             this.saveInProgress = true;
-            this.saveRegistration(fields,this.childRecordId,[],[],'');
+            this.saveRegistration(fields,this.childRecordId,[],[],'',this.prescribedProgram);
         }
     }
 
@@ -361,14 +366,14 @@ export default class ManageRegistrationSection extends LightningElement {
         }else{
             this.isLoading = true;
             this.saveInProgress = true;
-            this.saveRegistration(fields,this.childRecordId,[],[],'');
+            this.saveRegistration(fields,this.childRecordId,[],[],'',this.prescribedProgram);
         }
     }
 
     handleSaveResponse(){
         this.isLoading = true;
         this.saveInProgress = true;
-        this.saveRegistration(this.contactFields,this.childRecordId,this.responseData.data,this.createAnswerRecord(),JSON.stringify(this.createFileUploadMap()));
+        this.saveRegistration(this.contactFields,this.childRecordId,this.responseData.data,this.createAnswerRecord(),JSON.stringify(this.createFileUploadMap()),this.prescribedProgram);
         this.resetResponses();
     }
 
@@ -408,13 +413,14 @@ export default class ManageRegistrationSection extends LightningElement {
         return answerRecords;
     }
 
-    saveRegistration(contact,courseOffering,relatedAnswer,answer,fileUpload){
+    saveRegistration(contact,offeringId,relatedAnswer,answer,fileUpload,prescribedProgram){
         addRegistration({
             contactRecord:contact,
-            courseOfferingId:courseOffering,
+            offeringId:offeringId,
             relatedAnswerList:relatedAnswer,
             answerList:answer,
-            fileUpload:fileUpload
+            fileUpload:fileUpload,
+            prescribedProgram:prescribedProgram
         })
         .then(() =>{
                 this.generateToast(SUCCESS_TITLE, 'Registration Successful', SUCCESS_VARIANT);
@@ -485,15 +491,21 @@ export default class ManageRegistrationSection extends LightningElement {
     //handles saving of record from modal
     handleModalSave(){
         let response;
+        let programOfferingId = '';
         this.isLoading = true;
         this.isModalOpen = false;
         this.isDisabled = true;
+        if(this.prescribedProgram){
+            programOfferingId = this.childRecordId;
+        }
         updateRegistration({
             id: this.rowId,
             questionId: this.rowQuestId,
             registrationStatus: this.rowRegStatus,
             paidInFull: this.rowPaidInFull,
-            pricingValidation: this.pricingValidation
+            pricingValidation: this.pricingValidation,
+            programOfferingId: programOfferingId,
+            contactId : this.rowContactId
         })
             .then((result) => {
                 response = result;

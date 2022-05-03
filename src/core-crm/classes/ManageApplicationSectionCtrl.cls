@@ -14,65 +14,50 @@
       |                           |                       |                      |                              |
       | john.bo.a.pineda          | March 10, 2022        | DEPP-1463            | Modified Query to filter     |
       |                           |                       |                      | only Application Questions   |
+      |                           |                       |                      |                              |
+      | eccarius.karl.munoz       | May 03, 2022          | DEPP-2134            | Added handling for Program   |
+      |                           |                       |                      | Prescribed and Updated Query |
+      |                           |                       |                      | to remove course connection. |
 */
 public with sharing class ManageApplicationSectionCtrl {
 
      private static string studentRT = System.Label.RT_CourseConnection_Student;
      private static Id studentRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(studentRT).getRecordTypeId();
+     private static string studentProgramRT = System.Label.RT_CourseConnection_Student_Program;
+     private static Id studentProgramRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(studentProgramRT).getRecordTypeId();
 
      /**
       * @description Retrieves list of Application details of students
-      * @param prodReqId - Record ID from record page
+      * @param offeringId - Course/Program Offering ID from record page
       * @return List of ManageApplicationDetails
-      */
+      */     
      @AuraEnabled(cacheable=true)
-     public static List<ManageApplicationDetails> getStudentApplications(String prodReqId){
+     public static List<ManageApplicationDetails> getStudentApplications(String offeringId){
           List<ManageApplicationDetails> response = new List<ManageApplicationDetails>();
-          Product_Request__c productRequest = [SELECT RecordTypeId FROM Product_Request__c WHERE Id =: prodReqId LIMIT 1];
-          response = getNonProgPlanApplications(prodReqId);
-          return response;
-     }
-
-     /**
-      * @description Retrieves list of Application details of students for Non Program Plan
-      * @param prodReqId - Record ID from record page
-      * @return List of ManageApplicationDetails
-      */
-     private static List<ManageApplicationDetails> getNonProgPlanApplications(String prodReqId){
-          List<ManageApplicationDetails> response = new List<ManageApplicationDetails>();
-
-          Id courseOfferingId = [SELECT Id FROM hed__Course_Offering__c WHERE hed__Course__c IN (
-                                   SELECT Id FROM hed__Course__c WHERE ProductRequestID__c =: prodReqId)]?.Id;
-          if(courseOfferingId == null){
+          
+          if(offeringId == null){
                return new List<ManageApplicationDetails>();
           }
-          List<Questionnaire_Response_Summary__c> questionnaireResponseList = [
-               SELECT Id, Name, Contact__c, Questionnaire__r.Questionnaire_Type__c, Application_Status__c, Reason_for_Rejection__c
-                 FROM Questionnaire_Response_Summary__c
-                WHERE Course_Offering__c =: courseOfferingId AND Questionnaire__r.Questionnaire_Type__c = 'Application Questions'
-          ];
-          List<hed__Course_Enrollment__c > courseConnections = [
-               SELECT Id, hed__Contact__c, hed__Contact__r.Name
-                 FROM hed__Course_Enrollment__c
-                WHERE hed__Course_Offering__c =: courseOfferingId AND RecordTypeId =: studentRecTypeId
-          ];
 
-          for(hed__Course_Enrollment__c student : courseConnections){
-               for(Questionnaire_Response_Summary__c question : questionnaireResponseList){
-                    if(question.Contact__c == student.hed__Contact__c){
-                         ManageApplicationDetails appDetails = new ManageApplicationDetails();
-                         appDetails.id = question.Id;
-                         appDetails.contactFullName = student.hed__Contact__r.Name;
-                         appDetails.applicationStatus = question.Application_Status__c;
-                         appDetails.reasonForRejection = question.Reason_for_Rejection__c;
-                         if(question.Questionnaire__r.Questionnaire_Type__c == 'Application Questions'){
-                              appDetails.applicationURL = '/' + question.Id;
-                              appDetails.applicationName = question.Name;
-                         }
-                         response.add(appDetails);
-                    }
+          List<Questionnaire_Response_Summary__c> questionnaireResponseList = [
+               SELECT Id, Name, Contact__r.Name, Questionnaire__r.Questionnaire_Type__c, Application_Status__c, Reason_for_Rejection__c
+                 FROM Questionnaire_Response_Summary__c
+                WHERE Questionnaire__r.Questionnaire_Type__c = 'Application Questions' AND (Course_Offering__c =: offeringId OR Program_Offering__c  =: offeringId)
+          ];         
+
+          for(Questionnaire_Response_Summary__c qrs : questionnaireResponseList){
+               ManageApplicationDetails appDetails = new ManageApplicationDetails();
+               appDetails.id = qrs.Id;
+               appDetails.contactFullName = qrs.Contact__r.Name;
+               appDetails.applicationStatus = qrs.Application_Status__c;
+               appDetails.reasonForRejection = qrs.Reason_for_Rejection__c;
+               if(qrs.Questionnaire__r.Questionnaire_Type__c == 'Application Questions'){
+                    appDetails.applicationURL = '/' + qrs.Id;
+                    appDetails.applicationName = qrs.Name;
                }
+               response.add(appDetails);
           }
+          
           return response;
      }
 

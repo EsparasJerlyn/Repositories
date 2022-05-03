@@ -21,6 +21,7 @@ export default class ManageCertificates extends NavigationMixin(LightningElement
 
     @api prodReqId;
     @api offeringId;
+    @api prescribedProgram;
 
     searchField = '';
     markDescValue = '';
@@ -58,7 +59,7 @@ export default class ManageCertificates extends NavigationMixin(LightningElement
     ];      
 
     tableData;
-    @wire(getCertificateDetails, { prodReqId: '$prodReqId', offeringId: '$offeringId' })
+    @wire(getCertificateDetails, { offeringId: '$offeringId', prescribedProgram: '$prescribedProgram'})
     wiredCertDetails(result) {
         this.isLoading = true;
         this.tableData = result;
@@ -79,10 +80,14 @@ export default class ManageCertificates extends NavigationMixin(LightningElement
     }
 
     async handleSave(event) {
+        let programOfferingId = this.prescribedProgram ? this.offeringId : '';
         this.isLoading = true;
         const updatedFields = event.detail;
         try {
-            const result = await updateCourseConnDetails({ data: updatedFields });
+            const result = await updateCourseConnDetails({
+                data : updatedFields,
+                programOfferingId : programOfferingId
+            });
             if (result === 'Success') {
                 this.isLoading = false;
                 this.generateToast(SUCCESS_TITLE, SUCCESS_MSG, SUCCESS_VARIANT);

@@ -185,14 +185,12 @@
                             options={pricingValidationValues}
                             onchange={handlePricingValidation}>
                         </lightning-combobox><br />
-                        <template if:true={rowQuestId}>
-                            <lightning-combobox
+                        <lightning-combobox
                             label="Registration Status"
                             value={rowRegStatus}
                             options={registrationStatusModal}
                             onchange={handleRegStatusModal}>
-                            </lightning-combobox><br />
-                        </template>
+                        </lightning-combobox><br />
                     </div>
                     <footer class="slds-modal__footer">
                         <lightning-button

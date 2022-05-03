@@ -28,7 +28,7 @@ public with sharing class ManageCertificateSectionCtrlTest {
             String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;
             String offeringId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;
             Test.startTest();
-            List<ManageCertificateSectionCtrl.ManageCertificateDetails> certificateDetails = ManageCertificateSectionCtrl.getCertificateDetails(prodReqId, offeringId);
+            List<ManageCertificateSectionCtrl.ManageCertificateDetails> certificateDetails = ManageCertificateSectionCtrl.getCertificateDetails(offeringId, false);
             Test.stopTest();
             System.assertEquals(numberOfRecords, certificateDetails.size(), 'Incorrect number of records retrieved.');
         }
@@ -43,7 +43,7 @@ public with sharing class ManageCertificateSectionCtrlTest {
             String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;
             String offeringId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;
             Test.startTest();
-            List<ManageCertificateSectionCtrl.ManageCertificateDetails> certificateDetails = ManageCertificateSectionCtrl.getCertificateDetails(prodReqId, offeringId);
+            List<ManageCertificateSectionCtrl.ManageCertificateDetails> certificateDetails = ManageCertificateSectionCtrl.getCertificateDetails(offeringId, false);
             String result = ManageCertificateSectionCtrl.sendEmail(certificateDetails);
             Test.stopTest();
             System.assertEquals('Success', result, result);
@@ -57,7 +57,7 @@ public with sharing class ManageCertificateSectionCtrlTest {
             String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;
             String offeringId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;
             Test.startTest();
-            List<ManageCertificateSectionCtrl.ManageCertificateDetails> certificateDetails = ManageCertificateSectionCtrl.getCertificateDetails(prodReqId, offeringId);
+            List<ManageCertificateSectionCtrl.ManageCertificateDetails> certificateDetails = ManageCertificateSectionCtrl.getCertificateDetails(offeringId, false);
             Id result = ManageCertificateSectionCtrl.previewPdf(certificateDetails);
             System.debug('ID: ' + result);
             Test.stopTest();
@@ -71,12 +71,12 @@ public with sharing class ManageCertificateSectionCtrlTest {
             createRecord(opeActProdReqRecType);
             String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;
             String offeringId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;
-            List<ManageCertificateSectionCtrl.ManageCertificateDetails> certificateDetails = ManageCertificateSectionCtrl.getCertificateDetails(prodReqId, offeringId);
+            List<ManageCertificateSectionCtrl.ManageCertificateDetails> certificateDetails = ManageCertificateSectionCtrl.getCertificateDetails(offeringId, false);
             for(ManageCertificateSectionCtrl.ManageCertificateDetails certificateDetail : certificateDetails){
                 certificateDetail.marks = 90;
             }
             Test.startTest();
-            String updateReponse = ManageCertificateSectionCtrl.updateCourseConnDetails(certificateDetails);
+            String updateReponse = ManageCertificateSectionCtrl.updateCourseConnDetails(certificateDetails, '');
             Test.stopTest();
             System.assertEquals('Success', updateReponse, 'Update of record failed.');
         }

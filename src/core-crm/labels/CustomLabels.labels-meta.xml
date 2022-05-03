@@ -340,6 +340,14 @@
         <value>Product Offering</value>
     </labels>
     <labels>
+        <fullName>RT_CourseConnection_Student_Program</fullName>
+        <categories>RecordType,CourseConnection</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RT_CourseConnection_Student_Program</shortDescription>
+        <value>Student_Program</value>
+    </labels>
+    <labels>
         <fullName>RT_CourseConnection_Student</fullName>
         <categories>RecordType,CourseConnection</categories>
         <language>en_US</language>
@@ -544,5 +552,13 @@
         <protected>false</protected>
         <shortDescription>RT_Account_University_Department</shortDescription>
         <value>University_Department</value>
+    </labels>
+    <labels>
+        <fullName>LWC_Program_Prescribed</fullName>
+        <categories>LWC,Program</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>LWC_Program_Prescribed</shortDescription>
+        <value>Prescribed Program</value>
     </labels>
 </CustomLabels>

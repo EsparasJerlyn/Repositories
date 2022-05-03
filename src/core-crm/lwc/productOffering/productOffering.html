@@ -134,60 +134,65 @@
                                 onsessionclose={handleCloseSession}
                             ></c-add-new-session >
                         </template>
-                        <lightning-accordion if:false={isOpeProgramRequest} allow-multiple-sections-open>
+                        <lightning-accordion if:true={displayAccordion} allow-multiple-sections-open>
                             <!--Facilitators Section-->
-                            <div class="slds-m-top_small slds-is-relative">
-                                <!--lightning-button
-                                    label="ADD NEW FACILITATOR"
-                                    title="Add New Facilitator"
-                                    data-name={offering.Id}
-                                    icon-name="utility:add"
-                                    onclick={handleAddFacilitator}
-                                    class="section-button small-button"
-                                    disabled={isStatusCompleted}>
-                                </lightning-button-->
-                                <lightning-accordion-section name="facilitatorDetails" label="Facilitator Details" class="nested-accordion-section">
-                                    <c-facilitator-detail-section
-                                        is-status-completed={isStatusCompleted}
-                                        offering-id={offering.Id}
-                                        show-facilitator-table={offering.showFacilitatorTable}
-                                        related-facilitators={offering.relatedFacilitators}
-                                        onsetasprimary={handleUpdateFacilitators}
-                                        onsearchselect={handleSearchSelect}
-                                        onnewfacilitator={handleAddFacilitator}
-                                        ontablesave={handleRefreshData}
-                                    ></c-facilitator-detail-section>
-                                </lightning-accordion-section>
-                            </div>
+                            <template if:false={isPresribedProgram}>
+                                <div class="slds-m-top_small slds-is-relative">
+                                    <!--lightning-button
+                                        label="ADD NEW FACILITATOR"
+                                        title="Add New Facilitator"
+                                        data-name={offering.Id}
+                                        icon-name="utility:add"
+                                        onclick={handleAddFacilitator}
+                                        class="section-button small-button"
+                                        disabled={isStatusCompleted}>
+                                    </lightning-button-->
+                                    <lightning-accordion-section name="facilitatorDetails" label="Facilitator Details" class="nested-accordion-section">
+                                        <c-facilitator-detail-section
+                                            is-status-completed={isStatusCompleted}
+                                            offering-id={offering.Id}
+                                            show-facilitator-table={offering.showFacilitatorTable}
+                                            related-facilitators={offering.relatedFacilitators}
+                                            onsetasprimary={handleUpdateFacilitators}
+                                            onsearchselect={handleSearchSelect}
+                                            onnewfacilitator={handleAddFacilitator}
+                                            ontablesave={handleRefreshData}
+                                        ></c-facilitator-detail-section>
+                                    </lightning-accordion-section>
+                                </div>
+                            </template>                            
                             <!--Sessions Section-->
                             <div class="slds-is-relative">
-                                <lightning-button
-                                    label="ADD NEW SESSION"
-                                    title="Add New Session"
-                                    data-name={offering.Id}
-                                    icon-name="utility:add"
-                                    onclick={handleAddSession}
-                                    class="section-button small-button"
-                                    disabled={offering.disableSession}>
-                                </lightning-button>
-                                <lightning-helptext 
-                                    if:true={offering.showHelp}
-                                    icon-name="utility:help"
-                                    content="Please add at least one (1) facilitator to add a session."
-                                    class="section-button section-button-help">
-                                </lightning-helptext>
-                                <lightning-accordion-section name="sessionDetails" label="Session Details" class="nested-accordion-section">
-                                    <c-session-detail-section
-                                        show-session-table={offering.showSessionTable}
-                                        related-sessions={offering.relatedSessions}
-                                        ontablesave={handleRefreshData}
-                                    ></c-session-detail-section>
-                                </lightning-accordion-section>
+                                <template if:false={isPresribedProgram}>
+                                    <lightning-button
+                                        label="ADD NEW SESSION"
+                                        title="Add New Session"
+                                        data-name={offering.Id}
+                                        icon-name="utility:add"
+                                        onclick={handleAddSession}
+                                        class="section-button small-button"
+                                        disabled={offering.disableSession}>
+                                    </lightning-button>
+                                    <lightning-helptext 
+                                        if:true={offering.showHelp}
+                                        icon-name="utility:help"
+                                        content="Please add at least one (1) facilitator to add a session."
+                                        class="section-button section-button-help">
+                                    </lightning-helptext>
+                                    <lightning-accordion-section name="sessionDetails" label="Session Details" class="nested-accordion-section">
+                                        <c-session-detail-section
+                                            show-session-table={offering.showSessionTable}
+                                            related-sessions={offering.relatedSessions}
+                                            ontablesave={handleRefreshData}
+                                        ></c-session-detail-section>
+                                    </lightning-accordion-section>
+                                </template>                                
                                 <template if:false={childOfPrescribedProgram}>
                                     <lightning-accordion-section name="manageApplications" label="Manage Application" class="nested-accordion-section">
                                         <div class="slds-scrollable slds-p-bottom_medium slds-m-top_small">
                                             <c-manage-application-section
                                                 prod-req-id={recordId}
+                                                offering-id={offering.Id}
                                                 enable-edit={showEditButton}
                                             ></c-manage-application-section>                    
                                         </div>               
@@ -200,6 +205,7 @@
                                                 enable-edit={showEditButton}
                                                 disabled={isStatusCompleted}
                                                 onsetemails={setLearnerEmails}
+                                                prescribed-program={isPresribedProgram}
                                             ></c-manage-registration-section>                    
                                         </div> 
                                     </lightning-accordion-section>
@@ -208,6 +214,7 @@
                                             <c-manage-certificates
                                                 offering-id={offering.Id}
                                                 prod-req-id={recordId}
+                                                prescribed-program={isPresribedProgram}
                                             ></c-manage-certificates>    
                                         </div> 
                                     </lightning-accordion-section>

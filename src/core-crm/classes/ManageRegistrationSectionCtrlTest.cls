@@ -31,7 +31,7 @@ public with sharing class ManageRegistrationSectionCtrlTest{
                Test.startTest();
                List<String> paidInFullValues = ManageRegistrationSectionCtrl.getPaidInFullValues();                 
                Test.stopTest();
-               System.assert(!paidInFullValues.isEmpty(), 'Pain in Full Values must not be empty.');
+               System.assert(!paidInFullValues.isEmpty(), 'Paid in Full Values must not be empty.');
           }      
      } 
      
@@ -51,7 +51,7 @@ public with sharing class ManageRegistrationSectionCtrlTest{
                createRecord(opeActProdReqRecType);  
                String childRecordId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;             
                Test.startTest();
-               List<ManageRegistrationSectionCtrl.ManageRegistrationDetails> registrationDetails = ManageRegistrationSectionCtrl.getNonProgPlanRegistrations(childRecordId);      
+               List<ManageRegistrationSectionCtrl.ManageRegistrationDetails> registrationDetails = ManageRegistrationSectionCtrl.getRegistrations(childRecordId);      
                Test.stopTest();
               System.assertEquals(numberOfRecords, registrationDetails.size(), 'Incorrect number of records retrieved.');
           }      
@@ -67,7 +67,7 @@ public with sharing class ManageRegistrationSectionCtrlTest{
                String paidInFull= 'No';    
                String pricingValidation= 'Successful';           
                Test.startTest();
-               String updateReponse = ManageRegistrationSectionCtrl.updateRegistration(studentId, questionId, regStatus, paidInFull, pricingValidation); 
+               String updateReponse = ManageRegistrationSectionCtrl.updateRegistration(studentId, questionId, regStatus, paidInFull, pricingValidation, '', ''); 
                Test.stopTest();
                System.assertEquals('Success', updateReponse, 'Update of record failed.');
           }      
@@ -130,7 +130,7 @@ public with sharing class ManageRegistrationSectionCtrlTest{
                }
                
                Test.startTest();
-               ManageRegistrationSectionCtrl.addRegistration(newContact,cOfferingId,relatedAnswers,answerList,JSON.serialize(fileLoadList)); 
+               ManageRegistrationSectionCtrl.addRegistration(newContact,cOfferingId,relatedAnswers,answerList,JSON.serialize(fileLoadList),false); 
                Test.stopTest();
                system.assert(![SELECT Id FROM ContentVersion].isEmpty(), 'Document not created');
                system.assert(![SELECT Id FROM Answer__c].isEmpty(), 'Answer not created');

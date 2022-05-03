@@ -18,25 +18,21 @@ public with sharing class RegisteredLearnersCtrl {
     public static List<RegisteredLearners> getRegisteredLearners(Id offeringId)
     {
        List<RegisteredLearners> learnerList = new List<RegisteredLearners>();
-       List<hed__Course_Enrollment__c > courseConnections = [SELECT Id, hed__Contact__c
+       List<hed__Course_Enrollment__c > courseConnections = [SELECT Id, hed__Contact__c,
+                                                            hed__Contact__r.Preferred_Given_Name__c, 
+                                                            hed__Contact__r.Company_Name__c, 
+                                                            hed__Contact__r.Position__c
                                                             FROM hed__Course_Enrollment__c
-                                                            WHERE hed__Course_Offering__c =: offeringId AND RecordTypeId =: studentRTId];
-
-       List<Questionnaire_Response_Summary__c> questionnaireResponseList =[ SELECT Contact__c,Contact__r.Preferred_Given_Name__c, Contact__r.Company_Name__c, Contact__r.Position__c 
-                                                                            FROM Questionnaire_Response_Summary__c 
-                                                                            WHERE Course_Offering__c =: offeringId AND Registration_Status__c = 'Confirmed'];
+                                                            WHERE hed__Course_Offering__c =: offeringId 
+                                                            AND RecordTypeId =: studentRTId
+                                                            AND hed__Status__c = 'Active'];
 
         for(hed__Course_Enrollment__c student : courseConnections){
-            for(Questionnaire_Response_Summary__c question : questionnaireResponseList)
-            {
-                if(question.Contact__c == student.hed__Contact__c){
-                    RegisteredLearners rl = new RegisteredLearners();
-                    rl.prefferedName = question.Contact__r.Preferred_Given_Name__c;
-                    rl.companyName = question.Contact__r.Company_Name__c;
-                    rl.positionName =  question.Contact__r.Position__c;
-                    learnerList.add(rl);
-                }
-            }
+                RegisteredLearners rl = new RegisteredLearners();
+                rl.prefferedName = student.hed__Contact__r.Preferred_Given_Name__c;
+                rl.companyName = student.hed__Contact__r.Company_Name__c;
+                rl.positionName =  student.hed__Contact__r.Position__c;
+                learnerList.add(rl);
         }
 
         return learnerList;

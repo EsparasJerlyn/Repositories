@@ -9,7 +9,8 @@
  *    | Developer                 | Date                  | JIRA         | Change Summary                                         |
       |---------------------------|-----------------------|--------------|--------------------------------------------------------|
       | angelika.j.s.galang       | February 8, 2022      | DEPP-1258    | Created file                                           | 
-      | roy.nino.s.regala         | April, 20, 2022       | DEPP-2318    | Added option to add new contact/facilitator            |
+      | roy.nino.s.regala         | April 20, 2022        | DEPP-2318    | Added option to add new contact/facilitator            |
+      | eccarius.munoz            | May 03, 2022          | DEPP-2314    | Added handling for Program Plan - Prescribed           |
 */
 import { LightningElement, api, wire, track } from 'lwc';
 import { getRecord, getFieldValue, createRecord, updateRecord } from 'lightning/uiRecordApi';
@@ -36,12 +37,13 @@ import PP_PRODUCT_REQUEST from '@salesforce/schema/hed__Program_Plan__c.Product_
 import PR_RT_DEV_NAME from '@salesforce/schema/Product_Request__c.RecordType.DeveloperName';
 import PR_STATUS from '@salesforce/schema/Product_Request__c.Product_Request_Status__c';
 import PRESCRIBED_CHILD from '@salesforce/schema/Product_Request__c.Child_of_Prescribed_Program__c';
+import PR_PROGRAM_TYPE from '@salesforce/schema/Product_Request__c.OPE_Program_Plan_Type__c';
+import LWC_Program_Prescribed from "@salesforce/label/c.LWC_Program_Prescribed";
 import getProductOfferingData from "@salesforce/apex/ProductOfferingCtrl.getProductOfferingData";
 import getTermId from "@salesforce/apex/ProductOfferingCtrl.getTermId";
 import updateCourseConnections from "@salesforce/apex/ProductOfferingCtrl.updateCourseConnections";
 import getOfferingLayout from '@salesforce/apex/ProductOfferingCtrl.getOfferingLayout';
 import getSearchContacts from "@salesforce/apex/ProductOfferingCtrl.getSearchContacts";
-
 
 const DATE_OPTIONS = { year: 'numeric', month: 'short', day: '2-digit' };
 const PROGRAM_OFFERING_FIELDS = 'Id,Delivery_Type__c,Start_Date__c,End_Date__c,IsActive__c,CreatedDate';
@@ -71,6 +73,8 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
     parentRecord;
     newFacilitatorBio;
     objectLabel;
+    isPresribedProgram = false;
+    displayAccordion = false;
 
     //custom contact lookup variables
     contactSearchItems = [];
@@ -82,8 +86,6 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
     contactName = '';
     contactEmail = '';
     
-
-
     //decides if user has access to this feature
     get hasAccess(){
         return HAS_PERMISSION;
@@ -123,15 +125,17 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
     //stores object info of course connection
     @wire(getObjectInfo, { objectApiName: COURSE_CONNECTION.objectApiName })
     courseConnectionInfo;
-
+    
     //gets product request details
     //assigns if data is for course or program plan
-    @wire(getRecord, { recordId: '$recordId', fields: [PR_RT_DEV_NAME,PR_STATUS,PRESCRIBED_CHILD] })
+    @wire(getRecord, { recordId: '$recordId', fields: [PR_RT_DEV_NAME, PR_STATUS, PRESCRIBED_CHILD, PR_PROGRAM_TYPE] })
     handleProductRequest(result){
         if(result.data){
             this.isStatusCompleted = getFieldValue(result.data,PR_STATUS) == PL_ProductRequest_Completed;
             this.isOpeProgramRequest = getFieldValue(result.data,PR_RT_DEV_NAME) == RT_ProductRequest_Program;
             this.childOfPrescribedProgram = getFieldValue(result.data,PRESCRIBED_CHILD);
+            this.isPresribedProgram = getFieldValue(result.data, PR_PROGRAM_TYPE) == LWC_Program_Prescribed;
+            this.displayAccordion = this.isOpeProgramRequest == this.isPresribedProgram;
             this.parentInfoMap = {
                 field : this.isOpeProgramRequest ? PP_PRODUCT_REQUEST.fieldApiName : C_PRODUCT_REQUEST.fieldApiName,
                 objectType : this.isOpeProgramRequest ? PROGRAM_PLAN.objectApiName :COURSE.objectApiName

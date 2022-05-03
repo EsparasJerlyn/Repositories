@@ -11,40 +11,47 @@
       | eccarius.karl.munoz       | March 31, 2022        | DEPP-1560            | Added method for PDF         | 
       |                           |                       |                      | Generation                   | 
       | roy.nino.s.regala         | May 02, 2022          | DEPP-1478            |                              | 
+      | eccarius.karl.munoz       | May 03, 2022          | DEPP-2314            | Handling for Program Presc.  |
  */
 public with sharing class ManageCertificateSectionCtrl {
      
      private static string studentRT = System.Label.RT_CourseConnection_Student;
      private static Id studentRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(studentRT).getRecordTypeId();
-     /**
-      * @description Retrieves list of certificate details of students
-      * @param prodReqId - Record ID from record page
-      * @param offeringId - offering id of the product
-      * @return List of ManageCertificateDetails
-      */
-     @AuraEnabled(cacheable=true)
-     public static List<ManageCertificateDetails> getCertificateDetails(String prodReqId, String offeringId){  
-          return getNonProgPlanCerts(prodReqId, offeringId); 
-     }
-
+     private static string studentProgramRT = System.Label.RT_CourseConnection_Student_Program;
+     private static Id studentProgramRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(studentProgramRT).getRecordTypeId();
+     
      /**
       * @description Retrieves list of certificate details of students for Non Program Plan
-      * @param prodReqId - Record ID from record page
       * @param offeringId - offering id of the product
       * @return List of ManageCertificateDetails
       */
-     private static List<ManageCertificateDetails> getNonProgPlanCerts(String prodReqId, String offeringIdd){
+      @AuraEnabled(cacheable=true)
+      public static List<ManageCertificateDetails> getCertificateDetails(String offeringId, Boolean prescribedProgram){
           List<ManageCertificateDetails> response = new List<ManageCertificateDetails>();          
 
-          List<hed__Course_Offering__c> offerings = [
-               SELECT Id, hed__Course__r.Certificate_Type__c, hed__Start_Date__c, hed__End_Date__c 
-                 FROM hed__Course_Offering__c 
-                WHERE Id = : offeringIdd ];                
+          String certificateType = '';
+          Date offeringStartDate = null;
+          Date offeringEndDate = null;
 
-          Id offeringId = offerings[0].Id;
-          String certificateType = offerings[0].hed__Course__r.Certificate_Type__c;
-          Date offeringStartDate = offerings[0].hed__Start_Date__c;
-          Date offeringEndDate = offerings[0].hed__End_Date__c;
+          if(!prescribedProgram){
+               List<hed__Course_Offering__c> offerings = [
+                    SELECT Id, hed__Course__r.Certificate_Type__c, hed__Start_Date__c, hed__End_Date__c 
+                      FROM hed__Course_Offering__c 
+                     WHERE Id = : offeringId 
+               ];    
+               certificateType = offerings[0].hed__Course__r.Certificate_Type__c;
+               offeringStartDate = offerings[0].hed__Start_Date__c;
+               offeringEndDate = offerings[0].hed__End_Date__c;
+          }else{
+               List<Program_Offering__c> offerings = [
+                    SELECT Id, hed_Program_Plan__r.Certificate_Type__c, Start_Date__c, End_Date__c 
+                      FROM Program_Offering__c 
+                     WHERE Id = : offeringId 
+               ]; 
+               certificateType = offerings[0].hed_Program_Plan__r.Certificate_Type__c;
+               offeringStartDate = offerings[0].Start_Date__c;
+               offeringEndDate = offerings[0].End_Date__c;  
+          }    
 
           if(offeringId == null){
                return new List<ManageCertificateDetails>();
@@ -53,8 +60,9 @@ public with sharing class ManageCertificateSectionCtrl {
           List<Questionnaire_Response_Summary__c> questionnaireResponseList = [
                SELECT Id, Name, Contact__c, Course_Offering__c, Questionnaire__c, Questionnaire__r.Questionnaire_Type__c, Registration_Status__c 
                  FROM Questionnaire_Response_Summary__c 
-                WHERE Course_Offering__c =: offeringId AND Registration_Status__c = 'Confirmed'
+                WHERE (Course_Offering__c =: offeringId OR Program_Offering__c  =: offeringId)
           ];
+
           Map<Id, Questionnaire_Response_Summary__c> qrsMap = new Map<Id, Questionnaire_Response_Summary__c>();
           for(Questionnaire_Response_Summary__c qrs : questionnaireResponseList){
                qrsMap.put(qrs.Contact__c, qrs);
@@ -64,7 +72,8 @@ public with sharing class ManageCertificateSectionCtrl {
                SELECT Id, Name, hed__Contact__c, hed__Contact__r.Name, hed__Contact__r.Email, hed__Course_Offering__c, Paid_in_Full__c, 
                     hed__Status__c, Marks__c, Marks_Description__c, hed__Course_Offering__r.hed__Course__r.Name
                  FROM hed__Course_Enrollment__c 
-                WHERE hed__Course_Offering__c =: offeringId AND RecordTypeId =: studentRecTypeId
+                WHERE RecordTypeId IN (:studentRecTypeId, :studentProgramRecTypeId) 
+                AND (hed__Course_Offering__c =: offeringId OR (Program_Offering__c  =: offeringId AND hed__Course_Offering__c = null ))
           ];
           Map<Id, hed__Course_Enrollment__c> crsconnMap = new Map<Id, hed__Course_Enrollment__c>();
           for(hed__Course_Enrollment__c cc : courseConnections){
@@ -72,22 +81,20 @@ public with sharing class ManageCertificateSectionCtrl {
           }
 
           for(Id learnerId : crsconnMap.keySet()){
-               if(qrsMap.containsKey(learnerId)){
-                    ManageCertificateDetails certDetails = new ManageCertificateDetails();
-                    certDetails.id = crsconnMap.get(learnerId).Id;
-                    certDetails.contactFullName = crsconnMap.get(learnerId).hed__Contact__r.Name;
-                    certDetails.contactEmail = crsconnMap.get(learnerId).hed__Contact__r.Email;
-                    certDetails.registrationStatus = qrsMap.get(learnerId).Registration_Status__c;    
-                    certDetails.marks = crsconnMap.get(learnerId).Marks__c;
-                    certDetails.marksDesc = crsconnMap.get(learnerId).Marks_Description__c;
-                    certDetails.courseName = crsconnMap.get(learnerId).hed__Course_Offering__r.hed__Course__r.Name;
-                    certDetails.certificateType = certificateType;
-                    String stDateString = offeringStartDate.format();
-                    certDetails.startDate = stDateString;
-                    String enDateString = offeringEndDate.format();
-                    certDetails.endDate = enDateString;   
-                    response.add(certDetails);
-               }
+               ManageCertificateDetails certDetails = new ManageCertificateDetails();
+               certDetails.id = crsconnMap.get(learnerId).Id;
+               certDetails.contactFullName = crsconnMap.get(learnerId).hed__Contact__r.Name;
+               certDetails.contactEmail = crsconnMap.get(learnerId).hed__Contact__r.Email;
+               certDetails.registrationStatus = crsconnMap.get(learnerId).hed__Status__c; 
+               certDetails.marks = crsconnMap.get(learnerId).Marks__c;
+               certDetails.marksDesc = crsconnMap.get(learnerId).Marks_Description__c;
+               certDetails.courseName = crsconnMap.get(learnerId).hed__Course_Offering__r.hed__Course__r.Name;
+               certDetails.certificateType = certificateType;
+               String stDateString = offeringStartDate.format();
+               certDetails.startDate = stDateString;
+               String enDateString = offeringEndDate.format();
+               certDetails.endDate = enDateString;   
+               response.add(certDetails);
           }
           
           return response;
@@ -99,21 +106,44 @@ public with sharing class ManageCertificateSectionCtrl {
       * @return String
       */
      @AuraEnabled
-     public static String updateCourseConnDetails(Object data){ 
+     public static String updateCourseConnDetails(Object data, String programOfferingId){ 
           List<hed__Course_Enrollment__c> dataToUpdate = new List<hed__Course_Enrollment__c>();          
           List<ManageCertificateDetails> wrapperList = (List<ManageCertificateDetails>) JSON.deserialize(
                JSON.serialize(data),
                List<ManageCertificateDetails>.class
           );
 
+          Map<Id, Id> studentMap = new Map<Id, Id>();
+          List<hed__Course_Enrollment__c> studentList = [SELECT Id, hed__Contact__c, Marks__c FROM hed__Course_Enrollment__c WHERE Program_Offering__c =: programOfferingId];
+          for(hed__Course_Enrollment__c student : studentList){
+               studentMap.put(student.Id, student.hed__Contact__c);
+          }
+
+          Map<Id, Decimal> recordMap = new Map<Id, Decimal>();
           for(ManageCertificateDetails recordFromList : wrapperList){
                hed__Course_Enrollment__c student = new hed__Course_Enrollment__c();               
                if(recordFromList.marks != null){
                     student.Id = recordFromList.id;
                     student.Marks__c = recordFromList.marks;
                     dataToUpdate.add(student);
+                    if(studentMap.containsKey(recordFromList.id)){
+                         recordMap.put(studentMap.get(recordFromList.id), recordFromList.marks);
+                    }
                }  
           }
+
+          if(programOfferingId != ''){
+               List<hed__Course_Enrollment__c> students = [SELECT Id, hed__Contact__c, Marks__c FROM hed__Course_Enrollment__c WHERE hed__Course_Offering__c != NULL AND Program_Offering__c =: programOfferingId];
+               for(hed__Course_Enrollment__c student : students){
+                    if(recordMap.containsKey(student.hed__Contact__c)){
+                         hed__Course_Enrollment__c learner = new hed__Course_Enrollment__c();
+                         learner.Id = student.id;
+                         learner.Marks__c = recordMap.get(student.hed__Contact__c);
+                         dataToUpdate.add(learner);
+                    }                               
+               }
+          }   
+
           try {
                update dataToUpdate;
                return 'Success';

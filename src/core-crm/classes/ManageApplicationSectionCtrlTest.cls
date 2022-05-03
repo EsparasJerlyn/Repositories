@@ -21,7 +21,7 @@ public with sharing class ManageApplicationSectionCtrlTest {
      private static String rtProdRequestActivity = System.Label.RT_ProductRequest_Activity;
      private static Id studentRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(studentRT).getRecordTypeId();
      private static Id opeActProdReqRecType = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(rtProdRequestActivity).getRecordTypeId();
-     private static Integer numberOfRecords = 100;
+     private static Integer numberOfRecords = 2;
      private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
      private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
 
@@ -39,9 +39,9 @@ public with sharing class ManageApplicationSectionCtrlTest {
      static void getStudentApplicationsTest(){
           System.runAs(currentUser){
                createRecord(opeActProdReqRecType);
-               String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;
+               String offeringId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;
                Test.startTest();
-               List<ManageApplicationSectionCtrl.ManageApplicationDetails> applicationDetails = ManageApplicationSectionCtrl.getStudentApplications(prodReqId);
+               List<ManageApplicationSectionCtrl.ManageApplicationDetails> applicationDetails = ManageApplicationSectionCtrl.getStudentApplications(offeringId);
                Test.stopTest();
                System.assertEquals(numberOfRecords, applicationDetails.size(), 'Incorrect number of records retrieved.');
           }
@@ -58,22 +58,6 @@ public with sharing class ManageApplicationSectionCtrlTest {
                String updateReponse = ManageApplicationSectionCtrl.updateStudentApplication(questionId, applicationStatus, reasonForRejection);
                Test.stopTest();
                System.assertEquals('Success', updateReponse, 'Update of record failed.');
-          }
-     }
-
-     @IsTest
-     static void getStudAppNoOfferingTest(){
-          System.runAs(currentUser){
-               List<Product_Request__c> productRequests = TestDataFactory.createTestProductRequestRecords(1);
-               for(Product_Request__c productRequest : productRequests){
-                    productRequest.RecordTypeId = opeActProdReqRecType;
-               }
-               insert productRequests;
-               String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;
-               Test.startTest();
-               List<ManageApplicationSectionCtrl.ManageApplicationDetails> applicationDetails = ManageApplicationSectionCtrl.getStudentApplications(prodReqId);
-               Test.stopTest();
-               System.assertNotEquals(numberOfRecords, applicationDetails.size(), 'Records to be retrieved must be link with an offering.');
           }
      }
 
@@ -110,18 +94,7 @@ public with sharing class ManageApplicationSectionCtrlTest {
                     contacts[i].Email = 'testIdeaFormUser'+i+'@mailinator.com';
                 }
                insert contacts;
-
-               List<hed__Course_Enrollment__c> students = new List<hed__Course_Enrollment__c>();
-               for(Contact contact : contacts){
-                    hed__Course_Enrollment__c student = new hed__Course_Enrollment__c();
-                    student.hed__Contact__c = contact.Id;
-                    student.RecordTypeId = studentRecTypeId;
-                    student.Paid_in_Full__c = 'Yes';
-                    student.hed__Course_Offering__c = offeringId;
-                    students.add(student);
-               }
-               insert students;
-
+               
                Questionnaire__c questionnaire = new Questionnaire__c();
                questionnaire.Questionnaire_Type__c = 'Application Questions';
                insert questionnaire;
