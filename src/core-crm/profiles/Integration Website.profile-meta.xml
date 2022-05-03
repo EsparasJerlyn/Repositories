@@ -6,5 +6,10 @@
         <endAddress>131.181.196.32</endAddress>
         <startAddress>131.181.196.32</startAddress>
     </loginIpRanges>
+    <loginIpRanges>
+        <description>QUT Website SQUIZ</description>
+        <endAddress>131.181.118.171</endAddress>
+        <startAddress>131.181.118.170</startAddress>
+    </loginIpRanges>
    
 </Profile>
