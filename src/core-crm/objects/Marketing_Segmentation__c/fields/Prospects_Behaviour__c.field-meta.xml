@@ -4,7 +4,7 @@
     <description>LSM = Lead Scoring Model. This field is an output of the Lead Scoring Model which indicates the marketing person&apos;s &apos;Behaviour&apos; score.</description>
     <externalId>false</externalId>
     <label>Prospects Behaviour</label>
-    <precision>3</precision>
+    <precision>6</precision>
     <required>false</required>
     <scale>0</scale>
     <securityClassification>Sensitive</securityClassification>

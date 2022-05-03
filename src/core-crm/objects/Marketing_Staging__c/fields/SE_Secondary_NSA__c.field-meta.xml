@@ -108,9 +108,9 @@ A person can select 1 or more NSAs where applicable.</description>
                 <label>Early Childhood</label>
             </value>
             <value>
-                <fullName>Earth</fullName>
+                <fullName>Earth Science</fullName>
                 <default>false</default>
-                <label>Earth</label>
+                <label>Earth Science</label>
             </value>
             <value>
                 <fullName>Economics and Finance</fullName>
@@ -123,9 +123,9 @@ A person can select 1 or more NSAs where applicable.</description>
                 <label>Engineering</label>
             </value>
             <value>
-                <fullName>Environmental</fullName>
+                <fullName>Environmental Science</fullName>
                 <default>false</default>
-                <label>Environmental</label>
+                <label>Environmental Science</label>
             </value>
             <value>
                 <fullName>Executive MBA</fullName>
@@ -213,14 +213,9 @@ A person can select 1 or more NSAs where applicable.</description>
                 <label>MBA</label>
             </value>
             <value>
-                <fullName>Medical Imaging and Radiation</fullName>
+                <fullName>Medical Imaging and Radiation Therapy</fullName>
                 <default>false</default>
-                <label>Medical Imaging and Radiation</label>
-            </value>
-            <value>
-                <fullName>Therapy</fullName>
-                <default>false</default>
-                <label>Therapy</label>
+                <label>Medical Imaging and Radiation Therapy</label>
             </value>
             <value>
                 <fullName>Medical Sciences</fullName>
