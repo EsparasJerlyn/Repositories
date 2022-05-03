@@ -20,7 +20,7 @@
         </lightning-button>
         <lightning-helptext 
             if:true={disableCreateQuestionnaireHelp}
-            content="You've maximized all questionnaires for this product request."
+            content="You have maximized all questionnaires for this product request."
             class="create-questionnaire-button create-questionnaire-help">
         </lightning-helptext>
         <lightning-accordion-section name="registrationCriteria" label="Set-up Registration and Application Questions" class="accordion-section">
@@ -87,7 +87,9 @@
                         <div if:false={isStatusCompleted} class="slds-form-element slds-m-around_x-small">
                             <label class="slds-form-element__label" for="combobox-id-1" id="combobox-label-id-33">
                                 Existing Questions
-                                <span if:true={searchBoxOpen} class="slds-m-left_medium small-text"><i>Press the 'Esc' key to close the search box.</i></span>
+                                <span if:true={showAcceptableResponseNote} class="slds-m-left_medium small-text">
+                                    <i>Questions shown are only those with Acceptable Response field populated.</i>
+                                </span>
                             </label>
                             <div class="slds-form-element__control">
                                 <div class="slds-combobox_container">
@@ -104,6 +106,7 @@
                                                 role="combobox"
                                                 placeholder="Search existing questions..."
                                                 onclick={handleSearchClick}
+                                                onblur={handleSearchBlur}
                                                 onkeydown={handleSearchKeydown}
                                                 oninput={handleQuestionSearch}/>
                                             <lightning-icon
@@ -122,7 +125,7 @@
                                                             data-recordid={question.Id}
                                                             class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
                                                             role="option"
-                                                            onclick={handleAddExistingQuestion}>
+                                                            onmousedown={handleAddExistingQuestion}>
                                                             <span class="slds-media__figure slds-listbox__option-icon">
                                                                 <span class="slds-icon_container slds-icon-standard-account">
                                                                     <lightning-icon
@@ -294,6 +297,14 @@
                                         field-name={leftField.field}
                                         required={leftField.mandatory}>
                                     </lightning-input-field>
+                                    <template if:true={leftField.errorMessage}>
+                                        <span
+                                            key={leftField.field}
+                                            if:true={showAcceptableResponseError}
+                                            class="slds-text-body_small slds-text-color_destructive slds-m-left_small">
+                                            {leftField.errorMessage}
+                                        </span>
+                                    </template>
                                 </template>
                             </div>
                             <div class="slds-col slds-size_1-of-2">

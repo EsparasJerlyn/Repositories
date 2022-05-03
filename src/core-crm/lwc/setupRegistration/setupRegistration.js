@@ -33,6 +33,7 @@ const COL_ONE = "slds-size_1-of-12";
 const COL_TWO = "slds-size_2-of-12";
 const STR_QUESTION = "Question";
 const STR_QUESTIONNAIRE = "Questionnaire";
+const STR_REGISTRATION_CRITERIA = "Registration Criteria";
 export default class SetupRegistration extends LightningElement {
   @api recordId;
   @api isStatusCompleted;
@@ -65,6 +66,7 @@ export default class SetupRegistration extends LightningElement {
   createRecordLabel = "";
   selectedQuestionnaireOption = "";
   questionId;
+  showAcceptableResponseError = false;
 
   //checks if user has permission for this feature
   get hasAccess() {
@@ -152,6 +154,13 @@ export default class SetupRegistration extends LightningElement {
   //decides if save button should be disabled
   get disableSave() {
     return this.createQuestionnaire && !this.selectedQuestionnaireOption;
+  }
+
+  //decides if acceptable response note is to be shown
+  get showAcceptableResponseNote(){
+    return this.selectedQuestionnaire.type == STR_REGISTRATION_CRITERIA && 
+      !this.noQuestionAvailable &&
+      this.searchBoxOpen;
   }
 
   //gets questionnaire object information
@@ -287,6 +296,11 @@ export default class SetupRegistration extends LightningElement {
     this.availableQuestions = this.availableQuestions.sort((a, b) =>
       a.Label__c.localeCompare(b.Label__c)
     );
+
+    if(this.selectedQuestionnaire.type == STR_REGISTRATION_CRITERIA){
+      this.availableQuestions = this.availableQuestions.filter(question => question.Acceptable_Response__c);
+    }
+    
     this.availableQuestionsToDisplay = this.availableQuestions;
   }
 
@@ -323,15 +337,23 @@ export default class SetupRegistration extends LightningElement {
 
   //pre-populates field if record is questionnaire
   handleSubmitRecord(event) {
+    event.preventDefault();
+    this.showAcceptableResponseError = false;
     this.isLoading = true;
+    let fields = event.detail.fields;
     if (this.createRecordLabel == STR_QUESTIONNAIRE) {
-      event.preventDefault();
-      let fields = event.detail.fields;
       fields[QUESTIONNAIRE_TYPE.fieldApiName] =
         this.selectedQuestionnaireOption;
       fields.Object_Type__c = PRODUCT_OBJECT.objectApiName;
       fields.Parent_Record_ID__c = this.recordId;
       this.template.querySelector("lightning-record-edit-form").submit(fields);
+    } else if (this.createRecordLabel == STR_QUESTION) {
+      if(!fields.Acceptable_Response__c && this.selectedQuestionnaire.type == STR_REGISTRATION_CRITERIA){
+        this.showAcceptableResponseError = true;
+        this.isLoading = false;
+      }else{
+        this.template.querySelector("lightning-record-edit-form").submit(fields);
+      }
     }
   }
 
@@ -392,6 +414,7 @@ export default class SetupRegistration extends LightningElement {
     this.createRecord = false;
     this.createEditQuestion = false;
     this.createQuestionnaire = false;
+    this.showAcceptableResponseError = false;
     this.createRecordLabel = "";
     this.questionId = "";
     this.selectedQuestionnaireOption = "";
