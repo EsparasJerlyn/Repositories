@@ -531,6 +531,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Program_Offering__c.Total_Number_of_Registered_Learners__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Related_Product_Request__c.Course__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -592,6 +597,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course__c.Bottom_Right_Signature_Text__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Course_Offering__c.Total_Number_of_Registered_Learners__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

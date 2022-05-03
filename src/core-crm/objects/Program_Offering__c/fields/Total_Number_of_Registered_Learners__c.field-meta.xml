@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Total_Course_Connections__c</fullName>
-    <description>This is the total number of Course Connections where status != Cancelled.</description>
+    <fullName>Total_Number_of_Registered_Learners__c</fullName>
+    <description>This is the total number of Enrolments where status != Cancelled.</description>
     <externalId>false</externalId>
-    <label>Total Course Connections</label>
+    <label>Total Number of Registered Learners</label>
     <precision>18</precision>
     <required>false</required>
     <scale>0</scale>
+    <securityClassification>Official</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Number</type>
     <unique>false</unique>

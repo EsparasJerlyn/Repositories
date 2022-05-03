@@ -1088,11 +1088,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Program_Offering__c.Total_Course_Connections__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Program_Offering__c.hed_Capacity__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1773,11 +1768,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course_Offering__c.Registration_Start_Date__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>hed__Course_Offering__c.Total_Course_Connections__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

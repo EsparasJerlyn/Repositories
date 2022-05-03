@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Layout xmlns="http://soap.sforce.com/2006/04/metadata">
-    <excludeButtons>ChangeOwnerOne</excludeButtons>
-    <excludeButtons>ChangeRecordType</excludeButtons>
-    <excludeButtons>Clone</excludeButtons>
-    <excludeButtons>Delete</excludeButtons>
-    <excludeButtons>Edit</excludeButtons>
-    <excludeButtons>PrintableView</excludeButtons>
-    <excludeButtons>Submit</excludeButtons>
     <layoutSections>
         <customLabel>false</customLabel>
         <detailHeading>false</detailHeading>
@@ -39,7 +32,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Total_Course_Connections__c</field>
+                <field>Total_Number_of_Registered_Learners__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
@@ -83,10 +76,6 @@
                 <behavior>Edit</behavior>
                 <field>hed__Faculty__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Checkout_Cart_Items_Count__c</field>
-            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>
@@ -128,8 +117,7 @@
     <relatedLists>
         <fields>NAME</fields>
         <fields>hed__Contact__c</fields>
-        <fields>hed__Account__c</fields>
-        <fields>hed__Program_Enrollment__c</fields>
+        <fields>hed__Status__c</fields>
         <fields>hed__Credits_Attempted__c</fields>
         <fields>hed__Primary__c</fields>
         <relatedList>hed__Course_Enrollment__c.hed__Course_Offering__c</relatedList>
@@ -137,14 +125,6 @@
     <relatedLists>
         <fields>NAME</fields>
         <relatedList>Session__c.Course_Offering__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>Name</fields>
-        <fields>Cart</fields>
-        <fields>CartDeliveryGroup</fields>
-        <fields>Type</fields>
-        <fields>Sku</fields>
-        <relatedList>CartItem.Course_Offering__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>

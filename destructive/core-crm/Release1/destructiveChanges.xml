@@ -279,6 +279,9 @@
         <!-- DEPP-2057 end -->
         <members>Session__c.Session_Name__c</members>
         <members>hed__Course_Enrollment__c.Course_Connection_Value__c</members>
+        <!--members>hed__Course_Enrollment__c.Program_Offering__c</members-->
+        <members>hed__Course_Offering__c.Total_Course_Connections__c</members>
+        <members>Program_Offering__c.Total_Course_Connections__c</members>
         <members>Financial_Split__c.QUTeX_Percentage_Split__c</members>
         <name>CustomField</name>
     </types>

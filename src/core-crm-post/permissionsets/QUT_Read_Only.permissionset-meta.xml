@@ -3838,7 +3838,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Program_Offering__c.Total_Course_Connections__c</field>
+        <field>Program_Offering__c.Total_Number_of_Registered_Learners__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6657,7 +6657,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>hed__Course_Offering__c.Total_Course_Connections__c</field>
+        <field>hed__Course_Offering__c.Total_Number_of_Registered_Learners__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
