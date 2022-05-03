@@ -112,6 +112,16 @@
   color: #1c1c1c;
 }
 
+.registerInterest button.slds-button.slds-button_brand {
+  width: 100%;
+  min-height: 48px;
+  background: #0066b9;
+  font-family: "ProximaNova-Bold";
+  font-style: normal;
+  font-size: 18px;
+  line-height: 21px;
+}
+
 @media screen and (min-width: 765px) {
   lightning-layout-item[c-productdetailsdisplay_productdetailsdisplay].slds-medium-size_4-of-12,
   lightning-layout-item[c-productdetailsdisplay_productdetailsdisplay].slds-medium-size--4-of-12 {

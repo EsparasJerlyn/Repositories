@@ -16,7 +16,9 @@
 @isTest(SeeAllData=false)
 private class ProductDetailsCtrlTest {
   private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
-  private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
+  private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName()
+    .get(ACCT_UNIV_DEP)
+    .getRecordTypeId();
   public static final Id FACULTY_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
     .get('Faculty')
     .getRecordTypeId();
@@ -32,11 +34,17 @@ private class ProductDetailsCtrlTest {
   static void setupMethod() {
     System.runAs(currentUser) {
       Test.startTest();
+      Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(
+        Name = 'test',
+        New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com'
+      );
+      insert customEmail;
+
       List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
-      for(Account account : accounts){
+      for (Account account : accounts) {
         account.RecordTypeId = ACCT_UNIV_DEP_ID;
         account.Organization_Unit_Level__c = '2';
-    }
+      }
       insert accounts;
 
       List<Contact> contacts = TestDataFactory.createTestContactRecords(1);
@@ -297,7 +305,7 @@ private class ProductDetailsCtrlTest {
     Test.stopTest();
   } */
 
-  /* @isTest
+  @isTest
   static void testInsertExpressionOfInterest() {
     UserRole portalRole = [
       SELECT Id
@@ -360,9 +368,7 @@ private class ProductDetailsCtrlTest {
         ![SELECT Id FROM Expression_of_interest__c].isEmpty(),
         'No expression of interest created'
       );
-
       Test.stopTest();
     }
-
-  } */
+  }
 }

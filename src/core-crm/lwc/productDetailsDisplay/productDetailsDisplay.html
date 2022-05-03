@@ -365,6 +365,7 @@
               class=""
               label={label.delivery}
               placeholder={label.deliveryPlaceholder}
+              disabled={disableDelivery}
               options={deliveryOptions}
               onchange={handleDeliverySelected}
               slds-icon-up="utility:chevronup"
@@ -424,16 +425,24 @@
             ></lightning-button>
           </lightning-layout-item>
           <!-- Register Interest -->
-          <lightning-layout-item flexibility="auto" size="12">
-            <!-- <lightning-button
+          <lightning-layout-item
+            if:true={displayRegisterInterest}
+            flexibility="auto"
+            size="12"
+          >
+            <lightning-button
               label={label.registerInterest}
               onclick={registerInterest}
               variant="brand"
               class="registerInterest"
-            ></lightning-button> -->
+            ></lightning-button>
           </lightning-layout-item>
         </lightning-layout>
       </lightning-layout-item>
     </lightning-layout>
   </div>
+  <!-- Custom Login Form LWC for Guest User -->
+  <template if:true={openModal}>
+    <c-registration-form onclose={handleModalClosed}></c-registration-form>
+  </template>
 </template>

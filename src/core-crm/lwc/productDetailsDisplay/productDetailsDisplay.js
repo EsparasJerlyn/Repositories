@@ -29,7 +29,7 @@ import userId from "@salesforce/user/Id";
 import isGuest from "@salesforce/user/isGuest";
 import customSR from "@salesforce/resourceUrl/QUTCustomLwcCss";
 import qutResourceImg from "@salesforce/resourceUrl/QUTImages";
-//import insertExpressionOfInterest from "@salesforce/apex/ProductDetailsCtrl.insertExpressionOfInterest";
+import insertExpressionOfInterest from "@salesforce/apex/ProductDetailsCtrl.insertExpressionOfInterest";
 import getRelatedCourseOffering from "@salesforce/apex/ProductDetailsCtrl.getCourseOfferingRelatedRecords";
 import overview from "@salesforce/label/c.QUT_ProductDetail_Overview";
 import evolveWithQUTeX from "@salesforce/label/c.QUT_ProductDetail_EvolveWithQUTeX";
@@ -61,7 +61,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   @api objectApiName;
   @api productDetails;
   @api priceBookEntries;
-  @api deliveryOptions;
+  @api deliveryOptions = [];
 
   @track courseOfferings = [];
   @track selectedCourseOffering;
@@ -71,10 +71,12 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   @track disableAvailStartDate = true;
   @track disablePriceBookEntry = true;
   @track disableAddToCart = true;
-  @track displayAddToCart = true;
+  @track displayAddToCart;
+  @track displayRegisterInterest;
   @track facilitator;
   @track displayFacilitatorNav = true;
   @track facilitatorIndex = 0;
+  @track openModal;
 
   // Set Custom Labels
   label = {
@@ -113,6 +115,18 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     this.comboBoxUp = qutResourceImg + "/QUTImages/Icon/comboBoxUp.svg";
     this.comboBoxDown = qutResourceImg + "/QUTImages/Icon/comboBoxDown.svg";
     this.durationIcon = qutResourceImg + "/QUTImages/Icon/duration.svg";
+
+    // Display AddToCart / Register Interest
+    if (
+      this.deliveryOptions.length == 0 &&
+      this.productDetails.Register_Interest_Available__c == true
+    ) {
+      this.displayAddToCart = false;
+      this.displayRegisterInterest = true;
+    } else {
+      this.displayAddToCart = true;
+      this.displayRegisterInterest = false;
+    }
   }
 
   /* Load Custom CSS */
@@ -172,29 +186,20 @@ export default class ProductDetailsDisplay extends NavigationMixin(
         })
       );
     } else {
-      // Redirect to login with startURL on current Product Detail
-      window.location.replace(
-        BasePath + "/login?startURL=" + window.location.pathname
-      );
+      // Display Custom Login Form LWC
+      this.openModal = true;
     }
     /* Comment out for bulk register */
     /* this.openRegisterModal(); */
   }
 
-  get showRegisterInterestButton() {
-    if (
-      this.hasNoRelatedCourseOfferings &&
-      this.registerInterestAvailable === "true" &&
-      this.isOPEPortal
-    ) {
-      return true;
-    } else {
-      return false;
-    }
+  // Disable Delivery when No Options retrieved
+  get disableDelivery() {
+    return this.deliveryOptions.length == 0 ? true : false;
   }
 
   // Register Interest
-  /* registerInterest() {
+  registerInterest() {
     if (!isGuest) {
       insertExpressionOfInterest({
         userId: userId,
@@ -212,9 +217,15 @@ export default class ProductDetailsDisplay extends NavigationMixin(
           }
         });
     } else {
-      window.location.replace(BasePath + "login/");
+      // Display Custom Login Form LWC
+      this.openModal = true;
     }
-  } */
+  }
+
+  // Close Custom Login Form LWC
+  handleModalClosed() {
+    this.openModal = false;
+  }
 
   // Accordion Toggle logic
   handleAccordionToggle(event) {

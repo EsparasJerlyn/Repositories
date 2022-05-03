@@ -398,7 +398,7 @@ public without sharing class ProductDetailsCtrl {
     }
   } */
 
-  /* @AuraEnabled
+  @AuraEnabled
   public static void insertExpressionOfInterest(Id userId, Id productId) {
     User loggedInUser = [SELECT Id, Contact.Id FROM User WHERE Id = :userId];
     List<Expression_of_Interest__c> existingInterest = new List<Expression_of_Interest__c>(
@@ -412,6 +412,7 @@ public without sharing class ProductDetailsCtrl {
           AND Status__c = 'Active'
       ]
     );
+
     if (!existingInterest.isEmpty()) {
       AuraHandledException auraEx = new AuraHandledException(
         'Register Interest Exists'
@@ -424,9 +425,10 @@ public without sharing class ProductDetailsCtrl {
         Type__c = 'Register Interest',
         Status__c = 'Active'
       );
+
       insert (expressionOfInterest);
     }
-  } */
+  }
 
   /**
    * @description wrapper that contains Product Details & Pricebook entries
