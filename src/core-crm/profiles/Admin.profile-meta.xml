@@ -4400,12 +4400,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Marketing_Segmentation__c.My_Completed_Education_Level__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Marketing_Segmentation__c.My_Current_Education_Level__c</field>
+        <field>Marketing_Segmentation__c.My_Education_Level__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4575,12 +4570,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Marketing_Segmentation__c.SE_Completed_Education_Level__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Marketing_Segmentation__c.SE_Current_Education_Level__c</field>
+        <field>Marketing_Segmentation__c.SE_Education_Level__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
