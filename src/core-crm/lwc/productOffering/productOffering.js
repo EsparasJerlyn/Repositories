@@ -528,6 +528,7 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
         this.showContactError = false;
         this.saveInProgress = false;
         this.selectedContactId = '';
+        this.objectToCreate = '';
     }
 
 
@@ -558,7 +559,11 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
            }
         })
         .catch(error => {
-            this.generateToast('Error.',LWC_Error_General,'error');
+            if(error.body && error.body.output && error.body.output.errors[0] && error.body.output.errors[0] && error.body.output.errors[0].errorCode == 'DUPLICATES_DETECTED'){
+                this.generateToast('Error.',error.body.output.errors[0].message,'error');
+            }else{
+                this.generateToast('Error.',LWC_Error_General,'error');
+            }
         })
         .finally(() => {
             if(objectType == 'Contact'){
