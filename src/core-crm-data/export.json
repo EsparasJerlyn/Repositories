@@ -247,6 +247,14 @@
             "useCSVValuesMapping": true,
             "targetObject": "hed__Facility__c",
             "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Name, Study_Store_Link__c FROM Study_Store_URL_Settings__c",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "Study_Store_URL_Settings__c",
+            "importCSVFilesAsIs": true
         }
     ]
 }
