@@ -52,10 +52,11 @@ font-family: Arial Unicode MS;">
 &nbsp;
 
 <div style="text-align: center; width:70%; margin:auto; font-family: Arial Unicode MS;"><br />
-        <span style="font-size:16px; ">This is to certify that<br /></span>
+    <span style="font-size:16px; ">This is to certify that<br /></span>
+    <br />
     <span style="font-size:34px; "><b>{!student.First_Name__c} {!student.Last_Name__c}</b><br/></span>
-    <span style="font-size:16px;"> Has participated in the QUTeX course</span><br />
-    <span style="font-size:32px; "><b>{!student.hed__Course_Offering__r.hed__Course__r.Name}</b></span><br />
+    <span style="font-size:16px;"> Has participated in the QUTeX {!product}:</span><br />
+    <span style="font-size:32px; "><b>{!productName}</b></span><br />
     <br />
     <span style="font-size:16px; ">and in evidence whereof this certificate is awarded&nbsp;<br />
     {!dateToday}</span><br />
@@ -85,16 +86,16 @@ border-collapse: collapse;">
             </th>
 		</tr>
 		<tr>
-			<td style="text-align: left;"><span style="font-size:18px;">{!student.hed__Course_Offering__r.hed__Course__r.Top_Left_Signature_Text__c}</span></td>
-			<td style="text-align:right;"><span style="font-size:18px;">{!student.hed__Course_Offering__r.hed__Course__r.Top_Right_Signature_Text__c}</span></td>
+			<td style="text-align: left;"><span style="font-size:18px;">{!topLeftText}</span></td>
+			<td style="text-align:right;"><span style="font-size:18px;">{!topRightText}</span></td>
 		</tr>
 		<tr>
-			<td style="text-align: left;"><span style="font-size:18px;">{!student.hed__Course_Offering__r.hed__Course__r.Middle_Left_Signature_Text__c}</span></td>
-			<td style="text-align:right;"><span style="font-size:18px;">{!student.hed__Course_Offering__r.hed__Course__r.Middle_Right_Signature_Text__c}</span></td>
+			<td style="text-align: left;"><span style="font-size:18px;">{!midLeftText}</span></td>
+			<td style="text-align:right;"><span style="font-size:18px;">{!midRightText}</span></td>
 		</tr>
 		<tr>
-			<td style="text-align: left;"><span style="font-size:18px;">{!student.hed__Course_Offering__r.hed__Course__r.Bottom_Left_Signature_Text__c}</span></td>
-			<td style="text-align:right;"><span style="font-size:18px;">{!student.hed__Course_Offering__r.hed__Course__r.Bottom_Right_Signature_Text__c}</span></td>
+			<td style="text-align: left;"><span style="font-size:18px;">{!bottomLeftText}</span></td>
+			<td style="text-align:right;"><span style="font-size:18px;">{!bottomRightText}</span></td>
 		</tr>
 	</tbody>
 </table>

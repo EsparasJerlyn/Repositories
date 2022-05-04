@@ -74,11 +74,13 @@ public with sharing class ManageCertificateSectionCtrl {
 
           List<hed__Course_Enrollment__c > courseConnections = [
                SELECT Id, Name, hed__Contact__c, hed__Contact__r.Name, hed__Contact__r.Email, hed__Course_Offering__c, Paid_in_Full__c, 
-                    hed__Status__c, Marks__c, Marks_Description__c, hed__Course_Offering__r.hed__Course__r.Name
+                    hed__Status__c, Marks__c, Marks_Description__c, hed__Course_Offering__r.hed__Course__r.Name, Program_Offering__r.hed_Program_Plan__r.Name
                  FROM hed__Course_Enrollment__c 
                 WHERE RecordTypeId IN (:studentRecTypeId, :studentProgramRecTypeId) 
-                AND (hed__Course_Offering__c =: offeringId OR (Program_Offering__c  =: offeringId AND hed__Course_Offering__c = null ))
+                AND (hed__Course_Offering__c =: offeringId OR (Program_Offering__c  =: offeringId AND hed__Course_Offering__c = null )) 
+                AND hed__Status__c != 'Cancelled'
           ];
+
           Map<Id, hed__Course_Enrollment__c> crsconnMap = new Map<Id, hed__Course_Enrollment__c>();
           for(hed__Course_Enrollment__c cc : courseConnections){
                crsconnMap.put(cc.hed__Contact__c, cc);
@@ -92,7 +94,12 @@ public with sharing class ManageCertificateSectionCtrl {
                certDetails.registrationStatus = crsconnMap.get(learnerId).hed__Status__c; 
                certDetails.marks = crsconnMap.get(learnerId).Marks__c;
                certDetails.marksDesc = crsconnMap.get(learnerId).Marks_Description__c;
-               certDetails.courseName = crsconnMap.get(learnerId).hed__Course_Offering__r.hed__Course__r.Name;
+               if(prescribedProgram){
+                    certDetails.courseName = crsconnMap.get(learnerId).Program_Offering__r.hed_Program_Plan__r.Name;
+               }else{
+                    certDetails.courseName = crsconnMap.get(learnerId).hed__Course_Offering__r.hed__Course__r.Name;
+               }
+               
                certDetails.certificateType = certificateType;
                String stDateString = offeringStartDate.format();
                certDetails.startDate = stDateString;
@@ -196,7 +203,7 @@ public with sharing class ManageCertificateSectionCtrl {
                               String mailSubject = 'QUTeX - ' + certDetails.courseName;
                               Map<String, String> coverEmailParams = new Map<String, String> {
                                    '{name}' => certDetails.contactFullName,
-                                   '{storeLink}' => String.valueOf(storeLinkSettings.Study_Store_Link__c)
+                                   '{storeLink}' => storeLinkSettings.Study_Store_Link__c != null? String.valueOf(storeLinkSettings.Study_Store_Link__c) : ''
                               };
                               pdfContentMap.putAll(createPDF(id, certDetails, attachTemplate));
                               Blob pdfContent = pdfContentMap.get(id).VersionData;

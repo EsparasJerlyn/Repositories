@@ -13,21 +13,23 @@
 public with sharing class SetupCertificateVFPageCtrlTest {
     private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
     private static string studentRT = System.Label.RT_CourseConnection_Student;
+    private static string studentProgramRT = System.Label.RT_CourseConnection_Student_Program;
     private static string facultyRT = System.Label.RT_CourseConnection_Faculty;
     private static String rtProdRequestActivity = System.Label.RT_ProductRequest_Activity;
     private static Id studentRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(studentRT).getRecordTypeId();
+    private static Id studentProgramRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(studentProgramRT).getRecordTypeId();
     private static Id opeActProdReqRecType = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(rtProdRequestActivity).getRecordTypeId();
     private static Integer numberOfRecords = 100;
     private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
 
     @IsTest
-    static void testSetupCertificate(){
+    static void testSetupCertificateCourse(){
         System.runAs(currentUser){
-            createRecord(opeActProdReqRecType);
+            Test.startTest();
+            createCourseRecord(opeActProdReqRecType);
             String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;
             String offeringId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;
-            Test.startTest();
             List<hed__Course_Enrollment__c> courseConnections = [SELECT Id, hed__Course_Offering__c 
                                                                 FROM hed__Course_Enrollment__c 
                                                                 WHERE RecordType.DeveloperName =: studentRT 
@@ -39,11 +41,86 @@ public with sharing class SetupCertificateVFPageCtrlTest {
             .getParameters()
             .put('courseConnectionId', courseConnections[0].Id);
             SetupCertificateVFPageCtrl testCtrl = new SetupCertificateVFPageCtrl();
+            System.assert(testCtrl.product !=null);
             Test.stopTest();
         }
     }
 
-    private static void createRecord(String productRequestRecordType){
+
+    @IsTest
+    static void testSetupCertificateProgram(){
+        System.runAs(currentUser){
+            Test.startTest();
+            createProgramRecord();
+            String offeringId = [SELECT Id FROM Program_Offering__c LIMIT 1].Id;
+            List<hed__Course_Enrollment__c> courseConnections = [SELECT Id, Program_Offering__c 
+                                                                FROM hed__Course_Enrollment__c 
+                                                                WHERE RecordType.DeveloperName =: studentProgramRT 
+                                                                AND Program_Offering__c != NULL LIMIT 1];
+            PageReference pageRef = Page.CertificateOfParticipationPDFView;
+
+            Test.setCurrentPage(pageRef);
+            ApexPages.currentPage()
+            .getParameters()
+            .put('courseConnectionId', courseConnections[0].Id);
+            SetupCertificateVFPageCtrl testCtrl = new SetupCertificateVFPageCtrl();
+            System.assert(testCtrl.product !=null);
+            Test.stopTest();
+            
+        }
+    }
+
+    private static void createProgramRecord(){
+        System.runAs(currentUser){
+            Id offeringId = null;
+
+            List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
+            for(Account acc : accounts){
+                acc.RecordTypeId = ACCT_UNIV_DEP_ID;
+                acc.Organization_Unit_Level__c = '2';
+            }
+            insert accounts;
+            
+            List<hed__Program_Plan__c> program = TestDataFactory.createTestProgramPlanRecords(1);
+            program[0].Left_Signature__c = '<p><img src="https://www.w3schools.com/w3css/img_lights.jpg" alt="test.jpg"></img></p>';
+            program[0].Right_Signature__c = '<p><img src="https://www.w3schools.com/w3css/img_lights.jpg" alt="test.jpg"></img></p>';
+            program[0].Partner_Logo__c = '<p><img src="https://www.w3schools.com/w3css/img_lights.jpg" alt="test.jpg"></img></p>';
+            program[0].Top_Left_Signature_Text__c = 'test';
+            program[0].Middle_Left_Signature_Text__c = 'test';
+            program[0].Bottom_Left_Signature_Text__c = 'test';
+            program[0].Top_Right_Signature_Text__c = 'test';
+            program[0].Middle_Right_Signature_Text__c = 'test';
+            program[0].Bottom_Right_Signature_Text__c = 'test';
+            program[0].Facilitated_By__c = 'test';
+            insert program;
+
+            List<Contact> contacts = TestDataFactory.createTestContactRecords(numberOfRecords);
+            for(Integer i =0;i<contacts.size();i++){
+                contacts[i].Email = 'testIdeaFormUser'+i+'@mailinator.com';
+            }
+            insert contacts;
+
+            List<Program_Offering__c> programOffering = TestDataFactory.createTestProgramOfferingRecords(1,program);
+            programOffering[0].End_Date__c = system.today() + 2;
+            insert programOffering;
+
+            offeringId = programOffering[0].Id;
+
+            List<hed__Course_Enrollment__c> studentPrograms = new List<hed__Course_Enrollment__c>();
+            for(Contact contact : contacts){
+                hed__Course_Enrollment__c studentProgram = new hed__Course_Enrollment__c();
+                studentProgram.hed__Contact__c = contact.Id;
+                studentProgram.RecordTypeId = studentProgramRecTypeId;
+                studentProgram.Paid_in_Full__c = 'Yes';
+                studentProgram.Program_Offering__c = offeringId;
+                studentProgram.Marks__c = 80;
+                studentPrograms.add(studentProgram);
+            }
+            insert studentPrograms;
+        }
+    }
+
+    private static void createCourseRecord(String productRequestRecordType){
         System.runAs(currentUser){
             Id offeringId = null;
 
@@ -107,8 +184,6 @@ public with sharing class SetupCertificateVFPageCtrlTest {
                 students.add(student);
             }
             insert students;
-
-            system.debug('here');
         }
     }
 }

@@ -11,22 +11,35 @@
       | roy.nino.s.regala              | May 02, 2022          | DEPP-1478              | Created file                 |
       |                                |                       |                        |                              |
  */
-global class SendCertificateBatch implements Database.batchable<sObject>{
-    global Set<Id> courseConnectionIds;
+public class SendCertificateBatch implements Database.batchable<sObject>{
+    public Set<Id> courseConnectionIds;
+    private static string studentProgramRT = System.Label.RT_CourseConnection_Student_Program;
     
-    global Database.QueryLocator start(Database.BatchableContext BC) {
-        String queryString = 'Select Id, hed__Course_Offering__r.hed__Course__r.Name, ' +
+    public Database.QueryLocator start(Database.BatchableContext BC) {
+        String queryString = 'Select Id, RecordType.DeveloperName, hed__Course_Offering__r.hed__Course__r.Name, ' +
+        'Program_Offering__r.hed_Program_Plan__r.Name, Program_Offering__r.hed_Program_Plan__r.Certificate_Type__c, ' +
         'hed__Course_Offering__r.hed__Course__r.Certificate_Type__c, hed__Contact__r.Email,hed__Contact__r.Name ' + 
         ' From hed__Course_Enrollment__c Where Id IN :courseConnectionIds' + (Test.isRunningTest()?' LIMIT 14':'');        
         return Database.getQueryLocator(queryString);
     }
     
-    global void execute(Database.BatchableContext BC, List<sObject> scope) {
+    public void execute(Database.BatchableContext BC, List<sObject> scope) {
         List<ManageCertificateDetails> certDetailsList = new List<ManageCertificateDetails>();
         for(hed__Course_Enrollment__c conEnroll : (List<hed__Course_Enrollment__c>)scope) {
             ManageCertificateDetails certDetail = new ManageCertificateDetails();
             certDetail.id = conEnroll.Id;
-            if( conEnroll.hed__Course_Offering__c != null && 
+
+            if( conEnroll.RecordType != null && 
+                conEnroll.RecordType.DeveloperName == studentProgramRT &&
+                conEnroll.Program_Offering__c != null && 
+                conEnroll.Program_Offering__r.hed_Program_Plan__c != null &&
+                conEnroll.Program_Offering__r.hed_Program_Plan__r.Certificate_Type__c != null && 
+                conEnroll.Program_Offering__r.hed_Program_Plan__r.Name != null ){
+
+                certDetail.courseName = conEnroll.Program_Offering__r.hed_Program_Plan__r.Name;
+                certDetail.certificateType = conEnroll.Program_Offering__r.hed_Program_Plan__r.Certificate_Type__c;
+
+            }else if( conEnroll.hed__Course_Offering__c != null && 
                 conEnroll.hed__Course_Offering__r.hed__Course__c != null &&
                 conEnroll.hed__Course_Offering__r.hed__Course__r.Certificate_Type__c != null && 
                 conEnroll.hed__Course_Offering__r.hed__Course__r.Name != null ){
@@ -52,7 +65,7 @@ global class SendCertificateBatch implements Database.batchable<sObject>{
         
     }
     
-    global void finish(Database.BatchableContext BC) {
+    public void finish(Database.BatchableContext BC) {
     }
 
     /**
