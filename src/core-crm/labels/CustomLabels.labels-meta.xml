@@ -21,7 +21,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>DOC_Email_Header</shortDescription>
-        <value>QUTeXEmailHeader</value>
+        <value>QUTeX_Email_Header</value>
     </labels>
     <labels>
         <fullName>DOC_Email_Footer</fullName>
@@ -29,7 +29,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>DOC_Email_Footer</shortDescription>
-        <value>QUTeXEmailFooter</value>
+        <value>QUTeX_Email_Footer</value>
     </labels>
     <labels>
         <fullName>ESBEndpointCreateContract</fullName>

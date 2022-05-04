@@ -1,41 +1,173 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
-        <name>Send_Approved_Email</name>
-        <label>Send Approved Email</label>
-        <locationX>50</locationX>
-        <locationY>575</locationY>
-        <actionName>Questionnaire_Response_Summary__c.Send_Approved_Email_To_Learner</actionName>
-        <actionType>emailAlert</actionType>
+        <name>Send_Email_to_Contact</name>
+        <label>Send Email to Contact</label>
+        <locationX>314</locationX>
+        <locationY>1151</locationY>
+        <actionName>FlowEmailHelper</actionName>
+        <actionType>apex</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
-            <name>SObjectRowId</name>
+            <name>emailTemplateName</name>
             <value>
-                <elementReference>$Record.Id</elementReference>
+                <elementReference>EmailTemplateName</elementReference>
             </value>
         </inputParameters>
-    </actionCalls>
-    <actionCalls>
-        <name>Send_Rejected_Email</name>
-        <label>Send Rejected Email</label>
-        <locationX>314</locationX>
-        <locationY>575</locationY>
-        <actionName>Questionnaire_Response_Summary__c.Send_Rejected_Email_To_Learner</actionName>
-        <actionType>emailAlert</actionType>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
-            <name>SObjectRowId</name>
+            <name>mergeFields</name>
             <value>
-                <elementReference>$Record.Id</elementReference>
+                <elementReference>MergeFields</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>orgWideEmailAddressId</name>
+            <value>
+                <elementReference>Get_Org_Wide_Email_Id.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>recipientEmailAddresses</name>
+            <value>
+                <elementReference>EmailAddresses</elementReference>
             </value>
         </inputParameters>
     </actionCalls>
     <apiVersion>54.0</apiVersion>
+    <assignments>
+        <name>Add_Merge_Fields_and_Email_Addresses</name>
+        <label>Add Merge Fields and Email Addresses</label>
+        <locationX>314</locationX>
+        <locationY>575</locationY>
+        <assignmentItems>
+            <assignToReference>MergeFields</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>ContactFirstNameMergeField</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MergeFields</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>CourseNameMergeField</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>EmailAddresses</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.Contact__r.Email</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>get_Application_Status</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Add_Reason_for_Rejection_Merge_Field</name>
+        <label>Add Reason for Rejection Merge Field</label>
+        <locationX>314</locationX>
+        <locationY>935</locationY>
+        <assignmentItems>
+            <assignToReference>MergeFields</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>ReasonForRejectionMergeField</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Send_Email_to_Contact</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Approved_Template</name>
+        <label>Assign Approved Template</label>
+        <locationX>50</locationX>
+        <locationY>815</locationY>
+        <assignmentItems>
+            <assignToReference>EmailTemplateName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Application Email Approved</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Send_Email_to_Contact</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Merge_Fields</name>
+        <label>Assign Merge Fields</label>
+        <locationX>314</locationX>
+        <locationY>455</locationY>
+        <assignmentItems>
+            <assignToReference>ContactFirstNameMergeField.mergeField</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>{contactFirstName}</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ContactFirstNameMergeField.mergeFieldValue</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Contact__r.FirstName</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>CourseNameMergeField.mergeField</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>{courseName}</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>CourseNameMergeField.mergeFieldValue</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Course_Offering__r.hed__Course__r.Name</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Add_Merge_Fields_and_Email_Addresses</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Reason_for_Rejection_Merge_Field</name>
+        <label>Assign Reason for Rejection Merge Field</label>
+        <locationX>314</locationX>
+        <locationY>815</locationY>
+        <assignmentItems>
+            <assignToReference>ReasonForRejectionMergeField.mergeField</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>{reasonForRejection}</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ReasonForRejectionMergeField.mergeFieldValue</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Reason_for_Rejection__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>EmailTemplateName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Application Email Rejected</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Add_Reason_for_Rejection_Merge_Field</targetReference>
+        </connector>
+    </assignments>
     <decisions>
         <name>get_Application_Status</name>
         <label>get Application Status</label>
         <locationX>314</locationX>
-        <locationY>455</locationY>
+        <locationY>695</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>is_Approved</name>
@@ -55,7 +187,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Send_Approved_Email</targetReference>
+                <targetReference>Assign_Approved_Template</targetReference>
             </connector>
             <label>is Approved</label>
         </rules>
@@ -77,7 +209,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Send_Rejected_Email</targetReference>
+                <targetReference>Assign_Reason_for_Rejection_Merge_Field</targetReference>
             </connector>
             <label>is Rejected</label>
         </rules>
@@ -104,31 +236,31 @@
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <recordLookups>
-        <name>get_Questionnaire_Response_Summ_Record</name>
-        <label>get Questionnaire Response Summ  Record</label>
+        <name>Get_Org_Wide_Email_Id</name>
+        <label>Get Org Wide Email Id</label>
         <locationX>314</locationX>
         <locationY>335</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>get_Application_Status</targetReference>
+            <targetReference>Assign_Merge_Fields</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
-            <field>Id</field>
+            <field>Address</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>$Record.Id</elementReference>
+                <elementReference>$Setup.Flow_Automation_Settings__c.New_Idea_To_Email_Address__c</elementReference>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>Questionnaire_Response_Summary__c</object>
+        <object>OrgWideEmailAddress</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <start>
         <locationX>188</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>get_Questionnaire_Response_Summ_Record</targetReference>
+            <targetReference>Get_Org_Wide_Email_Id</targetReference>
         </connector>
         <filterLogic>1 AND (2 OR 3)</filterLogic>
         <filters>
@@ -157,4 +289,50 @@
         <triggerType>RecordAfterSave</triggerType>
     </start>
     <status>Active</status>
+    <variables>
+        <name>ContactFirstNameMergeField</name>
+        <apexClass>FlowEmailMergeField</apexClass>
+        <dataType>Apex</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>CourseNameMergeField</name>
+        <apexClass>FlowEmailMergeField</apexClass>
+        <dataType>Apex</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>EmailAddresses</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>EmailTemplateName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>MergeFields</name>
+        <apexClass>FlowEmailMergeField</apexClass>
+        <dataType>Apex</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>ReasonForRejectionMergeField</name>
+        <apexClass>FlowEmailMergeField</apexClass>
+        <dataType>Apex</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
 </Flow>

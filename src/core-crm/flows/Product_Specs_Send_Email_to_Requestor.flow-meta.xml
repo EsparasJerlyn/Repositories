@@ -3,54 +3,88 @@
     <actionCalls>
         <name>Send_Email_to_Requestor</name>
         <label>Send Email to Requestor</label>
-        <locationX>50</locationX>
-        <locationY>695</locationY>
-        <actionName>emailSimple</actionName>
-        <actionType>emailSimple</actionType>
+        <locationX>935</locationX>
+        <locationY>546</locationY>
+        <actionName>FlowEmailHelper</actionName>
+        <actionType>apex</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
-            <name>emailBody</name>
+            <name>emailTemplateName</name>
             <value>
-                <elementReference>sendEmailTemplate</elementReference>
+                <stringValue>Prod Specs Send Email to Requestor</stringValue>
             </value>
         </inputParameters>
         <inputParameters>
-            <name>emailAddresses</name>
+            <name>mergeFields</name>
             <value>
-                <elementReference>$Record.Requestor_Name__r.Email</elementReference>
+                <elementReference>MergeFields</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
-            <name>sendRichBody</name>
+            <name>orgWideEmailAddressId</name>
             <value>
-                <booleanValue>true</booleanValue>
+                <elementReference>Get_Org_Wide_Email_ID.Id</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
-            <name>senderAddress</name>
+            <name>recipientEmailAddresses</name>
             <value>
-                <elementReference>$Setup.Flow_Automation_Settings__c.New_Idea_To_Email_Address__c</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>senderType</name>
-            <value>
-                <stringValue>OrgWideEmailAddress</stringValue>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>emailSubject</name>
-            <value>
-                <stringValue>Congratulations, your idea has progressed</stringValue>
+                <elementReference>EmailAddresses</elementReference>
             </value>
         </inputParameters>
     </actionCalls>
     <apiVersion>53.0</apiVersion>
+    <assignments>
+        <name>Add_Merge_Fields</name>
+        <label>Add Merge Fields</label>
+        <locationX>935</locationX>
+        <locationY>403</locationY>
+        <assignmentItems>
+            <assignToReference>MergeFields</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>FirstNameMergeField</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>EmailAddresses</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.Requestor_Email__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Send_Email_to_Requestor</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Merge_Fields</name>
+        <label>Assign Merge Fields</label>
+        <locationX>935</locationX>
+        <locationY>266</locationY>
+        <assignmentItems>
+            <assignToReference>FirstNameMergeField.mergeField</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>{requestorFirstName}</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>FirstNameMergeField.mergeFieldValue</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Requestor_Name__r.FirstName</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Add_Merge_Fields</targetReference>
+        </connector>
+    </assignments>
     <decisions>
         <name>isFromQualify</name>
         <label>isFromQualify</label>
-        <locationX>182</locationX>
-        <locationY>575</locationY>
+        <locationX>702</locationX>
+        <locationY>116</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Stage_From_Qualify_To_Design</name>
@@ -70,7 +104,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Send_Email_to_Requestor</targetReference>
+                <targetReference>Get_Org_Wide_Email_ID</targetReference>
             </connector>
             <label>Stage From Qualify To Design</label>
         </rules>
@@ -86,7 +120,7 @@
     <processMetadataValues>
         <name>CanvasMode</name>
         <value>
-            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
         </value>
     </processMetadataValues>
     <processMetadataValues>
@@ -99,11 +133,11 @@
     <recordLookups>
         <name>get_OPE_RecordType</name>
         <label>get OPE RecordType</label>
-        <locationX>182</locationX>
-        <locationY>335</locationY>
+        <locationX>539</locationX>
+        <locationY>115</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>get_Product_Specs_Record</targetReference>
+            <targetReference>isFromQualify</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -120,29 +154,29 @@
         </outputAssignments>
     </recordLookups>
     <recordLookups>
-        <name>get_Product_Specs_Record</name>
-        <label>get Product Specs Record</label>
-        <locationX>182</locationX>
-        <locationY>455</locationY>
+        <name>Get_Org_Wide_Email_ID</name>
+        <label>Get Org Wide Email ID</label>
+        <locationX>931</locationX>
+        <locationY>116</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>isFromQualify</targetReference>
+            <targetReference>Assign_Merge_Fields</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
-            <field>Id</field>
+            <field>Address</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>$Record.Id</elementReference>
+                <elementReference>$Setup.Flow_Automation_Settings__c.New_Idea_To_Email_Address__c</elementReference>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>Product_Specification__c</object>
+        <object>OrgWideEmailAddress</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <start>
-        <locationX>56</locationX>
-        <locationY>0</locationY>
+        <locationX>143</locationX>
+        <locationY>12</locationY>
         <connector>
             <targetReference>get_OPE_RecordType</targetReference>
         </connector>
@@ -179,6 +213,29 @@
 &lt;p&gt;&lt;strong&gt;The QUTeX Team&lt;/strong&gt;&lt;br&gt;Phone: +61 7 3138 7733 | Email: &lt;a href=&quot;mailto:qutex@qut.edu.au&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;qutex@qut.edu.au&lt;/a&gt;&lt;br&gt;QUTeX Professional and Executive Education for the Real World | &lt;a href=&quot;https://qut.edu.au/qutex&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;www.qut.edu.au/qutex&lt;/a&gt;&lt;a href=&quot;https://www.linkedin.com/showcase/14561011/admin/&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href=&quot;https://www.linkedin.com/showcase/14561011/admin/&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;Follow&lt;/a&gt; QUTeX on LinkedIn | &lt;a href=&quot;https://alumni-and-friends.qut.edu.au/qutex-connect-subscription&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;Subscribe&lt;/a&gt; to the QUTeX Connect Newsletter&lt;/p&gt;</text>
     </textTemplates>
+    <variables>
+        <name>EmailAddresses</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>FirstNameMergeField</name>
+        <apexClass>FlowEmailMergeField</apexClass>
+        <dataType>Apex</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>MergeFields</name>
+        <apexClass>FlowEmailMergeField</apexClass>
+        <dataType>Apex</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
     <variables>
         <name>recordTypeId</name>
         <dataType>String</dataType>

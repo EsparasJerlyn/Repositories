@@ -26,13 +26,21 @@ public with sharing class EmailHelperTest {
             '{name}' => contactFullName,
             '{contactemail}' => contactEmail
         };
-          
-       Test.startTest();
-       Messaging.SingleEmailMessage emailBuilderTest = EmailHelper.emailBuilder(contactEmail, mailSubject, coverTemplate.HtmlValue,coverEmailParams);
-       Messaging.EmailFileAttachment attachementBuilderTest = EmailHelper.attachementBuilder(coverTemplate.Name, coverTemplate.HtmlValue,coverEmailParams);
-       Test.stopTest();
-       System.assertNotEquals(null, emailBuilderTest);
-       System.assertNotEquals(null, attachementBuilderTest);
+
+        Test.startTest();
+        Messaging.SingleEmailMessage emailBuilderTest = EmailHelper.emailBuilder(contactEmail, mailSubject, coverTemplate.HtmlValue,coverEmailParams);
+        Messaging.SingleEmailMessage emailBuilderTestWithOrgId = EmailHelper.emailBuilder(
+            new List<String>{contactEmail},
+            mailSubject,
+            coverTemplate.HtmlValue,
+            coverEmailParams,
+            null
+        );
+        Messaging.EmailFileAttachment attachementBuilderTest = EmailHelper.attachementBuilder(coverTemplate.Name, coverTemplate.HtmlValue,coverEmailParams);
+        Test.stopTest();
+        System.assertNotEquals(null, emailBuilderTest);
+        System.assertNotEquals(null, emailBuilderTestWithOrgId);
+        System.assertNotEquals(null, attachementBuilderTest);
 
     }   
 

@@ -1,51 +1,148 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
-        <name>Send_to_QUTeX</name>
-        <label>Send to QUTeX</label>
+        <name>Send_Email_to_QUTeX</name>
+        <label>Send Email to QUTeX</label>
         <locationX>176</locationX>
-        <locationY>575</locationY>
-        <actionName>emailSimple</actionName>
-        <actionType>emailSimple</actionType>
+        <locationY>935</locationY>
+        <actionName>FlowEmailHelper</actionName>
+        <actionType>apex</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
-            <name>emailBody</name>
+            <name>emailTemplateName</name>
             <value>
-                <elementReference>ProgramPlanConfirmationEmail</elementReference>
+                <stringValue>Send Email Upon Design Submission</stringValue>
             </value>
         </inputParameters>
         <inputParameters>
-            <name>emailAddresses</name>
+            <name>mergeFields</name>
             <value>
-                <elementReference>$Setup.Flow_Automation_Settings__c.New_Idea_To_Email_Address__c</elementReference>
+                <elementReference>MergeFields</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
-            <name>sendRichBody</name>
+            <name>orgWideEmailAddressId</name>
             <value>
-                <booleanValue>true</booleanValue>
+                <elementReference>Get_Org_Wide_Email_Id.Id</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
-            <name>senderAddress</name>
+            <name>recipientEmailAddresses</name>
             <value>
-                <elementReference>$Setup.Flow_Automation_Settings__c.New_Idea_To_Email_Address__c</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>senderType</name>
-            <value>
-                <stringValue>OrgWideEmailAddress</stringValue>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>emailSubject</name>
-            <value>
-                <stringValue>[QUTeX] Design Form Received</stringValue>
+                <elementReference>EmailAddresses</elementReference>
             </value>
         </inputParameters>
     </actionCalls>
     <apiVersion>52.0</apiVersion>
+    <assignments>
+        <name>Add_Merge_Fields_and_Email_Addresses</name>
+        <label>Add Merge Fields and Email Addresses</label>
+        <locationX>176</locationX>
+        <locationY>815</locationY>
+        <assignmentItems>
+            <assignToReference>MergeFields</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>UserNameMergeField</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MergeFields</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>ProductRequestNameMergeField</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MergeFields</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>ProductRequestLinkMergeField</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MergeFields</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>ProgramPlanNameMergeField</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>EmailAddresses</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Setup.Flow_Automation_Settings__c.New_Idea_To_Email_Address__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Send_Email_to_QUTeX</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Merge_Fields</name>
+        <label>Assign Merge Fields</label>
+        <locationX>176</locationX>
+        <locationY>695</locationY>
+        <assignmentItems>
+            <assignToReference>UserNameMergeField.mergeField</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>{userName}</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>UserNameMergeField.mergeFieldValue</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_User_Name.Name</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ProductRequestNameMergeField.mergeField</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>{productRequestName}</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ProductRequestNameMergeField.mergeFieldValue</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Product_Request__r.Name</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ProductRequestLinkMergeField.mergeField</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>{productRequestLink}</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ProductRequestLinkMergeField.mergeFieldValue</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>ProductRequestURL</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ProgramPlanNameMergeField.mergeField</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>{nameOrProposalTitle}</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ProgramPlanNameMergeField.mergeFieldValue</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Name</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Add_Merge_Fields_and_Email_Addresses</targetReference>
+        </connector>
+    </assignments>
     <formulas>
         <name>ProductRequestURL</name>
         <dataType>String</dataType>
@@ -72,6 +169,27 @@
         </value>
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <name>Get_Org_Wide_Email_Id</name>
+        <label>Get Org Wide Email Id</label>
+        <locationX>176</locationX>
+        <locationY>575</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Assign_Merge_Fields</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Address</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Setup.Flow_Automation_Settings__c.New_Idea_To_Email_Address__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>OrgWideEmailAddress</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
     <recordLookups>
         <name>Get_Program_Plan_Record</name>
         <label>Get Program Plan Record</label>
@@ -100,7 +218,7 @@
         <locationY>455</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Send_to_QUTeX</targetReference>
+            <targetReference>Get_Org_Wide_Email_Id</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -142,19 +260,51 @@
         <triggerType>RecordAfterSave</triggerType>
     </start>
     <status>Active</status>
-    <textTemplates>
-        <name>ProgramPlanConfirmationEmail</name>
-        <isViewedAsPlainText>true</isViewedAsPlainText>
-        <text>Dear &lt;b&gt;{!Get_User_Name.Name}&lt;/b&gt;,
-
-&lt;br/&gt;&amp;nbsp;
-
-&lt;p&gt;The requestor has completed the design form for &lt;b&gt;{!$Record.Name}&lt;/b&gt;, please log into DEP to proceed with this product request &lt;b&gt;&lt;a href={!ProductRequestURL}&gt;{!$Record.Product_Request__r.Name}&lt;/a&gt;&lt;/b&gt;.&lt;/p&gt;
-
-
-
-&lt;br/&gt;
-
-&lt;p&gt;Kind Regards,&lt;/p&gt;</text>
-    </textTemplates>
+    <variables>
+        <name>EmailAddresses</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>MergeFields</name>
+        <apexClass>FlowEmailMergeField</apexClass>
+        <dataType>Apex</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>ProductRequestLinkMergeField</name>
+        <apexClass>FlowEmailMergeField</apexClass>
+        <dataType>Apex</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>ProductRequestNameMergeField</name>
+        <apexClass>FlowEmailMergeField</apexClass>
+        <dataType>Apex</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>ProgramPlanNameMergeField</name>
+        <apexClass>FlowEmailMergeField</apexClass>
+        <dataType>Apex</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>UserNameMergeField</name>
+        <apexClass>FlowEmailMergeField</apexClass>
+        <dataType>Apex</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
 </Flow>

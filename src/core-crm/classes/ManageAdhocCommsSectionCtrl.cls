@@ -36,14 +36,12 @@ public with sharing class ManageAdhocCommsSectionCtrl {
     * @return map of Document Name and Id
     */
     @AuraEnabled(cacheable=true)
-    public static Map<String,Id> getHeaderAndFooterImageIds(List<String> fileNames){
-        Map<String,Id> imageIdMap = new Map<String,Id>();
-        for(Document doc : [SELECT Id, Name FROM Document WHERE Name IN : fileNames]){
-            if(!imageIdMap.containsKey(doc.Name)){
-                imageIdMap.put(doc.Name, doc.Id);
-            }
-        }
-        return imageIdMap;
+    public static List<GenerateImageServerURL.ImageURL> getHeaderAndFooterImageUrls(String imageInfos){
+        List<GenerateImageServerURL.ImageInfo> infos = (List<GenerateImageServerURL.ImageInfo>) JSON.deserialize(
+            imageInfos, 
+            List<GenerateImageServerURL.ImageInfo>.class
+        );
+        return GenerateImageServerURL.generateURL(infos);
     }
 
     /**
