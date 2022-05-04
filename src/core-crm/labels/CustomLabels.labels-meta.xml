@@ -561,4 +561,11 @@
         <shortDescription>LWC_Program_Prescribed</shortDescription>
         <value>Prescribed Program</value>
     </labels>
+    <labels>
+        <fullName>QUT_Product2_ContactImageError</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>QUT_Product2_ContactImageError</shortDescription>
+        <value>Please upload a Contact Image for the following Contacts:</value>
+    </labels>
 </CustomLabels>
