@@ -211,23 +211,15 @@
         {
             "query": "SELECT Name,Id,Description FROM BuyerGroup",
             "operation": "Upsert",
-            "externalId": "Id",
+            "externalId": "Name",
             "useCSVValuesMapping": true,
             "targetObject": "BuyerGroup",
             "importCSVFilesAsIs": true
         },
-        {
-            "query": "SELECT BuyerGroupId,PolicyId from CommerceEntitlementBuyerGroup",
-            "operation": "Upsert",
-            "externalId": "Id",
-            "useCSVValuesMapping": true,
-            "targetObject": "CommerceEntitlementBuyerGroup",
-            "importCSVFilesAsIs": true
-        },
 		{
-            "query": "SELECT Id, BuyerId,BuyerGroupId from BuyerGroupMember",
+            "query": "SELECT Id,BuyerId,BuyerGroupId from BuyerGroupMember",
             "operation": "Upsert",
-            "externalId": "Id",
+            "externalId": "BuyerGroupId",
             "useCSVValuesMapping": true,
             "targetObject": "BuyerGroupMember",
             "importCSVFilesAsIs": true
