@@ -34,7 +34,7 @@ parameters:
 - name: PACKAGE_DEPLOYMENT_DELTA_TYPE
   displayName: Package Deployment Delta Type
   type: string
-  default: "Last 5 days"
+  default: "Diff from main"
   values:
   - "Diff from main"
   - "Last 5 days"
