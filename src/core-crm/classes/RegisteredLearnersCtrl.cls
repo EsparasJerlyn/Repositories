@@ -25,7 +25,8 @@ public with sharing class RegisteredLearnersCtrl {
                                                             FROM hed__Course_Enrollment__c
                                                             WHERE hed__Course_Offering__c =: offeringId 
                                                             AND RecordTypeId =: studentRTId
-                                                            AND hed__Status__c = 'Active'];
+                                                            AND hed__Status__c != 'Cancelled'
+                                                            AND hed__Status__c != null];
 
         for(hed__Course_Enrollment__c student : courseConnections){
                 RegisteredLearners rl = new RegisteredLearners();
