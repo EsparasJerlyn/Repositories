@@ -13,22 +13,36 @@
 @isTest(SeeAllData=false)
 public with sharing class ManageCertificateSectionCtrlTest {
     private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
-    private static string studentRT = System.Label.RT_CourseConnection_Student;
-    private static String rtProdRequestActivity = System.Label.RT_ProductRequest_Activity;
-    private static Id studentRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(studentRT).getRecordTypeId();
-    private static Id opeActProdReqRecType = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(rtProdRequestActivity).getRecordTypeId();
-    private static Integer numberOfRecords = 100;
+
+    private static final string STUDENT_RT = System.Label.RT_CourseConnection_Student;
+    private static final Id STUDENT_RT_ID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(STUDENT_RT).getRecordTypeId();
+    private static final String RT_ACTIVITY = System.Label.RT_ProductRequest_Activity;    
+    private static final Id RT_ACTIVITY_ID = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(RT_ACTIVITY).getRecordTypeId();
+    private static final String RT_PROG_PLAN = System.Label.RT_ProductRequest_Program;    
+    private static final Id RT_PROG_PLAN_ID = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(RT_PROG_PLAN).getRecordTypeId();
     private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
+    private static Integer numberOfRecords = 100;   
 
     @IsTest
     static void getRegDetailsForNonProgPlanTest(){
         System.runAs(currentUser){
-            createRecord(opeActProdReqRecType);
-            String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;
+            createRecord(RT_ACTIVITY_ID);
             String offeringId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;
             Test.startTest();
             List<ManageCertificateSectionCtrl.ManageCertificateDetails> certificateDetails = ManageCertificateSectionCtrl.getCertificateDetails(offeringId, false);
+            Test.stopTest();
+            System.assertEquals(numberOfRecords, certificateDetails.size(), 'Incorrect number of records retrieved.');
+        }
+    }
+
+    @IsTest
+    static void getRegDetailsForProgPlanTest(){
+        System.runAs(currentUser){
+            createRecord(RT_PROG_PLAN_ID);
+            String offeringId = [SELECT Id FROM Program_Offering__c LIMIT 1].Id;
+            Test.startTest();
+            List<ManageCertificateSectionCtrl.ManageCertificateDetails> certificateDetails = ManageCertificateSectionCtrl.getCertificateDetails(offeringId, true);
             Test.stopTest();
             System.assertEquals(numberOfRecords, certificateDetails.size(), 'Incorrect number of records retrieved.');
         }
@@ -39,7 +53,7 @@ public with sharing class ManageCertificateSectionCtrlTest {
         System.runAs(currentUser){
             Study_Store_URL_Settings__c studyStore = new Study_Store_URL_Settings__c(Study_Store_Link__c = 'https://studystorelinktest.com/');
             insert studyStore;
-            createRecord(opeActProdReqRecType);
+            createRecord(RT_ACTIVITY_ID);
             String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;
             String offeringId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;
             Test.startTest();
@@ -53,7 +67,7 @@ public with sharing class ManageCertificateSectionCtrlTest {
     @IsTest
     static void previewPDFTest(){
         System.runAs(currentUser){
-            createRecord(opeActProdReqRecType);
+            createRecord(RT_ACTIVITY_ID);
             String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;
             String offeringId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;
             Test.startTest();
@@ -68,7 +82,7 @@ public with sharing class ManageCertificateSectionCtrlTest {
     @IsTest
     static void updateCourseConnDetailsTest(){
         System.runAs(currentUser){
-            createRecord(opeActProdReqRecType);
+            createRecord(RT_ACTIVITY_ID);
             String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;
             String offeringId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;
             List<ManageCertificateSectionCtrl.ManageCertificateDetails> certificateDetails = ManageCertificateSectionCtrl.getCertificateDetails(offeringId, false);
@@ -93,11 +107,40 @@ public with sharing class ManageCertificateSectionCtrlTest {
             }
             insert accounts;
 
+            List<Contact> contacts = TestDataFactory.createTestContactRecords(numberOfRecords);
+            for(Integer i =0;i<contacts.size();i++){
+                contacts[i].Email = 'testIdeaFormUser'+i+'@mailinator.com';
+            }
+            insert contacts;
+
             List<Product_Request__c> productRequests = TestDataFactory.createTestProductRequestRecords(1);
             for(Product_Request__c productRequest : productRequests){
                 productRequest.RecordTypeId = productRequestRecordType;
             }
             insert productRequests;
+
+            List<Program_Offering__c> programOfferings = new List<Program_Offering__c>();
+            if(productRequestRecordType == RT_PROG_PLAN_ID){
+                List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(1);
+                programPlans[0].Certificate_Type__c = 'Certificate of Participation';                
+                insert programPlans;
+    
+                programOfferings = TestDataFactory.createTestProgramOfferingRecords(1, programPlans);
+                programOfferings[0].Start_Date__c = date.today();
+                programOfferings[0].End_Date__c = date.today() + 1;
+                insert programOfferings;
+    
+                List<hed__Course__c> childCourses = TestDataFactory.createTestCourseRecords(1, accounts[0].Id, productRequests[0].Id);
+                insert childCourses;
+    
+                List<hed__Term__c> pterms = TestDataFactory.createTestTermRecords(1, accounts[0].Id);
+                insert pterms;
+    
+                List<hed__Course_Offering__c> childOfferings = TestDataFactory.createTestCourseOfferingRecord(1, childCourses, pterms);
+                childOfferings[0].hed__End_Date__c = date.today();
+                childOfferings[0].Program_Offering__c = programOfferings[0].Id;
+                insert childOfferings;
+            }
 
             List<hed__Course__c> courses = TestDataFactory.createTestCourseRecords(1, accounts[0].Id, productRequests[0].Id);
             insert courses;
@@ -109,21 +152,19 @@ public with sharing class ManageCertificateSectionCtrlTest {
             courseOfferings[0].hed__End_Date__c = date.today();
             insert courseOfferings;
 
-            offeringId = courseOfferings[0].Id;
-
-            List<Contact> contacts = TestDataFactory.createTestContactRecords(numberOfRecords);
-            for(Integer i =0;i<contacts.size();i++){
-                contacts[i].Email = 'testIdeaFormUser'+i+'@mailinator.com';
-            }
-            insert contacts;
+            offeringId = courseOfferings[0].Id;            
 
             List<hed__Course_Enrollment__c> students = new List<hed__Course_Enrollment__c>();
             for(Contact contact : contacts){
                 hed__Course_Enrollment__c student = new hed__Course_Enrollment__c();
                 student.hed__Contact__c = contact.Id;
-                student.RecordTypeId = studentRecTypeId;
-                student.Paid_in_Full__c = 'Yes';
-                student.hed__Course_Offering__c = offeringId;
+                student.RecordTypeId = STUDENT_RT_ID;
+                student.Paid_in_Full__c = 'Yes';                
+                if(productRequestRecordType == RT_PROG_PLAN_ID){
+                    student.Program_Offering__c = programOfferings[0].Id;
+                }else{
+                    student.hed__Course_Offering__c = offeringId;
+                }   
                 student.Marks__c = 80;
                 students.add(student);
             }
@@ -140,7 +181,11 @@ public with sharing class ManageCertificateSectionCtrlTest {
                 questionResp.Contact__c = contact.Id;
                 questionResp.Registration_Status__c = 'Confirmed';
                 questionResp.Questionnaire__c =  questionnaire.Id;
-                questionResp.Course_Offering__c = offeringId;
+                if(productRequestRecordType == RT_PROG_PLAN_ID){
+                    questionResp.Program_Offering__c = programOfferings[0].Id;
+                }else{
+                    questionResp.Course_Offering__c = offeringId;
+                }                
                 questionnaireResponseList.add(questionResp);
             }
             insert questionnaireResponseList;

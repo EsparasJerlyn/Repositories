@@ -131,7 +131,14 @@ export default class ManageRegistrationSection extends LightningElement {
             this.contactList = result.data.map(item => {
                 return item.contactId;
             });
-            this.recordsTemp = result.data;
+            this.recordsTemp = result.data.map(data => {
+                return {
+                    ...data,
+                    regenerateInvoiceButton: 
+                        data.isGroupRegistered ?
+                        'slds-show slds-text-align_center' : 'slds-hide'
+                }
+            });
             if(this.records.length === 0){
                 this.empty = true;
             }else{

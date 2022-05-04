@@ -19,10 +19,10 @@ public with sharing class ManageRegistrationSectionCtrlTest{
      private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
      private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
      private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
-     private static final string studentRT = System.Label.RT_CourseConnection_Student;
-     private static final String rtProdRequestActivity = System.Label.RT_ProductRequest_Activity;
-     private static final Id studentRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(studentRT).getRecordTypeId();
-     private static final Id opeActProdReqRecType = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(rtProdRequestActivity).getRecordTypeId();
+     private static final string STUDENT_RT = System.Label.RT_CourseConnection_Student;
+     private static final Id STUDENT_RT_ID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(STUDENT_RT).getRecordTypeId();
+     private static final String RT_ACTIVITY = System.Label.RT_ProductRequest_Activity;     
+     private static final Id RT_ACTIVITY_ID = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(RT_ACTIVITY).getRecordTypeId();
      private static final Integer numberOfRecords = 100;
 
      @IsTest
@@ -46,9 +46,19 @@ public with sharing class ManageRegistrationSectionCtrlTest{
      }
 
      @IsTest
+     static void getPricingValidationValuesTest(){        
+          System.runAs(currentUser){               
+               Test.startTest();
+               List<String> registrationStatusValues = ManageRegistrationSectionCtrl.getPricingValidationValues();      
+               Test.stopTest();
+               System.assert(!registrationStatusValues.isEmpty(), 'Pricing Validation Values must not be empty.');
+          }      
+     }
+
+     @IsTest
      static void getRegDetailsForNonProgPlanTest(){        
           System.runAs(currentUser){               
-               createRecord(opeActProdReqRecType);  
+               createRecord(RT_ACTIVITY_ID);  
                String childRecordId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;             
                Test.startTest();
                List<ManageRegistrationSectionCtrl.ManageRegistrationDetails> registrationDetails = ManageRegistrationSectionCtrl.getRegistrations(childRecordId);      
@@ -60,7 +70,7 @@ public with sharing class ManageRegistrationSectionCtrlTest{
      @IsTest
      static void updateRegistrationTest(){        
           System.runAs(currentUser){     
-               createRecord(opeActProdReqRecType);    
+               createRecord(RT_ACTIVITY_ID);    
                String studentId = [SELECT Id FROM hed__Course_Enrollment__c LIMIT 1].Id;
                String questionId = [SELECT Id FROM Questionnaire_Response_Summary__c LIMIT 1].Id;
                String regStatus= 'Confirmed';
@@ -76,7 +86,7 @@ public with sharing class ManageRegistrationSectionCtrlTest{
      @IsTest
      static void getQuestionsTest(){        
           System.runAs(currentUser){     
-               createRecord(opeActProdReqRecType); 
+               createRecord(RT_ACTIVITY_ID); 
                String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;           
                Test.startTest();
                List<Related_Answer__c> relatedAnswerList = ManageRegistrationSectionCtrl.getQuestions(prodReqId); 
@@ -88,7 +98,7 @@ public with sharing class ManageRegistrationSectionCtrlTest{
      @IsTest
      static void getSearchedContactsTest(){        
           System.runAs(currentUser){     
-               createRecord(opeActProdReqRecType); 
+               createRecord(RT_ACTIVITY_ID); 
                String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;           
                Test.startTest();
                List<Map<String,String>> contactMap = ManageRegistrationSectionCtrl.getSearchedContacts('Test',new List<Id>()); 
@@ -100,7 +110,7 @@ public with sharing class ManageRegistrationSectionCtrlTest{
      @IsTest
      static void addRegistrationTest(){        
           System.runAs(currentUser){     
-               createRecord(opeActProdReqRecType); 
+               createRecord(RT_ACTIVITY_ID); 
                String cOfferingId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;
                Contact newContact = new Contact(FirstName = 'testqtest', LastName = 'testqtest', Email = 'testqtest@emailemail.com');  
 
@@ -176,7 +186,7 @@ public with sharing class ManageRegistrationSectionCtrlTest{
                for(Contact contact : contacts){
                     hed__Course_Enrollment__c student = new hed__Course_Enrollment__c();
                     student.hed__Contact__c = contact.Id;
-                    student.RecordTypeId = studentRecTypeId;
+                    student.RecordTypeId = STUDENT_RT_ID;
                     student.Paid_in_Full__c = 'Yes';
                     student.hed__Course_Offering__c = offeringId;
                     students.add(student);

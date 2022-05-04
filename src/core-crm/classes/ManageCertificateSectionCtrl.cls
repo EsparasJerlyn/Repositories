@@ -39,18 +39,22 @@ public with sharing class ManageCertificateSectionCtrl {
                       FROM hed__Course_Offering__c 
                      WHERE Id = : offeringId 
                ];    
-               certificateType = offerings[0].hed__Course__r.Certificate_Type__c;
-               offeringStartDate = offerings[0].hed__Start_Date__c;
-               offeringEndDate = offerings[0].hed__End_Date__c;
+               for(hed__Course_Offering__c offering : offerings){
+                    certificateType = offering.hed__Course__r.Certificate_Type__c;
+                    offeringStartDate = offering.hed__Start_Date__c;
+                    offeringEndDate = offering.hed__End_Date__c;
+               }               
           }else{
                List<Program_Offering__c> offerings = [
                     SELECT Id, hed_Program_Plan__r.Certificate_Type__c, Start_Date__c, End_Date__c 
                       FROM Program_Offering__c 
                      WHERE Id = : offeringId 
                ]; 
-               certificateType = offerings[0].hed_Program_Plan__r.Certificate_Type__c;
-               offeringStartDate = offerings[0].Start_Date__c;
-               offeringEndDate = offerings[0].End_Date__c;  
+               for(Program_Offering__c offering : offerings){
+                    certificateType = offering.hed_Program_Plan__r.Certificate_Type__c;
+                    offeringStartDate = offering.Start_Date__c;
+                    offeringEndDate = offering.End_Date__c;  
+               }               
           }    
 
           if(offeringId == null){
@@ -96,7 +100,6 @@ public with sharing class ManageCertificateSectionCtrl {
                certDetails.endDate = enDateString;   
                response.add(certDetails);
           }
-          
           return response;
      }
 
