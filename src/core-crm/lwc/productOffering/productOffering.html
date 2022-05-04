@@ -29,7 +29,7 @@
                     <div class="slds-p-around_medium slds-is-relative">
                         <lightning-spinner if:true={saveInProgress} alternative-text="Loading" size="small"></lightning-spinner>
                         <lightning-record-edit-form
-                            object-api-name={objectToCreate}
+                            object-api-name={facilitatorObj}
                             onerror={handleRecordError}
                             onsubmit={handleSubmitFacilitator}>
                                 <c-custom-search

@@ -82,6 +82,7 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
     searchContactInProgress = false;
     selectedContactId;
     saveInProgress;
+    facilitatorObj = 'Facilitator_Bio__c';
     objectLabelName = 'Facilitator';
     contactName = '';
     contactEmail = '';
@@ -522,9 +523,9 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
 
     //opens create modal for facilitator
     handleReopenAddFacilitator(){
+        this.objectToCreate = FACILITATOR_BIO.objectApiName;
         this.newFacilitatorBio = true;
         this.objectLabel = 'Contact';
-        this.objectToCreate = FACILITATOR_BIO.objectApiName;
     }
 
     handleCloseNewBio(){
