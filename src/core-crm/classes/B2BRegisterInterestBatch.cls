@@ -131,7 +131,8 @@ global class B2BRegisterInterestBatch implements Database.Batchable<sObject>
                     body = body.replace('Product_Name', expresionOfInterestMap.get(interestId).Product__r.Name);
                     String productUrl = basePortalUrl + expresionOfInterestMap.get(interestId).Product__c;
                     body = body.replace('Product_URL', productUrl);
-    
+                    body = EmailHelper.addHeaderAndFooter(body);
+                    
                     objEmail.setHtmlBody(body);
                     
                     lstEmails.add(objEmail);

@@ -11,14 +11,14 @@
         <backgroundColor>#FFFFFF</backgroundColor>
         <height>100</height>
         <horizontalAlignment>Left</horizontalAlignment>
-        <logo>Experiences_Shared_Document_Folder/email_footer.jpg</logo>
+        <logo>Experiences_Shared_Document_Folder/email_footer.png</logo>
         <verticalAlignment>Top</verticalAlignment>
     </footer>
     <header>
         <backgroundColor>#FFFFFF</backgroundColor>
         <height>100</height>
         <horizontalAlignment>Left</horizontalAlignment>
-        <logo>Experiences_Shared_Document_Folder/email_header.jpg</logo>
+        <logo>Experiences_Shared_Document_Folder/email_header.png</logo>
         <verticalAlignment>Top</verticalAlignment>
     </header>
     <middleLine>

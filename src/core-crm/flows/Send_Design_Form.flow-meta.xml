@@ -1,53 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
-        <name>Design_Form_Email</name>
-        <label>Design Form Email</label>
+        <name>Send_Design_Form_Email</name>
+        <label>Send Design Form Email</label>
         <locationX>1942</locationX>
-        <locationY>1070</locationY>
-        <actionName>emailSimple</actionName>
-        <actionType>emailSimple</actionType>
+        <locationY>1430</locationY>
+        <actionName>FlowEmailHelper</actionName>
+        <actionType>apex</actionType>
         <connector>
             <targetReference>Update_what_object</targetReference>
         </connector>
         <faultConnector>
             <targetReference>Design_Form_Error</targetReference>
         </faultConnector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <flowTransactionModel>Automatic</flowTransactionModel>
         <inputParameters>
-            <name>emailBody</name>
+            <name>emailTemplateName</name>
             <value>
-                <elementReference>DesignFormContent</elementReference>
+                <stringValue>Send Design Form</stringValue>
             </value>
         </inputParameters>
         <inputParameters>
-            <name>emailAddresses</name>
+            <name>mergeFields</name>
             <value>
-                <elementReference>Get_Product_Request_Record.Product_Specification__r.Requestor_Email__c</elementReference>
+                <elementReference>MergeFields</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
-            <name>sendRichBody</name>
+            <name>orgWideEmailAddressId</name>
             <value>
-                <booleanValue>true</booleanValue>
+                <elementReference>Get_Org_Wide_Email_ID.Id</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
-            <name>senderAddress</name>
+            <name>recipientEmailAddresses</name>
             <value>
-                <elementReference>$Setup.Flow_Automation_Settings__c.New_Idea_To_Email_Address__c</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>senderType</name>
-            <value>
-                <stringValue>OrgWideEmailAddress</stringValue>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>emailSubject</name>
-            <value>
-                <stringValue>[QUTeX] Design Form</stringValue>
+                <elementReference>EmailAddresses</elementReference>
             </value>
         </inputParameters>
     </actionCalls>
@@ -65,7 +53,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Design_Form_Email</targetReference>
+            <targetReference>Get_Org_Wide_Email_ID</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -81,7 +69,74 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Design_Form_Email</targetReference>
+            <targetReference>Get_Org_Wide_Email_ID</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Add_Merge_Fields_and_Email</name>
+        <label>Add Merge Fields and Email</label>
+        <locationX>1942</locationX>
+        <locationY>1310</locationY>
+        <assignmentItems>
+            <assignToReference>MergeFields</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>FirstNameMergeField</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MergeFields</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>DesignFormLinkMergeField</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>EmailAddresses</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Get_Product_Request_Record.Product_Specification__r.Requestor_Email__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Send_Design_Form_Email</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Merge_Fields</name>
+        <label>Assign Merge Fields</label>
+        <locationX>1942</locationX>
+        <locationY>1190</locationY>
+        <assignmentItems>
+            <assignToReference>FirstNameMergeField.mergeField</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>{requestorFirstName}</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>FirstNameMergeField.mergeFieldValue</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Product_Request_Record.Product_Specification__r.Requestor_Name__r.FirstName</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>DesignFormLinkMergeField.mergeField</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>{designFormLink}</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>DesignFormLinkMergeField.mergeFieldValue</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Record</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Add_Merge_Fields_and_Email</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -97,7 +152,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Design_Form_Email</targetReference>
+            <targetReference>Get_Org_Wide_Email_ID</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -113,7 +168,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Design_Form_Email</targetReference>
+            <targetReference>Get_Org_Wide_Email_ID</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -129,7 +184,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Design_Form_Email</targetReference>
+            <targetReference>Get_Org_Wide_Email_ID</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -145,7 +200,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Design_Form_Email</targetReference>
+            <targetReference>Get_Org_Wide_Email_ID</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -161,7 +216,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Design_Form_Email</targetReference>
+            <targetReference>Get_Org_Wide_Email_ID</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -177,7 +232,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Design_Form_Email</targetReference>
+            <targetReference>Get_Org_Wide_Email_ID</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -193,7 +248,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Design_Form_Email</targetReference>
+            <targetReference>Get_Org_Wide_Email_ID</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -209,7 +264,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Design_Form_Email</targetReference>
+            <targetReference>Get_Org_Wide_Email_ID</targetReference>
         </connector>
     </assignments>
     <decisions>
@@ -218,7 +273,7 @@
         <locationX>1018</locationX>
         <locationY>638</locationY>
         <defaultConnector>
-            <targetReference>Design_Form_Email</targetReference>
+            <targetReference>Get_Org_Wide_Email_ID</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -338,7 +393,7 @@
         <name>Course_Design_Sent</name>
         <label>Course Design Sent</label>
         <locationX>2074</locationX>
-        <locationY>1430</locationY>
+        <locationY>1790</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Not_Sent</name>
@@ -426,7 +481,7 @@
         <name>Is_Program_Design_Sent</name>
         <label>Is Program Design Sent</label>
         <locationX>1282</locationX>
-        <locationY>1430</locationY>
+        <locationY>1790</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>No</name>
@@ -450,7 +505,7 @@
         <locationX>1722</locationX>
         <locationY>638</locationY>
         <defaultConnector>
-            <targetReference>Design_Form_Email</targetReference>
+            <targetReference>Get_Org_Wide_Email_ID</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -490,7 +545,7 @@
         <locationX>3130</locationX>
         <locationY>638</locationY>
         <defaultConnector>
-            <targetReference>Design_Form_Email</targetReference>
+            <targetReference>Get_Org_Wide_Email_ID</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -530,7 +585,7 @@
         <locationX>314</locationX>
         <locationY>638</locationY>
         <defaultConnector>
-            <targetReference>Design_Form_Email</targetReference>
+            <targetReference>Get_Org_Wide_Email_ID</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -570,7 +625,7 @@
         <locationX>2426</locationX>
         <locationY>638</locationY>
         <defaultConnector>
-            <targetReference>Design_Form_Email</targetReference>
+            <targetReference>Get_Org_Wide_Email_ID</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -608,7 +663,7 @@
         <name>Update_what_object</name>
         <label>Update what object</label>
         <locationX>1942</locationX>
-        <locationY>1190</locationY>
+        <locationY>1550</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>For_Program_Plan</name>
@@ -666,7 +721,7 @@
         <name>Get_Course_Record</name>
         <label>Get Course Record</label>
         <locationX>2074</locationX>
-        <locationY>1310</locationY>
+        <locationY>1670</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Course_Design_Sent</targetReference>
@@ -681,6 +736,27 @@
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
         <object>hed__Course__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Org_Wide_Email_ID</name>
+        <label>Get Org Wide Email ID</label>
+        <locationX>1942</locationX>
+        <locationY>1070</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Assign_Merge_Fields</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Address</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Setup.Flow_Automation_Settings__c.New_Idea_To_Email_Address__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>OrgWideEmailAddress</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
@@ -711,7 +787,7 @@
         <name>Get_Program_Plan_Record</name>
         <label>Get Program Plan Record</label>
         <locationX>1282</locationX>
-        <locationY>1310</locationY>
+        <locationY>1670</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Is_Program_Design_Sent</targetReference>
@@ -732,7 +808,7 @@
         <name>Update_Program_Plan_Design_Form_Status</name>
         <label>Update Program Plan Design Form Status</label>
         <locationX>1018</locationX>
-        <locationY>1550</locationY>
+        <locationY>1910</locationY>
         <faultConnector>
             <targetReference>Update_Design_Error</targetReference>
         </faultConnector>
@@ -756,7 +832,7 @@
         <name>Update_Status_to_Design_Form_Sent</name>
         <label>Update Status to Design Form Sent</label>
         <locationX>1810</locationX>
-        <locationY>1550</locationY>
+        <locationY>1910</locationY>
         <faultConnector>
             <targetReference>Update_Design_Error</targetReference>
         </faultConnector>
@@ -780,13 +856,13 @@
         <name>Design_Form_Error</name>
         <label>Design Form Error</label>
         <locationX>3834</locationX>
-        <locationY>1190</locationY>
+        <locationY>1550</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <fields>
-            <name>Design_Error</name>
-            <fieldText>&lt;p&gt;&lt;b style=&quot;color: rgb(202, 5, 5); font-size: 16px; background-color: rgb(255, 255, 255);&quot;&gt;Sorry we can&apos;t process your request at the time,. Please try again later&lt;/b&gt;&lt;/p&gt;</fieldText>
+            <name>Design_Error_0</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;b style=&quot;background-color: rgb(255, 255, 255); font-size: 16px; color: rgb(202, 5, 5);&quot;&gt;Sorry we can&apos;t process your request at the time. Please try again later.&lt;/b&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
@@ -834,7 +910,7 @@
         <allowPause>false</allowPause>
         <fields>
             <name>PR_Error</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;b style=&quot;font-size: 16px; color: rgb(202, 5, 5);&quot;&gt;Sorry we can&apos;t process your request at the time, Please try again later.&lt;/b&gt;&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;b style=&quot;color: rgb(202, 5, 5); font-size: 16px;&quot;&gt;Sorry we can&apos;t process your request at the time. Please try again later.&lt;/b&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
@@ -863,13 +939,13 @@
         <name>Update_Design_Error</name>
         <label>Update  Design Error</label>
         <locationX>2074</locationX>
-        <locationY>1670</locationY>
+        <locationY>2030</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <fields>
             <name>Update_Error</name>
-            <fieldText>&lt;p&gt;&lt;b style=&quot;color: rgb(202, 5, 5); font-size: 16px; background-color: rgb(255, 255, 255);&quot;&gt;Sorry we can&apos;t process your request at the time,. Please try again later&lt;/b&gt;&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;b style=&quot;background-color: rgb(255, 255, 255); font-size: 16px; color: rgb(202, 5, 5);&quot;&gt;Sorry we can&apos;t process your request at the time. Please try again later.&lt;/b&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
@@ -883,55 +959,6 @@
         </connector>
     </start>
     <status>Active</status>
-    <textTemplates>
-        <name>DesignFormContent</name>
-        <isViewedAsPlainText>true</isViewedAsPlainText>
-        <text>Dear &lt;b&gt;{!Get_Product_Request_Record.Product_Specification__r.Requestor_Name__r.FirstName}&lt;/b&gt;,
-            &lt;br/&gt;&amp;nbsp;
-            &lt;p&gt;Please see the link below to access the Design form:.&lt;/p&gt;
-            &lt;p&gt;&lt;i&gt;{!Record}&lt;/i&gt;&lt;/p&gt;
-            &lt;p&gt;&lt;/p&gt;
-            &lt;p&gt;If you have any further questions, please get in touch.&lt;/p&gt;
-            &lt;br/&gt;
-            &lt;p&gt;
-          &lt;p&gt;Kind Regards,&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;The QUTeX Team&lt;/strong&gt;&lt;br&gt;Phone: +61 7 3138 7733 | Email: &lt;a href=&quot;mailto:qutex@qut.edu.au&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;qutex@qut.edu.au&lt;/a&gt;&lt;br&gt;QUTeX Professional and Executive Education for the Real World | &lt;a href=&quot;https://qut.edu.au/qutex&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;www.qut.edu.au/qutex&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://www.linkedin.com/showcase/14561011/admin/&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;Follow&lt;/a&gt; QUTeX on LinkedIn | &lt;a href=&quot;https://alumni-and-friends.qut.edu.au/qutex-connect-subscription&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;Subscribe&lt;/a&gt; to the QUTeX Connect Newsletter&lt;/p&gt;</text>
-    </textTemplates>
-    <textTemplates>
-        <name>OPE_Activity_Email_Content</name>
-        <isViewedAsPlainText>true</isViewedAsPlainText>
-        <text>Dear &lt;b&gt;{!Get_Product_Request_Record.Product_Specification__r.Requestor_Name__r.FirstName}&lt;/b&gt;,
-            &lt;br/&gt;&amp;nbsp;
-            &lt;p&gt;Please see the link below to access the Design form:.&lt;/p&gt;
-            &lt;p&gt;&lt;i&gt;https://qut.tfaforms.net/f/activity-request-form?id={!Get_Product_Request_Record.Id}&lt;/i&gt;&lt;/p&gt;
-            &lt;p&gt;&lt;/p&gt;
-            &lt;p&gt;If you have any further questions, please get in touch.&lt;/p&gt;
-            &lt;br/&gt;
-            &lt;p&gt;
-            &lt;b&gt;The QUTeX Team&lt;/b&gt;&lt;br/&gt;
-            07 3138 7733&lt;br/&gt;
-            &lt;a href=&quot;mailto:qutex@qut.edu.au&quot;&gt;qutex@qut.edu.au&lt;/a&gt;&lt;br/&gt;
-            &lt;a href=&quot;https://qut.edu.au/qutex&quot;&gt;qut.edu.au/qutex&lt;/a&gt;
-            &lt;/p&gt;</text>
-    </textTemplates>
-    <textTemplates>
-        <name>Short_Course_Email_Content</name>
-        <isViewedAsPlainText>true</isViewedAsPlainText>
-        <text>Dear &lt;b&gt;{!Get_Product_Request_Record.Product_Specification__r.Requestor_Name__r.FirstName}&lt;/b&gt;,
-            &lt;br/&gt;&amp;nbsp;
-            &lt;p&gt;Please see the link below to access the Design form:.&lt;/p&gt;
-            &lt;p&gt;&lt;i&gt;https://qut.tfaforms.net/f/short-course-form?id={!Get_Product_Request_Record.Id}&lt;/i&gt;&lt;/p&gt;
-            &lt;p&gt;&lt;/p&gt;
-            &lt;p&gt;If you have any further questions, please get in touch.&lt;/p&gt;
-            &lt;br/&gt;
-            &lt;p&gt;
-            &lt;b&gt;The QUTeX Team&lt;/b&gt;&lt;br/&gt;
-            07 3138 7733&lt;br/&gt;
-            &lt;a href=&quot;mailto:qutex@qut.edu.au&quot;&gt;qutex@qut.edu.au&lt;/a&gt;&lt;br/&gt;
-            &lt;a href=&quot;https://qut.edu.au/qutex&quot;&gt;qut.edu.au/qutex&lt;/a&gt;
-            &lt;/p&gt;</text>
-    </textTemplates>
     <variables>
         <name>Activity_Design_Form_Link_External</name>
         <dataType>String</dataType>
@@ -953,6 +980,29 @@
         </value>
     </variables>
     <variables>
+        <name>DesignFormLinkMergeField</name>
+        <apexClass>FlowEmailMergeField</apexClass>
+        <dataType>Apex</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>EmailAddresses</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>FirstNameMergeField</name>
+        <apexClass>FlowEmailMergeField</apexClass>
+        <dataType>Apex</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <name>isForProgramPlan</name>
         <dataType>Boolean</dataType>
         <isCollection>false</isCollection>
@@ -961,6 +1011,14 @@
         <value>
             <booleanValue>false</booleanValue>
         </value>
+    </variables>
+    <variables>
+        <name>MergeFields</name>
+        <apexClass>FlowEmailMergeField</apexClass>
+        <dataType>Apex</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
     </variables>
     <variables>
         <name>Module_Design_Form_Link_External</name>
@@ -1035,13 +1093,6 @@
         <value>
             <stringValue>https://qut.tfaforms.net/f/short-course-form?id={!Get_Product_Request_Record.Id}</stringValue>
         </value>
-    </variables>
-    <variables>
-        <name>ShortCourseId</name>
-        <dataType>String</dataType>
-        <isCollection>false</isCollection>
-        <isInput>true</isInput>
-        <isOutput>false</isOutput>
     </variables>
     <variables>
         <name>Unit_Design_Form_Link_External</name>
