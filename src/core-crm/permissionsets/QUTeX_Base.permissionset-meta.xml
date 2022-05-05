@@ -591,12 +591,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Course__c.Bottom_Left_Signature_Text__c</field>
+        <field>hed__Course__c.Department_Right_Indented__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Course__c.Bottom_Right_Signature_Text__c</field>
+        <field>hed__Course__c.Department_Left_Indented__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -631,12 +631,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Course__c.Middle_Left_Signature_Text__c</field>
+        <field>hed__Course__c.Position_Right_Indented__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Course__c.Middle_Right_Signature_Text__c</field>
+        <field>hed__Course__c.Position_Left_Indented__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -696,12 +696,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Program_Plan__c.Bottom_Left_Signature_Text__c</field>
+        <field>hed__Program_Plan__c.Department_Left_Indented__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Program_Plan__c.Bottom_Right_Signature_Text__c</field>
+        <field>hed__Program_Plan__c.Department_Right_Indented__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -711,22 +711,22 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Program_Plan__c.Top_Left_Signature_Text__c</field>
+        <field>hed__Program_Plan__c.Name_Left_Indented__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Program_Plan__c.Top_Right_Signature_Text__c</field>
+        <field>hed__Program_Plan__c.Name_Right_Indented__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Program_Plan__c.Middle_Left_Signature_Text__c</field>
+        <field>hed__Program_Plan__c.Position_Left_Indented__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Program_Plan__c.Middle_Right_Signature_Text__c</field>
+        <field>hed__Program_Plan__c.Position_Right_Indented__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -746,12 +746,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Course__c.Top_Left_Signature_Text__c</field>
+        <field>hed__Course__c.Name_Left_Indented__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Course__c.Top_Right_Signature_Text__c</field>
+        <field>hed__Course__c.Name_Right_Indented__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

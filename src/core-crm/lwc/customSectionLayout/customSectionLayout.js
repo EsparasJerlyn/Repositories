@@ -132,6 +132,9 @@ export default class CustomSectionLayout extends LightningElement {
             this.layoutMapping.filter(layout => layout.Order__c);
 
         this.layoutItem.sectionLabel = this.layoutMapping[0].MasterLabel;
+        this.layoutItem.leftRightColumn = 
+            this.layoutMapping[0].Left_Right_Column_Long__c ? 
+            JSON.parse(this.layoutMapping[0].Left_Right_Column_Long__c) : null;
         this.layoutItem.leftColumn = 
             this.layoutMapping[0].Left_Column_Long__c ? 
             JSON.parse(this.layoutMapping[0].Left_Column_Long__c) : null;

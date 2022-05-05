@@ -7,7 +7,43 @@
         onsuccess={handleSuccess}
         onerror={handleError}>  
         <lightning-spinner if:true={isLoading} alternative-text="Loading" size="small"></lightning-spinner>
-        <div class="slds-grid slds-gutters slds-m-top_small">
+        <div class="slds-grid slds-gutters slds-wrap slds-m-top_small">
+            <template for:each={layoutItem.leftRightColumn} for:item="leftRightField">
+                <template if:false={leftRightField.blank}>
+                    <div key={leftRightField.field} class="slds-col slds-size_1-of-2">
+                        <lightning-input-field
+                        key={leftRightField.field}
+                        if:true={editMode}
+                        field-name={leftRightField.field}
+                        value={leftRightField.value}
+                        disabled={leftRightField.readOnly}
+                        required={leftRightField.mandatory}>
+                    </lightning-input-field>
+                    <lightning-layout key={leftRightField.field} if:false={editMode} class="slds-m-around_small">
+                        <lightning-layout-item flexibility="auto" class="slds-p-horizontal_none slds-border_bottom">
+                            <lightning-output-field
+                                key={leftRightField.field} 
+                                field-name={leftRightField.field}  
+                            ></lightning-output-field>
+                        </lightning-layout-item>
+                        <lightning-layout-item class="slds-align-bottom slds-p-left_none slds-border_bottom">
+                            <lightning-button-icon
+                                if:true={showEditButton}
+                                icon-name="utility:edit"
+                                alternative-text="Edit"
+                                title="Edit Field"
+                                variant="bare"
+                                size="medium"
+                                onclick={handleEdit}>
+                            </lightning-button-icon>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                    </div>
+                </template>
+                <template if:true={leftRightField.blank}>
+                    <div key={leftRightField.field} class="slds-col slds-size_1-of-2" ></div>
+                </template>
+            </template>
             <div if:true={layoutItem.leftColumn} class="slds-col slds-size_1-of-2">
                 <template for:each={layoutItem.leftColumn} for:item="leftField">
                     <lightning-input-field
@@ -72,7 +108,7 @@
                     </lightning-layout>
                 </template>
             </div>
-            <div if:true={layoutItem.singleColumn} class="slds-col slds-size_1-of-1">
+            <div if:true={layoutItem.singleColumn} class="slds-col slds-size_2-of-2">
                 <template for:each={layoutItem.singleColumn} for:item="singleField">
                     <lightning-input-field
                         key={singleField.field}

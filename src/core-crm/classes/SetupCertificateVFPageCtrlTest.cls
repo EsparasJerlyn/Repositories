@@ -85,13 +85,14 @@ public with sharing class SetupCertificateVFPageCtrlTest {
             program[0].Left_Signature__c = '<p><img src="https://www.w3schools.com/w3css/img_lights.jpg" alt="test.jpg"></img></p>';
             program[0].Right_Signature__c = '<p><img src="https://www.w3schools.com/w3css/img_lights.jpg" alt="test.jpg"></img></p>';
             program[0].Partner_Logo__c = '<p><img src="https://www.w3schools.com/w3css/img_lights.jpg" alt="test.jpg"></img></p>';
-            program[0].Top_Left_Signature_Text__c = 'test';
-            program[0].Middle_Left_Signature_Text__c = 'test';
-            program[0].Bottom_Left_Signature_Text__c = 'test';
-            program[0].Top_Right_Signature_Text__c = 'test';
-            program[0].Middle_Right_Signature_Text__c = 'test';
-            program[0].Bottom_Right_Signature_Text__c = 'test';
+            program[0].Name_Left_Indented__c = 'test';
+            program[0].Name_Right_Indented__c = 'test';
+            program[0].Position_Left_Indented__c = 'test';
+            program[0].Position_Right_Indented__c = 'test';
+            program[0].Department_Left_Indented__c = 'test';
+            program[0].Department_Right_Indented__c = 'test';
             program[0].Facilitated_By__c = 'test';
+            program[0].Certificate_Type__c = 'Certificate of Achievement';
             insert program;
 
             List<Contact> contacts = TestDataFactory.createTestContactRecords(numberOfRecords);
@@ -147,12 +148,13 @@ public with sharing class SetupCertificateVFPageCtrlTest {
             courses[0].Left_Signature__c = '<p><img src="https://www.w3schools.com/w3css/img_lights.jpg" alt="test.jpg"></img></p>';
             courses[0].Right_Signature__c = '<p><img src="https://www.w3schools.com/w3css/img_lights.jpg" alt="test.jpg"></img></p>';
             courses[0].Partner_Logo__c = '<p><img src="https://www.w3schools.com/w3css/img_lights.jpg" alt="test.jpg"></img></p>';
-            courses[0].Top_Left_Signature_Text__c = 'test';
-            courses[0].Middle_Left_Signature_Text__c = 'test';
-            courses[0].Bottom_Left_Signature_Text__c = 'test';
-            courses[0].Top_Right_Signature_Text__c = 'test';
-            courses[0].Middle_Right_Signature_Text__c = 'test';
-            courses[0].Bottom_Right_Signature_Text__c = 'test';
+            courses[0].Name_Left_Indented__c = 'test';
+            courses[0].Name_Right_Indented__c = 'test';
+            courses[0].Position_Left_Indented__c = 'test';
+            courses[0].Position_Right_Indented__c = 'test';
+            courses[0].Department_Left_Indented__c = 'test';
+            courses[0].Department_Right_Indented__c = 'test';
+            courses[0].Certificate_Type__c = 'Certificate of Achievement';
             insert courses;
 
             List<hed__Term__c> terms = TestDataFactory.createTestTermRecords(1, accounts[0].Id);

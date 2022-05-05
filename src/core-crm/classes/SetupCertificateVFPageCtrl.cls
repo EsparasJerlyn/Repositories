@@ -50,12 +50,12 @@ public with sharing class SetupCertificateVFPageCtrl {
             hed__Course_Offering__r.Primary_Facilitator__r.First_Name__c, 
 			hed__Course_Offering__r.Primary_Facilitator__r.Last_Name__c,
             hed__Course_Offering__r.hed__Course__r.Left_Signature__c,
-            hed__Course_Offering__r.hed__Course__r.Top_Left_Signature_Text__c,
-            hed__Course_Offering__r.hed__Course__r.Middle_Left_Signature_Text__c,
-            hed__Course_Offering__r.hed__Course__r.Bottom_Left_Signature_Text__c,
-            hed__Course_Offering__r.hed__Course__r.Top_Right_Signature_Text__c,
-            hed__Course_Offering__r.hed__Course__r.Middle_Right_Signature_Text__c,
-            hed__Course_Offering__r.hed__Course__r.Bottom_Right_Signature_Text__c,
+            hed__Course_Offering__r.hed__Course__r.Name_Left_Indented__c,
+            hed__Course_Offering__r.hed__Course__r.Position_Left_Indented__c,
+            hed__Course_Offering__r.hed__Course__r.Department_Left_Indented__c,
+            hed__Course_Offering__r.hed__Course__r.Name_Right_Indented__c,
+            hed__Course_Offering__r.hed__Course__r.Position_Right_Indented__c,
+            hed__Course_Offering__r.hed__Course__r.Department_Right_Indented__c,
             hed__Course_Offering__r.hed__Course__r.Right_Signature__c,
             hed__Course_Offering__r.hed__Course__r.Partner_Logo__c,
             hed__Course_Offering__r.hed__Course__r.Name,
@@ -63,12 +63,12 @@ public with sharing class SetupCertificateVFPageCtrl {
             Program_Offering__r.Start_Date__c,
             Program_Offering__r.End_Date__c,
             Program_Offering__r.hed_Program_Plan__r.Left_Signature__c,
-            Program_Offering__r.hed_Program_Plan__r.Top_Left_Signature_Text__c,
-            Program_Offering__r.hed_Program_Plan__r.Middle_Left_Signature_Text__c,
-            Program_Offering__r.hed_Program_Plan__r.Bottom_Left_Signature_Text__c,
-            Program_Offering__r.hed_Program_Plan__r.Top_Right_Signature_Text__c,
-            Program_Offering__r.hed_Program_Plan__r.Middle_Right_Signature_Text__c,
-            Program_Offering__r.hed_Program_Plan__r.Bottom_Right_Signature_Text__c,
+            Program_Offering__r.hed_Program_Plan__r.Name_Left_Indented__c,
+            Program_Offering__r.hed_Program_Plan__r.Position_Left_Indented__c,
+            Program_Offering__r.hed_Program_Plan__r.Department_Left_Indented__c,
+            Program_Offering__r.hed_Program_Plan__r.Name_Right_Indented__c,
+            Program_Offering__r.hed_Program_Plan__r.Position_Right_Indented__c,
+            Program_Offering__r.hed_Program_Plan__r.Department_Right_Indented__c,
             Program_Offering__r.hed_Program_Plan__r.Right_Signature__c,
             Program_Offering__r.hed_Program_Plan__r.Partner_Logo__c,
             Program_Offering__r.hed_Program_Plan__r.Name,
@@ -157,23 +157,23 @@ public with sharing class SetupCertificateVFPageCtrl {
                 this.facilitatorName = this.student.hed__Course_Offering__r.Primary_Facilitator__r.First_Name__c + ' ' + this.student.hed__Course_Offering__r.Primary_Facilitator__r.Last_Name__c;
             }
 
-            if( this.student.hed__Course_Offering__r.hed__Course__r.Top_Left_Signature_Text__c != null){
-                this.topLeftText = this.student.hed__Course_Offering__r.hed__Course__r.Top_Left_Signature_Text__c;
+            if( this.student.hed__Course_Offering__r.hed__Course__r.Name_Left_Indented__c != null){
+                this.topLeftText = this.student.hed__Course_Offering__r.hed__Course__r.Name_Left_Indented__c;
             }
-            if( this.student.hed__Course_Offering__r.hed__Course__r.Top_Right_Signature_Text__c != null){
-                this.topRightText = this.student.hed__Course_Offering__r.hed__Course__r.Top_Right_Signature_Text__c;
+            if( this.student.hed__Course_Offering__r.hed__Course__r.Name_Right_Indented__c != null){
+                this.topRightText = this.student.hed__Course_Offering__r.hed__Course__r.Name_Right_Indented__c;
             }
-            if( this.student.hed__Course_Offering__r.hed__Course__r.Middle_Left_Signature_Text__c != null){
-                this.midLeftText = this.student.hed__Course_Offering__r.hed__Course__r.Middle_Left_Signature_Text__c;
+            if( this.student.hed__Course_Offering__r.hed__Course__r.Position_Left_Indented__c != null){
+                this.midLeftText = this.student.hed__Course_Offering__r.hed__Course__r.Position_Left_Indented__c;
             }
-            if( this.student.hed__Course_Offering__r.hed__Course__r.Middle_Right_Signature_Text__c != null){
-                this.midRightText = this.student.hed__Course_Offering__r.hed__Course__r.Middle_Right_Signature_Text__c;
+            if( this.student.hed__Course_Offering__r.hed__Course__r.Position_Right_Indented__c != null){
+                this.midRightText = this.student.hed__Course_Offering__r.hed__Course__r.Position_Right_Indented__c;
             }
-            if( this.student.hed__Course_Offering__r.hed__Course__r.Bottom_Left_Signature_Text__c != null){
-                this.bottomLeftText = this.student.hed__Course_Offering__r.hed__Course__r.Bottom_Left_Signature_Text__c;
+            if( this.student.hed__Course_Offering__r.hed__Course__r.Department_Left_Indented__c != null){
+                this.bottomLeftText = this.student.hed__Course_Offering__r.hed__Course__r.Department_Left_Indented__c;
             }
-            if( this.student.hed__Course_Offering__r.hed__Course__r.Bottom_Right_Signature_Text__c != null){
-                this.bottomRightText = this.student.hed__Course_Offering__r.hed__Course__r.Bottom_Right_Signature_Text__c;
+            if( this.student.hed__Course_Offering__r.hed__Course__r.Department_Right_Indented__c != null){
+                this.bottomRightText = this.student.hed__Course_Offering__r.hed__Course__r.Department_Right_Indented__c;
             }
         }
 
@@ -222,23 +222,23 @@ public with sharing class SetupCertificateVFPageCtrl {
             this.facilitatorName = this.student.Program_Offering__r.hed_Program_Plan__r.Facilitated_By__c;
         }
 
-        if( this.student.Program_Offering__r.hed_Program_Plan__r.Top_Left_Signature_Text__c != null){
-            this.topLeftText = this.student.Program_Offering__r.hed_Program_Plan__r.Top_Left_Signature_Text__c;
+        if( this.student.Program_Offering__r.hed_Program_Plan__r.Name_Left_Indented__c != null){
+            this.topLeftText = this.student.Program_Offering__r.hed_Program_Plan__r.Name_Left_Indented__c;
         }
-        if( this.student.Program_Offering__r.hed_Program_Plan__r.Top_Right_Signature_Text__c != null){
-            this.topRightText = this.student.Program_Offering__r.hed_Program_Plan__r.Top_Right_Signature_Text__c;
+        if( this.student.Program_Offering__r.hed_Program_Plan__r.Name_Right_Indented__c != null){
+            this.topRightText = this.student.Program_Offering__r.hed_Program_Plan__r.Name_Right_Indented__c;
         }
-        if( this.student.Program_Offering__r.hed_Program_Plan__r.Middle_Left_Signature_Text__c != null){
-            this.midLeftText = this.student.Program_Offering__r.hed_Program_Plan__r.Middle_Left_Signature_Text__c;
+        if( this.student.Program_Offering__r.hed_Program_Plan__r.Position_Left_Indented__c != null){
+            this.midLeftText = this.student.Program_Offering__r.hed_Program_Plan__r.Position_Left_Indented__c;
         }
-        if( this.student.Program_Offering__r.hed_Program_Plan__r.Middle_Right_Signature_Text__c != null){
-            this.midRightText = this.student.Program_Offering__r.hed_Program_Plan__r.Middle_Right_Signature_Text__c;
+        if( this.student.Program_Offering__r.hed_Program_Plan__r.Position_Right_Indented__c != null){
+            this.midRightText = this.student.Program_Offering__r.hed_Program_Plan__r.Position_Right_Indented__c;
         }
-        if( this.student.Program_Offering__r.hed_Program_Plan__r.Bottom_Left_Signature_Text__c != null){
-            this.bottomLeftText = this.student.Program_Offering__r.hed_Program_Plan__r.Bottom_Left_Signature_Text__c;
+        if( this.student.Program_Offering__r.hed_Program_Plan__r.Department_Left_Indented__c != null){
+            this.bottomLeftText = this.student.Program_Offering__r.hed_Program_Plan__r.Department_Left_Indented__c;
         }
-        if( this.student.Program_Offering__r.hed_Program_Plan__r.Bottom_Right_Signature_Text__c != null){
-            this.bottomRightText = this.student.Program_Offering__r.hed_Program_Plan__r.Bottom_Right_Signature_Text__c;
+        if( this.student.Program_Offering__r.hed_Program_Plan__r.Department_Right_Indented__c != null){
+            this.bottomRightText = this.student.Program_Offering__r.hed_Program_Plan__r.Department_Right_Indented__c;
         }
     }
 

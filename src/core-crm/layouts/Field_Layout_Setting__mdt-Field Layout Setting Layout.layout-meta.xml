@@ -22,7 +22,11 @@
                 <behavior>Edit</behavior>
                 <field>Record_Type_Setting__c</field>
             </layoutItems>
-	    <layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Left_Right_Column_Long__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Left_Column_Long__c</field>
             </layoutItems>
@@ -82,7 +86,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h8s0000004zeQ</masterLabel>
+        <masterLabel>00h9n0000001Joe</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

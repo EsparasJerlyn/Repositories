@@ -5,14 +5,18 @@
     <values>
         <field>Left_Column_Long__c</field>
         <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Left_Signature__c&quot;},
-{&quot;field&quot;:&quot;Top_Left_Signature_Text__c&quot;},
-{&quot;field&quot;:&quot;Middle_Left_Signature_Text__c&quot;},
-{&quot;field&quot;:&quot;Bottom_Left_Signature_Text__c&quot;},{&quot;field&quot;:&quot;Certificate_Type__c&quot;},
+{&quot;field&quot;:&quot;Name_Left_Indented__c&quot;},
+{&quot;field&quot;:&quot;Position_Left_Indented__c&quot;},
+{&quot;field&quot;:&quot;Department_Left_Indented__c&quot;},
 {&quot;field&quot;:&quot;Partner_Logo__c&quot;}]</value>
     </values>
     <values>
         <field>Left_Column__c</field>
         <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Left_Right_Column_Long__c</field>
+        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Certificate_Type__c&quot;},{&quot;blank&quot;:true}]</value>
     </values>
     <values>
         <field>Order__c</field>
@@ -25,9 +29,9 @@
     <values>
         <field>Right_Column_Long__c</field>
         <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Right_Signature__c&quot;},
-{&quot;field&quot;:&quot;Top_Right_Signature_Text__c&quot;},
-{&quot;field&quot;:&quot;Middle_Right_Signature_Text__c&quot;},
-{&quot;field&quot;:&quot;Bottom_Right_Signature_Text__c&quot;}]</value>
+{&quot;field&quot;:&quot;Name_Right_Indented__c&quot;},
+{&quot;field&quot;:&quot;Position_Right_Indented__c&quot;},
+{&quot;field&quot;:&quot;Department_Right_Indented__c&quot;}]</value>
     </values>
     <values>
         <field>Right_Column__c</field>

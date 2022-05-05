@@ -297,6 +297,20 @@
         <members>Marketing_Segmentation__c.SE_Completed_Education_Level__c</members>
         <members>Marketing_Segmentation__c.SE_Current_Education_Level__c</members>
         <!-- DEPP-2347 end -->
+        <!--DEPP-2507 start-->
+         <members>hed__Course__c.Top_Left_Signature_Text__c</members>
+         <members>hed__Course__c.Top_Right_Signature_Text__c</members>
+         <members>hed__Course__c.Middle_Left_Signature_Text__c</members>
+         <members>hed__Course__c.Middle_Right_Signature_Text__c</members>
+         <members>hed__Course__c.Bottom_Left_Signature_Text__c</members>
+         <members>hed__Course__c.Bottom_Right_Signature_Text__c</members>
+         <members>hed__Program_Plan__c.Top_Left_Signature_Text__c</members>
+         <members>hed__Program_Plan__c.Top_Right_Signature_Text__c</members>
+         <members>hed__Program_Plan__c.Middle_Left_Signature_Text__c</members>
+         <members>hed__Program_Plan__c.Middle_Right_Signature_Text__c</members>
+         <members>hed__Program_Plan__c.Bottom_Left_Signature_Text__c</members>
+         <members>hed__Program_Plan__c.Bottom_Right_Signature_Text__c</members>
+         <!--DEPP-2507 end-->
         <name>CustomField</name>
     </types>
 
@@ -379,6 +393,8 @@
         <members>Opportunity.Technical_Capability_is_Required</members>
         <name>ValidationRule</name>
     </types>
+
+
 
     <!--(Start) Kindly comment out once it reaches PROD
     DEPP-415, DEPP-641, DEP1-653, DEPP-106, DEPP-236-->
