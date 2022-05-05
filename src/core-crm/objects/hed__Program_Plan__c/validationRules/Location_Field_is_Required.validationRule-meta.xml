@@ -8,7 +8,7 @@
     ISPICKVAL(  Product_Request__r.Product_Request_Status__c  , &apos;Design&apos;
 ),
     ISBLANK( Location__c ),
-    ISPICKVAL(  Delivery_Type__c , &apos;Face to Face&apos; ),
+    ISPICKVAL(  Delivery_Type__c , &apos;Face to Face&apos; )  || ISPICKVAL(  Delivery_Type__c , &apos;Blended&apos; ),
     Mark_Design_Stage_as_Complete__c = true
 )</errorConditionFormula>
     <errorDisplayField>Location__c</errorDisplayField>

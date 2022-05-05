@@ -9,7 +9,7 @@
                 is-status-completed={isStatusCompleted}
             ></c-product-pricing>
         </div>
-        <div if:true={isPrescribedOrNonProgram} class="slds-m-vertical_xx-small">
+        <div if:true={hideSection} class="slds-m-vertical_xx-small">
             <c-custom-layout-handler
                 record-id={recordId}
                 object-api-name={objectApiName}
@@ -18,14 +18,14 @@
                 is-grandchild>
             </c-custom-layout-handler>
         </div>
-        <div if:true={isPrescribedOrNonProgram} class="slds-m-vertical_xx-small">
+        <div if:true={hideSection} class="slds-m-vertical_xx-small">
             <c-financial-split
                 record-id={recordId}
                 object-api-name={objectApiName}
                 is-status-completed={isStatusCompleted}
             ></c-financial-split>
         </div>
-        <div if:true={isPrescribedOrNonProgram} class="slds-m-vertical_xx-small">
+        <div if:true={hideSection} class="slds-m-vertical_xx-small">
             <c-custom-layout-handler
                 record-id={recordId}
                 object-api-name={objectApiName}
@@ -40,7 +40,7 @@
                 is-program={isProgram}
             ></c-setup-communication>
         </div>
-        <div if:true={isPrescribedOrNonProgram} class="slds-m-vertical_xx-small">
+        <div if:true={hideSection} class="slds-m-vertical_xx-small">
             <c-setup-registration
                 record-id={recordId}
                 is-status-completed={isStatusCompleted}
@@ -54,7 +54,7 @@
                 show-edit-button={showEditButton}>
             </c-custom-layout-handler>
         </div>
-        <div class="slds-m-vertical_xx-small">
+        <div if:true={hideDecommission} class="slds-m-vertical_xx-small">
             <c-custom-layout-handler
                 record-id={recordId}
                 object-api-name={objectApiName}

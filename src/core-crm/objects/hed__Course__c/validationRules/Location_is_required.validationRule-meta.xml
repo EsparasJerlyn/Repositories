@@ -11,7 +11,7 @@
  ),
  ISPICKVAL( ProductRequestID__r.Product_Request_Status__c , &apos;Design&apos;
  ),
- ISPICKVAL( Delivery_Type__c , &apos;Face to Face&apos;),
+ ISPICKVAL( Delivery_Type__c , &apos;Face to Face&apos; )  ||  ISPICKVAL( Delivery_Type__c , &apos;Blended&apos; ),
  ISBLANK( Location__c ),
  Mark_Design_Stage_as_Complete__c = true
 )</errorConditionFormula>

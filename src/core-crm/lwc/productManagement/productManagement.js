@@ -56,6 +56,13 @@ export default class ProductManagement extends LightningElement {
 
     }
 
+    get hideDecommission(){
+        return this.parentIsPrescribed;
+    }
+
+    get hideSection(){
+        return this.isPrescribedOrNonProgram && this.parentIsPrescribed;
+    }
     /**
      * gets product request details
     */
