@@ -25,7 +25,6 @@ import qutSSOText from "@salesforce/label/c.QUT_RegistrationForm_SSO";
 import requiredField from "@salesforce/label/c.QUT_RegistrationForm_IndicatesRequiredField";
 import privacyPolicy from "@salesforce/label/c.QUT_RegistrationForm_PrivacyPolicy";
 
-
 //Add text fields in Label from HTML
 const LINKEDINSSO = '/services/auth/sso/LinkedIn';
 const REQUIRED_ERROR_MESSAGE = 'Please populate required field.';
@@ -60,6 +59,15 @@ export default class RegistrationForm extends LightningElement {
   requiredErrorMessage
   @track requiredDisplayData = {};
   @track requiredInputClass = {};
+
+  hasErrorFN =false;
+  hasErrorLN =false;
+  hasErrorEmail =false;
+  hasErrorMob =false;
+  hasErrorDate =false;
+  hasErrorMonth =false;
+  hasErrorYear =false;
+  hasErrorChk = false;
 
   label = {
     header,
@@ -217,71 +225,88 @@ export default class RegistrationForm extends LightningElement {
   * Checks Input of the fields if null/empty and sets error message
   */
   checkInputIsEmpty(){
+
     if(!this.firstName){
+      this.hasErrorFN = !this.firstName;
       this.requiredDisplayData.firstName = SHOW_ERROR_MESSAGE_ATTRIBUTE;
       this.requiredInputClass.firstName = SHOW_ERROR_BOARDER_ATTRIBUTE;
     } else {
+      this.hasErrorFN = false;
       this.requiredDisplayData.firstName = HIDE_ERROR_MESSAGE_ATTRIBUTE;
       this.requiredInputClass.firstName = HIDE_ERROR_BOARDER_ATTRIBUTE;
     }
 
     if(!this.lastName){
+      this.hasErrorLN = !this.lastName;
       this.requiredDisplayData.lastName = SHOW_ERROR_MESSAGE_ATTRIBUTE;
       this.requiredInputClass.lastName = SHOW_ERROR_BOARDER_ATTRIBUTE;
     } else {
+      this.hasErrorLN = false;
       this.requiredDisplayData.lastName = HIDE_ERROR_MESSAGE_ATTRIBUTE;
       this.requiredInputClass.lastName = HIDE_ERROR_BOARDER_ATTRIBUTE;
     }
 
     if(!this.email){
+      this.hasErrorEmail = !this.email;
       this.emailErrorMessage = REQUIRED_ERROR_MESSAGE;
       this.requiredDisplayData.email = SHOW_ERROR_MESSAGE_ATTRIBUTE;
       this.requiredInputClass.email = SHOW_ERROR_BOARDER_ATTRIBUTE;
     } else {
+      this.hasErrorEmail = false;
       this.requiredDisplayData.email = HIDE_ERROR_MESSAGE_ATTRIBUTE;
       this.requiredInputClass.email = HIDE_ERROR_BOARDER_ATTRIBUTE;
     }
 
     if(!this.mobile){
+      this.hasErrorMob = !this.mobile;
       this.requiredDisplayData.mobile = SHOW_ERROR_MESSAGE_ATTRIBUTE;
       this.requiredInputClass.mobile = SHOW_ERROR_BOARDER_ATTRIBUTE;
     } else {
+      this.hasErrorMob =false;
       this.requiredDisplayData.mobile = HIDE_ERROR_MESSAGE_ATTRIBUTE;
       this.requiredInputClass.mobile = HIDE_ERROR_BOARDER_ATTRIBUTE;
     }
 
     if(!this.date){
+      this.hasErrorDate = !this.date;
       this.dateErrorMessage = REQUIRED_ERROR_MESSAGE;
       this.requiredDisplayData.date = SHOW_ERROR_MESSAGE_ATTRIBUTE;
       this.requiredInputClass.date = SHOW_ERROR_BOARDER_ATTRIBUTE;
     }else{
+      this.hasErrorDate = false;
       this.requiredDisplayData.date = HIDE_ERROR_MESSAGE_ATTRIBUTE;
       this.requiredInputClass.date = HIDE_ERROR_BOARDER_ATTRIBUTE;
       
     }
 
     if(!this.month){
+      this.hasErrorMonth = !this.month;
       this.monthErrorMessage = REQUIRED_ERROR_MESSAGE;
       this.requiredDisplayData.month = SHOW_ERROR_MESSAGE_ATTRIBUTE;
       this.requiredInputClass.month = SHOW_ERROR_BOARDER_ATTRIBUTE;
     }else{
+      this.hasErrorMonth = false;
       this.requiredDisplayData.month = HIDE_ERROR_MESSAGE_ATTRIBUTE;
       this.requiredInputClass.month = HIDE_ERROR_BOARDER_ATTRIBUTE;
     }
 
     if(!this.year){
+      this.hasErrorYear = !this.year;
       this.yearErrorMessage = REQUIRED_ERROR_MESSAGE;
       this.requiredDisplayData.year = SHOW_ERROR_MESSAGE_ATTRIBUTE;
       this.requiredInputClass.year = SHOW_ERROR_BOARDER_ATTRIBUTE;
     }else{
+      this.hasErrorYear = false;
       this.requiredDisplayData.year = HIDE_ERROR_MESSAGE_ATTRIBUTE;
       this.requiredInputClass.year = HIDE_ERROR_BOARDER_ATTRIBUTE;
     }
 
     if(this.checkbox === false || !this.checkbox){
+      this.hasErrorChk = this.checkbox === false || !this.checkbox;
       this.requiredInputClass.checkbox = 'slds-checkbox_faux border-error';
       this.requiredDisplayData.checkbox = SHOW_ERROR_MESSAGE_ATTRIBUTE;
     }else{
+      this.hasErrorChk = false;
       this.requiredInputClass.checkbox = 'slds-checkbox_faux check-box';
       this.requiredDisplayData.checkbox = HIDE_ERROR_MESSAGE_ATTRIBUTE;
     }

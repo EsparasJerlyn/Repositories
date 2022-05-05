@@ -88,6 +88,14 @@
     "regionName" : "sidebar",
     "type" : "region"
   }, {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:storeHeader",
+      "id" : "31d33433-455d-4a49-b86e-be5664c0acee",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
     "id" : "f121f365-ae1c-433d-ac4f-e3a5d6ce7199",
     "regionName" : "footer",
     "type" : "region"

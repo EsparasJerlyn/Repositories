@@ -13,24 +13,17 @@
       "type" : "component"
     }, {
       "componentAttributes" : {
-        "forgotPasswordLabel" : "",
-        "forgotPasswordUrl" : "",
+        "forgotPasswordLabel" : "Forgot your password?",
+        "forgotPasswordUrl" : "/ForgotPassword",
         "loginButtonLabel" : "Log in",
         "passwordLabel" : "Password",
-        "selfRegisterLabel" : "",
-        "selfRegisterUrl" : "",
+        "selfRegisterLabel" : "Register",
+        "selfRegisterUrl" : "/SelfRegister",
         "startUrl" : "",
         "usernameLabel" : "Username"
       },
       "componentName" : "salesforceIdentity:loginForm2",
       "id" : "79687533-5671-42b3-8f5b-27452937f428",
-      "renderPriority" : "NEUTRAL",
-      "renditionMap" : { },
-      "type" : "component"
-    }, {
-      "componentAttributes" : { },
-      "componentName" : "c:customLoginForm",
-      "id" : "0a626db6-8563-4b02-b093-99af5742a63f",
       "renderPriority" : "NEUTRAL",
       "renditionMap" : { },
       "type" : "component"

@@ -11,19 +11,19 @@
             </div>
             <div><!--SSO Links-->
                 <div class="slds-text-align_center slds-m-vertical_medium slds-m-horizontal_small slds-p-horizontal_small">
-                    <a href="" class="sso-text">{label.qutSSOText}</a>
+                    <a href="" class="sso-text colored">{label.qutSSOText}</a>
                 </div>
                 <div class="center">
                     <button 
                         onclick={handleLinkedInOnClick} 
-                        class="button slds-button slds-p-vertical_small slds-p-horizontal_xx-large"
+                        class="button slds-button slds-button_brand slds-p-vertical_small slds-p-horizontal_xx-large"
                         > 
                         <img src ={linkedInLogo} class="slds-m-around_x-small">
                         {label.registerWithLinkedIn}</button>
                 </div>
             </div>
             <form id="form">
-                <div class="form-margin"><!--Form-->
+                <div class="slds-m-horizontal_small"><!--Form-->
                     <div class="indicate-text">
                         <span class="required-text">* </span><span style="font-style: italic">{label.requiredField}</span>
                     </div>
@@ -32,7 +32,7 @@
                         <div class=" slds-grid slds-gutters slds-wrap">
                             <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2">
                                 <div class="slds-form-element">
-                                    <label for="fname" class="label-text slds-form-element__label">First Name </label> <span class="required-text" >*</span><br>
+                                    <label for="fname" class="label-text">First Name </label> <span class="required-text" >*</span><br>
                                     <div class="slds-form-element__control">
                                         <input
                                             type="text"
@@ -42,7 +42,13 @@
                                             class={requiredInputClass.firstName}
                                         >
                                     </div>
-                                    <small class={requiredDisplayData.firstName}>{requiredErrorMessage}</small>
+                                    <div>
+                                        <template if:true={hasErrorFN}>
+                                            <c-error-icon></c-error-icon>
+                                        </template>
+                                        <small class={requiredDisplayData.firstName}>{requiredErrorMessage}</small>
+                                    </div>
+                                  
                                 </div>
                             </div>
                             <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2">
@@ -57,6 +63,9 @@
                                             class={requiredInputClass.lastName}
                                         >
                                     </div>
+                                    <template if:true={hasErrorLN}>
+                                        <c-error-icon></c-error-icon>
+                                    </template>
                                     <small class={requiredDisplayData.lastName}>{requiredErrorMessage}</small>
                                 </div>
                             </div>
@@ -74,6 +83,9 @@
                                         class={requiredInputClass.email}
                                     >
                                 </div>
+                                <template if:true={hasErrorEmail}>
+                                    <c-error-icon></c-error-icon>
+                                </template>
                                 <small class={requiredDisplayData.email}>{emailErrorMessage}</small>
                             </div>
                         </div>
@@ -90,14 +102,17 @@
                                         class={requiredInputClass.mobile}
                                     >
                                 </div>
+                                <template if:true={hasErrorMob}>
+                                    <c-error-icon></c-error-icon>
+                                </template>
                                 <small class={requiredDisplayData.mobile}>{requiredErrorMessage}</small>
                             </div>
                         </div>
                         <!--Birthdate-->
                         <span class="label-text slds-m-top_medium">What is your date of Birth?</span><br>
-                        <div class="slds-grid slds-gutters">
+                        <div class="slds-grid slds-wrap slds-gutters">
                             <!--Date-->
-                            <div class="slds-col slds-size_1-of-3" >
+                            <div class="slds-col slds-size_1-of-3">
                                 <div class="slds-form-element">
                                     <label for="day" class="label-text">Date </label> <span class="required-text" >*</span><br>
                                     <div class="slds-form-element__control">
@@ -110,11 +125,14 @@
                                             maxlength="2"
                                         >
                                     </div>
+                                    <template if:true={hasErrorDate}>
+                                        <c-error-icon></c-error-icon>
+                                    </template>
                                     <small class={requiredDisplayData.date}>{dateErrorMessage}</small>
                                 </div>
                             </div>
                             <!--Month-->
-                            <div class="slds-col slds-size_1-of-3" >
+                            <div class="slds-col slds-size_1-of-3">
                                 <div class="slds-form-element">
                                     <label for="month" class="label-text">Month </label> <span class="required-text" >*</span><br>
                                     <div class="slds-form-element__control" >
@@ -127,6 +145,9 @@
                                             maxlength="2"
                                         >
                                     </div>
+                                    <template if:true={hasErrorMonth}>
+                                        <c-error-icon></c-error-icon>
+                                    </template>
                                     <small class={requiredDisplayData.month}>{monthErrorMessage}</small>
                                 </div>
                             </div>
@@ -144,6 +165,9 @@
                                             maxlength="4"
                                         >
                                     </div>
+                                    <template if:true={hasErrorYear}>
+                                        <c-error-icon></c-error-icon>
+                                    </template>
                                     <small class={requiredDisplayData.year}>{yearErrorMessage}</small>
                                 </div>
                             </div>
@@ -177,19 +201,24 @@
                                     <span class={requiredInputClass.checkbox}></span>
                                     <span class="text"> {label.privacyPolicy} </span>
                                 </label>
-                                <small class={requiredDisplayData.checkbox}>{requiredErrorMessage}</small>
+                                <div class="slds-grid slds-wrap">
+                                    <template if:true={hasErrorChk}>
+                                        <c-error-icon class="error-icon2"></c-error-icon>
+                                    </template>
+                                    <small class={requiredDisplayData.checkbox}>{requiredErrorMessage}</small>
+                                </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <!--Modal Footer Buttons-->
-                <div class="modal-footer slds-grid slds-gutters center">
-                    <div class="slds-col slds-size_1-of-2 slds-clearfix ">
-                        <button class="cancel-button footer-button slds-float_right" onclick={closeModal}>Cancel</button>
+                <div class="modal-footer slds-grid slds-gutters center slds-m-horizontal_x-small">
+                    <div class="slds-col slds-size_1-of-2">
+                        <button class="slds-button slds-button_outline-brand slds-float_right btnCancel" onclick={closeModal}>Cancel</button>
                     </div>
                     <div class="slds-col slds-size_1-of-2">
-                        <button type="submit" class="button footer-button" onclick={handleRegister}>Continue</button>
+                        <button type="submit" class="slds-button slds-button_brand footer-button btnContinue" onclick={handleRegister}>Continue</button>
                     </div>
                 </div>
             </form>

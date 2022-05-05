@@ -50,6 +50,7 @@ import registerInterest from "@salesforce/label/c.QUT_ProductDetail_RegisterInte
 import subHeader from "@salesforce/label/c.QUT_ProductDetail_SubHeader";
 import LWC_Error_General from "@salesforce/label/c.LWC_Error_General";
 
+
 const INTEREST_EXISTS_ERROR =
   "You already registered your interest for this product.";
 
@@ -115,6 +116,29 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     this.comboBoxUp = qutResourceImg + "/QUTImages/Icon/comboBoxUp.svg";
     this.comboBoxDown = qutResourceImg + "/QUTImages/Icon/comboBoxDown.svg";
     this.durationIcon = qutResourceImg + "/QUTImages/Icon/duration.svg";
+    this.accordionClose = qutResourceImg + "/QUTImages/Icon/accordionClose.svg";
+    this.accordionOpen = qutResourceImg + "/QUTImages/Icon/accordionOpen.svg";
+    this.comboBoxDown = qutResourceImg + "/QUTImages/Icon/comboBoxDown.svg";
+    this.comboBoxUp = qutResourceImg + "/QUTImages/Icon/comboBoxUp.svg";
+    this.iconangledown = qutResourceImg + "/QUTImages/Icon/icon-angle-down.svg";
+    this.iconangleleft = qutResourceImg + "/QUTImages/Icon/icon-angle-left.svg";
+    this.iconangleright = qutResourceImg + "/QUTImages/Icon/icon-angle-right.svg";
+    this.iconcalendar = qutResourceImg + "/QUTImages/Icon/icon-calendar.svg";
+    this.iconcart = qutResourceImg + "/QUTImages/Icon/icon-cart.svg";
+    this.iconcircleminus = qutResourceImg + "/QUTImages/Icon/icon-circle-minus.svg";
+    this.iconcircleplus = qutResourceImg + "/QUTImages/Icon/icon-circle-plus.svg";
+    this.icondeleteimg = qutResourceImg + "/QUTImages/Icon/icon-delete.svg";
+    this.icondollor = qutResourceImg + "/QUTImages/Icon/icon-dollor.svg";
+    this.icondownload = qutResourceImg + "/QUTImages/Icon/icon-download.svg";
+    this.iconexclamationfilled = qutResourceImg + "/QUTImages/Icon/icon-exclamation-filled.svg";
+    this.iconhome = qutResourceImg + "/QUTImages/Icon/icon-home.svg";
+    this.iconlinkedin = qutResourceImg + "/QUTImages/Icon/icon-linkedin.svg";
+    this.iconmap = qutResourceImg + "/QUTImages/Icon/icon-map.svg";
+    this.iconmapmarker = qutResourceImg + "/QUTImages/Icon/icon-map-marker.svg";
+    this.iconupload = qutResourceImg + "/QUTImages/Icon/icon-upload.svg";
+    this.iconuploadfilled = qutResourceImg + "/QUTImages/Icon/icon-upload-filled";
+    this.linkedInLogo = qutResourceImg + "/QUTImages/Icon/linkedInLogo.svg";
+    this.xMark = qutResourceImg + "/QUTImages/Icon/xMark.svg";
 
     // Display AddToCart / Register Interest
     if (

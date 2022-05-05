@@ -8,7 +8,7 @@
     "headerUrl" : "?a=1145701&SQ_ASSET_CONTENTS"
   },
   "currentThemeId" : "cf916f6c-4a47-4eda-b212-0ee6bd1cc3bc",
-  "headMarkup" : null,
+  "headMarkup" : "<link rel=\"stylesheet\" type=\"text/css\" href=\"/study/resource/QUTMainCSS/QUTMainCSS.css\"/>\n<style>\n    @font-face {\n      font-family: \"ProximaNova\";\n      src: url(\"/sfsites/c/resource/QUTCustomFont/ProximaNova/ProximaNova-Regular.ttf\") format(\"TrueType\");\n    }\n\n    @font-face {\n      font-family: \"ProximaNova-Bold\";\n      src: url(\"/sfsites/c/resource/QUTCustomFont/ProximaNova/ProximaNova-Bold.ttf\") format(\"TrueType\");\n    }\n</style>",
   "id" : "b28ff838-09a0-4bed-9c7e-7d9052f13951",
   "isRelaxedCSPLevel" : false,
   "label" : "main",
