@@ -10,7 +10,7 @@
             <lightning-spinner if:true={isLoading} alternative-text="Validating..." size="small"></lightning-spinner>
         </div>
         <div class="slds-grid slds-gutters slds-m-horizontal_medium slds-m-bottom_small">
-            <div  class="slds-col slds-size_2-of-5 slds-p-right_medium">
+            <div  class="slds-col slds-size_2-of-5 slds-p-right_medium" if:true={disableEditButton}>
                 <p>LOCALE</p>
             </div>
             <div class="slds-col slds-size_2-of-5 slds-p-right_medium">
@@ -23,14 +23,12 @@
         <lightning-record-edit-form record-id={recordId} object-api-name={objectApiName} onsubmit={handleSaveButton} onsuccess={handleSuccess} onerror={handleError}>
             <template for:each={fieldsToDisplay} for:item="fieldItem">
                 <div key={fieldItem.id} class="slds-grid slds-gutters slds-m-horizontal_medium slds-m-bottom_small">
-                    <div class="slds-col slds-size_2-of-5 slds-p-right_medium relative-position">
+                    <div class="slds-col slds-size_2-of-5 slds-p-right_medium relative-position" if:true={disableEditButton}>
                         <div class="bottom-position">
                             <lightning-input-field 
-                                if:true={disableEditButton}
                                 variant="label-hidden" 
                                 field-name={fieldItem.localeField}>
                             </lightning-input-field>
-                            <p if:false={disableEditButton}>{fieldItem.localeValue}</p>
                         </div>
                     </div>
                     <div class="slds-col slds-size_2-of-5 slds-p-right_medium">

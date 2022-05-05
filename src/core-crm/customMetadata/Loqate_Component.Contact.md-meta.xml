@@ -20,10 +20,14 @@
     </values>
     <values>
         <field>Field_Mapping__c</field>
-        <value xsi:type="xsd:string">[{&quot;label&quot;: &quot;Phone&quot;,&quot;apiName&quot;:&quot;Phone&quot;,&quot;statusValidationField&quot;:&quot;ContactPhone_Validation__c&quot;,&quot;localeField&quot;:&quot;ContactPhone_Locale__c&quot;,&quot;loqateRequest&quot;:&quot;fullPhone&quot;,&quot;loqateResponse&quot;:&quot;phoneStatus&quot;},{&quot;label&quot;: &quot;Mobile&quot;,&quot;apiName&quot;:&quot;MobilePhone&quot;,&quot;statusValidationField&quot;:&quot;ContactMobile_Validation__c&quot;,&quot;localeField&quot;:&quot;ContactMobile_Locale__c&quot;,&quot;loqateRequest&quot;:&quot;fullPhone&quot;,&quot;loqateResponse&quot;:&quot;phoneStatus&quot;},{&quot;label&quot;: &quot;Work Phone&quot;,&quot;apiName&quot;:&quot;hed__WorkPhone__c&quot;,&quot;statusValidationField&quot;:&quot;ContactWorkPhone_Validation__c&quot;,&quot;localeField&quot;:&quot;ContactWorkPhone_Locale__c&quot;,&quot;loqateRequest&quot;:&quot;fullPhone&quot;,&quot;loqateResponse&quot;:&quot;phoneStatus&quot;},{&quot;label&quot;: &quot;Personal Mobile&quot;,&quot;apiName&quot;:&quot;Personal_Mobile__c&quot;,&quot;statusValidationField&quot;:&quot;ContactPersonalMobile_Validation__c&quot;,&quot;localeField&quot;:&quot;ContactPersonalMobile_Locale__c&quot;,&quot;loqateRequest&quot;:&quot;fullPhone&quot;,&quot;loqateResponse&quot;:&quot;phoneStatus&quot;}]</value>
+        <value xsi:type="xsd:string">[{&quot;label&quot;: &quot;Phone&quot;,&quot;apiName&quot;:&quot;Phone&quot;,&quot;statusValidationField&quot;:&quot;ContactPhone_Validation__c&quot;,&quot;localeField&quot;:&quot;ContactPhone_Locale__c&quot;,&quot;loqateRequest&quot;:&quot;fullPhone&quot;,&quot;loqateResponse&quot;:&quot;phoneStatus&quot;},{&quot;label&quot;: &quot;Mobile&quot;,&quot;apiName&quot;:&quot;MobilePhone&quot;,&quot;statusValidationField&quot;:&quot;ContactMobile_Validation__c&quot;,&quot;localeField&quot;:&quot;ContactMobile_Locale__c&quot;,&quot;loqateRequest&quot;:&quot;fullPhone&quot;,&quot;loqateResponse&quot;:&quot;phoneStatus&quot;},{&quot;label&quot;: &quot;Work Phone&quot;,&quot;apiName&quot;:&quot;hed__WorkPhone__c&quot;,&quot;statusValidationField&quot;:&quot;ContactWorkPhone_Validation__c&quot;,&quot;localeField&quot;:&quot;ContactWorkPhone_Locale__c&quot;,&quot;loqateRequest&quot;:&quot;fullPhone&quot;,&quot;loqateResponse&quot;:&quot;phoneStatus&quot;}]</value>
     </values>
     <values>
         <field>Object_Type__c</field>
         <value xsi:type="xsd:string">Contact</value>
+    </values>
+    <values>
+        <field>Validation_Rule_Fields__c</field>
+        <value xsi:nil="true"/>
     </values>
 </CustomMetadata>
