@@ -17,10 +17,7 @@
         object-label-name={objectLabelName}
         new-record-available
     ></c-custom-search>
-    <div if:false={showFacilitatorTable} class="slds-text-align_center slds-p-around_medium">
-        <p><strong>No facilitator found.</strong></p>
-    </div>
-    <div if:true={showFacilitatorTable} class="slds-m-vertical_medium slds-scrollable max-height" onitemregister={handleItemRegister}>
+    <div class="slds-m-vertical_medium slds-scrollable max-height" onitemregister={handleItemRegister}>
         <c-custom-datatable-columned
             key-field="id"
             data={relatedFacilitatorsCopy}
@@ -35,5 +32,8 @@
             hide-checkbox-column
             show-row-number-column
         ></c-custom-datatable-columned>
+        <span if:false={showFacilitatorTable}>
+            No record(s) found.
+        </span>
     </div>
 </template>

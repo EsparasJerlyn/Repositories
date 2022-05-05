@@ -50,11 +50,13 @@ export default class CustomLightningFields extends LightningElement {
     /**
      * method for handling succesful save on record edit form
      */
-    handleSuccess(){
+    handleSuccess(event){
         this.isLoading = false;
         this.editMode = false;
         this.resetPopover();
-        this.dispatchEvent(new CustomEvent('recordupdate'));
+        this.dispatchEvent(new CustomEvent('recordupdate', {
+            detail : event.detail
+        }));
     }
 
     /**

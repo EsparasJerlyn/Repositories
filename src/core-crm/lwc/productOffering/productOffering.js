@@ -13,7 +13,13 @@
       | eccarius.munoz            | May 03, 2022          | DEPP-2314    | Added handling for Program Plan - Prescribed           |
 */
 import { LightningElement, api, wire, track } from 'lwc';
-import { getRecord, getFieldValue, createRecord, updateRecord } from 'lightning/uiRecordApi';
+import { 
+    getRecord, 
+    getFieldValue, 
+    createRecord, 
+    updateRecord, 
+    getRecordNotifyChange  
+} from 'lightning/uiRecordApi';
 import { refreshApex } from "@salesforce/apex";
 import { getObjectInfo } from 'lightning/uiObjectInfoApi';
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
@@ -23,6 +29,7 @@ import customDataTableStyle from '@salesforce/resourceUrl/CustomDataTable';
 import HAS_PERMISSION from "@salesforce/customPermission/EditDesignAndReleaseTabsOfProductRequest";
 import RT_ProductRequest_Program from '@salesforce/label/c.RT_ProductRequest_Program';
 import PL_ProductRequest_Completed from '@salesforce/label/c.PL_ProductRequest_Completed';
+import PL_ProgramPlan_PrescribedProgram from '@salesforce/label/c.PL_ProgramPlan_PrescribedProgram';
 import LWC_Error_General from "@salesforce/label/c.LWC_Error_General";
 import COURSE from "@salesforce/schema/hed__Course__c";
 import COURSE_OFFERING from "@salesforce/schema/hed__Course_Offering__c";
@@ -36,19 +43,23 @@ import C_PRODUCT_REQUEST from '@salesforce/schema/hed__Course__c.ProductRequestI
 import PP_PRODUCT_REQUEST from '@salesforce/schema/hed__Program_Plan__c.Product_Request__c';
 import PR_RT_DEV_NAME from '@salesforce/schema/Product_Request__c.RecordType.DeveloperName';
 import PR_STATUS from '@salesforce/schema/Product_Request__c.Product_Request_Status__c';
-import PRESCRIBED_CHILD from '@salesforce/schema/Product_Request__c.Child_of_Prescribed_Program__c';
 import PR_PROGRAM_TYPE from '@salesforce/schema/Product_Request__c.OPE_Program_Plan_Type__c';
-import LWC_Program_Prescribed from "@salesforce/label/c.LWC_Program_Prescribed";
+import PRESCRIBED_CHILD from '@salesforce/schema/Product_Request__c.Child_of_Prescribed_Program__c';
 import getProductOfferingData from "@salesforce/apex/ProductOfferingCtrl.getProductOfferingData";
 import getTermId from "@salesforce/apex/ProductOfferingCtrl.getTermId";
+import getParentProgram from "@salesforce/apex/ProductOfferingCtrl.getParentProgram";
 import updateCourseConnections from "@salesforce/apex/ProductOfferingCtrl.updateCourseConnections";
 import getOfferingLayout from '@salesforce/apex/ProductOfferingCtrl.getOfferingLayout';
 import getSearchContacts from "@salesforce/apex/ProductOfferingCtrl.getSearchContacts";
+import updateCourseOfferings from "@salesforce/apex/ProductOfferingCtrl.updateCourseOfferings";
+import getProdReqAndCourse from "@salesforce/apex/OpeProgramStructureCtrl.getProdReqAndCourse";
 
 const DATE_OPTIONS = { year: 'numeric', month: 'short', day: '2-digit' };
-const PROGRAM_OFFERING_FIELDS = 'Id,Delivery_Type__c,Start_Date__c,End_Date__c,IsActive__c,CreatedDate';
-const COURSE_OFFERING_FIELDS = 'Id,Delivery_Type__c,hed__Start_Date__c,hed__End_Date__c,IsActive__c,CreatedDate';
-
+const PROGRAM_OFFERING_FIELDS = 'Id,Name,Delivery_Type__c,Start_Date__c,End_Date__c,IsActive__c,CreatedDate';
+const COURSE_OFFERING_FIELDS = 'Id,Name,Delivery_Type__c,hed__Start_Date__c,hed__End_Date__c,IsActive__c,CreatedDate';
+const NO_OFFERING_ERROR = 'No product offering found.'
+const PRES_PROGRAM_ERROR = 'Please set up and save a program plan delivery structure under Design tab before proceeding.';
+const CHILD_PRES_PROGRAM_ERROR = NO_OFFERING_ERROR + ' Set up an offering in the parent ';
 export default class ProductOffering extends NavigationMixin(LightningElement) {
     @api recordId;
     @api objectApiName;
@@ -73,7 +84,18 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
     parentRecord;
     newFacilitatorBio;
     objectLabel;
-    isPresribedProgram = false;
+    parentProgramId;
+
+    //for prescribed program
+    isPrescribed = false;
+    childCourseList = [];
+    prescribedOfferingLayout = [];
+    childOfferingLayout = [];
+    hasPlanRequirementOnRender;
+    newPrescribedOffering = false;
+    isPrescribedLoading = false;
+    countOfChildOfferingSaved = 0;
+    courseOfferingLayoutItem = {};
     displayAccordion = false;
 
     //custom contact lookup variables
@@ -107,7 +129,32 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
         return this.isStatusCompleted || this.childInfoMap.objectType == PROGRAM_OFFERING.objectApiName;
     }
 
-    //gets QUTeX Term id and loads css
+    //decides to show Add Product Offering button
+    get showProductOffering(){
+        return !this.childOfPrescribedProgram;
+    }
+
+    //disables Add Product Offering button
+    get disableProductOffering(){
+        return (this.isPrescribed && !this.hasPlanRequirementOnRender) || this.isStatusCompleted;
+    }
+
+    //returns appropriate empty message
+    get errorMessage(){
+        let msg = '<p><strong>';
+        if(this.isPrescribed && !this.hasPlanRequirementOnRender){
+            msg += PRES_PROGRAM_ERROR;
+        }else if(this.childOfPrescribedProgram && this.parentProgramId){
+            msg += CHILD_PRES_PROGRAM_ERROR + 
+                '<a href="/' + this.parentProgramId + '" target="_top">Program</a>.';
+        }else{
+            msg += NO_OFFERING_ERROR;
+        }
+        msg += '</strong></p>'
+        return msg;
+    }
+
+    //gets QUTeX Term id, parent program Id, and loads css
     connectedCallback(){
         Promise.all([
             loadStyle(this, customDataTableStyle)
@@ -117,12 +164,48 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
         })
         .then((termIdResult) => {
             this.termId = termIdResult;
+            return getParentProgram({productRequestId : this.recordId});
+        })
+        .then((programIdResult) => {
+            this.parentProgramId = programIdResult;
         })
         .catch((error) => {
             this.generateToast("Error.", LWC_Error_General, "error");
         });
     }
-    
+
+    @wire(getProdReqAndCourse,{productRequestId: '$recordId'})
+    relatedRecords(result){
+        if(result.data){
+            this.childCourseList = result.data.courseList;
+            if(this.childCourseList.length == 0){
+                this.hasPlanRequirementOnRender = false;
+            }else{
+                //check if all courses have plan requirement sequence already set up
+                this.hasPlanRequirementOnRender = true;
+                for(let i = 0; i < this.childCourseList.length; i++){
+                    if(!this.childCourseList[i].hed__Plan_Requirements__r){
+                        this.hasPlanRequirementOnRender = false;
+                        break;
+                    }
+                }
+                if(this.hasPlanRequirementOnRender){
+                    this.childCourseList = this.childCourseList.map(course => {
+                        return {
+                            ...course,
+                            sequence:course.hed__Plan_Requirements__r[0].hed__Sequence__c
+                        }
+                    }).sort((a,b)  => {
+                        return a.sequence - b.sequence;
+                    });
+                }
+            }
+        }
+        else if(result.error){  
+            this.generateToast("Error.", LWC_Error_General, "error");
+        }
+    }
+
     //stores object info of course connection
     @wire(getObjectInfo, { objectApiName: COURSE_CONNECTION.objectApiName })
     courseConnectionInfo;
@@ -134,9 +217,9 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
         if(result.data){
             this.isStatusCompleted = getFieldValue(result.data,PR_STATUS) == PL_ProductRequest_Completed;
             this.isOpeProgramRequest = getFieldValue(result.data,PR_RT_DEV_NAME) == RT_ProductRequest_Program;
+            this.isPrescribed = getFieldValue(result.data, PR_PROGRAM_TYPE) == PL_ProgramPlan_PrescribedProgram;
             this.childOfPrescribedProgram = getFieldValue(result.data,PRESCRIBED_CHILD);
-            this.isPresribedProgram = getFieldValue(result.data, PR_PROGRAM_TYPE) == LWC_Program_Prescribed;
-            this.displayAccordion = this.isOpeProgramRequest == this.isPresribedProgram;
+            this.displayAccordion = this.isOpeProgramRequest == this.isPrescribed;
             this.parentInfoMap = {
                 field : this.isOpeProgramRequest ? PP_PRODUCT_REQUEST.fieldApiName : C_PRODUCT_REQUEST.fieldApiName,
                 objectType : this.isOpeProgramRequest ? PROGRAM_PLAN.objectApiName :COURSE.objectApiName
@@ -146,9 +229,6 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
                 objectType : this.isOpeProgramRequest ? PROGRAM_OFFERING.objectApiName : COURSE_OFFERING.objectApiName,
                 conditionField : this.isOpeProgramRequest ? PO_PROGRAM_PLAN.fieldApiName : CO_COURSE.fieldApiName
             };
-            if(!this.layoutItem){
-                this.handleGetOfferingLayout();
-            }
         }else if(result.error){
             this.generateToast('Error.',LWC_Error_General,'error');
         }
@@ -167,6 +247,9 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
             this.parentId = this.offeringResult.data.parentId;
             this.parentRecord = this.offeringResult.data.parentRecord;
             this.productOfferings = this.formatOfferingData(this.offeringResult.data);
+            if(!this.layoutItem){
+                this.handleGetOfferingLayout();
+            }
         }else if(result.error){
             this.generateToast('Error.',LWC_Error_General,'error');
         }
@@ -179,7 +262,35 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
             Object.keys(layoutMap).forEach(key => {
                 this.layoutMap[key] = this.formatLayout(layoutMap[key][0]);
             });
+            let childLayoutItem = this.layoutMap[COURSE_OFFERING.objectApiName];
             this.layoutItem = this.layoutMap[this.childInfoMap.objectType];
+            this.courseOfferingLayoutItem.leftColumn = childLayoutItem.leftColumn.filter(layout => 
+                layout.field !== 'Minimum_Participants__c' && layout.field !== 'Registration_Start_Date__c'
+            );
+            this.courseOfferingLayoutItem.rightColumn = childLayoutItem.rightColumn.filter(layout => 
+                layout.field !== 'hed__Capacity__c' && layout.field !== 'Registration_End_Date__c'
+            );
+            this.layoutItem = this.childOfPrescribedProgram ? this.courseOfferingLayoutItem : this.layoutItem;
+            if(this.childInfoMap.objectType == PROGRAM_OFFERING.objectApiName){
+                for(let i = 0; i < this.layoutItem.leftColumn.length; i++){
+                    this.prescribedOfferingLayout.push(this.layoutItem.leftColumn[i]);
+                    this.prescribedOfferingLayout.push(this.layoutItem.rightColumn[i]);
+                }
+                this.prescribedOfferingLayout = this.prescribedOfferingLayout.map(layout => {
+                    let _layout = {...layout};
+                    if(layout.field == 'Minimum_Participants__c'){
+                        _layout.value = this.parentRecord.Minimum_Participants__c;
+                    }
+                    if(layout.field == 'hed_Capacity__c'){
+                        _layout.value = this.parentRecord.Maximum_Participants__c;
+                    }
+                    return _layout;
+                });
+                for(let i = 0; i < this.courseOfferingLayoutItem.leftColumn.length; i++){
+                    this.childOfferingLayout.push(this.courseOfferingLayoutItem.leftColumn[i]);
+                    this.childOfferingLayout.push(this.courseOfferingLayoutItem.rightColumn[i]);
+                }
+            }
         })
         .catch((error) => {
             this.generateToast("Error.", LWC_Error_General, "error");
@@ -233,7 +344,22 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
                     showFacilitatorTable : relFaci.length > 0,
                     showSessionTable : relSesh.length > 0,
                     disableSession : relFaci.length == 0 || this.isStatusCompleted,
-                    showHelp : relFaci.length == 0 && this.showEditButton
+                    showHelp : relFaci.length == 0 && this.showEditButton,
+                    childCourseOfferings : this.isPrescribed ? 
+                        offeringData.childCourseOfferings.filter(child => 
+                            child.Program_Offering__c == offering.Id
+                        ).map(child => {
+                            return {
+                                ...child,
+                                courseName : child.hed__Course__r.Name,
+                                productRequestUrl : '/' + child.hed__Course__r.ProductRequestID__c,
+                                sequence : this.childCourseList.find(course => 
+                                    course.Id == child.hed__Course__c
+                                )?.sequence
+                            }
+                        }).sort((a,b)  => {
+                            return a.sequence - b.sequence;
+                        }) : [] 
                 }
             );
         });
@@ -298,20 +424,45 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
 
     //opens create modal for course/program offering
     handleNewOffering(){
-        this.newRecord = true;
-        this.objectToCreate = this.childInfoMap.objectType;
-        this.parentIdToCreate = this.parentId;
-        if(this.objectToCreate == 'hed__Course_Offering__c'){
-            this.prePopulatedFields = {
-                'Minimum_Participants__c':this.parentRecord.Minimum_Participants__c,
-                'hed__Capacity__c': this.parentRecord.Maximum_Participants__c
-            }
-        }else if(this.objectToCreate == 'Program_Offering__c'){
-            this.prePopulatedFields = {
-                'Minimum_Participants__c': this.parentRecord.Minimum_Participants__c,
-                'hed_Capacity__c': this.parentRecord.Maximum_Participants__c
+        if(this.isPrescribed){
+            this.newPrescribedOffering = true;
+        }else{
+            this.newRecord = true;
+            this.objectToCreate = this.childInfoMap.objectType;
+            this.parentIdToCreate = this.parentId;
+            if(this.objectToCreate == COURSE_OFFERING.objectApiName){
+                this.prePopulatedFields = {
+                    'Minimum_Participants__c':this.parentRecord.Minimum_Participants__c,
+                    'hed__Capacity__c': this.parentRecord.Maximum_Participants__c
+                }
             }
         }
+    }
+
+    //handles product offering details update
+    handleProductOfferingUpdate(event){
+        if(event.detail.apiName == PROGRAM_OFFERING.objectApiName){
+            let childOfferingsToUpdate = this.productOfferings.find(
+                data => data.Id == event.detail.id
+            )?.childCourseOfferings.map(offering => {
+                return {
+                    Id : offering.Id,
+                    IsActive__c : event.detail.fields.IsActive__c.value
+                }
+            });
+            updateCourseOfferings({courseOfferings : childOfferingsToUpdate})
+            .then(result => {
+                getRecordNotifyChange(childOfferingsToUpdate.map(child => {
+                    return {
+                        recordId : child.Id
+                    }
+                }));
+            })
+            .catch(error =>{
+                this.generateToast('Error.',LWC_Error_General,'error');
+            });
+        }
+        this.handleRefreshData();
         
     }
 
@@ -359,7 +510,7 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
 
     //opens create modal for session
     handleAddSession(event){
-        this.parentIdToCreate = event.target.dataset.name;
+        this.parentIdToCreate = event.detail.offeringId;
         this.productOfferings.forEach(offering => {
             if(offering.Id == this.parentIdToCreate){
                 offering.newSession = true;
@@ -449,11 +600,58 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
             if(this.objectToCreate == COURSE_OFFERING.objectApiName){
                 fields.hed__Course__c = this.parentIdToCreate;
                 fields.hed__Term__c = this.termId;
-            }else if(this.objectToCreate == PROGRAM_OFFERING.objectApiName){
-                fields.hed_Program_Plan__c = this.parentIdToCreate;
             }
             this.handleCreateRecord(fields,this.objectToCreate);
         }
+    }
+
+    //submits prescribed program offering form
+    handleSaveOfferings(){
+        this.isPrescribedLoading = true;
+    
+        if(this.validateFields()) {
+            this.template.querySelector(
+                'lightning-record-edit-form[data-id="prescribedOfferingForm"]'
+            ).submit();
+        }else{
+            this.isPrescribedLoading = false;
+        }
+    }
+
+    validateFields() {
+        return [...this.template.querySelectorAll('lightning-input-field[data-id="toValidate"]')].reduce((validSoFar, field) => {
+            // Return whether all fields up to this point are valid and whether current field is valid
+            // reportValidity returns validity and also displays/clear message on element based on validity
+            return (validSoFar && field.reportValidity());
+        }, true);
+    }
+
+    //submits child course offering form/s
+    handlePrescribedOfferingSuccess(event){
+        this.template.querySelectorAll('lightning-input-field[data-id="programOfferingId"]').forEach((field) => {
+            field.value = event.detail.id;
+        });
+        this.template.querySelectorAll(
+            'lightning-record-edit-form[data-id="childOfferingForm"]'
+        ).forEach((form) => {
+            form.submit();
+        });
+    }
+
+    //sets modal loading to false if all records have been created
+    handleChildOfferingSuccess(){
+        this.countOfChildOfferingSaved += 1;
+        if(this.countOfChildOfferingSaved == this.childCourseList.length){
+            this.isPrescribedLoading = false;
+            this.countOfChildOfferingSaved = 0;
+            this.handleRefreshData();
+            this.handleClosePrescribedOffering();
+        }
+    }
+
+    //stops spinner when an error is encountered
+    handleError(event){
+        this.isPrescribedLoading = false;
     }
 
     //creates course connection for facilitator added
@@ -519,6 +717,11 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
         if(this.objectToCreate == 'Contact'){
             this.handleReopenAddFacilitator();
         }
+    }
+
+    //closes prescribed program offering modal
+    handleClosePrescribedOffering(){
+        this.newPrescribedOffering = false;
     }
 
     //opens create modal for facilitator

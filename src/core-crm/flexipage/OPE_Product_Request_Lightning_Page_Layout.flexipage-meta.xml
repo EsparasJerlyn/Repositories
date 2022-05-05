@@ -944,6 +944,18 @@
                 <componentName>customLayoutHandler</componentName>
             </componentInstance>
         </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>relatedChildProducts</componentName>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.OPE_Program_Plan_Type__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Prescribed Program</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
         <name>Facet-kay97k53o8</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -1257,6 +1269,18 @@
                     <value>{!$Label.PL_ProductRequest_Release}</value>
                 </componentInstanceProperties>
                 <componentName>customLayoutHandler</componentName>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>relatedChildProducts</componentName>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.OPE_Program_Plan_Type__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Prescribed Program</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <name>Facet-yrd9i9k2cym</name>
@@ -1845,6 +1869,18 @@
                 <componentName>customLayoutHandler</componentName>
             </componentInstance>
         </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>relatedChildProducts</componentName>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.OPE_Program_Plan_Type__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Prescribed Program</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
         <name>Facet-5k0xt3mru5m</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -2184,6 +2220,18 @@
                     <value>{!$Label.PL_ProductRequest_Release}</value>
                 </componentInstanceProperties>
                 <componentName>customLayoutHandler</componentName>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>relatedChildProducts</componentName>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.OPE_Program_Plan_Type__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Prescribed Program</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <name>Facet-yhd8plbhqe8</name>
@@ -2798,6 +2846,18 @@
                 <componentName>customLayoutHandler</componentName>
             </componentInstance>
         </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>relatedChildProducts</componentName>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.OPE_Program_Plan_Type__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Prescribed Program</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
         <name>Facet-bvtf8wb7sxc</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -3141,6 +3201,18 @@
                     <value>{!$Label.PL_ProductRequest_Release}</value>
                 </componentInstanceProperties>
                 <componentName>customLayoutHandler</componentName>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>relatedChildProducts</componentName>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.OPE_Program_Plan_Type__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Prescribed Program</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <name>Facet-xh9um9282zo</name>

@@ -23,6 +23,22 @@ public with sharing class ProductOfferingCtrl {
     private static final Id FACULTY_REC_TYPE = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get('Faculty').getRecordTypeId();
     
     /**
+     * @description get the parent program product request id
+     * @param productRequestId - id of product request
+     * @return id of parent program
+     */
+    @AuraEnabled(cacheable=true)    
+    public static Id getParentProgram(Id productRequestId){
+        return
+            [
+                SELECT Program__c 
+                FROM Related_Product_Request__c 
+                WHERE Course__c =: productRequestId
+                LIMIT 1
+            ]?.Program__c;
+    }
+
+    /**
      * @description fetches all available facilitator bios in the org
      * @return list of facilitator bios
     */
@@ -169,6 +185,17 @@ public with sharing class ProductOfferingCtrl {
     }
 
     /**
+     * @description updates list of course offering records
+     * @param courseOfferings - list of course offerings
+    */
+    @AuraEnabled
+    public static void updateCourseOfferings(List<hed__Course_Offering__c> courseOfferings){
+        if(!courseOfferings.isEmpty()){
+            update courseOfferings;
+        }
+    }
+
+    /**
      * @description fetches related offerings, course connections, and sessions 
      *              of a product request
      * @param productRequestId - id of product request
@@ -183,7 +210,7 @@ public with sharing class ProductOfferingCtrl {
         Map<String,String> childInfo
     ){
         
-        String fields = 'Id, Maximum_Participants__c, Minimum_Participants__c ';
+        String fields = 'Id, Name, Maximum_Participants__c, Minimum_Participants__c ';
         sObject parentRecord = CustomLayoutCtrl.getParentRecord(
             productRequestId,
             parentInfo.get('field'),
@@ -231,6 +258,13 @@ public with sharing class ProductOfferingCtrl {
                 ORDER BY IsActive__c DESC,CreatedDate
             ];
         }
+        if(childInfo.get('objectType') == PROGRAM_OFFERING_API_NAME){
+            poData.childCourseOfferings = [
+                SELECT Id, hed__Course__c, hed__Course__r.ProductRequestID__c, hed__Course__r.Name, Program_Offering__c
+                FROM hed__Course_Offering__c
+                WHERE Program_Offering__c IN :poIDs
+            ];
+        }
         
         return poData;
     }
@@ -246,6 +280,8 @@ public with sharing class ProductOfferingCtrl {
         public sObject parentRecord;
         @AuraEnabled
         public List<SObject> productOfferings;
+        @AuraEnabled
+        public List<hed__Course_Offering__c> childCourseOfferings;
         @AuraEnabled 
         public List<hed__Course_Enrollment__c> relatedFacilitators;
         @AuraEnabled 

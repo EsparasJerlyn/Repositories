@@ -160,4 +160,38 @@ public class ProductOfferingCtrlTest {
         }
     }
 
+    @isTest
+    static void updateCourseOfferingsTest() {
+        System.runAs(currentUser){
+            List<Product_Request__c> prodRequest = TestDataFactory.createTestProductRequestRecords(1);
+            insert prodRequest;
+            List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
+            for(Account acc : accounts){
+                acc.RecordTypeId = ACCT_UNIV_DEP_ID;
+                acc.Organization_Unit_Level__c = '2';
+            }
+            insert accounts;
+            List<hed__Course__c> courses = TestDataFactory.createTestCourseRecords(25,accounts[0].Id,prodRequest[0].Id);
+            insert courses;
+            List<hed__Term__c> terms = TestDataFactory.createTestTermRecords(25,accounts[0].Id);
+            insert terms;
+            List<hed__Course_Offering__c> courseOfferings = TestDataFactory.createTestCourseOfferingRecord(25,courses,terms);
+            insert courseOfferings;
+            for(hed__Course_Offering__c offering : courseOfferings){
+                offering.IsActive__c = false;
+            }
+            Test.startTest();
+            ProductOfferingCtrl.updateCourseOfferings(courseOfferings);
+            Test.stopTest();
+            for(hed__Course_Offering__c offering : [
+                SELECT IsActive__c 
+                FROM hed__Course_Offering__c 
+                WHERE Id IN :courseOfferings
+            ])
+            {
+                System.assertEquals(false, offering.IsActive__c,'Course Offering not updated as expected');
+            }
+        }
+    }
+
 }

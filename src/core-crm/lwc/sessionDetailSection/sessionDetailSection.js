@@ -127,6 +127,9 @@ const SESSION_COLUMNS = [
 ];
 export default class SessionDetailSection extends LightningElement {
     @api showSessionTable;
+    @api offeringId;
+    @api disableSession;
+    @api showHelp;
 
     @api
     get relatedSessions() {
@@ -186,6 +189,15 @@ export default class SessionDetailSection extends LightningElement {
         this.privateChildren[item.name][item.guid] = item;
     }
     
+    //fires event to add new session
+    handleAddSession(event){
+        this.dispatchEvent(new CustomEvent('addsession', {
+           detail: {
+                offeringId : this.offeringId
+            }
+        }));
+    }
+
     //updates draft values if table cell is changed
     handleCellChange(event){
         this.updateDraftValues(event.detail.draftValues[0]);
