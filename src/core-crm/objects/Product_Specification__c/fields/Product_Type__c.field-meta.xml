@@ -20,7 +20,6 @@
             <value>
                 <fullName>Unit</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
                 <label>Unit</label>
             </value>
             <value>

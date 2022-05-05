@@ -122,10 +122,6 @@
             <fullName>Short Course</fullName>
             <default>false</default>
         </values>
-        <values>
-            <fullName>Unit</fullName>
-            <default>false</default>
-        </values>
     </picklistValues>
     <picklistValues>
         <picklist>QUT_Faculty_Capacity__c</picklist>
