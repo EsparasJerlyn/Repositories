@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Left_Column_Long__c</field>
-        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Name&quot;,&quot;mandatory&quot;:true},{&quot;field&quot;:&quot;hed__Account__c&quot;},{&quot;field&quot;:&quot;hed__Start_Date__c&quot;},{&quot;field&quot;:&quot;hed__Total_Required_Credits__c&quot;},{&quot;field&quot;:&quot;Program_Type__c&quot;},{&quot;field&quot;:&quot;hed__Description__c&quot;},{&quot;field&quot;:&quot;Who_Should_Participate__c&quot;},{&quot;field&quot;:&quot;More_Details__c&quot;},{&quot;field&quot;:&quot;hed__Is_Primary__c&quot;}]</value>
+        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Name&quot;,&quot;mandatory&quot;:true},{&quot;field&quot;:&quot;hed__Account__c&quot;},{&quot;field&quot;:&quot;hed__Start_Date__c&quot;},{&quot;field&quot;:&quot;hed__Total_Required_Credits__c&quot;},{&quot;field&quot;:&quot;Program_Type__c&quot;},{&quot;field&quot;:&quot;hed__Description__c&quot;},{&quot;field&quot;:&quot;Who_Should_Participatev2__c&quot;},{&quot;field&quot;:&quot;More_Detailsv2__c&quot;},{&quot;field&quot;:&quot;hed__Is_Primary__c&quot;}]</value>
     </values>
     <values>
         <field>Left_Column__c</field>
@@ -20,7 +20,7 @@
     </values>
     <values>
         <field>Right_Column_Long__c</field>
-        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;OwnerId&quot;},{&quot;field&quot;:&quot;Product_Request__c&quot;,&quot;readOnly&quot;:true,&quot;isPrePopulated&quot;:true},{&quot;field&quot;:&quot;hed__End_Date__c&quot;},{&quot;field&quot;:&quot;hed__Status__c&quot;},{&quot;field&quot;:&quot;hed__Version__c&quot;},{&quot;field&quot;:&quot;Credential__c&quot;},{&quot;field&quot;:&quot;Overview__c&quot;},{&quot;field&quot;:&quot;Core_Concepts__c&quot;},{&quot;field&quot;:&quot;Payment_Options__c&quot;},{&quot;field&quot;:&quot;IsComplete__c&quot;}]</value>
+        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;OwnerId&quot;},{&quot;field&quot;:&quot;Product_Request__c&quot;,&quot;readOnly&quot;:true,&quot;isPrePopulated&quot;:true},{&quot;field&quot;:&quot;hed__End_Date__c&quot;},{&quot;field&quot;:&quot;hed__Status__c&quot;},{&quot;field&quot;:&quot;hed__Version__c&quot;},{&quot;field&quot;:&quot;Credential__c&quot;},{&quot;field&quot;:&quot;Overviewv2__c&quot;},{&quot;field&quot;:&quot;Core_Conceptsv2__c&quot;},{&quot;field&quot;:&quot;Payment_Options__c&quot;},{&quot;field&quot;:&quot;IsComplete__c&quot;}]</value>
     </values>
     <values>
         <field>Right_Column__c</field>

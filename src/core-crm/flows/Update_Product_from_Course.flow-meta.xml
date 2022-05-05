@@ -221,7 +221,7 @@
         <inputAssignments>
             <field>Core_Concepts__c</field>
             <value>
-                <elementReference>Get_Program_Plan.Core_Concepts__c</elementReference>
+                <elementReference>Get_Program_Plan.Core_Conceptsv2__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -239,13 +239,13 @@
         <inputAssignments>
             <field>Evolve_with_QUTeX__c</field>
             <value>
-                <elementReference>Get_Program_Plan.Evolve_with_QUTeX__c</elementReference>
+                <elementReference>Get_Program_Plan.Evolve_with_QUTeXv2__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
             <field>More_Details__c</field>
             <value>
-                <elementReference>Get_Program_Plan.More_Details__c</elementReference>
+                <elementReference>Get_Program_Plan.More_Detailsv2__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -257,7 +257,7 @@
         <inputAssignments>
             <field>Overview__c</field>
             <value>
-                <elementReference>Get_Program_Plan.Overview__c</elementReference>
+                <elementReference>Get_Program_Plan.Overviewv2__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -269,7 +269,7 @@
         <inputAssignments>
             <field>Who_Should_Participate__c</field>
             <value>
-                <elementReference>Get_Program_Plan.Who_Should_Participate__c</elementReference>
+                <elementReference>Get_Program_Plan.Who_Should_Participatev2__c</elementReference>
             </value>
         </inputAssignments>
         <object>Product2</object>

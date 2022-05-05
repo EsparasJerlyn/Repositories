@@ -52,8 +52,8 @@ private class OPE_Design_Complete_Prog_Plan_FlowTest{
                 programPlansToUpdate[i].Owning_Faculty__c  = accounts[0].Id;
                 programPlansToUpdate[i].hed__Start_Date__c  = startDate;
                 programPlansToUpdate[i].hed__End_Date__c  = endDate;
-                programPlansToUpdate[i].Overview__c  = 'test' + i;
-                programPlansToUpdate[i].Core_Concepts__c  = 'test' + i;
+                programPlansToUpdate[i].Overviewv2__c  = 'test' + i;
+                programPlansToUpdate[i].Core_Conceptsv2__c  = 'test' + i;
                 programPlansToUpdate[i].Courseloop_Full_URL__c  = 'test' + i;
                 programPlansToUpdate[i].PP_Is_curriculum_approved__c  = true;
             }

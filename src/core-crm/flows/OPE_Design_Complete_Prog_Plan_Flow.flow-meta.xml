@@ -89,14 +89,14 @@
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>$Record.Overview__c</leftValueReference>
+                <leftValueReference>$Record.Overviewv2__c</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>$Record.Core_Concepts__c</leftValueReference>
+                <leftValueReference>$Record.Core_Conceptsv2__c</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>

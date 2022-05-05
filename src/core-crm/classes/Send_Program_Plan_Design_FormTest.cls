@@ -75,7 +75,7 @@ private class Send_Program_Plan_Design_FormTest {
             for(Integer i=0; i<progPlan.size(); i++)
             {
                 progPlan[i].RecordTypeId = opeProgPlanId;
-                progPlan[i].Overview__c = 'Test Overview';
+                progPlan[i].Overviewv2__c = 'Test Overview';
                 progPlan[i].Owning_Faculty__c = acc[0].Id;
                 progPlan[i].Product_Request__c = pr[0].Id;
                 progPlan[i].Accreditation_End_Date__c= Date.newInstance(2022, 01, 06);
@@ -84,12 +84,12 @@ private class Send_Program_Plan_Design_FormTest {
                 progPlan[i].hed__End_Date__c = endDate;
                 progPlan[i].Name='Test Program Plan';
                 progPlan[i].hed__Description__c = 'Test Description';
-                progPlan[i].Who_Should_Participate__c = 'Test Participate';
-                progPlan[i].Core_Concepts__c = 'Test Concept';
+                progPlan[i].Who_Should_Participatev2__c = 'Test Participate';
+                progPlan[i].Core_Conceptsv2__c = 'Test Concept';
                 progPlan[i].hed__Total_Required_Credits__c = 1.1;
                 progPlan[i].Field_of_Education__c = 'Test Field';
                 progPlan[i].Blue_Card_Required__c = true;
-                progPlan[i].More_Details__c = 'Test Details';
+                progPlan[i].More_Detailsv2__c = 'Test Details';
                 progPlan[i].Code__c ='123';
                 progPlan[i].Program_Type__c= 'Award Course';
                 progPlan[i].PP_Is_curriculum_approved__c = true;

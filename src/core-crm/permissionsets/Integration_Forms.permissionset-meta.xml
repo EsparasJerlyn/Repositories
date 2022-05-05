@@ -1872,7 +1872,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Program_Plan__c.Core_Concepts__c</field>
+        <field>hed__Program_Plan__c.Core_Conceptsv2__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1897,12 +1897,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Program_Plan__c.Enrolment_Rules__c</field>
+        <field>hed__Program_Plan__c.Enrolment_Rulesv2__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Program_Plan__c.Evolve_with_QUTeX__c</field>
+        <field>hed__Program_Plan__c.Evolve_with_QUTeXv2__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1937,7 +1937,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Program_Plan__c.More_Details__c</field>
+        <field>hed__Program_Plan__c.More_Detailsv2__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1952,7 +1952,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Program_Plan__c.Overview__c</field>
+        <field>hed__Program_Plan__c.Overviewv2__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1997,7 +1997,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Program_Plan__c.Who_Should_Participate__c</field>
+        <field>hed__Program_Plan__c.Who_Should_Participatev2__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

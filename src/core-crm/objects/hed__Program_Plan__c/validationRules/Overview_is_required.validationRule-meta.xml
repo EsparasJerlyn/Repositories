@@ -5,9 +5,9 @@
     <errorConditionFormula>AND (
 RecordType.DeveloperName = &apos;Program&apos;,
 ISPICKVAL( Product_Request__r.Product_Request_Status__c , &apos;Design&apos;),
-LEN (Overview__c ) = 0,
+LEN (Overviewv2__c ) = 0,
 Mark_Design_Stage_as_Complete__c = true
 )</errorConditionFormula>
-    <errorDisplayField>Overview__c</errorDisplayField>
+    <errorDisplayField>Overviewv2__c</errorDisplayField>
     <errorMessage>“Overview” is required to update the Product Request Status.</errorMessage>
 </ValidationRule>

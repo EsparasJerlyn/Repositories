@@ -5,9 +5,9 @@
     <errorConditionFormula>AND (
 RecordType.DeveloperName = &apos;Program&apos;,
 ISPICKVAL( Product_Request__r.Product_Request_Status__c , &apos;Design&apos;),
-LEN (Core_Concepts__c ) = 0,
+LEN (Core_Conceptsv2__c ) = 0,
 Mark_Design_Stage_as_Complete__c = true
 )</errorConditionFormula>
-    <errorDisplayField>Core_Concepts__c</errorDisplayField>
+    <errorDisplayField>Core_Conceptsv2__c</errorDisplayField>
     <errorMessage>“Core Concepts” is required to update the Product Request Status.</errorMessage>
 </ValidationRule>
