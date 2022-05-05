@@ -12,26 +12,19 @@
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Learner_Email_Populated</name>
-            <conditionLogic>(1 AND 2) OR (2 AND 3 AND 4 AND 6) OR (2 AND 4 AND 5 AND 6)</conditionLogic>
+            <conditionLogic>(1 AND 2 AND 3) OR (2 AND 3 AND 4)</conditionLogic>
             <conditions>
-                <leftValueReference>$Record__Prior</leftValueReference>
-                <operator>IsNull</operator>
+                <leftValueReference>$Record.QUT_Learner_Email__c</leftValueReference>
+                <operator>IsChanged</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>$Record.QUT_Learner_Email__c</leftValueReference>
+                <leftValueReference>$Record.hed__WorkEmail__c</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record__Prior.QUT_Learner_Email__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <conditions>
@@ -46,13 +39,6 @@
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record__Prior</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -81,10 +67,10 @@
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>$Record.RecordType.Name</leftValueReference>
+                <leftValueReference>$Record.RecordTypeId</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>MC Persona</stringValue>
+                    <elementReference>MCPersonaRecordTypeID</elementReference>
                 </rightValue>
             </conditions>
             <conditions>
@@ -111,10 +97,10 @@
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Staff_Email_Populated</name>
-            <conditionLogic>(1 AND 2) OR (2 AND 3 AND 4 AND 6) OR (2 AND 4 AND 5 AND 6)</conditionLogic>
+            <conditionLogic>(1 AND 2 AND 3) OR (2 AND 3 AND 4)</conditionLogic>
             <conditions>
-                <leftValueReference>$Record__Prior</leftValueReference>
-                <operator>IsNull</operator>
+                <leftValueReference>$Record.QUT_Staff_Email__c</leftValueReference>
+                <operator>IsChanged</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
                 </rightValue>
@@ -124,13 +110,6 @@
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record__Prior.QUT_Staff_Email__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <conditions>
@@ -145,13 +124,6 @@
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record__Prior</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -210,10 +182,10 @@
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Work_Email_Populated</name>
-            <conditionLogic>(1 AND 2) OR (2 AND 3 AND 4 AND 6) OR (2 AND 4 AND 5 AND 6)</conditionLogic>
+            <conditionLogic>(1 AND 2 AND 3) OR (2 AND 3 AND 4)</conditionLogic>
             <conditions>
-                <leftValueReference>$Record__Prior</leftValueReference>
-                <operator>IsNull</operator>
+                <leftValueReference>$Record.hed__WorkEmail__c</leftValueReference>
+                <operator>IsChanged</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
                 </rightValue>
@@ -223,13 +195,6 @@
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record__Prior.hed__WorkEmail__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <conditions>
@@ -246,13 +211,6 @@
                     <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
-            <conditions>
-                <leftValueReference>$Record__Prior</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
             <connector>
                 <targetReference>Create_Child_Contacts</targetReference>
             </connector>
@@ -267,7 +225,7 @@
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Work_MC_Persona_Updated</name>
-            <conditionLogic>and</conditionLogic>
+            <conditionLogic>(1 OR 4) AND 2 AND 3</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.Persona_Type__c</leftValueReference>
                 <operator>EqualTo</operator>
@@ -289,8 +247,15 @@
                     <stringValue>MC Persona</stringValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>$Record.HasOptedOutOfEmail</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
             <connector>
-                <targetReference>Update_Parent_Work_Email</targetReference>
+                <targetReference>Update_Parent_Contact_Work_Email</targetReference>
             </connector>
             <label>Work MC Persona Updated</label>
         </rules>
@@ -521,7 +486,7 @@
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
-            <field>Parent_Person_Lead__c</field>
+            <field>Parent_Person_Contact__c</field>
             <operator>EqualTo</operator>
             <value>
                 <elementReference>$Record.Id</elementReference>
@@ -729,7 +694,7 @@
             <field>RecordTypeId</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>Person_RT_ID</elementReference>
+                <elementReference>PersonRecordtypeID</elementReference>
             </value>
         </filters>
         <filters>
@@ -746,6 +711,69 @@
             </value>
         </inputAssignments>
         <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Parent_Contact_Work_Email</name>
+        <label>Update Parent Contact Work Email</label>
+        <locationX>50</locationX>
+        <locationY>3431</locationY>
+        <connector>
+            <targetReference>Update_Parent_Lead</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Parent_Person_Contact__c</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>hed__WorkEmail__c</field>
+            <value>
+                <elementReference>$Record.Email</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Contact</object>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Parent_Lead</name>
+        <label>Update Parent Lead</label>
+        <locationX>50</locationX>
+        <locationY>3551</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Parent_Person_Lead__c</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Work_Email_Opt_In_DateTime__c</field>
+            <value>
+                <elementReference>$Record.Email_Opt_In_DateTime__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Work_Email_Opt_Out_DateTime__c</field>
+            <value>
+                <elementReference>$Record.Email_Opt_Out_DateTime__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Work_Email_Opt_Out__c</field>
+            <value>
+                <elementReference>$Record.HasOptedOutOfEmail</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Work_Email__c</field>
+            <value>
+                <elementReference>$Record.Email</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Lead</object>
     </recordUpdates>
     <recordUpdates>
         <name>Update_Parent_Learner_Email</name>
@@ -769,7 +797,7 @@
                 <elementReference>$Record.Email</elementReference>
             </value>
         </inputAssignments>
-        <inputReference>$Record</inputReference>
+        <object>Contact</object>
     </recordUpdates>
     <recordUpdates>
         <name>Update_Parent_Staff_Email</name>
@@ -789,27 +817,6 @@
         </filters>
         <inputAssignments>
             <field>QUT_Staff_Email__c</field>
-            <value>
-                <elementReference>$Record.Email</elementReference>
-            </value>
-        </inputAssignments>
-        <inputReference>$Record</inputReference>
-    </recordUpdates>
-    <recordUpdates>
-        <name>Update_Parent_Work_Email</name>
-        <label>Update Parent Work Email</label>
-        <locationX>50</locationX>
-        <locationY>3431</locationY>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>$Record.Parent_Person_Contact__c</elementReference>
-            </value>
-        </filters>
-        <inputAssignments>
-            <field>hed__WorkEmail__c</field>
             <value>
                 <elementReference>$Record.Email</elementReference>
             </value>
@@ -899,7 +906,7 @@
             <targetReference>MC_Persona</targetReference>
         </connector>
         <object>Contact</object>
-        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <recordTriggerType>Update</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
     </start>
     <status>Active</status>

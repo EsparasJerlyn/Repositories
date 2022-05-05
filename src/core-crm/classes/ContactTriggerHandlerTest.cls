@@ -9,10 +9,17 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | john.bo.a.pineda               | April 25, 2022        | DEPP-1211              | Created file                 |
-      |                                |                       |                        |                              |
+      | Ana                            | 29/4/22               | DEPP-2361              | Create child MC Persona      |
  */
 @isTest(SeeAllData=false)
 public with sharing class ContactTriggerHandlerTest {
+public static final Id PERSON = Schema.SObjectType.Contact.getRecordTypeInfosByDeveloperName()
+        .get('Person')
+        .getRecordTypeId();
+    public static final Id MC_PERSONA = Schema.SObjectType.Contact.getRecordTypeInfosByDeveloperName()
+        .get('MC_Persona')
+        .getRecordTypeId();
+    
   private static User currentUser = TestDataFactory.createUserRecords(
       1,
       'QUTeX'
@@ -121,7 +128,7 @@ public with sharing class ContactTriggerHandlerTest {
         WHERE LinkedEntityId = :con.Id
       ];
 
-      System.assert(
+      System.assert( 
         conContentDocuLink.isEmpty(),
         'Contact Image File is deleted'
       );
@@ -164,4 +171,32 @@ public with sharing class ContactTriggerHandlerTest {
       );
     }
   }
+  
+  @isTest
+    private static void insertContact() {
+        User currUsr = [
+            SELECT Id
+            FROM User
+            WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
+            LIMIT 1
+        ];
+        
+        System.runAs(currUsr) {
+            Test.startTest();
+            List<Contact> cons = TestDataFactory.createTestContactRecords(1);
+            cons[0].Email = 'test@email.com';
+            cons[0].hed__WorkEmail__c = 'test_work@email.com';
+            cons[0].QUT_Staff_Email__c = 'test_staff@email.com';
+            cons[0].QUT_Learner_Email__c = 'test_learner@email.com';
+            cons[0].hed__Preferred_Email__c = 'Work Email';
+            insert cons;
+            Test.stopTest();
+            
+            System.assertEquals(
+                3,
+                [Select Id from Contact Where Parent_Person_Contact__c = :cons[0].Id].size(),
+                'Number of child MC Persona contacts'
+            );
+        }
+    }
 }
