@@ -1097,46 +1097,4 @@ public class TestDataFactory {
     return commSched;
   }
 
-  /**
-   * @description Method for creating test Email Template records
-   * @param numTemplates number of records
-   * @param templateNameAndSubjectMap map containing name of template and its corresponding subject
-   * @return templateList - list of email template records
-  */
-  public static List<EmailTemplate> createTestEmailTemplateRecords(
-    Integer numTemplates,
-    Map<String,String> templateNameAndSubjectMap
-  ) {
-    List<EmailTemplate> templateList = new List<EmailTemplate>();
-    List<String> templateNames = new List<String>();
-    templateNames.addAll(templateNameAndSubjectMap.keySet());
-    for (Integer i = 0 ; i < numTemplates ; i++) {
-      templateList.add(
-        new EmailTemplate(
-          IsActive = true,
-          Name = templateNames[i],
-          DeveloperName = generateRandomString('test_emailtemplate'),
-          TemplateType = 'custom',
-          HtmlValue = generateRandomString('test_emailtemplate'),
-          FolderId = UserInfo.getUserId(),
-          Subject = templateNameAndSubjectMap.get(templateNames[i])
-        )
-      );
-    }
-    return templateList;
-  }
-
-  /**
-   * @description Method for generating random string for unique fields
-   * @param identifier - additinal string to add as identifier
-   * @return random string 
-   */
-  public static String generateRandomString(String identifier){
-    return 
-      identifier + 
-      String.valueOf(System.today().month()) +
-      String.valueOf(System.today().year()) + 
-      String.valueOf(Integer.valueOf(Math.floor(100000 + Math.random() * 900000)));
-  }
-
 }

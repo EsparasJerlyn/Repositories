@@ -19,7 +19,8 @@
       | john.bo.a.pineda          | January 19, 2022      | DEPP-1410            | Added logic for add to cart                  |
       | roy.nino.s.regala         | February 04, 2022     | DEPP-213             | Added logic for register interest            |
       | john.bo.a.pineda          | April 11, 2022        | DEPP-1211            | Modified logic for new UI                    |
- */
+      | marlon.vasquez            | May 04,2022           | DEPP-1531            | Added Questionnaire Form                     |
+*/
 import { LightningElement, wire, api, track } from "lwc";
 import { NavigationMixin } from "lightning/navigation";
 import { loadStyle } from "lightning/platformResourceLoader";
@@ -49,6 +50,18 @@ import addToCart from "@salesforce/label/c.QUT_ProductDetail_AddToCart";
 import registerInterest from "@salesforce/label/c.QUT_ProductDetail_RegisterInterest";
 import subHeader from "@salesforce/label/c.QUT_ProductDetail_SubHeader";
 import LWC_Error_General from "@salesforce/label/c.LWC_Error_General";
+import { getRecord, getFieldValue } from "lightning/uiRecordApi";
+import CONTACT_ID from "@salesforce/schema/User.ContactId";
+import getQuestions from "@salesforce/apex/ProductDetailsCtrl.getQuestions";
+import addRegistration from '@salesforce/apex/ProductDetailsCtrl.addRegistration';
+import { refreshApex } from '@salesforce/apex';
+const SUCCESS_MSG = 'Record successfully updated.';
+const SUCCESS_TITLE = 'Success!';
+const ERROR_TITLE = 'Error!';
+const SUCCESS_VARIANT = 'success';
+const ERROR_VARIANT = 'error';
+const NO_REC_FOUND = 'No record(s) found.';
+const MODAL_TITLE = 'Registration Details'
 
 
 const INTEREST_EXISTS_ERROR =
@@ -57,6 +70,14 @@ const INTEREST_EXISTS_ERROR =
 export default class ProductDetailsDisplay extends NavigationMixin(
   LightningElement
 ) {
+
+  @wire(getRecord, { recordId: userId, fields: [CONTACT_ID] })
+  user;
+
+  get contactId() {
+    return getFieldValue(this.user.data, CONTACT_ID);
+  }
+
   // Init Variables
   @api recordId;
   @api objectApiName;
@@ -101,6 +122,54 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   };
 
   bulkRegister = false;
+  //Questionnaire
+  cartVisible = true;
+  @api prodReqId;
+  @api enableEdit;
+  @api childRecordId;
+  @api disabled;
+
+  searchField = '';
+  picklistValue = '';
+  rowRegStatus = '';
+  rowPaidInFull = '';
+  rowId = '';
+  rowQuestId = '';
+  modalName = '';
+  isModalOpen = false;
+  isLoading = false;
+  empty = false;
+  isDisabled = true;
+  isForRejection = false;
+  error;
+  registrationStatusValues;
+  registrationStatusModal;
+  pricingValidationValues;
+  pricingValidation;
+  paidInFullValues;
+  records = [];
+  recordsTemp = [];
+
+    //addcontact variables
+    contactSearchItems = [];
+    contactId2;
+    searchInProgress;
+    objectLabelName = 'Contact';
+    objectToBeCreated ='Contact';
+    isAddContact = false;
+    isCreateContact = false;
+    isEditContact = false;
+    saveInProgress = false;
+    contactList;
+    formLoading = false;
+    contactFields;
+    contactsDetail;
+    responseDataQuestionnaire = [];
+
+    //registration Response variables
+    isRespondQuestions;
+    responseData;
+    questions;
 
   // A bit of coordination logic so that we can resolve product URLs after the component is connected to the DOM,
   // which the NavigationMixin implicitly requires to function properly.
@@ -193,6 +262,32 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     this.dispatchEvent(event);
   } */
 
+  notifyApply() {
+    let fields = {};
+    fields.Id = this.contactId;
+    this.contactFields = fields;
+    if (this.hasQuestions) {
+        this.handleRespondQuestions();
+    } else {
+        this.isLoading = true;
+        this.saveInProgress = true;
+        this.saveRegistration(fields,this.childRecordId,[],[],'');
+    }
+
+    getQuestions({
+      productReqId: this.productDetails.Course__r.ProductRequestID__c
+   
+    })
+      .then((results) => {
+        if (results.length > 0) {
+              this.responseData = results;
+               this.questions = this.formatQuestions(results);       
+        }
+      })
+      .catch((e) => {
+        this.generateToast("Error.", LWC_Error_General, "error");
+      });
+    }
   // Emits a notification that the user wants to add the item to their cart.
   notifyAddToCart() {
     // Call AddToCart
@@ -393,4 +488,193 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     });
     this.dispatchEvent(evt);
   }
+   //Questionnaire
+ get modalTitle(){ return MODAL_TITLE; }
+ get modalName() {return this.modalName;}
+ get noRecordsFound(){ return NO_REC_FOUND; }
+ get sectionHeader(){ return SECTION_HEADER; }
+ get disableSaveExisting(){
+     return this.saveInProgress || !this.contactId2;
+ }
+ get hasQuestions(){
+      return this.questions && this.questions.length > 0?true:false;
+ }
+ get disableResponseSave(){
+     let tempQuestions = this.questions.filter(row => row.IsCriteria && row.Answer!= '' && row.Answer.toUpperCase() != row.MandatoryResponse.toUpperCase());
+     if(
+         (tempQuestions && tempQuestions.length > 0) ||
+         (this.questions && 
+          this.questions.filter(item => item.Answer == '' || item.Answer == undefined) && 
+          this.questions.filter(item => item.Answer == '' || item.Answer == undefined).length > 0)
+       ){
+         return true;
+     }else{
+         return false;
+     }
+ }
+
+ formatQuestions(items){
+  let questions = items.map(item =>{
+      let newItem = {};
+      let newOptions = [];
+      newItem.Id = item.Id;
+      if(item.Question__c){
+          newItem.QuestionId = item.Question__r.Id;
+          newItem.Label = item.Question__r.Label__c;
+          newItem.MandatoryResponse = item.Question__r.Acceptable_Response__c;
+          newItem.Message = item.Question__r.Message__c;
+          newItem.Type = item.Question__r.Type__c;
+          newItem.IsText = item.Question__r.Type__c == 'Text'?true:false;
+          newItem.IsCheckbox = item.Question__r.Type__c == 'Checkbox'?true:false;
+          newItem.IsNumber = item.Question__r.Type__c == 'Number'?true:false;
+          newItem.IsDate = item.Question__r.Type__c == 'Date'?true:false;
+          newItem.IsPicklist = item.Question__r.Type__c == 'Picklist'?true:false;
+          newItem.IsMultiPicklist = item.Question__r.Type__c == 'Multi-Select Picklist'?true:false;
+          newItem.IsFileUpload = item.Question__r.Type__c == 'File Upload'?true:false;
+          if(item.Question__r.Dropdown_Options__c){
+              newOptions = item.Question__r.Dropdown_Options__c.split(';').map(key =>{
+                  return {label: key, value: key};
+              });
+          }
+          newItem.Options = newOptions;
+          newItem.Answer = newItem.IsCheckbox?'false':'';
+      }
+      newItem.QuestionnaireId = item.Questionnaire__c;
+      newItem.IsCriteria = item.Questionnaire__r.Questionnaire_Type__c == 'Registration Criteria'?true:false;
+      newItem.IsQuestion = item.Questionnaire__r.Questionnaire_Type__c == 'Registration Questions'?true:false;
+      newItem.IsQuestion = item.Questionnaire__r.Questionnaire_Type__c == 'Application Questions'?true:false;
+      newItem.Sequence = item.Sequence__c;
+      newItem.ErrorMessage = '';
+      newItem.FileData = undefined;
+      return newItem;
+  });
+
+  return questions;
+ }
+ handleSaveResponse(){
+  this.isLoading = false;
+  this.saveInProgress = true;
+  //this.productDetails.Course__r.Id
+  //this.childRecordId
+  this.saveRegistration(this.contactFields, this.selectedCourseOffering,this.responseData,this.createAnswerRecord(),JSON.stringify(this.createFileUploadMap()));
+  this.resetResponses();
+}
+
+resetResponses(){
+  this.questions = this.questions.map(item =>{
+      item.Answer = item.IsCheckbox?item.Answer:'';
+      item.ErrorMessage = '';
+      item.FileData = undefined;
+      return item;
+  });
+}
+
+ handleRespondQuestions(){
+  this.isModalOpen = true;
+  this.isEditContact = false;
+  this.isAddContact = false;
+  this.isCreateContact = false;
+  this.isRespondQuestions = true;
+}
+
+createFileUploadMap(){
+  let fileUpload = [];
+  fileUpload = this.questions.map(item =>{
+      if(item.IsFileUpload){
+          let record = {};
+          record.RelatedAnswerId = item.Id;
+          record.Base64 = item.FileData.base64;
+          record.FileName = item.FileData.filename;
+          return record;
+      }
+  });
+  
+  return fileUpload.filter(key => key !== undefined)?fileUpload.filter(key => key !== undefined):fileUpload;
+}
+
+
+createAnswerRecord(){
+  let answerRecords = {};
+  answerRecords = this.questions.map(item =>{
+      let record = {};
+      record.Related_Answer__c = item.Id;
+      record.Response__c = item.Answer;
+      record.Sequence__c =item.Sequence;
+      return record;
+  });
+  return answerRecords;
+}
+
+saveRegistration(contact,courseOffering,relatedAnswer,answer,fileUpload){
+  addRegistration({
+      contactRecord:contact,
+      courseOfferingId:courseOffering,
+      relatedAnswerList:relatedAnswer,
+      answerList:answer,
+      fileUpload:fileUpload
+  })
+  .then(() =>{
+          this.generateToast(SUCCESS_TITLE, 'Successfully Submitted', SUCCESS_VARIANT);
+          refreshApex(this.tableData);
+  })
+  .finally(()=>{
+      this.saveInProgress = false;
+      this.isModalOpen = false;
+      this.isEditContact = false;
+      this.isAddContact = false;
+      this.isCreateContact = false;
+      this.isLoading = false;
+      this.saveInProgress = false;
+      this.contactId2 = '';
+      this.contactSearchItems = [];
+  })
+  .catch(error =>{
+      this.generateToast('Error.',LWC_Error_General,'error');
+  });
+}
+
+closeManageResponse(){
+  this.isModalOpen = false;
+  this.isDisabled = true;
+  this.contactId2 = undefined;
+  this.resetResponses();
+}
+
+handleChange(event){
+  this.questions = this.questions.map(row=>{
+      if(event.target.name === row.Id && row.IsCheckbox){
+          row.Answer = event.detail.checked.toString();
+      }else if(event.target.name === row.Id && row.IsFileUpload){
+          row.Answer = event.detail.value.toString();
+          const file = event.target.files[0];
+          let reader = new FileReader();
+          reader.onload = () => {
+              let base64 = reader.result.split(',')[1];
+              row.FileData = {
+                  'filename': file.name,
+                  'base64': base64,
+                  'recordId': undefined
+              };
+          }
+          reader.readAsDataURL(file);
+      }else if(event.target.name === row.Id && row.IsMultiPicklist){
+          row.Answer = event.detail.value?event.detail.value.toString().replace(/,/g, ';'):row.Answer;
+      }else if(event.target.name === row.Id){
+          row.Answer = event.detail.value?event.detail.value.toString():row.Answer;
+      }
+      return row;
+  });
+}
+
+handleBlur(){
+  this.questions = this.questions.map(row=>{
+      if(row.IsCriteria && row.Answer!= '' && row.Answer.toUpperCase() != row.MandatoryResponse.toUpperCase()){
+          row.Answer = '';
+          row.ErrorMessage = row.Message?row.Message:'You are not qualified to proceed with registration.';
+      }else if(row.IsCriteria && row.Answer!= '' && row.Answer.toUpperCase() == row.MandatoryResponse.toUpperCase()){
+          row.ErrorMessage = '';
+      }
+      return row;
+  });
+}
 }

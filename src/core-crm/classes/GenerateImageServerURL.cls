@@ -10,7 +10,7 @@
       |                           |                       |              |                                             | 
  */
 
-public class GenerateImageServerURL{
+public with sharing class GenerateImageServerURL{
 
     private static final String ORG_ID = UserInfo.getOrganizationId();
 
@@ -37,12 +37,12 @@ public class GenerateImageServerURL{
     }
 
     public class ImageInfo{
-        @InvocableVariable(label='Image Name' required=true) @AuraEnabled
+        @InvocableVariable(label='Image Name' required=true)
         public String imageName;
     }
 
     public class ImageURL{
-        @InvocableVariable @AuraEnabled
+        @InvocableVariable
         public String imageUrl;
     }
 }

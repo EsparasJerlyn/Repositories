@@ -3,17 +3,15 @@
 	<title></title>
 </head>
 <body style="height: auto; min-height: auto;">
-<p>Dear <b>{contactFirstName}</b>,&nbsp;<br />
-<br />
-<br />
-Thank you for applying for {courseName}.&nbsp;&nbsp;</p>
+<p>Dear {{{Questionnaire_Response_Summary__c.First_Name__c}}},&nbsp;</p>
+
+<p>Thank you for applying for {{{Questionnaire_Response_Summary__c.Course_Name__c}}}.&nbsp;&nbsp;</p>
 
 <p>We are pleased to advise that your application has been successful. To complete your registration <a href="https://www.qut.edu.au/study/professional-and-executive-education/courses"><u>click here</u></a>.&nbsp;</p>
 
 <p>Please find the invoice attached.&nbsp;<br />
 <br />
 We look forward to seeing you soon.<br />
-<br />
 <br />
 Kind&nbsp;Regards,&nbsp;<br />
 <br />

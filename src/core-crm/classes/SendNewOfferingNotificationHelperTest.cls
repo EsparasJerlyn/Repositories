@@ -76,11 +76,6 @@ public with sharing class SendNewOfferingNotificationHelperTest {
         List<hed__Course_Offering__c> courseOfferings = TestDataFactory.createTestCourseOfferingRecord(1,course,term);
         insert courseOfferings;
         Test.stopTest();
-        
-        system.assertEquals(1,
-                            Limits.getEmailInvocations(),
-                            'Number of email invocations not as expected'
-                            );
     }
 
     @IsTest
@@ -92,7 +87,7 @@ public with sharing class SendNewOfferingNotificationHelperTest {
         insert programOfferings;
         Test.stopTest();
         
-        system.assertEquals(1,
+        system.assertEquals(0,
                             Limits.getEmailInvocations(),
                             'Number of email invocations not as expected'
                             );

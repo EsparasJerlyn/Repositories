@@ -1,133 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
-        <name>Send_Email_to_Contact</name>
-        <label>Send Email to Contact</label>
+        <description>Sends a notification to learner</description>
+        <name>Send_Email</name>
+        <label>Send Email</label>
         <locationX>176</locationX>
-        <locationY>695</locationY>
-        <actionName>FlowEmailHelper</actionName>
-        <actionType>apex</actionType>
+        <locationY>335</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>EmailContent</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <elementReference>$Record.Contact__r.Email</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderAddress</name>
+            <value>
+                <elementReference>$Setup.Flow_Automation_Settings__c.New_Idea_To_Email_Address__c</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderType</name>
+            <value>
+                <stringValue>OrgWideEmailAddress</stringValue>
+            </value>
+        </inputParameters>
         <inputParameters>
             <name>emailSubject</name>
             <value>
                 <elementReference>Subject</elementReference>
             </value>
         </inputParameters>
-        <inputParameters>
-            <name>emailTemplateName</name>
-            <value>
-                <stringValue>Send Register Interest Email</stringValue>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>mergeFields</name>
-            <value>
-                <elementReference>MergeFields</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>orgWideEmailAddressId</name>
-            <value>
-                <elementReference>Get_Org_Wide_Email_Id.Id</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>recipientEmailAddresses</name>
-            <value>
-                <elementReference>EmailAddresses</elementReference>
-            </value>
-        </inputParameters>
     </actionCalls>
     <apiVersion>52.0</apiVersion>
-    <assignments>
-        <name>Add_Merge_Fields_and_Email_Addresses</name>
-        <label>Add Merge Fields and Email Addresses</label>
-        <locationX>176</locationX>
-        <locationY>575</locationY>
-        <assignmentItems>
-            <assignToReference>MergeFields</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>ProductNameMergeField</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>EmailAddresses</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>$Record.Contact__r.Email</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>MergeFields</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>ContactFirstNameMergeField</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>MergeFields</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>ContactLastNameMergeField</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Send_Email_to_Contact</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>Assign_Merge_Fields</name>
-        <label>Assign Merge Fields</label>
-        <locationX>176</locationX>
-        <locationY>455</locationY>
-        <assignmentItems>
-            <assignToReference>ProductNameMergeField.mergeField</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>{productName}</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>ProductNameMergeField.mergeFieldValue</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>$Record.Product__r.Name</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>ContactFirstNameMergeField.mergeField</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>{contactFirstName}</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>ContactFirstNameMergeField.mergeFieldValue</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>$Record.Contact__r.FirstName</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>ContactLastNameMergeField.mergeField</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>{contactLastName}</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>ContactLastNameMergeField.mergeFieldValue</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>$Record.Contact__r.LastName</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Add_Merge_Fields_and_Email_Addresses</targetReference>
-        </connector>
-    </assignments>
     <description>Sends an email when user registers interest on an offering.</description>
     <interviewLabel>Send Register Interest Email {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Send Register Interest Email</label>
@@ -150,32 +69,11 @@
         </value>
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
-    <recordLookups>
-        <name>Get_Org_Wide_Email_Id</name>
-        <label>Get Org Wide Email Id</label>
-        <locationX>176</locationX>
-        <locationY>335</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>Assign_Merge_Fields</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Address</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>$Setup.Flow_Automation_Settings__c.New_Idea_To_Email_Address__c</elementReference>
-            </value>
-        </filters>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>OrgWideEmailAddress</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
     <start>
         <locationX>50</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>Get_Org_Wide_Email_Id</targetReference>
+            <targetReference>Send_Email</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -211,45 +109,12 @@
         <triggerType>RecordAfterSave</triggerType>
     </start>
     <status>Active</status>
-    <variables>
-        <name>ContactFirstNameMergeField</name>
-        <apexClass>FlowEmailMergeField</apexClass>
-        <dataType>Apex</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-    </variables>
-    <variables>
-        <name>ContactLastNameMergeField</name>
-        <apexClass>FlowEmailMergeField</apexClass>
-        <dataType>Apex</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-    </variables>
-    <variables>
-        <name>EmailAddresses</name>
-        <dataType>String</dataType>
-        <isCollection>true</isCollection>
-        <isInput>false</isInput>
-        <isOutput>true</isOutput>
-    </variables>
-    <variables>
-        <name>MergeFields</name>
-        <apexClass>FlowEmailMergeField</apexClass>
-        <dataType>Apex</dataType>
-        <isCollection>true</isCollection>
-        <isInput>false</isInput>
-        <isOutput>true</isOutput>
-    </variables>
-    <variables>
-        <name>ProductNameMergeField</name>
-        <apexClass>FlowEmailMergeField</apexClass>
-        <dataType>Apex</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-    </variables>
+    <textTemplates>
+        <description>Content of the email</description>
+        <name>EmailContent</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;Dear {!$Record.Contact__r.FirstName} &lt;/span&gt;&lt;span style=&quot;font-size: 14px; background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;{!$Record.Contact__r.LastName},&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68); font-size: 14px;&quot;&gt;Thank you for registering your interest in &lt;/span&gt;&lt;b style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68); font-size: 14px;&quot;&gt;&lt;i&gt;QUTeX {!$Record.Product__r.Name}&lt;/i&gt;&lt;/b&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68); font-size: 14px;&quot;&gt;.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68); font-size: 14px;&quot;&gt;An email will be sent to you when the course is available for registration.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68); font-size: 14px;&quot;&gt;Should you have any questions, please feel free to contact the QUTeX team using the details below.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68); font-size: 14px;&quot;&gt;﻿&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68); font-size: 14px;&quot;&gt;Kind regards,&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68); font-size: 14px;&quot;&gt;The QUTeX Team&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;Phone: + 61 7 3138 7733 | Email:&amp;nbsp;qutex@qut.edu.au &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;QUTeX Professional and Executive Education for the Real World | &lt;/span&gt;&lt;a href=&quot;http://www.qut.edu.au/qutex&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 14px; font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, Oxygen, Ubuntu, &amp;quot;Fira Sans&amp;quot;, &amp;quot;Droid Sans&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, sans-serif; background-color: white;&quot;&gt;&lt;u&gt;QUTeX - Professional and executive education&lt;/u&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://urldefense.com/v3/__https:/www.linkedin.com/showcase/14561011/admin/__;!!NVzLfOphnbDXSw!S2Oc_0k2Ez2JnxU4z2HSlUyYOm6u1c5Asb4fYEkgLGtrj25mmhLc9oTRrIlXGHeEYPrDdfY$&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 14px;&quot;&gt;Follow&lt;/a&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt; QUTeX on LinkedIn | &lt;/span&gt;&lt;a href=&quot;https://alumni-and-friends.qut.edu.au/qutex-connect-subscription&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 14px;&quot;&gt;Subscribe&lt;/a&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt; to the QUTeX Connect Newsletter&lt;/span&gt;&lt;/p&gt;</text>
+    </textTemplates>
     <variables>
         <description>Email Subject -&gt; Product Name + &apos;Interest Registration&apos;</description>
         <name>Subject</name>

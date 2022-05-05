@@ -13,12 +13,14 @@
 @IsTest(SeeAllData = false)
 private class ManageAdhocCommsSectionCtrlTest {
     
+    private static final String EMAIL_HEADER = System.Label.DOC_Email_Header;
+    private static final List<String> FILE_NAMES = new List<String>{EMAIL_HEADER};
+    private static final String EMAIL_FOLDER = 'QUTeX Email Contents';
     private static final String PROGRAM_OFFERING = 'Program_Offering__c';
     private static final String STR_TEST = 'Test';
     private static final String TEST_EMAIL = 'test@invalid.com.devgalaa1';
     private static final String QUTEX = System.Label.QUTeX;
     private static User currentUser = TestDataFactory.createUserRecords(1, QUTEX).iterator().next();
-    private static final String ORG_ID = UserInfo.getOrganizationId();
 
     @testSetup static void setupMethod() {
         hed__Program_Plan__c programPlan = TestDataFactory.createTestProgramPlanRecords(1).iterator().next();
@@ -32,6 +34,9 @@ private class ManageAdhocCommsSectionCtrlTest {
         Adhoc_Communication__c adhocCommunication = TestDataFactory.createTestAdhocCommsRecords(1).iterator().next();
         adhocCommunication.Program_Offering__c = programOffering?.Id;
         insert adhocCommunication;
+
+        List<Document> documentList = TestDataFactory.createTestDocumentRecords(1,FILE_NAMES,EMAIL_FOLDER);
+        insert documentList;
     } 
 
     @IsTest
@@ -46,23 +51,13 @@ private class ManageAdhocCommsSectionCtrlTest {
     }
 
     @IsTest
-    private static void getHeaderAndFooterImageUrlsTest(){
+    private static void getHeaderAndFooterImageIdsTest(){
         System.runAs(currentUser){
-            String imageInfos = JSON.serialize(
-                new List<Map<String,String>>{
-                    new Map<String,String>{
-                        'imageName' => STR_TEST
-                    }
-                }
-            );
-            String expectedURL = System.URL.getSalesforceBaseUrl().toExternalForm().replace(
-                '.my.salesforce.com',
-                '--c.documentforce.com/file-asset-public/'
-            ) + STR_TEST + '?oid=' + ORG_ID;
+            Id documentId = [Select Id From Document Limit 1]?.Id;
             Test.startTest();
-            List<GenerateImageServerURL.ImageURL> imageUrls = ManageAdhocCommsSectionCtrl.getHeaderAndFooterImageUrls(imageInfos);
+            Map<String,Id> imageIdMap = ManageAdhocCommsSectionCtrl.getHeaderAndFooterImageIds(FILE_NAMES);
             Test.stopTest();
-            System.assertEquals(expectedURL,imageUrls[0].imageUrl, 'URL not retrieved as expected');
+            System.assertEquals(documentId,imageIdMap.get(EMAIL_HEADER), 'Email Result not as expected');
         }
     }
 

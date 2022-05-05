@@ -9,8 +9,13 @@
       | roy.nino.s.regala         | February 04, 2022     | DEPP-213             | Added insertion of Expression of Interest  |
       | roy.nino.s.regala         | March 04, 2022        | DEPP-1985            | Bug fix added recordtype                   |
       | john.bo.a.pineda          | April 11, 2022        | DEPP-1211            | Updated logic for new UI                   |
- */
+      | marlon.vasquez            | May 04,2022           | DEPP-1531            | Added Questionnaire Form                   |
+*/
 public without sharing class ProductDetailsCtrl {
+
+  private static string studentRT = System.Label.RT_CourseConnection_Student;
+  private static Id studentRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(studentRT).getRecordTypeId();
+
   public static final Id STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
     .get('Student')
     .getRecordTypeId();
@@ -498,5 +503,183 @@ public without sharing class ProductDetailsCtrl {
   public class WrapperClass {
     @AuraEnabled
     public String courseOfferingId { get; set; }
+  }
+    
+  @auraEnabled(cacheable=true)
+  public static List<Related_Answer__c> getProductRequestWithQuestionnaire(String productRequestId)
+  {
+      List<Related_Answer__c> qrList=[SELECT Id, Question__r.Type__c, Question__r.Label__c, Sequence__c, 
+      Questionnaire__r.Parent_Record_ID__c, Question__r.Acceptable_Response__c, 
+      Question__r.Message__c, Questionnaire__r.Questionnaire_Type__c,
+      Question__r.Dropdown_Options__c
+      FROM Related_Answer__c
+      WHERE Questionnaire__r.Parent_Record_ID__c = :productRequestId
+      AND (Questionnaire__r.Questionnaire_Type__c = 'Application Questions' )
+      ORDER BY Questionnaire__r.Questionnaire_Type__c, Sequence__c ];
+      return qrList;
+  }
+
+
+
+  @AuraEnabled(cacheable=true)  
+  public static List<Related_Answer__c> getQuestions(String productReqId){
+      List<Related_Answer__c> relatedAnswersList = new List<Related_Answer__c>(
+            [
+                SELECT Id, Question__r.Type__c, Question__r.Label__c, Sequence__c, 
+                Questionnaire__r.Parent_Record_ID__c, Question__r.Acceptable_Response__c, 
+                Question__r.Message__c, Questionnaire__r.Questionnaire_Type__c,
+                Question__r.Dropdown_Options__c
+                FROM Related_Answer__c
+                WHERE Questionnaire__r.Parent_Record_ID__c =: productReqId
+                AND (Questionnaire__r.Questionnaire_Type__c = 'Application Questions' )
+                ORDER BY Questionnaire__r.Questionnaire_Type__c, Sequence__c 
+            ]
+      );
+      return relatedAnswersList;
+  }
+
+
+    /**
+     * @description get list of contacts searched 
+     * @param contactRecord - contact to create
+     * @param courseOfferingId - course offering id
+     * @param relatedAnswerList - related answer records
+     * @param answerList - answer records to be inserted
+     * @param fileUpload - file to upload
+     */
+    @AuraEnabled
+    public static void addRegistration(Contact contactRecord, String courseOfferingId, List<Related_Answer__c> relatedAnswerList, List<Answer__c> answerList, String fileUpload){
+          
+          List<FileUpload> parsedFileUpload = new List<FileUpload>();
+          if(fileUpload != ''){
+               parsedFileUpload = (List<FileUpload>) JSON.deserialize(fileUpload, List<FileUpload>.class);
+          }
+
+          List<Questionnaire_Response_Summary__c> questionnaireSummaryToInsert = new List<Questionnaire_Response_Summary__c>();
+          Map<String,String> cvToRelatedAnswerMap = new Map<String,String>();
+          List<ContentDocumentLink> contentDocLinkListToInsert = new List<ContentDocumentLink>();
+          List<ContentVersion> cvListToInsertList = new List<ContentVersion>();
+          Map<Id,Id> relatedAnswerToQuestionnaireMap = new Map<Id,Id>();
+          Map<Id,Id> questionnaireToqResSummaryMap = new Map<Id,Id>();
+          Map<Id,Id> relatedAnswerToAnswerMap = new Map<Id,Id>();
+          Set<Id> questionnaireIds = new Set<Id>();
+
+          List<Answer__c> answersToInsert = new List<Answer__c>();
+          Map<Id,Answer__c> answersToUpdate = new Map<Id,Answer__c>();
+
+          if(contactRecord.Id == NULL){
+               insert contactRecord;
+          }
+
+          for(Related_Answer__c relatedA: relatedAnswerList){
+               questionnaireIds.add(relatedA.Questionnaire__c);
+               relatedAnswerToQuestionnaireMap.put(relatedA.Id,relatedA.Questionnaire__c);
+          }
+
+          Questionnaire_Response_Summary__c qResSummary;
+
+          for(Id qId:questionnaireIds){
+               qResSummary = new Questionnaire_Response_Summary__c();
+               qResSummary.Questionnaire__c = qId;
+               qResSummary.Course_Offering__c = courseOfferingId;
+               qResSummary.Contact__c = contactRecord.Id;
+               questionnaireSummaryToInsert.add(qResSummary);
+          }
+
+          if(!questionnaireSummaryToInsert.isEmpty()){
+               insert questionnaireSummaryToInsert;
+          }
+
+          for(Questionnaire_Response_Summary__c questionResSummary: questionnaireSummaryToInsert){
+               questionnaireToqResSummaryMap.put(questionResSummary.Questionnaire__c,questionResSummary.Id);
+          }
+
+          if(!answerList.isEmpty()){
+               for(Answer__c a: answerList){
+                    a.Questionnaire_Response_Summary__c = questionnaireToqResSummaryMap.get(relatedAnswerToQuestionnaireMap.get(a.Related_Answer__c));
+                    answersToInsert.add(a);
+               }
+               insert answersToInsert;
+          }
+
+          for(Answer__c ans :answersToInsert){
+               relatedAnswerToAnswerMap.put(ans.Related_Answer__c,ans.Id);
+          }
+
+          for(FileUpload file: parsedFileUpload){
+               if(relatedAnswerToAnswerMap.containsKey(file.RelatedAnswerId)){
+                    ContentVersion cv = createContentVersion(file.Base64, file.FileName);
+                    cvToRelatedAnswerMap.put(cv.Title,file.RelatedAnswerId);
+                    cvListToInsertList.add(cv);
+               }
+          }
+
+          if(!cvListToInsertList.isEmpty()){
+               insert cvListToInsertList;
+          }
+
+          List<ContentVersion> newContentVersionList = new List<ContentVersion>(
+               [
+                    SELECT ContentDocumentId, Title
+                    FROM ContentVersion 
+                    WHERE Id IN:cvListToInsertList
+               ]
+          );
+
+          if(!newContentVersionList.isEmpty()){
+               ContentDocumentLink cdl;
+               Answer__c updateAnswer;
+               for(ContentVersion cv:newContentVersionList){
+                    String test = relatedAnswerToAnswerMap.get(cvToRelatedAnswerMap.get(cv.Title));
+                    cdl = new ContentDocumentLink(
+                         ContentDocumentId = cv.ContentDocumentId,
+                         LinkedEntityId = relatedAnswerToAnswerMap.get(cvToRelatedAnswerMap.get(cv.Title)),
+                         ShareType = 'V'
+                    );
+                    updateAnswer = new Answer__c(
+                         Id = cdl.LinkedEntityId,
+                         Response__c = cv.ContentDocumentId
+                    );
+                    answersToUpdate.put(updateAnswer.Id,updateAnswer);
+                    contentDocLinkListToInsert.add(cdl);
+               }
+          }
+
+          if(!contentDocLinkListToInsert.isEmpty()){
+               insert contentDocLinkListToInsert;
+          }
+
+          if(!answersToUpdate.keySet().isEmpty()){
+               update answersToUpdate.values();
+          }
+
+          hed__Course_Enrollment__c newCourseConnection = new hed__Course_Enrollment__c
+               (
+               hed__Course_Offering__c = courseOfferingId,
+               hed__Contact__c =  contactRecord.Id,
+               RecordTypeId = studentRecTypeId,
+               hed__Status__c = 'Active'
+               );
+          insert newCourseConnection;
+    }  
+
+    private static ContentVersion createContentVersion(String base64, String filename) {
+      ContentVersion cv = new ContentVersion();
+      cv.VersionData = EncodingUtil.base64Decode(base64);
+      cv.Title = filename;
+      cv.PathOnClient = filename;
+      return cv;
+ }
+
+  /**
+  * @description Wrapper class that holds the file uploaded by user
+  */
+  public class FileUpload{
+      @AuraEnabled
+      public String Base64;
+      @AuraEnabled
+      public String FileName;
+      @AuraEnabled
+      public String RelatedAnswerId;
   }
 }

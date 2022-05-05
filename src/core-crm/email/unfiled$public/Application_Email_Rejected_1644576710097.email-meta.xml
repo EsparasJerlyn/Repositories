@@ -3,6 +3,7 @@
     <available>true</available>
     <encodingKey>UTF-8</encodingKey>
     <name>Application Email Rejected</name>
+    <relatedEntityType>Questionnaire_Response_Summary__c</relatedEntityType>
     <style>none</style>
     <subject>Unfortunately, your application has not been successful</subject>
     <type>custom</type>

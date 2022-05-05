@@ -1,178 +1,120 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
-        <name>Send_Email_to_QUTeX</name>
-        <label>Send Email to QUTeX</label>
-        <locationX>446</locationX>
-        <locationY>1151</locationY>
-        <actionName>FlowEmailHelper</actionName>
-        <actionType>apex</actionType>
+        <name>Send_to_QUTeX</name>
+        <label>Send to QUTeX</label>
+        <locationX>578</locationX>
+        <locationY>911</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
-            <name>emailTemplateName</name>
+            <name>emailBody</name>
             <value>
-                <stringValue>Send Email Upon Design Submission</stringValue>
+                <elementReference>CourseOwnerConfirmationEmail</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
-            <name>mergeFields</name>
+            <name>emailAddresses</name>
             <value>
-                <elementReference>MergeFields</elementReference>
+                <elementReference>$Setup.Flow_Automation_Settings__c.New_Idea_To_Email_Address__c</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
-            <name>orgWideEmailAddressId</name>
+            <name>sendRichBody</name>
             <value>
-                <elementReference>Get_Org_Wide_Email_Id.Id</elementReference>
+                <booleanValue>true</booleanValue>
             </value>
         </inputParameters>
         <inputParameters>
-            <name>recipientEmailAddresses</name>
+            <name>senderAddress</name>
             <value>
-                <elementReference>EmailAddresses</elementReference>
+                <elementReference>$Setup.Flow_Automation_Settings__c.New_Idea_To_Email_Address__c</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderType</name>
+            <value>
+                <stringValue>OrgWideEmailAddress</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <stringValue>[QUTeX] Design Form Received</stringValue>
             </value>
         </inputParameters>
     </actionCalls>
     <apiVersion>52.0</apiVersion>
     <assignments>
-        <name>Add_Merge_Fields_and_Email_Addresses</name>
-        <label>Add Merge Fields and Email Addresses</label>
-        <locationX>446</locationX>
-        <locationY>1031</locationY>
-        <assignmentItems>
-            <assignToReference>MergeFields</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>UserNameMergeField</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>MergeFields</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>ProductRequestNameMergeField</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>MergeFields</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>ProductRequestLinkMergeField</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>MergeFields</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>CourseNameOrProposalTitleMergeField</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>EmailAddresses</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>$Setup.Flow_Automation_Settings__c.New_Idea_To_Email_Address__c</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Send_Email_to_QUTeX</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>Assign_Course_Name_Merge_Field</name>
-        <label>Assign Course Name Merge Field</label>
+        <name>Activity_Template</name>
+        <label>Activity Template</label>
         <locationX>50</locationX>
-        <locationY>815</locationY>
+        <locationY>695</locationY>
         <assignmentItems>
-            <assignToReference>CourseNameOrProposalTitleMergeField.mergeFieldValue</assignToReference>
+            <assignToReference>CourseOwnerConfirmationEmail</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>$Record.Name</elementReference>
+                <elementReference>ActivityOwnerConfirmationEmail</elementReference>
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Add_Merge_Fields_and_Email_Addresses</targetReference>
+            <targetReference>Send_to_QUTeX</targetReference>
         </connector>
     </assignments>
     <assignments>
-        <name>Assign_Merge_Fields</name>
-        <label>Assign Merge Fields</label>
-        <locationX>446</locationX>
-        <locationY>575</locationY>
+        <name>Module_Template</name>
+        <label>Module Template</label>
+        <locationX>578</locationX>
+        <locationY>695</locationY>
         <assignmentItems>
-            <assignToReference>UserNameMergeField.mergeField</assignToReference>
+            <assignToReference>CourseOwnerConfirmationEmail</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue>{userName}</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>UserNameMergeField.mergeFieldValue</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Get_User_Name.Name</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>ProductRequestNameMergeField.mergeField</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>{productRequestName}</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>ProductRequestNameMergeField.mergeFieldValue</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>$Record.ProductRequestID__r.Name</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>ProductRequestLinkMergeField.mergeField</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>{productRequestLink}</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>ProductRequestLinkMergeField.mergeFieldValue</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>ProductRequestURL</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>CourseNameOrProposalTitleMergeField.mergeField</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>{nameOrProposalTitle}</stringValue>
+                <elementReference>SingleProductOwnerConfirmationEmail</elementReference>
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Is_Activity_Record</targetReference>
+            <targetReference>Send_to_QUTeX</targetReference>
         </connector>
     </assignments>
     <assignments>
-        <name>Assign_Proposal_Title_Merge_Field</name>
-        <label>Assign Proposal Title Merge Field</label>
+        <name>Short_Course_Template</name>
+        <label>Short Course Template</label>
         <locationX>314</locationX>
-        <locationY>815</locationY>
+        <locationY>695</locationY>
         <assignmentItems>
-            <assignToReference>CourseNameOrProposalTitleMergeField.mergeFieldValue</assignToReference>
+            <assignToReference>CourseOwnerConfirmationEmail</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>ProposalTitle</elementReference>
+                <elementReference>ShortCourseOwnerConfirmationEmail</elementReference>
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Add_Merge_Fields_and_Email_Addresses</targetReference>
+            <targetReference>Send_to_QUTeX</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Unit_Template</name>
+        <label>Unit Template</label>
+        <locationX>842</locationX>
+        <locationY>695</locationY>
+        <assignmentItems>
+            <assignToReference>CourseOwnerConfirmationEmail</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>SingleProductOwnerConfirmationEmail</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Send_to_QUTeX</targetReference>
         </connector>
     </assignments>
     <decisions>
         <name>Is_Activity_Record</name>
         <label>Is Activity Record</label>
-        <locationX>446</locationX>
-        <locationY>695</locationY>
+        <locationX>578</locationX>
+        <locationY>575</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Activity_Record</name>
@@ -192,7 +134,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Assign_Course_Name_Merge_Field</targetReference>
+                <targetReference>Activity_Template</targetReference>
             </connector>
             <label>Activity Record</label>
         </rules>
@@ -214,7 +156,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Assign_Proposal_Title_Merge_Field</targetReference>
+                <targetReference>Short_Course_Template</targetReference>
             </connector>
             <label>Short Course Record</label>
         </rules>
@@ -236,20 +178,37 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Assign_Proposal_Title_Merge_Field</targetReference>
+                <targetReference>Module_Template</targetReference>
             </connector>
             <label>Module Record</label>
+        </rules>
+        <rules>
+            <name>Unit_Record</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Design_Form_Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Design Form Received</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Unit</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Unit_Template</targetReference>
+            </connector>
+            <label>Unit Record</label>
         </rules>
     </decisions>
     <formulas>
         <name>ProductRequestURL</name>
         <dataType>String</dataType>
         <expression>LEFT($Api.Enterprise_Server_URL_510, FIND( &apos;/services&apos;, $Api.Enterprise_Server_URL_510)) &amp;{!$Record.ProductRequestID__r.Id}</expression>
-    </formulas>
-    <formulas>
-        <name>ProposalTitle</name>
-        <dataType>String</dataType>
-        <expression>IF({!$Record.Proposal_Title__c} != null,{!$Record.Proposal_Title__c},&apos; &apos;)</expression>
     </formulas>
     <interviewLabel>Send {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Send Email Upon Design Submission</label>
@@ -273,41 +232,41 @@
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <recordLookups>
-        <name>Get_Org_Wide_Email_Id</name>
-        <label>Get Org Wide Email Id</label>
-        <locationX>446</locationX>
-        <locationY>455</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>Assign_Merge_Fields</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Address</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>$Setup.Flow_Automation_Settings__c.New_Idea_To_Email_Address__c</elementReference>
-            </value>
-        </filters>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>OrgWideEmailAddress</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
-    <recordLookups>
-        <name>Get_User_Name</name>
-        <label>Get User Name</label>
-        <locationX>446</locationX>
+        <name>Get_Course_Record</name>
+        <label>Get Course Record</label>
+        <locationX>578</locationX>
         <locationY>335</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Get_Org_Wide_Email_Id</targetReference>
+            <targetReference>Get_User_Name</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>$Record.ProductRequestID__r.Owner:User.Id</elementReference>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>hed__Course__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_User_Name</name>
+        <label>Get User Name</label>
+        <locationX>578</locationX>
+        <locationY>455</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Is_Activity_Record</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_Course_Record.ProductRequestID__r.Owner:User.Id</elementReference>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
@@ -317,10 +276,10 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <start>
-        <locationX>320</locationX>
+        <locationX>452</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>Get_User_Name</targetReference>
+            <targetReference>Get_Course_Record</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -342,49 +301,54 @@
         <triggerType>RecordAfterSave</triggerType>
     </start>
     <status>Active</status>
+    <textTemplates>
+        <name>ActivityOwnerConfirmationEmail</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>Dear &lt;b&gt;{!Get_User_Name.Name}&lt;/b&gt;,
+
+            &lt;br/&gt;&amp;nbsp;
+
+            &lt;p&gt;The requestor has completed the design form for &lt;b&gt;{!$Record.Name}&lt;/b&gt;, please log into DEP to proceed with this product request &lt;b&gt;&lt;a href={!ProductRequestURL}&gt;{!$Record.ProductRequestID__r.Name}&lt;/a&gt;&lt;/b&gt;.&lt;/p&gt;
+
+
+
+            &lt;br/&gt;
+
+            &lt;p&gt;Kind Regards,&lt;/p&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <name>ShortCourseOwnerConfirmationEmail</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>Dear &lt;b&gt;{!Get_User_Name.Name}&lt;/b&gt;,
+
+            &lt;br/&gt;&amp;nbsp;
+
+            &lt;p&gt;The requestor has completed the design form for &lt;b&gt;{!$Record.Proposal_Title__c}&lt;/b&gt;, please log into DEP to proceed with this product request &lt;b&gt;&lt;a href={!ProductRequestURL}&gt;{!$Record.ProductRequestID__r.Name}&lt;/a&gt;&lt;/b&gt;.&lt;/p&gt;
+
+
+
+            &lt;br/&gt;
+
+            &lt;p&gt;Kind Regards,&lt;/p&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <name>SingleProductOwnerConfirmationEmail</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>Dear &lt;b&gt;{!Get_User_Name.Name}&lt;/b&gt;,
+
+            &lt;br/&gt;&amp;nbsp;
+
+            &lt;p&gt;The requestor has completed the design form for &lt;b&gt;{!$Record.Proposal_Title__c}&lt;/b&gt;, please log into DEP to proceed with this product request &lt;b&gt;&lt;a href={!ProductRequestURL}&gt;{!$Record.ProductRequestID__r.Name}&lt;/a&gt;&lt;/b&gt;.&lt;/p&gt;
+
+
+
+            &lt;br/&gt;
+
+            &lt;p&gt;Kind Regards,&lt;/p&gt;</text>
+    </textTemplates>
     <variables>
-        <name>CourseNameOrProposalTitleMergeField</name>
-        <apexClass>FlowEmailMergeField</apexClass>
-        <dataType>Apex</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-    </variables>
-    <variables>
-        <name>EmailAddresses</name>
+        <name>CourseOwnerConfirmationEmail</name>
         <dataType>String</dataType>
-        <isCollection>true</isCollection>
-        <isInput>false</isInput>
-        <isOutput>true</isOutput>
-    </variables>
-    <variables>
-        <name>MergeFields</name>
-        <apexClass>FlowEmailMergeField</apexClass>
-        <dataType>Apex</dataType>
-        <isCollection>true</isCollection>
-        <isInput>false</isInput>
-        <isOutput>true</isOutput>
-    </variables>
-    <variables>
-        <name>ProductRequestLinkMergeField</name>
-        <apexClass>FlowEmailMergeField</apexClass>
-        <dataType>Apex</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-    </variables>
-    <variables>
-        <name>ProductRequestNameMergeField</name>
-        <apexClass>FlowEmailMergeField</apexClass>
-        <dataType>Apex</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-    </variables>
-    <variables>
-        <name>UserNameMergeField</name>
-        <apexClass>FlowEmailMergeField</apexClass>
-        <dataType>Apex</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>

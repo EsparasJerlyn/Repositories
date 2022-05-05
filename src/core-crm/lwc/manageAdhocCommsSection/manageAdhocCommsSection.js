@@ -23,7 +23,7 @@ import AC_COURSE_OFFERING from '@salesforce/schema/Adhoc_Communication__c.Course
 import AC_PROGRAM_OFFERING from '@salesforce/schema/Adhoc_Communication__c.Program_Offering__c';
 import getAdhocCommunications from '@salesforce/apex/ManageAdhocCommsSectionCtrl.getAdhocCommunications';
 import sendEmailToRegisteredLearners from '@salesforce/apex/ManageAdhocCommsSectionCtrl.sendEmailToRegisteredLearners';
-import getHeaderAndFooterImageUrls from '@salesforce/apex/ManageAdhocCommsSectionCtrl.getHeaderAndFooterImageUrls';
+import getHeaderAndFooterImageIds from '@salesforce/apex/ManageAdhocCommsSectionCtrl.getHeaderAndFooterImageIds';
 
 const DATE_OPTIONS = { year: 'numeric', month: '2-digit', day: '2-digit' };
 const ADHOC_ACTIONS = [
@@ -73,6 +73,7 @@ const EMAIL_CONTENTS = {
     header : DOC_Email_Header,
     footer : DOC_Email_Footer
 };
+const SERVLET_URL = '/servlet/servlet.FileDownload?file=';
 export default class ManageAdhocCommsSection extends LightningElement {
     @api recordId;
     @api objectApiName;
@@ -85,6 +86,7 @@ export default class ManageAdhocCommsSection extends LightningElement {
     showComms = false;
     isLoading = false;
     adhocIdToEdit;
+    sfdcFileUrl;
     defaultEmailContent;
     
     //getter and setter for registered learner emails from manage registration
@@ -138,18 +140,11 @@ export default class ManageAdhocCommsSection extends LightningElement {
     //fetches the document id of email header & footer via apex
     //and sets it as default value of Email Content field on create of adhoc comms
     connectedCallback(){
-        let _imageInfos = [
-            {
-                imageName : EMAIL_CONTENTS.header
-            },
-            {
-                imageName : EMAIL_CONTENTS.footer
-            }
-        ];
-        getHeaderAndFooterImageUrls({ imageInfos : JSON.stringify(_imageInfos) })
+        this.sfdcFileUrl = window.location.origin + SERVLET_URL;
+        getHeaderAndFooterImageIds({ fileNames : Object.values(EMAIL_CONTENTS) })
         .then(result => {
-            let emailHeaderUrl = result.find(res => res.imageUrl.includes(EMAIL_CONTENTS.header)).imageUrl;
-            let emailFooterUrl = result.find(res => res.imageUrl.includes(EMAIL_CONTENTS.footer)).imageUrl
+            let emailHeaderUrl = this.sfdcFileUrl + result[EMAIL_CONTENTS.header];
+            let emailFooterUrl = this.sfdcFileUrl + result[EMAIL_CONTENTS.footer];
             this.defaultEmailContent = {
                 Email_Content__c : 
                     '<img src="' + emailHeaderUrl + '"><br><br><br><br>' +

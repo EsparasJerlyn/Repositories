@@ -370,7 +370,6 @@ public with sharing class ManageCertificateSectionCtrl {
           mail.setSubject(subject);
           String body = emailHtml;
           body = setBodyValues(body, emailContent);
-          body = EmailHelper.addHeaderAndFooter(body);
           mail.setHtmlBody(body);
           return mail;
      }
