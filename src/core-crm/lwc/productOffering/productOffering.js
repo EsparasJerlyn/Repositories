@@ -108,6 +108,7 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
     objectLabelName = 'Facilitator';
     contactName = '';
     contactEmail = '';
+    newlyCreatedOffering;
     
     //decides if user has access to this feature
     get hasAccess(){
@@ -362,12 +363,8 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
                         }) : [] 
                 }
             );
+
         });
-        this.activeMainSections = offerings.filter(
-            offer => offer.IsActive__c
-        ).map(
-            offer => {return offer.Id}
-        );
         this.isLoading = false;
         return offerings;
     }
@@ -466,15 +463,23 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
         
     }
 
+    handleSectionToggle(event) {
+        this.activeMainSections = event.detail.openSections;
+    }
+
     //refreshes data
     handleRefreshData(){
         this.isLoading = true;
         refreshApex(this.offeringResult)
         .then(() => {
+            if(this.newlyCreatedOffering){
+                this.activeMainSections = [...this.activeMainSections,this.newlyCreatedOffering];
+            }
             this.isLoading = false;
         })
         .finally(()=>{
             this.isLoading = false;
+            this.newlyCreatedOffering = undefined;
             this.saveInProgress = false;
         });
     }
@@ -628,6 +633,7 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
 
     //submits child course offering form/s
     handlePrescribedOfferingSuccess(event){
+        this.newlyCreatedOffering = event.detail.id;
         this.template.querySelectorAll('lightning-input-field[data-id="programOfferingId"]').forEach((field) => {
             field.value = event.detail.id;
         });
@@ -636,6 +642,8 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
         ).forEach((form) => {
             form.submit();
         });
+
+
     }
 
     //sets modal loading to false if all records have been created
@@ -755,6 +763,10 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
                     Primary_Facilitator__c:record.id
                 };
                 this.handleUpdateRecord(offeringFields);
+           }
+
+           if(objectType === COURSE_OFFERING.objectApiName || objectType === PROGRAM_OFFERING.objectApiName){
+                this.newlyCreatedOffering = record.id;
            }
 
            if(objectType == 'Contact'){

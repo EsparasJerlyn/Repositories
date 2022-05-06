@@ -197,7 +197,7 @@
         <div if:false={showProductOfferings} class="slds-text-align_center slds-p-around_medium">
             <lightning-formatted-rich-text value={errorMessage}></lightning-formatted-rich-text>
         </div>
-        <lightning-accordion if:true={showProductOfferings} active-section-name={activeMainSections} allow-multiple-sections-open>
+        <lightning-accordion if:true={showProductOfferings} active-section-name={activeMainSections} allow-multiple-sections-open  onsectiontoggle={handleSectionToggle}>
             <template for:each={productOfferings} for:item="offering">
                 <div key={offering.Id} class="slds-is-relative">
                     <span class={offering.badgeClass}>
