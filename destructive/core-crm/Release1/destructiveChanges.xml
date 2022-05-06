@@ -375,6 +375,10 @@
         <members>hed__Course__c.Resource_Detailsv2_is_required</members>
         <members>hed__Course__c.Core_Concepts_is_Required</members><!-- DEPP-2057 -->
         <members>hed__Course__c.Overview_is_Required</members><!-- DEPP-2057 -->
+        <!--DEPP-2535-->
+        <members>hed__Course__c.Primary_Delivery_Platform_is_required</members>
+        <members>hed__Course__c.Certificate_Type_is_required</members>
+        <!--DEPP-2535-->
         <!--(Start) DEPP-2142 -->
         <members>hed__Course__c.Start_Date_is_Future_Date</members>
         <members>hed__Program_Plan__c.Start_Date_is_Future_Date</members>
