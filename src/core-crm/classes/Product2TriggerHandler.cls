@@ -63,11 +63,13 @@ public without sharing class Product2TriggerHandler implements Disableable, Befo
           (
             SELECT
               Id,
+              IsActive__c,
               hed__Contact__c,
               hed__Contact__r.Name,
               hed__Contact__r.Contact_Image__c
             FROM hed__Course_Enrollment__r
             WHERE RecordTypeId = :FACULTY_RECTYPEID
+            AND IsActive__c = TRUE
           )
         FROM hed__Course_Offering__c
         WHERE IsActive__c = TRUE AND hed__Course__c IN :courseIdSet
