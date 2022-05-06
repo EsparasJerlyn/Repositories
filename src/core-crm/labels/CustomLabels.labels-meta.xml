@@ -120,6 +120,14 @@
         <value>Program,Stand-Alone Unit / Module Request,Coaching Request,Educational Consultancy Request,Activity,Corporate Bundle Request</value>
     </labels>
     <labels>
+        <fullName>LWC_List_ConfirmedLearnerStatus</fullName>
+        <categories>LWC,List</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>LWC_List_ConfirmedLearnerStatus</shortDescription>
+        <value>Active,Completed,Not Completed</value>
+    </labels>
+    <labels>
         <fullName>LWC_List_OPEChildFilter</fullName>
         <categories>LWC,List</categories>
         <language>en_US</language>

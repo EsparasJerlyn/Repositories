@@ -28,6 +28,10 @@ import getSearchedContacts from '@salesforce/apex/ManageRegistrationSectionCtrl.
 import getQuestions from "@salesforce/apex/ManageRegistrationSectionCtrl.getQuestions";
 import addRegistration from '@salesforce/apex/ManageRegistrationSectionCtrl.addRegistration';
 import LWC_Error_General from '@salesforce/label/c.LWC_Error_General';
+import LWC_List_ConfirmedLearnerStatus	 from '@salesforce/label/c.LWC_List_ConfirmedLearnerStatus';
+
+const COMMA = ',';
+const CONFIRMED_STATUS = LWC_List_ConfirmedLearnerStatus.split(COMMA);
 const SUCCESS_MSG = 'Record successfully updated.';
 const SUCCESS_TITLE = 'Success!';
 const ERROR_TITLE = 'Error!';
@@ -148,11 +152,12 @@ export default class ManageRegistrationSection extends LightningElement {
             this.isLoading = false;
             this.dispatchEvent(new CustomEvent('setemails', {
                 detail: {
+                    offeringId: this.childRecordId,
                     value : this.records.filter(
-                        record => record.registrationStatus == 'Confirmed'
+                        record => CONFIRMED_STATUS.includes(record.registrationStatus)
                     ).map(record => {return record.contactEmail})
                 }
-            })); 
+            }));
         } else if(result.error){
             this.records = undefined;
             this.recordsTemp = undefined;

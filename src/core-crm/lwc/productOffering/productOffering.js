@@ -78,7 +78,6 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
     layoutMap = {};
     layoutItem;
     isStatusCompleted;
-    registeredLearnerEmails = [];
     childOfPrescribedProgram = false;
     prePopulatedFields = {};
     parentRecord;
@@ -333,6 +332,7 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
             offerings.push(
                 {
                     ...offering,
+                    registeredLearnerEmails:[],
                     badgeClass: offering.IsActive__c ?
                         'slds-badge slds-theme_success section-button section-badge' :
                         'slds-badge slds-badge_inverse section-button section-badge',
@@ -832,6 +832,17 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
 
     //stores registered learners' emails from manageRegistraionSection
     setLearnerEmails(event){
-        this.registeredLearnerEmails = event.detail.value;
+        let learnerEmails = event.detail.value;
+        let offeringId =event.detail.offeringId;
+        if(this.productOfferings.length > 0){
+            this.productOfferings = this.productOfferings.map(item =>{
+                return {
+                    ...item,
+                    registeredLearnerEmails: 
+                    item.Id  === offeringId?
+                    learnerEmails : item.registeredLearnerEmails
+                }
+            });
+        }
     }
 }

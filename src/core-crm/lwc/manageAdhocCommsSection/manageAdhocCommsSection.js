@@ -193,8 +193,8 @@ export default class ManageAdhocCommsSection extends LightningElement {
             this.showComms = true;
         //sends email to registred learners via apex
         }else if(actionName == 'send_email'){
-            if(this.registeredLearnerEmails.length == 0){
-                this.generateToast('Email not sent.', 'No confirmed registered learner found.', 'error');
+            if(this.registeredLearnerEmails.length === 0){
+                this.generateToast('Email not sent.', 'No registered learner found.', 'error');
             }else{
                 this.isLoading = true;
                 sendEmailToRegisteredLearners({
