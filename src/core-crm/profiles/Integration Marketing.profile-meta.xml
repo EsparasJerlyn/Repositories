@@ -21,4 +21,9 @@
         <endAddress>207.250.68.26</endAddress>
         <startAddress>207.250.68.26</startAddress>
     </loginIpRanges>
+    <loginIpRanges>
+        <description>exacttarget.com</description>
+        <endAddress>13.111.105.209</endAddress>
+        <startAddress>13.111.105.208</startAddress>
+    </loginIpRanges>
 </Profile>
