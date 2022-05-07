@@ -70,7 +70,8 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
   
   public void createChildMCPersona(List<Contact> newContacts){
         List<Contact> childContacts = new List<Contact>();
-        system.debug(newContacts);
+        Id sysAdUserId = [Select Id from User Where Name = 'Sys Admin Integration User' limit 1].Id;
+      
         for(Contact con: newContacts){
             system.debug(con.RecordTypeId);
             system.debug(PERSON);
@@ -81,7 +82,8 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
                                                  RecordtypeId = MC_PERSONA,
                                                  Email = con.hed__WorkEmail__c,
                                                  Parent_Person_Contact__c = con.Id,
-                                                 Persona_Type__c = 'Work');   
+                                                 Persona_Type__c = 'Work',
+                                                 OwnerId=sysAdUserId);   
                     childContacts.add(conWork);
                 }
                 system.debug(childContacts);
@@ -91,7 +93,8 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
                                                  RecordtypeId = MC_PERSONA,
                                                  Email = con.QUT_Learner_Email__c,
                                                  Parent_Person_Contact__c = con.Id,
-                                                 Persona_Type__c = 'QUT Learner');    
+                                                 Persona_Type__c = 'QUT Learner',
+                                                 OwnerId=sysAdUserId);    
                     childContacts.add(conLearner);
                 }
                 
@@ -101,7 +104,8 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
                                                  RecordtypeId = MC_PERSONA,
                                                  Email = con.QUT_Staff_Email__c,
                                                  Parent_Person_Contact__c = con.Id,
-                                                 Persona_Type__c = 'QUT Staff');    
+                                                 Persona_Type__c = 'QUT Staff',
+                                                 OwnerId=sysAdUserId);    
                     childContacts.add(conStaff);
                 }
             }

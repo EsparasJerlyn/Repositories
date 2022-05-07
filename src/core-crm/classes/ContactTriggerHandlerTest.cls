@@ -181,9 +181,10 @@ public static final Id PERSON = Schema.SObjectType.Contact.getRecordTypeInfosByD
             LIMIT 1
         ];
         
+        List<Contact> cons = TestDataFactory.createTestContactRecords(1);
+        
         System.runAs(currUsr) {
             Test.startTest();
-            List<Contact> cons = TestDataFactory.createTestContactRecords(1);
             cons[0].Email = 'test@email.com';
             cons[0].hed__WorkEmail__c = 'test_work@email.com';
             cons[0].QUT_Staff_Email__c = 'test_staff@email.com';
@@ -191,12 +192,12 @@ public static final Id PERSON = Schema.SObjectType.Contact.getRecordTypeInfosByD
             cons[0].hed__Preferred_Email__c = 'Work Email';
             insert cons;
             Test.stopTest();
-            
-            System.assertEquals(
+        }
+        
+        System.assertEquals(
                 3,
                 [Select Id from Contact Where Parent_Person_Contact__c = :cons[0].Id].size(),
                 'Number of child MC Persona contacts'
             );
-        }
     }
 }
