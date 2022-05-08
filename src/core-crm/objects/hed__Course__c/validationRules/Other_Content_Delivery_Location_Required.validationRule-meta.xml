@@ -3,10 +3,11 @@
     <fullName>Other_Content_Delivery_Location_Required</fullName>
     <active>true</active>
     <errorConditionFormula>AND(
-NOT(ISPICKVAL( ProductRequestID__r.Product_Request_Status__c , &apos;Completed&apos;)),
-Mark_Content_as_Complete__c = true,
-ISBLANK(Content_Locationv2__c),
-ISBLANK(LMS_Site_URL__c)
+    NOT(ISPICKVAL( ProductRequestID__r.Product_Request_Status__c , &apos;Completed&apos;)),
+    NOT(ISPICKVAL( Primary_Delivery_Platform__c , &apos;Blackboard&apos;)),
+    Mark_Content_as_Complete__c = true,
+    ISBLANK(Content_Locationv2__c),
+    ISBLANK(LMS_Site_URL__c)
 )</errorConditionFormula>
     <errorDisplayField>Content_Locationv2__c</errorDisplayField>
     <errorMessage>Content Location is required</errorMessage>

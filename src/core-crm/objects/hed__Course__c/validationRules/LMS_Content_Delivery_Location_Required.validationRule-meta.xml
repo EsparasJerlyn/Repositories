@@ -4,9 +4,10 @@
     <active>true</active>
     <errorConditionFormula>AND(
     NOT(ISPICKVAL( ProductRequestID__r.Product_Request_Status__c , &apos;Completed&apos;)),
+    NOT(ISPICKVAL( Primary_Delivery_Platform__c , &apos;Blackboard&apos;)),
     Mark_Content_as_Complete__c = true,
     ISBLANK(LMS_Site_URL__c),
-    ISBLANK(Content_Locationv2__c) 
+    ISBLANK(Content_Locationv2__c)
 )</errorConditionFormula>
     <errorDisplayField>LMS_Site_URL__c</errorDisplayField>
     <errorMessage>LMS Site URL is required</errorMessage>

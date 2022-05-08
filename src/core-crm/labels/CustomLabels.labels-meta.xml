@@ -576,4 +576,20 @@
         <shortDescription>QUT_Product2_ContactImageError</shortDescription>
         <value>Please upload a Contact Image for the following Contacts:</value>
     </labels>
+    <labels>
+        <fullName>ESBEndpointLMSCourse</fullName>
+        <categories>Endpoint</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ESBEndpointLMSCourse</shortDescription>
+        <value>/consumer/dep/v1/curriculum/course</value>
+    </labels>
+    <labels>
+        <fullName>ESBEndpointLMSCourseOffering</fullName>
+        <categories>Endpoint</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ESBEndpointLMSCourseOffering</shortDescription>
+        <value>/consumer/dep/v1/curriculum/courseOffering</value>
+    </labels>
 </CustomLabels>
