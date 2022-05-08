@@ -477,6 +477,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>SetOfferingName</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SetOfferingNameTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>SetupRegistrationCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>

@@ -11,7 +11,10 @@
       | roy.nino.s.regala              | April 18, 2022        | DEPP-1687              | Created file                 |
  */
 
-public without sharing class ProgramOfferingTriggerHandler implements Disableable, AfterInsert {
+public without sharing class ProgramOfferingTriggerHandler implements Disableable, BeforeInsert, AfterInsert {
+    public void beforeInsert(List<SObject> newItems) {
+        SetOfferingName.setName(newItems); 
+    }
     
        /**
        * @description performs afterinsert event for hed__Course_Offering object

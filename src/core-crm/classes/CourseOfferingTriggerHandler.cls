@@ -20,6 +20,7 @@ public without sharing class CourseOfferingTriggerHandler implements Disableable
  */
   public void beforeInsert(List<SObject> newItems) {
     SetExternalIdHelper.updateExternalId(newItems);
+        SetOfferingName.setName(newItems); 
   }
 
     /**
