@@ -58,7 +58,7 @@
   ],
   "namespace": "",
   "sfdcLoginUrl": "https://login.salesforce.com",
-  "sourceApiVersion": "52.0",
+  "sourceApiVersion": "53.0",
   "packageAliases": {
     "DocuSign Apps Launcher": "04t3u00000349bDAAQ"
   },

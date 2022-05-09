@@ -48,9 +48,9 @@
         "showNoSearchResults" : false,
         "showOriginalPrice" : true,
         "showProductImage" : true,
-        "showQuantityRulesSetup" : "true",
+        "showQuantityRulesSetup" : true,
         "showQuantityRulesText" : true,
-        "showSearchSortingMenuSetup" : "true",
+        "showSearchSortingMenuSetup" : true,
         "viewOptionsButtonText" : "VIEW OPTIONS"
       },
       "componentName" : "b2b_search_builder:resultsDisplay",

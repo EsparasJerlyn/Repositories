@@ -39,6 +39,7 @@
                     <value>3</value>
                 </componentInstanceProperties>
                 <componentName>force:highlightsPanel</componentName>
+                <identifier>force_highlightsPanel</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -52,6 +53,7 @@
                     <value>linear</value>
                 </componentInstanceProperties>
                 <componentName>runtime_sales_pathassistant:pathAssistant</componentName>
+                <identifier>runtime_sales_pathassistant_pathAssistant</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
@@ -66,11 +68,13 @@
                     <value>{!$Label.PL_ProductRequest_Design}</value>
                 </componentInstanceProperties>
                 <componentName>customLayoutHandler</componentName>
+                <identifier>customLayoutHandler</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentName>opeProgramStructure</componentName>
+                <identifier>opeProgramStructure</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
@@ -87,6 +91,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>productManagement</componentName>
+                <identifier>productManagement</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-8747c370-f431-436a-80fd-0a6e6cc35db9</name>
@@ -116,6 +121,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -141,6 +147,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer2</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -166,6 +173,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer3</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
@@ -198,6 +206,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer4</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
@@ -234,6 +243,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer5</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-klbbdaud4e</name>
@@ -247,6 +257,7 @@
                     <value>RECORD</value>
                 </componentInstanceProperties>
                 <componentName>forceChatter:publisher</componentName>
+                <identifier>forceChatter_publisher</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-0i0kcv77iqe7</name>
@@ -268,6 +279,7 @@
                     <value>{!$Label.PL_ProductRequest_Design}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -281,6 +293,7 @@
                     <value>{!$Label.Tab_ProductRequest_ProductManagement}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab2</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -294,6 +307,7 @@
                     <value>Standard.Tab.relatedLists</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>relatedListsTab</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -307,6 +321,7 @@
                     <value>History</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab3</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -320,6 +335,7 @@
                     <value>Conversation</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab4</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-trso9ua5qbh</name>
@@ -333,11 +349,13 @@
                     <value>{!$Label.PL_ProductRequest_Design}</value>
                 </componentInstanceProperties>
                 <componentName>customLayoutHandler</componentName>
+                <identifier>customLayoutHandler2</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentName>opeProgramStructure</componentName>
+                <identifier>opeProgramStructure2</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
@@ -354,6 +372,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>productOffering</componentName>
+                <identifier>productOffering</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-sxnbrq427ck</name>
@@ -363,6 +382,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>productManagement</componentName>
+                <identifier>productManagement2</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-231a1e84-93f0-4fda-a8ed-5b67bf4977ce</name>
@@ -392,6 +412,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer6</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -417,6 +438,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer7</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -442,6 +464,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer8</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
@@ -474,6 +497,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer9</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
@@ -511,6 +535,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer10</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-3d9b837b-c7a8-4cba-8d7b-d87ffbe542de</name>
@@ -524,6 +549,7 @@
                     <value>RECORD</value>
                 </componentInstanceProperties>
                 <componentName>forceChatter:publisher</componentName>
+                <identifier>forceChatter_publisher2</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-l4kdtsqzalc</name>
@@ -545,6 +571,7 @@
                     <value>{!$Label.PL_ProductRequest_Design}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab5</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -558,6 +585,7 @@
                     <value>{!$Label.Tab_ProductRequest_ProductOffering}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab6</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -571,6 +599,7 @@
                     <value>{!$Label.Tab_ProductRequest_ProductManagement}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab7</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -584,6 +613,7 @@
                     <value>Standard.Tab.relatedLists</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>relatedListsTab2</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -597,6 +627,7 @@
                     <value>History</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab8</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -610,6 +641,7 @@
                     <value>Conversation</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab9</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
@@ -624,11 +656,13 @@
                     <value>{!$Label.PL_ProductRequest_Design}</value>
                 </componentInstanceProperties>
                 <componentName>customLayoutHandler</componentName>
+                <identifier>customLayoutHandler3</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentName>opeProgramStructure</componentName>
+                <identifier>opeProgramStructure3</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
@@ -649,6 +683,7 @@
                     <value>{!$Label.PL_ProductRequest_Release}</value>
                 </componentInstanceProperties>
                 <componentName>customLayoutHandler</componentName>
+                <identifier>customLayoutHandler4</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-vtwjiusufw9</name>
@@ -658,6 +693,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>productManagement</componentName>
+                <identifier>productManagement3</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-0t6uq093rmo</name>
@@ -687,6 +723,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer11</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -712,6 +749,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer12</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -737,6 +775,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer13</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
@@ -769,6 +808,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer14</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
@@ -805,6 +845,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer15</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-f7664803-193a-4c1f-b316-197c961b6ed2</name>
@@ -818,6 +859,7 @@
                     <value>RECORD</value>
                 </componentInstanceProperties>
                 <componentName>forceChatter:publisher</componentName>
+                <identifier>forceChatter_publisher3</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-05bdc9d2-a322-4700-8578-8818f89c691e</name>
@@ -835,6 +877,7 @@
                     <value>{!$Label.PL_ProductRequest_Design}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab10</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -852,6 +895,7 @@
                     <value>{!$Label.PL_ProductRequest_Release}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab11</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -865,6 +909,7 @@
                     <value>{!$Label.Tab_ProductRequest_ProductManagement}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab12</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -878,6 +923,7 @@
                     <value>Standard.Tab.relatedLists</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>relatedListsTab3</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -891,6 +937,7 @@
                     <value>History</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab13</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -904,6 +951,7 @@
                     <value>Standard.Tab.chat</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>chatTab</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-ytubbkaoz3</name>
@@ -917,11 +965,13 @@
                     <value>{!$Label.PL_ProductRequest_Design}</value>
                 </componentInstanceProperties>
                 <componentName>customLayoutHandler</componentName>
+                <identifier>customLayoutHandler5</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentName>opeProgramStructure</componentName>
+                <identifier>opeProgramStructure4</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
@@ -942,11 +992,13 @@
                     <value>{!$Label.PL_ProductRequest_Release}</value>
                 </componentInstanceProperties>
                 <componentName>customLayoutHandler</componentName>
+                <identifier>customLayoutHandler6</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentName>relatedChildProducts</componentName>
+                <identifier>relatedChildProducts</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.OPE_Program_Plan_Type__c}</leftValue>
@@ -963,6 +1015,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>productOffering</componentName>
+                <identifier>productOffering2</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-66885758-52ce-460c-822b-1cdbf6a090ff</name>
@@ -972,6 +1025,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>productManagement</componentName>
+                <identifier>productManagement4</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-1a762d4a-6eb7-4da6-9803-bbf933ac634c</name>
@@ -1001,6 +1055,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer16</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1026,6 +1081,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer17</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1051,6 +1107,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer18</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
@@ -1083,6 +1140,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer19</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
@@ -1119,6 +1177,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer20</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-koxv1ruyjos</name>
@@ -1132,6 +1191,7 @@
                     <value>RECORD</value>
                 </componentInstanceProperties>
                 <componentName>forceChatter:publisher</componentName>
+                <identifier>forceChatter_publisher4</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-c3jwlzw0w7u</name>
@@ -1149,6 +1209,7 @@
                     <value>{!$Label.PL_ProductRequest_Design}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab14</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1166,6 +1227,7 @@
                     <value>{!$Label.PL_ProductRequest_Release}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab15</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1179,6 +1241,7 @@
                     <value>{!$Label.Tab_ProductRequest_ProductOffering}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab16</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1192,6 +1255,7 @@
                     <value>{!$Label.Tab_ProductRequest_ProductManagement}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab17</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1205,6 +1269,7 @@
                     <value>Standard.Tab.relatedLists</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>relatedListsTab4</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1218,6 +1283,7 @@
                     <value>History</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab18</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1231,6 +1297,7 @@
                     <value>Standard.Tab.chat</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>chatTab2</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-98k5u3klj6b</name>
@@ -1244,11 +1311,13 @@
                     <value>{!$Label.PL_ProductRequest_Design}</value>
                 </componentInstanceProperties>
                 <componentName>customLayoutHandler</componentName>
+                <identifier>customLayoutHandler7</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentName>opeProgramStructure</componentName>
+                <identifier>opeProgramStructure5</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
@@ -1269,11 +1338,13 @@
                     <value>{!$Label.PL_ProductRequest_Release}</value>
                 </componentInstanceProperties>
                 <componentName>customLayoutHandler</componentName>
+                <identifier>customLayoutHandler8</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentName>relatedChildProducts</componentName>
+                <identifier>relatedChildProducts2</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.OPE_Program_Plan_Type__c}</leftValue>
@@ -1290,6 +1361,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>productOffering</componentName>
+                <identifier>productOffering3</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-izt37zsewb</name>
@@ -1319,6 +1391,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer21</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1344,6 +1417,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer22</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1369,6 +1443,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer23</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
@@ -1401,6 +1476,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer24</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
@@ -1437,6 +1513,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer25</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-cvafpq4sfve</name>
@@ -1450,6 +1527,7 @@
                     <value>RECORD</value>
                 </componentInstanceProperties>
                 <componentName>forceChatter:publisher</componentName>
+                <identifier>forceChatter_publisher5</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-dm40zdub05</name>
@@ -1467,6 +1545,7 @@
                     <value>{!$Label.PL_ProductRequest_Design}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab19</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1484,6 +1563,7 @@
                     <value>{!$Label.PL_ProductRequest_Release}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab20</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1497,6 +1577,7 @@
                     <value>{!$Label.Tab_ProductRequest_ProductOffering}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab21</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1510,6 +1591,7 @@
                     <value>Standard.Tab.relatedLists</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>relatedListsTab5</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1523,6 +1605,7 @@
                     <value>History</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab22</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1536,6 +1619,7 @@
                     <value>Standard.Tab.chat</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>chatTab3</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-7wisaqw9c0b</name>
@@ -1549,11 +1633,13 @@
                     <value>{!$Label.PL_ProductRequest_Design}</value>
                 </componentInstanceProperties>
                 <componentName>customLayoutHandler</componentName>
+                <identifier>customLayoutHandler9</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentName>opeProgramStructure</componentName>
+                <identifier>opeProgramStructure6</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
@@ -1574,6 +1660,7 @@
                     <value>{!$Label.PL_ProductRequest_Release}</value>
                 </componentInstanceProperties>
                 <componentName>customLayoutHandler</componentName>
+                <identifier>customLayoutHandler10</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-h8wi3mzaleq</name>
@@ -1583,6 +1670,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>productManagement</componentName>
+                <identifier>productManagement5</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-x34bmu70ox</name>
@@ -1612,6 +1700,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer26</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1637,6 +1726,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer27</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1662,6 +1752,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer28</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
@@ -1694,6 +1785,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer29</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
@@ -1730,6 +1822,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer30</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-6p3eq6jk2w</name>
@@ -1743,6 +1836,7 @@
                     <value>RECORD</value>
                 </componentInstanceProperties>
                 <componentName>forceChatter:publisher</componentName>
+                <identifier>forceChatter_publisher6</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-n14bxkl6yag</name>
@@ -1760,6 +1854,7 @@
                     <value>{!$Label.PL_ProductRequest_Design}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab23</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1777,6 +1872,7 @@
                     <value>{!$Label.PL_ProductRequest_Release}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab24</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1790,6 +1886,7 @@
                     <value>{!$Label.Tab_ProductRequest_ProductManagement}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab25</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1803,6 +1900,7 @@
                     <value>Standard.Tab.relatedLists</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>relatedListsTab6</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1816,6 +1914,7 @@
                     <value>History</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab26</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1829,6 +1928,7 @@
                     <value>Standard.Tab.chat</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>chatTab4</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-szt7h5lzny</name>
@@ -1842,11 +1942,13 @@
                     <value>{!$Label.PL_ProductRequest_Design}</value>
                 </componentInstanceProperties>
                 <componentName>customLayoutHandler</componentName>
+                <identifier>customLayoutHandler11</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentName>opeProgramStructure</componentName>
+                <identifier>opeProgramStructure7</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
@@ -1867,11 +1969,13 @@
                     <value>{!$Label.PL_ProductRequest_Release}</value>
                 </componentInstanceProperties>
                 <componentName>customLayoutHandler</componentName>
+                <identifier>customLayoutHandler12</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentName>relatedChildProducts</componentName>
+                <identifier>relatedChildProducts3</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.OPE_Program_Plan_Type__c}</leftValue>
@@ -1888,6 +1992,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>trackAttendanceAndEvaluation</componentName>
+                <identifier>trackAttendanceAndEvaluation</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-065a419d-392e-4dfb-bdaa-885d40fb9ebf</name>
@@ -1897,6 +2002,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>productOffering</componentName>
+                <identifier>productOffering4</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-ol4ku786bmo</name>
@@ -1906,6 +2012,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>productManagement</componentName>
+                <identifier>productManagement6</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-eybd5jvdh59</name>
@@ -1935,6 +2042,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer31</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1960,6 +2068,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer32</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1985,6 +2094,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer33</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
@@ -2017,6 +2127,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer34</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
@@ -2053,6 +2164,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer35</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-51ei90na3yn</name>
@@ -2066,6 +2178,7 @@
                     <value>RECORD</value>
                 </componentInstanceProperties>
                 <componentName>forceChatter:publisher</componentName>
+                <identifier>forceChatter_publisher7</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-kdj5vsc7tpi</name>
@@ -2083,6 +2196,7 @@
                     <value>{!$Label.PL_ProductRequest_Design}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab27</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -2100,6 +2214,7 @@
                     <value>{!$Label.PL_ProductRequest_Release}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab28</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -2117,6 +2232,7 @@
                     <value>{!$Label.PL_ProductRequest_InDelivery}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab29</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -2130,6 +2246,7 @@
                     <value>{!$Label.Tab_ProductRequest_ProductOffering}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab30</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -2143,6 +2260,7 @@
                     <value>{!$Label.Tab_ProductRequest_ProductManagement}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab31</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -2156,6 +2274,7 @@
                     <value>Standard.Tab.relatedLists</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>relatedListsTab7</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -2169,6 +2288,7 @@
                     <value>History</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab32</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -2182,6 +2302,7 @@
                     <value>Standard.Tab.chat</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>chatTab5</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-oysziwq4ulk</name>
@@ -2195,11 +2316,13 @@
                     <value>{!$Label.PL_ProductRequest_Design}</value>
                 </componentInstanceProperties>
                 <componentName>customLayoutHandler</componentName>
+                <identifier>customLayoutHandler13</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentName>opeProgramStructure</componentName>
+                <identifier>opeProgramStructure8</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
@@ -2220,11 +2343,13 @@
                     <value>{!$Label.PL_ProductRequest_Release}</value>
                 </componentInstanceProperties>
                 <componentName>customLayoutHandler</componentName>
+                <identifier>customLayoutHandler14</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentName>relatedChildProducts</componentName>
+                <identifier>relatedChildProducts4</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.OPE_Program_Plan_Type__c}</leftValue>
@@ -2241,6 +2366,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>trackAttendanceAndEvaluation</componentName>
+                <identifier>trackAttendanceAndEvaluation2</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-jhipato2lv</name>
@@ -2250,6 +2376,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>productOffering</componentName>
+                <identifier>productOffering5</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-tvwwe2i9dmh</name>
@@ -2279,6 +2406,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer36</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -2304,6 +2432,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer37</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -2329,6 +2458,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer38</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
@@ -2361,6 +2491,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer39</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
@@ -2397,6 +2528,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer40</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-fw4ft4jic9</name>
@@ -2410,6 +2542,7 @@
                     <value>RECORD</value>
                 </componentInstanceProperties>
                 <componentName>forceChatter:publisher</componentName>
+                <identifier>forceChatter_publisher8</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-z42jrpeber</name>
@@ -2427,6 +2560,7 @@
                     <value>{!$Label.PL_ProductRequest_Design}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab33</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -2444,6 +2578,7 @@
                     <value>{!$Label.PL_ProductRequest_Release}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab34</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -2461,6 +2596,7 @@
                     <value>{!$Label.PL_ProductRequest_InDelivery}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab35</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -2474,6 +2610,7 @@
                     <value>{!$Label.Tab_ProductRequest_ProductOffering}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab36</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -2487,6 +2624,7 @@
                     <value>Standard.Tab.relatedLists</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>relatedListsTab8</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -2500,6 +2638,7 @@
                     <value>History</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab37</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -2513,6 +2652,7 @@
                     <value>Standard.Tab.chat</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>chatTab6</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-r6slowit2yl</name>
@@ -2526,11 +2666,13 @@
                     <value>{!$Label.PL_ProductRequest_Design}</value>
                 </componentInstanceProperties>
                 <componentName>customLayoutHandler</componentName>
+                <identifier>customLayoutHandler15</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentName>opeProgramStructure</componentName>
+                <identifier>opeProgramStructure9</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
@@ -2551,6 +2693,7 @@
                     <value>{!$Label.PL_ProductRequest_Release}</value>
                 </componentInstanceProperties>
                 <componentName>customLayoutHandler</componentName>
+                <identifier>customLayoutHandler16</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-9p9aeffvbsa</name>
@@ -2560,6 +2703,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>productManagement</componentName>
+                <identifier>productManagement7</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-3083af3f-2c9b-47b0-bbcf-ee483e605b74</name>
@@ -2589,6 +2733,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer41</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -2614,6 +2759,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer42</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -2639,6 +2785,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer43</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
@@ -2671,6 +2818,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer44</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
@@ -2707,6 +2855,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer45</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-tk1zslxduzr</name>
@@ -2720,6 +2869,7 @@
                     <value>RECORD</value>
                 </componentInstanceProperties>
                 <componentName>forceChatter:publisher</componentName>
+                <identifier>forceChatter_publisher9</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-z9g8hnlfgg</name>
@@ -2737,6 +2887,7 @@
                     <value>{!$Label.PL_ProductRequest_Design}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab38</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -2754,6 +2905,7 @@
                     <value>{!$Label.PL_ProductRequest_Release}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab39</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -2767,6 +2919,7 @@
                     <value>{!$Label.Tab_ProductRequest_ProductManagement}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab40</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -2780,6 +2933,7 @@
                     <value>Standard.Tab.relatedLists</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>relatedListsTab9</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -2793,6 +2947,7 @@
                     <value>History</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab41</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -2806,6 +2961,7 @@
                     <value>Standard.Tab.chat</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>chatTab7</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-ugbs1hpw27j</name>
@@ -2819,11 +2975,13 @@
                     <value>{!$Label.PL_ProductRequest_Design}</value>
                 </componentInstanceProperties>
                 <componentName>customLayoutHandler</componentName>
+                <identifier>customLayoutHandler17</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentName>opeProgramStructure</componentName>
+                <identifier>opeProgramStructure10</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
@@ -2844,11 +3002,13 @@
                     <value>{!$Label.PL_ProductRequest_Release}</value>
                 </componentInstanceProperties>
                 <componentName>customLayoutHandler</componentName>
+                <identifier>customLayoutHandler18</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentName>relatedChildProducts</componentName>
+                <identifier>relatedChildProducts5</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.OPE_Program_Plan_Type__c}</leftValue>
@@ -2865,6 +3025,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>trackAttendanceAndEvaluation</componentName>
+                <identifier>trackAttendanceAndEvaluation3</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-xeotexatyk</name>
@@ -2874,6 +3035,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>productOffering</componentName>
+                <identifier>productOffering6</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-3a399582-e4da-434d-9f80-e830367c1c2a</name>
@@ -2883,6 +3045,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>productManagement</componentName>
+                <identifier>productManagement8</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-32nl88gmo1q</name>
@@ -2912,6 +3075,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer46</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -2937,6 +3101,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer47</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -2962,6 +3127,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer48</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
@@ -2994,6 +3160,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer49</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
@@ -3030,6 +3197,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer50</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-2i19xe1iitb</name>
@@ -3043,6 +3211,7 @@
                     <value>RECORD</value>
                 </componentInstanceProperties>
                 <componentName>forceChatter:publisher</componentName>
+                <identifier>forceChatter_publisher10</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-jy1glchfukq</name>
@@ -3060,6 +3229,7 @@
                     <value>{!$Label.PL_ProductRequest_Design}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab42</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -3077,6 +3247,7 @@
                     <value>{!$Label.PL_ProductRequest_Release}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab43</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -3094,6 +3265,7 @@
                     <value>{!$Label.PL_ProductRequest_InDelivery}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab44</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -3107,6 +3279,7 @@
                     <value>{!$Label.Tab_ProductRequest_ProductOffering}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab45</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -3124,6 +3297,7 @@
                     <value>{!$Label.Tab_ProductRequest_ProductManagement}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab46</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -3137,6 +3311,7 @@
                     <value>Standard.Tab.relatedLists</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>relatedListsTab10</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -3150,6 +3325,7 @@
                     <value>History</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab47</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -3163,6 +3339,7 @@
                     <value>Standard.Tab.chat</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>chatTab8</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-ysdgkb0eeke</name>
@@ -3176,11 +3353,13 @@
                     <value>{!$Label.PL_ProductRequest_Design}</value>
                 </componentInstanceProperties>
                 <componentName>customLayoutHandler</componentName>
+                <identifier>customLayoutHandler19</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentName>opeProgramStructure</componentName>
+                <identifier>opeProgramStructure11</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
@@ -3201,11 +3380,13 @@
                     <value>{!$Label.PL_ProductRequest_Release}</value>
                 </componentInstanceProperties>
                 <componentName>customLayoutHandler</componentName>
+                <identifier>customLayoutHandler20</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentName>relatedChildProducts</componentName>
+                <identifier>relatedChildProducts6</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.OPE_Program_Plan_Type__c}</leftValue>
@@ -3222,6 +3403,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>trackAttendanceAndEvaluation</componentName>
+                <identifier>trackAttendanceAndEvaluation4</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-2w4pg7cxajh</name>
@@ -3231,6 +3413,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>productOffering</componentName>
+                <identifier>productOffering7</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-1qv46x8fpb</name>
@@ -3260,6 +3443,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer51</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -3285,6 +3469,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer52</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -3310,6 +3495,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer53</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
@@ -3342,6 +3528,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer54</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
@@ -3378,6 +3565,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer55</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-x0vco0p5iii</name>
@@ -3391,6 +3579,7 @@
                     <value>RECORD</value>
                 </componentInstanceProperties>
                 <componentName>forceChatter:publisher</componentName>
+                <identifier>forceChatter_publisher11</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-sc5uprs41m</name>
@@ -3408,6 +3597,7 @@
                     <value>{!$Label.PL_ProductRequest_Design}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab48</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -3425,6 +3615,7 @@
                     <value>{!$Label.PL_ProductRequest_Release}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab49</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -3442,6 +3633,7 @@
                     <value>{!$Label.PL_ProductRequest_InDelivery}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab50</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -3455,6 +3647,7 @@
                     <value>{!$Label.Tab_ProductRequest_ProductOffering}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab51</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -3468,6 +3661,7 @@
                     <value>Standard.Tab.relatedLists</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>relatedListsTab11</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -3481,6 +3675,7 @@
                     <value>History</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab52</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -3494,6 +3689,7 @@
                     <value>Standard.Tab.chat</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>chatTab9</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-kzc30jzgoal</name>
@@ -3507,6 +3703,7 @@
                     <value>{!$Label.PL_ProductRequest_Design}</value>
                 </componentInstanceProperties>
                 <componentName>customLayoutHandler</componentName>
+                <identifier>customLayoutHandler21</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-f250c819-ebe6-4f15-bf7a-f743377dcaa3</name>
@@ -3520,6 +3717,7 @@
                     <value>{!$Label.PL_ProductRequest_Release}</value>
                 </componentInstanceProperties>
                 <componentName>customLayoutHandler</componentName>
+                <identifier>customLayoutHandler22</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-mngrv1af5j</name>
@@ -3537,6 +3735,7 @@
                     <value>{!$Label.PL_ProductRequest_Design}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab53</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -3550,6 +3749,7 @@
                     <value>{!$Label.PL_ProductRequest_Release}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab54</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-db8c42d8-3815-4efb-984d-3a9eea8d4d37</name>
@@ -3563,6 +3763,7 @@
                     <value>Facet-trso9ua5qbh</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
+                <identifier>flexipage_tabset</identifier>
                 <visibilityRule>
                     <booleanFilter>1 AND 2</booleanFilter>
                     <criteria>
@@ -3585,6 +3786,7 @@
                     <value>maintabs</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
+                <identifier>flexipage_tabset2</identifier>
                 <visibilityRule>
                     <booleanFilter>1 AND (2 OR 3)</booleanFilter>
                     <criteria>
@@ -3612,6 +3814,7 @@
                     <value>Facet-ytubbkaoz3</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
+                <identifier>flexipage_tabset3</identifier>
                 <visibilityRule>
                     <booleanFilter>1 AND 2</booleanFilter>
                     <criteria>
@@ -3634,6 +3837,7 @@
                     <value>Facet-98k5u3klj6b</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
+                <identifier>flexipage_tabset4</identifier>
                 <visibilityRule>
                     <booleanFilter>1 AND 2 AND 3</booleanFilter>
                     <criteria>
@@ -3661,6 +3865,7 @@
                     <value>Facet-7wisaqw9c0b</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
+                <identifier>flexipage_tabset5</identifier>
                 <visibilityRule>
                     <booleanFilter>1 AND 2 AND 3</booleanFilter>
                     <criteria>
@@ -3688,6 +3893,7 @@
                     <value>Facet-szt7h5lzny</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
+                <identifier>flexipage_tabset6</identifier>
                 <visibilityRule>
                     <booleanFilter>1 AND 2</booleanFilter>
                     <criteria>
@@ -3710,6 +3916,7 @@
                     <value>Facet-oysziwq4ulk</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
+                <identifier>flexipage_tabset7</identifier>
                 <visibilityRule>
                     <booleanFilter>1 AND 2 AND 3</booleanFilter>
                     <criteria>
@@ -3737,6 +3944,7 @@
                     <value>Facet-r6slowit2yl</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
+                <identifier>flexipage_tabset8</identifier>
                 <visibilityRule>
                     <booleanFilter>1 AND 2 AND 3</booleanFilter>
                     <criteria>
@@ -3764,6 +3972,7 @@
                     <value>Facet-ugbs1hpw27j</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
+                <identifier>flexipage_tabset9</identifier>
                 <visibilityRule>
                     <booleanFilter>1 AND 2</booleanFilter>
                     <criteria>
@@ -3786,6 +3995,7 @@
                     <value>Facet-ysdgkb0eeke</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
+                <identifier>flexipage_tabset10</identifier>
                 <visibilityRule>
                     <booleanFilter>1 AND 2 AND 3</booleanFilter>
                     <criteria>
@@ -3813,6 +4023,7 @@
                     <value>Facet-kzc30jzgoal</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
+                <identifier>flexipage_tabset11</identifier>
                 <visibilityRule>
                     <booleanFilter>1 AND 2 AND 3</booleanFilter>
                     <criteria>
@@ -3840,6 +4051,7 @@
                     <value>Facet-db8c42d8-3815-4efb-984d-3a9eea8d4d37</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
+                <identifier>flexipage_tabset12</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.Product_Request_Status__c}</leftValue>
@@ -3857,6 +4069,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>runtime_sales_activities:activityPanel</componentName>
+                <identifier>runtime_sales_activities_activityPanel</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
@@ -3867,6 +4080,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>forceChatter:recordFeedContainer</componentName>
+                <identifier>forceChatter_recordFeedContainer</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
@@ -3889,6 +4103,7 @@
                     <value>Standard.Tab.activity</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>activityTab</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -3902,6 +4117,7 @@
                     <value>Standard.Tab.collaborate</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>collaborateTab</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
@@ -3932,6 +4148,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer56</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -3957,6 +4174,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer57</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
@@ -3973,6 +4191,7 @@
                     <value>sidebartabs</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
+                <identifier>flexipage_tabset13</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>

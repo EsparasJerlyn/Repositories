@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <FlexiPage xmlns="http://soap.sforce.com/2006/04/metadata">
-    <flexiPageRegions> 
+    <flexiPageRegions>
         <itemInstances>
             <componentInstance>
                 <componentName>clients:emailTemplatesActionContainerFlex</componentName>
+                <identifier>clients_emailTemplatesActionContainerFlex</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentName>lightningInbox:logItemButtonContainer</componentName>
+                <identifier>lightningInbox_logItemButtonContainer</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -18,6 +20,7 @@
                     <value>Account</value>
                 </componentInstanceProperties>
                 <componentName>clients:relatedRecordsPageFlex</componentName>
+                <identifier>clients_relatedRecordsPageFlex</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -27,11 +30,13 @@
                     <value>Opportunity</value>
                 </componentInstanceProperties>
                 <componentName>clients:relatedRecordsPageFlex</componentName>
+                <identifier>clients_relatedRecordsPageFlex2</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentName>clients:peopleCardContainerFlex</componentName>
+                <identifier>clients_peopleCardContainerFlex</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
@@ -42,6 +47,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>clients:tasksActionContainerFlex</componentName>
+                <identifier>clients_tasksActionContainerFlex</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
@@ -79,6 +85,7 @@
                     </valueList>
                 </componentInstanceProperties>
                 <componentName>clients:tab</componentName>
+                <identifier>clients_tab</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -111,6 +118,7 @@
                     </valueList>
                 </componentInstanceProperties>
                 <componentName>clients:tab</componentName>
+                <identifier>clients_tab2</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
@@ -133,6 +141,7 @@
                     <value>maintabs</value>
                 </componentInstanceProperties>
                 <componentName>clients:tabset</componentName>
+                <identifier>clients_tabset</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>

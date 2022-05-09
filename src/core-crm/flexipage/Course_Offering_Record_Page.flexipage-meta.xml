@@ -7,7 +7,7 @@
                     <name>actionNames</name>
                     <valueList>
                         <valueListItems>
-                            <value>CustomButton.hed__Course_Offering__c.Generatea0lAD00000012B3YAI</value>
+                            <value>CustomButton.hed__Course_Offering__c.Generatea0lBo0000002Rc1IAE</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -32,6 +32,7 @@
                     <value>1</value>
                 </componentInstanceProperties>
                 <componentName>force:highlightsPanel</componentName>
+                <identifier>force_highlightsPanel</identifier>
             </componentInstance>
         </itemInstances>
         <name>header</name>
@@ -41,6 +42,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>registeredLearnerRelatedList</componentName>
+                <identifier>registeredLearnerRelatedList</identifier>
             </componentInstance>
         </itemInstances>
         <name>main</name>
