@@ -10,14 +10,16 @@
 public without sharing class LMSCourseOfferingBatchHandler implements Database.Batchable<SObject>, Database.AllowsCallouts, Schedulable {
 
     private static final String PRIMARY_DELIVERY_PLATFORM = 'Blackboard';
+    private static final String SUCCESS = 'Success';
+
 
     public Database.QueryLocator start(Database.BatchableContext param1) {
         return Database.getQueryLocator(
-                'SELECT Id, Course_Code__c, Name, hed__Start_Date__c, hed__End_Date__c, isLMSTriggered__c,' +
-                        ' hed__Course__r.LMS_Site_URL__c, hed__Course__r.Primary_Delivery_Platform__c, hed__Course__r.Mark_Content_as_Complete__c' +
+            'SELECT Id, Course_Code__c, Name, hed__Start_Date__c, hed__End_Date__c, LMS_Integration_Status__c,' +
+            ' hed__Course__r.LMS_Integration_Status__c, hed__Course__r.Primary_Delivery_Platform__c, hed__Course__r.Mark_Content_as_Complete__c' +
                         ' FROM hed__Course_Offering__c' +
-                        ' WHERE isLMSTriggered__c = FALSE' + 
-                        ' AND hed__Course__r.LMS_Site_URL__c != NULL' + 
+            ' WHERE LMS_Integration_Status__c = NULL' +
+            ' AND hed__Course__r.LMS_Integration_Status__c = :SUCCESS' +
                         ' AND hed__Course__r.Primary_Delivery_Platform__c = :PRIMARY_DELIVERY_PLATFORM' +
                         ' AND hed__Course__r.Mark_Content_as_Complete__c = TRUE'
         );

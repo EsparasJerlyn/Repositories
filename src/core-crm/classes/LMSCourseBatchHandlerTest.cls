@@ -41,7 +41,7 @@ public class LMSCourseBatchHandlerTest {
         DataBase.executeBatch(job, 1); 
         Test.stopTest();
 
-        hed__Course__c courseAfterUpdate = [SELECT Id, isLMSTriggered__c FROM hed__Course__c LIMIT 1];
-        System.assertEquals(true, courseAfterUpdate.isLMSTriggered__c, 'LMS Course Callout is completed.');
+        hed__Course__c courseAfterUpdate = [SELECT Id, LMS_Integration_Status__c FROM hed__Course__c LIMIT 1];
+        System.assertEquals('Sent', courseAfterUpdate.LMS_Integration_Status__c, 'LMS Course Callout is completed.');
     }
 }

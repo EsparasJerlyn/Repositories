@@ -7,7 +7,7 @@
  *    | Developer                 | Date                  | JIRA         | Change Summary                              |
       |---------------------------|-----------------------|--------------|---------------------------------------------|
       | john.bo.a.pineda          | May 07, 2022          | DEPP-2549    | Created file                                |
-      | wli                       | May 08, 2022          | DEPP-2549    | Update                                      |
+      | wli                       | May 08/09, 2022       | DEPP-2549,2565    | Update                                      |
  */
 public without sharing class LMSIntegrationManager {
 
@@ -17,14 +17,14 @@ public without sharing class LMSIntegrationManager {
     public static void calloutLMSCourse(hed__Course__c course) {
         HttpResponse response = doCallout(ENDPOINT_ESB_LMS_COURSE, 'POST', JSON.serialize(new LMSCourseWrapper(course)));
 
-        course.isLMSTriggered__c = true;
+        course.LMS_Integration_Status__c = 'Sent';
         update course;
     }
 
     public static void calloutLMSCourseOffering(hed__Course_Offering__c courseOffering) {
         HttpResponse response = doCallout(ENDPOINT_ESB_LMS_COURSE_OFFERING, 'POST', JSON.serialize(new LMSCourseOfferingWrapper(courseOffering)));
 
-        courseOffering.isLMSTriggered__c = true;
+        courseOffering.LMS_Integration_Status__c = 'Sent';
         update courseOffering;
     }
 

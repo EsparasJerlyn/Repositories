@@ -21,7 +21,8 @@
     </values>
     <values>
         <field>Right_Column_Long__c</field>
-        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Content_Locationv2__c&quot;}]</value>
+        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Content_Locationv2__c&quot;},
+            {&quot;field&quot;:&quot;LMS_Integration_Status__c&quot;}]</value>
     </values>
     <values>
         <field>Right_Column__c</field>

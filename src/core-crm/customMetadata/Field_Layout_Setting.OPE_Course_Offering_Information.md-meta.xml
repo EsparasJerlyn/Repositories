@@ -5,7 +5,7 @@
     <values>
         <field>Left_Column_Long__c</field>
         <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Delivery_Type__c&quot;, &quot;mandatory&quot;:true},{&quot;field&quot;:&quot;hed__Start_Date__c&quot;, &quot;mandatory&quot;:true},
-{&quot;field&quot;:&quot;Registration_Start_Date__c&quot;, &quot;mandatory&quot;:true},{&quot;field&quot;:&quot;Minimum_Participants__c&quot;, &quot;mandatory&quot;:true,&quot;isPrePopulated&quot;:true}]</value>
+{&quot;field&quot;:&quot;Registration_Start_Date__c&quot;, &quot;mandatory&quot;:true},{&quot;field&quot;:&quot;Minimum_Participants__c&quot;, &quot;mandatory&quot;:true,&quot;isPrePopulated&quot;:true},{&quot;field&quot;:&quot;LMS_Integration_Status__c&quot;}]</value>
     </values>
     <values>
         <field>Left_Column__c</field>

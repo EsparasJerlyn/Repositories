@@ -31,10 +31,10 @@ public class LMSCourseOfferingBatchHandlerTest {
     @isTest
     static void testCourseOfferingLMSUpdate()
     {
-        hed__Course__c course = [SELECT Id, Mark_Content_as_Complete__c, Primary_Delivery_Platform__c, LMS_Site_URL__c FROM hed__Course__c LIMIT 1];
+        hed__Course__c course = [SELECT Id, Mark_Content_as_Complete__c, Primary_Delivery_Platform__c, LMS_Integration_Status__c FROM hed__Course__c LIMIT 1];
         course.Mark_Content_as_Complete__c = true;
         course.Primary_Delivery_Platform__c = 'Blackboard';
-        course.LMS_Site_URL__c = 'test.com';
+        course.LMS_Integration_Status__c = 'Success';
         update course;
         
         Test.startTest();
@@ -42,7 +42,7 @@ public class LMSCourseOfferingBatchHandlerTest {
         DataBase.executeBatch(job, 1); 
         Test.stopTest();
 
-        hed__Course_Offering__c courseOffering = [SELECT Id, isLMSTriggered__c FROM hed__Course_Offering__c LIMIT 1];
-        System.assertEquals(true, courseOffering.isLMSTriggered__c, 'LMS Course Offering Callout is completed.');
+        hed__Course_Offering__c courseOffering = [SELECT Id, LMS_Integration_Status__c FROM hed__Course_Offering__c LIMIT 1];
+        System.assertEquals('Sent', courseOffering.LMS_Integration_Status__c, 'LMS Course Offering Callout is completed.');
     }
 }
