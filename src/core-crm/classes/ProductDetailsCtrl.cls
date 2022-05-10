@@ -11,6 +11,7 @@
       | john.bo.a.pineda          | April 11, 2022        | DEPP-1211            | Updated logic for new UI                   |
       | marlon.vasquez            | May 04,2022           | DEPP-1531            | Added Questionnaire Form                   |
       | keno.domienri.dico        | April 29, 2022        | DEPP-2038            | Added Child products display               |
+      | eugene.andrew.abuan       | May 10, 2022          | DEPP-1269            | Added isProgramFlex to match in prodCard   |
 */
 public without sharing class ProductDetailsCtrl {
   public static final Id STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
@@ -174,6 +175,7 @@ public without sharing class ProductDetailsCtrl {
         childProductWrapper.childProdProfLevel = childProd.Professional_Level__c;
         childProductWrapper.childProdDuration = childProd.Duration__c;
         childProductWrapper.childProdDescription = childProd.Description;
+        childProductWrapper.isProgramFlex = FALSE;
         if (
           productOnPage.Program_Plan__r.Program_Delivery_Structure__c ==
           'Flexible Program'
@@ -872,6 +874,8 @@ public without sharing class ProductDetailsCtrl {
     public String childProdPrice { get; set; }
     @AuraEnabled
     public String childProdDuration { get; set; }
+    @AuraEnabled
+    public Boolean isProgramFlex  { get; set;}
   }
 
   /**

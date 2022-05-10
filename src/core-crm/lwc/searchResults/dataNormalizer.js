@@ -7,7 +7,7 @@ import { resolve } from 'c/cmsResourceResolver';
  * @param {string} cardContentMapping
  */
 export function transformData(data, cardContentMapping) {
-    const DEFAULT_PAGE_SIZE = 10;
+    const DEFAULT_PAGE_SIZE = 6;
     const { productsPage = {}, categories = {}, facets = [], locale = '' } =
         data || {};
     const {

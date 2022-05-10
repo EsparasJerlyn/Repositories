@@ -1,17 +1,31 @@
 <template>
-    <lightning-button-icon
-        disabled={isFirstPage}
-        variant="brand"
-        class="slds-p-around_medium"
-        icon-name="utility:chevronleft"
-        onclick={handlePrevious}
-    ></lightning-button-icon>
     <p>Page {currentPageNumber} of {totalPages}</p>
-    <lightning-button-icon
-        disabled={isLastPage}
-        variant="brand"
-        class="slds-p-around_medium"
-        icon-name="utility:chevronright"
-        onclick={handleNext}
-    ></lightning-button-icon>
+    <div class="slds-clearfix">
+        <div class="slds-float_right">
+            <lightning-button-icon
+            disabled={isFirstPage}
+            variant="brand"
+            class="slds-p-around_medium"
+            icon-name="utility:chevronleft"
+            onclick={handlePrevious}
+            ></lightning-button-icon>
+            <template if:true={pages}>
+            <template for:each={pages} for:item="page">
+                <lightning-button
+                    class={page.class}
+                    key={page.page}
+                    label={page.page}
+                    onclick={handlePage}
+                ></lightning-button>
+            </template>
+            </template>
+            <lightning-button-icon
+                disabled={isLastPage}
+                variant="brand"
+                class="slds-p-around_medium"
+                icon-name="utility:chevronright"
+                onclick={handleNext}
+            ></lightning-button-icon>
+        </div>
+    </div>
 </template>
