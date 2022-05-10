@@ -1,0 +1,69 @@
+<template >
+
+    <template for:each={productDetails} for:item="product">
+      <div key={product.childProdId} class="card-container">
+
+        <div class="slds-grid slds-wrap card-main">
+
+          <div class="slds-col slds-size_1-of-1 fields-area card-title">
+              <a class="h3" data-id={product.childProdId} data-name={product.childProdName} href={recordPageUrl} onclick={navigateToProductPage}>{product.childProdName}</a>
+          </div>
+        
+          <span class="card-body">
+
+            <div class="slds-col slds-size_1-of-2 card-desc-container">
+              <div class="card-description">
+                <p class="body">{product.childProdDescription}</p>
+              </div>
+              <div class="slds-p-horizontal_small">
+                <p class="pills body">{product.childProdProfLevel}</p>
+              </div>
+            </div>
+
+            <div class="slds-col slds-size_1-of-2 card-details">
+              <div class="card-detail-list">
+
+                <div class="slds-p-vertical_small">
+                  <span class="item-container">
+                    <img class="item-icon" src={clipboard_icon} />
+                    <p class="item-label body"><strong class="bodyBold">Start Date:&nbsp;</strong>{product.childProdOfferingDate}</p>              
+                </span>
+                </div>
+    
+                <div class="slds-p-bottom_small">
+                  <span class="item-container">          
+                    <img class="item-icon" src={location_icon} />
+                    <span>
+                      <p class="item-label body"><strong class="bodyBold">Delivery:&nbsp;</strong></p>  
+                    </span>
+                    <span>
+                      <p class="item-del body">{product.childProdDelivery}</p>
+                    </span>                    
+                  </span>            
+                </div>
+    
+                <div class="slds-p-bottom_small">
+                  <span class="item-container">  
+                    <img class="item-icon" src={dollar_icon} />
+                    <p class="item-label body"><strong class="bodyBold">Price:&nbsp;</strong>From {product.childProdPrice}</p>
+                  </span>                
+                </div>
+    
+                <div class="slds-p-bottom_small">
+                  <span class="item-container">
+                    <img class="item-icon" src={time_icon} />
+                    <p class="item-label body"><strong class="bodyBold">Duration:&nbsp;</strong>{product.childProdDuration}</p>
+                  </span>
+                </div>
+                
+    
+              </div>
+            </div>
+
+          </span>
+            
+        </div>
+      </div>
+       
+    </template>
+</template>

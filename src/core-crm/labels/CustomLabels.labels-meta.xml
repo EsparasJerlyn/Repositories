@@ -421,6 +421,13 @@
         <value>Overview</value>
     </labels>
     <labels>
+        <fullName>QUT_ProductDetail_Professional_Development_Modules</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>QUT_ProductDetail_Professional_Development_Modules</shortDescription>
+        <value>Professional Development Modules</value>
+    </labels>
+    <labels>
         <fullName>QUT_ProductDetail_CoreConcepts</fullName>
         <language>en_US</language>
         <protected>false</protected>

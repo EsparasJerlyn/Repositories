@@ -1,0 +1,112 @@
+:host {
+    --primaryBlue500:#0066B9; 
+    --primaryBlue100:#EFF6FB;
+    --colorWhite: #fff;
+    --colorBlack: #000;
+
+    --borderCheck: 0px solid #000;
+    --fontFamily: 'Proxima-Nova';
+    --fontFamilyBold: 'ProximaNova-Bold';
+}
+
+.card-main, .card-title, .card-desc-container, .card-details {
+    border: var(--borderCheck);
+    font-family: var(--fontFamily);
+}
+
+.card-container {
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+
+.card-main {
+    width: 100%;
+    border: 1px solid var(--primaryBlue500);
+}
+
+/*.card-title {
+    align-content: center;
+    background-color: var(--primaryBlue500);
+    padding: 1.3em;
+;
+}*/
+
+/*.card-title a {
+    text-decoration: none;
+    font-size: 15pt;
+    font-family: var(--fontFamilyBold);
+    color: var(--colorWhite);
+}*/
+
+.card-title a:hover {
+    text-decoration: none;
+}
+
+.card-body {
+    display: flex;
+    width: 100%;
+}
+
+.card-desc-container {
+    width: 60%;
+    font-family: var(--fontFamily);
+}
+
+.card-description {
+    padding: 1em;
+    font-size: 12pt;
+    height: 75%;
+}
+
+.card-button {               
+    margin-left: 1em;
+    text-align: center;
+    border-radius: 48px;
+    background-color: #F5F5F5;
+    width: 100px; 
+}
+
+.card-button p {
+    font-size: 12pt;
+    line-height: 2em;
+}
+
+.card-details {
+    width: 40%;
+    font-size: 12pt;
+    background-color: var(--primaryBlue100);
+}
+
+.card-detail-list {
+    padding: 1em;
+    border: var(--borderCheck);
+}
+
+path {
+    fill: var(--primaryBlue500);
+}
+
+.item-container, .item-icon, .item-label {
+    border: var(--borderCheck);
+    align-items: baseline;
+}
+
+.item-container {
+    align-items: flex-start;
+    display: inline-flex;
+}
+
+.item-label {
+    text-indent: 1em;
+    margin: auto;
+}
+
+.item-del {
+    margin: auto;
+}
+
+/* Mobile CSS */
+@media screen and (max-width: 764px) {
+    
+  
+}

@@ -619,6 +619,16 @@ span[b2b_buyer_cart-badge_badge].slds-dropdown-trigger:before{
 
 /** ACCORDION **/
 
+.slds-accordion__summary{
+  margin-left: 0px  !important;
+  margin-right: 0px  !important;
+} 
+  
+.slds-accordion__section{
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+
 /** Closed **/
 .slds-accordion__summary-heading {
   padding: 16px;

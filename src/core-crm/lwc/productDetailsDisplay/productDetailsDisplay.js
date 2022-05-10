@@ -19,8 +19,10 @@
       | john.bo.a.pineda          | January 19, 2022      | DEPP-1410            | Added logic for add to cart                  |
       | roy.nino.s.regala         | February 04, 2022     | DEPP-213             | Added logic for register interest            |
       | john.bo.a.pineda          | April 11, 2022        | DEPP-1211            | Modified logic for new UI                    |
+      | keno.domienri.dico        | April 29, 2022        | DEPP-2038            | Added child product records                  |
       | marlon.vasquez            | May 04,2022           | DEPP-1531            | Added Questionnaire Form                     |
 */
+
 import { LightningElement, wire, api, track } from "lwc";
 import { NavigationMixin } from "lightning/navigation";
 import { loadStyle } from "lightning/platformResourceLoader";
@@ -50,6 +52,7 @@ import addToCart from "@salesforce/label/c.QUT_ProductDetail_AddToCart";
 import registerInterest from "@salesforce/label/c.QUT_ProductDetail_RegisterInterest";
 import subHeader from "@salesforce/label/c.QUT_ProductDetail_SubHeader";
 import LWC_Error_General from "@salesforce/label/c.LWC_Error_General";
+import professionalDevelopmentModules from "@salesforce/label/c.QUT_ProductDetail_Professional_Development_Modules";
 import { getRecord, getFieldValue } from "lightning/uiRecordApi";
 import CONTACT_ID from "@salesforce/schema/User.ContactId";
 import getQuestions from "@salesforce/apex/ProductDetailsCtrl.getQuestions";
@@ -61,11 +64,8 @@ const ERROR_TITLE = 'Error!';
 const SUCCESS_VARIANT = 'success';
 const ERROR_VARIANT = 'error';
 const NO_REC_FOUND = 'No record(s) found.';
-const MODAL_TITLE = 'Registration Details'
-
-
-const INTEREST_EXISTS_ERROR =
-  "You already registered your interest for this product.";
+const MODAL_TITLE = 'Registration Details';
+const INTEREST_EXISTS_ERROR = "You already registered your interest for this product.";
 
 export default class ProductDetailsDisplay extends NavigationMixin(
   LightningElement
@@ -84,6 +84,8 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   @api productDetails;
   @api priceBookEntries;
   @api deliveryOptions = [];
+  @api cProducts;
+  @api isNotFlexProgram;
 
   @track courseOfferings = [];
   @track selectedCourseOffering;
@@ -118,7 +120,8 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     pricingPlaceholder,
     addToCart,
     registerInterest,
-    subHeader
+    subHeader,
+    professionalDevelopmentModules
   };
 
   bulkRegister = false;
@@ -208,7 +211,6 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     this.iconuploadfilled = qutResourceImg + "/QUTImages/Icon/icon-upload-filled";
     this.linkedInLogo = qutResourceImg + "/QUTImages/Icon/linkedInLogo.svg";
     this.xMark = qutResourceImg + "/QUTImages/Icon/xMark.svg";
-
     // Display AddToCart / Register Interest
     if (
       this.deliveryOptions.length == 0 &&
@@ -488,6 +490,22 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     });
     this.dispatchEvent(evt);
   }
+
+  // Display Professional Development Module static text
+  get pdmStaticText() {
+    return (
+      `Each ` +
+      this.productDetails.Name +
+      ` Professional Development Module is a stand-alone course. Choose the expertise you need and explore each topic to find the time frame that suits you.`
+    );
+  }
+
+  // Gets whether product information has been retrieved for display.
+  get hasChildProducts() {
+    return this.cProducts && this.cProducts.length > 0 ? true : false;
+  }
+
+
    //Questionnaire
  get modalTitle(){ return MODAL_TITLE; }
  get modalName() {return this.modalName;}

@@ -6,7 +6,6 @@
     <targets>
         <target>lightningCommunity__Page</target>
         <target>lightningCommunity__Default</target>
-         
         <target>lightning__AppPage</target>
         <target>lightning__RecordPage</target>
     </targets>
@@ -17,4 +16,5 @@
             <property name="customDisplayFields" type="String" label="Custom Display Fields (comma-separated and case-sensitive)" description="The comma-separated fields to display on the product detail page"/>
         </targetConfig>
     </targetConfigs>
+    
 </LightningComponentBundle>

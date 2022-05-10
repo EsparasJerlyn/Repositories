@@ -15,7 +15,9 @@
       | xenia.gaerlan             | Novemver 18, 2021     | DEPP-618             | GetProgramTypeCtrl                           |
       | roy.nino.s.regala         | December 6, 2021      | DEPP-116             | Removed unsused code and added field mapping |
       | john.bo.a.pineda          | April 11, 2022        | DEPP-1211            | Modified logic for new UI                    |
+      | keno.domienri.dico        | April 29, 2022        | DEPP-2038            | Added child product records                  |
  */
+
 import { LightningElement, wire, api } from "lwc";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import communityId from "@salesforce/community/Id";
@@ -75,6 +77,9 @@ export default class ProductDetails extends LightningElement {
   // Gets whether product information has been retrieved for display.
   get hasProduct() {
     return this.productDetails.data !== undefined;
+    /* return this.productDetails.data
+    ? this.productDetails.data.productOnPage
+    : []; */
   }
 
   // Gets priceBookEntries related to the product
@@ -95,6 +100,21 @@ export default class ProductDetails extends LightningElement {
   get productOnPage() {
     return this.productDetails.data
       ? this.productDetails.data.productOnPage
+      : [];
+  }
+
+  // Gets Product Fields
+  get isNotFlexProgram() {
+    return this.productDetails.data
+      ? this.productDetails.data.isNotFlexProgram
+      : [];
+  }
+
+  // Gets List oc Child Products
+  get cProducts() {
+    // console.log('productDetails: ' + JSON.stringify(this.productDetails));
+    return this.productDetails.data
+      ? this.productDetails.data.childProductList
       : [];
   }
 
@@ -160,6 +180,7 @@ export default class ProductDetails extends LightningElement {
       });
   }
 
+  
   /*   handleRefresh() {
     refreshApex(this.productDetails);
   } */

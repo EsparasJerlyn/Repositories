@@ -10,12 +10,9 @@
       | roy.nino.s.regala         | March 04, 2022        | DEPP-1985            | Bug fix added recordtype                   |
       | john.bo.a.pineda          | April 11, 2022        | DEPP-1211            | Updated logic for new UI                   |
       | marlon.vasquez            | May 04,2022           | DEPP-1531            | Added Questionnaire Form                   |
+      | keno.domienri.dico        | April 29, 2022        | DEPP-2038            | Added Child products display               |
 */
 public without sharing class ProductDetailsCtrl {
-
-  private static string studentRT = System.Label.RT_CourseConnection_Student;
-  private static Id studentRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(studentRT).getRecordTypeId();
-
   public static final Id STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
     .get('Student')
     .getRecordTypeId();
@@ -33,6 +30,7 @@ public without sharing class ProductDetailsCtrl {
     ProductDetailsData prodDetailsData = new ProductDetailsData();
     List<PricebookEntryWrapper> pbEntryWrapperList = new List<PricebookEntryWrapper>();
     List<DeliveryWrapper> delivWrapperList = new List<DeliveryWrapper>();
+    List<childProduct> childProdWrapperList = new List<childProduct>();
 
     // Product
     Product2 productOnPage = [
@@ -55,11 +53,12 @@ public without sharing class ProductDetailsCtrl {
           FROM PricebookEntries
           WHERE IsActive = TRUE
           ORDER BY CreatedDate, Pricebook2.IsStandard DESC
-        )
+        ),
+        Program_Plan__r.Product_Request__c,
+        Program_Plan__r.Program_Delivery_Structure__c
       FROM Product2
       WHERE Id = :productId
     ];
-
     // Pricebook Entries
     if (!productOnPage.PricebookEntries.isEmpty()) {
       for (PricebookEntry pricebookEntry : productOnPage.PricebookEntries) {
@@ -71,36 +70,149 @@ public without sharing class ProductDetailsCtrl {
       }
     }
 
-    // Delivery Options
-    if (String.isNotBlank(productOnPage.Delivery__c)) {
-      // Course Offering counter for Delivery
-      Map<String, Integer> deliveryCountMap = new Map<String, Integer>();
-      List<AggregateResult> countList = [
-        SELECT Count(Id) counter, Delivery_Type__c
-        FROM hed__Course_Offering__c
-        WHERE
-          Registration_Start_Date__c >= TODAY
-          AND IsActive__c = TRUE
-          AND Available_Seats__c > 0
-          AND hed__Course__c = :productOnPage.Course__c
-        GROUP BY Delivery_Type__c
+    // Set isNotFlexProgram to True
+    prodDetailsData.isNotFlexProgram = true;
+
+    // Single Product
+    if (String.isBlank(productOnPage.Program_Plan__c)) {
+      // Delivery Options
+      if (String.isNotBlank(productOnPage.Delivery__c)) {
+        // Course Offering counter for Delivery
+        Map<String, Integer> deliveryCountMap = new Map<String, Integer>();
+        List<AggregateResult> countList = [
+          SELECT Count(Id) counter, Delivery_Type__c
+          FROM hed__Course_Offering__c
+          WHERE
+            Registration_Start_Date__c >= TODAY
+            AND IsActive__c = TRUE
+            AND Available_Seats__c > 0
+            AND hed__Course__c = :productOnPage.Course__c
+          GROUP BY Delivery_Type__c
+        ];
+        for (AggregateResult count : countList) {
+          deliveryCountMap.put(
+            (String) count.get('Delivery_Type__c'),
+            (Integer) count.get('counter')
+          );
+        }
+
+        // Display Delivery Options w/ Course Offerings
+        List<String> delivList = productOnPage.Delivery__c.split(';');
+        for (String deliv : delivList) {
+          if (deliveryCountMap.get(deliv) > 0) {
+            DeliveryWrapper delivWrapper = new DeliveryWrapper();
+            delivWrapper.label = deliv;
+            delivWrapper.value = deliv;
+            delivWrapperList.add(delivWrapper);
+          }
+        }
+      }
+    } else {
+      // List Courses from Related Product Request
+      Set<Id> courseIdSet = new Set<Id>();
+      List<Related_Product_Request__c> relProdReqList = [
+        SELECT Id, Name, Program__c, Course__c
+        FROM Related_Product_Request__c
+        WHERE Program__c = :productOnPage.Program_Plan__r.Product_Request__c
       ];
-      for (AggregateResult count : countList) {
-        deliveryCountMap.put(
-          (String) count.get('Delivery_Type__c'),
-          (Integer) count.get('counter')
-        );
+      for (Related_Product_Request__c relProdReq : relProdReqList) {
+        courseIdSet.add(relProdReq.Course__c);
+      }
+      // Get Child Products
+      List<Product2> childProdList = [
+        SELECT
+          Id,
+          Name,
+          Course__c,
+          Duration__c,
+          Delivery__c,
+          Description,
+          Professional_Level__c,
+          (
+            SELECT Id, Pricebook2.Name, UnitPrice
+            FROM PricebookEntries
+            WHERE IsActive = TRUE
+            ORDER BY CreatedDate, Pricebook2.IsStandard DESC
+          )
+        FROM Product2
+        WHERE Course__r.ProductRequestID__c IN :courseIdSet
+      ];
+
+      // Flexible-Program
+      Map<Id, Date> cProdDateMap = new Map<Id, Date>();
+      if (
+        productOnPage.Program_Plan__r.Program_Delivery_Structure__c ==
+        'Flexible Program'
+      ) {
+        // Set isNotFlexProgram to False
+        prodDetailsData.isNotFlexProgram = false;
+
+        // Map Child Product Earliest Course Offering Date
+        List<AggregateResult> startDateList = [
+          SELECT hed__Course__c, MIN(hed__Start_Date__c) startDate
+          FROM hed__Course_Offering__c
+          WHERE
+            Registration_Start_Date__c >= TODAY
+            AND IsActive__c = TRUE
+            AND Available_Seats__c > 0
+            AND hed__Course__r.ProductRequestID__c IN :courseIdSet
+          GROUP BY hed__Course__c
+        ];
+        for (AggregateResult startDate : startDateList) {
+          cProdDateMap.put(
+            (Id) startDate.get('hed__Course__c'),
+            (Date) startDate.get('startDate')
+          );
+        }
       }
 
-      // Display Delivery Options w/ Course Offerings
-      List<String> delivList = productOnPage.Delivery__c.split(';');
-      for (String deliv : delivList) {
-        if (deliveryCountMap.get(deliv) > 0) {
-          DeliveryWrapper delivWrapper = new DeliveryWrapper();
-          delivWrapper.label = deliv;
-          delivWrapper.value = deliv;
-          delivWrapperList.add(delivWrapper);
+      // Process Child Products
+      for (Product2 childProd : childProdList) {
+        childProduct childProductWrapper = new childProduct();
+        childProductWrapper.childProdId = childProd.Id;
+        childProductWrapper.childProdName = childProd.Name;
+        childProductWrapper.childProdProfLevel = childProd.Professional_Level__c;
+        childProductWrapper.childProdDuration = childProd.Duration__c;
+        childProductWrapper.childProdDescription = childProd.Description;
+        if (
+          productOnPage.Program_Plan__r.Program_Delivery_Structure__c ==
+          'Flexible Program'
+        ) {
+          // Child Product Pricebook Entries
+          Map<String, String> cProdPBEntryMap = new Map<String, String>();
+          if (!childProd.PricebookEntries.isEmpty()) {
+            for (
+              PricebookEntry cProductPBookEntry : childProd.PricebookEntries
+            ) {
+              cProdPBEntryMap.put(
+                cProductPBookEntry.Pricebook2.Name,
+                String.valueOf(cProductPBookEntry.UnitPrice)
+              );
+            }
+          }
+
+          childProductWrapper.childProdDelivery = childProd.Delivery__c.replace(
+            ';',
+            ', '
+          );
+
+          if (cProdDateMap.containsKey(childProd.Course__c)) {
+            childProductWrapper.childProdOfferingDate = Datetime.newInstance(
+                cProdDateMap.get(childProd.Course__c),
+                Time.newInstance(0, 0, 0, 0)
+              )
+              .format('dd MMM yyyy');
+          }
+          childProductWrapper.childProdPrice = cProdPBEntryMap.get(
+            'Standard Price Book'
+          );
+          if (cProdPBEntryMap.containsKey('Early Bird Price')) {
+            childProductWrapper.childProdPrice = cProdPBEntryMap.get(
+              'Early Bird Price'
+            );
+          }
         }
+        childProdWrapperList.add(childProductWrapper);
       }
     }
 
@@ -108,6 +220,7 @@ public without sharing class ProductDetailsCtrl {
     prodDetailsData.productOnPage = productOnPage;
     prodDetailsData.pricebookWrapperList = pbEntryWrapperList;
     prodDetailsData.deliveryWrapperList = delivWrapperList;
+    prodDetailsData.childProductList = childProdWrapperList;
 
     return prodDetailsData;
   }
@@ -403,6 +516,11 @@ public without sharing class ProductDetailsCtrl {
     }
   } */
 
+  /**
+   * @description Inserts record to Expression of Intereset Object
+   * @param userId - Current logged in User Id
+   * @param productId - Product Id on productdetailpage
+   */
   @AuraEnabled
   public static void insertExpressionOfInterest(Id userId, Id productId) {
     User loggedInUser = [SELECT Id, Contact.Id FROM User WHERE Id = :userId];
@@ -436,6 +554,227 @@ public without sharing class ProductDetailsCtrl {
   }
 
   /**
+   * @description
+   * @param productRequestId -
+   * @return qrList -
+   */
+  @AuraEnabled(cacheable=true)
+  public static List<Related_Answer__c> getProductRequestWithQuestionnaire(
+    String productRequestId
+  ) {
+    List<Related_Answer__c> qrList = [
+      SELECT
+        Id,
+        Question__r.Type__c,
+        Question__r.Label__c,
+        Sequence__c,
+        Questionnaire__r.Parent_Record_ID__c,
+        Question__r.Acceptable_Response__c,
+        Question__r.Message__c,
+        Questionnaire__r.Questionnaire_Type__c,
+        Question__r.Dropdown_Options__c
+      FROM Related_Answer__c
+      WHERE
+        Questionnaire__r.Parent_Record_ID__c = :productRequestId
+        AND Questionnaire__r.Questionnaire_Type__c = 'Application Questions'
+      ORDER BY Questionnaire__r.Questionnaire_Type__c, Sequence__c
+    ];
+    return qrList;
+  }
+
+  /**
+   * @description
+   * @param productReqId -
+   * @return relatedAnswersList -
+   */
+
+  @AuraEnabled(cacheable=true)
+  public static List<Related_Answer__c> getQuestions(String productReqId) {
+    List<Related_Answer__c> relatedAnswersList = new List<Related_Answer__c>(
+      [
+        SELECT
+          Id,
+          Question__r.Type__c,
+          Question__r.Label__c,
+          Sequence__c,
+          Questionnaire__r.Parent_Record_ID__c,
+          Question__r.Acceptable_Response__c,
+          Question__r.Message__c,
+          Questionnaire__r.Questionnaire_Type__c,
+          Question__r.Dropdown_Options__c
+        FROM Related_Answer__c
+        WHERE
+          Questionnaire__r.Parent_Record_ID__c = :productReqId
+          AND Questionnaire__r.Questionnaire_Type__c = 'Application Questions'
+        ORDER BY Questionnaire__r.Questionnaire_Type__c, Sequence__c
+      ]
+    );
+    return relatedAnswersList;
+  }
+
+  /**
+   * @description get list of contacts searched
+   * @param contactRecord - contact to create
+   * @param courseOfferingId - course offering id
+   * @param relatedAnswerList - related answer records
+   * @param answerList - answer records to be inserted
+   * @param fileUpload - file to upload
+   */
+  @AuraEnabled
+  public static void addRegistration(
+    Contact contactRecord,
+    String courseOfferingId,
+    List<Related_Answer__c> relatedAnswerList,
+    List<Answer__c> answerList,
+    String fileUpload
+  ) {
+    List<FileUpload> parsedFileUpload = new List<FileUpload>();
+    if (fileUpload != '') {
+      parsedFileUpload = (List<FileUpload>) JSON.deserialize(
+        fileUpload,
+        List<FileUpload>.class
+      );
+    }
+
+    List<Questionnaire_Response_Summary__c> questionnaireSummaryToInsert = new List<Questionnaire_Response_Summary__c>();
+    Map<String, String> cvToRelatedAnswerMap = new Map<String, String>();
+    List<ContentDocumentLink> contentDocLinkListToInsert = new List<ContentDocumentLink>();
+    List<ContentVersion> cvListToInsertList = new List<ContentVersion>();
+    Map<Id, Id> relatedAnswerToQuestionnaireMap = new Map<Id, Id>();
+    Map<Id, Id> questionnaireToqResSummaryMap = new Map<Id, Id>();
+    Map<Id, Id> relatedAnswerToAnswerMap = new Map<Id, Id>();
+    Set<Id> questionnaireIds = new Set<Id>();
+
+    List<Answer__c> answersToInsert = new List<Answer__c>();
+    Map<Id, Answer__c> answersToUpdate = new Map<Id, Answer__c>();
+
+    if (contactRecord.Id == null) {
+      insert contactRecord;
+    }
+
+    for (Related_Answer__c relatedA : relatedAnswerList) {
+      questionnaireIds.add(relatedA.Questionnaire__c);
+      relatedAnswerToQuestionnaireMap.put(
+        relatedA.Id,
+        relatedA.Questionnaire__c
+      );
+    }
+
+    Questionnaire_Response_Summary__c qResSummary;
+
+    for (Id qId : questionnaireIds) {
+      qResSummary = new Questionnaire_Response_Summary__c();
+      qResSummary.Questionnaire__c = qId;
+      qResSummary.Course_Offering__c = courseOfferingId;
+      qResSummary.Contact__c = contactRecord.Id;
+      questionnaireSummaryToInsert.add(qResSummary);
+    }
+
+    if (!questionnaireSummaryToInsert.isEmpty()) {
+      insert questionnaireSummaryToInsert;
+    }
+
+    for (
+      Questionnaire_Response_Summary__c questionResSummary : questionnaireSummaryToInsert
+    ) {
+      questionnaireToqResSummaryMap.put(
+        questionResSummary.Questionnaire__c,
+        questionResSummary.Id
+      );
+    }
+
+    if (!answerList.isEmpty()) {
+      for (Answer__c a : answerList) {
+        a.Questionnaire_Response_Summary__c = questionnaireToqResSummaryMap.get(
+          relatedAnswerToQuestionnaireMap.get(a.Related_Answer__c)
+        );
+        answersToInsert.add(a);
+      }
+      insert answersToInsert;
+    }
+
+    for (Answer__c ans : answersToInsert) {
+      relatedAnswerToAnswerMap.put(ans.Related_Answer__c, ans.Id);
+    }
+
+    for (FileUpload file : parsedFileUpload) {
+      if (relatedAnswerToAnswerMap.containsKey(file.RelatedAnswerId)) {
+        ContentVersion cv = createContentVersion(file.Base64, file.FileName);
+        cvToRelatedAnswerMap.put(cv.Title, file.RelatedAnswerId);
+        cvListToInsertList.add(cv);
+      }
+    }
+
+    if (!cvListToInsertList.isEmpty()) {
+      insert cvListToInsertList;
+    }
+
+    List<ContentVersion> newContentVersionList = new List<ContentVersion>(
+      [
+        SELECT ContentDocumentId, Title
+        FROM ContentVersion
+        WHERE Id IN :cvListToInsertList
+      ]
+    );
+
+    if (!newContentVersionList.isEmpty()) {
+      ContentDocumentLink cdl;
+      Answer__c updateAnswer;
+      for (ContentVersion cv : newContentVersionList) {
+        String test = relatedAnswerToAnswerMap.get(
+          cvToRelatedAnswerMap.get(cv.Title)
+        );
+        cdl = new ContentDocumentLink(
+          ContentDocumentId = cv.ContentDocumentId,
+          LinkedEntityId = relatedAnswerToAnswerMap.get(
+            cvToRelatedAnswerMap.get(cv.Title)
+          ),
+          ShareType = 'V'
+        );
+        updateAnswer = new Answer__c(
+          Id = cdl.LinkedEntityId,
+          Response__c = cv.ContentDocumentId
+        );
+        answersToUpdate.put(updateAnswer.Id, updateAnswer);
+        contentDocLinkListToInsert.add(cdl);
+      }
+    }
+
+    if (!contentDocLinkListToInsert.isEmpty()) {
+      insert contentDocLinkListToInsert;
+    }
+
+    if (!answersToUpdate.keySet().isEmpty()) {
+      update answersToUpdate.values();
+    }
+
+    hed__Course_Enrollment__c newCourseConnection = new hed__Course_Enrollment__c(
+      hed__Course_Offering__c = courseOfferingId,
+      hed__Contact__c = contactRecord.Id,
+      RecordTypeId = STUDENT_RECTYPEID,
+      hed__Status__c = 'Active'
+    );
+    insert newCourseConnection;
+  }
+
+  /**
+   * @description
+   * @param base64 -
+   * @param filename -
+   * @return cv -
+   */
+  private static ContentVersion createContentVersion(
+    String base64,
+    String filename
+  ) {
+    ContentVersion cv = new ContentVersion();
+    cv.VersionData = EncodingUtil.base64Decode(base64);
+    cv.Title = filename;
+    cv.PathOnClient = filename;
+    return cv;
+  }
+
+  /**
    * @description wrapper that contains Product Details & Pricebook entries
    */
   public class ProductDetailsData {
@@ -445,6 +784,10 @@ public without sharing class ProductDetailsCtrl {
     public List<PricebookEntryWrapper> pricebookWrapperList;
     @AuraEnabled
     public List<DeliveryWrapper> deliveryWrapperList;
+    @AuraEnabled
+    public Boolean isNotFlexProgram;
+    @AuraEnabled
+    public List<childProduct> childProductList;
   }
 
   /**
@@ -498,188 +841,44 @@ public without sharing class ProductDetailsCtrl {
   }
 
   /**
+   * @description Wrapper class that holds the file uploaded by user
+   */
+  public class FileUpload {
+    @AuraEnabled
+    public String Base64;
+    @AuraEnabled
+    public String FileName;
+    @AuraEnabled
+    public String RelatedAnswerId;
+  }
+
+  /**
+   * @description wrapper that contains the facilitator details
+   */
+  public class childProduct {
+    @AuraEnabled
+    public String childProdId { get; set; }
+    @AuraEnabled
+    public String childProdName { get; set; }
+    @AuraEnabled
+    public String childProdDescription { get; set; }
+    @AuraEnabled
+    public String childProdProfLevel { get; set; }
+    @AuraEnabled
+    public String childProdOfferingDate { get; set; }
+    @AuraEnabled
+    public String childProdDelivery { get; set; }
+    @AuraEnabled
+    public String childProdPrice { get; set; }
+    @AuraEnabled
+    public String childProdDuration { get; set; }
+  }
+
+  /**
    * @description wrapper that contains the additional data needed to insert records
    */
   public class WrapperClass {
     @AuraEnabled
     public String courseOfferingId { get; set; }
-  }
-    
-  @auraEnabled(cacheable=true)
-  public static List<Related_Answer__c> getProductRequestWithQuestionnaire(String productRequestId)
-  {
-      List<Related_Answer__c> qrList=[SELECT Id, Question__r.Type__c, Question__r.Label__c, Sequence__c, 
-      Questionnaire__r.Parent_Record_ID__c, Question__r.Acceptable_Response__c, 
-      Question__r.Message__c, Questionnaire__r.Questionnaire_Type__c,
-      Question__r.Dropdown_Options__c
-      FROM Related_Answer__c
-      WHERE Questionnaire__r.Parent_Record_ID__c = :productRequestId
-      AND (Questionnaire__r.Questionnaire_Type__c = 'Application Questions' )
-      ORDER BY Questionnaire__r.Questionnaire_Type__c, Sequence__c ];
-      return qrList;
-  }
-
-
-
-  @AuraEnabled(cacheable=true)  
-  public static List<Related_Answer__c> getQuestions(String productReqId){
-      List<Related_Answer__c> relatedAnswersList = new List<Related_Answer__c>(
-            [
-                SELECT Id, Question__r.Type__c, Question__r.Label__c, Sequence__c, 
-                Questionnaire__r.Parent_Record_ID__c, Question__r.Acceptable_Response__c, 
-                Question__r.Message__c, Questionnaire__r.Questionnaire_Type__c,
-                Question__r.Dropdown_Options__c
-                FROM Related_Answer__c
-                WHERE Questionnaire__r.Parent_Record_ID__c =: productReqId
-                AND (Questionnaire__r.Questionnaire_Type__c = 'Application Questions' )
-                ORDER BY Questionnaire__r.Questionnaire_Type__c, Sequence__c 
-            ]
-      );
-      return relatedAnswersList;
-  }
-
-
-    /**
-     * @description get list of contacts searched 
-     * @param contactRecord - contact to create
-     * @param courseOfferingId - course offering id
-     * @param relatedAnswerList - related answer records
-     * @param answerList - answer records to be inserted
-     * @param fileUpload - file to upload
-     */
-    @AuraEnabled
-    public static void addRegistration(Contact contactRecord, String courseOfferingId, List<Related_Answer__c> relatedAnswerList, List<Answer__c> answerList, String fileUpload){
-          
-          List<FileUpload> parsedFileUpload = new List<FileUpload>();
-          if(fileUpload != ''){
-               parsedFileUpload = (List<FileUpload>) JSON.deserialize(fileUpload, List<FileUpload>.class);
-          }
-
-          List<Questionnaire_Response_Summary__c> questionnaireSummaryToInsert = new List<Questionnaire_Response_Summary__c>();
-          Map<String,String> cvToRelatedAnswerMap = new Map<String,String>();
-          List<ContentDocumentLink> contentDocLinkListToInsert = new List<ContentDocumentLink>();
-          List<ContentVersion> cvListToInsertList = new List<ContentVersion>();
-          Map<Id,Id> relatedAnswerToQuestionnaireMap = new Map<Id,Id>();
-          Map<Id,Id> questionnaireToqResSummaryMap = new Map<Id,Id>();
-          Map<Id,Id> relatedAnswerToAnswerMap = new Map<Id,Id>();
-          Set<Id> questionnaireIds = new Set<Id>();
-
-          List<Answer__c> answersToInsert = new List<Answer__c>();
-          Map<Id,Answer__c> answersToUpdate = new Map<Id,Answer__c>();
-
-          if(contactRecord.Id == NULL){
-               insert contactRecord;
-          }
-
-          for(Related_Answer__c relatedA: relatedAnswerList){
-               questionnaireIds.add(relatedA.Questionnaire__c);
-               relatedAnswerToQuestionnaireMap.put(relatedA.Id,relatedA.Questionnaire__c);
-          }
-
-          Questionnaire_Response_Summary__c qResSummary;
-
-          for(Id qId:questionnaireIds){
-               qResSummary = new Questionnaire_Response_Summary__c();
-               qResSummary.Questionnaire__c = qId;
-               qResSummary.Course_Offering__c = courseOfferingId;
-               qResSummary.Contact__c = contactRecord.Id;
-               questionnaireSummaryToInsert.add(qResSummary);
-          }
-
-          if(!questionnaireSummaryToInsert.isEmpty()){
-               insert questionnaireSummaryToInsert;
-          }
-
-          for(Questionnaire_Response_Summary__c questionResSummary: questionnaireSummaryToInsert){
-               questionnaireToqResSummaryMap.put(questionResSummary.Questionnaire__c,questionResSummary.Id);
-          }
-
-          if(!answerList.isEmpty()){
-               for(Answer__c a: answerList){
-                    a.Questionnaire_Response_Summary__c = questionnaireToqResSummaryMap.get(relatedAnswerToQuestionnaireMap.get(a.Related_Answer__c));
-                    answersToInsert.add(a);
-               }
-               insert answersToInsert;
-          }
-
-          for(Answer__c ans :answersToInsert){
-               relatedAnswerToAnswerMap.put(ans.Related_Answer__c,ans.Id);
-          }
-
-          for(FileUpload file: parsedFileUpload){
-               if(relatedAnswerToAnswerMap.containsKey(file.RelatedAnswerId)){
-                    ContentVersion cv = createContentVersion(file.Base64, file.FileName);
-                    cvToRelatedAnswerMap.put(cv.Title,file.RelatedAnswerId);
-                    cvListToInsertList.add(cv);
-               }
-          }
-
-          if(!cvListToInsertList.isEmpty()){
-               insert cvListToInsertList;
-          }
-
-          List<ContentVersion> newContentVersionList = new List<ContentVersion>(
-               [
-                    SELECT ContentDocumentId, Title
-                    FROM ContentVersion 
-                    WHERE Id IN:cvListToInsertList
-               ]
-          );
-
-          if(!newContentVersionList.isEmpty()){
-               ContentDocumentLink cdl;
-               Answer__c updateAnswer;
-               for(ContentVersion cv:newContentVersionList){
-                    String test = relatedAnswerToAnswerMap.get(cvToRelatedAnswerMap.get(cv.Title));
-                    cdl = new ContentDocumentLink(
-                         ContentDocumentId = cv.ContentDocumentId,
-                         LinkedEntityId = relatedAnswerToAnswerMap.get(cvToRelatedAnswerMap.get(cv.Title)),
-                         ShareType = 'V'
-                    );
-                    updateAnswer = new Answer__c(
-                         Id = cdl.LinkedEntityId,
-                         Response__c = cv.ContentDocumentId
-                    );
-                    answersToUpdate.put(updateAnswer.Id,updateAnswer);
-                    contentDocLinkListToInsert.add(cdl);
-               }
-          }
-
-          if(!contentDocLinkListToInsert.isEmpty()){
-               insert contentDocLinkListToInsert;
-          }
-
-          if(!answersToUpdate.keySet().isEmpty()){
-               update answersToUpdate.values();
-          }
-
-          hed__Course_Enrollment__c newCourseConnection = new hed__Course_Enrollment__c
-               (
-               hed__Course_Offering__c = courseOfferingId,
-               hed__Contact__c =  contactRecord.Id,
-               RecordTypeId = studentRecTypeId,
-               hed__Status__c = 'Active'
-               );
-          insert newCourseConnection;
-    }  
-
-    private static ContentVersion createContentVersion(String base64, String filename) {
-      ContentVersion cv = new ContentVersion();
-      cv.VersionData = EncodingUtil.base64Decode(base64);
-      cv.Title = filename;
-      cv.PathOnClient = filename;
-      return cv;
- }
-
-  /**
-  * @description Wrapper class that holds the file uploaded by user
-  */
-  public class FileUpload{
-      @AuraEnabled
-      public String Base64;
-      @AuraEnabled
-      public String FileName;
-      @AuraEnabled
-      public String RelatedAnswerId;
   }
 }

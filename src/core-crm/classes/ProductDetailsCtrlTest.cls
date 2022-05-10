@@ -12,14 +12,19 @@
       | roy.nino.s.regala         | December 27, 2021     | DEPP1028  | Added testmethod for insertLearnerInfo             |
       | roy.nino.s.regala         | February 04, 2022     | DEPP213   | Added testmethod for insert Expression of Interest |
       | john.bo.a.pineda          | April 26, 2022        | DEPP-1211 | Updated logic for new UI                           |
+      | keno.domienri.dico        | April 29, 2022        | DEPP-2038 | Added logic for child products display     |
 */
 @isTest(SeeAllData=false)
 private class ProductDetailsCtrlTest {
   private static final string studentRT = System.Label.RT_CourseConnection_Student;
   private static final String rtProdRequestActivity = System.Label.RT_ProductRequest_Activity;
-  private static final Id studentRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(studentRT).getRecordTypeId();
-  private static final Id opeActProdReqRecType = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(rtProdRequestActivity).getRecordTypeId();
-  private static final Integer numberOfRecords = 100;  
+  private static final Id studentRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
+    .get(studentRT)
+    .getRecordTypeId();
+  private static final Id opeActProdReqRecType = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName()
+    .get(rtProdRequestActivity)
+    .getRecordTypeId();
+  private static final Integer numberOfRecords = 100;
   private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
   private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName()
     .get(ACCT_UNIV_DEP)
@@ -35,6 +40,10 @@ private class ProductDetailsCtrlTest {
     .iterator()
     .next();
 
+  private static string PR_PROGRAM = System.Label.RT_ProductRequest_Program;
+  private static Id opeProgProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName()
+    .get(PR_PROGRAM)
+    .getRecordTypeId();
   @testSetup
   static void setupMethod() {
     System.runAs(currentUser) {
@@ -66,7 +75,28 @@ private class ProductDetailsCtrlTest {
       List<Product_Request__c> prodRequest = TestDataFactory.createTestProductRequestRecords(
         1
       );
+      prodRequest[0].RecordTypeId = opeActProdReqRecType;
       insert prodRequest;
+
+      List<Product_Request__c> prodRequestFlexProgram = TestDataFactory.createTestProductRequestRecords(
+        1
+      );
+      prodRequestFlexProgram[0].RecordTypeId = opeProgProdReqId;
+      prodRequestFlexProgram[0].OPE_Program_Plan_Type__c = 'Flexible Program';
+      insert prodRequestFlexProgram;
+
+      List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(
+        1
+      );
+      programPlans[0].Product_Request__c = prodRequestFlexProgram[0].Id;
+      insert programPlans;
+
+      List<Related_Product_Request__c> relatedProductRequests = TestDataFactory.createTestRelatedPRRecords(
+        1,
+        prodRequest,
+        prodRequestFlexProgram
+      );
+      insert relatedProductRequests;
 
       List<hed__Course__c> courses = TestDataFactory.createTestCourseRecords(
         10,
@@ -75,14 +105,23 @@ private class ProductDetailsCtrlTest {
       );
       insert courses;
 
-      List<Product2> products = TestDataFactory.createTestProductRecords(
+      List<Product2> singleProducts = TestDataFactory.createTestProductRecords(
         10,
         courses
       );
-      for (Product2 prod : products) {
-        prod.Delivery__c = 'Online Classroom;Online Self-paced;Brisbane Classroom';
+      for (Product2 sProd : singleProducts) {
+        sProd.Delivery__c = 'Online Classroom;Online Self-paced;Brisbane Classroom';
       }
-      insert products;
+      insert singleProducts;
+
+      List<Product2> flexProgProducts = TestDataFactory.createTestProductRecords(
+        50
+      );
+      for (Product2 flexProd : flexProgProducts) {
+        flexProd.Delivery__c = 'Online Classroom;Online Self-paced;Brisbane Classroom';
+        flexProd.Program_Plan__c = programPlans[0].Id;
+      }
+      insert flexProgProducts;
 
       Pricebook2 pricebook = new Pricebook2(
         isActive = true,
@@ -91,11 +130,20 @@ private class ProductDetailsCtrlTest {
       update pricebook;
 
       List<PricebookEntry> priceBookEntryList = new List<PricebookEntry>();
-      for (Product2 prodPBEntry : products) {
+      for (Product2 singleProdPBEntry : singleProducts) {
         PricebookEntry priceBookEntry = new PricebookEntry();
         priceBookEntry.pricebook2id = pricebook.Id;
         priceBookEntry.UnitPrice = 12;
-        priceBookEntry.product2Id = prodPBEntry.Id;
+        priceBookEntry.product2Id = singleProdPBEntry.Id;
+        priceBookEntry.isActive = true;
+        priceBookEntryList.add(priceBookEntry);
+      }
+
+      for (Product2 flexProgProdPBEntry : flexProgProducts) {
+        PricebookEntry priceBookEntry = new PricebookEntry();
+        priceBookEntry.pricebook2id = pricebook.Id;
+        priceBookEntry.UnitPrice = 12;
+        priceBookEntry.product2Id = flexProgProdPBEntry.Id;
         priceBookEntry.isActive = true;
         priceBookEntryList.add(priceBookEntry);
       }
@@ -122,17 +170,11 @@ private class ProductDetailsCtrlTest {
         courseConnection.RecordTypeId = FACULTY_RECTYPEID;
       }
       insert courseConnections;
-
-      List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(
-        10
-      );
-      insert programPlans;
-
-      List<Program_Offering__c> programOffs = TestDataFactory.createTestProgramOfferingRecords(
+      /* List<Program_Offering__c> programOffs = TestDataFactory.createTestProgramOfferingRecords(
         10,
         programPlans
       );
-      insert programOffs;
+      insert programOffs; */
 
       WebStore testWebStore = new WebStore(
         Name = 'Study',
@@ -170,17 +212,38 @@ private class ProductDetailsCtrlTest {
     System.runAs(currUsr) {
       Test.startTest();
 
-      ProductDetailsCtrl.ProductDetailsData getProductDetails = new ProductDetailsCtrl.ProductDetailsData();
-      getProductDetails = ProductDetailsCtrl.getProductRelatedRecords(
-        [SELECT Id FROM Product2 WHERE CreatedById = :currUsr.Id LIMIT 1]
+      ProductDetailsCtrl.ProductDetailsData getSingleProductDetails = new ProductDetailsCtrl.ProductDetailsData();
+      getSingleProductDetails = ProductDetailsCtrl.getProductRelatedRecords(
+        [
+          SELECT Id
+          FROM Product2
+          WHERE CreatedById = :currUsr.Id AND Program_Plan__c = ''
+          LIMIT 1
+        ]
+        .Id
+      );
+
+      ProductDetailsCtrl.ProductDetailsData getFlexProgProductDetails = new ProductDetailsCtrl.ProductDetailsData();
+      getFlexProgProductDetails = ProductDetailsCtrl.getProductRelatedRecords(
+        [
+          SELECT Id
+          FROM Product2
+          WHERE CreatedById = :currUsr.Id AND Program_Plan__c != ''
+          LIMIT 1
+        ]
         .Id
       );
 
       Test.stopTest();
 
       System.assert(
-        getProductDetails != null,
-        'Successfully retrieved Product Related Records'
+        getSingleProductDetails != null,
+        'Successfully retrieved Single Product Related Records'
+      );
+
+      System.assert(
+        getFlexProgProductDetails != null,
+        'Successfully retrieved Flex Program Product Related Records'
       );
     }
   }
@@ -376,144 +439,184 @@ private class ProductDetailsCtrlTest {
       Test.stopTest();
     }
   }
-    
-     @IsTest
-     static void getQuestionsTest(){     
-           User currUsr = [
-          SELECT Id
-          FROM User
-          WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
-          LIMIT 1
-          ];        
-         
-          System.runAs(currUsr){     
-               createRecord(opeActProdReqRecType); 
-               String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;           
-               Test.startTest();
-               List<Related_Answer__c> relatedAnswerList = ProductDetailsCtrl.getQuestions(prodReqId); 
-               Test.stopTest();
-               system.assert(relatedAnswerList.isEmpty(),'Empty related answer');
-          }      
-     }    
-    
-     @IsTest
-     static void addRegistrationTest(){   
-      User currUsr = [
+
+  @IsTest
+  static void getQuestionsTest() {
+    User currUsr = [
       SELECT Id
       FROM User
       WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
       LIMIT 1
-      ];
-         
-          System.runAs(currUsr){     
-               createRecord(opeActProdReqRecType); 
-               String cOfferingId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;
-               Contact newContact = new Contact(FirstName = 'testqtest123', LastName = 'testqtest', Email = 'testqtest123@emailemail.com');  
+    ];
 
-               Id relatedQuestionnaireId = [SELECT Id FROM Questionnaire__c  LIMIT 1].Id;
-               
-               List<Question__c> questionList = TestDataFactory.createTestQuestionRecords(5);
-               insert questionList;
+    System.runAs(currUsr) {
+      createRecord(opeActProdReqRecType);
+      String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;
+      Test.startTest();
+      List<Related_Answer__c> relatedAnswerList = ProductDetailsCtrl.getQuestions(
+        prodReqId
+      );
+      Test.stopTest();
+      system.assert(relatedAnswerList.isEmpty(), 'Empty related answer');
+    }
+  }
 
-               List<Related_Answer__c> relatedAnswers = TestDataFactory.createTestRelatedAnswerRecords(5,relatedQuestionnaireId,questionList);
-               insert relatedAnswers;
-               List<ProductDetailsCtrl.FileUpload> fileLoadList = new List<ProductDetailsCtrl.FileUpload>();
-               List<Answer__c> answerList = new List<Answer__c>();
-               Answer__c newAnswer;
-               ProductDetailsCtrl.FileUpload fileLoad = new ProductDetailsCtrl.FileUpload();
-               for(Related_Answer__c relatedA: relatedAnswers){
-                    newAnswer = new Answer__c(
-                         Response__c = relatedA.Id,
-                         Related_Answer__c = relatedA.Id
-                    );
-                    answerList.add(newAnswer);
+  @IsTest
+  static void addRegistrationTest() {
+    User currUsr = [
+      SELECT Id
+      FROM User
+      WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
+      LIMIT 1
+    ];
 
-                    fileLoad.Base64 = 'Test Content';
-                    fileLoad.FileName = relatedA.Id;
-                    fileLoad.RelatedAnswerId = relatedA.Id;
+    System.runAs(currUsr) {
+      createRecord(opeActProdReqRecType);
+      String cOfferingId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;
+      Contact newContact = new Contact(
+        FirstName = 'testqtest123',
+        LastName = 'testqtest',
+        Email = 'testqtest123@emailemail.com'
+      );
 
-                    fileLoadList.add(fileLoad);
-               }
-               
-               Test.startTest();
-               ProductDetailsCtrl.addRegistration(newContact,cOfferingId,relatedAnswers,answerList,JSON.serialize(fileLoadList)); 
-               Test.stopTest();
-               system.assert(![SELECT Id FROM ContentVersion].isEmpty(), 'Document not created');
-               system.assert(![SELECT Id FROM Answer__c].isEmpty(), 'Answer not created');
-          }      
-     } 
-    
-        private static void createRecord(String productRequestRecordType){
-          User currUsr = [
-          SELECT Id
-          FROM User
-          WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
-          LIMIT 1
-          ];
-            
-            System.runAs(currUsr){
-               Id offeringId = null;
+      Id relatedQuestionnaireId = [SELECT Id FROM Questionnaire__c LIMIT 1].Id;
 
-               List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
-               for(Account account : accounts){
-                    account.RecordTypeId = ACCT_UNIV_DEP_ID;
-                    account.Organization_Unit_Level__c = '2';
-                }
-               insert accounts;
-               
-               List<Product_Request__c> productRequests = TestDataFactory.createTestProductRequestRecords(1);
-               for(Product_Request__c productRequest : productRequests){
-                    productRequest.RecordTypeId = productRequestRecordType;
-               }
-               insert productRequests;
+      List<Question__c> questionList = TestDataFactory.createTestQuestionRecords(
+        5
+      );
+      insert questionList;
 
-               List<hed__Course__c> courses = TestDataFactory.createTestCourseRecords(1, accounts[0].Id, productRequests[0].Id);
-               insert courses;
+      List<Related_Answer__c> relatedAnswers = TestDataFactory.createTestRelatedAnswerRecords(
+        5,
+        relatedQuestionnaireId,
+        questionList
+      );
+      insert relatedAnswers;
+      List<ProductDetailsCtrl.FileUpload> fileLoadList = new List<ProductDetailsCtrl.FileUpload>();
+      List<Answer__c> answerList = new List<Answer__c>();
+      Answer__c newAnswer;
+      ProductDetailsCtrl.FileUpload fileLoad = new ProductDetailsCtrl.FileUpload();
+      for (Related_Answer__c relatedA : relatedAnswers) {
+        newAnswer = new Answer__c(
+          Response__c = relatedA.Id,
+          Related_Answer__c = relatedA.Id
+        );
+        answerList.add(newAnswer);
 
-               List<hed__Term__c> terms = TestDataFactory.createTestTermRecords(1, accounts[0].Id);
-               insert terms;
+        fileLoad.Base64 = 'Test Content';
+        fileLoad.FileName = relatedA.Id;
+        fileLoad.RelatedAnswerId = relatedA.Id;
 
-               List<hed__Course_Offering__c> courseOfferings = TestDataFactory.createTestCourseOfferingRecord(1, courses, terms);
-               insert courseOfferings;
+        fileLoadList.add(fileLoad);
+      }
 
-               offeringId = courseOfferings[0].Id;          
+      Test.startTest();
+      ProductDetailsCtrl.addRegistration(
+        newContact,
+        cOfferingId,
+        relatedAnswers,
+        answerList,
+        JSON.serialize(fileLoadList)
+      );
+      Test.stopTest();
+      system.assert(
+        ![SELECT Id FROM ContentVersion].isEmpty(),
+        'Document not created'
+      );
+      system.assert(
+        ![SELECT Id FROM Answer__c].isEmpty(),
+        'Answer not created'
+      );
+    }
+  }
 
-               List<Contact> contacts = TestDataFactory.createTestContactRecords(numberOfRecords);
-               for(Integer i =0;i<contacts.size();i++){
-                    contacts[i].Email = 'testIdeaFormUser'+i+'@mailinator.com';
-                }
-               insert contacts;
+  private static void createRecord(String productRequestRecordType) {
+    User currUsr = [
+      SELECT Id
+      FROM User
+      WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
+      LIMIT 1
+    ];
 
-               List<hed__Course_Enrollment__c> students = new List<hed__Course_Enrollment__c>();
-               for(Contact contact : contacts){
-                    hed__Course_Enrollment__c student = new hed__Course_Enrollment__c();
-                    student.hed__Contact__c = contact.Id;
-                    student.RecordTypeId = studentRecTypeId;
-                    student.Paid_in_Full__c = 'Yes';
-                    student.hed__Course_Offering__c = offeringId;
-                    students.add(student);
-               }
-               insert students;
+    System.runAs(currUsr) {
+      Id offeringId = null;
 
-               Questionnaire__c questionnaire = new Questionnaire__c();
-               questionnaire.Questionnaire_Type__c = 'Application Questions';
-               questionnaire.Parent_Record_ID__c = productRequests[0].Id;
-               insert questionnaire;
-                    
-               List<Questionnaire_Response_Summary__c> questionnaireResponseList = new List<Questionnaire_Response_Summary__c>();
-               for(Contact contact : contacts){
-                    Questionnaire_Response_Summary__c questionResp = new Questionnaire_Response_Summary__c();
-                    questionResp.Contact__c = contact.Id;
-                    questionResp.Registration_Status__c = 'Confirmed';       
-                    questionResp.Questionnaire__c =  questionnaire.Id;          
-                    questionResp.Course_Offering__c = offeringId;
-                    questionnaireResponseList.add(questionResp);
-               }
-               insert questionnaireResponseList;
+      List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
+      for (Account account : accounts) {
+        account.RecordTypeId = ACCT_UNIV_DEP_ID;
+        account.Organization_Unit_Level__c = '2';
+      }
+      insert accounts;
 
-               Related_Answer__c mewRelatedAnswer = new Related_Answer__c(Questionnaire__c = questionnaire.Id);
-               insert mewRelatedAnswer;
-          }
-     }  
-    
+      List<Product_Request__c> productRequests = TestDataFactory.createTestProductRequestRecords(
+        1
+      );
+      for (Product_Request__c productRequest : productRequests) {
+        productRequest.RecordTypeId = productRequestRecordType;
+      }
+      insert productRequests;
+
+      List<hed__Course__c> courses = TestDataFactory.createTestCourseRecords(
+        1,
+        accounts[0].Id,
+        productRequests[0].Id
+      );
+      insert courses;
+
+      List<hed__Term__c> terms = TestDataFactory.createTestTermRecords(
+        1,
+        accounts[0].Id
+      );
+      insert terms;
+
+      List<hed__Course_Offering__c> courseOfferings = TestDataFactory.createTestCourseOfferingRecord(
+        1,
+        courses,
+        terms
+      );
+      insert courseOfferings;
+
+      offeringId = courseOfferings[0].Id;
+
+      List<Contact> contacts = TestDataFactory.createTestContactRecords(
+        numberOfRecords
+      );
+      for (Integer i = 0; i < contacts.size(); i++) {
+        contacts[i].Email = 'testIdeaFormUser' + i + '@mailinator.com';
+      }
+      insert contacts;
+
+      List<hed__Course_Enrollment__c> students = new List<hed__Course_Enrollment__c>();
+      for (Contact contact : contacts) {
+        hed__Course_Enrollment__c student = new hed__Course_Enrollment__c();
+        student.hed__Contact__c = contact.Id;
+        student.RecordTypeId = studentRecTypeId;
+        student.Paid_in_Full__c = 'Yes';
+        student.hed__Course_Offering__c = offeringId;
+        students.add(student);
+      }
+      insert students;
+
+      Questionnaire__c questionnaire = new Questionnaire__c();
+      questionnaire.Questionnaire_Type__c = 'Application Questions';
+      questionnaire.Parent_Record_ID__c = productRequests[0].Id;
+      insert questionnaire;
+
+      List<Questionnaire_Response_Summary__c> questionnaireResponseList = new List<Questionnaire_Response_Summary__c>();
+      for (Contact contact : contacts) {
+        Questionnaire_Response_Summary__c questionResp = new Questionnaire_Response_Summary__c();
+        questionResp.Contact__c = contact.Id;
+        questionResp.Registration_Status__c = 'Confirmed';
+        questionResp.Questionnaire__c = questionnaire.Id;
+        questionResp.Course_Offering__c = offeringId;
+        questionnaireResponseList.add(questionResp);
+      }
+      insert questionnaireResponseList;
+
+      Related_Answer__c mewRelatedAnswer = new Related_Answer__c(
+        Questionnaire__c = questionnaire.Id
+      );
+      insert mewRelatedAnswer;
+    }
+  }
 }

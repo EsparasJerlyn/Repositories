@@ -3,7 +3,7 @@
     <lightning-layout multiple-rows="true">
       <!-- Product Name -->
       <lightning-layout-item flexibility="auto" size="12">
-        <h1 class="h1 main-color-blue500">{productDetails.Name}</h1>
+        <h1 class="header h1">{productDetails.Name}</h1>
       </lightning-layout-item>
       <!-- Sub Header -->
       <lightning-layout-item flexibility="auto" size="12">
@@ -23,20 +23,57 @@
                 if:true={productDetails.Overview__c}
                 class="slds-accordion__list-item"
               >
-                <section class="slds-accordion__section">
+                <section class="slds-accordion__section slds-is-open">
                   <div class="slds-accordion__summary">
                     <h2 class="slds-accordion__summary-heading">
                       <button
                         class="slds-button slds-button_reset slds-accordion__summary-action"
                         aria-controls="overviewContent"
-                        aria-expanded="false"
+                        aria-expanded="true"
                         title={label.overview}
                         onclick={handleAccordionToggle}
                       >
                         <span
-                          class="slds-accordion__summary-content  h4"
+                          class="slds-accordion__summary-content accordionHeader"
                         >
                           {label.overview}
+                        </span>
+                        
+                        <img
+                          src={accordionIcon}
+                          alt=""
+                          class="slds-accordion__summary-action-icon slds-button__icon"
+                        />
+                      </button>
+                    </h2>
+                  </div>
+                  <div
+                    class="slds-accordion__content accordionContent"
+                    id="overviewContent"
+                  >
+                    <lightning-formatted-rich-text
+                      value={productDetails.Overview__c}
+                    >
+                    </lightning-formatted-rich-text>
+                  </div>
+                </section>
+              </li>
+              <!-- Flexible Program -->
+              <li if:false={isNotFlexProgram} class="slds-accordion__list-item">
+                <section class="slds-accordion__section slds-is-open">
+                  <div class="slds-accordion__summary">
+                    <h2 class="slds-accordion__summary-heading">
+                      <button
+                        class="slds-button slds-button_reset slds-accordion__summary-action"
+                        aria-controls="profdevmodContent"
+                        aria-expanded="true"
+                        title={label.professionalDevelopmentModules}
+                        onclick={handleAccordionToggle}
+                      >
+                        <span
+                          class="slds-accordion__summary-content accordionHeader"
+                        >
+                          {label.professionalDevelopmentModules}
                         </span>
                         <img
                           src={accordionIcon}
@@ -47,14 +84,17 @@
                     </h2>
                   </div>
                   <div
-                    hidden
                     class="slds-accordion__content accordionContent"
-                    id="overviewContent"
+                    id="profdevmodContent"
                   >
-                    <lightning-formatted-rich-text
-                      value={productDetails.Overview__c}
-                    >
-                    </lightning-formatted-rich-text>
+                    <lightning-formatted-rich-text value={pdmStaticText}>
+                    </lightning-formatted-rich-text>                 
+                    <!-- Display Products under Program -->
+                    <c-product-card
+                      if:true={hasChildProducts}
+                      product-details={cProducts}
+                    ></c-product-card>
+
                   </div>
                 </section>
               </li>
@@ -74,7 +114,7 @@
                         onclick={handleAccordionToggle}
                       >
                         <span
-                          class="slds-accordion__summary-content accordionHeader h4"
+                          class="slds-accordion__summary-content accordionHeader"
                         >
                           {label.evolveWithQUTeX}
                         </span>
@@ -114,7 +154,7 @@
                         onclick={handleAccordionToggle}
                       >
                         <span
-                          class="slds-accordion__summary-content accordionHeader h4"
+                          class="slds-accordion__summary-content accordionHeader"
                         >
                           {label.whoShouldParticipate}
                         </span>
@@ -154,7 +194,7 @@
                         onclick={handleAccordionToggle}
                       >
                         <span
-                          class="slds-accordion__summary-content accordionHeader h4"
+                          class="slds-accordion__summary-content accordionHeader"
                         >
                           {label.coreConcepts}
                         </span>
@@ -191,7 +231,7 @@
                         onclick={handleAccordionToggle}
                       >
                         <span
-                          class="slds-accordion__summary-content accordionHeader h4"
+                          class="slds-accordion__summary-content accordionHeader"
                         >
                           {label.facilitator}
                         </span>
@@ -258,7 +298,7 @@
                         onclick={handleAccordionToggle}
                       >
                         <span
-                          class="slds-accordion__summary-content accordionHeader h4"
+                          class="slds-accordion__summary-content accordionHeader"
                         >
                           {label.location}
                         </span>
@@ -298,7 +338,7 @@
                         onclick={handleAccordionToggle}
                       >
                         <span
-                          class="slds-accordion__summary-content accordionHeader h4"
+                          class="slds-accordion__summary-content accordionHeader"
                         >
                           {label.details}
                         </span>
@@ -328,6 +368,7 @@
       </lightning-layout-item>
       <!-- Right: Duration, Delivery, Available Start Dates, Pricing & Add to Cart -->
       <lightning-layout-item
+        if:true={isNotFlexProgram}
         flexibility="auto"
         size="12"
         medium-device-size="4"
@@ -411,36 +452,19 @@
             </c-custom-combobox>
           </lightning-layout-item>
           <!-- Add to Cart -->
-          <template if:true={cartVisible}>
-            <lightning-layout-item
-              if:true={displayAddToCart}
-              flexibility="auto"
-              size="12"
-            >
-              <lightning-button
-                label={label.addToCart}
-                disabled={disableAddToCart}
-                onclick={notifyAddToCart}
-                variant="brand"
-                class="addToCartBtn"
-              ></lightning-button>
-            </lightning-layout-item>
-          </template>
-          <template if:false={cartVisible}>
           <lightning-layout-item
-          
+            if:true={displayAddToCart}
             flexibility="auto"
             size="12"
           >
             <lightning-button
-              label="APPLY"
+              label={label.addToCart}
               disabled={disableAddToCart}
-              onclick={notifyApply}
+              onclick={notifyAddToCart}
               variant="brand"
               class="addToCartBtn"
             ></lightning-button>
           </lightning-layout-item>
-          </template>
           <!-- Register Interest -->
           <lightning-layout-item
             if:true={displayRegisterInterest}
@@ -462,137 +486,4 @@
   <template if:true={openModal}>
     <c-registration-form onclose={handleModalClosed}></c-registration-form>
   </template>
-    <!--Questionnaire Form  -->
-    <lightning-spinner if:true={isLoading} alternative-text="Loading" size="small"></lightning-spinner>
- 
-    <template if:true={isModalOpen}>
-      <section class="slds-modal slds-fade-in-open">
-          <div class="slds-modal__container">
-             <template if:true={isRespondQuestions}>
-                  <header class="slds-modal__header">
-                      <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeManageResponse}>
-                          <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse" size="small"></lightning-icon>
-                      </button>
-                      <h2 class="slds-text-heading_medium slds-hyphenate">Application Questions</h2>
-                  </header>
-                  <div class="slds-is-relative">
-                      <lightning-spinner if:true={saveInProgress} alternative-text="Loading" size="small"></lightning-spinner>
-                      <div class="slds-modal__content slds-p-around_medium">
-                          <template if:true={hasQuestions}>
-                              <lightning-layout multiple-rows size="12">
-                                  <template for:each={questions} for:item="question">
-                                      <lightning-layout-item size="6" padding="around-small" key={question.Id}>
-                                          <template if:true={question.IsText}>
-                                              <lightning-textarea 
-                                              name={question.Id} 
-                                              label={question.Label} 
-                                              required 
-                                              onchange={handleChange}
-                                              onblur={handleBlur}>
-                                              </lightning-textarea>
-                                          </template>
-                                          <template if:true={question.IsNumber}>
-                                              <lightning-input 
-                                              name={question.Id} 
-                                              type="number" 
-                                              label={question.Label} 
-                                              required 
-                                              onchange={handleChange}
-                                              onblur={handleBlur}>
-                                              </lightning-input>
-                                          </template>
-                                          <template if:true={question.IsDate}>
-                                              <lightning-input 
-                                              name={question.Id} 
-                                              type="date" 
-                                              label={question.Label} 
-                                              required onchange={handleChange}
-                                              onblur={handleBlur}>
-                                          </lightning-input>
-                                          </template>
-                                          <template if:true={question.IsPicklist}>
-                                              <lightning-combobox
-                                                  name={question.Id}
-                                                  label={question.Label}
-                                                  value={question.Response}
-                                                  placeholder="Select Option"
-                                                  options={question.Options}
-                                                  onchange={handleChange} 
-                                                  onblur={handleBlur}
-                                                  required>
-                                              </lightning-combobox>
-                                          </template>
-                                          <template if:true={question.IsMultiPicklist}>
-                                              <abbr title="required" class="slds-required">*</abbr>
-                                              <span data-id={question.Id} class="slds-form-element__label" >{question.Label}</span>
-                                              <lightning-dual-listbox 
-                                                  data-id={question.Id}
-                                                  name={question.Id}
-                                                  variant="label-hidden"
-                                                  class="normal-font"
-                                                  source-label="Available"
-                                                  selected-label="Selected"
-                                                  options={question.Options}
-                                                  onchange={handleChange}
-                                                  onblur={handleBlur}
-                                                  required>
-                                              </lightning-dual-listbox>
-                                          </template>
-                                          <template if:true={question.IsCheckbox}>
-                                              <lightning-input 
-                                              name={question.Id} 
-                                              type="checkbox" 
-                                              label={question.Label} 
-                                              onchange={handleChange}
-                                              onblur={handleBlur}
-                                              variant="label-stacked">
-                                          </lightning-input>
-                                          </template>
-                                          <template if:true={question.IsFileUpload}>
-                                              <lightning-input 
-                                              name ={question.Id}
-                                              type="file" 
-                                              accept=".xlsx, .xls, .csv, .png, .doc, .docx, .pdf"
-                                              label={question.Label} 
-                                              required 
-                                              onchange={handleChange}
-                                              onblur={handleBlur}>
-                                              </lightning-input>
-                                              <template if:true={question.FileData}>
-                                                  <lightning-icon 
-                                                      icon-name="utility:success" 
-                                                      alternative-text="Success!" 
-                                                      variant="success"
-                                                      title="success variant xx-small" 
-                                                      size="xx-small">
-                                                  </lightning-icon>
-                                                  <span class="slds-form-element__label">{question.FileData.filename}</span>
-                                              </template>
-                                          </template>
-                                          <template if:true={question.ErrorMessage}>
-                                              <p class="slds-form-element__help slds-text-color_destructive">{question.ErrorMessage}</p>
-                                          </template>
-                                      </lightning-layout-item>
-                                  </template>
-                              </lightning-layout>
-                          </template>
-                      </div>
-                      <footer class="slds-modal__footer">
-                          <div class="slds-var-top_medium">
-                              <lightning-button 
-                                  label="Save"
-                                  type="Submit"
-                                  variant="brand"
-                                  onclick={handleSaveResponse}
-                                  disabled={disableResponseSave}
-                              ></lightning-button>
-                          </div>
-                      </footer>
-                  </div>
-              </template>
-          </div>
-      </section>
-      <div class="slds-backdrop slds-backdrop_open"></div>
-  </template>
-    <!--Questionnaire Form  --> 
 </template>
