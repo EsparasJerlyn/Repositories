@@ -265,7 +265,7 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
             let childLayoutItem = this.layoutMap[COURSE_OFFERING.objectApiName];
             this.layoutItem = this.layoutMap[this.childInfoMap.objectType];
             this.courseOfferingLayoutItem.leftColumn = childLayoutItem.leftColumn.filter(layout => 
-                layout.field !== 'Minimum_Participants__c' && layout.field !== 'Registration_Start_Date__c'
+                layout.field !== 'Minimum_Participants__c' && layout.field !== 'Registration_Start_Date__c' && layout.field !== 'LMS_Integration_Status__c'
             );
             this.courseOfferingLayoutItem.rightColumn = childLayoutItem.rightColumn.filter(layout => 
                 layout.field !== 'hed__Capacity__c' && layout.field !== 'Registration_End_Date__c'
