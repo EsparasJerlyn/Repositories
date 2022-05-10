@@ -18,7 +18,7 @@ export default class StoreBreadrumbs extends LightningElement {
     connectedCallback() {
         //this._resolveConnected();
         //Promise.all([loadStyle(this, QUTMainCSS + "/QUTMainCSS.css")]);
-        this.iconhome = qutResourceImg + "/QUTImages/Icon/icon-home.svg";	
+        this.iconhome = qutResourceImg + "/QUTImages/Icon/icon-home-blue.svg";	
     } 
 
     /**
