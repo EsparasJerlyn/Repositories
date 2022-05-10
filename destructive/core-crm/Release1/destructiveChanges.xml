@@ -166,6 +166,7 @@
         <members>Account.Custom_Lead_Allow_Not_Duplicate_Rule</members>
         <members>Contact.Standard_Rule_for_Contacts_with_Duplicate_Leads</members>
         <members>Contact.Custom_Lead_Allow_No_Duplicate_Rule</members>
+        <members>Contact.Standard_Contact_Duplicate_Rule</members>
         <members>Lead.Standard_Rule_for_Leads_with_Duplicate_Contacts</members>
         <name>DuplicateRule</name>
     </types>
