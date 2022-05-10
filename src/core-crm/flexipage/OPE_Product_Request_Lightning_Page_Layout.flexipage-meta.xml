@@ -371,21 +371,21 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>productOffering</componentName>
-                <identifier>productOffering</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-sxnbrq427ck</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
                 <componentName>productManagement</componentName>
                 <identifier>productManagement2</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-231a1e84-93f0-4fda-a8ed-5b67bf4977ce</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentName>productOffering</componentName>
+                <identifier>productOffering</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-sxnbrq427ck</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -578,20 +578,6 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-sxnbrq427ck</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>{!$Label.Tab_ProductRequest_ProductOffering}</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>customTab6</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
                     <value>Facet-231a1e84-93f0-4fda-a8ed-5b67bf4977ce</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -600,6 +586,20 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>customTab7</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-sxnbrq427ck</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>{!$Label.Tab_ProductRequest_ProductOffering}</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>customTab6</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -656,13 +656,13 @@
                     <value>{!$Label.PL_ProductRequest_Design}</value>
                 </componentInstanceProperties>
                 <componentName>customLayoutHandler</componentName>
-                <identifier>customLayoutHandler3</identifier>
+                <identifier>customLayoutHandler4</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentName>opeProgramStructure</componentName>
-                <identifier>opeProgramStructure3</identifier>
+                <identifier>opeProgramStructure4</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
@@ -673,20 +673,6 @@
             </componentInstance>
         </itemInstances>
         <name>Facet-e9e1382e-09a9-4420-b243-ec859b447353</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>tab</name>
-                    <value>{!$Label.PL_ProductRequest_Release}</value>
-                </componentInstanceProperties>
-                <componentName>customLayoutHandler</componentName>
-                <identifier>customLayoutHandler4</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-vtwjiusufw9</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -703,332 +689,14 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>parentFieldApiName</name>
-                    <value>Product_Request__c.Id</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListApiName</name>
-                    <value>Histories</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListComponentOverride</name>
-                    <value>NONE</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>rowsToDisplay</name>
-                    <value>10</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>showActionBar</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentName>force:relatedListSingleContainer</componentName>
-                <identifier>force_relatedListSingleContainer11</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>parentFieldApiName</name>
-                    <value>Product_Request__c.Id</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListApiName</name>
-                    <value>Product_Request_Contact_Roles__r</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListComponentOverride</name>
-                    <value>NONE</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>rowsToDisplay</name>
-                    <value>10</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>showActionBar</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentName>force:relatedListSingleContainer</componentName>
-                <identifier>force_relatedListSingleContainer12</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>parentFieldApiName</name>
-                    <value>Product_Request__c.Id</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListApiName</name>
-                    <value>Courses__r</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListComponentOverride</name>
-                    <value>NONE</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>rowsToDisplay</name>
-                    <value>10</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>showActionBar</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentName>force:relatedListSingleContainer</componentName>
-                <identifier>force_relatedListSingleContainer13</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Program</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>parentFieldApiName</name>
-                    <value>Product_Request__c.Id</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListApiName</name>
-                    <value>Program_Plans__r</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListComponentOverride</name>
-                    <value>NONE</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>rowsToDisplay</name>
-                    <value>10</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>showActionBar</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentName>force:relatedListSingleContainer</componentName>
-                <identifier>force_relatedListSingleContainer14</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Program</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-5f351781-4dba-4d2d-948e-a5aaaab119b6</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>parentFieldApiName</name>
-                    <value>Product_Request__c.Id</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListApiName</name>
-                    <value>Histories</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListComponentOverride</name>
-                    <value>NONE</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>rowsToDisplay</name>
-                    <value>10</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>showActionBar</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentName>force:relatedListSingleContainer</componentName>
-                <identifier>force_relatedListSingleContainer15</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-f7664803-193a-4c1f-b316-197c961b6ed2</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>context</name>
-                    <value>RECORD</value>
-                </componentInstanceProperties>
-                <componentName>forceChatter:publisher</componentName>
-                <identifier>forceChatter_publisher3</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-05bdc9d2-a322-4700-8578-8818f89c691e</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-e9e1382e-09a9-4420-b243-ec859b447353</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>{!$Label.PL_ProductRequest_Design}</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>customTab10</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>active</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-vtwjiusufw9</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>{!$Label.PL_ProductRequest_Release}</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>customTab11</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-0t6uq093rmo</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>{!$Label.Tab_ProductRequest_ProductManagement}</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>customTab12</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-5f351781-4dba-4d2d-948e-a5aaaab119b6</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>Standard.Tab.relatedLists</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>relatedListsTab3</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-f7664803-193a-4c1f-b316-197c961b6ed2</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>History</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>customTab13</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-05bdc9d2-a322-4700-8578-8818f89c691e</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>Standard.Tab.chat</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>chatTab</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-ytubbkaoz3</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
                     <name>tab</name>
-                    <value>{!$Label.PL_ProductRequest_Design}</value>
+                    <value>{!$Label.PL_ProductRequest_Release}</value>
                 </componentInstanceProperties>
                 <componentName>customLayoutHandler</componentName>
                 <identifier>customLayoutHandler5</identifier>
             </componentInstance>
         </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentName>opeProgramStructure</componentName>
-                <identifier>opeProgramStructure4</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Program</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-21e3c928-a633-4c2c-a8f8-0f1410d5d1db</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>tab</name>
-                    <value>{!$Label.PL_ProductRequest_Release}</value>
-                </componentInstanceProperties>
-                <componentName>customLayoutHandler</componentName>
-                <identifier>customLayoutHandler6</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentName>relatedChildProducts</componentName>
-                <identifier>relatedChildProducts</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.OPE_Program_Plan_Type__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Prescribed Program</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-kay97k53o8</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentName>productOffering</componentName>
-                <identifier>productOffering2</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-66885758-52ce-460c-822b-1cdbf6a090ff</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentName>productManagement</componentName>
-                <identifier>productManagement4</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-1a762d4a-6eb7-4da6-9803-bbf933ac634c</name>
+        <name>Facet-vtwjiusufw9</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -1150,7 +818,7 @@
                 </visibilityRule>
             </componentInstance>
         </itemInstances>
-        <name>Facet-fduxg365w3k</name>
+        <name>Facet-5f351781-4dba-4d2d-948e-a5aaaab119b6</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -1180,7 +848,7 @@
                 <identifier>force_relatedListSingleContainer20</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-koxv1ruyjos</name>
+        <name>Facet-f7664803-193a-4c1f-b316-197c961b6ed2</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -1194,7 +862,7 @@
                 <identifier>forceChatter_publisher4</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-c3jwlzw0w7u</name>
+        <name>Facet-05bdc9d2-a322-4700-8578-8818f89c691e</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -1202,7 +870,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-21e3c928-a633-4c2c-a8f8-0f1410d5d1db</value>
+                    <value>Facet-e9e1382e-09a9-4420-b243-ec859b447353</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
@@ -1215,12 +883,26 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-0t6uq093rmo</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>{!$Label.Tab_ProductRequest_ProductManagement}</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>customTab16</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
                     <name>active</name>
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-kay97k53o8</value>
+                    <value>Facet-vtwjiusufw9</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
@@ -1234,35 +916,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-66885758-52ce-460c-822b-1cdbf6a090ff</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>{!$Label.Tab_ProductRequest_ProductOffering}</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>customTab16</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-1a762d4a-6eb7-4da6-9803-bbf933ac634c</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>{!$Label.Tab_ProductRequest_ProductManagement}</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>customTab17</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-fduxg365w3k</value>
+                    <value>Facet-5f351781-4dba-4d2d-948e-a5aaaab119b6</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
@@ -1276,31 +930,31 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-koxv1ruyjos</value>
+                    <value>Facet-f7664803-193a-4c1f-b316-197c961b6ed2</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
                     <value>History</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
-                <identifier>customTab18</identifier>
+                <identifier>customTab17</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-c3jwlzw0w7u</value>
+                    <value>Facet-05bdc9d2-a322-4700-8578-8818f89c691e</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
                     <value>Standard.Tab.chat</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
-                <identifier>chatTab2</identifier>
+                <identifier>chatTab</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-98k5u3klj6b</name>
+        <name>Facet-ytubbkaoz3</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -1311,7 +965,7 @@
                     <value>{!$Label.PL_ProductRequest_Design}</value>
                 </componentInstanceProperties>
                 <componentName>customLayoutHandler</componentName>
-                <identifier>customLayoutHandler7</identifier>
+                <identifier>customLayoutHandler6</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1327,7 +981,27 @@
                 </visibilityRule>
             </componentInstance>
         </itemInstances>
-        <name>Facet-kku98d7kbm</name>
+        <name>Facet-21e3c928-a633-4c2c-a8f8-0f1410d5d1db</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentName>productManagement</componentName>
+                <identifier>productManagement4</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-1a762d4a-6eb7-4da6-9803-bbf933ac634c</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentName>productOffering</componentName>
+                <identifier>productOffering3</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-66885758-52ce-460c-822b-1cdbf6a090ff</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -1338,33 +1012,10 @@
                     <value>{!$Label.PL_ProductRequest_Release}</value>
                 </componentInstanceProperties>
                 <componentName>customLayoutHandler</componentName>
-                <identifier>customLayoutHandler8</identifier>
+                <identifier>customLayoutHandler7</identifier>
             </componentInstance>
         </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentName>relatedChildProducts</componentName>
-                <identifier>relatedChildProducts2</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.OPE_Program_Plan_Type__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Prescribed Program</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-yrd9i9k2cym</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentName>productOffering</componentName>
-                <identifier>productOffering3</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-izt37zsewb</name>
+        <name>Facet-kay97k53o8</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -1486,7 +1137,7 @@
                 </visibilityRule>
             </componentInstance>
         </itemInstances>
-        <name>Facet-djsrl4fevai</name>
+        <name>Facet-fduxg365w3k</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -1516,7 +1167,7 @@
                 <identifier>force_relatedListSingleContainer25</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-cvafpq4sfve</name>
+        <name>Facet-koxv1ruyjos</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -1530,7 +1181,7 @@
                 <identifier>forceChatter_publisher5</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-dm40zdub05</name>
+        <name>Facet-c3jwlzw0w7u</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -1538,14 +1189,42 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-kku98d7kbm</value>
+                    <value>Facet-21e3c928-a633-4c2c-a8f8-0f1410d5d1db</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
                     <value>{!$Label.PL_ProductRequest_Design}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
-                <identifier>customTab19</identifier>
+                <identifier>customTab18</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-1a762d4a-6eb7-4da6-9803-bbf933ac634c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>{!$Label.Tab_ProductRequest_ProductManagement}</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>customTab21</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-66885758-52ce-460c-822b-1cdbf6a090ff</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>{!$Label.Tab_ProductRequest_ProductOffering}</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>customTab20</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1556,35 +1235,21 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-yrd9i9k2cym</value>
+                    <value>Facet-kay97k53o8</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
                     <value>{!$Label.PL_ProductRequest_Release}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
-                <identifier>customTab20</identifier>
+                <identifier>customTab19</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-izt37zsewb</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>{!$Label.Tab_ProductRequest_ProductOffering}</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>customTab21</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-djsrl4fevai</value>
+                    <value>Facet-fduxg365w3k</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
@@ -1598,7 +1263,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-cvafpq4sfve</value>
+                    <value>Facet-koxv1ruyjos</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
@@ -1612,17 +1277,17 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-dm40zdub05</value>
+                    <value>Facet-c3jwlzw0w7u</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
                     <value>Standard.Tab.chat</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
-                <identifier>chatTab3</identifier>
+                <identifier>chatTab2</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-7wisaqw9c0b</name>
+        <name>Facet-98k5u3klj6b</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -1633,7 +1298,7 @@
                     <value>{!$Label.PL_ProductRequest_Design}</value>
                 </componentInstanceProperties>
                 <componentName>customLayoutHandler</componentName>
-                <identifier>customLayoutHandler9</identifier>
+                <identifier>customLayoutHandler8</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1649,7 +1314,17 @@
                 </visibilityRule>
             </componentInstance>
         </itemInstances>
-        <name>Facet-gi0ix2vb605</name>
+        <name>Facet-kku98d7kbm</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentName>productOffering</componentName>
+                <identifier>productOffering4</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-izt37zsewb</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -1660,20 +1335,10 @@
                     <value>{!$Label.PL_ProductRequest_Release}</value>
                 </componentInstanceProperties>
                 <componentName>customLayoutHandler</componentName>
-                <identifier>customLayoutHandler10</identifier>
+                <identifier>customLayoutHandler9</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-h8wi3mzaleq</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentName>productManagement</componentName>
-                <identifier>productManagement5</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-x34bmu70ox</name>
+        <name>Facet-yrd9i9k2cym</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -1795,7 +1460,7 @@
                 </visibilityRule>
             </componentInstance>
         </itemInstances>
-        <name>Facet-qhs7mhds7wk</name>
+        <name>Facet-djsrl4fevai</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -1825,7 +1490,7 @@
                 <identifier>force_relatedListSingleContainer30</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-6p3eq6jk2w</name>
+        <name>Facet-cvafpq4sfve</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -1839,7 +1504,7 @@
                 <identifier>forceChatter_publisher6</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-n14bxkl6yag</name>
+        <name>Facet-dm40zdub05</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -1847,7 +1512,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-gi0ix2vb605</value>
+                    <value>Facet-kku98d7kbm</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
@@ -1860,12 +1525,26 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-izt37zsewb</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>{!$Label.Tab_ProductRequest_ProductOffering}</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>customTab25</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
                     <name>active</name>
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-h8wi3mzaleq</value>
+                    <value>Facet-yrd9i9k2cym</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
@@ -1879,21 +1558,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-x34bmu70ox</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>{!$Label.Tab_ProductRequest_ProductManagement}</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>customTab25</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-qhs7mhds7wk</value>
+                    <value>Facet-djsrl4fevai</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
@@ -1907,7 +1572,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-6p3eq6jk2w</value>
+                    <value>Facet-cvafpq4sfve</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
@@ -1921,17 +1586,17 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-n14bxkl6yag</value>
+                    <value>Facet-dm40zdub05</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
                     <value>Standard.Tab.chat</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
-                <identifier>chatTab4</identifier>
+                <identifier>chatTab3</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-szt7h5lzny</name>
+        <name>Facet-7wisaqw9c0b</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -1942,7 +1607,7 @@
                     <value>{!$Label.PL_ProductRequest_Design}</value>
                 </componentInstanceProperties>
                 <componentName>customLayoutHandler</componentName>
-                <identifier>customLayoutHandler11</identifier>
+                <identifier>customLayoutHandler10</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1958,7 +1623,17 @@
                 </visibilityRule>
             </componentInstance>
         </itemInstances>
-        <name>Facet-w65nzda14nd</name>
+        <name>Facet-gi0ix2vb605</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentName>productManagement</componentName>
+                <identifier>productManagement5</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-x34bmu70ox</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -1969,53 +1644,10 @@
                     <value>{!$Label.PL_ProductRequest_Release}</value>
                 </componentInstanceProperties>
                 <componentName>customLayoutHandler</componentName>
-                <identifier>customLayoutHandler12</identifier>
+                <identifier>customLayoutHandler11</identifier>
             </componentInstance>
         </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentName>relatedChildProducts</componentName>
-                <identifier>relatedChildProducts3</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.OPE_Program_Plan_Type__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Prescribed Program</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-5k0xt3mru5m</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentName>trackAttendanceAndEvaluation</componentName>
-                <identifier>trackAttendanceAndEvaluation</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-065a419d-392e-4dfb-bdaa-885d40fb9ebf</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentName>productOffering</componentName>
-                <identifier>productOffering4</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-ol4ku786bmo</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentName>productManagement</componentName>
-                <identifier>productManagement6</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-eybd5jvdh59</name>
+        <name>Facet-h8wi3mzaleq</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -2137,7 +1769,7 @@
                 </visibilityRule>
             </componentInstance>
         </itemInstances>
-        <name>Facet-syp4ymib5w</name>
+        <name>Facet-qhs7mhds7wk</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -2167,7 +1799,7 @@
                 <identifier>force_relatedListSingleContainer35</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-51ei90na3yn</name>
+        <name>Facet-6p3eq6jk2w</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -2181,7 +1813,7 @@
                 <identifier>forceChatter_publisher7</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-kdj5vsc7tpi</name>
+        <name>Facet-n14bxkl6yag</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -2189,7 +1821,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-w65nzda14nd</value>
+                    <value>Facet-gi0ix2vb605</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
@@ -2202,12 +1834,26 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-x34bmu70ox</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>{!$Label.Tab_ProductRequest_ProductManagement}</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>customTab29</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
                     <name>active</name>
-                    <value>false</value>
+                    <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-5k0xt3mru5m</value>
+                    <value>Facet-h8wi3mzaleq</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
@@ -2220,54 +1866,8 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>active</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-065a419d-392e-4dfb-bdaa-885d40fb9ebf</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>{!$Label.PL_ProductRequest_InDelivery}</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>customTab29</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-ol4ku786bmo</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>{!$Label.Tab_ProductRequest_ProductOffering}</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>customTab30</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-eybd5jvdh59</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>{!$Label.Tab_ProductRequest_ProductManagement}</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>customTab31</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-syp4ymib5w</value>
+                    <value>Facet-qhs7mhds7wk</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
@@ -2281,31 +1881,31 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-51ei90na3yn</value>
+                    <value>Facet-6p3eq6jk2w</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
                     <value>History</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
-                <identifier>customTab32</identifier>
+                <identifier>customTab30</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-kdj5vsc7tpi</value>
+                    <value>Facet-n14bxkl6yag</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
                     <value>Standard.Tab.chat</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
-                <identifier>chatTab5</identifier>
+                <identifier>chatTab4</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-oysziwq4ulk</name>
+        <name>Facet-szt7h5lzny</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -2316,7 +1916,7 @@
                     <value>{!$Label.PL_ProductRequest_Design}</value>
                 </componentInstanceProperties>
                 <componentName>customLayoutHandler</componentName>
-                <identifier>customLayoutHandler13</identifier>
+                <identifier>customLayoutHandler12</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -2332,7 +1932,27 @@
                 </visibilityRule>
             </componentInstance>
         </itemInstances>
-        <name>Facet-uzp8ainbman</name>
+        <name>Facet-w65nzda14nd</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentName>productManagement</componentName>
+                <identifier>productManagement6</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-eybd5jvdh59</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentName>productOffering</componentName>
+                <identifier>productOffering5</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-ol4ku786bmo</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -2343,43 +1963,20 @@
                     <value>{!$Label.PL_ProductRequest_Release}</value>
                 </componentInstanceProperties>
                 <componentName>customLayoutHandler</componentName>
-                <identifier>customLayoutHandler14</identifier>
+                <identifier>customLayoutHandler13</identifier>
             </componentInstance>
         </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentName>relatedChildProducts</componentName>
-                <identifier>relatedChildProducts4</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.OPE_Program_Plan_Type__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Prescribed Program</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-yhd8plbhqe8</name>
+        <name>Facet-5k0xt3mru5m</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
                 <componentName>trackAttendanceAndEvaluation</componentName>
-                <identifier>trackAttendanceAndEvaluation2</identifier>
+                <identifier>trackAttendanceAndEvaluation</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-jhipato2lv</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentName>productOffering</componentName>
-                <identifier>productOffering5</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-tvwwe2i9dmh</name>
+        <name>Facet-065a419d-392e-4dfb-bdaa-885d40fb9ebf</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -2501,7 +2098,7 @@
                 </visibilityRule>
             </componentInstance>
         </itemInstances>
-        <name>Facet-06sl9i6hjn64</name>
+        <name>Facet-syp4ymib5w</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -2531,7 +2128,7 @@
                 <identifier>force_relatedListSingleContainer40</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-fw4ft4jic9</name>
+        <name>Facet-51ei90na3yn</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -2545,7 +2142,7 @@
                 <identifier>forceChatter_publisher8</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-z42jrpeber</name>
+        <name>Facet-kdj5vsc7tpi</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -2553,14 +2150,42 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-uzp8ainbman</value>
+                    <value>Facet-w65nzda14nd</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
                     <value>{!$Label.PL_ProductRequest_Design}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
-                <identifier>customTab33</identifier>
+                <identifier>customTab31</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-eybd5jvdh59</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>{!$Label.Tab_ProductRequest_ProductManagement}</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>customTab35</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-ol4ku786bmo</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>{!$Label.Tab_ProductRequest_ProductOffering}</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>customTab34</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -2571,14 +2196,14 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-yhd8plbhqe8</value>
+                    <value>Facet-5k0xt3mru5m</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
                     <value>{!$Label.PL_ProductRequest_Release}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
-                <identifier>customTab34</identifier>
+                <identifier>customTab32</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -2589,35 +2214,21 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-jhipato2lv</value>
+                    <value>Facet-065a419d-392e-4dfb-bdaa-885d40fb9ebf</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
                     <value>{!$Label.PL_ProductRequest_InDelivery}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
-                <identifier>customTab35</identifier>
+                <identifier>customTab33</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-tvwwe2i9dmh</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>{!$Label.Tab_ProductRequest_ProductOffering}</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>customTab36</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-06sl9i6hjn64</value>
+                    <value>Facet-syp4ymib5w</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
@@ -2631,31 +2242,31 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-fw4ft4jic9</value>
+                    <value>Facet-51ei90na3yn</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
                     <value>History</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
-                <identifier>customTab37</identifier>
+                <identifier>customTab36</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-z42jrpeber</value>
+                    <value>Facet-kdj5vsc7tpi</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
                     <value>Standard.Tab.chat</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
-                <identifier>chatTab6</identifier>
+                <identifier>chatTab5</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-r6slowit2yl</name>
+        <name>Facet-oysziwq4ulk</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -2666,7 +2277,7 @@
                     <value>{!$Label.PL_ProductRequest_Design}</value>
                 </componentInstanceProperties>
                 <componentName>customLayoutHandler</componentName>
-                <identifier>customLayoutHandler15</identifier>
+                <identifier>customLayoutHandler14</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -2682,7 +2293,17 @@
                 </visibilityRule>
             </componentInstance>
         </itemInstances>
-        <name>Facet-709m3eoh41m</name>
+        <name>Facet-uzp8ainbman</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentName>productOffering</componentName>
+                <identifier>productOffering6</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-tvwwe2i9dmh</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -2693,20 +2314,20 @@
                     <value>{!$Label.PL_ProductRequest_Release}</value>
                 </componentInstanceProperties>
                 <componentName>customLayoutHandler</componentName>
-                <identifier>customLayoutHandler16</identifier>
+                <identifier>customLayoutHandler15</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-9p9aeffvbsa</name>
+        <name>Facet-yhd8plbhqe8</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>productManagement</componentName>
-                <identifier>productManagement7</identifier>
+                <componentName>trackAttendanceAndEvaluation</componentName>
+                <identifier>trackAttendanceAndEvaluation2</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-3083af3f-2c9b-47b0-bbcf-ee483e605b74</name>
+        <name>Facet-jhipato2lv</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -2828,7 +2449,7 @@
                 </visibilityRule>
             </componentInstance>
         </itemInstances>
-        <name>Facet-jlu4jnexjfg</name>
+        <name>Facet-06sl9i6hjn64</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -2858,7 +2479,7 @@
                 <identifier>force_relatedListSingleContainer45</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-tk1zslxduzr</name>
+        <name>Facet-fw4ft4jic9</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -2872,7 +2493,7 @@
                 <identifier>forceChatter_publisher9</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-z9g8hnlfgg</name>
+        <name>Facet-z42jrpeber</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -2880,11 +2501,43 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-709m3eoh41m</value>
+                    <value>Facet-uzp8ainbman</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
                     <value>{!$Label.PL_ProductRequest_Design}</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>customTab37</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-tvwwe2i9dmh</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>{!$Label.Tab_ProductRequest_ProductOffering}</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>customTab40</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>active</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-yhd8plbhqe8</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>{!$Label.PL_ProductRequest_Release}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>customTab38</identifier>
@@ -2898,11 +2551,11 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-9p9aeffvbsa</value>
+                    <value>Facet-jhipato2lv</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
-                    <value>{!$Label.PL_ProductRequest_Release}</value>
+                    <value>{!$Label.PL_ProductRequest_InDelivery}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>customTab39</identifier>
@@ -2912,21 +2565,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-3083af3f-2c9b-47b0-bbcf-ee483e605b74</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>{!$Label.Tab_ProductRequest_ProductManagement}</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>customTab40</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-jlu4jnexjfg</value>
+                    <value>Facet-06sl9i6hjn64</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
@@ -2940,7 +2579,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-tk1zslxduzr</value>
+                    <value>Facet-fw4ft4jic9</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
@@ -2954,17 +2593,17 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-z9g8hnlfgg</value>
+                    <value>Facet-z42jrpeber</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
                     <value>Standard.Tab.chat</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
-                <identifier>chatTab7</identifier>
+                <identifier>chatTab6</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-ugbs1hpw27j</name>
+        <name>Facet-r6slowit2yl</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -2975,7 +2614,7 @@
                     <value>{!$Label.PL_ProductRequest_Design}</value>
                 </componentInstanceProperties>
                 <componentName>customLayoutHandler</componentName>
-                <identifier>customLayoutHandler17</identifier>
+                <identifier>customLayoutHandler16</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -2991,7 +2630,17 @@
                 </visibilityRule>
             </componentInstance>
         </itemInstances>
-        <name>Facet-c926g6z98oh</name>
+        <name>Facet-709m3eoh41m</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentName>productManagement</componentName>
+                <identifier>productManagement7</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-3083af3f-2c9b-47b0-bbcf-ee483e605b74</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -3002,53 +2651,10 @@
                     <value>{!$Label.PL_ProductRequest_Release}</value>
                 </componentInstanceProperties>
                 <componentName>customLayoutHandler</componentName>
-                <identifier>customLayoutHandler18</identifier>
+                <identifier>customLayoutHandler17</identifier>
             </componentInstance>
         </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentName>relatedChildProducts</componentName>
-                <identifier>relatedChildProducts5</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.OPE_Program_Plan_Type__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Prescribed Program</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-bvtf8wb7sxc</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentName>trackAttendanceAndEvaluation</componentName>
-                <identifier>trackAttendanceAndEvaluation3</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-xeotexatyk</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentName>productOffering</componentName>
-                <identifier>productOffering6</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-3a399582-e4da-434d-9f80-e830367c1c2a</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentName>productManagement</componentName>
-                <identifier>productManagement8</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-32nl88gmo1q</name>
+        <name>Facet-9p9aeffvbsa</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -3170,7 +2776,7 @@
                 </visibilityRule>
             </componentInstance>
         </itemInstances>
-        <name>Facet-pvd506zukk</name>
+        <name>Facet-jlu4jnexjfg</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -3200,7 +2806,7 @@
                 <identifier>force_relatedListSingleContainer50</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-2i19xe1iitb</name>
+        <name>Facet-tk1zslxduzr</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -3214,7 +2820,7 @@
                 <identifier>forceChatter_publisher10</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-jy1glchfukq</name>
+        <name>Facet-z9g8hnlfgg</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -3222,7 +2828,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-c926g6z98oh</value>
+                    <value>Facet-709m3eoh41m</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
@@ -3235,12 +2841,26 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-3083af3f-2c9b-47b0-bbcf-ee483e605b74</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>{!$Label.Tab_ProductRequest_ProductManagement}</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>customTab44</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
                     <name>active</name>
-                    <value>false</value>
+                    <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-bvtf8wb7sxc</value>
+                    <value>Facet-9p9aeffvbsa</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
@@ -3253,58 +2873,8 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>active</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-xeotexatyk</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>{!$Label.PL_ProductRequest_InDelivery}</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>customTab44</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-3a399582-e4da-434d-9f80-e830367c1c2a</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>{!$Label.Tab_ProductRequest_ProductOffering}</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>customTab45</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>active</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-32nl88gmo1q</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>{!$Label.Tab_ProductRequest_ProductManagement}</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>customTab46</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-pvd506zukk</value>
+                    <value>Facet-jlu4jnexjfg</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
@@ -3318,31 +2888,31 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-2i19xe1iitb</value>
+                    <value>Facet-tk1zslxduzr</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
                     <value>History</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
-                <identifier>customTab47</identifier>
+                <identifier>customTab45</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-jy1glchfukq</value>
+                    <value>Facet-z9g8hnlfgg</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
                     <value>Standard.Tab.chat</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
-                <identifier>chatTab8</identifier>
+                <identifier>chatTab7</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-ysdgkb0eeke</name>
+        <name>Facet-ugbs1hpw27j</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -3353,7 +2923,7 @@
                     <value>{!$Label.PL_ProductRequest_Design}</value>
                 </componentInstanceProperties>
                 <componentName>customLayoutHandler</componentName>
-                <identifier>customLayoutHandler19</identifier>
+                <identifier>customLayoutHandler18</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -3369,7 +2939,27 @@
                 </visibilityRule>
             </componentInstance>
         </itemInstances>
-        <name>Facet-q63csq2gbbi</name>
+        <name>Facet-c926g6z98oh</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentName>productManagement</componentName>
+                <identifier>productManagement8</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-32nl88gmo1q</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentName>productOffering</componentName>
+                <identifier>productOffering7</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-3a399582-e4da-434d-9f80-e830367c1c2a</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -3380,43 +2970,20 @@
                     <value>{!$Label.PL_ProductRequest_Release}</value>
                 </componentInstanceProperties>
                 <componentName>customLayoutHandler</componentName>
-                <identifier>customLayoutHandler20</identifier>
+                <identifier>customLayoutHandler19</identifier>
             </componentInstance>
         </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentName>relatedChildProducts</componentName>
-                <identifier>relatedChildProducts6</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.OPE_Program_Plan_Type__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Prescribed Program</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-xh9um9282zo</name>
+        <name>Facet-bvtf8wb7sxc</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
                 <componentName>trackAttendanceAndEvaluation</componentName>
-                <identifier>trackAttendanceAndEvaluation4</identifier>
+                <identifier>trackAttendanceAndEvaluation3</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-2w4pg7cxajh</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentName>productOffering</componentName>
-                <identifier>productOffering7</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-1qv46x8fpb</name>
+        <name>Facet-xeotexatyk</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -3538,7 +3105,7 @@
                 </visibilityRule>
             </componentInstance>
         </itemInstances>
-        <name>Facet-0tmnxjxebsxm</name>
+        <name>Facet-pvd506zukk</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -3568,7 +3135,7 @@
                 <identifier>force_relatedListSingleContainer55</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-x0vco0p5iii</name>
+        <name>Facet-2i19xe1iitb</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -3580,6 +3147,361 @@
                 </componentInstanceProperties>
                 <componentName>forceChatter:publisher</componentName>
                 <identifier>forceChatter_publisher11</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-jy1glchfukq</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-c926g6z98oh</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>{!$Label.PL_ProductRequest_Design}</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>customTab46</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>active</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-32nl88gmo1q</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>{!$Label.Tab_ProductRequest_ProductManagement}</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>customTab50</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-3a399582-e4da-434d-9f80-e830367c1c2a</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>{!$Label.Tab_ProductRequest_ProductOffering}</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>customTab49</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>active</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-bvtf8wb7sxc</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>{!$Label.PL_ProductRequest_Release}</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>customTab47</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>active</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-xeotexatyk</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>{!$Label.PL_ProductRequest_InDelivery}</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>customTab48</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-pvd506zukk</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Standard.Tab.relatedLists</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>relatedListsTab11</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-2i19xe1iitb</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>History</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>customTab51</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-jy1glchfukq</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Standard.Tab.chat</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>chatTab8</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-ysdgkb0eeke</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>tab</name>
+                    <value>{!$Label.PL_ProductRequest_Design}</value>
+                </componentInstanceProperties>
+                <componentName>customLayoutHandler</componentName>
+                <identifier>customLayoutHandler20</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>opeProgramStructure</componentName>
+                <identifier>opeProgramStructure12</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Program</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-q63csq2gbbi</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentName>productOffering</componentName>
+                <identifier>productOffering8</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-1qv46x8fpb</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>tab</name>
+                    <value>{!$Label.PL_ProductRequest_Release}</value>
+                </componentInstanceProperties>
+                <componentName>customLayoutHandler</componentName>
+                <identifier>customLayoutHandler21</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-xh9um9282zo</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentName>trackAttendanceAndEvaluation</componentName>
+                <identifier>trackAttendanceAndEvaluation4</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-2w4pg7cxajh</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>parentFieldApiName</name>
+                    <value>Product_Request__c.Id</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListApiName</name>
+                    <value>Histories</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListComponentOverride</name>
+                    <value>NONE</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>rowsToDisplay</name>
+                    <value>10</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showActionBar</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer56</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>parentFieldApiName</name>
+                    <value>Product_Request__c.Id</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListApiName</name>
+                    <value>Product_Request_Contact_Roles__r</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListComponentOverride</name>
+                    <value>NONE</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>rowsToDisplay</name>
+                    <value>10</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showActionBar</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer57</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>parentFieldApiName</name>
+                    <value>Product_Request__c.Id</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListApiName</name>
+                    <value>Courses__r</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListComponentOverride</name>
+                    <value>NONE</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>rowsToDisplay</name>
+                    <value>10</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showActionBar</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer58</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Program</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>parentFieldApiName</name>
+                    <value>Product_Request__c.Id</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListApiName</name>
+                    <value>Program_Plans__r</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListComponentOverride</name>
+                    <value>NONE</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>rowsToDisplay</name>
+                    <value>10</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showActionBar</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer59</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Program</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-0tmnxjxebsxm</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>parentFieldApiName</name>
+                    <value>Product_Request__c.Id</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListApiName</name>
+                    <value>Histories</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListComponentOverride</name>
+                    <value>NONE</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>rowsToDisplay</name>
+                    <value>10</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showActionBar</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer60</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-x0vco0p5iii</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>context</name>
+                    <value>RECORD</value>
+                </componentInstanceProperties>
+                <componentName>forceChatter:publisher</componentName>
+                <identifier>forceChatter_publisher12</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-sc5uprs41m</name>
@@ -3597,7 +3519,21 @@
                     <value>{!$Label.PL_ProductRequest_Design}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
-                <identifier>customTab48</identifier>
+                <identifier>customTab52</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-1qv46x8fpb</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>{!$Label.Tab_ProductRequest_ProductOffering}</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>customTab55</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -3615,7 +3551,7 @@
                     <value>{!$Label.PL_ProductRequest_Release}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
-                <identifier>customTab49</identifier>
+                <identifier>customTab53</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -3633,21 +3569,7 @@
                     <value>{!$Label.PL_ProductRequest_InDelivery}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
-                <identifier>customTab50</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-1qv46x8fpb</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>{!$Label.Tab_ProductRequest_ProductOffering}</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>customTab51</identifier>
+                <identifier>customTab54</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -3661,7 +3583,7 @@
                     <value>Standard.Tab.relatedLists</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
-                <identifier>relatedListsTab11</identifier>
+                <identifier>relatedListsTab12</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -3675,7 +3597,7 @@
                     <value>History</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
-                <identifier>customTab52</identifier>
+                <identifier>customTab56</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -3703,7 +3625,7 @@
                     <value>{!$Label.PL_ProductRequest_Design}</value>
                 </componentInstanceProperties>
                 <componentName>customLayoutHandler</componentName>
-                <identifier>customLayoutHandler21</identifier>
+                <identifier>customLayoutHandler22</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-f250c819-ebe6-4f15-bf7a-f743377dcaa3</name>
@@ -3717,7 +3639,7 @@
                     <value>{!$Label.PL_ProductRequest_Release}</value>
                 </componentInstanceProperties>
                 <componentName>customLayoutHandler</componentName>
-                <identifier>customLayoutHandler22</identifier>
+                <identifier>customLayoutHandler23</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-mngrv1af5j</name>
@@ -3735,7 +3657,7 @@
                     <value>{!$Label.PL_ProductRequest_Design}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
-                <identifier>customTab53</identifier>
+                <identifier>customTab57</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -3749,7 +3671,7 @@
                     <value>{!$Label.PL_ProductRequest_Release}</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
-                <identifier>customTab54</identifier>
+                <identifier>customTab58</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-db8c42d8-3815-4efb-984d-3a9eea8d4d37</name>
@@ -3814,7 +3736,7 @@
                     <value>Facet-ytubbkaoz3</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
-                <identifier>flexipage_tabset3</identifier>
+                <identifier>flexipage_tabset4</identifier>
                 <visibilityRule>
                     <booleanFilter>1 AND 2</booleanFilter>
                     <criteria>
@@ -3837,7 +3759,7 @@
                     <value>Facet-98k5u3klj6b</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
-                <identifier>flexipage_tabset4</identifier>
+                <identifier>flexipage_tabset5</identifier>
                 <visibilityRule>
                     <booleanFilter>1 AND 2 AND 3</booleanFilter>
                     <criteria>
@@ -3865,7 +3787,7 @@
                     <value>Facet-7wisaqw9c0b</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
-                <identifier>flexipage_tabset5</identifier>
+                <identifier>flexipage_tabset6</identifier>
                 <visibilityRule>
                     <booleanFilter>1 AND 2 AND 3</booleanFilter>
                     <criteria>
@@ -3893,7 +3815,7 @@
                     <value>Facet-szt7h5lzny</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
-                <identifier>flexipage_tabset6</identifier>
+                <identifier>flexipage_tabset7</identifier>
                 <visibilityRule>
                     <booleanFilter>1 AND 2</booleanFilter>
                     <criteria>
@@ -3916,7 +3838,7 @@
                     <value>Facet-oysziwq4ulk</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
-                <identifier>flexipage_tabset7</identifier>
+                <identifier>flexipage_tabset8</identifier>
                 <visibilityRule>
                     <booleanFilter>1 AND 2 AND 3</booleanFilter>
                     <criteria>
@@ -3944,7 +3866,7 @@
                     <value>Facet-r6slowit2yl</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
-                <identifier>flexipage_tabset8</identifier>
+                <identifier>flexipage_tabset9</identifier>
                 <visibilityRule>
                     <booleanFilter>1 AND 2 AND 3</booleanFilter>
                     <criteria>
@@ -3972,7 +3894,7 @@
                     <value>Facet-ugbs1hpw27j</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
-                <identifier>flexipage_tabset9</identifier>
+                <identifier>flexipage_tabset10</identifier>
                 <visibilityRule>
                     <booleanFilter>1 AND 2</booleanFilter>
                     <criteria>
@@ -3995,7 +3917,7 @@
                     <value>Facet-ysdgkb0eeke</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
-                <identifier>flexipage_tabset10</identifier>
+                <identifier>flexipage_tabset11</identifier>
                 <visibilityRule>
                     <booleanFilter>1 AND 2 AND 3</booleanFilter>
                     <criteria>
@@ -4023,7 +3945,7 @@
                     <value>Facet-kzc30jzgoal</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
-                <identifier>flexipage_tabset11</identifier>
+                <identifier>flexipage_tabset12</identifier>
                 <visibilityRule>
                     <booleanFilter>1 AND 2 AND 3</booleanFilter>
                     <criteria>
@@ -4051,7 +3973,7 @@
                     <value>Facet-db8c42d8-3815-4efb-984d-3a9eea8d4d37</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
-                <identifier>flexipage_tabset12</identifier>
+                <identifier>flexipage_tabset13</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.Product_Request_Status__c}</leftValue>
@@ -4148,7 +4070,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
-                <identifier>force_relatedListSingleContainer56</identifier>
+                <identifier>force_relatedListSingleContainer61</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -4174,7 +4096,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
-                <identifier>force_relatedListSingleContainer57</identifier>
+                <identifier>force_relatedListSingleContainer62</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
@@ -4191,7 +4113,7 @@
                     <value>sidebartabs</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
-                <identifier>flexipage_tabset13</identifier>
+                <identifier>flexipage_tabset14</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
