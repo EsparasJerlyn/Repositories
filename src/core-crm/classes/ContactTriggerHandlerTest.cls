@@ -51,6 +51,8 @@ public static final Id PERSON = Schema.SObjectType.Contact.getRecordTypeInfosByD
     System.runAs(currUsr) {
       Test.startTest();
       List<Contact> contacts = TestDataFactory.createTestContactRecords(1);
+      contacts[0].FirstName = 'Contact FN 2';
+      contacts[0].LastName = 'Contact LN 2';
       contacts[0]
         .Contact_Image__c = '<p><img src="https://www.w3schools.com/w3css/img_mountains.jpg" alt="test.jpg"></img></p>';
       insert contacts;
@@ -82,6 +84,8 @@ public static final Id PERSON = Schema.SObjectType.Contact.getRecordTypeInfosByD
     System.runAs(currUsr) {
       Test.startTest();
       List<Contact> contacts = TestDataFactory.createTestContactRecords(1);
+      contacts[0].FirstName = 'Contact FN 3';
+      contacts[0].LastName = 'Contact LN 3';
       contacts[0]
         .Contact_Image__c = '<p><img src="https://www.w3schools.com/w3css/img_lights.jpg" alt="test.jpg"></img><img src="https://www.w3schools.com/w3css/img_nature.jpg" alt="test.jpg"></img></p>';
 
@@ -185,6 +189,8 @@ public static final Id PERSON = Schema.SObjectType.Contact.getRecordTypeInfosByD
         
         System.runAs(currUsr) {
             Test.startTest();
+            cons[0].FirstName = 'Contact FN 4';
+            cons[0].LastName = 'Contact LN 4';
             cons[0].Email = 'test@email.com';
             cons[0].hed__WorkEmail__c = 'test_work@email.com';
             cons[0].QUT_Staff_Email__c = 'test_staff@email.com';
