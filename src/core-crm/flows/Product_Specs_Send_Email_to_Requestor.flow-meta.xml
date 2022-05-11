@@ -3,8 +3,8 @@
     <actionCalls>
         <name>Send_Email_to_Requestor</name>
         <label>Send Email to Requestor</label>
-        <locationX>935</locationX>
-        <locationY>546</locationY>
+        <locationX>931</locationX>
+        <locationY>672</locationY>
         <actionName>FlowEmailHelper</actionName>
         <actionType>apex</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -37,8 +37,8 @@
     <assignments>
         <name>Add_Merge_Fields</name>
         <label>Add Merge Fields</label>
-        <locationX>935</locationX>
-        <locationY>403</locationY>
+        <locationX>1217</locationX>
+        <locationY>487</locationY>
         <assignmentItems>
             <assignToReference>MergeFields</assignToReference>
             <operator>Add</operator>
@@ -51,6 +51,29 @@
             <operator>Add</operator>
             <value>
                 <elementReference>$Record.Requestor_Email__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Send_Email_to_Requestor</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Add_Merge_Fields_for_Internal</name>
+        <label>Add Merge Fields for Internal</label>
+        <locationX>614</locationX>
+        <locationY>470</locationY>
+        <assignmentItems>
+            <assignToReference>MergeFields</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>FirstNameMergeField</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>EmailAddresses</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.Requestor_Name__r.QUT_Staff_Email__c</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -77,7 +100,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Add_Merge_Fields</targetReference>
+            <targetReference>isInternalOrExternal</targetReference>
         </connector>
     </assignments>
     <decisions>
@@ -107,6 +130,44 @@
                 <targetReference>Get_Org_Wide_Email_ID</targetReference>
             </connector>
             <label>Stage From Qualify To Design</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Checks if Requestor is Internal or External</description>
+        <name>isInternalOrExternal</name>
+        <label>isInternalOrExternal</label>
+        <locationX>929</locationX>
+        <locationY>406</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Internal_Requestor</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Requestor_Internal_External__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Internal</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Add_Merge_Fields_for_Internal</targetReference>
+            </connector>
+            <label>Internal Requestor</label>
+        </rules>
+        <rules>
+            <name>External_Requestor</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Requestor_Internal_External__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>External</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Add_Merge_Fields</targetReference>
+            </connector>
+            <label>External Requestor</label>
         </rules>
     </decisions>
     <interviewLabel>Productsend Email to Requestor {!$Flow.CurrentDateTime}</interviewLabel>
