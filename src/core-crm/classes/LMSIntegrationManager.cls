@@ -109,8 +109,8 @@ public without sharing class LMSIntegrationManager {
             courseOfferingSFId = courseOffering.Id;
             courseOfferingName = courseOffering.Name;
             courseCode = courseOffering.Course_Code__c;
-            startDate = courseOffering.hed__Start_Date__c != null ? courseOffering.hed__Start_Date__c.year() + '-' + courseOffering.hed__Start_Date__c.month() + '-' + courseOffering.hed__Start_Date__c.day() : null;
-            endDate = courseOffering.hed__End_Date__c!= null ? courseOffering.hed__End_Date__c.year() + '-' + courseOffering.hed__End_Date__c.month() + '-' + courseOffering.hed__End_Date__c.day() : null;
+            startDate = courseOffering.hed__Start_Date__c != null ? courseOffering.hed__Start_Date__c.year() + '-' + String.valueOf(courseOffering.hed__Start_Date__c.month()).leftPad(2,'0') + '-' + String.valueOf(courseOffering.hed__Start_Date__c.day()).leftPad(2,'0') : null;
+            endDate = courseOffering.hed__End_Date__c!= null ? courseOffering.hed__End_Date__c.year() + '-' + String.valueOf(courseOffering.hed__End_Date__c.month()).leftPad(2,'0') + '-' + String.valueOf(courseOffering.hed__End_Date__c.day()).leftPad(2,'0') : null;
             primaryDeliveryPlatform = courseOffering.hed__Course__r.Primary_Delivery_Platform__c;
         }
     }
@@ -142,8 +142,8 @@ public without sharing class LMSIntegrationManager {
             courseOfferingName = courseEnrollment.Course_Offering_Name__c;
             courseOfferingSFId = courseEnrollment.hed__Course_Offering__r.Id;
             roleType = courseEnrollment.Recordtype_Name__c == 'Faculty' ? 'STAFF' : 'STUDENT';
-            startDate =   courseEnrollment.Course_Offering_Start_Date__c != null ? courseEnrollment.Course_Offering_Start_Date__c.year() + '-' + courseEnrollment.Course_Offering_Start_Date__c.month() + '-' + courseEnrollment.Course_Offering_Start_Date__c.day() : null;
-            endDate =  courseEnrollment.Course_Offering_End_Date__c != null ? courseEnrollment.Course_Offering_End_Date__c.year() + '-' + courseEnrollment.Course_Offering_End_Date__c.month() + '-' + courseEnrollment.Course_Offering_End_Date__c.day() : null;
+            startDate =   courseEnrollment.Course_Offering_Start_Date__c != null ? courseEnrollment.Course_Offering_Start_Date__c.year() + '-' + String.valueOf(courseEnrollment.Course_Offering_Start_Date__c.month()).leftPad(2,'0') + '-' + String.valueOf(courseEnrollment.Course_Offering_Start_Date__c.day()).leftPad(2,'0') : null;
+            endDate =  courseEnrollment.Course_Offering_End_Date__c != null ? courseEnrollment.Course_Offering_End_Date__c.year() + '-' + String.valueOf(courseEnrollment.Course_Offering_End_Date__c.month()).leftPad(2,'0') + '-' + String.valueOf(courseEnrollment.Course_Offering_End_Date__c.day()).leftPad(2,'0') : null;
             QUTIdentityId = courseEnrollment.hed__Contact__r.QUT_Identity_ID__c;
             QUTStudentId = courseEnrollment.hed__Contact__r.QUT_Student_ID__c;
             QUTEmployeeId = courseEnrollment.hed__Contact__r.QUT_Employee_ID__c;
@@ -168,7 +168,7 @@ public without sharing class LMSIntegrationManager {
             title = courseEnrollment.hed__Contact__r.Salutation;
             firstName = courseEnrollment.hed__Contact__r.FirstName;
             lastName = courseEnrollment.hed__Contact__r.LastName;
-            birthDate =  courseEnrollment.hed__Contact__r.Birthdate != null ? courseEnrollment.hed__Contact__r.Birthdate.year() + '-' + courseEnrollment.hed__Contact__r.Birthdate.month() + '-' + courseEnrollment.hed__Contact__r.Birthdate.day() : null;
+            birthDate =  courseEnrollment.hed__Contact__r.Birthdate != null ? courseEnrollment.hed__Contact__r.Birthdate.year() + '-' + String.valueOf(courseEnrollment.hed__Contact__r.Birthdate.month()).leftPad(2,'0') + '-' + String.valueOf(courseEnrollment.hed__Contact__r.Birthdate.day()).leftPad(2,'0') : null;
             if (courseEnrollment.hed__Contact__r.hed__Gender__c == 'Male') {
                 gender = 'M';
             } else if (courseEnrollment.hed__Contact__r.hed__Gender__c == 'Female') {
