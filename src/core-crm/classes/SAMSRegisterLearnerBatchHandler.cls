@@ -45,7 +45,7 @@ public without sharing class SAMSRegisterLearnerBatchHandler implements Database
      */
     public void finish(Database.BatchableContext param1) {
         try {
-            System.scheduleBatch(new SAMSRegisterLearnerBatchHandler(), 'LMS Course Enrollment Batch Job', 30, 1);
+            System.scheduleBatch(new SAMSRegisterLearnerBatchHandler(), 'SAMS Learner Registration Batch Job', 30, 1);
         } catch(Exception e) {
             System.debug('Error rescheduling SAMSRegisterLearnerBatchHandler: ' + e.getMessage());
         }
