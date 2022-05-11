@@ -64,8 +64,8 @@ global class PublishingEndDateBatch implements Database.Batchable<sObject>
                 //for products with related courses
                 if(
                     product.Course__r.ProductRequestID__c != null &&
-                    product.Course__r.ProductRequestID__r.Product_Request_Status__c == PR_IN_DELIVERY ||
-                    product.Course__r.ProductRequestID__r.Product_Request_Status__c == PR_RELEASE &&
+                    (product.Course__r.ProductRequestID__r.Product_Request_Status__c == PR_IN_DELIVERY ||
+                    product.Course__r.ProductRequestID__r.Product_Request_Status__c == PR_RELEASE) &&
                     (product.Course__r.End_Date__c == today ||
                     (product.Decommission_Product__c == True && 
                     product.Publishing_End_date__c == today))
@@ -106,8 +106,8 @@ global class PublishingEndDateBatch implements Database.Batchable<sObject>
                 //for products with related program plans
                 else if(
                     product.Program_Plan__r.Product_Request__c != null &&
-                    product.Program_Plan__r.Product_Request__r.Product_Request_Status__c == PR_IN_DELIVERY ||
-                    product.Program_Plan__r.Product_Request__r.Product_Request_Status__c == PR_RELEASE  &&
+                    (product.Program_Plan__r.Product_Request__r.Product_Request_Status__c == PR_IN_DELIVERY ||
+                    product.Program_Plan__r.Product_Request__r.Product_Request_Status__c == PR_RELEASE)  &&
                     ((product.Publishing_End_date__c == today && 
                     product.Decommission_Product__c == True) ||
                     product.Program_Plan__r.hed__End_Date__c == today)
@@ -128,7 +128,7 @@ global class PublishingEndDateBatch implements Database.Batchable<sObject>
                     }
                     product.Available_on_Cart__c = false;
                 }
-                if(product.Program_Plan__r.hed__Start_Date__c <= today - 1 && product.Program_Plan__r.Product_Request__r.Product_Request_Status__c == PR_RELEASE){
+                if(product.Program_Plan__r.hed__Start_Date__c < today && product.Program_Plan__r.Product_Request__r.Product_Request_Status__c == PR_RELEASE){
                     productReqToUpdate.put(
                         product.Program_Plan__r.Product_Request__c, 
                         new Product_Request__c
