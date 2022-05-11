@@ -15,7 +15,7 @@
 @isTest
 public class ContactLookupCtrlTest {
 
-    private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
+    private static User  currentUser = TestDataFactory.createUserRecords(1,'System Administrator').iterator().next();
 
     @testSetup static void setupMethod() {
         List<contact> contacts = new List<contact>(); 
@@ -35,6 +35,6 @@ public class ContactLookupCtrlTest {
             contactList = ContactLookupCtrl.getContactRecords();
             Test.stopTest();
         }
-		//System.assertEquals(2, contactList.size());
+		System.assertEquals(2, contactList.size(), 'Contacts were not created.');
     }
 }

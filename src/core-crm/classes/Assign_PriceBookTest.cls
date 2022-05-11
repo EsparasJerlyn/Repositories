@@ -33,8 +33,12 @@ private class Assign_PriceBookTest {
 
         Account acc = [SELECT Id From Account LIMIT 1];
         Contact con = [SELECT Id From Contact LIMIT 1];
-
+        Id cceRecTypeId = Schema.SObjectType.Opportunity.getRecordTypeInfosByName().get('QUTex CCE').getRecordTypeId();
+        
         List<Opportunity> oppList = TestDataFactory.createTestOpportunityRecords(100,acc?.Id,con?.Id);
+        for(Opportunity oppty : oppList){
+            oppty.recordTypeId = cceRecTypeId;
+        }
 
         Test.startTest();
         insert(oppList);
@@ -42,8 +46,7 @@ private class Assign_PriceBookTest {
 
         List<Opportunity> insertedOppList = [SELECT Pricebook2.Name FROM Opportunity LIMIT 100];
         for(Opportunity opp : insertedOppList){
-            //System.assertEquals(STR_PB_NAME, opp.Pricebook2.Name,'Pricebook was not assigned as expected');
+            System.assertEquals(STR_PB_NAME, opp.Pricebook2.Name,'Pricebook was not assigned as expected');
         }
     }
-
 }
