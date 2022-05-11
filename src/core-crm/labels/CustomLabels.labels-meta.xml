@@ -607,4 +607,12 @@
         <shortDescription>ESBLMSCourseEnrolment</shortDescription>
         <value>/consumer/dep/v1/learner/courseEnrolment</value>
     </labels>
+    <labels>
+        <fullName>ESBSAMSRegisterLearner</fullName>
+        <categories>Endpoint</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ESBSAMSRegisterLearner</shortDescription>
+        <value>/consumer/dep/v1/registration/registerLearner</value>
+    </labels>
 </CustomLabels>

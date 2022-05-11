@@ -128,6 +128,10 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Readonly</behavior>
+                <field>QUT_Identity_ID__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
                 <field>QUT_Student_ID__c</field>
             </layoutItems>
             <layoutItems>

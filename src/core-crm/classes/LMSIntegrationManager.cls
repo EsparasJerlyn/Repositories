@@ -7,13 +7,14 @@
  *    | Developer                 | Date                  | JIRA         | Change Summary                              |
       |---------------------------|-----------------------|--------------|---------------------------------------------|
       | john.bo.a.pineda          | May 07, 2022          | DEPP-2549    | Created file                                |
-      | wli                       | May 08/09/10, 2022       | DEPP-2549,2565,2581    | Update                                      |
+      | wli                       | May 08/09/10/11, 2022       | DEPP-2549,2565,2581,2588    | Update                                      |
  */
 public without sharing class LMSIntegrationManager {
 
     private static final String ENDPOINT_ESB_LMS_COURSE = System.Label.ESBEndpointLMSCourse;
     private static final String ENDPOINT_ESB_LMS_COURSE_OFFERING = System.Label.ESBEndpointLMSCourseOffering;
     private static final String ENDPOINT_ESB_LMS_COURSE_ENROLLMENT = System.Label.ESBLMSCourseEnrolment;
+    private static final String ENDPOINT_ESB_SAMS_REGISTER_LEARNER = System.Label.ESBSAMSRegisterLearner;
 
     public static void calloutLMSCourse(hed__Course__c course) {
         HttpResponse response = doCallout(ENDPOINT_ESB_LMS_COURSE, 'POST', JSON.serialize(new LMSCourseWrapper(course)));
@@ -40,6 +41,15 @@ public without sharing class LMSIntegrationManager {
         HttpResponse response = doCallout(ENDPOINT_ESB_LMS_COURSE_ENROLLMENT, 'POST', JSON.serialize(new LMSCourseEnrollmentWrapper(courseEnrollmentList)));
 
         update courseEnrollments;
+    }
+
+    public static void calloutSAMSRegisterLearner(hed__Course_Enrollment__c courseEnrollment) {
+        HttpResponse response = doCallout(ENDPOINT_ESB_SAMS_REGISTER_LEARNER, 'POST', JSON.serialize(new LearnerWrapper(courseEnrollment)));
+
+        Contact contact = new Contact();
+        contact.put('Id', courseEnrollment.hed__Contact__r.Id);
+        contact.put('SAMS_Integration_Status__c', 'Sent');
+        update contact;
     }
 
     /**
@@ -138,6 +148,38 @@ public without sharing class LMSIntegrationManager {
             QUTStudentId = courseEnrollment.hed__Contact__r.QUT_Student_ID__c;
             QUTEmployeeId = courseEnrollment.hed__Contact__r.QUT_Employee_ID__c;
             primaryDeliveryPlatform = courseEnrollment.hed__Course_Offering__r.hed__Course__r.Primary_Delivery_Platform__c;
+        }
+    }
+
+    private class LearnerWrapper {
+        private String sfid {get; set;}
+        private String nominatedStudentId {get; set;}
+        private String title {get; set;}
+        private String firstName {get; set;}
+        private String lastName {get; set;}
+        private String birthDate {get; set;}
+        private String gender {get; set;}
+        private String mobile {get; set;}
+        private String email {get; set;}
+
+        private LearnerWrapper(hed__Course_Enrollment__c courseEnrollment) {
+            sfid = courseEnrollment.hed__Contact__r.Id;
+            nominatedStudentId = courseEnrollment.hed__Contact__r.Nominated_Student_ID__c;
+            title = courseEnrollment.hed__Contact__r.Salutation;
+            firstName = courseEnrollment.hed__Contact__r.FirstName;
+            lastName = courseEnrollment.hed__Contact__r.LastName;
+            birthDate =  courseEnrollment.hed__Contact__r.Birthdate != null ? courseEnrollment.hed__Contact__r.Birthdate.year() + '-' + courseEnrollment.hed__Contact__r.Birthdate.month() + '-' + courseEnrollment.hed__Contact__r.Birthdate.day() : null;
+            if (courseEnrollment.hed__Contact__r.hed__Gender__c == 'Male') {
+                gender = 'M';
+            } else if (courseEnrollment.hed__Contact__r.hed__Gender__c == 'Female') {
+                gender = 'F';
+            } else if (courseEnrollment.hed__Contact__r.hed__Gender__c == 'Other') {
+                gender = 'X';
+            } else {
+                gender = null;
+            }
+            mobile = courseEnrollment.hed__Contact__r.MobilePhone;
+            email = courseEnrollment.hed__Contact__r.Email;
         }
     }
 
