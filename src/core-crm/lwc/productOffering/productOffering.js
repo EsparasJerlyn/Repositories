@@ -265,7 +265,7 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
             let childLayoutItem = this.layoutMap[COURSE_OFFERING.objectApiName];
             this.layoutItem = this.layoutMap[this.childInfoMap.objectType];
             this.courseOfferingLayoutItem.leftColumn = childLayoutItem.leftColumn.filter(layout => 
-                layout.field !== 'Minimum_Participants__c' && layout.field !== 'Registration_Start_Date__c' && layout.field !== 'LMS_Integration_Status__c'
+                layout.field !== 'Minimum_Participants__c' && layout.field !== 'Registration_Start_Date__c'
             );
             this.courseOfferingLayoutItem.rightColumn = childLayoutItem.rightColumn.filter(layout => 
                 layout.field !== 'hed__Capacity__c' && layout.field !== 'Registration_End_Date__c'
@@ -286,9 +286,14 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
                     }
                     return _layout;
                 });
-                for(let i = 0; i < this.courseOfferingLayoutItem.leftColumn.length; i++){
-                    this.childOfferingLayout.push(this.courseOfferingLayoutItem.leftColumn[i]);
-                    this.childOfferingLayout.push(this.courseOfferingLayoutItem.rightColumn[i]);
+                let loopLimit = this.courseOfferingLayoutItem.leftColumn.length > this.courseOfferingLayoutItem.rightColumn.length?this.courseOfferingLayoutItem.leftColumn.length:this.courseOfferingLayoutItem.rightColumn.length;
+                for(let i = 0; i < loopLimit; i++){
+                    if(this.courseOfferingLayoutItem.leftColumn[i]){
+                        this.childOfferingLayout.push(this.courseOfferingLayoutItem.leftColumn[i]);
+                    }
+                    if(this.courseOfferingLayoutItem.rightColumn[i]){
+                        this.childOfferingLayout.push(this.courseOfferingLayoutItem.rightColumn[i]);
+                    }
                 }
             }
         })
