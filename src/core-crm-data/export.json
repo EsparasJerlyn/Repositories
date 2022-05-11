@@ -81,7 +81,7 @@
             "importCSVFilesAsIs": true
         },
         {
-            "query": "Select Id, DeveloperName, SObjectType From RecordType Where SObjectType IN ('Account','hed__Course__c','hed__Course_Enrollment__c','Product_Request__c','Product_Specification__c')",
+            "query": "Select Id, DeveloperName, SobjectType, Name From RecordType Where SobjectType IN ('Account','hed__Course__c','hed__Course_Enrollment__c','Product_Request__c','Product_Specification__c')",
             "operation": "Upsert",
             "externalId": "DeveloperName;SobjectType",
             "useCSVValuesMapping": true,
@@ -97,9 +97,9 @@
             "importCSVFilesAsIs": true
         },
         {
-            "query": "SELECT Id,Name,AccountId,LastName,FirstName,hed__Chosen_Full_Name__c,Salutation,Email,QUT_Staff_Email__c,QUT_Employee_Id__c,QUT_Identity_Id__c,QUT_Student_ID__c,Birthdate,Migration_Key__c,Description from Contact",
+            "query": "SELECT Id, Name, AccountId, LastName, FirstName, hed__Chosen_Full_Name__c, Salutation, Email, QUT_Staff_Email__c, QUT_Employee_ID__c, QUT_Identity_ID__c, QUT_Student_ID__c, Birthdate, Migration_Key__c, Description, Company_Name__c, hed__Primary_Organization__c FROM Contact",
             "operation": "Upsert",
-            "externalId": "Name",
+            "externalId": "Name;QUT_Staff_Email__c",
             "useCSVValuesMapping": true,
             "targetObject": "Contact",
             "importCSVFilesAsIs": true
@@ -217,7 +217,7 @@
             "importCSVFilesAsIs": true
         },
 		{
-            "query": "SELECT Id,BuyerId,BuyerGroupId from BuyerGroupMember",
+            "query": "SELECT Id, BuyerId, BuyerGroupId from BuyerGroupMember",
             "operation": "Upsert",
             "externalId": "BuyerGroupId",
             "useCSVValuesMapping": true,
@@ -254,6 +254,38 @@
             "externalId": "Name",
             "useCSVValuesMapping": true,
             "targetObject": "Study_Store_URL_Settings__c",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id, FirstName, LastName, Email, Status, Lead_Type__c, Company, LeadSource FROM Lead",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "Lead",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id,Name,Lead__c,Application_Source__c,Application_Status__c FROM Marketing_Course_Application__c",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "Marketing_Course_Application__c",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id,Name,Lead__c,SPAD__c FROM Marketing_Interaction__c",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "Marketing_Interaction__c",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id,Name,Lead__c,My_Primary_BSA__c,My_Primary_Study_Level__c,My_Primary_NSA__c,My_Country_Of_Citizenship__c FROM Marketing_Segmentation__c",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "Marketing_Segmentation__c",
             "importCSVFilesAsIs": true
         }
     ]

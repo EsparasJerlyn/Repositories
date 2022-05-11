@@ -88,7 +88,6 @@ public with sharing class ManageApplicationSectionCtrl {
           List<String> response = new List<String>();
           String strObjectName = 'Questionnaire_Response_Summary__c';
           String strPicklistField = 'Application_Status__c';
-          Map<String, String> mapPickListValues = new Map<String, String>();
           Schema.SObjectType objSobjectType = Schema.getGlobalDescribe().get(strObjectName);
           Schema.DescribeSObjectResult objDescribeSobject = objSobjectType.getDescribe();
           Map<String, Schema.SObjectField> mapFields = objDescribeSobject.fields.getMap();

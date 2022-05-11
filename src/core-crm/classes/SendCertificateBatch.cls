@@ -65,8 +65,7 @@ public class SendCertificateBatch implements Database.batchable<sObject>{
         
     }
     
-    public void finish(Database.BatchableContext BC) {
-    }
+    public void finish(Database.BatchableContext BC) {}//NOPMD
 
     /**
       * @description Wrapper class that holds data to be displayed

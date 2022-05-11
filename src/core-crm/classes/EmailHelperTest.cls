@@ -38,9 +38,9 @@ public with sharing class EmailHelperTest {
         );
         Messaging.EmailFileAttachment attachementBuilderTest = EmailHelper.attachementBuilder(coverTemplate.Name, coverTemplate.HtmlValue,coverEmailParams);
         Test.stopTest();
-        System.assertNotEquals(null, emailBuilderTest);
-        System.assertNotEquals(null, emailBuilderTestWithOrgId);
-        System.assertNotEquals(null, attachementBuilderTest);
+        System.assertNotEquals(null, emailBuilderTest,'emailBuilderTest is null');
+        System.assertNotEquals(null, emailBuilderTestWithOrgId, 'emailBuilderTestWithOrgId is null');
+        System.assertNotEquals(null, attachementBuilderTest, 'attachementBuilderTest is null');
 
     }   
 

@@ -54,7 +54,6 @@ public with sharing class ManageCertificateSectionCtrlTest {
             Study_Store_URL_Settings__c studyStore = new Study_Store_URL_Settings__c(Study_Store_Link__c = 'https://studystorelinktest.com/');
             insert studyStore;
             createRecord(RT_ACTIVITY_ID);
-            String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;
             String offeringId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;
             Test.startTest();
             List<ManageCertificateSectionCtrl.ManageCertificateDetails> certificateDetails = ManageCertificateSectionCtrl.getCertificateDetails(offeringId, false);
@@ -68,7 +67,6 @@ public with sharing class ManageCertificateSectionCtrlTest {
     static void previewPDFTest(){
         System.runAs(currentUser){
             createRecord(RT_ACTIVITY_ID);
-            String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;
             String offeringId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;
             Test.startTest();
             List<ManageCertificateSectionCtrl.ManageCertificateDetails> certificateDetails = ManageCertificateSectionCtrl.getCertificateDetails(offeringId, false);
@@ -83,7 +81,6 @@ public with sharing class ManageCertificateSectionCtrlTest {
     static void updateCourseConnDetailsTest(){
         System.runAs(currentUser){
             createRecord(RT_ACTIVITY_ID);
-            String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;
             String offeringId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;
             List<ManageCertificateSectionCtrl.ManageCertificateDetails> certificateDetails = ManageCertificateSectionCtrl.getCertificateDetails(offeringId, false);
             for(ManageCertificateSectionCtrl.ManageCertificateDetails certificateDetail : certificateDetails){

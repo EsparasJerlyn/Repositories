@@ -9,7 +9,7 @@
       | angelika.j.s.galang       | April 22, 2022        | DEPP-2156 | Created file                    | 
       |                           |                       |           |                                 | 
 */
-public class FlowEmailHelper {
+public without sharing class FlowEmailHelper {
 
     /**
     * @description Invocable method for sending email from flows

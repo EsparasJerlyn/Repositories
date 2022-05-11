@@ -192,7 +192,6 @@ public with sharing class ManageRegistrationSectionCtrl {
           List<String> response = new List<String>();
           String strObjectName = 'hed__Course_Enrollment__c';
           String strPicklistField = 'Paid_in_Full__c';
-          Map<String, String> mapPickListValues = new Map<String, String>();
           Schema.SObjectType objSobjectType = Schema.getGlobalDescribe().get(strObjectName);
           Schema.DescribeSObjectResult objDescribeSobject = objSobjectType.getDescribe();
           Map<String, Schema.SObjectField> mapFields = objDescribeSobject.fields.getMap();
@@ -213,7 +212,6 @@ public with sharing class ManageRegistrationSectionCtrl {
           List<String> response = new List<String>();
           String strObjectName = 'hed__Course_Enrollment__c';
           String strPicklistField = 'hed__Status__c';
-          Map<String, String> mapPickListValues = new Map<String, String>();
           Schema.SObjectType objSobjectType = Schema.getGlobalDescribe().get(strObjectName);
           Schema.DescribeSObjectResult objDescribeSobject = objSobjectType.getDescribe();
           Map<String, Schema.SObjectField> mapFields = objDescribeSobject.fields.getMap();
@@ -234,7 +232,6 @@ public with sharing class ManageRegistrationSectionCtrl {
           List<String> response = new List<String>();
           String strObjectName = 'hed__Course_Enrollment__c';
           String strPicklistField = 'Pricing_Validation__c';
-          Map<String, String> mapPickListValues = new Map<String, String>();
           Schema.SObjectType objSobjectType = Schema.getGlobalDescribe().get(strObjectName);
           Schema.DescribeSObjectResult objDescribeSobject = objSobjectType.getDescribe();
           Map<String, Schema.SObjectField> mapFields = objDescribeSobject.fields.getMap();
@@ -370,7 +367,6 @@ public with sharing class ManageRegistrationSectionCtrl {
                ContentDocumentLink cdl;
                Answer__c updateAnswer;
                for(ContentVersion cv:newContentVersionList){
-                    String test = relatedAnswerToAnswerMap.get(cvToRelatedAnswerMap.get(cv.Title));
                     cdl = new ContentDocumentLink(
                          ContentDocumentId = cv.ContentDocumentId,
                          LinkedEntityId = relatedAnswerToAnswerMap.get(cvToRelatedAnswerMap.get(cv.Title)),

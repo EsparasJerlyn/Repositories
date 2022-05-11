@@ -28,8 +28,6 @@ public with sharing class SetupCertificateVFPageCtrlTest {
         System.runAs(currentUser){
             Test.startTest();
             createCourseRecord(opeActProdReqRecType);
-            String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;
-            String offeringId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;
             List<hed__Course_Enrollment__c> courseConnections = [SELECT Id, hed__Course_Offering__c 
                                                                 FROM hed__Course_Enrollment__c 
                                                                 WHERE RecordType.DeveloperName =: studentRT 
@@ -41,7 +39,7 @@ public with sharing class SetupCertificateVFPageCtrlTest {
             .getParameters()
             .put('courseConnectionId', courseConnections[0].Id);
             SetupCertificateVFPageCtrl testCtrl = new SetupCertificateVFPageCtrl();
-            System.assert(testCtrl.product !=null);
+            System.assert(testCtrl.product !=null, 'Product is null');
             Test.stopTest();
         }
     }
@@ -52,7 +50,6 @@ public with sharing class SetupCertificateVFPageCtrlTest {
         System.runAs(currentUser){
             Test.startTest();
             createProgramRecord();
-            String offeringId = [SELECT Id FROM Program_Offering__c LIMIT 1].Id;
             List<hed__Course_Enrollment__c> courseConnections = [SELECT Id, Program_Offering__c 
                                                                 FROM hed__Course_Enrollment__c 
                                                                 WHERE RecordType.DeveloperName =: studentProgramRT 
@@ -64,7 +61,7 @@ public with sharing class SetupCertificateVFPageCtrlTest {
             .getParameters()
             .put('courseConnectionId', courseConnections[0].Id);
             SetupCertificateVFPageCtrl testCtrl = new SetupCertificateVFPageCtrl();
-            System.assert(testCtrl.product !=null);
+            System.assert(testCtrl.product !=null, 'Product is null');
             Test.stopTest();
             
         }
