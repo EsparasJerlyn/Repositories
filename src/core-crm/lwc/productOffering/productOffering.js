@@ -382,7 +382,7 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
                 editable: this.showEditButton,
                 helpText: item.hed__Primary__c?'Unset As Primary':'Set As Primary',
                 variantName: item.hed__Primary__c?'Brand':'',
-                disableSetAsPrimary: this.isStatusCompleted         
+                disableSetAsPrimary: this.isStatusCompleted || !item.IsActive__c         
             }
         });
     }
