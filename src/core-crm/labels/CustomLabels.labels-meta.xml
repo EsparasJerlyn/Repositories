@@ -599,4 +599,12 @@
         <shortDescription>ESBEndpointLMSCourseOffering</shortDescription>
         <value>/consumer/dep/v1/curriculum/courseOffering</value>
     </labels>
+    <labels>
+        <fullName>ESBLMSCourseEnrolment</fullName>
+        <categories>Endpoint</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ESBLMSCourseEnrolment</shortDescription>
+        <value>/consumer/dep/v1/learner/courseEnrolment</value>
+    </labels>
 </CustomLabels>
