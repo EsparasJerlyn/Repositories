@@ -237,6 +237,13 @@
         <value>QUTeX</value>
     </labels>
     <labels>
+        <fullName>QUTeXProducts</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>QUTeXProducts</shortDescription>
+        <value>QUTeX Products</value>
+    </labels>
+    <labels>
         <fullName>RT_Course_Activity</fullName>
         <categories>RecordType,Course</categories>
         <language>en_US</language>

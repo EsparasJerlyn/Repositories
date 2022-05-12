@@ -16,7 +16,7 @@ import { refreshApex } from '@salesforce/apex';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import LWC_Error_General from '@salesforce/label/c.LWC_Error_General';
 import RT_ProductRequest_Program from '@salesforce/label/c.RT_ProductRequest_Program';
-import QUTeX from '@salesforce/label/c.QUTeX';
+import QUTeX from '@salesforce/label/c.QUTeXProducts';
 import COURSE_OBJ from '@salesforce/schema/hed__Course__c';
 import C_PRODUCT_REQUEST from '@salesforce/schema/hed__Course__c.ProductRequestID__c';
 import FS_COURSE from '@salesforce/schema/Financial_Split__c.Course__c';

@@ -14,6 +14,7 @@
 @IsTest
 private class FinancialSplitCtrlTest {
 
+    private static final String QUTEXPROD = 'QUTeX Products';
     private static final String QUTEX = System.Label.QUTeX;
     private static final String COURSE_API_NAME = hed__Course__c.SObjectType.getDescribe().getLocalName();
     private static final String COURSE_PR_FIELD = 'ProductRequestID__c';
@@ -26,7 +27,7 @@ private class FinancialSplitCtrlTest {
         Account acc = TestDataFactory.createTestAccountRecords(1).iterator().next();
         acc.RecordTypeId = ACCT_UNIV_DEP_ID;
         acc.Organization_Unit_Level__c = '2';
-        acc.Name = QUTEX;
+        acc.Name = QUTEXPROD;
         insert acc;
         Product_Request__c pr = TestDataFactory.createTestProductRequestRecords(1).iterator().next();
         insert pr;
@@ -41,7 +42,7 @@ private class FinancialSplitCtrlTest {
         System.runAs(currentUser){
             Account qutexAcc = [SELECT Id FROM Account LIMIT 1];
             Test.startTest();
-            Id qutexId = FinancialSplitCtrl.getQutexId(QUTEX);
+            Id qutexId = FinancialSplitCtrl.getQutexId(QUTEXPROD);
             Test.stopTest();
             System.assertEquals(qutexAcc?.Id, qutexId,'QUTeX account did not match');
         }

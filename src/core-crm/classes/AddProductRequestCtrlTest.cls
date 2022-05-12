@@ -53,11 +53,11 @@ private class AddProductRequestCtrlTest {
         Test.startTest();
         System.runAs(currentUser){
            List<Account> acc= TestDataFactory.createTestAccountRecords(1);
-           Account a = new Account(Name = 'QUTeX');
+           Account a = new Account(Name = 'QUTeX Products');
            acc.add(a);
            insert acc;
            String accId=AddProductRequestCtrl.getAccountId();
-           system.assert(!String.isBlank(accId),'No QUTeX Account Found');
+           system.assert(!String.isBlank(accId),'No QUTeX Products Account Found');
         }
         Test.stopTest();
     }

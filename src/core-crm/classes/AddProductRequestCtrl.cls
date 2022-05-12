@@ -223,7 +223,7 @@ public with sharing class AddProductRequestCtrl {
      */
     @AuraEnabled(cacheable=true)
     public static String getAccountId(){
-      Account acct = [Select Id from Account WHERE Name ='QUTeX' LIMIT 1];
+      Account acct = [Select Id from Account WHERE Name ='QUTeX Products' LIMIT 1];
       return acct.Id;
    }
 }

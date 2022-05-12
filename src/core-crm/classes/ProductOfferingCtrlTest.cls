@@ -13,6 +13,7 @@
 */
 @isTest(SeeAllData=false)
 public class ProductOfferingCtrlTest {
+    private static final String STR_QUTEXPROD = 'QUTeX Products';
     private static final String STR_QUTEX = 'QUTeX';
     private static final String STR_QUTEX_TERM = STR_QUTEX + ' Term';
     private static User currentUser = TestDataFactory.createUserRecords(1, STR_QUTEX).iterator().next();
@@ -23,7 +24,7 @@ public class ProductOfferingCtrlTest {
     static void getTermIdTest() {
         System.runAs(currentUser){
             Account acc = TestDataFactory.createTestAccountRecords(1).iterator().next();
-            acc.Name = STR_QUTEX;
+            acc.Name = STR_QUTEXPROD;
             insert acc;
             Test.startTest();
             String termId = ProductOfferingCtrl.getTermId();
