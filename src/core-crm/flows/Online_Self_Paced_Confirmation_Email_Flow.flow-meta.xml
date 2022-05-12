@@ -176,7 +176,7 @@
                 <leftValueReference>DeliveryType</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>Online Self-Paced</stringValue>
+                    <stringValue>Online Self-paced</stringValue>
                 </rightValue>
             </conditions>
             <connector>

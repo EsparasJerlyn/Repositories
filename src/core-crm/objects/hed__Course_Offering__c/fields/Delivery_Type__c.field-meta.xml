@@ -41,6 +41,16 @@
                 <default>false</default>
                 <label>Sydney Classroom</label>
             </value>
+            <value>
+                <fullName>Face-to-Face</fullName>
+                <default>false</default>
+                <label>Face-to-Face</label>
+            </value>
+            <value>
+                <fullName>Virtual</fullName>
+                <default>false</default>
+                <label>Virtual</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
