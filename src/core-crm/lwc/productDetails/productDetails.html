@@ -1,20 +1,26 @@
 <template>
   <lightning-spinner
-    if:false={hasProduct}
+    if:true={loading}
     class="slds-is-relative slds-align_absolute-center slds-m-around_large"
     alternative-text="Loading product information..."
     size="medium"
-    variant="brand"
-  >
-  </lightning-spinner>
-  <c-product-details-display
-    if:true={hasProduct}
-    product-details={productOnPage}
+    variant="brand"></lightning-spinner>
+
+  <c-product-details-display if:true={showProductDetailsDisplay}
+    product-details={productDetails}
     price-book-entries={priceBookEntryList}
     delivery-options={deliveryOptions}
     c-products={cProducts}
     is-not-flex-program={isNotFlexProgram}
-    onaddtocart={addToCartItem}
-  >
-  </c-product-details-display>
+    onaddtocart={addToCartItem}></c-product-details-display>
+    
+  <c-prescribed-program if:true={showPrescribedProgram}
+    product={product} 
+    onviewproduct={handleviewproduct} 
+    onaddtocart={addToCartItem}></c-prescribed-program>
+
+  <c-product-details-single if:true={showProductDetailsSingle}
+    product={product} 
+    onbacktoprogram={handlebacktoprogram}></c-product-details-single>
+    
 </template>

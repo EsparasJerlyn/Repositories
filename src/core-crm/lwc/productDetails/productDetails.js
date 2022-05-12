@@ -27,6 +27,15 @@ import getCartSummary from "@salesforce/apex/B2BGetInfo.getCartSummary";
 import addToCartItem from "@salesforce/apex/ProductDetailsCtrl.addToCartItem";
 
 export default class ProductDetails extends LightningElement {
+  loading;
+  productDetails;
+  priceBookEntryList;
+  deliveryOptions;
+  product;
+  showPrescribedProgram;
+  showProductDetailsSingle;
+  showProductDetailsDisplay;
+  
   // Gets & Sets the effective account - if any - of the user viewing the product.
   @api
   get effectiveAccountId() {
@@ -47,17 +56,46 @@ export default class ProductDetails extends LightningElement {
   // The cart summary information
   cartSummary;
 
-  // Get Product Details
-  @wire(getProductDetails, {
-    productId: "$recordId"
-  })
-  productDetails;
-
   // The connectedCallback() lifecycle hook fires when a component is inserted into the DOM.
   connectedCallback() {
+    this.loading = true;
+    this.showPrescribedProgram = false;
+    this.showProductDetailsSingle = false;
+    this.showProductDetailsDisplay = false;
+    this.getProductDetailsApex(this.recordId);
     if (!isGuest) {
       this.updateCartInformation();
     }
+  }
+
+  getProductDetailsApex(productId){
+    getProductDetails({productId: productId})
+      .then( (result) => {
+        this.productDetails = result.productOnPage;
+        this.priceBookEntryList = result.pricebookWrapperList;
+        this.deliveryOptions = result.deliveryWrapperList;
+        this.product = {};
+        this.product.productDetails = result.productOnPage;
+        this.product.programModules = result.moduleWrapperList;
+        this.product.priceBookEntryList = result.pricebookWrapperList;
+        this.product.deliveryOptions = result.deliveryWrapperList;
+        this.product.programDeliveryAndOfferings = result.programDeliveryAndOfferingMap;      
+        if(this.product.productDetails.Program_Plan__r.Program_Delivery_Structure__c == 'Prescribed Program'){ 
+          this.showPrescribedProgram = true;
+          this.showProductDetailsSingle = false;
+          this.showProductDetailsDisplay = false;
+        } else {
+          this.showPrescribedProgram = false;
+          this.showProductDetailsSingle = false;
+          this.showProductDetailsDisplay = true;
+        }
+        this.loading = false;
+      })
+      .catch( (error)=>{
+        console.log(error);
+      }).finally(()=> {
+        this.loading = false;
+      })
   }
 
   // Gets the normalized effective account of the user.
@@ -72,35 +110,6 @@ export default class ProductDetails extends LightningElement {
       resolved = effectiveAccountId;
     }
     return resolved;
-  }
-
-  // Gets whether product information has been retrieved for display.
-  get hasProduct() {
-    return this.productDetails.data !== undefined;
-    /* return this.productDetails.data
-    ? this.productDetails.data.productOnPage
-    : []; */
-  }
-
-  // Gets priceBookEntries related to the product
-  get priceBookEntryList() {
-    return this.productDetails.data
-      ? this.productDetails.data.pricebookWrapperList
-      : [];
-  }
-
-  // Gets Delivery Options related to the product
-  get deliveryOptions() {
-    return this.productDetails.data
-      ? this.productDetails.data.deliveryWrapperList
-      : [];
-  }
-
-  // Gets Product Fields
-  get productOnPage() {
-    return this.productDetails.data
-      ? this.productDetails.data.productOnPage
-      : [];
   }
 
   // Gets Product Fields
@@ -126,12 +135,21 @@ export default class ProductDetails extends LightningElement {
 
   //Custom
   addToCartItem(event) {
+    let courseOfferingId = '';
+    let programOfferingId = '';
+    if(event.detail.courseOfferingId!=undefined){
+      courseOfferingId = event.detail.courseOfferingId;
+    }
+    if(event.detail.programOfferingId!=undefined){
+      programOfferingId = event.detail.programOfferingId;
+    }
     addToCartItem({
       communityId: communityId,
       productId: this.recordId,
       effectiveAccountId: this.resolvedEffectiveAccountId,
-      productName: this.productDetails.data.productOnPage.Name,
-      courseOfferingId: event.detail.courseOfferingId,
+      productName: this.productDetails.Name,
+      courseOfferingId: courseOfferingId,
+      programOfferingId: programOfferingId,
       pricebookEntryId: event.detail.pricebookEntryId
     })
       .then((result) => {
@@ -180,6 +198,21 @@ export default class ProductDetails extends LightningElement {
       });
   }
 
+  handleviewproduct(event){
+    let tempObj = this.product;
+    this.product = {};
+    this.product.productDetails = event.detail.value;
+    this.product.parent = tempObj;
+    this.showPrescribedProgram = false;
+    this.showProductDetailsSingle = true;
+  }
+
+  handlebacktoprogram(event){
+    let tempObj = event.detail.value;
+    this.product = tempObj.parent;
+    this.showPrescribedProgram = true;
+    this.showProductDetailsSingle = false;
+  }
   
   /*   handleRefresh() {
     refreshApex(this.productDetails);

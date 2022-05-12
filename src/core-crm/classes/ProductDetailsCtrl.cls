@@ -41,6 +41,8 @@ public without sharing class ProductDetailsCtrl {
         StockKeepingUnit,
         Course__c,
         Program_Plan__c,
+        Program_Plan__r.Program_Delivery_Structure__c,
+        Program_Plan__r.Location__r.Display_Name__c,
         Duration__c,
         Delivery__c,
         Register_Interest_Available__c,
@@ -55,11 +57,17 @@ public without sharing class ProductDetailsCtrl {
           WHERE IsActive = TRUE
           ORDER BY CreatedDate, Pricebook2.IsStandard DESC
         ),
-        Program_Plan__r.Product_Request__c,
-        Program_Plan__r.Program_Delivery_Structure__c
+        Program_Plan__r.Product_Request__c
       FROM Product2
       WHERE Id = :productId
     ];
+
+    //Modules under the program
+    if(productOnPage.Program_Plan__r.Program_Delivery_Structure__c == 'Prescribed Program'){
+      prodDetailsData.moduleWrapperList = getProgramModules(productOnPage.Program_Plan__c);
+      prodDetailsData.programDeliveryAndOfferingMap = getProgramOfferings(productOnPage.Program_Plan__c);
+    }
+
     // Pricebook Entries
     if (!productOnPage.PricebookEntries.isEmpty()) {
       for (PricebookEntry pricebookEntry : productOnPage.PricebookEntries) {
@@ -217,7 +225,7 @@ public without sharing class ProductDetailsCtrl {
         childProdWrapperList.add(childProductWrapper);
       }
     }
-
+    
     // Set values to wrapper
     prodDetailsData.productOnPage = productOnPage;
     prodDetailsData.pricebookWrapperList = pbEntryWrapperList;
@@ -433,6 +441,7 @@ public without sharing class ProductDetailsCtrl {
     String effectiveAccountId,
     String productName,
     String courseOfferingId,
+    String programOfferingId,
     String pricebookEntryId
   ) {
     try {
@@ -470,9 +479,12 @@ public without sharing class ProductDetailsCtrl {
       cItem.CartDeliveryGroupId = cartDeliveryGroupId;
       cItem.Name = productName;
       cItem.Product2Id = productId;
-      cItem.Course_Offering__c = courseOfferingId;
+      if(String.isNotBlank(courseOfferingId)){
+        cItem.Course_Offering__c = courseOfferingId;
+      } else if(String.isNotBlank(programOfferingId)){
+        cItem.Program_Offering__c = programOfferingId;
+      }
       cItem.Pricebook_Entry_ID__c = pricebookEntryId;
-      //cItem.Program_Offering__c = '';
       cItem.Quantity = 1;
       cItem.Type = 'Product';
 
@@ -787,6 +799,10 @@ public without sharing class ProductDetailsCtrl {
     @AuraEnabled
     public List<DeliveryWrapper> deliveryWrapperList;
     @AuraEnabled
+    public List<ModuleWrapper> moduleWrapperList;
+    @AuraEnabled
+    public Map<String, List<ProgramOfferingWrapper>> programDeliveryAndOfferingMap;
+    @AuraEnabled
     public Boolean isNotFlexProgram;
     @AuraEnabled
     public List<childProduct> childProductList;
@@ -884,5 +900,122 @@ public without sharing class ProductDetailsCtrl {
   public class WrapperClass {
     @AuraEnabled
     public String courseOfferingId { get; set; }
+  }
+
+  @AuraEnabled(cacheable=true)
+  public static List<ModuleWrapper> getProgramModules(String programPlanId){
+      List<ModuleWrapper> modules = new List<ModuleWrapper>();
+      try{
+          List<hed__Plan_Requirement__c > programPlanRequirements = [Select Id, hed__Course__c, hed__Sequence__c
+                                                                      From hed__Plan_Requirement__c
+                                                                      Where hed__Program_Plan__c = :programPlanId];
+          Map<Id, Decimal> coursesInPlanRequirements = new Map<Id, Decimal>();
+          System.debug('programPlanRequirements: '+programPlanRequirements);
+          for(hed__Plan_Requirement__c programPlanRequirement : programPlanRequirements){
+              coursesInPlanRequirements.put(programPlanRequirement.hed__Course__c, programPlanRequirement.hed__Sequence__c);
+          }
+          System.debug('coursesInPlanRequirements: '+coursesInPlanRequirements);
+          List<Product2> courseProducts = [Select Id, Name, Duration__c, Delivery__c, Overview__c, Professional_Level__c, Course__c, Evolve_with_QUTeX__c, Who_Should_Participate__c, Core_Concepts__c, More_Details__c
+                                            From Product2
+                                            Where Course__c in :coursesInPlanRequirements.keyset()];
+          System.debug('courseProducts: '+courseProducts);
+          for(Product2 courseProduct : courseProducts){
+              ModuleWrapper moduleWrapper = new ModuleWrapper();
+              moduleWrapper.id = courseProduct.Id;
+              moduleWrapper.name = courseProduct.Name;
+              moduleWrapper.duration = courseProduct.Duration__c;
+              moduleWrapper.overview = courseProduct.Overview__c;
+              moduleWrapper.professionalLevel = courseProduct.Professional_Level__c;      
+              moduleWrapper.evolveWithQUTeX = courseProduct.Evolve_with_QUTeX__c;        
+              moduleWrapper.whoShouldParticipate = courseProduct.Who_Should_Participate__c;        
+              moduleWrapper.coreConcepts = courseProduct.Core_Concepts__c; 
+              moduleWrapper.sequence = coursesInPlanRequirements.get(courseProduct.Course__c);
+              moduleWrapper.moreDetails = courseProduct.More_Details__c; 
+              modules.add(moduleWrapper);
+          }
+          System.debug('modules: '+modules);
+          return modules;
+      } catch (Exception e) {
+          system.debug(e);
+          system.debug('Error on ProductDetailsCtrl.getProgramModules');
+          AuraHandledException auraEx = new AuraHandledException(e.getMessage());
+          throw auraEx;
+      }
+  }
+
+  @AuraEnabled(cacheable=true)
+  public static Map<String, List<ProgramOfferingWrapper>> getProgramOfferings(String programPlanId){
+      Map<String, List<ProgramOfferingWrapper>> programDeliveryAndOfferingMap = new Map<String, List<ProgramOfferingWrapper>>();
+      try{
+          List<Program_Offering__c > programOfferings = [Select Id, Available_Seats__c, Delivery_Type__c, Start_Date__c, End_Date__c, IsActive__c, Visible_on_Website__c
+                                                          From Program_Offering__c
+                                                          Where hed_Program_Plan__c = :programPlanId
+                                                          And IsActive__c = true
+                                                          And Visible_on_Website__c = true
+                                                          And Available_Seats__c > 0
+                                                          And Registration_Start_Date__c > Today];
+          System.debug('programOfferings: '+programOfferings);
+          for(Program_Offering__c programOffering : programOfferings){
+              ProgramOfferingWrapper programOfferingWrapper = new ProgramOfferingWrapper();
+              programOfferingWrapper.id = programOffering.Id;
+              programOfferingWrapper.startDate = String.valueOf(programOffering.Start_Date__c);
+              programOfferingWrapper.availableSeats = programOffering.Available_Seats__c;
+              List<ProgramOfferingWrapper> programOfferingWrapperList = new List<ProgramOfferingWrapper>();
+              if(programDeliveryAndOfferingMap.get(programOffering.Delivery_Type__c) != null){
+                  programOfferingWrapperList = programDeliveryAndOfferingMap.get(programOffering.Delivery_Type__c);
+              }
+              programOfferingWrapperList.add(programOfferingWrapper);
+              programDeliveryAndOfferingMap.put(programOffering.Delivery_Type__c, programOfferingWrapperList);
+          }    
+          System.debug('programDeliveryAndOfferingMap: '+programDeliveryAndOfferingMap);
+          return programDeliveryAndOfferingMap;            
+      } catch (Exception e) {
+          system.debug(e);
+          system.debug('Error on ProductDetailsCtrl.getProgramOfferings');
+          AuraHandledException auraEx = new AuraHandledException(e.getMessage());
+          throw auraEx;
+      }
+  }
+
+    /**
+  * @description wrapper that contains the details of a module
+  */
+  public class ModuleWrapper {
+    @AuraEnabled
+    public String id { get; set; }
+    @AuraEnabled
+    public String name { get; set; }
+    @AuraEnabled
+    public String duration { get; set; }
+    @AuraEnabled
+    public String overview { get; set; }
+    @AuraEnabled
+    public String professionalLevel { get; set; }   
+    @AuraEnabled
+    public Decimal sequence { get; set; }   
+    @AuraEnabled
+    public String evolveWithQUTeX { get; set; }   
+    @AuraEnabled
+    public String whoShouldParticipate { get; set; }   
+    @AuraEnabled
+    public String coreConcepts { get; set; }   
+    @AuraEnabled
+    public String moreDetails { get; set; }    
+    
+  }
+
+  public class ProgramOfferingWrapper{
+    @AuraEnabled
+    public String id { get; set; }
+    @AuraEnabled
+    public String startDate { get; set; }
+    @AuraEnabled
+    public Decimal availableSeats { get; set; }       
+    @AuraEnabled
+    public String label { get; set; }
+    @AuraEnabled
+    public String value { get; set; }
+    @AuraEnabled
+    public String meta { get; set; }     
   }
 }

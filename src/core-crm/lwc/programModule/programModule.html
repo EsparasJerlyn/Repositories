@@ -1,0 +1,60 @@
+<template>
+    <div class="slds-timeline__item_expandable">
+        <div class="slds-grid ">
+            <div class="slds-size_1-of-12">
+                <div class="slds-grid">
+                  <div class="slds-size_1-of-2"></div>
+                  <div class="slds-size_1-of-2 slds-text-align_right">{programModule.sequence}</div>
+                </div>
+            </div>
+            <div class="slds-size_1-of-12">
+                <div class="slds-size_2-of-2 slds-progress__marker slds-align_absolute-center"></div>
+            </div>
+            <div class="slds-size_10-of-12 slds-border_bottom" style="padding: 0.25rem;">
+                <div class="slds-grid">
+                    <div class="slds-size_1-of-2 product-bodydetails_label slds-text-heading_large slds-text-align_left">
+                        {programModule.name}
+                    </div>
+                    <div class="slds-size_1-of-2 slds-text-align_right">
+                        <lightning-badge  label={programModule.professionalLevel}></lightning-badge>
+                    </div>
+                </div>                    
+            </div>
+        </div>
+        <div class="slds-grid">
+            <div class="slds-size_1-of-12"></div>
+            <div class="slds-size_1-of-12"></div>
+            <div class="slds-size_10-of-12" style="padding: 0.25rem;">
+                <div class="slds-media slds-has-flexi-truncate">
+                    <div class="slds-media__figure">
+                        <span class="slds-icon_container">
+                          <img alt="" src={durationIcon} />
+                        </span>
+                    </div>
+                    <div class="slds-media__body">
+                        <div class="slds-card__header-title">
+                            <span class="durationTitle">Duration:&nbsp;</span>
+                            <span class="durationValue">{programModule.duration}</span>
+                        </div>
+                    </div>
+                </div>               
+            </div>
+        </div>
+        <div class="slds-grid">
+            <div class="slds-size_1-of-12"></div>
+            <div class="slds-size_1-of-12"></div>
+            <div class="slds-size_10-of-12" style="padding: 0.25rem;">
+                <div class="slds-grid">
+                    <lightning-formatted-rich-text value={programModule.overview}></lightning-formatted-rich-text>
+                </div>                    
+            </div>
+        </div>
+        <div class="slds-grid">
+            <div class="slds-size_1-of-12"></div>
+            <div class="slds-size_1-of-12"></div>
+            <div class="slds-size_10-of-12" style="padding: 0.25rem;">
+                <lightning-button label="Learn More" title="Learn More" onclick={navigateToProductDetailPage} style="font-weight: bold;"></lightning-button>
+            </div>
+        </div>
+    </div>
+</template>

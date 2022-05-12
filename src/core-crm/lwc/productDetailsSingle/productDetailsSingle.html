@@ -1,0 +1,76 @@
+<template>
+  <div class="slds-container_x-large">
+    <lightning-layout multiple-rows="true">
+      <lightning-layout-item flexibility="auto" size="12">
+        <h1 class="header">{product.productDetails.name}</h1>
+      </lightning-layout-item>
+      <lightning-layout-item flexibility="auto" size="12" medium-device-size="8" >
+        <lightning-layout multiple-rows="true" class="leftColumn">
+          <lightning-layout-item flexibility="auto" size="12">
+            <ul class="slds-accordion">
+              <li if:true={showOverview} class="slds-accordion__list-item" >
+                <c-product-section class="productSection" sectionid = "pds_overview"
+                  title="Overview" 
+                  value={product.productDetails.overview} 
+                  ontogglesection={handleSectionToggle}></c-product-section>                
+              </li>
+              <li if:true={showEvolveWithQUTeX} class="slds-accordion__list-item" >
+                <c-product-section class="productSection" sectionid = "pds_evolveWithQUTeX"
+                  title="Evolve With QUTeX" 
+                  value={product.productDetails.evolveWithQUTeX}
+                  ontogglesection={handleSectionToggle}></c-product-section>
+              </li>
+              <li if:true={showWhoShouldParticipate} class="slds-accordion__list-item" >
+                <c-product-section class="productSection" sectionid = "pds_evolveWithQUTeX"
+                  title="Who Should Participate" 
+                  value={product.productDetails.whoShouldParticipate}
+                  ontogglesection={handleSectionToggle}></c-product-section>
+              </li>
+              <li if:true={showCoreConcepts} class="slds-accordion__list-item" >
+                <c-product-section class="productSection" sectionid = "pds_coreConcepts"
+                  title="Core Concepts" 
+                  value={product.productDetails.coreConcepts} 
+                  ontogglesection={handleSectionToggle}></c-product-section>
+              </li>
+              <li if:true={showMoreDetails} class="slds-accordion__list-item" >
+                <c-product-section class="productSection" sectionid = "pds_evolveWithQUTeX"
+                  title="Details" 
+                  value={product.productDetails.moreDetails}
+                  ontogglesection={handleSectionToggle}></c-product-section>
+              </li>
+            </ul>
+          </lightning-layout-item>
+        </lightning-layout>
+      </lightning-layout-item>
+      <lightning-layout-item flexibility="auto" size="12" medium-device-size="4" >
+        <lightning-layout multiple-rows="true" class="rightColumn">
+          <lightning-layout-item flexibility="auto" size="12" class="slds-m-bottom_small" >
+            <div class="slds-media slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                    <span class="slds-icon_container">
+                      <img alt="" src={durationIcon} />
+                    </span>
+                </div>
+                <div class="slds-media__body">
+                    <div class="slds-card__header-title">
+                        <span class="durationTitle">Duration</span>
+                    </div>
+                    <div class="slds-m-top_x-small durationValue">
+                        {product.duration}
+                    </div>
+                </div>
+            </div>
+          </lightning-layout-item>
+          <lightning-layout-item flexibility="auto" size="12" >
+            <lightning-button
+                label="Back To Program"
+                onclick={backToProgram}
+                variant="brand"
+                class="addToCartBtn"
+            ></lightning-button>
+        </lightning-layout-item>
+        </lightning-layout>
+      </lightning-layout-item>
+    </lightning-layout>
+  </div>
+</template>
