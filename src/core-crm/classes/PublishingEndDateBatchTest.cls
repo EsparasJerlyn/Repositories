@@ -14,8 +14,8 @@
 @IsTest(SeeAllData=false)
 public with sharing class PublishingEndDateBatchTest {
     private static final String PR_IN_DELIVERY = System.Label.PL_ProductRequest_InDelivery;
-    private static string PR_PROGRAM = System.Label.RT_ProductRequest_Program;
-    private static string PR_SHORTCOURSE = System.Label.RT_ProductRequest_ShortCourse;
+    private static final string PR_PROGRAM = System.Label.RT_ProductRequest_Program;
+    private static final string PR_SHORTCOURSE = System.Label.RT_ProductRequest_ShortCourse;
     private static User currentUser = TestDataFactory.createUserRecords(1, 'QUTeX').iterator().next();
     private static Id opeShortProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_SHORTCOURSE).getRecordTypeId();
     private static Id opeShortCourseId = Schema.SObjectType.hed__Course__c.getRecordTypeInfosByDeveloperName().get(PR_SHORTCOURSE).getRecordTypeId();
@@ -23,6 +23,7 @@ public with sharing class PublishingEndDateBatchTest {
     private static Integer numberOfRecords = 50;
     private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
+    private static final String PR_RELEASE = System.Label.PL_ProductRequest_Release;
 
     @TestSetup
     static void setupMethod(){
@@ -68,6 +69,7 @@ public with sharing class PublishingEndDateBatchTest {
         List<Product_Request__c> productRequests = TestDataFactory.createTestProductRequestRecords(numberOfRecords,productSpecs[0].Id);
         for(Product_Request__c productRequest : productRequests){
             productRequest.RecordTypeId = opeShortProdReqId;
+            productRequest.Product_Request_Status__c = PR_RELEASE;
         }
         insert productRequests;
 
@@ -80,27 +82,26 @@ public with sharing class PublishingEndDateBatchTest {
             courses[i].ProductRequestID__c = productRequests[i].Id;
             courses[i].RecordTypeId = opeShortCourseId;
             courses[i].Location__c = facility.Id;
+            courses[i].Start_Date__c = date.today() - 2;
+            courses[i].End_Date__c = date.today();
         }
         insert courses;
 
         List<Product2> products = TestDataFactory.createTestProductRecords(numberOfRecords,courses);
         insert products;
     }
-
+    
     @IsTest
     public static void testPublishingEndDateBatch() {
         System.runAs(currentUser){
-
-            try{
-
             List<Product_Request__c> productRequests = [SELECT Id, Product_Request_Status__c FROM Product_Request__c WHERE RecordTypeId =: opeShortProdReqId];
             for(Product_Request__c productRequest : productRequests){
-                productRequest.Product_Request_Status__c = PR_IN_DELIVERY;
+                productRequest.Product_Request_Status__c = PR_RELEASE;
             }
-            List<hed__Course__c> courses = [SELECT Id,ProductRequestID__c FROM hed__Course__c];
             update productRequests;
-
+            
             List<Product2> products = [SELECT Id,Publishing_End_date__c,IsActive,Course__r.ProductRequestID__c, Publishing_Start_date__c, QA_Review_Completed__c,Ready_for_publishing__c  FROM Product2 WHERE Course__r.ProductRequestID__c != NULL];
+            system.debug('product: >> ' + products);
             for(Product2 product : products){
                 product.IsActive = true;
                 product.Decommission_Product__c = true;
@@ -120,14 +121,9 @@ public with sharing class PublishingEndDateBatchTest {
             Test.stopTest();
 
             System.assert(![SELECT Id FROM AsyncApexJob WHERE ApexClass.Name = 'PublishingEndDateBatch'].isEmpty() , 'PublishingEndDate Job was not executed');
-
-
-            }catch(Exception e){
-               System.debug('ERROR: ' + e.getMessage());
-            }
         }
     }
-
+ 
     @IsTest
     public static void testPublishingEndDateBatchWithParent() {
         System.runAs(currentUser){
@@ -135,7 +131,14 @@ public with sharing class PublishingEndDateBatchTest {
             List<Product_Request__c> childProductRequest = [SELECT Id FROM Product_Request__c WHERE RecordTypeId =: opeShortProdReqId];
             List<Product_Request__c> parentProductRequest = [SELECT Id FROM Product_Request__c WHERE RecordTypeId =: opeProgProdReqId];
 
-            List<Product2> products = [SELECT Id,Publishing_End_date__c,IsActive,Course__r.ProductRequestID__c, Publishing_Start_date__c, QA_Review_Completed__c,Ready_for_publishing__c  FROM Product2 WHERE Program_Plan__r.Product_Request__c != NULL];
+            List<Product2> products = [SELECT Id,
+                                       Publishing_End_date__c,
+                                       IsActive,Course__r.ProductRequestID__c,
+                                       Publishing_Start_date__c,
+                                       QA_Review_Completed__c,
+                                       Ready_for_publishing__c
+                                       FROM Product2
+                                       WHERE Program_Plan__r.Product_Request__c != NULL];
             for(Product2 product : products){
                 product.IsActive = true;
                 product.Decommission_Product__c = false;
@@ -159,7 +162,6 @@ public with sharing class PublishingEndDateBatchTest {
             System.assert(![SELECT Id FROM AsyncApexJob WHERE ApexClass.Name = 'PublishingEndDateBatch'].isEmpty() , 'PublishingEndDate Job was not executed');
 
             Test.stopTest();
-
         }
     }
  }
