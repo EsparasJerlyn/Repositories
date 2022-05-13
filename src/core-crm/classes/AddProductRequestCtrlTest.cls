@@ -24,29 +24,8 @@ private class AddProductRequestCtrlTest {
     private static Id opeProdSpecId = Schema.SObjectType.Product_Specification__c.getRecordTypeInfosByDeveloperName().get(PRODUCT_SPEC_RT).getRecordTypeId();
     private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
-
-    static testMethod void testGetFieldLayoutSettings() {
-        Test.startTest();
-        System.runAs(currentUser){
-            AddProductRequestCtrl.MetadataDetails getMetadata = new AddProductRequestCtrl.MetadataDetails();
-            getMetadata = AddProductRequestCtrl.getFieldLayoutSettings('Product_Request__c',false);
-            system.assert( !getMetadata.fieldLayoutMap.isEmpty(), 'unable to get recordtype and layout metadata');
-        }
-        Test.stopTest();
-    }
-
-    static testMethod void testGetFieldLayoutSettingsError() {
-        Test.startTest();
-        try{
-            System.runAs(currentUser){
-                AddProductRequestCtrl.MetadataDetails getMetadata = new AddProductRequestCtrl.MetadataDetails();
-                getMetadata = AddProductRequestCtrl.getFieldLayoutSettings(null,null);
-            }
-        }catch(Exception e){
-            system.assertEquals('Error while getting record type and layout mapping.',e.getMessage(),'Exception should have been thrown');
-        }
-        Test.stopTest();
-    }
+    private static final String QUTEX = System.Label.QUTeX;
+  
 
     @isTest
     private static void testGetQUTeXAccountId(){
@@ -60,6 +39,31 @@ private class AddProductRequestCtrlTest {
            system.assert(!String.isBlank(accId),'No QUTeX Products Account Found');
         }
         Test.stopTest();
+    }
+
+    @isTest
+    private static void getUsers(){
+        Test.startTest();
+        Profile p = [SELECT Id FROM Profile WHERE Name='QUTeX']; 
+        User u = new User();
+            u.LastName = 'Test 2';
+            u.UserName = 'TestPr1'+'@mailinator.com';
+            u.Email = 'testuser1@mailinator.com';
+            u.ProfileId = p.id;
+            String alias = 'test';
+            u.alias = alias;
+            u.LanguageLocaleKey = 'en_US';
+            u.localesidkey = UserInfo.getLocale();
+            u.emailEncodingKey = 'UTF-8';
+            u.timeZoneSidKey = 'Australia/Brisbane';
+           insert u;
+        System.runAs(currentUser){
+           List<Map<String,String>> us =AddProductRequestCtrl.getSearchedUsers('Test 2');
+           Test.stopTest();
+           System.assert(!us.isEmpty(), 'user did not match as expected');
+        }
+        
+    
     }
 
     @isTest

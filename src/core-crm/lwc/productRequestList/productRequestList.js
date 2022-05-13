@@ -28,7 +28,6 @@ import RT_ProductRequest_Program from '@salesforce/label/c.RT_ProductRequest_Pro
 import getProductRequests from '@salesforce/apex/ProductRequestListCtrl.getProductRequests';
 import updateProdReqToNotProceeding from '@salesforce/apex/ProductRequestListCtrl.updateProdReqToNotProceeding';
 import PS_RECORD_TYPE from '@salesforce/schema/Product_Specification__c.RecordType.DeveloperName';
-import getFieldLayoutSettings from '@salesforce/apex/AddProductRequestCtrl.getFieldLayoutSettings';
 import PRODUCT_REQUEST_OBJECT from '@salesforce/schema/Product_Request__c';
 import getRecordTypes from '@salesforce/apex/AddProductRequestCtrl.getRecordTypes';
 
@@ -60,8 +59,7 @@ export default class ProductRequestList extends LightningElement {
     recordTypeOrderMap;
     fieldLayoutMap;
     isAddExistingOpen = false;
-    recordTypeOrderMapOpe;
-    recordTypeOrderMapCce;
+    recordTypeMap;
     productRequestRowId;
     rowIsFlexibleProgram;
     rowRecordType;
@@ -150,7 +148,7 @@ export default class ProductRequestList extends LightningElement {
             parentProductRequests.forEach(parentProdReq =>{
                 let childProdReqs = 
                     parentChildProductRequests[parentProdReq.recordId] ?
-                    this.formatData(parentChildProductRequests[parentProdReq.recordId],true) : [];
+                    this.formatData(parentChildProductRequests[parentProdReq.recordId]) : [];
                 
                 if(childProdReqs.length > 0){
                     parentProdReq._children = [...childProdReqs];
@@ -169,31 +167,16 @@ export default class ProductRequestList extends LightningElement {
         if(result.data){
            this.prodSpecRecordType = getFieldValue(result.data, PS_RECORD_TYPE);
            this.showProductRequest = true;
-            if(!this.isProdSpecOPE){
-                getFieldLayoutSettings({
-                    objectString: PRODUCT_REQUEST_OBJECT.objectApiName,
-                    forOpe: this.isProdSpecOPE
-                })
-                .then(result =>{
-                    this.recordTypeOrderMapCce = this.sortMap(result.recordTypeOrderedList);
-                    this.fieldLayoutMap = result.fieldLayoutMap;
-                })
-                .catch(error =>{
-                    console.log(error);
-                    this.generateToast(ERROR_TOAST_TITLE, LWC_Error_General, ERROR_TOAST_VARIANT);
-                }); 
-            }else{
-                getRecordTypes({
-                    objectType: PRODUCT_REQUEST_OBJECT.objectApiName
-                })
-                .then(result =>{
-                    this.recordTypeOrderMapOpe = [...result];
-                })
-                .catch(error =>{
-                    console.log(error);
-                    this.generateToast(ERROR_TOAST_TITLE, LWC_Error_General, ERROR_TOAST_VARIANT);
-                });
-            }
+            getRecordTypes({
+                objectType: PRODUCT_REQUEST_OBJECT.objectApiName
+            })
+            .then(result =>{
+                this.recordTypeMap = [...result];
+            })
+            .catch(error =>{
+                console.log(error);
+                this.generateToast(ERROR_TOAST_TITLE, LWC_Error_General, ERROR_TOAST_VARIANT);
+            });
         }else if(result.error){
             this.generateToast(ERROR_TOAST_TITLE, LWC_Error_General, ERROR_TOAST_VARIANT);
         }   
@@ -210,21 +193,10 @@ export default class ProductRequestList extends LightningElement {
         return searchItem;
     }
 
-    //sorts list by order field
-    sortMap(dataMap){
-        let sortByOrder = dataMap.slice(0);
-        if(sortByOrder.length > 0){
-            sortByOrder.sort((a,b)  => {
-                return a.order - b.order;
-            });
-        }
-        return sortByOrder;
-    }
-
     /**
      * formats the data from apex for the data grid
      */
-     formatData(listToFormat,isChild){
+     formatData(listToFormat){
         return listToFormat.map(item =>{
             let newItem = {};
             newItem.recordId = item.Id;

@@ -38,20 +38,14 @@ import getSearchedUsers from '@salesforce/apex/AddProductRequestCtrl.getSearched
 const PROD_REQUESTS = "Product Requests";
 const CHILD_PROD_REQUEST = "Child Product Requests";
 const RECORD_TYPE_LABEL = "Record Type";
-const SUCCESS_TITLE = "Success!";
-const SUCCESS_MESSAGE = "Record has been created!";
 const SUCCESS_VARIANT = "success";
 const ERROR_TITLE = "Error!";
 const ERROR_VARIANT = "error";
-const TRAIDS = "Triads";
-const SHOW_FIELD = "slds-show slds-form-element slds-form-element_stacked";
-const HIDE_FIELD = "slds-hide slds-form-element slds-form-element_stacked";
 const PROG_PLAN_REQUEST= RT_ProductRequest_Program;
 
 export default class AddProductRequest extends NavigationMixin(LightningElement) {
     @api productRequestForOpe;
-    @api recordTypeOrderMapCce;
-    @api recordTypeOrderMapOpe;
+    @api recordTypeMap;
     @api fieldLayoutMap;
     @api recordId;
 
@@ -150,32 +144,12 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
     }
 
     setRecordTypeSelection(filter){
-        const recordTypeInfo = this.objectInfo.data.recordTypeInfos;  
-        let filteredKeys = Object.keys(recordTypeInfo).filter(filterKey => filter.includes(recordTypeInfo[filterKey].name));
-        if(this.recordTypeOrderMapCce){
-            let recordTypeInfoMap = {};
-            //make a map where key is record type name and value is its id
-            filteredKeys.map(key => {
-                recordTypeInfoMap[recordTypeInfo[key].name] = recordTypeInfo[key].recordTypeId;
-            });
-            //makes a list of sorted recordtype
-            let filteredRecordTypes = this.recordTypeOrderMapCce.filter(filterKey => filter.includes(filterKey.recordTypeName)); 
-            filteredRecordTypes = this.sortMap(filteredRecordTypes);
-            this.sortedRecordTypeMap = filteredRecordTypes.map(key =>{
-                return {
-                    label : key.recordTypeName,
-                    description : key.description,
-                    value : recordTypeInfoMap[key.recordTypeName]
-                }
-            });
-            this.isSelectionModalOpen = true;
-        }else if(this.recordTypeOrderMapOpe){
-            this.sortedRecordTypeMap = this.recordTypeOrderMapOpe.filter(filterKey => filter.includes(filterKey.label)).sort((a, b) => 
+        if(this.recordTypeMap){
+            this.sortedRecordTypeMap = this.recordTypeMap.filter(filterKey => filter.includes(filterKey.label)).sort((a, b) => 
                     filter.indexOf(a.label) - filter.indexOf(b.label)
                 );
             this.isSelectionModalOpen = true;
         }
-
     }
 
     //closes main selection modal
@@ -272,69 +246,8 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
     //opens course/program plan name form for OPE
     openCreationModal() {
         this.isSelectionModalOpen = false;
-
-        if(this.productRequestForOpe){
-            this.isRelatedModalOpen=true;
-        }else{
-            this.isCreationModalOpen = true;
-            this.layoutMapping = this.sortMap(this.fieldLayoutMap[this.selectedRecordTypeName]);
-
-            const sectionNames = [];
-            this.layoutMapping.map(key => {
-                sectionNames.push(key.label);
-            })
-            this.activeSections = sectionNames;
-        }
+        this.isRelatedModalOpen=true;   
     }
-
-    //closes record input form
-    closeCreationModal() {
-        this.isCreationModalOpen = false;
-        this.errorMessage = '';
-        this.setRecordTypeDetails('');
-    }
-
-    //handles successful product request save
-    handleSuccess(event){
-        this.showToast(SUCCESS_TITLE,SUCCESS_MESSAGE,SUCCESS_VARIANT);
-        if(this.isChild){
-            this.createRelatedProdRequest(event.detail.id);
-        }else{
-            this.dispatchEvent(new CustomEvent('created'));
-        }
-        this.closeCreationModal();
-    }
-
-    //handles product request errors on save
-    handleError(event) {
-        const errorMessages = event.detail.output.errors;
-        this.errorMessage = '';
-        if(errorMessages){
-            errorMessages.forEach(element => {
-                this.errorMessage += element.message;
-            });
-        }
-    }
-
-    //hides dependent fields on form load
-    handleLoad(){
-        this.setFieldVisibility('');
-        this.isLoading = false;
-    }
-
-    //shows the dependent field if conditions satisfy
-    setFieldVisibility(requestType){
-        [...this.template.querySelectorAll('lightning-input-field')]
-        .forEach(element => {
-            element.className = requestType === TRAIDS?SHOW_FIELD:HIDE_FIELD; //show field if triads is selected
-            element.value = requestType === TRAIDS?element.value:null; //reset value when request type is not triads
-            element.required = requestType === TRAIDS?true:false;
-        });
-    }
-
-    /* ------- Product Request Create Methods Start (CCE) ------- */
-
-    /* ------- Course / Program Plan Create Methods Start (OPE) ------- */
 
     //custom user lookup variables
     userSearchItems = [];

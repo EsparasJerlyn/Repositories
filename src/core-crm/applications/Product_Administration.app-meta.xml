@@ -68,6 +68,24 @@
     <navType>Console</navType>
     <profileActionOverrides>
         <actionName>View</actionName>
+        <content>Product_Specification_Lightning_Layout</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Product_Specification__c</pageOrSobjectType>
+        <recordType>Product_Specification__c.CCE_Program_Specification</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Product_Specification_Lightning_Layout</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Product_Specification__c</pageOrSobjectType>
+        <recordType>Product_Specification__c.CCE_Program_Specification</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
         <content>OPE_Product_Request_Lightning_Page_Layout</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Product_Request__c</pageOrSobjectType>
