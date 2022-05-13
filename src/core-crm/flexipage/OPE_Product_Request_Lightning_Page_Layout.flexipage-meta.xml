@@ -63,6 +63,12 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>generateCode</componentName>
+                <identifier>c_generateCode1</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
                 <componentInstanceProperties>
                     <name>tab</name>
                     <value>{!$Label.PL_ProductRequest_Design}</value>
@@ -342,6 +348,12 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentName>generateCode</componentName>
+                <identifier>c_generateCode2</identifier>
+            </componentInstance>
+        </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>

@@ -55,6 +55,10 @@
     <classAccesses>
         <apexClass>FinancialSplitCtrl</apexClass>
         <enabled>true</enabled>
+    </classAccesses>    
+    <classAccesses>
+        <apexClass>GenerateCodeCtrl</apexClass>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>GenerateImageServerURL</apexClass>
