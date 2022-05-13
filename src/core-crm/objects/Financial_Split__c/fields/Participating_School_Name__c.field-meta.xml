@@ -20,7 +20,7 @@
         <filterItems>
             <field>Account.Name</field>
             <operation>equals</operation>
-            <value>QUTeX</value>
+            <value>QUTeX Products</value>
         </filterItems>
         <isOptional>false</isOptional>
     </lookupFilter>
