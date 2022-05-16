@@ -132,6 +132,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>No LMS</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Other</fullName>
             <default>false</default>
         </values>

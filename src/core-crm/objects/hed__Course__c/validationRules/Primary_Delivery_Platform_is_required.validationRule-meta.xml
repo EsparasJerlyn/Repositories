@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Primary_Delivery_Platform_is_required</fullName>
-    <active>false</active>
+    <active>true</active>
     <errorConditionFormula>AND (
-   OR(
-RecordType.DeveloperName = &apos;Unit&apos;,
-RecordType.DeveloperName = &apos;Module&apos;,
-RecordType.DeveloperName = &apos;Activity&apos;
-),
+ OR (  
+  RecordType.DeveloperName = &apos;Activity&apos;,
+  RecordType.DeveloperName = &apos;Short_Course&apos;,
+  RecordType.DeveloperName = &apos;Module&apos;
+ ),
  ISPICKVAL( ProductRequestID__r.Product_Request_Status__c , &apos;Design&apos;),
- ISBLANK( TEXT (  Primary_Delivery_Platform__c ) ),
+ ISBLANK( TEXT ( Primary_Delivery_Platform__c ) ),
  Mark_Design_Stage_as_Complete__c = true
 )</errorConditionFormula>
     <errorDisplayField>Primary_Delivery_Platform__c</errorDisplayField>
