@@ -1,7 +1,7 @@
 @isTest(SeeAllData=false)
 public with sharing class EmailTemplateCtrlTest {
-    private static String PR_PROGRAM = System.Label.RT_ProductRequest_Program;
-    private static String PR_MODULE = System.Label.RT_ProductRequest_MODULE;
+    private static final String PR_PROGRAM = System.Label.RT_ProductRequest_Program;
+    private static final String PR_MODULE = System.Label.RT_ProductRequest_MODULE;
     private static User currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
     private static Id opeProgProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_PROGRAM).getRecordTypeId();
     private static Id opeModuleReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_MODULE).getRecordTypeId();
@@ -62,8 +62,6 @@ public with sharing class EmailTemplateCtrlTest {
     static void getCommunicationDataModuleTest(){
         Id programId;
 		Id moduleId;
-        List<hed__Course__c> course  = [SELECT Id, Delivery_Type__c FROM hed__Course__c];
-        system.debug('course' + course);
         EmailTemplate e = new EmailTemplate (developerName = 'testEmail', TemplateType= 'Text', Name = 'testEmail');
         e.FolderId = UserInfo.getUserId();
         insert e;
@@ -103,8 +101,6 @@ public with sharing class EmailTemplateCtrlTest {
     static void getCommunicationDataProgramTest(){
         Id programId;
 		Id moduleId;
-        List<hed__Course__c> course  = [SELECT Id, Delivery_Type__c FROM hed__Course__c];
-        system.debug('course' + course);
         EmailTemplate e = new EmailTemplate (developerName = 'testEmail', TemplateType= 'Text', Name = 'testEmail');
         e.FolderId = UserInfo.getUserId();
         insert e;

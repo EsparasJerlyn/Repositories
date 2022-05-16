@@ -78,10 +78,8 @@ public with sharing class Prod_Specs_Send_EmailTest {
             update getUpdatedProductSpecsRecord;
 
         }
-        System.debug('insidetest: '+Limits.getEmailInvocations());
         Test.stopTest();
-        System.debug('outsidetest: '+Limits.getEmailInvocations());
-        System.assertEquals(0, Limits.getEmailInvocations());
+        System.assertEquals(0, Limits.getEmailInvocations(), 'Email Invocations is not 0.');
     }
 
     @isTest
@@ -145,10 +143,8 @@ public with sharing class Prod_Specs_Send_EmailTest {
             update getUpdatedProductSpecsRecord;
 
         }
-        System.debug('insidetest: '+Limits.getEmailInvocations());
         Test.stopTest();
-        System.debug('outsidetest: '+Limits.getEmailInvocations());
-        System.assertEquals(0, Limits.getEmailInvocations());
+        System.assertEquals(0, Limits.getEmailInvocations(), 'Email Invocations is not equal to 0');
     }
    
 }

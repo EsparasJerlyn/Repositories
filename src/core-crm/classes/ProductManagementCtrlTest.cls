@@ -71,7 +71,8 @@ private class ProductManagementCtrlTest {
 
     }
 
-    static testMethod void testCheckParentProgramTypeTrue() {
+    @isTest
+    static void testCheckParentProgramTypeTrue() {
         Test.startTest();
         System.runAs(currentUser){
             Boolean hasNoPrescribedProgramAsParent;
@@ -82,7 +83,8 @@ private class ProductManagementCtrlTest {
         Test.stopTest();
     }
 
-    static testMethod void testCheckParentProgramTypeFalse() {
+    @isTest
+    static void testCheckParentProgramTypeFalse() {
         Test.startTest();
         System.runAs(currentUser){
             Boolean hasNoPrescribedProgramAsParent;

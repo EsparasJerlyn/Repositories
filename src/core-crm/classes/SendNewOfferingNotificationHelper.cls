@@ -109,7 +109,6 @@ public with sharing class SendNewOfferingNotificationHelper {
         Set<Id> interestEmailRecipientsSet = new Set<Id>();
     
     
-        Date today = System.today();
         DateTime dt = System.Now().addHours(-24);
         
         for(Program_Offering__c programOffrng: programOfferingNew){
@@ -190,8 +189,7 @@ public with sharing class SendNewOfferingNotificationHelper {
         if(!emailTemplateList.isEmpty()){
             for(Id interestId : interestEmailRecipientsSet){
                 Messaging.SingleEmailMessage objEmail = new Messaging.SingleEmailMessage();
-                //Prepare SendToEmail List          
-                List<String> lstSendToEmails = new List<String>();
+                //Prepare SendToEmail List
                 emailContent.put('{contactLastName}',expresionOfInterestMap.get(interestId).Contact__r.LastName);
                 if(expresionOfInterestMap.get(interestId).Contact__r.FirstName != null){ 
                   emailContent.put('{contactFirstName}', expresionOfInterestMap.get(interestId).Contact__r.FirstName);
@@ -223,13 +221,13 @@ public with sharing class SendNewOfferingNotificationHelper {
             Messaging.SendEmailResult[] results = Messaging.sendEmail(lstEmails);
             // To Check whether Email is sent or not
             if (results[0].success) {
-                System.debug('The email was sent successfully.');
+                System.debug(LoggingLevel.DEBUG, 'The email was sent successfully.');//NOPMD
             } else {
-                System.debug('The email failed to send: ' + results[0].errors[0].message);
+                System.debug(LoggingLevel.DEBUG, 'The email failed to send: ' + results[0].errors[0].message);//NOPMD
             }
             // To Check whether Email is sent or not
         }else{
-            System.debug('No emails to be sent');
+            System.debug(LoggingLevel.DEBUG, 'No emails to be sent');//NOPMD
         }
         }
   }

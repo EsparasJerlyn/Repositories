@@ -254,9 +254,7 @@ public with sharing class ManageCertificateSectionCtrl {
 
           }catch(Exception e){
                response = 'Response: ' +  response + 'Error: ' + e.getMessage();
-               system.debug(e.getMessage());
-               system.debug(e.getStackTraceString()); 
-          }          
+          }
           return response;
      }
 
@@ -264,9 +262,6 @@ public with sharing class ManageCertificateSectionCtrl {
           Map<Id, ContentVersion> responseMap = new Map<Id, ContentVersion>();
           String type = certDetails.certificateType;  
           String certOfParticipation = 'Certificate of Participation';
-          String certOfAchievement = 'Certificate of Achievement';
-          Date dt = date.today();
-          String dateTodayString = dt.format();
           PageReference pdf;
           if(type == certOfParticipation){
                pdf = new PageReference(
@@ -356,7 +351,7 @@ public with sharing class ManageCertificateSectionCtrl {
                attach.setInline(true);
                attach.Body = emailContent;
           }catch(Exception e){
-               System.debug('Error: ' + e.getMessage());
+               System.debug(LoggingLevel.DEBUG, 'Error: ' + e.getMessage());//NOPMD
                attach = new Messaging.EmailFileAttachment();
           }
           

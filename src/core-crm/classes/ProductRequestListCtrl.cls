@@ -26,7 +26,6 @@ public with sharing class ProductRequestListCtrl {
             ProductRequestData finalProductRequests = new ProductRequestData();
             List<Product_Request__c> parentProductRequestList = new List<Product_Request__c>();
             Map<Id,List<Product_Request__c>> parentChildProductRequestMap = new Map<Id,List<Product_Request__c>>();
-            Set<Id> childProductRequestIds = new Set<Id>();
             Set<Id> courseProdRequestIds = new Set<Id>();
 
             //get all related product request records where program is related to the product specification

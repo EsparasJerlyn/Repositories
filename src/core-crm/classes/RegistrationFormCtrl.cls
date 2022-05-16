@@ -107,7 +107,6 @@ public without sharing class RegistrationFormCtrl {
             return confrimPageName;
         } 
          catch (Exception e) {
-            system.debug('e.getMessage+   '+e.getMessage());
             return null;          
         }
     }  

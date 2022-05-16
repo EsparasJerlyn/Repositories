@@ -21,7 +21,6 @@ private class BuyerGroupFlowTest {
         insert acc;
         WebStore testWebStore = new WebStore(Name='CCE', DefaultLanguage='en_US');
         insert testWebStore;
-        List <WebStore> webStore = new List <WebStore>([SELECT Id FROM WebStore WHERE Name='CCE' LIMIT 1]);
     } 
     @IsTest
     static void createBuyerGroupAndEntitlementTest() {

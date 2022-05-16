@@ -43,7 +43,7 @@ private class Lead_to_Contact_Convertion_MappingTest{
             
             List<Contact> contacts = [SELECT Id, LinkedIn_Profile_URL__c FROM Contact LIMIT 100];           
             for(Contact contact : contacts){                
-                System.assertEquals(linkedInProfileUrlStr, contact.LinkedIn_Profile_URL__c);    
+                System.assertEquals(linkedInProfileUrlStr, contact.LinkedIn_Profile_URL__c,'Not equal');    
             }  
         }     
     }

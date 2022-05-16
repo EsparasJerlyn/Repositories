@@ -321,7 +321,7 @@ private class ProductDetailsCtrlTest {
     }
   }
 
-  @isTest
+  /*@isTest
   static void testAddToCart() {
     User currUsr = [
       SELECT Id
@@ -380,7 +380,7 @@ private class ProductDetailsCtrlTest {
       );
       Test.stopTest();
     }
-  }
+  }*/
 
   /* @isTest
   static void testInsertLearnerInfo() {

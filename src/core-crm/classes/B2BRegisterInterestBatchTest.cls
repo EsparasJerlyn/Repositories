@@ -82,7 +82,7 @@ public class B2BRegisterInterestBatchTest {
                                             );
         insert e;
         Test.startTest();
-        Id batchJobId = Database.executeBatch(new B2BRegisterInterestBatch(), 200);
+        Database.executeBatch(new B2BRegisterInterestBatch(), 200);
         system.assertEquals(0,
                             Limits.getEmailInvocations(),
                             'Number of email invocations not as expected'

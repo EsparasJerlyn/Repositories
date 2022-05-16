@@ -82,12 +82,12 @@ public with sharing class CustomLayoutCtrl {
         String conditionValue
     ){
         Id record;
-        String queryStr = 
-            'SELECT ' + fields + 
-            ' FROM ' + objectApiName + 
-            ' WHERE ' + conditionField + ' = \'' + String.escapeSingleQuotes(conditionValue) + 
-            '\' LIMIT 1';
-        List<SObject> records = Database.query(queryStr);
+        List<SObject> records = Database.query( 
+            'SELECT ' + String.escapeSingleQuotes(fields) + 
+            ' FROM ' + String.escapeSingleQuotes(objectApiName) + 
+            ' WHERE ' + String.escapeSingleQuotes(conditionField) +
+            ' = \'' + String.escapeSingleQuotes(conditionValue) + 
+            '\' LIMIT 1');
                 
         if(!records.isEmpty()){
             record = (Id) records.iterator().next().get(ID);
@@ -111,12 +111,12 @@ public with sharing class CustomLayoutCtrl {
         String conditionValue
     ){
         sObject record;
-        String queryStr = 
-            'SELECT ' + fields + 
-            ' FROM ' + objectApiName + 
-            ' WHERE ' + conditionField + ' = \'' + String.escapeSingleQuotes(conditionValue) + 
-            '\' LIMIT 1';
-        List<SObject> records = Database.query(queryStr);
+        List<SObject> records = Database.query(
+            'SELECT ' + String.escapeSingleQuotes(fields) + 
+            ' FROM ' + String.escapeSingleQuotes(objectApiName) + 
+            ' WHERE ' + String.escapeSingleQuotes(conditionField) +
+            ' = \'' + String.escapeSingleQuotes(conditionValue) + 
+            '\' LIMIT 1');
                 
         if(!records.isEmpty()){
             record = (sObject) records.iterator().next();

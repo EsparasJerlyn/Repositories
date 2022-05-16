@@ -183,10 +183,7 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
             update programOfferList;
             
         } catch (Exception e) {
-            System.debug(
-                'Error on CourseConnectionTriggerHandler.updateCourseConnectionCounter'
-            );
-            System.debug(e);
+            System.debug(LoggingLevel.DEBUG,e);//NOPMD
         }
     }
     

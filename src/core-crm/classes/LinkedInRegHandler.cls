@@ -13,7 +13,7 @@
       |                                |                       |                        |                              | 
  */
 
-global class LinkedInRegHandler implements Auth.RegistrationHandler {
+public with sharing class LinkedInRegHandler implements Auth.RegistrationHandler {
 
     /**
      * @description Creates user when logs in for the first time via LinkedIn
@@ -21,7 +21,7 @@ global class LinkedInRegHandler implements Auth.RegistrationHandler {
      * @param data - Auth Provider user data describing the User to create
      * @return User Object
      */    
-    global User createUser(Id portalId, Auth.UserData data) {
+    public User createUser(Id portalId, Auth.UserData data) {
         //Create Account 
         Account a = new Account();
         a.Name = data.lastName;
@@ -63,7 +63,7 @@ global class LinkedInRegHandler implements Auth.RegistrationHandler {
      * @param portalId  - Id of the Community
      * @param data - Auth Provider user data describing the User to create
      **/     
-    global void updateUser(Id userId, Id portalId, Auth.UserData data){
+    public void updateUser(Id userId, Id portalId, Auth.UserData data){
 
         User u = new User(id=userId);
         u.lastName = data.lastName;

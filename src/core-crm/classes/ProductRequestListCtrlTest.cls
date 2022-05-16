@@ -15,8 +15,8 @@
 */
 @isTest(SeeAllData=false)
 private class ProductRequestListCtrlTest {
-    private static string PR_PROGRAM = System.Label.RT_ProductRequest_Program;
-    private static string PR_ACTIVITY = System.Label.RT_ProductRequest_Activity;
+    private static final String PR_PROGRAM = System.Label.RT_ProductRequest_Program;
+    private static final String PR_ACTIVITY = System.Label.RT_ProductRequest_Activity;
 
     private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
     private static Id opeProgProdReqId =  Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_PROGRAM).getRecordTypeId();
@@ -72,7 +72,8 @@ private class ProductRequestListCtrlTest {
 
     }
 
-    static testMethod void testGetProductRequests() {
+    @isTest
+    static void testGetProductRequests() {
         Test.startTest();
         System.runAs(currentUser){
             ProductRequestListCtrl.ProductRequestData getProdReqs = new ProductRequestListCtrl.ProductRequestData();
@@ -84,7 +85,8 @@ private class ProductRequestListCtrlTest {
         Test.stopTest();
     }
 
-    static testMethod void testUpdateProdReqToNotProceeding() {
+    @isTest
+    static void testUpdateProdReqToNotProceeding() {
         Test.startTest();
         System.runAs(currentUser){
             Id productRequestId = [SELECT Id, Name, Product_Request_Status__c FROM Product_Request__c LIMIT 1].Id;

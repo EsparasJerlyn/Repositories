@@ -25,7 +25,7 @@ public class AccountCtrlTest {
             result = AccountCtrl.getAccountName(acctId);
             Test.stopTest();
         }
-        System.assertEquals(result, 'TestAccount1');
+        System.assertEquals(result, 'TestAccount1', 'Not equal to TestAccount1.');
         
     }
 

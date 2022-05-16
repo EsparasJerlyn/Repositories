@@ -23,7 +23,7 @@ public with sharing class ManageRegistrationSectionCtrlTest{
      private static final Id STUDENT_RT_ID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(STUDENT_RT).getRecordTypeId();
      private static final String RT_ACTIVITY = System.Label.RT_ProductRequest_Activity;     
      private static final Id RT_ACTIVITY_ID = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(RT_ACTIVITY).getRecordTypeId();
-     private static final Integer numberOfRecords = 100;
+     private static final Integer NUMBER_OF_RECORDS = 100;
 
      @IsTest
      static void getPaidInFullValuesTest(){        
@@ -63,7 +63,7 @@ public with sharing class ManageRegistrationSectionCtrlTest{
                Test.startTest();
                List<ManageRegistrationSectionCtrl.ManageRegistrationDetails> registrationDetails = ManageRegistrationSectionCtrl.getRegistrations(childRecordId);      
                Test.stopTest();
-              System.assertEquals(numberOfRecords, registrationDetails.size(), 'Incorrect number of records retrieved.');
+              System.assertEquals(NUMBER_OF_RECORDS, registrationDetails.size(), 'Incorrect number of records retrieved.');
           }      
      }    
 
@@ -98,8 +98,7 @@ public with sharing class ManageRegistrationSectionCtrlTest{
      @IsTest
      static void getSearchedContactsTest(){        
           System.runAs(currentUser){     
-               createRecord(RT_ACTIVITY_ID); 
-               String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;           
+               createRecord(RT_ACTIVITY_ID);       
                Test.startTest();
                List<Map<String,String>> contactMap = ManageRegistrationSectionCtrl.getSearchedContacts('Test',new List<Id>()); 
                Test.stopTest();
@@ -176,7 +175,7 @@ public with sharing class ManageRegistrationSectionCtrlTest{
 
                offeringId = courseOfferings[0].Id;          
 
-               List<Contact> contacts = TestDataFactory.createTestContactRecords(numberOfRecords);
+               List<Contact> contacts = TestDataFactory.createTestContactRecords(NUMBER_OF_RECORDS);
                for(Integer i =0;i<contacts.size();i++){
                     contacts[i].Email = 'testIdeaFormUser'+i+'@mailinator.com';
                 }

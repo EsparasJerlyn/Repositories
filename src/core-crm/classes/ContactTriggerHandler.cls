@@ -73,8 +73,6 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
         Id sysAdUserId = [Select Id from User Where Name = 'Sys Admin Integration User' limit 1].Id;
       
         for(Contact con: newContacts){
-            system.debug(con.RecordTypeId);
-            system.debug(PERSON);
             if(con.RecordTypeId == PERSON){
                 if(!String.isBlank(con.hed__WorkEmail__c)){
                     Contact conWork = new Contact(FirstName = con.FirstName,
@@ -86,7 +84,6 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
                                                  OwnerId=sysAdUserId);   
                     childContacts.add(conWork);
                 }
-                system.debug(childContacts);
                 if(!String.isBlank(con.QUT_Learner_Email__c)){
                     Contact conLearner = new Contact(FirstName = con.FirstName,
                                                  LastName = con.LastName,

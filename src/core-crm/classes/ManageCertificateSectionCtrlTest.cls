@@ -71,7 +71,6 @@ public with sharing class ManageCertificateSectionCtrlTest {
             Test.startTest();
             List<ManageCertificateSectionCtrl.ManageCertificateDetails> certificateDetails = ManageCertificateSectionCtrl.getCertificateDetails(offeringId, false);
             Id result = ManageCertificateSectionCtrl.previewPdf(certificateDetails);
-            System.debug('ID: ' + result);
             Test.stopTest();
             System.assert(result!=null, 'Unable to retrieve content document ID.');
         }

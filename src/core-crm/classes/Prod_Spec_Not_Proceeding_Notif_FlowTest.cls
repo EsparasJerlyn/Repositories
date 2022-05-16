@@ -58,7 +58,7 @@ private class Prod_Spec_Not_Proceeding_Notif_FlowTest{
             update productSpecificationList;
                       
             Test.stopTest();
-            System.assertEquals(0, Limits.getEmailInvocations());
+            System.assertEquals(0, Limits.getEmailInvocations(), 'Email Invocations != 0');
         }        
     } 
 }

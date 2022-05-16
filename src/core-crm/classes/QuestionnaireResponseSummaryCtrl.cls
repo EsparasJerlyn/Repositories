@@ -131,7 +131,7 @@ public with sharing class QuestionnaireResponseSummaryCtrl {
         try {
           update qrs;
         } catch (Exception e) {
-          System.debug('updateApplicationStatus ERROR: ' + e.getMessage());
+          System.debug(LoggingLevel.WARN, 'updateApplicationStatus ERROR: ' + e.getMessage());//NOPMD
         }
       }
     }

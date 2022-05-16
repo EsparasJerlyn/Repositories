@@ -58,8 +58,8 @@ public class CreateAssetCtrlTest {
             Id prodSpecId = [SELECT Id FROM Product_Specification__c LIMIT 1]?.Id;
             Map<String,Id> hasId = CreateAssetCtrl.getRelatedRecords(prodReqId,prodSpecId);
 
-            System.assert(hasId.containsKey('assetId'));
-            System.assert(hasId.containsKey('accountId'));
+            System.assert(hasId.containsKey('assetId'), 'assetId found');
+            System.assert(hasId.containsKey('accountId'), 'accountId found');
         }
         Test.stopTest();
     }

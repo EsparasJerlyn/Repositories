@@ -18,7 +18,6 @@ public with sharing class ContactImageHelper {
    */
   public static void validateContactImageFile(List<Contact> conNew) {
     for (Contact conVal : conNew) {
-      String imageURL;
       Integer imageCount = 0;
 
       if (String.isNotBlank(conVal.Contact_Image__c)) {
@@ -114,8 +113,7 @@ public with sharing class ContactImageHelper {
         createContactImageFile(imageURLMap);
       }
     } catch (Exception e) {
-      System.debug('Error on ContactImageHelper.generateContactImageFile');
-      System.debug(e);
+      System.debug(LoggingLevel.DEBUG, e); //NOPMD
     }
   }
 

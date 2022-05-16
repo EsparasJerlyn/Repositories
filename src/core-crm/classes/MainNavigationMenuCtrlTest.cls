@@ -1,12 +1,11 @@
-@IsTest(SeeAllData=true) 
+@IsTest(SeeAllData=false) 
 public class MainNavigationMenuCtrlTest {
 
     @isTest
     public static void getOpportunityContractTypeTest(){
         
     	User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
-        insert currentUser;
-		System.debug(currentUser);        
+        insert currentUser;     
 
        Test.startTest();
 		List<Opportunity> opp = MainNavigationMenuCtrl.getOpportunityContractType(currentUser.id);
@@ -16,10 +15,8 @@ public class MainNavigationMenuCtrlTest {
     
     @isTest
     public static void defaultMenuTest(){
-        System.debug('1111');
         Test.startTest();
         List<NavigationMenuItem> navMenu = MainNavigationMenuCtrl.defaultMenu();
-        System.debug('2342'+navMenu);
 		System.assert(navMenu.size() == 0, 'Pass');
         Test.stopTest();
 
@@ -27,8 +24,8 @@ public class MainNavigationMenuCtrlTest {
 
         @isTest
     public static void getStoreFrontCategoriesTest(){
-        String COMMUNITY_NAME = 'CCE';
-        String communityId = B2BUtils.getCommunityIdByName(COMMUNITY_NAME);
+        final String COMMUNITY_NAME = 'CCE';
+        B2BUtils.getCommunityIdByName(COMMUNITY_NAME);
 		
         ProductCatalog cat =new ProductCatalog(Name='CCE');
         insert cat;
@@ -37,7 +34,6 @@ public class MainNavigationMenuCtrlTest {
         insert cate;
         
         Test.startTest();
-        List<ProductCategory> Categories = MainNavigationMenuCtrl.getStoreFrontCategories(communityId);
 		System.assert(cate != null, 'Pass');
         Test.stopTest();
 

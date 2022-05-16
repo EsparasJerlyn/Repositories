@@ -26,7 +26,7 @@ public with sharing class ManageAdhocCommsSectionCtrl {
         return (List<Adhoc_Communication__c>) Database.query(
             'SELECT Id, Name, IsSent__c, Subject__c, CreatedDate, Email_Content__c ' +
             'FROM Adhoc_Communication__c ' +
-            'WHERE ' + offeringField + ' = \'' + String.escapeSingleQuotes(productOfferingId) +
+            'WHERE ' + String.escapeSingleQuotes(offeringField) + ' = \'' + String.escapeSingleQuotes(productOfferingId) +
             '\' ORDER BY CreatedDate DESC'
         );
     }
@@ -64,11 +64,8 @@ public with sharing class ManageAdhocCommsSectionCtrl {
         Messaging.SingleEmailMessage[] messages = new List<Messaging.SingleEmailMessage> {message};
         Messaging.SendEmailResult[] results = Messaging.sendEmail(messages);
         if (results[0].success) {
-            System.debug('The email was sent successfully.');
             return 'success';
         }else {
-            System.debug('The email failed to send: '
-                + results[0].errors[0].message);
             return 'error';
         }
     }

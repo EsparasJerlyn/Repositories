@@ -16,11 +16,9 @@ private class B2BGetInfoTest {
     private static final String COMMUNITY_NAME = 'CCE';
   
     @testSetup static void setupMethod() {
-        Account acc = TestDataFactory.createTestAccount(true);
-        Contact cont = TestDataFactory.createTestContact(true, acc.id);
-        BuyerGroup buyerGrp = TestDataFactory.createTestBuyerGroup(true);
-        BuyerGroupMember bgm = TestDataFactory.createTestBuyerGroupMember(true, acc.id, buyerGrp.id);
-        Product2 prd = TestDataFactory.createTestProduct2(true);  
+        TestDataFactory.createTestAccount(true);
+        TestDataFactory.createTestBuyerGroup(true);
+        TestDataFactory.createTestProduct2(true);  
     }
     
     @IsTest
@@ -41,7 +39,6 @@ private class B2BGetInfoTest {
 
     @IsTest
     private static void addToCartAndGetCartSummaryTest() {
-        Product2 prd = TestDataFactory.createTestProduct2(false);
         Account account = TestDataFactory.createTestAccount(false);
         String communityId = B2BUtils.getCommunityIdByName(COMMUNITY_NAME);
         

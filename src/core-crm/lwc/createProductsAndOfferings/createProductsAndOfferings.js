@@ -39,8 +39,8 @@ const FIVE_COLUMNS = 'slds-col slds-size_1-of-5';
 const TO_RIGHT = ' slds-col_bump-left';
 
 export default class CreateProductsAndOfferings extends LightningElement{
-    childNotInReleaseError = LWC_Error_ProgramRequest_ChildrenNotInReleaseStage;
-    completeReleaseOnParent = LWC_Error_MultiRecordTypes_CompleteStageOnParent;
+    childNotInReleaseError=LWC_Error_ProgramRequest_ChildrenNotInReleaseStage;
+    completeReleaseOnParent=LWC_Error_MultiRecordTypes_CompleteStageOnParent;
     isCreateRecord=false;
     isEditRecord=false;
     multiCreate = false;

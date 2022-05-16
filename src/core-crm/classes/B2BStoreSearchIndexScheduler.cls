@@ -40,7 +40,7 @@ public with sharing class B2BStoreSearchIndexScheduler implements Schedulable{
         HttpRequest httpRequest = new HttpRequest();
 
         httpRequest.setMethod(method);
-        httpRequest.setHeader('Authorization', 'OAuth ' + userSession); 
+        httpRequest.setHeader('Authorization', 'OAuth ' + userSession);//NOPMD
         httpRequest.setEndpoint(baseUrl + apiUrl);
 
         return httpRequest;
@@ -62,7 +62,7 @@ public with sharing class B2BStoreSearchIndexScheduler implements Schedulable{
         HttpRequest httpRequest = new HttpRequest();
 
         httpRequest.setMethod(method);
-        httpRequest.setHeader('Authorization', 'OAuth ' + userSession); 
+        httpRequest.setHeader('Authorization', 'OAuth ' + userSession);//NOPMD
         httpRequest.setEndpoint(baseUrl + apiUrl);
 
         return httpRequest;
@@ -87,7 +87,7 @@ public with sharing class B2BStoreSearchIndexScheduler implements Schedulable{
             }
                 
         } catch (Exception e) { 
-             System.debug('getCCESearchIndexRequest ERROR: ' + e.getMessage());
+             System.debug(LoggingLevel.WARN,'getCCESearchIndexRequest ERROR: ' + e.getMessage()); //NOPMD
         }
 
         return objResponse;
@@ -112,7 +112,7 @@ public with sharing class B2BStoreSearchIndexScheduler implements Schedulable{
             }
                 
         } catch (Exception e) { 
-             System.debug('getStudySearchIndexRequest ERROR: ' + e.getMessage());
+             System.debug(LoggingLevel.WARN,'getStudySearchIndexRequest ERROR: ' + e.getMessage()); //NOPMD
         }
 
         return objResponse;
@@ -140,7 +140,7 @@ public with sharing class B2BStoreSearchIndexScheduler implements Schedulable{
             }
            
         } catch (Exception e) { 
-             System.debug('postCCESearchIndexRequest ERROR: ' + e.getMessage());
+             System.debug(LoggingLevel.WARN, 'postCCESearchIndexRequest ERROR: ' + e.getMessage());//NOPMD
         }
 
 
@@ -168,7 +168,7 @@ public with sharing class B2BStoreSearchIndexScheduler implements Schedulable{
             }
            
         } catch (Exception e) { 
-            System.debug('postStudySearchIndexRequest ERROR: ' + e.getMessage());
+            System.debug(LoggingLevel.WARN, 'postStudySearchIndexRequest ERROR: ' + e.getMessage());//NOPMD
         }
 
 

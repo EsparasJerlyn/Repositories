@@ -18,7 +18,7 @@ public with sharing class EmailTemplateSelectorTest {
         Test.startTest();
         EmailTemplate coverTemplate = EmailTemplateSelector.getEmailTemplate('Send Certificate'); 
         Test.stopTest();
-        System.assertNotEquals(null, coverTemplate);
+        System.assertNotEquals(null, coverTemplate, 'coverTemplate is null');
 
      }  
 

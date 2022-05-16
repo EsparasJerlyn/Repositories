@@ -27,7 +27,6 @@ public with sharing class RegistrationConfirmationEmailCtrl {
     String firstName;
     String lastName;
     String amount;
-    String email;
     String toAddress;
     /**
      * Set course connection fields in the email templates

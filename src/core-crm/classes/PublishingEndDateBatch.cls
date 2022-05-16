@@ -9,7 +9,7 @@
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | eugene.andrew.abuan		       | February 28, 2022     | DEPP-1256              | Created file                 | 
  */
-global class PublishingEndDateBatch implements Database.Batchable<sObject>
+public class PublishingEndDateBatch implements Database.Batchable<sObject>
 {
 
     private static final String PR_IN_DELIVERY = System.Label.PL_ProductRequest_InDelivery;
@@ -22,10 +22,10 @@ global class PublishingEndDateBatch implements Database.Batchable<sObject>
 
     /**
     * @description Method to query the product records
-    * @param BC - BatchableContext
+    * @param bc - BatchableContext
     * @return query - filtered query of product records
     */
-    global Database.QueryLocator start(Database.BatchableContext BC)
+    public Database.QueryLocator start(Database.BatchableContext bc)
     {
         String query = 
         ' SELECT Id,Course__r.ProductRequestID__c,Program_Plan__r.Product_Request__c, Course__r.ProductRequestID__r.Product_Specification__c,  Program_Plan__r.Program_Delivery_Structure__c,' +
@@ -43,11 +43,11 @@ global class PublishingEndDateBatch implements Database.Batchable<sObject>
 
     /**
     * @description Method to execute the batch
-    * @param BC - BatchableContext
+    * @param bc - BatchableContext
     * @param productList - List of Products
     * @return query - filtered query of product records
     */
-    global void execute(Database.BatchableContext BC, List<Product2> productList)
+    public void execute(Database.BatchableContext bc, List<Product2> productList)
     {
         try{ 
             Date today = System.today();
@@ -184,11 +184,11 @@ global class PublishingEndDateBatch implements Database.Batchable<sObject>
             update(productSpecsToComplete);
 
         }catch(Exception e){
-           System.debug('PublishingEndDateBatch Error: ' + e.getMessage());
+           System.debug(LoggingLevel.WARN, 'PublishingEndDateBatch Error: ' + e.getMessage());//NOPMD
         }
        
     }  
-    global void finish(Database.BatchableContext BC) {
+    public void finish(Database.BatchableContext bc) {
         Database.executeBatch(new OfferingStartDateBatch(COURSE_OFFERING_API_NAME));
         Database.executeBatch(new OfferingStartDateBatch(PROGRAM_OFFERING_API_NAME));
     }

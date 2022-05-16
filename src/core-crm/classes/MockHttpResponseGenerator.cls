@@ -12,7 +12,7 @@
       |                           |                       |              |                                                     | 
  */
 @IsTest
-global class MockHttpResponseGenerator implements HttpCalloutMock {
+public class MockHttpResponseGenerator implements HttpCalloutMock {
 
     private static final String ENDPOINT_ADDRESS_LOOKUP = 'callout:LOQATE/harmony/rest/address/lookup';
     private static final String ENDPOINT_ADDRESS_RETRIEVE = 'callout:LOQATE/harmony/rest/address/retrieve';
@@ -29,7 +29,7 @@ global class MockHttpResponseGenerator implements HttpCalloutMock {
     * @param req - HTTP request
     * @return res - mock HTTP response
     */
-    global HTTPResponse respond(HTTPRequest req) {
+    public HTTPResponse respond(HTTPRequest req) {
         HttpResponse res = new HttpResponse();
         String payload;
 
