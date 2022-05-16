@@ -252,23 +252,23 @@ private class ProductDetailsCtrlTest {
   static void testGetProductRelatedRecordsForPrescribedProgram() {
     User currUsr = [SELECT Id FROM User WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com' LIMIT 1 ];
         Product_Request__c productRequest = [Select Id, Name From Product_Request__c LIMIT 1];
-        
+
         hed__Program_Plan__c programPlan = [Select Id, Name, Program_Delivery_Structure__c, Product_Request__c From hed__Program_Plan__c LIMIT 1];
         if(programPlan.Program_Delivery_Structure__c != 'Prescribed Program'){
-            programPlan.Program_Delivery_Structure__c = 'Prescribed Program';           
+            programPlan.Program_Delivery_Structure__c = 'Prescribed Program';
         }
         programPlan.Product_Request__c=productRequest.Id;
         update programPlan;
-        
+
         Product2 product = [Select Id, Name, Program_Plan__c From Product2 LIMIT 1];
         product.Program_Plan__c = programPlan.Id;
         update product;
-        
+
         hed__Course__c course = [Select Id, ProductRequestID__c, hed__Account__c From hed__Course__c Where ProductRequestID__c = :productRequest.Id LIMIT 1];
-        
+
         hed__Plan_Requirement__c planRequirement  = new hed__Plan_Requirement__c(hed__Course__c=course.Id, hed__Program_Plan__c=programPlan.Id, hed__Sequence__c=1);
         insert planRequirement;
-        
+
         Program_Offering__c programOffering = new Program_Offering__c(
             Name = 'Program Offering_Test 1',
             hed_Program_Plan__c = programPlan.Id,
@@ -276,11 +276,10 @@ private class ProductDetailsCtrlTest {
             hed_Capacity__c = 30,
             Start_Date__c = system.today() + 1,
             Registration_Start_Date__c = system.today() + 1,
-            IsActive__c = true,
-            Visible_on_Website__c = true
+            IsActive__c = true
         );
         insert programOffering;
-        
+
         System.runAs(currUsr) {
             Test.startTest();
             ProductDetailsCtrl.ProductDetailsData getProductDetails = new ProductDetailsCtrl.ProductDetailsData();
