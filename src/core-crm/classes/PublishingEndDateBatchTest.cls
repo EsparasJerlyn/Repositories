@@ -101,12 +101,11 @@ public with sharing class PublishingEndDateBatchTest {
             update productRequests;
             
             List<Product2> products = [SELECT Id,Publishing_End_date__c,IsActive,Course__r.ProductRequestID__c, Publishing_Start_date__c, QA_Review_Completed__c,Ready_for_publishing__c  FROM Product2 WHERE Course__r.ProductRequestID__c != NULL];
-            system.debug('product: >> ' + products);
             for(Product2 product : products){
                 product.IsActive = true;
                 product.Decommission_Product__c = true;
                 product.Decommission_Reason__c = 'test';
-                product.Publishing_End_date__c = date.today();
+                product.Publishing_End_date__c = date.today() + 2;
                 product.Publishing_Start_date__c = date.today() - 1;
                 product.QA_Review_Completed__c = 'Yes';
                 product.Ready_for_publishing__c = 'Yes';
@@ -143,7 +142,7 @@ public with sharing class PublishingEndDateBatchTest {
                 product.IsActive = true;
                 product.Decommission_Product__c = false;
                 product.Decommission_Reason__c = 'test';
-                product.Publishing_End_date__c = date.today();
+                product.Publishing_End_date__c = date.today() + 2;
                 product.Publishing_Start_date__c = date.today() - 1;
                 product.QA_Review_Completed__c = 'Yes';
                 product.Ready_for_publishing__c = 'Yes';
