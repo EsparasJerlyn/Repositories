@@ -68,10 +68,6 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Personal_Email__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Work_Email__c</field>
             </layoutItems>
         </layoutColumns>
