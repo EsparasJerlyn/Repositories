@@ -3,7 +3,7 @@
     <fullName>Maximum_Participants__c</fullName>
     <externalId>false</externalId>
     <label>Maximum Participants</label>
-    <precision>18</precision>
+    <precision>4</precision>
     <required>false</required>
     <scale>0</scale>
     <trackTrending>false</trackTrending>
