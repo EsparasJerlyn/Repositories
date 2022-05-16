@@ -10,17 +10,17 @@
 
     <header class="slds-m-bottom_medium">
         <div class="slds-grid slds-wrap">
-            <div class="aside-section slds-border_bottom slds-p-bottom_medium" if:true={showFiltersIfStudy}>
-                <p class="slds-truncate heading-text-courses">Filter courses</p>
+            <div class="aside-section slds-border_bottom slds-p-bottom_medium slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-p-right_medium" if:true={showFiltersIfStudy}>
+                <p class="slds-truncate heading2 main-color-blue500">Filter courses</p>
             </div>
-            <div class="main-section">
-                <p class="slds-truncate slds-text-heading_large header-text">{headerText}</p>
+            <div class="main-section slds-size_1-of-1 slds-medium-size_8-of-12 slds-large-size_8-of-12 slds-p-top_medium slds-align_absolute-center">
+                <p class="slds-truncate bodyBold">{headerText}</p>
             </div>
         </div>
     </header>
-    <article class="layout-contiainer">
+    <article class="layout-contiainer slds-grid slds-wrap">
         <!--Filter-->
-        <aside class="aside-section" if:true={showFiltersIfStudy}>
+        <aside class="aside-section slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-p-right_medium" if:true={showFiltersIfStudy}>
            <!--Clear all-->
             <lightning-button variant="base" label="Clear all" title="Clear all" onclick={handleClearAll} class="slds-m-left_x-small"></lightning-button>
             <div class="slds-var-m-around_medium">
@@ -138,23 +138,25 @@
                     </lightning-input>
                 </div>
         </aside>
-        <section class="main-section">
+        <section class="main-section slds-size_1-of-1 slds-medium-size_8-of-12 slds-large-size_8-of-12">
              <template if:true={productInfoList}>
                 <c-product-card
                     product-details = {productInfoList}
                 >
                 </c-product-card>
             </template>
+
         <div>
             <c-search-paginator
-            if:true={hasMorePages}
-            page-number={pageNumber}
-            page-size={displayData.pageSize}
-            total-item-count={displayData.total}
-            onprevious={handlePreviousPage}
-            onnext={handleNextPage}
-            onselectedpage={handleSelectedPage}
-            >
+                if:true={hasMorePages}
+                page-number={pageNumber}
+                page-size={displayData.pageSize}
+                total-item-count={displayData.total}
+                onprevious={handlePreviousPage}
+                onnext={handleNextPage}
+                onselectedpage={handleSelectedPage}
+                class="slds-grid slds-wrap slds-size_1-of-1"
+                >
               </c-search-paginator>
         </div>
         </section>

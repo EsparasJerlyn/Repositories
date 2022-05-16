@@ -1,7 +1,8 @@
 .header {
   font-weight: bold;
   background-color: #fff;
-  height: 250px;
+  height: auto;
+  padding: 0px 0px;
 }
 
 p.headerText1 {

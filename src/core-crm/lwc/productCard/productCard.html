@@ -3,54 +3,56 @@
       <div key={product.childProdId} class="card-container">
         <div class="slds-grid slds-wrap card-main">
           <div class="slds-col slds-size_1-of-1 fields-area card-title">
-              <a class="h3" data-id={product.childProdId} data-name={product.childProdName} href={recordPageUrl} onclick={navigateToProductPage}>{product.childProdName}</a>
+              <a class="heading4" data-id={product.childProdId} data-name={product.childProdName} href={recordPageUrl} onclick={navigateToProductPage}>{product.childProdName}</a>
           </div>
-          <span class="card-body">
+          <span class="slds-grid slds-wrap card-body">
             <template if:true={product.isProgramFlex}>
-              <div class="slds-col card-desc-container">
-                  <div class="card-description">
-                    <p>{product.childProdDescription}</p>
+              <div class="slds-col card-desc-container slds-p-around_medium slds-size_1-of-1">
+                  <div class="card-contents">
+                    <p class="bodyRegular">{product.childProdDescription}</p>
                   </div>
                </div>   
             </template>
             <template if:false={product.isProgramFlex}>
-              <div class="slds-col slds-size_1-of-2 card-desc-container">
-                <div class="card-description">
-                  <p class="body">{product.childProdDescription}</p>
+              <div class="slds-col card-desc-container slds-p-around_medium slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_6-of-12">
+                <div class="card-contents">
+                  <p class="bodyRegular">{product.childProdDescription}</p>
                 </div>
-                <div class="slds-p-horizontal_small">
-                  <p class="pills body">{product.childProdProfLevel}</p>
+                <div>
+                  <div if:true={product.childProdProfLevel}>
+                    <div class="pills bodyRegular slds-m-top_small">{product.childProdProfLevel}</div>
+                  </div>
                 </div>
               </div>
-              <div class="slds-col slds-size_1-of-2 card-details">
+              <div class="slds-col card-details slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_6-of-12">
                 <div class="card-detail-list">
                   <div class="slds-p-vertical_small">
                     <span class="item-container">
                       <img class="item-icon" src={clipboard_icon} />
-                      <p class="item-label body"><strong class="bodyBold">Start Date:&nbsp;</strong>{product.childProdOfferingDate}</p>              
+                      <p class="item-label bodyRegular"><strong class="bodyBold">Start Date:&nbsp;</strong>{product.childProdOfferingDate}</p>              
                   </span>
                   </div>
                   <div class="slds-p-bottom_small">
                     <span class="item-container">          
                       <img class="item-icon" src={location_icon} />
                       <span>
-                        <p class="item-label body"><strong class="bodyBold">Delivery:&nbsp;</strong></p>  
+                        <p class="item-label bodyRegular"><strong class="bodyBold">Delivery:&nbsp;</strong></p>  
                       </span>
                       <span>
-                        <p class="item-del body">{product.childProdDelivery}</p>
+                        <p class="item-del bodyRegular">{product.childProdDelivery}</p>
                       </span>                    
                     </span>            
                   </div>
                   <div class="slds-p-bottom_small">
                     <span class="item-container">  
                       <img class="item-icon" src={dollar_icon} />
-                      <p class="item-label body"><strong class="bodyBold">Price:&nbsp;</strong>From {product.childProdPrice}</p>
+                      <p class="item-label bodyRegular"><strong class="bodyBold">Price:&nbsp;</strong>From {product.childProdPrice}</p>
                     </span>                
                   </div>
                   <div class="slds-p-bottom_small">
                     <span class="item-container">
                       <img class="item-icon" src={time_icon} />
-                      <p class="item-label body"><strong class="bodyBold">Duration:&nbsp;</strong>{product.childProdDuration}</p>
+                      <p class="item-label bodyRegular"><strong class="bodyBold">Duration:&nbsp;</strong>{product.childProdDuration}</p>
                     </span>
                   </div>
                 </div>

@@ -2,6 +2,7 @@ import { LightningElement, api } from "lwc";
 import { loadStyle } from "lightning/platformResourceLoader";
 import customSR from "@salesforce/resourceUrl/QUTCustomLwcCss";
 import qutResourceImg from "@salesforce/resourceUrl/QUTImages";
+const MODULE = 'Module';
 
 export default class ProgramModule extends LightningElement {
     @api programModule;
@@ -23,5 +24,9 @@ export default class ProgramModule extends LightningElement {
             composed: true,
         });
         this.dispatchEvent(viewProductEvent);
+    }
+
+    get getSequence(){
+        return MODULE + ' ' + this.programModule.sequence;
     }
 }

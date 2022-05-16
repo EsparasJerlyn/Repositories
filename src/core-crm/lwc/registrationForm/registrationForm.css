@@ -327,3 +327,7 @@ line-height: 0;
 
     display: none;
   } */
+
+  .cursor{
+    cursor: pointer;
+  }

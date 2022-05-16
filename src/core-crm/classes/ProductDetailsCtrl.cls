@@ -201,10 +201,12 @@ public without sharing class ProductDetailsCtrl {
             }
           }
 
-          childProductWrapper.childProdDelivery = childProd.Delivery__c.replace(
-            ';',
-            ', '
-          );
+          if (childProd.Delivery__c!=null){
+            childProductWrapper.childProdDelivery = childProd.Delivery__c.replace(
+              ';',
+              ', '
+            );
+          }
 
           if (cProdDateMap.containsKey(childProd.Course__c)) {
             childProductWrapper.childProdOfferingDate = Datetime.newInstance(

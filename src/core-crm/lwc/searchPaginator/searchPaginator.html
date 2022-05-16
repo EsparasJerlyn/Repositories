@@ -1,31 +1,37 @@
 <template>
-    <p>Page {currentPageNumber} of {totalPages}</p>
-    <div class="slds-clearfix">
-        <div class="slds-float_right">
-            <lightning-button-icon
-            disabled={isFirstPage}
-            variant="brand"
-            class="slds-p-around_medium"
-            icon-name="utility:chevronleft"
-            onclick={handlePrevious}
-            ></lightning-button-icon>
-            <template if:true={pages}>
-            <template for:each={pages} for:item="page">
-                <lightning-button
-                    class={page.class}
-                    key={page.page}
-                    label={page.page}
-                    onclick={handlePage}
-                ></lightning-button>
-            </template>
-            </template>
-            <lightning-button-icon
-                disabled={isLastPage}
-                variant="brand"
-                class="slds-p-around_medium"
-                icon-name="utility:chevronright"
-                onclick={handleNext}
-            ></lightning-button-icon>
+    <div class="slds-grid slds-wrap slds-size_1-of-1 slds-p-top_large">
+        <div class="slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12">            
+            <div class="total-pages">
+                <p class="bodyRegular">Page {currentPageNumber} of {totalPages}</p>
+            </div>
+        </div>
+        <div class="slds-clearfix slds-size_1-of-1 slds-medium-size_9-of-12 slds-large-size_9-of-12 paginator">
+            <div class="slds-float_right slds-grid slds-grid_vertical-align-end">
+                <lightning-button-icon
+                    disabled={isFirstPage}
+                    variant="brand"
+                    icon-name="utility:chevronleft"
+                    onclick={handlePrevious}
+                    class="btn-pagination"
+                ></lightning-button-icon>
+                <template if:true={pages}>
+                <template for:each={pages} for:item="page">
+                    <lightning-button
+                        class={page.class}
+                        key={page.page}
+                        label={page.page}
+                        onclick={handlePage}
+                    ></lightning-button>
+                </template>
+                </template>
+                <lightning-button-icon
+                    disabled={isLastPage}
+                    variant="brand"
+                    icon-name="utility:chevronright"
+                    onclick={handleNext}
+                    class="btn-pagination"
+                ></lightning-button-icon>
+            </div>
         </div>
     </div>
 </template>

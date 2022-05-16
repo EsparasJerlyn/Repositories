@@ -168,7 +168,7 @@ export default class SearchPaginator extends LightningElement {
         for(let i = min; i <= max; i++){
             pages.push({
                 page: i,
-                class: (i == this.pageNumber ? 'btn-style' : '')
+                class: (i == this.pageNumber ? 'btn-pagination' : '')
             });
         }
         console.log('number of pages',pages);

@@ -112,3 +112,15 @@
     line-height: 21px;
     color: #1c1c1c;
   }
+
+
+  @media only screen and (min-width: 765px) {
+
+    lightning-layout-item.slds-col.slds-size_12-of-12.slds-medium-size_8-of-12 {
+      width: 66.6666666667% /*current width*/;
+    }
+    lightning-layout-item.slds-col.slds-size_12-of-12.slds-medium-size_4-of-12 {
+      width: 33.3333333333% /*current width*/
+    }
+
+}

@@ -4,7 +4,51 @@
     justify-content: center; */
 }
 
-.btn-style{
-    font-weight: bold;
-    padding: .5rem;
+
+
+button.slds-button.slds-button_neutral {
+    color: #000 !important;
+}
+
+@media only screen and (min-width: 765px) {
+    .slds-show_medium {
+         display: block!important;
+    }
+
+    .slds-hide_medium {
+         display: none!important;
+    }
+
+    .slds-grid_vertical-align-end{
+        float: right;
+        align-items: flex-end;
+        align-content: flex-end;
+        display: flex;
+    }
+
+    .total-pages{
+        display: flex;
+        justify-content: flex-start;
+        align-content: flex-start;
+        align-items: flex-start;
+        margin: auto;
+    }
+}
+
+@media only screen and (max-width: 764px) {
+    .slds-grid_vertical-align-end{
+        float: none;
+        align-items: center;
+        align-content: center;
+        display: flex;
+        justify-content: center;
+    }
+
+    .total-pages{
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        align-items: center;
+        margin: auto;
+    }
 }

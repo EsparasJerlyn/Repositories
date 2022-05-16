@@ -98,7 +98,7 @@ export default class RegistrationForm extends LightningElement {
     this.requiredInputClass.date = HIDE_ERROR_BOARDER_ATTRIBUTE;
     this.requiredInputClass.month = HIDE_ERROR_BOARDER_ATTRIBUTE;
     this.requiredInputClass.year = HIDE_ERROR_BOARDER_ATTRIBUTE;
-    this.requiredInputClass.checkbox = 'slds-checkbox_faux check-box';
+    this.requiredInputClass.checkbox = 'slds-checkbox_faux check-box cursor';
     this.linkedInLogo = qutResourceImg + "/QUTImages/Icon/linkedInLogo.svg";
     this.xButton = qutResourceImg + "/QUTImages/Icon/xMark.svg";
     this.requiredErrorMessage = REQUIRED_ERROR_MESSAGE;
@@ -303,11 +303,11 @@ export default class RegistrationForm extends LightningElement {
 
     if(this.checkbox === false || !this.checkbox){
       this.hasErrorChk = this.checkbox === false || !this.checkbox;
-      this.requiredInputClass.checkbox = 'slds-checkbox_faux border-error';
+      this.requiredInputClass.checkbox = 'slds-checkbox_faux border-error cursor';
       this.requiredDisplayData.checkbox = SHOW_ERROR_MESSAGE_ATTRIBUTE;
     }else{
       this.hasErrorChk = false;
-      this.requiredInputClass.checkbox = 'slds-checkbox_faux check-box';
+      this.requiredInputClass.checkbox = 'slds-checkbox_faux check-box cursor';
       this.requiredDisplayData.checkbox = HIDE_ERROR_MESSAGE_ATTRIBUTE;
     }
   }

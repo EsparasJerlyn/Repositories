@@ -33,10 +33,11 @@ export default class ProductDetails extends LightningElement {
   deliveryOptions;
   product;
   showPrescribedProgram;
+  showFlexibleProgram;
   showProductDetailsSingle;
   showProductDetailsDisplay;
-  
-  // Gets & Sets the effective account - if any - of the user viewing the product.
+  cProducts;
+    // Gets & Sets the effective account - if any - of the user viewing the product.
   @api
   get effectiveAccountId() {
     return this._effectiveAccountId;
@@ -60,6 +61,7 @@ export default class ProductDetails extends LightningElement {
   connectedCallback() {
     this.loading = true;
     this.showPrescribedProgram = false;
+    this.showFlexibleProgram = false;
     this.showProductDetailsSingle = false;
     this.showProductDetailsDisplay = false;
     this.getProductDetailsApex(this.recordId);
@@ -80,12 +82,26 @@ export default class ProductDetails extends LightningElement {
         this.product.priceBookEntryList = result.pricebookWrapperList;
         this.product.deliveryOptions = result.deliveryWrapperList;
         this.product.programDeliveryAndOfferings = result.programDeliveryAndOfferingMap;      
-        if(this.product.productDetails.Program_Plan__r.Program_Delivery_Structure__c == 'Prescribed Program'){ 
+        console.log('testing: ' + this.product);   
+        if(this.product.productDetails.Program_Plan__r == undefined){
+          this.showPrescribedProgram = false;
+          this.showFlexibleProgram = true;
+          this.showProductDetailsSingle = false;
+          this.showProductDetailsDisplay = true;
+        } else  if(this.product.productDetails.Program_Plan__r.Program_Delivery_Structure__c == 'Prescribed Program'){ 
           this.showPrescribedProgram = true;
+          this.showFlexibleProgram = false;
           this.showProductDetailsSingle = false;
           this.showProductDetailsDisplay = false;
+        } else if(this.product.productDetails.Program_Plan__r.Program_Delivery_Structure__c == 'Flexible Program'){ 
+          this.showPrescribedProgram = false;
+          this.cProducts = result.childProductList;
+          this.showFlexibleProgram = false;
+          this.showProductDetailsSingle = false;
+          this.showProductDetailsDisplay = true;
         } else {
           this.showPrescribedProgram = false;
+          this.showFlexibleProgram = true;
           this.showProductDetailsSingle = false;
           this.showProductDetailsDisplay = true;
         }
@@ -113,19 +129,19 @@ export default class ProductDetails extends LightningElement {
   }
 
   // Gets Product Fields
-  get isNotFlexProgram() {
+  /*get isNotFlexProgram() {
     return this.productDetails.data
       ? this.productDetails.data.isNotFlexProgram
       : [];
-  }
+  }*/
 
   // Gets List oc Child Products
-  get cProducts() {
+  /*get cProducts() {
     // console.log('productDetails: ' + JSON.stringify(this.productDetails));
     return this.productDetails.data
       ? this.productDetails.data.childProductList
       : [];
-  }
+  }*/
 
   // Gets whether the cart is currently locked
   get _isCartLocked() {
@@ -204,6 +220,7 @@ export default class ProductDetails extends LightningElement {
     this.product.productDetails = event.detail.value;
     this.product.parent = tempObj;
     this.showPrescribedProgram = false;
+    this.showFlexibleProgram = false;
     this.showProductDetailsSingle = true;
   }
 
@@ -211,6 +228,7 @@ export default class ProductDetails extends LightningElement {
     let tempObj = event.detail.value;
     this.product = tempObj.parent;
     this.showPrescribedProgram = true;
+    this.showFlexibleProgram = false;
     this.showProductDetailsSingle = false;
   }
   

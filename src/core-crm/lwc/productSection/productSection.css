@@ -23,7 +23,7 @@
   margin-bottom: 32px;
 }
 
-.slds-accordion__section.slds-is-open .slds-accordion__summary {
+/*.slds-accordion__section.slds-is-open .slds-accordion__summary {
   background: #0066b9;
 }
 
@@ -47,7 +47,7 @@
 .slds-accordion__summary-heading {
   padding: 16px;
   margin: auto;
-}
+}*/
 
 /*.accordionHeader {
   font-family: "ProximaNova-Bold";
