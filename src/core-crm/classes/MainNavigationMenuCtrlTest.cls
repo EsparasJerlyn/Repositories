@@ -25,7 +25,7 @@ public class MainNavigationMenuCtrlTest {
         @isTest
     public static void getStoreFrontCategoriesTest(){
         final String COMMUNITY_NAME = 'CCE';
-        B2BUtils.getCommunityIdByName(COMMUNITY_NAME);
+        Id communityId = B2BUtils.getCommunityIdByName(COMMUNITY_NAME);
 		
         ProductCatalog cat =new ProductCatalog(Name='CCE');
         insert cat;
@@ -34,6 +34,7 @@ public class MainNavigationMenuCtrlTest {
         insert cate;
         
         Test.startTest();
+        MainNavigationMenuCtrl.getStoreFrontCategories(communityId);
 		System.assert(cate != null, 'Pass');
         Test.stopTest();
 
