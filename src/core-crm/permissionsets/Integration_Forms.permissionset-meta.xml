@@ -996,6 +996,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Product_Specification__c.QUT_Staff_Email__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Product_Specification__c.Competitor_Summary__c</field>
         <readable>true</readable>
