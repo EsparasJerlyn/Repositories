@@ -1,8 +1,8 @@
 List<Lead> leadList = new List<Lead>([
     SELECT Id, Email, Personal_Email__c, MobilePhone, Personal_Mobile__c
     FROM Lead
-    WHERE Personal_Email__c <> null 
-    OR Personal_Mobile__c <> null
+    WHERE IsConverted = false AND 
+    (Personal_Email__c <> null OR Personal_Mobile__c <> null)
 ]);
 
 if(!leadList.isEmpty()){
