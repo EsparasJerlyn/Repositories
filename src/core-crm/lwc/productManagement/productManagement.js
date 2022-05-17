@@ -46,23 +46,22 @@ export default class ProductManagement extends LightningElement {
         return !this.isStatusCompleted;
     }
 
-    //checks if product request is program
+    //checks if product request is program and hides content section if true
     get hideContentSection(){
-        if(this.isProgram === RT_ProductRequest_Program){
-            return true;
-        }else{
-            return this.isStatusCompleted;
-        }
-
+        return this.isProgram === RT_ProductRequest_Program;  
     }
 
+    //checks if parent is prescribed and hides decommission section if true
     get hideDecommission(){
         return this.parentIsPrescribed;
     }
 
+    //hides payment options, financial split, set-up certificate, and set-up registration
+    //sections if product is prescribed, non program, or the parent is prescribed
     get hideSection(){
         return this.isPrescribedOrNonProgram && this.parentIsPrescribed;
     }
+
     /**
      * gets product request details
     */
@@ -80,6 +79,9 @@ export default class ProductManagement extends LightningElement {
         }
     }
 
+    /**
+     * checks if parent is prescribed via apex call
+     */
     parentProgramType
     @wire(checkParentProgramType,{productRequestId: '$recordId'})
     checkParentProgramType(result){
