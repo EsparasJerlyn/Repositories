@@ -26,15 +26,17 @@
         <template if:false={formLoading}>
           <template if:true={editMode}>
             <div class="slds-grid slds-gutters slds-m-top_small">
-              <div class="slds-col slds-size-1-of-2 ">
-                <template for:each={fieldsCol1} for:item="fCol1" class="slds-m-around_xx-small">
-                  <lightning-input-field
+              <div class="slds-col slds-size_1-of-2 ">
+                <template for:each={fieldsCol1} for:item="fCol1">
+                  <div key={fCol1.id} class="slds-m-around_x-small">
+                    <lightning-input-field
                     field-name={fCol1.name}
                     key={fCol1.id}
                   ></lightning-input-field>
+                  </div>
                 </template>
               </div>
-              <div class="slds-col slds-size-1-of-2">
+              <div class="slds-col slds-size_1-of-2">
                 <!--On Registration Template-->
                 <c-custom-search
                   search-label="Send Email on Registration - Email Template"
@@ -116,54 +118,56 @@
           </template>
           <template if:false={editMode}>
             <div class="slds-grid slds-gutters slds-m-top_small">
-              <div class="slds-col slds-size-1-of-2 slds-m-around_xx-small">
+              <div class="slds-col slds-size_1-of-2">
                 <template for:each={fieldsCol1} for:item="fCol1">
-                  <div key={fCol1.id}>
-                    <lightning-output-field
-                      field-name={fCol1.name}
-                      class="slds-m-bottom_none"
-                    ></lightning-output-field>
-                    <div class="slds-p-left_none slds-border_bottom slds-clearfix">
-                      <lightning-button-icon
-                        if:false={disableEditButton}
-                        icon-name="utility:edit"
-                        alternative-text="Edit"
-                        title="Edit Field"
-                        variant="bare"
-                        size="medium"
-                        onclick={handleEdit}
-                        class="slds-float_right"
-                        disabled={isStatusCompleted}
-                      ></lightning-button-icon>
-                    </div>
-                  </div>
+                  <lightning-layout key={fCol1.field} if:false={editMode} class="slds-m-around_small">
+                    <lightning-layout-item flexibility="auto" class="slds-p-horizontal_none slds-border_bottom">
+                        <lightning-output-field
+                            key={fCol1.field} 
+                            field-name={fCol1.name}  
+                        ></lightning-output-field>
+                    </lightning-layout-item>
+                    <lightning-layout-item class="slds-align-bottom slds-p-left_none slds-border_bottom">
+                        <lightning-button-icon
+                            if:false={isStatusCompleted}
+                            icon-name="utility:edit"
+                            alternative-text="Edit"
+                            title="Edit Field"
+                            variant="bare"
+                            size="medium"
+                            onclick={handleEdit}>
+                        </lightning-button-icon>
+                    </lightning-layout-item>
+                  </lightning-layout>
                 </template>
               </div>
-              <div class="slds-col slds-size-1-of-2 slds-m-around_xx-small">
+              <div class="slds-col slds-size_1-of-2">
                 <template for:each={fieldsCol2} for:item="fCol2">
-                  <div key={fCol2.id}>
-                    <span data-field={fCol2.name} class="slds-form-element__label">{fCol2.name}</span>
-                    <p>
-                    <lightning-formatted-url
-                      value={fCol2.value}
-                      label={fCol2.label}
-                      class="slds-m-bottom_none"
-                    ></lightning-formatted-url>
-                    </p>
-                    <div class="slds-p-left_none slds-border_bottom slds-clearfix">
-                      <lightning-button-icon
-                        if:false={disableEditButton}
-                        icon-name="utility:edit"
-                        alternative-text="Edit"
-                        title="Edit Field"
-                        variant="bare"
-                        size="medium"
-                        onclick={handleEdit}
-                        class="slds-float_right"
-                        disabled={isStatusCompleted}
-                      ></lightning-button-icon>
-                    </div>
-                  </div>
+                  <lightning-layout key={fCol2.field} if:false={editMode} class="slds-m-around_small">
+                    <lightning-layout-item flexibility="auto" class="slds-p-horizontal_none slds-border_bottom ">
+                      <div class="slds-form-element slds-form-element_horizontal">
+                        <span class="slds-form-element__label">{fCol2.name}</span>
+                        <div class="slds-form-element__control">
+                            <lightning-formatted-url
+                            value={fCol2.value}
+                            label={fCol2.label}
+                            class="slds-m-bottom_none"
+                           ></lightning-formatted-url>
+                        </div>
+                      </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item class="slds-align-bottom slds-p-left_none slds-border_bottom">
+                        <lightning-button-icon
+                            if:false={isStatusCompleted}
+                            icon-name="utility:edit"
+                            alternative-text="Edit"
+                            title="Edit Field"
+                            variant="bare"
+                            size="medium"
+                            onclick={handleEdit}>
+                        </lightning-button-icon>
+                    </lightning-layout-item>
+                  </lightning-layout>
                 </template>
               </div>
             </div>
