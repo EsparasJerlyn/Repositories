@@ -9,6 +9,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | john.bo.a.pineda               | May 3, 2022           | DEPP-2403              | Created file                 |
+      | john.bo.a.pineda               | May 13, 2022          | DEPP-2591              | Updated to load to Store     |
       |                                |                       |                        |                              |
  */
 @isTest(SeeAllData=false)
@@ -61,12 +62,22 @@ public with sharing class Product2TriggerHandlerTest {
       );
       insert courses;
 
+      Integer prodCounter = 0;
       List<Product2> products = TestDataFactory.createTestProductRecords(
         10,
         courses
       );
       for (Product2 prod : products) {
         prod.Delivery__c = 'Online Classroom;Online Self-paced;Brisbane Classroom';
+        prod.Ready_for_publishing__c = 'No';
+        prod.Available_on_Cart__c = false;
+        prod.IsActive = true;
+        prodCounter++;
+        if (prodCounter > 5) {
+          prod.Ready_for_publishing__c = 'Yes';
+          prod.QA_Review_Completed__c = 'Yes';
+          prod.Publishing_Start_date__c = Date.today().AddDays(-1);
+        }
       }
       insert products;
 
@@ -114,6 +125,20 @@ public with sharing class Product2TriggerHandlerTest {
       }
       insert courseConnections;
 
+      ProductCatalog prodCatalog = new ProductCatalog(Name = 'Study Catalog');
+      insert prodCatalog;
+
+      ProductCategory prodCateg = new ProductCategory(
+        Name = 'Products',
+        CatalogId = prodCatalog.Id
+      );
+      insert prodCateg;
+
+      CommerceEntitlementPolicy commEntPolicy = new CommerceEntitlementPolicy(
+        Name = 'OPE Entitlement'
+      );
+      insert commEntPolicy;
+
       Test.stopTest();
     }
   }
@@ -133,7 +158,7 @@ public with sharing class Product2TriggerHandlerTest {
       List<Product2> prod2List = [
         SELECT Id, Ready_for_publishing__c
         FROM Product2
-        WHERE CreatedById = :currUsr.Id
+        WHERE CreatedById = :currUsr.Id AND Ready_for_publishing__c = 'No'
       ];
       for (Product2 prod2 : prod2List) {
         prod2.Ready_for_publishing__c = 'Yes';
@@ -150,6 +175,80 @@ public with sharing class Product2TriggerHandlerTest {
         null,
         expectedException,
         'The record should be validated'
+      );
+    }
+  }
+
+  @IsTest
+  private static void includeProductToStoreTest() {
+    User currUsr = [
+      SELECT Id
+      FROM User
+      WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
+      LIMIT 1
+    ];
+
+    DmlException expectedException;
+    System.runAs(currUsr) {
+      Test.startTest();
+      List<Product2> prod2List = [
+        SELECT Id, Available_on_Cart__c
+        FROM Product2
+        WHERE
+          CreatedById = :currUsr.Id
+          AND Ready_for_publishing__c = 'Yes'
+          AND QA_Review_Completed__c = 'Yes'
+          AND Available_on_Cart__c = FALSE
+          AND Publishing_Start_date__c != NULL
+      ];
+      for (Product2 prod2 : prod2List) {
+        prod2.Available_on_Cart__c = true;
+      }
+
+      update prod2List;
+
+      Test.stopTest();
+
+      Set<Id> prod2ListIdSet = (new Map<Id, Product2>(prod2List)).keySet();
+
+      Id prodCategoryId = [
+        SELECT Id
+        FROM ProductCategory
+        WHERE Name = 'Products'
+        LIMIT 1
+      ]
+      .Id;
+
+      Id entPolicyId = [
+        SELECT Id
+        FROM CommerceEntitlementPolicy
+        WHERE Name = 'OPE Entitlement'
+        LIMIT 1
+      ]
+      .Id;
+
+      List<ProductCategoryProduct> prodCategProdList = [
+        SELECT ProductId
+        FROM ProductCategoryProduct
+        WHERE
+          ProductCategoryId = :prodCategoryId
+          AND ProductId IN :prod2ListIdSet
+      ];
+
+      List<CommerceEntitlementProduct> prodEntPolicyList = [
+        SELECT ProductId
+        FROM CommerceEntitlementProduct
+        WHERE PolicyId = :entPolicyId AND ProductId IN :prod2ListIdSet
+      ];
+
+      System.assert(
+        prodCategProdList.size() > 0,
+        'ProductCategoryProduct was created'
+      );
+
+      System.assert(
+        prodEntPolicyList.size() > 0,
+        'CommerceEntitlementProduct was created'
       );
     }
   }

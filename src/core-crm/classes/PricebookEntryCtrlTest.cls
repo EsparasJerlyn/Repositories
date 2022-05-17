@@ -9,6 +9,7 @@
  *    | Developer                 | Date                  | JIRA                  | Change Summary                                     |
       |---------------------------|-----------------------|-----------------------|----------------------------------------------------|
       | roy.nino.s.regala         | Febuary 14, 2022      | DEPP-1406,1257,1773   | Created file                                       |
+      | john.bo.a.pineda          | May 13, 2022          | DEPP-2591             | Modified to include BuyerGroup PriceBook           |
 */
 @isTest(SeeAllData=false)
 private class PricebookEntryCtrlTest {
@@ -53,24 +54,32 @@ private class PricebookEntryCtrlTest {
         pricebook = new Pricebook2(isActive = true, id = Test.getStandardPricebookId());
         update pricebook;
 
+        Pricebook2 priceBook2 = new Pricebook2(isActive = true, Name='Current Learner');
+        insert priceBook2;
+
         //there should a product created through flow
         PricebookEntry priceBookEntry;
         priceBookEntry = new PricebookEntry(pricebook2id = pricebook.Id, UnitPrice = 12, product2Id = [SELECT Id FROM Product2 WHERE Program_Plan__c =: programPlanList[0].Id].Id, isActive = true);
         insert priceBookEntry;
 
+        PricebookEntry priceBookEntryNonStandard;
+        priceBookEntryNonStandard = new PricebookEntry(pricebook2id = pricebook2.Id, UnitPrice = 12, product2Id = [SELECT Id FROM Product2 WHERE Program_Plan__c =: programPlanList[0].Id].Id, isActive = true);
+        insert priceBookEntryNonStandard;
+
         PricebookEntry priceBookEntry2;
         priceBookEntry2 = new PricebookEntry(pricebook2id = pricebook.Id, UnitPrice = 12, product2Id = [SELECT Id FROM Product2 WHERE Course__c =: courses[0].Id].Id, isActive = true);
         insert priceBookEntry2;
 
-
-
+        PricebookEntry priceBookEntryNonStandard2;
+        priceBookEntryNonStandard2 = new PricebookEntry(pricebook2id = pricebook2.Id, UnitPrice = 12, product2Id = [SELECT Id FROM Product2 WHERE Course__c =: courses[0].Id].Id, isActive = true);
+        insert priceBookEntryNonStandard2;
      }
 
 
     @isTest
     private static void upsertPricebookEntriesTest(){
         List<PriceBookEntry> pbEntriesToUpdate = new List<PricebookEntry>();
-        List<PriceBookEntry> pbEntries = new List<PriceBookEntry>([SELECT Id, UnitPrice FROM PriceBookEntry]);
+        List<PriceBookEntry> pbEntries = new List<PriceBookEntry>([SELECT Id, Pricebook2Id, UnitPrice FROM PriceBookEntry]);
         for(PricebookEntry pbE: pbEntries){
             pbE.UnitPrice = 100;
             pbEntriesToUpdate.add(pbE);
@@ -80,6 +89,9 @@ private class PricebookEntryCtrlTest {
         Test.startTest();
         System.runAs(currentUser)
         {
+            BuyerGroup buyerGroup = new BuyerGroup(Name='OPE BuyerGroup');
+            insert buyerGroup;
+
             PricebookEntryCtrl.upsertPricebookEntries(pbEntriesToUpdate);
             System.assert(![SELECT Id FROM PricebookEntry WHERE UnitPrice = 100].isEmpty(),'error updating pricebookentry');
         }

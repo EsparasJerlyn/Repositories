@@ -9,9 +9,10 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | john.bo.a.pineda               | May 2, 2022           | DEPP-2403              | Created file                 |
+      | john.bo.a.pineda               | May 13, 2022          | DEPP-2591              | Updated to load to Store     |
       |                                |                       |                        |                              |
  */
-public without sharing class Product2TriggerHandler implements Disableable, BeforeUpdate {
+public without sharing class Product2TriggerHandler implements Disableable, BeforeUpdate, AfterUpdate {
   public static final Id FACULTY_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
     .get('Faculty')
     .getRecordTypeId();
@@ -29,6 +30,120 @@ public without sharing class Product2TriggerHandler implements Disableable, Befo
       (List<Product2>) newItems.values(),
       (Map<Id, Product2>) oldItems
     );
+  }
+
+  /**
+   * @description call method to insert to OPE Policy & Category and run Store Build Search Index
+   * @param newItems - List of Product2.Trigger.new
+   * @param oldItems - List of Product2.Trigger.old
+   */
+  public void afterUpdate(
+    Map<Id, SObject> newItems,
+    Map<Id, SObject> oldItems
+  ) {
+    includeProductToStore(
+      (List<Product2>) newItems.values(),
+      (Map<Id, Product2>) oldItems
+    );
+  }
+
+  /**
+   * @description method to include Product to Store
+   * @param prod2New - List of Product2.Trigger.new
+   * @param prodOld - List of Product2.Trigger.old
+   */
+  public void includeProductToStore(
+    List<Product2> prod2New,
+    Map<Id, Product2> prodOld
+  ) {
+    // Get Products with Available to Cart updated to true
+    Set<Id> prodIdSet = new Set<Id>();
+    for (Product2 prod : prod2New) {
+      if (
+        prod.Available_on_Cart__c == true &&
+        prodOld.get(prod.Id).Available_on_Cart__c != prod.Available_on_Cart__c
+      ) {
+        prodIdSet.add(prod.Id);
+      }
+    }
+
+    if (prodIdSet.size() > 0) {
+      // Get Catalog & Product Catalog Id
+      ProductCategory prodCategory = [
+        SELECT Id, CatalogId
+        FROM ProductCategory
+        WHERE Name = 'Products'
+        LIMIT 1
+      ];
+
+      // Get Entitlement Policy
+      Id entPolicyId = [
+        SELECT Id
+        FROM CommerceEntitlementPolicy
+        WHERE Name = 'OPE Entitlement'
+        LIMIT 1
+      ]
+      .Id;
+
+      // Get Existing Products on Product Catalog Products
+      Set<Id> prodCategProdIdSet = new Set<Id>();
+      List<ProductCategoryProduct> prodCategProdList = [
+        SELECT ProductId
+        FROM ProductCategoryProduct
+        WHERE
+          CatalogId = :prodCategory.CatalogId
+          AND ProductCategoryId = :prodCategory.Id
+          AND ProductId IN :prodIdSet
+      ];
+      for (ProductCategoryProduct prodCategProd : prodCategProdList) {
+        prodCategProdIdSet.add(prodCategProd.ProductId);
+      }
+
+      // Get Existing Products on Product Catalog Products
+      Set<Id> prodEntPolicyIdSet = new Set<Id>();
+      List<CommerceEntitlementProduct> prodEntPolicyList = [
+        SELECT ProductId
+        FROM CommerceEntitlementProduct
+        WHERE PolicyId = :entPolicyId AND ProductId IN :prodIdSet
+      ];
+      for (CommerceEntitlementProduct prodEntPolicy : prodEntPolicyList) {
+        prodEntPolicyIdSet.add(prodEntPolicy.ProductId);
+      }
+
+      List<ProductCategoryProduct> insertProdCategProdList = new List<ProductCategoryProduct>();
+      List<CommerceEntitlementProduct> insertProdEntPolicyList = new List<CommerceEntitlementProduct>();
+      for (Id prodId : prodIdSet) {
+        // Check if Product Id is not yet configured on Product Category Product
+        if (!prodCategProdIdSet.contains(prodId)) {
+          ProductCategoryProduct prodCategProd = new ProductCategoryProduct();
+          prodCategProd.ProductCategoryId = prodCategory.Id;
+          prodCategProd.ProductId = prodId;
+          insertProdCategProdList.add(prodCategProd);
+        }
+
+        // Check if Product Id is not yet configured on Product Entitlement Policy
+        if (!prodEntPolicyIdSet.contains(prodId)) {
+          CommerceEntitlementProduct prodEntPolicy = new CommerceEntitlementProduct();
+          prodEntPolicy.PolicyId = entPolicyId;
+          prodEntPolicy.ProductId = prodId;
+          insertProdEntPolicyList.add(prodEntPolicy);
+        }
+      }
+
+      // Insert Product Category Produc
+      if (insertProdCategProdList.size() > 0) {
+        insert insertProdCategProdList;
+      }
+
+      // Insert Product Entitlement Policy
+      if (insertProdEntPolicyList.size() > 0) {
+        insert insertProdEntPolicyList;
+      }
+    }
+
+    // Run Build Index
+    B2BStoreSearchIndexHandler handler = new B2BStoreSearchIndexHandler();
+    handler.buildSearchIndex();
   }
 
   /**
@@ -51,6 +166,17 @@ public without sharing class Product2TriggerHandler implements Disableable, Befo
       ) {
         courseIdSet.add(prod.Course__c);
       }
+
+      // Update Available to Cart when condition is true else false
+      if (
+        prod.Ready_for_publishing__c == 'Yes' &&
+        prod.IsActive == true &&
+        prod.Publishing_Start_date__c <= System.now()
+      ) {
+        prod.Available_on_Cart__c = true;
+      } else {
+        prod.Available_on_Cart__c = false;
+      }
     }
 
     if (courseIdSet.size() > 0) {
@@ -68,8 +194,7 @@ public without sharing class Product2TriggerHandler implements Disableable, Befo
               hed__Contact__r.Name,
               hed__Contact__r.Contact_Image__c
             FROM hed__Course_Enrollment__r
-            WHERE RecordTypeId = :FACULTY_RECTYPEID
-            AND IsActive__c = TRUE
+            WHERE RecordTypeId = :FACULTY_RECTYPEID AND IsActive__c = TRUE
           )
         FROM hed__Course_Offering__c
         WHERE IsActive__c = TRUE AND hed__Course__c IN :courseIdSet
