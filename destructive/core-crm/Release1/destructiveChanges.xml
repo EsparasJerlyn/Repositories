@@ -13,11 +13,27 @@
         <members>Send_Email_OPE_Activity_SubmissionTest</members>
         <members>Send_Email_Upon_SC_Design_SubmissionTest</members>
         <!--(End) DEPP 1256 -->
+        <!--(Start) DEPP 2606 -->
+        <members>LightningForgotPasswordController</members>
+        <members>LightningForgotPasswordControllerTest</members>
+        <members>LightningLoginFormController</members>
+        <members>LightningLoginFormControllerTest</members>
+        <members>LightningSelfRegisterController</members>
+        <members>LightningSelfRegisterControllerTest</members>
+        <!--(End) DEPP 2606 -->
         <name>ApexClass</name>
     </types>
     <types>
         <members>PendingRegistrationTrigger</members> <!-- DEPP-1910 -->
         <name>ApexTrigger</name>
+    </types>
+    <types>
+        <!--(Start) DEPP 2606 -->
+        <members>loginForm</members>
+        <members>selfRegister</members>
+        <members>forgotPassword</members>
+        <name>AuraDefinitionBundle</name>
+        <!--(End) DEPP 2606 -->
     </types>
     <types>
         <members>Product_Request__c.Professional_Advantage_Request_Compact_Layout</members>
