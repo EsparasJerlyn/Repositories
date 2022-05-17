@@ -83,13 +83,22 @@
                       let _field = {};
       
                       _field.id = fieldMap.apiName;
-                      _field.label = fieldMap.label;
-                      _field.value = getFieldValue(data, this.generateFieldName(fieldMap.apiName));
-                      _field.statusValue = getFieldValue(data, this.generateFieldName(fieldMap.statusValidationField));
-                      _field.localeField = fieldMap.localeField;
-                      _field.localeValue = getFieldValue(data, this.generateFieldName(fieldMap.localeField));
-                      _field.class = _field.value ? FIELD_CLASS : FIELD_CLASS + MARGIN_TOPXLARGE_CLASS;
-      
+                                      
+                    if(_field.id == "Phone" || _field.id == "MobilePhone" || _field.id == "hed__WorkPhone__c"){
+                        _field.fieldsWithLocaleStatus = getFieldValue(data, this.generateFieldName(fieldMap.statusValidationField));
+                        _field.fieldsWithLocaleLabel = fieldMap.label;
+                        _field.fieldsWithLocaleValue = getFieldValue(data, this.generateFieldName(fieldMap.apiName));
+                        _field.class = _field.value ? FIELD_CLASS : FIELD_CLASS + MARGIN_TOPXLARGE_CLASS;
+                    }
+                    else if (_field.id == "Phone_No_Locale__c" || _field.id == "Mobile_No_Locale__c" || _field.id == "Work_Phone_No_Locale__c"){
+                        _field.fieldsWithNoLocaleStatus = getFieldValue(data, this.generateFieldName(fieldMap.statusValidationField));
+                        _field.localeField = fieldMap.localeField;
+                        _field.localeValue = getFieldValue(data, this.generateFieldName(fieldMap.localeField));
+                        _field.fieldsWithNoLocaleLabel = fieldMap.label;
+                        _field.fieldsWithNoLocaleValue = getFieldValue(data, this.generateFieldName(fieldMap.apiName));
+                        _field.noLocaleId = _field.id;
+                    }
+                            
                       return _field;
                   });
       

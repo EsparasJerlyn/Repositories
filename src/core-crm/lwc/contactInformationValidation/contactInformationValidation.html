@@ -31,18 +31,25 @@
                             </lightning-input-field>
                         </div>
                     </div>
-                    <div class="slds-col slds-size_2-of-5 slds-p-right_medium">
-                        <p class="slds-m-bottom_small gray-text">{fieldItem.label}</p>
-                        <p if:false={disableEditButton} class={fieldItem.class}>{fieldItem.value}</p>
-                        <lightning-input-field 
-                            if:true={disableEditButton} 
-                            variant="label-hidden" 
-                            field-name={fieldItem.id}>
-                        </lightning-input-field>
+                    <div class="slds-col slds-size_2-of-5 slds-p-right_medium relative-position">
+                        <div if:false={disableEditButton}>
+                            <p class="gray-text">{fieldItem.fieldsWithLocaleLabel}</p>
+                            <p class={fieldItem.class}>{fieldItem.fieldsWithLocaleValue}</p>
+                        </div>
+                        <div if:true={disableEditButton}>
+                            <p class="gray-text">{fieldItem.fieldsWithNoLocaleLabel}</p>
+                            <lightning-input-field 
+                                variant="label-hidden" 
+                                field-name={fieldItem.noLocaleId}>
+                            </lightning-input-field>
+                        </div>
                     </div>
                     <div class="slds-col slds-size_1-of-5 relative-position">
-                        <div class="bottom-position">
-                            <p>{fieldItem.statusValue}</p>
+                        <div class="bottom-position" if:false={disableEditButton}>
+                            <p>{fieldItem.fieldsWithLocaleStatus}</p>
+                        </div>
+                        <div class="bottom-position" if:true={disableEditButton}>
+                            <p>{fieldItem.fieldsWithNoLocaleStatus}</p>
                         </div>
                     </div>
                 </div>
