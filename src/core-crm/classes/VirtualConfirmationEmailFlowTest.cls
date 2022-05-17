@@ -96,8 +96,6 @@ private class VirtualConfirmationEmailFlowTest {
       }
       insert courseConnections;
 
-
-
       System.assertEquals(
         1,
         Limits.getEmailInvocations(),

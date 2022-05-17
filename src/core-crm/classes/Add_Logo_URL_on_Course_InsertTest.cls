@@ -33,7 +33,7 @@ private class Add_Logo_URL_on_Course_InsertTest {
             Test.startTest();
             insert course;
             Test.stopTest();
-            
+
             System.assert(
                 [
                     SELECT 

@@ -79,7 +79,7 @@ public with sharing class Prod_Specs_Send_EmailTest {
 
         }
         Test.stopTest();
-        System.assertEquals(0, Limits.getEmailInvocations(), 'Email Invocations is not 0.');
+        System.assertEquals(0, Limits.getEmailInvocations(),'Email invocations is not 0');
     }
 
     @isTest
@@ -144,7 +144,7 @@ public with sharing class Prod_Specs_Send_EmailTest {
 
         }
         Test.stopTest();
-        System.assertEquals(0, Limits.getEmailInvocations(), 'Email Invocations is not equal to 0');
+        System.assertEquals(0, Limits.getEmailInvocations(),'Email invocations is not 0');
     }
    
 }

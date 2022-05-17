@@ -64,7 +64,7 @@
               "buttonText" : "Log in",
               "buttonTextColor" : "",
               "buttonTextHoverColor" : "",
-              "customizableUserProfileMenuEditor" : "Default_User_Profile_Menu1",
+              "customizableUserProfileMenuEditor" : "Default_User_Profile_Menu",
               "menuStyleSettings" : "{\"selectedMenuStyleSetting\":\"iconOnly\",\"selectedIconSetting\":\"companyLogo\",\"includeCompanyName\":true,\"selectedTextOrientationSetting\":\"left\"}"
             },
             "componentName" : "forceCommunity:customizableUserProfileMenu",
@@ -190,7 +190,7 @@
               "buttonText" : "Log in",
               "buttonTextColor" : "",
               "buttonTextHoverColor" : "",
-              "customizableUserProfileMenuEditor" : "Default_User_Profile_Menu1",
+              "customizableUserProfileMenuEditor" : "Default_User_Profile_Menu",
               "menuStyleSettings" : "{\"selectedMenuStyleSetting\":\"iconAndName\",\"selectedIconSetting\":\"userAvatar\",\"includeCompanyName\":false,\"selectedTextOrientationSetting\":\"left\"}"
             },
             "componentName" : "forceCommunity:customizableUserProfileMenu",
@@ -215,7 +215,7 @@
         }, {
           "components" : [ {
             "componentAttributes" : {
-              "NavigationMenuEditorRefresh" : "Default_Navigation1",
+              "NavigationMenuEditorRefresh" : "Default_Navigation",
               "hideAppLauncher" : true,
               "menuAlignment" : "left"
             },

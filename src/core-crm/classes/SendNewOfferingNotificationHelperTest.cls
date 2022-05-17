@@ -27,8 +27,10 @@ public with sharing class SendNewOfferingNotificationHelperTest {
         List<Contact> contacts;
         List<hed__Term__c> terms;
         List<Product_Request__c> prodRequest;
+        List<hed__Course_Offering__c> courseOfferings;
         List<hed__Course__c> courses;
         List<hed__Program_Plan__c> programPlans;
+        List<Program_Offering__c> programOfferings;
         List<Product2> products;
         List<Expression_of_Interest__c> interests;
         Pricebook2 priceBook;
@@ -85,6 +87,7 @@ public with sharing class SendNewOfferingNotificationHelperTest {
     static void sendProgramOfferingAvailabiltyNotificationTest(){
         Test.startTest();
         List<hed__Program_Plan__c> programPlan = [SELECT Id FROM hed__Program_Plan__c LIMIT 1];
+        List<hed__Term__c> term = [SELECT Id FROM hed__Term__c LIMIT 1];
         List<Program_Offering__c> programOfferings = TestDataFactory.createTestProgramOfferingRecords(1,programPlan);
         insert programOfferings;
         Test.stopTest();

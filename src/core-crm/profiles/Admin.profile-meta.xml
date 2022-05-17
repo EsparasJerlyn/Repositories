@@ -309,10 +309,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>EmailHelperTest</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>EmailTemplateSelector</apexClass>
         <enabled>true</enabled>
     </classAccesses>

@@ -286,7 +286,8 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
                     }
                     return _layout;
                 });
-                let loopLimit = this.courseOfferingLayoutItem.leftColumn.length > this.courseOfferingLayoutItem.rightColumn.length?this.courseOfferingLayoutItem.leftColumn.length:this.courseOfferingLayoutItem.rightColumn.length;
+                let loopLimit = this.courseOfferingLayoutItem.leftColumn.length > this.courseOfferingLayoutItem.rightColumn.length?
+                                this.courseOfferingLayoutItem.leftColumn.length:this.courseOfferingLayoutItem.rightColumn.length;
                 for(let i = 0; i < loopLimit; i++){
                     if(this.courseOfferingLayoutItem.leftColumn[i]){
                         this.childOfferingLayout.push(this.courseOfferingLayoutItem.leftColumn[i]);

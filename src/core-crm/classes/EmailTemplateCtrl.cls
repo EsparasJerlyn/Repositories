@@ -113,6 +113,4 @@ public with sharing class EmailTemplateCtrl {
         public List<Map<String,String>> templateMap;
         
     }
- 
-
 }
