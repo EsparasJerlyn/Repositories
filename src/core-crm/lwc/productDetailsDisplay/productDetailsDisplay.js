@@ -222,6 +222,10 @@ export default class ProductDetailsDisplay extends NavigationMixin(
       this.displayAddToCart = true;
       this.displayRegisterInterest = false;
     }
+
+
+
+
   }
 
   /* Load Custom CSS */
@@ -371,10 +375,11 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     } else {
       accordionAriaExpanded.setAttribute("aria-expanded", "true");
       accordionContent.removeAttribute("hidden");
-      accordionIcon.setAttribute(
+      /*accordionIcon.setAttribute(
         "src",
         qutResourceImg + "/QUTImages/Icon/accordionOpen.svg"
-      );
+      );*/
+      
     }
   }
 
@@ -694,5 +699,8 @@ handleBlur(){
       }
       return row;
   });
+
 }
+
+
 }
