@@ -58,7 +58,7 @@
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Learner_MC_persona_Updated</name>
-            <conditionLogic>and</conditionLogic>
+            <conditionLogic>1 AND 2 AND (3 OR 4 OR 5 OR 6)</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.Persona_Type__c</leftValueReference>
                 <operator>EqualTo</operator>
@@ -80,6 +80,27 @@
                     <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>$Record.HasOptedOutOfEmail</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Email_Opt_Out_DateTime__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Email_Opt_In_DateTime__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>Update_Parent_Learner_Email</targetReference>
             </connector>
@@ -92,7 +113,7 @@
         <locationX>182</locationX>
         <locationY>1727</locationY>
         <defaultConnector>
-            <targetReference>Parent_Emails_Updated</targetReference>
+            <targetReference>Parent_Contact_Updated</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -143,7 +164,7 @@
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Staff_MC_Persona_Updated</name>
-            <conditionLogic>and</conditionLogic>
+            <conditionLogic>1 AND 2 AND (3 OR 4 OR 5 OR 6)</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.Persona_Type__c</leftValueReference>
                 <operator>EqualTo</operator>
@@ -160,6 +181,27 @@
             </conditions>
             <conditions>
                 <leftValueReference>$Record.Email</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.HasOptedOutOfEmail</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Email_Opt_Out_DateTime__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Email_Opt_In_DateTime__c</leftValueReference>
                 <operator>IsChanged</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
@@ -225,7 +267,7 @@
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Work_MC_Persona_Updated</name>
-            <conditionLogic>(1 OR 4) AND 2 AND 3</conditionLogic>
+            <conditionLogic>(1 OR 4 OR 5 OR 6) AND 2 AND 3</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.Persona_Type__c</leftValueReference>
                 <operator>EqualTo</operator>
@@ -254,6 +296,20 @@
                     <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>$Record.Email_Opt_Out_DateTime__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Email_Opt_In_DateTime__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>Update_Parent_Contact_Work_Email</targetReference>
             </connector>
@@ -261,8 +317,8 @@
         </rules>
     </decisions>
     <decisions>
-        <name>Parent_Emails_Updated</name>
-        <label>Parent Emails Updated</label>
+        <name>Parent_Contact_Updated</name>
+        <label>Parent Contact Updated</label>
         <locationX>182</locationX>
         <locationY>2063</locationY>
         <defaultConnector>
@@ -270,8 +326,8 @@
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
-            <name>Emails_Updated</name>
-            <conditionLogic>(1 OR 2 OR 3) AND 4 AND 5</conditionLogic>
+            <name>Updated</name>
+            <conditionLogic>(1 OR 2 OR 3 OR 6 OR 7 OR 8 OR 9 OR 10 OR 11 OR 12 OR 13 OR 14) AND 4 AND 5</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.hed__WorkEmail__c</leftValueReference>
                 <operator>IsChanged</operator>
@@ -307,10 +363,73 @@
                     <stringValue>Personal</stringValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>$Record.Work_Email_Opt_Out__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Work_Email_Opt_Out_DateTime__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Work_Email_Opt_In_DateTime__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Learner_Email_Opt_Out__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Learner_Email_Opt_Out_DateTime__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Learner_Email_Opt_In_DateTime__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Staff_Email_Opt_Out__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Staff_Email_Opt_Out_DateTime__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Staff_Email_Opt_In_DateTime__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>Update_Work_MC_Persona</targetReference>
             </connector>
-            <label>Emails Updated</label>
+            <label>Updated</label>
         </rules>
     </decisions>
     <interviewLabel>Contact Parent Child Syncing {!$Flow.CurrentDateTime}</interviewLabel>
@@ -349,9 +468,27 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>Email_Opt_In_DateTime__c</field>
+            <value>
+                <elementReference>$Record.Work_Email_Opt_In_DateTime__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Email_Opt_Out_DateTime__c</field>
+            <value>
+                <elementReference>$Record.Work_Email_Opt_Out_DateTime__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>FirstName</field>
             <value>
                 <elementReference>$Record.FirstName</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>HasOptedOutOfEmail</field>
+            <value>
+                <elementReference>$Record.Work_Email_Opt_Out__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -396,9 +533,27 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>Email_Opt_In_DateTime__c</field>
+            <value>
+                <elementReference>$Record.Learner_Email_Opt_In_DateTime__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Email_Opt_Out_DateTime__c</field>
+            <value>
+                <elementReference>$Record.Learner_Email_Opt_Out_DateTime__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>FirstName</field>
             <value>
                 <elementReference>$Record.FirstName</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>HasOptedOutOfEmail</field>
+            <value>
+                <elementReference>$Record.Learner_Email_Opt_Out__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -434,7 +589,7 @@
         <locationX>50</locationX>
         <locationY>1847</locationY>
         <connector>
-            <targetReference>Parent_Emails_Updated</targetReference>
+            <targetReference>Parent_Contact_Updated</targetReference>
         </connector>
         <inputAssignments>
             <field>Email</field>
@@ -446,6 +601,12 @@
             <field>FirstName</field>
             <value>
                 <elementReference>$Record.FirstName</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>HasOptedOutOfEmail</field>
+            <value>
+                <elementReference>$Record.Staff_Email_Opt_Out__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -470,6 +631,18 @@
             <field>RecordTypeId</field>
             <value>
                 <elementReference>MCPersonaRecordTypeID</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Work_Email_Opt_In_DateTime__c</field>
+            <value>
+                <elementReference>$Record.Staff_Email_Opt_In_DateTime__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Work_Email_Opt_Out_DateTime__c</field>
+            <value>
+                <elementReference>$Record.Staff_Email_Opt_Out_DateTime__c</elementReference>
             </value>
         </inputAssignments>
         <object>Contact</object>
@@ -679,6 +852,24 @@
                 <elementReference>$Record.QUT_Learner_Email__c</elementReference>
             </value>
         </inputAssignments>
+        <inputAssignments>
+            <field>Email_Opt_In_DateTime__c</field>
+            <value>
+                <elementReference>$Record.Learner_Email_Opt_In_DateTime__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Email_Opt_Out_DateTime__c</field>
+            <value>
+                <elementReference>$Record.Learner_Email_Opt_Out_DateTime__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>HasOptedOutOfEmail</field>
+            <value>
+                <elementReference>$Record.Learner_Email_Opt_Out__c</elementReference>
+            </value>
+        </inputAssignments>
         <object>Contact</object>
     </recordUpdates>
     <recordUpdates>
@@ -728,6 +919,24 @@
                 <elementReference>$Record.Parent_Person_Contact__c</elementReference>
             </value>
         </filters>
+        <inputAssignments>
+            <field>Work_Email_Opt_In_DateTime__c</field>
+            <value>
+                <elementReference>$Record.Email_Opt_In_DateTime__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Work_Email_Opt_Out_DateTime__c</field>
+            <value>
+                <elementReference>$Record.Email_Opt_Out_DateTime__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Work_Email_Opt_Out__c</field>
+            <value>
+                <elementReference>$Record.HasOptedOutOfEmail</elementReference>
+            </value>
+        </inputAssignments>
         <inputAssignments>
             <field>hed__WorkEmail__c</field>
             <value>
@@ -792,6 +1001,24 @@
             </value>
         </filters>
         <inputAssignments>
+            <field>Learner_Email_Opt_In_DateTime__c</field>
+            <value>
+                <elementReference>$Record.Email_Opt_In_DateTime__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Learner_Email_Opt_Out_DateTime__c</field>
+            <value>
+                <elementReference>$Record.Email_Opt_Out_DateTime__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Learner_Email_Opt_Out__c</field>
+            <value>
+                <elementReference>$Record.HasOptedOutOfEmail</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>QUT_Learner_Email__c</field>
             <value>
                 <elementReference>$Record.Email</elementReference>
@@ -819,6 +1046,24 @@
             <field>QUT_Staff_Email__c</field>
             <value>
                 <elementReference>$Record.Email</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Staff_Email_Opt_In_DateTime__c</field>
+            <value>
+                <elementReference>$Record.Email_Opt_In_DateTime__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Staff_Email_Opt_Out_DateTime__c</field>
+            <value>
+                <elementReference>$Record.Email_Opt_Out_DateTime__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Staff_Email_Opt_Out__c</field>
+            <value>
+                <elementReference>$Record.HasOptedOutOfEmail</elementReference>
             </value>
         </inputAssignments>
         <object>Contact</object>
@@ -859,6 +1104,24 @@
                 <elementReference>$Record.QUT_Staff_Email__c</elementReference>
             </value>
         </inputAssignments>
+        <inputAssignments>
+            <field>Email_Opt_In_DateTime__c</field>
+            <value>
+                <elementReference>$Record.Staff_Email_Opt_In_DateTime__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Email_Opt_Out_DateTime__c</field>
+            <value>
+                <elementReference>$Record.Staff_Email_Opt_Out_DateTime__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>HasOptedOutOfEmail</field>
+            <value>
+                <elementReference>$Record.Staff_Email_Opt_Out__c</elementReference>
+            </value>
+        </inputAssignments>
         <object>Contact</object>
     </recordUpdates>
     <recordUpdates>
@@ -895,6 +1158,24 @@
             <field>Email</field>
             <value>
                 <elementReference>$Record.hed__WorkEmail__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Email_Opt_In_DateTime__c</field>
+            <value>
+                <elementReference>$Record.Work_Email_Opt_In_DateTime__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Email_Opt_Out_DateTime__c</field>
+            <value>
+                <elementReference>$Record.Work_Email_Opt_Out_DateTime__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>HasOptedOutOfEmail</field>
+            <value>
+                <elementReference>$Record.Work_Email_Opt_Out__c</elementReference>
             </value>
         </inputAssignments>
         <object>Contact</object>

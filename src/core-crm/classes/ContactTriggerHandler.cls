@@ -76,33 +76,42 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
             if(con.RecordTypeId == PERSON){
                 if(!String.isBlank(con.hed__WorkEmail__c)){
                     Contact conWork = new Contact(FirstName = con.FirstName,
-                                                 LastName = con.LastName,
-                                                 RecordtypeId = MC_PERSONA,
-                                                 Email = con.hed__WorkEmail__c,
-                                                 Parent_Person_Contact__c = con.Id,
-                                                 Persona_Type__c = 'Work',
-                                                 OwnerId=sysAdUserId);   
+                                                  LastName = con.LastName,
+                                                  RecordtypeId = MC_PERSONA,
+                                                  Email = con.hed__WorkEmail__c,
+                                                  HasOptedOutOfEmail= con.Work_Email_Opt_Out__c,
+                                                  Email_Opt_Out_DateTime__c = con.Work_Email_Opt_Out_DateTime__c,
+                                                  Email_Opt_In_DateTime__c = con.Work_Email_Opt_In_DateTime__c,
+                                                  Parent_Person_Contact__c = con.Id,
+                                                  Persona_Type__c = 'Work',
+                                                  OwnerId=sysAdUserId);   
                     childContacts.add(conWork);
                 }
                 if(!String.isBlank(con.QUT_Learner_Email__c)){
                     Contact conLearner = new Contact(FirstName = con.FirstName,
-                                                 LastName = con.LastName,
-                                                 RecordtypeId = MC_PERSONA,
-                                                 Email = con.QUT_Learner_Email__c,
-                                                 Parent_Person_Contact__c = con.Id,
-                                                 Persona_Type__c = 'QUT Learner',
-                                                 OwnerId=sysAdUserId);    
+                                                     LastName = con.LastName,
+                                                     RecordtypeId = MC_PERSONA,
+                                                     Email = con.QUT_Learner_Email__c,
+                                                     HasOptedOutOfEmail= con.Learner_Email_Opt_Out__c,
+                                                     Email_Opt_Out_DateTime__c = con.Learner_Email_Opt_Out_DateTime__c,
+                                                     Email_Opt_In_DateTime__c = con.Learner_Email_Opt_In_DateTime__c,
+                                                     Parent_Person_Contact__c = con.Id,
+                                                     Persona_Type__c = 'QUT Learner',
+                                                     OwnerId=sysAdUserId);    
                     childContacts.add(conLearner);
                 }
                 
                 if(!String.isBlank(con.QUT_Staff_Email__c)){
                     Contact conStaff = new Contact(FirstName = con.FirstName,
-                                                 LastName = con.LastName,
-                                                 RecordtypeId = MC_PERSONA,
-                                                 Email = con.QUT_Staff_Email__c,
-                                                 Parent_Person_Contact__c = con.Id,
-                                                 Persona_Type__c = 'QUT Staff',
-                                                 OwnerId=sysAdUserId);    
+                                                   LastName = con.LastName,
+                                                   RecordtypeId = MC_PERSONA,
+                                                   Email = con.QUT_Staff_Email__c,
+                                                   HasOptedOutOfEmail= con.Staff_Email_Opt_Out__c,
+                                                   Email_Opt_Out_DateTime__c = con.Staff_Email_Opt_Out_DateTime__c,
+                                                   Email_Opt_In_DateTime__c = con.Staff_Email_Opt_In_DateTime__c,
+                                                   Parent_Person_Contact__c = con.Id,
+                                                   Persona_Type__c = 'QUT Staff',
+                                                   OwnerId=sysAdUserId);    
                     childContacts.add(conStaff);
                 }
             }
