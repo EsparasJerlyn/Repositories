@@ -107,6 +107,14 @@ public with sharing class ProductCtrlTest {
         courseConnection.RecordTypeId = FACULTY_RECTYPEID;
       }
       insert courseConnections;
+
+      ProductCatalog prodCatalog = new ProductCatalog(Name = 'Study Catalog');
+      insert prodCatalog;
+      ProductCategory prodCateg = new ProductCategory(Name = 'Products',CatalogId = prodCatalog.Id);
+      insert prodCateg;
+      CommerceEntitlementPolicy commEntPolicy = new CommerceEntitlementPolicy(Name = 'OPE Entitlement');
+      insert commEntPolicy;
+
       Test.stopTest();
     }
   }

@@ -89,6 +89,14 @@ public with sharing class PublishingEndDateBatchTest {
 
         List<Product2> products = TestDataFactory.createTestProductRecords(numberOfRecords,courses);
         insert products;
+
+        ProductCatalog prodCatalog = new ProductCatalog(Name = 'Study Catalog');
+        insert prodCatalog;
+        ProductCategory prodCateg = new ProductCategory(Name = 'Products',CatalogId = prodCatalog.Id);
+        insert prodCateg;
+
+        CommerceEntitlementPolicy commEntPolicy = new CommerceEntitlementPolicy(Name = 'OPE Entitlement');
+        insert commEntPolicy;
     }
     
     @IsTest
