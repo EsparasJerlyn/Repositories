@@ -38,6 +38,7 @@ public without sharing class ProductDetailsCtrl {
       SELECT
         Id,
         Name,
+        Description,
         StockKeepingUnit,
         Course__c,
         Program_Plan__c,
@@ -959,7 +960,7 @@ public without sharing class ProductDetailsCtrl {
           for(Program_Offering__c programOffering : programOfferings){
               ProgramOfferingWrapper programOfferingWrapper = new ProgramOfferingWrapper();
               programOfferingWrapper.id = programOffering.Id;
-              programOfferingWrapper.startDate = String.valueOf(programOffering.Start_Date__c);
+              programOfferingWrapper.startDate = Datetime.newInstance(programOffering.Start_Date__c, Time.newInstance(0, 0, 0, 0)).format('dd MMM yyyy');
               programOfferingWrapper.availableSeats = programOffering.Available_Seats__c;
               List<ProgramOfferingWrapper> programOfferingWrapperList = new List<ProgramOfferingWrapper>();
               if(programDeliveryAndOfferingMap.get(programOffering.Delivery_Type__c) != null){
