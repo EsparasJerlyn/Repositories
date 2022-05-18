@@ -4,7 +4,7 @@
         <name>Send_Design_Form_Email</name>
         <label>Send Design Form Email</label>
         <locationX>1942</locationX>
-        <locationY>1430</locationY>
+        <locationY>1766</locationY>
         <actionName>FlowEmailHelper</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -44,7 +44,7 @@
         <name>Activity_For_External</name>
         <label>Activity For External</label>
         <locationX>754</locationX>
-        <locationY>758</locationY>
+        <locationY>1094</locationY>
         <assignmentItems>
             <assignToReference>Record</assignToReference>
             <operator>Assign</operator>
@@ -60,7 +60,7 @@
         <name>Activity_For_Internal</name>
         <label>Activity For Internal</label>
         <locationX>1018</locationX>
-        <locationY>758</locationY>
+        <locationY>1094</locationY>
         <assignmentItems>
             <assignToReference>Record</assignToReference>
             <operator>Assign</operator>
@@ -76,7 +76,7 @@
         <name>Add_Merge_Fields_and_Email</name>
         <label>Add Merge Fields and Email</label>
         <locationX>1942</locationX>
-        <locationY>1310</locationY>
+        <locationY>1646</locationY>
         <assignmentItems>
             <assignToReference>MergeFields</assignToReference>
             <operator>Add</operator>
@@ -91,22 +91,61 @@
                 <elementReference>DesignFormLinkMergeField</elementReference>
             </value>
         </assignmentItems>
+        <connector>
+            <targetReference>Send_Design_Form_Email</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_External_Email_Address_0</name>
+        <label>Assign External Email Address</label>
+        <locationX>3416</locationX>
+        <locationY>398</locationY>
         <assignmentItems>
             <assignToReference>EmailAddresses</assignToReference>
             <operator>Add</operator>
             <value>
-                <elementReference>Get_Product_Request_Record.Product_Specification__r.Requestor_Email__c</elementReference>
+                <elementReference>Get_Product_Request_Record.Product_Specification__r.Requestor_Name__r.Email</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>DisplayEmailAddress</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Product_Request_Record.Product_Specification__r.Requestor_Name__r.Email</elementReference>
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Send_Design_Form_Email</targetReference>
+            <targetReference>Has_Assigned_Requestor</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Internal_Email_Address_0</name>
+        <label>Assign Internal Email Address</label>
+        <locationX>3152</locationX>
+        <locationY>398</locationY>
+        <assignmentItems>
+            <assignToReference>EmailAddresses</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Get_Product_Request_Record.Product_Specification__r.Requestor_Name__r.QUT_Staff_Email__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>DisplayEmailAddress</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Product_Request_Record.Product_Specification__r.Requestor_Name__r.QUT_Staff_Email__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Has_Assigned_Requestor</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_Merge_Fields</name>
         <label>Assign Merge Fields</label>
         <locationX>1942</locationX>
-        <locationY>1190</locationY>
+        <locationY>1526</locationY>
         <assignmentItems>
             <assignToReference>FirstNameMergeField.mergeField</assignToReference>
             <operator>Assign</operator>
@@ -143,7 +182,7 @@
         <name>Module_for_External</name>
         <label>Module for External</label>
         <locationX>1458</locationX>
-        <locationY>758</locationY>
+        <locationY>1094</locationY>
         <assignmentItems>
             <assignToReference>Record</assignToReference>
             <operator>Assign</operator>
@@ -159,7 +198,7 @@
         <name>Module_for_Internal</name>
         <label>Module for Internal</label>
         <locationX>1722</locationX>
-        <locationY>758</locationY>
+        <locationY>1094</locationY>
         <assignmentItems>
             <assignToReference>Record</assignToReference>
             <operator>Assign</operator>
@@ -175,7 +214,7 @@
         <name>Program_for_External</name>
         <label>Program for External</label>
         <locationX>2866</locationX>
-        <locationY>758</locationY>
+        <locationY>1094</locationY>
         <assignmentItems>
             <assignToReference>Record</assignToReference>
             <operator>Assign</operator>
@@ -191,7 +230,7 @@
         <name>Program_for_Internal</name>
         <label>Program for Internal</label>
         <locationX>3130</locationX>
-        <locationY>758</locationY>
+        <locationY>1094</locationY>
         <assignmentItems>
             <assignToReference>Record</assignToReference>
             <operator>Assign</operator>
@@ -207,7 +246,7 @@
         <name>Short_Course_for_External</name>
         <label>Short Course for External</label>
         <locationX>50</locationX>
-        <locationY>758</locationY>
+        <locationY>1094</locationY>
         <assignmentItems>
             <assignToReference>Record</assignToReference>
             <operator>Assign</operator>
@@ -223,7 +262,7 @@
         <name>Short_Course_For_Internal</name>
         <label>Short Course For Internal</label>
         <locationX>314</locationX>
-        <locationY>758</locationY>
+        <locationY>1094</locationY>
         <assignmentItems>
             <assignToReference>Record</assignToReference>
             <operator>Assign</operator>
@@ -239,7 +278,7 @@
         <name>Unit_for_External</name>
         <label>Unit for External</label>
         <locationX>2162</locationX>
-        <locationY>758</locationY>
+        <locationY>1094</locationY>
         <assignmentItems>
             <assignToReference>Record</assignToReference>
             <operator>Assign</operator>
@@ -255,7 +294,7 @@
         <name>Unit_for_Internal</name>
         <label>Unit for Internal</label>
         <locationX>2426</locationX>
-        <locationY>758</locationY>
+        <locationY>1094</locationY>
         <assignmentItems>
             <assignToReference>Record</assignToReference>
             <operator>Assign</operator>
@@ -271,7 +310,7 @@
         <name>Activity_Internal_or_External</name>
         <label>Activity Internal or External</label>
         <locationX>1018</locationX>
-        <locationY>638</locationY>
+        <locationY>974</locationY>
         <defaultConnector>
             <targetReference>Get_Org_Wide_Email_ID</targetReference>
         </defaultConnector>
@@ -311,7 +350,7 @@
         <name>Check_Product_Request_RecordType</name>
         <label>Check Product Request RecordType</label>
         <locationX>1942</locationX>
-        <locationY>518</locationY>
+        <locationY>854</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>is_Short_Course</name>
@@ -393,7 +432,7 @@
         <name>Course_Design_Sent</name>
         <label>Course Design Sent</label>
         <locationX>2074</locationX>
-        <locationY>1790</locationY>
+        <locationY>2126</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Not_Sent</name>
@@ -415,7 +454,7 @@
         <name>Has_Assigned_Requestor</name>
         <label>Has Assigned Requestor</label>
         <locationX>3284</locationX>
-        <locationY>278</locationY>
+        <locationY>614</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Has_Req_Name_Assigned</name>
@@ -481,7 +520,7 @@
         <name>Is_Program_Design_Sent</name>
         <label>Is Program Design Sent</label>
         <locationX>1282</locationX>
-        <locationY>1790</locationY>
+        <locationY>2126</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>No</name>
@@ -500,10 +539,35 @@
         </rules>
     </decisions>
     <decisions>
+        <name>isInternalOrExternal_0</name>
+        <label>isInternalOrExternal</label>
+        <locationX>3284</locationX>
+        <locationY>278</locationY>
+        <defaultConnector>
+            <targetReference>Assign_External_Email_Address_0</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>External Requestor</defaultConnectorLabel>
+        <rules>
+            <name>Internal_Requestor_0</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Product_Request_Record.Product_Specification__r.Requestor_Internal_External__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Internal</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Internal_Email_Address_0</targetReference>
+            </connector>
+            <label>Internal Requestor</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Module_Internal_or_External</name>
         <label>Module Internal or External</label>
         <locationX>1722</locationX>
-        <locationY>638</locationY>
+        <locationY>974</locationY>
         <defaultConnector>
             <targetReference>Get_Org_Wide_Email_ID</targetReference>
         </defaultConnector>
@@ -543,7 +607,7 @@
         <name>Program_Internal_or_External</name>
         <label>Program Internal or External</label>
         <locationX>3130</locationX>
-        <locationY>638</locationY>
+        <locationY>974</locationY>
         <defaultConnector>
             <targetReference>Get_Org_Wide_Email_ID</targetReference>
         </defaultConnector>
@@ -583,7 +647,7 @@
         <name>Short_Course_Internal_or_External</name>
         <label>Short Course Internal or External</label>
         <locationX>314</locationX>
-        <locationY>638</locationY>
+        <locationY>974</locationY>
         <defaultConnector>
             <targetReference>Get_Org_Wide_Email_ID</targetReference>
         </defaultConnector>
@@ -623,7 +687,7 @@
         <name>Unit_Internal_or_External</name>
         <label>Unit Internal or External</label>
         <locationX>2426</locationX>
-        <locationY>638</locationY>
+        <locationY>974</locationY>
         <defaultConnector>
             <targetReference>Get_Org_Wide_Email_ID</targetReference>
         </defaultConnector>
@@ -663,7 +727,7 @@
         <name>Update_what_object</name>
         <label>Update what object</label>
         <locationX>1942</locationX>
-        <locationY>1550</locationY>
+        <locationY>1886</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>For_Program_Plan</name>
@@ -721,7 +785,7 @@
         <name>Get_Course_Record</name>
         <label>Get Course Record</label>
         <locationX>2074</locationX>
-        <locationY>1670</locationY>
+        <locationY>2006</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Course_Design_Sent</targetReference>
@@ -742,7 +806,7 @@
         <name>Get_Org_Wide_Email_ID</name>
         <label>Get Org Wide Email ID</label>
         <locationX>1942</locationX>
-        <locationY>1070</locationY>
+        <locationY>1406</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Assign_Merge_Fields</targetReference>
@@ -766,7 +830,7 @@
         <locationY>158</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Has_Assigned_Requestor</targetReference>
+            <targetReference>isInternalOrExternal_0</targetReference>
         </connector>
         <faultConnector>
             <targetReference>Product_Request_Error</targetReference>
@@ -787,7 +851,7 @@
         <name>Get_Program_Plan_Record</name>
         <label>Get Program Plan Record</label>
         <locationX>1282</locationX>
-        <locationY>1670</locationY>
+        <locationY>2006</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Is_Program_Design_Sent</targetReference>
@@ -808,8 +872,9 @@
         <name>Update_Program_Plan_Design_Form_Status</name>
         <label>Update Program Plan Design Form Status</label>
         <locationX>1018</locationX>
-        <locationY>1910</locationY>
+        <locationY>2246</locationY>
         <faultConnector>
+            <isGoTo>true</isGoTo>
             <targetReference>Update_Design_Error</targetReference>
         </faultConnector>
         <filterLogic>and</filterLogic>
@@ -832,7 +897,7 @@
         <name>Update_Status_to_Design_Form_Sent</name>
         <label>Update Status to Design Form Sent</label>
         <locationX>1810</locationX>
-        <locationY>1910</locationY>
+        <locationY>2246</locationY>
         <faultConnector>
             <targetReference>Update_Design_Error</targetReference>
         </faultConnector>
@@ -856,7 +921,7 @@
         <name>Design_Form_Error</name>
         <label>Design Form Error</label>
         <locationX>3834</locationX>
-        <locationY>1550</locationY>
+        <locationY>1886</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -872,7 +937,7 @@
         <name>Has_No_Requestor</name>
         <label>Has No Requestor</label>
         <locationX>4098</locationX>
-        <locationY>398</locationY>
+        <locationY>734</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -888,7 +953,7 @@
         <name>Mobile_Not_Valid_Error</name>
         <label>Mobile Not Valid Error</label>
         <locationX>4362</locationX>
-        <locationY>398</locationY>
+        <locationY>734</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -920,7 +985,7 @@
         <name>Send_Design_Form_Screen</name>
         <label>Send Design Form Screen</label>
         <locationX>1942</locationX>
-        <locationY>398</locationY>
+        <locationY>734</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -929,7 +994,7 @@
         </connector>
         <fields>
             <name>Requestor_Details</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 16px; background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;Send Design Form to &lt;/span&gt;&lt;b style=&quot;font-size: 16px; background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;{!Get_Product_Request_Record.Product_Specification__r.Requestor_Name__r.FirstName} {!Get_Product_Request_Record.Product_Specification__r.Requestor_Name__r.LastName} &lt;/b&gt;&lt;span style=&quot;font-size: 16px; background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;(&lt;/span&gt;&lt;b style=&quot;font-size: 16px; background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;{!Get_Product_Request_Record.Product_Specification__r.Requestor_Name__r.Email}&lt;/b&gt;&lt;span style=&quot;font-size: 16px; background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;)?&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 16px; background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;Send Design Form to &lt;/span&gt;&lt;b style=&quot;font-size: 16px; background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;{!Get_Product_Request_Record.Product_Specification__r.Requestor_Name__r.FirstName} {!Get_Product_Request_Record.Product_Specification__r.Requestor_Name__r.LastName} &lt;/b&gt;&lt;span style=&quot;font-size: 16px; background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;({!DisplayEmailAddress})?&lt;/span&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
@@ -939,7 +1004,7 @@
         <name>Update_Design_Error</name>
         <label>Update  Design Error</label>
         <locationX>2074</locationX>
-        <locationY>2030</locationY>
+        <locationY>2366</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -983,6 +1048,13 @@
         <name>DesignFormLinkMergeField</name>
         <apexClass>FlowEmailMergeField</apexClass>
         <dataType>Apex</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>DisplayEmailAddress</name>
+        <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>

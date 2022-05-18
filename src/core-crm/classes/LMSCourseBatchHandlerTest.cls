@@ -31,8 +31,8 @@ public class LMSCourseBatchHandlerTest {
     @isTest
     static void testCourseLMSUpdate() 
     {
-        hed__Course__c course = [SELECT Id, Mark_Content_as_Complete__c, Primary_Delivery_Platform__c FROM hed__Course__c LIMIT 1];
-        course.Mark_Content_as_Complete__c = true;
+        hed__Course__c course = [SELECT Id, Mark_Design_Stage_as_Complete__c, Primary_Delivery_Platform__c FROM hed__Course__c LIMIT 1];
+        course.Mark_Design_Stage_as_Complete__c = true;
         course.Primary_Delivery_Platform__c = 'Blackboard';
         update course;
         

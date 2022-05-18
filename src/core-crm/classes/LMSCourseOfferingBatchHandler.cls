@@ -15,7 +15,7 @@ public without sharing class LMSCourseOfferingBatchHandler implements Database.B
 
     public Database.QueryLocator start(Database.BatchableContext param1) {
         return Database.getQueryLocator(
-            'SELECT Id, Course_Code__c, Name, hed__Start_Date__c, hed__End_Date__c, LMS_Integration_Status__c,' +
+            'SELECT Id, Course_Code__c, Name, hed__Start_Date__c, hed__End_Date__c, LMS_Integration_Status__c, hed__Course__r.Name,' +
             ' hed__Course__r.LMS_Integration_Status__c, hed__Course__r.Primary_Delivery_Platform__c, hed__Course__r.Mark_Content_as_Complete__c' +
                         ' FROM hed__Course_Offering__c' +
             ' WHERE LMS_Integration_Status__c = NULL' +

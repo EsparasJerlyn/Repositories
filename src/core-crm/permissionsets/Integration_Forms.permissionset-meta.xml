@@ -1107,6 +1107,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Product_Specification__c.QUT_Staff_Email__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Product_Specification__c.Requestor_Email__c</field>
         <readable>true</readable>
     </fieldPermissions>

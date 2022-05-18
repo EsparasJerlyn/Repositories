@@ -100,6 +100,7 @@ public without sharing class LMSIntegrationManager {
     private class LMSCourseOfferingWrapper {
         private String courseOfferingSFId {get; set;}
         private String courseCode {get; set;}
+        private String courseName {get; set;}
         private String courseOfferingName {get; set;}
         private String startDate {get; set;}
         private String endDate {get; set;}
@@ -109,6 +110,7 @@ public without sharing class LMSIntegrationManager {
             courseOfferingSFId = courseOffering.Id;
             courseOfferingName = courseOffering.Name;
             courseCode = courseOffering.Course_Code__c;
+            courseName = courseOffering.hed__Course__r.Name;
             startDate = courseOffering.hed__Start_Date__c != null ? courseOffering.hed__Start_Date__c.year() + '-' + String.valueOf(courseOffering.hed__Start_Date__c.month()).leftPad(2,'0') + '-' + String.valueOf(courseOffering.hed__Start_Date__c.day()).leftPad(2,'0') : null;
             endDate = courseOffering.hed__End_Date__c!= null ? courseOffering.hed__End_Date__c.year() + '-' + String.valueOf(courseOffering.hed__End_Date__c.month()).leftPad(2,'0') + '-' + String.valueOf(courseOffering.hed__End_Date__c.day()).leftPad(2,'0') : null;
             primaryDeliveryPlatform = courseOffering.hed__Course__r.Primary_Delivery_Platform__c;
@@ -132,8 +134,8 @@ public without sharing class LMSIntegrationManager {
         private String startDate {get; set;}
         private String endDate {get; set;}
         private String QUTIdentityId {get; set;}
-        private String QUTStudentId {get; set;}
-        private String QUTEmployeeId {get; set;}
+        private String QUTstudentId {get; set;}
+        private String QUTemployeeId {get; set;}
         private String primaryDeliveryPlatform {get; set;}
 
         private CourseEnrollmentWrapper(hed__Course_Enrollment__c courseEnrollment) {
@@ -145,8 +147,8 @@ public without sharing class LMSIntegrationManager {
             startDate =   courseEnrollment.Course_Offering_Start_Date__c != null ? courseEnrollment.Course_Offering_Start_Date__c.year() + '-' + String.valueOf(courseEnrollment.Course_Offering_Start_Date__c.month()).leftPad(2,'0') + '-' + String.valueOf(courseEnrollment.Course_Offering_Start_Date__c.day()).leftPad(2,'0') : null;
             endDate =  courseEnrollment.Course_Offering_End_Date__c != null ? courseEnrollment.Course_Offering_End_Date__c.year() + '-' + String.valueOf(courseEnrollment.Course_Offering_End_Date__c.month()).leftPad(2,'0') + '-' + String.valueOf(courseEnrollment.Course_Offering_End_Date__c.day()).leftPad(2,'0') : null;
             QUTIdentityId = courseEnrollment.hed__Contact__r.QUT_Identity_ID__c;
-            QUTStudentId = courseEnrollment.hed__Contact__r.QUT_Student_ID__c;
-            QUTEmployeeId = courseEnrollment.hed__Contact__r.QUT_Employee_ID__c;
+            QUTstudentId = courseEnrollment.hed__Contact__r.QUT_Student_ID__c;
+            QUTemployeeId = courseEnrollment.hed__Contact__r.QUT_Employee_ID__c;
             primaryDeliveryPlatform = courseEnrollment.hed__Course_Offering__r.hed__Course__r.Primary_Delivery_Platform__c;
         }
     }

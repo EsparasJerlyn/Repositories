@@ -3,8 +3,8 @@
     <actionCalls>
         <name>Send_Email_to_QUT</name>
         <label>Send Email to QUT</label>
-        <locationX>50</locationX>
-        <locationY>1055</locationY>
+        <locationX>182</locationX>
+        <locationY>1391</locationY>
         <actionName>FlowEmailHelper</actionName>
         <actionType>apex</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -36,8 +36,8 @@
     <actionCalls>
         <name>Send_Email_to_Requestor</name>
         <label>Send Email to Requestor</label>
-        <locationX>50</locationX>
-        <locationY>935</locationY>
+        <locationX>182</locationX>
+        <locationY>1271</locationY>
         <actionName>FlowEmailHelper</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -73,8 +73,8 @@
     <assignments>
         <name>Add_Merge_Fields_and_Email_Addresses</name>
         <label>Add Merge Fields and Email Addresses</label>
-        <locationX>50</locationX>
-        <locationY>815</locationY>
+        <locationX>182</locationX>
+        <locationY>1151</locationY>
         <assignmentItems>
             <assignToReference>RequestorMergeFields</assignToReference>
             <operator>Add</operator>
@@ -104,13 +104,6 @@
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>RequestorEmailAddresses</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>$Record.Requestor_Email__c</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
             <assignToReference>QUTEmailAddresses</assignToReference>
             <operator>Add</operator>
             <value>
@@ -122,9 +115,41 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Assign_external_requestor_email</name>
+        <label>Assign external requestor email</label>
+        <locationX>314</locationX>
+        <locationY>935</locationY>
+        <assignmentItems>
+            <assignToReference>RequestorEmailAddresses</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.Requestor_Name__r.Email</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Add_Merge_Fields_and_Email_Addresses</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_internal_requestor_email</name>
+        <label>Assign internal requestor email</label>
+        <locationX>50</locationX>
+        <locationY>935</locationY>
+        <assignmentItems>
+            <assignToReference>RequestorEmailAddresses</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.Requestor_Name__r.QUT_Staff_Email__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Add_Merge_Fields_and_Email_Addresses</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Assign_Merge_Fields</name>
         <label>Assign Merge Fields</label>
-        <locationX>50</locationX>
+        <locationX>182</locationX>
         <locationY>695</locationY>
         <assignmentItems>
             <assignToReference>ProductSpecificationNameMergeField.mergeField</assignToReference>
@@ -183,13 +208,13 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Add_Merge_Fields_and_Email_Addresses</targetReference>
+            <targetReference>isInternalOrExternal</targetReference>
         </connector>
     </assignments>
     <decisions>
         <name>Is_Idea_for_Qualification</name>
         <label>Is Idea for Qualification?</label>
-        <locationX>182</locationX>
+        <locationX>380</locationX>
         <locationY>455</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -236,6 +261,31 @@
             <label>Yes</label>
         </rules>
     </decisions>
+    <decisions>
+        <name>isInternalOrExternal</name>
+        <label>isInternalOrExternal</label>
+        <locationX>182</locationX>
+        <locationY>815</locationY>
+        <defaultConnector>
+            <targetReference>Assign_external_requestor_email</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Internal_Requestor</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Requestor_Internal_External__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Internal</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_internal_requestor_email</targetReference>
+            </connector>
+            <label>Internal Requestor</label>
+        </rules>
+    </decisions>
     <description>Flow that sends an email to the requestor and owner if the Product Specification has been updated (indicating that a form has been submitted).</description>
     <formulas>
         <name>IdeaSummary</name>
@@ -271,7 +321,7 @@
     <recordLookups>
         <name>Get_OPE_Record_Type</name>
         <label>Get OPE Record Type</label>
-        <locationX>182</locationX>
+        <locationX>380</locationX>
         <locationY>335</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -292,7 +342,7 @@
     <recordLookups>
         <name>Get_Org_Wide_Email_ID</name>
         <label>Get Org Wide Email ID</label>
-        <locationX>50</locationX>
+        <locationX>182</locationX>
         <locationY>575</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -311,7 +361,7 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <start>
-        <locationX>56</locationX>
+        <locationX>254</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Get_OPE_Record_Type</targetReference>
