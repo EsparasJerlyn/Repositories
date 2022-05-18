@@ -51,9 +51,6 @@ export default class CreateRecordUI extends LightningElement {
     editMode = false;
     isLoading = true;
     isComplete;
-    showPopoverIcon = false;
-    showPopoverDialog = false;
-    popoverErrorMessages = [];
 
     //decides if user has access to this feature
     get hasAccess(){
@@ -138,6 +135,17 @@ export default class CreateRecordUI extends LightningElement {
                 this.uiRecord.sections = this.uiRecord.sections.map(section => {
                     return {
                         ...section,
+                        layoutRows: section.layoutRows.map(row => {
+                            return {
+                                ...row,
+                                layoutItems: row.layoutItems.map(item => {
+                                    return {
+                                        ...item,
+                                        isSysInfoData: item.label == 'Created By' || item.label == 'Last Modified By'
+                                    }
+                                })
+                            }
+                        }),
                         fieldSize: 12/section.columns
                     }
                 });
@@ -158,7 +166,6 @@ export default class CreateRecordUI extends LightningElement {
 
     //enables spinner on save
     handleSubmit(event){
-        this.resetPopover();
         let eventFields = event.detail.fields;
         this.isLoading = true;
         this.isComplete = eventFields.Mark_Design_Stage_as_Complete__c;
@@ -166,7 +173,6 @@ export default class CreateRecordUI extends LightningElement {
 
     //disables spinner and edit mode on success
     handleSuccess(){
-        this.resetPopover();
         this.editMode = false;
         this.isLoading = false;
         
@@ -177,25 +183,12 @@ export default class CreateRecordUI extends LightningElement {
     }
 
     //disables spinner on error
-    handleError(event){
-        this.popoverErrorMessages = [];
-        if( event.detail && event.detail.output && 
-            event.detail.output.errors[0] && 
-            event.detail.output.errors[0] && 
-            event.detail.output.errors[0].errorCode == 'DUPLICATES_DETECTED'){
-            this.popoverErrorMessages.unshift(event.detail.output.errors[0].message);
-        }
-        //for error messages not visible on shown fields
-        if(this.popoverErrorMessages.length > 0){  
-            this.showPopoverIcon = true;
-            this.showPopoverDialog = true;
-        }
+    handleError(){
         this.isLoading = false;
     }
 
     //cancels edit mode
     handleCancel(){
-        this.resetPopover();
         this.editMode = false;
     }
 
@@ -224,28 +217,11 @@ export default class CreateRecordUI extends LightningElement {
 
      //creates toast notification
      generateToast(_title,_message,_variant){
-        this.resetPopover();
         const evt = new ShowToastEvent({
             title: _title,
             message: _message,
             variant: _variant,
         });
         this.dispatchEvent(evt);
-    }
-
-    /**
-     * shows/hides the popover error dialog
-     */
-     handlePopover(){
-        this.showPopoverDialog = this.showPopoverDialog ? false : true;
-    }
-
-    /**
-     * hides popover
-     */
-     resetPopover(){
-        this.showPopoverIcon = false;
-        this.showPopoverDialog = false;
-        this.popoverErrorMessages = [];
     }
 }
