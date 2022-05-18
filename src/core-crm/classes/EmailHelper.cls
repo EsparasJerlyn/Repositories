@@ -18,7 +18,7 @@ public class EmailHelper {
     };
 
     /**
-     * @description sets mergeField tags with values in email body
+    * @description sets mergeField tags with values in email body
     * @param body - body of the email
     * @param params - parameters to be updated with values
     * @return string containing updated email body
@@ -52,17 +52,19 @@ public class EmailHelper {
         List<GenerateImageServerURL.ImageURL> imageURLs = GenerateImageServerURL.generateURL(imageInfos);
 
         String emailHeaderTag = 
+            '<div style="max-width: 640px;text-align: justify;">' +
             '<img alt="' + EMAIL_LETTERHEAD.get('header') + '" title="' + EMAIL_LETTERHEAD.get('header') + '"' +
             'src="' + imageURLs[0].imageUrl + '"/><br /><br />';
         String emailFooterTag = 
             '<br /><br /><img alt="' + EMAIL_LETTERHEAD.get('footer') + '" title="' + EMAIL_LETTERHEAD.get('footer') + '"' +
-            'src="' + imageURLs[1].imageUrl + '"/>';
+            'src="' + imageURLs[1].imageUrl + '"/>' +
+            '</div>';
 
         return emailHeaderTag + emailBody + emailFooterTag;
     }
-    
+
     /**
-     * @description attaches pdf file to email
+    * @description attaches pdf file to email
     * @param fileName - name of the file attachment
     * @param emailHtml - body of the email
     * @param emailContent - parameters to be updated with values
@@ -77,14 +79,14 @@ public class EmailHelper {
         attach.setContentType('application/pdf');
         attach.setFileName(fileName);
         attach.setInline(true);
-       	String body=emailHtml;
+        String body=emailHtml;
         body=setBodyValues(body,emailContent,false);
         attach.Body = Blob.toPDF(body);
         return attach;
     }
-    
+
     /**
-     * @description creates email content
+    * @description creates email content
     * @param email - email address of recipient
     * @param subject - subject of the email
     * @param emailHtml - body of the email
@@ -101,14 +103,14 @@ public class EmailHelper {
         mail.setUseSignature(false);
         mail.setToAddresses(new string[]{email});
         mail.setSubject(subject);
-       	String body=emailHtml;
+        String body=emailHtml;
         body=setBodyValues(body,emailContent,true);
         mail.setHtmlBody(body);
         return mail;
     }
 
-     /**
-     * @description creates email content with org wide email sender
+    /**
+    * @description creates email content with org wide email sender
     * @param emailAddresses - list of email addresses of recipients
     * @param subject - subject of the email
     * @param emailHtml - body of the email
