@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
-        <name>Send_Email_and_PDF_for_Virtual_Final_Confirmation</name>
+        <name>Send_Email_and_PDF_for_Virtual_Final_Confirmation_0</name>
         <label>Send Email and PDF for Virtual Final Confirmation</label>
-        <locationX>264</locationX>
-        <locationY>1116</locationY>
+        <locationX>704</locationX>
+        <locationY>1476</locationY>
         <actionName>VirtualFinalConfirmationEmailCtrl</actionName>
         <actionType>apex</actionType>
         <connector>
-            <targetReference>Loop_Course_Connection</targetReference>
+            <targetReference>Loop_Session</targetReference>
         </connector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
@@ -20,10 +20,26 @@
     </actionCalls>
     <apiVersion>54.0</apiVersion>
     <assignments>
+        <name>Assign</name>
+        <label>Assign</label>
+        <locationX>836</locationX>
+        <locationY>1116</locationY>
+        <assignmentItems>
+            <assignToReference>SessionNumofDays</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>NoOfDays</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Check_No_of_Days_0</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>AssignValuetoEmail</name>
         <label>AssignValuetoEmail</label>
-        <locationX>550</locationX>
-        <locationY>636</locationY>
+        <locationX>680</locationX>
+        <locationY>756</locationY>
         <assignmentItems>
             <assignToReference>LearnerEmail</assignToReference>
             <operator>Assign</operator>
@@ -78,10 +94,10 @@
         </connector>
     </assignments>
     <assignments>
-        <name>setPDFEmailArgs</name>
+        <name>setPDFEmailArgs_0</name>
         <label>setPDFEmailArgs</label>
-        <locationX>264</locationX>
-        <locationY>996</locationY>
+        <locationX>704</locationX>
+        <locationY>1356</locationY>
         <assignmentItems>
             <assignToReference>generatePDFEmailArgs</assignToReference>
             <operator>Add</operator>
@@ -118,14 +134,14 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Send_Email_and_PDF_for_Virtual_Final_Confirmation</targetReference>
+            <targetReference>Send_Email_and_PDF_for_Virtual_Final_Confirmation_0</targetReference>
         </connector>
     </assignments>
     <decisions>
         <name>Check_Final_Confirmation_Email</name>
         <label>Check Final Confirmation Email</label>
-        <locationX>550</locationX>
-        <locationY>756</locationY>
+        <locationX>680</locationX>
+        <locationY>876</locationY>
         <defaultConnector>
             <targetReference>Loop_Course_Connection</targetReference>
         </defaultConnector>
@@ -141,28 +157,28 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Check_No_of_Days</targetReference>
+                <targetReference>Loop_Session</targetReference>
             </connector>
             <label>Yes - Final Confirmation Email is True</label>
         </rules>
     </decisions>
     <decisions>
-        <name>Check_No_of_Days</name>
+        <name>Check_No_of_Days_0</name>
         <label>Check No of Days</label>
-        <locationX>396</locationX>
-        <locationY>876</locationY>
+        <locationX>836</locationX>
+        <locationY>1236</locationY>
         <defaultConnector>
-            <targetReference>Loop_Course_Connection</targetReference>
+            <targetReference>Loop_Session</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>No - No. of Days is equal to Email Days</defaultConnectorLabel>
         <rules>
-            <name>Yes_No_of_Days_is_equal_to_Email_Days</name>
+            <name>Yes_No_of_Days_is_equal_to_Email_Days_0</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Get_Comm_Schedule.EmailHow_many_days_before_session__c</leftValueReference>
+                <leftValueReference>SessionNumofDays</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <elementReference>NoOfDays</elementReference>
+                    <numberValue>1.0</numberValue>
                 </rightValue>
             </conditions>
             <conditions>
@@ -173,7 +189,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>setPDFEmailArgs</targetReference>
+                <targetReference>setPDFEmailArgs_0</targetReference>
             </connector>
             <label>Yes - No. of Days is equal to Email Days</label>
         </rules>
@@ -181,7 +197,7 @@
     <formulas>
         <name>NoOfDays</name>
         <dataType>Number</dataType>
-        <expression>{!Loop_Course_Connection.Course_Offering_Start_Date__c} - today()</expression>
+        <expression>{!Loop_Session.Date__c} - today()</expression>
         <scale>0</scale>
     </formulas>
     <interviewLabel>Virtual Confirmation Email Flow {!$Flow.CurrentDateTime}</interviewLabel>
@@ -196,6 +212,20 @@
         <nextValueConnector>
             <targetReference>Get_Comm_Schedule</targetReference>
         </nextValueConnector>
+    </loops>
+    <loops>
+        <name>Loop_Session</name>
+        <label>Loop Session</label>
+        <locationX>616</locationX>
+        <locationY>996</locationY>
+        <collectionReference>Get_Session</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Assign</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Loop_Course_Connection</targetReference>
+        </noMoreValuesConnector>
     </loops>
     <processMetadataValues>
         <name>BuilderType</name>
@@ -219,11 +249,11 @@
     <recordLookups>
         <name>Get_Comm_Schedule</name>
         <label>Get Comm Schedule</label>
-        <locationX>550</locationX>
+        <locationX>680</locationX>
         <locationY>516</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>AssignValuetoEmail</targetReference>
+            <targetReference>Get_Session</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -270,6 +300,27 @@
         </filters>
         <getFirstRecordOnly>false</getFirstRecordOnly>
         <object>hed__Course_Enrollment__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Session</name>
+        <label>Get Session</label>
+        <locationX>680</locationX>
+        <locationY>636</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>AssignValuetoEmail</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Course_Connection__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Loop_Course_Connection.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Session__c</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <start>
@@ -365,5 +416,13 @@
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>SessionNumofDays</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <scale>0</scale>
     </variables>
 </Flow>
