@@ -133,7 +133,6 @@ public with sharing class ProductCtrlTest {
         for( Product2 product : p){
             productId.add(product.Id);
         }
-        update(p);
 
         Test.startTest();
         ProductCtrl.ProductData getProd =  new ProductCtrl.ProductData();
