@@ -172,7 +172,7 @@ private class Update_Product_from_CourseTest{
             for(Integer i = 0 ; i < courses.size() ; i++){
                 courses[i].ProductRequestID__c = productRequests[i].Id;
                 courses[i].RecordTypeId = opeActivityId;
-                courses[i].Course_Code__c = 'test';
+                courses[i].Course_Code__c = 'test' + i;
                 courses[i].Volume_of_Learning_hours__c = 2;
                 courses[i].Certificate_Type__c = 'Certificate of Achievement';
                 courses[i].Delivery_Type__c = 'Face to Face';

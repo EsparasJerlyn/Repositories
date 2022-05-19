@@ -217,8 +217,9 @@ private class OPE_Design_Complete_FlowTest{
             Date endDate = startDate.addDays(1);
 
             List<hed__Course__c> courses = TestDataFactory.createTestCourseRecords(numberOfRecords, accounts[0].Id, productRequests[0].Id);
+            Integer i = 0;
             for(hed__Course__c course : courses){
-                course.Course_Code__c = 'test';
+                course.Course_Code__c = 'test' + i++;
                 course.Start_Date__c = startDate;
                 course.End_Date__c = endDate;
                 course.Volume_of_Learning_hours__c = 2;
