@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Coach_Type_is_required</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND (
+  OR(
+   RecordType.DeveloperName = &apos;Individual_Coaching&apos;
+  ), 
+ ISPICKVAL( ProductRequestID__r.Product_Request_Status__c , &apos;Design&apos;),
+ ISBLANK( TEXT( Coach_Type__c )),
+ Mark_Design_Stage_as_Complete__c = true
+)</errorConditionFormula>
+    <errorDisplayField>Coach_Type__c</errorDisplayField>
+    <errorMessage>“Coach Type” is required to update the Product Request Status.</errorMessage>
+</ValidationRule>

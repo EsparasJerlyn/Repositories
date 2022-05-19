@@ -38,6 +38,13 @@
                     <stringValue>Unit</stringValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Individual_Coaching</stringValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>Create_Product_Record</targetReference>
             </connector>

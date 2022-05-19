@@ -3,7 +3,7 @@
     <actionCalls>
         <name>Send_Design_Form_Email</name>
         <label>Send Design Form Email</label>
-        <locationX>1942</locationX>
+        <locationX>2294</locationX>
         <locationY>1766</locationY>
         <actionName>FlowEmailHelper</actionName>
         <actionType>apex</actionType>
@@ -75,7 +75,7 @@
     <assignments>
         <name>Add_Merge_Fields_and_Email</name>
         <label>Add Merge Fields and Email</label>
-        <locationX>1942</locationX>
+        <locationX>2294</locationX>
         <locationY>1646</locationY>
         <assignmentItems>
             <assignToReference>MergeFields</assignToReference>
@@ -98,7 +98,7 @@
     <assignments>
         <name>Assign_External_Email_Address_0</name>
         <label>Assign External Email Address</label>
-        <locationX>3416</locationX>
+        <locationX>3944</locationX>
         <locationY>398</locationY>
         <assignmentItems>
             <assignToReference>EmailAddresses</assignToReference>
@@ -121,7 +121,7 @@
     <assignments>
         <name>Assign_Internal_Email_Address_0</name>
         <label>Assign Internal Email Address</label>
-        <locationX>3152</locationX>
+        <locationX>3680</locationX>
         <locationY>398</locationY>
         <assignmentItems>
             <assignToReference>EmailAddresses</assignToReference>
@@ -144,7 +144,7 @@
     <assignments>
         <name>Assign_Merge_Fields</name>
         <label>Assign Merge Fields</label>
-        <locationX>1942</locationX>
+        <locationX>2294</locationX>
         <locationY>1526</locationY>
         <assignmentItems>
             <assignToReference>FirstNameMergeField.mergeField</assignToReference>
@@ -176,6 +176,38 @@
         </assignmentItems>
         <connector>
             <targetReference>Add_Merge_Fields_and_Email</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Get_External_FA_Link</name>
+        <label>Get External FA Link</label>
+        <locationX>3834</locationX>
+        <locationY>1094</locationY>
+        <assignmentItems>
+            <assignToReference>Record</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>{!$Setup.Individual_Coaching_Form_Link__c.External_URL__c}?id={!recordId}</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Get_Org_Wide_Email_ID</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Get_Internal_FA_Link</name>
+        <label>Get Internal FA Link</label>
+        <locationX>3570</locationX>
+        <locationY>1094</locationY>
+        <assignmentItems>
+            <assignToReference>Record</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>{!$Setup.Individual_Coaching_Form_Link__c.Internal_URL__c}?id={!recordId}</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Get_Org_Wide_Email_ID</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -349,7 +381,7 @@
     <decisions>
         <name>Check_Product_Request_RecordType</name>
         <label>Check Product Request RecordType</label>
-        <locationX>1942</locationX>
+        <locationX>2294</locationX>
         <locationY>854</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -427,11 +459,26 @@
             </connector>
             <label>is Program plan</label>
         </rules>
+        <rules>
+            <name>is_Individual_Coaching</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Product_Request_Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Individual_Coaching</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Individual_Coaching_Internal_or_External</targetReference>
+            </connector>
+            <label>is Individual Coaching</label>
+        </rules>
     </decisions>
     <decisions>
         <name>Course_Design_Sent</name>
         <label>Course Design Sent</label>
-        <locationX>2074</locationX>
+        <locationX>2426</locationX>
         <locationY>2126</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -453,7 +500,7 @@
     <decisions>
         <name>Has_Assigned_Requestor</name>
         <label>Has Assigned Requestor</label>
-        <locationX>3284</locationX>
+        <locationX>3812</locationX>
         <locationY>614</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -517,9 +564,49 @@
         </rules>
     </decisions>
     <decisions>
+        <name>Individual_Coaching_Internal_or_External</name>
+        <label>Individual Coaching Internal or External</label>
+        <locationX>3834</locationX>
+        <locationY>974</locationY>
+        <defaultConnector>
+            <targetReference>Get_Org_Wide_Email_ID</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Internal</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Product_Request_Record.Product_Specification__r.Requestor_Internal_External__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Internal</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Internal_FA_Link</targetReference>
+            </connector>
+            <label>Internal</label>
+        </rules>
+        <rules>
+            <name>External</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Product_Request_Record.Product_Specification__r.Requestor_Internal_External__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>External</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_External_FA_Link</targetReference>
+            </connector>
+            <label>External</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Is_Program_Design_Sent</name>
         <label>Is Program Design Sent</label>
-        <locationX>1282</locationX>
+        <locationX>1634</locationX>
         <locationY>2126</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -541,7 +628,7 @@
     <decisions>
         <name>isInternalOrExternal_0</name>
         <label>isInternalOrExternal</label>
-        <locationX>3284</locationX>
+        <locationX>3812</locationX>
         <locationY>278</locationY>
         <defaultConnector>
             <targetReference>Assign_External_Email_Address_0</targetReference>
@@ -726,7 +813,7 @@
     <decisions>
         <name>Update_what_object</name>
         <label>Update what object</label>
-        <locationX>1942</locationX>
+        <locationX>2294</locationX>
         <locationY>1886</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -784,7 +871,7 @@
     <recordLookups>
         <name>Get_Course_Record</name>
         <label>Get Course Record</label>
-        <locationX>2074</locationX>
+        <locationX>2426</locationX>
         <locationY>2006</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -805,7 +892,7 @@
     <recordLookups>
         <name>Get_Org_Wide_Email_ID</name>
         <label>Get Org Wide Email ID</label>
-        <locationX>1942</locationX>
+        <locationX>2294</locationX>
         <locationY>1406</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -826,7 +913,7 @@
     <recordLookups>
         <name>Get_Product_Request_Record</name>
         <label>Get Product Request Record</label>
-        <locationX>3284</locationX>
+        <locationX>3812</locationX>
         <locationY>158</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -850,7 +937,7 @@
     <recordLookups>
         <name>Get_Program_Plan_Record</name>
         <label>Get Program Plan Record</label>
-        <locationX>1282</locationX>
+        <locationX>1634</locationX>
         <locationY>2006</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -871,7 +958,7 @@
     <recordUpdates>
         <name>Update_Program_Plan_Design_Form_Status</name>
         <label>Update Program Plan Design Form Status</label>
-        <locationX>1018</locationX>
+        <locationX>1370</locationX>
         <locationY>2246</locationY>
         <faultConnector>
             <isGoTo>true</isGoTo>
@@ -896,7 +983,7 @@
     <recordUpdates>
         <name>Update_Status_to_Design_Form_Sent</name>
         <label>Update Status to Design Form Sent</label>
-        <locationX>1810</locationX>
+        <locationX>2162</locationX>
         <locationY>2246</locationY>
         <faultConnector>
             <targetReference>Update_Design_Error</targetReference>
@@ -920,7 +1007,7 @@
     <screens>
         <name>Design_Form_Error</name>
         <label>Design Form Error</label>
-        <locationX>3834</locationX>
+        <locationX>4538</locationX>
         <locationY>1886</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
@@ -936,7 +1023,7 @@
     <screens>
         <name>Has_No_Requestor</name>
         <label>Has No Requestor</label>
-        <locationX>4098</locationX>
+        <locationX>4802</locationX>
         <locationY>734</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -952,7 +1039,7 @@
     <screens>
         <name>Mobile_Not_Valid_Error</name>
         <label>Mobile Not Valid Error</label>
-        <locationX>4362</locationX>
+        <locationX>5066</locationX>
         <locationY>734</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
@@ -968,7 +1055,7 @@
     <screens>
         <name>Product_Request_Error</name>
         <label>Product Request Error</label>
-        <locationX>4890</locationX>
+        <locationX>5594</locationX>
         <locationY>278</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
@@ -984,7 +1071,7 @@
     <screens>
         <name>Send_Design_Form_Screen</name>
         <label>Send Design Form Screen</label>
-        <locationX>1942</locationX>
+        <locationX>2294</locationX>
         <locationY>734</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
@@ -1003,7 +1090,7 @@
     <screens>
         <name>Update_Design_Error</name>
         <label>Update  Design Error</label>
-        <locationX>2074</locationX>
+        <locationX>2426</locationX>
         <locationY>2366</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
@@ -1017,7 +1104,7 @@
         <showHeader>true</showHeader>
     </screens>
     <start>
-        <locationX>3158</locationX>
+        <locationX>3686</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Get_Product_Request_Record</targetReference>

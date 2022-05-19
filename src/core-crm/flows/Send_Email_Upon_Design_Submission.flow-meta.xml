@@ -3,7 +3,7 @@
     <actionCalls>
         <name>Send_Email_to_QUTeX</name>
         <label>Send Email to QUTeX</label>
-        <locationX>446</locationX>
+        <locationX>578</locationX>
         <locationY>1151</locationY>
         <actionName>FlowEmailHelper</actionName>
         <actionType>apex</actionType>
@@ -37,7 +37,7 @@
     <assignments>
         <name>Add_Merge_Fields_and_Email_Addresses</name>
         <label>Add Merge Fields and Email Addresses</label>
-        <locationX>446</locationX>
+        <locationX>578</locationX>
         <locationY>1031</locationY>
         <assignmentItems>
             <assignToReference>MergeFields</assignToReference>
@@ -79,6 +79,22 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Assign_Course_Name</name>
+        <label>Assign Course Name</label>
+        <locationX>842</locationX>
+        <locationY>815</locationY>
+        <assignmentItems>
+            <assignToReference>CourseNameOrProposalTitleMergeField.mergeFieldValue</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Name</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Add_Merge_Fields_and_Email_Addresses</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Assign_Course_Name_Merge_Field</name>
         <label>Assign Course Name Merge Field</label>
         <locationX>50</locationX>
@@ -97,7 +113,7 @@
     <assignments>
         <name>Assign_Merge_Fields</name>
         <label>Assign Merge Fields</label>
-        <locationX>446</locationX>
+        <locationX>578</locationX>
         <locationY>575</locationY>
         <assignmentItems>
             <assignToReference>UserNameMergeField.mergeField</assignToReference>
@@ -155,7 +171,7 @@
     <assignments>
         <name>Assign_Proposal_Title_Merge_Field</name>
         <label>Assign Proposal Title Merge Field</label>
-        <locationX>314</locationX>
+        <locationX>578</locationX>
         <locationY>815</locationY>
         <assignmentItems>
             <assignToReference>CourseNameOrProposalTitleMergeField.mergeFieldValue</assignToReference>
@@ -171,7 +187,7 @@
     <decisions>
         <name>Is_Activity_Record</name>
         <label>Is Activity Record</label>
-        <locationX>446</locationX>
+        <locationX>578</locationX>
         <locationY>695</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -214,6 +230,7 @@
                 </rightValue>
             </conditions>
             <connector>
+                <isGoTo>true</isGoTo>
                 <targetReference>Assign_Proposal_Title_Merge_Field</targetReference>
             </connector>
             <label>Short Course Record</label>
@@ -239,6 +256,28 @@
                 <targetReference>Assign_Proposal_Title_Merge_Field</targetReference>
             </connector>
             <label>Module Record</label>
+        </rules>
+        <rules>
+            <name>Individual_Coaching_Record</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Design_Form_Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Design Form Received</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Individual_Coaching</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Course_Name</targetReference>
+            </connector>
+            <label>Individual Coaching Record</label>
         </rules>
     </decisions>
     <formulas>
@@ -275,7 +314,7 @@
     <recordLookups>
         <name>Get_Org_Wide_Email_Id</name>
         <label>Get Org Wide Email Id</label>
-        <locationX>446</locationX>
+        <locationX>578</locationX>
         <locationY>455</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -296,7 +335,7 @@
     <recordLookups>
         <name>Get_User_Name</name>
         <label>Get User Name</label>
-        <locationX>446</locationX>
+        <locationX>578</locationX>
         <locationY>335</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -317,7 +356,7 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <start>
-        <locationX>320</locationX>
+        <locationX>452</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Get_User_Name</targetReference>

@@ -1600,6 +1600,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>hed__Course__c.Coach_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>    
+    <fieldPermissions>
+        <editable>true</editable>
         <field>hed__Course__c.Department_Left_Indented__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1616,6 +1621,21 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course__c.Left_Signature__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Course__c.No_Hours_Per_Session__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Course__c.No_Of_Coaching_Sessions__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Course__c.Outcomev2__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1646,6 +1666,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course__c.Partner_Logo__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Course__c.Timeline__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Course__c.Type_of_Individual_Coaching__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4984,6 +5014,10 @@
     <layoutAssignments>
         <layout>hed__Course__c-OPE Unit Page Layout</layout>
         <recordType>hed__Course__c.Unit</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course__c-CCE Individual Coaching Layout</layout>
+        <recordType>hed__Course__c.Individual_Coaching</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>hed__Program_Plan__c-OPE Program Request Page Layout</layout>
