@@ -228,7 +228,7 @@ public without sharing class ProductDetailsCtrl {
         childProdWrapperList.add(childProductWrapper);
       }
     }
-
+    
     // Set values to wrapper
     prodDetailsData.productOnPage = productOnPage;
     prodDetailsData.pricebookWrapperList = pbEntryWrapperList;
@@ -928,12 +928,12 @@ public without sharing class ProductDetailsCtrl {
               moduleWrapper.name = courseProduct.Name;
               moduleWrapper.duration = courseProduct.Duration__c;
               moduleWrapper.overview = courseProduct.Overview__c;
-              moduleWrapper.professionalLevel = courseProduct.Professional_Level__c;
-              moduleWrapper.evolveWithQUTeX = courseProduct.Evolve_with_QUTeX__c;
-              moduleWrapper.whoShouldParticipate = courseProduct.Who_Should_Participate__c;
-              moduleWrapper.coreConcepts = courseProduct.Core_Concepts__c;
+              moduleWrapper.professionalLevel = courseProduct.Professional_Level__c;      
+              moduleWrapper.evolveWithQUTeX = courseProduct.Evolve_with_QUTeX__c;        
+              moduleWrapper.whoShouldParticipate = courseProduct.Who_Should_Participate__c;        
+              moduleWrapper.coreConcepts = courseProduct.Core_Concepts__c; 
               moduleWrapper.sequence = coursesInPlanRequirements.get(courseProduct.Course__c);
-              moduleWrapper.moreDetails = courseProduct.More_Details__c;
+              moduleWrapper.moreDetails = courseProduct.More_Details__c; 
               modules.add(moduleWrapper);
           }
           System.debug('modules: '+modules);
@@ -968,9 +968,9 @@ public without sharing class ProductDetailsCtrl {
               }
               programOfferingWrapperList.add(programOfferingWrapper);
               programDeliveryAndOfferingMap.put(programOffering.Delivery_Type__c, programOfferingWrapperList);
-          }
+          }    
           System.debug('programDeliveryAndOfferingMap: '+programDeliveryAndOfferingMap);
-          return programDeliveryAndOfferingMap;
+          return programDeliveryAndOfferingMap;            
       } catch (Exception e) {
           system.debug(e);
           system.debug('Error on ProductDetailsCtrl.getProgramOfferings');
@@ -992,18 +992,18 @@ public without sharing class ProductDetailsCtrl {
     @AuraEnabled
     public String overview { get; set; }
     @AuraEnabled
-    public String professionalLevel { get; set; }
+    public String professionalLevel { get; set; }   
     @AuraEnabled
-    public Decimal sequence { get; set; }
+    public Decimal sequence { get; set; }   
     @AuraEnabled
-    public String evolveWithQUTeX { get; set; }
+    public String evolveWithQUTeX { get; set; }   
     @AuraEnabled
-    public String whoShouldParticipate { get; set; }
+    public String whoShouldParticipate { get; set; }   
     @AuraEnabled
-    public String coreConcepts { get; set; }
+    public String coreConcepts { get; set; }   
     @AuraEnabled
-    public String moreDetails { get; set; }
-
+    public String moreDetails { get; set; }    
+    
   }
 
   public class ProgramOfferingWrapper{
@@ -1012,12 +1012,82 @@ public without sharing class ProductDetailsCtrl {
     @AuraEnabled
     public String startDate { get; set; }
     @AuraEnabled
-    public Decimal availableSeats { get; set; }
+    public Decimal availableSeats { get; set; }       
     @AuraEnabled
     public String label { get; set; }
     @AuraEnabled
     public String value { get; set; }
     @AuraEnabled
-    public String meta { get; set; }
+    public String meta { get; set; }     
   }
+
+    @AuraEnabled(cacheable=true)
+    public static Map<String, Object> getProductDataRelatedToProductRequest(String productRequestId){
+        System.debug('productRequestId: '+productRequestId);
+        Map<String, Object> returnMap = new Map<String, Object>();
+        String productType = '';
+        Id productId;
+        List<Product2> products;
+        ProductDetailsData prodDetailsData;
+        List<hed__Program_Plan__c> programPlans = [Select Id, Name, Product_Request__c, Program_Delivery_Structure__c From hed__Program_Plan__c Where Product_Request__c = :productRequestId];
+        if(programPlans.size()>0){
+            System.debug('Product is a program');
+            products = [Select Id, Name, Program_Plan__c, Program_Plan__r.Program_Delivery_Structure__c From Product2 Where Program_Plan__c = : programPlans[0].Id];
+            if(products.size()>0){
+              if(programPlans[0].Program_Delivery_Structure__c == 'Prescribed Program'){
+                  productType = 'Prescribed Program';
+                  //Call getProductRelatedRecords(productId);
+                  prodDetailsData = getProductRelatedRecords(products[0].Id);
+                  System.debug('prodDetailsData: '+prodDetailsData);
+                  returnMap.put('product', prodDetailsData);
+              } else if(programPlans[0].Program_Delivery_Structure__c == 'Flexible Program'){
+                  productType = 'Flexible Program';
+                  //Call getProductRelatedRecords(productId);
+                  System.debug('productId: '+productId);            
+                  prodDetailsData = getProductRelatedRecords(products[0].Id);
+                  System.debug('prodDetailsData: '+prodDetailsData);
+                  returnMap.put('product', prodDetailsData);
+              }
+          }
+        } else{
+            System.debug('Product is a Course');
+            List<hed__Course__c> courses = [Select Id, Name, ProductRequestID__c, ProductRequestID__r.Child_of_Prescribed_Program__c From hed__Course__c Where ProductRequestID__c = :productRequestId];
+            if(courses.size()>0){
+                products = [Select Id, Name From Product2 Where Course__c = : courses[0].Id];
+                productId = products[0].Id;
+                if(courses[0].ProductRequestID__r.Child_of_Prescribed_Program__c == true){
+                    productType = 'Prescribed Program Module';
+                    List<hed__Plan_Requirement__c > programPlanRequirements = [Select Id, hed__Course__c, hed__Sequence__c, hed__Program_Plan__c
+                                                                               From hed__Plan_Requirement__c
+                                                                               Where hed__Course__c = :courses[0].Id];
+                    Id programPlanId = programPlanRequirements[0].hed__Program_Plan__c;
+                    Id parentProductId = [Select Id From Product2 Where Program_Plan__c = : programPlanId].Id;
+                    System.debug('parentProductId: '+parentProductId);
+                    //Call getProductRelatedRecords(productId);
+                    prodDetailsData = getProductRelatedRecords(parentProductId);
+                    List<ModuleWrapper> modules = prodDetailsData.moduleWrapperList;
+                     System.debug('modules: '+modules);
+                    for(ModuleWrapper module : modules){
+                         System.debug('module: '+module);
+                        if(module.id == productId){
+                            returnMap.put('product', module);
+                            break;
+                        }
+                    }
+                    System.debug('prodDetailsData: '+prodDetailsData);
+                	  returnMap.put('parent', prodDetailsData);
+                } else {
+                    productType = 'Single Product';
+                    //Call getProductRelatedRecords(productId);
+                    prodDetailsData = getProductRelatedRecords(productId);
+                    System.debug('prodDetailsData: '+prodDetailsData);
+                	  returnMap.put('product', prodDetailsData);
+                }                
+            }          
+        }
+        returnMap.put('productType', productType);
+        returnMap.put('productId', productId	);
+        System.debug('returnMap: '+returnMap);
+        return returnMap;
+    }
 }

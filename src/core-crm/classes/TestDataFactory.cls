@@ -263,6 +263,30 @@ public class TestDataFactory {
     return courses;
   }
 
+    public static hed__Course__c createTestCourseRecords(Map<String, String> courseFields) {
+      hed__Course__c course = new hed__Course__c(
+          Name = courseFields.get('Name'),
+          ProductRequestID__c = courseFields.get('ProductRequestID__c'),
+          hed__Account__c =  courseFields.get('hed__Account__c'),
+          Delivery_Type__c = 'Face to Face',
+          Location_Details__c = 'test',
+          Description__c = 'test',
+          Certificate_Type__c = 'Certificate of Achievement',
+          Collaboration_with_External_Organisation__c = 'Yes',
+          External_Organisation__c = 'test',
+          Content__c = 'test',
+          Resource_Details__c = 'test',
+          Minimum_Participants__c = 1,
+          Maximum_Participants__c = 100,
+          Delivery_Support_v2__c = 'Others',
+          Delivery_Comments__c = 'test',
+          Core_Conceptsv2__c = 'test',
+          Overviewv2__c = 'test',
+          Owning_Faculty__c =  courseFields.get('Owning_Faculty__c')
+      );
+      return course;
+    }
+
   /**
    * @description Method for creating test User records
    * @param numUsers - number of Users to be created
@@ -788,6 +812,19 @@ public class TestDataFactory {
     }
     return programOfferingRecord;
   }
+
+    public static Program_Offering__c createTestProgramOfferingRecords(Map<String, String> programOfferingFields) {
+      Program_Offering__c programOfferingRecord = new Program_Offering__c(
+          Name = programOfferingFields.get('Name'),
+          hed_Program_Plan__c = programOfferingFields.get('hed_Program_Plan__c'),
+          hed_Capacity__c = 30,
+          Start_Date__c = system.today() + 1,
+          Registration_Start_Date__c = system.today() + 1,
+          IsActive__c = true,
+          Visible_on_Website__c = true
+      );
+      return programOfferingRecord;
+    }
 
   /**
    * @description Method for creating test Product Ledger records

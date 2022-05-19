@@ -12,7 +12,7 @@ import addToCart from "@salesforce/label/c.QUT_ProductDetail_AddToCart";
 
 export default class PrescribedProgram extends LightningElement {
     @api product;
-
+    @api isInternalUser;
     productDetails;
     programModules;
     priceBookEntries;
@@ -22,7 +22,7 @@ export default class PrescribedProgram extends LightningElement {
     showProgramModules;
     showProgramModulesList;
     showLocation;
-
+    
     deliveryTypeAndStartDates = {};
     @api availableDeliveryTypes = [];
     @api selectedDeliveryType;
@@ -152,15 +152,17 @@ export default class PrescribedProgram extends LightningElement {
 
     handlePricingSelected(event) {
         this.selectedPricing = event.detail.value;
-        this.disableAddToCart = false;
+        if(this.isInternalUser == true){
+            this.disableAddToCart = true;
+        } else{
+            this.disableAddToCart = false;            
+        }
         this.priceBookEntries.forEach((pBookEntry) => {
-            if (
-                pBookEntry.value === this.selectedPricing &&
-                pBookEntry.label == "Group Booking"
-            ) {
-                this.disableAddToCart = true;
+            if (pBookEntry.value === this.selectedPricing &&
+                pBookEntry.label == "Group Booking" ) {                    
+                this.displayAddToCart = false;
             } else {
-                this.disableAddToCart = false;
+                this.displayAddToCart = true;
             }
         });
     }

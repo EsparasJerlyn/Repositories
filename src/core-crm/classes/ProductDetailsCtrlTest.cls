@@ -660,4 +660,49 @@ private class ProductDetailsCtrlTest {
       insert mewRelatedAnswer;
     }
   }
+
+    @isTest
+    static void testGetProductDataRelatedToProductRequestForPrescribedProgram() {
+        Id accountId = [Select Id From Account LIMIT 1].Id;
+        User currUsr = [SELECT Id FROM User WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com' LIMIT 1 ];
+        Product_Request__c produtRequestForProgramPlan = new Product_Request__c(Product_Request_Status__c = 'Define', Product_Request_Name__c = 'Product Request_T01', Child_of_Prescribed_Program__c = false);
+        insert produtRequestForProgramPlan;
+        Product_Request__c produtRequestForModule = new Product_Request__c(Product_Request_Status__c = 'Define', Product_Request_Name__c = 'Product Request_T02', Child_of_Prescribed_Program__c = true);
+        insert produtRequestForModule;
+                
+        hed__Program_Plan__c programPlan = new hed__Program_Plan__c(Name = 'Program Plan_Test 1', Program_Delivery_Structure__c = 'Prescribed Program', Product_Request__c = produtRequestForProgramPlan.Id);
+        insert programPlan;
+        
+        Map<String, String> courseFields = new Map<String, String>();
+        courseFields.put('Name', 'Program Plan_T01');
+       	courseFields.put('ProductRequestID__c', produtRequestForModule.Id);
+        courseFields.put('hed__Account__c', accountId);
+        courseFields.put('Owning_Faculty__c', accountId);
+        hed__Course__c course = TestDataFactory.createTestCourseRecords(courseFields);
+        insert course;
+        
+        hed__Plan_Requirement__c planRequirement  = new hed__Plan_Requirement__c(hed__Course__c=course.Id, hed__Program_Plan__c=programPlan.Id, hed__Sequence__c=1);
+        insert planRequirement;
+        
+        Map<String, String> programOfferingFields = new Map<String, String>();
+        programOfferingFields.put('Name', 'Program Offering_T01');
+        programOfferingFields.put('hed_Program_Plan__c', programPlan.Id);
+        Program_Offering__c programOffering = TestDataFactory.createTestProgramOfferingRecords(programOfferingFields);
+        insert programOffering;
+        
+        System.runAs(currUsr) {
+            Test.startTest();
+            Map<String, Object> returnMap = ProductDetailsCtrl.getProductDataRelatedToProductRequest(produtRequestForProgramPlan.Id);
+            System.assert( returnMap != null, 'Successfully retrieved data related to Product Request');
+            System.assert( returnMap.get('productType') == 'Prescribed Program', 'Successfully retrieved data related to Product Request');
+            System.debug('returnMap1: '+returnMap);
+            System.debug('returnMap1: '+returnMap.get('productType'));
+            returnMap = ProductDetailsCtrl.getProductDataRelatedToProductRequest(produtRequestForModule.Id);
+            System.assert( returnMap != null, 'Successfully retrieved data related to Product Request');
+            System.debug('returnMap2: '+returnMap);
+            System.debug('returnMap2: '+returnMap.get('productType'));
+            System.assert( returnMap.get('productType') == 'Prescribed Program Module', 'Successfully retrieved data related to Product Request');
+            Test.stopTest();
+        }
+    }
 }

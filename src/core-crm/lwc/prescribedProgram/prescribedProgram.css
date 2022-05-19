@@ -1,19 +1,20 @@
+@import 'c/cssLibrary';
 :host {
     display: flex;
     flex-direction: column;
     align-items: stretch;
-  }
-  
-  .header {
+}
+
+.header {
     background: none;
     font-family: "ProximaNova-Bold";
     font-style: normal;
     font-size: 66px;
     line-height: 69px;
     color: #0066b9;
-  }
-  
-  .subHeader {
+}
+
+.subHeader {
     background: none;
     font-family: "ProximaNova-Bold";
     font-style: normal;
@@ -21,106 +22,104 @@
     line-height: 21px;
     color: #1c1c1c;
     margin-bottom: 32px;
-  }
-  
-  .slds-accordion__section.slds-is-open .slds-accordion__summary {
-    background: #0066b9;
-  }
-  
-  .slds-accordion__summary-heading .slds-button:focus {
-    text-decoration: none;
-  }
-  
-  .slds-accordion__section.slds-is-open .accordionHeader {
-    color: #ffffff;
-  }
-  
-  .slds-accordion__list-item {
-    border-top: none;
-    border-bottom: 2px solid #0066b9;
-  }
-  
-  .slds-accordion__summary {
-    padding: 0;
-  }
-  
-  .slds-accordion__summary-heading {
+}
+/** ACCORDION **/
+
+.slds-accordion__summary {
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+}
+
+.slds-accordion__section {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+/** Closed **/
+.slds-accordion__summary-heading {
     padding: 16px;
     margin: auto;
-  }
-  
-  /*.accordionHeader {
-    font-family: "ProximaNova-Bold";
-    font-style: normal;
-    font-size: 23px;
-    line-height: 28px;
-    color: #0066b9;
+}
+
+/** Expanded **/
+.slds-accordion__section.slds-is-open .slds-accordion__summary {
+    background: #0066b9;
+}
+
+.slds-accordion__section.slds-is-open .accordionHeader {
+    color: #ffffff !important;
+}
+
+.slds-accordion__summary-content .h4 {
     margin-right: auto;
-  }*/
-  
-  .accordionContent {
-    padding: 16px 0 0;
+}
+
+.slds-accordion__summary-heading .slds-button:focus {
+    text-decoration: none;
+}
+
+img.slds-accordion__summary-action-icon {
+    width: 1rem;
+    height: 1rem;
+}
+
+.slds-accordion__content {
     font-family: "ProximaNova";
-    font-style: normal;
-    font-size: 18px;
-    line-height: 21px;
-    color: #1c1c1c;
-  }
-  
-  /*.rightColumn {
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
-    margin-left: 32px;
-    padding: 16px;
-  }*/
-  
-  .durationTitle {
+    font-size: 1.125rem;
+    font-weight: 400;
+    line-height: 1.3125rem;
+    color: #1C1C1C;
+    padding: 1rem 0 !important;
+}
+
+.durationTitle {
     font-family: "ProximaNova-Bold";
     font-style: normal;
     font-size: 23px;
     line-height: 28px;
     color: #1c1c1c;
-  }
-  
-  .durationValue {
+}
+
+.durationValue {
     font-family: "ProximaNova";
     font-size: 18px;
     line-height: 21px;
     color: #1c1c1c;
-  }
-  
-  .facilImage {
+}
+
+.facilImage {
     border-radius: 50%;
     width: 214px;
     height: 214px;
     border: 1px solid #dbdbdb;
     box-sizing: border-box;
     background-color: #dbdbdb;
-  }
-  
-  .facilName {
+}
+
+.facilName {
     font-family: "ProximaNova-Bold";
     font-style: normal;
     font-size: 23px;
     line-height: 28px;
     color: #0066b9;
-  }
-  
-  .facilBio {
+}
+
+.facilBio {
     font-family: "ProximaNova";
     font-style: normal;
     font-size: 18px;
     line-height: 21px;
     color: #1c1c1c;
-  }
+}
 
+.rightColumn {
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
+    margin-left: 32px;
+    padding: 16px;
+    margin-top:20px;
+}
 
-  @media only screen and (min-width: 765px) {
-
-    lightning-layout-item.slds-col.slds-size_12-of-12.slds-medium-size_8-of-12 {
-      width: 66.6666666667% /*current width*/;
-    }
-    lightning-layout-item.slds-col.slds-size_12-of-12.slds-medium-size_4-of-12 {
-      width: 33.3333333333% /*current width*/
-    }
-
+h1{
+    color:#0066b9;
+    font-family:"ProximaNova";
 }

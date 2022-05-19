@@ -86,6 +86,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   @api deliveryOptions = [];
   @api cProducts;
   @api isNotFlexProgram;
+  @api isInternalUser;
 
   @track courseOfferings = [];
   @track selectedCourseOffering;
@@ -473,7 +474,11 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   // Set Selected Price Book Entry value
   handlePricebookSelected(event) {
     this.selectedPriceBookEntry = event.detail.value;
-    this.disableAddToCart = false;
+    if(this.isInternalUser == true){
+      this.disableAddToCart = true;
+    } else{
+        this.disableAddToCart = false;        
+    }
     this.priceBookEntries.forEach((pBookEntry) => {
       if (
         pBookEntry.value === this.selectedPriceBookEntry &&
@@ -483,7 +488,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
       } else {
         this.displayAddToCart = true;
       }
-    });
+    }); 
   }
 
   // Creates toast notification

@@ -1,0 +1,6 @@
+@font-face{
+  font-family:"ProximaNova";
+  src: url('/resource/QUTCustomFont/ProximaNova/ProximaNova-Regular.ttf') format('TrueType');
+  font-family:"ProximaNova-Bold";
+  src: url('/resource/QUTCustomFont/ProximaNova/ProximaNova-Bold.ttf') format('TrueType');
+}

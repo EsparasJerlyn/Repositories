@@ -1,0 +1,135 @@
+@import 'c/cssLibrary';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.heading1 {
+  font-family: "ProximaNova-Bold";
+  /*color: var(--main-color-blue500) !important;*/
+  font-size: var(--dt-size-heading1) !important;
+  line-height: var(--dt-line-height-h1) !important;
+  font-style: var(--text-normal);
+  font-weight: var(--text-weight-700);
+}	
+
+.header {
+  background: none;
+  font-family: "ProximaNova-Bold";
+  font-style: normal;
+  font-size: 66px;
+  line-height: 69px;
+  color: #0066b9;
+}
+
+.subHeader {
+  background: none;
+  font-family: "ProximaNova-Bold";
+  font-style: normal;
+  font-size: 18px;
+  line-height: 21px;
+  color: #1c1c1c;
+  margin-bottom: 32px;
+}
+/** ACCORDION **/
+
+.slds-accordion__summary {
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+}
+
+.slds-accordion__section {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+
+/** Closed **/
+.slds-accordion__summary-heading {
+  padding: 16px;
+  margin: auto;
+}
+
+/** Expanded **/
+.slds-accordion__section.slds-is-open .slds-accordion__summary {
+  background: #0066b9;
+}
+
+.slds-accordion__section.slds-is-open .accordionHeader {
+  color: #ffffff !important;
+}
+
+.slds-accordion__summary-content .h4 {
+  margin-right: auto;
+}
+
+.slds-accordion__summary-heading .slds-button:focus {
+  text-decoration: none;
+}
+
+img.slds-accordion__summary-action-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.slds-accordion__content {
+  font-family: "ProximaNova";
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1.3125rem;
+  color: #1C1C1C;
+  padding: 1rem 0 !important;
+}
+
+.durationTitle {
+  font-family: "ProximaNova-Bold";
+  font-style: normal;
+  font-size: 23px;
+  line-height: 28px;
+  color: #1c1c1c;
+}
+
+.durationValue {
+  font-family: "ProximaNova";
+  font-size: 18px;
+  line-height: 21px;
+  color: #1c1c1c;
+}
+
+.facilImage {
+  border-radius: 50%;
+  width: 214px;
+  height: 214px;
+  border: 1px solid #dbdbdb;
+  box-sizing: border-box;
+  background-color: #dbdbdb;
+}
+
+.facilName {
+  font-family: "ProximaNova-Bold";
+  font-style: normal;
+  font-size: 23px;
+  line-height: 28px;
+  color: #0066b9;
+}
+
+.facilBio {
+  font-family: "ProximaNova";
+  font-style: normal;
+  font-size: 18px;
+  line-height: 21px;
+  color: #1c1c1c;
+}
+
+.rightColumn {
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
+  margin-left: 32px;
+  padding: 16px;
+  margin-top:20px;
+}
+
+h1{
+  color:#0066b9;
+  font-family:"ProximaNova";
+}

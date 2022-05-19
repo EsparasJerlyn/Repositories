@@ -98,35 +98,6 @@
                             slds-icon-down="utility:chevrondown"
                         > </c-custom-combobox>
                     </lightning-layout-item>
-                    <!--<lightning-layout-item flexibility="auto" size="12" class="slds-m-bottom_small" >
-                        <lightning-combobox 
-                            name={label.delivery}
-                            label={label.deliveryPlaceholder}
-                            value={selectedDeliveryType}
-                            options={availableDeliveryTypes}
-                            onchange={handleDeliveryTypeSelected}
-                            placeholder="Choose Delivery Method" style="font-weight: bold;"></lightning-combobox>  
-                    </lightning-layout-item>
-                    <lightning-layout-item flexibility="auto" size="12" class="slds-m-bottom_small" >
-                        <lightning-combobox 
-                            name = {label.availableStartDates}
-                            label = {label.availableStartDatesPlaceholder}
-                            value= {selectedProgramOffering} 
-                            disabled={disableProgramOfferings}
-                            options={availableProgramOfferings}
-                            onchange={handleProgramOfferingSelected}
-                            placeholder="Choose Start Date" style="font-weight: bold;"></lightning-combobox>
-                    </lightning-layout-item>
-                    <lightning-layout-item flexibility="auto" size="12" class="slds-m-bottom_small" >
-                        <lightning-combobox 
-                            name = {label.pricing}
-                            label = {label.pricingPlaceholder}
-                            value = {selectedPricing} 
-                            disabled={disablePricing}
-                            options={availablePricings}
-                            onchange={handlePricingSelected}
-                            placeholder="Choose Pricing" style="font-weight: bold;"></lightning-combobox> 
-                    </lightning-layout-item>-->
                     <lightning-layout-item if:true={displayAddToCart} flexibility="auto" size="12" >
                         <lightning-button
                             label={label.addToCart}
