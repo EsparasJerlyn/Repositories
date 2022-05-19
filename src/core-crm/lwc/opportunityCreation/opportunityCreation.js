@@ -55,7 +55,7 @@ export default class OpportunityCreation extends NavigationMixin( LightningEleme
   //retrieve contact records
   getContactRecords() {
     this.contacts = [];
-    getContactRecords()
+    getContactRecords({'accountId': this.recordId})
       .then((res) => {
         this.contactList = JSON.stringify(res);
         res.map((contact) => {
