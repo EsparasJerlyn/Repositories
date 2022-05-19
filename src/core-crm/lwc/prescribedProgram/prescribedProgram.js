@@ -9,6 +9,7 @@ import availableStartDatesPlaceholder from "@salesforce/label/c.QUT_ProductDetai
 import pricing from "@salesforce/label/c.QUT_ProductDetail_Pricing";
 import pricingPlaceholder from "@salesforce/label/c.QUT_ProductDetail_Pricing_Placeholder";
 import addToCart from "@salesforce/label/c.QUT_ProductDetail_AddToCart";
+import isGuest from "@salesforce/user/isGuest";
 
 export default class PrescribedProgram extends LightningElement {
     @api product;
@@ -35,6 +36,7 @@ export default class PrescribedProgram extends LightningElement {
     @track disablePricing = true;
     @track disableAddToCart = true;
     @track displayAddToCart = true;
+    @track openModal;
 
     label = {
         delivery,
@@ -168,13 +170,21 @@ export default class PrescribedProgram extends LightningElement {
     }
 
     notifyAddToCart() {
-        this.dispatchEvent(
-            new CustomEvent("addtocart", {
-                detail: {
-                    programOfferingId: this.selectedProgramOffering,
-                    pricebookEntryId: this.selectedPricing,
-                },
-            })
-        );
+        if(!isGuest){
+            this.dispatchEvent(
+                new CustomEvent("addtocart", {
+                    detail: {
+                        programOfferingId: this.selectedProgramOffering,
+                        pricebookEntryId: this.selectedPricing,
+                    },
+                })
+            );
+        } else{
+            this.openModal = true;
+        }
+    }
+
+    handleModalClosed() {
+        this.openModal = false;
     }
 }

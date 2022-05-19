@@ -111,4 +111,7 @@
             </lightning-layout-item>
         </lightning-layout>
     </div>
+    <template if:true={openModal}>
+        <c-registration-form onclose={handleModalClosed}></c-registration-form>
+    </template>
 </template>
