@@ -51,6 +51,10 @@ export default class CreateRecordUI extends LightningElement {
     editMode = false;
     isLoading = true;
     isComplete;
+    showPopoverIcon = false;
+    showPopoverDialog = false;
+    popoverErrorMessages = [];
+    
 
     //decides if user has access to this feature
     get hasAccess(){
@@ -183,12 +187,25 @@ export default class CreateRecordUI extends LightningElement {
     }
 
     //disables spinner on error
-    handleError(){
+    handleError(event){
+        this.popoverErrorMessages = [];
+        if( event.detail && event.detail.output && 
+            event.detail.output.errors[0] && 
+            event.detail.output.errors[0] && 
+            event.detail.output.errors[0].errorCode == 'DUPLICATES_DETECTED'){
+            this.popoverErrorMessages.unshift(event.detail.output.errors[0].message);
+        }
+        //for error messages not visible on shown fields
+        if(this.popoverErrorMessages.length > 0){  
+            this.showPopoverIcon = true;
+            this.showPopoverDialog = true;
+        }
         this.isLoading = false;
     }
 
     //cancels edit mode
     handleCancel(){
+        this.resetPopover();
         this.editMode = false;
     }
 
@@ -217,11 +234,28 @@ export default class CreateRecordUI extends LightningElement {
 
      //creates toast notification
      generateToast(_title,_message,_variant){
+        this.resetPopover();
         const evt = new ShowToastEvent({
             title: _title,
             message: _message,
             variant: _variant,
         });
         this.dispatchEvent(evt);
+    }
+
+    /**
+     * shows/hides the popover error dialog
+     */
+     handlePopover(){
+        this.showPopoverDialog = this.showPopoverDialog ? false : true;
+    }
+
+    /**
+     * hides popover
+     */
+     resetPopover(){
+        this.showPopoverIcon = false;
+        this.showPopoverDialog = false;
+        this.popoverErrorMessages = [];
     }
 }
