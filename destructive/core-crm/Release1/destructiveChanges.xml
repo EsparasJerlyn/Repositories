@@ -328,6 +328,12 @@
          <members>hed__Program_Plan__c.Bottom_Left_Signature_Text__c</members>
          <members>hed__Program_Plan__c.Bottom_Right_Signature_Text__c</members>
          <!--DEPP-2507 end-->
+         <members>hed__Program_Plan__c.Evolve_with_QUTeX__c</members>
+        <members>hed__Program_Plan__c.Overview__c</members>
+        <members>hed__Program_Plan__c.Who_Should_Participate__c</members>
+        <members>hed__Program_Plan__c.Core_Concepts__c</members>
+        <members>hed__Program_Plan__c.More_Details__c</members>
+        <members>hed__Program_Plan__c.Enrolment_Rules__c</members>
         <name>CustomField</name>
     </types>
 
@@ -400,12 +406,7 @@
         <!--(Start) DEPP-2142 -->
         <members>hed__Course__c.Start_Date_is_Future_Date</members>
         <members>hed__Program_Plan__c.Start_Date_is_Future_Date</members>
-        <members>hed__Program_Plan__c.Evolve_with_QUTeX__c</members>
-        <members>hed__Program_Plan__c.Overview__c</members>
-        <members>hed__Program_Plan__c.Who_Should_Participate__c</members>
-        <members>hed__Program_Plan__c.Core_Concepts__c</members>
-        <members>hed__Program_Plan__c.More_Details__c</members>
-        <members>hed__Program_Plan__c.Enrolment_Rules__c</members>
+        
         <!--(End) DEPP-2142 -->
         <members>Product_Specification__c.Product_Subtype_is_required</members>
         <members>Opportunity.Record_Qualification_Assessment</members>
