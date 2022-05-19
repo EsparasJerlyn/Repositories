@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Primary_Lead__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Link to primary Lead that this contact is assigned to. Used to display IERs as related list of the primary Lead.</description>
+    <externalId>false</externalId>
+    <label>Primary Lead</label>
+    <referenceTo>Lead</referenceTo>
+    <relationshipLabel>Individual Email Results (Primary Lead)</relationshipLabel>
+    <relationshipName>Individual_Email_Results</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

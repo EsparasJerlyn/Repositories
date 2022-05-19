@@ -145,6 +145,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>et4ae5__IndividualEmailResult__c.Primary_Contact__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>et4ae5__IndividualEmailResult__c.Primary_Lead__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Individual.BirthDate</field>
         <readable>true</readable>
     </fieldPermissions>
