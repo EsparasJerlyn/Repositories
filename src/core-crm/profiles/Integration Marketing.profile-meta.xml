@@ -26,4 +26,9 @@
         <endAddress>13.111.105.209</endAddress>
         <startAddress>13.111.105.208</startAddress>
     </loginIpRanges>
+    <loginIpRanges>
+        <description>exacttarget.com MC Connector IP Range</description>
+        <endAddress>13.111.66.255</endAddress>
+        <startAddress>13.111.66.0</startAddress>
+    </loginIpRanges>
 </Profile>
