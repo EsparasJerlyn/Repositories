@@ -10,45 +10,10 @@
   }, {
     "components" : [ {
       "componentAttributes" : {
-        "cartCountDisplay" : "TotalProductCount",
-        "discountAmountFontColor" : "rgb(46, 132, 74)",
-        "emptyCartBodyLabel" : "Search or browse products, and add them to your cart. Your selections appear here.",
-        "emptyCartHeaderLabel" : "Your cart’s empty",
-        "incrementValueGuideText" : "Sold in increments of {0}",
-        "maximumValueGuideText" : "Maximum quantity is {0}",
-        "minimumValueGuideText" : "Minimum quantity is {0}",
-        "negotiatedPriceFontColor" : "rgb(79,79,79)",
-        "negotiatedPriceFontSize" : "large",
-        "originalPriceFontColor" : "rgb(151, 151, 151)",
-        "originalPriceFontSize" : "small",
-        "productFieldMapping" : "",
-        "promotionsAppliedDetailsFontSize" : "small",
-        "promotionsAppliedDetailsNameTextColor" : "rgb(79,79,79)",
-        "promotionsAppliedDetailsPopoverHeaderText" : "Promotions Applied",
-        "promotionsAppliedSavingsButtonBackgroundColor" : "rgb(46, 132, 74)",
-        "promotionsAppliedSavingsButtonBackgroundHoverColor" : "rgb(46, 132, 74)",
-        "promotionsAppliedSavingsButtonBorderColor" : "rgb(46, 132, 74)",
-        "promotionsAppliedSavingsButtonBorderRadius" : "5",
-        "promotionsAppliedSavingsButtonFontSize" : "small",
-        "promotionsAppliedSavingsButtonPadding" : "3",
-        "promotionsAppliedSavingsButtonText" : "Saved {amount}",
-        "promotionsAppliedSavingsButtonTextColor" : "",
-        "promotionsAppliedSavingsButtonTextHoverColor" : "",
-        "quantitySelectorLabel" : "QTY",
-        "showAddAllToListButton" : true,
-        "showDiscountAmount" : true,
-        "showNegotiatedPrice" : true,
-        "showOriginalPrice" : true,
-        "showPricePerUnit" : true,
-        "showProductImage" : true,
-        "showPromotions" : true,
-        "showSku" : true,
-        "showTermsAndConditions" : true,
-        "skuLabel" : "SKU#",
-        "termsAndConditionsTitleText" : "Terms and Conditions"
+        "recordId" : "{!recordId}"
       },
-      "componentName" : "b2b_buyer_builder:cartContents",
-      "id" : "7bb0c915-c06e-447e-b40b-b58e0a0fe809",
+      "componentName" : "c:cartDetails",
+      "id" : "b5078ed0-a154-4c81-baaa-9cc9760f8318",
       "renderPriority" : "NEUTRAL",
       "renditionMap" : { },
       "type" : "component"
@@ -57,44 +22,6 @@
     "regionName" : "content",
     "type" : "region"
   }, {
-    "components" : [ {
-      "componentAttributes" : {
-        "backgroundColor" : "rgb(241, 241, 241)",
-        "discountAmountFontColor" : "",
-        "discountAmountFontSize" : "small",
-        "finalPriceFontColor" : "rgb(79,79,79)",
-        "finalPriceFontSize" : "large",
-        "originalPriceFontColor" : "",
-        "originalPriceFontSize" : "small",
-        "showDiscountAmount" : true,
-        "showOriginalPrice" : true,
-        "showSubtotalPrice" : false,
-        "subtotalPriceFontColor" : "rgb(79,79,79)",
-        "subtotalPriceFontSize" : "small"
-      },
-      "componentName" : "b2b_buyer_builder:cartSummary",
-      "id" : "f281913f-14fc-4ade-b2f5-b3c382a97c89",
-      "renderPriority" : "NEUTRAL",
-      "renditionMap" : { },
-      "type" : "component"
-    }, {
-      "componentAttributes" : {
-        "buttonAlignment" : "left",
-        "buttonBgColor" : "",
-        "buttonBgHoverColor" : "",
-        "buttonBorderColor" : "",
-        "buttonMaxWidth" : "100",
-        "buttonRadius" : "0",
-        "buttonText" : "Proceed To Checkout",
-        "buttonTextColor" : "",
-        "buttonTextHoverColor" : ""
-      },
-      "componentName" : "b2b_buyer_builder:checkoutButtonWrapper",
-      "id" : "750ad4e3-d538-4745-9bcc-08423c04df29",
-      "renderPriority" : "NEUTRAL",
-      "renditionMap" : { },
-      "type" : "component"
-    } ],
     "id" : "bbcd391c-5d2d-4dbc-8608-2fc35ff98c3f",
     "regionName" : "sidebar",
     "type" : "region"

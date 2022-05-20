@@ -1,0 +1,39 @@
+.component {
+    padding: 10px;
+}
+
+.component-title {
+    text-align: left;
+    color: var(--lwc-brandAccessible);
+    font-weight: bold;
+    font-size: 24px;
+    padding-bottom: 10px
+}
+
+.product-title {
+    text-align: left;
+    color: var(--lwc-brandAccessible);
+    font-weight: bold;
+    font-size: 18px;
+    padding-top: 10px
+}
+
+.input-label {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.warning-label{
+    font-style: italic;
+    color: red;
+}
+
+.icon-button {
+    position: absolute;
+    z-index: 1;
+    margin: 0.5% 0 0 92%;
+}
+
+/* .input-text {
+    -webkit-text-fill-color: white;
+} */

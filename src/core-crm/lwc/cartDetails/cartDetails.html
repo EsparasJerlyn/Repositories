@@ -1,0 +1,334 @@
+<template>
+
+    <!-- Your Details starts here -->
+    <div class="component">
+        <div class="component-title">
+            <h1>Your Details</h1>
+        </div>
+
+        <div>
+            <lightning-record-edit-form record-id={contactId} object-api-name="Contact" onsubmit={updateContactDetails}>
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-size_1-of-4">
+                        <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                            <!-- <legend class="slds-form-element__legend slds-form-element__label input-label">First name</legend> -->
+                            <p class="input-label">First name</p>
+                            <lightning-input-field field-name="FirstName" variant="label-hidden"></lightning-input-field>
+                            <!-- <lightning-button-icon name="firstName" class="icon-button" variant="bare" icon-name="utility:edit" onclick={editUserField}></lightning-button-icon> -->
+                        </div>
+                    </div>
+
+                    <div class="slds-size_1-of-4">
+                        <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                            <!-- <legend class="slds-form-element__legend slds-form-element__label input-label">Last name</legend> -->
+                            <p class="input-label">Last name</p>
+                            <lightning-input-field field-name="LastName" variant="label-hidden"></lightning-input-field>
+                            <!-- <lightning-button-icon name="lastName" class="icon-button" variant="bare" icon-name="utility:edit" onclick={editUserField}></lightning-button-icon> -->
+                        </div>
+                    </div>
+
+                    <div class="slds-size_1-of-4">
+                        <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                            <!-- <legend class="slds-form-element__legend slds-form-element__label input-label">Email</legend> -->
+                            <p class="input-label">Email</p>
+                            <lightning-input-field field-name="Email" variant="label-hidden"></lightning-input-field>
+                            <!-- <lightning-button-icon name="email" class="icon-button" variant="bare" icon-name="utility:edit" onclick={editUserField}></lightning-button-icon> -->
+                        </div>
+                    </div>
+
+                    <div class="slds-size_1-of-4">
+                        <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                            <!-- <legend class="slds-form-element__legend slds-form-element__label input-label">Mobile</legend> -->
+                            <p class="input-label">Mobile</p>
+                            <lightning-input-field field-name="MobilePhone" variant="label-hidden"></lightning-input-field>
+                            <!-- <lightning-button-icon name="mobile" class="icon-button" variant="bare" icon-name="utility:edit" onclick={editUserField}></lightning-button-icon> -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slds-grid slds-wrap">
+
+                    <div class="slds-size_1-of-4">
+                        <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                            <!-- <legend class="slds-form-element__legend slds-form-element__label input-label">Dietary requirements</legend> -->
+                            <p class="input-label">Dietary requirements</p>
+                            <lightning-input-field field-name="Dietary_Requirement__c" variant="label-hidden"></lightning-input-field>
+                            <!-- <lightning-button-icon name="dietary" class="icon-button" variant="bare" icon-name="utility:edit" onclick={editUserField}></lightning-button-icon> -->
+                        </div>
+                    </div>
+
+                    <div class="slds-size_1-of-4">
+                        <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                            <!-- <legend class="slds-form-element__legend slds-form-element__label input-label">Company</legend> -->
+                            <p class="input-label">Company</p>
+                            <lightning-input-field field-name="Company_Name__c" variant="label-hidden"></lightning-input-field>
+                            <!-- <lightning-button-icon name="company" class="icon-button" variant="bare" icon-name="utility:edit" onclick={editUserField}></lightning-button-icon> -->
+                        </div>
+                    </div>
+
+                    <div class="slds-size_1-of-4">
+                        <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                            <!-- <legend class="slds-form-element__legend slds-form-element__label input-label">Position</legend> -->
+                            <p class="input-label">Position</p>
+                            <lightning-input-field field-name="Position__c" variant="label-hidden"></lightning-input-field>
+                            <!-- <lightning-button-icon name="position" class="icon-button" variant="bare" icon-name="utility:edit" onclick={editUserField}></lightning-button-icon> -->
+                        </div>
+                    </div>
+
+                    <div class="slds-size_1-of-4">
+
+                        <div class="slds-grid slds-wrap">
+
+                        
+                            <template if:true={showStaffId}>
+                                
+                                <div class="slds-size_1-of-2">
+                                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                                        <!-- <legend class="slds-form-element__legend slds-form-element__label input-label">Position</legend> -->
+                                        <p class="input-label">Staff ID</p>
+                                        <lightning-input-field field-name="Nominated_Employee_ID__c" variant="label-hidden"></lightning-input-field>
+                                        <!-- <lightning-button-icon name="position" class="icon-button" variant="bare" icon-name="utility:edit" onclick={editUserField}></lightning-button-icon> -->
+                                    </div>
+                                </div>
+
+                            </template>
+
+                            <template if:true={showStudentId}>
+                                
+                                <div class="slds-size_1-of-2">
+                                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                                        <!-- <legend class="slds-form-element__legend slds-form-element__label input-label">Position</legend> -->
+                                        <p class="input-label">Student ID</p>
+                                        <lightning-input-field field-name="Nominated_Student_ID__c" variant="label-hidden"></lightning-input-field>
+                                        <!-- <lightning-button-icon name="position" class="icon-button" variant="bare" icon-name="utility:edit" onclick={editUserField}></lightning-button-icon> -->
+                                    </div>
+                                </div>
+
+                            </template>
+
+                        </div>
+                    </div> 
+                </div>
+            </lightning-record-edit-form>
+        </div>
+    </div>
+    <!-- Your Details ends here -->
+
+
+    <!-- Product summary starts here -->
+    <div class="component">
+        <div class="component-title">
+            <h1>Product Summary</h1>
+        </div>
+
+        <!-- loop on each cart item -->
+        <template for:each={cartItems} for:item="currentItem" for:index="productIndex">
+            <div key={currentItem.cartItemId}> 
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-size_3-of-4">
+                        <div class="product-title">
+                            <h1>{currentItem.productName}</h1>
+                        </div>
+                    </div>
+
+                    <div class="slds-size_1-of-4">
+                        <p class="input-label">{currentItem.pbName} ${currentItem.unitPrice}</p>
+                    </div>
+                </div>
+
+                <div class="slds-grid slds-wrap">
+
+                    <div class="slds-size_2-of-4">
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-size_2-of-4">
+                                <div>
+                                    <p class="input-label">Date</p>
+                                    <p>{currentItem.startDate}</p>
+                                    
+        
+                                </div>         
+                            </div>
+        
+                            <div class="slds-size_2-of-4">
+                                <div>
+                                    <p class="input-label">Delivery</p>
+                                    <p>{currentItem.deliveryType}</p>
+                                </div>   
+                            </div>
+
+                            <template if:false={currentItem.seatsAvailable}>
+                                <p class="warning-label">There are no longer seats available for the selected date.</p>
+                            </template>
+                        
+                        </div>
+                    </div>
+
+                    <div class="slds-size_1-of-4">
+                        <div>
+                            <p class="input-label">Discount code</p>
+                            <div class="slds-grid slds-wrap">
+
+                                <div class="slds-size_2-of-3">
+                                    <lightning-input name={productIndex} data-id={currentItem.cartItemId} type="text" variant="label-hidden"></lightning-input>
+                                </div>
+                                <div class="slds-size_1-of-3">
+                                    <lightning-button data-id={currentItem.cartItemId} variant="brand" label="Apply" title="Apply code" onclick={applyCoupon}></lightning-button>
+                                </div>
+
+                            </div>
+
+                            <template if:true={currentItem.showInvalidDiscount}>
+                                <p class="warning-label slds-m-left_small">Invalid voucher.</p>
+                            </template>
+                        </div> 
+                    </div>
+
+
+                    <div class="slds-size_1-of-4">
+                        <div> 
+                            <lightning-button data-id={currentItem.cartItemId} variant="base" label="Remove Item" title="Remove item" onclick={removeCartItem} class="slds-m-left_small slds-m-top_small"></lightning-button>
+                        </div> 
+
+                        <template if:false={currentItem.seatsAvailable}>
+                            <p class="warning-label slds-m-left_small">Please remove this item to proceed.</p>
+                        </template>
+
+                    </div>
+                </div>
+            </div>
+        </template>
+        <!-- <hr> -->
+    </div>
+    <!-- Product summary ends here -->
+
+
+    <!-- Registration Questions starts here -->
+    <div class="component">
+       
+        <!-- loop on each questions -->
+        <template for:each={questions} for:item="currentQuestion" for:index="questionIndex">
+            <div key={currentQuestion.answerId}> 
+                
+                <div class="slds-grid slds-wrap slds-m-bottom_small">
+
+                    <div class="slds-size_2-of-4">
+
+                        <!-- for normal text input fields (text, number, date) -->
+                        <template if:true={currentQuestion.isText}>
+                            <p class="input-label">{currentQuestion.label}</p>
+						    <lightning-input data-id={currentQuestion.answerId} name={questionIndex} type={currentQuestion.inputType} variant="label-hidden" value={currentQuestion.stringResponse} required></lightning-input>
+                        </template>
+
+                        <!-- for checkbox -->
+                        <template if:true={currentQuestion.isCheckbox}>
+                            <lightning-input data-id={currentQuestion.answerId} name={questionIndex} type={currentQuestion.inputType} label={currentQuestion.label} checked={currentQuestion.booleanResponse} required></lightning-input>
+                        </template>
+                        
+                        <!-- for picklist -->
+                        <template if:true={currentQuestion.isPicklist}>
+                            <p class="input-label">{currentQuestion.label}</p>
+						    <lightning-combobox data-id={currentQuestion.answerId} name={questionIndex} variant="label-hidden" required value={currentQuestion.stringResponse} options={currentQuestion.picklistOptions}></lightning-combobox>
+                        </template>
+
+                        <!-- for picklist -->
+                        <template if:true={currentQuestion.isMultiPicklist}>
+                            <p class="input-label">{currentQuestion.label}</p>
+						    <lightning-dual-listbox data-id={currentQuestion.answerId} name={questionIndex} variant="label-hidden" source-label="Available" selected-label="Selected" required options={currentQuestion.picklistOptions} value={currentQuestion.multiPicklistResponse}></lightning-dual-listbox>
+                        </template>
+
+                        <!-- for file upload -->
+                        <template if:true={currentQuestion.isFileUpload}>
+                            <p class="input-label">{currentQuestion.label}</p>
+						    <!-- <lightning-input data-id={currentQuestion.answerId} name={currentQuestion.answerId} type="file" accept=".xlsx, .xls, .csv, .png, .doc, .docx, .pdf" variant="label-hidden" value={currentQuestion.stringResponse} required></lightning-input> -->
+                            <lightning-file-upload record-id={currentQuestion.answerId} data-id={currentQuestion.answerId} name={questionIndex} accept=".xlsx, .xls, .csv, .png, .doc, .docx, .pdf" variant="label-hidden" onuploadfinished={fileUploadFinished}></lightning-file-upload>
+                        
+
+                            <!-- <template if:true={currentQuestion.FileData}>
+                                <lightning-icon 
+                                    icon-name="utility:success" 
+                                    alternative-text="Success!" 
+                                    variant="success"
+                                    title="success variant xx-small" 
+                                    size="xx-small">
+                                </lightning-icon>
+                                <span class="slds-form-element__label">{currentQuestion.FileData.fileName}</span>
+                            </template> -->
+                        </template>
+
+                    </div>
+                </div>
+
+            </div>
+        </template>
+        <hr>
+    </div>
+    <!-- Registration Questions ends here -->
+
+
+    <!-- Totals starts here -->
+    <div class="component">
+        <div>
+            <p class="input-label">
+                Subtotal
+                <span style="float:right;">
+                    ${subTotal}
+                </span>
+            </p>
+        </div>
+        
+
+        <div>
+            <p class="input-label">
+                Discounts applied
+                <span style="float:right;">
+                    -${discountTotal}
+                </span>
+            </p>
+        </div>
+
+        <div class="product-title">
+            <h1>
+                Total
+                <span style="float:right;">
+                    ${total}
+                </span>
+            </h1>
+        </div>
+
+        <br>
+        <lightning-input type="checkbox" label="I confirm my details are correct" name="cbDetails" required onchange={checkEnablePaymentCB}></lightning-input>
+        
+        <div class="slds-grid">
+            <lightning-input type="checkbox" id="terms" name="cbTerms" required onchange={checkEnablePaymentCB}></lightning-input>
+            <label for="terms">I agree with the <a href="#">Terms and Conditions</a></label>
+        </div>
+    </div>
+    <!-- Totals ends here -->
+
+
+    <!-- Payment method starts here -->
+    <div class="component">
+        <div class="component-title">
+            <h1>Payment Method</h1>
+        </div>
+
+        <p class="input-label">How would you like to pay?</p>
+
+        <div class="slds-grid slds-m-top_x-small">
+            <lightning-button variant="brand-outline" disabled={disablePayment} label="Pay now" title="Pay now" onclick={paymentNow}></lightning-button>
+            <lightning-button variant="brand-outline" disabled={disablePayment} label="Invoice" title="Invoice" onclick={paymentInvoice} class="slds-m-left_x-small"></lightning-button>
+        </div>
+
+    </div>
+    <!-- Payment method ends here -->
+
+
+
+    <!-- <lightning-button
+        variant="brand"
+        label="test"
+        onclick={testFunction}
+    >
+    </lightning-button> -->
+    
+</template>
