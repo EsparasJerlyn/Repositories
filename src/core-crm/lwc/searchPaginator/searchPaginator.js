@@ -171,7 +171,6 @@ export default class SearchPaginator extends LightningElement {
                 class: (i == this.pageNumber ? 'btn-pagination' : '')
             });
         }
-        console.log('number of pages',pages);
         return pages;
     }
 }

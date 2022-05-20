@@ -5,7 +5,9 @@
  * @history
  *    | Developer                 | Date                  | JIRA                 | Change Summary                             |
       |---------------------------|-----------------------|----------------------|--------------------------------------------|
-      | eugene.andrew.abuan       | May 02, 2022          | DEPP-1269            | Created File                               |      
+      | eugene.andrew.abuan       | May 02, 2022          | DEPP-1269            | Created File                               |
+      | eugene.andrew.abuan       | May 20, 2022          | DEPP-1979            | Added methods for filters                  |
+      
       
  */
 @isTest(SeeAllData=false)
@@ -50,12 +52,25 @@ public with sharing class ProductCtrlTest {
       programPlans[0].Product_Request__c = prodRequestPrescribedProgram[0].Id;
       insert programPlans;
 
+      Program_Offering__c programOffering = new Program_Offering__c(
+        Name = 'Program Offering_Test 1',
+        hed_Program_Plan__c = programPlans[0].Id,
+        Delivery_Type__c = 'Online Classroom',
+        hed_Capacity__c = 30,
+        Start_Date__c = system.today() + 1,
+        Registration_Start_Date__c = system.today() + 1,
+        IsActive__c = true
+       );
+      insert programOffering;
+
       List<hed__Course__c> courses = TestDataFactory.createTestCourseRecords(10,accounts[0].Id,prodRequest[0].Id);
       insert courses;
 
       List<Product2> singleProducts = TestDataFactory.createTestProductRecords(10,courses);
       for (Product2 sProd : singleProducts) {
         sProd.Delivery__c = 'Online Classroom;Online Self-paced;Brisbane Classroom';
+        sProd.Study_Area__c	= 'Engineering';
+        sProd.Product_Type__c = 'Short Course';
         sProd.Available_on_Cart__c = TRUE;
       }
       insert singleProducts;
@@ -63,6 +78,8 @@ public with sharing class ProductCtrlTest {
       List<Product2> prodProgProducts = TestDataFactory.createTestProductRecords(50);
       for (Product2 presProd : prodProgProducts) {
         presProd.Delivery__c = 'Online Classroom;Online Self-paced;Brisbane Classroom';
+        presProd.Study_Area__c	= 'Engineering';
+        presProd.Product_Type__c = 'Short Course';
         presProd.Program_Plan__c = programPlans[0].Id;
         presProd.Available_on_Cart__c = TRUE;
       }
@@ -127,7 +144,7 @@ public with sharing class ProductCtrlTest {
       ];
   
       System.runAs(currUsr) {
-		List<Product2> p = new List<Product2>();
+		    List<Product2> p = new List<Product2>();
         p=[SELECT Id, Delivery__c FROM Product2];
         List<String> productId = new List<String>();
         for( Product2 product : p){
@@ -142,4 +159,190 @@ public with sharing class ProductCtrlTest {
         System.assert( getProd != null,'Successfully retrieved Products');
       }
     }
+
+    @isTest
+    static void getFilterSearchKeyTest(){
+      User currUsr = [ SELECT Id FROM User
+      WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
+      LIMIT 1
+    ];
+
+    System.runAs(currUsr) {
+      List<Product2> p = new List<Product2>();
+      p=[SELECT Id, Delivery__c FROM Product2];
+      List<String> productId = new List<String>();
+      for( Product2 product : p){
+          productId.add(product.Id);
+      }
+
+      Test.startTest();
+      ProductCtrl.FilterWrapper var = new ProductCtrl.FilterWrapper();
+      var.searchKey = 'Test';
+      var.studyArea = new List<String>();
+      var.deliveryType = new List<String>();
+      var.productType = new List<String>();
+      var.minUnitPrice = 0;
+      var.maxUnitPrice = 5000;
+      ProductCtrl.FilterData getFilterProd = ProductCtrl.getFilteredProducts(productId , var);
+      Test.stopTest();
+
+      System.assert( getFilterProd != null,'No Products were found with Search key as filter');
+    }
+  }
+    
+    
+    @isTest
+    static void getFilterStudyAreaTest(){
+      User currUsr = [ SELECT Id FROM User
+      WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
+      LIMIT 1
+    ];
+
+    System.runAs(currUsr) {
+      List<Product2> p = new List<Product2>();
+      p=[SELECT Id, Delivery__c FROM Product2];
+      List<String> productId = new List<String>();
+      for( Product2 product : p){
+          productId.add(product.Id);
+      }
+
+      Test.startTest();
+      ProductCtrl.FilterWrapper var = new ProductCtrl.FilterWrapper();
+      var.searchKey = '';
+      var.studyArea = new List<String>{'Engineering'};
+      var.deliveryType = new List<String>();
+      var.productType = new List<String>();
+      ProductCtrl.FilterData getFilterProd = ProductCtrl.getFilteredProducts(productId , var);
+      Test.stopTest();
+
+      System.assert( getFilterProd != null,'No Products were found with Study Area as filter');
+    }
+  }
+    
+      @isTest
+    static void getFilterDeliveryTest(){
+      User currUsr = [ SELECT Id FROM User
+      WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
+      LIMIT 1
+    ];
+
+    System.runAs(currUsr) {
+      List<Product2> p = new List<Product2>();
+      p=[SELECT Id, Delivery__c FROM Product2];
+      List<String> productId = new List<String>();
+      for( Product2 product : p){
+          productId.add(product.Id);
+      }
+
+      Test.startTest();
+      ProductCtrl.FilterWrapper var = new ProductCtrl.FilterWrapper();
+      var.searchKey = '';
+      var.studyArea = new List<String>();
+      var.deliveryType = new List<String>{'Online Classroom'};
+      var.productType = new List<String>();
+
+      ProductCtrl.FilterData getFilterProd = ProductCtrl.getFilteredProducts(productId , var);
+      Test.stopTest();
+
+      System.assert( getFilterProd != null,'No Products were found with Delivery Type as filter');
+    }
+  }
+    
+    @isTest
+    static void getFilterProductTypeTest(){
+      User currUsr = [ SELECT Id FROM User
+      WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
+      LIMIT 1
+    ];
+
+    System.runAs(currUsr) {
+      List<Product2> p = new List<Product2>();
+      p=[SELECT Id, Delivery__c FROM Product2];
+      List<String> productId = new List<String>();
+      for( Product2 product : p){
+          productId.add(product.Id);
+      }
+
+      Test.startTest();
+      ProductCtrl.FilterWrapper var = new ProductCtrl.FilterWrapper();
+      var.searchKey = '';
+      var.studyArea = new List<String>();
+      var.deliveryType = new List<String>();
+      var.productType = new List<String>{'Short Course'};
+
+      ProductCtrl.FilterData getFilterProd = ProductCtrl.getFilteredProducts(productId , var);
+      Test.stopTest();
+
+      System.assert( getFilterProd != null,'No Products were found with Short Course as filter');
+    }
+  }
+    
+   @isTest
+    static void getFilterDateTest(){
+      User currUsr = [ SELECT Id FROM User
+      WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
+      LIMIT 1
+    ];
+
+    System.runAs(currUsr) {
+      List<Product2> p = new List<Product2>();
+      p=[SELECT Id, Delivery__c FROM Product2];
+      List<String> productId = new List<String>();
+      for( Product2 product : p){
+          productId.add(product.Id);
+      }
+
+      Test.startTest();
+      ProductCtrl.FilterWrapper var = new ProductCtrl.FilterWrapper();
+      Date dToday = Date.today();
+      var.searchKey = '';
+      var.studyArea = new List<String>();
+      var.deliveryType = new List<String>();
+      var.productType = new List<String>();
+      var.minUnitPrice = 3;
+      var.startDate = (dToday.day() -3) + '/' + dToday.month() + '/'+ dToday.year() ;
+      var.endDate =  (dToday.day() + 10) + '/' + dToday.month() + '/' + dToday.year();
+
+      ProductCtrl.FilterData getFilterProd = ProductCtrl.getFilteredProducts(productId , var);
+
+      Test.stopTest();
+
+      System.assert( getFilterProd != null,'No Products were found with Date as Filter');
+    }
+  }
+    
+    @isTest
+    static void getFilterPriceDateComboTest(){
+      User currUsr = [ SELECT Id FROM User
+      WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
+      LIMIT 1
+    ];
+
+    System.runAs(currUsr) {
+      List<Product2> p = new List<Product2>();
+      p=[SELECT Id, Delivery__c FROM Product2];
+      List<String> productId = new List<String>();
+      for( Product2 product : p){
+          productId.add(product.Id);
+      }
+
+      Test.startTest();
+      ProductCtrl.FilterWrapper var = new ProductCtrl.FilterWrapper();
+      Date dToday = Date.today();
+      var.searchKey = '';
+      var.studyArea = new List<String>();
+      var.deliveryType = new List<String>();
+      var.productType = new List<String>();
+      var.minUnitPrice = 3;
+      var.maxUnitPrice = 15;
+      var.startDate =  (dToday.day() -3) + '/' + dToday.month() + '/'+ dToday.year() ;
+      var.endDate =  (dToday.day() + 10) + '/' + dToday.month() + '/' + dToday.year();
+
+      ProductCtrl.FilterData getFilterProd = ProductCtrl.getFilteredProducts(productId , var);
+
+      Test.stopTest();
+
+      System.assert( getFilterProd != null,'No Products were found with Date and Price as filter');
+    }
+  }
 }

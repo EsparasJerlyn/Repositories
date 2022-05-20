@@ -1,0 +1,59 @@
+:host {
+    --slider-width: 225px;
+    --slider-height: 5px;
+    --slider-top-position: 8px;
+    --range-width: 20px;
+    --range-left-position: 20px;
+    --thumb-height: 20px;
+    --thumb-width: 20px;
+    --thumb-left-position:30px;
+    --thumb-active-color: #000000;
+}
+
+.slds-slider__value{
+  padding: 0px;
+}
+
+.slider {
+    border-radius: 5px;
+    background: #E0E0E0;
+    background: linear-gradient(left top, #E0E0E0, #000000);
+    width: var( --slider-width );
+    height: var( --slider-height );
+    margin: var( --slider-top-position );
+  }
+
+  .range {
+    position: relative;
+    width: var( --range-width );
+    height: var( --slider-height );
+    left: calc( var( --range-left-position ) + var( --thumb-width )/2 );
+    background: rgb(201 199 197);
+    cursor: pointer;
+  }
+
+  .thumb {
+    position: relative;
+    width: var( --thumb-width );
+    height: var( --thumb-height );
+    border-radius: 50%;
+    background: var( --thumb-active-color );
+    cursor: pointer;
+    left: var( --thumb-left-position );
+  }
+
+  .start {
+    top: calc( ( var( --slider-height ) + var( --slider-top-position ) + var( --thumb-height )*0) * -1);
+  }
+  .end {
+    top: calc( ( var( --slider-height ) + var( --slider-top-position ) + var( --thumb-height )*1) * -1);
+  }
+
+  .input-button{
+    padding: 0px;
+    width: 3rem;
+    border-style: hidden;
+  }
+  .input-button-edit{
+    border-style: ridge !important;
+  }
