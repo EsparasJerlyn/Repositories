@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Right_Column_Long__c</fullName>
+    <description>Fields that are on the right side column of the section.</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Must be in JSON format. With the following attributes: field,mandatory,isrecordtype. (attribute not needed when false) e.g
+[{&quot;field&quot;:&quot;OwnerId&quot;},{&quot;field&quot;:&quot;Product_Request_Status__c&quot;,&quot;mandatory&quot;:true},{&quot;field&quot;:&quot;RecordTypeId&quot;,&quot;isrecordtype&quot;:true}]</inlineHelpText>
+    <label>Right Column (Long)</label>
+    <length>32768</length>
+    <type>LongTextArea</type>
+    <visibleLines>5</visibleLines>
+</CustomField>

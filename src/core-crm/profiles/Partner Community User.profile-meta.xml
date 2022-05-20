@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Profile xmlns="http://soap.sforce.com/2006/04/metadata">
+    <layoutAssignments>
+        <layout>Lead-QUTeX Leads</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Contact-Contact Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Global-Chatter Publisher Layout</layout>
+    </layoutAssignments>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Account.ParentId</field>
+        <readable>false</readable>
+    </fieldPermissions>
+</Profile>

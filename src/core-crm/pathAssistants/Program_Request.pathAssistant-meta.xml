@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Product_Request__c</entityName>
+    <fieldName>Product_Request_Status__c</fieldName>
+    <masterLabel>Program Request</masterLabel>
+    <pathAssistantSteps>
+        <info>&lt;p&gt;You have now completed your Product Request.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Congratulations!&lt;/p&gt;</info>
+        <picklistValueName>Completed</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;Defining a product request to ensure that you have clearly defined the Overall Product, and specified the team members that will be involved.&lt;/span&gt;&lt;/p&gt;</info>
+        <picklistValueName>Define</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;Designing a Program is mainly happening within CourseLoop, QUT&amp;#39;s curriculum management tool. The result of the Design stage should be completed Program Plan and Associated Units or Modules.&lt;/span&gt;&lt;/p&gt;</info>
+        <picklistValueName>Design</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;p&gt;Releasing a Program - This is ensuring that this product is ready to advertise the completed product. This is a multi step process.&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Create the product to advertise - modify any content in the product for advertising purposes&lt;/li&gt;&lt;li&gt;Complete the Content for each Curriculum Item&lt;/li&gt;&lt;li&gt;Create Course Offerings to each module and unit&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</info>
+        <picklistValueName>Release</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>Program_Request</recordTypeName>
+</PathAssistant>

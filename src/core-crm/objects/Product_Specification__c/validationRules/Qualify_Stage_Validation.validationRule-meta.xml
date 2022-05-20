@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Qualify_Stage_Validation</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+ RecordType.DeveloperName = &apos;OPE_Program_Specification&apos;,
+ ISCHANGED( Stage__c ),
+ ISPICKVAL( PRIORVALUE ( Stage__c ), &apos;Qualify&apos; ),
+ ISPICKVAL( Stage__c, &apos;Idea&apos; )
+)</errorConditionFormula>
+    <errorMessage>Update of stage from &quot;Qualify&quot; back to &quot;Idea&quot; is not allowed.</errorMessage>
+</ValidationRule>

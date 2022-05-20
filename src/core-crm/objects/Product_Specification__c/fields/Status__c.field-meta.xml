@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status__c</fullName>
+    <externalId>false</externalId>
+    <label>Status</label>
+    <required>false</required>
+    <trackFeedHistory>true</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Stage__c</controllingField>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>New</fullName>
+                <default>false</default>
+                <label>New</label>
+            </value>
+            <value>
+                <fullName>Idea Sent</fullName>
+                <default>false</default>
+                <label>Idea Sent</label>
+            </value>
+            <value>
+                <fullName>Qualification</fullName>
+                <default>false</default>
+                <label>Qualification</label>
+            </value>
+            <value>
+                <fullName>Design</fullName>
+                <default>false</default>
+                <label>Design</label>
+            </value>
+            <value>
+                <fullName>Complete</fullName>
+                <default>false</default>
+                <label>Complete</label>
+            </value>
+            <value>
+                <fullName>Does Not Meet Qualification</fullName>
+                <default>false</default>
+                <label>Does Not Meet Qualification</label>
+            </value>
+            <value>
+                <fullName>Existing Product</fullName>
+                <default>false</default>
+                <label>Existing Product</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Idea</controllingFieldValue>
+            <valueName>New</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Idea</controllingFieldValue>
+            <valueName>Idea Sent</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Qualify</controllingFieldValue>
+            <valueName>Qualification</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Design</controllingFieldValue>
+            <valueName>Design</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Complete</controllingFieldValue>
+            <valueName>Complete</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Not Proceeding</controllingFieldValue>
+            <valueName>Does Not Meet Qualification</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Not Proceeding</controllingFieldValue>
+            <valueName>Existing Product</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

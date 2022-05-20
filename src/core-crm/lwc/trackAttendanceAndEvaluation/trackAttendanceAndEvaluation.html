@@ -1,0 +1,80 @@
+<template>
+    <div if:false={hasAccess} class="slds-text-align_center slds-p-around_large">
+        <p><strong>You don't have access to this feature.</strong></p>
+    </div>
+    <template if:true={hasAccess}>
+        <template if:true={isLoading}>
+            <lightning-spinner class="slds-m-top_large" alternative-text="Loading" size="medium"></lightning-spinner>
+        </template>
+        <template if:false={isLoading}>
+            <lightning-accordion allow-multiple-sections-open active-section-name={activeSections}>
+                <lightning-accordion-section if:true={showAttendance} name="trackAttendance" label="Track Attendance"  class="accordion-section">
+                    <lightning-combobox
+                        class="slds-text-title_bold"
+                        name="course offering"
+                        label="Product Offering"
+                        value={value}
+                        placeholder="Select Product Offering"
+                        options={offeringData}
+                        onchange={handleOfferingChange}>
+                    </lightning-combobox>
+                    <lightning-combobox
+                        class="slds-text-title_bold slds-p-bottom_medium"
+                        name="session"
+                        label="Session"
+                        value={value}
+                        placeholder="Select Session"
+                        options={sessionData}
+                        onchange={sessionChange}>
+                    </lightning-combobox>
+                    <template if:true={createdAttendance}>
+                        <div class="slds-text-heading_small slds-p-bottom_x-small slds-border_bottom">
+                            <strong>Mark Attendance</strong>
+                        </div>
+                        <div class="slds-grid slds slds-p-bottom_small">
+                            <div class="slds-col slds-size_2-of-4 slds-p-top_small text-bold slds-p-left_xx-small"> 
+                                <p><strong>Student Name</strong></p>
+                            </div>
+                            <div class="slds-col slds-size_2-of-4 slds-p-top_small text-bold"> 
+                                <p><strong>Present</strong></p>
+                            </div>
+                        </div>
+                        <template if:true={isSaving}>
+                            <lightning-spinner class="slds-m-top_large" alternative-text="Loading" size="medium"></lightning-spinner>
+                        </template>
+                        <template if:false={isSaving}>
+                            <template for:each={studentData} for:item="data">
+                                <div key={data.courseConnectionId} class="slds-grid slds-border_bottom">
+                                    <div class="slds-col slds-size_2-of-4 slds-p-vertical_x-small slds-p-left_x-small"> 
+                                        {data.contactName}
+                                    </div>
+                                    <div class="slds-col slds-size_2-of-4 slds-p-vertical_x-small slds-p-left_x-small"> 
+                                        <lightning-input 
+                                            disabled={isStatusCompleted}
+                                            type="checkbox"
+                                            name={data.courseConnectionId}
+                                            onchange={handleAttendanceChange}
+                                            checked={data.isPresent}
+                                        ></lightning-input>      
+                                    </div>
+                                </div>
+                            </template>
+                        </template>
+                        <div if:false={isStatusCompleted} class="slds-p-bottom_small slds-p-right_small slds-clearfix">
+                            <lightning-button  class="slds-m-vertical_small slds-m-right_small slds-float_right" label="Cancel" title="Cancel" variant="neutral" onclick={handleCancel}></lightning-button>
+                            <lightning-button disabled={cantSave} class="slds-m-vertical_small slds-m-right_small slds-float_right" label="Save" title="Save" variant="brand" onclick={handleSave}></lightning-button>
+                        </div>
+                    </template>
+                </lightning-accordion-section>
+
+                <c-evaluation-section
+                    if:true={showEvaluation}
+                    record-id={recordId}
+                    offering-data={offeringData}
+                    is-status-completed={isStatusCompleted}
+                    is-non-program={showAttendance}
+                ></c-evaluation-section>
+            </lightning-accordion>
+        </template>
+    </template>
+</template>

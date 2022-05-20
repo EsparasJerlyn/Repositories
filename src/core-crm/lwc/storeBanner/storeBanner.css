@@ -1,0 +1,29 @@
+.header {
+  font-weight: bold;
+  background-color: #fff;
+  height: auto;
+  padding: 0px 0px;
+}
+
+p.headerText1 {
+  font-size: 67pt;
+  line-height: 1.1;
+  text-align: inherit;
+}
+
+p.headerText2 {
+  padding-top: 2px;
+  font-size: 15pt;
+  text-align: inherit;
+}
+
+@media only screen and (max-width: 764px) {
+  p.headerText1 {
+    font-size: 33pt;
+  }
+
+  p.headerText2 {
+    font-size: 8pt;
+  }
+
+}

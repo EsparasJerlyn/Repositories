@@ -1,0 +1,92 @@
+<template>
+    <span class="slds-text-heading_small slds-m-left_small slds-text-color_success">
+        <strong>Create Course</strong>
+    </span>
+    <div class="slds-grid slds-gutters slds-m-horizontal_xxx-small slds-m-top_small slds-m-bottom_medium">
+        <div class="slds-col slds-size_1-of-1 slds-p-vertical_small slds-border_bottom slds-border_top">
+            <span class="slds-text-heading_small slds-m-right_large sf-blue-text">
+                <strong>COURSES</strong>
+            </span>
+            <lightning-button
+                label="Create Course"
+                title="Create Course"
+                icon-name="utility:add"
+                icon-position="left"
+                variant="brand"
+                onclick={handleCreateCourse}
+                disabled={disableButton}
+                class="slds-m-left_large">
+            </lightning-button>
+        </div>
+    </div>
+    <div class="custom-scroll custom-height">
+        <template if:true={showEmptyCourseMessage}>
+            <strong class="slds-align_absolute-center">No Courses found.</strong>
+        </template>
+        <template for:each={courseListToDisplay} for:item="course">
+            <div key={course.id} class="slds-grid slds-gutters slds-m-horizontal_xxx-small slds-m-bottom_medium slds-p-bottom_medium slds-border_bottom">
+                <div class="slds-col slds-size_2-of-7">
+                    <p class="gray-text">Course Name</p>
+                    <lightning-formatted-url 
+                        value={course.recordUrl}
+                        tooltip={course.name}
+                        label={course.name}
+                        target="_top">
+                    </lightning-formatted-url>
+                </div>
+                <div class="slds-col slds-size_2-of-7">
+                    <p class="gray-text">Record Type</p>
+                    <p><strong>{course.recordType}</Strong></p>
+                </div>
+                <div class="slds-col slds-size_1-of-7">
+                    <p class="gray-text">Start Date</p>
+                    {course.startDate}
+                </div>
+                <div class="slds-col slds-size_1-of-7">
+                    <p class="gray-text">End Date</p>
+                    {course.endDate}
+                </div>
+                <div class="slds-col slds-size_1-of-7 slds-align-bottom">
+                    <lightning-button
+                        data-name={course.id}
+                        label="Edit"
+                        title="Edit Course"
+                        icon-name="utility:edit"
+                        icon-position="left"
+                        variant="brand-outline"
+                        onclick={handleEdit}
+                        disabled={disableButton}
+                        class="slds-float_right">
+                    </lightning-button>
+                </div>
+            </div>
+        </template>
+    </div>
+    <div class="slds-grid slds-gutters slds-m-horizontal_xxx-small slds-m-vertical_large">
+        <div class="slds-col slds-size_1-of-1">
+            <lightning-button
+                label="MARK AS COMPLETE"
+                title="MARK AS COMPLETE"
+                icon-name="utility:check"
+                icon-position="left"
+                variant="brand"
+                onclick={handleMarkAsComplete}
+                disabled={disableMarkAsComplete}
+                class="slds-float_right">
+            </lightning-button>
+        </div>
+    </div>
+    <template if:true={openModal}>
+        <c-custom-create-edit-record
+            object-api-name={courseApiName}
+            allow-multi-create=true
+            record-id={courseIdToEdit}
+            record-type-name={courseRecordTypeName}
+            parent-record-type-name={parentRecordTypeName}
+            with-record-type-selection={withRecTypeSelection}
+            pre-populated-fields={prepopulatedCourseFields}
+            onsave={upsertCourseRecord}
+            onclose={closeModal}
+        ></c-custom-create-edit-record>
+    </template>
+</template>

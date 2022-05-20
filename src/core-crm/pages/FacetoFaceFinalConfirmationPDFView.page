@@ -1,0 +1,112 @@
+<apex:page controller="FacetoFaceFinalConfirmationEmailCtrl" applyHtmlTag="false" showHeader="false" renderAs="pdf" id="thePage">
+    <html style="overflow-y: hidden;">
+
+    <head>
+        <title></title>
+        <style>
+            html{
+                overflow-y: hidden;
+            }
+
+            body {
+                font-size: 14px;
+                height: auto;
+                min-height: auto;
+                font-family: Arial, sans-serif;
+            }
+
+            .session-dtl {
+                font-size: 16px;
+            }
+
+            .course-title {
+                font-family: Arial, sans-serif;
+                font-weight: bold;
+                font-size: 18pt;
+                color: rgb(0, 102, 185);
+            }
+
+            span{
+                font-size: 14px;
+                font-family:Arial,Helvetica,sans-serif;"
+            }
+            p{
+                margin:0;
+                padding:0;
+            }
+
+        </style>
+    </head>
+
+    <body>
+        <p><span class="course-title">QUTeX {!courseConnect.Course_Offering_Name__c}</span></p>
+        <p>
+            <span>
+                <span>Please see below for more information regarding the time and venue.
+                    <br />
+                    <br />
+                    <b>When</b>:
+                    <br />
+                    <apex:repeat value="{!sessions}" var="session">
+                        <div>
+                            <apex:outputText value="{!session.Name}" />:&nbsp;
+                            <apex:outputText value="{0, date,EEEE d MMMM','  yyyy }">
+                            <apex:param value="{!session.Date__c}" />
+                            </apex:outputText>
+                            <apex:outputText> | </apex:outputText>
+                            <apex:outputField value=" {!session.Start_Time_v2__c}">
+                            </apex:outputField>
+                            <apex:outputText> - </apex:outputText>
+                            <apex:outputField value=" {!session.End_Time_v2__c}">
+                            </apex:outputField>
+                            <apex:outputText> AEST </apex:outputText>
+                        </div>
+                    </apex:repeat>
+                    <br />
+                    <b>Where:</b>
+                    <br />
+                    <apex:repeat value="{!sessions}" var="session">
+                        <div>
+                            <apex:outputText value="{!session.Name}" />:
+                        </div>
+                        <br/>
+                        <div>
+                            <apex:outputText value="{!session.Location_Name__c}" />
+                        </div>
+                        <br/>
+                        <div>
+                            <apex:outputField value="{!session.Location_Detail_v2__c}" />
+                        </div>
+                        <br />
+                    </apex:repeat>
+                    <br />
+                    <span style="line-height:normal">
+                        <span lang="EN-AU">Please </span>
+                        <a href="https://www.qut.edu.au/about/campuses-and-facilities/maps-and-getting-here/gardens-point">click here</a>
+                        <span lang="EN-AU"> for a campus map, parking and accessibility details.&nbsp;
+                            <i>(link depends on location)</i>
+                        </span>
+                    </span>
+                </span>
+            </span>
+            <br />
+            <br />
+            <span>
+                <i>
+                    <span>*Tea and coffee available on arrival. Morning tea, lunch and afternoon tea also provided.
+                        <br />
+                        <br /> &lt;will need the ability to add any extra info here regarding pre-work, course requirements, and/or
+                        what to bring&gt;</span>
+                </i>
+                <br />
+                <br />
+                <span>We would also like to assure you that we are taking additional precautions in the current environment to
+                    keep everyone safe whilst visiting QUT. For more information, please click here.
+                    <i>(temporary text pending the future of Covid)</i>
+                </span>
+            </span>
+            <br />
+        </p>
+    </body>
+    </html>
+</apex:page>

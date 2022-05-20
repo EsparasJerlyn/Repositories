@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>My_Year_12_Expected_Completion_Year__c</fullName>
+    <description>Profile Type = Myself
+
+Indicates the year the prospective student expected complete Year 12. This field need to be calculated so that when QUT is first advised of this value, the system updates the field value each year to ensure that DM can ascertain the year that the marketing person will complete High School.</description>
+    <externalId>false</externalId>
+    <label>My Year 12 Expected Completion Year</label>
+    <precision>4</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

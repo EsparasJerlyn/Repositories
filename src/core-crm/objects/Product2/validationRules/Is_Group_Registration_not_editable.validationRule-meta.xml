@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_Group_Registration_not_editable</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+ ISCHANGED( Is_Group_Registration_Available__c ), 
+ PRIORVALUE( Is_Group_Registration_Available__c ) = true,
+ Is_Group_Booking_Active__c = true
+)</errorConditionFormula>
+    <errorDisplayField>Is_Group_Registration_Available__c</errorDisplayField>
+    <errorMessage>Group Booking Price Book is already selected under Pricing Section</errorMessage>
+</ValidationRule>

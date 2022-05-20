@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prospects_Behaviour__c</fullName>
+    <description>LSM = Lead Scoring Model. This field is an output of the Lead Scoring Model which indicates the marketing person&apos;s &apos;Behaviour&apos; score.</description>
+    <externalId>false</externalId>
+    <label>Prospects Behaviour</label>
+    <precision>6</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <securityClassification>Sensitive</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

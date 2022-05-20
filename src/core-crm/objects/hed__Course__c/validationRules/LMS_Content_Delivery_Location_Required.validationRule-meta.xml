@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>LMS_Content_Delivery_Location_Required</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+    NOT(ISPICKVAL( ProductRequestID__r.Product_Request_Status__c , &apos;Completed&apos;)),
+    NOT(ISPICKVAL( Primary_Delivery_Platform__c , &apos;Blackboard&apos;)),
+    Mark_Content_as_Complete__c = true,
+    ISBLANK(LMS_Site_URL__c),
+    ISBLANK(Content_Locationv2__c)
+)</errorConditionFormula>
+    <errorDisplayField>LMS_Site_URL__c</errorDisplayField>
+    <errorMessage>LMS Site URL is required</errorMessage>
+</ValidationRule>

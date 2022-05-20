@@ -1,0 +1,143 @@
+<template>
+    <div class="slds-container_x-large">
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item flexibility="auto" size="12">
+                <h1 class="heading1">{productDetails.Name}</h1>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" size="12">
+                <h2 class="subHeader">{productDetails.Description}</h2>
+              </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" size="12" medium-device-size="8" >
+                <lightning-layout multiple-rows="true" class="leftColumn">
+                    <lightning-layout-item flexibility="auto" size="12">
+                        <ul class="slds-accordion">
+                            <li if:true={showOverview} class="slds-accordion__list-item" >
+                                <c-product-section class="productSection" sectionid = "pp_overview"
+                                    title="Overview" 
+                                    value={productDetails.Overview__c} 
+                                    ontogglesection={handleSectionToggle}></c-product-section>
+                            </li>
+                            <li if:true={showProgramModules} class="slds-accordion__list-item" >
+                                <c-product-section class="productSection" sectionid = "pp_programDevelopmentModules"
+                                    title="Program Development Modules" 
+                                    value={professionalDevelopmentModuleDescription} 
+                                    ontogglesection={handleSectionToggle}></c-product-section>   
+                                <template if:true={showProgramModulesList}>
+                                    <template for:each={programModules} for:item="programModule">
+                                        <div key={programModule.id}>
+                                            <c-program-module program-module={programModule}></c-program-module>
+                                        </div>                    
+                                    </template>
+                                </template>
+                            </li>
+                            <li if:true={showLocation} class="slds-accordion__list-item" >
+                                <c-product-section class="productSection" sectionid = "pp_location"
+                                    title="Location" 
+                                    value={programLocation} 
+                                    ontogglesection={handleSectionToggle}></c-product-section>
+                            </li>
+                        </ul>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" size="12" medium-device-size="4" >
+                <lightning-layout multiple-rows="true" class="rightColumn">
+                    <lightning-layout-item flexibility="auto" size="12" class="slds-m-bottom_small" >
+                        <div class="slds-media slds-has-flexi-truncate">
+                            <div class="slds-media__figure">
+                                <span class="slds-icon_container">
+                                  <img alt="" src={durationIcon} />
+                                </span>
+                            </div>
+                            <div class="slds-media__body">
+                                <div class="slds-card__header-title">
+                                    <span class="durationTitle">Duration</span>
+                                </div>
+                                <div class="slds-m-top_x-small durationValue">
+                                    {productDetails.Duration__c}
+                                </div>
+                            </div>
+                        </div>
+                    </lightning-layout-item>
+                    <!-- Delivery -->
+                    <lightning-layout-item flexibility="auto" size="12" class="slds-m-bottom_small" >
+                        <c-custom-combobox
+                            class="availStartDates"
+                            field-label={label.delivery}
+                            placeholder={label.deliveryPlaceholder}
+                            options={availableDeliveryTypes}
+                            value={selectedDeliveryType}
+                            onchange={handleDeliveryTypeSelected}
+                            slds-icon-up="utility:chevronup"
+                            slds-icon-down="utility:chevrondown"
+                            ></c-custom-combobox>
+                    </lightning-layout-item>
+                    <lightning-layout-item flexibility="auto" size="12" class="slds-m-bottom_small" >
+                        <c-custom-combobox
+                            class="availStartDates"
+                            field-label={label.availableStartDates}
+                            placeholder={label.availableStartDatesPlaceholder}
+                            disabled={disableProgramOfferings}
+                            options={availableProgramOfferings}
+                            value={selectedProgramOffering}
+                            onchange={handleProgramOfferingSelected}
+                            slds-icon-up="utility:chevronup"
+                            slds-icon-down="utility:chevrondown"
+                            > </c-custom-combobox>
+                    </lightning-layout-item>
+                    <lightning-layout-item flexibility="auto" size="12" class="slds-m-bottom_small" >
+                        <c-custom-combobox
+                            class="pricing"
+                            field-label={label.pricing}
+                            placeholder={label.pricingPlaceholder}
+                            disabled={disablePricing}
+                            options={availablePricings}
+                            value={selectedPricing}
+                            onchange={handlePricingSelected}
+                            slds-icon-up="utility:chevronup"
+                            slds-icon-down="utility:chevrondown"
+                        > </c-custom-combobox>
+                    </lightning-layout-item>
+                    <!--<lightning-layout-item flexibility="auto" size="12" class="slds-m-bottom_small" >
+                        <lightning-combobox 
+                            name={label.delivery}
+                            label={label.deliveryPlaceholder}
+                            value={selectedDeliveryType}
+                            options={availableDeliveryTypes}
+                            onchange={handleDeliveryTypeSelected}
+                            placeholder="Choose Delivery Method" style="font-weight: bold;"></lightning-combobox>  
+                    </lightning-layout-item>
+                    <lightning-layout-item flexibility="auto" size="12" class="slds-m-bottom_small" >
+                        <lightning-combobox 
+                            name = {label.availableStartDates}
+                            label = {label.availableStartDatesPlaceholder}
+                            value= {selectedProgramOffering} 
+                            disabled={disableProgramOfferings}
+                            options={availableProgramOfferings}
+                            onchange={handleProgramOfferingSelected}
+                            placeholder="Choose Start Date" style="font-weight: bold;"></lightning-combobox>
+                    </lightning-layout-item>
+                    <lightning-layout-item flexibility="auto" size="12" class="slds-m-bottom_small" >
+                        <lightning-combobox 
+                            name = {label.pricing}
+                            label = {label.pricingPlaceholder}
+                            value = {selectedPricing} 
+                            disabled={disablePricing}
+                            options={availablePricings}
+                            onchange={handlePricingSelected}
+                            placeholder="Choose Pricing" style="font-weight: bold;"></lightning-combobox> 
+                    </lightning-layout-item>-->
+                    <lightning-layout-item if:true={displayAddToCart} flexibility="auto" size="12" >
+                        <lightning-button
+                            label={label.addToCart}
+                            disabled={disableAddToCart}
+                            onclick={notifyAddToCart}
+                            variant="brand"
+                            class="addToCartBtn"
+                        ></lightning-button>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </lightning-layout-item>
+        </lightning-layout>
+    </div>
+</template>

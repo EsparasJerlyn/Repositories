@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Pending_Value__c</fullName>
+    <externalId>false</externalId>
+    <label>Pending Value</label>
+    <summarizedField>Product_Ledger__c.Purchased_Price_v2__c</summarizedField>
+    <summaryFilterItems>
+        <field>Product_Ledger__c.Course_Offering_End_Date_Checker__c</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </summaryFilterItems>
+    <summaryForeignKey>Product_Ledger__c.Asset__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <type>Summary</type>
+</CustomField>

@@ -1,0 +1,88 @@
+<template>
+  <article class={cardContainerClass}>
+    <div class="slds-grid slds-wrap">
+      <section class="fields-area slds-size_1-of-1">
+        <template for:each={fields} for:item="field">
+          <a
+            key={field.id}
+            title={field.value}
+            tabindex={field.tabIndex}
+            class="field-item slds-text-link_reset slds-float_left slds-size_8-of-12"
+            onclick={notifyShowDetail}
+          >
+            <lightning-formatted-rich-text
+              class={field.class}
+              value={field.value}
+            ></lightning-formatted-rich-text>
+          </a>
+        </template>
+        <a
+          class="field-addcart slds-text-link_reset slds-float_right slds-size_4-of-12"
+          onclick={notifyAction}
+        >
+          Add to cart
+        </a>
+      </section>
+    </div>
+
+    <div class="slds-grid slds-wrap">
+      <section class="flex-center slds-size_8-of-12">
+        <template for:each={fields} for:item="field">
+          <c-search-product-details
+            key={field.id}
+            product={field}
+            product-id={displayData.id}
+            ondisplayproductdesc={handleDisplayProductDesc}
+            ondisplaycategoryname={handleDisplayCategoryName}
+          >
+          </c-search-product-details>
+        </template>
+      </section>
+
+      <section
+        class="price-area price-bg slds-size_4-of-12"
+        if:true={showPriceIfStudy}
+      >
+        <p>
+          <strong>Start date: </strong
+          ><lightning-formatted-text value="TBD"></lightning-formatted-text>
+        </p>
+        <p>
+          <strong>Delivery: </strong
+          ><lightning-formatted-text value="TBD"></lightning-formatted-text>
+        </p>
+
+        <span if:false={hasPrice}>
+          <p>
+            <strong>Price: </strong
+            ><lightning-formatted-text
+              value="Unavailable"
+            ></lightning-formatted-text>
+          </p>
+        </span>
+
+        <span class="slds-p-top_xx-small slds-p-bottom_xx-small">
+          <span if:true={hasPrice} class="bold">Price: </span>
+          <lightning-formatted-number
+            if:true={hasPrice}
+            class="selling-price"
+            currency-code={currency}
+            format-style="currency"
+            value={price}
+          >
+          </lightning-formatted-number>
+          <span if:true={canShowListingPrice} class="slds-align-bottom flex">
+            <span class="slds-assistive-text">Original Price</span>
+            <lightning-formatted-number
+              class="slds-p-left_xx-small listing-price"
+              value={listingPrice}
+              currency-code={currency}
+              format-style="currency"
+            >
+            </lightning-formatted-number>
+          </span>
+        </span>
+      </section>
+    </div>
+  </article>
+</template>

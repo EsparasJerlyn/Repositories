@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Loss_Reason__c</fullName>
+    <externalId>false</externalId>
+    <label>Loss Reason</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>StageName</controllingField>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>No-Bid : Faculty Decision</fullName>
+                <default>false</default>
+                <label>No-Bid : Faculty Decision</label>
+            </value>
+            <value>
+                <fullName>No-Bid : QUTeX Decision</fullName>
+                <default>false</default>
+                <label>No-Bid : QUTeX Decision</label>
+            </value>
+            <value>
+                <fullName>No-Bid : QUTeX &amp; Faculty Decision</fullName>
+                <default>false</default>
+                <label>No-Bid : QUTeX &amp; Faculty Decision</label>
+            </value>
+            <value>
+                <fullName>Client Rejected: Declined to give a reason</fullName>
+                <default>false</default>
+                <label>Client Rejected: Declined to give a reason</label>
+            </value>
+            <value>
+                <fullName>Client Rejected: Contract Terms</fullName>
+                <default>false</default>
+                <label>Client Rejected: Contract Terms</label>
+            </value>
+            <value>
+                <fullName>Client Rejected: QUT Solution not a fit</fullName>
+                <default>false</default>
+                <label>Client Rejected: QUT Solution not a fit</label>
+            </value>
+            <value>
+                <fullName>Client Rejected: Price</fullName>
+                <default>false</default>
+                <label>Client Rejected: Price</label>
+            </value>
+            <value>
+                <fullName>Client Cancelled: Funding change</fullName>
+                <default>false</default>
+                <label>Client Cancelled: Funding change</label>
+            </value>
+            <value>
+                <fullName>Client Cancelled: Change of mind</fullName>
+                <default>false</default>
+                <label>Client Cancelled: Change of mind</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Closed Lost</controllingFieldValue>
+            <valueName>No-Bid : Faculty Decision</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed Lost</controllingFieldValue>
+            <valueName>No-Bid : QUTeX Decision</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed Lost</controllingFieldValue>
+            <valueName>No-Bid : QUTeX &amp; Faculty Decision</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed Lost</controllingFieldValue>
+            <valueName>Client Rejected: Declined to give a reason</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed Lost</controllingFieldValue>
+            <valueName>Client Rejected: Contract Terms</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed Lost</controllingFieldValue>
+            <valueName>Client Rejected: QUT Solution not a fit</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed Lost</controllingFieldValue>
+            <valueName>Client Rejected: Price</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed Lost</controllingFieldValue>
+            <valueName>Client Cancelled: Funding change</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed Lost</controllingFieldValue>
+            <valueName>Client Cancelled: Change of mind</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

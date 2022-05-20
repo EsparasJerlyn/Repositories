@@ -1,0 +1,26 @@
+<template>
+    <section class="slds-accordion__section">
+        <div class="slds-grid slds-wrap slds-accordion__summary slds-button" onclick={toggleSection}>
+            <div class="slds-col slds-size_10-of-12">
+                <h2 class="slds-accordion__summary-heading">
+                    <span class="slds-accordion__summary-content accordionHeader heading4 main-color-blue500">
+                            {title}
+                    </span>
+                </h2>
+            </div>
+            <div class="slds-col slds-size_2-of-12 slds-align_absolute-center">
+                <h2 class="slds-accordion__summary-heading slds-grid slds-grid_align-end">
+                    <span class="slds-hidden slds-accordion__summary-content accordionHeader heading4 main-color-blue500">                            
+                    </span>
+                    <img src={iconsrc} alt=""
+                        class="slds-accordion__summary-action-icon slds-button__icon"/>
+                </h2>
+            </div>
+        </div>
+        <template if:true={showvalue}>
+            <div class="slds-accordion__content">
+                <lightning-formatted-rich-text value={value}></lightning-formatted-rich-text>
+            </div>
+        </template>        
+    </section>
+</template>

@@ -1,0 +1,91 @@
+<template>
+    <template if:true={createVoucherForm}>
+        <section
+          role="dialog"
+          tabindex="-1"
+          aria-labelledby="modal-heading-01"
+          aria-modal="true"
+          aria-describedby="modal-content-id-1"
+          class="slds-modal slds-fade-in-open"
+        >
+          <div class="slds-modal__container">
+            <!-- Header Start -->
+            <header class="slds-modal__header">
+              <lightning-button-icon
+                class="slds-modal__close"
+                title="Close"
+                icon-name="utility:close"
+                icon-class="slds-button_icon-inverse"
+                onclick={HideShowVoucherForm}
+              ></lightning-button-icon>
+    
+              <h2 class="slds-text-heading_medium slds-hyphenate header-string">
+                Add Voucher
+              </h2>
+            </header>
+            <!-- Header End -->
+            <div
+              class="slds-modal__content slds-p-around_medium"
+              id="modal-content-id-1"
+            >
+              <slot>
+                <p>
+                    <lightning-record-form object-api-name={PromotionObjectApiName} fields={PromotionFieldList}  onsuccess={createVoucher} oncancel={HideShowVoucherForm}  ></lightning-record-form>
+                </p>
+              </slot>
+            </div>
+          </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+      </template>
+
+
+ 
+    <template if:true={isCreateRecord}>
+        <c-custom-create-edit-record 
+            object-api-name={objApiName}
+            pre-populated-fields={prefields}
+            onsave={handleNewPricebookSave}
+            onclose={handleCloseModal}
+        ></c-custom-create-edit-record>
+    </template>
+    <lightning-accordion allow-multiple-sections-open active-section-name="product pricing">
+        <lightning-button label="Add Pricing" title="Add Pricing" data-name="Pricing" disabled={disableAddPricing} icon-name="utility:add"
+            onclick={handleAddPriceBooks} variant="brand" class="add-pricing-button">
+        </lightning-button>
+        <lightning-button label="Add Vouchers" title="Add Vouchers" data-name="Pricing" disabled={isStatusCompleted} icon-name="utility:add"
+            onclick={ShowVoucherForm} variant="brand" class=" add-voucher-button">
+        </lightning-button>   
+           
+        <lightning-accordion-section name="product pricing" label="Pricing" class="accordion-section">   
+            <template if:true={isLoading}>
+                <lightning-spinner class="slds-m-top_large" alternative-text="Loading" size="small"></lightning-spinner>
+            </template> 
+            <template if:false={isLoading}>
+                <template if:true={hasPbEntries}>
+                    <div class="slds-scrollable slds-p-bottom_medium slds-m-vertical_medium">
+                        <c-custom-datatable-columned key-field="id"
+                                data={formattedPricebookEntries}
+                                columns={columns}
+                                onsave={handleSave}
+                                draft-values={draftValues}
+                                onitemselect={handleItemSelect}
+                                onitemremove={handleItemRemove}
+                                oncreate={handleCreate}
+                                errors={errors}
+                                oncancel={handleCancel}
+                                onrowaction={handleRowActions}
+                                oncellchange={handleCellChange}
+                                hide-checkbox-column>
+                        </c-custom-datatable-columned>
+                    </div>                      
+                </template>
+                <template if:false={hasPbEntries}>
+                    <div class="slds-text-align_center slds-p-around_large">
+                        <p><strong>No pricebook entries found. Add by selecting the 'Add Pricing' button.</strong></p>
+                    </div>
+                </template> 
+            </template>                       
+        </lightning-accordion-section>
+    </lightning-accordion>
+</template>

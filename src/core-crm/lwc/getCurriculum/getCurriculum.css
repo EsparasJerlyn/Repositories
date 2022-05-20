@@ -1,0 +1,41 @@
+.slds-modal__container {
+    max-width: 40% !important;
+}
+
+.gray-text {
+    color:gray;
+}
+
+.sf-blue-text {
+    color:#0176d3;
+}
+
+.sf-dark-blue-text {
+    color:#003b6f;
+  }
+
+.custom-scroll {
+    overflow-y: auto;
+}
+
+.custom-height {
+    max-height: 400px;
+}
+
+.custom-height-modal {
+  max-height: 300px;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.3);
+}

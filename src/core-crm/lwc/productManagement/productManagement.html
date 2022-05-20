@@ -1,0 +1,67 @@
+<template>
+    <div if:false={hasAccess} class="slds-text-align_center slds-p-around_large">
+        <p><strong>You don't have access to this feature.</strong></p>
+    </div>
+    <div if:true={hasAccess}>
+        <div if:true={showPricingAndCommunication} class="slds-m-vertical_xx-small">
+            <c-product-pricing
+                record-id={recordId}
+                is-status-completed={isStatusCompleted}
+            ></c-product-pricing>
+        </div>
+        <div if:true={hideSection} class="slds-m-vertical_xx-small">
+            <c-custom-layout-handler
+                record-id={recordId}
+                object-api-name={objectApiName}
+                section-label="Payment Options"
+                show-edit-button={showEditButton}
+                is-grandchild>
+            </c-custom-layout-handler>
+        </div>
+        <div if:true={hideSection} class="slds-m-vertical_xx-small">
+            <c-financial-split
+                record-id={recordId}
+                object-api-name={objectApiName}
+                is-status-completed={isStatusCompleted}
+            ></c-financial-split>
+        </div>
+        <div if:true={hideSection} class="slds-m-vertical_xx-small">
+            <c-custom-layout-handler
+                record-id={recordId}
+                object-api-name={objectApiName}
+                section-label="Set-up Certificate"
+                show-edit-button={showEditButton}>
+            </c-custom-layout-handler>
+        </div>
+        <div if:true={showPricingAndCommunication} class="slds-m-vertical_xx-small">
+            <c-setup-communication
+                product-request-id={recordId}
+                is-status-completed={isStatusCompleted}
+                is-program={isProgram}
+            ></c-setup-communication>
+        </div>
+        <div if:true={hideSection} class="slds-m-vertical_xx-small">
+            <c-setup-registration
+                record-id={recordId}
+                is-status-completed={isStatusCompleted}
+            ></c-setup-registration>
+        </div>
+        <div if:false={hideContentSection} class="slds-m-vertical_xx-small">
+            <c-custom-layout-handler
+                record-id={recordId}
+                object-api-name={objectApiName}
+                section-label="Content"
+                show-edit-button={showEditButton}>
+            </c-custom-layout-handler>
+        </div>
+        <div if:true={hideDecommission} class="slds-m-vertical_xx-small">
+            <c-custom-layout-handler
+                record-id={recordId}
+                object-api-name={objectApiName}
+                section-label="Decommission"
+                show-edit-button={showEditButton}
+                is-grandchild>
+            </c-custom-layout-handler>
+        </div>
+    </div>
+</template>

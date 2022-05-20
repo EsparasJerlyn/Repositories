@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Stage_cant_go_back_to_previous_stage</fullName>
+    <active>true</active>
+    <description>User should not go back to any previous stage.</description>
+    <errorConditionFormula>AND(
+	RecordType.DeveloperName == &apos;OPE_Program_Specification&apos; ,
+	ISCHANGED(Stage__c),
+	OR(
+		ISPICKVAL( PRIORVALUE(Stage__c), &apos;Not Proceeding&apos;),
+		ISPICKVAL( PRIORVALUE(Stage__c), &apos;Complete&apos;),
+		AND(
+			ISPICKVAL( PRIORVALUE(Stage__c), &apos;Design&apos;),
+			OR(
+				ISPICKVAL( Stage__c, &apos;Idea&apos; ),
+				ISPICKVAL( Stage__c, &apos;Qualify&apos; ),
+				ISBLANK( TEXT( Stage__c ) )
+			)
+		)
+	)
+)</errorConditionFormula>
+    <errorMessage>You can&apos;t go back to previous stage.</errorMessage>
+</ValidationRule>

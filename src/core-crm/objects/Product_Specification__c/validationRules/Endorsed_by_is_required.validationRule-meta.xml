@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Endorsed_by_is_required</fullName>
+    <active>true</active>
+    <description>Endorsed by to proceed the stage from Qualify to Design or Complete.</description>
+    <errorConditionFormula>AND(
+RecordType.DeveloperName =&apos;OPE_Program_Specification&apos;,
+ISCHANGED(Stage__c),
+OR(ISPICKVAL(PRIORVALUE(Stage__c),&apos;Qualify&apos;),
+ISPICKVAL(PRIORVALUE(Stage__c),&apos;Design&apos;)),
+OR(ISPICKVAL(Stage__c, &apos;Design&apos;),ISPICKVAL(Stage__c, &apos;Complete&apos;)),
+ISPICKVAL(Requires_Director_Endorsement__c,&apos;Yes&apos;),
+ISBLANK(Endorsed_by__c)
+)</errorConditionFormula>
+    <errorDisplayField>Endorsed_by__c</errorDisplayField>
+    <errorMessage>Endorsed by is required to proceed to Design.</errorMessage>
+</ValidationRule>

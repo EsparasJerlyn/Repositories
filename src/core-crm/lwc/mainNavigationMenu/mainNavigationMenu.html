@@ -1,0 +1,20 @@
+<template>
+    <ul if:true={NavigationMenuList} class="slds-list_horizontal slds-has-inline-block-links_space">
+        <template for:each={NavigationMenuList} for:item="item">
+            <template if:true={item}>
+
+                <template if:true={item.isStorefrontCategories} for:each={CategoriesNavigationMenuList} for:item="category">
+                    <li  key={category.Id} class='textMenuItem slds-p-vertical_x-small slds-p-horizontal_small horizontalMenuItemContainer'>
+                        <a href={category.Target} class='horizontalMenuItem'>{category.Label}</a>
+                    </li>                
+                </template>
+
+
+                <li if:false={item.isStorefrontCategories} key={item.Id} class='textMenuItem slds-p-vertical_x-small slds-p-horizontal_small horizontalMenuItemContainer'>
+                    <a href={item.Target} class='horizontalMenuItem'>{item.Label}</a>
+                </li>                
+            </template>
+        </template>
+    </ul>
+        
+</template>

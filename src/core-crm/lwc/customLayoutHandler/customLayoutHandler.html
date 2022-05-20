@@ -1,0 +1,29 @@
+<template>
+    <template if:true={tab}>
+        <c-custom-page-layout
+            if:true={hasLoaded}
+            record-id={recordId}
+            object-api-name={objectApiName}
+            child-object-api-name={layoutInfo.childObject}
+            parent-object-api-name={layoutInfo.parentObject}
+            parent-field-api-name={layoutInfo.parentField}
+            grand-parent-field-api-name={layoutInfo.grandParentField}
+            tab={tab}
+            is-program={isProgram}
+        ></c-custom-page-layout>
+    </template>
+    <template if:false={tab}>
+        <c-custom-section-layout
+            if:true={hasLoaded}
+            record-id={recordId}
+            object-api-name={objectApiName}
+            child-object-api-name={layoutInfo.childObject}
+            parent-object-api-name={layoutInfo.parentObject}
+            parent-field-api-name={layoutInfo.parentField}
+            grand-parent-field-api-name={layoutInfo.grandParentField}
+            parent-section-label={sectionLabel}
+            show-edit-button={showEditButton}
+            for-ope
+        ></c-custom-section-layout>
+    </template>
+</template>

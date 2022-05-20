@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Product_Specification__c</fullName>
+    <externalId>false</externalId>
+    <label>Product Specification</label>
+    <referenceTo>Product_Specification__c</referenceTo>
+    <relationshipLabel>Associated Accounts</relationshipLabel>
+    <relationshipName>Associated_Accounts</relationshipName>
+    <relationshipOrder>1</relationshipOrder>
+    <required>false</required>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

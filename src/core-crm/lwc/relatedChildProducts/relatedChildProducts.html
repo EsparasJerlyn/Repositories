@@ -1,0 +1,14 @@
+<template>
+    <lightning-accordion allow-multiple-sections-open active-section-name="relatedProducts">
+        <lightning-accordion-section name="relatedProducts" label="Related Products" class="accordion-section">
+            <div class="slds-m-top_small">
+            <lightning-datatable
+                key-field="id"
+                columns={productColumns}
+                data={productData}
+                hide-checkbox-column
+            ></lightning-datatable>
+            </div>
+        </lightning-accordion-section>
+    </lightning-accordion>
+</template>

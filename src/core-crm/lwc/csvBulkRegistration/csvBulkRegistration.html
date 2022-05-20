@@ -1,0 +1,110 @@
+<template>
+    <div class="slds-modal slds-fade-in-open slds-backdrop">  
+        <div class="slds-modal__container">  
+            <!--Header Section-->  
+            <div class="slds-modal__header ">  
+                <lightning-button-icon
+                    icon-name="utility:close"
+                    alternative-text="Close this window"
+                    size="x-large"  
+                    variant="bare-inverse"
+                    onclick={closeRegistrationModal}
+                    class="slds-modal__close">  
+                </lightning-button-icon>  
+                <h1 class="modal-heading slds-text-heading_medium">Register</h1>  
+            </div>  
+            <!--Body Section-->            
+            <div class="slds-modal__content slds-p-around_medium slds-scrollable_y custom-height">
+                 <!--Spinner:shows when processing registration and uploading of csv -->
+                <lightning-spinner
+                    if:true={processing}
+                    class="slds-is-relative slds-align_absolute-center slds-m-around_large"
+                    alternative-text="Loading registration..."
+                    size="medium"
+                    variant="brand">
+                </lightning-spinner>
+                <!--  -->
+                <!-- Upload -->
+                <template if:true={csvUrl}>
+                    <span class='action-button-container'>
+                        <a href={csvUrl} class="download-button" target='_blank'>
+                        <lightning-button 
+                        variant="brand" 
+                        label="Download CSV Template" 
+                        title="Primary action" 
+                        icon-name="utility:download" icon-position="left"
+                        class="slds-m-left_x-small"></lightning-button>
+                        </a>
+                        <lightning-file-upload
+                        name="fileUploader"
+                        accept={acceptedFormats}
+                        record-id={myRecordId}
+                        onuploadfinished={handleUploadFinished}>
+                    </lightning-file-upload></span> 
+                </template>
+                <template if:false={csvUrl}>
+                    <h3>{errorForTemplate}</h3>
+                </template>
+                <!--  -->
+                <div if:true={contacts}>
+                    <!-- data table -->
+                    <lightning-datatable 
+                    key-field="id" 
+                    columns={columns} 
+                    data={contacts}
+                    hide-checkbox-column=true 
+                    show-row-number-column=false
+                    errors={errors}
+                    onrowaction={handleRowAction}
+                    ></lightning-datatable>
+                    <!--  -->
+                    <!-- Proceed and Add buttons-->
+                    <lightning-button 
+                        variant="brand" 
+                        label="Add" 
+                        title="Primary action" 
+                        onclick={addNewRow} 
+                        class="slds-m-left_x-small slds-float_right slds-m-top_medium"
+                    ></lightning-button>
+                    <!---->
+                </div>
+            </div>  
+            <footer class="slds-modal__footer">
+                <c-save-learner-info
+                course-offering={courseOffering}
+                contact-records={contacts}
+                disable-proceed={disableProceedButton}
+                onprocessing={handleProcessing}
+                ></c-save-learner-info>
+                <lightning-button 
+                    variant="neutral" 
+                    label="Cancel" 
+                    title="Cancel" 
+                    onclick={closeRegistrationModal} 
+                    class="slds-m-right_x-small slds-float_right"
+                ></lightning-button>
+           </footer>
+        </div>  
+      </div> 
+    <!-- Edit record modal -->
+    <template if:true={isEditRecord}>
+        <c-custom-create-edit-record 
+            object-api-name={objApiName}
+            pre-populated-fields={prefields}
+            edit-temp-data={isEditRecord}
+            onsave={saveEdit}
+            onclose={closeModal}
+        ></c-custom-create-edit-record>
+    </template>
+    <!--  -->
+    <!-- Create record modal -->
+    <template if:true={isCreateRecord}>
+        <c-custom-create-edit-record 
+            object-api-name={objApiName}
+            pre-populated-fields={prefields}
+            onsave={saveNew}
+            onclose={closeModal}
+        ></c-custom-create-edit-record>
+    </template>
+    <!--  -->
+</template>

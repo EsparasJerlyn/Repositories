@@ -1,0 +1,136 @@
+.product-bodydetails_label {
+  font-weight: bold;
+  font-weight: 1000;
+  color: #0066b9;
+}
+
+.slds-progress__marker {
+  width: 1rem;
+  height: 1rem;
+  position: relative;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 3px solid #0066b9;
+  vertical-align: middle;
+}
+
+.durationTitle {
+  font-family: "ProximaNova-Bold";
+  font-style: normal;
+  font-size: 18px;
+  line-height: 30px;
+  color: #1c1c1c;
+}
+
+.durationValue {
+  font-family: "ProximaNova";
+  font-style: normal;
+  font-size: 16px;
+  line-height: 30px;
+  color: #1c1c1c;
+}
+
+button.slds-button.slds-button_outline-brand {
+  width: 9.375rem !important;
+}
+
+@media only screen and (min-width: 765px) {
+  .badge-align {
+    justify-content: end;
+  } 
+
+  .seq-text{
+    text-align: start;
+  }
+
+  .slds-timeline__item_expandable:before {
+    content: '';
+    background: #0066b9;
+    height: 100%;
+    width: 3px;
+    position: absolute;
+    left: 2.25rem;
+    top: 0;
+    bottom: 0;
+    margin-left: -27px;
+  }
+
+  .slds-medium-size_2-of-12 {
+    width: 16.6666666667%;
+  }
+
+  .slds-large-size_2-of-12 {
+    width: 16.6666666667%;
+  }
+
+  .slds-medium-size_1-of-2 {
+    width: 50%;
+  }
+  .slds-large-size_1-of-2{
+    width: 50%;
+  }
+
+  .slds-size_12-of-12, .slds-size--12-of-12 {
+   width: 100%;
+  }
+
+  .slds-size_2-of-12 {
+    width: 16.6666666667%;
+  }
+
+  .slds-show_medium {
+    display: block!important;
+  }
+
+  .slds-hide_medium {
+    display: none!important;
+  }
+
+  .slds-size_10-of-12, .slds-size--10-of-12 {
+    width: 83.3333333333%;
+  }
+}
+
+@media only screen and (max-width: 764px){
+ 
+  .slds-timeline__item_expandable:before {
+    content: '';
+    background: #0066b9;
+    height: 100%;
+    width: 3px;
+    position: absolute;
+    left: 2.25rem;
+    top: 0;
+    bottom: 0;
+    margin-left: -27px;
+  }
+
+  .badge-align {
+    justify-content: start;
+  } 
+
+  .seq-text{
+    text-align: end;
+  }
+
+  .pr2{
+    padding-right: 0;
+  }
+
+  .ml2{
+    margin-left: 0;
+  }
+
+  .slds-large-size_8-of-12, .slds-medium-size_8-of-12 {
+    width: 66.6666666667% /*current width*/;
+}
+
+  .slds-size_12-of-12{
+    width: 100%;
+ }
+
+ .seq-indent{
+  text-indent: 50px;
+ }
+
+}

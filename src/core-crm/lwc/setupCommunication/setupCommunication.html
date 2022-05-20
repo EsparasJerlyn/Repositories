@@ -1,0 +1,179 @@
+<template>
+  <lightning-accordion
+    allow-multiple-sections-open
+    active-section-name="SetupCommunications"
+  >
+    <lightning-accordion-section
+      name="SetupCommunications"
+      label="Set-up Communications"
+      class="accordion-section"
+    >
+      <lightning-spinner if:true={isLoading} alternative-text="Loading..." size="small"></lightning-spinner> 
+      <lightning-record-edit-form
+        object-api-name={objectToBeCreated}
+        record-id={commSchedId}
+        onsuccess={handleSuccessRecord}
+        onerror={handleRecordError}
+        onsubmit={handleCreateCommunication}
+        onload={handleFormLoad}
+      >
+        <template if:true={formLoading}>
+          <lightning-spinner
+            alternative-text="Loading"
+            size="medium"
+          ></lightning-spinner>
+        </template>
+        <template if:false={formLoading}>
+          <template if:true={editMode}>
+            <div class="slds-grid slds-gutters slds-m-top_small">
+              <div class="slds-col slds-size_1-of-2 ">
+                <template for:each={fieldsCol1} for:item="fCol1">
+                  <div key={fCol1.id} class="slds-m-around_x-small">
+                    <lightning-input-field
+                    field-name={fCol1.name}
+                    key={fCol1.id}
+                  ></lightning-input-field>
+                  </div>
+                </template>
+              </div>
+              <div class="slds-col slds-size_1-of-2">
+                <!--On Registration Template-->
+                <c-custom-search
+                  search-label="Send Email on Registration - Email Template"
+                  search-input-placeholder="Search Email Template..."
+                  search-items={registrationConfirmationSearchItems}
+                  search-item-icon="standard:email"
+                  onitemselect={handleLookupSelectRegistrationConfirmation}
+                  onitemremove={handleLookupRemoveRegistrationConfirmation}
+                  onsearch={handleRegistrationSearch}
+                  item-id={registrationConfirmationId}
+                  search-in-progress={searchInProgress}
+                  object-label-name={objectLabelName}
+                  custom-lookup
+                  custom-server-search
+                  empty-message="Enter at least three (3) characters to show results..."
+                ></c-custom-search>
+                <!--Notification Before Session Template-->
+                <c-custom-search
+                  search-label="Email Notification before Session - Email Template"
+                  search-input-placeholder="Search Email Template..."
+                  search-items={notificationBeforeSearchItems}
+                  search-item-icon="standard:email"
+                  onitemselect={handleLookupSelectNotification}
+                  onitemremove={handleLookupRemoveNotification}
+                  onsearch={handleNotificationBeforeSearchEmail}
+                  item-id={notificationBeforeId}
+                  search-in-progress={searchInProgress}
+                  object-label-name={objectLabelName}
+                  custom-lookup
+                  custom-server-search
+                  empty-message="Enter at least three (3) characters to show results..."
+                ></c-custom-search>
+                <!--Post Completion Email-->
+                <c-custom-search
+                  search-label="Send on Completion - Email Template"
+                  search-input-placeholder="Search Email Template..."
+                  search-items={postCompletionSearchItems}
+                  search-item-icon="standard:email"
+                  onitemselect={handleLookupSelectPostCompletionEmail}
+                  onitemremove={handleLookupRemovePostCompletion}
+                  onsearch={handlePostComplationSearch}
+                  item-id={postCompletionId}
+                  search-in-progress={searchInProgress}
+                  object-label-name={objectLabelName}
+                  custom-lookup
+                  custom-server-search
+                  empty-message="Enter at least three (3) characters to show results..."
+                ></c-custom-search>
+                <c-custom-search
+                search-label="Send Email on Final Confirmation"
+                search-input-placeholder="Search Email Template..."
+                search-items={onFinalConfirmationSearchItems}
+                search-item-icon="standard:email"
+                onitemselect={handleLookupSelectOnFinalConfirmation}
+                onitemremove={handleLookupRemoveOnFinalConfirmation}
+                onsearch={handleOnFinalConfirmationSearch}
+                item-id={onFinalConfirmationId}
+                search-in-progress={searchInProgress}
+                object-label-name={objectLabelName}
+                custom-lookup
+                custom-server-search
+                empty-message="Enter at least three (3) characters to show results..."
+                ></c-custom-search>
+              </div>
+            </div>
+            <div if:true={editMode} class="slds-text-align_center slds-theme_shade">
+                <div class="slds-p-vertical_x-small">
+                    <lightning-button
+                    label="Cancel"
+                    variant="neutral"
+                    onclick={handleCancel}
+                    class="slds-m-right_x-small"
+                  >
+                  </lightning-button>
+                  <lightning-button label="Save" variant="brand" type="submit">
+                  </lightning-button>
+                </div>
+            </div>
+          </template>
+          <template if:false={editMode}>
+            <div class="slds-grid slds-gutters slds-m-top_small">
+              <div class="slds-col slds-size_1-of-2">
+                <template for:each={fieldsCol1} for:item="fCol1">
+                  <lightning-layout key={fCol1.field} if:false={editMode} class="slds-m-around_small">
+                    <lightning-layout-item flexibility="auto" class="slds-p-horizontal_none slds-border_bottom">
+                        <lightning-output-field
+                            key={fCol1.field} 
+                            field-name={fCol1.name}  
+                        ></lightning-output-field>
+                    </lightning-layout-item>
+                    <lightning-layout-item class="slds-align-bottom slds-p-left_none slds-border_bottom">
+                        <lightning-button-icon
+                            if:false={isStatusCompleted}
+                            icon-name="utility:edit"
+                            alternative-text="Edit"
+                            title="Edit Field"
+                            variant="bare"
+                            size="medium"
+                            onclick={handleEdit}>
+                        </lightning-button-icon>
+                    </lightning-layout-item>
+                  </lightning-layout>
+                </template>
+              </div>
+              <div class="slds-col slds-size_1-of-2">
+                <template for:each={fieldsCol2} for:item="fCol2">
+                  <lightning-layout key={fCol2.field} if:false={editMode} class="slds-m-around_small">
+                    <lightning-layout-item flexibility="auto" class="slds-p-horizontal_none slds-border_bottom ">
+                      <div class="slds-form-element slds-form-element_horizontal">
+                        <span class="slds-form-element__label">{fCol2.name}</span>
+                        <div class="slds-form-element__control">
+                            <lightning-formatted-url
+                            value={fCol2.value}
+                            label={fCol2.label}
+                            class="slds-m-bottom_none"
+                           ></lightning-formatted-url>
+                        </div>
+                      </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item class="slds-align-bottom slds-p-left_none slds-border_bottom">
+                        <lightning-button-icon
+                            if:false={isStatusCompleted}
+                            icon-name="utility:edit"
+                            alternative-text="Edit"
+                            title="Edit Field"
+                            variant="bare"
+                            size="medium"
+                            onclick={handleEdit}>
+                        </lightning-button-icon>
+                    </lightning-layout-item>
+                  </lightning-layout>
+                </template>
+              </div>
+            </div>
+          </template>
+        </template>
+      </lightning-record-edit-form>
+    </lightning-accordion-section>
+  </lightning-accordion>
+</template>

@@ -1,0 +1,9 @@
+.slds-scrollable{
+    max-height: 400px;
+    min-height: 100px;
+}
+
+.slds-modal__content {
+    overflow: visible;
+    overflow-y: visible;
+}

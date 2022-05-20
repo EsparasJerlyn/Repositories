@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Coach_Type__c</fullName>
+    <externalId>false</externalId>
+    <label>Coach Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Role__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>QUT Staff</fullName>
+                <default>false</default>
+                <label>QUT Staff</label>
+            </value>
+            <value>
+                <fullName>QUT Sessional Staff</fullName>
+                <default>false</default>
+                <label>QUT Sessional Staff</label>
+            </value>
+            <value>
+                <fullName>QUT Contractor</fullName>
+                <default>false</default>
+                <label>QUT Contractor</label>
+            </value>
+            <value>
+                <fullName>External Contractor</fullName>
+                <default>false</default>
+                <label>External Contractor</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Coach</controllingFieldValue>
+            <valueName>QUT Staff</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Coach</controllingFieldValue>
+            <valueName>QUT Sessional Staff</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Coach</controllingFieldValue>
+            <valueName>QUT Contractor</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Coach</controllingFieldValue>
+            <valueName>External Contractor</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Program_Type__c</fullName>
+    <externalId>false</externalId>
+    <label>Program Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Prescribed Program</fullName>
+                <default>false</default>
+                <label>Prescribed Program</label>
+            </value>
+            <value>
+                <fullName>Flexible Program</fullName>
+                <default>true</default>
+                <label>Flexible Program</label>
+            </value>
+            <value>
+                <fullName>Award Course</fullName>
+                <default>false</default>
+                <label>Award Course</label>
+            </value>
+            <value>
+                <fullName>Double Degree</fullName>
+                <default>false</default>
+                <label>Double Degree</label>
+            </value>
+            <value>
+                <fullName>Open or Custom Program</fullName>
+                <default>false</default>
+                <label>Open or Custom Program</label>
+            </value>
+            <value>
+                <fullName>Custom Award Course (Not Base on existing)</fullName>
+                <default>false</default>
+                <label>Custom Award Course (Not Base on existing)</label>
+            </value>
+            <value>
+                <fullName>Custom Award Course (Based on existing)</fullName>
+                <default>false</default>
+                <label>Custom Award Course (Based on existing)</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

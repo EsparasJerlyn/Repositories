@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>My_Profile_Persona__c</fullName>
+    <description>Profile Type = Myself
+
+Identifies what type of &apos;person&apos; the marketing person is. Used to drive personalisation and marketing segmentation.</description>
+    <externalId>false</externalId>
+    <label>My Profile Persona</label>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Current High School Student</fullName>
+                <default>false</default>
+                <label>Current High School Student</label>
+            </value>
+            <value>
+                <fullName>Completed High School or Mature Age</fullName>
+                <default>false</default>
+                <label>Completed High School or Mature Age</label>
+            </value>
+            <value>
+                <fullName>Parent or Guardian</fullName>
+                <default>false</default>
+                <label>Parent or Guardian</label>
+            </value>
+            <value>
+                <fullName>Guidance Officer or Careers Advisor</fullName>
+                <default>false</default>
+                <label>Guidance Officer or Careers Advisor</label>
+            </value>
+            <value>
+                <fullName>Open Professional Education</fullName>
+                <default>false</default>
+                <label>Open Professional Education</label>
+            </value>
+            <value>
+                <fullName>Custom Education for My Organisation</fullName>
+                <default>false</default>
+                <label>Custom Education for My Organisation</label>
+            </value>
+            <value>
+                <fullName>International Student</fullName>
+                <default>false</default>
+                <label>International Student</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

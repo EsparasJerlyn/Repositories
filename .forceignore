@@ -3,12 +3,7 @@
 #
 
 package.xml
-**appMenu
-**appSwitcher
-**objectTranslations
-**featureParameters
-src-env-specific-alias-pre
-src-env-specific-alias-post
+profilePasswordPolicies
 
 # LWC configuration files
 **/jsconfig.json
@@ -19,5 +14,3 @@ src-env-specific-alias-post
 
 **README.md
 *README.md
-
-src/frameworks/trigger-framework/sample

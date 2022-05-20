@@ -1,0 +1,52 @@
+{
+  "appPageId" : "b28ff838-09a0-4bed-9c7e-7d9052f13951",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "id" : "85b8f4ec-c66a-4f11-821c-dcbce84c2893",
+  "label" : "Product Detail",
+  "regions" : [ {
+    "id" : "fb79c78d-31c5-43b5-a12e-0faba236f162",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "effectiveAccountId" : "{!CurrentUser.effectiveAccountId}",
+        "recordId" : "{!recordId}"
+      },
+      "componentName" : "c:productDetails",
+      "id" : "f1cf8276-f401-4a5d-94cc-a50c59348f19",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "50fcab64-5f7c-4b00-9819-8f93feea20c1",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "bc2029a2-dc77-43c4-b5e6-4aa9962c3f89",
+    "regionName" : "sidebar",
+    "type" : "region"
+  }, {
+    "id" : "dc83268e-706e-49e7-a797-7385222d147a",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "customHeadTags" : "",
+        "description" : "",
+        "title" : "{!Record._Object}: {!Record._Title}"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "fbf1248e-b98b-470b-abf5-61fd58ace998",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "9cc8086e-2bff-49d3-9c8b-704f00e05aee",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "detail-01t"
+}

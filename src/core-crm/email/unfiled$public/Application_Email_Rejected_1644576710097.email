@@ -1,0 +1,23 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">
+<p>Dear <b>{contactFirstName}</b>,&nbsp;<br />
+<br />
+<br />
+Thank you for applying for {courseName}.</p>
+
+<p>We regret to advise that your application hasn’t been successful.<br />
+{reasonForRejection}</p>
+We look forward to seeing you soon. To continue expanding your professional and personal success&nbsp;<a href="https://www.qut.edu.au/study/professional-and-executive-education/courses"><u>click here</u></a>&nbsp;to check out what else QUTeX has to offer.&nbsp;<br />
+<br />
+<br />
+Kind&nbsp;Regards,&nbsp;<br />
+<br />
+<strong>The QUTeX Team</strong><br />
+Phone: + 61 7 3138 7733 | Email:&nbsp;<a href="mailto:qutex@qut.edu.au">qutex@qut.edu.au</a> <br />
+QUTeX Professional and Executive Education for the Real World&nbsp;| <a href="https://qut.edu.au/qutex" rel="noopener noreferrer" target="_blank">www.qut.edu.au/qutex</a><br />
+<br />
+<a href="https://www.linkedin.com/showcase/14561011/admin/"><strong><u>Follow</u></strong></a> QUTeX on<strong> </strong>LinkedIn<strong> | </strong><a href="https://alumni-and-friends.qut.edu.au/qutex-connect-subscription"><strong><u>Subscribe</u></strong></a> to the QUTeX Connect Newsletter&nbsp;
+</body></html>

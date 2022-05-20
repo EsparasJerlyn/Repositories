@@ -1,0 +1,27 @@
+<template>
+    <template if:true={hasAccess}>
+        <lightning-accordion allow-multiple-sections-open active-section-name="Program Structure">
+            <lightning-accordion-section  name="Program Structure" label="Program Structure" class="accordion-section">
+                <template if:true={isLoading}>
+                    <lightning-spinner class="slds-m-top_large" alternative-text="Loading" size="medium"></lightning-spinner>
+                </template>
+                <template if:false={isLoading}>  
+                    <template if:true={hasCourse}>
+                        <c-program-structure 
+                        table-data={tableData}
+                        program-plan={programPlan}
+                        onprogramstrucuresaved={saveProgramStructureRecord}
+                        has-plan-requirement-on-render={hasPlanRequirementOnRender}
+                        is-status-not-design={isStatusNotDesign}
+                        ></c-program-structure> 
+                    </template>
+                    <template if:false={hasCourse}>
+                        <div class="slds-align_absolute-center slds-m-top_large slds-text-title_bold">
+                            No Child Product Request Course Found.
+                        </div>
+                    </template>
+                </template>
+            </lightning-accordion-section>
+        </lightning-accordion>
+    </template>
+</template>

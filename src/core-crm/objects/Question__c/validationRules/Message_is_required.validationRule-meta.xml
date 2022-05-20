@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Message_is_required</fullName>
+    <active>true</active>
+    <description>Message is required when Acceptable Response is not blank.</description>
+    <errorConditionFormula>AND(
+NOT( ISBLANK(Acceptable_Response__c) ),
+ISBLANK( Message__c ) 
+)</errorConditionFormula>
+    <errorDisplayField>Message__c</errorDisplayField>
+    <errorMessage>Message is required when Acceptable Response is not blank.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SE_Education_Level__c</fullName>
+    <description>Profile Type = Someone Else
+
+The education level being studied by the Marketing Person.</description>
+    <externalId>false</externalId>
+    <label>SE Education Level</label>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>In Year 7 or below</fullName>
+                <default>false</default>
+                <label>In Year 7 or below</label>
+            </value>
+            <value>
+                <fullName>In Year 8</fullName>
+                <default>false</default>
+                <label>In Year 8</label>
+            </value>
+            <value>
+                <fullName>In Year 9</fullName>
+                <default>false</default>
+                <label>In Year 9</label>
+            </value>
+            <value>
+                <fullName>In Year 10</fullName>
+                <default>false</default>
+                <label>In Year 10</label>
+            </value>
+            <value>
+                <fullName>In Year 11</fullName>
+                <default>false</default>
+                <label>In Year 11</label>
+            </value>
+            <value>
+                <fullName>In Year 12</fullName>
+                <default>false</default>
+                <label>In Year 12</label>
+            </value>
+            <value>
+                <fullName>Completed Year 12 or equivalent</fullName>
+                <default>false</default>
+                <label>Completed Year 12 or equivalent</label>
+            </value>
+            <value>
+                <fullName>Studying at TAFE</fullName>
+                <default>false</default>
+                <label>Studying at TAFE</label>
+            </value>
+            <value>
+                <fullName>Completed a TAFE Qualification</fullName>
+                <default>false</default>
+                <label>Completed a TAFE Qualification</label>
+            </value>
+            <value>
+                <fullName>Have work experience</fullName>
+                <default>false</default>
+                <label>Have work experience</label>
+            </value>
+            <value>
+                <fullName>Currently Studying at University</fullName>
+                <default>false</default>
+                <label>Currently Studying at University</label>
+            </value>
+            <value>
+                <fullName>Completed a University Degree</fullName>
+                <default>false</default>
+                <label>Completed a University Degree</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

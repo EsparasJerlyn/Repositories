@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>My_Interested_Pathway_Program_or_Diploma__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Profile Type = Myself
+
+Indicates whether the marketing person is interested in receiving information about Pathway Programs and/or Diploma Courses specifically for Domestic Students.</description>
+    <externalId>false</externalId>
+    <label>My Interested Pathway Program or Diploma</label>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

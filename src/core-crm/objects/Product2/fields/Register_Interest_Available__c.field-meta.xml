@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Register_Interest_Available__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>If this is true, register interest button will be available in the product catalogue when there’s no offering.</description>
+    <externalId>false</externalId>
+    <label>Register Interest Available</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Program Offering Information</label>
+    <protected>false</protected>
+    <values>
+        <field>Left_Column_Long__c</field>
+        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Delivery_Type__c&quot;, &quot;mandatory&quot;:true},{&quot;field&quot;:&quot;Start_Date__c&quot;, &quot;mandatory&quot;:true},
+{&quot;field&quot;:&quot;Registration_Start_Date__c&quot;, &quot;mandatory&quot;:true},{&quot;field&quot;:&quot;Minimum_Participants__c&quot;, &quot;mandatory&quot;:true, &quot;isPrePopulated&quot;:true}]</value>
+    </values>
+    <values>
+        <field>Left_Column__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Order__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Record_Type_Setting__c</field>
+        <value xsi:type="xsd:string">All_OPE_Program_Offerings</value>
+    </values>
+    <values>
+        <field>Right_Column_Long__c</field>
+        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;IsActive__c&quot;},{&quot;field&quot;:&quot;End_Date__c&quot;, &quot;mandatory&quot;:true},{&quot;field&quot;:&quot;Registration_End_Date__c&quot;, &quot;mandatory&quot;:true},{&quot;field&quot;:&quot;hed_Capacity__c&quot;, &quot;mandatory&quot;:true,&quot;isPrePopulated&quot;:true}]</value>
+    </values>
+    <values>
+        <field>Right_Column__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Single_Column_Long__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Single_Column__c</field>
+        <value xsi:nil="true"/>
+    </values>
+</CustomMetadata>

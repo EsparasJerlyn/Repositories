@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SE_Interested_Languages__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Profile Type = Someone Else
+
+Indicates if the marketing person is interested in receiving information about QUT&apos;s langauage programs.</description>
+    <externalId>false</externalId>
+    <label>SE Interested Languages</label>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,60 @@
+.accordion-section{
+    --sds-c-accordion-summary-color-background : #f3f2f2;
+    --sds-c-accordion-color-border : white;
+    --sds-c-accordion-heading-font-size : medium;
+    --sds-c-accordion-sizing-border : 5px;
+}
+
+.nested-accordion-section{
+    --sds-c-accordion-summary-color-background : #fcfcfc;
+    --sds-c-accordion-color-border : white;
+    --sds-c-accordion-heading-font-size : small;
+    --sds-c-accordion-sizing-border : 5px;
+}
+
+.section-button{
+    position: absolute;
+    right: 30px;
+    top: 10px;
+    z-index: 2;
+    float: right;
+}
+
+.section-button-help{
+    right: 10px;
+    top: 5px;
+}
+
+.section-badge{
+    top:15px;
+}
+
+.section-print{
+    right: 120px;
+}
+
+.max-height{
+    max-height:400px;
+}
+
+.small-button{
+    font-size: x-small;
+}
+
+.black-border{
+    border-color: black;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.3);
+}

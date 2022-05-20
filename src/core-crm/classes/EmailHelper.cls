@@ -1,0 +1,138 @@
+/**
+ * @description Utility class for Email Helper
+ *
+ * @author Accenture
+ * 
+ * @history
+ *
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                           |
+      |--------------------------------|-----------------------|------------------------|------------------------------------------|
+      | marygrace.li@qut.edu.au        | April 4, 2022         | DEPP-1479              | Created file                             |
+      | angelika.j.s.galang            | April 22, 2022        | DEPP-2156              | Added documentation and modified methods |
+ */
+public class EmailHelper {
+
+    private static final Map<String,String> EMAIL_LETTERHEAD = new Map<String,String>{
+        'header' => System.Label.DOC_Email_Header,
+        'footer' => System.Label.DOC_Email_Footer
+    };
+
+    /**
+    * @description sets mergeField tags with values in email body
+    * @param body - body of the email
+    * @param params - parameters to be updated with values
+    * @return string containing updated email body
+    */
+    private static String setBodyValues(
+        String body,
+        Map<String,String> params,
+        Boolean setHeaderAndFooter
+    ){
+        if(params!=null && params.size()>0){
+            for(String key :params.keySet()){
+                string val=params.get(key);
+                body=body.replace(key,val);
+            }
+        }
+        return setHeaderAndFooter ? addHeaderAndFooter(body) : body;
+    }
+
+    /**
+    * @description adds header and footer to email content
+    * @param emailBody - email body to be modified
+    * @return updated email body
+    */
+    public static String addHeaderAndFooter(String emailBody){
+        List<GenerateImageServerURL.ImageInfo> imageInfos = new List<GenerateImageServerURL.ImageInfo>();
+        for(String emailLetterhead : EMAIL_LETTERHEAD.values()){
+            GenerateImageServerURL.ImageInfo imageInfo = new GenerateImageServerURL.ImageInfo();
+            imageInfo.imageName = emailLetterhead;
+            imageInfos.add(imageInfo);
+        }
+        List<GenerateImageServerURL.ImageURL> imageURLs = GenerateImageServerURL.generateURL(imageInfos);
+
+        String emailHeaderTag = 
+            '<div style="max-width: 640px;text-align: justify;">' +
+            '<img alt="' + EMAIL_LETTERHEAD.get('header') + '" title="' + EMAIL_LETTERHEAD.get('header') + '"' +
+            'src="' + imageURLs[0].imageUrl + '"/><br /><br />';
+        String emailFooterTag = 
+            '<br /><br /><img alt="' + EMAIL_LETTERHEAD.get('footer') + '" title="' + EMAIL_LETTERHEAD.get('footer') + '"' +
+            'src="' + imageURLs[1].imageUrl + '"/>' +
+            '</div>';
+
+        return emailHeaderTag + emailBody + emailFooterTag;
+    }
+
+    /**
+    * @description attaches pdf file to email
+    * @param fileName - name of the file attachment
+    * @param emailHtml - body of the email
+    * @param emailContent - parameters to be updated with values
+    * @return email file attachment
+    */
+    public static Messaging.EmailFileAttachment attachementBuilder(
+        String fileName,
+        String emailHtml,
+        Map<String,String> emailContent
+    ){
+        Messaging.EmailFileAttachment attach = new Messaging.EmailFileAttachment();
+        attach.setContentType('application/pdf');
+        attach.setFileName(fileName);
+        attach.setInline(true);
+        String body=emailHtml;
+        body=setBodyValues(body,emailContent,false);
+        attach.Body = Blob.toPDF(body);
+        return attach;
+    }
+
+    /**
+    * @description creates email content
+    * @param email - email address of recipient
+    * @param subject - subject of the email
+    * @param emailHtml - body of the email
+    * @param emailContent - parameters to be updated with values
+    * @return single email message
+    */
+    public static Messaging.SingleEmailMessage emailBuilder(
+        String email,
+        String subject,
+        String emailHtml,
+        Map<String,String> emailContent
+    ){
+        Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
+        mail.setUseSignature(false);
+        mail.setToAddresses(new string[]{email});
+        mail.setSubject(subject);
+        String body=emailHtml;
+        body=setBodyValues(body,emailContent,true);
+        mail.setHtmlBody(body);
+        return mail;
+    }
+
+    /**
+    * @description creates email content with org wide email sender
+    * @param emailAddresses - list of email addresses of recipients
+    * @param subject - subject of the email
+    * @param emailHtml - body of the email
+    * @param emailContent - parameters to be updated with values
+    * @param orgWideEmailId - org wide email address id
+    * @return single email message
+    */
+    public static Messaging.SingleEmailMessage emailBuilder(
+        List<String> emailAddresses,
+        String subject,
+        String emailHtml,
+        Map<String,String> emailContent,
+        String orgWideEmailId
+    ){
+        Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
+        mail.setUseSignature(false);
+        mail.setToAddresses(emailAddresses);
+        mail.setSubject(subject);
+        mail.setHtmlBody(setBodyValues(emailHtml,emailContent,true));
+        if(!String.isBlank(orgWideEmailId)){
+            mail.setOrgWideEmailAddressId(orgWideEmailId);
+        }
+        return mail;
+    }
+}

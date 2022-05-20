@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IsOffer_Made__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>indicates the applicant has been made an offer in the relevant course (e.g. highest preference for QUT within the preference number range specified) from QUT.</description>
+    <externalId>false</externalId>
+    <label>Is Offer Made</label>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

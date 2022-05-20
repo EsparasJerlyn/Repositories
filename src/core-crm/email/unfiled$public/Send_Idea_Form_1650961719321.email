@@ -1,0 +1,24 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">
+<p>Dear <b>{requestorFirstName}</b>,<br />
+<br />
+<br />
+Please see the link below to access the idea form:</p>
+
+<p><i>{ideaFormLink}</i></p>
+
+<p>If you have any further questions, please get in touch.<br />
+<br />
+<br />
+Kind Regards,<br />
+<br />
+<b>The QUTeX Team</b><br />
+Phone: +61 7 3138 7733 | Email: <a href="mailto:qutex@qut.edu.au" rel="noopener noreferrer" target="_blank">qutex@qut.edu.au</a><br />
+QUTeX Professional and Executive Education for the Real World | <a href="https://qut.edu.au/qutex" rel="noopener noreferrer" target="_blank">www.qut.edu.au/qutex</a><br />
+<br />
+<a href="https://www.linkedin.com/showcase/14561011/admin/" rel="noopener noreferrer" target="_blank">Follow</a> QUTeX on LinkedIn | <a href="https://alumni-and-friends.qut.edu.au/qutex-connect-subscription" rel="noopener noreferrer" target="_blank">Subscribe</a> to the QUTeX Connect Newsletter</p>
+
+</body></html>

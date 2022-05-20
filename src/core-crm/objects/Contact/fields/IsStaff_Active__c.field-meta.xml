@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IsStaff_Active__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Flag to notify user if contact is active QUT staff</description>
+    <externalId>false</externalId>
+    <label>IsStaff Active</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

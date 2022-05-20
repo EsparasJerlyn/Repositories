@@ -1,0 +1,107 @@
+<template>
+  <!-- Header Section -->
+  <lightning-layout multiple-rows="true">
+    <lightning-layout-item
+      class="slds-size_1-of-4 slds-p-right_small slds-p-bottom_medium"
+    >
+      <p class="slds-form-element__label">{typeTitle}</p>
+      <p class="slds-form-element__static">{qrsType}</p>
+    </lightning-layout-item>
+    <lightning-layout-item
+      class="slds-size_1-of-4 slds-p-right_small slds-p-bottom_medium"
+    >
+      <p class="slds-form-element__label">{productTitle}</p>
+      <a href={qrsProductURL} target="_blank">
+        <span class="slds-text-link slds-form-element__static"
+          >{qrsProduct}</span
+        >
+      </a>
+    </lightning-layout-item>
+    <lightning-layout-item
+      class="slds-size_1-of-4 slds-p-right_small slds-p-bottom_medium"
+    >
+      <p class="slds-form-element__label">{contactTitle}</p>
+      <a href={qrsContactURL} target="_blank">
+        <span class="slds-text-link slds-form-element__static"
+          >{qrsContact}</span
+        >
+      </a>
+    </lightning-layout-item>
+    <lightning-layout-item
+      class="slds-size_1-of-4 slds-p-right_small slds-p-bottom_medium"
+    >
+      <p class="slds-form-element__label">{statusTitle}</p>
+      <p class="slds-form-element__static">{qrsStatus}</p>
+    </lightning-layout-item>
+  </lightning-layout>
+  <!-- QA List Section -->
+  <lightning-layout multiple-rows="true">
+    <lightning-layout-item
+      class="slds-size_5-of-12 slds-p-right_small slds-p-bottom_medium slds-text-title_bold"
+    >
+      {questionTitle}
+    </lightning-layout-item>
+    <lightning-layout-item
+      class="slds-size_1-of-12 slds-p-right_small slds-p-bottom_medium slds-text-title_bold"
+    ></lightning-layout-item>
+    <lightning-layout-item
+      class="slds-size_5-of-12 slds-p-right_small slds-p-bottom_medium slds-text-title_bold"
+    >
+      {answerTitle}
+    </lightning-layout-item>
+    <template for:each={qaList} for:item="qa">
+      <lightning-layout-item
+        key={qa.qId}
+        class="slds-size_5-of-12 slds-m-bottom_medium slds-box slds-box_xx-small"
+      >
+        <p class="slds-form-element__label">{qa.question}</p>
+      </lightning-layout-item>
+      <lightning-layout-item
+        key={qa.qaSequence}
+        class="slds-size_1-of-12 slds-m-bottom_medium"
+      >
+      </lightning-layout-item>
+      <template if:true={qa.isFile}>
+        <lightning-layout-item
+        key={qa.aId}
+        class="slds-size_5-of-12 slds-m-bottom_medium slds-box slds-box_xx-small"
+      >
+      <lightning-formatted-url value={qa.answer} label='View File' target="_top"></lightning-formatted-url> 
+      </lightning-layout-item>
+      </template>
+      <template if:false={qa.isFile}>
+        <lightning-layout-item
+        key={qa.aId}
+        class="slds-size_5-of-12 slds-m-bottom_medium slds-box slds-box_xx-small"
+      >
+        <p class="slds-form-element__label">{qa.answer}</p>
+      </lightning-layout-item>
+      </template>
+    </template>
+  </lightning-layout>
+  <div
+    if:true={showApproveDecline}
+    class="slds-grid slds-gutters slds-m-horizontal_xxx-small slds-m-vertical_small"
+  >
+    <div class="slds-col slds-size_1-of-1">
+      <lightning-button
+        class="slds-float_right slds-p-left_small"
+        label="Decline"
+        title="Decline"
+        variant="brand"
+        data-id="Rejected"
+        onclick={updateStatus}
+      >
+      </lightning-button>
+      <lightning-button
+        class="slds-float_right slds-p-left_small"
+        label="Approve"
+        title="Approve"
+        variant="brand"
+        data-id="Approved"
+        onclick={updateStatus}
+      >
+      </lightning-button>
+    </div>
+  </div>
+</template>

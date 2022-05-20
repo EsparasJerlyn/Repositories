@@ -1,0 +1,97 @@
+<template>
+	<div if:false={hasAccess} class="slds-text-align_center slds-p-around_large">
+        <p><strong>{noAccessMessage}</strong></p>
+    </div>
+	<lightning-spinner if:true={isLoading} alternative-text="Loading" size="small"></lightning-spinner>
+	<lightning-accordion if:true={showLayout} allow-multiple-sections-open active-section-name={activeSections}>
+		<lightning-record-edit-form
+			record-id={childRecordId}
+			object-api-name={childObjectApiName}
+			onsubmit={handleSubmit}
+			onsuccess={handleSuccess}
+			onerror={handleError}>
+
+			<lightning-layout multiple-rows="true">
+				<lightning-layout-item size="12">
+					<template for:each={uiRecord.sections} for:item="section">
+						<lightning-accordion-section key={section.id} name={section.id} label={section.heading} class="accordion-section">
+							<lightning-layout multiple-rows="true">
+								<template for:each={section.layoutRows} for:item="layoutRow">
+									<template for:each={layoutRow.layoutItems} for:item="layoutItem">
+										<template for:each={layoutItem.layoutComponents} for:item="layoutComponent">
+											<lightning-layout-item
+												if:true={layoutComponent.apiName}
+												key={layoutComponent.apiName}
+												size={section.fieldSize}
+												padding="horizontal-small"
+												class="slds-align-bottom">
+												<lightning-input-field
+													if:true={editMode}
+													field-name={layoutComponent.apiName}
+													required={layoutItem.required}
+													class={layoutComponent.apiName}
+												></lightning-input-field>
+												<lightning-layout if:false={editMode} class="slds-m-around_xx-small">
+													<lightning-layout-item flexibility="auto" class="slds-p-horizontal_none slds-border_bottom">
+														<template if:true={layoutItem.isSysInfoData}>
+															<lightning-layout>
+																<lightning-layout-item size="4">
+																	<span data-field={layoutComponent.apiName} class="slds-form-element__label">
+																		{layoutComponent.label}
+																	</span>
+																</lightning-layout-item>
+																<lightning-layout-item size="8">
+																	<lightning-output-field
+																		field-name={layoutComponent.apiName}
+																		class="slds-m-bottom_none"
+																		variant="label-hidden"
+																	></lightning-output-field>
+																</lightning-layout-item>
+															</lightning-layout>
+														</template>
+														<template if:false={layoutItem.isSysInfoData}>
+															<lightning-output-field
+																field-name={layoutComponent.apiName}
+																class="slds-m-bottom_none"
+															></lightning-output-field>
+														</template>
+													</lightning-layout-item>
+													<lightning-layout-item class="slds-p-left_none slds-border_bottom">
+														<lightning-button-icon
+															if:false={disableEditButton}
+															icon-name="utility:edit"
+															alternative-text="Edit"
+															title="Edit Field"
+															variant="bare"
+															size="medium"
+															onclick={handleEdit}
+															class={layoutComponent.apiName}
+														></lightning-button-icon>
+													</lightning-layout-item>
+												</lightning-layout>
+											</lightning-layout-item>
+										</template>
+									</template>
+								</template>
+							</lightning-layout>
+						</lightning-accordion-section>
+					</template>
+				</lightning-layout-item>
+			</lightning-layout>
+			<div if:true={editMode} class="slds-m-vertical_x-large"></div>
+			<div if:true={editMode} class="slds-docked-form-footer">
+				<lightning-button
+					label="Cancel"
+					variant="neutral"
+					onclick={handleCancel}
+					class="slds-m-right_x-small">
+				</lightning-button>
+				<lightning-button
+					label="Save"
+					variant="brand"
+					type="submit">
+				</lightning-button>
+			</div>
+		</lightning-record-edit-form>
+	</lightning-accordion>
+</template>

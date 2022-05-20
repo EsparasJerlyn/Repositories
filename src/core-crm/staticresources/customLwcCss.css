@@ -1,0 +1,7 @@
+.datepicker * .slds-input {
+    padding: 0.5rem 0rem 0.5rem 2rem !important;
+    font-size: 14px;
+    }
+.datepicker * .slds-form-element__label{
+    display: none;
+}

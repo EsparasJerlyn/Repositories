@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Alumni_Verified__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Flag to determine contact is verified as alumni (system automated or manually verified by program administrator)</description>
+    <externalId>false</externalId>
+    <label>Alumni Verified</label>
+    <securityClassification>Sensitive</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

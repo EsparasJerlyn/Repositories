@@ -1,0 +1,67 @@
+.slds-docked-form-footer {
+    z-index: 999;
+}
+
+.slds-grid .slds-truncate,
+.slds-grid .cell-output,
+.full-width {
+    width: 100%
+}
+
+.lookup-container{
+    margin-top: -1rem;
+    margin-left: -0.5rem;
+    position: absolute !important;
+}
+
+.lookup-container .slds-dropdown{
+    position: fixed !important;
+    max-height: 120px;
+    z-index: 1000;
+    max-width: fit-content;
+    overflow: auto;
+}
+
+.picklist-container{
+    width : 90%;
+    margin: 0 auto;
+}
+
+.picklist-container .slds-dropdown{
+    position: relative !important;
+    z-index: 99 !important;
+    max-height: 120px;
+    overflow: scroll;
+    overflow-x:hidden !important;
+}
+
+[lightning-combobox_combobox-host]{
+    margin-bottom: 17px;
+}
+
+th.slds-has-focus, td.slds-has-focus{
+    box-shadow: none !important;
+}
+
+.slds-table_edit thead th:first-child{
+    width: 60px;
+    
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    overflow-x:hidden !important;
+}
+
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.3);
+
+}
+

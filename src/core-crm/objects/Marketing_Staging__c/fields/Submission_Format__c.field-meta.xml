@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Submission_Format__c</fullName>
+    <description>Student&apos;s application format - either &apos;online&apos; or &apos;paper&apos;. An online application is one that has been submitted via the online application portal after 2020. A paper application is one that is submitted via QTAC.</description>
+    <externalId>false</externalId>
+    <label>Submission Format</label>
+    <length>80</length>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

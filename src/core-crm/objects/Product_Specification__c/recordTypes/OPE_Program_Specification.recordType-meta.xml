@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>OPE_Program_Specification</fullName>
+    <active>true</active>
+    <compactLayoutAssignment>OPE_Product_Specification_Compact_Layout</compactLayoutAssignment>
+    <description>Used to Design products which are the result of an idea request from a faculty.</description>
+    <label>OPE Program Specification</label>
+    <picklistValues>
+        <picklist>Client_Review_Required__c</picklist>
+        <values>
+            <fullName>Client Approved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>N%2FA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>None</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Existing_Product__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not Sure</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Financial_Viability__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not Sure</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Market_Need__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not Sure</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Primary_Faculty__c</picklist>
+        <values>
+            <fullName>Faculty of Business and Law</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Faculty of Creative Industries%2C Education and Social Justice</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Faculty of Engineering</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Faculty of Health</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Faculty of Science</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Learning and Teaching Unit</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Office of the DVC %26 VP %28Research%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>QUT College</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>University Wide</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Product_Type__c</picklist>
+        <values>
+            <fullName>Activity</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Module</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Program</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Short Course</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>QUT_Faculty_Capacity__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not Sure</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>QUTeX_Capacity__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not Sure</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Requires_Director_Endorsement__c</picklist>
+        <values>
+            <fullName>Not Required</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Stage__c</picklist>
+        <values>
+            <fullName>Complete</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Design</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Idea</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Not Proceeding</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Qualify</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Status__c</picklist>
+        <values>
+            <fullName>Complete</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Design</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Does Not Meet Qualification</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Existing Product</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Idea Sent</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Qualification</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

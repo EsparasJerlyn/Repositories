@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Program_Request</fullName>
-    <active>true</active>
-    <description>This record type will be used to request a program. This can be Award Units and or Non Award Modules mixed in with an array of products that are list below.</description>
-    <label>Program Request</label>
-</RecordType>

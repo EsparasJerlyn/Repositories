@@ -1,0 +1,30 @@
+.gray-text{
+    color:gray;
+}
+
+.sf-blue-text{
+    color:#0176d3;
+}
+
+.custom-scroll{
+    overflow-y: auto;
+}
+
+.custom-height{
+    max-height: 400px;
+    min-height: 100px;
+}
+
+::-webkit-scrollbar{
+  width: 6px;
+}
+
+::-webkit-scrollbar-track{
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb{
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.3);
+}

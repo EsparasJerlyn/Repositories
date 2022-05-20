@@ -1,24 +1,64 @@
 {
   "packageDirectories": [
     {
-      "path": "src-env-specific-pre",
-      "package": "src-env-specific-pre",
+      "path": "src/core-crm-pre",
+      "package": "core-crm-pre",
       "type": "metadata",
-      "default": true,
       "versionName": "Version 1.0.0.0",
       "versionNumber": "1.0.0.0"
     },
     {
-      "path": "src-access-management",
-      "package": "src-access-management",
+      "path": "src/src-env-specific-alias",
+      "package": "src-env-specific-alias",
       "type": "metadata",
+      "versionName": "Version 1.0.0.0",
+      "versionNumber": "1.0.0.0",
+      "aliasfy": true
+    },
+    {
+      "path": "src/core-crm",
+      "package": "core-crm",
+      "type": "metadata",
+      "default": true,
+      "versionName": "Version 1.0.0.0",
+      "versionNumber": "1.0.0.0",
+      "destructiveChangePath": "destructive/core-crm/Release1/destructiveChanges.xml",
+      "destructiveChangePathPreviousRelease": "destructive/core-crm/Pilot1/destructiveChanges.xml"
+    },
+    {
+      "path": "src/core-crm-post",
+      "package": "core-crm-post",
+      "type": "metadata",
+      "versionName": "Version 1.0.0.0",
+      "versionNumber": "1.0.0.0"
+    },
+    {
+      "path": "src/core-crm-data-pre",
+      "package": "core-crm-data-pre",
+      "type": "data",
+      "versionName": "Version 1.0.0.0",
+      "versionNumber": "1.0.0.0"
+    },
+    {
+      "path": "src/core-crm-data-alias",
+      "package": "core-crm-data-alias",
+      "type": "data",
+      "versionName": "Version 1.0.0.0",
+      "versionNumber": "1.0.0.0",
+      "aliasfy": true
+    },
+    {
+      "path": "src/core-crm-data",
+      "package": "core-crm-data",
+      "type": "data",
+      "defaultData": true,
       "versionName": "Version 1.0.0.0",
       "versionNumber": "1.0.0.0"
     }
   ],
   "namespace": "",
   "sfdcLoginUrl": "https://login.salesforce.com",
-  "sourceApiVersion": "52.0",
+  "sourceApiVersion": "53.0",
   "packageAliases": {
     "DocuSign Apps Launcher": "04t3u00000349bDAAQ"
   },

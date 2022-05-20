@@ -1,0 +1,58 @@
+.layout-contiainer {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+}
+
+/*.aside-section {
+    flex: 1 0 20%;
+    max-width: 15rem;
+}*/
+
+/*.main-section {
+    flex: 1 0 80%;
+}*/
+
+.header-text{
+    font-size: 1em !important;
+    line-height: 36px;
+    font-weight: 700 !important;
+    color: #000;
+    /*margin-bottom: -2rem;*/
+    margin-left: 1rem;
+    display: inline-block;
+}
+
+.filters-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.filters-header .clear-all-button {
+    align-self: flex-end;
+}
+
+/* 
+    small form factor 
+    SLDS media query reference: https://www.lightningdesignsystem.com/design-tokens/#category-media-query
+*/
+@media only screen and (max-width: 47.9375em) {
+    .layout-contiainer {
+        flex-direction: column;
+    }
+
+    .aside-section {
+        max-width: 100%;
+    }
+}
+
+@media only screen and (min-width: 765px) {
+    .slds-align_absolute-center {
+        display: flex;
+        justify-content: flex-start;
+        align-content: flex-start;
+        align-items: flex-start;
+        margin: auto;
+    }
+}

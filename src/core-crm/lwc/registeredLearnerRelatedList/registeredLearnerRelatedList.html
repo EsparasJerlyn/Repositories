@@ -1,0 +1,23 @@
+<template>
+    <lightning-card>
+        <template if:true={isLoading}>
+            <lightning-spinner class="slds-m-top_large" alternative-text="Loading" size="medium"></lightning-spinner>
+        </template>
+        <template if:false={isLoading}>
+            <template if:true={noRegisteredLearner}>
+                <div class=" slds-text-heading_medium slds-p-around_x-small slds-clearfix slds-align_absolute-center">
+                    No Registered Learner for this Offering
+                </div>   
+            </template>
+            <template if:false={noRegisteredLearner}>
+                <div class="slds-m-around_medium">   
+                    <p class="slds-text-heading_medium slds-p-bottom_small">List of Registered Learners</p>
+                    <c-custom-datatable
+                            records={learnerData}
+                            columns={columns}>
+                    </c-custom-datatable>
+                </div>
+            </template>
+        </template>
+    </lightning-card>
+</template>

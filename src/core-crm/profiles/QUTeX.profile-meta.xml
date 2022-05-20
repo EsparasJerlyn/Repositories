@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Profile xmlns="http://soap.sforce.com/2006/04/metadata">
+    <applicationVisibilities>
+        <application>QUTeX_OPE</application>
+        <default>false</default>
+        <visible>false</visible>
+    </applicationVisibilities>
+    <applicationVisibilities>
+        <application>standard__Commerce</application>
+        <default>false</default>
+        <visible>true</visible>
+    </applicationVisibilities>
+    <applicationVisibilities>
+        <application>standard__SalesforceCMS</application>
+        <default>false</default>
+        <visible>true</visible>
+    </applicationVisibilities>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>ManageCMS</name>
+    </userPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Order.SalesStoreId</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Product_Specification__c.Program_Lead__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Product_Specification__c.Lead_School__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Product_Specification__c.QUT_Staff_Email__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Dietary_Requirement__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Contact_Image__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <custom>true</custom>
+    <userLicense>Salesforce</userLicense>
+    <layoutAssignments>
+        <layout>Lead-QUTeX Leads</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Contact-Contact Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Global-Chatter Publisher Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Account-Account Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Account-Account Layout</layout>
+        <recordType>Account.Academic_Program</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Account-Business Organization Layout</layout>
+        <recordType>Account.Business_Organization</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Contact-Contact Page Layout</layout>
+        <recordType>Contact.Person</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Account-Account Layout</layout>
+        <recordType>Account.Sports_Organization</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Account-Administrative Account Layout</layout>
+        <recordType>Account.Administrative</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Account-University And Educational Layout</layout>
+        <recordType>Account.Educational_Institution</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Account-University And Educational Layout</layout>
+        <recordType>Account.University_Department</recordType>
+    </layoutAssignments>
+ <layoutAssignments>
+        <layout>Outlook-Outlook Integration Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Opportunity-QUTeX Opportunity Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Opportunity-QUTeX Opportunity Layout</layout>
+        <recordType>Opportunity.QUTex_CCE</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>OpportunityContactRole-Opportunity Contact Role Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Product2-OPE Product Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Product_Request__c-Product Request Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Product_Request__c-Diagnostic Tool Request Layout</layout>
+        <recordType>Product_Request__c.Diagnostic_Tool_Request</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Product_Request__c-Activity Request Layout</layout>
+        <recordType>Product_Request__c.Activity_Request</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Product_Request__c-Coaching Request Layout</layout>
+        <recordType>Product_Request__c.Coaching_Request</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Product_Request__c-Educational Consultancy Request Layout</layout>
+        <recordType>Product_Request__c.Educational_Consultancy_Request</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Product_Request__c-Corporate Bundle Request Layout</layout>
+        <recordType>Product_Request__c.Corporate_Bundle_Request</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Product_Request__c-Stand-Alone Unit %2F Module Request Layout</layout>
+        <recordType>Product_Request__c.Stand_Alone_Unit_Module_Request</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Product_Specification__c-CCE Product Specification Page Layout</layout>
+        <recordType>Product_Specification__c.CCE_Program_Specification</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Product_Specification__c-OPE Product Specification Page Layout</layout>
+        <recordType>Product_Specification__c.OPE_Program_Specification</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Product_Specification__c-Product Specification Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course__c-OPE Activity Page Layout</layout>
+        <recordType>hed__Course__c.Activity</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course__c-OPE Activity Page Layout</layout>
+        <recordType>hed__Course__c.OPE_Activity</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course__c-OPE Module Page Layout</layout>
+        <recordType>hed__Course__c.Module</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course__c-OPE Short Course Page Layout</layout>
+        <recordType>hed__Course__c.Short_Course</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course__c-OPE Unit Page Layout</layout>
+        <recordType>hed__Course__c.Unit</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Program_Plan__c-OPE Program Request Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Promotion-Promotion Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>PromotionTarget-Promotion Target Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Coupon-Coupon Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Program_Plan__c-Program Page Layout</layout>
+        <recordType>hed__Program_Plan__c.Program</recordType>
+    </layoutAssignments>
+    <recordTypeVisibilities>
+        <default>false</default>
+        <recordType>Account.Academic_Program</recordType>
+        <visible>false</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>true</default>
+        <personAccountDefault>true</personAccountDefault>
+        <recordType>Contact.Person</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>true</default>
+        <recordType>Account.Business_Organization</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>false</default>
+        <recordType>Account.Educational_Institution</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>false</default>
+        <recordType>Account.HH_Account</recordType>
+        <visible>false</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>false</default>
+        <recordType>Account.Sports_Organization</recordType>
+        <visible>false</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>false</default>
+        <recordType>Account.University_Department</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>true</default>
+        <recordType>Opportunity.QUTex_CCE</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+</Profile>

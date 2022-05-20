@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ORG_Secondary_NSA__c</fullName>
+    <description>Profile Type = My Organisation
+
+The secondary NSA or NSAs (which are related to the secondary BSA selected by the marketing person) that they have expressed interest in receiving marketing material about.
+
+A person can select 1 or more NSAs where applicable.</description>
+    <externalId>false</externalId>
+    <label>ORG Secondary NSA</label>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>I am not sure</fullName>
+                <default>false</default>
+                <label>I am not sure</label>
+            </value>
+            <value>
+                <fullName>Accounting and Financial Planning</fullName>
+                <default>false</default>
+                <label>Accounting and Financial Planning</label>
+            </value>
+            <value>
+                <fullName>Acting, Drama and Technical Production</fullName>
+                <default>false</default>
+                <label>Acting, Drama and Technical Production</label>
+            </value>
+            <value>
+                <fullName>Advertising, Marketing and PR</fullName>
+                <default>false</default>
+                <label>Advertising, Marketing and PR</label>
+            </value>
+            <value>
+                <fullName>Architecture</fullName>
+                <default>false</default>
+                <label>Architecture</label>
+            </value>
+            <value>
+                <fullName>Behavioural Economics</fullName>
+                <default>false</default>
+                <label>Behavioural Economics</label>
+            </value>
+            <value>
+                <fullName>Biological Science</fullName>
+                <default>false</default>
+                <label>Biological Science</label>
+            </value>
+            <value>
+                <fullName>Business Process Management</fullName>
+                <default>false</default>
+                <label>Business Process Management</label>
+            </value>
+            <value>
+                <fullName>Chemistry</fullName>
+                <default>false</default>
+                <label>Chemistry</label>
+            </value>
+            <value>
+                <fullName>Communication</fullName>
+                <default>false</default>
+                <label>Communication</label>
+            </value>
+            <value>
+                <fullName>Construction Management</fullName>
+                <default>false</default>
+                <label>Construction Management</label>
+            </value>
+            <value>
+                <fullName>Creative Writing</fullName>
+                <default>false</default>
+                <label>Creative Writing</label>
+            </value>
+            <value>
+                <fullName>Dance</fullName>
+                <default>false</default>
+                <label>Dance</label>
+            </value>
+            <value>
+                <fullName>Data Science and Analytics</fullName>
+                <default>false</default>
+                <label>Data Science and Analytics</label>
+            </value>
+            <value>
+                <fullName>Design</fullName>
+                <default>false</default>
+                <label>Design</label>
+            </value>
+            <value>
+                <fullName>Digital Capability</fullName>
+                <default>false</default>
+                <label>Digital Capability</label>
+            </value>
+            <value>
+                <fullName>Digital MBA</fullName>
+                <default>false</default>
+                <label>Digital MBA</label>
+            </value>
+            <value>
+                <fullName>Early Childhood</fullName>
+                <default>false</default>
+                <label>Early Childhood</label>
+            </value>
+            <value>
+                <fullName>Earth Science</fullName>
+                <default>false</default>
+                <label>Earth Science</label>
+            </value>
+            <value>
+                <fullName>Economics and Finance</fullName>
+                <default>false</default>
+                <label>Economics and Finance</label>
+            </value>
+            <value>
+                <fullName>Engineering</fullName>
+                <default>false</default>
+                <label>Engineering</label>
+            </value>
+            <value>
+                <fullName>Environmental Science</fullName>
+                <default>false</default>
+                <label>Environmental Science</label>
+            </value>
+            <value>
+                <fullName>Executive MBA</fullName>
+                <default>false</default>
+                <label>Executive MBA</label>
+            </value>
+            <value>
+                <fullName>Executive MBA (Canberra)</fullName>
+                <default>false</default>
+                <label>Executive MBA (Canberra)</label>
+            </value>
+            <value>
+                <fullName>Film and Animation</fullName>
+                <default>false</default>
+                <label>Film and Animation</label>
+            </value>
+            <value>
+                <fullName>Games and Interactive Environments</fullName>
+                <default>false</default>
+                <label>Games and Interactive Environments</label>
+            </value>
+            <value>
+                <fullName>Human Movement and Exercise</fullName>
+                <default>false</default>
+                <label>Human Movement and Exercise</label>
+            </value>
+            <value>
+                <fullName>Information Technology</fullName>
+                <default>false</default>
+                <label>Information Technology</label>
+            </value>
+            <value>
+                <fullName>Interior Architecture</fullName>
+                <default>false</default>
+                <label>Interior Architecture</label>
+            </value>
+            <value>
+                <fullName>International Business</fullName>
+                <default>false</default>
+                <label>International Business</label>
+            </value>
+            <value>
+                <fullName>Justice</fullName>
+                <default>false</default>
+                <label>Justice</label>
+            </value>
+            <value>
+                <fullName>Landscape Architecture</fullName>
+                <default>false</default>
+                <label>Landscape Architecture</label>
+            </value>
+            <value>
+                <fullName>Law</fullName>
+                <default>false</default>
+                <label>Law</label>
+            </value>
+            <value>
+                <fullName>Leadership and Coaching</fullName>
+                <default>false</default>
+                <label>Leadership and Coaching</label>
+            </value>
+            <value>
+                <fullName>Legal Practice</fullName>
+                <default>false</default>
+                <label>Legal Practice</label>
+            </value>
+            <value>
+                <fullName>Management and HR</fullName>
+                <default>false</default>
+                <label>Management and HR</label>
+            </value>
+            <value>
+                <fullName>Master of Education &amp; Specialisation</fullName>
+                <default>false</default>
+                <label>Master of Education &amp; Specialisation</label>
+            </value>
+            <value>
+                <fullName>Mathematics</fullName>
+                <default>false</default>
+                <label>Mathematics</label>
+            </value>
+            <value>
+                <fullName>MBA</fullName>
+                <default>false</default>
+                <label>MBA</label>
+            </value>
+            <value>
+                <fullName>Medical Imaging and Radiation Therapy</fullName>
+                <default>false</default>
+                <label>Medical Imaging and Radiation Therapy</label>
+            </value>
+            <value>
+                <fullName>Medical Sciences</fullName>
+                <default>false</default>
+                <label>Medical Sciences</label>
+            </value>
+            <value>
+                <fullName>Music</fullName>
+                <default>false</default>
+                <label>Music</label>
+            </value>
+            <value>
+                <fullName>Nursing</fullName>
+                <default>false</default>
+                <label>Nursing</label>
+            </value>
+            <value>
+                <fullName>Nutrition and Dietetics</fullName>
+                <default>false</default>
+                <label>Nutrition and Dietetics</label>
+            </value>
+            <value>
+                <fullName>Optometry and Vision Sciences</fullName>
+                <default>false</default>
+                <label>Optometry and Vision Sciences</label>
+            </value>
+            <value>
+                <fullName>Paramedic Science</fullName>
+                <default>false</default>
+                <label>Paramedic Science</label>
+            </value>
+            <value>
+                <fullName>Pharmacy</fullName>
+                <default>false</default>
+                <label>Pharmacy</label>
+            </value>
+            <value>
+                <fullName>Philanthropy and non-profit</fullName>
+                <default>false</default>
+                <label>Philanthropy and non-profit</label>
+            </value>
+            <value>
+                <fullName>Physics</fullName>
+                <default>false</default>
+                <label>Physics</label>
+            </value>
+            <value>
+                <fullName>Podiatry</fullName>
+                <default>false</default>
+                <label>Podiatry</label>
+            </value>
+            <value>
+                <fullName>Primary</fullName>
+                <default>false</default>
+                <label>Primary</label>
+            </value>
+            <value>
+                <fullName>Project Management</fullName>
+                <default>false</default>
+                <label>Project Management</label>
+            </value>
+            <value>
+                <fullName>Psychology and Counselling</fullName>
+                <default>false</default>
+                <label>Psychology and Counselling</label>
+            </value>
+            <value>
+                <fullName>Public Health</fullName>
+                <default>false</default>
+                <label>Public Health</label>
+            </value>
+            <value>
+                <fullName>Public Sector Management</fullName>
+                <default>false</default>
+                <label>Public Sector Management</label>
+            </value>
+            <value>
+                <fullName>Quantity Surveying and Cost</fullName>
+                <default>false</default>
+                <label>Quantity Surveying and Cost</label>
+            </value>
+            <value>
+                <fullName>Secondary</fullName>
+                <default>false</default>
+                <label>Secondary</label>
+            </value>
+            <value>
+                <fullName>Social Work and Human Services</fullName>
+                <default>false</default>
+                <label>Social Work and Human Services</label>
+            </value>
+            <value>
+                <fullName>Urban and Regional Planning</fullName>
+                <default>false</default>
+                <label>Urban and Regional Planning</label>
+            </value>
+            <value>
+                <fullName>Visual Arts</fullName>
+                <default>false</default>
+                <label>Visual Arts</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

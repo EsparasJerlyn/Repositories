@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ORG_Indigenous_Status_ATSI__c</fullName>
+    <description>Profile Type = My Organisation
+
+Indicates if the marketing person identifies as Aboriginal or Torres Strait Islander.</description>
+    <externalId>false</externalId>
+    <label>ORG Indigenous Status (ATSI)</label>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Non indigenous – neither Aboriginal nor Torres Strait Islander origin</fullName>
+                <default>false</default>
+                <label>Non indigenous – neither Aboriginal nor Torres Strait Islander origin</label>
+            </value>
+            <value>
+                <fullName>Of Torres Strait Islander origin but not Aboriginal</fullName>
+                <default>false</default>
+                <label>Of Torres Strait Islander origin but not Aboriginal</label>
+            </value>
+            <value>
+                <fullName>Both Aboriginal and Torres Strait Islander origin</fullName>
+                <default>false</default>
+                <label>Both Aboriginal and Torres Strait Islander origin</label>
+            </value>
+            <value>
+                <fullName>No information</fullName>
+                <default>false</default>
+                <label>No information</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

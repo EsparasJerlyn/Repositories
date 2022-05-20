@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Location_Detail_v2__c</fullName>
+    <externalId>false</externalId>
+    <inlineHelpText>For on-campus face-to-face sessions enter Building, Level, and Room details, for external enter address, and for virtual add Web Conferencing URL</inlineHelpText>
+    <label>Location Detail</label>
+    <length>75000</length>
+    <trackTrending>false</trackTrending>
+    <type>Html</type>
+    <visibleLines>25</visibleLines>
+</CustomField>

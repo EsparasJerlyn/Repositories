@@ -1,0 +1,20 @@
+{
+    "objects": [
+        {
+            "query": "SELECT ProductCatalogId, SalesStoreId from WebStoreCatalog",
+            "operation": "Upsert",
+            "externalId": "ProductCatalogId",
+            "useCSVValuesMapping": true,
+            "targetObject": "WebStoreCatalog",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id, Name, Object_Type__c, Parent_Record_ID__c, Questionnaire_Type__c FROM Questionnaire__c",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "Questionnaire__c",
+            "importCSVFilesAsIs": true
+        }
+    ]
+}

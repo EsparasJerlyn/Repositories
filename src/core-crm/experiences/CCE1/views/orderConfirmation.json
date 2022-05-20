@@ -1,0 +1,71 @@
+{
+  "appPageId" : "e7a3f4f7-241b-44d0-9ebd-8a08684e8126",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "id" : "86eb83f7-9c84-45de-94cb-a4df40710e37",
+  "label" : "Order Confirmation",
+  "regions" : [ {
+    "id" : "c5461701-3e4b-469e-8bff-e2872583845f",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "orderSummaryId" : "{!recordId}"
+      },
+      "componentName" : "forceCommunity:commerceOrderConfirmation",
+      "id" : "d8ed21d2-c4c3-425c-9efb-50954e2caa07",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    }, {
+      "componentAttributes" : {
+        "cartId" : "{!recordId}",
+        "isReadOnly" : true,
+        "orderDeliveryMethodId" : ""
+      },
+      "componentName" : "commerce_checkout:deliveryMethod",
+      "id" : "76908119-2dfe-437e-a420-e3e8e4d67405",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    }, {
+      "componentAttributes" : {
+        "cartId" : "",
+        "showDiscount" : false,
+        "showShipping" : true,
+        "showSubtotal" : true,
+        "showTax" : true,
+        "showTotal" : true
+      },
+      "componentName" : "forceCommunity:commerceCheckoutSummary",
+      "id" : "638e29e4-86bc-4284-8f8b-4b4ac860601b",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    }, {
+      "componentAttributes" : {
+        "cartId" : "",
+        "contactPointAddressId" : "",
+        "readonly" : true,
+        "shippingInstructions" : "",
+        "showShipAddress" : true,
+        "showShippingInstructions" : true
+      },
+      "componentName" : "forceCommunity:commerceDelivery",
+      "id" : "4c79bda8-bfd5-452e-84aa-dc4c801cfa4e",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "e59a6e07-254d-41bf-9b84-fbe2dc0c7cd5",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "b3c8974f-ccc1-4f30-b6f6-9285153b405f",
+    "regionName" : "footer",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "orderconfirmation"
+}

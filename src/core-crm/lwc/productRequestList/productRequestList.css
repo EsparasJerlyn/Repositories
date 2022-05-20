@@ -1,0 +1,34 @@
+.slds-accordion__summary-heading{
+--sds-c-accordion-summary-color-background : #f3f2f2;
+--sds-c-accordion-heading-font-size: 1rem;
+}
+
+.my-add-button{
+    position: absolute;
+    right:30px;
+    top:16px;
+    z-index:2;
+    float: right;
+}
+
+.slds-scrollable{
+    max-height: 400px;
+    min-height: 100px;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    overflow-x:hidden !important;
+}
+
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.3);
+
+}

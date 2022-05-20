@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Award Unit Information</label>
+    <protected>false</protected>
+    <values>
+        <field>Left_Column_Long__c</field>
+        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Name&quot;,&quot;mandatory&quot;:true},{&quot;field&quot;:&quot;hed__Course_ID__c&quot;},{&quot;field&quot;:&quot;Course_Code__c&quot;},{&quot;field&quot;:&quot;hed__Account__c&quot;},{&quot;field&quot;:&quot;Credits__c&quot;},{&quot;field&quot;:&quot;hed__Credit_Hours__c&quot;},{&quot;field&quot;:&quot;Start_Date__c&quot;},{&quot;field&quot;:&quot;hed__Extended_Description__c&quot;},{&quot;field&quot;:&quot;Blackboard_Content_Delivery_Location__c&quot;},{&quot;field&quot;:&quot;Module_Grading_Scheme__c&quot;},{&quot;field&quot;:&quot;Module_Type__c&quot;},{&quot;field&quot;:&quot;Unit_Mode__c&quot;},{&quot;field&quot;:&quot;Overviewv2__c&quot;},{&quot;field&quot;:&quot;Core_Conceptsv2__c&quot;},{&quot;field&quot;:&quot;Payment_Options__c&quot;}]</value>
+    </values>
+    <values>
+        <field>Left_Column__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Order__c</field>
+        <value xsi:type="xsd:double">1.0</value>
+    </values>
+    <values>
+        <field>Record_Type_Setting__c</field>
+        <value xsi:type="xsd:string">Course_Award_Unit</value>
+    </values>
+    <values>
+        <field>Right_Column_Long__c</field>
+        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;RecordTypeId&quot;,&quot;readOnly&quot;:true,&quot;isPrePopulated&quot;:true},{&quot;field&quot;:&quot;ProductRequestID__c&quot;,&quot;readOnly&quot;:true,&quot;isPrePopulated&quot;:true},{&quot;field&quot;:&quot;Primary_Delivery_Platform__c&quot;},{&quot;field&quot;:&quot;Certification_Type__c&quot;},{&quot;field&quot;:&quot;Credential__c&quot;},
+        {&quot;field&quot;:&quot;End_Date__c&quot;},{&quot;field&quot;:&quot;Additional_End_Date__c&quot;},{&quot;field&quot;:&quot;Other_Content_Delivery_Locationv2__c&quot;},{&quot;field&quot;:&quot;Owning_School_Discipline_Area__c&quot;},{&quot;field&quot;:&quot;Module_Category__c&quot;},{&quot;field&quot;:&quot;Provider__c&quot;},{&quot;field&quot;:&quot;Unit_Category__c&quot;},{&quot;field&quot;:&quot;Who_Should_Participatev2__c&quot;},{&quot;field&quot;:&quot;More_Detailsv2__c&quot;},{&quot;field&quot;:&quot;IsComplete__c&quot;}]</value>
+    </values>
+    <values>
+        <field>Right_Column__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Single_Column_Long__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Single_Column__c</field>
+        <value xsi:nil="true"/>
+    </values>
+</CustomMetadata>

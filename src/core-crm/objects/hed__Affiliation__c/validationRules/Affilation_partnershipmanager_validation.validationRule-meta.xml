@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Affilation_partnershipmanager_validation</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND ( 
+    OR (  
+        hed__Account__r.RecordType.DeveloperName = 
+        &apos;University_Department&apos;,
+        hed__Account__r.RecordType.DeveloperName = 
+        &apos;Educational_Institution&apos;
+     ),
+     $User.LastName = &apos;Partnershipmanager&apos;,
+     ISPICKVAL(hed__Role__c , &apos;Employee&apos;)
+)</errorConditionFormula>
+    <errorMessage>You are unable to create an employee affiliation between a contact and a QUT internal Department account</errorMessage>
+</ValidationRule>

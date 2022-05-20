@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Location_is_required</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND (
+ OR(
+  RecordType.DeveloperName = &apos;Activity&apos;,
+  RecordType.DeveloperName = &apos;Short_Course&apos;,
+  RecordType.DeveloperName = &apos;Unit&apos;,
+  RecordType.DeveloperName = &apos;Module&apos;
+ ),
+ ISPICKVAL( ProductRequestID__r.Product_Request_Status__c , &apos;Design&apos;
+ ),
+ ISPICKVAL( Delivery_Type__c , &apos;Face to Face&apos; )  ||  ISPICKVAL( Delivery_Type__c , &apos;Blended&apos; ),
+ ISBLANK( Location__c ),
+ Mark_Design_Stage_as_Complete__c = true
+)</errorConditionFormula>
+    <errorDisplayField>Location__c</errorDisplayField>
+    <errorMessage>“Location” is required to update the Product Request Status.</errorMessage>
+</ValidationRule>

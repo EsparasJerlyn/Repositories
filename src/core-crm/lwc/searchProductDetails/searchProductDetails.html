@@ -1,0 +1,6 @@
+<template>
+    <div if:true={productDetail.info}>
+        <p>{productDetail.info.fields.Description}</p>
+    </div>
+    <div if:false={productDetail.info}>-</div>
+</template>

@@ -1,0 +1,47 @@
+/**
+ * @description Test class for EmailHelper
+ * @EmailHelper
+ *
+ * @history
+ *
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
+      |--------------------------------|-----------------------|------------------------|------------------------------|
+      | kenodomienri.dico@qut.edu.au   | April 7, 2022         | DEPP-1479              | Created file                 |
+      |                                |                       |                        |                              |
+ */
+@isTest(SeeAllData=false)
+public with sharing class EmailHelperTest {
+
+    @IsTest
+    static void checkEmailDetailTest(){
+        EmailTemplate coverTemplate = [SELECT Id, Name, Subject, HtmlValue, Body FROM EmailTemplate LIMIT 1]; 
+    
+        String courseName = 'Test_Course1';
+        String contactFullName = 'Test_FullName';
+        String contactEmail = 'Test_Contact@email.com';
+
+        String mailSubject = 'QUTeX - ' + courseName;
+        Map<String, String> coverEmailParams = new Map<String, String> {
+            '{coursename}' => courseName,  
+            '{name}' => contactFullName,
+            '{contactemail}' => contactEmail
+        };
+
+        Test.startTest();
+        Messaging.SingleEmailMessage emailBuilderTest = EmailHelper.emailBuilder(contactEmail, mailSubject, coverTemplate.HtmlValue,coverEmailParams);
+        Messaging.SingleEmailMessage emailBuilderTestWithOrgId = EmailHelper.emailBuilder(
+            new List<String>{contactEmail},
+            mailSubject,
+            coverTemplate.HtmlValue,
+            coverEmailParams,
+            null
+        );
+        Messaging.EmailFileAttachment attachementBuilderTest = EmailHelper.attachementBuilder(coverTemplate.Name, coverTemplate.HtmlValue,coverEmailParams);
+        Test.stopTest();
+        System.assertNotEquals(null, emailBuilderTest,'emailBuilderTest is null');
+        System.assertNotEquals(null, emailBuilderTestWithOrgId, 'emailBuilderTestWithOrgId is null');
+        System.assertNotEquals(null, attachementBuilderTest, 'attachementBuilderTest is null');
+
+    }   
+
+}

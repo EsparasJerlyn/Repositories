@@ -1,0 +1,42 @@
+.title-text{
+    color:#003b6f;
+    padding-top: 5px;
+    padding-bottom: 10px;
+}
+ 
+.width-expanded{
+    width: 100%;
+}
+
+.slds-accordion__summary-heading{
+    --sds-c-accordion-summary-color-background : #f3f2f2;
+}
+
+.slds-radio__label{
+    --sds-c-button-line-height: 50px;
+  }
+
+.record-description{
+    margin-left: 50px;
+    margin-bottom: 25px;
+  }
+
+  .modal-heading{
+      font-weight: bold;
+  }
+
+  .product-request{
+      font-weight: bold;
+  }
+
+  .parent-name{
+    color:#003b6f;
+  }
+  .orange-background{
+    background-color: orange;
+}
+
+.slds-modal__content {
+    overflow: visible;
+    overflow-y: visible;
+}

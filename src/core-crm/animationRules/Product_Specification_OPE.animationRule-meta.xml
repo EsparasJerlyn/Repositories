@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AnimationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <animationFrequency>always</animationFrequency>
+    <developerName>Product_Specification_OPE</developerName>
+    <isActive>true</isActive>
+    <masterLabel>Product Specification - OPE</masterLabel>
+    <recordTypeContext>Custom</recordTypeContext>
+    <recordTypeName>OPE_Program_Specification</recordTypeName>
+    <sobjectType>Product_Specification__c</sobjectType>
+    <targetField>Stage__c</targetField>
+    <targetFieldChangeToValues>Complete</targetFieldChangeToValues>
+</AnimationRule>

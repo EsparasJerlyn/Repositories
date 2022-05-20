@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ORG_Country_Of_Residency__c</fullName>
+    <description>Profile Type = My Organisation
+
+Indicates the country an international student is living in.</description>
+    <externalId>false</externalId>
+    <label>ORG Country Of Residency</label>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>Country</valueSetName>
+    </valueSet>
+</CustomField>

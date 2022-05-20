@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Collab_with_Ext_Org_is_required</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND (
+ OR(
+  RecordType.DeveloperName = &apos;Unit&apos;,
+  RecordType.DeveloperName = &apos;Module&apos;,
+  RecordType.DeveloperName = &apos;Activity&apos;
+),
+ ISPICKVAL( ProductRequestID__r.Product_Request_Status__c , &apos;Design&apos;),
+ ISBLANK( TEXT ( Collaboration_with_External_Organisation__c )),
+ Mark_Design_Stage_as_Complete__c = true
+)</errorConditionFormula>
+    <errorDisplayField>Collaboration_with_External_Organisation__c</errorDisplayField>
+    <errorMessage>“Collaboration with External Organisation” is required to update the Product Request Status.</errorMessage>
+</ValidationRule>

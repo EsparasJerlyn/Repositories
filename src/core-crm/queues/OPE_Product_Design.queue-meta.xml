@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Queue xmlns="http://soap.sforce.com/2006/04/metadata">
+    <doesSendEmailToMembers>false</doesSendEmailToMembers>
+    <name>OPE Product Design</name>
+    <queueMembers>
+        <publicGroups>
+            <publicGroup>OPE_Product_Design</publicGroup>
+        </publicGroups>
+    </queueMembers>
+    <queueSobject>
+        <sobjectType>Product_Specification__c</sobjectType>
+    </queueSobject>
+</Queue>

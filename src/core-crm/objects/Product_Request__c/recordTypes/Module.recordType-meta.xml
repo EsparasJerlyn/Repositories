@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Module</fullName>
+    <active>true</active>
+    <compactLayoutAssignment>OPE_Product_Request_Compact_Layout</compactLayoutAssignment>
+    <description>This record type will be used to create a Non-Award Unit or a Short Course with a learning pathway.</description>
+    <label>Module</label>
+    <picklistValues>
+        <picklist>Product_Request_Status__c</picklist>
+        <values>
+            <fullName>Completed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Design</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>In Delivery</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not Proceeding</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Release</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

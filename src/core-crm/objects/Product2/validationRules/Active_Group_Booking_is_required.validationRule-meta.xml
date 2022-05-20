@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Active_Group_Booking_is_required</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+ ISCHANGED( Is_Group_Registration_Available__c ), 
+ PRIORVALUE( Is_Group_Registration_Available__c ) = false,
+ Is_Group_Booking_Active__c = false
+)</errorConditionFormula>
+    <errorDisplayField>Is_Group_Registration_Available__c</errorDisplayField>
+    <errorMessage>Active Group Booking Price Book under Pricing Section is required</errorMessage>
+</ValidationRule>

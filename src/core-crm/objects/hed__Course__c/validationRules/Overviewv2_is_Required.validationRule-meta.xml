@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Overviewv2_is_Required</fullName>
+    <active>true</active>
+    <description>&quot;Overview&quot; is required to mark as complete.</description>
+    <errorConditionFormula>AND (
+
+  OR (  RecordType.DeveloperName = &apos;Activity&apos;,
+        RecordType.DeveloperName = &apos;Short_Course&apos;,
+        RecordType.DeveloperName = &apos;Unit&apos;,
+        RecordType.DeveloperName = &apos;Module&apos;
+  ),
+
+ ISPICKVAL( ProductRequestID__r.Product_Request_Status__c , &apos;Design&apos;),
+ ISBLANK( Overviewv2__c ),
+ Mark_Design_Stage_as_Complete__c = true
+)</errorConditionFormula>
+    <errorDisplayField>Overviewv2__c</errorDisplayField>
+    <errorMessage>&quot;Overview&quot; is required to mark as complete.</errorMessage>
+</ValidationRule>

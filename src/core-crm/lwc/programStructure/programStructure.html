@@ -1,0 +1,62 @@
+<template>
+    <div class="slds-m-horizontal_small slds-m-bottom_small">
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_3-of-12 slds-p-vertical_small"> 
+                <strong>Program Name</strong>
+            </div>
+            <div class="slds-col slds-size_3-of-12 slds-p-vertical_small"> 
+                <lightning-formatted-url value={programNameUrl} label={programPlan.Name} tooltip={programPlan.Name} target="_top"></lightning-formatted-url> 
+            </div>
+        </div>
+        <div class="slds-grid slds-gutters slds-border_bottom">
+            <div class="slds-col slds-size_3-of-12 slds-m-bottom_small"> 
+                <strong>Program Delivery Structure</strong>
+            </div>
+            <div class="slds-col slds-size_3-of-12 slds-m-bottom_small slds-box slds-box_x-small slds-theme_shade">
+                {programDeliveryStructureValue}
+            </div>
+        </div>
+        <div class="slds-text-title_bold slds-m-bottom_small slds-p-vertical_small slds-border_bottom">
+            Set Up Program Plan Delivery Structure
+        </div>
+        <div class="slds-grid slds slds-p-bottom_small">
+            <div class="slds-col slds-size_1-of-6 slds-p-top_small text-bold"> 
+                Sequence
+            </div>
+            <div class="slds-col slds-size_1-of-6 slds-p-top_small text-bold"> 
+                Category
+            </div>
+            <div class="slds-col slds-size_1-of-6 slds-p-top_small text-bold"> 
+                Record Type
+            </div>
+            <div class="slds-col slds-size_1-of-6 slds-p-top_small text-bold"> 
+                Course Name
+            </div>
+            <div class="slds-col slds-size_1-of-6 slds-p-top_small text-bold"> 
+            </div>
+        </div>
+        <div class="slds-scrollable slds-border_bottom slds-p-bottom_small">
+            <template for:each={draftTableData} for:item="data">
+                <div key={data.courseid} class="slds-grid">
+                    <div class="slds-col slds-size_1-of-6 slds-p-top_xx-small"> 
+                        <input readonly={cantEdit} name={data.courseid} onchange={handleChange} type="number" step="1" value={data.sequence} class="inputStyle" min="1" max={tableData.length}>
+                    </div>
+                    <div class="slds-col slds-size_1-of-6 slds-p-top_x-small"> 
+                        {data.category}
+                    </div>
+                    <div class="slds-col slds-size_1-of-6 slds-p-top_x-small"> 
+                        {data.recordtype}
+                    </div>
+                    <div class="slds-col slds-size_1-of-6 slds-p-top_x-small"> 
+                        {data.coursename}
+                    </div>
+                </div>
+            </template>
+        </div>
+    </div>
+    <div class="slds-p-bottom_small slds-p-left_small slds-border_bottom">
+        <lightning-button disabled={canEdit} class="slds-m-vertical_small" label="Edit" title="Edit" variant="brand-outline" onclick={handleEdit}></lightning-button>
+        <lightning-button disabled={cantSave} class="slds-m-vertical_small slds-m-left_small" label="Save" title="Save" variant="brand" onclick={handleSave}></lightning-button>
+        <lightning-button disabled={cantEdit} class="slds-m-vertical_small slds-m-left_small" label="Cancel" title="Cancel" variant="neutral" onclick={handleCancel}></lightning-button>
+    </div>
+</template>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingCriteriaRules>
+        <fullName>MC_Persona_Admin</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>MC Persona - Admin</label>
+        <sharedTo>
+            <role>System_Administrator</role>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>MC Persona</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>MC_Persona_MC_Users</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>MC Persona - MC Users</label>
+        <sharedTo>
+            <roleAndSubordinatesInternal>Marketing_Super_User</roleAndSubordinatesInternal>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>MC Persona</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Parent_Contact</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Parent Contact</label>
+        <sharedTo>
+            <roleAndSubordinates>System_Administrator</roleAndSubordinates>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Person</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+</SharingRules>

@@ -1,0 +1,18 @@
+<template>
+    <div class="picklist-container" >
+        <c-custom-search
+            parent-id={typeAttributes.parentId}
+            search-input-placeholder={typeAttributes.placeholder}
+            search-item-icon={typeAttributes.icon}
+            search-items={typeAttributes.lookupItems}
+            item-server-name={typeAttributes.itemServerName}
+            item-id={typeAttributes.itemId}
+            object-label-name={typeAttributes.objectLabelName}
+            show-edit-button={typeAttributes.showEditButton}
+            custom-lookup
+            new-record-available={typeAttributes.newRecordAvailable}
+            editable={typeAttributes.editable}
+            >
+        </c-custom-search>
+    </div>
+</template>

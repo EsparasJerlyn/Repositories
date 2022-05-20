@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Delivery_Type__c</fullName>
+    <externalId>false</externalId>
+    <label>Delivery Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Online Classroom</fullName>
+                <default>false</default>
+                <label>Online Classroom</label>
+            </value>
+            <value>
+                <fullName>Online Self-paced</fullName>
+                <default>false</default>
+                <label>Online Self-paced</label>
+            </value>
+            <value>
+                <fullName>Brisbane Classroom</fullName>
+                <default>false</default>
+                <label>Brisbane Classroom</label>
+            </value>
+            <value>
+                <fullName>Canberra Classroom</fullName>
+                <default>false</default>
+                <label>Canberra Classroom</label>
+            </value>
+            <value>
+                <fullName>Melbourne Classroom</fullName>
+                <default>false</default>
+                <label>Melbourne Classroom</label>
+            </value>
+            <value>
+                <fullName>Sydney Classroom</fullName>
+                <default>false</default>
+                <label>Sydney Classroom</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

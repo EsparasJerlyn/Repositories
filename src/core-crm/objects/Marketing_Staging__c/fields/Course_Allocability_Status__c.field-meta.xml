@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Course_Allocability_Status__c</fullName>
+    <description>Used to exclude people who are not eligible for entry. Values are:
+NINT – a new applicant, no assessment has been made
+NO – haven’t met entry requirements, prerequisites, excluded/failed, failed teaching suitability or portfolio, below the definitely out threshold, or has been offered a higher preference
+PEN – under assessment or has been assessed but is in between the definitely in and definitely out thresholds
+NOCH – no CHESSN (Commonwealth Higher Education Student Support Number) – always include these people as this is usually resolved quickly
+YES – have been assessed and met all requirements, including definitely in threshold. Will receive an offer at next offer round.</description>
+    <externalId>false</externalId>
+    <label>Course Allocability Status</label>
+    <length>80</length>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

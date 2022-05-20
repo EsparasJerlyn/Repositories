@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Left_Right_Column_Long__c</fullName>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Must be in JSON format and even. Add Blank attribute to show blank space and to even out fields. 
+e.g [{&quot;field&quot;:&quot;Certificate_Type__c&quot;,&quot;blank&quot;:true}
+With the following attributes: field,mandatory,isrecordtype. (attribute not needed when false) e.g
+[{&quot;field&quot;:&quot;OwnerId&quot;},{&quot;field&quot;:&quot;Product_Request_Status__c&quot;,&quot;mandatory&quot;:true},{&quot;field&quot;:&quot;RecordTypeId&quot;,&quot;isrecordtype&quot;:true}]</inlineHelpText>
+    <label>Left_Right_Column_Long</label>
+    <length>32768</length>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

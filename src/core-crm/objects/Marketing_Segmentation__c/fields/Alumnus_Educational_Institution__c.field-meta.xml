@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Alumnus_Educational_Institution__c</fullName>
+    <description>Name of the educational institution the marketing person is an Alumni of.</description>
+    <externalId>false</externalId>
+    <label>Alumnus Educational Institution</label>
+    <length>80</length>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

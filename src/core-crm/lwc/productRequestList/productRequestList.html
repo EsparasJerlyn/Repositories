@@ -1,0 +1,42 @@
+<template>
+    <lightning-accordion allow-multiple-sections-open class="slds-grid slds-gutters slds-clearfix" 
+                            active-section-name={activeSections}>
+        <lightning-button label="ADD" title="Add" onclick={handleAddButton} variant="brand" icon-name="utility:add"
+        icon-position="right" class="my-add-button"></lightning-button>
+        <lightning-accordion-section key={accordionSection} name={accordionSection}
+            label={accordionSection} class="slds-is-open slds-accordion__summary-heading slds-box_x-small">
+            <template if:false={isLoading}>
+                <template if:true={errorMessage}>
+                    <p class=" slds-text-align_center slds-text-color_destructive slds-box slds-theme_alert-texture slds-m-around_medium ">{errorMessage}</p>
+                </template>
+                <template if:true={haveRequests}>
+                    <div class="slds-m-top_medium slds-text-body_small slds-text-title slds-scrollable">
+                        <lightning-tree-grid
+                        columns={gridColumns}
+                        data={gridData}
+                        onrowaction={handleRowAction}
+                        key-field="id"
+                        hide-checkbox-column="true"
+                        ></lightning-tree-grid>
+                    </div>
+                </template>
+                <template if:false={haveRequests}>
+                        <h2 class="slds-align_absolute-center slds-m-around_medium slds-text-title_bold">No product requests found.</h2>
+                </template>
+            </template>
+            <template if:true={isLoading}>
+                <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+            </template>
+        </lightning-accordion-section>
+    </lightning-accordion>
+    <c-add-product-request 
+        if:true={showProductRequest} 
+        product-request-for-ope={isProdSpecOPE} 
+        record-type-map={recordTypeMap}
+        oncreated={handleCreated}
+        field-layout-map={fieldLayoutMap}>
+    </c-add-product-request> 
+    <c-add-not-proceeding-comments 
+        onsave={handleNotProceeding}>        
+    </c-add-not-proceeding-comments> 
+</template>

@@ -1,0 +1,108 @@
+<apex:page controller="SetupCertificateVFPageCtrl" applyHtmlTag="false" showHeader="false" renderAs="pdf">
+    <html style="overflow-y: hidden;">
+<head>
+	<title></title>
+    <style type="text/css" media="print">
+                @page {
+                margin-top: 0;  
+                margin-bottom:0;
+                margin-right: 0;
+                margin-left:0;
+                size: A4;
+        		background-image:url({!$Resource.CertificateBackground});
+        		background-size: cover;
+                  background-repeat: no-repeat;
+                  max-width: 100%;
+                  min-height: 100%;
+        	}
+    </style>
+    
+</head>
+<body>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+<div style="text-align: center;">&nbsp;
+<table style="margin-left: auto;
+margin-right: auto;
+text-align:center;
+font-family: Arial Unicode MS;">
+    <apex:pageBlock rendered="{!hasPartnerLogo}">
+        <div style="text-align: center;" >
+                    <img src="{!partnerLogo}"  style="max-width: 500px; width: auto; height: 100px;" />
+        </div>
+    </apex:pageBlock>
+    <apex:pageBlock rendered="{!hasPartnerLogo = false}">
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+    </apex:pageBlock>
+	
+</table>
+<span style="font-size:38px; font-family: Arial Unicode MS;"><b>Certificate of Participation</b></span></div>
+&nbsp;
+
+<div style="text-align: center; width:70%; margin:auto; font-family: Arial Unicode MS;"><br />
+    <span style="font-size:16px; ">This is to certify that<br /></span>
+    <br />
+    <span style="font-size:34px; "><b>{!student.First_Name__c} {!student.Last_Name__c}</b><br/></span>
+    <span style="font-size:16px;"> Has participated in the QUTeX {!product}:</span><br />
+    <span style="font-size:32px; "><b>{!productName}</b></span><br />
+    <br />
+    <span style="font-size:16px; ">and in evidence whereof this certificate is awarded&nbsp;<br />
+    {!dateToday}</span><br />
+    <br />
+    <br />
+    <br />
+    <span style="font-size:24px;"><b>Facilitated by {!facilitatorName}</b></span><br />
+    <br/>
+    </div>
+<table style="margin-left: auto;
+width : 60%;
+margin-right: auto;
+text-align:left;
+font-family: Arial Unicode MS;
+border-collapse: collapse;">
+	<tbody>
+		<tr >
+			<th >
+                <apex:pageBlock rendered="{!hasLeftSignature}">
+                    <img src="{!leftSignature}" style="max-width: 200px; width: auto; height: 50px;" />
+                </apex:pageBlock>
+            </th>
+			<th style = "text-align:right;">
+                <apex:pageBlock rendered="{!hasRightSignature}">
+                    <img src="{!rightSignature}" style="max-width: 200px; width: auto; height: 50px;" />
+                </apex:pageBlock>
+            </th>
+		</tr>
+		<tr>
+			<td style="text-align: left;"><span style="font-size:18px;">{!topLeftText}</span></td>
+			<td style="text-align:right;"><span style="font-size:18px;">{!topRightText}</span></td>
+		</tr>
+		<tr>
+			<td style="text-align: left;"><span style="font-size:18px;">{!midLeftText}</span></td>
+			<td style="text-align:right;"><span style="font-size:18px;">{!midRightText}</span></td>
+		</tr>
+		<tr>
+			<td style="text-align: left;"><span style="font-size:18px;">{!bottomLeftText}</span></td>
+			<td style="text-align:right;"><span style="font-size:18px;">{!bottomRightText}</span></td>
+		</tr>
+	</tbody>
+</table>
+<br />
+<br />
+<br />
+</body>
+</html>
+
+</apex:page>

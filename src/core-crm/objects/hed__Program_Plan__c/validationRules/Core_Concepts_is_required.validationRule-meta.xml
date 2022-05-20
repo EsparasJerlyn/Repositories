@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Core_Concepts_is_required</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND (
+RecordType.DeveloperName = &apos;Program&apos;,
+ISPICKVAL( Product_Request__r.Product_Request_Status__c , &apos;Design&apos;),
+LEN (Core_Conceptsv2__c ) = 0,
+Mark_Design_Stage_as_Complete__c = true
+)</errorConditionFormula>
+    <errorDisplayField>Core_Conceptsv2__c</errorDisplayField>
+    <errorMessage>“Core Concepts” is required to update the Product Request Status.</errorMessage>
+</ValidationRule>

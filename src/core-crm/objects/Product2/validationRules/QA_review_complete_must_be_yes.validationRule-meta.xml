@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>QA_review_complete_must_be_yes</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+
+  OR (
+      ISPICKVAL( QA_Review_Completed__c, &apos;No&apos; ) ,
+      ISPICKVAL( QA_Review_Completed__c, &apos;&apos; )
+  ),
+OR(
+ ISCHANGED( Publishing_Start_date__c ) ,
+ ISCHANGED( Publishing_End_date__c ) ,
+ NOT ( ISBLANK ( Publishing_Start_date__c ) ),
+ NOT ( ISBLANK ( Publishing_End_date__c ) )
+)
+ 
+)</errorConditionFormula>
+    <errorDisplayField>QA_Review_Completed__c</errorDisplayField>
+    <errorMessage>QA review complete must be equal to Yes</errorMessage>
+</ValidationRule>

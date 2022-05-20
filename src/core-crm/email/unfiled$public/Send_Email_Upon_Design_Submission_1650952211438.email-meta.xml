@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Email to notify QUTeX that a design form has been submitted.</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Send Email Upon Design Submission</name>
+    <style>none</style>
+    <subject>[QUTeX] Design Form Received</subject>
+    <type>custom</type>
+    <uiType>SFX</uiType>
+</EmailTemplate>

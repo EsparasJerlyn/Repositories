@@ -1,0 +1,339 @@
+<template>
+    <lightning-spinner if:true={isLoading} alternative-text="Loading..." size="small"></lightning-spinner> 
+    <div if:false={hasAccess} class="slds-text-align_center slds-p-around_large">
+        <p><strong>You don't have access to this feature.</strong></p>
+    </div>
+    <lightning-accordion 
+        if:true={hasAccess} 
+        class="slds-clearfix" 
+        active-section-name="registrationCriteria"
+        allow-multiple-sections-open >
+        <lightning-button
+            label="Create Questionnaire"
+            title="Create Questionnaire"
+            data-name="Questionnaire"
+            icon-name="utility:add"
+            onclick={handleCreateRecord} 
+            variant="brand"
+            class="create-questionnaire-button"
+            disabled={disableCreateQuestionnaire}>
+        </lightning-button>
+        <lightning-helptext 
+            if:true={disableCreateQuestionnaireHelp}
+            content="You have maximized all questionnaires for this product request."
+            class="create-questionnaire-button create-questionnaire-help">
+        </lightning-helptext>
+        <lightning-accordion-section name="registrationCriteria" label="Set-up Registration and Application Questions" class="accordion-section">
+            <div if:false={showContent} class="slds-text-align_center slds-p-around_large">
+                <p><strong>No questionnaire found. Add by selecting the 'Create Questionnaire' button.</strong></p>
+            </div>
+            <div if:true={showContent} class="slds-grid">
+                <div class="slds-col slds-size_1-of-6 slds-p-around_none">
+                    <!--Sidebar Section-->
+                    <nav class="slds-nav-vertical" aria-label="Sub page">
+                        <div class="slds-nav-vertical__section">
+                            <h2 class="slds-nav-vertical__title">Questionnaires</h2>
+                            <ul aria-describedby="entity-header">
+                                <template iterator:it={registrationData}>     
+                                    <li key={it.value.id} data-id={it.value.id} class="slds-nav-vertical__item">
+                                        <span data-name={it.value.name} class="slds-nav-vertical__action custom-hover" onclick={handleNavSelect}>{it.value.type}
+                                            <span data-name={it.value.name} class="slds-badge slds-col_bump-left" onclick={handleNavSelect}>
+                                                <span class="slds-assistive-text">:</span>{it.value.questionCount}
+                                                <span class="slds-assistive-text">Questions</span>
+                                            </span>
+                                        </span>
+                                    </li>
+                                    <div key={it.value.id} if:true={it.last} class="last-div"></div>
+                                </template>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+                <div class="slds-col slds-size_5-of-6 slds-p-around_none">
+                    <div class="slds-m-vertical_medium slds-m-left_small slds-box slds-box_xx-small black-border">
+                        <!--Header Section-->
+                        <div class="slds-grid slds-gutters slds-p-around_x-small slds-m-horizontal_xx-small">
+                            <div class="slds-col slds-p-right_none">
+                                <p class="slds-text-heading_medium slds-p-bottom_xx-small">
+                                    <strong>
+                                        <lightning-formatted-url
+                                            label={selectedQuestionnaire.name}
+                                            tooltip={selectedQuestionnaire.type}
+                                            value={selectedQuestionnaire.url}
+                                            target="_top">
+                                        </lightning-formatted-url>
+                                    </strong>
+                                </p>
+                            </div>
+                            <div class="slds-col slds-p-left_none slds-text-align_center slds-border_bottom black-border">
+                                <p class="slds-text-heading_medium slds-p-bottom_xx-small">
+                                    <strong>{selectedQuestionnaire.type}</strong>
+                                </p>
+                            </div>
+                            <div class="slds-col">
+                                <lightning-button
+                                    label="Create New Question"
+                                    title="Create New Question"
+                                    data-name="Question"
+                                    icon-name="utility:add"
+                                    onclick={handleCreateRecord} 
+                                    variant="brand"
+                                    class="slds-float_right"
+                                    disabled={isStatusCompleted}>
+                                </lightning-button>
+                            </div>
+                        </div>
+                        <!--Search Input Section-->
+                        <div if:false={isStatusCompleted} class="slds-form-element slds-m-around_x-small">
+                            <label class="slds-form-element__label" for="combobox-id-1" id="combobox-label-id-33">
+                                Existing Questions
+                                <span if:true={showAcceptableResponseNote} class="slds-m-left_medium small-text">
+                                    <i>Questions shown are only those with Acceptable Response field populated.</i>
+                                </span>
+                            </label>
+                            <div class="slds-form-element__control">
+                                <div class="slds-combobox_container">
+                                    <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click search-results" aria-expanded="true" aria-haspopup="listbox" role="combobox">
+                                        <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                                            <input 
+                                                type="text"
+                                                class="slds-input slds-combobox__input input-search"
+                                                id="combobox-id-1"
+                                                aria-autocomplete="list"
+                                                aria-controls="listbox-id-1"
+                                                aria-expanded="false"
+                                                aria-haspopup="listbox"
+                                                role="combobox"
+                                                placeholder="Search existing questions..."
+                                                onclick={handleSearchClick}
+                                                onblur={handleSearchBlur}
+                                                onkeydown={handleSearchKeydown}
+                                                oninput={handleQuestionSearch}/>
+                                            <lightning-icon
+                                                icon-name="utility:search"
+                                                size="x-small"
+                                                alternative-text="Search"
+                                                class="slds-input__icon slds-input__icon_right">
+                                            </lightning-icon>
+                                        </div>
+                                        <div id="listbox-id-1" class="slds-dropdown slds-dropdown_length-with-icon-7 slds-dropdown_fluid" role="listbox">
+                                            <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                                <template for:each={availableQuestionsToDisplay} for:item="question">
+                                                    <li key={question.Id} role="presentation" class="slds-listbox__item">
+                                                        <div
+                                                            id={question.Id}
+                                                            data-recordid={question.Id}
+                                                            class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
+                                                            role="option"
+                                                            onmousedown={handleAddExistingQuestion}>
+                                                            <span class="slds-media__figure slds-listbox__option-icon">
+                                                                <span class="slds-icon_container slds-icon-standard-account">
+                                                                    <lightning-icon
+                                                                        icon-name="standard:question_feed"
+                                                                        size="small"
+                                                                        alternative-text="Question"
+                                                                    ></lightning-icon>
+                                                                </span>
+                                                            </span>
+                                                            <span class="slds-media__body">
+                                                                <span class="slds-listbox__option-text slds-listbox__option-text_entity">{question.Label__c}</span>
+                                                                <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">{question.Type__c}</span>
+                                                            </span>
+                                                        </div>
+                                                    </li>
+                                                </template>
+                                            </ul>
+                                            <p if:true={noQuestionAvailable} class="slds-align_absolute-center">No available question.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Question List Section-->
+                        <div if:true={showColumnHeaders} class="slds-grid slds-p-around_x-small">
+                            <template for:each={questionColumns} for:item="questionColumn">
+                                <div key={questionColumn} class={questionColumn.class}>
+                                    <p class="slds-p-right_small slds-p-bottom_small slds-text-body_small">
+                                        <strong>{questionColumn.label}</strong>
+                                    </p>
+                                </div>
+                            </template>
+                        </div>
+                        <div if:false={showColumnHeaders} class="slds-text-align_center slds-p-around_large">
+                            <p><strong>No question found. Click on the Search Bar or 'Create New Question' button to add one.</strong></p>
+                        </div>
+                        <div class="slds-scrollable max-height">
+                            <template for:each={selectedQuestionnaire.relatedQuestions} for:item="question">
+                                <div key={question.id} class="slds-grid slds-p-around_x-small">
+                                    <div class="slds-col slds-size_1-of-12 slds-p-around_none slds-border_bottom">
+                                        <input
+                                            name={question.answerId} 
+                                            onchange={handleSequenceChange}
+                                            type="number" 
+                                            step="1" 
+                                            value={question.sequence} 
+                                            min="1" 
+                                            max={selectedQuestionnaire.relatedQuestions.length}
+                                            disabled={isStatusCompleted}>
+                                    </div>
+                                    <div class="slds-col slds-size_2-of-12  slds-p-around_none slds-border_bottom">
+                                        <p class="slds-p-right_small slds-p-bottom_small">
+                                            {question.label}
+                                        </p>
+                                    </div>
+                                    <div class="slds-col slds-size_2-of-12  slds-p-around_none slds-border_bottom"> 
+                                        <p class="slds-p-right_small slds-p-bottom_small">
+                                            {question.type}
+                                        </p>
+                                    </div>
+                                    <div class="slds-col slds-size_2-of-12  slds-p-around_none slds-border_bottom"> 
+                                        <p class="slds-p-right_small slds-p-bottom_small">
+                                            {question.dropdownOptions}
+                                        </p>
+                                    </div>
+                                    <div class="slds-col slds-size_2-of-12  slds-p-around_none slds-border_bottom"> 
+                                        <p class="slds-p-right_small slds-p-bottom_small">
+                                            {question.acceptableResponse}
+                                        </p>
+                                    </div>
+                                    <div class="slds-col slds-size_2-of-12  slds-p-around_none slds-border_bottom"> 
+                                        <p class="slds-p-right_small slds-p-bottom_small">
+                                            {question.message}
+                                        </p>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-12 slds-p-around_none slds-border_bottom"> 
+                                        <lightning-button-group>
+                                            <lightning-button-icon
+                                                if:true={question.editable}
+                                                title="Edit Question"
+                                                alternative-text="Edit"
+                                                icon-name="utility:edit"
+                                                data-name={question.id}
+                                                onclick={handleEditQuestion}
+                                                size="small"
+                                                disabled={isStatusCompleted}>
+                                            </lightning-button-icon>
+                                            <lightning-button-icon
+                                                title="Remove Question"
+                                                alternative-text="Remove"
+                                                icon-name="utility:delete"
+                                                data-name={question.answerId}
+                                                onclick={handleRemoveQuestion}
+                                                size="small"
+                                                disabled={isStatusCompleted}>
+                                            </lightning-button-icon>
+                                        </lightning-button-group>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                        <div if:true={sequenceEdited} class="slds-theme_shade slds-p-around_small slds-text-align_center">
+                            <p if:true={sequenceInvalid} class="slds-text-color_error slds-m-bottom_small">
+                                <strong>Please make sure the sequence ranges from 1 to {selectedQuestionnaire.relatedQuestions.length}.</strong>
+                            </p>
+                            <lightning-button
+                                label="Save Sequence"
+                                variant="brand"
+                                class="slds-m-right_small"
+                                onclick={handleSaveSequence}>  
+                            </lightning-button>
+                            <lightning-button
+                                label="Cancel"
+                                variant="neutral"
+                                onclick={handleCancelSequence}>  
+                            </lightning-button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </lightning-accordion-section>
+    </lightning-accordion>
+    <!--Create Question/Questionnaire Modal-->
+    <div if:true={createRecord} class="slds-modal slds-fade-in-open slds-backdrop">  
+        <div class="slds-modal__container">  
+            <div class="slds-modal__header">  
+                <lightning-button-icon
+                    icon-name="utility:close"
+                    alternative-text="Close this window"
+                    size="large"  
+                    variant="bare-inverse"
+                    onclick={handleCloseCreateRecord}
+                    class="slds-modal__close">  
+                </lightning-button-icon>  
+                <h2>{createRecordHeader}</h2>  
+            </div>  
+            <lightning-record-edit-form
+                object-api-name={createRecordObject}
+                record-id={questionId}
+                onsubmit={handleSubmitRecord}
+                onsuccess={handleSuccessRecord}
+                onerror={handleErrorRecord}>  
+                <div class="slds-modal__content slds-p-around_medium slds-scrollable custom-height">
+                    <lightning-combobox 
+                        if:true={createQuestionnaire}
+                        name="Questionnaire Type"
+                        label="Questionnaire Type"
+                        options={questionnaireOptions}
+                        onchange={handleQuestionnaireOptionChange}
+                        required>
+                    </lightning-combobox>
+                    <template if:true={createEditQuestion} for:each={layoutToDisplay} for:item="layoutItem">
+                        <div key={layoutToDisplay.sectionLabel} class="slds-grid slds-gutters">
+                            <div class="slds-col slds-size_1-of-1">
+                                <template for:each={layoutItem.singleColumn} for:item="singleField">
+                                    <lightning-input-field
+                                        key={singleField.field}
+                                        field-name={singleField.field}
+                                        required={singleField.mandatory}>
+                                    </lightning-input-field>
+                                </template>
+                            </div>
+                        </div>
+                        <div key={layoutToDisplay.sectionLabel} class="slds-grid slds-gutters">
+                            <div class="slds-col slds-size_1-of-2">
+                                <template for:each={layoutItem.leftColumn} for:item="leftField">
+                                    <lightning-input-field
+                                        key={leftField.field}
+                                        field-name={leftField.field}
+                                        required={leftField.mandatory}>
+                                    </lightning-input-field>
+                                    <template if:true={leftField.errorMessage}>
+                                        <span
+                                            key={leftField.field}
+                                            if:true={showAcceptableResponseError}
+                                            class="slds-text-body_small slds-text-color_destructive slds-m-left_small">
+                                            {leftField.errorMessage}
+                                        </span>
+                                    </template>
+                                </template>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2">
+                                <template for:each={layoutItem.rightColumn} for:item="rightField">
+                                    <lightning-input-field
+                                        key={rightField.field}
+                                        field-name={rightField.field}
+                                        required={rightField.mandatory}>
+                                    </lightning-input-field>
+                                </template>
+                            </div>
+                        </div>
+                    </template>
+                </div>  
+                <footer class="slds-modal__footer">
+                    <lightning-button
+                        label="Cancel"
+                        variant="neutral"
+                        onclick={handleCloseCreateRecord}>  
+                    </lightning-button>
+                    <lightning-button
+                        label="Save"
+                        variant="brand"
+                        type="submit"
+                        class="slds-m-left_small"
+                        disabled={disableSave}>  
+                    </lightning-button>
+                </footer>
+            </lightning-record-edit-form>
+        </div>  
+    </div> 
+</template>

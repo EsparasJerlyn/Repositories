@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Marks_Description__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF( (Marks__c * 100) &gt;=50 &amp;&amp; (Marks__c * 100) &lt;= 64 , &apos;Pass&apos;, IF( (Marks__c * 100) &gt;=65 &amp;&amp; (Marks__c * 100) &lt;= 74 , &apos;Credit&apos;, IF( (Marks__c * 100) &gt;=75 &amp;&amp; (Marks__c * 100) &lt;= 84 , &apos;Distinction&apos;, IF( (Marks__c * 100) &gt;=85 &amp;&amp; (Marks__c * 100) &lt;= 100 , &apos; High Distinction&apos;, &apos;&apos;)) ) )</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Marks Description</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

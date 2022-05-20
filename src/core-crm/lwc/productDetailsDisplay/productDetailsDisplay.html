@@ -1,0 +1,489 @@
+<template>
+  <div class="slds-container_x-large">
+    <lightning-layout multiple-rows="true">
+      <!-- Product Name -->
+      <lightning-layout-item flexibility="auto" size="12">
+        <h1 class="heading1">{productDetails.Name}</h1>
+      </lightning-layout-item>
+      <!-- Sub Header -->
+      <lightning-layout-item flexibility="auto" size="12">
+        <h2 class="subHeader">{label.subHeader}</h2>
+      </lightning-layout-item>
+      <!-- Left: Overview, Core Concepts, Facilitator, Location, Details -->
+      <lightning-layout-item
+        flexibility="auto"
+        size="12"
+        medium-device-size="8"
+      >
+        <lightning-layout multiple-rows="true" class="leftColumn">
+          <lightning-layout-item flexibility="auto" size="12">
+            <ul class="slds-accordion">
+              <!-- Overview -->
+              <li
+                if:true={productDetails.Overview__c}
+                class="slds-accordion__list-item"
+              >
+                <section class="slds-accordion__section slds-is-open">
+                  <div class="slds-accordion__summary">
+                    <h2 class="slds-accordion__summary-heading">
+                      <button
+                        class="slds-button slds-button_reset slds-accordion__summary-action"
+                        aria-controls="overviewContent"
+                        aria-expanded="true"
+                        title={label.overview}
+                        onclick={handleAccordionToggle}
+                      >
+                        <span
+                          class="slds-accordion__summary-content accordionHeader heading4"
+                        >
+                          {label.overview}
+                        </span>
+                        
+                        <img
+                          src={accordionIcon}
+                          alt=""
+                          class="slds-accordion__summary-action-icon slds-button__icon"
+                        />
+                      </button>
+                    </h2>
+                  </div>
+                  <div
+                    class="slds-accordion__content accordionContent"
+                    id="overviewContent"
+                  >
+                    <lightning-formatted-rich-text
+                      value={productDetails.Overview__c}
+                    >
+                    </lightning-formatted-rich-text>
+                  </div>
+                </section>
+              </li>
+              <!-- Flexible Program -->
+              <li if:false={isNotFlexProgram} class="slds-accordion__list-item">
+                <section class="slds-accordion__section slds-is-open">
+                  <div class="slds-accordion__summary">
+                    <h2 class="slds-accordion__summary-heading">
+                      <button
+                        class="slds-button slds-button_reset slds-accordion__summary-action"
+                        aria-controls="profdevmodContent"
+                        aria-expanded="true"
+                        title={label.professionalDevelopmentModules}
+                        onclick={handleAccordionToggle}
+                      >
+                        <span
+                          class="slds-accordion__summary-content accordionHeader heading4"
+                        >
+                          {label.professionalDevelopmentModules}
+                        </span>
+                        <img
+                          src={accordionIcon}
+                          alt=""
+                          class="slds-accordion__summary-action-icon slds-button__icon"
+                        />
+                      </button>
+                    </h2>
+                  </div>
+                  <div
+                    class="slds-accordion__content accordionContent"
+                    id="profdevmodContent"
+                  >
+                    <lightning-formatted-rich-text value={pdmStaticText}>
+                    </lightning-formatted-rich-text>                 
+                    <!-- Display Products under Program -->
+                    <c-product-card
+                      if:true={hasChildProducts}
+                      product-details={cProducts}
+                    ></c-product-card>
+
+                  </div>
+                </section>
+              </li>
+              <!-- Evolve With QUTeX -->
+              <li
+                if:true={productDetails.Evolve_with_QUTeX__c}
+                class="slds-accordion__list-item"
+              >
+                <section class="slds-accordion__section">
+                  <div class="slds-accordion__summary">
+                    <h2 class="slds-accordion__summary-heading">
+                      <button
+                        class="slds-button slds-button_reset slds-accordion__summary-action"
+                        aria-controls="evolveWithQUTeXContent"
+                        aria-expanded="false"
+                        title={label.evolveWithQUTeX}
+                        onclick={handleAccordionToggle}
+                      >
+                        <span
+                          class="slds-accordion__summary-content accordionHeader heading4"
+                        >
+                          {label.evolveWithQUTeX}
+                        </span>
+                        <img
+                          src={accordionIcon}
+                          alt=""
+                          class="slds-accordion__summary-action-icon slds-button__icon"
+                        />
+                      </button>
+                    </h2>
+                  </div>
+                  <div
+                    hidden
+                    class="slds-accordion__content accordionContent"
+                    id="evolveWithQUTeXContent"
+                  >
+                    <lightning-formatted-rich-text
+                      value={productDetails.Evolve_with_QUTeX__c}
+                    >
+                    </lightning-formatted-rich-text>
+                  </div>
+                </section>
+              </li>
+              <!-- Who Should Participate -->
+              <li
+                if:true={productDetails.Who_Should_Participate__c}
+                class="slds-accordion__list-item"
+              >
+                <section class="slds-accordion__section">
+                  <div class="slds-accordion__summary">
+                    <h2 class="slds-accordion__summary-heading">
+                      <button
+                        class="slds-button slds-button_reset slds-accordion__summary-action"
+                        aria-controls="whoShouldParticipateContent"
+                        aria-expanded="false"
+                        title={label.whoShouldParticipate}
+                        onclick={handleAccordionToggle}
+                      >
+                        <span
+                          class="slds-accordion__summary-content accordionHeader heading4"
+                        >
+                          {label.whoShouldParticipate}
+                        </span>
+                        <img
+                          src={accordionIcon}
+                          alt=""
+                          class="slds-accordion__summary-action-icon slds-button__icon"
+                        />
+                      </button>
+                    </h2>
+                  </div>
+                  <div
+                    hidden
+                    class="slds-accordion__content accordionContent"
+                    id="whoShouldParticipateContent"
+                  >
+                    <lightning-formatted-rich-text
+                      value={productDetails.Who_Should_Participate__c}
+                    >
+                    </lightning-formatted-rich-text>
+                  </div>
+                </section>
+              </li>
+              <!-- Core concepts -->
+              <li
+                if:true={productDetails.Core_Concepts__c}
+                class="slds-accordion__list-item"
+              >
+                <section class="slds-accordion__section">
+                  <div class="slds-accordion__summary">
+                    <h2 class="slds-accordion__summary-heading">
+                      <button
+                        class="slds-button slds-button_reset slds-accordion__summary-action"
+                        aria-controls="coreConceptsContent"
+                        aria-expanded="false"
+                        title={label.coreConcepts}
+                        onclick={handleAccordionToggle}
+                      >
+                        <span
+                          class="slds-accordion__summary-content accordionHeader heading4"
+                        >
+                          {label.coreConcepts}
+                        </span>
+                        <img
+                          src={accordionIcon}
+                          alt=""
+                          class="slds-accordion__summary-action-icon slds-button__icon"
+                        />
+                      </button>
+                    </h2>
+                  </div>
+                  <div
+                    hidden
+                    class="slds-accordion__content accordionContent"
+                    id="coreConceptsContent"
+                  >
+                    <lightning-formatted-rich-text
+                      value={productDetails.Core_Concepts__c}
+                    >
+                    </lightning-formatted-rich-text>
+                  </div>
+                </section>
+              </li>
+              <!-- Facilitator -->
+              <li if:true={facilitator} class="slds-accordion__list-item">
+                <section class="slds-accordion__section">
+                  <div class="slds-accordion__summary">
+                    <h2 class="slds-accordion__summary-heading">
+                      <button
+                        class="slds-button slds-button_reset slds-accordion__summary-action"
+                        aria-controls="facilitatorContent"
+                        aria-expanded="false"
+                        title={label.facilitator}
+                        onclick={handleAccordionToggle}
+                      >
+                        <span
+                          class="slds-accordion__summary-content accordionHeader heading4"
+                        >
+                          {label.facilitator}
+                        </span>
+                        <img
+                          src={accordionIcon}
+                          alt=""
+                          class="slds-accordion__summary-action-icon slds-button__icon"
+                        />
+                      </button>
+                    </h2>
+                  </div>
+                  <div
+                    hidden
+                    class="slds-accordion__content accordionContent"
+                    id="facilitatorContent"
+                  >
+                    <div class="slds-media">
+                      <div class="slds-media__figure slds-m-right_x-large">
+                        <img
+                          alt=""
+                          class="facilImage"
+                          src={facilitator.facilitatorImage}
+                        />
+                      </div>
+                      <div class="slds-media__body">
+                        <lightning-button-icon
+                          if:true={displayFacilitatorNav}
+                          icon-name="utility:chevronright"
+                          alternative-text="Next"
+                          onclick={handleNextFacilitator}
+                          title="Next"
+                          class="slds-float_right"
+                        ></lightning-button-icon>
+                        <lightning-button-icon
+                          if:true={displayFacilitatorNav}
+                          icon-name="utility:chevronleft"
+                          alternative-text="Previous"
+                          onclick={handlePreviousFacilitator}
+                          title="Previous"
+                          class="slds-float_right slds-m-right_small"
+                        ></lightning-button-icon>
+                        <h4 class="slds-m-bottom_medium facilName">
+                          {facilitator.facilitatorName}
+                        </h4>
+                        <p class="facilBio">{facilitator.facilitatorBio}</p>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              </li>
+              <!-- Location -->
+              <li
+                if:true={selectedCourseOfferingLocation}
+                class="slds-accordion__list-item"
+              >
+                <section class="slds-accordion__section">
+                  <div class="slds-accordion__summary">
+                    <h2 class="slds-accordion__summary-heading">
+                      <button
+                        class="slds-button slds-button_reset slds-accordion__summary-action"
+                        aria-controls="locationContent"
+                        aria-expanded="false"
+                        title={label.location}
+                        onclick={handleAccordionToggle}
+                      >
+                        <span
+                          class="slds-accordion__summary-content accordionHeader heading4"
+                        >
+                          {label.location}
+                        </span>
+                        <img
+                          src={accordionIcon}
+                          alt=""
+                          class="slds-accordion__summary-action-icon slds-button__icon"
+                        />
+                      </button>
+                    </h2>
+                  </div>
+                  <div
+                    hidden
+                    class="slds-accordion__content accordionContent"
+                    id="locationContent"
+                  >
+                    <lightning-formatted-rich-text
+                      value={selectedCourseOfferingLocation}
+                    >
+                    </lightning-formatted-rich-text>
+                  </div>
+                </section>
+              </li>
+              <!-- Details -->
+              <li
+                if:true={productDetails.More_Details__c}
+                class="slds-accordion__list-item"
+              >
+                <section class="slds-accordion__section">
+                  <div class="slds-accordion__summary">
+                    <h2 class="slds-accordion__summary-heading">
+                      <button
+                        class="slds-button slds-button_reset slds-accordion__summary-action"
+                        aria-controls="detailsContent"
+                        aria-expanded="false"
+                        title={label.details}
+                        onclick={handleAccordionToggle}
+                      >
+                        <span
+                          class="slds-accordion__summary-content accordionHeader heading4"
+                        >
+                          {label.details}
+                        </span>
+                        <img
+                          src={accordionIcon}
+                          alt=""
+                          class="slds-accordion__summary-action-icon slds-button__icon"
+                        />
+                      </button>
+                    </h2>
+                  </div>
+                  <div
+                    hidden
+                    class="slds-accordion__content accordionContent"
+                    id="detailsContent"
+                  >
+                    <lightning-formatted-rich-text
+                      value={productDetails.More_Details__c}
+                    >
+                    </lightning-formatted-rich-text>
+                  </div>
+                </section>
+              </li>
+            </ul>
+          </lightning-layout-item>
+        </lightning-layout>
+      </lightning-layout-item>
+      <!-- Right: Duration, Delivery, Available Start Dates, Pricing & Add to Cart -->
+      <lightning-layout-item
+        if:true={isNotFlexProgram}
+        flexibility="auto"
+        size="12"
+        medium-device-size="4"
+      >
+        <lightning-layout multiple-rows="true" class="rightColumn">
+          <!-- Duration -->
+          <lightning-layout-item
+            flexibility="auto"
+            size="12"
+            class="slds-m-bottom_small"
+          >
+            <div class="slds-media slds-has-flexi-truncate">
+              <div class="slds-media__figure">
+                <span class="slds-icon_container">
+                  <img alt="" src={durationIcon} />
+                </span>
+              </div>
+              <div class="slds-media__body">
+                <div class="slds-card__header-title">
+                  <span class="durationTitle">{label.duration}</span>
+                </div>
+                <div class="slds-m-top_x-small durationValue">
+                  {productDetails.Duration__c}
+                </div>
+              </div>
+            </div>
+          </lightning-layout-item>
+          <!-- Delivery -->
+          <lightning-layout-item
+            flexibility="auto"
+            size="12"
+            class="slds-m-bottom_small"
+          >
+            <c-custom-combobox-multi
+              class=""
+              label={label.delivery}
+              placeholder={label.deliveryPlaceholder}
+              disabled={disableDelivery}
+              options={deliveryOptions}
+              onchange={handleDeliverySelected}
+              slds-icon-up="utility:chevronup"
+              slds-icon-down="utility:chevrondown"
+            ></c-custom-combobox-multi>
+          </lightning-layout-item>
+          <!-- Available Start Dates -->
+          <lightning-layout-item
+            flexibility="auto"
+            size="12"
+            class="slds-m-bottom_small"
+          >
+            <c-custom-combobox
+              class="availStartDates"
+              field-label={label.availableStartDates}
+              placeholder={label.availableStartDatesPlaceholder}
+              disabled={disableAvailStartDate}
+              options={courseOfferings}
+              value={selectedCourseOffering}
+              onchange={handleStartDateSelected}
+              slds-icon-up="utility:chevronup"
+              slds-icon-down="utility:chevrondown"
+            >
+            </c-custom-combobox>
+          </lightning-layout-item>
+          <!-- Pricing -->
+          <lightning-layout-item
+            flexibility="auto"
+            size="12"
+            class="slds-m-bottom_small"
+          >
+            <c-custom-combobox
+              class="pricing"
+              field-label={label.pricing}
+              placeholder={label.pricingPlaceholder}
+              disabled={disablePriceBookEntry}
+              options={priceBookEntries}
+              value={selectedPriceBookEntry}
+              onchange={handlePricebookSelected}
+              slds-icon-up="utility:chevronup"
+              slds-icon-down="utility:chevrondown"
+            >
+            </c-custom-combobox>
+          </lightning-layout-item>
+          <!-- Add to Cart -->
+          <lightning-layout-item
+            if:true={displayAddToCart}
+            flexibility="auto"
+            size="12"
+          >
+            <lightning-button
+              label={label.addToCart}
+              disabled={disableAddToCart}
+              onclick={notifyAddToCart}
+              variant="brand"
+              class="addToCartBtn"
+            ></lightning-button>
+          </lightning-layout-item>
+          <!-- Register Interest -->
+          <lightning-layout-item
+            if:true={displayRegisterInterest}
+            flexibility="auto"
+            size="12"
+          >
+            <lightning-button
+              label={label.registerInterest}
+              onclick={registerInterest}
+              variant="brand"
+              class="registerInterest"
+            ></lightning-button>
+          </lightning-layout-item>
+        </lightning-layout>
+      </lightning-layout-item>
+    </lightning-layout>
+  </div>
+  <!-- Custom Login Form LWC for Guest User -->
+  <template if:true={openModal}>
+    <c-registration-form onclose={handleModalClosed}></c-registration-form>
+  </template>
+</template>

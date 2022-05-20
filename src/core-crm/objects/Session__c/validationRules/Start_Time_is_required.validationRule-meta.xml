@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Start_Time_is_required</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+ Is_Managed_Externally__c = false,
+ ISBLANK( Start_Time_v2__c ) 
+)</errorConditionFormula>
+    <errorDisplayField>Start_Time_v2__c</errorDisplayField>
+    <errorMessage>Start Time is required</errorMessage>
+</ValidationRule>

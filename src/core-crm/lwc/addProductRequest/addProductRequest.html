@@ -1,0 +1,158 @@
+<template>
+    <template if:true={isSelectionModalOpen}>
+        <!-- Modal/Popup Box LWC starts here -->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeSelectionModal}>
+                        <lightning-icon icon-name="utility:close"
+                            alternative-text="close"
+                            variant="inverse"
+                            size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <template if:true={isChild}>
+                        <div class="slds-grid slds-text-heading_small slds-border_top slds-border_bottom product-request slds-m-bottom_medium">
+                            <div class="slds-col slds-size_1-of-2 slds-text-align_left slds-m-left_medium slds-p-vertical_small">
+                                <h2>PARENT PRODUCT REQUEST</h2>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2 slds-text-align_left slds-m-left_large slds-p-vertical_small parent-name">
+                                <h2>{parentRecord.id}</h2>
+                            </div>
+                        </div>
+                    </template>
+                    <slot name="title-text">
+                        <div id="modal-heading-01" class="modal-heading slds-text-heading_medium slds-text-align_left title-text slds-box slds-theme_shade width-expanded">{modalName}</div>
+                    </slot>
+                </header>
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <template if:true={isAddExistingModal}>
+                        <div class="slds-is-relative">
+                            <lightning-spinner if:true={savingExistingPR} alternative-text="Loading" size="small"></lightning-spinner>
+                            <c-custom-search
+                                search-label="Course Product Request"
+                                search-input-placeholder="Search Product Request..."
+                                search-items={lookupItemsFormatted}
+                                search-item-icon="custom:custom62"
+                                onitemselect={handleLookupSelect}
+                                onitemremove={handleLookupRemove}
+                                oncreate={handleCreateNewRecord}
+                                onsearch={handleSearch}
+                                item-id={existingProdReqId}
+                                search-in-progress={searchInProgress}
+                                object-label-name={objectLabelName}
+                                custom-lookup
+                                custom-server-search
+                                new-record-available
+                            ></c-custom-search>
+                            <div class="slds-float_right">
+                                <lightning-button 
+                                    data-name="Add"
+                                    label="Add"
+                                    variant="brand"
+                                    type="submit"
+                                    onclick={handleAddExistingProductRequest}
+                                    class="slds-p-top_x-large slds-m-top_x-medium slds-float_right"
+                                    disabled={disableAddExistingButton}
+                                ></lightning-button>
+                            </div>
+                        </div>
+                    </template>
+                    <template if:false={isAddExistingModal}>
+                        <template for:each={sortedRecordTypeMap} for:item="item">
+                            <fieldset key={item.value}>
+                              <div class="slds-form-element__control">
+                                <span class="slds-radio slds-p-bottom_medium slds-text-heading_medium" >
+                                  <input name="radiogroup" id={item.value} type="radio" value={item.value} onchange={getRadioValue}/>
+                                  <label class="slds-radio__label" for={item.value}>
+                                    <span class="slds-radio_faux"></span>
+                                    <span class="slds-form-element__label">{item.label}</span>
+                                    </label>
+                                </span>
+                            </div>
+                            <p class="slds-form-element__label record-description">{item.description}</p>
+                            </fieldset>
+                        </template>
+                        <div class="slds-float_right">
+                            <lightning-button variant="brand" label="CREATE" title="CREATE" class="slds-m-top_x-large" onclick={openCreationModal} disabled={disableButton}></lightning-button>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <template if:true={isRelatedModalOpen}>
+        <!-- Modal/Popup Box LWC starts here -->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-03" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeRecordCreation}>
+                        <lightning-icon icon-name="utility:close"
+                            alternative-text="close"
+                            variant="inverse"
+                            size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-03" class="slds-text-heading_medium slds-hyphenate">Enter {objectLabel} Name</h2>
+                </header>
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-10">
+                    <div class="slds-p-around_medium slds-is-relative">
+                        <lightning-spinner if:true={saveInProgress} alternative-text="Loading" size="small"></lightning-spinner>
+                        <lightning-record-edit-form
+                            object-api-name={objectToBeCreated}
+                            onload={handleCreateLoad}
+                            onerror={handleRecordError}
+                            onsuccess={updateProductRequestStatusAndRedirect}
+                            onsubmit={createProductRequest}>
+                            <lightning-input-field 
+                                field-name='Name'
+                                required
+                            ></lightning-input-field>
+                            <lightning-input-field
+                                if:true={isProgramSelected}
+                                field-name='Program_Delivery_Structure__c'
+                                required
+                            ></lightning-input-field>
+                            <c-custom-search
+                                search-label="Owner"
+                                search-input-placeholder="Search Users..."
+                                search-items={userSearchItems}
+                                search-item-icon="standard:user"
+                                item-id={selectedUserId}
+                                search-in-progress={searchUserInProgress}
+                                empty-message="Enter at least three (3) characters to show results..."
+                                onitemselect={handleUserSelect}
+                                onitemremove={handleUserRemove}
+                                onsearch={handleUserSearch}
+                                custom-lookup
+                                custom-server-search
+                                required
+                            ></c-custom-search>
+                            <span
+                                if:true={showOwnerError}
+                                class="slds-text-body_small slds-text-color_destructive slds-m-left_small">
+                                Complete this field.
+                            </span>
+                            <div class="slds-float_right">
+                                <lightning-button 
+                                    data-name="save"
+                                    label="Save"
+                                    variant="brand"
+                                    type="submit"
+                                    class="slds-p-top_x-large slds-m-top_x-medium slds-float_right"
+                                    disabled={saveInProgress}
+                                ></lightning-button>
+                            </div>
+                        </lightning-record-edit-form>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>
