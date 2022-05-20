@@ -25,10 +25,13 @@ public class ContactLookupCtrlTest {
         List<Contact> contacts = TestDataFactory.createTestContactRecords(2);
         contacts[0].AccountId = acc.Id;
         contacts[1].AccountId = acc.Id;
-
-        Test.startTest();
         insert(contacts);
-        Test.stopTest();
+
+        List<hed__Affiliation__c> affliatedContacts = TestDataFactory.createTestAffliatedContactRecords(2, acc.Id);
+        affliatedContacts[0].hed__Contact__c = contacts[0].Id;
+        affliatedContacts[1].hed__Contact__c = contacts[1].Id;
+
+        insert(affliatedContacts);
        }
     }  
 

@@ -1176,4 +1176,20 @@ public class TestDataFactory {
       String.valueOf(Integer.valueOf(Math.floor(100000 + Math.random() * 900000)));
   }
 
+  /**
+   * @description Method for creating test hed__Affiliation__c records
+   * @param numContacts - number of Affliated Contact to be created
+   * @param accountId - accountId
+   * @return cons - list of hed__Affiliation__c created
+   */
+  public static List<hed__Affiliation__c> createTestAffliatedContactRecords(Integer numContacts, Id accountId) {
+    List<hed__Affiliation__c> cons = new List<hed__Affiliation__c>();
+
+    for (Integer i = 0; i < numContacts; i++) {
+      cons.add(new hed__Affiliation__c(hed__Description__c = 'AF Test' + i, hed__Account__c= accountId));
+    }
+
+    return cons;
+  }
+
 }
