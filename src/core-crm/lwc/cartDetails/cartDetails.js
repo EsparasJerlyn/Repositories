@@ -175,8 +175,8 @@ export default class CartDetails extends LightningElement {
     // Reset Timer
     function resetTimer() {
       clearTimeout(this.activeTimeout);
-      this.activeTimeout = setTimeout(redirectToHome, 5000); //0.125 minute
-      // t = setTimeout(redirectToHome, 600000); //10 minutes
+      // this.activeTimeout = setTimeout(redirectToHome, 5000); //0.125 minute
+      this.activeTimeout = setTimeout(redirectToHome, 600000); //10 minutes
     }
   }
 
