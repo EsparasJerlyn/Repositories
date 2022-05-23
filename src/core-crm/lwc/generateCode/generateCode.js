@@ -87,6 +87,7 @@ export default class GenerateCode extends LightningElement {
             message: _message,
             variant: _variant,
         });
+        
         this.dispatchEvent(evt);
     }
 }

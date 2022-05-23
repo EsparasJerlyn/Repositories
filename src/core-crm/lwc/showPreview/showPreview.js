@@ -6,6 +6,7 @@ import customSR1 from "@salesforce/resourceUrl/QUTMainCSS";
 import getProductDataRelatedToProductRequest from "@salesforce/apex/ProductDetailsCtrl.getProductDataRelatedToProductRequest";
 
 export default class ShowPreview extends LightningElement {
+    
     @api recordId;
     @api productId;
    loading;

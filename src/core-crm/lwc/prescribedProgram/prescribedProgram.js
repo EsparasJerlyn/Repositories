@@ -137,6 +137,7 @@ export default class PrescribedProgram extends LightningElement {
                 meta: meta,
             });
         });
+        
         this.availableProgramOfferings = availableProgramOfferingsLocal;
         this.disableProgramOfferings = false;
         this.selectedProgramOffering = undefined;
