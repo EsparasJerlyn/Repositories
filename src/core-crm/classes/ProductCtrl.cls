@@ -153,7 +153,6 @@ public without sharing class ProductCtrl {
             }
             prodWrapperList.add(productListWrapper);
         }
-
         //Set values to wrapper
         prodData.productList = prodWrapperList;
         return prodData;

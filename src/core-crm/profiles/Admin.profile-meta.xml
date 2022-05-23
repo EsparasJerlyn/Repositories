@@ -5028,7 +5028,7 @@
     <layoutAssignments>
         <layout>hed__Course__c-CCE Individual Coaching Layout</layout>
         <recordType>hed__Course__c.Individual_Coaching</recordType>
-    </layoutAssignments>
+    </layoutAssignments>-
     <layoutAssignments>
         <layout>hed__Program_Plan__c-OPE Program Request Page Layout</layout>
     </layoutAssignments>
