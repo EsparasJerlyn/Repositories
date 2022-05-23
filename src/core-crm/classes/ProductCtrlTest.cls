@@ -295,13 +295,15 @@ public with sharing class ProductCtrlTest {
       Test.startTest();
       ProductCtrl.FilterWrapper var = new ProductCtrl.FilterWrapper();
       Date dToday = Date.today();
+      Date dTodayMinus3 = dToday -3;
+      Date dTodayPlus10 = dToday + 10;
       var.searchKey = '';
       var.studyArea = new List<String>();
       var.deliveryType = new List<String>();
       var.productType = new List<String>();
       var.minUnitPrice = 3;
-      var.startDate = (dToday.day() -3) + '/' + dToday.month() + '/'+ dToday.year() ;
-      var.endDate =  (dToday.day() + 10) + '/' + dToday.month() + '/' + dToday.year();
+      var.startDate = dTodayMinus3.day() + '/' + dToday.month() + '/'+ dToday.year() ;
+      var.endDate =  dTodayPlus10.day() + '/' + dToday.month() + '/' + dToday.year();
 
       ProductCtrl.FilterData getFilterProd = ProductCtrl.getFilteredProducts(productId , var);
 
@@ -329,14 +331,16 @@ public with sharing class ProductCtrlTest {
       Test.startTest();
       ProductCtrl.FilterWrapper var = new ProductCtrl.FilterWrapper();
       Date dToday = Date.today();
+      Date dTodayMinus3 = dToday -3;
+      Date dTodayPlus10 = dToday + 10;
       var.searchKey = '';
       var.studyArea = new List<String>();
       var.deliveryType = new List<String>();
       var.productType = new List<String>();
       var.minUnitPrice = 3;
       var.maxUnitPrice = 15;
-      var.startDate =  (dToday.day() -3) + '/' + dToday.month() + '/'+ dToday.year() ;
-      var.endDate =  (dToday.day() + 10) + '/' + dToday.month() + '/' + dToday.year();
+      var.startDate = dTodayMinus3.day() + '/' + dToday.month() + '/'+ dToday.year() ;
+      var.endDate =  dTodayPlus10.day() + '/' + dToday.month() + '/' + dToday.year();
 
       ProductCtrl.FilterData getFilterProd = ProductCtrl.getFilteredProducts(productId , var);
 
