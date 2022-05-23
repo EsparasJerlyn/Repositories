@@ -7,7 +7,8 @@
  *    | Developer                 | Date                  | JIRA                | Change Summary                                         |
       |---------------------------|-----------------------|---------------------|--------------------------------------------------------|
       | angelika.j.s.galang       | February 3, 2022      | DEPP-1257           | Created file                                           |
-      | arsenio.jr.dayrit         | February 14, 2021     | DEPP-1947           | Added Content Section                                                       |
+      | arsenio.jr.dayrit         | February 14, 2021     | DEPP-1947           | Added Content Section                                  |
+      | roy.nino.s.regala         | May 23, 2021          | DEPP-2663           | Added logic to control editing of decomission section  |
 */
 import { LightningElement, api, wire } from 'lwc';
 import { getRecord, getFieldValue } from "lightning/uiRecordApi";
@@ -21,6 +22,7 @@ import PR_RECORD_TYPE from '@salesforce/schema/Product_Request__c.RecordType.Dev
 import PR_STATUS from '@salesforce/schema/Product_Request__c.Product_Request_Status__c';
 import PR_PROGRAM_TYPE from '@salesforce/schema/Product_Request__c.OPE_Program_Plan_Type__c';
 import checkParentProgramType from '@salesforce/apex/ProductManagementCtrl.checkParentProgramType';
+import checkAvailableOnCart from '@salesforce/apex/ProductManagementCtrl.checkAvailableOnCart';
 
 export default class ProductManagement extends LightningElement {
     @api recordId;
@@ -29,6 +31,7 @@ export default class ProductManagement extends LightningElement {
     isPrescribedOrNonProgram = false;
     parentIsPrescribed = false;
     isStatusCompleted = false;
+    isAvailbleOnCart = false;
     isProgram;
 
     //decides if user has access to this feature
@@ -44,6 +47,10 @@ export default class ProductManagement extends LightningElement {
     //decides to show edit buttons
     get showEditButton(){
         return !this.isStatusCompleted;
+    }
+
+    get showEditButtonForDecomission(){
+        return !this.isStatusCompleted && this.isAvailbleOnCart;
     }
 
     //checks if product request is program and hides content section if true
@@ -94,6 +101,22 @@ export default class ProductManagement extends LightningElement {
             this.generateToast('Error!',LWC_Error_General,'error');
         }
     }
+
+    /**
+     * checks if related product is available on cart
+     */
+     availableOnCart
+     @wire(checkAvailableOnCart,{productRequestId: '$recordId'})
+     checkAvailableOnCart(result){
+         if(result.data != undefined)
+         {
+             this.isAvailbleOnCart = result.data;
+         }
+         else if(result.error)
+         {  
+             this.generateToast('Error!',LWC_Error_General,'error');
+         }
+     }
 
     /**
      * creates toast notification

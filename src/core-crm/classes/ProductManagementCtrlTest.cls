@@ -96,4 +96,16 @@ private class ProductManagementCtrlTest {
         Test.stopTest();
     }
 
+    @isTest
+    static void testCheckAvailableOnCart() {
+        Test.startTest();
+        System.runAs(currentUser){
+            Boolean isAvailableOnCart;
+            isAvailableOnCart = ProductManagementCtrl.checkAvailableOnCart([SELECT Id FROM Product_Request__c WHERE RecordTypeId =: opeActProdReqId LIMIT 1][0].Id);
+            system.assert( !isAvailableOnCart, 'is AvailableOnCart');
+        }
+
+        Test.stopTest();
+    }
+
 }
