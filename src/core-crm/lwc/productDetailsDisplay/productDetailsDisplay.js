@@ -477,7 +477,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     if(this.isInternalUser == true){
       this.disableAddToCart = true;
     } else{
-        this.disableAddToCart = false;        
+        this.disableAddToCart = false;
     }
     this.priceBookEntries.forEach((pBookEntry) => {
       if (
@@ -488,7 +488,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
       } else {
         this.displayAddToCart = true;
       }
-    }); 
+    });
   }
 
   // Creates toast notification

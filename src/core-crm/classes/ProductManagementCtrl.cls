@@ -37,14 +37,14 @@ public with sharing class ProductManagementCtrl {
      * @param productRequestId - id of product request
      * @return boolean that tells  whether a parent is prescribed or not
      */
-    @AuraEnabled(cacheable=true)    
+    @AuraEnabled(cacheable=true)
     public static boolean checkAvailableOnCart(Id productRequestId){
         if(
             ![
-            SELECT Id 
-            FROM Product2 
-            WHERE Available_on_Cart__c = true 
-            AND (Course__r.ProductRequestID__c =: productRequestId 
+            SELECT Id
+            FROM Product2
+            WHERE Available_on_Cart__c = true
+            AND (Course__r.ProductRequestID__c =: productRequestId
             OR Program_Plan__r.Product_Request__c =: productRequestId)
             LIMIT 1
             ].isEmpty()

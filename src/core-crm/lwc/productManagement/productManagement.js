@@ -113,7 +113,7 @@ export default class ProductManagement extends LightningElement {
              this.isAvailbleOnCart = result.data;
          }
          else if(result.error)
-         {  
+         {
              this.generateToast('Error!',LWC_Error_General,'error');
          }
      }

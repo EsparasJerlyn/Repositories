@@ -669,10 +669,10 @@ private class ProductDetailsCtrlTest {
         insert produtRequestForProgramPlan;
         Product_Request__c produtRequestForModule = new Product_Request__c(Product_Request_Status__c = 'Define', Product_Request_Name__c = 'Product Request_T02', Child_of_Prescribed_Program__c = true);
         insert produtRequestForModule;
-                
+
         hed__Program_Plan__c programPlan = new hed__Program_Plan__c(Name = 'Program Plan_Test 1', Program_Delivery_Structure__c = 'Prescribed Program', Product_Request__c = produtRequestForProgramPlan.Id);
         insert programPlan;
-        
+
         Map<String, String> courseFields = new Map<String, String>();
         courseFields.put('Name', 'Program Plan_T01');
        	courseFields.put('ProductRequestID__c', produtRequestForModule.Id);
@@ -680,16 +680,16 @@ private class ProductDetailsCtrlTest {
         courseFields.put('Owning_Faculty__c', accountId);
         hed__Course__c course = TestDataFactory.createTestCourseRecords(courseFields);
         insert course;
-        
+
         hed__Plan_Requirement__c planRequirement  = new hed__Plan_Requirement__c(hed__Course__c=course.Id, hed__Program_Plan__c=programPlan.Id, hed__Sequence__c=1);
         insert planRequirement;
-        
+
         Map<String, String> programOfferingFields = new Map<String, String>();
         programOfferingFields.put('Name', 'Program Offering_T01');
         programOfferingFields.put('hed_Program_Plan__c', programPlan.Id);
         Program_Offering__c programOffering = TestDataFactory.createTestProgramOfferingRecords(programOfferingFields);
         insert programOffering;
-        
+
         System.runAs(currUsr) {
             Test.startTest();
             Map<String, Object> returnMap = ProductDetailsCtrl.getProductDataRelatedToProductRequest(produtRequestForProgramPlan.Id);

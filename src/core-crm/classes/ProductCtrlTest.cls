@@ -7,7 +7,7 @@
       |---------------------------|-----------------------|----------------------|--------------------------------------------|
       | eugene.andrew.abuan       | May 02, 2022          | DEPP-1269            | Created File                               |
       | eugene.andrew.abuan       | May 20, 2022          | DEPP-1979            | Added methods for filters                  |
-      
+
       
  */
 @isTest(SeeAllData=false)
@@ -189,8 +189,8 @@ public with sharing class ProductCtrlTest {
       System.assert( getFilterProd != null,'No Products were found with Search key as filter');
     }
   }
-    
-    
+
+
     @isTest
     static void getFilterStudyAreaTest(){
       User currUsr = [ SELECT Id FROM User
@@ -218,7 +218,7 @@ public with sharing class ProductCtrlTest {
       System.assert( getFilterProd != null,'No Products were found with Study Area as filter');
     }
   }
-    
+
       @isTest
     static void getFilterDeliveryTest(){
       User currUsr = [ SELECT Id FROM User
@@ -247,7 +247,7 @@ public with sharing class ProductCtrlTest {
       System.assert( getFilterProd != null,'No Products were found with Delivery Type as filter');
     }
   }
-    
+
     @isTest
     static void getFilterProductTypeTest(){
       User currUsr = [ SELECT Id FROM User
@@ -276,7 +276,7 @@ public with sharing class ProductCtrlTest {
       System.assert( getFilterProd != null,'No Products were found with Short Course as filter');
     }
   }
-    
+
    @isTest
     static void getFilterDateTest(){
       User currUsr = [ SELECT Id FROM User
@@ -312,7 +312,7 @@ public with sharing class ProductCtrlTest {
       System.assert( getFilterProd != null,'No Products were found with Date as Filter');
     }
   }
-    
+
     @isTest
     static void getFilterPriceDateComboTest(){
       User currUsr = [ SELECT Id FROM User

@@ -6474,7 +6474,7 @@
         <editable>false</editable>
         <field>hed__Course__c.Outcomev2__c</field>
         <readable>true</readable>
-    </fieldPermissions>    
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>hed__Course__c.Type_of_Individual_Coaching__c</field>

@@ -9,7 +9,7 @@
  *    | Developer Email           | Date                  | JIRA     | Change Summary                  |
       |---------------------------|-----------------------|----------|---------------------------------|
       | marygrace.li@qut.edu.au   | September 20, 2021    | DEP1-158 | Created file                    |  
-      | marygrace.li@qut.edu.au   | May 19, 2022          | DEPP-2675| Added filter for AccountId      | 
+      | marygrace.li@qut.edu.au   | May 19, 2022          | DEPP-2675| Added filter for AccountId      |
 */
 
 
@@ -18,7 +18,7 @@ public class ContactLookupCtrlTest {
 	private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
 
     @testSetup static void setupMethod() {
-       System.runAs(currentUser) { 
+       System.runAs(currentUser) {
         Account acc = TestDataFactory.createTestAccount(false);
         insert acc;
 
@@ -33,10 +33,10 @@ public class ContactLookupCtrlTest {
 
         insert(affliatedContacts);
        }
-    }  
+    }
 
 
-    @IsTest 
+    @IsTest
     static void getContactRecords(){
        List<Contact> contactList = new List<Contact>();
         User currUsr = [
@@ -45,12 +45,12 @@ public class ContactLookupCtrlTest {
               WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
               LIMIT 1
         ];
-        
+
             System.runAs(currUsr) {
-            
-           	Test.startTest(); 
+
+           	Test.startTest();
           	Id accountId = [SELECT Id FROM ACCOUNT WHERE OwnerId =: currUsr.Id LIMIT 1].Id;
-                
+
             contactList = ContactLookupCtrl.getContactRecords(accountId);
             Test.stopTest();
             System.assertEquals(2, contactList.size(), 'Contacts were not created.');

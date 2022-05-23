@@ -7,7 +7,7 @@
       |---------------------------|-----------------------|----------------------|--------------------------------------------|
       | mary.grace.li             | May 02, 2022          | DEPP-1269            | Created File                               |      
       | eugene.andrew.abuan       | May 02, 2022          | DEPP-1269            | Modified Ctrl to Map fields                |
-      | eugene.andrew.abuan       | May 09, 2022          | DEPP-1979            | Added getFilteredProducts function         |          
+      | eugene.andrew.abuan       | May 09, 2022          | DEPP-1979            | Added getFilteredProducts function         |
       
  */
 
@@ -159,12 +159,12 @@ public without sharing class ProductCtrl {
     }
 
     /**
-     * @description Filters the products depending on the parameters 
+     * @description Filters the products depending on the parameters
      * @param productIds - List of Products under the Category
      * @param filterData - Parameters that for filter
      * @return prodData - Id of filtered products
      */
-    @AuraEnabled(cacheable=true)    
+    @AuraEnabled(cacheable=true)
     public static FilterData getFilteredProducts (List <String> productAllId, FilterWrapper filterData){
         FilterData prodData = new FilterData();
         List<Product2> filterDataList = new List<Product2>();
@@ -186,7 +186,7 @@ public without sharing class ProductCtrl {
 
             //Checks if Search Key is Empty
             if(String.isNotEmpty(filterData.searchKey)){
-                String key = '%' + filterData.searchKey + '%'; 
+                String key = '%' + filterData.searchKey + '%';
                 filterProductsQuery += ' AND (Name LIKE :key OR Description LIKE :key )';
             }
             //Checks if Study Area if Empty
@@ -197,7 +197,7 @@ public without sharing class ProductCtrl {
                 studyAreaValue = studyAreaValue.substring(0, studyAreaValue.length() -1 );
                 filterProductsQuery += ' AND Study_Area__c INCLUDES (' +studyAreaValue + ')';
             }
-            //Checks if Delivery is Empty 
+            //Checks if Delivery is Empty
             if(filterData.deliveryType.size() > 0){
                 for(String val : filterData.deliveryType){
                     deliveryTypeValue += '\''+val + '\' '+',';
@@ -221,8 +221,8 @@ public without sharing class ProductCtrl {
         Set<Id> productPriceId = new Set<Id>();
 
         //Combination of Price and Date Filter and other filters if selected above
-        if((filterData.startDate != null && filterData.endDate !=null) && 
-            (filterData.minUnitPrice !=null || filterData.maxUnitPrice != null)){   
+        if((filterData.startDate != null && filterData.endDate !=null) &&
+            (filterData.minUnitPrice !=null || filterData.maxUnitPrice != null)){
                 Set<Id> filterProductPriceId = new Set<Id>();
                 for(Product2 p: filterDataList){
                     for(PricebookEntry pEntry : p.PricebookEntries){
@@ -238,7 +238,7 @@ public without sharing class ProductCtrl {
                                     filterProductPriceId.add(pEntry.Product2Id);
                                 }
                             }
-                            //Product Id not on the list of productPriceId 
+                            //Product Id not on the list of productPriceId
                             if(!productPriceId.contains(pEntry.Product2Id)){
                                 if((filterData.maxUnitPrice == null) && (pEntry.UnitPrice >= filterData.minUnitPrice)){
                                     filterProductPriceId.add(pEntry.Product2Id);
@@ -269,7 +269,7 @@ public without sharing class ProductCtrl {
                     courseIdSet.add(p.Course__c);
                 }
             }
-        }    
+        }
 
         Set<Id> prodCourseStartDateId = new Set<Id>();
         Set<Id> prodProgramStartDateId = new Set<Id>();
@@ -296,7 +296,7 @@ public without sharing class ProductCtrl {
                 FROM Program_Offering__c
                 WHERE
                     (Start_Date__c >=: sDate
-                    AND Start_Date__c <=: eDate)                   
+                    AND Start_Date__c <=: eDate)
                     AND hed_Program_Plan__c IN :programIdSet
                 GROUP BY hed_Program_Plan__c
                 ];
@@ -408,11 +408,11 @@ public without sharing class ProductCtrl {
     @AuraEnabled
     public List<String> productType { get; set; } // Course Type
     @AuraEnabled
-    public Integer minUnitPrice{ get; set; } // Price Range -> Minimum Value 
+    public Integer minUnitPrice{ get; set; } // Price Range -> Minimum Value
     @AuraEnabled
-    public Integer maxUnitPrice{ get; set; } // Price Range -> Maximum Value 
+    public Integer maxUnitPrice{ get; set; } // Price Range -> Maximum Value
     @AuraEnabled
-    public String startDate { get; set; } // Start date 
+    public String startDate { get; set; } // Start date
     @AuraEnabled
     public String endDate{ get; set; } // end date
   }

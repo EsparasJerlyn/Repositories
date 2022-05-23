@@ -81,7 +81,7 @@
 			<div if:true={editMode} class="slds-m-vertical_x-large"></div>
 			<div if:true={editMode} class="slds-docked-form-footer">
 				<!--Error Popover Section-->
-					<section 
+					<section
 					if:true={showPopoverDialog}
 					aria-describedby="dialog-body-id-5"
 					aria-labelledby="dialog-heading-id-2"
@@ -92,9 +92,9 @@
 						<div class="slds-media slds-media_center slds-has-flexi-truncate ">
 							<div class="slds-media__figure">
 								<span class="slds-icon_container slds-icon-utility-error">
-									<lightning-icon 
+									<lightning-icon
 										icon-name="utility:error"
-										variant="inverse" 
+										variant="inverse"
 										size="xx-small">
 									</lightning-icon>
 								</span>
@@ -102,11 +102,11 @@
 							<div class="slds-media__body">
 								<h2 class="slds-truncate slds-text-heading_medium" id="dialog-heading-id-2" title="We hit a snag.">We hit a snag.</h2>
 							</div>
-							<lightning-icon 
+							<lightning-icon
 								icon-name="utility:close"
 								variant="inverse"
 								size="xx-small"
-								alternative-text="Close" 
+								alternative-text="Close"
 								title="Close"
 								onclick={handlePopover}>
 							</lightning-icon>
@@ -123,13 +123,13 @@
 						</ul>
 					</div>
 				</section>
-				<lightning-icon 
+				<lightning-icon
                     if:true={showPopoverIcon}
                     icon-name="utility:error"
-                    variant="error" 
+                    variant="error"
                     size="small"
                     class="slds-m-right_x-small slds-m-top_xx-small"
-                    alternative-text="Resolve error(s)" 
+                    alternative-text="Resolve error(s)"
                     title="Resolve error (s)"
                     onclick={handlePopover}>
                 </lightning-icon>

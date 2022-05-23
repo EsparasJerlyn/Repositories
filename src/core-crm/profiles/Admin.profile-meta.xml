@@ -1612,7 +1612,7 @@
         <editable>true</editable>
         <field>hed__Course__c.Coach_Type__c</field>
         <readable>true</readable>
-    </fieldPermissions>    
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course__c.Department_Left_Indented__c</field>

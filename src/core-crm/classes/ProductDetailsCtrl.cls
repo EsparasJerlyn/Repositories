@@ -228,7 +228,7 @@ public without sharing class ProductDetailsCtrl {
         childProdWrapperList.add(childProductWrapper);
       }
     }
-    
+
     // Set values to wrapper
     prodDetailsData.productOnPage = productOnPage;
     prodDetailsData.pricebookWrapperList = pbEntryWrapperList;
@@ -928,12 +928,12 @@ public without sharing class ProductDetailsCtrl {
               moduleWrapper.name = courseProduct.Name;
               moduleWrapper.duration = courseProduct.Duration__c;
               moduleWrapper.overview = courseProduct.Overview__c;
-              moduleWrapper.professionalLevel = courseProduct.Professional_Level__c;      
-              moduleWrapper.evolveWithQUTeX = courseProduct.Evolve_with_QUTeX__c;        
-              moduleWrapper.whoShouldParticipate = courseProduct.Who_Should_Participate__c;        
-              moduleWrapper.coreConcepts = courseProduct.Core_Concepts__c; 
+              moduleWrapper.professionalLevel = courseProduct.Professional_Level__c;
+              moduleWrapper.evolveWithQUTeX = courseProduct.Evolve_with_QUTeX__c;
+              moduleWrapper.whoShouldParticipate = courseProduct.Who_Should_Participate__c;
+              moduleWrapper.coreConcepts = courseProduct.Core_Concepts__c;
               moduleWrapper.sequence = coursesInPlanRequirements.get(courseProduct.Course__c);
-              moduleWrapper.moreDetails = courseProduct.More_Details__c; 
+              moduleWrapper.moreDetails = courseProduct.More_Details__c;
               modules.add(moduleWrapper);
           }
           System.debug('modules: '+modules);
@@ -968,9 +968,9 @@ public without sharing class ProductDetailsCtrl {
               }
               programOfferingWrapperList.add(programOfferingWrapper);
               programDeliveryAndOfferingMap.put(programOffering.Delivery_Type__c, programOfferingWrapperList);
-          }    
+          }
           System.debug('programDeliveryAndOfferingMap: '+programDeliveryAndOfferingMap);
-          return programDeliveryAndOfferingMap;            
+          return programDeliveryAndOfferingMap;
       } catch (Exception e) {
           system.debug(e);
           system.debug('Error on ProductDetailsCtrl.getProgramOfferings');
@@ -992,18 +992,18 @@ public without sharing class ProductDetailsCtrl {
     @AuraEnabled
     public String overview { get; set; }
     @AuraEnabled
-    public String professionalLevel { get; set; }   
+    public String professionalLevel { get; set; }
     @AuraEnabled
-    public Decimal sequence { get; set; }   
+    public Decimal sequence { get; set; }
     @AuraEnabled
-    public String evolveWithQUTeX { get; set; }   
+    public String evolveWithQUTeX { get; set; }
     @AuraEnabled
-    public String whoShouldParticipate { get; set; }   
+    public String whoShouldParticipate { get; set; }
     @AuraEnabled
-    public String coreConcepts { get; set; }   
+    public String coreConcepts { get; set; }
     @AuraEnabled
-    public String moreDetails { get; set; }    
-    
+    public String moreDetails { get; set; }
+
   }
 
   public class ProgramOfferingWrapper{
@@ -1012,13 +1012,13 @@ public without sharing class ProductDetailsCtrl {
     @AuraEnabled
     public String startDate { get; set; }
     @AuraEnabled
-    public Decimal availableSeats { get; set; }       
+    public Decimal availableSeats { get; set; }
     @AuraEnabled
     public String label { get; set; }
     @AuraEnabled
     public String value { get; set; }
     @AuraEnabled
-    public String meta { get; set; }     
+    public String meta { get; set; }
   }
 
     @AuraEnabled(cacheable=true)
