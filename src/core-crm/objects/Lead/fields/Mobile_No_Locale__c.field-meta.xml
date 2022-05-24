@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Mobile_No_Locale__c</fullName>
+    <description>Captures the Mobile with no Locale</description>
+    <externalId>false</externalId>
+    <label>Mobile (No Locale)</label>
+    <length>255</length>
+    <required>false</required>
+    <securityClassification>Sensitive</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

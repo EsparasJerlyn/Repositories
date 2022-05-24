@@ -84,7 +84,7 @@
       
                       _field.id = fieldMap.apiName;
                                       
-                    if(_field.id == "Phone" || _field.id == "MobilePhone" || _field.id == "hed__WorkPhone__c"){
+                    if(_field.id == "Phone" || _field.id == "MobilePhone" || _field.id == "hed__WorkPhone__c" || _field.id == "Work_Phone__c" ){
                         _field.fieldsWithLocaleStatus = getFieldValue(data, this.generateFieldName(fieldMap.statusValidationField));
                         _field.fieldsWithLocaleLabel = fieldMap.label;
                         _field.fieldsWithLocaleValue = getFieldValue(data, this.generateFieldName(fieldMap.apiName));
