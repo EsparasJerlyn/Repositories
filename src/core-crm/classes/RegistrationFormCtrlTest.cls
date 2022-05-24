@@ -64,8 +64,8 @@ public with sharing class RegistrationFormCtrlTest {
         insert testWebStore;
 
         Test.startTest();
-        String communityUrl = RegistrationFormCtrl.getCommunityUrl();
+        RegistrationFormCtrl.CommunityWrapper comData = RegistrationFormCtrl.getCommunityUrl();
         Test.stopTest();
-        System.assert(communityUrl !=null , 'No Community Url Found');
+        System.assert(comData !=null , 'No Community Data Found');
     }
 }

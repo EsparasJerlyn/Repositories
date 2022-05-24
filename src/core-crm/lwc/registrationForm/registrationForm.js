@@ -26,7 +26,7 @@ import requiredField from "@salesforce/label/c.QUT_RegistrationForm_IndicatesReq
 import privacyPolicy from "@salesforce/label/c.QUT_RegistrationForm_PrivacyPolicy";
 
 //Add text fields in Label from HTML
-const LINKEDINSSO = '/services/auth/sso/LinkedIn';
+const LINKEDINSSO = '/services/auth/sso/';
 const REQUIRED_ERROR_MESSAGE = 'Please populate required field.';
 const EMAIL_NOT_VALID = 'Please enter a valid email.';
 const EMAIL_EXIST = 'Your email already exists.';
@@ -116,9 +116,18 @@ export default class RegistrationForm extends LightningElement {
     * Redirects to LinkedIn SSO
     */
   handleLinkedInOnClick(){
+    let domain;
     // Sample LinkedIn SSO LINK: https://9devabuan-qut360.aus14s.sfdc-vwfla6.force.com/study/services/auth/sso/LinkedIn
     getCommunityUrl().then((res)=> {
-      this.ssoUrl = res + LINKEDINSSO;
+      domain = res.comURL[0].Domain.split("-");
+      
+      if('sit' === domain[0].toLowerCase()){
+        this.ssoUrl = res.comSite + LINKEDINSSO + 'QUTSIT_LinkedIn';
+      }else if( 'uat' === domain[0].toLowerCase()){
+        this.ssoUrl = res.comSite + LINKEDINSSO + 'QUTUAT_LinkedIn';
+      }else{
+        this.ssoUrl = res.comSite + LINKEDINSSO + 'QUT_LinkedIn'
+      }
       window.location.href= this.ssoUrl;
     });
   }

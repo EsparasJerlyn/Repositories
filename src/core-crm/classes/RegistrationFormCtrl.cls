@@ -32,11 +32,17 @@ public without sharing class RegistrationFormCtrl {
     * @return communityUrl - returns the site link
     */
     @AuraEnabled(cacheable=false)  
-    public static string getCommunityUrl(){
+    public static CommunityWrapper getCommunityUrl(){
         try {
+            CommunityWrapper commData = new CommunityWrapper();
+
             Site site = [SELECT Id FROM Site WHERE UrlPathPrefix = 'study' LIMIT 1];
             String communityUrl = [SELECT SecureURL FROM SiteDetail WHERE DurableId =: site.Id].SecureUrl;
-            return communityUrl;
+            List<Domain> domainUrl = [SELECT Domain FROM Domain];
+
+            commData.comSite = communityUrl;
+            commData.comURL = domainUrl;
+            return commData;
             
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
@@ -122,4 +128,11 @@ public without sharing class RegistrationFormCtrl {
         PermissionSetAssignment psa = new PermissionSetAssignment(PermissionSetId = ps.Id , AssigneeId = userInserted.Id );
         insert (psa);
     }   
+
+    public class CommunityWrapper {
+        @AuraEnabled
+        public List<Domain> comURL ;
+        @AuraEnabled
+        public String comSite ; 
+    }
 }
