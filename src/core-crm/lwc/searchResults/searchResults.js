@@ -866,6 +866,26 @@ handleNextPage(evt) {
       return window.location.href.indexOf(STUDY_STORE) > -1 ? true : false;
     }
 
+  /**
+   * Ensures cart information is up to date
+   * concatenates error name and message
+   */
+
+  updateCartInformation() {
+    getCartSummary({
+      communityId: communityId,
+      effectiveAccountId: this.resolvedEffectiveAccountId
+    })
+      .then((result) => {
+        this._cartSummary = result;
+      })
+      .catch((e) => {
+        // Handle cart summary error properly
+        // For this sample, we can just log the error
+        this.errorMessage = MSG_ERROR + this.generateErrorMessage(e);
+      });
+  }
+
 
   /**
    * concatenates error name and message
