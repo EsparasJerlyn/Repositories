@@ -1,11 +1,9 @@
 .main-container {
-    /*width: 600px;*/
     margin-top: var(--space-2);
     margin-bottom: var(--space-4);
 }
 
-
-.button-container{
+.button-container{ 
     width: 70%;
 }
 

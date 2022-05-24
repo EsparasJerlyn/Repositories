@@ -276,14 +276,6 @@
         <value>Unit</value>
     </labels>
     <labels>
-        <fullName>RT_Course_Indiv_Coaching</fullName>
-        <categories>RecordType,Course</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>RT_Course_Indiv_Coaching</shortDescription>
-        <value>Individual_Coaching</value>
-    </labels>
-    <labels>
         <fullName>RT_ProductRequest_Activity</fullName>
         <categories>RecordType,ProductRequest</categories>
         <language>en_US</language>
@@ -324,28 +316,12 @@
         <value>Unit</value>
     </labels>
     <labels>
-        <fullName>RT_ProductRequest_Indiv_Coaching</fullName>
-        <categories>RecordType,ProductRequest</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>RT_ProductRequest_Indiv_Coaching</shortDescription>
-        <value>Individual_Coaching</value>
-    </labels>
-    <labels>
         <fullName>RT_ProductSpecification_OPEProgramSpecification</fullName>
         <categories>RecordType,Product Specification</categories>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>RT_ProductSpecification_OPEProgramSpecification</shortDescription>
         <value>OPE_Program_Specification</value>
-    </labels>
-    <labels>
-        <fullName>RT_ProductSpecification_CCEProgramSpecification</fullName>
-        <categories>RecordType,Product Specification</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>RT_ProductSpecification_CCEProgramSpecification</shortDescription>
-        <value>CCE_Program_Specification</value>
     </labels>
     <labels>
         <fullName>RT_ProgramPlan_Program</fullName>
@@ -646,4 +622,25 @@
         <shortDescription>ESBSAMSRegisterLearner</shortDescription>
         <value>/consumer/dep/v1/registration/registerLearner</value>
     </labels>
+    <labels>
+        <fullName>Base_URL_SIT_UAT</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Base_URL_SIT_UAT</shortDescription>
+        <value>https://qut-dev.xetta.com/onestopweb/qutopeintegration/tranadd?</value>
+    </labels>
+    <labels>
+        <fullName>Base_URL_Prod</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Base_URL_Prod</shortDescription>
+        <value>https://pay.qut.edu.au/qutopeintegration/tranadd?</value>
+    </labels>
+    <labels>
+        <fullName>Payment_GLCode</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Payment_GLCode</shortDescription>
+        <value>182003-0001-2402-58-0-0-1</value>
+    </labels> 
 </CustomLabels>

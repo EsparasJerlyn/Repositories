@@ -1,35 +1,47 @@
+/**
+ * @description A LWC component to display product child details
+ * @author Accenture
+ *
+ * @history
+ *    | Developer                 | Date                  | JIRA                 | Change Summary                               |
+      |---------------------------|-----------------------|----------------------|----------------------------------------------|
+      | keno.domienri.dico        | May 24, 2022          | DEPP-2038            | Create payment method lwc                    |
+ */
 import { LightningElement, api } from 'lwc';
-
+import Base_URL_SIT_UAT from "@salesforce/label/c.Base_URL_SIT_UAT";
+import Base_URL_Prod from "@salesforce/label/c.Base_URL_Prod";
+import Payment_GLCode from "@salesforce/label/c.Payment_GLCode";
+import getCommunityUrl from '@salesforce/apex/RegistrationFormCtrl.getCommunityUrl';
+ 
 // Base Urls
-const baseUrlSIT = "https://qut-dev.xetta.com/onestopweb/qutopeintegration/tranadd?";
-const baseUrlProd = "https://pay.qut.edu.au/qutopeintegration/tranadd?";
-
+const baseUrlSIT = Base_URL_SIT_UAT;
+const baseUrlProd = Base_URL_Prod;
 
 export default class Payment extends LightningElement {
-    
-    typeURL = "SIT"; // URL Type SIT/Prod
+   
+    /**
+     * URL variables
+     */
+    typeURL = "SIT"; 
+    getURL = window.location.origin;
     baseURL;
     formURL;
 
-    // Passed Parameters
-    @api cartExternalId; // Cart.External_Id__c
+    /**
+     *  Passed Parameters
+     */ 
+    @api cartExternalId; 
     @api disablePayment;
-    @api contactFname; // uncommented
-    @api contactLname; // uncommented
+    @api contactFname; 
+    @api contactLname; 
     @api contactEmail;
-    @api total; // from parameters
+    @api total; 
+    fullName; 
+    glCode = Payment_GLCode; 
 
-    fullName; // Contact.FirstName + Contact.LastName
-    glCode = `182003-0001-2402-58-0-0-1`; 
-
-    // Test Parameters
-    stransID = `e971aeb5-52da-ddb3-4990-67d28804f10a`; // Cart.External_Id__c
-    scEmail = `k.guy@qut.edu.au` //`k.guy%40qut.edu.au`; // Contact.Email
-    sfullName = `Kate Hanrahan` //`Kate+Hanrahan`; // Contact.FirstName + Contact.LastName
-    sglCode = `182003-0001-2402-58-0-0-1`; 
-    sunitAmount = `5000.00`; // Amount Paid
-
-    // Labels
+    /**
+     * Labels
+     */ 
     header;
     subheader;
     payTitle;
@@ -37,8 +49,13 @@ export default class Payment extends LightningElement {
     invoiceTitle;
     invoiceLabel;
     
+    /**
+     * Load Page labels
+     */
     connectedCallback(){
-        // Get texts
+        /**
+         * Get texts
+         */ 
         this.header = 'Payment method';
         this.subheader = 'How would you like to pay?';
         this.payTitle = 'Pay now';
@@ -47,33 +64,39 @@ export default class Payment extends LightningElement {
         this.invoiceLabel = 'Generate an invoice that you can send to your nominated payee';
         this.fullName = this.contactFname + ' ' + this.contactLname;
 
-        console.log('email: ' + this.contactEmail);
-        console.log('fname: ' + this.contactFname);
-        console.log('lname: ' + this.contactLname);
-        console.log('externalId: ' + this.cartExternalId);
-        console.log('fromCartSummary: ' + this.fromCartSummary);
-        
+        /**
+         * Set URL Type 
+        */
+        let domain;
+        getCommunityUrl().then((res)=> {
+            domain = res.comURL[0].Domain.split("-");
+                       
+            if('sit' == domain[0].toLowerCase()){
+                this.typeURL = "SIT";
+            }else if( 'uat' == domain[0].toLowerCase()){
+                this.typeURL = "SIT"; 
+            }else{
+                this.typeURL = "PROD";
+            }
+        });    
     }
 
-    get isFromCartSummary(){
-        return this.fromCartSummary;
-    }
-
+    /**
+     * Disable payment buttons if checkbox from Cart Summary is false
+     */
     get disableButton(){
         console.log('disablebutton: ' + this.disablePayment);
         return this.disablePayment;
     }
 
+    /**
+     * Get Pay Now button link
+     */
     get payURL(){
         this.formURL = `tran-type=` + `OPE0001` + `&` +
-        /** Test Parameters   
-            `OPETRANSACTIONID=` + this.stransID + `&` + 
-            `EMAIL=` + this.scEmail.replace('@','%40') + `&` + 
-            `FULLNAME=` + this.sfullName + `&` + 
-            `GLCODE=` + this.sglCode + `&` + 
-            `UNITAMOUNTINCTAX=` + this.sunitAmount;
-        **/                
-        /** Passed Parameters */
+        /** 
+         * Passed Parameters 
+         **/
             `OPETRANSACTIONID=` + this.cartExternalId + `&` + 
             `EMAIL=` + this.contactEmail.replace('@','%40') + `&` + 
             `FULLNAME=` + this.fullName + `&` + 
@@ -87,36 +110,30 @@ export default class Payment extends LightningElement {
             this.baseURL = baseUrlProd;
         }
 
-    //    console.log("PayURL:" + this.baseURL + this.formURL);
         this.dispatchEvent(new CustomEvent('paynow'));
         return this.baseURL + this.formURL;       
     }
 
+    /**
+     * Get Invoice button link
+     */
     get invoiceURL(){
-        this.formURL = `tran-type=` + `OPE0002` + `&` +
-
-        /** Test Parameters *
-            `OPETRANSACTIONID=` + this.stransID + `&` +
-            `EMAIL=` + this.scEmail.replace('@','%40') + `&` +
-            `FULLNAME=` + this.sfullName + `&` +
-            `GLCODE=` + this.sglCode + `&` +
-            `UNITAMOUNTINCTAX=` + this.sunitAmount;
-        */            
-        /** Passed Parameters */
+        this.formURL = `tran-type=` + `OPE0002` + `&` +  
+        /** 
+         * Passed Parameters 
+         **/
             `OPETRANSACTIONID=` + this.cartExternalId + `&` + 
             `EMAIL=` + this.contactEmail.replace('@','%40') + `&` + 
             `FULLNAME=` + this.fullName + `&` + 
             `GLCODE=` + this.glCode + `&` + 
             `UNITAMOUNTINCTAX=` + this.total;
-         
-
+        
         if (this.typeURL = "SIT"){
             this.baseURL = baseUrlSIT;
         } else {
             this.baseURL = baseUrlProd;
         }
 
-    //    console.log("InvoiceURL:" + this.baseURL + this.formURL);
         return this.baseURL + this.formURL;        
     }
 

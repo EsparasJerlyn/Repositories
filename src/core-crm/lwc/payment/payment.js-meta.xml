@@ -8,5 +8,5 @@
         <target>lightningCommunity__Default</target>
         <target>lightning__AppPage</target>
         <target>lightning__RecordPage</target>
-    </targets>
-</LightningComponentBundle>
+    </targets> 
+</LightningComponentBundle> 
