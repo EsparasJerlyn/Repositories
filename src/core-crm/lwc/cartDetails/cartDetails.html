@@ -306,29 +306,16 @@
     <!-- Totals ends here -->
 
 
-    <!-- Payment method starts here -->
-    <div class="component">
-        <div class="component-title">
-            <h1>Payment Method</h1>
-        </div>
-
-        <p class="input-label">How would you like to pay?</p>
-
-        <div class="slds-grid slds-m-top_x-small">
-            <lightning-button variant="brand-outline" disabled={disablePayment} label="Pay now" title="Pay now" onclick={paymentNow}></lightning-button>
-            <lightning-button variant="brand-outline" disabled={disablePayment} label="Invoice" title="Invoice" onclick={paymentInvoice} class="slds-m-left_x-small"></lightning-button>
-        </div>
-
-    </div>
+     <!-- Payment method starts here -->
+     <c-payment if:true={checkData}
+        disable-payment={disablePayment}
+        from-cart-summary={fromCartSummary}
+        contact-fname={contactFname}
+        contact-lname={contactLname}
+        contact-email={contactEmail}
+        cart-external-id={cartExternalId}
+        total={total}
+        onpaynow={paymentNow}
+    ></c-payment>
     <!-- Payment method ends here -->
-
-
-
-    <!-- <lightning-button
-        variant="brand"
-        label="test"
-        onclick={testFunction}
-    >
-    </lightning-button> -->
-    
 </template>

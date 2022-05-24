@@ -38,10 +38,10 @@ const CONTACT_FIELDS = [
 export default class CartDetails extends LightningElement {
   @api recordId;
   @track contactId;
-  // @track contactFname;
-  // @track contactLname;
-  // @track contactEmail;
-  // @track contactMobile;
+  @track contactFname;
+  @track contactLname;
+  @track contactEmail;
+  @track contactMobile;
   @track error;
   @track subTotal;
   @track discountTotal;
@@ -56,6 +56,10 @@ export default class CartDetails extends LightningElement {
   questions = [];
   activeTimeout;
   @track prodCategId;
+
+  cartExternalId; // added for payment parameters
+  checkData = false;
+  fromCartSummary = true; // checks if from cart summary or group registration
 
   @track readOnly = {
     firstName: true,
@@ -225,14 +229,17 @@ export default class CartDetails extends LightningElement {
     if (data) {
       //populate the variables
       this.contactId = data.fields.ContactId.value;
-      // this.contactFname = data.fields.Contact.value.fields.FirstName.value;
-      // this.contactLname = data.fields.Contact.value.fields.LastName.value;
-      // this.contactEmail = data.fields.Contact.value.fields.Email.value;
-      // this.contactMobile = data.fields.Contact.value.fields.MobilePhone.value;
+      this.contactFname = data.fields.Contact.value.fields.FirstName.value;
+      this.contactLname = data.fields.Contact.value.fields.LastName.value;
+      this.contactEmail = data.fields.Contact.value.fields.Email.value;
+      this.contactMobile = data.fields.Contact.value.fields.MobilePhone.value;
+      this.checkData = true;
+      this.fromCartSummary = true;
 
       //else if error
     } else if (error) {
       this.error = error;
+      this.checkData = false;
     }
   }
 
@@ -251,6 +258,7 @@ export default class CartDetails extends LightningElement {
 
       //get totals
       this.total = this.calculateSubTotal() - this.calculateDiscountTotal();
+      this.cartExternalId = this.cartItems[0].externalId; // added for payment parameters
 
       //else if there's an error
     } else if (error) {

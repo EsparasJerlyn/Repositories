@@ -43,7 +43,8 @@ public with sharing class CartItemCtrl {
         Pricebook_Entry_ID__c,
         Course_Offering__r.hed__Start_Date__c,
         Course_Offering__r.Delivery_Type__c,
-        Course_Offering__r.Available_Seats__c
+        Course_Offering__r.Available_Seats__c,
+        External_Id__c
       FROM CartItem
       WHERE CartId = :cartId
     ];
@@ -87,6 +88,10 @@ public with sharing class CartItemCtrl {
         .UnitPrice;
       cartItemsWrapper.unitDiscount = 0;
 
+      if (currentCart.External_Id__c!=null){
+        cartItemsWrapper.externalId = currentCart.External_Id__c;
+      }
+
       //check if seats are still available
       if (currentCart.Course_Offering__r.Available_Seats__c > 0) {
         cartItemsWrapper.seatsAvailable = true;
@@ -110,6 +115,7 @@ public with sharing class CartItemCtrl {
       myCartItemsList.add(cartItemsWrapper);
     }
 
+    
     //retrieve related answers for the current products in cart
     // relatedAnswerList = [SELECT Id, Name, Question__r.Label__c, Question__r.Type__c, Questionnaire__r.Questionnaire_Type__c, Questionnaire__r.Object_Type__c, Sequence__c FROM Related_Answer__c WHERE Questionnaire__r.Questionnaire_Type__c = 'Registration Questions' AND Questionnaire__r.Parent_Record_ID__c IN :productIds ORDER BY Related_Answer__c.Sequence__c];
     relatedAnswerList = [
@@ -257,6 +263,8 @@ public with sharing class CartItemCtrl {
     public Boolean seatsAvailable = false;
     @AuraEnabled
     public Boolean showInvalidDiscount = false;
+    @AuraEnabled
+    public String externalId;
   }
 
   public class QuestionsWrapper {

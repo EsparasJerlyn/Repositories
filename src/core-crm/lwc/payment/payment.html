@@ -1,0 +1,39 @@
+<template>
+    <div class="main-container">
+        <div class="header-container slds-col--padded">
+            <h2>{header}</h2>
+            <h5>{subheader}</h5>
+        </div>
+        <div class="slds-grid slds-wrap slds-medium-size_11-of-12 slds-large-size_10-of-12">    
+            <div class="my1 slds-col--padded slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+                <template if:false={disableButton}>
+                    <a class="btn-link" href={payURL}>
+                        <p class="btn-title"><strong>{payTitle}</strong></p>
+                        <p class="btn-text">{payLabel}</p>
+                    </a>
+                </template>
+                <template if:true={disableButton}>
+                    <span class="btn-link" >
+                        <p class="btn-title"><strong>{payTitle}</strong></p>
+                        <p class="btn-text">{payLabel}</p>
+                    </span>
+                </template>
+            </div>
+            
+            <div class="my1 slds-col--padded slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+                <template if:false={disableButton}>
+                    <a class="btn-link" href={invoiceURL}>
+                        <p class="btn-title"><strong>{invoiceTitle}</strong></p>
+                        <p class="btn-text">{invoiceLabel}</p>
+                    </a>
+                </template>
+                <template if:true={disableButton}>
+                    <span class="btn-link" >
+                        <p class="btn-title"><strong>{invoiceTitle}</strong></p>
+                        <p class="btn-text">{invoiceLabel}</p>
+                    </span>
+                </template>
+            </div>   
+        </div>   
+    </div> 
+</template>

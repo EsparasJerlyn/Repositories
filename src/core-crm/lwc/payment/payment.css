@@ -1,0 +1,41 @@
+.main-container {
+    /*width: 600px;*/
+    margin-top: var(--space-2);
+    margin-bottom: var(--space-4);
+}
+
+
+.button-container{
+    width: 70%;
+}
+
+h5, .btn-title, .btn-text {
+    color: #000;
+}
+
+.buttons {
+    width: 200px;
+}
+
+.btn-link {
+    display: block;
+    text-align: left;
+    height: 120px;
+    padding: 1em;
+    border: 1px solid #DBDBDB;
+    font-size: var(--icon-size-18);
+}
+
+a:hover, a:visited {
+    text-decoration: none;
+}
+
+span:hover, span:visited {
+    text-decoration: none;
+}
+
+@media only screen and (max-width: 764px){
+    .btn-link {
+        height: 135px !important;
+    }
+}
