@@ -491,6 +491,24 @@
               class="registerInterest"
             ></lightning-button>
           </lightning-layout-item>
+
+                  <!-- Group Booking -->
+        <lightning-layout-item
+        if:true={displayGroupRegistration}
+        flexibility="auto"
+        size="12"
+        style="margin-top: 10px;"
+      >
+        <lightning-button
+          label="GROUP REGISTRATION"
+          onclick={groupRegistration}
+          variant="brand"
+          class="addToCartBtn"
+        >
+      </lightning-button>
+      </lightning-layout-item>
+
+
         </lightning-layout>
       </lightning-layout-item>
     </lightning-layout>
@@ -498,7 +516,10 @@
   <!-- Custom Login Form LWC for Guest User -->
   <template if:true={openModal}>
     <c-registration-form onclose={handleModalClosed}></c-registration-form>
-  </template> 
+  </template>
+  <template if:true={openGroupBookingModal}>
+    <c-group-booking-form product-details={productDetails} selected-course-offering={selectedCourseOffering} onclose={groupRegistrationModalClosed}></c-group-booking-form>
+  </template>  
 
    <!--Questionnaire Form  --> 
    <template if:true={isModalOpen}>
@@ -629,6 +650,6 @@
          </div>
      </section>
      <div class="slds-backdrop slds-backdrop_open"></div>
- </template>
+  </template>
    <!--Questionnaire Form  --> 
 </template>

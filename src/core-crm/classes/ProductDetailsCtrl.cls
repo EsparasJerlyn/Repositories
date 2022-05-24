@@ -12,6 +12,7 @@
       | marlon.vasquez            | May 04,2022           | DEPP-1531            | Added Questionnaire Form                   |
       | keno.domienri.dico        | April 29, 2022        | DEPP-2038            | Added Child products display               |
       | eugene.andrew.abuan       | May 10, 2022          | DEPP-1269            | Added isProgramFlex to match in prodCard   |
+      | julie.jane.alegre         | May 24, 2022          | DEPP-2070            | Added logic for Group Booking              |
 */
 public without sharing class ProductDetailsCtrl {
   public static final Id STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
@@ -40,7 +41,7 @@ public without sharing class ProductDetailsCtrl {
         Name,
         Description,
         StockKeepingUnit,
-        Course__c,
+        Course__c, Course__r.ProductRequestID__c, Course__r.Minimum_Participants__c, Course__r.Maximum_Participants__c,
         Program_Plan__c,
         Program_Plan__r.Program_Delivery_Structure__c,
         Program_Plan__r.Location__r.Display_Name__c,
@@ -1090,4 +1091,40 @@ public without sharing class ProductDetailsCtrl {
         System.debug('returnMap: '+returnMap);
         return returnMap;
     }
+
+    @AuraEnabled(cacheable=true)
+    public static List<Related_Answer__c> getQuestionsForGroupBooking(String productReqId) {
+      List<Related_Answer__c> relatedAnswersList = new List<Related_Answer__c>(
+        [
+          SELECT
+            Id,
+            Question__r.Type__c,
+            Question__r.Label__c,
+            Sequence__c,
+            Questionnaire__r.Parent_Record_ID__c,
+            Question__r.Acceptable_Response__c,
+            Question__r.Message__c,
+            Questionnaire__r.Questionnaire_Type__c,
+            Question__r.Dropdown_Options__c
+          FROM Related_Answer__c
+          WHERE
+            Questionnaire__r.Parent_Record_ID__c = :productReqId
+            AND Questionnaire__r.Questionnaire_Type__c = 'Registration Questions'
+          ORDER BY Questionnaire__r.Questionnaire_Type__c, Sequence__c
+        ]
+      );
+      return relatedAnswersList;
+    }
+
+    @AuraEnabled
+    public static List<Contact> saveContactData(String contactDataString){
+        List<Contact> contactList = (List<Contact>)System.JSON.deserializeStrict(contactDataString, List<Contact>.Class);
+        Database.insert(contactList);
+        return contactList;
+    }
+    @AuraEnabled
+    public static List<Contact> getContactAccountId(Id connId){
+        return [Select Id, FirstName, LastName, Account.Name, Account.Id from Contact where Id = :connId];
+    }
+    
 }

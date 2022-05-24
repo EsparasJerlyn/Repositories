@@ -1,0 +1,58 @@
+body {
+  margin: 0;
+}
+
+div {
+  padding: 10px;
+  
+}
+
+h1 {
+  text-align:left;
+  color: #4078DC;
+  font-weight: bold;
+  font-size:larger;
+  font-family:'Times New Roman', Times, serif;
+}
+h2{
+  text-align:left;
+  color: #4078DC;
+  font-weight: bold;
+  font-size:medium;
+  font-family:'Times New Roman', Times, serif;
+}
+h3{
+  text-align:left;
+  color: black;
+  font-weight: bold;
+  font-size:medium;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.one {
+  background-color: white;
+  border: 2px outset gray;
+  margin-bottom: 5px;
+
+}
+
+.two {
+  background-color: white;
+  border: 2px outset gray;
+  margin-bottom: 5px;
+  font-family: sans-serif;
+}
+
+.three {
+  background-color: white;
+  border: 2px outset gray;
+  margin-bottom: 5px;
+}
+
+.accordionClass{
+  text-align:left;
+  color: #4078DC;
+  font-weight: bold;
+  font-size:larger;
+  font-family:'Times New Roman', Times, serif;
+}

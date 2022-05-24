@@ -12,7 +12,8 @@
       | roy.nino.s.regala         | December 27, 2021     | DEPP1028  | Added testmethod for insertLearnerInfo             |
       | roy.nino.s.regala         | February 04, 2022     | DEPP213   | Added testmethod for insert Expression of Interest |
       | john.bo.a.pineda          | April 26, 2022        | DEPP-1211 | Updated logic for new UI                           |
-      | keno.domienri.dico        | April 29, 2022        | DEPP-2038 | Added logic for child products display     |
+      | keno.domienri.dico        | April 29, 2022        | DEPP-2038 | Added logic for child products display             |
+      | julie.jane.alegre         | May 24, 2022          | DEPP-2070 | Added logic for Group Booking                      |
 */
 @isTest(SeeAllData=false)
 private class ProductDetailsCtrlTest {
@@ -705,4 +706,76 @@ private class ProductDetailsCtrlTest {
             Test.stopTest();
         }
     }
+     @IsTest
+      static void testGetQuestionsForGroupBooking() {
+        User currUsr = [
+          SELECT Id
+          FROM User
+          WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
+          LIMIT 1
+        ];
+    
+        System.runAs(currUsr) {
+          createRecord(opeActProdReqRecType);
+          String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;
+          Test.startTest();
+          List<Related_Answer__c> relatedAnswerList = ProductDetailsCtrl.getQuestionsForGroupBooking(
+            prodReqId
+          );
+          Test.stopTest();
+          system.assert(relatedAnswerList.isEmpty(), 'Empty related answer');
+        }
+      }
+    
+    @IsTest
+      static void testSaveContactData() {
+        User currUsr = [
+          SELECT Id
+          FROM User
+          WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
+          LIMIT 1
+        ];
+    
+        System.runAs(currUsr) {
+          createRecord(opeActProdReqRecType);
+          String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;
+          Test.startTest();
+                List<Account> acct = TestDataFactory.createTestAccountRecords(1);
+                insert acct;
+                List<Contact> con = TestDataFactory.createTestContactRecords(1);
+                con[0].AccountId = acct[0].Id;
+                con[0].Email = 'testestest1234@sample.com';
+            
+                List<Contact> contact = ProductDetailsCtrl.saveContactData(JSON.serialize(con));
+            
+          Test.stopTest();
+
+          system.assert(!contact.isEmpty(), 'Data successfully inserted');
+        }
+      }
+    @IsTest
+      static void testGetContactAccountId() {
+        User currUsr = [
+          SELECT Id
+          FROM User
+          WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
+          LIMIT 1
+        ];
+    
+        System.runAs(currUsr) {
+          createRecord(opeActProdReqRecType);
+          String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;
+          Test.startTest();
+                List<Account> acct = TestDataFactory.createTestAccountRecords(1);
+                insert acct;
+                List<Contact> con = TestDataFactory.createTestContactRecords(1);
+                con[0].AccountId = acct[0].Id;
+                insert con;
+                List<Contact> contact = ProductDetailsCtrl.getContactAccountId(con[0].Id);
+          Test.stopTest();
+
+          system.assert(!contact.isEmpty(), 'Data Retrieve!');
+        }
+      }
+    
 }

@@ -21,6 +21,7 @@
       | john.bo.a.pineda          | April 11, 2022        | DEPP-1211            | Modified logic for new UI                    |
       | keno.domienri.dico        | April 29, 2022        | DEPP-2038            | Added child product records                  |
       | marlon.vasquez            | May 04,2022           | DEPP-1531            | Added Questionnaire Form                     |
+      | julie.jane.alegre         | May 24,2022           | DEPP-2070            | Added Group Registration Button              |
 */
 
 import { LightningElement, wire, api, track } from "lwc";
@@ -102,6 +103,8 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   @track displayFacilitatorNav = true;
   @track facilitatorIndex = 0;
   @track openModal;
+  @track displayGroupRegistration = false;
+  @track openGroupBookingModal;
   @track selectedDelivery;
   displayQuestionnaire = false;
 
@@ -243,6 +246,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     } else {
       this.displayAddToCart = true;
       this.displayRegisterInterest = false;
+      this.displayGroupRegistration = false;
     }
   }
 
@@ -428,10 +432,30 @@ export default class ProductDetailsDisplay extends NavigationMixin(
           this.disableAvailStartDate = false;
         }
       })
-      .catch((e) => {
-        this.generateToast("Error.", LWC_Error_General, "error");
-      });
+        .then((results) => {
+          this.courseOfferings = undefined;
+          this.selectedCourseOffering = undefined;
+          this.selectedCourseOfferingLocation = undefined;
+          this.selectedCourseOfferingFacilitator = undefined;
+          this.facilitator = undefined;
+          this.displayFacilitatorNav = true;
+          this.facilitatorIndex = 0;
+          this.selectedPriceBookEntry = undefined;
+          this.disableAvailStartDate = true;
+          this.disablePriceBookEntry = true;
+          this.disableAddToCart = true;
+          this.displayGroupRegistration = false;
+
+          if (results.length > 0) {
+            this.courseOfferings = results;
+            this.disableAvailStartDate = false;
+          }
+        })
+        .catch((e) => {
+          this.generateToast("Error.", LWC_Error_General, "error");
+        });
   }
+  
 
   // Set Selected Course Offering value
   handleStartDateSelected(event) {
@@ -488,17 +512,18 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     this.selectedPriceBookEntry = event.detail.value;
     if (this.isInternalUser == true) {
       this.disableAddToCart = true;
-
-    } else {
-      this.disableAddToCart = false;
+      
+    } else{
+        this.disableAddToCart = false;
+        this.displayGroupRegistration = false;
     }
     this.priceBookEntries.forEach((pBookEntry) => {
       if (
         pBookEntry.value === this.selectedPriceBookEntry &&
         pBookEntry.label == "Group Booking"
       ) {
-        this.displayAddToCart = false;
-      
+        this.disableAddToCart = true;
+        this.displayGroupRegistration = true;
       } else {
         this.displayAddToCart = true;
         if (this.responseData.length > 0) {
@@ -759,7 +784,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     });
   }
 
-  handleBlur() {
+handleBlur() {
     this.questions = this.questions.map((row) => {
       if (
         row.IsCriteria &&
@@ -778,6 +803,18 @@ export default class ProductDetailsDisplay extends NavigationMixin(
         row.ErrorMessage = "";
       }
       return row;
-    });
-  }
+  });
+
+
+
+}
+
+groupRegistrationModalClosed() {
+  this.openGroupBookingModal = false;
+}
+groupRegistration() {
+  console.log('test group reg');
+  this.openGroupBookingModal = true;
+}
+
 }
