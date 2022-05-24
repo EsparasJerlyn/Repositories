@@ -287,6 +287,14 @@
             "useCSVValuesMapping": true,
             "targetObject": "Marketing_Segmentation__c",
             "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Name, External_URL__c, Internal_URL__c FROM Individual_Coaching_Form_Link__c",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "Individual_Coaching_Form_Link__c",
+            "importCSVFilesAsIs": true
         }
     ]
 }
