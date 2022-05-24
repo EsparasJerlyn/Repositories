@@ -38,7 +38,6 @@
                         >
                           {label.overview}
                         </span>
-                        
                         <img
                           src={accordionIcon}
                           alt=""
@@ -88,13 +87,12 @@
                     id="profdevmodContent"
                   >
                     <lightning-formatted-rich-text value={pdmStaticText}>
-                    </lightning-formatted-rich-text>                 
+                    </lightning-formatted-rich-text>
                     <!-- Display Products under Program -->
                     <c-product-card
                       if:true={hasChildProducts}
                       product-details={cProducts}
                     ></c-product-card>
-
                   </div>
                 </section>
               </li>
@@ -402,16 +400,18 @@
             size="12"
             class="slds-m-bottom_small"
           >
-            <c-custom-combobox-multi
+            <c-custom-combobox
               class=""
-              label={label.delivery}
+              field-label={label.delivery}
               placeholder={label.deliveryPlaceholder}
               disabled={disableDelivery}
               options={deliveryOptions}
+              value={selectedDelivery}
               onchange={handleDeliverySelected}
               slds-icon-up="utility:chevronup"
               slds-icon-down="utility:chevrondown"
-            ></c-custom-combobox-multi>
+            >
+            </c-custom-combobox>
           </lightning-layout-item>
           <!-- Available Start Dates -->
           <lightning-layout-item
