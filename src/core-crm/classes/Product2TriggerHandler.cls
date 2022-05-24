@@ -72,7 +72,7 @@ public without sharing class Product2TriggerHandler implements Disableable, Befo
       ProductCategory prodCategory = [
         SELECT Id, CatalogId
         FROM ProductCategory
-        WHERE Name = 'Products'
+        WHERE Name = 'Products' AND Catalog.Name = 'Study Catalog'
         LIMIT 1
       ];
 
