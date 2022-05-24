@@ -1,0 +1,42 @@
+# List files or directories below to include in build package
+#
+
+
+## R1B release files already in main branch. Remove after release/IT1Feb is deployed to production
+src/core-crm-post/duplicateRules/hed__Course__c.Course_Duplicate_Rule.duplicateRule-meta.xml
+src/core-crm-post/duplicateRules/hed__Program_Plan__c.Program_Plan_Duplicate_Rule.duplicateRule-meta.xml
+src/core-crm-post/profiles/Study Profile.profile-meta.xml
+src/core-crm/classes/Create_Product_on_Course_InsertTest.cls
+src/core-crm/classes/Create_Product_on_Prog_Plan_InsertTest.cls
+src/core-crm/classes/Create_Product_on_Prog_Plan_InsertTest.cls-meta.xml
+src/core-crm/classes/GenerateCodeCtrl.cls
+src/core-crm/classes/GenerateCodeCtrl.cls-meta.xml
+src/core-crm/classes/GenerateCodeCtrlTest.cls
+src/core-crm/classes/GenerateCodeCtrlTest.cls-meta.xml
+src/core-crm/classes/OPE_and_CCE_Username_FormatTest.cls
+src/core-crm/classes/OPE_and_CCE_Username_FormatTest.cls-meta.xml
+src/core-crm/classes/ProductEntitlement_FlowTest.cls
+src/core-crm/classes/ProductEntitlement_FlowTest.cls-meta.xml
+src/core-crm/experiences/CCE1/routes/feedDetail.json
+src/core-crm/experiences/CCE1/routes/newsDetail.json
+src/core-crm/experiences/CCE1/views/feedDetail.json
+src/core-crm/experiences/CCE1/views/newsDetail.json
+src/core-crm/flows/OPE_and_CCE_Username_Format.flow-meta.xml
+src/core-crm/flows/Product_Update_Available_on_Cart_Flow.flow-meta.xml
+src/core-crm/lwc/productCard
+src/core-crm/lwc/productCard/productCard.css
+src/core-crm/lwc/productCard/productCard.html
+src/core-crm/lwc/productCard/productCard.js
+src/core-crm/lwc/productCard/productCard.js-meta.xml
+src/core-crm/matchingRules/hed__Course__c.matchingRule-meta.xml
+src/core-crm/matchingRules/hed__Program_Plan__c.matchingRule-meta.xml
+src/core-crm/objects/Course_Code_Numbering__c
+src/core-crm/objects/Course_Code_Numbering__c/Course_Code_Numbering__c.object-meta.xml
+src/core-crm/objects/Course_Code_Numbering__c/fields
+src/core-crm/objects/Course_Code_Numbering__c/fields/Name__c.field-meta.xml
+src/core-crm/objects/Course_Code_Numbering__c/fields/Number__c.field-meta.xml
+src/core-crm/objects/Product2/validationRules/Publishing_EndDate_is_Future_Date.validationRule-meta.xml
+src/core-crm/staticresources/QUTImages/QUTImages/Icon/clipboard_icon.svg
+src/core-crm/staticresources/QUTImages/QUTImages/Icon/dollar_icon.svg
+src/core-crm/staticresources/QUTImages/QUTImages/Icon/location_icon.svg
+src/core-crm/staticresources/QUTImages/QUTImages/Icon/time_icon.svg
