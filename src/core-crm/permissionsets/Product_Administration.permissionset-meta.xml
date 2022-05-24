@@ -55,7 +55,7 @@
     <classAccesses>
         <apexClass>FinancialSplitCtrl</apexClass>
         <enabled>true</enabled>
-    </classAccesses>    
+    </classAccesses>
     <classAccesses>
         <apexClass>GenerateCodeCtrl</apexClass>
         <enabled>true</enabled>
@@ -79,7 +79,7 @@
     <classAccesses>
         <apexClass>ManageCertificateSectionCtrl</apexClass>
         <enabled>true</enabled>
-    </classAccesses>    
+    </classAccesses>
     <classAccesses>
         <apexClass>ManageRegistrationSectionCtrl</apexClass>
         <enabled>true</enabled>
@@ -528,7 +528,7 @@
         <editable>true</editable>
         <field>Contact.Mobile_No_Locale__c</field>
         <readable>true</readable>
-    </fieldPermissions>    
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.Nominated_Student_ID__c</field>
@@ -1272,7 +1272,7 @@
         <editable>true</editable>
         <field>Question__c.Acceptable_Response__c</field>
         <readable>true</readable>
-    </fieldPermissions>   
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Question__c.Dropdown_Options__c</field>
@@ -1567,7 +1567,7 @@
         <editable>false</editable>
         <field>hed__Course_Enrollment__c.Marks_Description__c</field>
         <readable>true</readable>
-    </fieldPermissions>    
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>hed__Course_Enrollment__c.Mobile__c</field>
@@ -1602,7 +1602,7 @@
         <editable>true</editable>
         <field>hed__Course_Enrollment__c.Pricing_Validation__c</field>
         <readable>true</readable>
-    </fieldPermissions>    
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course_Enrollment__c.Purchased_Price__c</field>
@@ -2057,7 +2057,7 @@
         <editable>true</editable>
         <field>hed__Course__c.Evolve_with_QUTeXv2__c</field>
         <readable>true</readable>
-    </fieldPermissions>    
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course__c.External_Id__c</field>
@@ -2621,13 +2621,22 @@
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>false</allowDelete>
+        <allowCreate>false</allowCreate>
+        <allowDelete>true</allowDelete>
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
-        <modifyAllRecords>false</modifyAllRecords>
+        <modifyAllRecords>true</modifyAllRecords>
         <object>BuyerGroup</object>
-        <viewAllRecords>false</viewAllRecords>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>false</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>BuyerGroupPricebook</object>
+        <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
         <allowCreate>true</allowCreate>
