@@ -465,6 +465,19 @@
               class="addToCartBtn"
             ></lightning-button>
           </lightning-layout-item>
+          <lightning-layout-item
+          if:true={displayQuestionnaire}
+            flexibility="auto"
+            size="12"
+          >
+            <lightning-button
+              label="APPLY"
+              onclick={notifyApply}
+              variant="brand"
+              class="addToCartBtn"
+            ></lightning-button>
+          </lightning-layout-item>
+        
           <!-- Register Interest -->
           <lightning-layout-item
             if:true={displayRegisterInterest}
@@ -485,5 +498,137 @@
   <!-- Custom Login Form LWC for Guest User -->
   <template if:true={openModal}>
     <c-registration-form onclose={handleModalClosed}></c-registration-form>
-  </template>
+  </template> 
+
+   <!--Questionnaire Form  --> 
+   <template if:true={isModalOpen}>
+     <section class="slds-modal slds-fade-in-open">
+         <div class="slds-modal__container">
+            <template if:true={isRespondQuestions}>
+                 <header class="slds-modal__header">
+                     <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeManageResponse}>
+                         <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse" size="small"></lightning-icon>
+                     </button>
+                     <h2 class="slds-text-heading_medium slds-hyphenate">Application Questions</h2>
+                 </header>
+                 <div class="slds-is-relative">
+                     <lightning-spinner if:true={saveInProgress} alternative-text="Loading" size="small"></lightning-spinner>
+                     <div class="slds-modal__content slds-p-around_medium">
+                         <template if:true={hasQuestions}>
+                             <lightning-layout multiple-rows size="12">
+                                 <template for:each={questions} for:item="question">
+                                     <lightning-layout-item size="6" padding="around-small" key={question.Id}>
+                                         <template if:true={question.IsText}>
+                                             <lightning-textarea 
+                                             name={question.Id} 
+                                             label={question.Label} 
+                                             required 
+                                             onchange={handleChange}
+                                             onblur={handleBlur}>
+                                             </lightning-textarea>
+                                         </template>
+                                         <template if:true={question.IsNumber}>
+                                             <lightning-input 
+                                             name={question.Id} 
+                                             type="number" 
+                                             label={question.Label} 
+                                             required 
+                                             onchange={handleChange}
+                                             onblur={handleBlur}>
+                                             </lightning-input>
+                                         </template>
+                                         <template if:true={question.IsDate}>
+                                             <lightning-input 
+                                             name={question.Id} 
+                                             type="date" 
+                                             label={question.Label} 
+                                             required onchange={handleChange}
+                                             onblur={handleBlur}>
+                                         </lightning-input>
+                                         </template>
+                                         <template if:true={question.IsPicklist}>
+                                             <lightning-combobox
+                                                 name={question.Id}
+                                                 label={question.Label}
+                                                 value={question.Response}
+                                                 placeholder="Select Option"
+                                                 options={question.Options}
+                                                 onchange={handleChange} 
+                                                 onblur={handleBlur}
+                                                 required>
+                                             </lightning-combobox>
+                                         </template>
+                                         <template if:true={question.IsMultiPicklist}>
+                                             <abbr title="required" class="slds-required">*</abbr>
+                                             <span data-id={question.Id} class="slds-form-element__label" >{question.Label}</span>
+                                             <lightning-dual-listbox 
+                                                 data-id={question.Id}
+                                                 name={question.Id}
+                                                 variant="label-hidden"
+                                                 class="normal-font"
+                                                 source-label="Available"
+                                                 selected-label="Selected"
+                                                 options={question.Options}
+                                                 onchange={handleChange}
+                                                 onblur={handleBlur}
+                                                 required>
+                                             </lightning-dual-listbox>
+                                         </template>
+                                         <template if:true={question.IsCheckbox}>
+                                             <lightning-input 
+                                             name={question.Id} 
+                                             type="checkbox" 
+                                             label={question.Label} 
+                                             onchange={handleChange}
+                                             onblur={handleBlur}
+                                             variant="label-stacked">
+                                         </lightning-input>
+                                         </template>
+                                         <template if:true={question.IsFileUpload}>
+                                             <lightning-input 
+                                             name ={question.Id}
+                                             type="file" 
+                                             accept=".xlsx, .xls, .csv, .png, .doc, .docx, .pdf"
+                                             label={question.Label} 
+                                             required 
+                                             onchange={handleChange}
+                                             onblur={handleBlur}>
+                                             </lightning-input>
+                                             <template if:true={question.FileData}>
+                                                 <lightning-icon 
+                                                     icon-name="utility:success" 
+                                                     alternative-text="Success!" 
+                                                     variant="success"
+                                                     title="success variant xx-small" 
+                                                     size="xx-small">
+                                                 </lightning-icon>
+                                                 <span class="slds-form-element__label">{question.FileData.filename}</span>
+                                             </template>
+                                         </template>
+                                         <template if:true={question.ErrorMessage}>
+                                             <p class="slds-form-element__help slds-text-color_destructive">{question.ErrorMessage}</p>
+                                         </template>
+                                     </lightning-layout-item>
+                                 </template>
+                             </lightning-layout>
+                         </template>
+                     </div>
+                     <footer class="slds-modal__footer">
+                         <div class="slds-var-top_medium">
+                             <lightning-button 
+                                 label="Save"
+                                 type="Submit"
+                                 variant="brand"
+                                 onclick={handleSaveResponse}
+                                 disabled={disableResponseSave}
+                             ></lightning-button>
+                         </div>
+                     </footer>
+                 </div>
+             </template>
+         </div>
+     </section>
+     <div class="slds-backdrop slds-backdrop_open"></div>
+ </template>
+   <!--Questionnaire Form  --> 
 </template>

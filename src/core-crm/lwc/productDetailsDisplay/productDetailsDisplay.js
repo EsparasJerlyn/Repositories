@@ -103,6 +103,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   @track facilitatorIndex = 0;
   @track openModal;
   @track selectedDelivery;
+  displayQuestionnaire = false;
 
   // Set Custom Labels
   label = {
@@ -218,6 +219,20 @@ export default class ProductDetailsDisplay extends NavigationMixin(
       qutResourceImg + "/QUTImages/Icon/icon-upload-filled";
     this.linkedInLogo = qutResourceImg + "/QUTImages/Icon/linkedInLogo.svg";
     this.xMark = qutResourceImg + "/QUTImages/Icon/xMark.svg";
+
+    getQuestions({
+      productReqId: this.productDetails.Course__r.ProductRequestID__c
+    })
+      .then((results) => {
+        if (results.length > 0) {
+          this.responseData = results;
+          this.questions = this.formatQuestions(results);
+        }
+      })
+      .catch((e) => {
+        this.generateToast("Error.", LWC_Error_General, "error");
+      });
+
     // Display AddToCart / Register Interest
     if (
       this.deliveryOptions.length == 0 &&
@@ -272,16 +287,6 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   } */
 
   notifyApply() {
-    let fields = {};
-    fields.Id = this.contactId;
-    this.contactFields = fields;
-    if (this.hasQuestions) {
-      this.handleRespondQuestions();
-    } else {
-      this.isLoading = true;
-      this.saveInProgress = true;
-      this.saveRegistration(fields, this.childRecordId, [], [], "");
-    }
 
     getQuestions({
       productReqId: this.productDetails.Course__r.ProductRequestID__c
@@ -295,6 +300,19 @@ export default class ProductDetailsDisplay extends NavigationMixin(
       .catch((e) => {
         this.generateToast("Error.", LWC_Error_General, "error");
       });
+          
+    let fields = {};
+    fields.Id = this.contactId;
+    this.contactFields = fields;
+    if (this.hasQuestions) {
+      this.handleRespondQuestions();
+    } else {
+      this.isLoading = true;
+      this.saveInProgress = true;
+      this.saveRegistration(fields, this.childRecordId, [], [], "");
+    }
+
+
   }
   // Emits a notification that the user wants to add the item to their cart.
   notifyAddToCart() {
@@ -470,6 +488,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     this.selectedPriceBookEntry = event.detail.value;
     if (this.isInternalUser == true) {
       this.disableAddToCart = true;
+
     } else {
       this.disableAddToCart = false;
     }
@@ -479,8 +498,14 @@ export default class ProductDetailsDisplay extends NavigationMixin(
         pBookEntry.label == "Group Booking"
       ) {
         this.displayAddToCart = false;
+      
       } else {
         this.displayAddToCart = true;
+        if (this.responseData.length > 0) {
+          this.displayQuestionnaire = true;
+          this.displayAddToCart = false;
+        }    
+       
       }
     });
   }
