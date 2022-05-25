@@ -184,6 +184,8 @@
         <members>Contact.Custom_Lead_Allow_No_Duplicate_Rule</members>
         <members>Contact.Standard_Contact_Duplicate_Rule</members>
         <members>Lead.Standard_Rule_for_Leads_with_Duplicate_Contacts</members>
+        <members>Lead.Standard_Lead_Duplicate_Rule</members>
+        <members>Lead.Custom_Lead_Duplicate_Rule</members>
         <name>DuplicateRule</name>
     </types>
     <types>
@@ -209,6 +211,7 @@
         <members>Contact.Custom_Lead_Contact_Allow_No_Matching_Rule</members>
         <members>Contact.Custom_Lead_Allow_No_Matching_Rule_v2</members>
         <members>Lead.Custom_Lead_Matching_Rule_and_Duplicate_Rule</members>
+        <members>Contact.Custom_Contact_Matching_Rule</members>
         <name>MatchingRule</name>
     </types>
     <types>

@@ -5,7 +5,8 @@
       "package": "core-crm-pre",
       "type": "metadata",
       "versionName": "Version 1.0.0.0",
-      "versionNumber": "1.0.0.0"
+      "versionNumber": "1.0.0.0",
+      "destructiveChangePath": "destructive/core-crm-pre/Release1pre/destructiveChanges.xml"
     },
     {
       "path": "src/src-env-specific-alias",

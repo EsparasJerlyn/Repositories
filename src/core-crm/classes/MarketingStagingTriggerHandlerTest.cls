@@ -1,0 +1,280 @@
+/**
+ * @description Test Class for MarketingStagingHandlerTrigger
+ * @see ..MarketingStagingHandlerTrigger
+ *
+ * @author Accenture
+ *
+ * @history
+ *
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
+      |--------------------------------|-----------------------|------------------------|------------------------------|
+      | roy.nino.s.regala              | May 23, 2022          | DEPP-2103              | Created file                 |
+ */
+
+@IsTest(SeeAllData=false)
+public with sharing class MarketingStagingTriggerHandlerTest {
+    public static final Id PERSON = Schema.SObjectType.Contact.getRecordTypeInfosByDeveloperName()
+    .get('Person')
+    .getRecordTypeId();
+
+    @IsTest
+    public static void testOneContactMatch() {
+        Test.startTest();
+        Contact newCon = new Contact(FirstName = 'Test1', LastName = 'Test1 LastName', Email = 'Test1@email.com', RecordTypeId=PERSON);
+        insert newCon;
+        List<Marketing_Staging__c> msList = new List<Marketing_Staging__c>();
+        msList.add(new Marketing_Staging__c());
+        msList[0].First_Name__c = 'Test1';
+        msList[0].Last_Name__c = 'Test1 LastName';
+        msList[0].Email__c = 'Test1@email.com';
+        msList[0].Dont_Market__c = true;
+        insert msList;
+        Contact contact = [    SELECT Id, 
+                            (SELECT Id FROM Marketing_Segmentations__r ),
+                            (SELECT Id FROM Marketing_Course_Applications__r ),
+                            (SELECT Id FROM Marketing_Interactions__r ) 
+                            FROM Contact WHERE Dont_Market__c = true 
+                            LIMIT 1];
+        system.assert(contact != null,'No Marketing segmentation created');
+        system.assert(!contact.Marketing_Segmentations__r.isEmpty(),'No Marketing segmentation created');
+        system.assert(!contact.Marketing_Interactions__r.isEmpty(),'No Marketing segmentation created');
+        Test.stopTest();
+    }
+
+
+    @IsTest
+    public static void testOneContactMatchWithSegmentationAndApplication() {
+        
+        Test.startTest();
+
+        Contact newCon = new Contact(FirstName = 'Test1', LastName = 'Test1 LastName', Email = 'Test1@email.com', RecordTypeId=PERSON);
+        insert newCon;
+        List<Marketing_Staging__c> msList = new List<Marketing_Staging__c>();
+        msList.add(new Marketing_Staging__c());
+        msList[0].First_Name__c = 'Test1';
+        msList[0].Last_Name__c = 'Test1 LastName';
+        msList[0].Email__c = 'Test1@email.com';
+        msList[0].Dont_Market__c = false;
+        msList[0].Applicant_Id__c = '12345';
+        msList[0].Preference_Number__c = 1;
+        insert msList;
+
+        List<Marketing_Staging__c> msList2 = new List<Marketing_Staging__c>();
+        msList2.add(new Marketing_Staging__c());
+        msList2[0].First_Name__c = 'Test1';
+        msList2[0].Last_Name__c = 'Test1 LastName';
+        msList2[0].Email__c = 'Test1@email.com';
+        msList2[0].Dont_Market__c = true;
+        msList2[0].Applicant_Id__c = '12345';
+        msList2[0].Preference_Number__c = 1;
+        insert msList2;
+
+        Contact contact = [    SELECT Id, 
+                            (SELECT Id FROM Marketing_Segmentations__r ),
+                            (SELECT Id FROM Marketing_Course_Applications__r ),
+                            (SELECT Id FROM Marketing_Interactions__r ) 
+                            FROM Contact WHERE Dont_Market__c = true 
+                            LIMIT 1];
+        system.assert(contact != null,'No Marketing segmentation created');
+        system.assert(!contact.Marketing_Segmentations__r.isEmpty(),'No Marketing segmentation created');
+        system.assert(!contact.Marketing_Interactions__r.isEmpty(),'No Marketing segmentation created');
+
+        Test.stopTest();
+    }
+
+    @IsTest
+    public static void testTwoContactMatch() {
+
+        Test.startTest();
+
+        Contact newCon = new Contact(FirstName = 'Test1', LastName = 'Test1 LastName', Email = 'Test1@email.com', RecordTypeId=PERSON, hed__WorkEmail__c = 'TestWorkEmail@email.com');
+        insert newCon;
+        List<Marketing_Staging__c> msList = new List<Marketing_Staging__c>();
+        msList.add(new Marketing_Staging__c());
+        msList[0].First_Name__c = 'Test1';
+        msList[0].Last_Name__c = 'Test1 LastName';
+        msList[0].Email__c = 'TestWorkEmail@email.com';
+        insert msList;
+
+        Lead newLead = [    SELECT Id, 
+                            (SELECT Id FROM Marketing_Segmentations__r ),
+                            (SELECT Id FROM Marketing_Interactions__r ) 
+                            FROM Lead WHERE Lead_Type__c = 'Learner' 
+                            LIMIT 1];
+
+        system.assert(newLead != null,'No Marketing segmentation created');
+        system.assert(!newLead.Marketing_Segmentations__r.isEmpty(),'No Marketing segmentation created');
+        system.assert(!newLead.Marketing_Interactions__r.isEmpty(),'No Marketing interaction created');
+
+        Test.stopTest();
+    }
+
+    @IsTest
+    public static void testOneLeadMatch() {
+
+        Test.startTest();
+
+        Lead lead = new Lead(FirstName = 'Test1', LastName = 'Test1 LastName', Email = 'Test1@email.com', Company ='Test Company');
+        insert lead;
+        List<Marketing_Staging__c> msList = new List<Marketing_Staging__c>();
+        msList.add(new Marketing_Staging__c());
+        msList[0].First_Name__c = 'Test1';
+        msList[0].Last_Name__c = 'Test1 LastName';
+        msList[0].Email__c = 'Test1@email.com';
+        insert msList;
+
+        Lead newLead = [    SELECT Id, 
+                            (SELECT Id FROM Marketing_Segmentations__r ),
+                            (SELECT Id FROM Marketing_Interactions__r ) 
+                            FROM Lead WHERE Lead_Type__c = 'Learner' 
+                            LIMIT 1];
+
+        system.assert(newLead != null,'No Marketing segmentation created');
+        system.assert(!newLead.Marketing_Segmentations__r.isEmpty(),'No Marketing segmentation created');
+        system.assert(!newLead.Marketing_Interactions__r.isEmpty(),'No Marketing interaction created');
+
+        Test.stopTest();
+    }
+
+    @IsTest
+    public static void testOneLeadMatchWithSegmentationAndApplication() {
+
+        Test.startTest();
+
+        Lead lead = new Lead(FirstName = 'Test1', LastName = 'Test1 LastName', Email = 'Test1@email.com', Company ='Test Company');
+        insert lead;
+        List<Marketing_Staging__c> msList = new List<Marketing_Staging__c>();
+        msList.add(new Marketing_Staging__c());
+        msList[0].First_Name__c = 'Test1';
+        msList[0].Last_Name__c = 'Test1 LastName';
+        msList[0].Email__c = 'Test1@email.com';
+        msList[0].Dont_Market__c = false;
+        msList[0].Applicant_Id__c = '12345';
+        msList[0].Preference_Number__c = 1;
+        insert msList;
+
+        List<Marketing_Staging__c> msList2 = new List<Marketing_Staging__c>();
+        msList2.add(new Marketing_Staging__c());
+        msList2[0].First_Name__c = 'Test1';
+        msList2[0].Last_Name__c = 'Test1 LastName';
+        msList2[0].Email__c = 'Test1@email.com';
+        msList2[0].Dont_Market__c = true;
+        msList2[0].Applicant_Id__c = '12345';
+        msList2[0].Preference_Number__c = 1;
+        insert msList2;
+
+        Lead newLead = [    SELECT Id, 
+                            (SELECT Id FROM Marketing_Segmentations__r ),
+                            (SELECT Id FROM Marketing_Course_Applications__r ),
+                            (SELECT Id FROM Marketing_Interactions__r ) 
+                            FROM Lead WHERE Lead_Type__c = 'Learner' 
+                            LIMIT 1];
+
+        system.assert(newLead != null,'No Marketing segmentation created');
+        system.assert(!newLead.Marketing_Segmentations__r.isEmpty(),'No Marketing segmentation created');
+        system.assert(!newLead.Marketing_Course_Applications__r.isEmpty(),'No Marketing application created');
+        system.assert(!newLead.Marketing_Interactions__r.isEmpty(),'No Marketing interaction created');
+
+        Test.stopTest();
+    }
+
+    @IsTest
+    public static void testTwoLeadMatch() {
+
+        Test.startTest();
+
+        Lead lead = new Lead(FirstName = 'Test1', LastName = 'Test1 LastName', Email = 'Test1@email.com', Company ='Test Company');
+        insert lead;
+        Lead newLead2 = new Lead(FirstName = 'Test1', LastName = 'Test1 LastName', Email = 'Test1@email.com', Company ='Test Company');
+        insert newLead2;
+        List<Marketing_Staging__c> msList = new List<Marketing_Staging__c>();
+        msList.add(new Marketing_Staging__c());
+        msList[0].First_Name__c = 'Test1';
+        msList[0].Last_Name__c = 'Test1 LastName';
+        msList[0].Email__c = 'Test1@email.com';
+        insert msList;
+
+        Lead newLead = [    SELECT Id, 
+                            (SELECT Id FROM Marketing_Segmentations__r ),
+                            (SELECT Id FROM Marketing_Interactions__r ) 
+                            FROM Lead WHERE Lead_Type__c = 'Learner' 
+                            LIMIT 1];
+
+        system.assert(newLead != null,'No Marketing segmentation created');
+        system.assert(!newLead.Marketing_Segmentations__r.isEmpty(),'No Marketing segmentation created');
+        system.assert(!newLead.Marketing_Interactions__r.isEmpty(),'No Marketing interaction created');
+
+        Test.stopTest();
+    }
+
+    @IsTest
+    public static void testTwoLeadMatchWithSegmentationAndApplication() {
+        
+        Test.startTest();
+
+        Lead lead = new Lead(FirstName = 'Test1', LastName = 'Test1 LastName', Email = 'Test1@email.com', Company ='Test Company');
+        insert lead;
+        Lead newLead2 = new Lead(FirstName = 'Test1', LastName = 'Test1 LastName', Email = 'Test1@email.com', Company ='Test Company');
+        insert newLead2;
+        List<Marketing_Staging__c> msList = new List<Marketing_Staging__c>();
+        msList.add(new Marketing_Staging__c());
+        msList[0].First_Name__c = 'Test1';
+        msList[0].Last_Name__c = 'Test1 LastName';
+        msList[0].Email__c = 'Test1@email.com';
+        msList[0].Dont_Market__c = false;
+        msList[0].Applicant_Id__c = '12345';
+        msList[0].Preference_Number__c = 1;
+        insert msList;
+
+        List<Marketing_Staging__c> msList2 = new List<Marketing_Staging__c>();
+        msList2.add(new Marketing_Staging__c());
+        msList2[0].First_Name__c = 'Test1';
+        msList2[0].Last_Name__c = 'Test1 LastName';
+        msList2[0].Email__c = 'Test1@email.com';
+        msList2[0].Dont_Market__c = true;
+        msList2[0].Applicant_Id__c = '12345';
+        msList2[0].Preference_Number__c = 1;
+        insert msList2;
+
+        Lead newLead = [    SELECT Id, 
+                            (SELECT Id FROM Marketing_Segmentations__r ),
+                            (SELECT Id FROM Marketing_Course_Applications__r ),
+                            (SELECT Id FROM Marketing_Interactions__r ) 
+                            FROM Lead WHERE Lead_Type__c = 'Learner' 
+                            LIMIT 1];
+
+        system.assert(newLead != null,'No Marketing segmentation created');
+        system.assert(!newLead.Marketing_Segmentations__r.isEmpty(),'No Marketing segmentation created');
+        system.assert(!newLead.Marketing_Course_Applications__r.isEmpty(),'No Marketing course application created');
+        system.assert(!newLead.Marketing_Interactions__r.isEmpty(),'No Marketing interaction created');
+
+        Test.stopTest();
+    }
+
+    @IsTest
+    public static void testNoMatch() {
+
+        Test.startTest();
+
+        List<Marketing_Staging__c> msList = new List<Marketing_Staging__c>();
+        msList.add(new Marketing_Staging__c());
+        msList[0].First_Name__c = 'Test1';
+        msList[0].Last_Name__c = 'Test1 LastName';
+        msList[0].Email__c = 'Test1@email.com';
+        insert msList;
+
+        Lead newLead = [    SELECT Id, 
+                            (SELECT Id FROM Marketing_Segmentations__r ),
+                            (SELECT Id FROM Marketing_Course_Applications__r ),
+                            (SELECT Id FROM Marketing_Interactions__r ) 
+                            FROM Lead WHERE Lead_Type__c = 'Learner' 
+                            LIMIT 1];
+                            
+        system.assert(newLead != null,'No Marketing segmentation created');
+        system.assert(!newLead.Marketing_Segmentations__r.isEmpty(),'No Marketing segmentation created');
+        system.assert(!newLead.Marketing_Interactions__r.isEmpty(),'No Marketing Interaction created');
+
+        Test.stopTest();
+    }
+
+ }

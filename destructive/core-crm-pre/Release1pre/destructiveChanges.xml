@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>Lead.Standard_Lead_Duplicate_Rule</members>
+        <members>Lead.Custom_Lead_Duplicate_Rule</members>
+        <name>DuplicateRule</name>
+    </types>
+    <version>52.0</version>
+</Package>
