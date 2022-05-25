@@ -17,6 +17,11 @@
                 <default>false</default>
                 <label>CCE Corporate Partner</label>
             </value>
+            <value>
+                <fullName>Learner</fullName>
+                <default>false</default>
+                <label>Learner</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
