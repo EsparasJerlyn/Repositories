@@ -5,12 +5,13 @@
 }
 
 .aside-section {
-    flex: 1 0 20%;
-    max-width: 15rem;
+    /*flex: 1 0 30%;*/
+    /*max-width: 15rem;*/
+    /*width: 15rem;*/
 }
 
 .main-section {
-    flex: 1 0 80%;
+    /*flex: 1 0 70%;*/
 }
 
 .header-text{
@@ -40,11 +41,135 @@
     align-self: flex-end;
 }
 
+label.slds-checkbox__label span.slds-form-element__label{
+    font-family: 'ProximaNova' !important;
+    font-weight: normal !important;
+}
+
+.slds-form-element__label{
+    font-size: var(--text-size-18) !important;
+    font-family: 'ProximaNova' !important;
+}
+
+.searchTitle, label.slds-form-element__label{
+    font-size: var(--text-size-18) !important;
+    font-family: 'ProximaNova' !important;
+    color: 	var(--greys-color-bodytext);
+    font-weight: var(--text-weight-700);
+}
+
+.slds-accordion.searchResult .slds-accordion__summary{
+    background: none !important;
+}
+
+.slds-accordion.searchResult .slds-accordion__content{
+    padding-top: 0px !important;
+}
+
+.slds-accordion.searchResult .slds-accordion__summary-heading button,
+.slds-accordion.searchResult .slds-accordion__summary-heading button .heading4{
+    width:100%;
+}
+
+.slds-accordion.searchResult .slds-accordion__summary-heading button img.slds-accordion__summary-action-icon{
+    width: 12px;
+    height: 7px;
+}
+
+
+.slds-accordion.searchResult .slds-accordion__summary-action-icon{
+    transform: rotate(-180deg);
+}
+
+.slds-accordion.searchResult .slds-is-open .slds-accordion__summary-action-icon{
+    transform: rotate(0deg);
+}
+
+.modal-content {
+    background-color: #FFFFFF;
+    margin: auto;
+    border: 1px solid #888;
+    width: 100%;
+    height: 100%;
+    top: 50%;
+    position: fixed;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: "ProximaNova";
+    overflow-y: scroll;
+    z-index: 999;
+    padding: 1rem;
+}
+
+.modal-content .titlefilter{
+    padding: 1rem 0px;
+}
+
+.modal-content .fleft{
+    float:left;
+}
+
+.modal-content .fright{
+    float:right;
+}
+
+.modal-content .fright.closeButton{
+    padding: 1rem 0;
+}
+.modal-content .fright.closeButton .slds-accordion__summary-action-icon{
+    transform: rotate(45deg);
+    width: 2rem;
+    height: 2rem;
+}
+
+
+.modal-content .cboth{
+    clear:both;
+}
+
+.filter-button{
+    display: none;
+}
+
+hr.searchTitle-line{
+    margin: 0px !important;
+}
+
+
+@media only screen and (min-width: 765px){
+    .slds-medium-size_3-of-12, .slds-medium-size--3-of-12 {
+        width: 25%;
+    }
+
+    .slds-medium-size_8-of-12, .slds-medium-size--8-of-12 {
+        width: 66.6666666667%;
+    }
+
+    .desktopView{
+        display: none;
+    }
+}
+
+
+@media only screen and (min-width: 765px) and (max-width: 1023px) {
+    .chkBoxlabel span.slds-checkbox_faux {
+        border-color: var(--main-color-blue500);
+        width: 1rem;
+        height: 1rem;
+    }
+    
+    
+    .chkBoxlabel .slds-form-element__label{
+        font-size: 1rem !important;
+    }
+
+}
+
 /* 
-    small form factor 
+    small form factor  : 47.9375em
     SLDS media query reference: https://www.lightningdesignsystem.com/design-tokens/#category-media-query
 */
-@media only screen and (max-width: 47.9375em) {
+@media only screen and (max-width: 764px) {
     .layout-contiainer {
         flex-direction: column;
     }
@@ -52,4 +177,22 @@
     .aside-section {
         max-width: 100%;
     }
+
+    .filter-mobile{
+        display: none;
+    } 
+    .filter-button{
+        display: block !important;
+        width: 100%;
+        padding: 1rem;
+        background: var(--main-color-blue500);
+        border: 0px solid #fff;
+        color: #fff;
+        font-size: var(--text-size-18);
+        font-family: 'ProximaNova';
+        }
+
+    /* .slds-truncate, .heading2 ,.main-color-blue500{
+        display: none;
+    } */
 }

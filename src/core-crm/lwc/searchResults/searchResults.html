@@ -10,136 +10,547 @@
 
     <header class="slds-m-bottom_medium">
         <div class="slds-grid slds-wrap">
-            <div class="aside-section slds-border_bottom slds-p-bottom_medium" if:true={showFiltersIfStudy}>
-                <p class="slds-truncate heading-text-courses">Filter courses</p>
+            <div class="slds-size_12-of-12 aside-section slds-border_bottom slds-p-bottom_medium" if:true={showFiltersIfStudy}>
+                <p class="slds-truncate heading2 main-color-blue500 filter-mobile">Filter courses</p>
+                <button onclick={handleModalOpen} class="filter-button">Filter Courses</button>
             </div>
+            <!-- hide filter courses heading -> mobile -->
             <div class="main-section">
                 <p class="slds-truncate slds-text-heading_large header-text">{headerText}</p>
             </div>
         </div>
     </header>
-    <article class="layout-contiainer">
-        <!--Filter-->
-        <aside class="aside-section" if:true={showFiltersIfStudy}>
-            <lightning-button variant="base" label="Clear all" title="Clear all" onclick={handleClearAll} class="slds-m-left_x-small"></lightning-button>
-            <div class="slds-var-m-around_medium">
-                <lightning-input
-                    label="Filter by Keyword"
-                    type="text"
-                    value={stringValue}
-                    class="slds-var-m-bottom_small"
-                    placeholder="e.g name of course or topic"
-                    onchange={handleSearchKeyword}
-                ></lightning-input>
-                Study areas
-                <template if:true={studyAreaValues}>
-                    <div class="slds-var-m-around_medium">
-                        <lightning-input
-                            label='All areas'
-                            class="chk-studyarea-all"
-                            data-id="checkbox"
-                            type="checkbox"
-                            onchange={handleSelectAllStudyAreas}
+    <!-- Filter Mobile -->
+    <div if:true={openModal}>
+      <div class="modal-content">
+        <p class="fleft slds-truncate heading3 main-color-blue500 titlefilter">Filter courses</p>
+        <div class="fright closeButton"><img onclick={handleModalClosed} src={accordionClose} alt="" class="slds-accordion__summary-action-icon slds-button__icon"/></div>
+        
+        <div class="cboth"></div>
+          <div class=""> <!--slds-var-m-around_medium -->
+              <lightning-input
+                  label="Filter by Keyword"
+                  type="text"
+                  value={stringValue}
+                  class="slds-var-m-bottom_medium searchTitle"
+                  placeholder="e.g name of course or topic"
+                  onchange={handleSearchKeyword}
+              ></lightning-input>
+              <hr class="searchTitle-line"/>
+              <ul class="slds-accordion searchResult">
+                  <li class="slds-accordion__list-item">
+                      <section class="slds-accordion__section slds-is-open">
+                          <div class="slds-accordion__summary">
+                            <h2 class="slds-accordion__summary-heading">
+                              <button
+                                class="slds-button slds-button_reset slds-accordion__summary-action"
+                                aria-controls="studyAreas"
+                                aria-expanded="true"
+                                title="TEST"
+                                onclick={handleAccordionToggle}
+                              >
+                                <span
+                                  class="slds-accordion__summary-content accordionHeader heading4"
+                                >
+                                <div class="searchTitle">Study areas</div>
+                                </span>
+                                <img
+                                  src={vectorIcon}
+                                  alt=""
+                                  class="slds-accordion__summary-action-icon slds-button__icon"
+                                />
+                              </button>
+                            </h2>
+                          </div>
+                          <div
+                            class="slds-accordion__content accordionContent" id="studyAreas">
+                                  <template if:true={studyAreaValues}>
+                                      <div class="">
+                                          <lightning-input
+                                              label='All areas'
+                                              class="chk-studyarea-all chkBoxlabel"
+                                              data-id="checkbox"
+                                              type="checkbox"
+                                              onchange={handleSelectAllStudyAreas}
+                                              >
+                                          </lightning-input>
+                                          <template for:each={studyAreaValues} for:item="item">
+                                              <lightning-input
+                                                  key={item.value}
+                                                  label={item.label}
+                                                  value={item.value}
+                                                  data-id="checkbox"
+                                                  class="chk-studyarea chkBoxlabel chkOption"
+                                                  type="checkbox"
+                                                  onchange={handleStudyAreaPicklist}
+                                              >
+                                              </lightning-input>
+                                          </template>
+                                      </div>
+                                  </template>
+                          </div>
+                        </section>
+                  </li>
+                  <li class="slds-accordion__list-item">
+                      <section class="slds-accordion__section slds-is-open">
+                          <div class="slds-accordion__summary">
+                            <h2 class="slds-accordion__summary-heading">
+                              <button
+                                class="slds-button slds-button_reset slds-accordion__summary-action"
+                                aria-controls="overviewContent"
+                                aria-expanded="true"
+                                title="TEST"
+                                onclick={handleAccordionToggle}
+                              >
+                                <span
+                                  class="slds-accordion__summary-content accordionHeader heading4"
+                                >
+                                <!-- <hr/> -->
+                                <div class="searchTitle">Delivery</div>
+                                </span>
+                                
+                                <img
+                                  src={vectorIcon}
+                                  alt=""
+                                  class="slds-accordion__summary-action-icon slds-button__icon"
+                                />
+                              </button>
+                            </h2>
+                          </div>
+                          <div
+                            class="slds-accordion__content accordionContent">
+                            <template if:true={deliveryTypeValues}>
+                              <div class="">
+                                  <lightning-input
+                                      label='All delivery options'
+                                      data-id="checkbox"
+                                      class="chk-deliverytype-all chkBoxlabel"
+                                      type="checkbox"
+                                      onchange={handleSelectAllDeliveryTypes}
+                                      >
+                              </lightning-input>
+                                  <template for:each={deliveryTypeValues} for:item="item">
+                                      <lightning-input
+                                          key={item.value}
+                                          label={item.label}
+                                          value={item.value}
+                                          data-id="checkbox"
+                                          class="chk-delivery-type chkBoxlabel chkOption"
+                                          type="checkbox"
+                                          onchange={handleDeliveryTypePicklist}
+                                      >
+                                      </lightning-input>
+                                  </template>
+                              </div>
+                          </template>
+                          </div>
+                        </section>
+                  </li>
+                  <li class="slds-accordion__list-item">
+                      <section class="slds-accordion__section slds-is-open">
+                          <div class="slds-accordion__summary">
+                            <h2 class="slds-accordion__summary-heading">
+                              <button
+                                class="slds-button slds-button_reset slds-accordion__summary-action"
+                                aria-controls="overviewContent"
+                                aria-expanded="true"
+                                title="TEST"
+                                onclick={handleAccordionToggle}
+                              >
+                                <span
+                                  class="slds-accordion__summary-content accordionHeader heading4"
+                                >
+                                <!-- <hr/> -->
+                                <div class="searchTitle">Course type</div>
+                                </span>
+                                
+                                <img
+                                  src={vectorIcon}
+                                  alt=""
+                                  class="slds-accordion__summary-action-icon slds-button__icon"
+                                />
+                              </button>
+                            </h2>
+                          </div>
+                          <div
+                            class="slds-accordion__content accordionContent">
+                            <template if:true={typeValues}>
+                              <div class="slds-var-m-around_medium">
+                                  <lightning-input
+                                      label='All types'
+                                      class="chk-type-all chkBoxlabel"
+                                      data-id="checkbox"
+                                      type="checkbox"
+                                      onchange={handleSelectAllTypes}
+                                      >
+                                  </lightning-input>
+                                  <template for:each={typeValues} for:item="item">
+                                      <lightning-input
+                                          key={item.value}
+                                          label={item.label}
+                                          value={item.value}
+                                          data-id="checkbox"
+                                          class="chk-types chkBoxlabel chkOption"
+                                          type="checkbox"
+                                          onchange={handleTypePicklist}
+                                      >
+                                      </lightning-input>
+                                  </template>
+                              </div>
+                          </template>
+                          </div>
+                        </section>
+                  </li>
+              <li class="slds-accordion__list-item">
+                  <section class="slds-accordion__section slds-is-open">
+                      <div class="slds-accordion__summary">
+                        <h2 class="slds-accordion__summary-heading">
+                          <button
+                            class="slds-button slds-button_reset slds-accordion__summary-action"
+                            aria-controls="overviewContent"
+                            aria-expanded="true"
+                            title="TEST"
+                            onclick={handleAccordionToggle}
+                          >
+                            <span
+                              class="slds-accordion__summary-content accordionHeader heading4"
                             >
-                        </lightning-input>
-                        <template for:each={studyAreaValues} for:item="item">
-                            <lightning-input
-                                key={item.value}
-                                label={item.label}
-                                value={item.value}
-                                data-id="checkbox"
-                                class="chk-studyarea"
-                                type="checkbox"
-                                onchange={handleStudyAreaPicklist}
+                            <!-- <hr/> -->
+                            <div class="searchTitle">Pricing</div>
+                            </span>
+                            
+                            <img
+                              src={vectorIcon}
+                              alt=""
+                              class="slds-accordion__summary-action-icon slds-button__icon"
+                            />
+                          </button>
+                        </h2>
+                      </div>
+                      <div
+                        class="slds-accordion__content accordionContent">
+                        <c-slider
+                          onpricevaluechange={handlePriceRangeValueChange}>
+                        </c-slider>
+                      </div>
+                    </section>
+              </li>
+              <li class="slds-accordion__list-item">
+                  <section class="slds-accordion__section slds-is-open">
+                      <div class="slds-accordion__summary">
+                        <h2 class="slds-accordion__summary-heading">
+                          <button
+                            class="slds-button slds-button_reset slds-accordion__summary-action"
+                            aria-controls="overviewContent"
+                            aria-expanded="true"
+                            title="TEST"
+                            onclick={handleAccordionToggle}
+                          >
+                            <span
+                              class="slds-accordion__summary-content accordionHeader heading4"
                             >
-                            </lightning-input>
-                        </template>
-                    </div>
-                </template>
-                <hr/>
-                Delivery
-                <template if:true={deliveryTypeValues}>
-                    <div class="slds-var-m-around_medium">
-                        <lightning-input
-                            label='All delivery options'
-                            data-id="checkbox"
-                            class="chk-deliverytype-all"
-                            type="checkbox"
-                            onchange={handleSelectAllDeliveryTypes}
-                            >
-                    </lightning-input>
-                        <template for:each={deliveryTypeValues} for:item="item">
-                            <lightning-input
-                                key={item.value}
-                                label={item.label}
-                                value={item.value}
-                                data-id="checkbox"
-                                class="chk-delivery-type"
-                                type="checkbox"
-                                onchange={handleDeliveryTypePicklist}
-                            >
-                            </lightning-input>
-                        </template>
-                    </div>
-                </template>
-                <hr/>
-                Course type
-                <template if:true={typeValues}>
-                    <div class="slds-var-m-around_medium">
-                        <lightning-input
-                            label='All types'
-                            class="chk-type-all"
-                            data-id="checkbox"
-                            type="checkbox"
-                            onchange={handleSelectAllTypes}
-                            >
-                        </lightning-input>
-                        <template for:each={typeValues} for:item="item">
-                            <lightning-input
-                                key={item.value}
-                                label={item.label}
-                                value={item.value}
-                                data-id="checkbox"
-                                class="chk-types"
-                                type="checkbox"
-                                onchange={handleTypePicklist}
-                            >
-                            </lightning-input>
-                        </template>
-                    </div>
-                </template>
-               </div>
-               <hr/>
-                Pricing
-                <!-- <lightning-combobox 
-                        class="combo-price"
-                        name="pricebooks" 
-                        value={pricingValue}    
-                        options={pricebookOptions} 
-                        onchange={handleChangePricebook}> 
-                </lightning-combobox> -->
-            <c-slider
-                onpricevaluechange={handlePriceRangeValueChange}>
-            </c-slider>
-            <br/>
-            <hr/>
-            Date
-            <div class="slds-m-around_medium">
-                <lightning-input type="date" 
-                            name="strStartDate" 
-                            value={strStartDate} 
-                            label="From" 
-                            onchange={handleChangeStartDate}>
-                </lightning-input>
-                <lightning-input type="date" 
-                                name="strEndDate" 
-                                value={strEndDate} 
-                                label="To" 
-                                onchange={handleChangeEndDate}>
-                </lightning-input>
-            </div>
-        </aside>
-        <section class="main-section">
+                            <!-- <hr/> -->
+                            <div class="searchTitle">Date</div>
+                            </span>
+                            
+                            <img
+                              src={vectorIcon}
+                              alt=""
+                              class="slds-accordion__summary-action-icon slds-button__icon"
+                            />
+                          </button>
+                        </h2>
+                      </div>
+                      <div class="slds-accordion__content accordionContent">
+                          <div class="slds-m-around_medium">
+                              <lightning-input type="date" 
+                                          name="strStartDate" 
+                                          value={strStartDate} 
+                                          label="From" 
+                                          class="searchTitle"
+                                          onchange={handleChangeStartDate}>
+                              </lightning-input>
+                              <lightning-input type="date" 
+                                              name="strEndDate" 
+                                              value={strEndDate} 
+                                              label="To" 
+                                              class="searchTitle"
+                                              onchange={handleChangeEndDate}>
+                              </lightning-input>
+                          </div>
+                      </div>
+                    </section>
+              </li>
+              </ul>                            
+      </div>
+       
+        <lightning-button variant="base" label="Clear all" title="Clear all" onclick={handleClearAll} class="slds-m-left_x-small"></lightning-button> 
+
+      </div>
+    </div>
+    <!--Filter Desktop-->
+    <article class="layout-contiainer slds-grid slds-wrap">
+          <aside class="aside-section slds-col slds-size_12-of-12 slds-medium-size_3-of-12 px2" if:true={showFiltersIfStudy}>
+              <div class="filter-mobile">
+                  <lightning-button variant="base" label="Clear all" title="Clear all" onclick={handleClearAll} class="slds-m-left_x-small desktopView"></lightning-button> 
+                  <div class=""> <!--slds-var-m-around_medium -->
+                      <lightning-input
+                          label="Filter by Keyword"
+                          type="text"
+                          value={stringValue}
+                          class="slds-var-m-bottom_medium searchTitle"
+                          placeholder="e.g name of course or topic"
+                          onchange={handleSearchKeyword}
+                      ></lightning-input>
+                      <hr class="searchTitle-line"/>
+                      <ul class="slds-accordion searchResult">
+                          <li class="slds-accordion__list-item">
+                              <section class="slds-accordion__section slds-is-open">
+                                  <div class="slds-accordion__summary">
+                                    <h2 class="slds-accordion__summary-heading">
+                                      <button
+                                        class="slds-button slds-button_reset slds-accordion__summary-action"
+                                        aria-controls="studyAreasDesktop"
+                                        aria-expanded="true"
+                                        title="TEST"
+                                        onclick={handleAccordionToggle}
+                                      >
+                                        <span
+                                          class="slds-accordion__summary-content accordionHeader heading4"
+                                        >
+                                        <div class="searchTitle">Study areas</div>
+                                        </span>
+                                        <img
+                                          src={vectorIcon}
+                                          alt=""
+                                          class="slds-accordion__summary-action-icon slds-button__icon"
+                                        />
+                                      </button>
+                                    </h2>
+                                  </div>
+                                  <div
+                                    class="slds-accordion__content accordionContent" id="studyAreasDesktop">
+                                          <template if:true={studyAreaValues}>
+                                              <div class="slds-var-m-around_medium">
+                                                  <lightning-input
+                                                      label='All areas'
+                                                      class="chk-studyarea-all chkBoxlabel"
+                                                      data-id="checkbox"
+                                                      type="checkbox"
+                                                      onchange={handleSelectAllStudyAreas}
+                                                      >
+                                                  </lightning-input>
+                                                  <template for:each={studyAreaValues} for:item="item">
+                                                      <lightning-input
+                                                          key={item.value}
+                                                          label={item.label}
+                                                          value={item.value}
+                                                          data-id="checkbox"
+                                                          class="chk-studyarea chkBoxlabel chkOption"
+                                                          type="checkbox"
+                                                          onchange={handleStudyAreaPicklist}
+                                                      >
+                                                      </lightning-input>
+                                                  </template>
+                                              </div>
+                                          </template>
+                                  </div>
+                                </section>
+                          </li>
+                          <li class="slds-accordion__list-item">
+                              <section class="slds-accordion__section slds-is-open">
+                                  <div class="slds-accordion__summary">
+                                    <h2 class="slds-accordion__summary-heading">
+                                      <button
+                                        class="slds-button slds-button_reset slds-accordion__summary-action"
+                                        aria-controls="overviewContent"
+                                        aria-expanded="true"
+                                        title="TEST"
+                                        onclick={handleAccordionToggle}
+                                      >
+                                        <span
+                                          class="slds-accordion__summary-content accordionHeader heading4"
+                                        >
+                                        <!-- <hr/> -->
+                                        <div class="searchTitle">Delivery</div>
+                                        </span>
+                                        
+                                        <img
+                                          src={vectorIcon}
+                                          alt=""
+                                          class="slds-accordion__summary-action-icon slds-button__icon"
+                                        />
+                                      </button>
+                                    </h2>
+                                  </div>
+                                  <div
+                                    class="slds-accordion__content accordionContent">
+                                    <template if:true={deliveryTypeValues}>
+                                      <div class="slds-var-m-around_medium">
+                                          <lightning-input
+                                              label='All delivery options'
+                                              data-id="checkbox"
+                                              class="chk-deliverytype-all chkBoxlabel"
+                                              type="checkbox"
+                                              onchange={handleSelectAllDeliveryTypes}
+                                              >
+                                      </lightning-input>
+                                          <template for:each={deliveryTypeValues} for:item="item">
+                                              <lightning-input
+                                                  key={item.value}
+                                                  label={item.label}
+                                                  value={item.value}
+                                                  data-id="checkbox"
+                                                  class="chk-delivery-type chkBoxlabel chkOption"
+                                                  type="checkbox"
+                                                  onchange={handleDeliveryTypePicklist}
+                                              >
+                                              </lightning-input>
+                                          </template>
+                                      </div>
+                                  </template>
+                                  </div>
+                                </section>
+                          </li>
+                          <li class="slds-accordion__list-item">
+                              <section class="slds-accordion__section slds-is-open">
+                                  <div class="slds-accordion__summary">
+                                    <h2 class="slds-accordion__summary-heading">
+                                      <button
+                                        class="slds-button slds-button_reset slds-accordion__summary-action"
+                                        aria-controls="overviewContent"
+                                        aria-expanded="true"
+                                        title="TEST"
+                                        onclick={handleAccordionToggle}
+                                      >
+                                        <span
+                                          class="slds-accordion__summary-content accordionHeader heading4"
+                                        >
+                                        <!-- <hr/> -->
+                                        <div class="searchTitle">Course type</div>
+                                        </span>
+                                        
+                                        <img
+                                          src={vectorIcon}
+                                          alt=""
+                                          class="slds-accordion__summary-action-icon slds-button__icon"
+                                        />
+                                      </button>
+                                    </h2>
+                                  </div>
+                                  <div
+                                    class="slds-accordion__content accordionContent">
+                                    <template if:true={typeValues}>
+                                      <div class="slds-var-m-around_medium">
+                                          <lightning-input
+                                              label='All types'
+                                              class="chk-type-all chkBoxlabel"
+                                              data-id="checkbox"
+                                              type="checkbox"
+                                              onchange={handleSelectAllTypes}
+                                              >
+                                          </lightning-input>
+                                          <template for:each={typeValues} for:item="item">
+                                              <lightning-input
+                                                  key={item.value}
+                                                  label={item.label}
+                                                  value={item.value}
+                                                  data-id="checkbox"
+                                                  class="chk-types chkBoxlabel chkOption"
+                                                  type="checkbox"
+                                                  onchange={handleTypePicklist}
+                                              >
+                                              </lightning-input>
+                                          </template>
+                                      </div>
+                                  </template>
+                                  </div>
+                                </section>
+                          </li>
+                      <li class="slds-accordion__list-item">
+                          <section class="slds-accordion__section slds-is-open">
+                              <div class="slds-accordion__summary">
+                                <h2 class="slds-accordion__summary-heading">
+                                  <button
+                                    class="slds-button slds-button_reset slds-accordion__summary-action"
+                                    aria-controls="overviewContent"
+                                    aria-expanded="true"
+                                    title="TEST"
+                                    onclick={handleAccordionToggle}
+                                  >
+                                    <span
+                                      class="slds-accordion__summary-content accordionHeader heading4"
+                                    >
+                                    <!-- <hr/> -->
+                                    <div class="searchTitle">Pricing</div>
+                                    </span>
+                                    
+                                    <img
+                                      src={vectorIcon}
+                                      alt=""
+                                      class="slds-accordion__summary-action-icon slds-button__icon"
+                                    />
+                                  </button>
+                                </h2>
+                              </div>
+                              <div class="slds-accordion__content accordionContent">
+                                <c-slider
+                                  onpricevaluechange={handlePriceRangeValueChange}>
+                                </c-slider>
+                              </div>
+                            </section>
+                      </li>
+                      <li class="slds-accordion__list-item">
+                          <section class="slds-accordion__section slds-is-open">
+                              <div class="slds-accordion__summary">
+                                <h2 class="slds-accordion__summary-heading">
+                                  <button
+                                    class="slds-button slds-button_reset slds-accordion__summary-action"
+                                    aria-controls="overviewContent"
+                                    aria-expanded="true"
+                                    title="TEST"
+                                    onclick={handleAccordionToggle}
+                                  >
+                                    <span
+                                      class="slds-accordion__summary-content accordionHeader heading4"
+                                    >
+                                    <!-- <hr/> -->
+                                    <div class="searchTitle">Date</div>
+                                    </span>
+                                    
+                                    <img
+                                      src={vectorIcon}
+                                      alt=""
+                                      class="slds-accordion__summary-action-icon slds-button__icon"
+                                    />
+                                  </button>
+                                </h2>
+                              </div>
+                              <div class="slds-accordion__content accordionContent">
+                                  <div class="slds-m-around_medium">
+                                      <lightning-input type="date" 
+                                                  name="strStartDate" 
+                                                  value={strStartDate} 
+                                                  label="From" 
+                                                  class="searchTitle"
+                                                  onchange={handleChangeStartDate}>
+                                      </lightning-input>
+                                      <lightning-input type="date" 
+                                                      name="strEndDate" 
+                                                      value={strEndDate} 
+                                                      label="To" 
+                                                      class="searchTitle"
+                                                      onchange={handleChangeEndDate}>
+                                      </lightning-input>
+                                  </div>
+                              </div>
+                            </section>
+                      </li>
+                      </ul>                            
+                  </div>
+              </div>
+          </aside>
+        <section class="main-section slds-col slds-size_12-of-12 slds-medium-size_9-of-12">
              <template if:true={productInfoList}>
                 <c-product-card
                     product-details = {productInfoList}

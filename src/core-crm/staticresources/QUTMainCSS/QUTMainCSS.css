@@ -96,12 +96,11 @@
 
 
 
-  /*
-  .forceCommunityThemeHeaderB2B .navBar, .forceCommunityThemeHeaderB2B .center,
+  
   .siteforceB2bBody>.body.isPageWidthFixed-true
   {
-    max-width: 1140px !important;
-  }*/
+    width: 1140px !important;
+  }
   
   /*temporary remove banner*/
   .temp2017{
@@ -1216,7 +1215,7 @@ span[c-customcombobox_customcombobox].slds-listbox__option-meta_entity {
 }
 
 .chkOption div:first-child{
-  margin-left: 40px;
+  margin-left: 1.5rem;
 }
 
 .chkBoxlabel span.slds-checkbox_faux{
@@ -1247,12 +1246,46 @@ span[c-customcombobox_customcombobox].slds-listbox__option-meta_entity {
 }
 
 .three[c-groupBookingForm_groupBookingForm] .slds-is-open .slds-accordion__summary{
-  background: none !important;
+  background-color: var(--main-color-blue500);
+    border: 2px solid var(--main-color-blue500);
+}
+
+.three[c-groupBookingForm_groupBookingForm] .slds-is-open .slds-accordion__summary .slds-accordion__summary-heading
+{
+  color: var(--greys-color-white);
+}
+
+.three[c-groupBookingForm_groupBookingForm] .slds-accordion__summary .slds-accordion__summary-heading{
+    font-family: "ProximaNova-Bold";
+    font-size: var(--dt-size-heading4);
+    line-height: var(--dt-line-height-h4);
+    font-style: var(--text-normal);
+    font-weight: var(--text-weight-700);
+    color: var(--main-color-blue500);
+}
+
+.three[c-groupBookingForm_groupBookingForm] .slds-is-open .slds-accordion__summary .slds-accordion__summary-heading svg{
+  fill: var(--greys-color-white);;
+}
+
+.three[c-groupBookingForm_groupBookingForm] .slds-is-open .slds-accordion__summary  .slds-button,
+.three[c-groupBookingForm_groupBookingForm] .slds-is-open .slds-accordion__summary  .slds-button:hover, 
+.three[c-groupBookingForm_groupBookingForm] .slds-is-open .slds-accordion__summary  .slds-button:hover .slds-button:focus{
+  color: var(--greys-color-white);
 }
 
 .three[c-groupBookingForm_groupBookingForm] .slds-input-has-icon .slds-input__icon{
   top:0px;
   margin: 0px;
+}
+
+.three[c-groupbookingform_groupbookingform] .slds-accordion__summary-action {
+  flex-direction: row-reverse;
+}
+
+.three[c-groupbookingform_groupbookingform] span.slds-accordion__summary-content{
+    display: flex !important;
+    flex-grow: 1 !important;;
 }
 
 /*end of GroupBooking*/
@@ -1347,7 +1380,7 @@ span[c-customcombobox_customcombobox].slds-listbox__option-meta_entity {
 		box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
 		margin-left: 32px;
 		padding: 16px;
-		margin-top:20px;
+		/*margin-top:20px;*/.
 	}	
 
   .slds-medium-size_2-of-12 {
@@ -1591,10 +1624,4 @@ span[c-customcombobox_customcombobox].slds-listbox__option-meta_entity {
     padding: 10px 10px 0px 10px !important;
 
   }
-}
-
-/** Edit icon*/
-button.slds-button.slds-button_icon.slds-button_icon-bare svg {
-  fill: #0066B9 !important;
-  color: #0066B9 !important;
 }

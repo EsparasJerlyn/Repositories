@@ -36,6 +36,8 @@ import FIELD_STUDY_AREA from '@salesforce/schema/Product2.Study_Area__c';
 import FIELD_DELIVERY_TYPE from '@salesforce/schema/Product2.Delivery__c';
 import Product2 from '@salesforce/schema/Product2';
 
+import qutResourceImg from "@salesforce/resourceUrl/QUTImages";
+
 const STUDY_STORE = "study";
 const ERROR_TITLE = "Error!";
 const ERROR_VARIANT = "error";
@@ -93,6 +95,7 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
     startDate: this.strStartDate,
     endDate: this.strEndDate, 
   }
+  openModal = false;
 
   /* B2B QUICK START VARIABLES */
   @api
@@ -793,9 +796,59 @@ handleNextPage(evt) {
    * The connectedCallback() lifecycle hook fires when a component is inserted into the DOM.
    */
   connectedCallback() {
+
+    this.vectorIcon = qutResourceImg + "/QUTImages/Icon/icon-Vector.png";
+    this.accordionClose = qutResourceImg + "/QUTImages/Icon/accordionClose.svg";
+
    if(!isGuest){
       this.updateCartInformation();
     }
+  }
+
+  handleAccordionToggle(event) {
+    // Get Aria Expanded value
+    let accordionAriaExpanded = event.currentTarget;
+    // Get Closest Section Element
+    let accordionSection = event.currentTarget.closest("section");
+    // Get Content Element
+    let accordionContent = accordionSection.querySelector(".accordionContent");
+    // Get Button Icon Element
+    let vectorIcon = accordionSection.querySelector(".slds-button__icon");
+  
+    // Toggle Values
+    accordionSection.classList.toggle("slds-is-open");
+    if (accordionAriaExpanded.getAttribute("aria-expanded") == "true") {
+      accordionAriaExpanded.setAttribute("aria-expanded", "false");
+      accordionContent.setAttribute("hidden");
+      vectorIcon.setAttribute(
+        "src",
+        qutResourceImg + "/QUTImages/Icon/icon-Vector.png"
+      );
+    } else {
+      accordionAriaExpanded.setAttribute("aria-expanded", "true");
+      accordionContent.removeAttribute("hidden");
+      /*accordionIcon.setAttribute(
+        "src",
+        qutResourceImg + "/QUTImages/Icon/accordionOpen.svg"
+      );*/
+      
+    }
+  }
+
+  /*
+  * Closes Modal
+  */
+  handleModalClosed() {
+    this.openModal = false;
+  }
+  
+  
+  /*
+  * Opens Modal Onclick 
+  */
+  handleModalOpen(){
+    this.openModal = true;
+    console.log('Handle Open Modal', this.openModal);
   }
 
   /**
@@ -866,9 +919,12 @@ handleNextPage(evt) {
       return window.location.href.indexOf(STUDY_STORE) > -1 ? true : false;
     }
 
-  /**
+    /**
+
    * Ensures cart information is up to date
+
    * concatenates error name and message
+
    */
 
   updateCartInformation() {
