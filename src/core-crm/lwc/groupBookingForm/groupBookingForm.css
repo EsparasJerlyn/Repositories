@@ -1,64 +1,134 @@
 body {
   margin: 0;
+  font-family: var(--lwc-fontFamily, ProximaNova);
 }
 
 div {
   padding: 10px;
-  
+
 }
 
 h1 {
-  text-align:left;
+  text-align: left;
   color: #4078DC;
   font-weight: bold;
-  font-size:larger;
-  font-family:'Times New Roman', Times, serif;
+  font-size: larger;
+  font-family: var(--lwc-fontFamily, ProximaNova);
 }
-h2{
-  text-align:left;
+
+h2 {
+  text-align: left;
   color: #4078DC;
   font-weight: bold;
-  font-size:medium;
-  font-family:'Times New Roman', Times, serif;
+  font-size: medium;
+  font-family: var(--lwc-fontFamily, ProximaNova);
 }
-h3{
-  text-align:left;
+
+h3 {
+  text-align: left;
   color: black;
   font-weight: bold;
-  font-size:medium;
-  font-family: 'Times New Roman', Times, serif;
+  font-size: medium;
+  font-family: var(--lwc-fontFamily, ProximaNova);
 }
 
 .one {
   background-color: white;
-  border: 2px outset gray;
   margin-bottom: 5px;
-  height: 400px;
+  height: 390px;
+  margin-top: 1rem;
+  font-family: var(--lwc-fontFamily, ProximaNova);
+}
+
+.one .slds-form-element__control {
+  margin-top: 1rem;
 }
 
 .two {
   background-color: white;
-  border: 2px outset gray;
+  /*border: 2px outset gray;*/
   margin-bottom: 5px;
-  font-family: sans-serif;
+  font-family: var(--lwc-fontFamily, ProximaNova);
 }
 
 .three {
   background-color: white;
-  border: 2px outset gray;
+  /*border: 2px outset gray;*/
+  margin-bottom: 5px;
+  font-family: var(--lwc-fontFamily, ProximaNova);
+}
+
+.three .slds-accordion div {
+  padding: 0px 10px;
+}
+
+.accordionClass {
+  text-align: left;
+  color: #4078DC;
+  font-weight: bold;
+  font-size: larger;
+  font-family: var(--lwc-fontFamily, ProximaNova);
+}
+
+
+.groupBooking {
+  background-color: white;
   margin-bottom: 5px;
 }
 
-.accordionClass{
-  text-align:left;
-  color: #4078DC;
-  font-weight: bold;
-  font-size:larger;
-  font-family:'Times New Roman', Times, serif;
+.slds-modal__footer {
+  border: 0px solid #fff;
+  text-align: center;
 }
 
-.groupBooking{
-    background-color: white;
-    border: 2px outset gray;
-    margin-bottom: 5px;
+.slds-modal__footer button {
+  padding: 0.6rem 3rem;
+  height: auto;
+  width: 3rem;
+}
+
+
+.slds-modal__close {
+  top: 3rem;
+  width: 15%;
+}
+
+.slds-accordion__list-item {
+  border-bottom: 1px solid #0066B9;
+}
+
+@media only screen and (max-width: 764px) {
+
+  div {
+    padding: 10px 5px;
+  }
+
+  .three .slds-accordion div {
+    padding: 0px 00px;
+  }
+
+  .slds-modal__close {
+    width: 15%;
+    right: 0px !important;
+  }
+
+
+}
+
+@media only screen and (min-width: 765px) {
+
+  .slds-large-size_6-of-12,
+  .slds-medium-size--6-of-12 {
+    width: 50% !important;
+  }
+}
+
+div[lightning-basecombobox_basecombobox] .slds-combobox__input,
+div[c-customcombobox_customcombobox] .slds-combobox input[readonly] {
+  border-color: var(--main-color-blue500);
+  background-color: var(--lwc-colorBackgroundInput, rgb(255, 255, 255));
+  font-size: var(--icon-size-18);
+  font-weight: var(--text-normal);
+  border-radius: 0px;
+  height: 47px !important
 }

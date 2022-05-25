@@ -3,24 +3,24 @@
       <div key={product.childProdId} class="card-container">
         <div class="slds-grid slds-wrap card-main">
           <div class="slds-col slds-size_1-of-1 fields-area card-title">
-              <a class="heading4 main-color-white" data-id={product.childProdId} data-name={product.childProdName} href={recordPageUrl} onclick={navigateToProductPage}>{product.childProdName}</a>
+              <a class="heading4 main-color-white text-overflow" data-id={product.childProdId} data-name={product.childProdName} href={recordPageUrl} onclick={navigateToProductPage}>{product.childProdName}</a>
           </div>
           <span class="slds-grid slds-wrap card-body">
             <template if:true={product.isProgramFlex}>
               <div class="slds-col card-desc-container slds-p-around_medium slds-size_1-of-1">
-                  <div class="card-contents">
-                    <p class="bodyRegular">{product.childProdDescription}</p>
+                  <div class="card-contents-parent">
+                    <div class="desc-content bodyRegular">{product.childProdDescription}</div>
                   </div>
                </div>   
             </template>
             <template if:false={product.isProgramFlex}>
               <div class="slds-col card-desc-container slds-p-around_medium slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_6-of-12">
-                <div class="card-contents">
-                  <p class="bodyRegular">{product.childProdDescription}</p>
-                </div>
-                <div>
+                <div class="card-contents-parent">
+                  <div class="desc-content bodyRegular">
+                    {product.childProdDescription}
+                  </div>
                   <div if:true={product.childProdProfLevel}>
-                    <div class="pills bodyRegular slds-m-top_small">{product.childProdProfLevel}</div>
+                    <div class="pills bodyRegular slds-m-top_small pills-content">{product.childProdProfLevel}</div>
                   </div>
                 </div>
               </div>

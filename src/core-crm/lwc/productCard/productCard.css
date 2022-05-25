@@ -1,6 +1,6 @@
 :host {
-    --primaryBlue500:#0066B9; 
-    --primaryBlue100:#EFF6FB;
+    --primaryBlue500: #0066B9;
+    --primaryBlue100: #EFF6FB;
     --colorWhite: #fff;
     --colorBlack: #000;
 
@@ -9,7 +9,10 @@
     --fontFamilyBold: 'ProximaNova-Bold';
 }
 
-.card-main, .card-title, .card-desc-container, .card-details {
+.card-main,
+.card-title,
+.card-desc-container,
+.card-details {
     border: var(--borderCheck);
     font-family: var(--fontFamily);
 }
@@ -48,7 +51,7 @@
 }
 
 .card-desc-container {
-   /* width: 60%;*/
+    /* width: 60%;*/
     font-family: var(--fontFamily);
 }
 
@@ -58,12 +61,12 @@
     height: 75%;
 }
 
-.card-button {               
+.card-button {
     margin-left: 1em;
     text-align: center;
     border-radius: 48px;
     background-color: #F5F5F5;
-    width: 100px; 
+    width: 100px;
 }
 
 .card-button p {
@@ -86,7 +89,9 @@ path {
     fill: var(--primaryBlue500);
 }
 
-.item-container, .item-icon, .item-label {
+.item-container,
+.item-icon,
+.item-label {
     border: var(--borderCheck);
     align-items: baseline;
 }
@@ -103,10 +108,43 @@ path {
 
 .item-del {
     margin: auto;
+    text-align: left;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* Mobile CSS */
-@media screen and (max-width: 764px) {
-    
-  
+@media screen and (max-width: 764px) {}
+
+.text-overflow {
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    position: relative;
+}
+
+.pills-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+.card-contents-parent {
+    height: 200px;
+    position: relative;
+}
+
+.desc-content {
+    text-align: left;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

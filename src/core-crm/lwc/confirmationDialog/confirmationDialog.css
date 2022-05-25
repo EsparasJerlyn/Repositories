@@ -1,0 +1,26 @@
+.slds-modal__header,
+.slds-modal__footer{
+    border-bottom-style: none !important;
+    border-top-style: none !important;
+    border-radius: 0;
+}
+
+/** Desktop */
+@media only screen and (min-width: 765px){
+
+    button.slds-button {
+        width: auto;
+    }
+
+}
+
+/** Mobile */
+@media only screen and (max-width: 764px){
+    button.slds-button {
+        width: 5rem;
+    }
+
+    .slds-modal__container{
+        margin: 1rem;
+    }
+}

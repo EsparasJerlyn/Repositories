@@ -731,7 +731,7 @@ svg[b2b_buyer_cart-badge_badge] {
 .slds-input,
 .input-text-area,
 .slds-checkbox [type=checkbox] {
-  border-radius: 0;
+  border-radius: 0 !important;
 }
 
 button.slds-button{
@@ -840,6 +840,7 @@ button.slds-button.slds-button_outline-brand:disabled {
   white-space: normal;
   position: relative;
   min-height: 150px;
+  text-align: left;
 }
 
 
@@ -1064,7 +1065,7 @@ ul.layout-grid li{
 
 
 /*Multiselect and combobox*/
-
+div[lightning-basecombobox_basecombobox] .slds-combobox__input,
 div[c-customcomboboxmulti_customcomboboxmulti] .slds-picklist input[readonly],
 div[c-customcombobox_customcombobox] .slds-combobox input[readonly]
 	{
@@ -1073,7 +1074,7 @@ div[c-customcombobox_customcombobox] .slds-combobox input[readonly]
 		font-size: var(--icon-size-18);
 		font-weight: var(--text-normal);
 		border-radius: 0px;
-		height:45px;
+		height:47px;
 	}
 	
 
@@ -1098,17 +1099,17 @@ div[c-customcombobox_customcombobox] .slds-combobox input[readonly]
 		font-size: var(--icon-size-18);
 		font-weight: var(--text-normal);
 		border-radius: 0px;
-		height:45px;
+		height:47px;
 	}
 
 
 span[c-customcomboboxmulti_customcomboboxmulti].multi-select-combobox__icon,
 span[c-customcombobox_customcombobox].slds-input__icon{
 	
-	margin-top: -22px;
+    margin-top: -22px;
     height: 92%;
-	right: 2px;
-	width: 40px;
+    right: 2px;
+    width: 40px;
     text-align: center;
     margin-right: 0px;
     padding-right: 0px;
@@ -1124,9 +1125,9 @@ div[c-customcombobox_customcombobox].slds-is-open span[c-customcombobox_customco
 
 /*for disabled dropdown date | Price*/
 [c-customcombobox_customcombobox] input[disabled] + div.comboBoxIconClose span[c-customcombobox_customcombobox].slds-input__icon {
-	margin-top: -22px;
+	  margin-top: -22px;
     height: 92%;
-	right: 2px;
+	  right: 2px;
     width: 40px;
     text-align: center;
     margin-right: 0px;
@@ -1236,6 +1237,26 @@ span[c-customcombobox_customcombobox].slds-listbox__option-meta_entity {
 
 /*end of search result */
 
+/*GroupBooking*/
+[c-groupbookingform_groupbookingform] .slds-combobox__input .slds-truncate{
+  margin-top: 0.4rem;
+}
+
+.slds-modal__close[c-groupBookingForm_groupBookingForm] svg {
+  fill: var(--main-color-blue500) !important;
+}
+
+.three[c-groupBookingForm_groupBookingForm] .slds-is-open .slds-accordion__summary{
+  background: none !important;
+}
+
+.three[c-groupBookingForm_groupBookingForm] .slds-input-has-icon .slds-input__icon{
+  top:0px;
+  margin: 0px;
+}
+
+/*end of GroupBooking*/
+
 @media only screen and (min-width: 768px){
   c-store-header{
     width:100% !important;
@@ -1301,13 +1322,16 @@ span[c-customcombobox_customcombobox].slds-listbox__option-meta_entity {
 /** Desktop */
 @media only screen and (min-width: 765px){
 
+
 	/*Grid - Right Sidebar*/
 	.slds-large-size_8-of-12, .slds-medium-size_8-of-12{
 		width: 66.6666666667% /*current width*/ 
 	}
 	.slds-large-size_4-of-12, .slds-medium-size_4-of-12{
 		width: 33.3333333333% /*current width*/ 
-	}					
+	}
+  
+  
 
 	/*accordion title using h4*/
 	button.slds-accordion__summary-action span[c-productdetailsdisplay_productdetailsdisplay].h4{

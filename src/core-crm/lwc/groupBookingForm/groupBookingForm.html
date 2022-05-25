@@ -21,26 +21,26 @@
                 <!-- Choose number of participants in here -->
                     <template if:true={templatePicklist}>
                         <div class="one">
-                            <h1>Number of Participants</h1>
-                            <lightning-combobox
-                                name="Number of Participants"
-                                label="Please select the number of people you are looking to register "
-                                value={value}
-                                placeholder="Number of Participant"
-                                options={options}
-                                onchange={handleAfterPick}
-                                dropdown-alignment="auto"      
-                                >
-                            </lightning-combobox>
+                            <div class="heading2 headerColor">Number of Participants</div>
+                                <c-custom-combobox
+                                    class="availStartDates"
+                                    field-label="Please select the number of people you are looking to register "
+                                    placeholder="Number of Participant"
+                                    options={options}
+                                    value={value}
+                                    onchange={handleAfterPick}
+                                    slds-icon-up="utility:chevronup"
+                                    slds-icon-down="utility:chevrondown"
+                                    > </c-custom-combobox>
                         </div>
                     </template>
                     <template if:false={templatePicklist}>
                         <div class="groupBooking">
-                            <h1>GROUP BOOKING</h1>
+                            <div class="heading2 headerColor">GROUP BOOKING</div>
                         </div>
                         <div class="two">
-                            <h2>Selected Product</h2>
-                            <h3>{productCourseName}</h3>
+                            <div class="heading4 headerColor">Selected Product</div>
+                            <div class="heading4">{productCourseName}</div>
                         </div>
                         <div class="three">
                             <lightning-accordion allow-multiple-sections-open>
@@ -50,13 +50,13 @@
                                             object-api-name={objectAPIName}
                                             record-id={contactId}
                                             >
-                                            <div class="slds-grid">
-                                                <div class="slds-col slds-size_1-of-2">
+                                            <div class="slds-grid slds-wrap">
+                                                <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
                                                     <lightning-input-field field-name="FirstName" ></lightning-input-field>
                                                     <lightning-input-field field-name="Email" ></lightning-input-field>
-                                                    <lightning-input-field field-name="Birthdate" type="date"></lightning-input-field>
+                                                    <lightning-input-field field-name="Birthdate" type="date" class="calendar"></lightning-input-field>
                                                 </div>
-                                                <div class="slds-col slds-size_1-of-2">
+                                                <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
                                                     <lightning-input-field field-name="LastName" ></lightning-input-field>
                                                     <lightning-input-field field-name="MobilePhone" ></lightning-input-field>
                                                     <lightning-input-field field-name='Dietary_Requirement__c'></lightning-input-field>
@@ -302,8 +302,8 @@
                         </lightning-accordion>
                         </div>
                         <!-- This is the ADD button -->
-                        <div>
-                            <lightning-button style="margin-right: 100px;" variant="brand" label="< Add Participant" onclick={addParticipant} disabled={disableAddBtn} title="Add Participant" ></lightning-button>
+                        <div class="addparticipant">
+                            <lightning-button style="" variant="brand" label="Add Participant" onclick={addParticipant} disabled={disableAddBtn} title="Add Participant" ></lightning-button>
                         </div>
                         <c-payment if:true={isOpenPayment}
                             contact-fname={firstName}
@@ -319,7 +319,7 @@
                 </div>
                 <!-- Modal/Popup Box LWC footer starts here -->
                 <footer class="slds-modal__footer">
-                    <button class="slds-button slds-button_neutral" onclick={closeModal} title="Cancel">Cancel</button>
+                    <button class="slds-button slds-button_outline-brand" onclick={closeModal} title="Cancel">Cancel</button>
                     <button class="slds-button slds-button_brand" onclick={submitDetails} title="OK">SAVE</button>
          
                 </footer>
