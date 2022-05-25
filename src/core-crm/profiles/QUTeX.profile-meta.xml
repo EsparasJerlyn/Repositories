@@ -108,6 +108,10 @@
         <layout>Product2-OPE Product Page Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Product2-Module Page Layout</layout>
+        <recordType>Product2.Module</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Product_Request__c-Product Request Layout</layout>
     </layoutAssignments>
     <layoutAssignments>

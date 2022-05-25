@@ -3074,6 +3074,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Product2.Product_Category__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Product2.Certificate_Type__c</field>
         <readable>true</readable>
@@ -5071,6 +5076,10 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Product2-OPE Product Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Product2-Module Page Layout</layout>
+        <recordType>Product2.Module</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Product_Request__c-Product Request Layout</layout>

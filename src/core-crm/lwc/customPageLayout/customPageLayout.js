@@ -54,7 +54,7 @@ export default class CreateRecordUI extends LightningElement {
     showPopoverIcon = false;
     showPopoverDialog = false;
     popoverErrorMessages = [];
-
+    
 
     //decides if user has access to this feature
     get hasAccess(){
@@ -145,7 +145,8 @@ export default class CreateRecordUI extends LightningElement {
                                 layoutItems: row.layoutItems.map(item => {
                                     return {
                                         ...item,
-                                        isSysInfoData: item.label == 'Created By' || item.label == 'Last Modified By'
+                                        isSysInfoData: item.label == 'Created By' || item.label == 'Last Modified By',
+                                        isDisabled: !item.editableForUpdate //Not editable on page layout
                                     }
                                 })
                             }
@@ -154,6 +155,7 @@ export default class CreateRecordUI extends LightningElement {
                     }
                 });
                 this.activeSections = this.uiRecord.sections.map(section => {return section.id});
+                console.log(this.uiRecord.sections);
                 break;
             }
             this.isLoading = false;
@@ -189,14 +191,14 @@ export default class CreateRecordUI extends LightningElement {
     //disables spinner on error
     handleError(event){
         this.popoverErrorMessages = [];
-        if( event.detail && event.detail.output &&
-            event.detail.output.errors[0] &&
-            event.detail.output.errors[0] &&
+        if( event.detail && event.detail.output && 
+            event.detail.output.errors[0] && 
+            event.detail.output.errors[0] && 
             event.detail.output.errors[0].errorCode == 'DUPLICATES_DETECTED'){
             this.popoverErrorMessages.unshift(event.detail.output.errors[0].message);
         }
         //for error messages not visible on shown fields
-        if(this.popoverErrorMessages.length > 0){
+        if(this.popoverErrorMessages.length > 0){  
             this.showPopoverIcon = true;
             this.showPopoverDialog = true;
         }

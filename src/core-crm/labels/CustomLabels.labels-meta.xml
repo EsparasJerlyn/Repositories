@@ -324,6 +324,22 @@
         <value>OPE_Program_Specification</value>
     </labels>
     <labels>
+        <fullName>RT_ProductSpecification_CCEProgramSpecification</fullName>
+        <categories>RecordType,Product Specification</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RT_ProductSpecification_CCEProgramSpecification</shortDescription>
+        <value>CCE_Program_Specification</value>
+    </labels>
+    <labels>
+        <fullName>RT_Product_Module</fullName>
+        <categories>RecordType,Product2</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RT_Product_Module</shortDescription>
+        <value>Module</value>
+    </labels>
+    <labels>
         <fullName>RT_ProgramPlan_Program</fullName>
         <categories>RecordType,ProgramPlan</categories>
         <language>en_US</language>
