@@ -7,5 +7,24 @@
   "mainAppPageId" : "b28ff838-09a0-4bed-9c7e-7d9052f13951",
   "preferredDomain" : "none",
   "selfRegistrationRouteId" : "bffc103c-dd51-4142-879a-732957777d48",
+  "trustedSitesForScript" : [ {
+    "id" : "56d71154-ab13-43b1-a233-637aec721b4c",
+    "isActive" : true,
+    "trustedSiteName" : "www.qut.edu.au",
+    "trustedSiteUrl" : "https://www.qut.edu.au/study/professional-and-executive-education/configuration/integrations/polyfills.js",
+    "type" : "trustedSitesForScripts"
+  }, {
+    "id" : "994d7de6-12a7-4c45-badf-a24282fe22bb",
+    "isActive" : true,
+    "trustedSiteName" : "www.qut.edu.au1",
+    "trustedSiteUrl" : "https://www.qut.edu.au/study/professional-and-executive-education/configuration/integrations/QUT-2017-Javascript-Folder.min.js",
+    "type" : "trustedSitesForScripts"
+  }, {
+    "id" : "113303c5-6e00-4179-8c97-24493d86909f",
+    "isActive" : true,
+    "trustedSiteName" : "www.qut.edu.au2",
+    "trustedSiteUrl" : "https://www.qut.edu.au/study/professional-and-executive-education/configuration/integrations/qutex-javascript.js",
+    "type" : "trustedSitesForScripts"
+  } ],
   "type" : "site"
 }

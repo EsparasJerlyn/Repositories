@@ -57,6 +57,15 @@ export default class CartDetails extends LightningElement {
   activeTimeout;
   @track prodCategId;
 
+  editModeFN = false;
+  editModeLN = false;
+  editModeEmail = false;
+  editModeMob = false;
+  editModeDietary = false;
+  editModeCompany = false;
+  editModePosition = false;
+  editModeStaff = false;
+  editModeStudent = false;   
   cartExternalId; // added for payment parameters
   checkData = false;
   fromCartSummary = true; // checks if from cart summary or group registration
@@ -586,4 +595,63 @@ export default class CartDetails extends LightningElement {
     // let couponCode = this.template.querySelector("lightning-input[data-id='" + event.target.dataset.id + "']").value;
     // let currentIndex = this.template.querySelector("lightning-input[data-id='" + event.target.dataset.id + "']").name;
   }
+
+   //enables edit mode
+   handleEditFirstName(){
+      this.editModeFN = true;
+    }
+    handleEditLastName(){
+        this.editModeLN = true;
+    }
+    handleEditEmail(){
+        this.editModeEmail = true;
+    }
+    handleEditMobile(){
+        this.editModeMob = true;
+    }
+    handleEditDietary(){
+        this.editModeDietary = true;
+    }
+    handleEditCompany(){
+        this.editModeCompany = true;
+    }
+    handleEditPosition(){
+        this.editModePosition = true;
+    }
+    handleEditStaff(){
+        this.editModeStaff= true;
+    }
+    handleEditStudent(){
+        this.editModeStudent= true;
+    }
+
+    enableFNReadMode(){
+      this.editModeFN = false;
+    }
+    enableLNReadMode(){
+        this.editModeLN = false;
+    }
+    enableEmailReadMode(){
+        this.editModeEmail = false;
+    }
+    enableMobileReadMode(){
+        this.editModeMob = false;
+    }
+    enableDietaryReadMode(){
+        this.editModeDietary = false;
+    }
+    enableCompanyReadMode(){
+        this.editModeCompany = false;
+    }
+    enablePositionReadMode(){
+        this.editModePosition = false;
+    }
+    enableStaffReadMode(){
+        this.editModeStaff= false;
+    }
+    enableStudentReadMode(){
+        this.editModeStudent= false;
+    }
+
+    
 }

@@ -1,6 +1,6 @@
 {
   "appPageId" : "b28ff838-09a0-4bed-9c7e-7d9052f13951",
-  "componentName" : "siteforce:sldsTwoCol84Layout",
+  "componentName" : "siteforce:sldsOneColLayout",
   "id" : "b0a390bd-9d1d-44cd-bf3c-c02d01fe812a",
   "label" : "Cart",
   "regions" : [ {
@@ -26,6 +26,14 @@
     "regionName" : "sidebar",
     "type" : "region"
   }, {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:storeHeader",
+      "id" : "f2dfaad5-679f-4911-abc5-52f2721c9d33",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
     "id" : "aea34372-0fa2-4b29-adb7-107f72f9937c",
     "regionName" : "footer",
     "type" : "region"

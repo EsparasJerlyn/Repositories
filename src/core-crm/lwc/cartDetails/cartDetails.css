@@ -1,3 +1,13 @@
+:host {
+    font-family: "ProximaNova";
+    --lwc-inputStaticFontSize: 1.125rem !important;
+    --lwc-inputStaticFontWeight: 400;
+    --lwc-borderRadiusMedium: 0rem;
+    --slds-c-checkbox-color-border: #0066B9;
+    --sds-c-checkbox-color-border: #0066B9;
+    --lwc-colorBorderInput: #0066B9 !important;
+}
+
 .component {
     padding: 10px;
 }
@@ -18,12 +28,7 @@
     padding-top: 10px
 }
 
-.input-label {
-    font-size: 14px;
-    font-weight: bold;
-}
-
-.warning-label{
+.warning-label {
     font-style: italic;
     color: red;
 }
@@ -34,6 +39,119 @@
     margin: 0.5% 0 0 92%;
 }
 
-/* .input-text {
-    -webkit-text-fill-color: white;
-} */
+.asterisk {
+    color: var(--status-color-error);
+}
+
+.mar-10 {
+    margin-top: var(--space-2);
+}
+
+.mar-bot-10 {
+    margin-bottom: var(--space-2);
+}
+
+.mar-left-10 {
+    padding-left: 10px;
+}
+
+.mar-right-10 {
+    padding-right: 10px;
+}
+
+button.slds-button {
+    height: 0px !important;
+}
+
+lightning-input-field.slds-form-element {
+    font-family: "ProximaNova";
+    font-size: 1.125rem !important;
+    line-height: 1.3125rem !important;
+    font-style: normal;
+    font-weight: 400;
+    border-radius: 0 !important;
+}
+
+svg.slds-button__icon {
+    fill: #0066B9 !important;
+}
+
+span.slds-checkbox abbr {
+    border-bottom: 0px dotted #818a91 !important;
+    text-decoration: none;
+}
+
+@media only screen and (max-width: 764px) {
+    .component {
+        padding: 10px 10px;
+    }
+
+    .slds-col--padded {
+        padding: 0px !important;
+    }
+
+    lightning-layout-item.slds-p-around_small {
+        padding: 0;
+    }
+
+    .edit-textbox{
+        width: 100%;
+    }
+
+    .slds-p-right_medium {
+        padding: 0px !important;
+    }
+
+}
+
+@media only screen and (min-width: 320px) and (max-width: 325px) {
+    .no-padd {
+        padding: 10px 0px !important;
+    }
+}
+
+@media only screen and (min-width: 765px) {
+    .removedItem-button {
+        text-align: left;
+    }
+
+    .edit-textbox{
+        width: 100%;
+    }
+
+    .slds-medium-size_3-of-12, .slds-medium-size--3-of-12 {
+        width: 25%;
+    }
+
+    .slds-medium-size_9-of-12, .slds-medium-size--9-of-12 {
+        width: 75%;
+    }
+}
+
+/*Pay Now*/
+.removedItem-button button.slds-button{
+    height: 0px !important;
+    text-decoration: underline;
+    font-weight: normal !important;
+    font-family: 'ProximaNova';
+  }
+  .slds-checkbox .slds-checkbox__label .slds-form-element__label,
+  .terms-condition label{
+    font-size: var(--icon-size-18) !important;
+    font-weight: normal !important;
+    color: var(--greys-color-bodytext);
+    font-family: 'ProximaNova' !important;
+  }
+  
+  .terms-condition{
+    position:relative
+  }
+  
+  .terms-condition .slds-has-error .slds-form-element__help{
+    position:absolute;
+    top: 21px;
+    left:0;
+    width:100px;
+  }
+  /*end of PayNow*/
+  
