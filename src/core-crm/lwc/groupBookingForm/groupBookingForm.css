@@ -33,7 +33,7 @@ h3{
   background-color: white;
   border: 2px outset gray;
   margin-bottom: 5px;
-
+  height: 400px;
 }
 
 .two {
@@ -55,4 +55,10 @@ h3{
   font-weight: bold;
   font-size:larger;
   font-family:'Times New Roman', Times, serif;
+}
+
+.groupBooking{
+    background-color: white;
+    border: 2px outset gray;
+    margin-bottom: 5px;
 }

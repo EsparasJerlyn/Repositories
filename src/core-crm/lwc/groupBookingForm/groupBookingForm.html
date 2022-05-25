@@ -35,7 +35,7 @@
                         </div>
                     </template>
                     <template if:false={templatePicklist}>
-                        <div class="one">
+                        <div class="groupBooking">
                             <h1>GROUP BOOKING</h1>
                         </div>
                         <div class="two">
@@ -306,6 +306,12 @@
                             <lightning-button style="margin-right: 100px;" variant="brand" label="< Add Participant" onclick={addParticipant} disabled={disableAddBtn} title="Add Participant" ></lightning-button>
                         </div>
                         <c-payment if:true={isOpenPayment}
+                            contact-fname={firstName}
+                            contact-lname={lastName}
+                            contact-email={contactEmail}
+                            cart-external-id={cartExternalId}
+                            total={total}
+                            onpaynow={paymentNow}
                         ></c-payment>
                     </template>
                     
