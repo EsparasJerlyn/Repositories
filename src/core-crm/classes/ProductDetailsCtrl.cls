@@ -41,10 +41,12 @@ public without sharing class ProductDetailsCtrl {
         Name,
         Description,
         StockKeepingUnit,
-        Course__c, Course__r.ProductRequestID__c, Course__r.Minimum_Participants__c, Course__r.Maximum_Participants__c,
+        Course__c,
+        Course__r.ProductRequestID__c,
+        Course__r.Minimum_Participants__c,
+        Course__r.Maximum_Participants__c,
         Program_Plan__c,
         Program_Plan__r.Program_Delivery_Structure__c,
-        Program_Plan__r.Location__r.Display_Name__c,
         Duration__c,
         Delivery__c,
         Register_Interest_Available__c,
@@ -65,9 +67,16 @@ public without sharing class ProductDetailsCtrl {
     ];
 
     //Modules under the program
-    if(productOnPage.Program_Plan__r.Program_Delivery_Structure__c == 'Prescribed Program'){
-      prodDetailsData.moduleWrapperList = getProgramModules(productOnPage.Program_Plan__c);
-      prodDetailsData.programDeliveryAndOfferingMap = getProgramOfferings(productOnPage.Program_Plan__c);
+    if (
+      productOnPage.Program_Plan__r.Program_Delivery_Structure__c ==
+      'Prescribed Program'
+    ) {
+      prodDetailsData.moduleWrapperList = getProgramModules(
+        productOnPage.Program_Plan__c
+      );
+      prodDetailsData.programDeliveryAndOfferingMap = getProgramOfferings(
+        productOnPage.Program_Plan__c
+      );
     }
 
     // Pricebook Entries
@@ -185,7 +194,7 @@ public without sharing class ProductDetailsCtrl {
         childProductWrapper.childProdProfLevel = childProd.Professional_Level__c;
         childProductWrapper.childProdDuration = childProd.Duration__c;
         childProductWrapper.childProdDescription = childProd.Description;
-        childProductWrapper.isProgramFlex = FALSE;
+        childProductWrapper.isProgramFlex = false;
         if (
           productOnPage.Program_Plan__r.Program_Delivery_Structure__c ==
           'Flexible Program'
@@ -203,7 +212,7 @@ public without sharing class ProductDetailsCtrl {
             }
           }
 
-          if (childProd.Delivery__c!=null){
+          if (childProd.Delivery__c != null) {
             childProductWrapper.childProdDelivery = childProd.Delivery__c.replace(
               ';',
               ', '
@@ -368,8 +377,6 @@ public without sharing class ProductDetailsCtrl {
                 Label.QUT_ProductDetail_CourseSeatsLeft;
             }
           }
-          // location
-          cOfferWrapper.location = cOffer.hed__Facility__r.Display_Name__c;
           // facilitator
           List<facilitatorWrapper> facilWrapperList = new List<facilitatorWrapper>();
           for (
@@ -483,9 +490,9 @@ public without sharing class ProductDetailsCtrl {
       cItem.CartDeliveryGroupId = cartDeliveryGroupId;
       cItem.Name = productName;
       cItem.Product2Id = productId;
-      if(String.isNotBlank(courseOfferingId)){
+      if (String.isNotBlank(courseOfferingId)) {
         cItem.Course_Offering__c = courseOfferingId;
-      } else if(String.isNotBlank(programOfferingId)){
+      } else if (String.isNotBlank(programOfferingId)) {
         cItem.Program_Offering__c = programOfferingId;
       }
       cItem.Pricebook_Entry_ID__c = pricebookEntryId;
@@ -845,8 +852,6 @@ public without sharing class ProductDetailsCtrl {
     @AuraEnabled
     public String meta;
     @AuraEnabled
-    public String location;
-    @AuraEnabled
     public List<facilitatorWrapper> facilitator;
   }
 
@@ -895,7 +900,7 @@ public without sharing class ProductDetailsCtrl {
     @AuraEnabled
     public String childProdDuration { get; set; }
     @AuraEnabled
-    public Boolean isProgramFlex  { get; set;}
+    public Boolean isProgramFlex { get; set; }
   }
 
   /**
@@ -907,82 +912,129 @@ public without sharing class ProductDetailsCtrl {
   }
 
   @AuraEnabled(cacheable=true)
-  public static List<ModuleWrapper> getProgramModules(String programPlanId){
-      List<ModuleWrapper> modules = new List<ModuleWrapper>();
-      try{
-          List<hed__Plan_Requirement__c > programPlanRequirements = [Select Id, hed__Course__c, hed__Sequence__c
-                                                                      From hed__Plan_Requirement__c
-                                                                      Where hed__Program_Plan__c = :programPlanId];
-          Map<Id, Decimal> coursesInPlanRequirements = new Map<Id, Decimal>();
-          System.debug('programPlanRequirements: '+programPlanRequirements);
-          for(hed__Plan_Requirement__c programPlanRequirement : programPlanRequirements){
-              coursesInPlanRequirements.put(programPlanRequirement.hed__Course__c, programPlanRequirement.hed__Sequence__c);
-          }
-          System.debug('coursesInPlanRequirements: '+coursesInPlanRequirements);
-          List<Product2> courseProducts = [Select Id, Name, Duration__c, Delivery__c, Overview__c, Professional_Level__c, Course__c, Evolve_with_QUTeX__c, Who_Should_Participate__c, Core_Concepts__c, More_Details__c
-                                            From Product2
-                                            Where Course__c in :coursesInPlanRequirements.keyset()];
-          System.debug('courseProducts: '+courseProducts);
-          for(Product2 courseProduct : courseProducts){
-              ModuleWrapper moduleWrapper = new ModuleWrapper();
-              moduleWrapper.id = courseProduct.Id;
-              moduleWrapper.name = courseProduct.Name;
-              moduleWrapper.duration = courseProduct.Duration__c;
-              moduleWrapper.overview = courseProduct.Overview__c;
-              moduleWrapper.professionalLevel = courseProduct.Professional_Level__c;
-              moduleWrapper.evolveWithQUTeX = courseProduct.Evolve_with_QUTeX__c;
-              moduleWrapper.whoShouldParticipate = courseProduct.Who_Should_Participate__c;
-              moduleWrapper.coreConcepts = courseProduct.Core_Concepts__c;
-              moduleWrapper.sequence = coursesInPlanRequirements.get(courseProduct.Course__c);
-              moduleWrapper.moreDetails = courseProduct.More_Details__c;
-              modules.add(moduleWrapper);
-          }
-          System.debug('modules: '+modules);
-          return modules;
-      } catch (Exception e) {
-          system.debug(e);
-          system.debug('Error on ProductDetailsCtrl.getProgramModules');
-          AuraHandledException auraEx = new AuraHandledException(e.getMessage());
-          throw auraEx;
+  public static List<ModuleWrapper> getProgramModules(String programPlanId) {
+    List<ModuleWrapper> modules = new List<ModuleWrapper>();
+    try {
+      List<hed__Plan_Requirement__c> programPlanRequirements = [
+        SELECT Id, hed__Course__c, hed__Sequence__c
+        FROM hed__Plan_Requirement__c
+        WHERE hed__Program_Plan__c = :programPlanId
+      ];
+      Map<Id, Decimal> coursesInPlanRequirements = new Map<Id, Decimal>();
+      System.debug('programPlanRequirements: ' + programPlanRequirements);
+      for (
+        hed__Plan_Requirement__c programPlanRequirement : programPlanRequirements
+      ) {
+        coursesInPlanRequirements.put(
+          programPlanRequirement.hed__Course__c,
+          programPlanRequirement.hed__Sequence__c
+        );
       }
+      System.debug('coursesInPlanRequirements: ' + coursesInPlanRequirements);
+      List<Product2> courseProducts = [
+        SELECT
+          Id,
+          Name,
+          Duration__c,
+          Delivery__c,
+          Overview__c,
+          Professional_Level__c,
+          Course__c,
+          Evolve_with_QUTeX__c,
+          Who_Should_Participate__c,
+          Core_Concepts__c,
+          More_Details__c
+        FROM Product2
+        WHERE Course__c IN :coursesInPlanRequirements.keyset()
+      ];
+      System.debug('courseProducts: ' + courseProducts);
+      for (Product2 courseProduct : courseProducts) {
+        ModuleWrapper moduleWrapper = new ModuleWrapper();
+        moduleWrapper.id = courseProduct.Id;
+        moduleWrapper.name = courseProduct.Name;
+        moduleWrapper.duration = courseProduct.Duration__c;
+        moduleWrapper.overview = courseProduct.Overview__c;
+        moduleWrapper.professionalLevel = courseProduct.Professional_Level__c;
+        moduleWrapper.evolveWithQUTeX = courseProduct.Evolve_with_QUTeX__c;
+        moduleWrapper.whoShouldParticipate = courseProduct.Who_Should_Participate__c;
+        moduleWrapper.coreConcepts = courseProduct.Core_Concepts__c;
+        moduleWrapper.sequence = coursesInPlanRequirements.get(
+          courseProduct.Course__c
+        );
+        moduleWrapper.moreDetails = courseProduct.More_Details__c;
+        modules.add(moduleWrapper);
+      }
+      System.debug('modules: ' + modules);
+      return modules;
+    } catch (Exception e) {
+      system.debug(e);
+      system.debug('Error on ProductDetailsCtrl.getProgramModules');
+      AuraHandledException auraEx = new AuraHandledException(e.getMessage());
+      throw auraEx;
+    }
   }
 
   @AuraEnabled(cacheable=true)
-  public static Map<String, List<ProgramOfferingWrapper>> getProgramOfferings(String programPlanId){
-      Map<String, List<ProgramOfferingWrapper>> programDeliveryAndOfferingMap = new Map<String, List<ProgramOfferingWrapper>>();
-      try{
-          List<Program_Offering__c > programOfferings = [Select Id, Available_Seats__c, Delivery_Type__c, Start_Date__c, End_Date__c, IsActive__c
-                                                          From Program_Offering__c
-                                                          Where hed_Program_Plan__c = :programPlanId
-                                                          And IsActive__c = true
-                                                          And Available_Seats__c > 0
-                                                          And Registration_Start_Date__c > Today];
-          System.debug('programOfferings: '+programOfferings);
-          for(Program_Offering__c programOffering : programOfferings){
-              ProgramOfferingWrapper programOfferingWrapper = new ProgramOfferingWrapper();
-              programOfferingWrapper.id = programOffering.Id;
-              programOfferingWrapper.startDate = Datetime.newInstance(programOffering.Start_Date__c, Time.newInstance(0, 0, 0, 0)).format('dd MMM yyyy');
-              programOfferingWrapper.availableSeats = programOffering.Available_Seats__c;
-              List<ProgramOfferingWrapper> programOfferingWrapperList = new List<ProgramOfferingWrapper>();
-              if(programDeliveryAndOfferingMap.get(programOffering.Delivery_Type__c) != null){
-                  programOfferingWrapperList = programDeliveryAndOfferingMap.get(programOffering.Delivery_Type__c);
-              }
-              programOfferingWrapperList.add(programOfferingWrapper);
-              programDeliveryAndOfferingMap.put(programOffering.Delivery_Type__c, programOfferingWrapperList);
-          }
-          System.debug('programDeliveryAndOfferingMap: '+programDeliveryAndOfferingMap);
-          return programDeliveryAndOfferingMap;
-      } catch (Exception e) {
-          system.debug(e);
-          system.debug('Error on ProductDetailsCtrl.getProgramOfferings');
-          AuraHandledException auraEx = new AuraHandledException(e.getMessage());
-          throw auraEx;
+  public static Map<String, List<ProgramOfferingWrapper>> getProgramOfferings(
+    String programPlanId
+  ) {
+    Map<String, List<ProgramOfferingWrapper>> programDeliveryAndOfferingMap = new Map<String, List<ProgramOfferingWrapper>>();
+    try {
+      List<Program_Offering__c> programOfferings = [
+        SELECT
+          Id,
+          Available_Seats__c,
+          Delivery_Type__c,
+          Start_Date__c,
+          End_Date__c,
+          IsActive__c
+        FROM Program_Offering__c
+        WHERE
+          hed_Program_Plan__c = :programPlanId
+          AND IsActive__c = TRUE
+          AND Available_Seats__c > 0
+          AND Registration_Start_Date__c > Today
+      ];
+      System.debug('programOfferings: ' + programOfferings);
+      for (Program_Offering__c programOffering : programOfferings) {
+        ProgramOfferingWrapper programOfferingWrapper = new ProgramOfferingWrapper();
+        programOfferingWrapper.id = programOffering.Id;
+        programOfferingWrapper.startDate = Datetime.newInstance(
+            programOffering.Start_Date__c,
+            Time.newInstance(0, 0, 0, 0)
+          )
+          .format('dd MMM yyyy');
+        programOfferingWrapper.availableSeats = programOffering.Available_Seats__c;
+        List<ProgramOfferingWrapper> programOfferingWrapperList = new List<ProgramOfferingWrapper>();
+        if (
+          programDeliveryAndOfferingMap.get(programOffering.Delivery_Type__c) !=
+          null
+        ) {
+          programOfferingWrapperList = programDeliveryAndOfferingMap.get(
+            programOffering.Delivery_Type__c
+          );
+        }
+        programOfferingWrapperList.add(programOfferingWrapper);
+        programDeliveryAndOfferingMap.put(
+          programOffering.Delivery_Type__c,
+          programOfferingWrapperList
+        );
       }
+      System.debug(
+        'programDeliveryAndOfferingMap: ' + programDeliveryAndOfferingMap
+      );
+      return programDeliveryAndOfferingMap;
+    } catch (Exception e) {
+      system.debug(e);
+      system.debug('Error on ProductDetailsCtrl.getProgramOfferings');
+      AuraHandledException auraEx = new AuraHandledException(e.getMessage());
+      throw auraEx;
+    }
   }
 
-    /**
-  * @description wrapper that contains the details of a module
-  */
+  /**
+   * @description wrapper that contains the details of a module
+   */
   public class ModuleWrapper {
     @AuraEnabled
     public String id { get; set; }
@@ -1004,10 +1056,9 @@ public without sharing class ProductDetailsCtrl {
     public String coreConcepts { get; set; }
     @AuraEnabled
     public String moreDetails { get; set; }
-
   }
 
-  public class ProgramOfferingWrapper{
+  public class ProgramOfferingWrapper {
     @AuraEnabled
     public String id { get; set; }
     @AuraEnabled
@@ -1022,109 +1073,156 @@ public without sharing class ProductDetailsCtrl {
     public String meta { get; set; }
   }
 
-    @AuraEnabled(cacheable=true)
-    public static Map<String, Object> getProductDataRelatedToProductRequest(String productRequestId){
-        System.debug('productRequestId: '+productRequestId);
-        Map<String, Object> returnMap = new Map<String, Object>();
-        String productType = '';
-        Id productId;
-        List<Product2> products;
-        ProductDetailsData prodDetailsData;
-        List<hed__Program_Plan__c> programPlans = [Select Id, Name, Product_Request__c, Program_Delivery_Structure__c From hed__Program_Plan__c Where Product_Request__c = :productRequestId];
-        if(programPlans.size()>0){
-            System.debug('Product is a program');
-            products = [Select Id, Name, Program_Plan__c, Program_Plan__r.Program_Delivery_Structure__c From Product2 Where Program_Plan__c = : programPlans[0].Id];
-            if(products.size()>0){
-              if(programPlans[0].Program_Delivery_Structure__c == 'Prescribed Program'){
-                  productType = 'Prescribed Program';
-                  //Call getProductRelatedRecords(productId);
-                  prodDetailsData = getProductRelatedRecords(products[0].Id);
-                  System.debug('prodDetailsData: '+prodDetailsData);
-                  returnMap.put('product', prodDetailsData);
-              } else if(programPlans[0].Program_Delivery_Structure__c == 'Flexible Program'){
-                  productType = 'Flexible Program';
-                  //Call getProductRelatedRecords(productId);
-                  System.debug('productId: '+productId);            
-                  prodDetailsData = getProductRelatedRecords(products[0].Id);
-                  System.debug('prodDetailsData: '+prodDetailsData);
-                  returnMap.put('product', prodDetailsData);
-              }
-          }
-        } else{
-            System.debug('Product is a Course');
-            List<hed__Course__c> courses = [Select Id, Name, ProductRequestID__c, ProductRequestID__r.Child_of_Prescribed_Program__c From hed__Course__c Where ProductRequestID__c = :productRequestId];
-            if(courses.size()>0){
-                products = [Select Id, Name From Product2 Where Course__c = : courses[0].Id];
-                productId = products[0].Id;
-                if(courses[0].ProductRequestID__r.Child_of_Prescribed_Program__c == true){
-                    productType = 'Prescribed Program Module';
-                    List<hed__Plan_Requirement__c > programPlanRequirements = [Select Id, hed__Course__c, hed__Sequence__c, hed__Program_Plan__c
-                                                                               From hed__Plan_Requirement__c
-                                                                               Where hed__Course__c = :courses[0].Id];
-                    Id programPlanId = programPlanRequirements[0].hed__Program_Plan__c;
-                    Id parentProductId = [Select Id From Product2 Where Program_Plan__c = : programPlanId].Id;
-                    System.debug('parentProductId: '+parentProductId);
-                    //Call getProductRelatedRecords(productId);
-                    prodDetailsData = getProductRelatedRecords(parentProductId);
-                    List<ModuleWrapper> modules = prodDetailsData.moduleWrapperList;
-                     System.debug('modules: '+modules);
-                    for(ModuleWrapper module : modules){
-                         System.debug('module: '+module);
-                        if(module.id == productId){
-                            returnMap.put('product', module);
-                            break;
-                        }
-                    }
-                    System.debug('prodDetailsData: '+prodDetailsData);
-                	  returnMap.put('parent', prodDetailsData);
-                } else {
-                    productType = 'Single Product';
-                    //Call getProductRelatedRecords(productId);
-                    prodDetailsData = getProductRelatedRecords(productId);
-                    System.debug('prodDetailsData: '+prodDetailsData);
-                	  returnMap.put('product', prodDetailsData);
-                }                
-            }          
+  @AuraEnabled(cacheable=true)
+  public static Map<String, Object> getProductDataRelatedToProductRequest(
+    String productRequestId
+  ) {
+    System.debug('productRequestId: ' + productRequestId);
+    Map<String, Object> returnMap = new Map<String, Object>();
+    String productType = '';
+    Id productId;
+    List<Product2> products;
+    ProductDetailsData prodDetailsData;
+    List<hed__Program_Plan__c> programPlans = [
+      SELECT Id, Name, Product_Request__c, Program_Delivery_Structure__c
+      FROM hed__Program_Plan__c
+      WHERE Product_Request__c = :productRequestId
+    ];
+    if (programPlans.size() > 0) {
+      System.debug('Product is a program');
+      products = [
+        SELECT
+          Id,
+          Name,
+          Program_Plan__c,
+          Program_Plan__r.Program_Delivery_Structure__c
+        FROM Product2
+        WHERE Program_Plan__c = :programPlans[0].Id
+      ];
+      if (products.size() > 0) {
+        if (
+          programPlans[0].Program_Delivery_Structure__c == 'Prescribed Program'
+        ) {
+          productType = 'Prescribed Program';
+          //Call getProductRelatedRecords(productId);
+          prodDetailsData = getProductRelatedRecords(products[0].Id);
+          System.debug('prodDetailsData: ' + prodDetailsData);
+          returnMap.put('product', prodDetailsData);
+        } else if (
+          programPlans[0].Program_Delivery_Structure__c == 'Flexible Program'
+        ) {
+          productType = 'Flexible Program';
+          //Call getProductRelatedRecords(productId);
+          System.debug('productId: ' + productId);
+          prodDetailsData = getProductRelatedRecords(products[0].Id);
+          System.debug('prodDetailsData: ' + prodDetailsData);
+          returnMap.put('product', prodDetailsData);
         }
-        returnMap.put('productType', productType);
-        returnMap.put('productId', productId	);
-        System.debug('returnMap: '+returnMap);
-        return returnMap;
+      }
+    } else {
+      System.debug('Product is a Course');
+      List<hed__Course__c> courses = [
+        SELECT
+          Id,
+          Name,
+          ProductRequestID__c,
+          ProductRequestID__r.Child_of_Prescribed_Program__c
+        FROM hed__Course__c
+        WHERE ProductRequestID__c = :productRequestId
+      ];
+      if (courses.size() > 0) {
+        products = [
+          SELECT Id, Name
+          FROM Product2
+          WHERE Course__c = :courses[0].Id
+        ];
+        productId = products[0].Id;
+        if (
+          courses[0].ProductRequestID__r.Child_of_Prescribed_Program__c == true
+        ) {
+          productType = 'Prescribed Program Module';
+          List<hed__Plan_Requirement__c> programPlanRequirements = [
+            SELECT Id, hed__Course__c, hed__Sequence__c, hed__Program_Plan__c
+            FROM hed__Plan_Requirement__c
+            WHERE hed__Course__c = :courses[0].Id
+          ];
+          Id programPlanId = programPlanRequirements[0].hed__Program_Plan__c;
+          Id parentProductId = [
+            SELECT Id
+            FROM Product2
+            WHERE Program_Plan__c = :programPlanId
+          ]
+          .Id;
+          System.debug('parentProductId: ' + parentProductId);
+          //Call getProductRelatedRecords(productId);
+          prodDetailsData = getProductRelatedRecords(parentProductId);
+          List<ModuleWrapper> modules = prodDetailsData.moduleWrapperList;
+          System.debug('modules: ' + modules);
+          for (ModuleWrapper module : modules) {
+            System.debug('module: ' + module);
+            if (module.id == productId) {
+              returnMap.put('product', module);
+              break;
+            }
+          }
+          System.debug('prodDetailsData: ' + prodDetailsData);
+          returnMap.put('parent', prodDetailsData);
+        } else {
+          productType = 'Single Product';
+          //Call getProductRelatedRecords(productId);
+          prodDetailsData = getProductRelatedRecords(productId);
+          System.debug('prodDetailsData: ' + prodDetailsData);
+          returnMap.put('product', prodDetailsData);
+        }
+      }
     }
+    returnMap.put('productType', productType);
+    returnMap.put('productId', productId);
+    System.debug('returnMap: ' + returnMap);
+    return returnMap;
+  }
 
-    @AuraEnabled(cacheable=true)
-    public static List<Related_Answer__c> getQuestionsForGroupBooking(String productReqId) {
-      List<Related_Answer__c> relatedAnswersList = new List<Related_Answer__c>(
-        [
-          SELECT
-            Id,
-            Question__r.Type__c,
-            Question__r.Label__c,
-            Sequence__c,
-            Questionnaire__r.Parent_Record_ID__c,
-            Question__r.Acceptable_Response__c,
-            Question__r.Message__c,
-            Questionnaire__r.Questionnaire_Type__c,
-            Question__r.Dropdown_Options__c
-          FROM Related_Answer__c
-          WHERE
-            Questionnaire__r.Parent_Record_ID__c = :productReqId
-            AND Questionnaire__r.Questionnaire_Type__c = 'Registration Questions'
-          ORDER BY Questionnaire__r.Questionnaire_Type__c, Sequence__c
-        ]
-      );
-      return relatedAnswersList;
-    }
+  @AuraEnabled(cacheable=true)
+  public static List<Related_Answer__c> getQuestionsForGroupBooking(
+    String productReqId
+  ) {
+    List<Related_Answer__c> relatedAnswersList = new List<Related_Answer__c>(
+      [
+        SELECT
+          Id,
+          Question__r.Type__c,
+          Question__r.Label__c,
+          Sequence__c,
+          Questionnaire__r.Parent_Record_ID__c,
+          Question__r.Acceptable_Response__c,
+          Question__r.Message__c,
+          Questionnaire__r.Questionnaire_Type__c,
+          Question__r.Dropdown_Options__c
+        FROM Related_Answer__c
+        WHERE
+          Questionnaire__r.Parent_Record_ID__c = :productReqId
+          AND Questionnaire__r.Questionnaire_Type__c = 'Registration Questions'
+        ORDER BY Questionnaire__r.Questionnaire_Type__c, Sequence__c
+      ]
+    );
+    return relatedAnswersList;
+  }
 
-    @AuraEnabled
-    public static List<Contact> saveContactData(String contactDataString){
-        List<Contact> contactList = (List<Contact>)System.JSON.deserializeStrict(contactDataString, List<Contact>.Class);
-        Database.insert(contactList);
-        return contactList;
-    }
-    @AuraEnabled
-    public static List<Contact> getContactAccountId(Id connId){
-        return [Select Id, FirstName, LastName, Account.Name, Account.Id from Contact where Id = :connId];
-    }
-    
+  @AuraEnabled
+  public static List<Contact> saveContactData(String contactDataString) {
+    List<Contact> contactList = (List<Contact>) System.JSON.deserializeStrict(
+      contactDataString,
+      List<Contact>.class
+    );
+    Database.insert(contactList);
+    return contactList;
+  }
+  @AuraEnabled
+  public static List<Contact> getContactAccountId(Id connId) {
+    return [
+      SELECT Id, FirstName, LastName, Account.Name, Account.Id
+      FROM Contact
+      WHERE Id = :connId
+    ];
+  }
 }

@@ -40,7 +40,6 @@ import evolveWithQUTeX from "@salesforce/label/c.QUT_ProductDetail_EvolveWithQUT
 import whoShouldParticipate from "@salesforce/label/c.QUT_ProductDetail_WhoShouldParticipate";
 import coreConcepts from "@salesforce/label/c.QUT_ProductDetail_CoreConcepts";
 import facilitator from "@salesforce/label/c.QUT_ProductDetail_Facilitator";
-import location from "@salesforce/label/c.QUT_ProductDetail_Location";
 import details from "@salesforce/label/c.QUT_ProductDetail_Details";
 import duration from "@salesforce/label/c.QUT_ProductDetail_Duration";
 import delivery from "@salesforce/label/c.QUT_ProductDetail_Delivery";
@@ -91,7 +90,6 @@ export default class ProductDetailsDisplay extends NavigationMixin(
 
   @track courseOfferings = [];
   @track selectedCourseOffering;
-  @track selectedCourseOfferingLocation;
   @track selectedCourseOfferingFacilitator = [];
   @track selectedPriceBookEntry;
   @track disableAvailStartDate = true;
@@ -115,7 +113,6 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     whoShouldParticipate,
     coreConcepts,
     facilitator,
-    location,
     details,
     duration,
     delivery,
@@ -291,7 +288,6 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   } */
 
   notifyApply() {
-
     getQuestions({
       productReqId: this.productDetails.Course__r.ProductRequestID__c
     })
@@ -304,7 +300,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
       .catch((e) => {
         this.generateToast("Error.", LWC_Error_General, "error");
       });
-          
+
     let fields = {};
     fields.Id = this.contactId;
     this.contactFields = fields;
@@ -315,8 +311,6 @@ export default class ProductDetailsDisplay extends NavigationMixin(
       this.saveInProgress = true;
       this.saveRegistration(fields, this.childRecordId, [], [], "");
     }
-
-
   }
   // Emits a notification that the user wants to add the item to their cart.
   notifyAddToCart() {
@@ -426,36 +420,17 @@ export default class ProductDetailsDisplay extends NavigationMixin(
         this.disableAvailStartDate = true;
         this.disablePriceBookEntry = true;
         this.disableAddToCart = true;
+        this.displayGroupRegistration = false;
 
         if (results.length > 0) {
           this.courseOfferings = results;
           this.disableAvailStartDate = false;
         }
       })
-        .then((results) => {
-          this.courseOfferings = undefined;
-          this.selectedCourseOffering = undefined;
-          this.selectedCourseOfferingLocation = undefined;
-          this.selectedCourseOfferingFacilitator = undefined;
-          this.facilitator = undefined;
-          this.displayFacilitatorNav = true;
-          this.facilitatorIndex = 0;
-          this.selectedPriceBookEntry = undefined;
-          this.disableAvailStartDate = true;
-          this.disablePriceBookEntry = true;
-          this.disableAddToCart = true;
-          this.displayGroupRegistration = false;
-
-          if (results.length > 0) {
-            this.courseOfferings = results;
-            this.disableAvailStartDate = false;
-          }
-        })
-        .catch((e) => {
-          this.generateToast("Error.", LWC_Error_General, "error");
-        });
+      .catch((e) => {
+        this.generateToast("Error.", LWC_Error_General, "error");
+      });
   }
-  
 
   // Set Selected Course Offering value
   handleStartDateSelected(event) {
@@ -463,7 +438,6 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     this.selectedCourseOffering = event.detail.value;
     this.courseOfferings.forEach((cOffer) => {
       if (cOffer.value === this.selectedCourseOffering) {
-        this.selectedCourseOfferingLocation = cOffer.location;
         this.selectedCourseOfferingFacilitator = cOffer.facilitator;
         if (this.selectedCourseOfferingFacilitator.length > 0) {
           this.setFacilitatorToDisplay();
@@ -512,10 +486,9 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     this.selectedPriceBookEntry = event.detail.value;
     if (this.isInternalUser == true) {
       this.disableAddToCart = true;
-      
-    } else{
-        this.disableAddToCart = false;
-        this.displayGroupRegistration = false;
+    } else {
+      this.disableAddToCart = false;
+      this.displayGroupRegistration = false;
     }
     this.priceBookEntries.forEach((pBookEntry) => {
       if (
@@ -529,8 +502,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
         if (this.responseData.length > 0) {
           this.displayQuestionnaire = true;
           this.displayAddToCart = false;
-        }    
-       
+        }
       }
     });
   }
@@ -784,7 +756,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     });
   }
 
-handleBlur() {
+  handleBlur() {
     this.questions = this.questions.map((row) => {
       if (
         row.IsCriteria &&
@@ -803,18 +775,14 @@ handleBlur() {
         row.ErrorMessage = "";
       }
       return row;
-  });
+    });
+  }
 
-
-
-}
-
-groupRegistrationModalClosed() {
-  this.openGroupBookingModal = false;
-}
-groupRegistration() {
-  console.log('test group reg');
-  this.openGroupBookingModal = true;
-}
-
+  groupRegistrationModalClosed() {
+    this.openGroupBookingModal = false;
+  }
+  groupRegistration() {
+    console.log("test group reg");
+    this.openGroupBookingModal = true;
+  }
 }
