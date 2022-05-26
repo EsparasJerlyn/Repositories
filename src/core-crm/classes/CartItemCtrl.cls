@@ -41,9 +41,14 @@ public with sharing class CartItemCtrl {
         Name,
         Product2Id,
         Pricebook_Entry_ID__c,
+        Course_Offering__c,
         Course_Offering__r.hed__Start_Date__c,
         Course_Offering__r.Delivery_Type__c,
         Course_Offering__r.Available_Seats__c,
+        Program_Offering__c,
+        Program_Offering__r.Start_Date__c,
+        Program_Offering__r.Delivery_Type__c,
+        Program_Offering__r.Available_Seats__c,
         External_Id__c
       FROM CartItem
       WHERE CartId = :cartId
@@ -72,12 +77,40 @@ public with sharing class CartItemCtrl {
       cartItemsWrapper.cartItemId = currentCart.Id;
       cartItemsWrapper.productName = currentCart.Name;
       cartItemsWrapper.productId = currentCart.Product2Id;
-      cartItemsWrapper.startDate = Datetime.newInstance(
+
+      //if course offering field is not empty (Course offering product)
+      if(currentCart.Course_Offering__c != null){
+
+        //set data from the Course_Offering__c
+        cartItemsWrapper.startDate = Datetime.newInstance(
           currentCart.Course_Offering__r.hed__Start_Date__c,
           Time.newInstance(0, 0, 0, 0)
         )
         .format('dd MMM yyyy');
-      cartItemsWrapper.deliveryType = currentCart.Course_Offering__r.Delivery_Type__c;
+        cartItemsWrapper.deliveryType = currentCart.Course_Offering__r.Delivery_Type__c;
+
+        //check if seats are still available
+        if (currentCart.Course_Offering__r.Available_Seats__c > 0) {
+          cartItemsWrapper.seatsAvailable = true;
+        }
+
+      //else it is a program offering product
+      } else {
+
+        //set data from the Program_Offering__c
+        cartItemsWrapper.startDate = Datetime.newInstance(
+          currentCart.Program_Offering__r.Start_Date__c,
+          Time.newInstance(0, 0, 0, 0)
+        )
+        .format('dd MMM yyyy');
+        cartItemsWrapper.deliveryType = currentCart.Program_Offering__r.Delivery_Type__c;
+
+        //check if seats are still available
+        if (currentCart.Program_Offering__r.Available_Seats__c > 0) {
+          cartItemsWrapper.seatsAvailable = true;
+        }
+      }
+
       cartItemsWrapper.pbName = pbEntryMap.get(
           currentCart.Pricebook_Entry_ID__c
         )
@@ -90,11 +123,6 @@ public with sharing class CartItemCtrl {
 
       if (currentCart.External_Id__c!=null){
         cartItemsWrapper.externalId = currentCart.External_Id__c;
-      }
-
-      //check if seats are still available
-      if (currentCart.Course_Offering__r.Available_Seats__c > 0) {
-        cartItemsWrapper.seatsAvailable = true;
       }
 
       // check if pricebook is staff
