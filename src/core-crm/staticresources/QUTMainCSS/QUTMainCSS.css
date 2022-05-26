@@ -1224,6 +1224,19 @@ span[c-customcombobox_customcombobox].slds-listbox__option-meta_entity {
   height: 21px;
 }
 
+.desktop .chkBoxlabel span.slds-checkbox_faux,
+.desktop .chkOption span.slds-checkbox_faux{
+  float: left;
+}
+.desktop .chkBoxlabel span.slds-form-element__label,
+.desktop .chkOption span.slds-form-element__label{
+  width: 100%;
+  /*background: red;*/
+  display: block !important;
+  margin-top: -8px;
+  margin-left: 2rem;
+}
+
 .searchTitle .slds-input-has-icon .slds-input__icon{
   top: 0 !important;
   margin-top: 0px !important;
@@ -1231,7 +1244,13 @@ span[c-customcombobox_customcombobox].slds-listbox__option-meta_entity {
 
 .searchTitle svg.slds-button__icon{
   fill: var(--main-color-blue500);
+}
 
+.searchTitle{
+  font-size: var(--text-size-18) !important;
+  font-family: 'ProximaNova' !important;
+  color: 	var(--greys-color-bodytext);
+  font-weight: var(--text-weight-700);
 }
 
 /*end of search result */

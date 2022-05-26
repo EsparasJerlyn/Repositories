@@ -15,13 +15,14 @@
 }
 
 .header-text{
-    font-size: 1em !important;
+    font-size: var(--text-size-18);
     line-height: 36px;
     font-weight: 700 !important;
     color: #000;
     /*margin-bottom: -2rem;*/
     margin-left: 1rem;
     display: inline-block;
+    margin-top: 0.5rem;
 }
 
 .heading-text-courses{
@@ -51,7 +52,7 @@ label.slds-checkbox__label span.slds-form-element__label{
     font-family: 'ProximaNova' !important;
 }
 
-.searchTitle, label.slds-form-element__label{
+.searchTitle{
     font-size: var(--text-size-18) !important;
     font-family: 'ProximaNova' !important;
     color: 	var(--greys-color-bodytext);
@@ -84,6 +85,18 @@ label.slds-checkbox__label span.slds-form-element__label{
 .slds-accordion.searchResult .slds-is-open .slds-accordion__summary-action-icon{
     transform: rotate(0deg);
 }
+
+.chkOption .slds-form-element__control .slds-checkbox__label label.slds-checkbox_faux{
+    float: left;
+}
+.chkOption .slds-form-element__control .slds-checkbox__label label.slds-form-element__label{
+    width: auto;
+    background: red;
+    display: block;
+    margin-top: -8px;
+    margin-left: 2rem;
+}
+
 
 .modal-content {
     background-color: #FFFFFF;
@@ -131,24 +144,37 @@ label.slds-checkbox__label span.slds-form-element__label{
     display: none;
 }
 
+img.filterIcon{
+    width: 1rem;
+    height: 1rem;
+    filter: brightness(0) invert(1);
+}
+
 hr.searchTitle-line{
     margin: 0px !important;
 }
 
 
 @media only screen and (min-width: 765px){
-    .slds-medium-size_3-of-12, .slds-medium-size--3-of-12 {
-        width: 25%;
+    .slds-medium-size_4-of-12, .slds-medium-size--4-of-12 {
+        width: 33.3333333333%;
     }
 
     .slds-medium-size_8-of-12, .slds-medium-size--8-of-12 {
         width: 66.6666666667%;
     }
-
-    .desktopView{
-        display: none;
-    }
 }
+
+
+@media only screen and (min-width: 765px) and (max-width: 860px) {
+    /*
+    .heading2{
+        font-size: 2.3rem !important; 
+    }
+    */
+}
+
+
 
 
 @media only screen and (min-width: 765px) and (max-width: 1023px) {
@@ -157,8 +183,6 @@ hr.searchTitle-line{
         width: 1rem;
         height: 1rem;
     }
-    
-    
     .chkBoxlabel .slds-form-element__label{
         font-size: 1rem !important;
     }
@@ -190,6 +214,10 @@ hr.searchTitle-line{
         color: #fff;
         font-size: var(--text-size-18);
         font-family: 'ProximaNova';
+        }
+
+        .desktopView{
+            display: none;
         }
 
     /* .slds-truncate, .heading2 ,.main-color-blue500{

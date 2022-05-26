@@ -799,6 +799,7 @@ handleNextPage(evt) {
 
     this.vectorIcon = qutResourceImg + "/QUTImages/Icon/icon-Vector.png";
     this.accordionClose = qutResourceImg + "/QUTImages/Icon/accordionClose.svg";
+    this.filterFilled = qutResourceImg + "/QUTImages/Icon/icon-filter-filled.svg";
 
    if(!isGuest){
       this.updateCartInformation();
