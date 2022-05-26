@@ -22,7 +22,7 @@ public with sharing class MarketingStagingTriggerHandler implements Disableable,
    */
   public void afterInsert(Map<Id, SObject> newItems) {
 
-    Map<String,Marketing_Staging__c> marStagingMap = new Map<String,Marketing_Staging__c>();
+    Map<String,sObject> marStagingMap = new Map<String,sObject>();
     Map<String,String> actionMap =  new Map<String,String>();
     List<Contact> contactMatches = new List<Contact>();
     List<Lead> leadMatches = new List<Lead>();
@@ -35,10 +35,9 @@ public with sharing class MarketingStagingTriggerHandler implements Disableable,
     Map<String,Marketing_Course_Application__c> marCourseAppToUpsertMap = new Map<String,Marketing_Course_Application__c>();
     List<Potential_Duplicate__c> potentialDupToInsertList = new List<Potential_Duplicate__c>();
     
-    for(Marketing_Staging__c mStaging: (List<Marketing_Staging__c>) newItems.values()){
-        //collect all the concatenated name and email
-        if(mStaging.Name_and_Email__c != null){
-            marStagingMap.put(mStaging.Name_and_Email__c,mStaging);
+    for(sObject mStaging: newItems.values()){
+        if(mStaging.get('Name_and_Email__c') != null){
+            marStagingMap.put((String)mStaging.get('Name_and_Email__c'),mStaging);
         }
     }
 
@@ -91,7 +90,7 @@ public with sharing class MarketingStagingTriggerHandler implements Disableable,
                 //update contact matchingrecorcds
                 contactsToUpsertMap.put(
                     nameEmailItem,
-                    MarketingStagingTriggerHelper.createContactRecord(
+                    (Contact)MarketingStagingTriggerHelper.createContactRecord(
                         marStagingMap.get(nameEmailItem),
                         contactMatchMapping.get(nameEmailItem)[0].Id
                     )
@@ -101,7 +100,7 @@ public with sharing class MarketingStagingTriggerHandler implements Disableable,
                     contactMatchMapping.get(nameEmailItem)[0].Marketing_Segmentations__r[0] != null){
                     marSegmentationToUpsertMap.put(
                         nameEmailItem,
-                        MarketingStagingTriggerHelper.createMarketingSegmentationRecord(
+                        (Marketing_Segmentation__c)MarketingStagingTriggerHelper.createMarketingSegmentationRecord(
                             marStagingMap.get(nameEmailItem),
                             contactMatchMapping.get(nameEmailItem)[0].Marketing_Segmentations__r[0].Contact__c,
                             contactMatchMapping.get(nameEmailItem)[0].Marketing_Segmentations__r[0].Lead__c,
@@ -112,7 +111,7 @@ public with sharing class MarketingStagingTriggerHandler implements Disableable,
                     //create new segmenation record
                     marSegmentationToUpsertMap.put(
                         nameEmailItem,
-                        MarketingStagingTriggerHelper.createMarketingSegmentationRecord(
+                        (Marketing_Segmentation__c)MarketingStagingTriggerHelper.createMarketingSegmentationRecord(
                             marStagingMap.get(nameEmailItem),
                             contactMatchMapping.get(nameEmailItem)[0].Id,
                             null,
@@ -125,11 +124,11 @@ public with sharing class MarketingStagingTriggerHandler implements Disableable,
                 if( !contactMatchMapping.get(nameEmailItem)[0].Marketing_Course_Applications__r.isEmpty() &&
                     contactMatchMapping.get(nameEmailItem)[0].Marketing_Course_Applications__r[0] != null &&
                     contactMatchMapping.get(nameEmailItem)[0].Marketing_Course_Applications__r[0].Applicant_Id_and_Preference_Num__c == 
-                    marStagingMap.get(nameEmailItem).Applicant_Id_and_Preference_Num__c){
+                    marStagingMap.get(nameEmailItem).get('Applicant_Id_and_Preference_Num__c')){
                     //update existing course application
                     marCourseAppToUpsertMap.put(
                         nameEmailItem,
-                        MarketingStagingTriggerHelper.createMarketingCourseAppRecord(
+                        (Marketing_Course_Application__c) MarketingStagingTriggerHelper.createMarketingCourseAppRecord(
                             marStagingMap.get(nameEmailItem),
                             contactMatchMapping.get(nameEmailItem)[0].Marketing_Course_Applications__r[0].Contact__c,
                             contactMatchMapping.get(nameEmailItem)[0].Marketing_Course_Applications__r[0].Lead__c,
@@ -137,10 +136,10 @@ public with sharing class MarketingStagingTriggerHandler implements Disableable,
                         )
                     );
                 //create new course application record
-                }else if(marStagingMap.get(nameEmailItem).Applicant_Id_and_Preference_Num__c != null){
+                }else if(marStagingMap.get(nameEmailItem).get('Applicant_Id_and_Preference_Num__c') != null){
                     marCourseAppToUpsertMap.put(
                         nameEmailItem,
-                        MarketingStagingTriggerHelper.createMarketingCourseAppRecord(
+                        (Marketing_Course_Application__c) MarketingStagingTriggerHelper.createMarketingCourseAppRecord(
                             marStagingMap.get(nameEmailItem),
                             contactMatchMapping.get(nameEmailItem)[0].Id,
                             null,
@@ -158,7 +157,7 @@ public with sharing class MarketingStagingTriggerHandler implements Disableable,
                 //create lead records
                 leadsToUpsertMap.put(
                     nameEmailItem,
-                    MarketingStagingTriggerHelper.createLeadRecord(
+                    (Lead) MarketingStagingTriggerHelper.createLeadRecord(
                         marStagingMap.get(nameEmailItem),
                         null
                     )
@@ -174,7 +173,7 @@ public with sharing class MarketingStagingTriggerHandler implements Disableable,
                 //update lead
                 leadsToUpsertMap.put(
                     nameEmailItem,
-                    MarketingStagingTriggerHelper.createLeadRecord(
+                    (Lead) MarketingStagingTriggerHelper.createLeadRecord(
                         marStagingMap.get(nameEmailItem),
                         leadMatchMapping.get(nameEmailItem)[0].Id
                     )
@@ -185,7 +184,7 @@ public with sharing class MarketingStagingTriggerHandler implements Disableable,
                     leadMatchMapping.get(nameEmailItem)[0].Marketing_Segmentations__r[0] != null){
                     marSegmentationToUpsertMap.put(
                         nameEmailItem,
-                        MarketingStagingTriggerHelper.createMarketingSegmentationRecord(
+                        (Marketing_Segmentation__c) MarketingStagingTriggerHelper.createMarketingSegmentationRecord(
                             marStagingMap.get(nameEmailItem),
                             leadMatchMapping.get(nameEmailItem)[0].Marketing_Segmentations__r[0].Contact__c,
                             leadMatchMapping.get(nameEmailItem)[0].Marketing_Segmentations__r[0].Lead__c,
@@ -196,7 +195,7 @@ public with sharing class MarketingStagingTriggerHandler implements Disableable,
                 }else{
                     marSegmentationToUpsertMap.put(
                         nameEmailItem,
-                        MarketingStagingTriggerHelper.createMarketingSegmentationRecord(
+                        (Marketing_Segmentation__c) MarketingStagingTriggerHelper.createMarketingSegmentationRecord(
                             marStagingMap.get(nameEmailItem),
                             null,
                             leadMatchMapping.get(nameEmailItem)[0].Id,
@@ -209,11 +208,11 @@ public with sharing class MarketingStagingTriggerHandler implements Disableable,
                 if( !leadMatchMapping.get(nameEmailItem)[0].Marketing_Course_Applications__r.isEmpty() && 
                     leadMatchMapping.get(nameEmailItem)[0].Marketing_Course_Applications__r[0] != null &&
                     leadMatchMapping.get(nameEmailItem)[0].Marketing_Course_Applications__r[0].Applicant_Id_and_Preference_Num__c == 
-                    marStagingMap.get(nameEmailItem).Applicant_Id_and_Preference_Num__c){
+                    marStagingMap.get(nameEmailItem).get('Applicant_Id_and_Preference_Num__c')){
                     //update existing course application
                     marCourseAppToUpsertMap.put(
                         nameEmailItem,
-                        MarketingStagingTriggerHelper.createMarketingCourseAppRecord(
+                        (Marketing_Course_Application__c) MarketingStagingTriggerHelper.createMarketingCourseAppRecord(
                             marStagingMap.get(nameEmailItem),
                             leadMatchMapping.get(nameEmailItem)[0].Marketing_Course_Applications__r[0].Contact__c,
                             leadMatchMapping.get(nameEmailItem)[0].Marketing_Course_Applications__r[0].Lead__c,
@@ -221,10 +220,10 @@ public with sharing class MarketingStagingTriggerHandler implements Disableable,
                         )
                     );
                 //else insert new course application if application has info
-                }else if(marStagingMap.get(nameEmailItem).Applicant_Id_and_Preference_Num__c != null){
+                }else if(marStagingMap.get(nameEmailItem).get('Applicant_Id_and_Preference_Num__c') != null){
                     marCourseAppToUpsertMap.put(
                         nameEmailItem,
-                        MarketingStagingTriggerHelper.createMarketingCourseAppRecord(
+                        (Marketing_Course_Application__c) MarketingStagingTriggerHelper.createMarketingCourseAppRecord(
                             marStagingMap.get(nameEmailItem),
                             null,
                             leadsToUpsertMap.get(nameEmailItem).Id,
@@ -242,7 +241,7 @@ public with sharing class MarketingStagingTriggerHandler implements Disableable,
                 //create lead records
                 leadsToUpsertMap.put(
                     nameEmailItem,
-                    MarketingStagingTriggerHelper.createLeadRecord(
+                    (Lead) MarketingStagingTriggerHelper.createLeadRecord(
                         marStagingMap.get(nameEmailItem),
                         null
                     )
@@ -256,7 +255,7 @@ public with sharing class MarketingStagingTriggerHandler implements Disableable,
                 //create lead records
                 leadsToUpsertMap.put(
                     nameEmailItem,
-                    MarketingStagingTriggerHelper.createLeadRecord(
+                    (Lead) MarketingStagingTriggerHelper.createLeadRecord(
                         marStagingMap.get(nameEmailItem),
                         null
                     )
@@ -284,7 +283,7 @@ public with sharing class MarketingStagingTriggerHandler implements Disableable,
             //create markeeting segmentation records
             marSegmentationToUpsertMap.put(
                 nameEmailItem,
-                MarketingStagingTriggerHelper.createMarketingSegmentationRecord(
+                (Marketing_Segmentation__c) MarketingStagingTriggerHelper.createMarketingSegmentationRecord(
                     marStagingMap.get(nameEmailItem),
                     null,
                     leadsToUpsertMap.get(nameEmailItem).Id,
@@ -293,10 +292,10 @@ public with sharing class MarketingStagingTriggerHandler implements Disableable,
             );
 
             //check first if application data is populated
-            if(marStagingMap.get(nameEmailItem).Applicant_Id_and_Preference_Num__c != null){
+            if(marStagingMap.get(nameEmailItem).get('Applicant_Id_and_Preference_Num__c') != null){
                 marCourseAppToUpsertMap.put(
                     nameEmailItem,
-                    MarketingStagingTriggerHelper.createMarketingCourseAppRecord(
+                    (Marketing_Course_Application__c) MarketingStagingTriggerHelper.createMarketingCourseAppRecord(
                         marStagingMap.get(nameEmailItem),
                         null,
                         leadsToUpsertMap.get(nameEmailItem).Id,
@@ -335,7 +334,7 @@ public with sharing class MarketingStagingTriggerHandler implements Disableable,
             //create marketing interaction records
             marInteractionToInsertMap.put(
             nameEmailItem,
-            MarketingStagingTriggerHelper.createMarketingInteractionRecord(
+            (Marketing_Interaction__c) MarketingStagingTriggerHelper.createMarketingInteractionRecord(
                     marStagingMap.get(nameEmailItem),
                     marSegmentationToUpsertMap.get(nameEmailItem).Contact__c,
                     marSegmentationToUpsertMap.get(nameEmailItem).Lead__c,

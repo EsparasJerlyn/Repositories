@@ -13,14 +13,11 @@
 
 @IsTest(SeeAllData=false)
 public with sharing class MarketingStagingTriggerHelperTest {
-    public static final Id PERSON = Schema.SObjectType.Contact.getRecordTypeInfosByDeveloperName()
-    .get('Person')
-    .getRecordTypeId();
 
     @IsTest
     public static void testOneContactMatch() {
         Test.startTest();
-        Contact newCon = new Contact(FirstName = 'Test1', LastName = 'Test1 LastName', Email = 'Test1@email.com', RecordTypeId=PERSON);
+        Contact newCon = new Contact(FirstName = 'Test1', LastName = 'Test1 LastName', Email = 'Test1@email.com', Company_Name__c = 'test company');
         insert newCon;
         List<Marketing_Staging__c> msList = new List<Marketing_Staging__c>();
         msList.add(new Marketing_Staging__c());
@@ -29,7 +26,7 @@ public with sharing class MarketingStagingTriggerHelperTest {
         msList[0].Email__c = 'Test1@email.com';
         msList[0].Dont_Market__c = true;
         insert msList;
-        Contact contact = [    SELECT Id, 
+        Contact contact = [  SELECT Id, 
                             (SELECT Id FROM Marketing_Segmentations__r ),
                             (SELECT Id FROM Marketing_Course_Applications__r ),
                             (SELECT Id FROM Marketing_Interactions__r ) 
@@ -47,7 +44,7 @@ public with sharing class MarketingStagingTriggerHelperTest {
         
         Test.startTest();
 
-        Contact newCon = new Contact(FirstName = 'Test1', LastName = 'Test1 LastName', Email = 'Test1@email.com', RecordTypeId=PERSON);
+        Contact newCon = new Contact(FirstName = 'Test1', LastName = 'Test1 LastName', Email = 'Test1@email.com', Company_Name__c = 'test company');
         insert newCon;
         List<Marketing_Staging__c> msList = new List<Marketing_Staging__c>();
         msList.add(new Marketing_Staging__c());
@@ -87,13 +84,15 @@ public with sharing class MarketingStagingTriggerHelperTest {
 
         Test.startTest();
 
-        Contact newCon = new Contact(FirstName = 'Test1', LastName = 'Test1 LastName', Email = 'Test1@email.com', RecordTypeId=PERSON, hed__WorkEmail__c = 'TestWorkEmail@email.com');
+        Contact newCon = new Contact(FirstName = 'Test1', LastName = 'Test1 LastName', Email = 'Test1@email.com', Company_Name__c = 'test company');
         insert newCon;
+        Contact newCon2 = new Contact(FirstName = 'Test1', LastName = 'Test1 LastName', Email = 'Test1@email.com', Company_Name__c = 'test company2');
+        insert newCon2;
         List<Marketing_Staging__c> msList = new List<Marketing_Staging__c>();
         msList.add(new Marketing_Staging__c());
         msList[0].First_Name__c = 'Test1';
         msList[0].Last_Name__c = 'Test1 LastName';
-        msList[0].Email__c = 'TestWorkEmail@email.com';
+        msList[0].Email__c = 'Test1@email.com';
         insert msList;
 
         Lead newLead = [    SELECT Id, 
