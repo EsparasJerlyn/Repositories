@@ -144,3 +144,12 @@
   width: 1.3rem;
   height: 1.3rem;
 }
+
+
+.slds-modal__footer {
+  border-top-style: none !important;
+}
+
+.slds-modal__header{
+  border-bottom-style: solid;
+}
