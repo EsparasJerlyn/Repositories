@@ -42,7 +42,7 @@ public with sharing class MarketingStagingTriggerHelper{
         'SPAD__c','Page_Display_Name__c','Page_URL__c','UTM_Source__c','UTM_Campaign__c','UTM_Medium__c',
         'UTM_Term__c','UTM_Content__c','Enquiry_Type__c','Enquiry_Description__c','EDM_Last_Send_DateTime__c','Fee_Amount__c',
         'Discount_Amount__c','Country_Joining_From__c','QUT_Sloan_MIT_Affiliation__c','Has_Attended__c','Event_Agency_Host__c',
-        'Event_City__c','Event_Date__c','Event_Name__c','QUT_Staff_Name__c','QUT_Staff_Email__c','Event_Type__c'
+        'Event_City__c','Event_Date__c','Event_Name__c','QUT_Staff_Name__c','QUT_Staff_Email__c','Event_Type__c','Match_My_Skill_Completion__c'
     };
 
     private static final List<String> MARKETING_APPLICATION_FIELDS = new List<String>{
@@ -92,6 +92,11 @@ public with sharing class MarketingStagingTriggerHelper{
     private static final String LEAD_API_NAME = Lead.SObjectType.getDescribe().getLocalName();
 
 
+    /**
+     * @description create contact record from marketing staging fields
+     * @param marketingStage - marketingstaging object
+     * @param oldContactId - contactId
+     */
     public static sObject createContactRecord(sObject marketingStage, Id oldContactId){
         sObject obj = Schema.getGlobalDescribe().get('Contact').newSObject();
 
@@ -108,6 +113,11 @@ public with sharing class MarketingStagingTriggerHelper{
         return obj;
     }  
 
+    /**
+     * @description create lead record from marketing staging fields
+     * @param marketingStage - marketingstaging object
+     * @param oldLeadId - leadId
+     */
     public static sObject createLeadRecord(sObject marketingStage, Id oldLeadId){
         sObject obj = Schema.getGlobalDescribe().get('Lead').newSObject();
 
@@ -127,6 +137,12 @@ public with sharing class MarketingStagingTriggerHelper{
     }
 
 
+    /**
+     * @description create potential duplicate record from marketing staging fields
+     * @param newLeadId - lead id
+     * @param matchingObjects - list matching object contact or lead
+     * @param matchingObject - matchingObject name
+     */
     public static List<Potential_Duplicate__c> createPotentialDupRecords(Id newLeadId , List<sObject> matchingObjects, String matchingObject){
         List<Potential_Duplicate__c> potentialDuplToInsertList = new List<Potential_Duplicate__c>();
         Potential_Duplicate__c dupItem;
@@ -148,6 +164,13 @@ public with sharing class MarketingStagingTriggerHelper{
     } 
 
 
+    /**
+     * @description create marketing segmentation record from marketing staging fields
+     * @param marketingStage - marketing stage record
+     * @param contactId - contact id
+     * @param leadId - lead id
+     * @param oldSegId - old segmentation id
+     */
     public static sObject createMarketingSegmentationRecord(sObject marketingStage, Id contactId, Id leadId, Id oldSegId){
 
         sObject obj = Schema.getGlobalDescribe().get('Marketing_Segmentation__c').newSObject();
@@ -173,6 +196,13 @@ public with sharing class MarketingStagingTriggerHelper{
         return obj;
     }
 
+    /**
+     * @description create marketing interactions record from marketing staging fields
+     * @param marketingStage - marketing stage record
+     * @param contactId - contact id
+     * @param leadId - lead id
+     * @param marketingSegId -  segmentation id
+     */
     public static sOBject createMarketingInteractionRecord(sObject marketingStage, Id contactId, Id leadId, Id marketingSegId){
         sObject obj = Schema.getGlobalDescribe().get('Marketing_Interaction__c').newSObject();
         
@@ -196,6 +226,13 @@ public with sharing class MarketingStagingTriggerHelper{
     }
 
 
+    /**
+     * @description create marketing course application record from marketing staging fields
+     * @param marketingStage - marketing stage record
+     * @param contactId - contact id
+     * @param leadId - lead id
+     * @param oldCourseAppId -  old course application id
+     */
     public static sObject createMarketingCourseAppRecord(sObject marketingStage, Id contactId, Id leadId, Id oldCourseAppId){
         sObject obj = Schema.getGlobalDescribe().get('Marketing_Course_Application__c').newSObject();
 

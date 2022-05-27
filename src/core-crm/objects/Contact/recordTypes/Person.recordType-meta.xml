@@ -3218,951 +3218,951 @@
     <picklistValues>
         <picklist>Marketing_Mobile_Locale__c</picklist>
         <values>
-            <fullName>af_ZA</fullName>
+            <fullName>af-ZA</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>am_ET</fullName>
+            <fullName>am-ET</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ar_AE</fullName>
+            <fullName>ar-AE</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ar_BH</fullName>
+            <fullName>ar-BH</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ar_DZ</fullName>
+            <fullName>ar-DZ</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ar_EG</fullName>
+            <fullName>ar-EG</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ar_IQ</fullName>
+            <fullName>ar-IQ</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ar_JO</fullName>
+            <fullName>ar-JO</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ar_KW</fullName>
+            <fullName>ar-KW</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ar_LB</fullName>
+            <fullName>ar-LB</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ar_LY</fullName>
+            <fullName>ar-LY</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ar_MA</fullName>
+            <fullName>ar-MA</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ar_OM</fullName>
+            <fullName>ar-OM</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ar_QA</fullName>
+            <fullName>ar-QA</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ar_SA</fullName>
+            <fullName>ar-SA</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ar_SD</fullName>
+            <fullName>ar-SD</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ar_SY</fullName>
+            <fullName>ar-SY</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ar_TN</fullName>
+            <fullName>ar-TN</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ar_YE</fullName>
+            <fullName>ar-YE</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>az_AZ</fullName>
+            <fullName>az-AZ</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>be_BY</fullName>
+            <fullName>be-BY</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>bg_BG</fullName>
+            <fullName>bg-BG</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>bn_BD</fullName>
+            <fullName>bn-BD</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>bn_IN</fullName>
+            <fullName>bn-IN</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>bs_BA</fullName>
+            <fullName>bs-BA</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ca_ES</fullName>
+            <fullName>ca-ES</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>cs_CZ</fullName>
+            <fullName>cs-CZ</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>cy_GB</fullName>
+            <fullName>cy-GB</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>da_DK</fullName>
+            <fullName>da-DK</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>de_AT</fullName>
+            <fullName>de-AT</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>de_BE</fullName>
+            <fullName>de-BE</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>de_CH</fullName>
+            <fullName>de-CH</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>de_DE</fullName>
+            <fullName>de-DE</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>de_LU</fullName>
+            <fullName>de-LU</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>dz_BT</fullName>
+            <fullName>dz-BT</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>el_CY</fullName>
+            <fullName>el-CY</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>el_GR</fullName>
+            <fullName>el-GR</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_AE</fullName>
+            <fullName>en-AE</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_AG</fullName>
+            <fullName>en-AG</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_AU</fullName>
+            <fullName>en-AU</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_BB</fullName>
+            <fullName>en-BB</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_BE</fullName>
+            <fullName>en-BE</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_BM</fullName>
+            <fullName>en-BM</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_BS</fullName>
+            <fullName>en-BS</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_BW</fullName>
+            <fullName>en-BW</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_BZ</fullName>
+            <fullName>en-BZ</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_CA</fullName>
+            <fullName>en-CA</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_CM</fullName>
+            <fullName>en-CM</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_CY</fullName>
+            <fullName>en-CY</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_DE</fullName>
+            <fullName>en-DE</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_ER</fullName>
+            <fullName>en-ER</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_FJ</fullName>
+            <fullName>en-FJ</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_FK</fullName>
+            <fullName>en-FK</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_GB</fullName>
+            <fullName>en-GB</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_GH</fullName>
+            <fullName>en-GH</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_GI</fullName>
+            <fullName>en-GI</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_GM</fullName>
+            <fullName>en-GM</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_GY</fullName>
+            <fullName>en-GY</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_HK</fullName>
+            <fullName>en-HK</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_ID</fullName>
+            <fullName>en-ID</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_IE</fullName>
+            <fullName>en-IE</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_IL</fullName>
+            <fullName>en-IL</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_IN</fullName>
+            <fullName>en-IN</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_JM</fullName>
+            <fullName>en-JM</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_KE</fullName>
+            <fullName>en-KE</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_KY</fullName>
+            <fullName>en-KY</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_LR</fullName>
+            <fullName>en-LR</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_MG</fullName>
+            <fullName>en-MG</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_MT</fullName>
+            <fullName>en-MT</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_MU</fullName>
+            <fullName>en-MU</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_MW</fullName>
+            <fullName>en-MW</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_MY</fullName>
+            <fullName>en-MY</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_NA</fullName>
+            <fullName>en-NA</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_NG</fullName>
+            <fullName>en-NG</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_NL</fullName>
+            <fullName>en-NL</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_NZ</fullName>
+            <fullName>en-NZ</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_PG</fullName>
+            <fullName>en-PG</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_PH</fullName>
+            <fullName>en-PH</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_PK</fullName>
+            <fullName>en-PK</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_RW</fullName>
+            <fullName>en-RW</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_SB</fullName>
+            <fullName>en-SB</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_SC</fullName>
+            <fullName>en-SC</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_SG</fullName>
+            <fullName>en-SG</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_SH</fullName>
+            <fullName>en-SH</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_SL</fullName>
+            <fullName>en-SL</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_SX</fullName>
+            <fullName>en-SX</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_SZ</fullName>
+            <fullName>en-SZ</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_TO</fullName>
+            <fullName>en-TO</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_TT</fullName>
+            <fullName>en-TT</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_TZ</fullName>
+            <fullName>en-TZ</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_UG</fullName>
+            <fullName>en-UG</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_US</fullName>
+            <fullName>en-US</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_VU</fullName>
+            <fullName>en-VU</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_WS</fullName>
+            <fullName>en-WS</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en_ZA</fullName>
+            <fullName>en-ZA</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>es_AR</fullName>
+            <fullName>es-AR</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>es_BO</fullName>
+            <fullName>es-BO</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>es_CL</fullName>
+            <fullName>es-CL</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>es_CO</fullName>
+            <fullName>es-CO</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>es_CR</fullName>
+            <fullName>es-CR</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>es_CU</fullName>
+            <fullName>es-CU</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>es_DO</fullName>
+            <fullName>es-DO</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>es_EC</fullName>
+            <fullName>es-EC</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>es_ES</fullName>
+            <fullName>es-ES</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>es_GT</fullName>
+            <fullName>es-GT</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>es_HN</fullName>
+            <fullName>es-HN</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>es_MX</fullName>
+            <fullName>es-MX</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>es_NI</fullName>
+            <fullName>es-NI</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>es_PA</fullName>
+            <fullName>es-PA</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>es_PE</fullName>
+            <fullName>es-PE</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>es_PR</fullName>
+            <fullName>es-PR</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>es_PY</fullName>
+            <fullName>es-PY</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>es_SV</fullName>
+            <fullName>es-SV</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>es_US</fullName>
+            <fullName>es-US</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>es_UY</fullName>
+            <fullName>es-UY</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>es_VE</fullName>
+            <fullName>es-VE</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>et_EE</fullName>
+            <fullName>et-EE</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>eu_ES</fullName>
+            <fullName>eu-ES</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>fa_IR</fullName>
+            <fullName>fa-IR</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>fi_FI</fullName>
+            <fullName>fi-FI</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>fr_BE</fullName>
+            <fullName>fr-BE</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>fr_CA</fullName>
+            <fullName>fr-CA</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>fr_CH</fullName>
+            <fullName>fr-CH</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>fr_FR</fullName>
+            <fullName>fr-FR</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>fr_GN</fullName>
+            <fullName>fr-GN</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>fr_HT</fullName>
+            <fullName>fr-HT</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>fr_KM</fullName>
+            <fullName>fr-KM</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>fr_LU</fullName>
+            <fullName>fr-LU</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>fr_MA</fullName>
+            <fullName>fr-MA</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>fr_MC</fullName>
+            <fullName>fr-MC</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>fr_MR</fullName>
+            <fullName>fr-MR</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>fr_WF</fullName>
+            <fullName>fr-WF</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ga_IE</fullName>
+            <fullName>ga-IE</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>gu_IN</fullName>
+            <fullName>gu-IN</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>haw_US</fullName>
+            <fullName>haw-US</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>hi_IN</fullName>
+            <fullName>hi-IN</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>hr_HR</fullName>
+            <fullName>hr-HR</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ht_HT</fullName>
+            <fullName>ht-HT</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ht_US</fullName>
+            <fullName>ht-US</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>hu_HU</fullName>
+            <fullName>hu-HU</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>hy_AM</fullName>
+            <fullName>hy-AM</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>in_ID</fullName>
+            <fullName>in-ID</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>is_IS</fullName>
+            <fullName>is-IS</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>it_CH</fullName>
+            <fullName>it-CH</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>it_IT</fullName>
+            <fullName>it-IT</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>iw_IL</fullName>
+            <fullName>iw-IL</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ja_JP</fullName>
+            <fullName>ja-JP</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ji_US</fullName>
+            <fullName>ji-US</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ka_GE</fullName>
+            <fullName>ka-GE</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>kk_KZ</fullName>
+            <fullName>kk-KZ</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>kl_GL</fullName>
+            <fullName>kl-GL</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>km_KH</fullName>
+            <fullName>km-KH</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>kn_IN</fullName>
+            <fullName>kn-IN</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ko_KP</fullName>
+            <fullName>ko-KP</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ko_KR</fullName>
+            <fullName>ko-KR</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ky_KG</fullName>
+            <fullName>ky-KG</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>lb_LU</fullName>
+            <fullName>lb-LU</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>lo_LA</fullName>
+            <fullName>lo-LA</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>lt_LT</fullName>
+            <fullName>lt-LT</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>lu_CD</fullName>
+            <fullName>lu-CD</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>lv_LV</fullName>
+            <fullName>lv-LV</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>mi_NZ</fullName>
+            <fullName>mi-NZ</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>mk_MK</fullName>
+            <fullName>mk-MK</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ml_IN</fullName>
+            <fullName>ml-IN</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>mr_IN</fullName>
+            <fullName>mr-IN</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ms_BN</fullName>
+            <fullName>ms-BN</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ms_MY</fullName>
+            <fullName>ms-MY</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>mt_MT</fullName>
+            <fullName>mt-MT</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>my_MM</fullName>
+            <fullName>my-MM</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ne_NP</fullName>
+            <fullName>ne-NP</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>nl_AW</fullName>
+            <fullName>nl-AW</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>nl_BE</fullName>
+            <fullName>nl-BE</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>nl_NL</fullName>
+            <fullName>nl-NL</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>nl_SR</fullName>
+            <fullName>nl-SR</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>no_NO</fullName>
+            <fullName>no-NO</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>pl_PL</fullName>
+            <fullName>pl-PL</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ps_AF</fullName>
+            <fullName>ps-AF</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>pt_AO</fullName>
+            <fullName>pt-AO</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>pt_BR</fullName>
+            <fullName>pt-BR</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>pt_CV</fullName>
+            <fullName>pt-CV</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>pt_MZ</fullName>
+            <fullName>pt-MZ</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>pt_PT</fullName>
+            <fullName>pt-PT</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>pt_ST</fullName>
+            <fullName>pt-ST</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>rm_CH</fullName>
+            <fullName>rm-CH</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>rn_BI</fullName>
+            <fullName>rn-BI</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ro_MD</fullName>
+            <fullName>ro-MD</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ro_RO</fullName>
+            <fullName>ro-RO</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ru_AM</fullName>
+            <fullName>ru-AM</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ru_BY</fullName>
+            <fullName>ru-BY</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ru_KG</fullName>
+            <fullName>ru-KG</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ru_KZ</fullName>
+            <fullName>ru-KZ</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ru_LT</fullName>
+            <fullName>ru-LT</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ru_MD</fullName>
+            <fullName>ru-MD</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ru_PL</fullName>
+            <fullName>ru-PL</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ru_RU</fullName>
+            <fullName>ru-RU</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ru_UA</fullName>
+            <fullName>ru-UA</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>sh_BA</fullName>
+            <fullName>sh-BA</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>sh_CS</fullName>
+            <fullName>sh-CS</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>sh_ME</fullName>
+            <fullName>sh-ME</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>sh_ME_USD</fullName>
+            <fullName>sh-ME-USD</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>sk_SK</fullName>
+            <fullName>sk-SK</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>sl_SI</fullName>
+            <fullName>sl-SI</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>sm_US</fullName>
+            <fullName>sm-US</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>sm_WS</fullName>
+            <fullName>sm-WS</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>so_DJ</fullName>
+            <fullName>so-DJ</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>so_SO</fullName>
+            <fullName>so-SO</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>sq_AL</fullName>
+            <fullName>sq-AL</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>sr_BA</fullName>
+            <fullName>sr-BA</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>sr_CS</fullName>
+            <fullName>sr-CS</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>sr_RS</fullName>
+            <fullName>sr-RS</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>sv_SE</fullName>
+            <fullName>sv-SE</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>sw_KE</fullName>
+            <fullName>sw-KE</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ta_IN</fullName>
+            <fullName>ta-IN</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ta_LK</fullName>
+            <fullName>ta-LK</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>te_IN</fullName>
+            <fullName>te-IN</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>tg_TJ</fullName>
+            <fullName>tg-TJ</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>th_TH</fullName>
+            <fullName>th-TH</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ti_ET</fullName>
+            <fullName>ti-ET</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>tl_PH</fullName>
+            <fullName>tl-PH</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>tr_TR</fullName>
+            <fullName>tr-TR</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>uk_UA</fullName>
+            <fullName>uk-UA</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ur_PK</fullName>
+            <fullName>ur-PK</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>uz_LATN_UZ</fullName>
+            <fullName>uz-LATN-UZ</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>vi_VN</fullName>
+            <fullName>vi-VN</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>xh_ZA</fullName>
+            <fullName>xh-ZA</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>yo_BJ</fullName>
+            <fullName>yo-BJ</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>zh_CN</fullName>
+            <fullName>zh-CN</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>zh_CN_PINYIN</fullName>
+            <fullName>zh-CN-PINYIN</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>zh_CN_STROKE</fullName>
+            <fullName>zh-CN-STROKE</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>zh_HK</fullName>
+            <fullName>zh-HK</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>zh_HK_STROKE</fullName>
+            <fullName>zh-HK-STROKE</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>zh_MO</fullName>
+            <fullName>zh-MO</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>zh_MY</fullName>
+            <fullName>zh-MY</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>zh_SG</fullName>
+            <fullName>zh-SG</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>zh_TW</fullName>
+            <fullName>zh-TW</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>zh_TW_STROKE</fullName>
+            <fullName>zh-TW-STROKE</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>zu_ZA</fullName>
+            <fullName>zu-ZA</fullName>
             <default>false</default>
         </values>
     </picklistValues>

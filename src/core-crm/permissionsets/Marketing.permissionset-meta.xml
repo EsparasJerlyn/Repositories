@@ -810,6 +810,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Marketing_Interaction__c.Match_My_Skill_Completion__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Marketing_Interaction__c.Migration_Key__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1701,6 +1706,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Marketing_Staging__c.Lead__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Marketing_Staging__c.Match_My_Skill_Completion__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

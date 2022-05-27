@@ -33,6 +33,8 @@ public with sharing class MarketingStagingTriggerHandler implements Disableable,
     Map<String,Marketing_Segmentation__c> marSegmentationToUpsertMap = new Map<String,Marketing_Segmentation__c>();
     Map<String,Marketing_Interaction__c> marInteractionToInsertMap = new Map<String,Marketing_Interaction__c>();
     Map<String,Marketing_Course_Application__c> marCourseAppToUpsertMap = new Map<String,Marketing_Course_Application__c>();
+    Map<String,Marketing_Staging__c> marStageToUpdateMap = new Map<String, Marketing_Staging__c>();
+
     List<Potential_Duplicate__c> potentialDupToInsertList = new List<Potential_Duplicate__c>();
     
     for(sObject mStaging: newItems.values()){
@@ -266,6 +268,13 @@ public with sharing class MarketingStagingTriggerHandler implements Disableable,
 
     if(!contactsToUpsertMap.isEmpty()){
         upsert contactsToUpsertMap.values();
+        for(String nameEmailItem : contactsToUpsertMap.keySet()){
+            marStageToUpdateMap.put(nameEmailItem, new Marketing_Staging__c(
+                Id = marStagingMap.get(nameEmailItem).Id,
+                Contact__c = contactsToUpsertMap.get(nameEmailItem).Id 
+                )
+            );
+        }
     }
 
     if(!leadsToUpsertMap.isEmpty()){
@@ -326,6 +335,12 @@ public with sharing class MarketingStagingTriggerHandler implements Disableable,
                 )
             );
         }
+
+        marStageToUpdateMap.put(nameEmailItem, new Marketing_Staging__c(
+            Id = marStagingMap.get(nameEmailItem).Id,
+            Lead__c = leadsToUpsertMap.get(nameEmailItem).Id 
+            )
+        );
     }
     //upsert marketing segmentation records
     if(!marSegmentationToUpsertMap.isEmpty()){
@@ -355,6 +370,10 @@ public with sharing class MarketingStagingTriggerHandler implements Disableable,
 
     if(!potentialDupToInsertList.isEmpty()){
         insert potentialDupToInsertList;
+    }
+
+    if(!marStageToUpdateMap.isEmpty()){
+        update marStageToUpdateMap.values();
     }
 
   }

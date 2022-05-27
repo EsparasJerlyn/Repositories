@@ -23,13 +23,13 @@ public with sharing class MarketingStagingTriggerHandlerTest {
         msList[0].First_Name__c = 'Test1';
         msList[0].Last_Name__c = 'Test1 LastName';
         msList[0].Email__c = 'Test1@email.com';
-        msList[0].Dont_Market__c = true;
+        msList[0].Salutation__c = 'Mr';
         insert msList;
         Contact contact = [  SELECT Id, 
                             (SELECT Id FROM Marketing_Segmentations__r ),
                             (SELECT Id FROM Marketing_Course_Applications__r ),
                             (SELECT Id FROM Marketing_Interactions__r ) 
-                            FROM Contact WHERE Dont_Market__c = true 
+                            FROM Contact WHERE Salutation = 'Mr' 
                             LIMIT 1];
         system.assert(contact != null,'No Marketing segmentation created');
         system.assert(!contact.Marketing_Segmentations__r.isEmpty(),'No Marketing segmentation created');
@@ -50,7 +50,7 @@ public with sharing class MarketingStagingTriggerHandlerTest {
         msList[0].First_Name__c = 'Test1';
         msList[0].Last_Name__c = 'Test1 LastName';
         msList[0].Email__c = 'Test1@email.com';
-        msList[0].Dont_Market__c = false;
+        msList[0].Salutation__c = 'Mr';
         msList[0].Applicant_Id__c = '12345';
         msList[0].Preference_Number__c = 1;
         insert msList;
@@ -60,7 +60,7 @@ public with sharing class MarketingStagingTriggerHandlerTest {
         msList2[0].First_Name__c = 'Test1';
         msList2[0].Last_Name__c = 'Test1 LastName';
         msList2[0].Email__c = 'Test1@email.com';
-        msList2[0].Dont_Market__c = true;
+        msList2[0].Salutation__c = 'Mr';
         msList2[0].Applicant_Id__c = '12345';
         msList2[0].Preference_Number__c = 1;
         insert msList2;
@@ -69,7 +69,7 @@ public with sharing class MarketingStagingTriggerHandlerTest {
                             (SELECT Id FROM Marketing_Segmentations__r ),
                             (SELECT Id FROM Marketing_Course_Applications__r ),
                             (SELECT Id FROM Marketing_Interactions__r ) 
-                            FROM Contact WHERE Dont_Market__c = true 
+                            FROM Contact WHERE Salutation = 'Mr'  
                             LIMIT 1];
         system.assert(contact != null,'No Marketing segmentation created');
         system.assert(!contact.Marketing_Segmentations__r.isEmpty(),'No Marketing segmentation created');
@@ -146,7 +146,6 @@ public with sharing class MarketingStagingTriggerHandlerTest {
         msList[0].First_Name__c = 'Test1';
         msList[0].Last_Name__c = 'Test1 LastName';
         msList[0].Email__c = 'Test1@email.com';
-        msList[0].Dont_Market__c = false;
         msList[0].Applicant_Id__c = '12345';
         msList[0].Preference_Number__c = 1;
         insert msList;
@@ -156,7 +155,6 @@ public with sharing class MarketingStagingTriggerHandlerTest {
         msList2[0].First_Name__c = 'Test1';
         msList2[0].Last_Name__c = 'Test1 LastName';
         msList2[0].Email__c = 'Test1@email.com';
-        msList2[0].Dont_Market__c = true;
         msList2[0].Applicant_Id__c = '12345';
         msList2[0].Preference_Number__c = 1;
         insert msList2;
@@ -219,7 +217,6 @@ public with sharing class MarketingStagingTriggerHandlerTest {
         msList[0].First_Name__c = 'Test1';
         msList[0].Last_Name__c = 'Test1 LastName';
         msList[0].Email__c = 'Test1@email.com';
-        msList[0].Dont_Market__c = false;
         msList[0].Applicant_Id__c = '12345';
         msList[0].Preference_Number__c = 1;
         insert msList;
@@ -229,7 +226,6 @@ public with sharing class MarketingStagingTriggerHandlerTest {
         msList2[0].First_Name__c = 'Test1';
         msList2[0].Last_Name__c = 'Test1 LastName';
         msList2[0].Email__c = 'Test1@email.com';
-        msList2[0].Dont_Market__c = true;
         msList2[0].Applicant_Id__c = '12345';
         msList2[0].Preference_Number__c = 1;
         insert msList2;
