@@ -10,6 +10,11 @@ nav {
     width: 50%;
 }
 
+.Foryoulink{
+    color: var(--greys-color-bodytext);
+    font-family: ProximaNova-Bold;
+}
+
 @media only screen and (max-width: 764px) {
     
 }
