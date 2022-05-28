@@ -18,6 +18,13 @@
                         </valueListItems>
                         <valueListItems>
                             <value>Product_Request__c.Preview</value>
+                            <visibilityRule>
+                                <criteria>
+                                    <leftValue>{!Record.Product_Request_Status__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>Release</rightValue>
+                                </criteria>
+                            </visibilityRule>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
