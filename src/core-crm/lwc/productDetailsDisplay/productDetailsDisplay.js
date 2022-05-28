@@ -220,18 +220,20 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     this.linkedInLogo = qutResourceImg + "/QUTImages/Icon/linkedInLogo.svg";
     this.xMark = qutResourceImg + "/QUTImages/Icon/xMark.svg";
 
-    getQuestions({
-      productReqId: this.productDetails.Course__r.ProductRequestID__c
-    })
-      .then((results) => {
-        if (results.length > 0) {
-          this.responseData = results;
-          this.questions = this.formatQuestions(results);
-        }
+    if (this.productDetails.Course__c) {
+      getQuestions({
+        productReqId: this.productDetails.Course__r.ProductRequestID__c
       })
-      .catch((e) => {
-        this.generateToast("Error.", LWC_Error_General, "error");
-      });
+        .then((results) => {
+          if (results.length > 0) {
+            this.responseData = results;
+            this.questions = this.formatQuestions(results);
+          }
+        })
+        .catch((e) => {
+          this.generateToast("Error.", LWC_Error_General, "error");
+        });
+    }
 
     // Display AddToCart / Register Interest
     if (
