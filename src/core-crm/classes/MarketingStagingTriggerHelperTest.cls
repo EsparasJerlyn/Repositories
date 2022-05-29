@@ -84,10 +84,10 @@ public with sharing class MarketingStagingTriggerHelperTest {
 
         Test.startTest();
 
-        Contact newCon = new Contact(FirstName = 'Test1', LastName = 'Test1 LastName', Email = 'Test1@email.com', Company_Name__c = 'test company');
-        insert newCon;
-        Contact newCon2 = new Contact(FirstName = 'Test1', LastName = 'Test1 LastName', Email = 'Test1@email.com', Company_Name__c = 'test company2');
-        insert newCon2;
+        List<Contact> contactList = new List<Contact>();
+        contactList.add(new Contact(FirstName = 'Test1', LastName = 'Test1 LastName', Email = 'Test1@email.com', Company_Name__c = 'test company'));
+        contactList.add(new Contact(FirstName = 'Test1', LastName = 'Test1 LastName', Email = 'Test1@email.com', Company_Name__c = 'test company2'));
+        insert contactList;
         List<Marketing_Staging__c> msList = new List<Marketing_Staging__c>();
         msList.add(new Marketing_Staging__c());
         msList[0].First_Name__c = 'Test1';
@@ -180,10 +180,12 @@ public with sharing class MarketingStagingTriggerHelperTest {
 
         Test.startTest();
 
-        Lead lead = new Lead(FirstName = 'Test1', LastName = 'Test1 LastName', Email = 'Test1@email.com', Company ='Test Company');
-        insert lead;
-        Lead newLead2 = new Lead(FirstName = 'Test1', LastName = 'Test1 LastName', Email = 'Test1@email.com', Company ='Test Company');
-        insert newLead2;
+        List<Lead> leadList = new List<Lead>();
+        leadList.add(new Lead(FirstName = 'Test1', LastName = 'Test1 LastName', Email = 'Test1@email.com', Company ='Test Company'));
+        leadList.add(new Lead(FirstName = 'Test1', LastName = 'Test1 LastName2', Email = 'Test1@email.com', Company ='Test Company'));
+        insert leadList;
+        Lead leadToUpdate = new Lead(Id = leadList[1].Id, LastName = 'Test1 LastName');
+        update leadToUpdate;
         List<Marketing_Staging__c> msList = new List<Marketing_Staging__c>();
         msList.add(new Marketing_Staging__c());
         msList[0].First_Name__c = 'Test1';
@@ -209,10 +211,12 @@ public with sharing class MarketingStagingTriggerHelperTest {
         
         Test.startTest();
 
-        Lead lead = new Lead(FirstName = 'Test1', LastName = 'Test1 LastName', Email = 'Test1@email.com', Company ='Test Company');
-        insert lead;
-        Lead newLead2 = new Lead(FirstName = 'Test1', LastName = 'Test1 LastName', Email = 'Test1@email.com', Company ='Test Company');
-        insert newLead2;
+        List<Lead> leadList = new List<Lead>();
+        leadList.add(new Lead(FirstName = 'Test1', LastName = 'Test1 LastName', Email = 'Test1@email.com', Company ='Test Company'));
+        leadList.add(new Lead(FirstName = 'Test1', LastName = 'Test1 LastName2', Email = 'Test1@email.com', Company ='Test Company'));
+        insert leadList;
+        Lead leadToUpdate = new Lead(Id = leadList[1].Id, LastName = 'Test1 LastName');
+        update leadToUpdate;
         List<Marketing_Staging__c> msList = new List<Marketing_Staging__c>();
         msList.add(new Marketing_Staging__c());
         msList[0].First_Name__c = 'Test1';
