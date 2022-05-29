@@ -390,6 +390,7 @@ div.main-container-bc [role=navigation] ol.slds-breadcrumb li:last-child{
     width: 100%  !important;
     order: 3 !important;
     text-align: right !important;
+    margin-right: 0.5rem;
 }
 
 .forceCommunityThemeHeaderB2B .cartButton {
@@ -1262,6 +1263,11 @@ span[c-customcombobox_customcombobox].slds-listbox__option-meta_entity {
   font-weight: var(--text-weight-700);
 }
 
+.searchTitle [for="input-7"]
+{
+    color: 	var(--greys-color-bodytext) !important;
+}
+
 /*end of search result */
 
 /*GroupBooking*/
@@ -1348,7 +1354,11 @@ span[c-customcombobox_customcombobox].slds-listbox__option-meta_entity {
   }	
 
   .forceCommunityThemeHeaderB2B .centerContainer{
-    height: 13rem !important;
+    /*height: 13rem !important;*/
+  }
+
+  [data-region-name="themeHeader"]{
+        padding: 0px !important;
   }
 
 }
@@ -1582,7 +1592,7 @@ span[c-customcombobox_customcombobox].slds-listbox__option-meta_entity {
 		padding: 0rem;
 		height: 0px;
     width: 100% !important;
-    display: block !important;
+    display: none !important;
 	}
 
   

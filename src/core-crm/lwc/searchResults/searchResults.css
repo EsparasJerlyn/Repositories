@@ -59,6 +59,7 @@ label.slds-checkbox__label span.slds-form-element__label{
     font-weight: var(--text-weight-700);
 }
 
+
 .slds-accordion.searchResult .slds-accordion__summary{
     background: none !important;
 }
