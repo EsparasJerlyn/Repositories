@@ -116,11 +116,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>isLMSTriggered__c</field>
-            <table>hed__Course__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>CourseLoop_Full_Proposal_ID__c</field>
             <table>hed__Course__c</table>
         </columns>
@@ -705,11 +700,6 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Total_Number_of_Registered_Learners__c</field>
-            <table>hed__Course__c.hed__Course_Offerings__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>isLMSTriggered__c</field>
             <table>hed__Course__c.hed__Course_Offerings__r</table>
         </columns>
         <columns>

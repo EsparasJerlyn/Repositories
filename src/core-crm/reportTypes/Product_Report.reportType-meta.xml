@@ -224,11 +224,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>isLMSTriggered__c</field>
-            <table>Product_Request__c.Courses__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>CourseLoop_Full_Proposal_ID__c</field>
             <table>Product_Request__c.Courses__r</table>
         </columns>
