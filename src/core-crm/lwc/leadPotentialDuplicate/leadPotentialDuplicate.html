@@ -1,0 +1,106 @@
+<template>
+    <lightning-card  variant="Narrow"  title={cardTitle} icon-name="standard:merge">
+        <template if:true={hasPotentialDuplicate}>
+            <p class="slds-p-left_xx-large"><lightning-formatted-url value="View Duplicates" label="View Duplicates" target="_blank" onclick={handleViewDuplicateLink}></lightning-formatted-url></p>
+        </template>
+    </lightning-card>    
+    <!-- Displays the first modal -->
+    <template if:true={isLeadDuplicateModalOpen}>
+        <section class="slds-modal slds-fade-in-open">
+            <lightning-spinner if:true={isLoading} alternative-text="Loading" size="x-small"></lightning-spinner> 
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModalAction}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse" size="small" ></lightning-icon>
+                    </button>
+                    <h2 class="slds-text-heading_medium slds-hyphenate">{modalTitle}</h2>
+                </header>  
+                <div class="slds-modal__content slds-p-around_medium">
+                    <div class="slds-p-bottom_x-small">
+                        <strong>{leadInfoTableTitle}</strong>
+                    </div>
+                    <div class ="slds-scrollable">
+                        <c-custom-datatable
+                            records={records} 
+                            columns={columns}
+                            onsave={handleInlineSave}>
+                        </c-custom-datatable>
+                    </div>
+                    <div class="slds-p-bottom_x-small slds-p-top_medium">
+                        <strong>{duplicateInfoTableTitle}</strong>
+                        <lightning-helptext content="To merge duplicates, choose below leads/contacts that are duplicate. Then click Next and choose the record to keep. You can also update the main lead above before merging."></lightning-helptext>
+                    </div>
+                    <div class ="slds-scrollable">
+                        <c-custom-datatable 
+                            records={duplicateLeadRecords} 
+                            columns={duplicateLeadColumns}
+                            with-checkbox-column
+                            onselect={handleSelectedRows}>
+                        </c-custom-datatable>
+                    </div>
+                </div> 
+                <footer class="slds-modal__footer">
+                    <lightning-button
+                        label="Cancel"
+                        variant="neutral"
+                        onclick={closeModalAction}>
+                    </lightning-button>
+                    <lightning-button
+                        disabled={disableNextButton}
+                        label="Next"
+                        variant="brand"
+                        onclick={handleNextModal}
+                        type="button"
+                        class="slds-m-left_medium">
+                    </lightning-button>  
+                </footer>                
+            </div>
+        </section>         
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <!-- Displays the next modal upon clicking next -->
+    <template if:true={isNextModalOpen}>
+        <section class="slds-modal slds-fade-in-open">
+            <lightning-spinner if:true={isLoading} alternative-text="Loading" size="x-small"></lightning-spinner>
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModalAction}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse" size="small" ></lightning-icon>
+                    </button>
+                    <h2 class="slds-text-heading_medium slds-hyphenate">{modalTitle}</h2>
+                </header>                
+                <div class="slds-modal__content slds-p-around_medium">
+                    <div class="slds-p-bottom_x-small">
+                        <strong>{duplicateInfoTableTitle}</strong>
+                        <lightning-helptext content="Choose 1 record to keep. You can only keep contact record when a contact part of the below list. Please be aware that the leads/contacts not selected will be deleted."></lightning-helptext>
+                    </div>                   
+                    <div class ="slds-scrollable">
+                        <c-custom-datatable 
+                            records={leadDuplicates} 
+                            columns={duplicateLeadColumns}
+                            with-checkbox-column
+                            max-row-selection={maxRowSelection}
+                            onselect={handleSelectRecordToSave}>
+                        </c-custom-datatable>
+                    </div>
+                </div> 
+                <footer class="slds-modal__footer">
+                    <lightning-button
+                        label="Cancel"
+                        variant="neutral"
+                        onclick={closeModalAction}>
+                    </lightning-button>
+                    <lightning-button
+                        label="Save"
+                        disabled={disableSaveButton}
+                        variant="brand"
+                        onclick={handleSave}
+                        type="button"
+                        class="slds-m-left_medium">
+                    </lightning-button>                    
+                </footer>                
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>    
+</template>

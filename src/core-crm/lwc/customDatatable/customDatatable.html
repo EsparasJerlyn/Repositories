@@ -10,7 +10,9 @@
             onsave={handleSave}
             onsort={handleSort} 
             onrowaction={handleRowActions}
-            onrowselection={handelSelectedRows}>
+            onrowselection={handelSelectedRows}
+            max-row-selection={maxRowSelection}
+            selected-rows={selectedRows}>
         </lightning-datatable>
     </template> 
     <template if:false={withCheckboxColumn}>

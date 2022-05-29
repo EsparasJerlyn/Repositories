@@ -240,12 +240,8 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentInstanceProperties>
-                    <name>displayOption</name>
-                    <value>BOTH</value>
-                </componentInstanceProperties>
-                <componentName>runtime_sales_merge:mergeCandidatesPreviewCard</componentName>
-                <identifier>runtime_sales_merge_mergeCandidatesPreviewCard</identifier>
+                <componentName>leadPotentialDuplicate</componentName>
+                <identifier>c_leadPotentialDuplicate1</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>

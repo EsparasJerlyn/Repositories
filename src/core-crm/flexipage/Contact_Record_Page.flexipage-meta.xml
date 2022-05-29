@@ -184,6 +184,12 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>contactPotentialDuplicate</componentName>
+                <identifier>c_contactPotentialDuplicate1</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
                 <componentName>runtime_sales_activities:activityPanel</componentName>
                 <identifier>runtime_sales_activities_activityPanel</identifier>
             </componentInstance>

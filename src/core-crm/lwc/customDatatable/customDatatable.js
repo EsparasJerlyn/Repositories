@@ -19,6 +19,8 @@
           @api enableEdit;
           @api enableDelete;
           @api withCheckboxColumn;
+          @api maxRowSelection;
+          @api selectedRows;
       
           sortBy;
           sortDirection; 
