@@ -1,7 +1,7 @@
 <template>
     <!-- TO DO: MODAL -->
     <div id="regModal" class="modal">
-        <div class="modal-content text">
+        <div class="modal-content text px3 pt2">
             <div class="slds-m-top_small slds-m-right_x-large slds-p-right_large slds-clearfix"> <!--X button -->
                 <span class=" slds-float_right cursor" onclick={closeModal}><img src={xButton}></span>
             </div>
@@ -13,10 +13,10 @@
                 <div class="slds-text-align_center slds-m-vertical_medium slds-m-horizontal_small slds-p-horizontal_small">
                     <a href="" class="sso-text colored">{label.qutSSOText}</a>
                 </div>
-                <div class="center">
+                <div class="center px2">
                     <button 
                         onclick={handleLinkedInOnClick} 
-                        class="button slds-button slds-button_brand slds-p-vertical_small slds-p-horizontal_xx-large"
+                        class="button slds-button slds-button_brand slds-p-vertical_small slds-p-horizontal_x-large btn-reg"
                         > 
                         <img src ={linkedInLogo} class="slds-m-around_x-small">
                         {label.registerWithLinkedIn}</button>
@@ -27,7 +27,7 @@
                     <div class="indicate-text">
                         <span class="required-text">* </span><span style="font-style: italic">{label.requiredField}</span>
                     </div>
-                    <div class="slds-grid slds-grid_vertical">
+                    <div class="slds-grid slds-grid_vertical pb2">
                         <!--First Name and Last Name-->
                         <div class=" slds-grid slds-gutters slds-wrap">
                             <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2">
@@ -213,7 +213,7 @@
                     </div>
                 </div>
                 <!--Modal Footer Buttons-->
-                <div class="modal-footer slds-grid slds-gutters center slds-m-horizontal_x-small">
+                <div class="modal-footer slds-grid slds-gutters center slds-m-horizontal_x-small pb3">
                     <div class="slds-col slds-size_1-of-2">
                         <button class="slds-button slds-button_outline-brand slds-float_right btnCancel" onclick={closeModal}>Cancel</button>
                     </div>

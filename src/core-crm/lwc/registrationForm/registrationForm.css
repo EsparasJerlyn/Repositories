@@ -39,37 +39,9 @@
   background-color: rgba(0, 0, 0, 0.4); 
 }
 
-/* Modal Content */
-/*.modal-content {
-  background-color: #FFFFFF;
-  margin: auto;
-  border: 1px solid #888;
-  width: 806px;
-  height: 100%;
-  top: 50%;
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-family: "ProximaNova";
-  overflow-y: scroll;
-}*/
-
 .modal-content::-webkit-scrollbar{
   display: none;
 }
-
-/* The Close Button */
-/* .x-button {
-  color: #0066B9;
-  font-size: 32px;
-  font-weight: bold;
-}
-.x-button:hover,
-.x-button:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-} */
 
 .btnCancel,
 .btnContinue{
@@ -77,30 +49,6 @@
   min-width: 100%;
 }
 
-/*.button {
-  background-color: #0066B9;   
-  color: rgb(255, 255, 255);
-  font-weight: 700;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  border: none;
-}
-
-.cancel-button{
-  background: #FFFFFF;  
-  border: 2px solid #0066B9;
-  box-sizing: border-box;
-  font-weight: 700;
-
-}
-.footer-button{
-  width: 175px;
-  height: 48px;
-  left: 420px;
-  bottom: 32px;
-}*/
 .linkedIn-button{
   position: static;
   width: 269px;
@@ -114,12 +62,7 @@
   left: 0px;
   bottom: 0px;
 }
-/*.label-text{
-  font-weight: 700;
-  color: #1C1C1C;
-  font-size: 18px;
-  line-height: 21px;
-}*/
+
 .required-text{
   color: #B90015;
 }
@@ -129,31 +72,11 @@
   padding-right: .5rem;
 }
 
-/*.slds-icon-text-warning {
-  --slds-c-icon-color-foreground: #B90015 !important;
-}*/
-
 .center{
   display: flex;
   justify-content: center;
   align-items: center;
 }
-
-/*.input-element{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 1px 16px;
-  position: static;
-  height: 48px;
-  left: 0px;
-  border: 1px solid #0066B9;
-  box-sizing: border-box;
-  flex: none;
-  align-self: stretch;
-  flex-grow: 0;
-  margin: 8px 0px;
-} */
 
 .input-text-area{
   height: 112px !important;
@@ -200,6 +123,13 @@
   }
 }
 
+@media screen and (max-width: 764px) {
+  .px3, .pt2{
+    padding: 0;
+  }
+  
+} 
+
 @media screen and (min-width: 765px) {
   .slds-large-size_1-of-2, .slds-large-size--1-of-2,
   .slds-medium-size_1-of-2, .slds-medium-size--1-of-2 {
@@ -211,123 +141,10 @@
   
 } 
 
-
-
-/* .register-text {
-
-    color: #CCBFBF;
-    font-size: 14px;
-    float: right;
-} */
-
-/* .error {
-
-    text-align: center;
-    word-break: break-word;
-    max-width: 20rem;
-    color: #ff9e9e;
-} */
-/* .sub-heading {
-
-  font-size: 14px;
-  color: rgb(255, 255, 255);
-} */
-
-/* .input-icon {
-
-  position: absolute;
-  margin: 0.9rem 0.7rem;
-} */
-
-
-/* .datepicker {
-line-height: 0;
-} */
-
-
-/* .register-heading {
-
-    max-width: 25rem;
-    font-weight: 700;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
+button.btn-reg {
+  display: flex !important;
 }
 
-.slds-grid_vertical .slds-col {
-
-    padding-top: 0.3rem;
-    padding-bottom: 0.3rem;
+.cursor{
+  cursor: pointer;
 }
-.tooltip {
-    position: relative;   
-    border-bottom: 1px dotted black;
-  }
-   */
-  /* .tooltip .tooltiptext {
-    visibility: hidden;
-    max-width: 250px;
-    width: max-content;
-    background-color: #555;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px 3px;
-    position: absolute;
-    z-index: 1;    
-    margin-left: 0.5rem;
-    bottom: 0;
-    left: 100%;
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-  
-  .tooltip .tooltiptext::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: -4px;
-    margin-left: -6px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #555 transparent transparent transparent;
-    transform: rotate(90deg);
-  }
-  
-  .tooltip:hover .tooltiptext {
-    visibility: visible;
-    opacity: 1;
-  }
-
-
-  .tooltipEmail:hover ~ .usernameColumn .tooltip .tooltiptext {
-
-    visibility: visible;
-    opacity: 1;
-  }
-
-  .tooltipError {
-
-    background-color: red !important;
-    border: 1px solid white;
-  }
-
-  .tooltip .tooltipError::after {
-
-    border-color: white transparent transparent transparent !important;
-  }
-
-  .tooltipShow {
-
-    display: block;
-    visibility: visible !important;
-    opacity: 1 !important;
-  }
-
-  .tooltipHide {
-
-    display: none;
-  } */
-
-  .cursor{
-    cursor: pointer;
-  }
