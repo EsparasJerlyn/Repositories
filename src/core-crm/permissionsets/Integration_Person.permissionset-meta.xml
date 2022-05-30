@@ -1477,7 +1477,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Marketing_Course_Application__c.Application_Condition_Verification_Statu__c</field>
+        <field>Marketing_Course_Application__c.App_Condition_Verification_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2467,7 +2467,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Marketing_Staging__c.Application_Condition_Verification_Statu__c</field>
+        <field>Marketing_Staging__c.App_Condition_Verification_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

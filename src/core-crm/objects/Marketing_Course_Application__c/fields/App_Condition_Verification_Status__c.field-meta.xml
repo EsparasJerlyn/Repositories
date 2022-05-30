@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Application_Condition_Verification_Statu__c</fullName>
+    <fullName>App_Condition_Verification_Status__c</fullName>
     <externalId>false</externalId>
-    <label>Application Condition Verification Statu</label>
+    <label>App Condition Verification Status</label>
     <length>80</length>
     <required>false</required>
     <trackHistory>false</trackHistory>

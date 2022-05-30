@@ -42,7 +42,8 @@ public with sharing class MarketingStagingTriggerHelper{
         'SPAD__c','Page_Display_Name__c','Page_URL__c','UTM_Source__c','UTM_Campaign__c','UTM_Medium__c',
         'UTM_Term__c','UTM_Content__c','Enquiry_Type__c','Enquiry_Description__c','EDM_Last_Send_DateTime__c','Fee_Amount__c',
         'Discount_Amount__c','Country_Joining_From__c','QUT_Sloan_MIT_Affiliation__c','Has_Attended__c','Event_Agency_Host__c',
-        'Event_City__c','Event_Date__c','Event_Name__c','QUT_Staff_Name__c','QUT_Staff_Email__c','Event_Type__c','Match_My_Skill_Completion__c'
+        'Event_City__c','Event_Date__c','Event_Name__c','QUT_Staff_Name__c','QUT_Staff_Email__c','Event_Type__c','Match_My_Skill_Completion__c',
+        'MMS_Process_State__c'
     };
 
     private static final List<String> MARKETING_APPLICATION_FIELDS = new List<String>{
@@ -56,7 +57,8 @@ public with sharing class MarketingStagingTriggerHelper{
         'Application_Status_Date__c','Submission_Date__c','Offer_Date__c','Intake_Period_Type__c','Offer_Expiry_Date__c','IsApplying_for_Visa_Onshore__c',
         'IsPackaged_Offer__c','Offer_Response_Date__c','Scholarship_Name__c','Scholarship_Status__c','Previous_Enrolled_Student__c','IsOffer_Made__c',
         'Admission_Category__c','Admission_Period__c','Admission_Status__c','Student_Study_Package_Status__c','Agency_Branch__c','Agency_Country__c',
-        'Agency_Email__c','Agency_Name__c'
+        'Agency_Email__c','Agency_Name__c','Has_Offer_Condition__c','Offer_Status__c','Offer_Status_Date__c','Application_Number__c',
+        'Is_International_Student_Application__c','Is_Research_Application__c','App_Condition_Verification_Status__c','Admission_Process__c'
     };
 
     private static final Map<String,String> CONTACT_FIELDS = new Map<String,String>{
