@@ -4314,7 +4314,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Marketing_Course_Application__c.Environment_Responsibilities_Applicant__c</field>
+        <field>Marketing_Course_Application__c.Home_Environment_Responsibilities_Applic__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

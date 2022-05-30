@@ -50,7 +50,7 @@ public with sharing class MarketingStagingTriggerHelper{
         'Preference_Number__c', 'Course_Code__c','Course_Level__c','Course_Name__c','Course_Major__c','Course_Campus__c',
         'Course_URL__c','Pathway_Principal_Course_Code__c','Pathway_Principal_Course_Name__c','Pathway_Principal_Course_Owning_Faculty__c',
         'Faculty__c','Course_Description__c','Offer_Exists__c','Course_Start_Month__c','Admission_Year__c','Course_Start_Date__c',
-        'Environment_Responsibilities_Applicant__c','Personal_Illness_Disability_Applicant__c','Educational_Disruption_Applicant__c',
+        'Home_Environment_Responsibilities_Applic__c','Personal_Illness_Disability_Applicant__c','Educational_Disruption_Applicant__c',
         'English_Language_Difficulties_Applicant__c','EAS_Application__c','Financial_Hardship_Applicant__c','Course_Allocability_Status__c',
         'QTAC_Offer_Able__c','QTAC_Offer_Round__c','Intake_Year__c','isAgent_Assisted__c','Submission_Format__c','Application_Status__c',
         'Application_Status_Date__c','Submission_Date__c','Offer_Date__c','Intake_Period_Type__c','Offer_Expiry_Date__c','IsApplying_for_Visa_Onshore__c',

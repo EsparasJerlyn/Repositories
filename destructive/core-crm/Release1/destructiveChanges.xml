@@ -337,6 +337,9 @@
         <members>hed__Program_Plan__c.Core_Concepts__c</members>
         <members>hed__Program_Plan__c.More_Details__c</members>
         <members>hed__Program_Plan__c.Enrolment_Rules__c</members>
+        <!--DEPP-2619-->
+        <members>Marketing_Staging__c.Environment_Responsibilities_Applicant__c</members>
+        <members>Marketing_Course_Application__c.Environment_Responsibilities_Applicant__c</members>
         <name>CustomField</name>
     </types>
 

@@ -237,7 +237,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Marketing_Staging__c.Environment_Responsibilities_Applicant__c</field>
+        <field>Marketing_Staging__c.Home_Environment_Responsibilities_Applic__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
