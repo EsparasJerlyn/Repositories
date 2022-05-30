@@ -150,7 +150,7 @@ export default class CartDetails extends LightningElement {
       console.log("cart update error");
       console.log(error);
     });
-}
+  }
 
   idleRedirect() {
     // Init Variables
@@ -300,7 +300,13 @@ export default class CartDetails extends LightningElement {
       cartItemId: cartItemId
     })
       .then(() => {
-        //
+
+        //custom event to update the cart item counter
+        this.dispatchEvent(new CustomEvent("cartchanged", {
+          bubbles: true,
+          composed: true
+        }));
+
       })
       .catch((error) => {
         console.log("delete error");
