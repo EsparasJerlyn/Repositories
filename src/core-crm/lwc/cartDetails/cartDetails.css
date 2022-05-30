@@ -81,6 +81,7 @@ span.slds-checkbox abbr {
     text-decoration: none;
 }
 
+
 @media only screen and (max-width: 764px) {
     .component {
         padding: 10px 10px;
@@ -109,6 +110,9 @@ span.slds-checkbox abbr {
         padding: 10px 0px !important;
     }
 }
+
+
+
 
 @media only screen and (min-width: 765px) {
     .removedItem-button {

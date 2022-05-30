@@ -4,7 +4,7 @@
     <div class="component">
 
         <div class="heading1 slds-m-bottom_medium main-color-blue500">Cart Summary</div>
-        <div class="bodyRegular slds-m-bottom_large"><i><span class="asterisk">*</span>indicates a required field</i></div>
+        <!--<div class="bodyRegular slds-m-bottom_large"><i><span class="asterisk">*</span>indicates a required field</i></div>-->
 
         <div class="component-title">
             <div class="heading2 main-color-blue500">Your Details</div>
@@ -432,13 +432,13 @@
         </div>
 
         <br>
-        <div class="slds-grid terms-condition">
+        <div class="slds-grid terms-condition confirm">
             <lightning-input type="checkbox" name="cbDetails" required onchange={checkEnablePaymentCB} class="bodyRegular"></lightning-input>
-                <label for="terms">I confirm my details are correct</label>
+                <label for="terms">I confirm my details are correct<sup class="req">*</sup></label>
         </div>
-        <div class="slds-grid terms-condition">
+        <div class="slds-grid terms-condition tandc">
             <lightning-input type="checkbox" id="terms" name="cbTerms" required onchange={checkEnablePaymentCB}></lightning-input>
-            <label for="terms">I agree with the <a href="#">Terms and Conditions</a></label>
+            <label for="terms">I agree with the <a href="#" target="_blank">Terms and Conditions</a><sup class="req">*</sup></label>
         </div>
     </div>
     <!-- Totals ends here -->
