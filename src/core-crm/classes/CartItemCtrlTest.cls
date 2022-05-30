@@ -29,13 +29,13 @@ public with sharing class CartItemCtrlTest {
     insert contacts;
 
     //get the sys admin user to run the insertion of portal user
-    User SYS_ADMIN = [
+    User PORTAL_SYS_ADMIN = [
         SELECT Id FROM User WHERE IsActive = true
-        AND Profile.Name = 'System Administrator' LIMIT 1
+        AND FirstName = 'Sys Admin' AND LastName = 'Integration User' AND Profile.Name = 'System Administrator' LIMIT 1
     ];
 
     //run this bloack as system admin
-    system.runAs(SYS_ADMIN) { 
+    system.runAs(PORTAL_SYS_ADMIN) { 
       //Create portal account owner
       UserRole portalRole = [Select Id From UserRole Where PortalType = 'None' Limit 1];
       Profile profile1 = [Select Id from Profile where name = 'System Administrator'];
