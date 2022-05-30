@@ -6,12 +6,14 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | john.bo.a.pineda               | April 21, 2022        | DEPP-1211              | Created file                 |
-      | Ana                            | 29/4/22               | DEPP-1418              | Create child MC persona      |                                                 |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                  |
+      |--------------------------------|-----------------------|------------------------|---------------------------------|
+      | john.bo.a.pineda               | April 21, 2022        | DEPP-1211              | Created file                    |
+      | Ana                            | 29/4/22               | DEPP-1418              | Create child MC persona         |
+      | angelika.j.s.galang            | May 17, 2022          | DEPP-1455              | Added global duplicates handler |
  */
 public without sharing class ContactTriggerHandler implements Disableable, BeforeInsert, BeforeUpdate, AfterInsert, AfterUpdate {
+  
     public static final Id PERSON = Schema.SObjectType.Contact.getRecordTypeInfosByDeveloperName()
         .get('Person')
         .getRecordTypeId();
@@ -51,6 +53,7 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
       null
     );
     createChildMCPersona((List<Contact>) newItems.values());
+    ContactDuplicatesHelper.detectDuplicates((Map<Id,Contact>) newItems);
   }
 
   /**

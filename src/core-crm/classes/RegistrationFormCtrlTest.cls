@@ -10,9 +10,12 @@
  */
 @isTest(SeeAllData=false)
 public with sharing class RegistrationFormCtrlTest {
+    public static final Id PERSON = Schema.SObjectType.Contact.getRecordTypeInfosByDeveloperName()
+        .get('Person')
+        .getRecordTypeId();
 
     @isTest
-    static void registerUserTest() {
+    static void registerUserNoMatchTest() {
         UserRole userrole = [Select Id, Name From UserRole Where Name = 'System Administrator' Limit 1];
         User adminUser = [Select Id, UserRoleId From User Where Profile.Name='System Administrator' Limit 1];
 
@@ -34,6 +37,78 @@ public with sharing class RegistrationFormCtrlTest {
         Test.stopTest();
     }
 	
+    @isTest
+    static void registerUserExactMatchTest() {
+        UserRole userrole = [Select Id, Name From UserRole Where Name = 'System Administrator' Limit 1];
+        User adminUser = [Select Id, UserRoleId From User Where Profile.Name='System Administrator' Limit 1];
+
+        adminUser.UserRoleId = userRole.Id;
+        adminUser.IsActive = True;
+        update adminUser;
+        Test.startTest();
+        System.runAs(adminUser){
+            Account testAccount = new Account();
+            testAccount.Name = 'OPE Catalogue';
+            insert testAccount;
+
+            String uniqueID = GenerateUniqueId.getUUID();
+            String emailTest = 'testUser' + uniqueID + '@test.com';
+            
+            Contact testContact = new Contact();
+            testContact.Birthdate = Date.newInstance(1999, 1, 1);
+            testContact.Email = emailTest;
+            testContact.LastName = 'User';
+            testContact.RecordTypeId = PERSON;
+            insert testContact;
+
+            String page = RegistrationFormCtrl.registerUser('Test','User',emailTest,'12345', 1,1,1999,'testDietary Req');
+            System.assert(page !=null,'Page must not be null');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void registerUserMultipleMatchTest() {
+        UserRole userrole = [Select Id, Name From UserRole Where Name = 'System Administrator' Limit 1];
+        User adminUser = [Select Id, UserRoleId From User Where Profile.Name='System Administrator' Limit 1];
+
+        adminUser.UserRoleId = userRole.Id;
+        adminUser.IsActive = True;
+        update adminUser;
+        Test.startTest();
+        System.runAs(adminUser){
+            Account testAccount = new Account();
+            testAccount.Name = 'OPE Catalogue';
+            insert testAccount;
+
+            String uniqueID = GenerateUniqueId.getUUID();
+            String emailTest = 'testUser' + uniqueID + '@test.com';
+            
+            List<Contact> testContacts = new List<Contact>();
+            Contact testContact1 = new Contact();
+            testContact1.Birthdate = Date.newInstance(1999, 1, 1);
+            testContact1.Email = emailTest;
+            testContact1.LastName = 'User';
+            testContact1.RecordTypeId = PERSON;
+            testContacts.add(testContact1);
+
+            Contact testContact2 = new Contact();
+            testContact2.Birthdate = Date.newInstance(1999, 1, 1);
+            testContact2.LastName = 'User';
+            testContact2.RecordTypeId = PERSON;
+            testContacts.add(testContact2);
+
+            insert testContacts;
+
+            testContact2.Email = emailTest;
+            update testContact2;
+
+            String page = RegistrationFormCtrl.registerUser('Test','User',emailTest,'12345', 1,1,1999,'testDietary Req');
+            System.assert(page !=null,'Page must not be null');
+        }
+        Test.stopTest();
+    }
+
     @isTest
     static void isEmailExistTest(){
         UserRole userrole = [Select Id, Name From UserRole Where Name = 'System Administrator' Limit 1];

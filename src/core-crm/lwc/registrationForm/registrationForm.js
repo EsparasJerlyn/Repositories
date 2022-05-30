@@ -217,7 +217,10 @@ export default class RegistrationForm extends LightningElement {
                 year: this.year,
                 dietaryReq: this.dietaryReq
             }).then((res) =>{
-                if(res){
+              console.log(res);
+                if(res == 'CloseModal'){
+                  this.closeModal();
+                }else if(res){
                   window.location.href = res;
                 }
               }).catch((error)=>{

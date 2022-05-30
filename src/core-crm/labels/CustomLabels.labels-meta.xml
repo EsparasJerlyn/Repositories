@@ -244,6 +244,14 @@
         <value>QUTeX Products</value>
     </labels>
     <labels>
+        <fullName>RT_Contact_Person</fullName>
+        <categories>RecordType,Contact</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RT_Contact_Person</shortDescription>
+        <value>Person</value>
+    </labels>
+    <labels>
         <fullName>RT_Course_Activity</fullName>
         <categories>RecordType,Course</categories>
         <language>en_US</language>

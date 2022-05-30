@@ -10,6 +10,7 @@
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | john.bo.a.pineda               | April 25, 2022        | DEPP-1211              | Created file                 |
       | Ana                            | 29/4/22               | DEPP-2361              | Create child MC Persona      |
+      | angelika.j.s.galang            | May 27, 2022          | DEPP-1455              | Added tests for duplicates   |
  */
 @isTest(SeeAllData=false)
 public with sharing class ContactTriggerHandlerTest {
@@ -206,4 +207,99 @@ public static final Id PERSON = Schema.SObjectType.Contact.getRecordTypeInfosByD
                 'Number of child MC Persona contacts'
             );
     }
+
+  @IsTest
+  private static void contactDuplicatesExactMatchTest() {
+    User currUsr = [
+      SELECT Id
+      FROM User
+      WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
+      LIMIT 1
+    ];
+
+    System.runAs(currUsr) {
+      String uniqueID = GenerateUniqueId.getUUID();
+      String emailTest = 'testUser' + uniqueID + '@test.com';
+      
+      List<Contact> testContacts = new List<Contact>();
+      Contact testContact1 = TestDataFactory.createTestContactRecords(1).iterator().next();
+      testContact1.Birthdate = Date.newInstance(1999, 1, 1);
+      testContact1.Email = emailTest;
+      testContact1.LastName = 'User';
+      testContact1.RecordTypeId = PERSON;
+      testContacts.add(testContact1);
+
+      Contact testContact2 = TestDataFactory.createTestContactRecords(1).iterator().next();
+      testContact2.Birthdate = Date.newInstance(1999, 1, 1);
+      testContact2.LastName = 'User';
+      testContact2.RecordTypeId = PERSON;
+      testContacts.add(testContact2);
+
+      insert testContacts;
+
+      testContact2.Email = emailTest;
+      update testContact2;
+      
+      Contact testContact3 = TestDataFactory.createTestContactRecords(1).iterator().next();
+      testContact3.Birthdate = Date.newInstance(1999, 1, 1);
+      testContact3.Email = emailTest;
+      testContact3.LastName = 'User';
+      testContact3.RecordTypeId = PERSON;
+      
+      Test.startTest();
+      insert testContact3;
+      Test.stopTest();
+
+      System.assertEquals(
+        2,
+        [
+          SELECT count() 
+          FROM Potential_Duplicate__c
+          WHERE Contact__c IN : testContacts
+        ],
+        'There should be 2 potential duplicates created'
+      );
+    }
+  }
+
+  @IsTest
+  private static void contactDuplicatesPartialMatchTest() {
+    User currUsr = [
+      SELECT Id
+      FROM User
+      WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
+      LIMIT 1
+    ];
+
+    System.runAs(currUsr) {
+      String uniqueID = GenerateUniqueId.getUUID();
+      String emailTest = 'testUser' + uniqueID + '@test.com';
+      
+      Contact testContact1 = TestDataFactory.createTestContactRecords(1).iterator().next();
+      testContact1.Birthdate = Date.newInstance(1999, 1, 1);
+      testContact1.Email = emailTest;
+      testContact1.LastName = 'User';
+      testContact1.QUT_Employee_ID__c = '123';
+      insert testContact1;
+
+      Contact testContact2 = TestDataFactory.createTestContactRecords(1).iterator().next();
+      testContact2.Email = emailTest;
+      testContact2.LastName = 'UserNotMatch';
+      testContact2.QUT_Employee_ID__c = '123';
+      
+      Test.startTest();
+      insert testContact2;
+      Test.stopTest();
+
+      System.assertEquals(
+        1,
+        [
+          SELECT count() 
+          FROM Potential_Duplicate__c
+          WHERE Contact__c = : testContact1.Id
+        ],
+        'There should be 1 potential duplicate created'
+      );
+    }
+  }
 }
