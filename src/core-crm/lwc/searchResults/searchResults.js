@@ -80,11 +80,14 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
   stringValue = '';
   startDate ='';
   endDate ='';
+  sortBy = '';
   keyword;
   startValue ;
   endValue ;
   strStartDate;
   strEndDate;
+  //@track sortCourseBy = 'comingUp';
+  value = 'comingUp';
   parameterObject = {
     searchKey : this.stringValue, 
     studyArea: [] , 
@@ -93,7 +96,18 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
     minUnitPrice: this.startValue, 
     maxUnitPrice: this.endValue, 
     startDate: this.strStartDate,
-    endDate: this.strEndDate, 
+    endDate: this.strEndDate,
+    sortBy: this.value
+  }
+
+  // Sort Combobox
+  get options(){
+    return [
+        { label: 'Coming Up', value: 'comingUp' },
+        { label: 'Newly Added', value: 'newlyAdded' },
+        { label: 'Price low to high', value: 'priceLowToHigh' },
+        { label: 'Price high to low', value: 'priceHighToLow' }
+    ];
   }
   openModal = false;
 
@@ -241,18 +255,31 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
           this.deliveryTypeValues = undefined;
       }
   }
-  
+
+  // handles sort course combobox
+  hanldeSortCourseValueChange(event) {
+    //this.sortCourseBy = event.detail;
+    this.value = event.detail.value;
+    this.parameterObject.sortBy = this.value;
+    console.log('sort: parameter object', this.parameterObject);
+    this.setPickList();
+  }
+
   // handles keyword search
   handleSearchKeyword(event){
     this.stringValue = event.target.value;
     if(this.stringValue.length > 3){
+      console.log('String Value from Search ->', this.stringValue);
       this.parameterObject.searchKey = this.stringValue;
+      console.log('Parameter Object in keyword search', this.parameterObject);
       this.getFilterList();
     }
     if(this.stringValue.length == 0 ){
       this.parameterObject.searchKey = '';
       this.getFilterList();
     }
+
+    console.log(this.stringValue.length);
   }
   
   // Handles the Product Type Filter when clicked Individually
@@ -319,27 +346,36 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
   handleChangeStartDate(event){
     let sDate = '';
     this.strStartDate = event.target.value;
+    console.log('Start date event', this.strStartDate);
     sDate = this.strStartDate.split("-").reverse().join("-").replace(/-/g,"/");
+    console.log('Start Date', sDate);
     this.parameterObject.startDate = sDate;
     this.checkDateInput();
+    console.log('hello start date');
   }
 
   //Handle End date filter when selected
   handleChangeEndDate(event){
     let eDate = '';
     this.strEndDate = event.target.value;
+    console.log('End date event', this.strEndDate);
     eDate = this.strEndDate.split("-").reverse().join("-").replace(/-/g,"/");
+    console.log('End Date', eDate);
     this.parameterObject.endDate = eDate;
     this.checkDateInput();
+    console.log('hello end date');
   }
   
   //Checks the input of the Start Date and End Date
   checkDateInput()
   {
+    console.log('Enters check Date Input');
     if(this.strStartDate != null && this.strEndDate != null){
+      console.log('date is not null filterList');
       this.getFilterList();
     }
     if(this.strStartDate == null && this.strEndDate === null){
+      console.log('All date is Null');
       this.triggerProductSearch();
     }
   }
@@ -440,11 +476,13 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
     for(const elem of checkboxes){
         elem.checked=false;
     }
+    console.log('Calls clear all')
     this.stringValue ='';
     this.strStartDate ='';
     this.strEndDate ='';
     this.startValue ='';
     this.endValue = '';
+    this.progressValue ='comingUp';
     this.studyAreaSelectedValues = [];
     this.selectedValues = [];
     this.deliveryTypeSelectedValues = [];
@@ -457,16 +495,21 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
 
 
   // Function that calls the getFilteredProducts returns me a list of Id;
-  setPickList(){
+  setPickList(){    
+    console.log('set picklist');
     this.parameterObject.studyArea = this.studyAreaSelectedValues;
     this.parameterObject.productType = this.selectedValues;
     this.parameterObject.deliveryType = this.deliveryTypeSelectedValues;
+    this.parameterObject.sortBy = this.value;
+    console.log('parameter object', this.parameterObject);
     this.getFilterList();
   }
 
   //function that executes the filter apex class
    async getFilterList(){
     this._isLoading = true;
+     console.log('Calls Filter list');
+     console.log('Product IDs to Sort: ' + JSON.stringify(this.allProductId));
      getFilteredProducts({
       productAllId : JSON.stringify(this.allProductId),
       filterData : this.parameterObject
@@ -493,14 +536,16 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
            arrBySix=[];
          }
         });
+        console.log('new list array in filter: ' , this.newListProducts);
 
         //Checks if result is null or zero
         if(result.listFilteredProductId.length > 0){
           this.displayProductsListingPage(0);
         }else{
+          console.log('zero is the result of the array');
           this.productListIds = [];
           this.newListProducts = [];
-          this.getAllProducts();s
+          this.getAllProducts();
         }
         this._isLoading = false;
         this._pageNumber = 1;
@@ -547,15 +592,20 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
         this.newListProducts = [];
         this.allProductId = [];
         this.displayData = result;
+        console.log('Result from Product Search', result);
         this.products = result.productsPage.products;
+        console.log('result product page total', result.productsPage.total);
         this.hasMorePages = result.productsPage.total > PAGE_SIZE;
         this.pageSize = PAGE_SIZE;
+        console.log('has more pages', this.hasMorePages);
         this.totalItemCount = result.productsPage.total;
+        console.log('length of all product' , this.totalItemCount);
 
         // Store all Id
         this.products.forEach((productId) => {
           this.allProductId.push(productId.id);
         });
+        console.log('All Product Id', this.allProductId);
 
         //Arrage the Products by 6 -> [0] [1 2 3 5 5 6]
         let arrBySix = [];
@@ -575,6 +625,9 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
           }
 
         });
+        console.log('new Array list', this.newListProducts);
+        console.log('new Array list zero', this.newListProducts[0]);
+        console.log('Lenght of new list products',this.newListProducts.length);
         this.displayProductsListingPage(0);
           this._isLoading = false;
       })
@@ -590,14 +643,19 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
 
   // Gets all result based on the list of Ids from productSearch
   getAllProducts(){
+    console.log('Stringfy Id', JSON.stringify(this.productListIds) )
     getProducts({ 
         productIds: JSON.stringify(this.productListIds),
+        sortCourse: this.value
       }).then((result) => {
+          console.log(result);
           this.productInfoList = result.productList;
+          console.log('Product List from getAll Products', this.productInfoList);
         })
         .catch((error) => {
             this.error = error;
             this.records = undefined;
+            console.log('Error on getProducts method: ' + this.error);
         });
   } 
 
@@ -610,6 +668,7 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
     this.newListProducts[value].forEach((prodLoad) =>{
       this.productListIds.push(prodLoad);
     });
+    console.log('Call getAll Products')
     this.getAllProducts();
   }
 
@@ -624,7 +683,10 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
     evt.stopPropagation();
     this._pageNumber = this._pageNumber - 1;
     this.productListIds = [];
+    console.log("Page Number Previous page" ,this._pageNumber);
     this.displayProductsListingPage(this._pageNumber -1);
+    // this.pageNumber = this.pageNumber - 1;
+    // this.triggerProductSearch();
 }
 
 /**
@@ -636,6 +698,7 @@ handleNextPage(evt) {
     evt.stopPropagation();
     this._pageNumber = this._pageNumber + 1;
     this.productListIds = [];
+    console.log("Page Number Next page" ,this._pageNumber);
     this.displayProductsListingPage(this._pageNumber -1);
 }
 
@@ -643,6 +706,7 @@ handleNextPage(evt) {
   handleSelectedPage(evt){
     evt.stopPropagation();
     this._pageNumber = evt.detail;
+    console.log('Page from selected page', this._pageNumber);
     this.productListIds = [];
     this.displayProductsListingPage(this._pageNumber -1);
   }
@@ -800,6 +864,7 @@ handleNextPage(evt) {
     this.vectorIcon = qutResourceImg + "/QUTImages/Icon/icon-Vector.png";
     this.accordionClose = qutResourceImg + "/QUTImages/Icon/accordionClose.svg";
     this.filterFilled = qutResourceImg + "/QUTImages/Icon/icon-filter-filled.svg";
+    this.value = 'comingUp';
 
    if(!isGuest){
       this.updateCartInformation();
@@ -921,11 +986,8 @@ handleNextPage(evt) {
     }
 
     /**
-
    * Ensures cart information is up to date
-
    * concatenates error name and message
-
    */
 
   updateCartInformation() {

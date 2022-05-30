@@ -4,16 +4,6 @@
     position: relative;
 }
 
-.aside-section {
-    /*flex: 1 0 30%;*/
-    /*max-width: 15rem;*/
-    /*width: 15rem;*/
-}
-
-.main-section {
-    /*flex: 1 0 70%;*/
-}
-
 .header-text{
     font-size: var(--text-size-18);
     line-height: 36px;
@@ -40,6 +30,23 @@
 
 .filters-header .clear-all-button {
     align-self: flex-end;
+}
+
+.combo-container {
+    display: inline-flex;
+    float: right;
+    align-items: center;
+}
+
+.combobox-label {
+    color: #0066b9;
+    font-size: larger;
+    font-weight: bold;
+    font-family: 'ProximaNova-Bold'
+}
+
+.sortCombobox {
+    width: 300px;
 }
 
 label.slds-checkbox__label span.slds-form-element__label{

@@ -7,9 +7,8 @@
       |---------------------------|-----------------------|----------------------|--------------------------------------------|
       | eugene.andrew.abuan       | May 02, 2022          | DEPP-1269            | Created File                               |
       | eugene.andrew.abuan       | May 20, 2022          | DEPP-1979            | Added methods for filters                  |
-
-      
- */
+	  | keno.domienri.dico		  | May 30, 2022		  | DEPP-1980			 | Added methods for sorting				  |
+*/
 @isTest(SeeAllData=false)
 public with sharing class ProductCtrlTest {
   private static final string STUDENT_RT = System.Label.RT_CourseConnection_Student;
@@ -137,7 +136,7 @@ public with sharing class ProductCtrlTest {
   }
     
     @isTest
-    static void getProductsTest() {
+    static void getProductsSortPriceLowToHighTest() {
       User currUsr = [ SELECT Id FROM User
         WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
         LIMIT 1
@@ -153,7 +152,79 @@ public with sharing class ProductCtrlTest {
 
         Test.startTest();
         ProductCtrl.ProductData getProd =  new ProductCtrl.ProductData();
-        getProd = ProductCtrl.getProducts(productId);
+        getProd = ProductCtrl.getProducts(productId,'priceLowToHigh');
+        Test.stopTest();
+  
+        System.assert( getProd != null,'Successfully retrieved Products');
+      }
+    }
+    
+    @isTest
+    static void getProductsSortPriceHighToLowTest() {
+      User currUsr = [ SELECT Id FROM User
+        WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
+        LIMIT 1
+      ];
+  
+      System.runAs(currUsr) {
+		    List<Product2> p = new List<Product2>();
+        p=[SELECT Id, Delivery__c FROM Product2];
+        List<String> productId = new List<String>();
+        for( Product2 product : p){
+            productId.add(product.Id);
+        }
+
+        Test.startTest();
+        ProductCtrl.ProductData getProd =  new ProductCtrl.ProductData();
+        getProd = ProductCtrl.getProducts(productId,'priceHighToLow');
+        Test.stopTest();
+  
+        System.assert( getProd != null,'Successfully retrieved Products');
+      }
+    }
+    
+    @isTest
+    static void getProductsPublishDateTest() {
+      User currUsr = [ SELECT Id FROM User
+        WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
+        LIMIT 1
+      ];
+  
+      System.runAs(currUsr) {
+		    List<Product2> p = new List<Product2>();
+        p=[SELECT Id, Delivery__c FROM Product2];
+        List<String> productId = new List<String>();
+        for( Product2 product : p){
+            productId.add(product.Id);
+        }
+
+        Test.startTest();
+        ProductCtrl.ProductData getProd =  new ProductCtrl.ProductData();
+        getProd = ProductCtrl.getProducts(productId,'newlyAdded');
+        Test.stopTest();
+  
+        System.assert( getProd != null,'Successfully retrieved Products');
+      }
+    }
+    
+    @isTest
+    static void getProductsStartDateTest() {
+      User currUsr = [ SELECT Id FROM User
+        WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
+        LIMIT 1
+      ];
+  
+      System.runAs(currUsr) {
+		    List<Product2> p = new List<Product2>();
+        p=[SELECT Id, Delivery__c FROM Product2];
+        List<String> productId = new List<String>();
+        for( Product2 product : p){
+            productId.add(product.Id);
+        }
+
+        Test.startTest();
+        ProductCtrl.ProductData getProd =  new ProductCtrl.ProductData();
+        getProd = ProductCtrl.getProducts(productId,'comingUp');
         Test.stopTest();
   
         System.assert( getProd != null,'Successfully retrieved Products');
@@ -183,6 +254,7 @@ public with sharing class ProductCtrlTest {
       var.productType = new List<String>();
       var.minUnitPrice = 0;
       var.maxUnitPrice = 5000;
+      var.sortby = 'comingUp';
       ProductCtrl.FilterData getFilterProd = ProductCtrl.getFilteredProducts(productId , var);
       Test.stopTest();
 
@@ -212,6 +284,7 @@ public with sharing class ProductCtrlTest {
       var.studyArea = new List<String>{'Engineering'};
       var.deliveryType = new List<String>();
       var.productType = new List<String>();
+      var.sortby = 'comingUp';
       ProductCtrl.FilterData getFilterProd = ProductCtrl.getFilteredProducts(productId , var);
       Test.stopTest();
 
@@ -240,6 +313,7 @@ public with sharing class ProductCtrlTest {
       var.studyArea = new List<String>();
       var.deliveryType = new List<String>{'Online Classroom'};
       var.productType = new List<String>();
+      var.sortby = 'comingUp';
 
       ProductCtrl.FilterData getFilterProd = ProductCtrl.getFilteredProducts(productId , var);
       Test.stopTest();
@@ -269,11 +343,49 @@ public with sharing class ProductCtrlTest {
       var.studyArea = new List<String>();
       var.deliveryType = new List<String>();
       var.productType = new List<String>{'Short Course'};
+      var.sortby = 'comingUp';
 
       ProductCtrl.FilterData getFilterProd = ProductCtrl.getFilteredProducts(productId , var);
       Test.stopTest();
 
       System.assert( getFilterProd != null,'No Products were found with Short Course as filter');
+    }
+  }
+    
+    @isTest
+    static void getFilterDateSortPriceTest(){
+      User currUsr = [ SELECT Id FROM User
+      WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
+      LIMIT 1
+    ];
+
+    System.runAs(currUsr) {
+      List<Product2> p = new List<Product2>();
+      p=[SELECT Id, Delivery__c FROM Product2];
+      List<String> productId = new List<String>();
+      for( Product2 product : p){
+          productId.add(product.Id);
+      }
+
+      Test.startTest();
+      ProductCtrl.FilterWrapper var = new ProductCtrl.FilterWrapper();
+      Date dToday = Date.today();
+      Date dTodayMinus3 = dToday -3;
+      Date dTodayPlus10 = dToday + 10;
+      var.searchKey = '';
+      var.studyArea = new List<String>();
+      var.deliveryType = new List<String>();
+      var.productType = new List<String>();
+      var.minUnitPrice = 3;
+      var.startDate = dTodayMinus3.day() + '/' + dToday.month() + '/'+ dToday.year() ;
+      var.endDate =  dTodayPlus10.day() + '/' + dToday.month() + '/' + dToday.year();
+      var.sortby = 'priceLowToHigh';
+
+      ProductCtrl.FilterData getFilterProd = ProductCtrl.getFilteredProducts(productId , var);
+
+      Test.stopTest();
+
+      System.assert( getFilterProd != null,'No Products were found with Date as Filter');
     }
   }
 
@@ -304,6 +416,7 @@ public with sharing class ProductCtrlTest {
       var.minUnitPrice = 3;
       var.startDate = dTodayMinus3.day() + '/' + dToday.month() + '/'+ dToday.year() ;
       var.endDate =  dTodayPlus10.day() + '/' + dToday.month() + '/' + dToday.year();
+      var.sortby = 'comingUp';
 
       ProductCtrl.FilterData getFilterProd = ProductCtrl.getFilteredProducts(productId , var);
 
@@ -341,6 +454,7 @@ public with sharing class ProductCtrlTest {
       var.maxUnitPrice = 15;
       var.startDate = dTodayMinus3.day() + '/' + dToday.month() + '/'+ dToday.year() ;
       var.endDate =  dTodayPlus10.day() + '/' + dToday.month() + '/' + dToday.year();
+      var.sortby = 'comingUp';  
 
       ProductCtrl.FilterData getFilterProd = ProductCtrl.getFilteredProducts(productId , var);
 

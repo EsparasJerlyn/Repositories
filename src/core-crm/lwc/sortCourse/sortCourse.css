@@ -1,0 +1,11 @@
+.combobox {
+  width: 300px;
+  float: right;
+}
+
+.customIconContainer {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
