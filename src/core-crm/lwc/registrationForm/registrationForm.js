@@ -24,6 +24,7 @@ import registerWithLinkedIn from "@salesforce/label/c.QUT_RegistrationForm_Regis
 import qutSSOText from "@salesforce/label/c.QUT_RegistrationForm_SSO";
 import requiredField from "@salesforce/label/c.QUT_RegistrationForm_IndicatesRequiredField";
 import privacyPolicy from "@salesforce/label/c.QUT_RegistrationForm_PrivacyPolicy";
+import qutSSO from "@salesforce/label/c.QUTExperienceSSO"
 
 //Add text fields in Label from HTML
 const LINKEDINSSO = '/services/auth/sso/';
@@ -75,7 +76,8 @@ export default class RegistrationForm extends LightningElement {
     requiredField,
     registerWithLinkedIn,
     qutSSOText,
-    privacyPolicy
+    privacyPolicy,
+    qutSSO
   }
 
     /*
