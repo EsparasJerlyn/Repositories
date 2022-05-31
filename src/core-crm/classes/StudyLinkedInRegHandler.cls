@@ -10,11 +10,12 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | eugene.andrew.abuan            | November 24, 2021     | DEPP-771               | Created file                 | 
+      | eugene.andrew.abuan            | May 31, 2022          | DEPP-2484              | Modified profile             |
       |                                |                       |                        |                              | 
+ 
  */
 
-public with sharing class LinkedInRegHandler implements Auth.RegistrationHandler {
-
+public without sharing class StudyLinkedInRegHandler implements Auth.RegistrationHandler  {
     /**
      * @description Creates user when logs in for the first time via LinkedIn
      * @param portadId - Id of the organization
@@ -22,11 +23,17 @@ public with sharing class LinkedInRegHandler implements Auth.RegistrationHandler
      * @return User Object
      */    
     public User createUser(Id portalId, Auth.UserData data) {
-        //Create Account 
-        Account a = new Account();
-        a.Name = data.lastName;
-        insert (a);
-        
+        String orgId = UserInfo.getOrganizationId();
+        String dateString = String.valueof(Datetime.now())
+            .replace(' ', '')
+            .replace(':', '')
+            .replace('-', '');
+        Integer randomInt = Integer.valueOf(math.rint(math.random() * 1000000));
+        String uniqueName = orgId + dateString + randomInt;
+
+        //Query OPE Account 
+        Account a =  [SELECT Id, Name FROM Account WHERE Name ='OPE Catalogue'];
+
         //Create Contact
         Contact c= new Contact();
         c.AccountId = a.Id;
@@ -36,25 +43,24 @@ public with sharing class LinkedInRegHandler implements Auth.RegistrationHandler
         
         //Create User
         User u = new User();
-        Profile p = [SELECT id FROM profile WHERE name = 'Partner Community User'];
+        Profile p = [SELECT id FROM profile WHERE name = 'Ecommerce Learner'];
         u.Username = data.email;
 		u.Email = data.email;
         u.LastName = data.lastName;
         u.FirstName = data.firstName;
-        u.ContactId = c.Id;
-        String alias = data.firstName;
-        
-        //Alias must be 8 characters or less
-        if (alias.length() > 8) {
-            alias = alias.substring(0, 8);
-        }
-        u.alias = alias;
+        u.ContactId = c.Id;    
+        u.alias = uniqueName.substring(18, 24);
         u.LanguageLocaleKey = 'en_US';
         u.localesidkey = UserInfo.getLocale();
         u.emailEncodingKey = 'UTF-8';
         u.timeZoneSidKey = 'Australia/Brisbane';
         u.profileId = p.Id;
-        
+        insert(u);
+
+        List<Id> userInserted = new List<Id>();
+        userInserted.add(u.Id);
+        assignOPEPermset(userInserted);
+
         return u;
     }
     /**
@@ -71,4 +77,11 @@ public with sharing class LinkedInRegHandler implements Auth.RegistrationHandler
         update(u);
     }
 
+    @future
+    public static void assignOPEPermset(List<ID> recordIds){
+        User userInserted = [SELECT Id FROM User WHERE Id IN : recordIds];
+        PermissionSet ps = [SELECT Name,Id FROM PermissionSet WHERE Name ='OPE_Portal'];
+        PermissionSetAssignment psa = new PermissionSetAssignment(PermissionSetId = ps.Id , AssigneeId = userInserted.Id );
+        insert (psa);
+    }   
 }

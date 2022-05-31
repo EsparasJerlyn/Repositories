@@ -1,0 +1,43 @@
+/**
+ * @description Tests Class for LinkedInHandler
+ * @see LinkedInHandler
+ *
+ * @author Accenture
+ *
+ * @history
+ *
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
+      |--------------------------------|-----------------------|------------------------|------------------------------|
+      | eugene.andrew.abuan            | November 24, 2021     | DEPP-771               | Created file                 | 
+      |                                |                       |                        |                              | 
+ */
+
+@isTest
+public without sharing class StudyLinkedInRegHandlerTest {
+    @isTest
+    static void createUserTest(){
+        StudyLinkedInRegHandler handler = new StudyLinkedInRegHandler();
+        Auth.UserData data = TestDataFactory.createCommunityUser('testdata@test.com', 'Data', 'Test', 'tUser');
+        
+        User PORTAL_SYS_ADMIN = [
+            SELECT Id FROM User WHERE IsActive = true
+            AND FirstName = 'Sys Admin' AND LastName = 'Integration User' AND Profile.Name = 'System Administrator' LIMIT 1
+        ];
+
+        system.runAs(PORTAL_SYS_ADMIN) { 
+
+            Test.startTest();
+            Account testAccount = new Account();
+            testAccount.Name = 'OPE Catalogue';
+            insert testAccount;
+
+            User u = handler.createUser(null, data);
+
+            System.assert(u !=null,'User must not be null');
+            System.assertEquals(u.email, data.email,'Email address must be the same');
+            System.assertEquals(u.lastName,data.LastName, 'First name must match');
+            System.assertEquals(u.firstName,data.FirstName, 'Last name must match');
+            Test.stopTest();
+        }
+    }    
+}

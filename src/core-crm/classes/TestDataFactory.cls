@@ -617,7 +617,8 @@ public class TestDataFactory {
   public static Auth.UserData createCommunityUser(
     String email,
     String lastName,
-    String firstName
+    String firstName,
+    String username
   ) {
     Map<String, String> attributeMap = new Map<String, String>();
     String identifier = lastName + System.currentTimeMillis();
@@ -629,7 +630,7 @@ public class TestDataFactory {
       '', // fullname
       email,
       '', // link
-      '', // userName
+      username,
       locale,
       '', // provider
       '', // siteLoginUrl

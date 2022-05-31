@@ -21,6 +21,10 @@
         <members>LightningSelfRegisterController</members>
         <members>LightningSelfRegisterControllerTest</members>
         <!--(End) DEPP 2606 -->
+        <!--(Start) DEPP 2824 -->
+        <members>LinkedInRegHandler</members>
+        <members>LinkedInRegHandlerTest</members>
+        <!--(End) DEPP 2824 -->
         <name>ApexClass</name>
     </types>
     <types>
