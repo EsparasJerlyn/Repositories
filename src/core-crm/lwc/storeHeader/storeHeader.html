@@ -1,21 +1,30 @@
 <template>
 
         <header class="header slds-grid slds-gutters">
-            <div class="header_container slds-col slds-size_2-of-3">
-                <div class="header_logo_container">
-                    <img class="header_logo" src={qutexlogoUrl}>
-                </div>
-            </div>
+            <div class="header_container">
+                <div class="header-pusher slds-grid slds-wrap">
+                    <div class="slds-col slds-size_8-of-12">
+                        <div>
+                            <img class="header_logo" src={qutexlogoUrl}>
+                        </div>
+                    </div>
 
-            <div class="header_container slds-col slds-size_1-of-3">
-                <div class="contact_link_container slds-show_medium">
-                    <h1 class="slds-text-align_right contact_link"><a href="https://www.qut.edu.au/about/contact" >Contact QUT</a></h1>
-                </div>
+                    <div class="slds-col slds-size_4-of-12 align-contact">
+                        <div class="contact_link_container slds-show_medium">
+                            <h1 class="slds-text-align_right contact_link"><a href="https://www.qut.edu.au/about/contact" >Contact QUT</a></h1>
+                        </div>
 
-                <div class="contact_link_container slds-hide_medium mobile-call">
-                    <lightning-icon icon-name="utility:call" alternative-text="Utility Call" title="Image"></lightning-icon>
-                </div>
+                        <div class="slds-grid slds-wrap contact_link_container slds-hide_medium mobile-call">
+                            <div class="slds-col slds-size_6-of-12 align-contact divider">
+                                <lightning-icon icon-name="utility:call" alternative-text="Utility Call" title="Image"></lightning-icon>
+                            </div>
+                            <div class="pl1 slds-size_6-of-12 align-contact">
+                                <img alt="" src={qutMenu} class="menu-size" />
+                            </div>
+                        </div>
 
+                    </div>
+                 </div>
             </div>
         </header>   
 
