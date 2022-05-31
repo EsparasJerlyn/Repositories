@@ -236,6 +236,10 @@ public with sharing class ContactInformationValidationCtrl {
         public String statusValidationField;
         @AuraEnabled 
         public String value;
+        @AuraEnabled 
+        public String apiName;
+        @AuraEnabled 
+        public String localePicklistValue;
     }
 
 }

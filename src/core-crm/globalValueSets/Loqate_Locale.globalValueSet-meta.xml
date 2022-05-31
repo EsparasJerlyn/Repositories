@@ -11,11 +11,6 @@
         <label>New Zealand (+64)</label>
     </customValue>
     <customValue>
-        <fullName>International</fullName>
-        <default>false</default>
-        <label>International</label>
-    </customValue>
-    <customValue>
         <fullName>Afghanistan (93)</fullName>
         <default>false</default>
         <label>Afghanistan (93)</label>
@@ -1244,6 +1239,12 @@
         <fullName>Zimbabwe (263)</fullName>
         <default>false</default>
         <label>Zimbabwe (263)</label>
+    </customValue>
+    <customValue>
+        <fullName>International</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>International</label>
     </customValue>
     <masterLabel>Loqate Locale</masterLabel>
     <sorted>false</sorted>

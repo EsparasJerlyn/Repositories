@@ -10,28 +10,27 @@
       |---------------------------|-----------------------|--------------|-------------------------------------------------------------|
       | angelika.j.s.galang       | September 3, 2021     | DEP1-156     | Created file                                                | 
       | angelika.j.s.galang       | September 8, 2021     | DEP1-157,172 | Added error message for conversion and validation handler   | 
+      | kathy.cornejo             | May 31, 2022          | DEPP-2729    | Pilot 1 Optimisations                                       | 
+      
  */
 
       import { LightningElement, api, wire, track } from 'lwc';
-      import { getRecord, getFieldValue, updateRecord, getRecordNotifyChange } from 'lightning/uiRecordApi';
+      import { getRecord, getFieldValue, updateRecord } from 'lightning/uiRecordApi';
       import { ShowToastEvent } from 'lightning/platformShowToastEvent';
       import { publish, MessageContext } from 'lightning/messageService';
       import STATUSES_CHANNEL from '@salesforce/messageChannel/StatusesMessageChannel__c';
       import LEAD_SCHEMA from '@salesforce/schema/Lead';
+      import CONTACT_SCHEMA from '@salesforce/schema/Contact';
       import LWC_Error_General from '@salesforce/label/c.LWC_Error_General';
       import getMapping from '@salesforce/apex/ContactInformationValidationCtrl.getMapping';
       import validateFields from '@salesforce/apex/ContactInformationValidationCtrl.validateFields';
-      import allowDmlWithDuplicates from '@salesforce/apex/ContactInformationValidationCtrl.allowDmlWithDuplicates';
-      
       
       const STR_NONE = 'None';
       const STR_NOT_VALID = 'Not Valid';
       const STR_VALID = 'Valid';
-      const STR_UNV = 'Unvalidated';
       const STR_DOT = '.';
       const STR_AU = 'Australia (+61)';
       const STR_NZ = 'New Zealand (+64)';
-      const STR_INTL = 'International';
       const FIELD_MAPPING_API_NAME = 'Field_Mapping__c';
       const MARGIN_TOPXLARGE_CLASS = ' slds-m-top_x-large';
       const FIELD_CLASS = 'slds-border_bottom sf-blue-text';
@@ -102,28 +101,11 @@
                       return _field;
                   });
       
-                  //update existing records 
-                  let fieldToPreUpdate = {};
-                  let _fieldsMappingCopy = this.fieldsMapping;
-                  _fieldsMappingCopy.forEach(field =>{
-                      let _statusValidationField = getFieldValue(data, this.generateFieldName(field.statusValidationField));
-                      let _localeField = getFieldValue(data, this.generateFieldName(field.localeField));
-                      if(!_statusValidationField){
-                          fieldToPreUpdate[field.statusValidationField] = STR_NONE;
-                      }else if(!_localeField){
-                          fieldToPreUpdate[field.localeField] = STR_AU;
-                      }else if(_localeField == STR_INTL && _statusValidationField !== STR_UNV){
-                          fieldToPreUpdate[field.statusValidationField] = STR_UNV;
-                      }
-                  });
-                  if(Object.keys(fieldToPreUpdate).length > 0){
-                      this.handleUpdateFields(fieldToPreUpdate,false);
-                  }
-      
                   //get all non-empty fields with 'None' validation status
                   this.fieldsToValidate = this.fieldsMapping.filter(field => 
-                      getFieldValue(data, this.generateFieldName(field.statusValidationField)) == STR_NONE &&
-                      getFieldValue(data, this.generateFieldName(field.apiName)))
+                        field.apiName.includes('No_Locale') &&
+                        getFieldValue(data, this.generateFieldName(field.statusValidationField)) == STR_NONE &&
+                        getFieldValue(data, this.generateFieldName(field.apiName)))
                       .map(field => {
                           let _field = {};
           
@@ -132,6 +114,12 @@
                           _field.locale = LOCALE_MAP[getFieldValue(data, this.generateFieldName(field.localeField))];
                           _field.statusValidationField = field.statusValidationField;
                           _field.value = getFieldValue(data, this.generateFieldName(field.apiName));
+                          _field.apiName = this.fieldsMapping.find(
+                                mapping => 
+                                mapping.statusValidationField == field.statusValidationField &&
+                                !mapping.apiName.includes('No_Locale')
+                            )?.apiName;
+                          _field.localePicklistValue = getFieldValue(data, this.generateFieldName(field.localeField));
           
                           return _field;
                   });
@@ -153,6 +141,18 @@
               return this.fieldsToDisplay.filter(field => field.label == 'Phone' && field.statusValue == STR_NONE ).length > 0 &&
                   this.fieldsToDisplay.filter(field => field.label == 'Mobile' && field.statusValue == STR_NONE ).length> 0 &&
                   this.objectApiName == LEAD_SCHEMA.objectApiName;
+          }
+
+          get fieldLabelColumnClass(){
+            return this.disableEditButton ? 
+                'slds-col slds-size_2-of-5 slds-p-right_medium' : 
+                'slds-col slds-size_4-of-5 slds-p-right_medium';
+          }
+
+          get fieldValueColumnClass(){
+            return this.disableEditButton ? 
+                'slds-col slds-size_2-of-5 slds-p-right_medium relative-position' :
+                'slds-col slds-size_4-of-5 slds-p-right_medium relative-position';
           }
       
           connectedCallback(){
@@ -189,27 +189,70 @@
           /**
            * triggers spinner to show when Save is clicked and updates record
            */
-          handleSaveButton(event){
-              this.isLoading = true;
-              
-              if(this.objectApiName == LEAD_SCHEMA.objectApiName){  
-                  event.preventDefault();
-                  let leadFields = event.detail.fields;
-                  leadFields.Id = this.recordId;
-                  allowDmlWithDuplicates({leadRecord : leadFields})
-                  .then(()=> {
-                      this.successfulSave();
-                      getRecordNotifyChange([{recordId: this.recordId}])
-                  })
-                  .catch(error => {
-                      this.generateToast('Error.',LWC_Error_General,'error');
-                  })
-                  .finally(()=> {
-                      this.isLoading = false;
-                  });
-              }
-          }
-      
+           handleSaveButton(event){
+            this.isLoading = true;
+            event.preventDefault();
+            let fields = event.detail.fields
+            fields.Id = this.recordId;
+            if(this.objectApiName == LEAD_SCHEMA.objectApiName){  
+                //append locale to no locale fields
+                if(
+                    fields.Phone_No_Locale__c && 
+                    fields.LeadPhone_Locale__c !== 'Australia (+61)' && 
+                    fields.LeadPhone_Locale__c !== 'New Zealand (+64)'
+                    
+                ){
+                    fields.Phone = this.combineLocaleAndNumber(fields.LeadPhone_Locale__c,fields.Phone_No_Locale__c);
+                } 
+
+                if(
+                    fields.Mobile_No_Locale__c &&
+                    fields.LeadMobile_Locale__c !== 'Australia (+61)' &&
+                    fields.LeadMobile_Locale__c !== 'New Zealand (+64)'
+                ){
+                    fields.MobilePhone = this.combineLocaleAndNumber(fields.LeadMobile_Locale__c,fields.Mobile_No_Locale__c);
+                }     
+
+                if(
+                    fields.Work_Phone_No_Locale__c &&
+                    fields.WorkPhone_Locale__c !== 'Australia (+61)' &&
+                    fields.WorkPhone_Locale__c !== 'New Zealand (+64)'
+                ){
+                    fields.Work_Phone__c = this.combineLocaleAndNumber(fields.WorkPhone_Locale__c,fields.Work_Phone_No_Locale__c);
+                }    
+            }
+            else if(this.objectApiName == CONTACT_SCHEMA.objectApiName){  
+                //append locale to no locale fields
+                if(
+                    fields.Phone_No_Locale__c &&
+                    fields.ContactPhone_Locale__c !== 'Australia (+61)' &&
+                    fields.ContactPhone_Locale__c !== 'New Zealand (+64)'
+                ){
+                    fields.Phone = this.combineLocaleAndNumber(fields.ContactPhone_Locale__c,fields.Phone_No_Locale__c);
+                } 
+                if(
+                    fields.Mobile_No_Locale__c &&
+                    fields.ContactMobile_Locale__c !== 'Australia (+61)' && 
+                    fields.ContactMobile_Locale__c !== 'New Zealand (+64)'
+                ){
+                    fields.MobilePhone = this.combineLocaleAndNumber(fields.ContactMobile_Locale__c,fields.Mobile_No_Locale__c);
+                }     
+                if(
+                    fields.Work_Phone_No_Locale__c &&
+                    fields.ContactWorkPhone_Locale__c !== 'Australia (+61)' &&
+                    fields.ContactWorkPhone_Locale__c !== 'New Zealand (+64)'
+                ){
+                    fields.hed__WorkPhone__c = this.combineLocaleAndNumber(fields.ContactWorkPhone_Locale__c,fields.Work_Phone_No_Locale__c);
+                }       
+            }  
+
+            this.template.querySelector('lightning-record-edit-form').submit(fields);
+        }
+        
+        combineLocaleAndNumber(locale,number){
+            return locale.replace(/[^0-9\.]+/g,"") + parseInt(number);
+        }
+
           /**
            * hides spinner and shows toast when save is successful
            */
@@ -274,11 +317,15 @@
                           payloadItem[field.locale] == field.country);
       
                       _statusValue = payloadResponseForField[field.loqateResponse];
-                      fieldsToUpdate[field.statusValidationField] = VALID_STATUSES.includes(_statusValue) ? STR_VALID : STR_NOT_VALID;
+                      if(VALID_STATUSES.includes(_statusValue)){
+                        fieldsToUpdate[field.statusValidationField] = STR_VALID;
+                        fieldsToUpdate[field.apiName] = this.combineLocaleAndNumber(field.localePicklistValue,field.value);
+                      }else{
+                        fieldsToUpdate[field.statusValidationField] = STR_NOT_VALID;
+                        fieldsToUpdate[field.apiName] = null;
+                      }
                   });
-      
                   this.handleUpdateFields(fieldsToUpdate,true);
-                  
               })
               .catch(error => {
                   this.generateToast('Error.',LWC_Error_General,'error');

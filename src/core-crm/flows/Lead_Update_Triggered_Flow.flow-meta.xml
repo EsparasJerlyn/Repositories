@@ -4,8 +4,8 @@
     <assignments>
         <name>Assign_ABN_Validation_Status</name>
         <label>Assign ABN Validation Status</label>
-        <locationX>50</locationX>
-        <locationY>1775</locationY>
+        <locationX>182</locationX>
+        <locationY>1439</locationY>
         <assignmentItems>
             <assignToReference>$Record.LeadABNEntity_Validation__c</assignToReference>
             <operator>Assign</operator>
@@ -24,7 +24,7 @@
     <assignments>
         <name>Assign_Mobile_Validation_Status</name>
         <label>Assign Mobile Validation Status</label>
-        <locationX>50</locationX>
+        <locationX>314</locationX>
         <locationY>767</locationY>
         <assignmentItems>
             <assignToReference>$Record.LeadMobile_Validation__c</assignToReference>
@@ -33,30 +33,18 @@
                 <stringValue>None</stringValue>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.MobilePhone</assignToReference>
+            <operator>Assign</operator>
+        </assignmentItems>
         <connector>
             <targetReference>Work_Phone_Is_Changed</targetReference>
         </connector>
     </assignments>
     <assignments>
-        <name>Assign_Personal_Mobile_Validation_Status</name>
-        <label>Assign Personal Mobile Validation Status</label>
-        <locationX>50</locationX>
-        <locationY>1439</locationY>
-        <assignmentItems>
-            <assignToReference>$Record.LeadPersonalMobile_Validation__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>None</stringValue>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>ABN_Is_Changed</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
         <name>Assign_Phone_Validation_Status</name>
         <label>Assign Phone Validation Status</label>
-        <locationX>50</locationX>
+        <locationX>314</locationX>
         <locationY>431</locationY>
         <assignmentItems>
             <assignToReference>$Record.LeadPhone_Validation__c</assignToReference>
@@ -65,6 +53,10 @@
                 <stringValue>None</stringValue>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.Phone</assignToReference>
+            <operator>Assign</operator>
+        </assignmentItems>
         <connector>
             <targetReference>Mobile_Is_Changed</targetReference>
         </connector>
@@ -72,7 +64,7 @@
     <assignments>
         <name>Assign_Work_Phone_Validation_Status</name>
         <label>Assign Work Phone Validation Status</label>
-        <locationX>50</locationX>
+        <locationX>314</locationX>
         <locationY>1103</locationY>
         <assignmentItems>
             <assignToReference>$Record.WorkPhone_Validation__c</assignToReference>
@@ -81,15 +73,67 @@
                 <stringValue>None</stringValue>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.Work_Phone__c</assignToReference>
+            <operator>Assign</operator>
+        </assignmentItems>
         <connector>
-            <targetReference>Personal_Mobile_Is_Changed</targetReference>
+            <targetReference>ABN_Is_Changed</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>LeadMobile_Unvalidated</name>
+        <label>LeadMobile Unvalidated</label>
+        <locationX>50</locationX>
+        <locationY>767</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.LeadMobile_Validation__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Unvalidated</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Work_Phone_Is_Changed</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>LeadPhone_Unvalidated</name>
+        <label>LeadPhone Unvalidated</label>
+        <locationX>50</locationX>
+        <locationY>431</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.LeadPhone_Validation__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Unvalidated</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Mobile_Is_Changed</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>LEadWorkPhone_UNvalidated</name>
+        <label>LEadWorkPhone UNvalidated</label>
+        <locationX>50</locationX>
+        <locationY>1103</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.WorkPhone_Validation__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Unvalidated</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>ABN_Is_Changed</targetReference>
         </connector>
     </assignments>
     <decisions>
         <name>ABN_Is_Changed</name>
         <label>ABN Is Changed</label>
-        <locationX>182</locationX>
-        <locationY>1655</locationY>
+        <locationX>314</locationX>
+        <locationY>1319</locationY>
         <defaultConnectorLabel>No ABN Is Not Changed</defaultConnectorLabel>
         <rules>
             <name>Yes_ABN_Is_Changed</name>
@@ -117,17 +161,46 @@
     <decisions>
         <name>Mobile_Is_Changed</name>
         <label>Mobile Is Changed</label>
-        <locationX>182</locationX>
+        <locationX>314</locationX>
         <locationY>647</locationY>
         <defaultConnector>
             <targetReference>Work_Phone_Is_Changed</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>No Mobile Is Not Changed</defaultConnectorLabel>
         <rules>
-            <name>Yes_Mobile_Is_Changed</name>
-            <conditionLogic>2 AND (1 OR (3 AND 4))</conditionLogic>
+            <name>LeadMobile_Is_Changed</name>
+            <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>$Record.MobilePhone</leftValueReference>
+                <leftValueReference>$Record.LeadMobile_Locale__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.LeadMobile_Locale__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Australia (+61)</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.LeadMobile_Locale__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>New Zealand (+64)</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>LeadMobile_Unvalidated</targetReference>
+            </connector>
+            <label>LeadMobile Is Changed</label>
+        </rules>
+        <rules>
+            <name>Yes_Mobile_Is_Changed</name>
+            <conditionLogic>2 AND (4 OR 5) AND (1 OR 3)</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Mobile_No_Locale__c</leftValueReference>
                 <operator>IsChanged</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
@@ -149,9 +222,16 @@
             </conditions>
             <conditions>
                 <leftValueReference>$Record.LeadMobile_Locale__c</leftValueReference>
-                <operator>NotEqualTo</operator>
+                <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>International</stringValue>
+                    <stringValue>Australia (+61)</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.LeadMobile_Locale__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>New Zealand (+64)</stringValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -161,65 +241,48 @@
         </rules>
     </decisions>
     <decisions>
-        <name>Personal_Mobile_Is_Changed</name>
-        <label>Personal Mobile Is Changed</label>
-        <locationX>182</locationX>
-        <locationY>1319</locationY>
-        <defaultConnector>
-            <targetReference>ABN_Is_Changed</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>No Personal Mobile Is Not Changed</defaultConnectorLabel>
-        <rules>
-            <name>Yes_Personal_Mobile_Is_Changed</name>
-            <conditionLogic>2 AND (1 OR (3 AND 4))</conditionLogic>
-            <conditions>
-                <leftValueReference>$Record.Personal_Mobile__c</leftValueReference>
-                <operator>IsChanged</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.LeadPersonalMobile_Validation__c</leftValueReference>
-                <operator>NotEqualTo</operator>
-                <rightValue>
-                    <stringValue>None</stringValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.LeadPersonalMobile_Locale__c</leftValueReference>
-                <operator>IsChanged</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.LeadPersonalMobile_Locale__c</leftValueReference>
-                <operator>NotEqualTo</operator>
-                <rightValue>
-                    <stringValue>International</stringValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Assign_Personal_Mobile_Validation_Status</targetReference>
-            </connector>
-            <label>Yes Personal Mobile Is Changed</label>
-        </rules>
-    </decisions>
-    <decisions>
         <name>Phone_Is_Changed</name>
         <label>Phone Is Changed</label>
-        <locationX>182</locationX>
+        <locationX>314</locationX>
         <locationY>311</locationY>
         <defaultConnector>
             <targetReference>Mobile_Is_Changed</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>No Phone Is Not Changed</defaultConnectorLabel>
         <rules>
-            <name>Yes_Phone_Is_Changed</name>
-            <conditionLogic>2 AND (1 OR (3 AND 4))</conditionLogic>
+            <name>PhoneLocale_Is_Changed</name>
+            <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>$Record.Phone</leftValueReference>
+                <leftValueReference>$Record.LeadPhone_Locale__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.LeadPhone_Locale__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Australia (+61)</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.LeadPhone_Locale__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>New Zealand (+64)</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>LeadPhone_Unvalidated</targetReference>
+            </connector>
+            <label>PhoneLocale Is Changed</label>
+        </rules>
+        <rules>
+            <name>Yes_Phone_Is_Changed</name>
+            <conditionLogic>2 AND (4 OR 5) AND (1 OR 3)</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Phone_No_Locale__c</leftValueReference>
                 <operator>IsChanged</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
@@ -241,9 +304,16 @@
             </conditions>
             <conditions>
                 <leftValueReference>$Record.LeadPhone_Locale__c</leftValueReference>
-                <operator>NotEqualTo</operator>
+                <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>International</stringValue>
+                    <stringValue>Australia (+61)</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.LeadPhone_Locale__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>New Zealand (+64)</stringValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -255,17 +325,46 @@
     <decisions>
         <name>Work_Phone_Is_Changed</name>
         <label>Work Phone Is Changed</label>
-        <locationX>182</locationX>
+        <locationX>314</locationX>
         <locationY>983</locationY>
         <defaultConnector>
-            <targetReference>Personal_Mobile_Is_Changed</targetReference>
+            <targetReference>ABN_Is_Changed</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>No Work Phone Is Not Changed</defaultConnectorLabel>
         <rules>
-            <name>Yes_Work_Phone_Is_Changed</name>
-            <conditionLogic>2 AND (1 OR (3 AND 4))</conditionLogic>
+            <name>LeadWorkPhone_Is_Changed</name>
+            <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>$Record.Work_Phone__c</leftValueReference>
+                <leftValueReference>$Record.WorkPhone_Locale__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.WorkPhone_Locale__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Australia (+61)</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.WorkPhone_Locale__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>New Zealand (+64)</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>LEadWorkPhone_UNvalidated</targetReference>
+            </connector>
+            <label>LeadWorkPhone Is Changed</label>
+        </rules>
+        <rules>
+            <name>Yes_Work_Phone_Is_Changed</name>
+            <conditionLogic>2 AND (4 OR 5) AND (1 OR 3)</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Work_Phone_No_Locale__c</leftValueReference>
                 <operator>IsChanged</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
@@ -287,9 +386,16 @@
             </conditions>
             <conditions>
                 <leftValueReference>$Record.WorkPhone_Locale__c</leftValueReference>
-                <operator>NotEqualTo</operator>
+                <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>International</stringValue>
+                    <stringValue>Australia (+61)</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.WorkPhone_Locale__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>New Zealand (+64)</stringValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -321,35 +427,28 @@
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <start>
-        <locationX>56</locationX>
+        <locationX>188</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Phone_Is_Changed</targetReference>
         </connector>
         <filterLogic>or</filterLogic>
         <filters>
-            <field>Phone</field>
+            <field>Phone_No_Locale__c</field>
             <operator>IsChanged</operator>
             <value>
                 <booleanValue>true</booleanValue>
             </value>
         </filters>
         <filters>
-            <field>MobilePhone</field>
+            <field>Mobile_No_Locale__c</field>
             <operator>IsChanged</operator>
             <value>
                 <booleanValue>true</booleanValue>
             </value>
         </filters>
         <filters>
-            <field>Work_Phone__c</field>
-            <operator>IsChanged</operator>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </filters>
-        <filters>
-            <field>Personal_Mobile__c</field>
+            <field>Work_Phone_No_Locale__c</field>
             <operator>IsChanged</operator>
             <value>
                 <booleanValue>true</booleanValue>
@@ -378,13 +477,6 @@
         </filters>
         <filters>
             <field>WorkPhone_Locale__c</field>
-            <operator>IsChanged</operator>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </filters>
-        <filters>
-            <field>LeadPersonalMobile_Locale__c</field>
             <operator>IsChanged</operator>
             <value>
                 <booleanValue>true</booleanValue>
