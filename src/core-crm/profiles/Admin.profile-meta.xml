@@ -5106,7 +5106,7 @@
         <layout>Product2-OPE Product Page Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Product2-Module Page Layout</layout>
+        <layout>Product2-OPE Product Page Layout</layout>
         <recordType>Product2.Module</recordType>
     </layoutAssignments>
     <layoutAssignments>

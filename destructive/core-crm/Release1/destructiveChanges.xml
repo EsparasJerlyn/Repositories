@@ -200,6 +200,11 @@
         <members>Product_Request__c-Professional Advantage Request Layout</members>
         <name>Layout</name>
     </types>
+   <!--  DEPP-1785 -->
+    <types>
+        <members>Product2-Module Page Layout</members>
+        <name>Layout</name>
+    </types>
     <types>
         <members>opeCustomPageLayout</members>
         <name>LightningComponentBundle</name>
