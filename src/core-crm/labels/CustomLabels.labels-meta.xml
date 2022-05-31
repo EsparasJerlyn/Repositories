@@ -230,6 +230,13 @@
         <value>0 0 0 ? * MON-FRI</value>
     </labels>
     <labels>
+        <fullName>Loqate_Mobile_Validation_Cron_Expression</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Loqate Mobile Validation Cron Expression</shortDescription>
+        <value>0 0 0 ? * MON-SUN</value>
+    </labels>
+    <labels>
         <fullName>QUTeX</fullName>
         <language>en_US</language>
         <protected>false</protected>
