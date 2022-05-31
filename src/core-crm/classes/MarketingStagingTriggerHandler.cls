@@ -34,6 +34,8 @@ public with sharing class MarketingStagingTriggerHandler implements Disableable,
     Map<String,Marketing_Interaction__c> marInteractionToInsertMap = new Map<String,Marketing_Interaction__c>();
     Map<String,Marketing_Course_Application__c> marCourseAppToUpsertMap = new Map<String,Marketing_Course_Application__c>();
     Map<String,Marketing_Staging__c> marStageToUpdateMap = new Map<String, Marketing_Staging__c>();
+    Set<String> appIdPrefNumset = new Set<String>();
+    Set<String> lastNameList = new Set<String>();
 
     List<Potential_Duplicate__c> potentialDupToInsertList = new List<Potential_Duplicate__c>();
     
@@ -41,23 +43,35 @@ public with sharing class MarketingStagingTriggerHandler implements Disableable,
         if(mStaging.get('Name_and_Email__c') != null){
             marStagingMap.put((String)mStaging.get('Name_and_Email__c'),mStaging);
         }
+        if(mStaging.get('Applicant_Id_and_Preference_Num__c') != null){
+            appIdPrefNumset.add((String)mStaging.get('Applicant_Id_and_Preference_Num__c'));
+        }
+        if(mStaging.get('Last_Name__c') != null){
+            lastNameList.add((String)mStaging.get('Last_Name__c'));
+        }
     }
 
     if(!marStagingMap.keySet().isEmpty()){
         //get all matching contacts
         contactMatches = [  SELECT Id, Name_and_Email__c,
-                            (SELECT Id, Lead__c, Contact__c FROM Marketing_Segmentations__r),
+                            (SELECT Id, Lead__c, Contact__c FROM Marketing_Segmentations__r LIMIT 1),
                             (SELECT Id, Lead__c, Contact__c, Applicant_Id_and_Preference_Num__c
-                             FROM Marketing_Course_Applications__r)
+                             FROM Marketing_Course_Applications__r
+                             WHERE Applicant_Id_and_Preference_Num__c IN:appIdPrefNumset)
                             FROM Contact 
-                            WHERE Name_and_Email__c IN: marStagingMap.keySet()];
+                            WHERE Name_and_Email__c IN: marStagingMap.keySet()
+                            AND LastName IN:lastNameList
+                            AND Email != null];
         //get all matching leads
         leadMatches = [  SELECT Id, Name_and_Email__c, 
-                         (SELECT Id, Lead__c, Contact__c FROM Marketing_Segmentations__r),
+                         (SELECT Id, Lead__c, Contact__c FROM Marketing_Segmentations__r limit 1),
                          (SELECT Id, Lead__c, Contact__c, Applicant_Id_and_Preference_Num__c 
-                         FROM Marketing_Course_Applications__r) 
+                         FROM Marketing_Course_Applications__r  
+                         WHERE Applicant_Id_and_Preference_Num__c IN:appIdPrefNumset)
                             FROM Lead 
-                            WHERE Name_and_Email__c IN: marStagingMap.keySet()];                    
+                            WHERE Name_and_Email__c IN: marStagingMap.keySet() 
+                            AND LastName IN:lastNameList
+                            AND Email != null];                    
 
         for(Contact con: contactMatches){
             //create map that groups all nameemail and contacts
