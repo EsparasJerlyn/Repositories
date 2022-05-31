@@ -625,7 +625,7 @@
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <userPermissions>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
         <name>ApiEnabled</name>
     </userPermissions>
     <userPermissions>

@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>External_Key__c</fullName>
     <externalId>true</externalId>
-    <label>‘External Key</label>
+    <label>External Key</label>
     <length>80</length>
     <required>false</required>
     <trackHistory>false</trackHistory>
