@@ -50,7 +50,6 @@ import pricing from "@salesforce/label/c.QUT_ProductDetail_Pricing";
 import pricingPlaceholder from "@salesforce/label/c.QUT_ProductDetail_Pricing_Placeholder";
 import addToCart from "@salesforce/label/c.QUT_ProductDetail_AddToCart";
 import registerInterest from "@salesforce/label/c.QUT_ProductDetail_RegisterInterest";
-import subHeader from "@salesforce/label/c.QUT_ProductDetail_SubHeader";
 import LWC_Error_General from "@salesforce/label/c.LWC_Error_General";
 import professionalDevelopmentModules from "@salesforce/label/c.QUT_ProductDetail_Professional_Development_Modules";
 import { getRecord, getFieldValue } from "lightning/uiRecordApi";
@@ -123,7 +122,6 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     pricingPlaceholder,
     addToCart,
     registerInterest,
-    subHeader,
     professionalDevelopmentModules
   };
 
