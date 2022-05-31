@@ -365,14 +365,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>LinkedInRegHandler</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>LinkedInRegHandlerTest</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>ManageAdhocCommsSectionCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -486,6 +478,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>SetupCertificateVFPageCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StudyLinkedInRegHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StudyLinkedInRegHandlerTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
