@@ -12,7 +12,7 @@
       |                                |                       |                        |                              |
  */
 
-public with sharing class SendNewOfferingNotificationHelper {
+public without sharing class SendNewOfferingNotificationHelper {
   
 
     /**
