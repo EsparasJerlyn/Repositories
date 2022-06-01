@@ -27,6 +27,14 @@
     "regionName" : "sidebar",
     "type" : "region"
   }, {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:storeHeader",
+      "id" : "fe6cd4c1-c8ae-438b-8a84-1b5cd4d637d2",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
     "id" : "dc83268e-706e-49e7-a797-7385222d147a",
     "regionName" : "footer",
     "type" : "region"

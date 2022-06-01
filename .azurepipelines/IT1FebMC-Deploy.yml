@@ -18,7 +18,7 @@ schedules:
     always: true
     branches:
       include:
-        - release/IT1Jun
+        - release/IT1Feb
 
 #Custom Variables
 variables:

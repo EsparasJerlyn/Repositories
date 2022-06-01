@@ -61,11 +61,11 @@
               "buttonBackgroundHoverColor" : "",
               "buttonBorderColor" : "rgba(0, 0, 0, 0)",
               "buttonBorderRadius" : 0,
-              "buttonText" : "Log in",
+              "buttonText" : "Login",
               "buttonTextColor" : "",
               "buttonTextHoverColor" : "",
               "customizableUserProfileMenuEditor" : "Default_User_Profile_Menu",
-              "menuStyleSettings" : "{\"selectedMenuStyleSetting\":\"iconOnly\",\"selectedIconSetting\":\"companyLogo\",\"includeCompanyName\":true,\"selectedTextOrientationSetting\":\"left\"}"
+              "menuStyleSettings" : "{\"selectedMenuStyleSetting\":\"iconAndName\",\"selectedIconSetting\":\"userAvatar\",\"includeCompanyName\":true,\"selectedTextOrientationSetting\":\"right\"}"
             },
             "componentName" : "forceCommunity:customizableUserProfileMenu",
             "id" : "59e22211-7adb-45b9-9cfa-81760a54a93f",
@@ -90,8 +90,10 @@
           "components" : [ {
             "componentAttributes" : {
               "NavigationMenuEditorRefresh" : "",
-              "hideAppLauncher" : true,
-              "menuAlignment" : "left"
+              "alignment" : "left",
+              "showAppLauncher" : false,
+              "showBackLabel" : false,
+              "showHomeLink" : true
             },
             "componentName" : "forceCommunity:multiLevelNavigation",
             "id" : "a826543c-2fdf-471e-994d-cf3f701da53b",
@@ -213,17 +215,6 @@
           "regionName" : "search",
           "type" : "region"
         }, {
-          "components" : [ {
-            "componentAttributes" : {
-              "NavigationMenuEditorRefresh" : "Default_Navigation",
-              "hideAppLauncher" : true,
-              "menuAlignment" : "left"
-            },
-            "componentName" : "forceCommunity:multiLevelNavigation",
-            "id" : "aab6e6b3-1a4f-4a5a-ae20-db81709729e2",
-            "renditionMap" : { },
-            "type" : "component"
-          } ],
           "id" : "66a0d72b-05ef-4e71-bd45-f7b76c1729ff",
           "regionName" : "nav",
           "type" : "region"

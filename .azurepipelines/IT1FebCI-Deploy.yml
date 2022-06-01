@@ -7,7 +7,7 @@ resources:
       endpoint: Bitbucket_QUT
       name: qutdev/sfdx-pipelines
       ref: main ## PRODUCTION pipeline branch
-      #ref: feature/DEPP-790 ## DEV pipeline branch
+      #ref: feature/DEPP-2855-navmenufix ## DEV pipeline branch
       trigger: none
 
 # Build pull requests so we can test them

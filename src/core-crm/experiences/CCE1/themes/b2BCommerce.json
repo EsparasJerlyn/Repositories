@@ -104,13 +104,6 @@
           "regionName" : "search",
           "type" : "region"
         }, {
-          "components" : [ {
-            "componentAttributes" : { },
-            "componentName" : "c:mainNavigationMenu",
-            "id" : "e239a747-93ea-4312-be56-224dbaa77bce",
-            "renditionMap" : { },
-            "type" : "component"
-          } ],
           "id" : "473d1d07-c2ab-4751-ae76-2e0216e2cf8a",
           "regionName" : "nav",
           "type" : "region"
@@ -243,13 +236,6 @@
           "regionName" : "search",
           "type" : "region"
         }, {
-          "components" : [ {
-            "componentAttributes" : { },
-            "componentName" : "c:mainNavigationMenu",
-            "id" : "5012bf3b-6877-4646-9ef3-4e0e0e92da34",
-            "renditionMap" : { },
-            "type" : "component"
-          } ],
           "id" : "7b202782-0ddf-49d2-a79c-26bf6c5a5d50",
           "regionName" : "nav",
           "type" : "region"

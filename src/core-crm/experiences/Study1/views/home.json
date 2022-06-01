@@ -1,60 +1,13 @@
 {
   "appPageId" : "b28ff838-09a0-4bed-9c7e-7d9052f13951",
-  "componentName" : "siteforce:sldsTwoCol84Layout",
+  "componentName" : "siteforce:sldsOneColLayout",
   "id" : "0991a4b0-a73c-4a19-90ef-f45b8d48efbf",
   "label" : "Home",
   "regions" : [ {
-    "components" : [ {
-      "componentAttributes" : {
-        "bannerBackgroundColor" : "",
-        "bannerPosition" : "top",
-        "bannerSizePercent" : 35,
-        "borderRadius" : 20,
-        "boxShadow" : true,
-        "haveBanner" : false,
-        "iconBackgroundColor" : "rgb(255,255,255)",
-        "iconSize" : "medium",
-        "noImageColor" : "rgb(212, 212, 212)",
-        "overlay" : "rgba(0,0,0,0.01)",
-        "templateType" : "default",
-        "titleColor" : "",
-        "titleFontSize" : "medium",
-        "titleHorizontalAlign" : "center"
-      },
-      "componentName" : "community_navigation:tileMenu",
-      "id" : "bf4662cf-6a2d-42ca-a0d1-251594c53362",
-      "renderPriority" : "NEUTRAL",
-      "renditionMap" : { },
-      "type" : "component"
-    } ],
     "id" : "baec1980-e67e-4aed-b353-cc06ad650739",
     "regionName" : "header",
     "type" : "region"
   }, {
-    "components" : [ {
-      "componentAttributes" : {
-        "accountId" : "",
-        "noOrderMessageText" : "After you place an order, you’ll find it here.",
-        "noResultsText" : "To view orders, adjust your filters.",
-        "numberOfMonthsForFilter" : 12,
-        "orderSummaryFieldMapping" : "",
-        "ordersListCount" : 3,
-        "ordersListFilter" : false,
-        "ordersListSortBy" : false,
-        "ordersListTitle" : "Recent Orders",
-        "reOrder" : true,
-        "reOrderLabel" : "START REORDER",
-        "showMoreLabel" : "Go to Order List",
-        "viewDetails" : false,
-        "viewDetailsLabel" : "View Details",
-        "viewMoreOrderBehaviour" : "GO_TO_LIST_UI"
-      },
-      "componentName" : "b2b_buyer_builder:ordersList",
-      "id" : "a5402c57-9d8e-43df-bf47-5411b6795c25",
-      "renderPriority" : "NEUTRAL",
-      "renditionMap" : { },
-      "type" : "component"
-    } ],
     "id" : "03f4c2a8-58f6-4d6d-9701-6bbcbdf0e0b3",
     "regionName" : "content",
     "type" : "region"
@@ -115,7 +68,7 @@
     "regionName" : "sfdcHiddenRegion",
     "type" : "region"
   } ],
-  "themeLayoutType" : "Home",
+  "themeLayoutType" : "Inner",
   "type" : "view",
   "viewType" : "home"
 }
