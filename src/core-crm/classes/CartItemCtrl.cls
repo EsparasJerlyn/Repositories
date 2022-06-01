@@ -9,7 +9,7 @@
       | john.m.tambasen           | May 17, 2022          | DEPP-1151            | added the updation of cart status          |
 
 */
-public with sharing class CartItemCtrl {
+public without sharing class CartItemCtrl {
   /**
    * @description fetches cart items data and related registration questiosn for the product
    * @param cartId - id of the current active cart

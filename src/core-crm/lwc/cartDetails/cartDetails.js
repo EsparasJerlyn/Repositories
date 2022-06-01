@@ -32,7 +32,12 @@ const CONTACT_FIELDS = [
   "User.Contact.FirstName",
   "User.Contact.LastName",
   "User.Contact.Email",
-  "User.Contact.MobilePhone"
+  "User.Contact.MobilePhone",
+  "User.Contact.Dietary_Requirement__c",
+  "User.Contact.Company_Name__c",
+  "User.Contact.Position__c",
+  "User.Contact.Nominated_Employee_ID__c",
+  "User.Contact.Nominated_Student_ID__c",
 ];
 
 export default class CartDetails extends LightningElement {
@@ -42,6 +47,11 @@ export default class CartDetails extends LightningElement {
   @track contactLname;
   @track contactEmail;
   @track contactMobile;
+  @track contactDiet;
+  @track contactCompany;
+  @track contactPosition;
+  @track contactEmpId;
+  @track contactStudentId;
   @track error;
   @track subTotal;
   @track discountTotal;
@@ -242,6 +252,12 @@ export default class CartDetails extends LightningElement {
       this.contactLname = data.fields.Contact.value.fields.LastName.value;
       this.contactEmail = data.fields.Contact.value.fields.Email.value;
       this.contactMobile = data.fields.Contact.value.fields.MobilePhone.value;
+      this.contactDiet = data.fields.Contact.value.fields.Dietary_Requirement__c.value;
+      this.contactCompany = data.fields.Contact.value.fields.Company_Name__c.value;
+      this.contactPosition = data.fields.Contact.value.fields.Position__c.value;
+      this.contactEmpId = data.fields.Contact.value.fields.Nominated_Employee_ID__c.value;
+      this.contactStudentId = data.fields.Contact.value.fields.Nominated_Student_ID__c.value;
+
       this.checkData = true;
       this.fromCartSummary = true;
 
@@ -499,8 +515,6 @@ export default class CartDetails extends LightningElement {
 
   //retrieve the discount code
   applyCoupon(event) {
-    console.log("start:");
-    console.log(this.cartItems);
 
     //temporry cart items
     let tempCartItems = JSON.parse(JSON.stringify(this.cartItems));
@@ -530,9 +544,6 @@ export default class CartDetails extends LightningElement {
       return;
     }
 
-    console.log("disc: " + couponCode);
-    console.log("index: " + currentIndex);
-
     //function to get the total discount for the specific cart item
     getCartItemDiscount({
       productId: this.cartItems[currentIndex].productId,
@@ -560,8 +571,6 @@ export default class CartDetails extends LightningElement {
         //get totals
         this.total = this.calculateSubTotal() - this.calculateDiscountTotal();
 
-        console.log("done data");
-        console.log(this.cartItems);
       })
       .catch((error) => {
         this.error = error;
@@ -569,22 +578,6 @@ export default class CartDetails extends LightningElement {
         console.log("error");
         console.log(error);
       });
-
-    console.log("end:");
-    console.log(this.cartItems);
-
-    // applyCartCoupon({communityId: this.communityId, activeCartOrId: this.recordId, couponCode: couponCode})
-    // .then((data) => {
-
-    //     console.log("get apply coup data");
-    //     console.log(data);
-    // })
-    // .catch((error) => {
-    //     this.error = error;
-
-    //     console.log("error")
-    //     console.log(error);
-    // });
   }
 
   //test button
@@ -602,62 +595,98 @@ export default class CartDetails extends LightningElement {
     // let currentIndex = this.template.querySelector("lightning-input[data-id='" + event.target.dataset.id + "']").name;
   }
 
-   //enables edit mode
-   handleEditFirstName(){
-      this.editModeFN = true;
-    }
-    handleEditLastName(){
-        this.editModeLN = true;
-    }
-    handleEditEmail(){
-        this.editModeEmail = true;
-    }
-    handleEditMobile(){
-        this.editModeMob = true;
-    }
-    handleEditDietary(){
-        this.editModeDietary = true;
-    }
-    handleEditCompany(){
-        this.editModeCompany = true;
-    }
-    handleEditPosition(){
-        this.editModePosition = true;
-    }
-    handleEditStaff(){
-        this.editModeStaff= true;
-    }
-    handleEditStudent(){
-        this.editModeStudent= true;
-    }
+  //enables edit mode
+  handleEditFirstName(){
+    this.editModeFN = true;
+  }
+  handleEditLastName(){
+    this.editModeLN = true;
+  }
+  handleEditEmail(){
+    this.editModeEmail = true;
+  }
+  handleEditMobile(){
+    this.editModeMob = true;
+  }
+  handleEditDietary(){
+    this.editModeDietary = true;
+  }
+  handleEditCompany(){
+    this.editModeCompany = true;
+  }
+  handleEditPosition(){
+    this.editModePosition = true;
+  }
+  handleEditStaff(){
+    this.editModeStaff= true;
+  }
+  handleEditStudent(){
+    this.editModeStudent= true;
+  }
 
-    enableFNReadMode(){
-      this.editModeFN = false;
-    }
-    enableLNReadMode(){
-        this.editModeLN = false;
-    }
-    enableEmailReadMode(){
-        this.editModeEmail = false;
-    }
-    enableMobileReadMode(){
-        this.editModeMob = false;
-    }
-    enableDietaryReadMode(){
-        this.editModeDietary = false;
-    }
-    enableCompanyReadMode(){
-        this.editModeCompany = false;
-    }
-    enablePositionReadMode(){
-        this.editModePosition = false;
-    }
-    enableStaffReadMode(){
-        this.editModeStaff= false;
-    }
-    enableStudentReadMode(){
-        this.editModeStudent= false;
-    }
 
-    
+  enableFNReadMode(){
+    this.editModeFN = false;
+  }
+  enableLNReadMode(){
+    this.editModeLN = false;
+  }
+  enableEmailReadMode(){
+    this.editModeEmail = false;
+  }
+  enableMobileReadMode(){
+    this.editModeMob = false;
+  }
+  enableDietaryReadMode(){
+    this.editModeDietary = false;
+  }
+  enableCompanyReadMode(){
+    this.editModeCompany = false;
+  }
+  enablePositionReadMode(){
+    this.editModePosition = false;
+  }
+  enableStaffReadMode(){
+    this.editModeStaff= false;
+  }
+  enableStudentReadMode(){
+    this.editModeStudent= false;
+  }
+
+  //function called everytime the contact fields are updated
+  contactFieldChanged(event){
+
+    //get the specific field modified and its new value
+    let fieldName = event.target.fieldName;
+    let newValue = event.target.value;
+
+    //check for the specific field namne
+    if(fieldName == 'FirstName'){
+      this.contactFname = newValue;
+
+    } else if(fieldName == 'LastName'){
+      this.contactLname = newValue;
+
+    } else if(fieldName == 'Email'){
+      this.contactEmail = newValue;
+
+    } else if(fieldName == 'MobilePhone'){
+      this.contactMobile = newValue;
+
+    } else if(fieldName == 'Dietary_Requirement__c'){
+      this.contactDiet = newValue;
+
+    } else if(fieldName == 'Company_Name__c'){
+      this.contactCompany = newValue;
+
+    } else if(fieldName == 'Position__c'){
+      this.contactPosition = newValue;
+
+    } else if(fieldName == 'Nominated_Employee_ID__c'){
+      this.contactEmpId = newValue;
+
+    } else if(fieldName == 'Nominated_Student_ID__c'){
+      this.contactStudentId = newValue;
+    }
+  }
 }
