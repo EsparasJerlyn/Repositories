@@ -6,237 +6,354 @@
  *    | Developer                 | Date                  | JIRA                 | Change Summary                    |
       |---------------------------|-----------------------|----------------------|-----------------------------------|
       | eugene.andrew.abuan       | January 03, 2022      | DEPP-773             | Created file                      |
-      | eugene.andrew.abuan       | March 28, 2022        | DEPP-1293            | Added Dietary Req                 | 
+      | eugene.andrew.abuan       | March 28, 2022        | DEPP-1293            | Added Dietary Req                 |
       | angelika.j.s.galang       | May 26, 2022          | DEPP-1455            | Added contact duplicates handler  |
-      |                           |                       |                      |                                   | 
+      | john.bo.a.pineda          | June 1, 2022          | DEPP-1661            | Added send SMS OTP method         |
+      |                           |                       |                      |                                   |
 
  */
 public without sharing class RegistrationFormCtrl {
-    
-    private static final String RT_CONTACT_PERSON = System.Label.RT_Contact_Person;
-    private static final Id RT_CONTACT_PERSON_ID = Schema.SObjectType.Contact.getRecordTypeInfosByDeveloperName().get(RT_CONTACT_PERSON).getRecordTypeId();
-    
-    /**
-    * @description Method to check if Email exists 
-    * @param email - Email of the User 
-    * @return userList - returns true if email exits otherwise false
-    */
-    @AuraEnabled(cacheable=false)  
-    public static boolean isEmailExist(String email){
-        try {
-            List<User> userList = new List<User>();
-            userList = [Select Id, Name From User Where Email =:email];
-            return !userList.isEmpty();
-        } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage());
-        }
+  private static final String RT_CONTACT_PERSON = System.Label.RT_Contact_Person;
+  private static final Id RT_CONTACT_PERSON_ID = Schema.SObjectType.Contact.getRecordTypeInfosByDeveloperName()
+    .get(RT_CONTACT_PERSON)
+    .getRecordTypeId();
+
+  /**
+   * @description Method to check if Email exists
+   * @param email - Email of the User
+   * @return userList - returns true if email exits otherwise false
+   */
+  @AuraEnabled(cacheable=false)
+  public static boolean isEmailExist(String email) {
+    try {
+      List<User> userList = new List<User>();
+      userList = [SELECT Id, Name FROM User WHERE Email = :email];
+      return !userList.isEmpty();
+    } catch (Exception e) {
+      throw new AuraHandledException(e.getMessage());
     }
+  }
 
-    /**
-    * @description Method to get the community URL
-    * @return communityUrl - returns the site link
-    */
-    @AuraEnabled(cacheable=false)  
-    public static CommunityWrapper getCommunityUrl(){
-        try {
-            CommunityWrapper commData = new CommunityWrapper();
+  /**
+   * @description get OPE Product Category Id
+   * @return OPE Product Category Id
+   */
+  @AuraEnabled
+  public static ProductCategory getOPEProductCateg() {
+    ProductCategory prodCateg = new ProductCategory();
+    prodCateg = [
+      SELECT Id
+      FROM ProductCategory
+      WHERE Name = 'Products' AND Catalog.Name = 'Study Catalog'
+      LIMIT 1
+    ];
 
-            Site site = [SELECT Id FROM Site WHERE UrlPathPrefix = 'study' LIMIT 1];
-            String communityUrl = [SELECT SecureURL FROM SiteDetail WHERE DurableId =: site.Id].SecureUrl;
-            List<Domain> domainUrl = [SELECT Domain FROM Domain];
+    return prodCateg;
+  }
 
-            commData.comSite = communityUrl;
-            commData.comURL = domainUrl;
-            return commData;
-            
-        } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage());
-        }
+  /**
+   * @description Method to call Send OTP
+   * @param mobile - mobile to recieve OTP
+   * @return retOTP - returns OTP sent
+   */
+  @AuraEnabled(cacheable=false)
+  public static String sendRegistrationSMSOTP(String mobile) {
+    return MCTransactionalMessagingOTP.sendSMSOTP(mobile);
+  }
+
+  /**
+   * @description Method to get the community URL
+   * @return communityUrl - returns the site link
+   */
+  @AuraEnabled(cacheable=false)
+  public static CommunityWrapper getCommunityUrl() {
+    try {
+      CommunityWrapper commData = new CommunityWrapper();
+
+      Site site = [SELECT Id FROM Site WHERE UrlPathPrefix = 'study' LIMIT 1];
+      String communityUrl = [
+        SELECT SecureURL
+        FROM SiteDetail
+        WHERE DurableId = :site.Id
+      ]
+      .SecureUrl;
+      List<Domain> domainUrl = [SELECT Domain FROM Domain];
+
+      commData.comSite = communityUrl;
+      commData.comURL = domainUrl;
+      return commData;
+    } catch (Exception e) {
+      throw new AuraHandledException(e.getMessage());
     }
+  }
 
-    /**
-    * @description Method to Register User 
-    * @param firstName - First Name of the User 
-    * @param lastName - Last Name of the User
-    * @param email - Email of the User
-    * @param mobile - Mobile of the User
-    * @param date - date of the Birthdate of the User
-    * @param month - month of the Birthdate of the User
-    * @param year - year of the Birthdate of the User    
-    * @param dietraryReq - Dietary Requirement of the User
-    * @return page - Returns api name of the confirmation page
-    */
+  /**
+   * @description Method to Register User
+   * @param firstName - First Name of the User
+   * @param lastName - Last Name of the User
+   * @param email - Email of the User
+   * @param mobile - Mobile of the User
+   * @param date - date of the Birthdate of the User
+   * @param month - month of the Birthdate of the User
+   * @param year - year of the Birthdate of the User
+   * @param dietraryReq - Dietary Requirement of the User
+   * @param startURL - Start URL
+   * @return page - Returns api name of the confirmation page
+   */
+  @AuraEnabled
+  public static string registerUser(
+    String firstName,
+    String lastName,
+    String email,
+    String mobile,
+    Integer day,
+    Integer month,
+    Integer year,
+    String dietaryReq,
+    String startURL
+  ) {
+    try {
+      String confirmPageName = 'CheckPasswordResetEmail';
+
+      //Format birthday
+      Date birthdate = Date.newInstance(year, month, day);
+
+      //Query OPE Account
+      Account a = [SELECT Id, Name FROM Account WHERE Name = 'OPE Catalogue'];
+
+      //Detect contact duplicates
+      List<Contact> duplicateContacts = new List<Contact>(
+        [
+          SELECT
+            Id,
+            MobilePhone,
+            Dietary_Requirement__c,
+            AccountId,
+            Birthdate,
+            Email,
+            hed__WorkEmail__c,
+            QUT_Learner_Email__c,
+            QUT_Staff_Email__c,
+            LastName
+          FROM Contact
+          WHERE
+            RecordTypeId = :RT_CONTACT_PERSON_ID
+            AND Parent_Person_Contact__c = NULL
+            AND Birthdate = :birthdate
+            AND (Email = :email
+            OR hed__WorkEmail__c = :email
+            OR QUT_Learner_Email__c = :email
+            OR QUT_Staff_Email__c = :email)
+            AND LastName = :lastName
+        ]
+      );
+
+      //Update existing contact if there's only 1 exact match
+      if (duplicateContacts.size() == 1) {
+        Contact existingContact = duplicateContacts[0];
+        existingContact.AccountId = a.Id;
+        existingContact.MobilePhone = mobile;
+        existingContact.Dietary_Requirement__c = dietaryReq;
+        update existingContact;
+
+        //Create user if none associated yet
+        if (
+          [SELECT ContactId FROM User WHERE ContactId = :existingContact.Id]
+            .isEmpty()
+        ) {
+          confirmPageName = createNewUser(
+            firstName,
+            lastName,
+            email,
+            mobile,
+            birthdate,
+            existingContact.Id,
+            a.Id,
+            startURL
+          );
+        } else {
+          confirmPageName = 'CloseModal';
+        }
+      } else if (duplicateContacts.size() > 1) {
+        //Create potential duplicate records if there's more than 1 exact match
+        List<Potential_Duplicate__c> potentialDuplicates = new List<Potential_Duplicate__c>();
+        Id newContactId = createNewContact(
+          firstName,
+          lastName,
+          email,
+          mobile,
+          birthdate,
+          dietaryReq,
+          a.Id
+        );
+        confirmPageName = createNewUser(
+          firstName,
+          lastName,
+          email,
+          mobile,
+          birthdate,
+          newContactId,
+          a.Id,
+          startURL
+        );
+        for (Contact existingCon : duplicateContacts) {
+          potentialDuplicates.add(
+            new Potential_Duplicate__c(
+              Contact__c = existingCon.Id,
+              Duplicate_Contact__c = newContactId
+            )
+          );
+        }
+
+        insert potentialDuplicates;
+      } else {
+        //Proceed in creation as usual if no exact match found
+        Id newContactId = createNewContact(
+          firstName,
+          lastName,
+          email,
+          mobile,
+          birthdate,
+          dietaryReq,
+          a.Id
+        );
+        confirmPageName = createNewUser(
+          firstName,
+          lastName,
+          email,
+          mobile,
+          birthdate,
+          newContactId,
+          a.Id,
+          startURL
+        );
+      }
+
+      return confirmPageName;
+    } catch (Exception e) {
+      return null;
+    }
+  }
+
+  /**
+   * @description Method to insert and return the id of Contact
+   * @param firstName - First Name of the User
+   * @param lastName - Last Name of the User
+   * @param email - Email of the User
+   * @param mobile - Mobile of the User
+   * @param birthdate - date of the Birthdate of the User
+   * @param dietraryReq - Dietary Requirement of the User
+   * @param accountId - account of the User
+   * @return Returns api name of the confirmation page
+   */
+  public static Id createNewContact(
+    String firstName,
+    String lastName,
+    String email,
+    String mobile,
+    Date birthdate,
+    String dietaryReq,
+    Id accountId
+  ) {
+    //Set fields from the form to the Contact Object
+    Contact c = new Contact();
+    c.AccountId = accountId;
+    c.FirstName = firstName;
+    c.lastName = lastName;
+    c.Email = email;
+    c.MobilePhone = mobile;
+    c.Birthdate = birthdate;
+    c.Dietary_Requirement__c = dietaryReq;
+    insert (c);
+
+    return c.Id;
+  }
+
+  /**
+   * @description Method to insert a User
+   * @param firstName - First Name of the User
+   * @param lastName - Last Name of the User
+   * @param email - Email of the User
+   * @param mobile - Mobile of the User
+   * @param birthdate - date of the Birthdate of the User
+   * @param contactId - Contact related to the User
+   */
+  public static String createNewUser(
+    String firstName,
+    String lastName,
+    String email,
+    String mobile,
+    Date birthdate,
+    Id contactId,
+    Id accId,
+    String startURL
+  ) {
+    //Query Ecommerece Learner Profile
+    String userId;
+    String retURL;
+    String userName = email + '.ope';
+    Profile p = [SELECT Id FROM Profile WHERE Name = 'Ecommerce Learner'];
+
+    //Create User
+    User u = new User();
+    u.FirstName = firstName;
+    u.LastName = lastName;
+    u.Email = email;
+    u.MobilePhone = mobile;
+    u.Birthdate__c = birthdate;
+    u.Username = username;
+    String alias = firstName;
+    if (alias.length() > 8) {
+      alias = alias.substring(0, 8);
+    }
+    u.alias = alias;
+    u.CommunityNickname = alias;
+    u.LanguageLocaleKey = 'en_US';
+    u.localesidkey = UserInfo.getLocale();
+    u.emailEncodingKey = 'UTF-8';
+    u.timeZoneSidKey = 'Australia/Brisbane';
+    u.ContactId = contactId;
+    u.profileId = p.Id;
+    insert (u);
+
+    String key = EncodingUtil.convertToHex(crypto.generateAesKey(128));
+    String pwd = key.substring(0, 10);
+
+    system.setPassword(u.id, pwd);
+
+    List<Id> userInserted = new List<Id>();
+    userInserted.add(u.id);
+    assignOPEPermset(userInserted);
+
+    ApexPages.PageReference pageRef = Site.login(userName, pwd, startURL);
+    retURL = pageRef.getUrl();
+
+    return retURL;
+  }
+
+  /**
+   * @description Method to Assign the Permission set to the User in future
+   * @param recordIds - Id of the User
+   */
+  @future
+  public static void assignOPEPermset(List<ID> recordIds) {
+    User userInserted = [SELECT Id FROM User WHERE Id IN :recordIds];
+    PermissionSet ps = [
+      SELECT Name, Id
+      FROM PermissionSet
+      WHERE Name = 'OPE_Portal'
+    ];
+    PermissionSetAssignment psa = new PermissionSetAssignment(
+      PermissionSetId = ps.Id,
+      AssigneeId = userInserted.Id
+    );
+    insert (psa);
+  }
+
+  public class CommunityWrapper {
     @AuraEnabled
-    public static string registerUser(
-        String firstName, String lastName, String email, String mobile, 
-        Integer day, Integer month, Integer year, String dietaryReq){
-        try {
-            String confirmPageName = 'CheckPasswordResetEmail';
-
-            //Format birthday
-            Date birthdate = Date.newInstance(year, month, day);
-            
-            //Query OPE Account
-            Account a =  [SELECT Id, Name FROM Account WHERE Name ='OPE Catalogue'];
-
-            //Detect contact duplicates
-            List<Contact> duplicateContacts = new List<Contact>(
-                [
-                    SELECT Id, MobilePhone, Dietary_Requirement__c, AccountId,
-                        Birthdate, 
-                        Email, hed__WorkEmail__c, QUT_Learner_Email__c, QUT_Staff_Email__c,
-                        LastName
-                    FROM Contact
-                    WHERE RecordTypeId = :RT_CONTACT_PERSON_ID
-                    AND Parent_Person_Contact__c = null
-                    AND Birthdate = :birthdate
-                    AND 
-                    (
-                        Email = :email OR
-                        hed__WorkEmail__c = :email OR
-                        QUT_Learner_Email__c = :email OR
-                        QUT_Staff_Email__c = :email
-                    )
-                    AND LastName = :lastName
-                ]
-            );
-
-            //Update existing contact if there's only 1 exact match
-            if(duplicateContacts.size() == 1){
-                Contact existingContact = duplicateContacts[0];
-                existingContact.AccountId = a.Id;
-                existingContact.MobilePhone = mobile;
-                existingContact.Dietary_Requirement__c = dietaryReq;
-                update existingContact;
-
-                //Create user if none associated yet
-                if(
-                    [
-                        SELECT ContactId 
-                        FROM User 
-                        WHERE ContactId =: existingContact.Id
-                    ].isEmpty()
-                ){
-                    createNewUser(firstName,lastName,email,mobile,birthdate,existingContact.Id);
-                }else{
-                    confirmPageName = 'CloseModal';
-                }
-            }
-            //Create potential duplicate records if there's more than 1 exact match
-            else if(duplicateContacts.size() > 1){
-                List<Potential_Duplicate__c> potentialDuplicates = new List<Potential_Duplicate__c>();
-                Id newContactId = createNewContact(firstName,lastName,email,mobile,birthdate,dietaryReq,a.Id);
-                createNewUser(firstName,lastName,email,mobile,birthdate,newContactId);
-                for(Contact existingCon : duplicateContacts){
-                    potentialDuplicates.add(
-                        new Potential_Duplicate__c(
-                            Contact__c = existingCon.Id,
-                            Duplicate_Contact__c = newContactId
-                        )
-                    );
-                }
-
-                insert potentialDuplicates;
-            }
-            //Proceed in creation as usual if no exact match found
-            else{
-                Id newContactId = createNewContact(firstName,lastName,email,mobile,birthdate,dietaryReq,a.Id);
-                createNewUser(firstName,lastName,email,mobile,birthdate,newContactId);
-            }
-
-            return confirmPageName;
-        } 
-         catch (Exception e) {
-            return null;          
-        }
-    }  
-
-    /**
-    * @description Method to insert and return the id of Contact 
-    * @param firstName - First Name of the User 
-    * @param lastName - Last Name of the User
-    * @param email - Email of the User
-    * @param mobile - Mobile of the User
-    * @param birthdate - date of the Birthdate of the User  
-    * @param dietraryReq - Dietary Requirement of the User  
-    * @param accountId - account of the User
-    * @return Returns api name of the confirmation page
-    */
-    public static Id createNewContact(
-        String firstName, String lastName, String email, 
-        String mobile, Date birthdate, String dietaryReq, Id accountId){
-
-        //Set fields from the form to the Contact Object
-        Contact c= new Contact();
-        c.AccountId = accountId;
-        c.FirstName = firstName;
-        c.lastName = lastName;
-        c.Email = email;
-        c.MobilePhone = mobile;
-        c.Birthdate = birthdate;
-        c.Dietary_Requirement__c = dietaryReq;
-        insert (c);
-
-        return c.Id;
-    }
-
-    /**
-    * @description Method to insert a User
-    * @param firstName - First Name of the User 
-    * @param lastName - Last Name of the User
-    * @param email - Email of the User
-    * @param mobile - Mobile of the User
-    * @param birthdate - date of the Birthdate of the User  
-    * @param contactId - Contact related to the User
-    */
-    public static void createNewUser(
-        String firstName, String lastName, String email, 
-        String mobile, Date birthdate, Id contactId){
-        //Query Ecommerece Learner Profile
-        Profile p = [SELECT Id FROM Profile WHERE Name = 'Ecommerce Learner'];
-
-        //Create User
-        User u = new User();
-        u.FirstName = firstName;
-        u.LastName = lastName;
-        u.Email = email;
-        u.MobilePhone = mobile;
-        u.Birthdate__c = birthdate;
-        u.Username = email + '.ope';
-        String alias = firstName;
-        if (alias.length() > 8) {
-            alias = alias.substring(0, 8);
-        }
-        u.alias = alias;
-        u.LanguageLocaleKey = 'en_US';
-        u.localesidkey = UserInfo.getLocale();
-        u.emailEncodingKey = 'UTF-8';
-        u.timeZoneSidKey = 'Australia/Brisbane';
-        u.ContactId = contactId;
-        u.profileId = p.Id;
-        insert (u);
-
-        List<Id> userInserted = new List<Id>();
-        userInserted.add(u.Id);
-        assignOPEPermset(userInserted);
-    }
-
-    /**
-    * @description Method to Assign the Permission set to the User in future
-    * @param recordIds - Id of the User
-    */
-	@future
-    public static void assignOPEPermset(List<ID> recordIds){
-        User userInserted = [SELECT Id FROM User WHERE Id IN : recordIds];
-        PermissionSet ps = [SELECT Name,Id FROM PermissionSet WHERE Name ='OPE_Portal'];
-        PermissionSetAssignment psa = new PermissionSetAssignment(PermissionSetId = ps.Id , AssigneeId = userInserted.Id );
-        insert (psa);
-    }   
-
-    public class CommunityWrapper {
-        @AuraEnabled
-        public List<Domain> comURL ;
-        @AuraEnabled
-        public String comSite ; 
-    }
+    public List<Domain> comURL;
+    @AuraEnabled
+    public String comSite;
+  }
 }
