@@ -4,3 +4,27 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+.slds-combobox{
+  width:180px !important;
+}
+
+.combo-container.combobox-label{
+    width: 75%;
+    text-align: right;
+    font-size: var(--text-size-18);
+    line-height: 36px;
+    font-weight: 700 !important;
+    color: #000;
+}
+
+.slds-combobox_container{
+  place-items: flex-end;
+}
+
+@media only screen and (max-width: 764px){
+  .slds-combobox{
+    width:100% !important;
+  }
+}
+

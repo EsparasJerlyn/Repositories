@@ -14,7 +14,11 @@
     display: inline-block;
     margin-top: 0.5rem;
 }
-
+.sortTitle{
+    text-align: right;
+    width: 75%;
+    margin-top: 4px;
+}
 .heading-text-courses{
     line-height: 42px;
     /*margin-bottom: 1.3rem;*/
@@ -171,6 +175,9 @@ hr.searchTitle-line{
     .slds-medium-size_8-of-12, .slds-medium-size--8-of-12 {
         width: 66.6666666667%;
     }
+    .filter-desktop{
+        display: none;
+    }
 }
 
 
@@ -202,13 +209,36 @@ hr.searchTitle-line{
     SLDS media query reference: https://www.lightningdesignsystem.com/design-tokens/#category-media-query
 */
 @media only screen and (max-width: 764px) {
-    .layout-contiainer {
+
+
+    .sortTitle{
+        text-align: left;
+        width: 100% !important;
+        margin-top: 4px;
+    }
+
+    .combo-container {
+        width:100% !important;
+    }
+
+    .header-text{
+        margin-left: 0rem !important;
+    }
+
+    .text-center{
+        text-align: center !important;
+        width: 100% !important;
+    }    .layout-contiainer {
         flex-direction: column;
     }
 
     .aside-section {
         max-width: 100%;
     }
+
+    .sortCombobox {
+        width: 100%;
+    } 
 
     .filter-mobile{
         display: none;
@@ -223,6 +253,7 @@ hr.searchTitle-line{
         font-size: var(--text-size-18);
         font-family: 'ProximaNova';
         }
+    
 
         .desktopView{
             display: none;

@@ -13,6 +13,7 @@
     onsortbycourse={hanldeSortCourseValueChange}
   ></c-sort-course>
   -->
+   <!--
     <span class="combo-container">
         <h3 class="combobox-label">Sort courses by  &nbsp;&nbsp;&nbsp;</h3>
         <c-custom-combobox
@@ -25,6 +26,7 @@
             slds-icon-down="utility:chevrondown"
         ></c-custom-combobox>
     </span>
+    -->
 
     <header class="slds-m-bottom_medium">
         <div class="slds-grid slds-wrap"> <!--slds-size_12-of-12 -->
@@ -34,9 +36,45 @@
                 
             </div>
             <!-- hide filter courses heading -> mobile -->
-            <div class="main-section  slds-col slds-size_12-of-12 slds-medium-size_8-of-12  filter-mobile">
+            <div class="main-section  slds-col slds-size_12-of-12 slds-medium-size_5-of-12  filter-mobile">
                 <p class="slds-truncate slds-text-heading_large header-text">{headerText}</p>
             </div>
+
+            <div class="main-section  slds-col slds-size_12-of-12 slds-medium-size_3-of-12  filter-mobile">
+              <span class="combo-container">
+              <h3 class="header-text sortTitle">Sort courses by</h3>
+              <c-custom-combobox
+              class="sortCombobox"
+              placeholder="Coming Up"
+              options={options}
+              value={value}
+              onchange={hanldeSortCourseValueChange}
+              slds-icon-up="utility:chevronup"
+              slds-icon-down="utility:chevrondown"
+            ></c-custom-combobox>
+            </span>
+            </div>
+
+          <div class="main-section  slds-col slds-size_12-of-12 slds-medium-size_3-of-12  filter-desktop">
+            <h3 class="header-text sortTitle">Sort courses by</h3>
+            <span class="combo-container">
+            <c-custom-combobox
+            class="sortCombobox"
+            placeholder="Coming Up"
+            options={options}
+            value={value}
+            onchange={hanldeSortCourseValueChange}
+            slds-icon-up="utility:chevronup"
+            slds-icon-down="utility:chevrondown"
+          ></c-custom-combobox>
+          </span>
+          </div>
+
+          <div class="main-section  slds-col slds-size_12-of-12 slds-medium-size_5-of-12  filter-desktop">
+            <p class="slds-truncate slds-text-heading_large header-text text-center">{headerText}</p>
+        </div>
+
+
         </div>
     </header>
     <!-- Filter Mobile -->

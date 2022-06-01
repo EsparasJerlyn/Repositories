@@ -27,6 +27,6 @@ export default class ProgramModule extends LightningElement {
     }
 
     get getSequence(){
-        return MODULE + ' ' + this.programModule.sequence;
+        return this.programModule.sequence;
     }
 }

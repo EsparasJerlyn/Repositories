@@ -40,7 +40,7 @@ button.slds-button.slds-button_outline-brand {
   } 
 
   .seq-text{
-    text-align: start;
+    text-align: end;
   }
 
   .slds-timeline__item_expandable:before {

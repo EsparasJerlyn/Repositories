@@ -24,6 +24,10 @@
   color: #1c1c1c;
 }
 
+.slds-accordion__summary.slds-button:active{
+  border-color:#fff !important;
+}
+
 .slds-accordion__summary{
   margin-left: 0px  !important;
   margin-right: 0px  !important;
