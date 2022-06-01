@@ -38,7 +38,7 @@ public with sharing class MarketingStagingTriggerHelper{
     };
 
     private static final List<String> MARKETING_INTERACTION_FIELDS = new List<String>{
-        'Migration_Key__c','Interaction_Type__c','Interaction_DateTime__c','Lead_Source_Category__c','Lead_Source__c',
+        'External_Key__c','Migration_Key__c','Interaction_Type__c','Interaction_DateTime__c','Lead_Source_Category__c','Lead_Source__c',
         'SPAD__c','Page_Display_Name__c','Page_URL__c','UTM_Source__c','UTM_Campaign__c','UTM_Medium__c',
         'UTM_Term__c','UTM_Content__c','Enquiry_Type__c','Enquiry_Description__c','EDM_Last_Send_DateTime__c','Fee_Amount__c',
         'Discount_Amount__c','Country_Joining_From__c','QUT_Sloan_MIT_Affiliation__c','Has_Attended__c','Event_Agency_Host__c',
@@ -76,7 +76,7 @@ public with sharing class MarketingStagingTriggerHelper{
     };
 
     private static final Map<String,String> LEAD_FIELDS = new Map<String,String>{
-        'FirstName' => 'First_Name__c' , 'LastName' => 'Last_Name__c', 'Email' => 'Email__c',
+        'Migration_key__c' => 'Migration_Key__c','FirstName' => 'First_Name__c' , 'LastName' => 'Last_Name__c', 'Email' => 'Email__c',
         'Marketing_Mobile_Locale__c' => 'Mobile_Locale__c','Preferred_Given_Name__c' => 'Preferred_Given_Name__c',
         'Salutation' => 'Salutation__c', 'hed__Birth_Date__c' => 'Birthdate__c', 'hed__Gender__c' => 'Gender__c',
         'Phone_No_Locale__c' => 'Phone__c', 'Mobile_No_Locale__c' => 'Mobile__c', 'Street' => 'Street__c',
