@@ -22,6 +22,7 @@
       | keno.domienri.dico        | April 29, 2022        | DEPP-2038            | Added child product records                  |
       | marlon.vasquez            | May 04,2022           | DEPP-1531            | Added Questionnaire Form                     |
       | julie.jane.alegre         | May 24,2022           | DEPP-2070            | Added Group Registration Button              |
+      | julie.jane.alegre         | June 01,2022          | DEPP-2781            | Fix bug for Group Registration button visibility     |
 */
 
 import { LightningElement, wire, api, track } from "lwc";
@@ -483,6 +484,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
 
   // Set Selected Price Book Entry value
   handlePricebookSelected(event) {
+    let selectedPBLabel = event.detail.label;
     this.selectedPriceBookEntry = event.detail.value;
     if (this.isInternalUser == true) {
       this.disableAddToCart = true;
@@ -490,21 +492,26 @@ export default class ProductDetailsDisplay extends NavigationMixin(
       this.disableAddToCart = false;
       this.displayGroupRegistration = false;
     }
-    this.priceBookEntries.forEach((pBookEntry) => {
-      if (
-        pBookEntry.value === this.selectedPriceBookEntry &&
-        pBookEntry.label == "Group Booking"
-      ) {
-        this.disableAddToCart = true;
-        this.displayGroupRegistration = true;
+
+    if (selectedPBLabel == "Group Booking") {
+      this.displayAddToCart = false;
+      this.displayGroupRegistration = true;
+      if (this.responseData.length > 0) {
+        this.displayQuestionnaire = true;
       } else {
-        this.displayAddToCart = true;
-        if (this.responseData.length > 0) {
-          this.displayQuestionnaire = true;
-          this.displayAddToCart = false;
-        }
+        this.displayQuestionnaire = false;
       }
-    });
+    } else {
+      this.displayGroupRegistration = false;
+      this.displayAddToCart = true;
+      if (this.responseData.length > 0) {
+        this.displayQuestionnaire = true;
+        this.displayAddToCart = false;
+      } else {
+        this.displayQuestionnaire = false;
+        this.displayAddToCart = true;
+      }
+    }
   }
 
   // Creates toast notification
