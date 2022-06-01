@@ -9,10 +9,11 @@
  *    | Developer Email                | Date                  | JIRA                 | Change Summary               |
       |--------------------------------|-----------------------|----------------------|------------------------------|
       | aljohn.motas@qut.edu.au        | January 14, 2022      | DEP1-1392            | Created file                 | 
+      | marygrace.li@qut.edu.au        | June 1, 2022          | DEPP-2854            | Added getStudyStore          |
       |                                |                       |                      |                              | 
  */
 
-public with sharing class MainNavigationMenuCtrl {
+public without sharing class MainNavigationMenuCtrl {
     
     @AuraEnabled(cacheable=true)
     public static list<Opportunity> getOpportunityContractType(Id userId){
@@ -54,5 +55,5 @@ public with sharing class MainNavigationMenuCtrl {
             }
         return ProductCategories;
     }
-    
+
 }

@@ -30,13 +30,13 @@
     <gatherCustomerSentimentData>false</gatherCustomerSentimentData>
     <networkMemberGroups>
         <permissionSet>OPE_Portal</permissionSet>
-        <profile>Admin</profile>
-        <profile>Ecommerce Learner</profile>
+        <profile>admin</profile>
+        <profile>ecommerce learner</profile>
     </networkMemberGroups>
     <networkPageOverrides>
         <changePasswordPageOverrideSetting>Standard</changePasswordPageOverrideSetting>
         <forgotPasswordPageOverrideSetting>Standard</forgotPasswordPageOverrideSetting>
-        <homePageOverrideSetting>Designer</homePageOverrideSetting>
+        <homePageOverrideSetting>VisualForce</homePageOverrideSetting>
         <loginPageOverrideSetting>Designer</loginPageOverrideSetting>
         <selfRegProfilePageOverrideSetting>Designer</selfRegProfilePageOverrideSetting>
     </networkPageOverrides>

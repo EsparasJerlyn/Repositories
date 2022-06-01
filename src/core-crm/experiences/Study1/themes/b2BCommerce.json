@@ -56,19 +56,9 @@
         "id" : "57b2fd7f-149a-4c40-bf6e-f40ae63114ac",
         "regions" : [ {
           "components" : [ {
-            "componentAttributes" : {
-              "buttonBackgroundColor" : "",
-              "buttonBackgroundHoverColor" : "",
-              "buttonBorderColor" : "rgba(0, 0, 0, 0)",
-              "buttonBorderRadius" : 0,
-              "buttonText" : "Login",
-              "buttonTextColor" : "",
-              "buttonTextHoverColor" : "",
-              "customizableUserProfileMenuEditor" : "Default_User_Profile_Menu",
-              "menuStyleSettings" : "{\"selectedMenuStyleSetting\":\"iconAndName\",\"selectedIconSetting\":\"userAvatar\",\"includeCompanyName\":true,\"selectedTextOrientationSetting\":\"right\"}"
-            },
-            "componentName" : "forceCommunity:customizableUserProfileMenu",
-            "id" : "59e22211-7adb-45b9-9cfa-81760a54a93f",
+            "componentAttributes" : { },
+            "componentName" : "c:customLogout",
+            "id" : "785b6606-497b-48a3-b535-ee9705f34c8d",
             "renditionMap" : { },
             "type" : "component"
           } ],
@@ -79,7 +69,7 @@
           "components" : [ {
             "componentAttributes" : { },
             "componentName" : "c:storeBreadrumbs",
-            "id" : "d01c0589-3285-436e-8e15-822b1aeef702",
+            "id" : "e9e22a16-2464-4564-aa83-76d8d3b1a08d",
             "renditionMap" : { },
             "type" : "component"
           } ],
@@ -93,10 +83,10 @@
               "alignment" : "left",
               "showAppLauncher" : false,
               "showBackLabel" : false,
-              "showHomeLink" : true
+              "showHomeLink" : false
             },
             "componentName" : "forceCommunity:multiLevelNavigation",
-            "id" : "a826543c-2fdf-471e-994d-cf3f701da53b",
+            "id" : "dd6b11e7-3d59-41d4-ac82-b2dbd57a1a1f",
             "renditionMap" : { },
             "type" : "component"
           } ],

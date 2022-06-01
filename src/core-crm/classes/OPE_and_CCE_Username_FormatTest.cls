@@ -7,6 +7,7 @@
       |---------------------------|-----------------------|----------------------|------------------------------|
       | roy.nino.s.regala         | May 12, 2022          | DEPP-1495,2402       | Created file                 |
  */
+
 @isTest(SeeAllData=false)
 public with sharing class OPE_and_CCE_Username_FormatTest {
   @isTest

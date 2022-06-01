@@ -8,6 +8,14 @@
     "regionName" : "header",
     "type" : "region"
   }, {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:redirectToProductPage",
+      "id" : "2d4cb96e-601a-4119-8256-ec3283518e43",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
     "id" : "03f4c2a8-58f6-4d6d-9701-6bbcbdf0e0b3",
     "regionName" : "content",
     "type" : "region"
