@@ -14,12 +14,13 @@
  */
 public without sharing class ContactTriggerHandler implements Disableable, BeforeInsert, BeforeUpdate, AfterInsert, AfterUpdate {
   
-    public static final Id PERSON = Schema.SObjectType.Contact.getRecordTypeInfosByDeveloperName()
-        .get('Person')
-        .getRecordTypeId();
-    public static final Id MC_PERSONA = Schema.SObjectType.Contact.getRecordTypeInfosByDeveloperName()
-        .get('MC_Persona')
-        .getRecordTypeId();
+  public static Boolean isRunning = false;
+  public static final Id PERSON = Schema.SObjectType.Contact.getRecordTypeInfosByDeveloperName()
+      .get('Person')
+      .getRecordTypeId();
+  public static final Id MC_PERSONA = Schema.SObjectType.Contact.getRecordTypeInfosByDeveloperName()
+      .get('MC_Persona')
+      .getRecordTypeId();
     
   /**
    * @description call method to display error when Image count on Contact.Contact_Image__c is > 1
@@ -54,6 +55,16 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
     );
     createChildMCPersona((List<Contact>) newItems.values());
     ContactDuplicatesHelper.detectDuplicates((Map<Id,Contact>) newItems);
+
+    if(!isRunning){
+      isRunning = true;
+      ContactWithMatchingLeadHelper.detectLeadDuplicates((Map<Id,Contact>) newItems);
+      List<Id> contactIds = new List<Id>();
+      for(Contact contact : (List<Contact>) newItems.values()){
+        contactIds.add(contact.Id);
+      }
+      ContactWithMatchingLeadHelper.convertLead(contactIds);
+    }
   }
 
   /**
