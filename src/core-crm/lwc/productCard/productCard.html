@@ -45,14 +45,18 @@
                   </div>
                   <div class="slds-p-bottom_small">
                     <span class="item-container">  
-                      <img class="item-icon" src={dollar_icon} />
-                      <p class="item-label bodyRegular"><strong class="bodyBold">Price:&nbsp;</strong>From {product.childProdPrice}</p>
+                      <template if:false={product.isProgramFlex}>
+                        <img class="item-icon" src={dollar_icon} />
+                        <p class="item-label bodyRegular"><strong class="bodyBold">Price:&nbsp;</strong>From {product.childProdPrice}</p>
+                      </template>
                     </span>                
                   </div>
                   <div class="slds-p-bottom_small">
                     <span class="item-container">
-                      <img class="item-icon" src={time_icon} />
-                      <p class="item-label bodyRegular"><strong class="bodyBold">Duration:&nbsp;</strong>{product.childProdDuration}</p>
+                      <template if:false={product.isProgramFlex}>
+                        <img class="item-icon" src={time_icon} />
+                        <p class="item-label bodyRegular"><strong class="bodyBold">Duration:&nbsp;</strong>{product.childProdDuration}</p>
+                      </template>
                     </span>
                   </div>
                 </div>
