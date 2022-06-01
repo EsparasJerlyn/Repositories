@@ -25,16 +25,18 @@ public with sharing class LoqateMobileValidationBatch implements Database.Batcha
     private static final Map<String,Map<String,String>> OBJECT_MAP = new Map<String,Map<String,String>>
         {
             LEAD_API_NAME => new Map<String,String>{
-                'fields' => 'LeadMobile_Locale__c, Mobile_No_Locale__c, LeadMobile_Validation__c',
+                'fields' => 'LeadMobile_Locale__c, Mobile_No_Locale__c, LeadMobile_Validation__c, MobilePhone',
                 'mobileLocale' => 'LeadMobile_Locale__c',
                 'mobileNoLocale' => 'Mobile_No_Locale__c',
-                'validationStatus' => 'LeadMobile_Validation__c'
+                'validationStatus' => 'LeadMobile_Validation__c',
+                'mobilePhone' => 'mobilePhone'
             },
             CONTACT_API_NAME => new Map<String,String>{
                 'fields' => 'ContactMobile_Locale__c, Mobile_No_Locale__c, ContactMobile_Validation__c',
                 'mobileLocale' => 'ContactMobile_Locale__c',
                 'mobileNoLocale' => 'Mobile_No_Locale__c',
-                'validationStatus' => 'ContactMobile_Validation__c'
+                'validationStatus' => 'ContactMobile_Validation__c',
+                'mobilePhone' => 'mobilePhone'
             }
     };
 
@@ -66,7 +68,7 @@ public with sharing class LoqateMobileValidationBatch implements Database.Batcha
             ' WHERE (' + queryMapping.get('mobileLocale') + ' = \'' + AU_LOCALE + '\' ' +
             ' OR ' + queryMapping.get('mobileLocale') + ' = \'' + NZ_LOCALE + '\' ' +
             ') AND ' + queryMapping.get('validationStatus') + ' = \'' + NONE_STATUS + '\' ' +
-            ' AND ' + queryMapping.get('mobileNoLocale') + ' != null '  + (Test.isRunningTest()?' LIMIT 1':'LIMIT 5000');
+            ' AND ' + queryMapping.get('mobileNoLocale') + ' != null '  + (Test.isRunningTest()?' LIMIT 10':'LIMIT 5000');
         return Database.getQueryLocator(query);
     }
 
@@ -74,38 +76,79 @@ public with sharing class LoqateMobileValidationBatch implements Database.Batcha
      * @description Executes the process and calls the relevant classes.
      *
      * @param context The batch context.
-     * @param batchObjects The objects to process.
+     * @param objectList The objects to process.
      */
     public void execute(Database.BatchableContext context, List<sObject> objectList) {
         try{
             String payLoadString;
-            String endPoint;
+            String endPointAU;
+            String endPointNZ;
+
+            String auResponse;
+            String nzResponse;
+
+            endPointAU = ENDPOINT_START;  
+            endPointAU += 'au' + STR_PHONE;
+            endPointNZ = ENDPOINT_START;  
+            endPointNZ += 'nz' + STR_PHONE;
+
+
             Map<String,Object> resultObjectMap = new Map<String,Object>();
             ResponseResult responseRes = new ResponseResult();
-
+            String auPayLoadStr;
+            String nzPayLoadStr;
+            PayLoad auPayLoadClass;
+            PayLoad nzPayLoadClass;
+            List<Payload> auPayLoadList = new List<PayLoad>();
+            List<Payload> nzPayLoadList = new List<PayLoad>();
+            List<sObject> auRecords = new List<sObject>();
+            List<sObject> nzRecords = new List<sObject>();
+            List<sObject> objectsToUpdate = new List<sObject>();
+            sObject newObj;
+            
+            //filter nz and au
             for(sObject obj: objectList){
-                payLoadString =  '{"payload" : [{"country":"' ;
-                payLoadString += LOCALE_MAP.get((String)obj.get(queryMapping.get('mobileLocale')));
-                payLoadString += '","fullPhone":"' + obj.get(queryMapping.get('mobileNoLocale')) + '"}]}';
-
-                endPoint = ENDPOINT_START;  
-                endPoint += LOCALE_MAP.get((String)obj.get(queryMapping.get('mobileLocale'))).toLowerCase() + STR_PHONE;
-
-                String responseString = doCallout(endPoint,'POST',payLoadString);
-
-                resultObjectMap = (Map<String,Object>) JSON.deserializeUntyped(responseString);  
-                responseRes = (ResponseResult) JSON.deserialize(JSON.serialize(resultObjectMap), ResponseResult.class);
-
-                if(!responseRes.payload.isEmpty() && responseRes.payload[0].phoneStatus != null && VALID_RESPONSE.contains((String)responseRes.payload[0].phoneStatus)){
-                    obj.put(queryMapping.get('validationStatus'),'Valid');
+                if(LOCALE_MAP.get((String)obj.get(queryMapping.get('mobileLocale'))) == 'AU'){
+                    auRecords.add(obj);
+                    auPayLoadClass = new PayLoad();
+                    auPayLoadClass.country = 'AU';
+                    auPayLoadClass.fullPhone = (String)obj.get(queryMapping.get('mobileNoLocale'));
+                    auPayLoadList.add(auPayLoadClass);
                 }else{
-                    obj.put(queryMapping.get('validationStatus'),'Not Valid');
+                    nzRecords.add(obj);
+                    nzPayLoadClass = new PayLoad();
+                    nzPayLoadClass.country = 'NZ';
+                    nzPayLoadClass.fullPhone = (String)obj.get(queryMapping.get('mobileNoLocale'));
+                    nzPayLoadList.add(nzPayLoadClass);
                 }
-            }     
-            update objectList;
+            }
+
+            if(!auPayLoadList.isEmpty()){
+                auPayLoadStr = '{"payload" :' +  JSON.serialize(auPayLoadList) +'}';
+                auResponse = doCallout(endPointAU,'POST',auPayLoadStr);
+                Map<String,Object> auResultObjectMap = (Map<String,Object>) JSON.deserializeUntyped(auResponse);  
+                ResponseResult auResponseRes = (ResponseResult) JSON.deserialize(JSON.serialize(auResultObjectMap), ResponseResult.class);
+                if(!auResponseRes.payload.isEmpty()){
+                    objectsToUpdate.addAll(processResponse(auRecords,auResponseRes, queryMapping));
+                }
+            }
+
+            if(!nzPayLoadList.isEmpty()){
+                nzPayLoadStr = '{"payload" :' +  JSON.serialize(nzPayLoadList) +'}';
+                nzResponse = doCallout(endPointNZ,'POST',nzPayLoadStr);
+                Map<String,Object> auResultObjectMap = (Map<String,Object>) JSON.deserializeUntyped(nzResponse);  
+                ResponseResult nzResponseRes = (ResponseResult) JSON.deserialize(JSON.serialize(auResultObjectMap), ResponseResult.class);
+                if(!nzResponseRes.payload.isEmpty()){
+                    objectsToUpdate.addAll(processResponse(nzRecords,nzResponseRes, queryMapping));
+                }
+            }
+
+            if(!objectsToUpdate.isEmpty()){
+                update objectsToUpdate;
+            }
             
         }catch(Exception e){
-            System.debug(LoggingLevel.DEBUG, 'Error Processing Request!E: '+ e);//NOPMD
+            System.debug(LoggingLevel.DEBUG, 'Error Processing Request!'+ e.getStackTraceString());//NOPMD
         }
         
     }
@@ -147,6 +190,33 @@ public with sharing class LoqateMobileValidationBatch implements Database.Batcha
     }
 
     /**
+    * @description processes response
+    * @param loqateRecords - path of the endpoint
+    * @param responseList - response from loqate
+    * @param queryMapping - field mappings specified for object type
+    * @return processResponse - processed reponse contact/lead nz or au phone
+    */
+    public static List<SObject> processResponse(List<sObject> loqateRecords,ResponseResult responseList, Map<String,String> queryMapping ) {
+
+        if(!responseList.payload.isEmpty()){
+            for(Integer i = 0 ; i < responseList.payload.size(); i ++){
+                if(responseList.payload[i].phoneStatus != null && VALID_RESPONSE.contains((String)responseList.payload[i].phoneStatus)){
+                    loqateRecords[i].put(queryMapping.get('validationStatus'),'Valid');
+                    Matcher mobile_NL = Pattern.compile('^0+').matcher((String)loqateRecords[i].get(queryMapping.get('mobileNoLocale'))); 
+                    String mobileNoLocaleTemp = mobile_NL.replaceAll('');
+                    String localNoLocale = (String)loqateRecords[i].get(queryMapping.get('mobileLocale')) + mobileNoLocaleTemp;
+                    loqateRecords[i].put(queryMapping.get('mobilePhone'),localNoLocale);
+                    Matcher matcher1 = Pattern.compile('[^0-9]').matcher((String)loqateRecords[i].get('mobilePhone'));
+                    loqateRecords[i].put(queryMapping.get('mobilePhone'),matcher1.replaceAll(''));
+                }else{
+                    loqateRecords[i].put(queryMapping.get('validationStatus'),'Not Valid');
+                }
+            }
+        }
+        return loqateRecords;
+    }
+
+    /**
      * @description Finalizer method for the batch process.
      *
      * @param param1 The batch context.
@@ -163,15 +233,16 @@ public with sharing class LoqateMobileValidationBatch implements Database.Batcha
     }
 
     //for payload response
-    public class PayloadResponse{
+    public class PayLoadResponse{
         //for phone response
         public String fullPhone;
         public String country;
         public String phoneStatus;
+    }
 
-        //for company response
-        public String name;
-        public String abn;
-        public String status;
+    public class PayLoad{
+        public String country;
+        public String fullPhone;
+
     }
 }

@@ -17,8 +17,8 @@ public with sharing class LoqateMobileValidationScheduler implements Schedulable
     * @description Method for calling Publishing End Date batch job
     */
     public void execute (SchedulableContext context){
-		Database.executeBatch(new LoqateMobileValidationBatch('Lead'),1);
-        if(!Test.isRunningTest()){ Database.executeBatch(new LoqateMobileValidationBatch('Contact'),1);}
+		Database.executeBatch(new LoqateMobileValidationBatch('Lead'),50);
+        if(!Test.isRunningTest()){ Database.executeBatch(new LoqateMobileValidationBatch('Contact'),50);}
             
     }
 }

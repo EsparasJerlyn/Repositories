@@ -30,6 +30,15 @@ private class LoqateMobileValidationBatchTest {
             con.ContactMobile_Validation__c = 'None';
             con.Mobile_No_Locale__c = '123456';
         }
+        List<Contact> contactsNz = TestDataFactory.createTestContactRecords(5);
+        for(Contact con: contactsNz){
+            con.FirstName = 'Test NZ';
+            con.Company_Name__c = 'Test Comapny2';
+            con.ContactMobile_Locale__c = NZ_LOCALE;
+            con.ContactMobile_Validation__c = 'None';
+            con.Mobile_No_Locale__c = '123456';
+        }
+        contacts.addAll(contactsNz);
         insert contacts;
 
         List<Lead> leads = TestDataFactory.createTestLeadRecords(5);
@@ -38,8 +47,16 @@ private class LoqateMobileValidationBatchTest {
             lead.LeadMobile_Validation__c = 'None';
             lead.Mobile_No_Locale__c = '123456';
         }
+        List<Lead> leadsNZ = TestDataFactory.createTestLeadRecords(5);
+        for(Lead lead: leadsNZ){
+            lead.LastName = 'Test NZ';
+            lead.LeadMobile_Locale__c = NZ_LOCALE;
+            lead.LeadMobile_Validation__c = 'None';
+            lead.Mobile_No_Locale__c = '123456';
+        }
+        leads.addAll(leadsNZ);
         insert leads;
-        
+
     }
 
     @IsTest
@@ -47,18 +64,21 @@ private class LoqateMobileValidationBatchTest {
         Test.startTest();
 
             Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
-            Id batchJobId = Database.executeBatch(new LoqateMobileValidationBatch('Contact'));
+            Id batchJobId = Database.executeBatch(new LoqateMobileValidationBatch('Contact'),10);
 
+            
         Test.stopTest();
+        System.assert(![SELECT Id FROM AsyncApexJob WHERE ApexClass.Name = 'LoqateMobileValidationBatch'].isEmpty() , 'LoqateMobileValidationBatch Job was not executed');
     }
     @IsTest
     private static void validateLeadPhoneFieldsTest(){
         Test.startTest();
 
             Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
-            Id batchJobId = Database.executeBatch(new LoqateMobileValidationBatch('Lead'));
+            Id batchJobId = Database.executeBatch(new LoqateMobileValidationBatch('Lead'),10);
 
         Test.stopTest();
+        System.assert(![SELECT Id FROM AsyncApexJob WHERE ApexClass.Name = 'LoqateMobileValidationBatch'].isEmpty() , 'LoqateMobileValidationBatch Job was not executed');
     }
 
 
