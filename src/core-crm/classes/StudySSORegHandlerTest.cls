@@ -20,10 +20,9 @@ public with sharing class StudySSORegHandlerTest {
         StudySSORegHandler handler = new StudySSORegHandler();
         Auth.UserData data = TestDataFactory.createCommunityUser('testdata@test.com', 'Data', 'Test', 'tUser');
         
-        User PORTAL_SYS_ADMIN = [
-            SELECT Id FROM User WHERE IsActive = true
-            AND FirstName = 'Sys Admin' AND LastName = 'Integration User' AND Profile.Name = 'System Administrator' LIMIT 1
-        ];
+        User PORTAL_SYS_ADMIN = TestDataFactory.getPortalOwner();
+        update PORTAL_SYS_ADMIN;
+
         system.runAs(PORTAL_SYS_ADMIN) { 
 
             Test.startTest();

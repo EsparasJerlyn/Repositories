@@ -1193,5 +1193,23 @@ public class TestDataFactory {
     return cons;
   }
 
+  /**
+   * @description Method for creating Sys Admin Portal Owner
+   * @param void
+   * @return portalSysAdmin - Portal Sys Admin user
+   */
+  public static User getPortalOwner() {
+    //get the sys admin user to run the insertion of portal user
+    User portalSysAdmin = [
+        SELECT Id FROM User WHERE IsActive = true
+        AND FirstName = 'Sys Admin' AND LastName = 'Integration User' AND Profile.Name = 'System Administrator' LIMIT 1
+    ];
+
+    //add UserRole
+    portalSysAdmin.UserRoleId = [SELECT Id FROM UserRole WHERE Name = 'System Administrator' LIMIT 1]?.Id;
+
+    return portalSysAdmin;
+  }
+
 }
 
