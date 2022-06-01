@@ -1,4 +1,4 @@
-/** 
+/**
  * @description Test class for ProductCtrl
  * @see ../classes ProductCtrl
  * @author Accenture
@@ -13,14 +13,27 @@
 public with sharing class ProductCtrlTest {
   private static final string STUDENT_RT = System.Label.RT_CourseConnection_Student;
   private static final String RT_PRODUCT_REQ = System.Label.RT_ProductRequest_Activity;
-  private static final Id OPE_ACTIVITY_RECQ = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(RT_PRODUCT_REQ).getRecordTypeId();
+  private static final Id OPE_ACTIVITY_RECQ = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName()
+    .get(RT_PRODUCT_REQ)
+    .getRecordTypeId();
   private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
-  private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
-  public static final Id FACULTY_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get('Faculty').getRecordTypeId();
-  private static User currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
+  private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName()
+    .get(ACCT_UNIV_DEP)
+    .getRecordTypeId();
+  public static final Id FACULTY_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
+    .get('Faculty')
+    .getRecordTypeId();
+  private static User currentUser = TestDataFactory.createUserRecords(
+      1,
+      'QUTeX'
+    )
+    .iterator()
+    .next();
   private static string prPROGRAM = System.Label.RT_ProductRequest_Program;
-  private static Id opeProgProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(prPROGRAM).getRecordTypeId();
-  
+  private static Id opeProgProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName()
+    .get(prPROGRAM)
+    .getRecordTypeId();
+
   @testSetup
   static void setupMethod() {
     System.runAs(currentUser) {
@@ -35,19 +48,29 @@ public with sharing class ProductCtrlTest {
       List<Contact> contacts = TestDataFactory.createTestContactRecords(1);
       insert contacts;
 
-      List<hed__Term__c> terms = TestDataFactory.createTestTermRecords(10,accounts[0].Id);
+      List<hed__Term__c> terms = TestDataFactory.createTestTermRecords(
+        10,
+        accounts[0].Id
+      );
       insert terms;
 
-      List<Product_Request__c> prodRequest = TestDataFactory.createTestProductRequestRecords(1);
+      List<Product_Request__c> prodRequest = TestDataFactory.createTestProductRequestRecords(
+        1
+      );
       prodRequest[0].RecordTypeId = OPE_ACTIVITY_RECQ;
       insert prodRequest;
 
-      List<Product_Request__c> prodRequestPrescribedProgram = TestDataFactory.createTestProductRequestRecords(1);
+      List<Product_Request__c> prodRequestPrescribedProgram = TestDataFactory.createTestProductRequestRecords(
+        1
+      );
       prodRequestPrescribedProgram[0].RecordTypeId = opeProgProdReqId;
-      prodRequestPrescribedProgram[0].OPE_Program_Plan_Type__c = 'Prescribed Program';
+      prodRequestPrescribedProgram[0]
+        .OPE_Program_Plan_Type__c = 'Prescribed Program';
       insert prodRequestPrescribedProgram;
 
-      List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(1);
+      List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(
+        1
+      );
       programPlans[0].Product_Request__c = prodRequestPrescribedProgram[0].Id;
       insert programPlans;
 
@@ -57,30 +80,39 @@ public with sharing class ProductCtrlTest {
         Delivery_Type__c = 'Online Classroom',
         hed_Capacity__c = 30,
         Start_Date__c = system.today() + 1,
-        Registration_Start_Date__c = system.today() + 1,
+        Registration_Start_Date__c = system.today() - 1,
         IsActive__c = true
-       );
+      );
       insert programOffering;
 
-      List<hed__Course__c> courses = TestDataFactory.createTestCourseRecords(10,accounts[0].Id,prodRequest[0].Id);
+      List<hed__Course__c> courses = TestDataFactory.createTestCourseRecords(
+        10,
+        accounts[0].Id,
+        prodRequest[0].Id
+      );
       insert courses;
 
-      List<Product2> singleProducts = TestDataFactory.createTestProductRecords(10,courses);
+      List<Product2> singleProducts = TestDataFactory.createTestProductRecords(
+        10,
+        courses
+      );
       for (Product2 sProd : singleProducts) {
         sProd.Delivery__c = 'Online Classroom;Online Self-paced;Brisbane Classroom';
-        sProd.Study_Area__c	= 'Engineering';
+        sProd.Study_Area__c = 'Engineering';
         sProd.Product_Type__c = 'Short Course';
-        sProd.Available_on_Cart__c = TRUE;
+        sProd.Available_on_Cart__c = true;
       }
       insert singleProducts;
 
-      List<Product2> prodProgProducts = TestDataFactory.createTestProductRecords(50);
+      List<Product2> prodProgProducts = TestDataFactory.createTestProductRecords(
+        50
+      );
       for (Product2 presProd : prodProgProducts) {
         presProd.Delivery__c = 'Online Classroom;Online Self-paced;Brisbane Classroom';
-        presProd.Study_Area__c	= 'Engineering';
+        presProd.Study_Area__c = 'Engineering';
         presProd.Product_Type__c = 'Short Course';
         presProd.Program_Plan__c = programPlans[0].Id;
-        presProd.Available_on_Cart__c = TRUE;
+        presProd.Available_on_Cart__c = true;
       }
       insert prodProgProducts;
 
@@ -110,15 +142,23 @@ public with sharing class ProductCtrlTest {
       }
       insert priceBookEntryList;
 
-      List<hed__Course_Offering__c> courseOfferings = TestDataFactory.createTestCourseOfferingRecord(10,courses,terms);
+      List<hed__Course_Offering__c> courseOfferings = TestDataFactory.createTestCourseOfferingRecord(
+        10,
+        courses,
+        terms
+      );
       for (hed__Course_Offering__c cOffering : courseOfferings) {
-        cOffering.Registration_Start_Date__c = system.today() + 2;
+        cOffering.Registration_Start_Date__c = system.today() - 2;
         cOffering.IsActive__c = true;
         cOffering.Delivery_Type__c = 'Online Classroom';
       }
       insert courseOfferings;
 
-      List<hed__Course_Enrollment__c> courseConnections = TestDataFactory.createTestCourseConnectionRecord(10,contacts[0].Id,courseOfferings);
+      List<hed__Course_Enrollment__c> courseConnections = TestDataFactory.createTestCourseConnectionRecord(
+        10,
+        contacts[0].Id,
+        courseOfferings
+      );
       for (hed__Course_Enrollment__c courseConnection : courseConnections) {
         courseConnection.RecordTypeId = FACULTY_RECTYPEID;
       }
@@ -126,124 +166,139 @@ public with sharing class ProductCtrlTest {
 
       ProductCatalog prodCatalog = new ProductCatalog(Name = 'Study Catalog');
       insert prodCatalog;
-      ProductCategory prodCateg = new ProductCategory(Name = 'Products',CatalogId = prodCatalog.Id);
+      ProductCategory prodCateg = new ProductCategory(
+        Name = 'Products',
+        CatalogId = prodCatalog.Id
+      );
       insert prodCateg;
-      CommerceEntitlementPolicy commEntPolicy = new CommerceEntitlementPolicy(Name = 'OPE Entitlement');
+      CommerceEntitlementPolicy commEntPolicy = new CommerceEntitlementPolicy(
+        Name = 'OPE Entitlement'
+      );
       insert commEntPolicy;
 
       Test.stopTest();
     }
   }
-    
-    @isTest
-    static void getProductsSortPriceLowToHighTest() {
-      User currUsr = [ SELECT Id FROM User
-        WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
-        LIMIT 1
-      ];
-  
-      System.runAs(currUsr) {
-		    List<Product2> p = new List<Product2>();
-        p=[SELECT Id, Delivery__c FROM Product2];
-        List<String> productId = new List<String>();
-        for( Product2 product : p){
-            productId.add(product.Id);
-        }
 
-        Test.startTest();
-        ProductCtrl.ProductData getProd =  new ProductCtrl.ProductData();
-        getProd = ProductCtrl.getProducts(productId,'priceLowToHigh');
-        Test.stopTest();
-  
-        System.assert( getProd != null,'Successfully retrieved Products');
-      }
-    }
-    
-    @isTest
-    static void getProductsSortPriceHighToLowTest() {
-      User currUsr = [ SELECT Id FROM User
-        WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
-        LIMIT 1
-      ];
-  
-      System.runAs(currUsr) {
-		    List<Product2> p = new List<Product2>();
-        p=[SELECT Id, Delivery__c FROM Product2];
-        List<String> productId = new List<String>();
-        for( Product2 product : p){
-            productId.add(product.Id);
-        }
-
-        Test.startTest();
-        ProductCtrl.ProductData getProd =  new ProductCtrl.ProductData();
-        getProd = ProductCtrl.getProducts(productId,'priceHighToLow');
-        Test.stopTest();
-  
-        System.assert( getProd != null,'Successfully retrieved Products');
-      }
-    }
-    
-    @isTest
-    static void getProductsPublishDateTest() {
-      User currUsr = [ SELECT Id FROM User
-        WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
-        LIMIT 1
-      ];
-  
-      System.runAs(currUsr) {
-		    List<Product2> p = new List<Product2>();
-        p=[SELECT Id, Delivery__c FROM Product2];
-        List<String> productId = new List<String>();
-        for( Product2 product : p){
-            productId.add(product.Id);
-        }
-
-        Test.startTest();
-        ProductCtrl.ProductData getProd =  new ProductCtrl.ProductData();
-        getProd = ProductCtrl.getProducts(productId,'newlyAdded');
-        Test.stopTest();
-  
-        System.assert( getProd != null,'Successfully retrieved Products');
-      }
-    }
-    
-    @isTest
-    static void getProductsStartDateTest() {
-      User currUsr = [ SELECT Id FROM User
-        WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
-        LIMIT 1
-      ];
-  
-      System.runAs(currUsr) {
-		    List<Product2> p = new List<Product2>();
-        p=[SELECT Id, Delivery__c FROM Product2];
-        List<String> productId = new List<String>();
-        for( Product2 product : p){
-            productId.add(product.Id);
-        }
-
-        Test.startTest();
-        ProductCtrl.ProductData getProd =  new ProductCtrl.ProductData();
-        getProd = ProductCtrl.getProducts(productId,'comingUp');
-        Test.stopTest();
-  
-        System.assert( getProd != null,'Successfully retrieved Products');
-      }
-    }
-
-    @isTest
-    static void getFilterSearchKeyTest(){
-      User currUsr = [ SELECT Id FROM User
+  @isTest
+  static void getProductsSortPriceLowToHighTest() {
+    User currUsr = [
+      SELECT Id
+      FROM User
       WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
       LIMIT 1
     ];
 
     System.runAs(currUsr) {
       List<Product2> p = new List<Product2>();
-      p=[SELECT Id, Delivery__c FROM Product2];
+      p = [SELECT Id, Delivery__c FROM Product2];
       List<String> productId = new List<String>();
-      for( Product2 product : p){
-          productId.add(product.Id);
+      for (Product2 product : p) {
+        productId.add(product.Id);
+      }
+
+      Test.startTest();
+      ProductCtrl.ProductData getProd = new ProductCtrl.ProductData();
+      getProd = ProductCtrl.getProducts(productId, 'priceLowToHigh');
+      Test.stopTest();
+
+      System.assert(getProd != null, 'Successfully retrieved Products');
+    }
+  }
+
+  @isTest
+  static void getProductsSortPriceHighToLowTest() {
+    User currUsr = [
+      SELECT Id
+      FROM User
+      WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
+      LIMIT 1
+    ];
+
+    System.runAs(currUsr) {
+      List<Product2> p = new List<Product2>();
+      p = [SELECT Id, Delivery__c FROM Product2];
+      List<String> productId = new List<String>();
+      for (Product2 product : p) {
+        productId.add(product.Id);
+      }
+
+      Test.startTest();
+      ProductCtrl.ProductData getProd = new ProductCtrl.ProductData();
+      getProd = ProductCtrl.getProducts(productId, 'priceHighToLow');
+      Test.stopTest();
+
+      System.assert(getProd != null, 'Successfully retrieved Products');
+    }
+  }
+
+  @isTest
+  static void getProductsPublishDateTest() {
+    User currUsr = [
+      SELECT Id
+      FROM User
+      WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
+      LIMIT 1
+    ];
+
+    System.runAs(currUsr) {
+      List<Product2> p = new List<Product2>();
+      p = [SELECT Id, Delivery__c FROM Product2];
+      List<String> productId = new List<String>();
+      for (Product2 product : p) {
+        productId.add(product.Id);
+      }
+
+      Test.startTest();
+      ProductCtrl.ProductData getProd = new ProductCtrl.ProductData();
+      getProd = ProductCtrl.getProducts(productId, 'newlyAdded');
+      Test.stopTest();
+
+      System.assert(getProd != null, 'Successfully retrieved Products');
+    }
+  }
+
+  @isTest
+  static void getProductsStartDateTest() {
+    User currUsr = [
+      SELECT Id
+      FROM User
+      WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
+      LIMIT 1
+    ];
+
+    System.runAs(currUsr) {
+      List<Product2> p = new List<Product2>();
+      p = [SELECT Id, Delivery__c FROM Product2];
+      List<String> productId = new List<String>();
+      for (Product2 product : p) {
+        productId.add(product.Id);
+      }
+
+      Test.startTest();
+      ProductCtrl.ProductData getProd = new ProductCtrl.ProductData();
+      getProd = ProductCtrl.getProducts(productId, 'comingUp');
+      Test.stopTest();
+
+      System.assert(getProd != null, 'Successfully retrieved Products');
+    }
+  }
+
+  @isTest
+  static void getFilterSearchKeyTest() {
+    User currUsr = [
+      SELECT Id
+      FROM User
+      WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
+      LIMIT 1
+    ];
+
+    System.runAs(currUsr) {
+      List<Product2> p = new List<Product2>();
+      p = [SELECT Id, Delivery__c FROM Product2];
+      List<String> productId = new List<String>();
+      for (Product2 product : p) {
+        productId.add(product.Id);
       }
 
       Test.startTest();
@@ -255,86 +310,109 @@ public with sharing class ProductCtrlTest {
       var.minUnitPrice = 0;
       var.maxUnitPrice = 5000;
       var.sortby = 'comingUp';
-      ProductCtrl.FilterData getFilterProd = ProductCtrl.getFilteredProducts(productId , var);
+      ProductCtrl.FilterData getFilterProd = ProductCtrl.getFilteredProducts(
+        productId,
+        var
+      );
       Test.stopTest();
 
-      System.assert( getFilterProd != null,'No Products were found with Search key as filter');
+      System.assert(
+        getFilterProd != null,
+        'No Products were found with Search key as filter'
+      );
     }
   }
 
-
-    @isTest
-    static void getFilterStudyAreaTest(){
-      User currUsr = [ SELECT Id FROM User
+  @isTest
+  static void getFilterStudyAreaTest() {
+    User currUsr = [
+      SELECT Id
+      FROM User
       WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
       LIMIT 1
     ];
 
     System.runAs(currUsr) {
       List<Product2> p = new List<Product2>();
-      p=[SELECT Id, Delivery__c FROM Product2];
+      p = [SELECT Id, Delivery__c FROM Product2];
       List<String> productId = new List<String>();
-      for( Product2 product : p){
-          productId.add(product.Id);
+      for (Product2 product : p) {
+        productId.add(product.Id);
       }
 
       Test.startTest();
       ProductCtrl.FilterWrapper var = new ProductCtrl.FilterWrapper();
       var.searchKey = '';
-      var.studyArea = new List<String>{'Engineering'};
+      var.studyArea = new List<String>{ 'Engineering' };
       var.deliveryType = new List<String>();
       var.productType = new List<String>();
       var.sortby = 'comingUp';
-      ProductCtrl.FilterData getFilterProd = ProductCtrl.getFilteredProducts(productId , var);
+      ProductCtrl.FilterData getFilterProd = ProductCtrl.getFilteredProducts(
+        productId,
+        var
+      );
       Test.stopTest();
 
-      System.assert( getFilterProd != null,'No Products were found with Study Area as filter');
+      System.assert(
+        getFilterProd != null,
+        'No Products were found with Study Area as filter'
+      );
     }
   }
 
-      @isTest
-    static void getFilterDeliveryTest(){
-      User currUsr = [ SELECT Id FROM User
+  @isTest
+  static void getFilterDeliveryTest() {
+    User currUsr = [
+      SELECT Id
+      FROM User
       WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
       LIMIT 1
     ];
 
     System.runAs(currUsr) {
       List<Product2> p = new List<Product2>();
-      p=[SELECT Id, Delivery__c FROM Product2];
+      p = [SELECT Id, Delivery__c FROM Product2];
       List<String> productId = new List<String>();
-      for( Product2 product : p){
-          productId.add(product.Id);
+      for (Product2 product : p) {
+        productId.add(product.Id);
       }
 
       Test.startTest();
       ProductCtrl.FilterWrapper var = new ProductCtrl.FilterWrapper();
       var.searchKey = '';
       var.studyArea = new List<String>();
-      var.deliveryType = new List<String>{'Online Classroom'};
+      var.deliveryType = new List<String>{ 'Online Classroom' };
       var.productType = new List<String>();
       var.sortby = 'comingUp';
 
-      ProductCtrl.FilterData getFilterProd = ProductCtrl.getFilteredProducts(productId , var);
+      ProductCtrl.FilterData getFilterProd = ProductCtrl.getFilteredProducts(
+        productId,
+        var
+      );
       Test.stopTest();
 
-      System.assert( getFilterProd != null,'No Products were found with Delivery Type as filter');
+      System.assert(
+        getFilterProd != null,
+        'No Products were found with Delivery Type as filter'
+      );
     }
   }
 
-    @isTest
-    static void getFilterProductTypeTest(){
-      User currUsr = [ SELECT Id FROM User
+  @isTest
+  static void getFilterProductTypeTest() {
+    User currUsr = [
+      SELECT Id
+      FROM User
       WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
       LIMIT 1
     ];
 
     System.runAs(currUsr) {
       List<Product2> p = new List<Product2>();
-      p=[SELECT Id, Delivery__c FROM Product2];
+      p = [SELECT Id, Delivery__c FROM Product2];
       List<String> productId = new List<String>();
-      for( Product2 product : p){
-          productId.add(product.Id);
+      for (Product2 product : p) {
+        productId.add(product.Id);
       }
 
       Test.startTest();
@@ -342,109 +420,153 @@ public with sharing class ProductCtrlTest {
       var.searchKey = '';
       var.studyArea = new List<String>();
       var.deliveryType = new List<String>();
-      var.productType = new List<String>{'Short Course'};
+      var.productType = new List<String>{ 'Short Course' };
       var.sortby = 'comingUp';
 
-      ProductCtrl.FilterData getFilterProd = ProductCtrl.getFilteredProducts(productId , var);
+      ProductCtrl.FilterData getFilterProd = ProductCtrl.getFilteredProducts(
+        productId,
+        var
+      );
       Test.stopTest();
 
-      System.assert( getFilterProd != null,'No Products were found with Short Course as filter');
+      System.assert(
+        getFilterProd != null,
+        'No Products were found with Short Course as filter'
+      );
     }
   }
-    
-    @isTest
-    static void getFilterDateSortPriceTest(){
-      User currUsr = [ SELECT Id FROM User
+
+  @isTest
+  static void getFilterDateSortPriceTest() {
+    User currUsr = [
+      SELECT Id
+      FROM User
       WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
       LIMIT 1
     ];
 
     System.runAs(currUsr) {
       List<Product2> p = new List<Product2>();
-      p=[SELECT Id, Delivery__c FROM Product2];
+      p = [SELECT Id, Delivery__c FROM Product2];
       List<String> productId = new List<String>();
-      for( Product2 product : p){
-          productId.add(product.Id);
+      for (Product2 product : p) {
+        productId.add(product.Id);
       }
 
       Test.startTest();
       ProductCtrl.FilterWrapper var = new ProductCtrl.FilterWrapper();
       Date dToday = Date.today();
-      Date dTodayMinus3 = dToday -3;
+      Date dTodayMinus3 = dToday - 3;
       Date dTodayPlus10 = dToday + 10;
       var.searchKey = '';
       var.studyArea = new List<String>();
       var.deliveryType = new List<String>();
       var.productType = new List<String>();
       var.minUnitPrice = 3;
-      var.startDate = dTodayMinus3.day() + '/' + dToday.month() + '/'+ dToday.year() ;
-      var.endDate =  dTodayPlus10.day() + '/' + dToday.month() + '/' + dToday.year();
+      var.startDate =
+        dTodayMinus3.day() +
+        '/' +
+        dToday.month() +
+        '/' +
+        dToday.year();
+      var.endDate =
+        dTodayPlus10.day() +
+        '/' +
+        dToday.month() +
+        '/' +
+        dToday.year();
       var.sortby = 'priceLowToHigh';
 
-      ProductCtrl.FilterData getFilterProd = ProductCtrl.getFilteredProducts(productId , var);
+      ProductCtrl.FilterData getFilterProd = ProductCtrl.getFilteredProducts(
+        productId,
+        var
+      );
 
       Test.stopTest();
 
-      System.assert( getFilterProd != null,'No Products were found with Date as Filter');
+      System.assert(
+        getFilterProd != null,
+        'No Products were found with Date as Filter'
+      );
     }
   }
 
-   @isTest
-    static void getFilterDateTest(){
-      User currUsr = [ SELECT Id FROM User
+  @isTest
+  static void getFilterDateTest() {
+    User currUsr = [
+      SELECT Id
+      FROM User
       WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
       LIMIT 1
     ];
 
     System.runAs(currUsr) {
       List<Product2> p = new List<Product2>();
-      p=[SELECT Id, Delivery__c FROM Product2];
+      p = [SELECT Id, Delivery__c FROM Product2];
       List<String> productId = new List<String>();
-      for( Product2 product : p){
-          productId.add(product.Id);
+      for (Product2 product : p) {
+        productId.add(product.Id);
       }
 
       Test.startTest();
       ProductCtrl.FilterWrapper var = new ProductCtrl.FilterWrapper();
       Date dToday = Date.today();
-      Date dTodayMinus3 = dToday -3;
+      Date dTodayMinus3 = dToday - 3;
       Date dTodayPlus10 = dToday + 10;
       var.searchKey = '';
       var.studyArea = new List<String>();
       var.deliveryType = new List<String>();
       var.productType = new List<String>();
       var.minUnitPrice = 3;
-      var.startDate = dTodayMinus3.day() + '/' + dToday.month() + '/'+ dToday.year() ;
-      var.endDate =  dTodayPlus10.day() + '/' + dToday.month() + '/' + dToday.year();
+      var.startDate =
+        dTodayMinus3.day() +
+        '/' +
+        dToday.month() +
+        '/' +
+        dToday.year();
+      var.endDate =
+        dTodayPlus10.day() +
+        '/' +
+        dToday.month() +
+        '/' +
+        dToday.year();
       var.sortby = 'comingUp';
 
-      ProductCtrl.FilterData getFilterProd = ProductCtrl.getFilteredProducts(productId , var);
+      ProductCtrl.FilterData getFilterProd = ProductCtrl.getFilteredProducts(
+        productId,
+        var
+      );
 
       Test.stopTest();
 
-      System.assert( getFilterProd != null,'No Products were found with Date as Filter');
+      System.assert(
+        getFilterProd != null,
+        'No Products were found with Date as Filter'
+      );
     }
   }
 
-    @isTest
-    static void getFilterPriceDateComboTest(){
-      User currUsr = [ SELECT Id FROM User
+  @isTest
+  static void getFilterPriceDateComboTest() {
+    User currUsr = [
+      SELECT Id
+      FROM User
       WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
       LIMIT 1
     ];
 
     System.runAs(currUsr) {
       List<Product2> p = new List<Product2>();
-      p=[SELECT Id, Delivery__c FROM Product2];
+      p = [SELECT Id, Delivery__c FROM Product2];
       List<String> productId = new List<String>();
-      for( Product2 product : p){
-          productId.add(product.Id);
+      for (Product2 product : p) {
+        productId.add(product.Id);
       }
 
       Test.startTest();
       ProductCtrl.FilterWrapper var = new ProductCtrl.FilterWrapper();
       Date dToday = Date.today();
-      Date dTodayMinus3 = dToday -3;
+      Date dTodayMinus3 = dToday - 3;
       Date dTodayPlus10 = dToday + 10;
       var.searchKey = '';
       var.studyArea = new List<String>();
@@ -452,15 +574,31 @@ public with sharing class ProductCtrlTest {
       var.productType = new List<String>();
       var.minUnitPrice = 3;
       var.maxUnitPrice = 15;
-      var.startDate = dTodayMinus3.day() + '/' + dToday.month() + '/'+ dToday.year() ;
-      var.endDate =  dTodayPlus10.day() + '/' + dToday.month() + '/' + dToday.year();
-      var.sortby = 'comingUp';  
+      var.startDate =
+        dTodayMinus3.day() +
+        '/' +
+        dToday.month() +
+        '/' +
+        dToday.year();
+      var.endDate =
+        dTodayPlus10.day() +
+        '/' +
+        dToday.month() +
+        '/' +
+        dToday.year();
+      var.sortby = 'comingUp';
 
-      ProductCtrl.FilterData getFilterProd = ProductCtrl.getFilteredProducts(productId , var);
+      ProductCtrl.FilterData getFilterProd = ProductCtrl.getFilteredProducts(
+        productId,
+        var
+      );
 
       Test.stopTest();
 
-      System.assert( getFilterProd != null,'No Products were found with Date and Price as filter');
+      System.assert(
+        getFilterProd != null,
+        'No Products were found with Date and Price as filter'
+      );
     }
   }
 }

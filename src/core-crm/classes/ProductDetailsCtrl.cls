@@ -13,6 +13,7 @@
       | keno.domienri.dico        | April 29, 2022        | DEPP-2038            | Added Child products display               |
       | eugene.andrew.abuan       | May 10, 2022          | DEPP-1269            | Added isProgramFlex to match in prodCard   |
       | julie.jane.alegre         | May 24, 2022          | DEPP-2070            | Added logic for Group Booking              |
+      | john.bo.a.pineda          | June 01, 2022         | DEPP-2853            | Updated Registration Dates Logic           |
 */
 public without sharing class ProductDetailsCtrl {
   public static final Id STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
@@ -103,7 +104,9 @@ public without sharing class ProductDetailsCtrl {
           SELECT Count(Id) counter, Delivery_Type__c
           FROM hed__Course_Offering__c
           WHERE
-            Registration_Start_Date__c >= TODAY
+            Registration_Start_Date__c <= TODAY
+            AND (Registration_End_Date__c = NULL
+            OR Registration_End_Date__c > TODAY)
             AND IsActive__c = TRUE
             AND Available_Seats__c > 0
             AND hed__Course__c = :productOnPage.Course__c
@@ -172,7 +175,10 @@ public without sharing class ProductDetailsCtrl {
           SELECT hed__Course__c, MIN(hed__Start_Date__c) startDate
           FROM hed__Course_Offering__c
           WHERE
-            Registration_Start_Date__c >= TODAY
+            hed__Start_Date__c >= TODAY
+            AND Registration_Start_Date__c <= TODAY
+            AND (Registration_End_Date__c = NULL
+            OR Registration_End_Date__c > TODAY)
             AND IsActive__c = TRUE
             AND Available_Seats__c > 0
             AND hed__Course__r.ProductRequestID__c IN :courseIdSet
@@ -281,7 +287,9 @@ public without sharing class ProductDetailsCtrl {
           )
         FROM hed__Course_Offering__c
         WHERE
-          Registration_Start_Date__c >= TODAY
+          Registration_Start_Date__c <= TODAY
+          AND (Registration_End_Date__c = NULL
+          OR Registration_End_Date__c > TODAY)
           AND IsActive__c = TRUE
           AND Available_Seats__c > 0
           AND hed__Course__c = :courseId
@@ -993,7 +1001,9 @@ public without sharing class ProductDetailsCtrl {
           hed_Program_Plan__c = :programPlanId
           AND IsActive__c = TRUE
           AND Available_Seats__c > 0
-          AND Registration_Start_Date__c > Today
+          AND Registration_Start_Date__c <= TODAY
+          AND (Registration_End_Date__c = NULL
+          OR Registration_End_Date__c > TODAY)
       ];
       System.debug('programOfferings: ' + programOfferings);
       for (Program_Offering__c programOffering : programOfferings) {

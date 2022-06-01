@@ -156,7 +156,7 @@ private class ProductDetailsCtrlTest {
         terms
       );
       for (hed__Course_Offering__c cOffering : courseOfferings) {
-        cOffering.Registration_Start_Date__c = system.today() + 2;
+        cOffering.Registration_Start_Date__c = system.today() - 2;
         cOffering.IsActive__c = true;
         cOffering.Delivery_Type__c = 'Online Classroom';
       }
@@ -251,42 +251,69 @@ private class ProductDetailsCtrlTest {
 
   @isTest
   static void testGetProductRelatedRecordsForPrescribedProgram() {
-    User currUsr = [SELECT Id FROM User WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com' LIMIT 1 ];
-        Product_Request__c productRequest = [Select Id, Name From Product_Request__c LIMIT 1];
+    User currUsr = [
+      SELECT Id
+      FROM User
+      WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
+      LIMIT 1
+    ];
+    Product_Request__c productRequest = [
+      SELECT Id, Name
+      FROM Product_Request__c
+      LIMIT 1
+    ];
 
-        hed__Program_Plan__c programPlan = [Select Id, Name, Program_Delivery_Structure__c, Product_Request__c From hed__Program_Plan__c LIMIT 1];
-        if(programPlan.Program_Delivery_Structure__c != 'Prescribed Program'){
-            programPlan.Program_Delivery_Structure__c = 'Prescribed Program';
-        }
-        programPlan.Product_Request__c=productRequest.Id;
-        update programPlan;
+    hed__Program_Plan__c programPlan = [
+      SELECT Id, Name, Program_Delivery_Structure__c, Product_Request__c
+      FROM hed__Program_Plan__c
+      LIMIT 1
+    ];
+    if (programPlan.Program_Delivery_Structure__c != 'Prescribed Program') {
+      programPlan.Program_Delivery_Structure__c = 'Prescribed Program';
+    }
+    programPlan.Product_Request__c = productRequest.Id;
+    update programPlan;
 
-        Product2 product = [Select Id, Name, Program_Plan__c From Product2 LIMIT 1];
-        product.Program_Plan__c = programPlan.Id;
-        update product;
+    Product2 product = [SELECT Id, Name, Program_Plan__c FROM Product2 LIMIT 1];
+    product.Program_Plan__c = programPlan.Id;
+    update product;
 
-        hed__Course__c course = [Select Id, ProductRequestID__c, hed__Account__c From hed__Course__c Where ProductRequestID__c = :productRequest.Id LIMIT 1];
+    hed__Course__c course = [
+      SELECT Id, ProductRequestID__c, hed__Account__c
+      FROM hed__Course__c
+      WHERE ProductRequestID__c = :productRequest.Id
+      LIMIT 1
+    ];
 
-        hed__Plan_Requirement__c planRequirement  = new hed__Plan_Requirement__c(hed__Course__c=course.Id, hed__Program_Plan__c=programPlan.Id, hed__Sequence__c=1);
-        insert planRequirement;
+    hed__Plan_Requirement__c planRequirement = new hed__Plan_Requirement__c(
+      hed__Course__c = course.Id,
+      hed__Program_Plan__c = programPlan.Id,
+      hed__Sequence__c = 1
+    );
+    insert planRequirement;
 
-        Program_Offering__c programOffering = new Program_Offering__c(
-            Name = 'Program Offering_Test 1',
-            hed_Program_Plan__c = programPlan.Id,
-            Delivery_Type__c = 'Online Classroom',
-            hed_Capacity__c = 30,
-            Start_Date__c = system.today() + 1,
-            Registration_Start_Date__c = system.today() + 1,
-            IsActive__c = true
-        );
-        insert programOffering;
+    Program_Offering__c programOffering = new Program_Offering__c(
+      Name = 'Program Offering_Test 1',
+      hed_Program_Plan__c = programPlan.Id,
+      Delivery_Type__c = 'Online Classroom',
+      hed_Capacity__c = 30,
+      Start_Date__c = system.today() + 1,
+      Registration_Start_Date__c = system.today() - 1,
+      IsActive__c = true
+    );
+    insert programOffering;
 
-        System.runAs(currUsr) {
-            Test.startTest();
-            ProductDetailsCtrl.ProductDetailsData getProductDetails = new ProductDetailsCtrl.ProductDetailsData();
-            getProductDetails = ProductDetailsCtrl.getProductRelatedRecords(product.Id);
-            System.assert( getProductDetails != null, 'Successfully retrieved Single Product Related Records');
-        }
+    System.runAs(currUsr) {
+      Test.startTest();
+      ProductDetailsCtrl.ProductDetailsData getProductDetails = new ProductDetailsCtrl.ProductDetailsData();
+      getProductDetails = ProductDetailsCtrl.getProductRelatedRecords(
+        product.Id
+      );
+      System.assert(
+        getProductDetails != null,
+        'Successfully retrieved Single Product Related Records'
+      );
+    }
   }
 
   @isTest
@@ -662,120 +689,162 @@ private class ProductDetailsCtrlTest {
     }
   }
 
-    @isTest
-    static void testGetProductDataRelatedToProductRequestForPrescribedProgram() {
-        Id accountId = [Select Id From Account LIMIT 1].Id;
-        User currUsr = [SELECT Id FROM User WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com' LIMIT 1 ];
-        Product_Request__c produtRequestForProgramPlan = new Product_Request__c(Product_Request_Status__c = 'Define', Product_Request_Name__c = 'Product Request_T01', Child_of_Prescribed_Program__c = false);
-        insert produtRequestForProgramPlan;
-        Product_Request__c produtRequestForModule = new Product_Request__c(Product_Request_Status__c = 'Define', Product_Request_Name__c = 'Product Request_T02', Child_of_Prescribed_Program__c = true);
-        insert produtRequestForModule;
+  @isTest
+  static void testGetProductDataRelatedToProductRequestForPrescribedProgram() {
+    Id accountId = [SELECT Id FROM Account LIMIT 1].Id;
+    User currUsr = [
+      SELECT Id
+      FROM User
+      WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
+      LIMIT 1
+    ];
+    Product_Request__c produtRequestForProgramPlan = new Product_Request__c(
+      Product_Request_Status__c = 'Define',
+      Product_Request_Name__c = 'Product Request_T01',
+      Child_of_Prescribed_Program__c = false
+    );
+    insert produtRequestForProgramPlan;
+    Product_Request__c produtRequestForModule = new Product_Request__c(
+      Product_Request_Status__c = 'Define',
+      Product_Request_Name__c = 'Product Request_T02',
+      Child_of_Prescribed_Program__c = true
+    );
+    insert produtRequestForModule;
 
-        hed__Program_Plan__c programPlan = new hed__Program_Plan__c(Name = 'Program Plan_Test 1', Program_Delivery_Structure__c = 'Prescribed Program', Product_Request__c = produtRequestForProgramPlan.Id);
-        insert programPlan;
+    hed__Program_Plan__c programPlan = new hed__Program_Plan__c(
+      Name = 'Program Plan_Test 1',
+      Program_Delivery_Structure__c = 'Prescribed Program',
+      Product_Request__c = produtRequestForProgramPlan.Id
+    );
+    insert programPlan;
 
-        Map<String, String> courseFields = new Map<String, String>();
-        courseFields.put('Name', 'Program Plan_T01');
-       	courseFields.put('ProductRequestID__c', produtRequestForModule.Id);
-        courseFields.put('hed__Account__c', accountId);
-        courseFields.put('Owning_Faculty__c', accountId);
-        hed__Course__c course = TestDataFactory.createTestCourseRecords(courseFields);
-        insert course;
+    Map<String, String> courseFields = new Map<String, String>();
+    courseFields.put('Name', 'Program Plan_T01');
+    courseFields.put('ProductRequestID__c', produtRequestForModule.Id);
+    courseFields.put('hed__Account__c', accountId);
+    courseFields.put('Owning_Faculty__c', accountId);
+    hed__Course__c course = TestDataFactory.createTestCourseRecords(
+      courseFields
+    );
+    insert course;
 
-        hed__Plan_Requirement__c planRequirement  = new hed__Plan_Requirement__c(hed__Course__c=course.Id, hed__Program_Plan__c=programPlan.Id, hed__Sequence__c=1);
-        insert planRequirement;
+    hed__Plan_Requirement__c planRequirement = new hed__Plan_Requirement__c(
+      hed__Course__c = course.Id,
+      hed__Program_Plan__c = programPlan.Id,
+      hed__Sequence__c = 1
+    );
+    insert planRequirement;
 
-        Map<String, String> programOfferingFields = new Map<String, String>();
-        programOfferingFields.put('Name', 'Program Offering_T01');
-        programOfferingFields.put('hed_Program_Plan__c', programPlan.Id);
-        Program_Offering__c programOffering = TestDataFactory.createTestProgramOfferingRecords(programOfferingFields);
-        insert programOffering;
+    Map<String, String> programOfferingFields = new Map<String, String>();
+    programOfferingFields.put('Name', 'Program Offering_T01');
+    programOfferingFields.put('hed_Program_Plan__c', programPlan.Id);
+    Program_Offering__c programOffering = TestDataFactory.createTestProgramOfferingRecords(
+      programOfferingFields
+    );
+    insert programOffering;
 
-        System.runAs(currUsr) {
-            Test.startTest();
-            Map<String, Object> returnMap = ProductDetailsCtrl.getProductDataRelatedToProductRequest(produtRequestForProgramPlan.Id);
-            System.assert( returnMap != null, 'Successfully retrieved data related to Product Request');
-            System.assert( returnMap.get('productType') == 'Prescribed Program', 'Successfully retrieved data related to Product Request');
-            System.debug('returnMap1: '+returnMap);
-            System.debug('returnMap1: '+returnMap.get('productType'));
-            returnMap = ProductDetailsCtrl.getProductDataRelatedToProductRequest(produtRequestForModule.Id);
-            System.assert( returnMap != null, 'Successfully retrieved data related to Product Request');
-            System.debug('returnMap2: '+returnMap);
-            System.debug('returnMap2: '+returnMap.get('productType'));
-            System.assert( returnMap.get('productType') == 'Prescribed Program Module', 'Successfully retrieved data related to Product Request');
-            Test.stopTest();
-        }
+    System.runAs(currUsr) {
+      Test.startTest();
+      Map<String, Object> returnMap = ProductDetailsCtrl.getProductDataRelatedToProductRequest(
+        produtRequestForProgramPlan.Id
+      );
+      System.assert(
+        returnMap != null,
+        'Successfully retrieved data related to Product Request'
+      );
+      System.assert(
+        returnMap.get('productType') == 'Prescribed Program',
+        'Successfully retrieved data related to Product Request'
+      );
+      System.debug('returnMap1: ' + returnMap);
+      System.debug('returnMap1: ' + returnMap.get('productType'));
+      returnMap = ProductDetailsCtrl.getProductDataRelatedToProductRequest(
+        produtRequestForModule.Id
+      );
+      System.assert(
+        returnMap != null,
+        'Successfully retrieved data related to Product Request'
+      );
+      System.debug('returnMap2: ' + returnMap);
+      System.debug('returnMap2: ' + returnMap.get('productType'));
+      System.assert(
+        returnMap.get('productType') == 'Prescribed Program Module',
+        'Successfully retrieved data related to Product Request'
+      );
+      Test.stopTest();
     }
-     @IsTest
-      static void testGetQuestionsForGroupBooking() {
-        User currUsr = [
-          SELECT Id
-          FROM User
-          WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
-          LIMIT 1
-        ];
-    
-        System.runAs(currUsr) {
-          createRecord(opeActProdReqRecType);
-          String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;
-          Test.startTest();
-          List<Related_Answer__c> relatedAnswerList = ProductDetailsCtrl.getQuestionsForGroupBooking(
-            prodReqId
-          );
-          Test.stopTest();
-          system.assert(relatedAnswerList.isEmpty(), 'Empty related answer');
-        }
-      }
-    
-    @IsTest
-      static void testSaveContactData() {
-        User currUsr = [
-          SELECT Id
-          FROM User
-          WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
-          LIMIT 1
-        ];
-    
-        System.runAs(currUsr) {
-          createRecord(opeActProdReqRecType);
-          String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;
-          Test.startTest();
-                List<Account> acct = TestDataFactory.createTestAccountRecords(1);
-                insert acct;
-                List<Contact> con = TestDataFactory.createTestContactRecords(1);
-                con[0].AccountId = acct[0].Id;
-                con[0].Email = 'testestest1234@sample.com';
-            
-                List<Contact> contact = ProductDetailsCtrl.saveContactData(JSON.serialize(con));
-            
-          Test.stopTest();
+  }
+  @IsTest
+  static void testGetQuestionsForGroupBooking() {
+    User currUsr = [
+      SELECT Id
+      FROM User
+      WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
+      LIMIT 1
+    ];
 
-          system.assert(!contact.isEmpty(), 'Data successfully inserted');
-        }
-      }
-    @IsTest
-      static void testGetContactAccountId() {
-        User currUsr = [
-          SELECT Id
-          FROM User
-          WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
-          LIMIT 1
-        ];
-    
-        System.runAs(currUsr) {
-          createRecord(opeActProdReqRecType);
-          String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;
-          Test.startTest();
-                List<Account> acct = TestDataFactory.createTestAccountRecords(1);
-                insert acct;
-                List<Contact> con = TestDataFactory.createTestContactRecords(1);
-                con[0].AccountId = acct[0].Id;
-                insert con;
-                List<Contact> contact = ProductDetailsCtrl.getContactAccountId(con[0].Id);
-          Test.stopTest();
+    System.runAs(currUsr) {
+      createRecord(opeActProdReqRecType);
+      String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;
+      Test.startTest();
+      List<Related_Answer__c> relatedAnswerList = ProductDetailsCtrl.getQuestionsForGroupBooking(
+        prodReqId
+      );
+      Test.stopTest();
+      system.assert(relatedAnswerList.isEmpty(), 'Empty related answer');
+    }
+  }
 
-          system.assert(!contact.isEmpty(), 'Data Retrieve!');
-        }
-      }
-    
+  @IsTest
+  static void testSaveContactData() {
+    User currUsr = [
+      SELECT Id
+      FROM User
+      WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
+      LIMIT 1
+    ];
+
+    System.runAs(currUsr) {
+      createRecord(opeActProdReqRecType);
+      String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;
+      Test.startTest();
+      List<Account> acct = TestDataFactory.createTestAccountRecords(1);
+      insert acct;
+      List<Contact> con = TestDataFactory.createTestContactRecords(1);
+      con[0].AccountId = acct[0].Id;
+      con[0].Email = 'testestest1234@sample.com';
+
+      List<Contact> contact = ProductDetailsCtrl.saveContactData(
+        JSON.serialize(con)
+      );
+
+      Test.stopTest();
+
+      system.assert(!contact.isEmpty(), 'Data successfully inserted');
+    }
+  }
+  @IsTest
+  static void testGetContactAccountId() {
+    User currUsr = [
+      SELECT Id
+      FROM User
+      WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
+      LIMIT 1
+    ];
+
+    System.runAs(currUsr) {
+      createRecord(opeActProdReqRecType);
+      String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;
+      Test.startTest();
+      List<Account> acct = TestDataFactory.createTestAccountRecords(1);
+      insert acct;
+      List<Contact> con = TestDataFactory.createTestContactRecords(1);
+      con[0].AccountId = acct[0].Id;
+      insert con;
+      List<Contact> contact = ProductDetailsCtrl.getContactAccountId(con[0].Id);
+      Test.stopTest();
+
+      system.assert(!contact.isEmpty(), 'Data Retrieve!');
+    }
+  }
 }
