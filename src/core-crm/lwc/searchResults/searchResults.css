@@ -167,6 +167,48 @@ hr.searchTitle-line{
 }
 
 
+/*Sorting and Dispalying*/
+
+@media only screen and (min-width: 765px) and (max-width: 925px) {
+    .right-sort{
+        position: relative;
+        height: 75px;
+    }
+
+    .right-sort .right-disp{
+        position: absolute;
+        top: 2.5rem;
+        width: 100%;
+        text-align: center;
+    }
+    .right-sort  .right-sorting{
+        position: relative;
+        top: 0px;
+        width:100%;
+    }
+
+    .right-sort  .right-sorting .pr1{
+        padding:0px !important;
+    }
+
+    .right-sort  .right-sorting .combo-container,
+    .right-sort  .right-sorting  .sortCombobox
+    {
+        width:100%
+    }
+
+    .right-sort  .right-sorting .combo-container .sortTitle{
+        text-align: left;
+        width: 170px;
+        margin-top: 4px;
+        display: block;
+        margin-left: 0px;
+    }
+
+}
+/*end*/
+
+
 @media only screen and (min-width: 765px){
     .slds-medium-size_4-of-12, .slds-medium-size--4-of-12 {
         width: 33.3333333333%;
@@ -210,6 +252,10 @@ hr.searchTitle-line{
 */
 @media only screen and (max-width: 764px) {
 
+
+    .desktop .px2{
+        padding: 0px 0px !important;
+    }
 
     .sortTitle{
         text-align: left;

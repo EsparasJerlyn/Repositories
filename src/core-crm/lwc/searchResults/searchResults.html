@@ -30,30 +30,19 @@
 
     <header class="slds-m-bottom_medium">
         <div class="slds-grid slds-wrap"> <!--slds-size_12-of-12 -->
+            
+          <!--
             <div class="aside-section slds-border_bottom slds-p-bottom_medium slds-col slds-size_12-of-12 slds-medium-size_4-of-12 pr1" if:true={showFiltersIfStudy}>
                 <p class="slds-truncate heading3 main-color-blue500 filter-mobile">Filter courses</p>
                 <button onclick={handleModalOpen} class="filter-button"> Filter Courses <img  src={filterFilled} alt="" class="filterIcon"/></button>
                 
             </div>
-            <!-- hide filter courses heading -> mobile -->
-            <div class="main-section  slds-col slds-size_12-of-12 slds-medium-size_5-of-12  filter-mobile">
-                <p class="slds-truncate slds-text-heading_large header-text">{headerText}</p>
-            </div>
+          -->
+            
 
-            <div class="main-section  slds-col slds-size_12-of-12 slds-medium-size_3-of-12  filter-mobile">
-              <span class="combo-container">
-              <h3 class="header-text sortTitle">Sort courses by</h3>
-              <c-custom-combobox
-              class="sortCombobox"
-              placeholder="Coming Up"
-              options={options}
-              value={value}
-              onchange={hanldeSortCourseValueChange}
-              slds-icon-up="utility:chevronup"
-              slds-icon-down="utility:chevrondown"
-            ></c-custom-combobox>
-            </span>
-            </div>
+            
+            <!-- hide filter courses heading -> mobile -->
+           
 
           <div class="main-section  slds-col slds-size_12-of-12 slds-medium-size_3-of-12  filter-desktop">
             <h3 class="header-text sortTitle">Sort courses by</h3>
@@ -346,8 +335,13 @@
       </div>
     </div>
     <!--Filter Desktop-->
+
     <article class="layout-contiainer slds-grid slds-wrap desktop">
           <aside class="aside-section slds-col slds-size_12-of-12 slds-medium-size_4-of-12 px2" if:true={showFiltersIfStudy}>
+            <div class="aside-section slds-border_bottom slds-p-bottom_medium slds-col slds-size_12-of-12 pr1" if:true={showFiltersIfStudy}>
+              <p class="slds-truncate heading3 main-color-blue500 filter-mobile">Filter courses</p>
+              <button onclick={handleModalOpen} class="filter-button"> Filter Courses <img  src={filterFilled} alt="" class="filterIcon"/></button>  
+            </div>
               <div class="filter-mobile">
                   <lightning-button variant="base" label="Clear all" title="Clear all" onclick={handleClearAll} class="desktopView"></lightning-button> 
                   <div class=""> <!--slds-var-m-around_medium -->
@@ -607,7 +601,30 @@
                   </div>
               </div>
           </aside>
+
         <section class="main-section slds-col slds-size_12-of-12 slds-medium-size_8-of-12">
+
+          <div class="slds-grid slds-wrap right-sort">
+            <div class="main-section  slds-col slds-size_12-of-12 slds-medium-size_3-of-8  filter-mobile right-disp">
+              <p class="slds-truncate slds-text-heading_large header-text">{headerText}</p>
+             </div>
+
+          <div class="main-section  slds-col slds-size_12-of-12 slds-medium-size_5-of-8  filter-mobile right-sorting">
+            <span class="combo-container">
+            <h3 class="header-text sortTitle pr1">Sort courses by</h3>
+            <c-custom-combobox
+            class="sortCombobox"
+            placeholder="Coming Up"
+            options={options}
+            value={value}
+            onchange={hanldeSortCourseValueChange}
+            slds-icon-up="utility:chevronup"
+            slds-icon-down="utility:chevrondown"
+          ></c-custom-combobox>
+          </span>
+          </div>
+          </div>
+
              <template if:true={productInfoList}>
                 <c-product-card
                     product-details = {productInfoList}

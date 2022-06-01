@@ -9,6 +9,10 @@
     --fontFamilyBold: 'ProximaNova-Bold';
 }
 
+.card-title{
+    position:relative;
+}
+
 .card-main,
 .card-title,
 .card-desc-container,
@@ -26,6 +30,14 @@
     width: 100%;
     border: 1px solid var(--primaryBlue500);
 }
+
+.card-main:hover {
+    outline: 4px solid #0066b9;
+    transition: outline 0.5s;
+    }
+
+
+
 
 /*.card-title {
     align-content: center;
@@ -78,6 +90,7 @@
     /*width: 40%;*/
     font-size: 12pt;
     background-color: var(--primaryBlue100);
+
 }
 
 .card-detail-list {

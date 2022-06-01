@@ -474,18 +474,21 @@ c-store-header{
     left: 0;
 }
 
+:host {
+  --bgColor: #001e36 !important;
+}
+
 .header[c-storeHeader_storeHeader] {
     top: 0;
     bottom: 0;
     border: var(--borderColorCheck);
-    background-color: var(--bgColor);
+    background-color: var(--bgColor) !important;
     max-width: 1140px !important;
-  	/*margin: 26px auto 26px auto !important*/
 }
 
 [c-storeHeader_storeHeader-host]{
   background-color: #001e36 !important;
-  }
+}
 
   .header_container, .header_logo_container, .contact_link_container {
     border: var(--borderColorCheck);
@@ -540,6 +543,26 @@ span[b2b_buyer_cart-badge_badge].slds-dropdown-trigger:before{
 }
 
 /** CARDS **/
+
+
+.tooltip .slds-form-element__icon{
+	position: absolute;
+    width: 100%;
+    display: block;
+    top: 0;
+    left: 0;
+    height: 100%;
+}
+
+.tooltip .slds-form-element__icon button{
+    width:100%;
+}
+
+.tooltip .slds-form-element__icon button svg{
+  display: none;
+}
+
+
 lightning-badge.pills, .pills{
   width: fit-content;
   height: 37px;
@@ -1712,3 +1735,8 @@ span[c-customcombobox_customcombobox].slds-listbox__option-meta_entity {
 
   }
 }
+
+/* Hide Login button**/
+/*.forceCommunityThemeHeaderB2B .profileMenu {
+  display: none;
+}*/

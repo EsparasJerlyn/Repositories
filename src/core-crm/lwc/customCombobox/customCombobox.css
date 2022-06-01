@@ -6,7 +6,7 @@
 }
 
 .slds-combobox{
-  width:180px !important;
+  width:100% !important;
 }
 
 .combo-container.combobox-label{
@@ -27,4 +27,3 @@
     width:100% !important;
   }
 }
-

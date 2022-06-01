@@ -16,7 +16,7 @@ import { NavigationMixin } from "lightning/navigation";
  *
  * @fires ProductCard#showdetail
  */
-export default class ProductCard extends NavigationMixin(LightningElement) {
+export default class ProductCard extends NavigationMixin(LightningElement){
   @api productDetails;
   @api readOnly = false;
   // Icons
@@ -36,8 +36,8 @@ export default class ProductCard extends NavigationMixin(LightningElement) {
   // Navigate to the Single Product Page
   navigateToProductPage(event) {
     if (!this.readOnly) {
-      this.cProductId = event.target.dataset.id;
-      this.cProductName = event.target.dataset.name;
+      this.cProductId = event.currentTarget.dataset.id;
+      this.cProductName = event.currentTarget.dataset.name;
       this.productPath = window.location.pathname;
       this.baseUrl = window.location.origin;
       this.recordPageUrl =
@@ -46,9 +46,26 @@ export default class ProductCard extends NavigationMixin(LightningElement) {
         this.cProductName.replaceAll(" ", "-") +
         "/" +
         this.cProductId;
-      console.log("URL: " + this.recordPageUrl);
+        console.log("URL: " + this.recordPageUrl);
+
+        this[NavigationMixin.Navigate]({
+          "type": "standard__webPage",
+          "attributes": {
+              "url": this.recordPageUrl
+          }
+      });
     }
   }
+
+  // Navigation to web page 
+  /* navigateToWebPage() {
+      this[NavigationMixin.Navigate]({
+          "type": "standard__webPage",
+          "attributes": {
+              "url": this.recordPageUrl
+          }
+      });
+  }*/
 
   connectedCallback() {
     // Get icons

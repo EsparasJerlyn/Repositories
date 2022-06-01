@@ -1,69 +1,81 @@
 <template>
     <template for:each={productDetails} for:item="product">
       <div key={product.childProdId} class="card-container">
-        <div class="slds-grid slds-wrap card-main">
-          <div class="slds-col slds-size_1-of-1 fields-area card-title">
-              <a class="heading4 main-color-white text-overflow" data-id={product.childProdId} data-name={product.childProdName} href={recordPageUrl} onclick={navigateToProductPage}>{product.childProdName}</a>
-          </div>
-          <span class="slds-grid slds-wrap card-body">
-            <template if:true={product.isProgramFlex}>
-              <div class="slds-col card-desc-container slds-p-around_medium slds-size_1-of-1">
+          <div class="slds-grid slds-wrap card-main" 
+              data-id={product.childProdId} 
+              data-name={product.childProdName} 
+              onclick={navigateToProductPage}>
+            <div class="slds-col slds-size_1-of-1 fields-area card-title">
+                <a class="heading4 main-color-white text-overflow">{product.childProdName}</a>
+                <lightning-helptext content={product.childProdName} class="tooltip"></lightning-helptext>
+              </div>
+            <span class="slds-grid slds-wrap card-body">
+              <template if:true={product.isProgramFlex}>
+                <div class="slds-col card-desc-container slds-p-around_medium slds-size_1-of-1">
+                    <div class="card-contents-parent">
+                      <div class="desc-content bodyRegular">{product.childProdDescription}</div>
+                    </div>
+                </div>   
+              </template>
+              <template if:false={product.isProgramFlex}>
+                <div class="slds-col card-desc-container slds-p-around_medium slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_6-of-12">
                   <div class="card-contents-parent">
-                    <div class="desc-content bodyRegular">{product.childProdDescription}</div>
-                  </div>
-               </div>   
-            </template>
-            <template if:false={product.isProgramFlex}>
-              <div class="slds-col card-desc-container slds-p-around_medium slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_6-of-12">
-                <div class="card-contents-parent">
-                  <div class="desc-content bodyRegular">
-                    {product.childProdDescription}
-                  </div>
-                  <div if:true={product.childProdProfLevel}>
-                    <div class="pills bodyRegular slds-m-top_small pills-content">{product.childProdProfLevel}</div>
+                    <div class="desc-content bodyRegular">
+                      {product.childProdDescription}
+                    </div>
+                    <div if:true={product.childProdProfLevel}>
+                      <div class="pills bodyRegular slds-m-top_small pills-content">{product.childProdProfLevel}</div>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="slds-col card-details slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_6-of-12">
-                <div class="card-detail-list">
-                  <div class="slds-p-vertical_small">
-                    <span class="item-container">
-                      <img class="item-icon" src={clipboard_icon} />
-                      <p class="item-label bodyRegular"><strong class="bodyBold">Start Date:&nbsp;</strong>{product.childProdOfferingDate}</p>              
-                  </span>
-                  </div>
-                  <div class="slds-p-bottom_small">
-                    <span class="item-container">          
-                      <img class="item-icon" src={location_icon} />
-                      <span>
-                        <p class="item-label bodyRegular"><strong class="bodyBold">Delivery:&nbsp;</strong></p>  
-                      </span>
-                      <span>
-                        <p class="item-del bodyRegular">{product.childProdDelivery}</p>
-                      </span>                    
-                    </span>            
-                  </div>
-                  <div class="slds-p-bottom_small">
-                    <span class="item-container">  
-                      <template if:false={product.isProgramFlex}>
+                <div class="slds-col card-details slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_6-of-12">
+                  <div class="card-detail-list">
+                    <div class="slds-p-vertical_small">
+                      <span class="item-container">
+                        <img class="item-icon" src={clipboard_icon} />
+                        <p class="item-label bodyRegular"><strong class="bodyBold">Start Date:&nbsp;</strong>{product.childProdOfferingDate}</p>              
+                    </span>
+                    </div>
+                    <div class="slds-p-bottom_small">
+                      <span class="item-container">          
+                        <img class="item-icon" src={location_icon} />
+                        <span>
+                          <p class="item-label bodyRegular"><strong class="bodyBold">Delivery:&nbsp;</strong></p>  
+                        </span>
+                        <span>
+                          <p class="item-del bodyRegular">{product.childProdDelivery}</p>
+                        </span>                    
+                      </span>            
+                    </div>
+                    <div class="slds-p-bottom_small">
+                      <span class="item-container">  
                         <img class="item-icon" src={dollar_icon} />
-                        <p class="item-label bodyRegular"><strong class="bodyBold">Price:&nbsp;</strong>From {product.childProdPrice}</p>
-                      </template>
-                    </span>                
-                  </div>
-                  <div class="slds-p-bottom_small">
-                    <span class="item-container">
-                      <template if:false={product.isProgramFlex}>
+                        <p class="item-label bodyRegular">
+                          <strong class="bodyBold">Price:&nbsp;</strong>From&nbsp;
+                            <lightning-formatted-number
+                              class="slds-p-left_xx-small"
+                              value={product.childProdPrice}
+                              currency-code={currency}
+                              format-style="currency"
+                              minimum-fraction-digits="0" 
+                              maximum-fraction-digits="0"
+                          >
+                          </lightning-formatted-number>
+                        </p>
+                        
+                      </span>                
+                    </div>
+                    <div class="slds-p-bottom_small">
+                      <span class="item-container">
                         <img class="item-icon" src={time_icon} />
                         <p class="item-label bodyRegular"><strong class="bodyBold">Duration:&nbsp;</strong>{product.childProdDuration}</p>
-                      </template>
-                    </span>
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </template>
-          </span>
-        </div>
+              </template>
+            </span>
+          </div>
       </div>
     </template>
 </template>

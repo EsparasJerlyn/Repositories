@@ -61,11 +61,12 @@ export default class PrescribedProgram extends LightningElement {
       this.productDetails.Name +
       "Development Module is mandatory as part of this program.";
     let pricingsLocal = [];
+    let pricingLabel;
     this.product.priceBookEntryList.forEach(function (priceBookEntry) {
       pricingsLocal.push({
-        label: priceBookEntry.label,
+        label: priceBookEntry.label === 'Standard Price Book'? priceBookEntry.label.slice(0, 8): priceBookEntry.label,
         value: priceBookEntry.value,
-        meta: priceBookEntry.meta
+        meta: parseInt(priceBookEntry.meta).toLocaleString('en-US', { style: 'currency', currency: 'USD',  minimumFractionDigits: 0 })
       });
     });
     this.availablePricings = pricingsLocal;
