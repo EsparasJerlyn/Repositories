@@ -500,10 +500,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>International</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Iran %28Islamic Republic of%29 %2898%29</fullName>
             <default>false</default>
         </values>
@@ -1125,10 +1121,6 @@
             <default>true</default>
         </values>
         <values>
-            <fullName>International</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>New Zealand %28%2B64%29</fullName>
             <default>false</default>
         </values>
@@ -1568,10 +1560,6 @@
         </values>
         <values>
             <fullName>Indonesia %2862%29</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>International</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2586,10 +2574,6 @@
         </values>
         <values>
             <fullName>Indonesia %2862%29</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>International</fullName>
             <default>false</default>
         </values>
         <values>

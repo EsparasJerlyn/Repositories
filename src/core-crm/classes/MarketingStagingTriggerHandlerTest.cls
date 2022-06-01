@@ -31,9 +31,9 @@ public with sharing class MarketingStagingTriggerHandlerTest {
                             (SELECT Id FROM Marketing_Interactions__r ) 
                             FROM Contact WHERE Salutation = 'Mr' 
                             LIMIT 1];
-        system.assert(contact != null,'No Marketing segmentation created');
+        system.assert(contact != null,'No contact created');
         system.assert(!contact.Marketing_Segmentations__r.isEmpty(),'No Marketing segmentation created');
-        system.assert(!contact.Marketing_Interactions__r.isEmpty(),'No Marketing segmentation created');
+        system.assert(!contact.Marketing_Interactions__r.isEmpty(),'No Marketing interaction created');
         Test.stopTest();
     }
 
@@ -71,9 +71,9 @@ public with sharing class MarketingStagingTriggerHandlerTest {
                             (SELECT Id FROM Marketing_Interactions__r ) 
                             FROM Contact WHERE Salutation = 'Mr'  
                             LIMIT 1];
-        system.assert(contact != null,'No Marketing segmentation created');
+        system.assert(contact != null,'No contact created');
         system.assert(!contact.Marketing_Segmentations__r.isEmpty(),'No Marketing segmentation created');
-        system.assert(!contact.Marketing_Interactions__r.isEmpty(),'No Marketing segmentation created');
+        system.assert(!contact.Marketing_Interactions__r.isEmpty(),'No Marketing interaction created');
 
         Test.stopTest();
     }
@@ -100,7 +100,7 @@ public with sharing class MarketingStagingTriggerHandlerTest {
                             FROM Lead WHERE Lead_Type__c = 'Learner' 
                             LIMIT 1];
 
-        system.assert(newLead != null,'No Marketing segmentation created');
+        system.assert(newLead != null,'No lead created');
         system.assert(!newLead.Marketing_Segmentations__r.isEmpty(),'No Marketing segmentation created');
         system.assert(!newLead.Marketing_Interactions__r.isEmpty(),'No Marketing interaction created');
 
@@ -127,7 +127,7 @@ public with sharing class MarketingStagingTriggerHandlerTest {
                             FROM Lead WHERE Lead_Type__c = 'Learner' 
                             LIMIT 1];
 
-        system.assert(newLead != null,'No Marketing segmentation created');
+        system.assert(newLead != null,'No lead created');
         system.assert(!newLead.Marketing_Segmentations__r.isEmpty(),'No Marketing segmentation created');
         system.assert(!newLead.Marketing_Interactions__r.isEmpty(),'No Marketing interaction created');
 
@@ -166,7 +166,7 @@ public with sharing class MarketingStagingTriggerHandlerTest {
                             FROM Lead WHERE Lead_Type__c = 'Learner' 
                             LIMIT 1];
 
-        system.assert(newLead != null,'No Marketing segmentation created');
+        system.assert(newLead != null,'No lead created');
         system.assert(!newLead.Marketing_Segmentations__r.isEmpty(),'No Marketing segmentation created');
         system.assert(!newLead.Marketing_Course_Applications__r.isEmpty(),'No Marketing application created');
         system.assert(!newLead.Marketing_Interactions__r.isEmpty(),'No Marketing interaction created');
@@ -198,7 +198,7 @@ public with sharing class MarketingStagingTriggerHandlerTest {
                             FROM Lead WHERE Lead_Type__c = 'Learner' 
                             LIMIT 1];
 
-        system.assert(newLead != null,'No Marketing segmentation created');
+        system.assert(newLead != null,'No lead created');
         system.assert(!newLead.Marketing_Segmentations__r.isEmpty(),'No Marketing segmentation created');
         system.assert(!newLead.Marketing_Interactions__r.isEmpty(),'No Marketing interaction created');
 
@@ -241,7 +241,7 @@ public with sharing class MarketingStagingTriggerHandlerTest {
                             FROM Lead WHERE Lead_Type__c = 'Learner' 
                             LIMIT 1];
 
-        system.assert(newLead != null,'No Marketing segmentation created');
+        system.assert(newLead != null,'No lead created');
         system.assert(!newLead.Marketing_Segmentations__r.isEmpty(),'No Marketing segmentation created');
         system.assert(!newLead.Marketing_Course_Applications__r.isEmpty(),'No Marketing course application created');
         system.assert(!newLead.Marketing_Interactions__r.isEmpty(),'No Marketing interaction created');
@@ -268,11 +268,73 @@ public with sharing class MarketingStagingTriggerHandlerTest {
                             FROM Lead WHERE Lead_Type__c = 'Learner' 
                             LIMIT 1];
                             
-        system.assert(newLead != null,'No Marketing segmentation created');
+        system.assert(newLead != null,'No lead created');
         system.assert(!newLead.Marketing_Segmentations__r.isEmpty(),'No Marketing segmentation created');
         system.assert(!newLead.Marketing_Interactions__r.isEmpty(),'No Marketing Interaction created');
 
         Test.stopTest();
+    }
+
+    @IsTest
+    public static void testBulkMatchContacts(){
+        
+        Test.startTest();
+        List<Contact> contactList = new List<Contact>();
+        for(Integer i = 0; i < 100; i++){
+            contactList.add(new Contact(FirstName = 'Test' + i, LastName = 'Contact' + i, Email = 'TestEmail@email.com' + i, Company_Name__c = 'test company'));
+        }
+        for(Integer i = 0; i < 50; i++){
+            contactList.add(new Contact(FirstName = 'Test' + i, LastName = 'Contact' + i, Email = 'TestEmail@email.com' + i, Company_Name__c = 'test company'));
+        }
+        insert contactList;
+        List<Marketing_Staging__c> msList = new List<Marketing_Staging__c>();
+        for(Integer i = 0; i < 100; i++){
+            msList.add(new Marketing_Staging__c(First_Name__c = 'Test' + i, Last_Name__c = 'Contact' + i, Email__c = 'TestEmail@email.com' + i, Salutation__c = 'Mr'));
+        }
+        insert msList;
+
+        List<Contact> conList = [  SELECT Id FROM Contact WHERE Salutation = 'Mr' 
+                            LIMIT 50 ];
+
+        List<Lead> lList = [  SELECT Id FROM Lead LIMIT 50];
+        system.assert(!conList.isEmpty(),'No Contacts Updated');
+        system.assert(!lList.isEmpty(),'No leads created');
+
+        Test.stopTest();
+
+
+    }
+
+    @IsTest
+    public static void testBulkMatchLeads(){
+        
+        Test.startTest();
+        List<Lead> leadList = new List<Lead>();
+        List<Lead> leadListtoUpdate = new List<Lead>();
+        for(Integer i = 0; i < 100; i++){
+            leadList.add(new Lead(FirstName = 'Test' + i, LastName = 'Lead' + i, Email = 'TestEmail@email.com' + i, Company = 'Learner'));
+        }
+        insert leadList;
+        for(Integer i = 75; i < 100; i++){
+            integer y = i - 75;
+            leadListtoUpdate.add(new Lead(Id=leadList[i].Id, FirstName = 'Test' + y, LastName = 'Lead' + y, Email = 'TestEmail@email.com' + y));                                                                                                                                    
+        }
+        update leadListtoUpdate; //update lead to match and create duplicates
+
+        List<Marketing_Staging__c> msList = new List<Marketing_Staging__c>();
+        for(Integer i = 0; i < 100; i++){
+            msList.add(new Marketing_Staging__c(First_Name__c = 'Test' + i, Last_Name__c = 'Lead' + i, Email__c = 'TestEmail@email.com' + i, Salutation__c = 'Mr'));
+        }
+        insert msList;
+
+        List<Lead> lList = [  SELECT Id FROM Lead WHERE Salutation = 'Mr'LIMIT 50];
+        List<Lead> newLeadList =  [SELECT Id FROM Lead WHERE ID NOT IN:leadListtoUpdate AND ID NOT IN:leadList ];               
+        system.assert(!lList.isEmpty(),'No Lead Updated');
+        system.assert(!newLeadList.isEmpty(),'No Lead created');
+
+        Test.stopTest();
+
+
     }
 
  }

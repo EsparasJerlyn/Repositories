@@ -36,6 +36,7 @@ public with sharing class MarketingStagingTriggerHandler implements Disableable,
     Map<String,Marketing_Staging__c> marStageToUpdateMap = new Map<String, Marketing_Staging__c>();
     Set<String> appIdPrefNumset = new Set<String>();
     Set<String> lastNameList = new Set<String>();
+    Set<String> emailList = new Set<String>();
 
     List<Potential_Duplicate__c> potentialDupToInsertList = new List<Potential_Duplicate__c>();
     
@@ -49,29 +50,32 @@ public with sharing class MarketingStagingTriggerHandler implements Disableable,
         if(mStaging.get('Last_Name__c') != null){
             lastNameList.add((String)mStaging.get('Last_Name__c'));
         }
+        if(mStaging.get('Email__c') != null){
+            emailList.add((String)mStaging.get('Email__c'));
+        }
     }
 
-    if(!marStagingMap.keySet().isEmpty()){
+    if(!marStagingMap.keySet().isEmpty() && !emailList.isEmpty() && !lastNameList.isEmpty()){
         //get all matching contacts
         contactMatches = [  SELECT Id, Name_and_Email__c,
-                            (SELECT Id, Lead__c, Contact__c FROM Marketing_Segmentations__r LIMIT 1),
+                            (SELECT Id, Lead__c, Contact__c FROM Marketing_Segmentations__r),
                             (SELECT Id, Lead__c, Contact__c, Applicant_Id_and_Preference_Num__c
                              FROM Marketing_Course_Applications__r
                              WHERE Applicant_Id_and_Preference_Num__c IN:appIdPrefNumset)
                             FROM Contact 
                             WHERE Name_and_Email__c IN: marStagingMap.keySet()
                             AND LastName IN:lastNameList
-                            AND Email != null];
+                            AND Email IN:emailList];
         //get all matching leads
         leadMatches = [  SELECT Id, Name_and_Email__c, 
-                         (SELECT Id, Lead__c, Contact__c FROM Marketing_Segmentations__r limit 1),
+                         (SELECT Id, Lead__c, Contact__c FROM Marketing_Segmentations__r),
                          (SELECT Id, Lead__c, Contact__c, Applicant_Id_and_Preference_Num__c 
                          FROM Marketing_Course_Applications__r  
                          WHERE Applicant_Id_and_Preference_Num__c IN:appIdPrefNumset)
                             FROM Lead 
                             WHERE Name_and_Email__c IN: marStagingMap.keySet() 
                             AND LastName IN:lastNameList
-                            AND Email != null];                    
+                            AND Email IN:emailList];                    
 
         for(Contact con: contactMatches){
             //create map that groups all nameemail and contacts
@@ -111,18 +115,19 @@ public with sharing class MarketingStagingTriggerHandler implements Disableable,
                         contactMatchMapping.get(nameEmailItem)[0].Id
                     )
                 );
-                //update associated marketing segmentation record
-                if( !contactMatchMapping.get(nameEmailItem)[0].Marketing_Segmentations__r.isEmpty() && 
-                    contactMatchMapping.get(nameEmailItem)[0].Marketing_Segmentations__r[0] != null){
-                    marSegmentationToUpsertMap.put(
-                        nameEmailItem,
-                        (Marketing_Segmentation__c)MarketingStagingTriggerHelper.createMarketingSegmentationRecord(
-                            marStagingMap.get(nameEmailItem),
-                            contactMatchMapping.get(nameEmailItem)[0].Marketing_Segmentations__r[0].Contact__c,
-                            contactMatchMapping.get(nameEmailItem)[0].Marketing_Segmentations__r[0].Lead__c,
-                            contactMatchMapping.get(nameEmailItem)[0].Marketing_Segmentations__r[0].Id
-                        )
-                    );
+
+                if(!contactMatchMapping.get(nameEmailItem)[0].Marketing_Segmentations__r.isEmpty()){
+                    for(Marketing_Segmentation__c segmenation: contactMatchMapping.get(nameEmailItem)[0].Marketing_Segmentations__r){
+                        marSegmentationToUpsertMap.put(
+                            nameEmailItem,
+                            (Marketing_Segmentation__c)MarketingStagingTriggerHelper.createMarketingSegmentationRecord(
+                                marStagingMap.get(nameEmailItem),
+                                segmenation.Contact__c,
+                                segmenation.Lead__c,
+                                segmenation.Id
+                            )
+                        ); 
+                    }
                 }else{
                     //create new segmenation record
                     marSegmentationToUpsertMap.put(
@@ -135,23 +140,19 @@ public with sharing class MarketingStagingTriggerHandler implements Disableable,
                         )
                     );
                 }
-                //create marketing interactions record
-                //update or create marketing course application 
-                if( !contactMatchMapping.get(nameEmailItem)[0].Marketing_Course_Applications__r.isEmpty() &&
-                    contactMatchMapping.get(nameEmailItem)[0].Marketing_Course_Applications__r[0] != null &&
-                    contactMatchMapping.get(nameEmailItem)[0].Marketing_Course_Applications__r[0].Applicant_Id_and_Preference_Num__c == 
-                    marStagingMap.get(nameEmailItem).get('Applicant_Id_and_Preference_Num__c')){
-                    //update existing course application
-                    marCourseAppToUpsertMap.put(
+                
+                if(!contactMatchMapping.get(nameEmailItem)[0].Marketing_Course_Applications__r.isEmpty()){
+                    for(Marketing_Course_Application__c courseApp: contactMatchMapping.get(nameEmailItem)[0].Marketing_Course_Applications__r){
+                        marCourseAppToUpsertMap.put(
                         nameEmailItem,
                         (Marketing_Course_Application__c) MarketingStagingTriggerHelper.createMarketingCourseAppRecord(
                             marStagingMap.get(nameEmailItem),
-                            contactMatchMapping.get(nameEmailItem)[0].Marketing_Course_Applications__r[0].Contact__c,
-                            contactMatchMapping.get(nameEmailItem)[0].Marketing_Course_Applications__r[0].Lead__c,
-                            contactMatchMapping.get(nameEmailItem)[0].Marketing_Course_Applications__r[0].Id
-                        )
-                    );
-                //create new course application record
+                            courseApp.Contact__c,
+                            courseApp.Lead__c,
+                            courseApp.Id
+                            )
+                        );
+                    }
                 }else if(marStagingMap.get(nameEmailItem).get('Applicant_Id_and_Preference_Num__c') != null){
                     marCourseAppToUpsertMap.put(
                         nameEmailItem,
@@ -195,18 +196,19 @@ public with sharing class MarketingStagingTriggerHandler implements Disableable,
                     )
                 );
 
-                //update associated marketing segmentation
-                if( !leadMatchMapping.get(nameEmailItem)[0].Marketing_Segmentations__r.isEmpty() && 
-                    leadMatchMapping.get(nameEmailItem)[0].Marketing_Segmentations__r[0] != null){
-                    marSegmentationToUpsertMap.put(
-                        nameEmailItem,
-                        (Marketing_Segmentation__c) MarketingStagingTriggerHelper.createMarketingSegmentationRecord(
-                            marStagingMap.get(nameEmailItem),
-                            leadMatchMapping.get(nameEmailItem)[0].Marketing_Segmentations__r[0].Contact__c,
-                            leadMatchMapping.get(nameEmailItem)[0].Marketing_Segmentations__r[0].Lead__c,
-                            leadMatchMapping.get(nameEmailItem)[0].Marketing_Segmentations__r[0].Id
-                        )
-                    );
+                
+                if(!leadMatchMapping.get(nameEmailItem)[0].Marketing_Segmentations__r.isEmpty()){
+                    for(Marketing_Segmentation__c segmentation: leadMatchMapping.get(nameEmailItem)[0].Marketing_Segmentations__r){
+                        marSegmentationToUpsertMap.put(
+                            nameEmailItem,
+                            (Marketing_Segmentation__c) MarketingStagingTriggerHelper.createMarketingSegmentationRecord(
+                                marStagingMap.get(nameEmailItem),
+                                segmentation.Contact__c,
+                                segmentation.Lead__c,
+                                segmentation.Id
+                            )
+                        );
+                    }
                 //create new segmentation record
                 }else{
                     marSegmentationToUpsertMap.put(
@@ -220,22 +222,18 @@ public with sharing class MarketingStagingTriggerHandler implements Disableable,
                     );
                 }
 
-                //update related marketing course application
-                if( !leadMatchMapping.get(nameEmailItem)[0].Marketing_Course_Applications__r.isEmpty() && 
-                    leadMatchMapping.get(nameEmailItem)[0].Marketing_Course_Applications__r[0] != null &&
-                    leadMatchMapping.get(nameEmailItem)[0].Marketing_Course_Applications__r[0].Applicant_Id_and_Preference_Num__c == 
-                    marStagingMap.get(nameEmailItem).get('Applicant_Id_and_Preference_Num__c')){
-                    //update existing course application
-                    marCourseAppToUpsertMap.put(
+                if(!leadMatchMapping.get(nameEmailItem)[0].Marketing_Course_Applications__r.isEmpty()){
+                    for(Marketing_Course_Application__c courseApp: leadMatchMapping.get(nameEmailItem)[0].Marketing_Course_Applications__r){
+                        marCourseAppToUpsertMap.put(
                         nameEmailItem,
                         (Marketing_Course_Application__c) MarketingStagingTriggerHelper.createMarketingCourseAppRecord(
                             marStagingMap.get(nameEmailItem),
-                            leadMatchMapping.get(nameEmailItem)[0].Marketing_Course_Applications__r[0].Contact__c,
-                            leadMatchMapping.get(nameEmailItem)[0].Marketing_Course_Applications__r[0].Lead__c,
-                            leadMatchMapping.get(nameEmailItem)[0].Marketing_Course_Applications__r[0].Id
-                        )
-                    );
-                //else insert new course application if application has info
+                            courseApp.Contact__c,
+                            courseApp.Lead__c,
+                            courseApp.Id
+                            )
+                        );
+                    }
                 }else if(marStagingMap.get(nameEmailItem).get('Applicant_Id_and_Preference_Num__c') != null){
                     marCourseAppToUpsertMap.put(
                         nameEmailItem,

@@ -32,7 +32,7 @@ public with sharing class MarketingStagingTriggerHelperTest {
                             (SELECT Id FROM Marketing_Interactions__r ) 
                             FROM Contact WHERE Salutation = 'Mr' 
                             LIMIT 1];
-        system.assert(contact != null,'No Marketing segmentation created');
+        system.assert(contact != null,'No Marketing contact created');
         system.assert(!contact.Marketing_Segmentations__r.isEmpty(),'No Marketing segmentation created');
         system.assert(!contact.Marketing_Interactions__r.isEmpty(),'No Marketing segmentation created');
         Test.stopTest();
@@ -72,9 +72,9 @@ public with sharing class MarketingStagingTriggerHelperTest {
                             (SELECT Id FROM Marketing_Interactions__r ) 
                             FROM Contact WHERE Salutation = 'Mr'  
                             LIMIT 1];
-        system.assert(contact != null,'No Marketing segmentation created');
+        system.assert(contact != null,'No Marketing contact created');
         system.assert(!contact.Marketing_Segmentations__r.isEmpty(),'No Marketing segmentation created');
-        system.assert(!contact.Marketing_Interactions__r.isEmpty(),'No Marketing segmentation created');
+        system.assert(!contact.Marketing_Interactions__r.isEmpty(),'No Marketing interaction created');
 
         Test.stopTest();
     }
@@ -101,7 +101,7 @@ public with sharing class MarketingStagingTriggerHelperTest {
                             FROM Lead WHERE Lead_Type__c = 'Learner' 
                             LIMIT 1];
 
-        system.assert(newLead != null,'No Marketing segmentation created');
+        system.assert(newLead != null,'No Marketing Lead created');
         system.assert(!newLead.Marketing_Segmentations__r.isEmpty(),'No Marketing segmentation created');
         system.assert(!newLead.Marketing_Interactions__r.isEmpty(),'No Marketing interaction created');
 
@@ -128,7 +128,7 @@ public with sharing class MarketingStagingTriggerHelperTest {
                             FROM Lead WHERE Lead_Type__c = 'Learner' 
                             LIMIT 1];
 
-        system.assert(newLead != null,'No Marketing segmentation created');
+        system.assert(newLead != null,'No Marketing Lead created');
         system.assert(!newLead.Marketing_Segmentations__r.isEmpty(),'No Marketing segmentation created');
         system.assert(!newLead.Marketing_Interactions__r.isEmpty(),'No Marketing interaction created');
 
@@ -167,7 +167,7 @@ public with sharing class MarketingStagingTriggerHelperTest {
                             FROM Lead WHERE Lead_Type__c = 'Learner' 
                             LIMIT 1];
 
-        system.assert(newLead != null,'No Marketing segmentation created');
+        system.assert(newLead != null,'No Marketing lead created');
         system.assert(!newLead.Marketing_Segmentations__r.isEmpty(),'No Marketing segmentation created');
         system.assert(!newLead.Marketing_Course_Applications__r.isEmpty(),'No Marketing application created');
         system.assert(!newLead.Marketing_Interactions__r.isEmpty(),'No Marketing interaction created');
@@ -199,7 +199,7 @@ public with sharing class MarketingStagingTriggerHelperTest {
                             FROM Lead WHERE Lead_Type__c = 'Learner' 
                             LIMIT 1];
 
-        system.assert(newLead != null,'No Marketing segmentation created');
+        system.assert(newLead != null,'No Marketing lead created');
         system.assert(!newLead.Marketing_Segmentations__r.isEmpty(),'No Marketing segmentation created');
         system.assert(!newLead.Marketing_Interactions__r.isEmpty(),'No Marketing interaction created');
 
@@ -242,7 +242,7 @@ public with sharing class MarketingStagingTriggerHelperTest {
                             FROM Lead WHERE Lead_Type__c = 'Learner' 
                             LIMIT 1];
 
-        system.assert(newLead != null,'No Marketing segmentation created');
+        system.assert(newLead != null,'No Marketing lead created');
         system.assert(!newLead.Marketing_Segmentations__r.isEmpty(),'No Marketing segmentation created');
         system.assert(!newLead.Marketing_Course_Applications__r.isEmpty(),'No Marketing course application created');
         system.assert(!newLead.Marketing_Interactions__r.isEmpty(),'No Marketing interaction created');
@@ -269,7 +269,7 @@ public with sharing class MarketingStagingTriggerHelperTest {
                             FROM Lead WHERE Lead_Type__c = 'Learner' 
                             LIMIT 1];
                             
-        system.assert(newLead != null,'No Marketing segmentation created');
+        system.assert(newLead != null,'No Marketing lead created');
         system.assert(!newLead.Marketing_Segmentations__r.isEmpty(),'No Marketing segmentation created');
         system.assert(!newLead.Marketing_Interactions__r.isEmpty(),'No Marketing Interaction created');
 
