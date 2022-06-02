@@ -458,6 +458,11 @@ div.main-container-bc [role=navigation] ol.slds-breadcrumb li:last-child{
     font-weight: 700;
     color: var(--greys-color-bodytext);
 }
+
+.comm-user-profile-menu__login-button[community_user-userProfileMenu_userProfileMenu]{
+  display:none;
+}
+
 /*end*/
 
 
