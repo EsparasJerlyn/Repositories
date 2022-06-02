@@ -58,7 +58,7 @@ public class PublishingEndDateBatch implements Database.Batchable<sObject>
             
             //Setting IsActive to false and adding the corresponding product request Id
             for(Product2 product : productList){
-                if(product.Publishing_End_date__c <=today){
+                if(product.Decommission_Product__c == True && product.Publishing_End_date__c <= today){
                     product.IsActive = false;
                 }
 

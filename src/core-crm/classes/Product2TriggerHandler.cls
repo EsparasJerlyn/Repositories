@@ -180,6 +180,15 @@ public without sharing class Product2TriggerHandler implements Disableable, Befo
       } else {
         prod.Available_on_Cart__c = false;
       }
+
+      if( //make sure decomission product is updated DEPP-2820
+        prod2Old.get(prod.Id).Decommission_Product__c !=
+        prod.Decommission_Product__c &&
+        prod.Decommission_Product__c == true 
+        && prod.Publishing_End_date__c <= date.today()
+      ){
+        prod.IsActive = false;
+      }
     }
 
     if (courseIdSet.size() > 0) {

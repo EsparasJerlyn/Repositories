@@ -183,6 +183,14 @@
         <value>Completed</value>
     </labels>
     <labels>
+        <fullName>PL_ProductRequest_Not_Proceeding</fullName>
+        <categories>Picklist,ProductRequest</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PL_ProductRequest_Not_Proceeding</shortDescription>
+        <value>Not Proceeding</value>
+    </labels>
+    <labels>
         <fullName>PL_ProductRequest_Design</fullName>
         <categories>Picklist,ProductRequest</categories>
         <language>en_US</language>
