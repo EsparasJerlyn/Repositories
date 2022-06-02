@@ -174,6 +174,7 @@ public without sharing class Product2TriggerHandler implements Disableable, Befo
         prod.Publishing_Start_date__c <= date.today() &&
         (prod.Publishing_End_date__c == null || 
         prod.Publishing_End_date__c > date.today())
+        && prod.Child_Of_Prescribed_Program__c == false //do not include child of prescribed program
       ) {
         prod.Available_on_Cart__c = true;
       } else {

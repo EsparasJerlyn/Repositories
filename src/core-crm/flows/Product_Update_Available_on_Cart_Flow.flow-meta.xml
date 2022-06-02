@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-  <apiVersion>53.0</apiVersion>
+  <apiVersion>52.0</apiVersion>
   <assignments>
     <name>Add_to_Modified_Products</name>
     <label>Add to Modified Products</label>
@@ -109,6 +109,13 @@
         <elementReference>$Flow.CurrentDate</elementReference>
       </value>
     </filters>
+    <filters>
+            <field>Child_of_Prescribed_Program__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
     <getFirstRecordOnly>false</getFirstRecordOnly>
     <object>Product2</object>
     <queriedFields>Id</queriedFields>
