@@ -97,7 +97,7 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
     maxUnitPrice: this.endValue, 
     startDate: this.strStartDate,
     endDate: this.strEndDate,
-    sortBy: this.value
+    // sortBy: this.value
   }
 
   // Sort Combobox
@@ -257,13 +257,13 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
   }
 
   // handles sort course combobox
-  hanldeSortCourseValueChange(event) {
-    //this.sortCourseBy = event.detail;
-    this.value = event.detail.value;
-    this.parameterObject.sortBy = this.value;
-    console.log('sort: parameter object', this.parameterObject);
-    this.setPickList();
-  }
+  // hanldeSortCourseValueChange(event) {
+  //   //this.sortCourseBy = event.detail;
+  //   this.value = event.detail.value;
+  //   this.parameterObject.sortBy = this.value;
+  //   console.log('sort: parameter object', this.parameterObject);
+  //   this.setPickList();
+  // }
 
   // handles keyword search
   handleSearchKeyword(event){
@@ -500,7 +500,7 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
     this.parameterObject.studyArea = this.studyAreaSelectedValues;
     this.parameterObject.productType = this.selectedValues;
     this.parameterObject.deliveryType = this.deliveryTypeSelectedValues;
-    this.parameterObject.sortBy = this.value;
+    // this.parameterObject.sortBy = this.value;
     console.log('parameter object', this.parameterObject);
     this.getFilterList();
   }
@@ -645,8 +645,8 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
   getAllProducts(){
     console.log('Stringfy Id', JSON.stringify(this.productListIds) )
     getProducts({ 
-        productIds: JSON.stringify(this.productListIds),
-        sortCourse: this.value
+        productIds: JSON.stringify(this.productListIds)
+        // sortCourse: this.value
       }).then((result) => {
           console.log(result);
           this.productInfoList = result.productList;
