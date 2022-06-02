@@ -691,13 +691,6 @@
         <value>Individual_Coaching</value>
     </labels>
     <labels>
-        <fullName>QUTExperienceSSO</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>QUTExperienceSSO</shortDescription>
-        <value>https://auth-test-idp.qut.edu.au/idp/profile/SAML2/Redirect/SSO</value>
-    </labels>
-    <labels>
         <fullName>MCTransactionalAPI_AccessTokenURL</fullName>
         <language>en_US</language>
         <protected>false</protected>

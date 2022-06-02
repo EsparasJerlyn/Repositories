@@ -25,13 +25,12 @@ import registerWithLinkedIn from "@salesforce/label/c.QUT_RegistrationForm_Regis
 import qutSSOText from "@salesforce/label/c.QUT_RegistrationForm_SSO";
 import requiredField from "@salesforce/label/c.QUT_RegistrationForm_IndicatesRequiredField";
 import privacyPolicy from "@salesforce/label/c.QUT_RegistrationForm_PrivacyPolicy";
-import qutSSO from "@salesforce/label/c.QUTExperienceSSO";
 import BasePath from "@salesforce/community/basePath";
 import sendRegistrationSMSOTP from "@salesforce/apex/RegistrationFormCtrl.sendRegistrationSMSOTP";
 import getOPEProductCateg from "@salesforce/apex/RegistrationFormCtrl.getOPEProductCateg";
 
 //Add text fields in Label from HTML
-const LINKEDINSSO = "/services/auth/sso/";
+const SSO = "/services/auth/sso/";
 const REQUIRED_ERROR_MESSAGE = "Please populate required field.";
 const EMAIL_NOT_VALID = "Please enter a valid email.";
 const EMAIL_EXIST = "Your email already exists.";
@@ -52,7 +51,8 @@ export default class RegistrationForm extends LightningElement {
   year = null;
   dietaryReq = null;
   checkbox;
-  ssoUrl;
+  linkedInSSOUrl;
+  experienceSSOUrl;
   linkedInLogo;
   xButton;
   emailErrorMessage;
@@ -87,7 +87,6 @@ export default class RegistrationForm extends LightningElement {
     registerWithLinkedIn,
     qutSSOText,
     privacyPolicy,
-    qutSSO
   };
 
   /*
@@ -134,6 +133,14 @@ export default class RegistrationForm extends LightningElement {
         console.log("getOPEProductCateg error");
         console.log(error);
       });
+
+      //Generate Experience SSO Link
+      getCommunityUrl()
+      .then((res) => {
+        this.experienceSSOUrl = res.comSite + SSO + 'QUT_Experience_SSO';
+      }).catch((error) => {
+        this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
+      });
   }
 
   /*
@@ -154,13 +161,13 @@ export default class RegistrationForm extends LightningElement {
       domain = res.comURL[0].Domain.split("-");
 
       if ("sit" === domain[0].toLowerCase()) {
-        this.ssoUrl = res.comSite + LINKEDINSSO + "QUTSIT_LinkedIn";
+        this.linkedInSSOUrl = res.comSite + SSO + "QUTSIT_LinkedIn";
       } else if ("uat" === domain[0].toLowerCase()) {
-        this.ssoUrl = res.comSite + LINKEDINSSO + "QUTUAT_LinkedIn";
+        this.linkedInSSOUrl = res.comSite + SSO + "QUTUAT_LinkedIn";
       } else {
-        this.ssoUrl = res.comSite + LINKEDINSSO + "QUT_LinkedIn";
+        this.linkedInSSOUrl = res.comSite + SSO + "QUT_LinkedIn";
       }
-      window.location.href = this.ssoUrl;
+      window.location.href = this.linkedInSSOUrl;
     });
   }
 
