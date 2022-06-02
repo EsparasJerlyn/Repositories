@@ -25,9 +25,18 @@ h5, .btn-title, .btn-text {
 }
 
 .btn-link:hover {
-        background: #FFFFFF;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
+        background: var(--main-color-blue500);
+        transition: 1s;
+
 }
+
+.btn-link:hover p {
+    color:#fff !important;
+
+}
+
+
+
 
 a:hover, a:visited {
     text-decoration: none;
