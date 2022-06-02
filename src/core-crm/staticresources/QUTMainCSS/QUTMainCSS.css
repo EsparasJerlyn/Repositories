@@ -463,6 +463,10 @@ div.main-container-bc [role=navigation] ol.slds-breadcrumb li:last-child{
   display:none;
 }
 
+.comm-navigation.forceCommunityMultiLevelNavigation {
+  display: none;
+}
+
 /*end*/
 
 
