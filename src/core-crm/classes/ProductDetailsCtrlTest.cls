@@ -847,4 +847,82 @@ private class ProductDetailsCtrlTest {
       system.assert(!contact.isEmpty(), 'Data Retrieve!');
     }
   }
+
+  @IsTest
+  static void testGetUserContactDetails() {
+    User currUsr = [
+      SELECT Id
+      FROM User
+      WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
+      LIMIT 1
+    ];
+
+    System.runAs(currUsr) {
+      createRecord(opeActProdReqRecType);
+      String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;
+      Test.startTest();
+            List<Contact> con = TestDataFactory.createTestContactRecords(1);
+            insert con;
+            List<Contact> contact = ProductDetailsCtrl.getUserContactDetails(con[0].Id);
+      Test.stopTest();
+
+      system.assert(!contact.isEmpty(), 'Data Retrieve!');
+    }
+  }
+  @IsTest
+  static void testGetUserCartDetails() {
+    User currUsr = [
+      SELECT Id
+      FROM User
+      WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
+      LIMIT 1
+    ];
+
+    System.runAs(currUsr) {
+      createRecord(opeActProdReqRecType);
+      String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;
+      Test.startTest();
+        List<Account> acct = TestDataFactory.createTestAccountRecords(1);
+        insert acct;
+        WebStore testWebStore = new WebStore(
+        Name = 'Study',
+        DefaultLanguage = 'en_US'
+        );
+        insert testWebStore;
+
+        WebCart cart = new WebCart(
+          Name = 'Cart',
+          AccountId = acct[0].Id,
+          Status__c = 'Checkout',
+          WebStoreId = testWebStore.Id
+        );
+        insert cart;
+
+        WebCart wb = ProductDetailsCtrl.getUserCartDetails(currUsr.Id);
+      Test.stopTest();
+      System.assert( true, 'Success data retrieval');
+    }
+  }
+
+  @IsTest
+  static void testGetPricebookEntryPrice() {
+    User currUsr = [
+      SELECT Id
+      FROM User
+      WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
+      LIMIT 1
+    ];
+
+    System.runAs(currUsr) {
+      createRecord(opeActProdReqRecType);
+      String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;
+      Test.startTest();
+        PricebookEntry pricebookentry = [SELECT Id FROM PricebookEntry LIMIT 1];
+        PricebookEntry pb = ProductDetailsCtrl.getPricebookEntryPrice(pricebookentry.Id);
+      Test.stopTest();
+      system.assert(true, 'Data Retrieve!');
+    }
+  }
+ 
+  
 }

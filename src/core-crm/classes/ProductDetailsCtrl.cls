@@ -1235,4 +1235,74 @@ public without sharing class ProductDetailsCtrl {
       WHERE Id = :connId
     ];
   }
+  @AuraEnabled
+  public static List<Contact> getUserContactDetails(Id connId) {
+    return [
+      SELECT Id, FirstName, LastName, Email
+      FROM Contact
+      WHERE Id = :connId
+    ];
+  }
+  
+  @AuraEnabled
+  public static WebCart getUserCartDetails(Id userId) {
+    WebCart webcart = new WebCart();
+    webcart = [
+      SELECT Id, OwnerId, Name, WebStoreId, AccountId, External_Id__c, Amount_Paid__c FROM WebCart
+      WHERE OwnerId =: userId
+      LIMIT 1
+    ];
+
+    return webcart;
+  }
+
+  @AuraEnabled
+  public static void cartItemForGrpReg(
+      String cartId,
+      String productName,
+      String productId,
+      String courseOfferingId,
+      String pricebookEntryId
+    ) {
+      try {
+        // Get Current User Active Cart Delivery Group
+        Id cartDeliveryGroupId = [
+          SELECT Id, Name, CreatedDate, LastModifiedDate, CartId
+          FROM CartDeliveryGroup
+          WHERE CartId = :cartId
+        ]
+        .Id;
+        // Set Cart Item to be inserted
+        CartItem cItem = new CartItem();
+        cItem.CartId = cartId;
+        cItem.CartDeliveryGroupId = cartDeliveryGroupId;
+        cItem.Name = productName;
+        cItem.Product2Id = productId;
+        if (String.isNotBlank(courseOfferingId)) {
+          cItem.Course_Offering__c = courseOfferingId;
+        }
+        cItem.Pricebook_Entry_ID__c = pricebookEntryId;
+        cItem.Quantity = 1;
+        cItem.Type = 'Product';
+  
+        insert cItem;
+      } catch (Exception e) {
+        system.debug(e);
+        system.debug('Error on ProductDetailsCtrl.addToCartItem');
+        AuraHandledException auraEx = new AuraHandledException(e.getMessage());
+        throw auraEx;
+      }
+    }
+
+    @AuraEnabled
+    public static PricebookEntry getPricebookEntryPrice(Id pricebookId) {
+    
+      return  [
+        SELECT Id, Name, Pricebook2Id, Product2Id, UnitPrice FROM PricebookEntry
+        WHERE Id =: pricebookId
+        LIMIT 1
+      ];
+  
+    }
+  
 }
