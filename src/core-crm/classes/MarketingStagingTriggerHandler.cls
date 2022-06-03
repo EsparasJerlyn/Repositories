@@ -359,15 +359,22 @@ public with sharing class MarketingStagingTriggerHandler implements Disableable,
         upsert marSegmentationToUpsertMap.values();
         for(String nameEmailItem: marSegmentationToUpsertMap.keySet()){
             //create marketing interaction records
-            marInteractionToInsertMap.put(
-            nameEmailItem,
-            (Marketing_Interaction__c) MarketingStagingTriggerHelper.createMarketingInteractionRecord(
-                    marStagingMap.get(nameEmailItem),
-                    marSegmentationToUpsertMap.get(nameEmailItem).Contact__c,
-                    marSegmentationToUpsertMap.get(nameEmailItem).Lead__c,
-                    marSegmentationToUpsertMap.get(nameEmailItem).Id
-                )
-            );
+            if( marStagingMap.get(nameEmailItem).get('Interaction_Type__c')!=null &&
+                marStagingMap.get(nameEmailItem).get('Interaction_DateTime__c')!=null && 
+                marStagingMap.get(nameEmailItem).get('Lead_Source_Category__c')!=null && 
+                marStagingMap.get(nameEmailItem).get('Lead_Source__c')!=null && 
+                marStagingMap.get(nameEmailItem).get('SPAD__c')!=null &&
+                marStagingMap.get(nameEmailItem).get('Event_Name__c')!=null ){
+                marInteractionToInsertMap.put(
+                    nameEmailItem,
+                    (Marketing_Interaction__c) MarketingStagingTriggerHelper.createMarketingInteractionRecord(
+                            marStagingMap.get(nameEmailItem),
+                            marSegmentationToUpsertMap.get(nameEmailItem).Contact__c,
+                            marSegmentationToUpsertMap.get(nameEmailItem).Lead__c,
+                            marSegmentationToUpsertMap.get(nameEmailItem).Id
+                        )
+                    );
+            }
         }
     }
 

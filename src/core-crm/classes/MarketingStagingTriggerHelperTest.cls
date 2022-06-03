@@ -25,6 +25,12 @@ public with sharing class MarketingStagingTriggerHelperTest {
         msList[0].Last_Name__c = 'Test1 LastName';
         msList[0].Email__c = 'Test1@email.com';
         msList[0].Salutation__c = 'Mr';
+        msList[0].Interaction_Type__c = 'TESTINERACTIONTYPE1';
+        msList[0].Interaction_DateTime__c = Date.Today();
+        msList[0].Lead_Source_Category__c = 'Enquiry';
+        msList[0].Lead_Source__c = 'TESTLEADSOURCE1';
+        msList[0].SPAD__c = 'TESTSPAD1';
+        msList[0].Event_Name__c = 'TESTEVENTNAME1';
         insert msList;
         Contact contact = [  SELECT Id, 
                             (SELECT Id FROM Marketing_Segmentations__r ),
@@ -54,6 +60,12 @@ public with sharing class MarketingStagingTriggerHelperTest {
         msList[0].Salutation__c = 'Mr';
         msList[0].Applicant_Id__c = '12345';
         msList[0].Preference_Number__c = 1;
+        msList[0].Interaction_Type__c = 'TESTINERACTIONTYPE1';
+        msList[0].Interaction_DateTime__c = Date.Today();
+        msList[0].Lead_Source_Category__c = 'Enquiry';
+        msList[0].Lead_Source__c = 'TESTLEADSOURCE1';
+        msList[0].SPAD__c = 'TESTSPAD1';
+        msList[0].Event_Name__c = 'TESTEVENTNAME1';
         insert msList;
 
         List<Marketing_Staging__c> msList2 = new List<Marketing_Staging__c>();
@@ -64,6 +76,12 @@ public with sharing class MarketingStagingTriggerHelperTest {
         msList2[0].Salutation__c = 'Mr';
         msList2[0].Applicant_Id__c = '12345';
         msList2[0].Preference_Number__c = 1;
+        msList2[0].Interaction_Type__c = 'TESTINERACTIONTYPE1';
+        msList2[0].Interaction_DateTime__c = Date.Today();
+        msList2[0].Lead_Source_Category__c = 'Enquiry';
+        msList2[0].Lead_Source__c = 'TESTLEADSOURCE1';
+        msList2[0].SPAD__c = 'TESTSPAD1';
+        msList2[0].Event_Name__c = 'TESTEVENTNAME1';
         insert msList2;
 
         Contact contact = [    SELECT Id, 
@@ -93,6 +111,12 @@ public with sharing class MarketingStagingTriggerHelperTest {
         msList[0].First_Name__c = 'Test1';
         msList[0].Last_Name__c = 'Test1 LastName';
         msList[0].Email__c = 'Test1@email.com';
+        msList[0].Interaction_Type__c = 'TESTINERACTIONTYPE1';
+        msList[0].Interaction_DateTime__c = Date.Today();
+        msList[0].Lead_Source_Category__c = 'Enquiry';
+        msList[0].Lead_Source__c = 'TESTLEADSOURCE1';
+        msList[0].SPAD__c = 'TESTSPAD1';
+        msList[0].Event_Name__c = 'TESTEVENTNAME1';
         insert msList;
 
         Lead newLead = [    SELECT Id, 
@@ -120,6 +144,12 @@ public with sharing class MarketingStagingTriggerHelperTest {
         msList[0].First_Name__c = 'Test1';
         msList[0].Last_Name__c = 'Test1 LastName';
         msList[0].Email__c = 'Test1@email.com';
+        msList[0].Interaction_Type__c = 'TESTINERACTIONTYPE1';
+        msList[0].Interaction_DateTime__c = Date.Today();
+        msList[0].Lead_Source_Category__c = 'Enquiry';
+        msList[0].Lead_Source__c = 'TESTLEADSOURCE1';
+        msList[0].SPAD__c = 'TESTSPAD1';
+        msList[0].Event_Name__c = 'TESTEVENTNAME1';
         insert msList;
 
         Lead newLead = [    SELECT Id, 
@@ -149,6 +179,12 @@ public with sharing class MarketingStagingTriggerHelperTest {
         msList[0].Email__c = 'Test1@email.com';
         msList[0].Applicant_Id__c = '12345';
         msList[0].Preference_Number__c = 1;
+        msList[0].Interaction_Type__c = 'TESTINERACTIONTYPE1';
+        msList[0].Interaction_DateTime__c = Date.Today();
+        msList[0].Lead_Source_Category__c = 'Enquiry';
+        msList[0].Lead_Source__c = 'TESTLEADSOURCE1';
+        msList[0].SPAD__c = 'TESTSPAD1';
+        msList[0].Event_Name__c = 'TESTEVENTNAME1';
         insert msList;
 
         List<Marketing_Staging__c> msList2 = new List<Marketing_Staging__c>();
@@ -158,6 +194,12 @@ public with sharing class MarketingStagingTriggerHelperTest {
         msList2[0].Email__c = 'Test1@email.com';
         msList2[0].Applicant_Id__c = '12345';
         msList2[0].Preference_Number__c = 1;
+        msList2[0].Interaction_Type__c = 'TESTINERACTIONTYPE1';
+        msList2[0].Interaction_DateTime__c = Date.Today();
+        msList2[0].Lead_Source_Category__c = 'Enquiry';
+        msList2[0].Lead_Source__c = 'TESTLEADSOURCE1';
+        msList2[0].SPAD__c = 'TESTSPAD1';
+        msList2[0].Event_Name__c = 'TESTEVENTNAME1';
         insert msList2;
 
         Lead newLead = [    SELECT Id, 
@@ -191,6 +233,12 @@ public with sharing class MarketingStagingTriggerHelperTest {
         msList[0].First_Name__c = 'Test1';
         msList[0].Last_Name__c = 'Test1 LastName';
         msList[0].Email__c = 'Test1@email.com';
+        msList[0].Interaction_Type__c = 'TESTINERACTIONTYPE1';
+        msList[0].Interaction_DateTime__c = Date.Today();
+        msList[0].Lead_Source_Category__c = 'Enquiry';
+        msList[0].Lead_Source__c = 'TESTLEADSOURCE1';
+        msList[0].SPAD__c = 'TESTSPAD1';
+        msList[0].Event_Name__c = 'TESTEVENTNAME1';
         insert msList;
 
         Lead newLead = [    SELECT Id, 
@@ -224,6 +272,12 @@ public with sharing class MarketingStagingTriggerHelperTest {
         msList[0].Email__c = 'Test1@email.com';
         msList[0].Applicant_Id__c = '12345';
         msList[0].Preference_Number__c = 1;
+        msList[0].Interaction_Type__c = 'TESTINERACTIONTYPE1';
+        msList[0].Interaction_DateTime__c = Date.Today();
+        msList[0].Lead_Source_Category__c = 'Enquiry';
+        msList[0].Lead_Source__c = 'TESTLEADSOURCE1';
+        msList[0].SPAD__c = 'TESTSPAD1';
+        msList[0].Event_Name__c = 'TESTEVENTNAME1';
         insert msList;
 
         List<Marketing_Staging__c> msList2 = new List<Marketing_Staging__c>();
@@ -233,6 +287,12 @@ public with sharing class MarketingStagingTriggerHelperTest {
         msList2[0].Email__c = 'Test1@email.com';
         msList2[0].Applicant_Id__c = '12345';
         msList2[0].Preference_Number__c = 1;
+        msList2[0].Interaction_Type__c = 'TESTINERACTIONTYPE1';
+        msList2[0].Interaction_DateTime__c = Date.Today();
+        msList2[0].Lead_Source_Category__c = 'Enquiry';
+        msList2[0].Lead_Source__c = 'TESTLEADSOURCE1';
+        msList2[0].SPAD__c = 'TESTSPAD1';
+        msList2[0].Event_Name__c = 'TESTEVENTNAME1';
         insert msList2;
 
         Lead newLead = [    SELECT Id, 
@@ -260,6 +320,12 @@ public with sharing class MarketingStagingTriggerHelperTest {
         msList[0].First_Name__c = 'Test1';
         msList[0].Last_Name__c = 'Test1 LastName';
         msList[0].Email__c = 'Test1@email.com';
+        msList[0].Interaction_Type__c = 'TESTINERACTIONTYPE1';
+        msList[0].Interaction_DateTime__c = Date.Today();
+        msList[0].Lead_Source_Category__c = 'Enquiry';
+        msList[0].Lead_Source__c = 'TESTLEADSOURCE1';
+        msList[0].SPAD__c = 'TESTSPAD1';
+        msList[0].Event_Name__c = 'TESTEVENTNAME1';
         insert msList;
 
         Lead newLead = [    SELECT Id, 
