@@ -58,6 +58,10 @@ public without sharing class Product2TriggerHandler implements Disableable, Befo
   ) {
     // Get Products with Available to Cart updated to true
     Set<Id> prodIdSet = new Set<Id>();
+    Set<Id> prodIdPublishingEnded = new Set<Id>();
+    Map<Id,Product_Request__c> prodRequestToUpdateMap = new Map<Id,Product_Request__c>();
+    List<Product2> productsWithPR = new List<Product2>();
+    Product_Request__c newPr;
     for (Product2 prod : prod2New) {
       if (
         prod.Available_on_Cart__c == true &&
@@ -65,6 +69,38 @@ public without sharing class Product2TriggerHandler implements Disableable, Befo
       ) {
         prodIdSet.add(prod.Id);
       }
+
+      if( 
+        //make sure decomission product or publishing enddate is updated  DEPP-2820
+        (prodOld.get(prod.Id).Decommission_Product__c !=
+        prod.Decommission_Product__c || 
+        prodOld.get(prod.Id).Publishing_End_date__c !=
+        prod.Publishing_End_date__c) && 
+        prod.Decommission_Product__c == true && 
+        prod.Publishing_End_date__c <= date.today()
+      ){
+        prodIdPublishingEnded.add(prod.Id);
+      }
+    }
+
+    if(!prodIdPublishingEnded.isEmpty()){
+      productsWithPR = [SELECT Id, Course__r.ProductRequestID__c, Program_Plan__r.Product_Request__c FROM Product2 WHERE Id IN:prodIdPublishingEnded];
+    }
+
+    for(Product2 prod: productsWithPR){
+      
+      if(prod.Course__c != null &&  prod.Course__r.ProductRequestID__c != null){
+        newPr = new Product_Request__c(Id = prod.Course__r.ProductRequestID__c, Product_Request_Status__c = 'Completed');
+        prodRequestToUpdateMap.put(prod.Course__r.ProductRequestID__c,newPr);
+      }
+      if(prod.Program_Plan__c != null && prod.Program_Plan__r.Product_Request__c != null){
+        newPr = new Product_Request__c(Id = prod.Program_Plan__r.Product_Request__c, Product_Request_Status__c = 'Completed');
+        prodRequestToUpdateMap.put(prod.Course__r.ProductRequestID__c,newPr);
+      }
+    }       
+
+    if(!prodRequestToUpdateMap.keySet().isEmpty()){
+      update prodRequestToUpdateMap.values();
     }
 
     if (prodIdSet.size() > 0) {
@@ -181,13 +217,16 @@ public without sharing class Product2TriggerHandler implements Disableable, Befo
         prod.Available_on_Cart__c = false;
       }
 
-      if( //make sure decomission product is updated DEPP-2820
-        prod2Old.get(prod.Id).Decommission_Product__c !=
-        prod.Decommission_Product__c &&
-        prod.Decommission_Product__c == true 
-        && prod.Publishing_End_date__c <= date.today()
+      if( //make sure decomission product or publishing enddate is updated is updated DEPP-2820
+        (prod2Old.get(prod.Id).Decommission_Product__c !=
+        prod.Decommission_Product__c || 
+        prod2Old.get(prod.Id).Publishing_End_date__c !=
+        prod.Publishing_End_date__c) && 
+        prod.Decommission_Product__c == true && 
+        prod.Publishing_End_date__c <= date.today()
       ){
         prod.IsActive = false;
+        prod.Available_on_Cart__c = false;
       }
     }
 

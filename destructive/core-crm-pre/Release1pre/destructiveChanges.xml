@@ -5,5 +5,11 @@
         <members>Lead.Custom_Lead_Duplicate_Rule</members>
         <name>DuplicateRule</name>
     </types>
+
+    <types>
+        <!-- DEPP-2217-->
+        <members>Product2.Publishing_EndDate_is_Future_Date</members>
+        <name>ValidationRule</name>
+    </types>
     <version>52.0</version>
 </Package>

@@ -180,6 +180,39 @@ public with sharing class Product2TriggerHandlerTest {
   }
 
   @IsTest
+  private static void decomissonProduct() {
+    User currUsr = [
+      SELECT Id
+      FROM User
+      WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
+      LIMIT 1
+    ];
+    System.runAs(currUsr) {
+      List<Product2> prod2List = [
+        SELECT Id, Decommission_Product__c, 
+        Publishing_End_Date__c, 
+        Decommission_Reason__c
+        FROM Product2
+        WHERE
+          CreatedById = :currUsr.Id
+          AND QA_Review_Completed__c = 'Yes'
+      ];
+      for (Product2 prod2 : prod2List) {
+        prod2.Publishing_End_Date__c = Date.Today();
+        prod2.Decommission_Product__c = true;
+        prod2.Decommission_Reason__c = 'test';
+      }
+      Test.startTest();
+      update prod2List;
+      system.assert(![SELECT Id FROM Product2 WHERE IsActive = false].isEmpty(),'product wasnt deactivated');
+      system.assert(![SELECT Id FROM Product_Request__c WHERE Product_Request_Status__c = 'Completed'].isEmpty(),'product request wasnt completed');
+      Test.stopTest();
+
+    }
+
+  }
+
+  @IsTest
   private static void includeProductToStoreTest() {
     User currUsr = [
       SELECT Id
