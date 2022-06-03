@@ -43,7 +43,8 @@
             
             <!-- hide filter courses heading -> mobile -->
            
-
+          <button onclick={handleModalOpen} class="filter-button"> Filter Courses <img  src={filterFilled} alt="" class="filterIcon"/></button>  
+          </br>
           <div class="main-section  slds-col slds-size_12-of-12 slds-medium-size_3-of-12  filter-desktop">
             <h3 class="header-text sortTitle">Sort courses by</h3>
             <span class="combo-container">
@@ -329,8 +330,10 @@
               </li>
               </ul>                            
       </div>
-       
-        <lightning-button variant="base" label="Clear all" title="Clear all" onclick={handleClearAll} class="slds-m-left_x-small mobileViewClear"></lightning-button> 
+        <button onclick={handleModalClosed} class="filter-button"> Filter Courses <img  src={filterFilled} alt="" class="filterIcon" /></button>  
+      </br>
+      <lightning-button variant="base" label="Clear all" title="Clear all" onclick={handleClearAll} 
+        class="slds-m-left_x-small slds-align_absolute-center mobileViewClear" style="text-decoration: underline #0066B9;"  ></lightning-button> 
 
       </div>
     </div>
@@ -340,7 +343,6 @@
           <aside class="aside-section slds-col slds-size_12-of-12 slds-medium-size_4-of-12 px2" if:true={showFiltersIfStudy}>
             <div class="aside-section slds-border_bottom slds-p-bottom_medium slds-col slds-size_12-of-12 pr1" if:true={showFiltersIfStudy}>
               <p class="slds-truncate heading3 main-color-blue500 filter-mobile">Filter courses</p>
-              <button onclick={handleModalOpen} class="filter-button"> Filter Courses <img  src={filterFilled} alt="" class="filterIcon"/></button>  
             </div>
               <div class="filter-mobile">
                   <lightning-button variant="base" label="Clear all" title="Clear all" onclick={handleClearAll} class="desktopView"></lightning-button> 
