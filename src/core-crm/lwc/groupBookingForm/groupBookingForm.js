@@ -447,7 +447,8 @@ saveRegistration(contact,courseOffering,relatedAnswer,answer,fileUpload){
         courseOfferingId:courseOffering,
         relatedAnswerList:relatedAnswer,
         answerList:answer,
-        fileUpload:fileUpload
+        fileUpload:fileUpload,
+        forApplication:false
     })
     .then(() =>{
             this.generateToast(SUCCESS_TITLE, 'Successfully Submitted', SUCCESS_VARIANT);

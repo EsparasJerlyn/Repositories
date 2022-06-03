@@ -289,29 +289,35 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   } */
 
   notifyApply() {
-    getQuestions({
-      productReqId: this.productDetails.Course__r.ProductRequestID__c
-    })
-      .then((results) => {
-        if (results.length > 0) {
-          this.responseData = results;
-          this.questions = this.formatQuestions(results);
-        }
+    if (!isGuest) {
+      getQuestions({
+        productReqId: this.productDetails.Course__r.ProductRequestID__c
       })
-      .catch((e) => {
-        this.generateToast("Error.", LWC_Error_General, "error");
-      });
-
-    let fields = {};
-    fields.Id = this.contactId;
-    this.contactFields = fields;
-    if (this.hasQuestions) {
-      this.handleRespondQuestions();
+        .then((results) => {
+          if (results.length > 0) {
+            this.responseData = results;
+            this.questions = this.formatQuestions(results);
+          }
+        })
+        .catch((e) => {
+          this.generateToast("Error.", LWC_Error_General, "error");
+        });
+  
+      let fields = {};
+      fields.Id = this.contactId;
+      this.contactFields = fields;
+      if (this.hasQuestions) {
+        this.handleRespondQuestions();
+      } else {
+        this.isLoading = true;
+        this.saveInProgress = true;
+        this.saveRegistration(fields, this.childRecordId, [], [], "",false);
+      }
     } else {
-      this.isLoading = true;
-      this.saveInProgress = true;
-      this.saveRegistration(fields, this.childRecordId, [], [], "");
+      // Display Custom Login Form LWC
+      this.openModal = true;
     }
+    
   }
   // Emits a notification that the user wants to add the item to their cart.
   notifyAddToCart() {
@@ -643,7 +649,8 @@ export default class ProductDetailsDisplay extends NavigationMixin(
       this.selectedCourseOffering,
       this.responseData,
       this.createAnswerRecord(),
-      JSON.stringify(this.createFileUploadMap())
+      JSON.stringify(this.createFileUploadMap()),
+      true
     );
     this.resetResponses();
   }
@@ -694,13 +701,14 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     return answerRecords;
   }
 
-  saveRegistration(contact, courseOffering, relatedAnswer, answer, fileUpload) {
+  saveRegistration(contact, courseOffering, relatedAnswer, answer, fileUpload, forApplication) {
     addRegistration({
       contactRecord: contact,
       courseOfferingId: courseOffering,
       relatedAnswerList: relatedAnswer,
       answerList: answer,
-      fileUpload: fileUpload
+      fileUpload: fileUpload,
+      forApplication : forApplication
     })
       .then(() => {
         this.generateToast(

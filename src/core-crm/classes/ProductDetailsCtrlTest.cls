@@ -585,7 +585,8 @@ private class ProductDetailsCtrlTest {
         cOfferingId,
         relatedAnswers,
         answerList,
-        JSON.serialize(fileLoadList)
+        JSON.serialize(fileLoadList),
+        false
       );
       Test.stopTest();
       system.assert(

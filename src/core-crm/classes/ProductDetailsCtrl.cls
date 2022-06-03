@@ -652,6 +652,7 @@ public without sharing class ProductDetailsCtrl {
    * @param relatedAnswerList - related answer records
    * @param answerList - answer records to be inserted
    * @param fileUpload - file to upload
+   * @param forApplication - flag for checking if only for application
    */
   @AuraEnabled
   public static void addRegistration(
@@ -659,7 +660,8 @@ public without sharing class ProductDetailsCtrl {
     String courseOfferingId,
     List<Related_Answer__c> relatedAnswerList,
     List<Answer__c> answerList,
-    String fileUpload
+    String fileUpload,
+    Boolean forApplication
   ) {
     List<FileUpload> parsedFileUpload = new List<FileUpload>();
     if (fileUpload != '') {
@@ -781,13 +783,15 @@ public without sharing class ProductDetailsCtrl {
       update answersToUpdate.values();
     }
 
-    hed__Course_Enrollment__c newCourseConnection = new hed__Course_Enrollment__c(
-      hed__Course_Offering__c = courseOfferingId,
-      hed__Contact__c = contactRecord.Id,
-      RecordTypeId = STUDENT_RECTYPEID,
-      hed__Status__c = 'Active'
-    );
-    insert newCourseConnection;
+    if(!forApplication){
+      hed__Course_Enrollment__c newCourseConnection = new hed__Course_Enrollment__c(
+        hed__Course_Offering__c = courseOfferingId,
+        hed__Contact__c = contactRecord.Id,
+        RecordTypeId = STUDENT_RECTYPEID,
+        hed__Status__c = 'Active'
+      );
+      insert newCourseConnection;
+    }
   }
 
   /**
