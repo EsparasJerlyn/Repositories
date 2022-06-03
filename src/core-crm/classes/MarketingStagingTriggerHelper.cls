@@ -25,7 +25,7 @@ public with sharing class MarketingStagingTriggerHelper{
         'My_Interested_Pathway_Program_or_Diploma__c','My_Interested_English_Pathways__c','My_Interested_Financial_Assistance__c',
         'My_Interested_Entrepreneurship__c','My_Interested_Languages__c','My_Interested_ESport_Interest__c','My_Postcode__c',
         'My_State__c','My_Suburb__c','SE_Profile_Persona__c','SE_Citizenship_Status__c','SE_Indigenous_Status_ATSI__c',
-        'SE_Country_Of_Citizenship__c','SE_Country_Of_Residency__c','SE_Expected_Admission_Year__c','SE_Year_12_Expected_Completion_Year__c',
+        'SE_Country_Of_Citizenship__c','SE_Country_Of_Residency__c','SE_Expected_Admission_Year__c','SE_Education_Level__c', 'SE_Year_12_Expected_Completion_Year__c',
         'SE_Studying_Australian_Curriculum__c','SE_Funding_Source__c','SE_Moving_To_Brisbane__c','SE_High_Achieving_Student__c',
         'SE_Elite_Athlete__c','SE_Organisation__c','SE_Position__c','SE_Industry__c','SE_Primary_Study_Level__c','SE_Primary_BSA__c',
         'SE_Primary_NSA__c','SE_Secondary_Study_Level__c','SE_Secondary_BSA__c','SE_Secondary_NSA__c','SE_Double_Degree__c',
