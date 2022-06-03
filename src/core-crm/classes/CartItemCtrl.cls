@@ -453,10 +453,10 @@ public without sharing class CartItemCtrl {
   @AuraEnabled
   public static void updateCartStatus(String cartId, String cartStatus) {
     //get the cart
-    WebCart webCart = [SELECT Id, Name, Status FROM WebCart WHERE Id = :cartId];
+    WebCart webCart = [SELECT Id, Name, Status__c FROM WebCart WHERE Id = :cartId];
 
     //update the cart based on the status received
-    webCart.Status = cartStatus;
+    webCart.Status__c = cartStatus;
     update webCart;
   }
 
