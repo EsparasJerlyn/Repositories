@@ -11,7 +11,7 @@
       | roy.nino.s.regala              | April 04, 2022        | DEPP-1687              | Created file                 |
       |                                |                       |                        |                              |
  */
-trigger ProgramOfferingTrigger on Program_Offering__c (before insert, after insert) {
+trigger ProgramOfferingTrigger on Program_Offering__c (before insert, after insert, after update) {
     TriggerDispatcher.dispatch(
     TriggerHandlerFactory.getHandlersForSObjectType(
       'Program_Offering__c'

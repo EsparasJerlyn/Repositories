@@ -67,13 +67,17 @@ public with sharing class SendNewOfferingNotificationHelperTest {
         insert interests;
     }
 
-
     @IsTest
     static void sendCourseOfferingAvailabiltyNotificationTest(){
         Test.startTest();
         List<hed__Course__c> course = [SELECT Id FROM hed__Course__c LIMIT 1];
         List<hed__Term__c> term = [SELECT Id FROM hed__Term__c LIMIT 1];
         List<hed__Course_Offering__c> courseOfferings = TestDataFactory.createTestCourseOfferingRecord(1,course,term);
+        for(hed__Course_Offering__c offering: courseOfferings){
+            offering.Registration_Start_Date__c = Date.today();
+            offering.IsActive__c = true;
+            offering.hed__Capacity__c = 10;
+        }
         insert courseOfferings;
         Test.stopTest();
 
@@ -89,6 +93,11 @@ public with sharing class SendNewOfferingNotificationHelperTest {
         List<hed__Program_Plan__c> programPlan = [SELECT Id FROM hed__Program_Plan__c LIMIT 1];
         List<hed__Term__c> term = [SELECT Id FROM hed__Term__c LIMIT 1];
         List<Program_Offering__c> programOfferings = TestDataFactory.createTestProgramOfferingRecords(1,programPlan);
+        for(Program_Offering__c offering: programOfferings){
+            offering.Registration_Start_Date__c = Date.today();
+            offering.IsActive__c = true;
+            offering.hed_Capacity__c = 10;
+        }
         insert programOfferings;
         Test.stopTest();
 
@@ -98,4 +107,49 @@ public with sharing class SendNewOfferingNotificationHelperTest {
                             );
     }
     
+
+    @IsTest
+    static void updateSendCourseOfferingAvailabiltyNotificationTest(){
+        Test.startTest();
+        List<hed__Course__c> course = [SELECT Id FROM hed__Course__c LIMIT 1];
+        List<hed__Term__c> term = [SELECT Id FROM hed__Term__c LIMIT 1];
+        List<hed__Course_Offering__c> courseOfferings = TestDataFactory.createTestCourseOfferingRecord(1,course,term);
+        for(hed__Course_Offering__c offering: courseOfferings){
+            offering.Registration_Start_Date__c = Date.today();
+            offering.IsActive__c = false;
+            offering.hed__Capacity__c = 10;
+        }
+        insert courseOfferings;
+        update new hed__Course_Offering__c(Id = courseOfferings[0].Id, IsActive__c = true);
+        Test.stopTest();
+
+        system.assertEquals(1,
+                            Limits.getEmailInvocations(),
+                            'Number of email invocations not as expected'
+                            );
+    }
+
+    @IsTest
+    static void updateSendProgramOfferingAvailabiltyNotificationTest(){
+        Test.startTest();
+        List<hed__Program_Plan__c> programPlan = [SELECT Id FROM hed__Program_Plan__c LIMIT 1];
+        List<hed__Term__c> term = [SELECT Id FROM hed__Term__c LIMIT 1];
+        List<Program_Offering__c> programOfferings = TestDataFactory.createTestProgramOfferingRecords(1,programPlan);
+        for(Program_Offering__c offering: programOfferings){
+            offering.Registration_Start_Date__c = Date.today();
+            offering.IsActive__c = false;
+            offering.hed_Capacity__c = 10;
+        }
+        insert programOfferings;
+        
+        programOfferings[0].IsActive__c = true;
+
+        update new Program_Offering__c(Id = programOfferings[0].Id, IsActive__c = true);
+        Test.stopTest();
+
+        system.assertEquals(1,
+                            Limits.getEmailInvocations(),
+                            'Number of email invocations not as expected'
+                            );
+    }
 }

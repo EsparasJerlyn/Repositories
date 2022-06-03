@@ -19,11 +19,8 @@ public without sharing class SendNewOfferingNotificationHelper {
     * @description process new course offerings and check if email will be sent
     * @param crseOfferingNew - list of course offerings 
     */
-    public static void sendCourseOfferingAvailabiltyNotification(List<hed__Course_Offering__c> crseOfferingNew) {
+    public static void sendCourseOfferingAvailabiltyNotification(Map<Id,hed__Course_Offering__c> courseToOfferingMap) {
 
-        //only create 1:1 since email will be sent once per offering
-        //potentional course offering for interest notification
-        Map<Id,hed__Course_Offering__c> courseToOfferingMap = new Map<Id,hed__Course_Offering__c>(); 
         //course to expression map
         //potential courses for interest notification
         Map<Id,List<Id>> mapOfCourseToInterests = new Map<Id,List<Id>>(); 
@@ -36,12 +33,7 @@ public without sharing class SendNewOfferingNotificationHelper {
         Date today = System.today();
         DateTime dt = System.Now().addHours(-24);
         
-        for(hed__Course_Offering__c courseOffrng: crseOfferingNew){
-          if(courseOffrng.hed__Course__c != null && courseOffrng.hed__Start_Date__c > today){
-            courseToOfferingMap.put(courseOffrng.hed__Course__c,courseOffrng);
-          }
-        }
-        
+        //get all expression of interests related to the course of the newly created offering
         Map<Id,Expression_of_Interest__c> expresionOfInterestMap = new Map<Id,Expression_of_Interest__c>
         (
           [
@@ -56,7 +48,7 @@ public without sharing class SendNewOfferingNotificationHelper {
           ]
         );
     
-    
+        //loop through the interests
         for(Expression_of_Interest__c interest : expresionOfInterestMap.values()){
           //construct map, this relates and groups expression of interests for each course
               if(!mapOfCourseToInterests.containsKey(interest.Product__r.Course__c)){
@@ -70,16 +62,22 @@ public without sharing class SendNewOfferingNotificationHelper {
           [
             SELECT Id, hed__Course__c
             FROM hed__Course_Offering__c
-            WHERE Id NOT IN: crseOfferingNew
+            WHERE Id NOT IN: courseToOfferingMap.values()
             AND hed__Course__c IN: mapOfCourseToInterests.keySet()
-            AND CreatedDate >=:dt
+            AND (CreatedDate >=:dt 
+            OR LastModifiedDate >=:dt)
+            AND Registration_Start_Date__c <= TODAY
+            AND (Registration_End_Date__c = NULL
+            OR Registration_End_Date__c > TODAY)
+            AND IsActive__c = TRUE
+            AND Available_Seats__c > 0
           ]
         );
-    
+        
         for(hed__Course_Offering__c offering:oldCourseOfferingList){
           coursesWithOldOfferingSet.add(offering.hed__Course__c);
         }
-    
+        //loop through newly created course offering
         for(Id courseId: courseToOfferingMap.keySet()){
           if(mapOfCourseToInterests.containsKey(courseId) && !coursesWithOldOfferingSet.contains(courseId)){
             interestEmailRecipientsSet.addAll(mapOfCourseToInterests.get(courseId));
@@ -95,11 +93,8 @@ public without sharing class SendNewOfferingNotificationHelper {
     * @description process new program offerings and check if email will be sent
     * @param programOfferingNew - list of program offerings 
     */
-      public static void sendProgramOfferingAvailabiltyNotification(List<Program_Offering__c> programOfferingNew) {
+      public static void sendProgramOfferingAvailabiltyNotification(Map<Id,Program_Offering__c> programToOfferingMap) {
     
-        //only create 1:1 since email will be sent once per offering
-        //potentional program offering for interest notification
-        Map<Id,Program_Offering__c> programToOfferingMap = new Map<Id,Program_Offering__c>(); 
         //course to expression map
         //potential programs for interest notification
         Map<Id,List<Id>> mapOfProgramToInterests = new Map<Id,List<Id>>(); 
@@ -110,13 +105,7 @@ public without sharing class SendNewOfferingNotificationHelper {
     
     
         DateTime dt = System.Now().addHours(-24);
-        
-        for(Program_Offering__c programOffrng: programOfferingNew){
-          if(programOffrng.hed_Program_Plan__c != null){
-            programToOfferingMap.put(programOffrng.hed_Program_Plan__c,programOffrng);
-          }
-        }
-    
+
         Map<Id,Expression_of_Interest__c> expresionOfInterestMap = new Map<Id,Expression_of_Interest__c>
         (
           [
@@ -145,9 +134,15 @@ public without sharing class SendNewOfferingNotificationHelper {
           [
             SELECT Id, hed_Program_Plan__c
             FROM Program_Offering__c
-            WHERE Id NOT IN: programOfferingNew
+            WHERE Id NOT IN: programToOfferingMap.values()
             AND hed_Program_Plan__c IN: mapOfProgramToInterests.keySet()
-            AND CreatedDate >=:dt
+            AND (CreatedDate >=:dt 
+            OR LastModifiedDate >=:dt)
+            AND Registration_Start_Date__c <= TODAY
+            AND (Registration_End_Date__c = NULL
+            OR Registration_End_Date__c > TODAY)
+            AND IsActive__c = TRUE
+            AND Available_Seats__c > 0
           ]
         );
     

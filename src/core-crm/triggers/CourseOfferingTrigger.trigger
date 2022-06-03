@@ -11,7 +11,7 @@
       | eugene.andrew.abuan            | March 22, 2022        | DEPP-1991              | Created file                 |
       |                                |                       |                        |                              |
  */
-trigger CourseOfferingTrigger on hed__Course_Offering__c (before insert, after insert) {
+trigger CourseOfferingTrigger on hed__Course_Offering__c (before insert, after insert, after update) {
     TriggerDispatcher.dispatch(
     TriggerHandlerFactory.getHandlersForSObjectType(
       'hed__Course_Offering__c'
