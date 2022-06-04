@@ -157,7 +157,7 @@ public without sharing class SendNewOfferingNotificationHelper {
         }
         
         if(!interestEmailRecipientsSet.isEmpty()){
-          SendNewOfferingNotificationHelper.sendOfferingNotification(interestEmailRecipientsSet,expresionOfInterestMap);
+          sendOfferingNotification(interestEmailRecipientsSet,expresionOfInterestMap);
         }
       }
 

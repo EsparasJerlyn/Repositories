@@ -62,9 +62,10 @@ public without sharing class CourseOfferingTriggerHandler implements Disableable
 
     for(Id offeringId: newItems.keySet()){
       //check if offering is updated to be available for registration
-      if((oldItemsMap.get(offeringId).Registration_End_Date__c != newItemsMap.get(offeringId).Registration_End_Date__c  || 
-          oldItemsMap.get(offeringId).Available_Seats__c != newItemsMap.get(offeringId).Available_Seats__c ||
-          oldItemsMap.get(offeringId).Registration_Start_Date__c != newItemsMap.get(offeringId).Registration_Start_Date__c ||
+      if(((oldItemsMap.get(offeringId).Available_Seats__c != newItemsMap.get(offeringId).Available_Seats__c 
+          && oldItemsMap.get(offeringId).Available_Seats__c == 0) ||
+          (oldItemsMap.get(offeringId).Registration_Start_Date__c != newItemsMap.get(offeringId).Registration_Start_Date__c &&
+          oldItemsMap.get(offeringId).Registration_Start_Date__c > Date.today()) ||
           oldItemsMap.get(offeringId).IsActive__c != newItemsMap.get(offeringId).IsActive__c) && 
           newItemsMap.get(offeringId).IsActive__c == true && 
           newItemsMap.get(offeringId).Available_Seats__c > 0 &&

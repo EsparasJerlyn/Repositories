@@ -9,7 +9,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | eugene.andrew.abuan            | March 22, 2022        | DEPP-1991              | Created file                 |
-      |                                |                       |                        |                              |
+      | roy.nino.s.regala              | June 04, 2022         | DEPP-2876              | Created file                 |
  */
 @isTest(SeeAllData=false)
 public with sharing class CourseOfferingTriggerHandlerTest {
