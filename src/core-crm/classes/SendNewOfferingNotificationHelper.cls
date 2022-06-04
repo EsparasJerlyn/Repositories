@@ -169,13 +169,18 @@ public without sharing class SendNewOfferingNotificationHelper {
     * @param  expresionOfInterestMap - details needed for the email to be sent to user
     */
     public static void sendOfferingNotification(Set<Id> interestEmailRecipientsSet,Map<Id,Expression_of_Interest__c> expresionOfInterestMap) {
+        List<Site> site = [SELECT Id FROM Site WHERE UrlPathPrefix = 'study' LIMIT 1];
 
-        List<Domain> domain = new List<Domain>([SELECT Id, Domain FROM Domain]);
+        List<SiteDetail> siteDetail = new List<SiteDetail>();
+
+        if(!site.isEmpty()){ siteDetail = [SELECT SecureURL FROM SiteDetail WHERE DurableId = :site[0].Id];}
+
+        String communityUrl = !siteDetail.isEmpty()?siteDetail[0].SecureURL:'';
+         
         List<EmailTemplate> emailTemplateList = new List<EmailTemplate>([SELECT Id, HTMLValue from EmailTemplate WHERE DeveloperName = 'Offering_Available_Email_Notification']);
-        String basePortalUrl ='';
-        if(!domain.isEmpty()){
-            basePortalUrl= 'https://' + domain[0].Domain + '/study/s/product/detail/';
-        }
+
+        String basePortalUrl = communityUrl + '/s/product/';
+
         List<OrgWideEmailAddress> owea = [SELECT Id, Address, DisplayName FROM OrgWideEmailAddress WHERE DisplayName='QUTeX' LIMIT 1];
 
         List<Messaging.SingleEmailMessage> lstEmails = new List<Messaging.SingleEmailMessage>();

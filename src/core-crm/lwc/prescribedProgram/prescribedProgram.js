@@ -1,15 +1,24 @@
 import { LightningElement, api, track } from "lwc";
 import { loadStyle } from "lightning/platformResourceLoader";
+import userId from "@salesforce/user/Id";
 import qutResourceImg from "@salesforce/resourceUrl/QUTImages";
 import customSR from "@salesforce/resourceUrl/QUTCustomLwcCss";
 import delivery from "@salesforce/label/c.QUT_ProductDetail_Delivery";
 import deliveryPlaceholder from "@salesforce/label/c.QUT_ProductDetail_Delivery_Placeholder";
 import availableStartDates from "@salesforce/label/c.QUT_ProductDetail_AvailableStartDates";
 import availableStartDatesPlaceholder from "@salesforce/label/c.QUT_ProductDetail_AvailableStartDates_Placeholder";
+import registerInterest from "@salesforce/label/c.QUT_ProductDetail_RegisterInterest";
 import pricing from "@salesforce/label/c.QUT_ProductDetail_Pricing";
 import pricingPlaceholder from "@salesforce/label/c.QUT_ProductDetail_Pricing_Placeholder";
 import addToCart from "@salesforce/label/c.QUT_ProductDetail_AddToCart";
+import insertExpressionOfInterest from "@salesforce/apex/ProductDetailsCtrl.insertExpressionOfInterest";
+import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import isGuest from "@salesforce/user/isGuest";
+import LWC_Error_General from "@salesforce/label/c.LWC_Error_General";
+
+const INTEREST_EXISTS_ERROR =
+  "You already registered your interest for this product.";
+
 
 export default class PrescribedProgram extends LightningElement {
   @api product;
@@ -40,6 +49,7 @@ export default class PrescribedProgram extends LightningElement {
   @track openGroupBookingModal;
   @track displayGroupButton = false;
   @track isPrescribed = true;
+  @track displayRegisterInterest;
 
   label = {
     delivery,
@@ -48,7 +58,8 @@ export default class PrescribedProgram extends LightningElement {
     availableStartDatesPlaceholder,
     pricing,
     pricingPlaceholder,
-    addToCart
+    addToCart,
+    registerInterest
   };
 
   renderedCallback() {
@@ -85,6 +96,19 @@ export default class PrescribedProgram extends LightningElement {
     }
     this.accordionIcon = qutResourceImg + "/QUTImages/Icon/accordionClose.svg";
     this.durationIcon = qutResourceImg + "/QUTImages/Icon/duration.svg";
+
+    // Display AddToCart / Register Interest
+    if (
+      this.availableDeliveryTypes.length == 0 &&
+      this.productDetails.Register_Interest_Available__c == true
+    ) {
+      this.displayAddToCart = false;
+      this.displayRegisterInterest = true;
+    } else {
+      this.displayAddToCart = true;
+      this.displayRegisterInterest = false;
+      this.displayGroupRegistration = false;
+    }
    
   }
 
@@ -180,6 +204,30 @@ export default class PrescribedProgram extends LightningElement {
 
   }
 
+  // Register Interest
+  registerInterest() {
+    if (!isGuest) {
+      insertExpressionOfInterest({
+        userId: userId,
+        productId: this.productDetails.Id
+      })
+        .then(() => {
+          this.generateToast("Success!", "Interest Registered", "success");
+        })
+        .catch((error) => {
+     
+          if (error.body.message == "Register Interest Exists") {
+            this.generateToast("Error.", INTEREST_EXISTS_ERROR, "error");
+          } else {
+            this.generateToast("Error.", LWC_Error_General, "error");
+          }
+        });
+    } else {
+      // Display Custom Login Form LWC
+      this.openModal = true;
+    }
+  }
+
   notifyAddToCart() {
     if (!isGuest) {
       this.dispatchEvent(
@@ -210,5 +258,15 @@ export default class PrescribedProgram extends LightningElement {
    else{
     this.openModal = false;
    }
+  }
+
+  // Creates toast notification
+  generateToast(_title, _message, _variant) {
+    const evt = new ShowToastEvent({
+      title: _title,
+      message: _message,
+      variant: _variant
+    });
+    this.dispatchEvent(evt);
   }
 }

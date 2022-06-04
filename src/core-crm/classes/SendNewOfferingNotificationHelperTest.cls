@@ -9,7 +9,8 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | roy.nino.s.regala              | April 26, 2022        | DEPP-1687              | Created file                 |
-      | roy.nino.s.regala              | June 04, 2022         | DEPP-2876              | Created file                 |
+      | roy.nino.s.regala              | June 04, 2022         | DEPP-2876              | updated to cater update      |
+      | roy.nino.s.regala              | June 05, 2022         | DEPP-2876              | updated to cater update      |
 */
 @isTest(SeeAllData=false)
 

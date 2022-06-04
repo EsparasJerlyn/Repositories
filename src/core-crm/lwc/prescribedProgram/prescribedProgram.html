@@ -142,6 +142,20 @@
               class="addToCartBtn"
             ></lightning-button>
           </lightning-layout-item>
+
+          <!-- Register Interest -->
+          <lightning-layout-item
+            if:true={displayRegisterInterest}
+            flexibility="auto"
+            size="12"
+          >
+            <lightning-button
+              label={label.registerInterest}
+              onclick={registerInterest}
+              variant="brand"
+              class="registerInterest"
+            ></lightning-button>
+          </lightning-layout-item>
           <!-- Group Booking -->
           <!-- Group Booking -->
           <lightning-layout-item
