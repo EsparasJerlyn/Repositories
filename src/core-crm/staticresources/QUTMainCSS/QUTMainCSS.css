@@ -1075,6 +1075,10 @@ button.slds-button.slds-button_outline-brand:disabled {
   color: var(--greys-color-bodytext);
 }
 
+.paginator button.slds-button.slds-button_neutral:hover{
+  background: var(--greys-color-tableborder);
+}
+
 .paginator .btn-pagination:last-child{
   border-right: 1px solid var(--greys-color-tableborder);
 }
