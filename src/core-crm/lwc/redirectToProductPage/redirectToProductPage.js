@@ -1,4 +1,4 @@
-import { LightningElement, wire,api } from 'lwc';
+import { LightningElement, wire } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
 import isGuest from "@salesforce/user/isGuest";
 import basePath from "@salesforce/community/basePath";

@@ -110,6 +110,10 @@
     background: #ffffff !important;
     display: contents;
   }
+
+  .fatfooter{
+    margin-top: 2rem;
+  }
   
 
 
@@ -458,15 +462,6 @@ div.main-container-bc [role=navigation] ol.slds-breadcrumb li:last-child{
     font-weight: 700;
     color: var(--greys-color-bodytext);
 }
-
-.comm-user-profile-menu__login-button[community_user-userProfileMenu_userProfileMenu]{
-  display:none;
-}
-
-.comm-navigation.forceCommunityMultiLevelNavigation {
-  display: none;
-}
-
 /*end*/
 
 
@@ -1431,6 +1426,11 @@ span[c-customcombobox_customcombobox].slds-listbox__option-meta_entity {
         padding: 0px !important;
   }
 
+    /**Hide Blank Nav menu*/
+    .forceCommunityMultiLevelNavigationWrapper {
+      display: none !important;
+    }
+
 }
 
 @media only screen and (max-width: 767px){
@@ -1455,8 +1455,6 @@ span[c-customcombobox_customcombobox].slds-listbox__option-meta_entity {
       width: 23px;
       height: 23px;
     }
-
-  	
 
 }
 
@@ -1559,8 +1557,6 @@ span[c-customcombobox_customcombobox].slds-listbox__option-meta_entity {
 	  line-height: var(--dt-line-height-h5);
 	  font-weight: var(--text-Bold);
   }
-
-
 
 }
 
@@ -1686,9 +1682,9 @@ span[c-customcombobox_customcombobox].slds-listbox__option-meta_entity {
 	
 	.forceCommunityThemeHeaderB2B .rightRegion {
 		justify-content: flex-start !important;
-		width: 100% !Important;
-		text-align: left  !important;;
-		padding-left: 15px  !important;;
+		width: 100% !important;
+		text-align: left  !important;
+		/*padding-left: 15px  !important;*/
 	}
 
 
@@ -1734,6 +1730,20 @@ span[c-customcombobox_customcombobox].slds-listbox__option-meta_entity {
     font-size:var(--text-size-18);
   }
   /*end of program module*/
+
+  .b2bHeader.profileMenu {
+    display: none !important;
+  }
+ 	
+   /**Hide Blank Nav menu*/
+   .forceCommunityMultiLevelNavigationWrapper {
+    display: none !important;
+  }
+
+    /* Logout button*/
+    c-custom-logout a {
+      color: var(--greys-color-white) !important;
+    }
 	
 }
 
@@ -1744,8 +1754,3 @@ span[c-customcombobox_customcombobox].slds-listbox__option-meta_entity {
 
   }
 }
-
-/* Hide Login button**/
-/*.forceCommunityThemeHeaderB2B .profileMenu {
-  display: none;
-}*/

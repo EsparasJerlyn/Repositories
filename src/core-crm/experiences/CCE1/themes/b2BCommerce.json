@@ -104,6 +104,19 @@
           "regionName" : "search",
           "type" : "region"
         }, {
+          "components" : [ {
+            "componentAttributes" : {
+              "NavigationMenuEditorRefresh" : "",
+              "alignment" : "left",
+              "showAppLauncher" : false,
+              "showBackLabel" : false,
+              "showHomeLink" : false
+            },
+            "componentName" : "forceCommunity:multiLevelNavigationWrapper",
+            "id" : "3d5c6426-b485-44ff-a460-0caa0796c10f",
+            "renditionMap" : { },
+            "type" : "component"
+          } ],
           "id" : "473d1d07-c2ab-4751-ae76-2e0216e2cf8a",
           "regionName" : "nav",
           "type" : "region"
@@ -236,6 +249,19 @@
           "regionName" : "search",
           "type" : "region"
         }, {
+          "components" : [ {
+            "componentAttributes" : {
+              "NavigationMenuEditorRefresh" : "",
+              "alignment" : "left",
+              "showAppLauncher" : false,
+              "showBackLabel" : false,
+              "showHomeLink" : true
+            },
+            "componentName" : "forceCommunity:multiLevelNavigationWrapper",
+            "id" : "72c7499c-f94b-4154-b651-88170eddf817",
+            "renditionMap" : { },
+            "type" : "component"
+          } ],
           "id" : "7b202782-0ddf-49d2-a79c-26bf6c5a5d50",
           "regionName" : "nav",
           "type" : "region"
