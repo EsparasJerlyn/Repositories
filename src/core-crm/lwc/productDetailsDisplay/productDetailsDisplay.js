@@ -104,6 +104,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   @track displayGroupRegistration = false;
   @track openGroupBookingModal;
   @track selectedDelivery;
+  @track isPrescribed = false;
   displayQuestionnaire = false;
 
   // Set Custom Labels
@@ -359,7 +360,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
           this.generateToast("Success!", "Interest Registered", "success");
         })
         .catch((error) => {
-          console.log(error);
+     
           if (error.body.message == "Register Interest Exists") {
             this.generateToast("Error.", INTEREST_EXISTS_ERROR, "error");
           } else {
@@ -797,7 +798,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     this.openGroupBookingModal = false;
   }
   groupRegistration() {
-    console.log("test group reg");
+  
     this.openGroupBookingModal = true;
   }
 }

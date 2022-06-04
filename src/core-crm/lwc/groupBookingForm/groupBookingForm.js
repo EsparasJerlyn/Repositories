@@ -26,11 +26,13 @@ export default class GroupBookingForm extends LightningElement {
     @track isModalOpen;
     @api productDetails;
     @api selectedCourseOffering;
+    @api isPrescribed;
     @track productId;
+    @track ProductRequestID;
     @track courseOffering;
     @api priceBookEntry;
-    @api newproductid;
     @track templatePicklist = true;
+    @track displayAccordion;
     @track numberOfParticipants;
     @track productCourseName;
     @track objectAPIName = 'Contact';
@@ -89,6 +91,7 @@ export default class GroupBookingForm extends LightningElement {
         // to close modal set isModalOpen tarck value as false
         this.isModalOpen = false;
         this.templatePicklist = true;
+        this.displayAccordion = false;
         this.numberOfParticipants = 0;
         this.listOfdata=[];
         this.items=[];
@@ -112,22 +115,23 @@ export default class GroupBookingForm extends LightningElement {
         this.isModalOpen = true;
         this.productId = this.productDetails.Id;
         this.productCourseName = this.productDetails.Name;
-        this.minParticipants = this.productDetails.Course__r.Minimum_Participants__c;
-        this.maxParticipants =  this.productDetails.Course__r.Maximum_Participants__c;
+        if(this.isPrescribed){
+            this.minParticipants = this.productDetails.Program_Plan__r.Minimum_Participants__c;
+            this.maxParticipants =  this.productDetails.Program_Plan__r.Maximum_Participants__c;
+            this.ProductRequestID = this.productDetails.Program_Plan__r.Product_Request__c;
+        }else{
+            this.minParticipants = this.productDetails.Course__r.Minimum_Participants__c;
+            this.maxParticipants =  this.productDetails.Course__r.Maximum_Participants__c;
+            this.ProductRequestID = this.productDetails.Course__r.ProductRequestID__c;
+        }
+
         this.courseOffering = this.selectedCourseOffering;
         this.pricebookEntryId = this.priceBookEntry.Id;
-
-
-        getPricebookEntryPrice({
-            pricebookId:this.priceBookEntry
-          })
-            .then((results) => {
-                this.amount = results.UnitPrice;
-              
-            })
-            .catch((e) => {
-              this.generateToast("Error.", LWC_Error_General, "error");
-            });
+        console.log('Minimum: ' + this.minParticipants);
+        console.log('Maximum: ' + this.maxParticipants);
+        console.log('Product Request Id: ' + this.ProductRequestID);
+       
+        //Get the contact details of the logged user
         getUserContactDetails({
             connId: this.contactId
           })
@@ -137,12 +141,23 @@ export default class GroupBookingForm extends LightningElement {
                     this.firstName = results[0].FirstName;
                     this.lastName = results[0].LastName;
                     this.contactEmail = results[0].Email;
-                   
               }
             })
             .catch((e) => {
               this.generateToast("Error.", LWC_Error_General, "error");
             });
+
+        getPricebookEntryPrice({
+            pricebookId:this.priceBookEntryId
+          })
+            .then((results) => {
+                this.amount = results.UnitPrice;
+              
+            })
+            .catch((e) => {
+              this.generateToast("Error.", LWC_Error_General, "error");
+            });
+        
             //Cart Details
             getUserCartDetails({
                 userId: userId
@@ -171,15 +186,14 @@ export default class GroupBookingForm extends LightningElement {
             });
 
             getQuestionsForGroupBooking({
-                productReqId: this.productDetails.Course__r.ProductRequestID__c
-             
+                productReqId: this.ProductRequestID
               })
                 .then((results) => {
-                  if (results.length > 0) {
+                 // if (results.length >= 0) {
                         this.responseData2 = results;
                         this.questions2= this.formatQuestions(results);
                         this.questionsPrimary= this.formatQuestions(results);
-                  }
+                // }
                 })
                 .catch((e) => {
                   this.generateToast("Error.", LWC_Error_General, "error");
@@ -211,6 +225,7 @@ export default class GroupBookingForm extends LightningElement {
         }
         if(this.numberOfParticipants != null){
             this.templatePicklist = false;
+           
         }
       
     }
@@ -336,7 +351,7 @@ export default class GroupBookingForm extends LightningElement {
         this.total = this.amount * this.numberOfParticipants;
     
         
-        this.saveRegistration(this.contactFieldsPrimary, this.selectedCourseOffering,this.responseData2, this.createAnswerRecordPrimary() ,JSON.stringify(this.createFileUploadMap())); 
+        this.saveRegistration(this.contactFieldsPrimary, this.courseOffering,this.responseData2, this.createAnswerRecordPrimary() ,JSON.stringify(this.createFileUploadMap())); 
             let blankRow = this.items;
             let contactDataList = [];
             for(let i = 0; i < blankRow.length; i++){

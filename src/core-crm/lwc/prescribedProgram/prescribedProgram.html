@@ -142,10 +142,35 @@
               class="addToCartBtn"
             ></lightning-button>
           </lightning-layout-item>
+          <!-- Group Booking -->
+          <!-- Group Booking -->
+          <lightning-layout-item
+            if:true={displayGroupRegistration}
+            flexibility="auto"
+            size="12"
+            style="margin-top: 10px"
+          >
+            <lightning-button
+              label="GROUP REGISTRATION"
+              onclick={groupRegistration}
+              variant="brand"
+              class="addToCartBtn"
+            >
+            </lightning-button>
+          </lightning-layout-item>
         </lightning-layout>
       </lightning-layout-item>
     </lightning-layout>
   </div>
+  <template if:true={openGroupRegistration}>
+    <c-group-booking-form
+    product-details={productDetails}
+    selected-course-offering={selectedProgramOffering}
+    price-book-entry={selectedPricing}
+    is-prescribed={isPrescribed}
+    onclose={groupRegistrationModalClosed}
+    ></c-group-booking-form>
+  </template>
   <template if:true={openModal}>
     <c-registration-form
       class="regModal"

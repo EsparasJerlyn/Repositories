@@ -35,6 +35,11 @@ export default class PrescribedProgram extends LightningElement {
   @track disableAddToCart = true;
   @track displayAddToCart = true;
   @track openModal;
+  @track displayGroupRegistration = false;
+  @track openGroupRegistration;
+  @track openGroupBookingModal;
+  @track displayGroupButton = false;
+  @track isPrescribed = true;
 
   label = {
     delivery,
@@ -80,6 +85,7 @@ export default class PrescribedProgram extends LightningElement {
     }
     this.accordionIcon = qutResourceImg + "/QUTImages/Icon/accordionClose.svg";
     this.durationIcon = qutResourceImg + "/QUTImages/Icon/duration.svg";
+   
   }
 
   get disableDelivery() {
@@ -149,25 +155,29 @@ export default class PrescribedProgram extends LightningElement {
     this.selectedPricing = undefined;
     this.disablePricing = false;
     this.disableAddToCart = true;
+    
   }
 
   handlePricingSelected(event) {
+    let selectedPBLabel = event.detail.label;
     this.selectedPricing = event.detail.value;
     if (this.isInternalUser == true) {
       this.disableAddToCart = true;
     } else {
       this.disableAddToCart = false;
+      this.displayGroupRegistration = false;
     }
-    this.priceBookEntries.forEach((pBookEntry) => {
-      if (
-        pBookEntry.value === this.selectedPricing &&
-        pBookEntry.label == "Group Booking"
-      ) {
-        this.displayAddToCart = false;
-      } else {
-        this.displayAddToCart = true;
-      }
-    });
+    if (selectedPBLabel == "Group Booking") {
+      this.displayAddToCart = false;
+      this.displayGroupRegistration = true;
+     
+    } else {
+      this.displayGroupRegistration = false;
+      this.displayAddToCart = true;
+     
+      
+    }
+
   }
 
   notifyAddToCart() {
@@ -187,5 +197,13 @@ export default class PrescribedProgram extends LightningElement {
 
   handleModalClosed() {
     this.openModal = false;
+  }
+  groupRegistrationModalClosed() {
+    this.openGroupRegistration = false;
+    
+  }
+  groupRegistration() {
+
+    this.openGroupRegistration = true;
   }
 }

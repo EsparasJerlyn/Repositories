@@ -48,6 +48,8 @@ public without sharing class ProductDetailsCtrl {
         Course__r.Maximum_Participants__c,
         Program_Plan__c,
         Program_Plan__r.Program_Delivery_Structure__c,
+        Program_Plan__r.Minimum_Participants__c,
+        Program_Plan__r.Maximum_Participants__c,
         Duration__c,
         Delivery__c,
         Register_Interest_Available__c,
