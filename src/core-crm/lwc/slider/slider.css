@@ -1,5 +1,5 @@
 :host {
-    --slider-width: 225px;
+    /*--slider-width: 320px;*/
     --slider-height: 5px;
     --slider-top-position: 8px;
     --range-width: 20px;
@@ -57,3 +57,20 @@
   .input-button-edit{
     border-style: ridge !important;
   }
+
+  .slds-float_left.price-from {
+    padding-left: 12px;
+}
+
+@media screen and (max-width: 764px) {
+  :host {
+    --slider-width: 265px;
+  }
+  
+} 
+
+@media screen and (min-width: 765px) {
+  :host {
+    --slider-width: 280px;
+  }
+}

@@ -29,11 +29,13 @@
 .card-main {
     width: 100%;
     border: 1px solid var(--primaryBlue500);
+    cursor: pointer;
 }
 
 .card-main:hover {
     outline: 4px solid #0066b9;
     transition: outline 0.5s;
+    cursor: pointer;
     }
 
 

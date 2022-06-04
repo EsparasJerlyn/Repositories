@@ -309,3 +309,7 @@ hr.searchTitle-line{
         display: none;
     } */
 }
+
+input[type=date] {
+    text-transform: uppercase;
+}

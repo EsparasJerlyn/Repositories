@@ -76,7 +76,7 @@
         <div class="cboth"></div>
           <div class=""> <!--slds-var-m-around_medium -->
               <lightning-input
-                  label="Filter by Keyword"
+                  label="Filter by keyword"
                   type="text"
                   value={stringValue}
                   class="slds-var-m-bottom_medium searchTitle"
@@ -314,7 +314,8 @@
                                           name="strStartDate" 
                                           value={strStartDate} 
                                           label="From" 
-                                          class="searchTitle"
+                                          class="searchTitle pb2"
+                                          placeholder="DD /MM /YYYY"
                                           onchange={handleChangeStartDate}>
                               </lightning-input>
                               <lightning-input type="date" 
@@ -322,6 +323,7 @@
                                               value={strEndDate} 
                                               label="To" 
                                               class="searchTitle"
+                                              placeholder="DD /MM /YYYY"
                                               onchange={handleChangeEndDate}>
                               </lightning-input>
                           </div>
@@ -348,7 +350,7 @@
                   <lightning-button variant="base" label="Clear all" title="Clear all" onclick={handleClearAll} class="desktopView"></lightning-button> 
                   <div class=""> <!--slds-var-m-around_medium -->
                       <lightning-input
-                          label="Filter by Keyword"
+                          label="Filter by keyword"
                           type="text"
                           value={stringValue}
                           class="slds-var-m-bottom_medium searchTitle"
@@ -580,12 +582,13 @@
                                 </h2>
                               </div>
                               <div class="slds-accordion__content accordionContent">
-                                  <div class="slds-m-around_medium">
+                                  <div class="slds-m-around_medium pb2">
                                       <lightning-input type="date" 
                                                   name="strStartDate" 
                                                   value={strStartDate} 
                                                   label="From" 
-                                                  class="searchTitle"
+                                                  placeholder="DD /MM /YYYY"
+                                                  class="searchTitle pb2"
                                                   onchange={handleChangeStartDate}>
                                       </lightning-input>
                                       <lightning-input type="date" 
@@ -593,6 +596,7 @@
                                                       value={strEndDate} 
                                                       label="To" 
                                                       class="searchTitle"
+                                                      placeholder="DD /MM /YYYY"
                                                       onchange={handleChangeEndDate}>
                                       </lightning-input>
                                   </div>
