@@ -717,6 +717,9 @@ public without sharing class ProductDetailsCtrl {
       qResSummary.Questionnaire__c = qId;
       qResSummary.Course_Offering__c = courseOfferingId;
       qResSummary.Contact__c = contactRecord.Id;
+      if(forApplication == true){
+        qResSummary.Application_Status__c  = 'Pending';
+      }
       questionnaireSummaryToInsert.add(qResSummary);
     }
 

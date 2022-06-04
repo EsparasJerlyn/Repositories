@@ -14,6 +14,7 @@
       | john.bo.a.pineda          | April 26, 2022        | DEPP-1211 | Updated logic for new UI                           |
       | keno.domienri.dico        | April 29, 2022        | DEPP-2038 | Added logic for child products display             |
       | julie.jane.alegre         | May 24, 2022          | DEPP-2070 | Added logic for Group Booking                      |
+      
 */
 @isTest(SeeAllData=false)
 private class ProductDetailsCtrlTest {

@@ -10,7 +10,6 @@
       | angelika.j.s.galang       | May 26, 2022          | DEPP-1455            | Added contact duplicates handler  |
       | john.bo.a.pineda          | June 1, 2022          | DEPP-1661            | Added send SMS OTP method         |
       |                           |                       |                      |                                   |
-
  */
 public without sharing class RegistrationFormCtrl {
   private static final String RT_CONTACT_PERSON = System.Label.RT_Contact_Person;
