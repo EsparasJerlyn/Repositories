@@ -22,10 +22,7 @@ public class GenerateImageServerURL{
     @InvocableMethod(Label='Generate Image Server URL' Description='Retrieve URL of Image from File Assets')
     public static List<ImageURL> generateURL(List<ImageInfo> imageInfos){
         List<ImageURL> imageURLs = new List<ImageURL>();
-        String baseUrl = System.URL.getSalesforceBaseUrl().toExternalForm().replace(
-            '.my.salesforce.com',
-            '--c.documentforce.com/file-asset-public/'
-        );
+        String baseUrl = System.URL.getOrgDomainUrl().toExternalForm() + '/file-asset-public/';
         for(ImageInfo imageInfo : imageInfos){
             ImageURL img = new ImageURL();
             img.imageUrl =

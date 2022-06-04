@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Email to notify that application is received.</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Send Application Response Email</name>
+    <style>none</style>
+    <subject>QUTeX Professional &amp; Executive Education</subject>
+    <type>custom</type>
+    <uiType>SFX</uiType>
+</EmailTemplate>

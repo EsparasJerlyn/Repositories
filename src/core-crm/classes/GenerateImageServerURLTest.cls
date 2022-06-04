@@ -21,10 +21,7 @@ private class GenerateImageServerURLTest {
     @IsTest
     private static void generateURLTest(){
         System.runAs(currentUser){
-            String expectedURL = System.URL.getSalesforceBaseUrl().toExternalForm().replace(
-                '.my.salesforce.com',
-                '--c.documentforce.com/file-asset-public/'
-            ) + BADGE_LOGO + '?oid=' + ORG_ID;
+            String expectedURL = System.URL.getOrgDomainUrl().toExternalForm() + '/file-asset-public/'  + BADGE_LOGO + '?oid=' + ORG_ID;
 
             GenerateImageServerURL.ImageInfo imageInfo = new GenerateImageServerURL.ImageInfo();
             imageInfo.imageName = BADGE_LOGO;
