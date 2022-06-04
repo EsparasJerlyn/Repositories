@@ -81,12 +81,27 @@ public without sharing class ProductDetailsCtrl {
     }
 
     // Pricebook Entries
+    Map<String, PricebookEntry> pbEntryMap = new Map<String, PricebookEntry>();
     if (!productOnPage.PricebookEntries.isEmpty()) {
       for (PricebookEntry pricebookEntry : productOnPage.PricebookEntries) {
+        pbEntryMap.put(pricebookEntry.Pricebook2.Name, pricebookEntry);
+      }
+
+      // Remove Standard Price Book if Early Bird Price exists
+      if (
+        pbEntryMap.containsKey('Early Bird') &&
+        pbEntryMap.containsKey('Standard Price Book')
+      ) {
+        pbEntryMap.remove('Standard Price Book');
+      }
+
+      // Process PriceBookEntry Wrapper
+      for (String pbEntryString : pbEntryMap.keySet()) {
         PricebookEntryWrapper pbEntryWrapper = new PricebookEntryWrapper();
-        pbEntryWrapper.label = pricebookEntry.Pricebook2.Name;
-        pbEntryWrapper.value = pricebookEntry.Id;
-        pbEntryWrapper.meta = String.valueOf(pricebookEntry.UnitPrice);
+        PricebookEntry pbEntry = pbEntryMap.get(pbEntryString);
+        pbEntryWrapper.label = pbEntry.Pricebook2.Name;
+        pbEntryWrapper.value = pbEntry.Id;
+        pbEntryWrapper.meta = String.valueOf(pbEntry.UnitPrice);
         pbEntryWrapperList.add(pbEntryWrapper);
       }
     }
@@ -235,9 +250,9 @@ public without sharing class ProductDetailsCtrl {
           childProductWrapper.childProdPrice = cProdPBEntryMap.get(
             'Standard Price Book'
           );
-          if (cProdPBEntryMap.containsKey('Early Bird Price')) {
+          if (cProdPBEntryMap.containsKey('Early Bird')) {
             childProductWrapper.childProdPrice = cProdPBEntryMap.get(
-              'Early Bird Price'
+              'Early Bird'
             );
           }
         }
@@ -783,7 +798,7 @@ public without sharing class ProductDetailsCtrl {
       update answersToUpdate.values();
     }
 
-    if(!forApplication){
+    if (!forApplication) {
       hed__Course_Enrollment__c newCourseConnection = new hed__Course_Enrollment__c(
         hed__Course_Offering__c = courseOfferingId,
         hed__Contact__c = contactRecord.Id,
@@ -1247,13 +1262,21 @@ public without sharing class ProductDetailsCtrl {
       WHERE Id = :connId
     ];
   }
-  
+
   @AuraEnabled
   public static WebCart getUserCartDetails(Id userId) {
     WebCart webcart = new WebCart();
     webcart = [
-      SELECT Id, OwnerId, Name, WebStoreId, AccountId, External_Id__c, Amount_Paid__c FROM WebCart
-      WHERE OwnerId =: userId
+      SELECT
+        Id,
+        OwnerId,
+        Name,
+        WebStoreId,
+        AccountId,
+        External_Id__c,
+        Amount_Paid__c
+      FROM WebCart
+      WHERE OwnerId = :userId
       LIMIT 1
     ];
 
@@ -1262,51 +1285,49 @@ public without sharing class ProductDetailsCtrl {
 
   @AuraEnabled
   public static void cartItemForGrpReg(
-      String cartId,
-      String productName,
-      String productId,
-      String courseOfferingId,
-      String pricebookEntryId
-    ) {
-      try {
-        // Get Current User Active Cart Delivery Group
-        Id cartDeliveryGroupId = [
-          SELECT Id, Name, CreatedDate, LastModifiedDate, CartId
-          FROM CartDeliveryGroup
-          WHERE CartId = :cartId
-        ]
-        .Id;
-        // Set Cart Item to be inserted
-        CartItem cItem = new CartItem();
-        cItem.CartId = cartId;
-        cItem.CartDeliveryGroupId = cartDeliveryGroupId;
-        cItem.Name = productName;
-        cItem.Product2Id = productId;
-        if (String.isNotBlank(courseOfferingId)) {
-          cItem.Course_Offering__c = courseOfferingId;
-        }
-        cItem.Pricebook_Entry_ID__c = pricebookEntryId;
-        cItem.Quantity = 1;
-        cItem.Type = 'Product';
-  
-        insert cItem;
-      } catch (Exception e) {
-        system.debug(e);
-        system.debug('Error on ProductDetailsCtrl.addToCartItem');
-        AuraHandledException auraEx = new AuraHandledException(e.getMessage());
-        throw auraEx;
+    String cartId,
+    String productName,
+    String productId,
+    String courseOfferingId,
+    String pricebookEntryId
+  ) {
+    try {
+      // Get Current User Active Cart Delivery Group
+      Id cartDeliveryGroupId = [
+        SELECT Id, Name, CreatedDate, LastModifiedDate, CartId
+        FROM CartDeliveryGroup
+        WHERE CartId = :cartId
+      ]
+      .Id;
+      // Set Cart Item to be inserted
+      CartItem cItem = new CartItem();
+      cItem.CartId = cartId;
+      cItem.CartDeliveryGroupId = cartDeliveryGroupId;
+      cItem.Name = productName;
+      cItem.Product2Id = productId;
+      if (String.isNotBlank(courseOfferingId)) {
+        cItem.Course_Offering__c = courseOfferingId;
       }
-    }
+      cItem.Pricebook_Entry_ID__c = pricebookEntryId;
+      cItem.Quantity = 1;
+      cItem.Type = 'Product';
 
-    @AuraEnabled
-    public static PricebookEntry getPricebookEntryPrice(Id pricebookId) {
-    
-      return  [
-        SELECT Id, Name, Pricebook2Id, Product2Id, UnitPrice FROM PricebookEntry
-        WHERE Id =: pricebookId
-        LIMIT 1
-      ];
-  
+      insert cItem;
+    } catch (Exception e) {
+      system.debug(e);
+      system.debug('Error on ProductDetailsCtrl.addToCartItem');
+      AuraHandledException auraEx = new AuraHandledException(e.getMessage());
+      throw auraEx;
     }
-  
+  }
+
+  @AuraEnabled
+  public static PricebookEntry getPricebookEntryPrice(Id pricebookId) {
+    return [
+      SELECT Id, Name, Pricebook2Id, Product2Id, UnitPrice
+      FROM PricebookEntry
+      WHERE Id = :pricebookId
+      LIMIT 1
+    ];
+  }
 }
