@@ -87,6 +87,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   @api cProducts;
   @api isNotFlexProgram;
   @api isInternalUser;
+  @api unitPrice;
 
   @track courseOfferings = [];
   @track selectedCourseOffering;
@@ -493,6 +494,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   handlePricebookSelected(event) {
     let selectedPBLabel = event.detail.label;
     this.selectedPriceBookEntry = event.detail.value;
+    
     if (this.isInternalUser == true) {
       this.disableAddToCart = true;
     } else {
@@ -798,7 +800,14 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     this.openGroupBookingModal = false;
   }
   groupRegistration() {
-  
-    this.openGroupBookingModal = true;
+    //this.registerInterest();
+    if (!isGuest) {
+      this.openGroupBookingModal = true;
+      
+    }else{
+     // Display Custom Login Form LWC
+     this.openModal = true;
+    }
+
   }
 }

@@ -192,6 +192,7 @@ export default class PrescribedProgram extends LightningElement {
       );
     } else {
       this.openModal = true;
+
     }
   }
 
@@ -203,7 +204,11 @@ export default class PrescribedProgram extends LightningElement {
     
   }
   groupRegistration() {
-
-    this.openGroupRegistration = true;
+    if(!isGuest){
+      this.openGroupRegistration = true;
+    }
+   else{
+    this.openModal = false;
+   }
   }
 }

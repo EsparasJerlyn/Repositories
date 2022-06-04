@@ -61,12 +61,11 @@ export default class GroupBookingForm extends LightningElement {
     @track originalMessage;
     @track displayMessage = 'Click on the \'Open Confirmation\' button to test the dialog.';
     @track currentIndex = 1;
-    @track pricebookEntryId;
     saveInProgress = false;
     @track isOpenPayment = false;
     @track fromCartSummary = false;
     @track disablePayment = false;
-    @track total = 1000;  //total needed for payment 
+    @track total;  //total needed for payment 
     @track cartExternalId;
     @track cartId;
     @track webStoreId;
@@ -81,7 +80,6 @@ export default class GroupBookingForm extends LightningElement {
     get contactId() {
       return getFieldValue(this.user.data, CONTACT_ID);
     }
-
     openModal() {
         // to open modal set isModalOpen tarck value as true
         this.isModalOpen = true;
@@ -124,14 +122,23 @@ export default class GroupBookingForm extends LightningElement {
             this.maxParticipants =  this.productDetails.Course__r.Maximum_Participants__c;
             this.ProductRequestID = this.productDetails.Course__r.ProductRequestID__c;
         }
-
+   
         this.courseOffering = this.selectedCourseOffering;
-        this.pricebookEntryId = this.priceBookEntry.Id;
-        console.log('Minimum: ' + this.minParticipants);
-        console.log('Maximum: ' + this.maxParticipants);
-        console.log('Product Request Id: ' + this.ProductRequestID);
-       
-        //Get the contact details of the logged user
+      //  this.pricebookEntryId = this.priceBookEntry;
+    
+        getPricebookEntryPrice({
+            pricebookId:this.priceBookEntry
+          })
+            .then((results) => {
+               
+                this.amount = results.UnitPrice;
+             
+            })
+            .catch((e) => {
+              this.generateToast("Error.", LWC_Error_General, "error");
+            });
+
+     
         getUserContactDetails({
             connId: this.contactId
           })
@@ -142,17 +149,6 @@ export default class GroupBookingForm extends LightningElement {
                     this.lastName = results[0].LastName;
                     this.contactEmail = results[0].Email;
               }
-            })
-            .catch((e) => {
-              this.generateToast("Error.", LWC_Error_General, "error");
-            });
-
-        getPricebookEntryPrice({
-            pricebookId:this.priceBookEntryId
-          })
-            .then((results) => {
-                this.amount = results.UnitPrice;
-              
             })
             .catch((e) => {
               this.generateToast("Error.", LWC_Error_General, "error");
@@ -198,6 +194,7 @@ export default class GroupBookingForm extends LightningElement {
                 .catch((e) => {
                   this.generateToast("Error.", LWC_Error_General, "error");
                 });    
+                
     }
   
     getQuestionsList(){
@@ -349,7 +346,6 @@ export default class GroupBookingForm extends LightningElement {
         fieldsPrimary.Id = this.contactId;
         this.contactFieldsPrimary = fieldsPrimary;
         this.total = this.amount * this.numberOfParticipants;
-    
         
         this.saveRegistration(this.contactFieldsPrimary, this.courseOffering,this.responseData2, this.createAnswerRecordPrimary() ,JSON.stringify(this.createFileUploadMap())); 
             let blankRow = this.items;
@@ -405,7 +401,7 @@ export default class GroupBookingForm extends LightningElement {
                         this.generateToast(SUCCESS_TITLE, 'Successfully Submitted', SUCCESS_VARIANT);
                         this.isOpenPayment = true;
                         //Create cart item
-                        this.createCartItem(this.cartId,this.productCourseName,this.productId,this.courseOffering,this.pricebookEntryId);
+                        this.createCartItem(this.cartId,this.productCourseName,this.productId,this.courseOffering,this.priceBookEntry);
                     }
                 }).catch(error => {
                 })
