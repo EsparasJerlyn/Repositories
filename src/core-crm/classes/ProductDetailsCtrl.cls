@@ -478,7 +478,8 @@ public without sharing class ProductDetailsCtrl {
     String productName,
     String courseOfferingId,
     String programOfferingId,
-    String pricebookEntryId
+    String pricebookEntryId,
+    String userId
   ) {
     try {
       // Lookup the webstore ID associated with the community
@@ -496,6 +497,7 @@ public without sharing class ProductDetailsCtrl {
         WHERE
           Status = 'Active'
           AND AccountId = :effectiveAccountId
+          AND OwnerId =: userId
           AND WebStoreId = :webstoreId
         LIMIT 1
       ]

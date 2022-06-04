@@ -25,6 +25,7 @@ import isGuest from "@salesforce/user/isGuest";
 import getProductDetails from "@salesforce/apex/ProductDetailsCtrl.getProductRelatedRecords";
 import getCartSummary from "@salesforce/apex/B2BGetInfo.getCartSummary";
 import addToCartItem from "@salesforce/apex/ProductDetailsCtrl.addToCartItem";
+import userId from "@salesforce/user/Id";
 
 export default class ProductDetails extends LightningElement {
   loading;
@@ -112,6 +113,7 @@ export default class ProductDetails extends LightningElement {
       }).finally(()=> {
         this.loading = false;
       })
+      
   }
 
   // Gets the normalized effective account of the user.
@@ -166,7 +168,8 @@ export default class ProductDetails extends LightningElement {
       productName: this.productDetails.Name,
       courseOfferingId: courseOfferingId,
       programOfferingId: programOfferingId,
-      pricebookEntryId: event.detail.pricebookEntryId
+      pricebookEntryId: event.detail.pricebookEntryId,
+      userId : userId
     })
       .then((result) => {
         console.log(JSON.stringify(result));
