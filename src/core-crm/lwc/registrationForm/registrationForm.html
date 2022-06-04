@@ -20,7 +20,9 @@
         <div
           class="slds-text-align_center slds-m-vertical_medium slds-m-horizontal_small slds-p-horizontal_small"
         >
-          <a href={experienceSSOUrl} class="sso-text colored">{label.qutSSOText}</a>
+          <a href={experienceSSOUrl} class="sso-text colored"
+            >{label.qutSSOText}</a
+          >
         </div>
         <div class="center px2">
           <button
@@ -113,26 +115,55 @@
                 >
               </div>
             </div>
-            <!--Mobile-->
-            <div class="slds col slds-m-top_medium">
-              <div class="slds-form-element">
-                <label for="mobile" class="label-text">Mobile </label>
-                <span class="required-text">*</span><br />
-                <div class="slds-form-element__control">
-                  <input
-                    type="text"
-                    id="mobile"
-                    value={mobile}
-                    onchange={handleMobileChange}
-                    class={requiredInputClass.mobile}
-                  />
+            <!--Contact Info-->
+            <span class="label-text slds-m-top_medium"></span>
+            <div class="slds-grid slds-wrap slds-gutters">
+              <!--Locale-->
+              <div class="slds-col slds-size_1-of-2">
+                <div class="slds-form-element">
+                  <label for="locale" class="label-text">Locale </label>
+                  <span class="required-text">*</span>
+                  <div class="slds-form-element__control">
+                    <c-custom-combobox
+                      class=""
+                      placeholder="Select Locale"
+                      options={localeOptions}
+                      value={locale}
+                      onchange={handleLocaleChange}
+                      slds-icon-up="utility:chevronup"
+                      slds-icon-down="utility:chevrondown"
+                    >
+                    </c-custom-combobox>
+                  </div>
+                  <template if:true={hasErrorLocale}>
+                    <c-error-icon></c-error-icon>
+                  </template>
+                  <small class={requiredDisplayData.locale}
+                    >{requiredErrorMessage}</small
+                  >
                 </div>
-                <template if:true={hasErrorMob}>
-                  <c-error-icon></c-error-icon>
-                </template>
-                <small class={requiredDisplayData.mobile}
-                  >{requiredErrorMessage}</small
-                >
+              </div>
+              <!--Mobile-->
+              <div class="slds-col slds-size_1-of-2">
+                <div class="slds-form-element">
+                  <label for="mobile" class="label-text">Mobile </label>
+                  <span class="required-text">*</span>
+                  <div class="slds-form-element__control">
+                    <input
+                      type="text"
+                      id="mobile"
+                      value={mobile}
+                      onchange={handleMobileChange}
+                      class={requiredInputClass.mobile}
+                    />
+                  </div>
+                  <template if:true={hasErrorMob}>
+                    <c-error-icon></c-error-icon>
+                  </template>
+                  <small class={requiredDisplayData.mobile}
+                    >{requiredErrorMessage}</small
+                  >
+                </div>
               </div>
             </div>
             <!--Birthdate-->
@@ -278,22 +309,11 @@
         </div>
       </form>
     </div>
-    <div if:true={displayVerification2} class="modal-content text">
-      <div
-        class="slds-m-top_small slds-m-right_x-large slds-p-right_large slds-clearfix"
-      >
-        <!--X button -->
-        <span class="slds-float_right cursor" onclick={closeModal}
-          ><img src={xButton}
-        /></span>
-      </div>
-    </div>
   </div>
-
   <!--SEND OTP -->
   <template if:true={displayVerification}>
     <div id="regModal2" class="modal">
-      <div class="modal-content text px3 pt2">
+      <div class="modal-content modal-content-height95 text px3 pt2">
         <div
           class="slds-m-top_small slds-m-right_x-large slds-p-right_large slds-clearfix"
         >
@@ -307,16 +327,16 @@
           <p class="heading">Verification</p>
           <p>Please enter the verification code we sent to your mobile no.</p>
         </div>
-
         <lightning-input
+          type="text"
           name="verifCode"
-          type="number"
+          pattern="[0-9]+"
+          max-length="6"
           label="Verification Code"
           placeholder="Enter Code Here..."
           onchange={handleVerifInput}
         >
         </lightning-input>
-
         <!--Modal Footer Buttons-->
         <div
           class="modal-footer slds-grid slds-gutters center slds-m-horizontal_x-small pb3"
@@ -342,11 +362,10 @@
       </div>
     </div>
   </template>
-
   <!--RESEND -->
   <template if:true={displayResendVerification}>
     <div id="regModal3" class="modal">
-      <div class="modal-content text px3 pt2">
+      <div class="modal-content modal-content-height95 text px3 pt2">
         <div
           class="slds-m-top_small slds-m-right_x-large slds-p-right_large slds-clearfix"
         >
@@ -360,7 +379,6 @@
 
           <p>Please select an option to resend the verification code</p>
         </div>
-
         <lightning-radio-group
           name="resendVerif"
           label="Resend Code"

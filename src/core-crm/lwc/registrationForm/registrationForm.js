@@ -28,6 +28,8 @@ import privacyPolicy from "@salesforce/label/c.QUT_RegistrationForm_PrivacyPolic
 import BasePath from "@salesforce/community/basePath";
 import sendRegistrationSMSOTP from "@salesforce/apex/RegistrationFormCtrl.sendRegistrationSMSOTP";
 import getOPEProductCateg from "@salesforce/apex/RegistrationFormCtrl.getOPEProductCateg";
+import getMobileLocaleOptions from "@salesforce/apex/RegistrationFormCtrl.getMobileLocaleOptions";
+import sendRegistrationEmailOTP from "@salesforce/apex/RegistrationFormCtrl.sendRegistrationEmailOTP";
 
 //Add text fields in Label from HTML
 const SSO = "/services/auth/sso/";
@@ -63,6 +65,7 @@ export default class RegistrationForm extends LightningElement {
   requiredErrorMessage;
   @track requiredDisplayData = {};
   @track requiredInputClass = {};
+  @track locale = null;
 
   hasErrorFN = false;
   hasErrorLN = false;
@@ -72,6 +75,7 @@ export default class RegistrationForm extends LightningElement {
   hasErrorMonth = false;
   hasErrorYear = false;
   hasErrorChk = false;
+  hasErrorLocale = false;
   displayForm = true;
   displayVerification = false;
   displayResendVerification = false;
@@ -79,6 +83,10 @@ export default class RegistrationForm extends LightningElement {
   verifyOTP;
   selectionOption;
   startURL;
+  localeOptions = [];
+  localeDisplayName;
+  localeConMobile;
+  mobileFull;
 
   label = {
     header,
@@ -86,7 +94,7 @@ export default class RegistrationForm extends LightningElement {
     requiredField,
     registerWithLinkedIn,
     qutSSOText,
-    privacyPolicy,
+    privacyPolicy
   };
 
   /*
@@ -103,9 +111,13 @@ export default class RegistrationForm extends LightningElement {
    * Sets the Attribute on Load of the Registration Modal
    */
   connectedCallback() {
+    this.comboBoxUp = qutResourceImg + "/QUTImages/Icon/comboBoxUp.svg";
+    this.comboBoxDown = qutResourceImg + "/QUTImages/Icon/comboBoxDown.svg";
+
     this.requiredDisplayData.firstName = HIDE_ERROR_MESSAGE_ATTRIBUTE;
     this.requiredDisplayData.lastName = HIDE_ERROR_MESSAGE_ATTRIBUTE;
     this.requiredDisplayData.email = HIDE_ERROR_MESSAGE_ATTRIBUTE;
+    this.requiredDisplayData.locale = HIDE_ERROR_MESSAGE_ATTRIBUTE;
     this.requiredDisplayData.mobile = HIDE_ERROR_MESSAGE_ATTRIBUTE;
     this.requiredDisplayData.date = HIDE_ERROR_MESSAGE_ATTRIBUTE;
     this.requiredDisplayData.month = HIDE_ERROR_MESSAGE_ATTRIBUTE;
@@ -115,6 +127,7 @@ export default class RegistrationForm extends LightningElement {
     this.requiredInputClass.firstName = HIDE_ERROR_BOARDER_ATTRIBUTE;
     this.requiredInputClass.lastName = HIDE_ERROR_BOARDER_ATTRIBUTE;
     this.requiredInputClass.email = HIDE_ERROR_BOARDER_ATTRIBUTE;
+    this.requiredInputClass.locale = HIDE_ERROR_BOARDER_ATTRIBUTE;
     this.requiredInputClass.mobile = HIDE_ERROR_BOARDER_ATTRIBUTE;
     this.requiredInputClass.date = HIDE_ERROR_BOARDER_ATTRIBUTE;
     this.requiredInputClass.month = HIDE_ERROR_BOARDER_ATTRIBUTE;
@@ -134,11 +147,22 @@ export default class RegistrationForm extends LightningElement {
         console.log(error);
       });
 
-      //Generate Experience SSO Link
-      getCommunityUrl()
+    //Generate Experience SSO Link
+    getCommunityUrl()
       .then((res) => {
-        this.experienceSSOUrl = res.comSite + SSO + 'QUT_Experience_SSO';
-      }).catch((error) => {
+        this.experienceSSOUrl = res.comSite + SSO + "QUT_Experience_SSO";
+      })
+      .catch((error) => {
+        this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
+      });
+
+    // Get Locale Options
+    getMobileLocaleOptions()
+      .then((resultOptions) => {
+        this.localeOptions = resultOptions;
+        this.locale = "61";
+      })
+      .catch((error) => {
         this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
       });
   }
@@ -178,6 +202,8 @@ export default class RegistrationForm extends LightningElement {
    */
   handleRegister(event) {
     event.preventDefault();
+
+    this.mobileFull = this.locale + this.mobile;
     this.dietaryReq = this.template.querySelector(
       "textarea[name=dietaryReq]"
     ).value;
@@ -275,7 +301,19 @@ export default class RegistrationForm extends LightningElement {
   }
 
   sendSMSOTP() {
-    sendRegistrationSMSOTP({ mobile: this.mobile })
+    sendRegistrationSMSOTP({ mobile: this.mobileFull })
+      .then((result) => {
+        if (result) {
+          this.verifyOTP = result;
+        }
+      })
+      .catch((error) => {
+        this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
+      });
+  }
+
+  sendEmailOTP() {
+    sendRegistrationEmailOTP({ email: this.email })
       .then((result) => {
         if (result) {
           this.verifyOTP = result;
@@ -291,12 +329,14 @@ export default class RegistrationForm extends LightningElement {
       firstName: this.firstName,
       lastName: this.lastName,
       email: this.email,
-      mobile: this.mobile,
+      mobile: this.mobileFull,
       day: this.date,
       month: this.month,
       year: this.year,
       dietaryReq: this.dietaryReq,
-      startURL: this.startURL
+      startURL: this.startURL,
+      mobileNoLocale: this.mobile,
+      mobileConLocale: this.localeConMobile
     })
       .then((res) => {
         console.log(res);
@@ -351,6 +391,16 @@ export default class RegistrationForm extends LightningElement {
       this.hasErrorEmail = false;
       this.requiredDisplayData.email = HIDE_ERROR_MESSAGE_ATTRIBUTE;
       this.requiredInputClass.email = HIDE_ERROR_BOARDER_ATTRIBUTE;
+    }
+
+    if (!this.locale) {
+      this.hasErrorLocale = !this.locale;
+      this.requiredDisplayData.locale = SHOW_ERROR_MESSAGE_ATTRIBUTE;
+      this.requiredInputClass.locale = SHOW_ERROR_BOARDER_ATTRIBUTE;
+    } else {
+      this.hasErrorLocale = false;
+      this.requiredDisplayData.locale = HIDE_ERROR_MESSAGE_ATTRIBUTE;
+      this.requiredInputClass.locale = HIDE_ERROR_BOARDER_ATTRIBUTE;
     }
 
     if (!this.mobile) {
@@ -432,6 +482,19 @@ export default class RegistrationForm extends LightningElement {
   /*
    * Sets the mobile via event
    */
+  handleLocaleChange(event) {
+    this.locale = event.detail.value;
+    this.localeDisplayName = event.detail.label;
+    this.localeOptions.forEach((localeOption) => {
+      if (localeOption.value === this.locale) {
+        this.localeConMobile = localeOption.conMobileLocale;
+      }
+    });
+  }
+
+  /*
+   * Sets the mobile via event
+   */
   handleMobileChange(event) {
     this.mobile = event.target.value;
   }
@@ -463,10 +526,12 @@ export default class RegistrationForm extends LightningElement {
 
   handleSelectedOption(event) {
     this.selectionOption = event.target.value;
+    console.log("selectionOption:" + this.selectionOption);
   }
 
   handleResendCode(event) {
     if (this.selectionOption == "Email") {
+      this.sendEmailOTP();
       this.generateToast("Success!", "Email Sent", "success");
       this.selectionOption = null;
       this.displayForm = false;
@@ -474,7 +539,6 @@ export default class RegistrationForm extends LightningElement {
       this.displayResendVerification = false;
     } else if (this.selectionOption == "SMS") {
       this.sendSMSOTP();
-
       this.generateToast("Success!", "SMS Sent", "success");
       this.displayForm = false;
       this.displayVerification = true;
@@ -486,12 +550,17 @@ export default class RegistrationForm extends LightningElement {
   }
 
   handleVerifInput(event) {
+    let inputVal = event.target.value;
+    if (!isFinite(inputVal)) {
+      event.target.value = inputVal.toString().slice(0, -1);
+    }
     this.userOTP = event.target.value;
   }
+
   handleVerify(event) {
     if (this.verifyOTP == this.userOTP) {
       this.generateToast("Success!", "OTP Accepted", "success");
-      this.registerPortalUser();
+      //this.registerPortalUser();
     } else {
       this.generateToast("Error.", "Invalid OTP", "error");
     }

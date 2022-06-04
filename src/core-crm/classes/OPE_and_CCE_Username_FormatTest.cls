@@ -41,12 +41,14 @@ public with sharing class OPE_and_CCE_Username_FormatTest {
         'Test',
         'User',
         emailTest,
-        '12345',
+        '611234567890',
         1,
         1,
         1999,
         'testDietary Req',
-        '/study/s/'
+        '/study/s/',
+        '1234567890',
+        'Australia (+61)'
       );
       System.assert(page == null, 'Page must not be null');
     }

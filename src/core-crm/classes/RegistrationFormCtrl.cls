@@ -62,6 +62,63 @@ public without sharing class RegistrationFormCtrl {
   }
 
   /**
+   * @description Method to call Send OTP
+   * @param email - email to recieve OTP
+   * @return retOTP - returns OTP sent
+   */
+  @AuraEnabled(cacheable=false)
+  public static String sendRegistrationEmailOTP(String email) {
+    List<Messaging.SingleEmailMessage> emailList = new List<Messaging.SingleEmailMessage>();
+    OrgWideEmailAddress owea = new OrgWideEmailAddress();
+    EmailTemplate otpEmailTemplate = new EmailTemplate();
+    String retOTP;
+
+    // Generate OTP
+    String randNum = string.valueof(Math.abs(Crypto.getRandomLong()));
+    String otpValue = randNum.substring(0, 6);
+
+    // Get Org Wide Email Address
+    owea = [
+      SELECT Id, Address, DisplayName
+      FROM OrgWideEmailAddress
+      WHERE DisplayName = 'QUTeX'
+    ];
+
+    // Get Email Template
+    otpEmailTemplate = [
+      SELECT Id, Name, Subject, HtmlValue, Body
+      FROM EmailTemplate
+      WHERE Name = 'Send OTP Email'
+      LIMIT 1
+    ];
+
+    // Process Email
+    Messaging.SingleEmailMessage objEmail = new Messaging.SingleEmailMessage();
+    objEmail.setToAddresses(new List<String>{ email });
+    if (owea != null) {
+      objEmail.setOrgWideEmailAddressId(owea.Id);
+    }
+
+    // Set Email Subject
+    objEmail.setSubject(otpEmailTemplate.Subject);
+
+    // Set Email Body
+    String body = otpEmailTemplate.HTMLValue.replace('{otpValue}', otpValue);
+    body = EmailHelper.addHeaderAndFooter(body);
+    objEmail.setHtmlBody(body);
+    emailList.add(objEmail);
+
+    if (emailList.size() > 0) {
+      Messaging.SendEmailResult[] results = Messaging.sendEmail(emailList);
+      if (results[0].success) {
+        retOTP = otpValue;
+      }
+    }
+
+    return retOTP;
+  }
+
+  /**
    * @description Method to get the community URL
    * @return communityUrl - returns the site link
    */
@@ -110,7 +167,9 @@ public without sharing class RegistrationFormCtrl {
     Integer month,
     Integer year,
     String dietaryReq,
-    String startURL
+    String startURL,
+    String mobileNoLocale,
+    String mobileConLocale
   ) {
     try {
       String confirmPageName = 'CheckPasswordResetEmail';
@@ -152,6 +211,8 @@ public without sharing class RegistrationFormCtrl {
       if (duplicateContacts.size() == 1) {
         Contact existingContact = duplicateContacts[0];
         existingContact.AccountId = a.Id;
+        existingContact.ContactMobile_Locale__c = mobileConLocale;
+        existingContact.Mobile_No_Locale__c = mobileNoLocale;
         existingContact.MobilePhone = mobile;
         existingContact.Dietary_Requirement__c = dietaryReq;
         update existingContact;
@@ -184,7 +245,9 @@ public without sharing class RegistrationFormCtrl {
           mobile,
           birthdate,
           dietaryReq,
-          a.Id
+          a.Id,
+          mobileNoLocale,
+          mobileConLocale
         );
         confirmPageName = createNewUser(
           firstName,
@@ -215,7 +278,9 @@ public without sharing class RegistrationFormCtrl {
           mobile,
           birthdate,
           dietaryReq,
-          a.Id
+          a.Id,
+          mobileNoLocale,
+          mobileConLocale
         );
         confirmPageName = createNewUser(
           firstName,
@@ -253,7 +318,9 @@ public without sharing class RegistrationFormCtrl {
     String mobile,
     Date birthdate,
     String dietaryReq,
-    Id accountId
+    Id accountId,
+    String mobileNoLocale,
+    String mobileConLocale
   ) {
     //Set fields from the form to the Contact Object
     Contact c = new Contact();
@@ -262,6 +329,8 @@ public without sharing class RegistrationFormCtrl {
     c.lastName = lastName;
     c.Email = email;
     c.MobilePhone = mobile;
+    c.Mobile_No_Locale__c = mobileNoLocale;
+    c.ContactMobile_Locale__c = mobileConLocale;
     c.Birthdate = birthdate;
     c.Dietary_Requirement__c = dietaryReq;
     insert (c);
@@ -332,6 +401,38 @@ public without sharing class RegistrationFormCtrl {
   }
 
   /**
+   * @description Method to get All Mobile Locale Options
+   * @return mobileLocaleWrapperList - List of Mobile Locale Options
+   */
+  @AuraEnabled(cacheable=false)
+  public static List<MobileLocaleWrapper> getMobileLocaleOptions() {
+    // Init
+    List<MobileLocaleWrapper> mobileLocaleWrapperList = new List<MobileLocaleWrapper>();
+    try {
+      // Get All Mobile Locale Options from Country Code Custom Metadata
+      List<Mobile_Country_Code__mdt> mobileCountryCodeMDTList = [
+        SELECT Id, Display_Name__c, Mobile_Coutnry_Code__c, Loqate_Locale__c
+        FROM Mobile_Country_Code__mdt
+      ];
+      if (mobileCountryCodeMDTList.size() > 0) {
+        for (
+          Mobile_Country_Code__mdt mobileCountryCodeMDT : mobileCountryCodeMDTList
+        ) {
+          MobileLocaleWrapper mobileLocaleWrapper = new MobileLocaleWrapper();
+          mobileLocaleWrapper.label = mobileCountryCodeMDT.Display_Name__c;
+          mobileLocaleWrapper.value = mobileCountryCodeMDT.Mobile_Coutnry_Code__c;
+          mobileLocaleWrapper.conMobileLocale = mobileCountryCodeMDT.Loqate_Locale__c;
+          mobileLocaleWrapperList.add(mobileLocaleWrapper);
+        }
+      }
+    } catch (Exception e) {
+      throw new AuraHandledException(e.getMessage());
+    }
+
+    return mobileLocaleWrapperList;
+  }
+
+  /**
    * @description Method to Assign the Permission set to the User in future
    * @param recordIds - Id of the User
    */
@@ -355,5 +456,14 @@ public without sharing class RegistrationFormCtrl {
     public List<Domain> comURL;
     @AuraEnabled
     public String comSite;
+  }
+
+  public class MobileLocaleWrapper {
+    @AuraEnabled
+    public String label;
+    @AuraEnabled
+    public String value;
+    @AuraEnabled
+    public String conMobileLocale;
   }
 }

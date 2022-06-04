@@ -1,9 +1,9 @@
-.heading{
+.heading {
   font-style: normal;
   font-family: "ProximaNova-Bold";
   font-weight: 700;
   font-size: 44px;
-  color: #0066B9;
+  color: #0066b9;
   margin: 32px 0px;
 }
 
@@ -16,89 +16,92 @@
   color: #0066B9;
   text-decoration: underline;
 }*/
-.text{
+.text {
   font-size: 18px;
 }
 
-.indicate-text{
+.indicate-text {
   margin: 32px 0px 16px 0px;
 }
 
 /* Modal */
 .modal {
-  display: block; 
-  position: fixed; 
+  display: block;
+  position: fixed;
   z-index: 10;
-  padding-top: 100px; 
+  padding-top: 100px;
   left: 0;
   top: 0;
-  width: 100%; 
-  height: 100%; 
+  width: 100%;
+  height: 100%;
   overflow: auto;
-  background-color: rgb(0, 0, 0); 
-  background-color: rgba(0, 0, 0, 0.4); 
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
 .modal2 {
-  display: block; 
-  position: fixed; 
+  display: block;
+  position: fixed;
   z-index: 10;
-  padding-top: 100px; 
+  padding-top: 100px;
   left: 0;
   top: 0;
-  width: 100%; 
-  height: 95%; 
+  width: 100%;
+  height: 95%;
   overflow: auto;
-  background-color: rgb(0, 0, 0); 
-  background-color: rgba(0, 0, 0, 0.4); 
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
-.modal-content::-webkit-scrollbar{
+.modal-content::-webkit-scrollbar {
   display: none;
 }
 
+.modal-content-height95 {
+  height: 95%;
+}
+
 .btnCancel,
-.btnContinue{
+.btnContinue {
   /*min-width: 10.9375rem;*/
   min-width: 100%;
 }
 
-.linkedIn-button{
+.linkedIn-button {
   position: static;
   width: 269px;
   left: 237px;
   top: 74px;
 }
-.modal-footer{
-  background: #FFFFFF;  
+.modal-footer {
+  background: #ffffff;
   position: sticky;
   height: 112px;
   left: 0px;
   bottom: 0px;
 }
 
-.required-text{
-  color: #B90015;
+.required-text {
+  color: #b90015;
 }
 
-.error-icon2{
+.error-icon2 {
   display: flex;
-  padding-right: .5rem;
+  padding-right: 0.5rem;
 }
 
-.center{
+.center {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.input-text-area{
+.input-text-area {
   height: 112px !important;
-
 }
 
 .error-message {
-  color: #B90015;
+  color: #b90015;
   visibility: hidden;
 }
 .error-message-hide {
@@ -112,53 +115,55 @@
 }
 
 .border-error {
-  border-color: #B90015 !important;
+  border-color: #b90015 !important;
 }
-.check-box{
-  border-color: #0066B9;
+.check-box {
+  border-color: #0066b9;
 }
-
 
 /* Mobile CSS */
 @media screen and (max-width: 767px) {
   .modal-content {
     width: 100%;
   }
-  .heading{
+  .heading {
     font-size: 30px;
     margin: 16px 0px;
   }
-  .form-margin{
+  .form-margin {
     margin: 10px 16px;
   }
 
-  .slds-p-right_large, .slds-p-right--large{
+  .slds-p-right_large,
+  .slds-p-right--large {
     padding-right: 0px;
   }
 }
 
 @media screen and (max-width: 764px) {
-  .px3, .pt2{
+  .px3,
+  .pt2 {
     padding: 0;
   }
-  
-} 
+}
 
 @media screen and (min-width: 765px) {
-  .slds-large-size_1-of-2, .slds-large-size--1-of-2,
-  .slds-medium-size_1-of-2, .slds-medium-size--1-of-2 {
+  .slds-large-size_1-of-2,
+  .slds-large-size--1-of-2,
+  .slds-medium-size_1-of-2,
+  .slds-medium-size--1-of-2 {
     width: 50%;
-  } 
-  .slds-large-size_1-of-3, .slds-large-size--1-of-3 {
+  }
+  .slds-large-size_1-of-3,
+  .slds-large-size--1-of-3 {
     width: 33.3333333333%;
   }
-  
-} 
+}
 
 button.btn-reg {
   display: flex !important;
 }
 
-.cursor{
+.cursor {
   cursor: pointer;
 }

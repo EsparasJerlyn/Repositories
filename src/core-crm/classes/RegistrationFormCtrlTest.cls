@@ -46,12 +46,14 @@ public with sharing class RegistrationFormCtrlTest {
         'Test',
         'User',
         emailTest,
-        '12345',
+        '611234567890',
         1,
         1,
         1999,
         'testDietary Req',
-        '/study/s/'
+        '/study/s/',
+        '1234567890',
+        'Australia (+61)'
       );
       System.assert(page == null, 'Page must not be null');
     }
@@ -96,12 +98,14 @@ public with sharing class RegistrationFormCtrlTest {
         'Test',
         'User',
         emailTest,
-        '12345',
+        '611234567890',
         1,
         1,
         1999,
         'testDietary Req',
-        '/study/s/'
+        '/study/s/',
+        '1234567890',
+        'Australia (+61)'
       );
       System.assert(page == null, 'Page must not be null');
     }
@@ -158,12 +162,14 @@ public with sharing class RegistrationFormCtrlTest {
         'Test',
         'User',
         emailTest,
-        '12345',
+        '611234567890',
         1,
         1,
         1999,
         'testDietary Req',
-        '/study/s/'
+        '/study/s/',
+        '1234567890',
+        'Australia (+61)'
       );
       System.assert(page == null, 'Page must not be null');
     }
@@ -292,6 +298,63 @@ public with sharing class RegistrationFormCtrlTest {
 
       String sentOTP = RegistrationFormCtrl.sendRegistrationSMSOTP('12345678');
 
+      System.assert(sentOTP != null, 'sentOTP must not be null');
+    }
+    Test.stopTest();
+  }
+
+  @isTest
+  static void getMobileLocaleOptionsTest() {
+    UserRole userrole = [
+      SELECT Id, Name
+      FROM UserRole
+      WHERE Name = 'System Administrator'
+      LIMIT 1
+    ];
+    User adminUser = [
+      SELECT Id, UserRoleId
+      FROM User
+      WHERE Profile.Name = 'System Administrator'
+      LIMIT 1
+    ];
+
+    adminUser.UserRoleId = userRole.Id;
+    adminUser.IsActive = true;
+    update adminUser;
+    Test.startTest();
+    System.runAs(adminUser) {
+      List<RegistrationFormCtrl.MobileLocaleWrapper> mobLocaleOptionList = RegistrationFormCtrl.getMobileLocaleOptions();
+      System.assert(
+        mobLocaleOptionList.size() > 0,
+        'No mobLocaleOptionList Found'
+      );
+    }
+    Test.stopTest();
+  }
+
+  @isTest
+  static void sendRegistrationEmailOTPTest() {
+    UserRole userrole = [
+      SELECT Id, Name
+      FROM UserRole
+      WHERE Name = 'System Administrator'
+      LIMIT 1
+    ];
+    User adminUser = [
+      SELECT Id, UserRoleId
+      FROM User
+      WHERE Profile.Name = 'System Administrator'
+      LIMIT 1
+    ];
+
+    adminUser.UserRoleId = userRole.Id;
+    adminUser.IsActive = true;
+    update adminUser;
+    Test.startTest();
+    System.runAs(adminUser) {
+      String sentOTP = RegistrationFormCtrl.sendRegistrationEmailOTP(
+        'test@mail.com'
+      );
       System.assert(sentOTP != null, 'sentOTP must not be null');
     }
     Test.stopTest();

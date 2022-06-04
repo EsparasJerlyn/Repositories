@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Argentina_54</label>
+    <protected>false</protected>
+    <values>
+        <field>Display_Name__c</field>
+        <value xsi:type="xsd:string">Argentina (54)</value>
+    </values>
+    <values>
+        <field>Loqate_Locale__c</field>
+        <value xsi:type="xsd:string">Argentina (54)</value>
+    </values>
+    <values>
+        <field>Mobile_Coutnry_Code__c</field>
+        <value xsi:type="xsd:string">54</value>
+    </values>
+</CustomMetadata>
