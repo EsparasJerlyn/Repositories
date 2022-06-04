@@ -62,7 +62,7 @@ export default class Slider extends LightningElement {
         return Math.abs(this.end - this.start);
     }
 
-    _max = 5000;
+    _max = MAX_VALUE;
     _min = 0;
     _step = 1;
     _start = MIN_VALUE;
@@ -234,6 +234,7 @@ export default class Slider extends LightningElement {
     //Handles when Max price is edited in the input box
     handleOnChangePriceEnd(event){
         this._end = parseInt(event.target.value);
+        this._max = parseInt(event.target.value);
         this._endValueInPixels = this.convertValueToPixels(this.end);
         this.setThumb('end', this._endValueInPixels);
         this.setRange(this._endValueInPixels, this._startValueInPixels);
@@ -254,6 +255,7 @@ export default class Slider extends LightningElement {
     @api setDefaultValues(){
         this._start = MIN_VALUE;
         this._end = MAX_VALUE;
+        this._max = MAX_VALUE;
 
         this.initSlider();
     }
