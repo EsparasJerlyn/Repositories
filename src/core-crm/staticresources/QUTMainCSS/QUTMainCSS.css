@@ -1431,29 +1431,13 @@ span[c-customcombobox_customcombobox].slds-listbox__option-meta_entity {
   }
 
     /**Hide Blank Nav menu*/
-    .forceCommunityMultiLevelNavigationWrapper {
+    .forceCommunityMultiLevelNavigation {
       display: none !important;
     }
 
 }
 
 @media only screen and (max-width: 767px){
-  .comm-navigation.forceCommunityMultiLevelNavigation {
-    top: 0;
-    position: fixed;
-    margin-top: 0rem;
-    display: flex;
-    right: 0px;
-    width: auto;
-    padding: 30px 10px 0px 15px;
-    height: 6.8rem;
-    background-color: var(--main-color-blue900);
-    }
-
-    .comm-navigation.forceCommunityMultiLevelNavigation svg {
-      fill: #fff;
-    }
-
     .contact_link_container.slds-hide_medium.mobile-call svg{
       fill: #fff;
       width: 23px;
@@ -1715,18 +1699,6 @@ span[c-customcombobox_customcombobox].slds-listbox__option-meta_entity {
     padding-right: 0em;
   }
 
-  .comm-navigation.forceCommunityMultiLevelNavigation {
-    top: 0;
-    position: fixed;
-    margin-top: 0rem;
-    display: flex;
-    right: 0px;
-    width: auto;
-    padding: 10px 15px 0px 10px;
-    height: 5rem;
-    background-color: var(--main-color-blue900);
-  }
-
   /*program module*/
   .bodycontent
   {
@@ -1740,7 +1712,7 @@ span[c-customcombobox_customcombobox].slds-listbox__option-meta_entity {
   }
  	
    /**Hide Blank Nav menu*/
-   .forceCommunityMultiLevelNavigationWrapper {
+   .forceCommunityMultiLevelNavigation {
     display: none !important;
   }
 
@@ -1749,12 +1721,4 @@ span[c-customcombobox_customcombobox].slds-listbox__option-meta_entity {
       color: var(--greys-color-white) !important;
     }
 	
-}
-
-
-@media only screen and (max-width: 380px){
-  .comm-navigation.forceCommunityMultiLevelNavigation {
-    padding: 10px 10px 0px 10px !important;
-
-  }
 }
