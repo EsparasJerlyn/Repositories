@@ -85,8 +85,8 @@
               "showBackLabel" : false,
               "showHomeLink" : false
             },
-            "componentName" : "forceCommunity:multiLevelNavigationWrapper",
-            "id" : "1d89575b-daee-41a9-9dda-b7b9c42d90a7",
+            "componentName" : "forceCommunity:multiLevelNavigation",
+            "id" : "dd6b11e7-3d59-41d4-ac82-b2dbd57a1a1f",
             "renditionMap" : { },
             "type" : "component"
           } ],
