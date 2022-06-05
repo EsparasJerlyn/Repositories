@@ -654,11 +654,18 @@
         <value>/consumer/dep/v1/registration/registerLearner</value>
     </labels>
     <labels>
-        <fullName>Base_URL_SIT_UAT</fullName>
+        <fullName>Base_URL_SIT</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Base_URL_SIT_UAT</shortDescription>
         <value>https://qut-dev.xetta.com/onestopweb/qutopeintegration/tranadd?</value>
+    </labels>
+    <labels>
+        <fullName>Base_URL_UAT</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Base_URL_SIT_UAT</shortDescription>
+        <value>https://qut-test.xetta.com/onestopweb/qutopeintegration/tranadd?</value>
     </labels>
     <labels>
         <fullName>Base_URL_Prod</fullName>

@@ -8,13 +8,15 @@
       | keno.domienri.dico        | May 24, 2022          | DEPP-2038            | Create payment method lwc                    |
  */
 import { LightningElement, api } from 'lwc';
-import Base_URL_SIT_UAT from "@salesforce/label/c.Base_URL_SIT_UAT";
+import Base_URL_SIT from "@salesforce/label/c.Base_URL_SIT";
+import Base_URL_UAT from "@salesforce/label/c.Base_URL_UAT";
 import Base_URL_Prod from "@salesforce/label/c.Base_URL_Prod";
 import Payment_GLCode from "@salesforce/label/c.Payment_GLCode";
 import getCommunityUrl from '@salesforce/apex/RegistrationFormCtrl.getCommunityUrl';
  
 // Base Urls
-const baseUrlSIT = Base_URL_SIT_UAT;
+const baseUrlSIT = Base_URL_SIT;
+const baseUrlUAT = Base_URL_UAT;
 const baseUrlProd = Base_URL_Prod;
 
 export default class Payment extends LightningElement {
@@ -74,7 +76,7 @@ export default class Payment extends LightningElement {
             if('sit' == domain[0].toLowerCase()){
                 this.typeURL = "SIT";
             }else if( 'uat' == domain[0].toLowerCase()){
-                this.typeURL = "SIT"; 
+                this.typeURL = "UAT"; 
             }else{
                 this.typeURL = "PROD";
             }
@@ -106,7 +108,11 @@ export default class Payment extends LightningElement {
 
         if (this.typeURL = "SIT"){
             this.baseURL = baseUrlSIT;
-        } else {
+        }
+        else if (this.typeURL = "UAT"){
+            this.baseURL = baseUrlUAT;
+        }
+        else {
             this.baseURL = baseUrlProd;
         }
 
@@ -130,6 +136,8 @@ export default class Payment extends LightningElement {
         
         if (this.typeURL = "SIT"){
             this.baseURL = baseUrlSIT;
+        }else if (this.typeURL = "UAT"){
+            this.baseURL = baseUrlUAT;
         } else {
             this.baseURL = baseUrlProd;
         }
