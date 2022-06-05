@@ -54,7 +54,7 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
       null
     );
     createChildMCPersona((List<Contact>) newItems.values());
-    //ContactDuplicatesHelper.detectDuplicates((Map<Id,Contact>) newItems);
+    ContactDuplicatesHelper.detectDuplicates((Map<Id,Contact>) newItems);
 
     if(!isRunning){
       isRunning = true;
