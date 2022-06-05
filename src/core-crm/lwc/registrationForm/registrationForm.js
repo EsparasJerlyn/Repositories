@@ -202,6 +202,7 @@ export default class RegistrationForm extends LightningElement {
    */
   handleRegister(event) {
     event.preventDefault();
+    this.mobile = this.mobile.replace(/^0+/, "");
 
     this.mobileFull = this.locale + this.mobile;
     this.dietaryReq = this.template.querySelector(
