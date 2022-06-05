@@ -10,7 +10,7 @@
       |--------------------------------|-----------------------|----------------------|------------------------------|
       | aljohn.motas@qut.edu.au        | January 14, 2022      | DEP1-1392            | Created file                 | 
       | marygrace.li@qut.edu.au        | June 1, 2022          | DEPP-2854            | Added getStudyStore          |
-      |                                |                       |                      |                              | 
+      | dodge.palattao@qut.edu.au      | June 4, 2022          | DEPP-2809            | Added getStudyProducts       | 
  */
 
 public without sharing class MainNavigationMenuCtrl {
@@ -55,5 +55,15 @@ public without sharing class MainNavigationMenuCtrl {
             }
         return ProductCategories;
     }
-
+    @AuraEnabled(cacheable=true)
+    public static List<ProductCategory> getStudyProducts(Id communityId){
+        List<ProductCategory> ProductCategories =new List<ProductCategory>();
+        String StoreId = B2BUtils.resolveCommunityIdToWebstoreId(communityId);
+        List<WebStoreCatalog> Catalogues = [SELECT SalesStoreId,ProductCatalogId FROM WebStoreCatalog WHERE SalesStoreId=:StoreId];
+        if(Catalogues.size()!=0){
+            Id Catalog_Id = Catalogues.get(0).ProductCatalogId;
+            ProductCategories = [SELECT Name,Id FROM ProductCategory WHERE CatalogId=:Catalog_Id AND Name = 'Products'];
+            }
+        return ProductCategories;
+    }
 }

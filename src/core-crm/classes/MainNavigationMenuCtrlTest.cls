@@ -60,4 +60,21 @@ public class MainNavigationMenuCtrlTest {
         Test.stopTest();
 
     }
+    
+    @isTest
+    public static void getStudyProductsTest(){
+        String COMMUNITY_NAME = 'STUDY';
+        String communityId = B2BUtils.getCommunityIdByName(COMMUNITY_NAME);
+        ProductCatalog cat =new ProductCatalog(Name='STUDY');
+        
+        insert cat;
+        ProductCategory cate = new ProductCategory(CatalogId=cat.Id,
+                                                  Name='Products');
+        insert cate;
+     
+        Test.startTest();     
+        List<ProductCategory> Categories = MainNavigationMenuCtrl.getStudyProducts(communityId);
+		System.assert(cate != null, 'Pass');
+        Test.stopTest();
+    }
 }
