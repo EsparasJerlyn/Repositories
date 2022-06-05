@@ -38,6 +38,7 @@ export default class ProductDetails extends LightningElement {
   showProductDetailsSingle;
   showProductDetailsDisplay;
   cProducts;
+  availablePricings =[];
     // Gets & Sets the effective account - if any - of the user viewing the product.
   @api
   get effectiveAccountId() {
@@ -81,6 +82,15 @@ export default class ProductDetails extends LightningElement {
         this.product.productDetails = result.productOnPage;
         this.product.programModules = result.moduleWrapperList;
         this.product.priceBookEntryList = result.pricebookWrapperList;
+        let pricingsLocal = [];
+        this.product.priceBookEntryList.forEach(function (priceBookEntry) {
+          pricingsLocal.push({
+            label: priceBookEntry.label === 'Standard Price Book'? priceBookEntry.label.slice(0, 8): priceBookEntry.label,
+            value: priceBookEntry.value,
+            meta: parseInt(priceBookEntry.meta).toLocaleString('en-US', { style: 'currency', currency: 'USD',  minimumFractionDigits: 0 })
+          });
+        });
+        this.availablePricings = pricingsLocal;
         this.product.deliveryOptions = result.deliveryWrapperList;
         this.product.programDeliveryAndOfferings = result.programDeliveryAndOfferingMap;      
         console.log('testing: ' + this.product);   
