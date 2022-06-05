@@ -21,7 +21,7 @@ public static final Id PERSON = Schema.SObjectType.Contact.getRecordTypeInfosByD
     public static final Id MC_PERSONA = Schema.SObjectType.Contact.getRecordTypeInfosByDeveloperName()
         .get('MC_Persona')
         .getRecordTypeId();
-    
+
   private static User currentUser = TestDataFactory.createUserRecords(
       1,
       'QUTeX'
@@ -134,7 +134,7 @@ public static final Id PERSON = Schema.SObjectType.Contact.getRecordTypeInfosByD
         WHERE LinkedEntityId = :con.Id
       ];
 
-      System.assert( 
+      System.assert(
         conContentDocuLink.isEmpty(),
         'Contact Image File is deleted'
       );
@@ -177,7 +177,7 @@ public static final Id PERSON = Schema.SObjectType.Contact.getRecordTypeInfosByD
       );
     }
   }
-  
+
   @isTest
     private static void insertContact() {
         User currUsr = [
@@ -186,9 +186,9 @@ public static final Id PERSON = Schema.SObjectType.Contact.getRecordTypeInfosByD
             WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
             LIMIT 1
         ];
-        
+
         List<Contact> cons = TestDataFactory.createTestContactRecords(1);
-        
+
         System.runAs(currUsr) {
             Test.startTest();
             cons[0].FirstName = 'Contact FN 4';
@@ -201,7 +201,7 @@ public static final Id PERSON = Schema.SObjectType.Contact.getRecordTypeInfosByD
             insert cons;
             Test.stopTest();
         }
-        
+
         System.assertEquals(
                 3,
                 [Select Id from Contact Where Parent_Person_Contact__c = :cons[0].Id].size(),
@@ -209,7 +209,7 @@ public static final Id PERSON = Schema.SObjectType.Contact.getRecordTypeInfosByD
             );
     }
 
-  @IsTest
+  /* @IsTest
   private static void contactDuplicatesExactMatchTest() {
     User currUsr = [
       SELECT Id
@@ -221,7 +221,7 @@ public static final Id PERSON = Schema.SObjectType.Contact.getRecordTypeInfosByD
     System.runAs(currUsr) {
       String uniqueID = GenerateUniqueId.getUUID();
       String emailTest = 'testUser' + uniqueID + '@test.com';
-      
+
       List<Contact> testContacts = new List<Contact>();
       Contact testContact1 = TestDataFactory.createTestContactRecords(1).iterator().next();
       testContact1.Birthdate = Date.newInstance(1999, 1, 1);
@@ -240,13 +240,13 @@ public static final Id PERSON = Schema.SObjectType.Contact.getRecordTypeInfosByD
 
       testContact2.Email = emailTest;
       update testContact2;
-      
+
       Contact testContact3 = TestDataFactory.createTestContactRecords(1).iterator().next();
       testContact3.Birthdate = Date.newInstance(1999, 1, 1);
       testContact3.Email = emailTest;
       testContact3.LastName = 'User';
       testContact3.RecordTypeId = PERSON;
-      
+
       Test.startTest();
       insert testContact3;
       Test.stopTest();
@@ -254,7 +254,7 @@ public static final Id PERSON = Schema.SObjectType.Contact.getRecordTypeInfosByD
       System.assertEquals(
         2,
         [
-          SELECT count() 
+          SELECT count()
           FROM Potential_Duplicate__c
           WHERE Contact__c IN : testContacts
         ],
@@ -275,7 +275,7 @@ public static final Id PERSON = Schema.SObjectType.Contact.getRecordTypeInfosByD
     System.runAs(currUsr) {
       String uniqueID = GenerateUniqueId.getUUID();
       String emailTest = 'testUser' + uniqueID + '@test.com';
-      
+
       Contact testContact1 = TestDataFactory.createTestContactRecords(1).iterator().next();
       testContact1.Birthdate = Date.newInstance(1999, 1, 1);
       testContact1.Email = emailTest;
@@ -287,7 +287,7 @@ public static final Id PERSON = Schema.SObjectType.Contact.getRecordTypeInfosByD
       testContact2.Email = emailTest;
       testContact2.LastName = 'UserNotMatch';
       testContact2.QUT_Employee_ID__c = '123';
-      
+
       Test.startTest();
       insert testContact2;
       Test.stopTest();
@@ -295,21 +295,21 @@ public static final Id PERSON = Schema.SObjectType.Contact.getRecordTypeInfosByD
       System.assertEquals(
         1,
         [
-          SELECT count() 
+          SELECT count()
           FROM Potential_Duplicate__c
           WHERE Contact__c = : testContact1.Id
         ],
         'There should be 1 potential duplicate created'
       );
     }
-  }
+  } */
 
 
   @IsTest
   static void detectLeadDuplicatesTest(){
-    List<Account> accounts = TestDataFactory.createTestAccountRecords(1);  
+    List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
     insert accounts;
-            
+
     List<Lead> leads = new List<Lead>();
     leads.add(new Lead(
       FirstName = 'Test',
@@ -347,7 +347,7 @@ public static final Id PERSON = Schema.SObjectType.Contact.getRecordTypeInfosByD
     marketingSegmentationList.add(new Marketing_Segmentation__c(Lead__c = leads[0].Id));
     insert marketingInteractionList;
     insert marketingCourseAppList;
-    insert marketingSegmentationList; 
+    insert marketingSegmentationList;
 
     Test.startTest();
     List<Contact> contacts = new List<Contact>();
@@ -365,6 +365,6 @@ public static final Id PERSON = Schema.SObjectType.Contact.getRecordTypeInfosByD
     System.assertEquals(contactId, mktInteractionContact, 'Marketing Interaction was not updated.');
     System.assertEquals(contactId, mktCourseAppContact, 'Marketing Course Application was not updated.');
     System.assertEquals(contactId, mktSegContact, 'Marketing Segmentation was not updated.');
-    
+
   }
 }
