@@ -2,6 +2,7 @@ import { LightningElement, api, track, wire } from "lwc";
 import getOPEProductCateg from "@salesforce/apex/PaymentConfirmationCtrl.getOPEProductCateg";
 import getCartData from "@salesforce/apex/PaymentConfirmationCtrl.getCartData";
 import createCourseConnection from "@salesforce/apex/PaymentConfirmationCtrl.createCourseConnection";
+import updateWebCart from "@salesforce/apex/PaymentConfirmationCtrl.updateWebCart";
 import BasePath from "@salesforce/community/basePath";
 import userId from "@salesforce/user/Id";
 
@@ -15,6 +16,7 @@ export default class PaymentConfirmation extends LightningElement {
     
     cartId;
     cartItems = [];
+    paymentStatus;
     subTotal;
     discountTotal;
     grandTotal;
@@ -35,20 +37,24 @@ export default class PaymentConfirmation extends LightningElement {
             this.paymentApproved = true;
             this.subHeaderClass = 'heading2 pb2 subheader-color-suc';
             this.buttonLabel = 'Browse more courses'
+            this.paymentStatus = "Approved";
 
         } else if(this.parameters.Status == 'D'){
             this.subHeader = 'Your payment was declined. Please check your payment details.';
+            this.paymentStatus = "Declined";
 
         } else if(this.parameters.Status == 'C'){
             this.subHeader = 'Your payment was cancelled. Please check your payment details.';
+            this.paymentStatus = "Cancelled Payment";
 
         } else if(this.parameters.Status == 'V'){
             this.subHeader = 'Your payment has a validation failure. Please check your payment details.';
+            this.paymentStatus = "Validation Failure";
 
         }
 
         //get the the WebCart data
-        getCartData({ externalId: this.parameters.TransactionID }).then((data) => {
+        getCartData({ externalId: this.parameters.WebcartExternal_ID__c }).then((data) => {
             this.cartId = data.cartId;
             this.cartItems = data.cartItemsList;
             this.subTotal = data.subTotal;
@@ -69,10 +75,28 @@ export default class PaymentConfirmation extends LightningElement {
                 });
             }
 
+            //update the WebCart
+            updateWebCart({ 
+                cartId: this.cartId, 
+                paymentStatus: this.paymentStatus, 
+                invoice: this.parameters.InvoiceNo,
+                receipt: this.parameters.ReceiptNo,
+                amountPaid: this.parameters.TotalAmount,
+                paymentUrl: window.location.href
+            }).then((data) => {
+
+                //code
+
+            }).catch((error) => {
+                console.log("updateWebCart error");
+                console.log(error);
+            });
+
         }).catch((error) => {
             console.log("getCartData error");
             console.log(error);
         });
+    
     }
 
     //function to get the parameters from the url
@@ -83,6 +107,10 @@ export default class PaymentConfirmation extends LightningElement {
 
         //converts the url after the '?' to a json
         if (search) {
+
+            //replace to remove . in json key 
+            search = search.replace(/Webcart.External_ID__c/g, 'WebcartExternal_ID__c');
+
             params = JSON.parse('{"' + search.replace(/&/g, '","').replace(/=/g, '":"') + '"}', (key, value) => {
                 return key === "" ? value : decodeURIComponent(value)
             });
@@ -90,8 +118,6 @@ export default class PaymentConfirmation extends LightningElement {
 
         return params;
     }
-
-
     
     //button at the bottom is clicked
     buttonClicked(){

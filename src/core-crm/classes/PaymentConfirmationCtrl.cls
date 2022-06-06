@@ -22,7 +22,7 @@ public without sharing class PaymentConfirmationCtrl {
         prodCateg = [
             SELECT Id
             FROM ProductCategory
-            WHERE Name = 'Products'
+            WHERE Name = 'Products' AND Catalog.Name = 'Study Catalog'
             LIMIT 1
         ];
 
@@ -285,6 +285,36 @@ public without sharing class PaymentConfirmationCtrl {
         insert courseConnectionInsert;
 
         return courseConnectionInsert;
+    }
+
+    /**
+     * @description updates the cart status
+     * @param cartId - cart item ID
+     * @param cartStatus - cart status
+     */
+    @AuraEnabled
+    public static void updateWebCart(String cartId, String paymentStatus, String invoice, String receipt, Double amountPaid, String paymentUrl) {
+        
+        //get the cart
+        WebCart webCart = [
+            SELECT 
+                Id, 
+                Name, 
+                Payment_Status__c,
+                Invoice_Number__c,
+                Receipt_Number__c,
+                Amount_Paid__c,
+                Payment_URL__c
+            FROM WebCart 
+            WHERE Id = :cartId];
+
+        //update the cart based on the status received
+        webCart.Payment_Status__c = paymentStatus;
+        webCart.Invoice_Number__c = invoice;
+        webCart.Receipt_Number__c = receipt;
+        webCart.Amount_Paid__c = amountPaid;
+        webCart.Payment_URL__c = paymentUrl;
+        update webCart;
     }
 }
   
