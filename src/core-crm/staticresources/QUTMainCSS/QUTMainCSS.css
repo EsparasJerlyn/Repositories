@@ -465,6 +465,14 @@ div.main-container-bc [role=navigation] ol.slds-breadcrumb li:last-child{
 /*end*/
 
 
+/*Hide login button and nav menu*/
+.comm-navigation.forceCommunityMultiLevelNavigation {
+  display: none;
+}
+.comm-user-profile-menu__login-button[community_user-userProfileMenu_userProfileMenu]{
+  display:none;
+}
+
 /*StoreHeader*/
 
 div.header__wrapper .header {
