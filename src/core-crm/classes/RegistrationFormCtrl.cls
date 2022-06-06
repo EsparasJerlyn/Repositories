@@ -34,23 +34,6 @@ public without sharing class RegistrationFormCtrl {
   }
 
   /**
-   * @description get OPE Product Category Id
-   * @return OPE Product Category Id
-   */
-  @AuraEnabled
-  public static ProductCategory getOPEProductCateg() {
-    ProductCategory prodCateg = new ProductCategory();
-    prodCateg = [
-      SELECT Id
-      FROM ProductCategory
-      WHERE Name = 'Products' AND Catalog.Name = 'Study Catalog'
-      LIMIT 1
-    ];
-
-    return prodCateg;
-  }
-
-  /**
    * @description Method to call Send OTP
    * @param mobile - mobile to recieve OTP
    * @return retOTP - returns OTP sent

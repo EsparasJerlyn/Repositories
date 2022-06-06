@@ -235,46 +235,6 @@ public with sharing class RegistrationFormCtrlTest {
   }
 
   @isTest
-  static void getOPEProductCategTest() {
-    UserRole userrole = [
-      SELECT Id, Name
-      FROM UserRole
-      WHERE Name = 'System Administrator'
-      LIMIT 1
-    ];
-    User adminUser = [
-      SELECT Id, UserRoleId
-      FROM User
-      WHERE Profile.Name = 'System Administrator'
-      LIMIT 1
-    ];
-
-    adminUser.UserRoleId = userRole.Id;
-    adminUser.IsActive = true;
-    update adminUser;
-
-    Test.startTest();
-    System.runAs(adminUser) {
-      ProductCatalog prodCatalog = new ProductCatalog(Name = 'Study Catalog');
-      insert prodCatalog;
-
-      ProductCategory prodCateg = new ProductCategory(
-        Name = 'Products',
-        CatalogId = prodCatalog.Id
-      );
-      insert prodCateg;
-
-      ProductCategory prodCategResult = RegistrationFormCtrl.getOPEProductCateg();
-
-      System.assert(
-        prodCategResult != null,
-        'prodCategResult must not be null'
-      );
-    }
-    Test.stopTest();
-  }
-
-  @isTest
   static void sendRegistrationSMSOTPTest() {
     UserRole userrole = [
       SELECT Id, Name
