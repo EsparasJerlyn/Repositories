@@ -19,7 +19,8 @@ public with sharing class RegisteredLearnersCtrl {
     {
        List<RegisteredLearners> learnerList = new List<RegisteredLearners>();
        List<hed__Course_Enrollment__c > courseConnections = [SELECT Id, hed__Contact__c,
-                                                            hed__Contact__r.Preferred_Given_Name__c, 
+                                                            hed__Contact__r.FirstName,
+                                                            hed__Contact__r.LastName, 
                                                             hed__Contact__r.Company_Name__c, 
                                                             hed__Contact__r.Position__c
                                                             FROM hed__Course_Enrollment__c
@@ -30,7 +31,8 @@ public with sharing class RegisteredLearnersCtrl {
 
         for(hed__Course_Enrollment__c student : courseConnections){
                 RegisteredLearners rl = new RegisteredLearners();
-                rl.prefferedName = student.hed__Contact__r.Preferred_Given_Name__c;
+                rl.firstName = student.hed__Contact__r.FirstName;
+                rl.LastName = student.hed__Contact__r.LastName;
                 rl.companyName = student.hed__Contact__r.Company_Name__c;
                 rl.positionName =  student.hed__Contact__r.Position__c;
                 learnerList.add(rl);
@@ -40,7 +42,9 @@ public with sharing class RegisteredLearnersCtrl {
    }
    public class RegisteredLearners{
 		@AuraEnabled
-		public String prefferedName;
+		public String firstName;
+		@AuraEnabled
+		public String lastName;
 		@AuraEnabled
 		public String companyName;
         @AuraEnabled
