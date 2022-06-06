@@ -8,33 +8,26 @@
       | eugene.andrew.abuan       | January 03, 2022      | DEPP-773             | Created file                 |
       | eugene.andrew.abuan       | April 26, 2022        | DEPP-1293            | Modified to add get community|
       | john.bo.a.pineda          | June 1, 2022          | DEPP-1661            | Added send SMS OTP method    |
+      | rhea.b.torres             | June 6, 2022          | DEPP-2861            | Added testSetup              |
  */
 @isTest(SeeAllData=false)
 public with sharing class RegistrationFormCtrlTest {
   public static final Id PERSON = Schema.SObjectType.Contact.getRecordTypeInfosByDeveloperName()
     .get('Person')
     .getRecordTypeId();
+  private static final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalOwner();
+
+  @testSetup
+  public static void setUp(){
+    // Create Custom Setting
+    MC_Messaging_OTP_Setting__c setting = TestDataFactory.createOTPCustomSetting();
+    insert setting;
+  }
 
   @isTest
   static void registerUserNoMatchTest() {
-    UserRole userrole = [
-      SELECT Id, Name
-      FROM UserRole
-      WHERE Name = 'System Administrator'
-      LIMIT 1
-    ];
-    User adminUser = [
-      SELECT Id, UserRoleId
-      FROM User
-      WHERE Profile.Name = 'System Administrator'
-      LIMIT 1
-    ];
-
-    adminUser.UserRoleId = userRole.Id;
-    adminUser.IsActive = true;
-    update adminUser;
     Test.startTest();
-    System.runAs(adminUser) {
+    System.runAs(PORTAL_SYS_ADMIN) {
       Account testAccount = new Account();
       testAccount.Name = 'OPE Catalogue';
       insert testAccount;
@@ -62,24 +55,8 @@ public with sharing class RegistrationFormCtrlTest {
 
   @isTest
   static void registerUserExactMatchTest() {
-    UserRole userrole = [
-      SELECT Id, Name
-      FROM UserRole
-      WHERE Name = 'System Administrator'
-      LIMIT 1
-    ];
-    User adminUser = [
-      SELECT Id, UserRoleId
-      FROM User
-      WHERE Profile.Name = 'System Administrator'
-      LIMIT 1
-    ];
-
-    adminUser.UserRoleId = userRole.Id;
-    adminUser.IsActive = true;
-    update adminUser;
     Test.startTest();
-    System.runAs(adminUser) {
+    System.runAs(PORTAL_SYS_ADMIN) {
       Account testAccount = new Account();
       testAccount.Name = 'OPE Catalogue';
       insert testAccount;
@@ -114,24 +91,8 @@ public with sharing class RegistrationFormCtrlTest {
 
   @isTest
   static void registerUserMultipleMatchTest() {
-    UserRole userrole = [
-      SELECT Id, Name
-      FROM UserRole
-      WHERE Name = 'System Administrator'
-      LIMIT 1
-    ];
-    User adminUser = [
-      SELECT Id, UserRoleId
-      FROM User
-      WHERE Profile.Name = 'System Administrator'
-      LIMIT 1
-    ];
-
-    adminUser.UserRoleId = userRole.Id;
-    adminUser.IsActive = true;
-    update adminUser;
     Test.startTest();
-    System.runAs(adminUser) {
+    System.runAs(PORTAL_SYS_ADMIN) {
       Account testAccount = new Account();
       testAccount.Name = 'OPE Catalogue';
       insert testAccount;
@@ -178,24 +139,8 @@ public with sharing class RegistrationFormCtrlTest {
 
   @isTest
   static void isEmailExistTest() {
-    UserRole userrole = [
-      SELECT Id, Name
-      FROM UserRole
-      WHERE Name = 'System Administrator'
-      LIMIT 1
-    ];
-    User adminUser = [
-      SELECT Id, UserRoleId
-      FROM User
-      WHERE Profile.Name = 'System Administrator'
-      LIMIT 1
-    ];
-
-    adminUser.UserRoleId = userRole.Id;
-    adminUser.IsActive = true;
-    update adminUser;
     Test.startTest();
-    System.runAs(adminUser) {
+    System.runAs(PORTAL_SYS_ADMIN) {
       Profile p = [SELECT Id FROM Profile WHERE Name = 'Ecommerce Learner'];
       Contact c = new Contact(LastName = 'Testing');
       insert c;
@@ -236,25 +181,9 @@ public with sharing class RegistrationFormCtrlTest {
 
   @isTest
   static void sendRegistrationSMSOTPTest() {
-    UserRole userrole = [
-      SELECT Id, Name
-      FROM UserRole
-      WHERE Name = 'System Administrator'
-      LIMIT 1
-    ];
-    User adminUser = [
-      SELECT Id, UserRoleId
-      FROM User
-      WHERE Profile.Name = 'System Administrator'
-      LIMIT 1
-    ];
-
-    adminUser.UserRoleId = userRole.Id;
-    adminUser.IsActive = true;
-    update adminUser;
     Test.startTest();
-    System.runAs(adminUser) {
-      Test.setMock(HttpCalloutMock.class, new reqMockHttpResponse());
+    System.runAs(PORTAL_SYS_ADMIN) {
+      Test.setMock(HttpCalloutMock.class, new ReqMockHttpResponse());
 
       String sentOTP = RegistrationFormCtrl.sendRegistrationSMSOTP('12345678');
 
@@ -265,24 +194,8 @@ public with sharing class RegistrationFormCtrlTest {
 
   @isTest
   static void getMobileLocaleOptionsTest() {
-    UserRole userrole = [
-      SELECT Id, Name
-      FROM UserRole
-      WHERE Name = 'System Administrator'
-      LIMIT 1
-    ];
-    User adminUser = [
-      SELECT Id, UserRoleId
-      FROM User
-      WHERE Profile.Name = 'System Administrator'
-      LIMIT 1
-    ];
-
-    adminUser.UserRoleId = userRole.Id;
-    adminUser.IsActive = true;
-    update adminUser;
     Test.startTest();
-    System.runAs(adminUser) {
+    System.runAs(PORTAL_SYS_ADMIN) {
       List<RegistrationFormCtrl.MobileLocaleWrapper> mobLocaleOptionList = RegistrationFormCtrl.getMobileLocaleOptions();
       System.assert(
         mobLocaleOptionList.size() > 0,
@@ -294,24 +207,8 @@ public with sharing class RegistrationFormCtrlTest {
 
   @isTest
   static void sendRegistrationEmailOTPTest() {
-    UserRole userrole = [
-      SELECT Id, Name
-      FROM UserRole
-      WHERE Name = 'System Administrator'
-      LIMIT 1
-    ];
-    User adminUser = [
-      SELECT Id, UserRoleId
-      FROM User
-      WHERE Profile.Name = 'System Administrator'
-      LIMIT 1
-    ];
-
-    adminUser.UserRoleId = userRole.Id;
-    adminUser.IsActive = true;
-    update adminUser;
     Test.startTest();
-    System.runAs(adminUser) {
+    System.runAs(PORTAL_SYS_ADMIN) {
       String sentOTP = RegistrationFormCtrl.sendRegistrationEmailOTP(
         'test@mail.com'
       );
@@ -320,7 +217,7 @@ public with sharing class RegistrationFormCtrlTest {
     Test.stopTest();
   }
 
-  public class reqMockHttpResponse implements HttpCalloutMock {
+  public class ReqMockHttpResponse implements HttpCalloutMock {
     public HTTPResponse respond(HTTPRequest req) {
       // Create a fake response
       HttpResponse res = new HttpResponse();

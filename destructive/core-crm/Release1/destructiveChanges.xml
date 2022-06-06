@@ -127,6 +127,16 @@
     </types>
     <types>
         <members>QUTeX_Email</members><!-- DEPP-2020 -->
+        <!-- (Start) DEPP 2861 --> 
+        <members>MCTransactionalAPI_AccessTokenClientId</members>
+        <members>MCTransactionalAPI_AccessTokenClientSecret</members>
+        <members>MCTransactionalAPI_AccessTokenAccountId</members>
+        <members>MCTransactionalAPI_AccessTokenURL</members>
+        <members>MCTransactionalAPI_SendSMSOTP_AttrSMSOTP</members>
+        <members>MCTransactionalAPI_SendSMSOTP_DefinitionKey</members>
+        <members>MCTransactionalAPI_SendSMSOTP_MsgTemplate</members>
+        <members>MCTransactionalAPI_SendSMSOTPURL</members>
+        <!-- (End) DEPP 2861 -->
         <name>CustomLabel</name>
     </types>
     <types>

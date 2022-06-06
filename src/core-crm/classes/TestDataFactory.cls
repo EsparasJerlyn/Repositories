@@ -1211,5 +1211,23 @@ public class TestDataFactory {
     return portalSysAdmin;
   }
 
+  /**
+   * @description Method for creating MC_Messaging_OTP_Setting__c custom setting
+   * @param void
+   * @return setting - the created MC_Messaging_OTP_Setting__c
+   */
+  public static MC_Messaging_OTP_Setting__c createOTPCustomSetting(){
+    MC_Messaging_OTP_Setting__c setting = new MC_Messaging_OTP_Setting__c();
+    setting.Access_Token_EndPoint_URL__c = 'https://accessToken';
+    setting.Account_Id__c = '1234';
+    setting.Attributes__c = 'Attr123';
+    setting.Client_Id__c = '12344';
+    setting.Client_Secret__c = '12987';
+    setting.DefinitionKey__c = 'test';
+    setting.GrantType__c = 'test';
+    setting.Message__c = 'test';
+    setting.SMS_EndPoint_URL__c = 'https://smsendpoint';
+    return setting;
+  }
 }
 
