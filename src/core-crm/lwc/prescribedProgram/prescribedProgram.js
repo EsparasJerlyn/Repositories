@@ -172,6 +172,7 @@ export default class PrescribedProgram extends LightningElement {
     this.selectedPricing = undefined;
     this.disablePricing = true;
     this.disableAddToCart = true;
+    this.displayAddToCart = true;
     this.displayGroupRegistration = false;
   }
 
@@ -181,6 +182,7 @@ export default class PrescribedProgram extends LightningElement {
     this.disablePricing = false;
     this.disableAddToCart = true;
     this.displayGroupRegistration = false;
+    this.displayAddToCart = true;
   }
 
   handlePricingSelected(event) {
@@ -193,7 +195,7 @@ export default class PrescribedProgram extends LightningElement {
       this.displayGroupRegistration = false;
     }
     if (selectedPBLabel == "Group Booking") {
-      this.displayAddToCart = true;
+      this.displayAddToCart = false;
       this.displayGroupRegistration = true;
       this.disableAddToCart = true;
      

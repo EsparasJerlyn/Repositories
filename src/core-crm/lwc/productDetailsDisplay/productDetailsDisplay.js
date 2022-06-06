@@ -428,6 +428,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
         this.selectedPriceBookEntry = undefined;
         this.disableAvailStartDate = true;
         this.disablePriceBookEntry = true;
+        this.displayAddToCart = true;
         this.disableAddToCart = true;
         this.displayGroupRegistration = false;
 
@@ -458,6 +459,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
       }
     });
     this.disablePriceBookEntry = false;
+    this.displayAddToCart = true;
     this.disableAddToCart = true;
   }
 
@@ -506,6 +508,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
 
     if (selectedPBLabel == "Group Booking") {
       this.displayAddToCart = false;
+      this.disableAddToCart = true;
       this.displayGroupRegistration = true;
       if (this.responseData.length > 0) {
         this.displayQuestionnaire = true;
@@ -515,6 +518,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     } else {
       this.displayGroupRegistration = false;
       this.displayAddToCart = true;
+      this.disableAddToCart = false;
       if (this.responseData.length > 0) {
         this.displayQuestionnaire = true;
         this.displayAddToCart = false;
