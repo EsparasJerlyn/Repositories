@@ -16,7 +16,7 @@ pr:
   drafts: false
   branches:
     include:
-      - release/IT1Feb
+      - release/IT1Jun
 
 #Custom Variables
 variables:
