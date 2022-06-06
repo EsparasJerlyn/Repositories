@@ -112,8 +112,26 @@
   min-width: 98%;
 }
 
+
+a.whatDoesLink{
+    font-size: 12px;
+    font-Weight: 400;
+    line-height: 18px;
+    color:#0066B9;
+    position: absolute;
+    left: 60px;
+    top: 5px;
+    text-decoration: underline;
+    font-family: 'ProximaNova-Bold';
+}
+
+.clearBoth{
+  clear: both;
+}
+
+
 /* Mobile CSS */
-@media screen and (max-width: 767px) {
+@media only screen and (min-width: 765px) and (max-width: 767px) {
   .rightColumn {
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
     margin-left: 32px;
