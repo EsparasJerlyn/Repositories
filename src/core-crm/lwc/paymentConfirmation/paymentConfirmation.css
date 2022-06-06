@@ -1,0 +1,29 @@
+:host {
+    font-family: "ProximaNova";
+    --lwc-inputStaticFontSize: 1.125rem !important;
+    --lwc-inputStaticFontWeight: 400;
+    --lwc-borderRadiusMedium: 0rem;
+    --slds-c-checkbox-color-border: #0066B9;
+    --sds-c-checkbox-color-border: #0066B9;
+    --lwc-colorBorderInput: #0066B9 !important;
+}
+
+.component {
+    padding: 10px;
+}
+
+.btm-border-black {
+    border-bottom:1px solid black;
+}
+
+.btm-border-lightgray {
+    border-bottom:1px solid lightgray;
+}
+
+.subheader-color-err {
+    color: var(--sec-color-notification);  
+}
+
+.subheader-color-suc {
+    color: var(--main-color-blue500);  
+}

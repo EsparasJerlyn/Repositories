@@ -1,0 +1,47 @@
+{
+  "appPageId" : "b28ff838-09a0-4bed-9c7e-7d9052f13951",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "id" : "d68d9473-b23c-4955-aa65-47e98297f1de",
+  "label" : "Payment Confirmation",
+  "regions" : [ {
+    "id" : "a6e82371-a108-406b-a84c-98dab3bb763c",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "recordId" : "{!recordId}"
+      },
+      "componentName" : "c:paymentConfirmation",
+      "id" : "e04272b8-27d5-418a-965c-fa8ac3130fbd",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "41c7e029-595e-4c2d-a06f-354a8a837687",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "a3dbadb1-3672-4b9b-8a75-eb8889438cac",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "customHeadTags" : "",
+        "description" : "",
+        "title" : "Payment Confirmation"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "0bf3f56f-1bc7-4271-ab1b-2925bd3715cf",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "2cac686c-9ed2-4dee-a844-5a56f4994bd9",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-payment-confirmation"
+}
