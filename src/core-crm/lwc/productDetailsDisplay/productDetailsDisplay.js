@@ -439,6 +439,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
       .catch((e) => {
         this.generateToast("Error.", LWC_Error_General, "error");
       });
+      
   }
 
   // Set Selected Course Offering value
@@ -457,6 +458,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
       }
     });
     this.disablePriceBookEntry = false;
+    this.disableAddToCart = true;
   }
 
   handlePreviousFacilitator() {

@@ -149,6 +149,16 @@ export default class GroupBookingForm extends LightningElement {
                     this.lastName = results[0].LastName;
                     this.contactEmail = results[0].Email;
               }
+            if(this.firstName.length === 0){
+                this.firstName = '';
+            }  
+            if(this.lastName.length === 0){
+              this.lastName = '';
+            }
+            if(this.contactEmail.length === 0){
+              this.contactEmail = '@';
+            }
+
             })
             .catch((e) => {
               this.generateToast("Error.", LWC_Error_General, "error");
@@ -202,15 +212,23 @@ export default class GroupBookingForm extends LightningElement {
     }
     async handleFirstnameChange(event){
         this.firstName = event.detail.value;
-    
+        if(this.firstName.length === 0){
+            this.firstName = '';
+        }  
+       
     }
     async handleLastnameChange(event){
         this.lastName = event.detail.value;
-      
+        if(this.lastName.length === 0){
+            this.lastName = '';
+        }
+         
     }
     async handleEmailChange(event){
         this.contactEmail = event.detail.value;
-        
+        if(this.contactEmail.length === 0){
+            this.contactEmail = '@';
+        }
     }
 
      // This handle the picklist for number of participants
