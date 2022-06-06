@@ -114,6 +114,13 @@
       "regionName" : "themeHeader",
       "type" : "region"
     }, {
+      "components" : [ {
+        "componentAttributes" : { },
+        "componentName" : "c:moreInfo",
+        "id" : "5bdd0d37-89b9-45e3-8b3e-1d209d79f7cd",
+        "renditionMap" : { },
+        "type" : "component"
+      } ],
       "id" : "21d9b534-a46a-4876-b7ea-c6100b18e634",
       "regionName" : "themeFooter",
       "type" : "region"
