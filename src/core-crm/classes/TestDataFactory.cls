@@ -1214,7 +1214,7 @@ public class TestDataFactory {
    * @param void
    * @return portalSysAdmin - Portal Sys Admin user
    */
-  public static User getPortalOwner() {
+  public static User getPortalSysAdminUser() {
     //get the sys admin user to run the insertion of portal user
     User portalSysAdmin = [
         SELECT Id FROM User WHERE IsActive = true
@@ -1223,7 +1223,8 @@ public class TestDataFactory {
 
     //add UserRole
     portalSysAdmin.UserRoleId = [SELECT Id FROM UserRole WHERE Name = 'System Administrator' LIMIT 1]?.Id;
-
+    update portalSysAdmin;
+    
     return portalSysAdmin;
   }
 

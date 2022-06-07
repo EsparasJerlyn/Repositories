@@ -13,6 +13,7 @@ public with sharing class PaymentConfirmationCtrlTest {
 
   private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
   private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
+  private static final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
 
   @TestSetup
   static void setupMethod() {
@@ -27,36 +28,12 @@ public with sharing class PaymentConfirmationCtrlTest {
     contacts[0].AccountId = accounts[0].Id;
     insert contacts;
 
-    //get the sys admin user to run the insertion of portal user
-    User PORTAL_SYS_ADMIN = [
-        SELECT Id FROM User WHERE IsActive = true
-        AND FirstName = 'Sys Admin' AND LastName = 'Integration User' AND Profile.Name = 'System Administrator' LIMIT 1
-    ];
-
     //run this bloack as system admin
-    system.runAs(PORTAL_SYS_ADMIN) { 
-      //Create portal account owner
-      UserRole portalRole = [Select Id From UserRole Where PortalType = 'None' Limit 1];
-      Profile profile1 = [Select Id from Profile where name = 'System Administrator'];
-      User portalAccountOwner1 = new User(
-        UserRoleId = portalRole.Id,
-        ProfileId = profile1.Id,
-        Username = System.now().millisecond() + 'jm@test.com',
-        Alias = 'jmt',
-        Email='jm@test.com',
-        EmailEncodingKey='UTF-8',
-        Firstname='JMPortalAccOwner',
-        Lastname='JMPortalAccOwnerLast',
-        LanguageLocaleKey='en_US',
-        LocaleSidKey='en_US',
-        TimeZoneSidKey='America/Chicago'
-      );
-      insert portalAccountOwner1;
-
+    System.runAs(PORTAL_SYS_ADMIN) {
       //Create account
       Account portalAccount1 = new Account(
         Name = 'TestAccount',
-        OwnerId = portalAccountOwner1.Id
+        OwnerId = PORTAL_SYS_ADMIN.Id
       );
       insert portalAccount1;
           

@@ -14,6 +14,7 @@
 */
 @IsTest(SeeAllData = false)
 private class Send_Register_Interest_Email_FlowTest{
+    private static final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
 
     @isTest
     private static void sendEmailTest()
@@ -21,17 +22,12 @@ private class Send_Register_Interest_Email_FlowTest{
         Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
         insert customEmail;
         
-        User portalAccountOwner1 = TestDataFactory.createUserRecords(1,'System Administrator').iterator().next();
-        UserRole portalRole = [Select Id From UserRole Where PortalType = 'None' Limit 1];
-        portalAccountOwner1.UserRoleId = portalRole.Id;
-        Database.insert(portalAccountOwner1);
-
-        System.runAs ( portalAccountOwner1 ) {
+        System.runAs ( PORTAL_SYS_ADMIN ) {
 
             //Create account
             Account portalAccount1 = new Account(
             Name = 'TestAccount',
-            OwnerId = portalAccountOwner1.Id
+            OwnerId = PORTAL_SYS_ADMIN.Id
             );
             Database.insert(portalAccount1);
             

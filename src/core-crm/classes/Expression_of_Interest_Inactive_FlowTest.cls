@@ -16,16 +16,12 @@
 private class Expression_of_Interest_Inactive_FlowTest{
     private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
+    private static final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
 
     @isTest
     private static void setToInactiveTest()
     {
-        User portalAccountOwner1 = TestDataFactory.createUserRecords(1,'System Administrator').iterator().next();
-        UserRole portalRole = [Select Id From UserRole Where PortalType = 'None' Limit 1];
-        portalAccountOwner1.UserRoleId = portalRole.Id;
-        Database.insert(portalAccountOwner1);
-
-        System.runAs ( portalAccountOwner1 ) {
+        System.runAs ( PORTAL_SYS_ADMIN ) {
 
             Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
             insert customEmail;
@@ -33,7 +29,7 @@ private class Expression_of_Interest_Inactive_FlowTest{
             //Create account
             Account portalAccount1 = new Account(
             Name = 'TestAccount',
-            OwnerId = portalAccountOwner1.Id
+            OwnerId = PORTAL_SYS_ADMIN.Id
             );
             Database.insert(portalAccount1);
 
@@ -102,12 +98,7 @@ private class Expression_of_Interest_Inactive_FlowTest{
     @isTest
     private static void updateToInactiveTest()
     {
-        User portalAccountOwner1 = TestDataFactory.createUserRecords(1,'System Administrator').iterator().next();
-        UserRole portalRole = [Select Id From UserRole Where PortalType = 'None' Limit 1];
-        portalAccountOwner1.UserRoleId = portalRole.Id;
-        Database.insert(portalAccountOwner1);
-
-        System.runAs ( portalAccountOwner1 ) {
+        System.runAs ( PORTAL_SYS_ADMIN ) {
 
             Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
             insert customEmail;
@@ -115,7 +106,7 @@ private class Expression_of_Interest_Inactive_FlowTest{
             //Create account
             Account portalAccount1 = new Account(
             Name = 'TestAccount',
-            OwnerId = portalAccountOwner1.Id
+            OwnerId = PORTAL_SYS_ADMIN.Id
             );
             Database.insert(portalAccount1);
 

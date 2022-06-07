@@ -10,7 +10,7 @@
  */
 @IsTest(SeeAllData=false)
 public with sharing class MCTransactionalMessagingOTPTest {
-    private static final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalOwner();
+    private static final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
 
     @testSetup
     public static void setUp(){

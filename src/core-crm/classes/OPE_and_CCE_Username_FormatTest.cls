@@ -10,26 +10,12 @@
 
 @isTest(SeeAllData=false)
 public with sharing class OPE_and_CCE_Username_FormatTest {
+  private static final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+
   @isTest
   static void registerOPEUserTest() {
-    UserRole userrole = [
-      SELECT Id, Name
-      FROM UserRole
-      WHERE Name = 'System Administrator'
-      LIMIT 1
-    ];
-    User adminUser = [
-      SELECT Id, UserRoleId
-      FROM User
-      WHERE Profile.Name = 'System Administrator'
-      LIMIT 1
-    ];
-
-    adminUser.UserRoleId = userRole.Id;
-    adminUser.IsActive = true;
-    update adminUser;
     Test.startTest();
-    System.runAs(adminUser) {
+    System.runAs(PORTAL_SYS_ADMIN) {
       Account testAccount = new Account();
       testAccount.Name = 'OPE Catalogue';
       insert testAccount;
@@ -57,24 +43,8 @@ public with sharing class OPE_and_CCE_Username_FormatTest {
 
   @isTest
   static void registerCCEUserTest() {
-    UserRole userrole = [
-      SELECT Id, Name
-      FROM UserRole
-      WHERE Name = 'System Administrator'
-      LIMIT 1
-    ];
-    User adminUser = [
-      SELECT Id, UserRoleId
-      FROM User
-      WHERE Profile.Name = 'System Administrator'
-      LIMIT 1
-    ];
-
-    adminUser.UserRoleId = userRole.Id;
-    adminUser.IsActive = true;
-    update adminUser;
     Test.startTest();
-    System.runAs(adminUser) {
+    System.runAs(PORTAL_SYS_ADMIN) {
       Account testAccount = new Account();
       testAccount.Name = 'OPE Catalogue';
       insert testAccount;

@@ -15,7 +15,7 @@ public with sharing class RegistrationFormCtrlTest {
   public static final Id PERSON = Schema.SObjectType.Contact.getRecordTypeInfosByDeveloperName()
     .get('Person')
     .getRecordTypeId();
-  private static final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalOwner();
+  private static final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
 
   @testSetup
   public static void setUp(){
