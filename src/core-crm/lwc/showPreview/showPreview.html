@@ -1,26 +1,32 @@
 <template>
-    <div class="slds-container_x-large" style="padding:.75rem;">
-        <lightning-quick-action-panel header="">
-            <lightning-spinner if:true={loading}
-                class="slds-is-relative slds-align_absolute-center slds-m-around_large"
-                alternative-text="Loading product information..."
-                size="medium"
-                variant="brand"></lightning-spinner>
+  <div class="slds-container_x-large" style="padding: 0.75rem">
+    <lightning-quick-action-panel header="">
+      <lightning-spinner
+        if:true={loading}
+        class="slds-is-relative slds-align_absolute-center slds-m-around_large"
+        alternative-text="Loading product information..."
+        size="medium"
+        variant="brand"
+      ></lightning-spinner>
 
-            <c-product-details-display-internal if:true={showProductDetailsDisplay}
-                product={product}
-                is-internal-user={isInternalUser}
-                ></c-product-details-display-internal>
-            
-            <c-prescribed-program if:true={showPrescribedProgram}
-                product={product} 
-                is-internal-user={isInternalUser}
-                onviewproduct={handleviewproduct}></c-prescribed-program>
-        
-            <c-product-details-single if:true={showProductDetailsSingle}
-                product={product} 
-                onbacktoprogram={handlebacktoprogram}></c-product-details-single>
+      <c-product-details-display-internal
+        if:true={showProductDetailsDisplay}
+        product={product}
+        is-internal-user={isInternalUser}
+      ></c-product-details-display-internal>
 
-        </lightning-quick-action-panel>       
-    </div>
+      <c-prescribed-program-internal
+        if:true={showPrescribedProgram}
+        product={product}
+        is-internal-user={isInternalUser}
+        onviewproduct={handleviewproduct}
+      ></c-prescribed-program-internal>
+
+      <c-product-details-single
+        if:true={showProductDetailsSingle}
+        product={product}
+        onbacktoprogram={handlebacktoprogram}
+      ></c-product-details-single>
+    </lightning-quick-action-panel>
+  </div>
 </template>
