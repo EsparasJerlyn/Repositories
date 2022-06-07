@@ -155,7 +155,6 @@ export default class CreateRecordUI extends LightningElement {
                     }
                 });
                 this.activeSections = this.uiRecord.sections.map(section => {return section.id});
-                console.log(this.uiRecord.sections);
                 break;
             }
             this.isLoading = false;

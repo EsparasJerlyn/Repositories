@@ -9,51 +9,56 @@
         <div class="slds-m-top_large slds-m-horizontal_medium slds-text-align_center">
             <lightning-spinner if:true={isLoading} alternative-text="Validating..." size="small"></lightning-spinner>
         </div>
-        <div class="slds-grid slds-gutters slds-m-horizontal_medium slds-m-bottom_small">
-            <div class="slds-col slds-size_2-of-5 slds-p-right_medium" if:true={disableEditButton}>
+
+        <!-- Column Headers -->
+        <lightning-layout class="slds-p-horizontal_medium">
+            <lightning-layout-item if:true={disableEditButton} size="4" padding="around-small">
                 <p>LOCALE</p>
-            </div>
-            <div class={fieldLabelColumnClass}>
+            </lightning-layout-item>
+            <lightning-layout-item size={fieldSize} padding="around-small">
                 <p>FIELD</p>
-            </div>
-            <div class='slds-col slds-size_1-of-5'>
+            </lightning-layout-item>
+            <lightning-layout-item size="4" padding="around-small">
                 <p>STATUS</p>
-            </div>
-        </div>
+            </lightning-layout-item>
+        </lightning-layout>
+
+        <!-- Field Values -->
         <lightning-record-edit-form record-id={recordId} object-api-name={objectApiName} onsubmit={handleSaveButton} onsuccess={handleSuccess} onerror={handleError}>
-            <template for:each={fieldsToDisplay} for:item="fieldItem">
-                <div key={fieldItem.id} class="slds-grid slds-gutters slds-m-horizontal_medium slds-m-bottom_small">
-                    <div class="slds-col slds-size_2-of-5 slds-p-right_medium relative-position" if:true={disableEditButton}>
-                        <div class="bottom-position">
-                            <lightning-input-field 
-                                variant="label-hidden" 
-                                field-name={fieldItem.localeField}>
-                            </lightning-input-field>
+            <template for:each={fieldsMapping} for:item="fieldItem">
+                <lightning-layout key={fieldItem.apiName} multiple-rows="true" class="slds-p-horizontal_medium">
+                    <lightning-layout-item if:true={disableEditButton} size="4" class="slds-align-bottom" padding="around-small">
+                        <lightning-input-field
+                            variant="label-hidden" 
+                            field-name={fieldItem.localeField}>
+                        </lightning-input-field>
+                    </lightning-layout-item>
+                    <lightning-layout-item size={fieldSize} class="slds-align-bottom" padding="around-small">
+                        <span class="slds-form-element__label">
+                            {fieldItem.label}
+                        </span>
+                        <lightning-input-field
+                            if:true={disableEditButton} 
+                            variant="label-hidden" 
+                            field-name={fieldItem.apiNameNoLocale}>
+                        </lightning-input-field>
+                        <div if:false={disableEditButton} class="slds-border_bottom">
+                            <lightning-output-field
+                                variant="label-hidden"
+                                field-name={fieldItem.apiName}>
+                            </lightning-output-field>
                         </div>
-                    </div>
-                    <div class={fieldValueColumnClass}>
-                        <div if:false={disableEditButton}>
-                            <p class="gray-text">{fieldItem.fieldsWithLocaleLabel}</p>
-                            <p class={fieldItem.class}>{fieldItem.fieldsWithLocaleValue}</p>
-                        </div>
-                        <div if:true={disableEditButton}>
-                            <p class="gray-text">{fieldItem.fieldsWithNoLocaleLabel}</p>
-                            <lightning-input-field 
-                                variant="label-hidden" 
-                                field-name={fieldItem.noLocaleId}>
-                            </lightning-input-field>
-                        </div>
-                    </div>
-                    <div class='slds-col slds-size_1-of-5 relative-position'>
-                        <div class="bottom-position" if:false={disableEditButton}>
-                            <p>{fieldItem.fieldsWithLocaleStatus}</p>
-                        </div>
-                        <div class="bottom-position" if:true={disableEditButton}>
-                            <p>{fieldItem.fieldsWithNoLocaleStatus}</p>
-                        </div>
-                    </div>
-                </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="4" class={statusClass} padding="around-small">
+                        <lightning-output-field
+                            variant="label-hidden"
+                            field-name={fieldItem.statusValidationField}>
+                        </lightning-output-field>
+                    </lightning-layout-item>
+                </lightning-layout>
             </template>
+
+            <!-- Footer with Buttons -->
             <div class="slds-grid slds-gutters slds-m-horizontal_medium slds-m-vertical_large">
                 <div class="slds-col slds-size_1-of-1 slds-text-align_center slds-m-top_large slds-border_top">
                     <div class="slds-m-top_small">
