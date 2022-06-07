@@ -2842,6 +2842,22 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <tabSettings>
+    <tab>Marketing_Course_Application__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+    <tab>Marketing_Interaction__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+    <tab>Marketing_Segmentation__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+    <tab>Marketing_Staging__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
         <tab>hed__Address__c</tab>
         <visibility>Available</visibility>
     </tabSettings>
