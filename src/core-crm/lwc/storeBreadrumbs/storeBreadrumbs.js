@@ -34,7 +34,6 @@ export default class StoreBreadrumbs extends LightningElement {
         getProducts({
             productIds: productIds
         }).then(result => {
-            console.log('bread crumbs', result);
             if(result.productList.length > 0){
                 this.dataName = result.productList[0].childProdName;
             }
