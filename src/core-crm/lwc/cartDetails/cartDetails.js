@@ -13,6 +13,7 @@ import getOPEProductCateg from "@salesforce/apex/CartItemCtrl.getOPEProductCateg
 
 import getCartItemsByCart from "@salesforce/apex/CartItemCtrl.getCartItemsByCart";
 import getCartItemDiscount from "@salesforce/apex/CartItemCtrl.getCartItemDiscount";
+import updateCartDiscount from "@salesforce/apex/CartItemCtrl.updateCartDiscount";
 
 import CART_ID_FIELD from "@salesforce/schema/WebCart.Id";
 import CART_STATUS_FIELD from "@salesforce/schema/WebCart.Status";
@@ -54,7 +55,7 @@ export default class CartDetails extends LightningElement {
   @track contactStudentId;
   @track error;
   @track subTotal;
-  @track discountTotal;
+  @track discountTotal = 0;
   @track total;
   @track cbDetails = false;
   @track cbTerms = false;
@@ -79,6 +80,7 @@ export default class CartDetails extends LightningElement {
   cartExternalId; // added for payment parameters
   checkData = false;
   fromCartSummary = true; // checks if from cart summary or group registration
+  showInvalidDiscount = false;
 
   @track readOnly = {
     firstName: true,
@@ -282,7 +284,7 @@ export default class CartDetails extends LightningElement {
       this.questions = data.questionsList;
 
       //get totals
-      this.total = this.calculateSubTotal() - this.calculateDiscountTotal();
+      this.total = this.calculateSubTotal() - this.discountTotal;
       this.cartExternalId = this.cartItems[0].externalId; // added for payment parameters
 
       //else if there's an error
@@ -301,7 +303,7 @@ export default class CartDetails extends LightningElement {
     });
 
     //get totals
-    this.total = this.calculateSubTotal() - this.calculateDiscountTotal();
+    this.total = this.calculateSubTotal() - this.discountTotal;
 
     //if the pay buttons are disabled
     if (this.disablePayment) {
@@ -323,6 +325,12 @@ export default class CartDetails extends LightningElement {
           composed: true
         }));
 
+        //redirect to products if no more cart items
+        if(this.cartItems.length == 0){
+
+          window.location.href = BasePath + "/category/products/" + this.prodCategId;
+        }
+
       })
       .catch((error) => {
         console.log("delete error");
@@ -340,18 +348,6 @@ export default class CartDetails extends LightningElement {
     }
 
     return this.subTotal;
-  }
-
-  //calculate the total discount
-  calculateDiscountTotal() {
-    this.discountTotal = 0;
-
-    //loop through the current cart items
-    for (let i = 0; i < this.cartItems.length; i++) {
-      this.discountTotal = this.discountTotal + this.cartItems[i].unitDiscount;
-    }
-
-    return this.discountTotal;
   }
 
   //checkes the availability of seats and if checkboxes are ticked
@@ -506,70 +502,68 @@ export default class CartDetails extends LightningElement {
 
   //pay button is clicked
   paymentNow() {
-    //update contact fields
-    this.updateContactFields();
 
     //update answer fields
     this.updateQuestionFields();
+
+    //update the cart with the discount applied
+
+    updateCartDiscount({ cartId: this.recordId, discountAmount: this.discountTotal })
+      .then(() => { })
+
+        //code
+
+      .catch((error) => {
+
+        console.log("updateCartDiscount error");
+
+        console.log(error);
+
+      });
   }
 
   //retrieve the discount code
   applyCoupon(event) {
 
-    //temporry cart items
-    let tempCartItems = JSON.parse(JSON.stringify(this.cartItems));
-
     //get the discount code entered by the user and index from the array
-    let couponCode = this.template.querySelector(
-      "lightning-input[data-id='" + event.target.dataset.id + "']"
-    ).value;
-    let currentIndex = this.template.querySelector(
-      "lightning-input[data-id='" + event.target.dataset.id + "']"
-    ).name;
+    let couponCode = this.template.querySelector("lightning-input[data-id='discountField']").value;
 
     //if coupon code field is empty, remove the error and recalutate the totals
     if (couponCode == "") {
+      this.discountTotal = 0;
+
       //hide invalid coupon message
-      tempCartItems[currentIndex].showInvalidDiscount = false;
-
-      //set the discount for the cart item
-      tempCartItems[currentIndex].unitDiscount = 0;
-
-      //reset the cart items
-      this.cartItems = tempCartItems;
+      this.showInvalidDiscount = false;
 
       //get totals
-      this.total = this.calculateSubTotal() - this.calculateDiscountTotal();
+      this.total = this.calculateSubTotal();
 
       return;
     }
 
     //function to get the total discount for the specific cart item
     getCartItemDiscount({
-      productId: this.cartItems[currentIndex].productId,
+      cartId: this.recordId,
       couponCode: couponCode,
-      unitPrice: this.cartItems[currentIndex].unitPrice
+      totalPrice: this.total
     })
       .then((data) => {
-        //set the discount for the cart item
-        tempCartItems[currentIndex].unitDiscount = data;
+
+        this.discountTotal = data;
 
         //if voucher is found
         if (data > 0) {
-          //hide the invalid voucher message
-          tempCartItems[currentIndex].showInvalidDiscount = false;
+          //hide invalid coupon message
+          this.showInvalidDiscount = false;
 
           //else voucher is not found
         } else {
-          //show the invalid voucher message
-          tempCartItems[currentIndex].showInvalidDiscount = true;
+          //show invalid coupon message
+          this.showInvalidDiscount = true;
         }
 
-        //reset the cart items
-        this.cartItems = tempCartItems;
-
         //get totals
-        this.total = this.calculateSubTotal() - this.calculateDiscountTotal();
+        this.total = this.calculateSubTotal() - data;
 
       })
       .catch((error) => {
@@ -624,33 +618,43 @@ export default class CartDetails extends LightningElement {
     this.editModeStudent= true;
   }
 
+  //function called everytime the contact fields are updated
+  enableReadMode(event){
 
-  enableFNReadMode(){
-    this.editModeFN = false;
-  }
-  enableLNReadMode(){
-    this.editModeLN = false;
-  }
-  enableEmailReadMode(){
-    this.editModeEmail = false;
-  }
-  enableMobileReadMode(){
-    this.editModeMob = false;
-  }
-  enableDietaryReadMode(){
-    this.editModeDietary = false;
-  }
-  enableCompanyReadMode(){
-    this.editModeCompany = false;
-  }
-  enablePositionReadMode(){
-    this.editModePosition = false;
-  }
-  enableStaffReadMode(){
-    this.editModeStaff= false;
-  }
-  enableStudentReadMode(){
-    this.editModeStudent= false;
+    //get the specific field name
+    let fieldName = event.target.fieldName;
+
+    //check for the specific field namne
+    if(fieldName == 'FirstName'){
+      this.editModeFN = false;
+
+    } else if(fieldName == 'LastName'){
+      this.editModeLN = false;
+
+    } else if(fieldName == 'Email'){
+      this.editModeEmail = false;
+
+    } else if(fieldName == 'MobilePhone'){
+      this.editModeMob = false;
+
+    } else if(fieldName == 'Dietary_Requirement__c'){
+      this.editModeDietary = false;
+
+    } else if(fieldName == 'Company_Name__c'){
+      this.editModeCompany = false;
+
+    } else if(fieldName == 'Position__c'){
+      this.editModePosition = false;
+
+    } else if(fieldName == 'Nominated_Employee_ID__c'){
+      this.editModeStaff= false;
+
+    } else if(fieldName == 'Nominated_Student_ID__c'){
+      this.editModeStudent= false;
+    }
+
+    //update the contact fields on mouse out
+    this.updateContactFields();
   }
 
   //function called everytime the contact fields are updated

@@ -402,37 +402,26 @@ public with sharing class CartItemCtrlTest {
 
   @IsTest
   static void getCartItemDiscountTest() {
-    CartItem cartItem = [
-      SELECT Id, Name, Product2Id, Pricebook_Entry_ID__c
-      FROM CartItem
-      WHERE Name = 'TestProductCourse'
-      LIMIT 1
-    ];
-    PricebookEntry priceBookEntry = [
-      SELECT Id, Name, UnitPrice, Product2Id
-      FROM PricebookEntry
-      WHERE Product2Id = :cartItem.Product2Id
-      LIMIT 1
-    ];
+    WebCart cart = [SELECT Id, Name FROM WebCart LIMIT 1];
+
     Double discount;
     Double discount2;
-    Double unitPrice = priceBookEntry.UnitPrice;
 
     Test.startTest();
     discount = CartItemCtrl.getCartItemDiscount(
-      cartItem.Product2Id,
+      cart.Id,
       'TESTCOUP',
-      unitPrice
+      1000
     );
     discount2 = CartItemCtrl.getCartItemDiscount(
-      cartItem.Product2Id,
+      cart.Id,
       'TESTCOUP2',
-      unitPrice
+      2000
     );
     Test.stopTest();
 
-    System.assertEquals(123, discount, 'Incorrect calculation');
-    System.assertEquals(61.5, discount2, 'Incorrect calculation');
+    System.assertEquals(369, discount, 'Incorrect calculation');
+    System.assertEquals(684.0, discount2, 'Incorrect calculation');
   }
 
   @IsTest

@@ -340,25 +340,52 @@ public without sharing class CartItemCtrl {
 
   /**
    * @description fetches cart items data and related registration questiosn for the product
-   * @param productId - id of the product where coupon will be applied
+   * @param cartId - id of the cart where coupon will be applied
    * @param couponCode - the code entered by the user
-   * @param unitPrice - unit price of the cart item
+   * @param totalPrice - total price of the cart item
    * @return myCartItemsData - CartItemsData data type
    */
   @AuraEnabled(cacheable=true)
   public static Double getCartItemDiscount(
-    String productId,
+    String cartId,
     String couponCode,
-    Double unitPrice
+    Double totalPrice
   ) {
     //create a list for Promotion, PromotionTarget, and Coupon
+    List<CartItem> cartItemList = new List<CartItem>();
     List<Promotion> promotionList = new List<Promotion>();
     List<PromotionTarget> promotionTargetList = new List<PromotionTarget>();
     List<Coupon> couponList = new List<Coupon>();
     Double totalDiscount = 0;
 
-    //retrieve proomotion targets for the spcific product
-    // promotionTargerList = [SELECT Id, Name, PromotionId, TargetType, TargetId, AdjustmentType,  ]
+    //retrieve cart items
+    cartItemList = [
+      SELECT
+        Id,
+        Name,
+        Product2Id,
+        Pricebook_Entry_ID__c
+      FROM CartItem
+      WHERE CartId = :cartId
+    ];
+
+    Set<Id> productIds = new Set<Id>();
+    Set<Id> pbentryIds = new Set<Id>();
+
+    //loop on the returned list to populate price book entry and product IDs
+    for (CartItem currentCart : cartItemList) {
+      productIds.add(currentCart.Product2Id);
+      pbentryIds.add(currentCart.Pricebook_Entry_ID__c);
+    }
+
+    //create map of price book entry for linking with the cart items
+    Map<Id, PricebookEntry> pbEntryMap = new Map<Id, PricebookEntry>(
+      [
+        SELECT Id, Pricebook2.Name, UnitPrice
+        FROM PricebookEntry
+        WHERE Id IN :pbentryIds
+      ]
+    );
 
     //retrieve Promotions for specific Coupon Code and Product
     promotionList = [
@@ -368,7 +395,7 @@ public without sharing class CartItemCtrl {
         IsActive,
         (SELECT Id, Name, CouponCode FROM PromotionCoupons),
         (
-          SELECT Id, Name, AdjustmentType, AdjustmentPercent, AdjustmentAmount
+          SELECT Id, Name, AdjustmentType, AdjustmentPercent, AdjustmentAmount, TargetType, TargetId
           FROM PromotionTargets
         )
       FROM Promotion
@@ -386,34 +413,69 @@ public without sharing class CartItemCtrl {
         AND Promotion.Id IN (
           SELECT PromotionId
           FROM PromotionTarget
-          WHERE TargetType = 'Product' AND TargetId = :productId
+          WHERE (TargetType = 'Product' AND TargetId IN :productIds) OR TargetType = 'Transaction'
         )
     ];
 
     //loop on all the options
     for (Promotion currentPromotion : promotionList) {
+
       //loop in the PromotionTarget for in case of multiple promotions
-      for (
-        PromotionTarget currentPromotionTarget : currentPromotion.PromotionTargets
-      ) {
-        if (currentPromotionTarget.AdjustmentType == 'PercentageDiscount') {
-          //set the discount amount
-          totalDiscount =
-            totalDiscount +
-            ((unitPrice * currentPromotionTarget.AdjustmentPercent) / 100);
-        } else if (
-          currentPromotionTarget.AdjustmentType == 'FixedAmountOffUnitPrice'
-        ) {
-          //set the discount amount
-          totalDiscount =
-            totalDiscount + currentPromotionTarget.AdjustmentAmount;
+      for (PromotionTarget currentPromotionTarget : currentPromotion.PromotionTargets) {
+
+        //check if targetype is per product or total transaction
+        if(currentPromotionTarget.TargetType == 'Transaction'){
+
+          if (currentPromotionTarget.AdjustmentType == 'PercentageDiscount') {
+            //set the discount amount
+            totalDiscount = totalDiscount + ((totalPrice * currentPromotionTarget.AdjustmentPercent) / 100);
+          }
+    
+        //else if for product specific
+        } else if(currentPromotionTarget.TargetType == 'Product'){
+
+          if (currentPromotionTarget.AdjustmentType == 'FixedAmountOffLineItemTotal') {
+            //set the discount amount
+            totalDiscount = totalDiscount + currentPromotionTarget.AdjustmentAmount;
+  
+          } else {
+            //loop on the current cart to search for the specific product
+            for (CartItem currentCart : cartItemList) {
+              
+              //checck if the cart product is for the promotion target id
+              if(currentCart.Product2Id == currentPromotionTarget.TargetId){
+
+                Double unitPrice = pbEntryMap.get(currentCart.Pricebook_Entry_ID__c).UnitPrice;
+
+                if (currentPromotionTarget.AdjustmentType == 'PercentageDiscount') {
+                  //set the discount amount
+                  totalDiscount = totalDiscount + ((unitPrice * currentPromotionTarget.AdjustmentPercent) / 100);
+        
+                } else if (currentPromotionTarget.AdjustmentType == 'FixedAmountOffUnitPrice') {
+
+                  //if the specified amount is greater than the unitPrice
+                  if (currentPromotionTarget.AdjustmentAmount > unitPrice) {
+
+                    //max discount should only be the unit price
+                    totalDiscount = totalDiscount + unitPrice;
+
+                  } else{
+
+                    //set the discount amount
+                    totalDiscount = totalDiscount + currentPromotionTarget.AdjustmentAmount;
+
+                  }   
+                }
+              }
+            }  
+          }   
         }
       }
     }
 
-    //if the totalDiscount exceeds the unit price, set it to 0
-    if (totalDiscount > unitPrice) {
-      totalDiscount = unitPrice;
+    //discount can not be greater than the price
+    if(totalDiscount > totalPrice){
+      totalDiscount = totalPrice;
     }
 
     return totalDiscount;
@@ -453,7 +515,7 @@ public without sharing class CartItemCtrl {
   @AuraEnabled
   public static void updateCartStatus(String cartId, String cartStatus) {
     //get the cart
-    WebCart webCart = [SELECT Id, Name, Status__c FROM WebCart WHERE Id = :cartId];
+    WebCart webCart = [SELECT Id, Name, Status__c FROM WebCart WHERE Id = :cartId LIMIT 1];
 
     //update the cart based on the status received
     webCart.Status__c = cartStatus;
@@ -470,11 +532,26 @@ public without sharing class CartItemCtrl {
     prodCateg = [
       SELECT Id
       FROM ProductCategory
-      WHERE Name = 'Products'
+      WHERE Name = 'Products' AND Catalog.Name = 'Study Catalog'
       LIMIT 1
     ];
 
     return prodCateg;
+  }
+
+  /**
+   * @description updates the cart discount applied field
+   * @param cartId - cart item ID
+   * @param discountAmount - cart status
+   */
+  @AuraEnabled
+  public static void updateCartDiscount(String cartId, Double discountAmount) {
+    //get the cart
+    WebCart webCart = [SELECT Id, Name, Discount_Applied__c FROM WebCart WHERE Id = :cartId LIMIT 1];
+
+    //update the cart based on the status received
+    webCart.Discount_Applied__c = discountAmount;
+    update webCart;
   }
 
   // /**
