@@ -408,10 +408,18 @@
     </relatedContent>
     <relatedLists>
         <fields>NAME</fields>
+        <fields>Course_Name__c</fields>
+        <fields>RECORDTYPE</fields>
+        <fields>Offering_Start_Date__c</fields>
+        <fields>Offering_End_Date__c</fields>
+        <fields>Certificate_Type__c</fields>
         <relatedList>hed__Course_Enrollment__c.hed__Contact__c</relatedList>
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
+        <fields>hed__Course__c</fields>
+        <fields>hed__Start_Date__c</fields>
+        <fields>hed__End_Date__c</fields>
         <relatedList>hed__Course_Offering__c.hed__Faculty__c</relatedList>
     </relatedLists>
     <relatedLists>

@@ -27,6 +27,8 @@ public with sharing class OnlineSelfPacedConfirmationEmailCtrl {
     String lastName;
     String startDate;
     String toAddress;
+    String courseName;
+    String userName;
     /**
      * Set course connection fields in the email templates
      **/
@@ -37,18 +39,18 @@ public with sharing class OnlineSelfPacedConfirmationEmailCtrl {
       lastName = courseConnections[3];
       startDate = courseConnections[4];
       toAddress = courseConnections[5];
+      courseName = courseConnections[6] != null ?courseConnections[6]:'';
+      userName = courseConnections[7] != null?courseConnections[7]:'';
     }
 
     EmailTemplate emailTemplate = EmailTemplateSelector.getEmailTemplate(
       ONLINE_SELF_PACED_CONFIRMATION_EMAIL_TEMPLATE
     );
-    String subject = STR_QUTEX + ' ' + name;
-
+    String subject = courseName;
     if (emailTemplate != null) {
       Map<String, String> emailParams = new Map<String, String>{
-        '{firstname}' => firstName,
-        '{name}' => name,
-        '{startdate }' => startDate
+        '{firstName}' => firstName,
+        '{qutUsername}' => userName
       };
 
       //Build the email
