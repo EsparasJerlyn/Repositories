@@ -31,6 +31,7 @@
       | adrian.c.habasa           | February 14, 2022     | DEPP-1247           | Added method for Session and Attendance Event                    |
       | eugene.andrew.abuan       | February 16, 2022     | DEPP-1265           | Added method for Creating Courses                                |
       | keno.domienri.dico        | April 11, 2022        | DEPP-1543           | Added method for Creating Communication Schedule                 |
+      | kathy.cornejo             | June 3, 2022          | DEPP-2664           | Added method for Creating Pricebook2                             |
       |                           |                       |                     |                                                                  |
 */
 @IsTest
@@ -41,6 +42,7 @@ public class TestDataFactory {
   private static final String TEST_BUYER_GROUP = 'Test Buyer Group';
   private static final String TEST_BUYER_ACCT = 'Test Buyer Account';
   private static final String TEST_ACCOUNT_NAME = 'Test Account';
+  private static final String TEST_PRICEBOOK2_NAME = 'Test Pricebook2';
 
   /**
    * @description Method for creating test Account records
@@ -677,6 +679,20 @@ public class TestDataFactory {
     return acc;
   }
 
+  /**
+   * @description method to create test data for create Pricebook2
+   * @param doInsert - boolean true/false
+   * @return pb - Pricebook2
+   */ 
+  public static Pricebook2 createTestPricebook2(Boolean doInsert){
+    Pricebook2 pb = new Pricebook2();
+    pb.Name = TEST_PRICEBOOK2_NAME;
+
+    if (doInsert) {
+      insert pb;
+    }
+    return pb;
+  }
   /**
    * @description method to create test data for create contact object
    * @param doInsert - boolean true/false

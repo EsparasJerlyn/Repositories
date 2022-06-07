@@ -21,11 +21,13 @@ public with sharing class PricebookEntryCtrl {
         String PR_PROGRAM = System.Label.RT_ProductRequest_Program;
         ResponseWrapper response = new ResponseWrapper();
         List<PriceBook2> priceBookList = new List<PriceBook2>();
+        List<BuyerGroupPricebook> priceBookListOPE = new List<BuyerGroupPricebook>();
         List<PriceBookEntry> priceBookEntries = new List<PriceBookEntry>();
         Product2 product = new Product2();
         List<hed__Program_Plan__c> program = new List<hed__Program_Plan__c>();
         List<hed__Course__c> course = new List<hed__Course__c>();
         Set<String> priceBookIdsSet = new Set<String>();
+        Set<String> priceBookIdsOPE = new Set<String>();
 
         Product_Request__c prodRecList1 = [SELECT Id, Name,RecordTypeId, RecordType.developerName FROM Product_Request__c WHERE Id = : prodReqId];
 
@@ -51,8 +53,15 @@ public with sharing class PricebookEntryCtrl {
             }
         }
 
-        priceBookList = [SELECT Id, Name, IsStandard FROM PriceBook2 WHERE IsActive = true AND ID NOT IN: priceBookIdsSet ORDER BY Name,IsStandard DESC];
-
+        priceBookListOPE = [Select Id, BuyerGroup.Name, Pricebook2Id from BuyerGroupPricebook WHERE BuyerGroup.Name = 'OPE BuyerGroup' AND Pricebook2.IsActive = true];
+        if(!priceBookListOPE.isEmpty()){
+            for(BuyerGroupPricebook pb: priceBookListOPE){
+                priceBookIdsOPE.add(pb.Pricebook2Id);
+            }
+        }   
+        
+        priceBookList = [SELECT Id, Name, IsStandard FROM PriceBook2 WHERE IsActive = true AND ID NOT IN: priceBookIdsSet AND (IsStandard = true OR ID IN:priceBookIdsOPE) ORDER BY Name,IsStandard DESC];
+       
         response.priceBookEntries = priceBookEntries;
         response.priceBooks = priceBookList;
         response.product = product;
