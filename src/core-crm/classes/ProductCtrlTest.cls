@@ -383,7 +383,7 @@ public with sharing class ProductCtrlTest {
       var.studyArea = new List<String>();
       var.deliveryType = new List<String>{ 'Online Classroom' };
       var.productType = new List<String>();
-      // var.sortby = 'comingUp';
+      var.sortby = 'comingUp';
 
       ProductCtrl.FilterData getFilterProd = ProductCtrl.getFilteredProducts(
         productId,
@@ -421,7 +421,7 @@ public with sharing class ProductCtrlTest {
       var.studyArea = new List<String>();
       var.deliveryType = new List<String>();
       var.productType = new List<String>{ 'Short Course' };
-      // var.sortby = 'comingUp';
+      var.sortby = 'comingUp';
 
       ProductCtrl.FilterData getFilterProd = ProductCtrl.getFilteredProducts(
         productId,
@@ -465,7 +465,7 @@ public with sharing class ProductCtrlTest {
       var.minUnitPrice = 3;
       var.startDate = dTodayMinus3.day() + '/' + dTodayMinus3.month() + '/' + dTodayMinus3.year();
       var.endDate = dTodayPlus10.day() + '/' +dTodayPlus10.month() + '/' + dTodayPlus10.year();
-      // var.sortby = 'priceLowToHigh';
+      var.sortby = 'priceLowToHigh';
 
       ProductCtrl.FilterData getFilterProd = ProductCtrl.getFilteredProducts(
         productId,
@@ -520,7 +520,7 @@ public with sharing class ProductCtrlTest {
         dTodayPlus10.month() +
         '/' +
         dTodayPlus10.year();
-      // var.sortby = 'comingUp';
+      var.sortby = 'comingUp';
 
       ProductCtrl.FilterData getFilterProd = ProductCtrl.getFilteredProducts(
         productId,
@@ -576,7 +576,7 @@ public with sharing class ProductCtrlTest {
         dTodayPlus10.month() +
         '/' +
         dTodayPlus10.year();
-      // var.sortby = 'comingUp';
+      var.sortby = 'comingUp';
 
       ProductCtrl.FilterData getFilterProd = ProductCtrl.getFilteredProducts(
         productId,

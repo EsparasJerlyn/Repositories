@@ -485,93 +485,96 @@ public without sharing class ProductCtrl {
 			}
 		}
 		
-		//************course
-		Map<Id, hed__course__c> courseMap = new Map<Id, hed__course__c>();
-		List<hed__course__c> courses = new List<hed__course__c>([
-			SELECT Id,
-				(SELECT Id, hed__Start_Date__c 
-				FROM hed__Course_Offerings__r 
-				WHERE hed__Start_Date__c >= TODAY 
-				AND Registration_Start_Date__c <= TODAY 
-				ORDER BY hed__Start_Date__c ASC LIMIT 1) 
-			FROM hed__course__c 
-			WHERE Id IN: courseIdSet
-		]);
-		Map<Date, Set<Id>> startDtCourseProgramIdMap = new Map<Date, Set<Id>>();
-		Set<Id> noOffering = new Set<Id>();
-		Set<Id> sortedIds = new Set<Id>();
-		List<Date> startDates = new List<Date>();
+		if(filterData.sortBy == 'comingUp'){
+			//************course
+			Map<Id, hed__course__c> courseMap = new Map<Id, hed__course__c>();
+			List<hed__course__c> courses = new List<hed__course__c>([
+				SELECT Id,
+					(SELECT Id, hed__Start_Date__c 
+					FROM hed__Course_Offerings__r 
+					WHERE hed__Start_Date__c >= TODAY 
+					AND Registration_Start_Date__c <= TODAY 
+					ORDER BY hed__Start_Date__c ASC LIMIT 1) 
+				FROM hed__course__c 
+				WHERE Id IN: courseIdSet
+			]);
+			Map<Date, Set<Id>> startDtCourseProgramIdMap = new Map<Date, Set<Id>>();
+			Set<Id> noOffering = new Set<Id>();
+			Set<Id> sortedIds = new Set<Id>();
+			List<Date> startDates = new List<Date>();
 
-		for(hed__course__c crs: courses){
-			courseMap.put(crs.Id, crs);
-			if(crs.hed__Course_Offerings__r.size() > 0){
-				if(startDtCourseProgramIdMap.containsKey(crs.hed__Course_Offerings__r[0].hed__Start_Date__c)){
-					startDtCourseProgramIdMap.get(crs.hed__Course_Offerings__r[0].hed__Start_Date__c).add(crs.Id);
+			for(hed__course__c crs: courses){
+				courseMap.put(crs.Id, crs);
+				if(crs.hed__Course_Offerings__r.size() > 0){
+					if(startDtCourseProgramIdMap.containsKey(crs.hed__Course_Offerings__r[0].hed__Start_Date__c)){
+						startDtCourseProgramIdMap.get(crs.hed__Course_Offerings__r[0].hed__Start_Date__c).add(crs.Id);
+					}else{
+						startDtCourseProgramIdMap.put(crs.hed__Course_Offerings__r[0].hed__Start_Date__c, new Set<Id>{crs.Id});
+					}
 				}else{
-					startDtCourseProgramIdMap.put(crs.hed__Course_Offerings__r[0].hed__Start_Date__c, new Set<Id>{crs.Id});
+					noOffering.add(crs.Id);
 				}
-			}else{
-				noOffering.add(crs.Id);
 			}
-		}
 
-		//************program plan
-		Map<Id, hed__Program_Plan__c> programPlanMap = new Map<Id, hed__Program_Plan__c>();
-		List<hed__Program_Plan__c> program = new List<hed__Program_Plan__c>([
-			SELECT Id,
-				(SELECT Id, Start_Date__c 
-				FROM Program_Offering__r 
-				WHERE Start_Date__c >= TODAY 
-				AND Registration_Start_Date__c <= TODAY 
-				ORDER BY Start_Date__c ASC LIMIT 1) 
-			FROM hed__Program_Plan__c 
-			WHERE Id IN: programIdSet
-		]);
+			//************program plan
+			Map<Id, hed__Program_Plan__c> programPlanMap = new Map<Id, hed__Program_Plan__c>();
+			List<hed__Program_Plan__c> program = new List<hed__Program_Plan__c>([
+				SELECT Id,
+					(SELECT Id, Start_Date__c 
+					FROM Program_Offering__r 
+					WHERE Start_Date__c >= TODAY 
+					AND Registration_Start_Date__c <= TODAY 
+					ORDER BY Start_Date__c ASC LIMIT 1) 
+				FROM hed__Program_Plan__c 
+				WHERE Id IN: programIdSet
+			]);
 
-		for(hed__Program_Plan__c pl: program){
-			programPlanMap.put(pl.Id, pl);
-			if(pl.Program_Offering__r.size() > 0){
-				if(startDtCourseProgramIdMap.containsKey(pl.Program_Offering__r[0].Start_Date__c)){
-					startDtCourseProgramIdMap.get(pl.Program_Offering__r[0].Start_Date__c).add(pl.Id);
+			for(hed__Program_Plan__c pl: program){
+				programPlanMap.put(pl.Id, pl);
+				if(pl.Program_Offering__r.size() > 0){
+					if(startDtCourseProgramIdMap.containsKey(pl.Program_Offering__r[0].Start_Date__c)){
+						startDtCourseProgramIdMap.get(pl.Program_Offering__r[0].Start_Date__c).add(pl.Id);
+					}else{
+						startDtCourseProgramIdMap.put(pl.Program_Offering__r[0].Start_Date__c, new Set<Id>{pl.Id});
+					}
 				}else{
-					startDtCourseProgramIdMap.put(pl.Program_Offering__r[0].Start_Date__c, new Set<Id>{pl.Id});
+					noOffering.add(pl.Id);
 				}
-			}else{
-				noOffering.add(pl.Id);
 			}
-		}
 
-		startDates.addAll(startDtCourseProgramIdMap.keySet());
-		startDates.sort();
+			startDates.addAll(startDtCourseProgramIdMap.keySet());
+			startDates.sort();
 
-		List<Id> courseProgramOfferingIdList = new List<Id>();
-		List<Product2> productList = new List<Product2>();
-		Map<Id, Product2> productCourseMap = new Map<Id, Product2>();
-		Map<Id, Product2> productProgramPlanMap = new Map<Id, Product2>();
+			List<Id> courseProgramOfferingIdList = new List<Id>();
+			List<Product2> productList = new List<Product2>();
+			Map<Id, Product2> productCourseMap = new Map<Id, Product2>();
+			Map<Id, Product2> productProgramPlanMap = new Map<Id, Product2>();
 
-		for(Product2 prod : filterDataList){
-			productCourseMap.put(prod.Course__c, prod);
-			productProgramPlanMap.put(prod.Program_Plan__c, prod);
-		}    
+			for(Product2 prod : filterDataList){
+				productCourseMap.put(prod.Course__c, prod);
+				productProgramPlanMap.put(prod.Program_Plan__c, prod);
+			}    
 
-		for(Date strtDt: startDates){
-			sortedIds.addAll(startDtCourseProgramIdMap.get(strtDt));
-			courseProgramOfferingIdList.addAll(startDtCourseProgramIdMap.get(strtDt));
-		}
-		
-		sortedIds.addAll(noOffering);
-		courseProgramOfferingIdList.addAll(noOffering);
-
-		for(Id id : courseProgramOfferingIdList){
-			if(productCourseMap.containsKey(id)){
-				productList.add(productCourseMap.get(id));
-			}else if(productProgramPlanMap.containsKey(id)){
-				productList.add(productProgramPlanMap.get(id));
+			for(Date strtDt: startDates){
+				sortedIds.addAll(startDtCourseProgramIdMap.get(strtDt));
+				courseProgramOfferingIdList.addAll(startDtCourseProgramIdMap.get(strtDt));
 			}
+			
+			sortedIds.addAll(noOffering);
+			courseProgramOfferingIdList.addAll(noOffering);
+
+			for(Id id : courseProgramOfferingIdList){
+				if(productCourseMap.containsKey(id)){
+					productList.add(productCourseMap.get(id));
+				}else if(productProgramPlanMap.containsKey(id)){
+					productList.add(productProgramPlanMap.get(id));
+				}
+			}
+			filterDataList = productList;
 		}
 
 		//Gets the Id of Filtered Products
-		for(Product2 prodFilterDataTemp : productList){
+		for(Product2 prodFilterDataTemp : filterDataList){
 			//Price or other filter are selected, but not Date
 			if((filterData.minUnitPrice !=null || filterData.maxUnitPrice !=null) &&
 				(filterData.startDate == null && filterData.endDate == null)){
