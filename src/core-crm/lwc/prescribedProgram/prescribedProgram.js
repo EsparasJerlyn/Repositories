@@ -75,7 +75,7 @@ export default class PrescribedProgram extends LightningElement {
     this.professionalDevelopmentModuleDescription =
       "Each " +
       this.productDetails.Name +
-      "Development Module is mandatory as part of this program.";
+      " Development Module is mandatory as part of this program.";
     let pricingsLocal = [];
     let pricingLabel;
     this.product.priceBookEntryList.forEach(function (priceBookEntry) {
@@ -109,7 +109,7 @@ export default class PrescribedProgram extends LightningElement {
       this.displayRegisterInterest = false;
       this.displayGroupRegistration = false;
     }
-   
+
   }
 
   get disableDelivery() {
@@ -198,12 +198,12 @@ export default class PrescribedProgram extends LightningElement {
       this.displayAddToCart = false;
       this.displayGroupRegistration = true;
       this.disableAddToCart = true;
-     
+
     } else {
       this.displayGroupRegistration = false;
       this.displayAddToCart = true;
       this.disableAddToCart = false;
-      
+
     }
 
   }
@@ -219,7 +219,7 @@ export default class PrescribedProgram extends LightningElement {
           this.generateToast("Success!", "Interest Registered", "success");
         })
         .catch((error) => {
-     
+
           if (error.body.message == "Register Interest Exists") {
             this.generateToast("Error.", INTEREST_EXISTS_ERROR, "error");
           } else {
@@ -253,7 +253,7 @@ export default class PrescribedProgram extends LightningElement {
   }
   groupRegistrationModalClosed() {
     this.openGroupRegistration = false;
-    
+
   }
   groupRegistration() {
     if(!isGuest){

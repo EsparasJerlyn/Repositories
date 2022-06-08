@@ -74,7 +74,7 @@ export default class PrescribedProgramInternal extends LightningElement {
     this.professionalDevelopmentModuleDescription =
       "Each " +
       this.productDetails.Name +
-      "Development Module is mandatory as part of this program.";
+      " Development Module is mandatory as part of this program.";
     let pricingsLocal = [];
     let pricingLabel;
     this.product.priceBookEntryList.forEach(function (priceBookEntry) {
