@@ -139,7 +139,6 @@ export default class SearchPaginator extends LightningElement {
         const selectedPageEvent = new CustomEvent('selectedpage',{
             detail : this.selectedPage
         });
-        console.log( 'this selectedPage',this.selectedPage)
         this.dispatchEvent(selectedPageEvent);
     }
 

@@ -78,15 +78,12 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
   allProductId = [];
   hasMorePages;
   stringValue = '';
-  startDate ='';
-  endDate ='';
   sortBy = '';
   keyword;
   startValue ;
   endValue ;
   strStartDate;
   strEndDate;
-  //@track sortCourseBy = 'comingUp';
   value = 'comingUp';
   parameterObject = {
     searchKey : this.stringValue, 
@@ -276,7 +273,6 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
       this.getFilterList();
     }
 
-    console.log(this.stringValue.length);
   }
   
   // Handles the Product Type Filter when clicked Individually
@@ -343,8 +339,10 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
   handleChangeStartDate(event){
     let sDate = '';
     this.strStartDate = event.target.value;
-    sDate = this.strStartDate.split("-").reverse().join("-").replace(/-/g,"/");
-    this.parameterObject.startDate = sDate;
+    if(this.strStartDate != null){
+      sDate = this.strStartDate.split("-").reverse().join("-").replace(/-/g,"/");
+      this.parameterObject.startDate = sDate;
+    }
     this.checkDateInput();
   }
 
@@ -352,20 +350,25 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
   handleChangeEndDate(event){
     let eDate = '';
     this.strEndDate = event.target.value;
-    eDate = this.strEndDate.split("-").reverse().join("-").replace(/-/g,"/");
-    this.parameterObject.endDate = eDate;
+    if(this.strEndDate != null){
+      eDate = this.strEndDate.split("-").reverse().join("-").replace(/-/g,"/");
+      this.parameterObject.endDate = eDate;
+    }
     this.checkDateInput();
   }
-  
+
   //Checks the input of the Start Date and End Date
   checkDateInput()
   {
-    if(this.strStartDate != null && this.strEndDate != null){
+    if(this.strStartDate !=null && this.strEndDate !=null){
       this.getFilterList();
-    }
-    if(this.strStartDate == null && this.strEndDate === null){
-      this.triggerProductSearch();
-    }
+    }else if(this.strStartDate == null && this.strEndDate == null ){
+      this.strStartDate = '';
+      this.strEndDate= '';
+      this.parameterObject.startDate = null;
+      this.parameterObject.endDate = null;
+      this.getFilterList();
+   }
   }
 
   //Handles the value of the pricing slider
@@ -469,13 +472,18 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
     this.strEndDate ='';
     this.startValue ='';
     this.endValue = '';
-    this.progressValue ='comingUp';
+    this.parameterObject.sortBy = this.value;
     this.studyAreaSelectedValues = [];
     this.selectedValues = [];
     this.deliveryTypeSelectedValues = [];
+    this.parameterObject.studyArea = []
+    this.parameterObject.productType = []
+    this.parameterObject.deliveryType = []
+    this.parameterObject.startDate = null;
+    this.parameterObject.endDate= null;
+    this.parameterObject.maxUnitPrice = null;
+    this.parameterObject.minUnitPrice = null;
     this.template.querySelector('c-slider').setDefaultValues();
-    this.newListProducts = [];
-    this.productListIds = [];
     this.triggerProductSearch();   
    } 
    
