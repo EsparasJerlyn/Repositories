@@ -559,11 +559,15 @@ export default class RegistrationForm extends LightningElement {
   }
 
   handleVerify(event) {
-    if (this.verifyOTP == this.userOTP) {
-      this.generateToast("Success!", "OTP Accepted", "success");
-      this.registerPortalUser();
+    if (this.userOTP) {
+      if (this.verifyOTP == this.userOTP) {
+        this.generateToast("Success!", "OTP Accepted", "success");
+        this.registerPortalUser();
+      } else {
+        this.generateToast("Error.", "Invalid OTP", "error");
+      }
     } else {
-      this.generateToast("Error.", "Invalid OTP", "error");
+      this.generateToast("Error.", "Please enter verification code", "error");
     }
   }
 
