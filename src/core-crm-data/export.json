@@ -295,6 +295,14 @@
             "useCSVValuesMapping": true,
             "targetObject": "Individual_Coaching_Form_Link__c",
             "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Name, Payment_URL__c,GL_Code__c,TransType_Invoice__c,TransType_PayNow__c FROM Payment_Gateway_Settings__c",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "Payment_Gateway_Settings__c",
+            "importCSVFilesAsIs": true
         }
     ]
 }

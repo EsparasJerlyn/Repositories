@@ -428,7 +428,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>QUT_RegistrationForm_PrivacyPolicy</shortDescription>
-        <value>I agree to the privacy policy</value>
+        <value>I acknowledge and accept the </value> 
     </labels>
     <labels>
         <fullName>QUT_RegistrationForm_RegisterWithLinkedIn</fullName>
@@ -654,34 +654,6 @@
         <value>/consumer/dep/v1/registration/registerLearner</value>
     </labels>
     <labels>
-        <fullName>Base_URL_SIT</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Base_URL_SIT_UAT</shortDescription>
-        <value>https://qut-dev.xetta.com/onestopweb/qutopeintegration/tranadd?</value>
-    </labels>
-    <labels>
-        <fullName>Base_URL_UAT</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Base_URL_SIT_UAT</shortDescription>
-        <value>https://qut-test.xetta.com/onestopweb/qutopeintegration/tranadd?</value>
-    </labels>
-    <labels>
-        <fullName>Base_URL_Prod</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Base_URL_Prod</shortDescription>
-        <value>https://pay.qut.edu.au/qutopeintegration/tranadd?</value>
-    </labels>
-    <labels>
-        <fullName>Payment_GLCode</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Payment_GLCode</shortDescription>
-        <value>182003-0001-2402-58-0-0-1</value>
-    </labels>
-        <labels>
         <fullName>RT_ProductSpecification_CCEProgramSpecification</fullName>
         <categories>RecordType,Product Specification</categories>
         <language>en_US</language>

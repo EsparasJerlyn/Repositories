@@ -1,0 +1,2 @@
+Name,Payment_URL__c,GL_Code__c,TransType_Invoice__c,TransType_PayNow__c
+QUTeX,https://pay.qut.edu.au/qutopeintegration/tranadd?,182003-0001-2402-58-0-0-1,OPE0002,OPE0001

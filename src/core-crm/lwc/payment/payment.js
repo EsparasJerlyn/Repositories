@@ -4,30 +4,28 @@
  *
  * @history
  *    | Developer                 | Date                  | JIRA                 | Change Summary                               |
-      |---------------------------|-----------------------|----------------------|----------------------------------------------|
-      | keno.domienri.dico        | May 24, 2022          | DEPP-2038            | Create payment method lwc                    |
+	  |---------------------------|-----------------------|----------------------|----------------------------------------------|
+	  | keno.domienri.dico        | May 24, 2022          | DEPP-2038            | Create payment method lwc                    |
  */
-import { LightningElement, api } from 'lwc';
-import Base_URL_SIT from "@salesforce/label/c.Base_URL_SIT";
-import Base_URL_UAT from "@salesforce/label/c.Base_URL_UAT";
-import Base_URL_Prod from "@salesforce/label/c.Base_URL_Prod";
-import Payment_GLCode from "@salesforce/label/c.Payment_GLCode";
-import getCommunityUrl from '@salesforce/apex/RegistrationFormCtrl.getCommunityUrl';
- 
-// Base Urls
-const baseUrlSIT = Base_URL_SIT;
-const baseUrlUAT = Base_URL_UAT;
-const baseUrlProd = Base_URL_Prod;
+import { LightningElement, api, wire } from 'lwc';
+import getPaymentGatewaySettings from '@salesforce/apex/PaymentGatewayCtrl.getPaymentGatewaySettings';
 
 export default class Payment extends LightningElement {
-   
+    
     /**
      * URL variables
      */
-    typeURL = "SIT"; 
     getURL = window.location.origin;
     baseURL;
     formURL;
+    error;
+
+    /**
+     * Static Parameters
+     */
+    glCode; 
+    transtypeInvoice;
+    transtypePayNow;
 
     /**
      *  Passed Parameters
@@ -39,7 +37,6 @@ export default class Payment extends LightningElement {
     @api contactEmail;
     @api total; 
     fullName; 
-    glCode = Payment_GLCode; 
 
     /**
      * Labels
@@ -64,23 +61,19 @@ export default class Payment extends LightningElement {
         this.payLabel = 'Submit your payment now';
         this.invoiceTitle = 'Invoice';
         this.invoiceLabel = 'Generate an invoice that you can send to your nominated payee';
-        this.fullName = this.contactFname + ' ' + this.contactLname;
+        this.fullName = this.contactFname + '+' + this.contactLname;
+    }
 
-        /**
-         * Set URL Type 
-        */
-        let domain;
-        getCommunityUrl().then((res)=> {
-            domain = res.comURL[0].Domain.split("-");
-                       
-            if('sit' == domain[0].toLowerCase()){
-                this.typeURL = "SIT";
-            }else if( 'uat' == domain[0].toLowerCase()){
-                this.typeURL = "UAT"; 
-            }else{
-                this.typeURL = "PROD";
-            }
-        });    
+    @wire(getPaymentGatewaySettings)
+    handleGetPaymentSettings(result){   
+        if(result.data){
+            this.baseURL = result.data.Payment_URL__c;
+            this.glCode =  result.data.GL_Code__c;
+            this.transtypeInvoice =  result.data.TransType_Invoice__c;
+            this.transtypePayNow =  result.data.TransType_PayNow__c;
+        } else {
+            this.error = result.error;
+        }
     }
 
     /**
@@ -95,7 +88,7 @@ export default class Payment extends LightningElement {
      * Get Pay Now button link
      */
     get payURL(){
-        this.formURL = `tran-type=` + `OPE0001` + `&` +
+        this.formURL = `tran-type=` + this.transtypePayNow + `&` +
         /** 
          * Passed Parameters 
          **/
@@ -104,17 +97,6 @@ export default class Payment extends LightningElement {
             `FULLNAME=` + this.fullName + `&` + 
             `GLCODE=` + this.glCode + `&` + 
             `UNITAMOUNTINCTAX=` + this.total;
-         
-
-        if (this.typeURL = "SIT"){
-            this.baseURL = baseUrlSIT;
-        }
-        else if (this.typeURL = "UAT"){
-            this.baseURL = baseUrlUAT;
-        }
-        else {
-            this.baseURL = baseUrlProd;
-        }
 
         this.dispatchEvent(new CustomEvent('paynow'));
         return this.baseURL + this.formURL;       
@@ -124,25 +106,16 @@ export default class Payment extends LightningElement {
      * Get Invoice button link
      */
     get invoiceURL(){
-        this.formURL = `tran-type=` + `OPE0002` + `&` +  
+        this.formURL = `tran-type=` + this.transtypeInvoice + `&` +  
         /** 
          * Passed Parameters 
          **/
             `OPETRANSACTIONID=` + this.cartExternalId + `&` + 
-            `EMAIL=` + this.contactEmail.replace('@','%40') + `&` + 
             `FULLNAME=` + this.fullName + `&` + 
             `GLCODE=` + this.glCode + `&` + 
             `UNITAMOUNTINCTAX=` + this.total;
-        
-        if (this.typeURL = "SIT"){
-            this.baseURL = baseUrlSIT;
-        }else if (this.typeURL = "UAT"){
-            this.baseURL = baseUrlUAT;
-        } else {
-            this.baseURL = baseUrlProd;
-        }
-
         return this.baseURL + this.formURL;        
     }
 
 }
+      
