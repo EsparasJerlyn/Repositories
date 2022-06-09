@@ -6,8 +6,7 @@ const SESSION_COLUMNS = [
     { 
         label: 'Session Name',
         fieldName: 'Name',
-        wrapText: true,
-        editable: { fieldName: 'editable' },
+        editable: { fieldName: 'editable' }
     },
     { 
         label: 'Session Type',
@@ -21,7 +20,8 @@ const SESSION_COLUMNS = [
         },
         cellAttributes: {
             class: { fieldName: 'customPicklistClass' }
-        }
+        },
+        wrapText: true
     },
     {
         label: 'Facilitator', 
