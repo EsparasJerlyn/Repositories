@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Delivery_Type__c</fullName>
-    <description>This will be how the course will be delivered and location for face-to-face.</description>
+    <description>The delivery type on course offering describes where and how a course will be delivered. This controls drop down lists in the Commerce Platform when selecting your offerings.</description>
     <externalId>false</externalId>
     <label>Delivery Type</label>
     <required>false</required>
@@ -44,11 +44,13 @@
             <value>
                 <fullName>Face-to-Face</fullName>
                 <default>false</default>
+                <isActive>false</isActive>
                 <label>Face-to-Face</label>
             </value>
             <value>
                 <fullName>Virtual</fullName>
                 <default>false</default>
+                <isActive>false</isActive>
                 <label>Virtual</label>
             </value>
         </valueSetDefinition>

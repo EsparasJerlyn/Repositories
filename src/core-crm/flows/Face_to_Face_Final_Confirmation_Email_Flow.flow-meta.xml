@@ -173,7 +173,7 @@
         <defaultConnectorLabel>No - No. of Days is equal to Email Days</defaultConnectorLabel>
         <rules>
             <name>Yes_No_of_Days_is_equal_to_Email_Days_0</name>
-            <conditionLogic>and</conditionLogic>
+            <conditionLogic>1 AND (2 OR 3 OR 4 OR 5)</conditionLogic>
             <conditions>
                 <leftValueReference>SessionDateNum</leftValueReference>
                 <operator>EqualTo</operator>
@@ -185,7 +185,28 @@
                 <leftValueReference>DeliveryType</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>Face-to-Face</stringValue>
+                    <stringValue>Brisbane Classroom</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>DeliveryType</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Canberra Classroom</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>DeliveryType</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Sydney Classroom</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>DeliveryType</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Melbourne Classroom</stringValue>
                 </rightValue>
             </conditions>
             <connector>
