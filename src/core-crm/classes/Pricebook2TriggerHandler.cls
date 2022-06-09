@@ -16,17 +16,20 @@ public without sharing class Pricebook2TriggerHandler implements Disableable, Be
    * @param newItems - List of Pricebook2.Trigger.new
    */
   public void beforeInsert(List<SObject> newItems) { 
-      List<Pricebook2> pbToCreateList = (List<Pricebook2>) newItems;
+      Set<String> pbNameSet = new Set<String>();
+      Set<String> dupeNameSet = new Set<String>();
       
-      Set<String> setPricebook2Name = new Set<String>();
-      
-      for(Pricebook2 pbName: [Select Name from Pricebook2])
-		setPricebook2Name.add(pbName.Name);    
-      
-      Pricebook2DuplicatesHelper.detectPricebook2Duplicates((List<Pricebook2>) newItems, setPricebook2Name);
+      for(Pricebook2 pbCreate : (List<Pricebook2>) newItems){
+          pbNameSet.add(pbCreate.Name);
+      }
+      for(Pricebook2 pbNames : [Select Name from Pricebook2 Where Name IN : pbNameSet] ){
+          dupeNameSet.add(pbNames.Name);
+      }
+      if(!dupeNameSet.isEmpty()){
+          Pricebook2DuplicatesHelper.detectPricebook2Duplicates(dupeNameSet, (List<Pricebook2>) newItems); 
+      }       
   }
-    
-  
+      
 /**
  * @description indicates it the trigger is disabled
  * @return disabled bypass

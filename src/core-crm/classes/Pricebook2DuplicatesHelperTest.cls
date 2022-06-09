@@ -1,6 +1,6 @@
 /**
- * @description Test class for Pricebook2 Trigger Handler
- * @see Pricebook2TriggerHandler
+ * @description Test class for Pricebook2DuplicatesHelper
+ * @see Pricebook2DuplicatesHelper
  *
  * @author Accenture
  *
@@ -11,18 +11,15 @@
       | kathy.cornejo                  | June 03, 2022         | DEPP-2664              | Created file                 |
  */
 @IsTest(SeeAllData = false)
-public with sharing class Pricebook2TriggerHandlerTest {
-    
-    private static User currentUser = TestDataFactory.createUserRecords(1, 'QUTeX').iterator().next();
-    private static final String NAME = 'NAME';
-    
+public with sharing class Pricebook2DuplicatesHelperTest {
+	private static User currentUser = TestDataFactory.createUserRecords(1, 'QUTeX').iterator().next();
+        
     @TestSetUp
     static void setUpMethod(){
     	Pricebook2 pb = new Pricebook2();
         pb.Name = 'TestPb';
         insert pb;
     }
-    
     @IsTest
     static void checkPbName(){
         System.runAs(currentUser) {
@@ -42,13 +39,10 @@ public with sharing class Pricebook2TriggerHandlerTest {
             Pricebook2DuplicatesHelper.detectPricebook2Duplicates(pricebooks, setPricebook2Name);  
             
             List<Pricebook2> pbList = [Select Id From Pricebook2 Where Name = 'Test Pricebook2'];
-            system.debug('check ' + pbList.size());
-            
+                   
             Test.stopTest();
             
             system.assertEquals(1, pbList.size(), 'Pricebook with duplicate name is invalid'); 
         }
-
     }
-
 }
