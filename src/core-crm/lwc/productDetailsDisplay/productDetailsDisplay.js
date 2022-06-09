@@ -431,6 +431,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
         this.displayAddToCart = true;
         this.disableAddToCart = true;
         this.displayGroupRegistration = false;
+        this.displayQuestionnaire = false;
 
         if (results.length > 0) {
           this.courseOfferings = results;
@@ -521,10 +522,12 @@ export default class ProductDetailsDisplay extends NavigationMixin(
       this.disableAddToCart = false;
       if (this.responseData.length > 0) {
         this.displayQuestionnaire = true;
-        this.displayAddToCart = false;
+        this.displayAddToCart = true;
+        this.disableAddToCart = true;
       } else {
         this.displayQuestionnaire = false;
         this.displayAddToCart = true;
+        this.disableAddToCart = false;
       }
     }
   }
