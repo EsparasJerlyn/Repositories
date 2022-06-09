@@ -1,6 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>52.0</apiVersion>
+    <assignments>
+        <name>Add_ACRToDelete</name>
+        <label>Add ACRToDelete</label>
+        <locationX>754</locationX>
+        <locationY>1055</locationY>
+        <assignmentItems>
+            <assignToReference>ACRToDelete</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>ACR_Loop_0</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>ACR_Loop_0</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <name>ACRToDelete_Not_Empty</name>
+        <label>ACRToDelete Not Empty</label>
+        <locationX>666</locationX>
+        <locationY>1367</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Not_Empty</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>ACRToDelete</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Delete_ACRs</targetReference>
+            </connector>
+            <label>Not Empty</label>
+        </rules>
+    </decisions>
     <decisions>
         <description>Check if account related in ACR is an administrative account.</description>
         <name>Is_Administrative_Account_0</name>
@@ -22,7 +60,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Delete_Account_0</targetReference>
+                <targetReference>Add_ACRToDelete</targetReference>
             </connector>
             <label>Yes</label>
         </rules>
@@ -30,7 +68,7 @@
     <decisions>
         <name>Is_linked_to_business_account</name>
         <label>Is linked to business account?</label>
-        <locationX>424</locationX>
+        <locationX>457</locationX>
         <locationY>335</locationY>
         <defaultConnector>
             <targetReference>Is_Primary_Business_Organization_Populated_0</targetReference>
@@ -56,7 +94,7 @@
         <description>Checks if primary business organization is populated.</description>
         <name>Is_Primary_Business_Organization_Populated_0</name>
         <label>Is Primary Business Organization Populated?</label>
-        <locationX>798</locationX>
+        <locationX>864</locationX>
         <locationY>455</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -88,6 +126,9 @@
         <nextValueConnector>
             <targetReference>Is_Administrative_Account_0</targetReference>
         </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>ACRToDelete_Not_Empty</targetReference>
+        </noMoreValuesConnector>
     </loops>
     <processMetadataValues>
         <name>BuilderType</name>
@@ -109,22 +150,11 @@
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <recordDeletes>
-        <name>Delete_Account_0</name>
-        <label>Delete Account</label>
-        <locationX>754</locationX>
-        <locationY>1055</locationY>
-        <connector>
-            <targetReference>ACR_Loop_0</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>ACR_Loop_0.AccountId</elementReference>
-            </value>
-        </filters>
-        <object>Account</object>
+        <name>Delete_ACRs</name>
+        <label>Delete ACRs</label>
+        <locationX>534</locationX>
+        <locationY>1487</locationY>
+        <inputReference>ACRToDelete</inputReference>
     </recordDeletes>
     <recordLookups>
         <name>ACR_Records_Not_Linked_to_Parent_Account_0</name>
@@ -186,7 +216,7 @@
         <inputReference>$Record</inputReference>
     </recordUpdates>
     <start>
-        <locationX>298</locationX>
+        <locationX>331</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Is_linked_to_business_account</targetReference>
@@ -196,4 +226,12 @@
         <triggerType>RecordAfterSave</triggerType>
     </start>
     <status>Active</status>
+    <variables>
+        <name>ACRToDelete</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>AccountContactRelation</objectType>
+    </variables>
 </Flow>
