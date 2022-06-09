@@ -4,14 +4,15 @@
  *
  * @history
  *    | Developer                 | Date                  | JIRA                 | Change Summary                               |
-	  |---------------------------|-----------------------|----------------------|----------------------------------------------|
-	  | keno.domienri.dico        | May 24, 2022          | DEPP-2038            | Create payment method lwc                    |
+      |---------------------------|-----------------------|----------------------|----------------------------------------------|
+      | keno.domienri.dico        | May 24, 2022          | DEPP-2038            | Create payment method lwc                    |
  */
 import { LightningElement, api, wire } from 'lwc';
 import getPaymentGatewaySettings from '@salesforce/apex/PaymentGatewayCtrl.getPaymentGatewaySettings';
+import updatePaymentMethod from "@salesforce/apex/CartItemCtrl.updatePaymentMethod";
 
 export default class Payment extends LightningElement {
-    
+
     /**
      * URL variables
      */
@@ -30,6 +31,7 @@ export default class Payment extends LightningElement {
     /**
      *  Passed Parameters
      */ 
+    @api cartId;
     @api cartExternalId; 
     @api disablePayment;
     @api contactFname; 
@@ -117,5 +119,29 @@ export default class Payment extends LightningElement {
         return this.baseURL + this.formURL;        
     }
 
+    payNowClick(){
+        //update the cart with the payment method selected
+        updatePaymentMethod({ cartId: this.cartId, paymentMethod: 'Pay Now' })
+        .then(() => { })
+
+            //code
+
+        .catch((error) => {
+            console.log("updatePaymentMethod error");
+            console.log(error);
+        });
+    }
+
+    invoiceClick(){
+        //update the cart with the payment method selected
+        updatePaymentMethod({ cartId: this.cartId, paymentMethod: 'Invoice' })
+        .then(() => { })
+
+            //code
+
+        .catch((error) => {
+            console.log("updatePaymentMethod error");
+            console.log(error);
+        });
+    }
 }
-      

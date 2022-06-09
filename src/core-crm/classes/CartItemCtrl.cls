@@ -554,6 +554,21 @@ public without sharing class CartItemCtrl {
     update webCart;
   }
 
+  /**
+   * @description updates the payment method selected by the user
+   * @param cartId - WebCart.Id
+   * @param paymentMethod - WebCart.Payment_Method__c
+   */
+  @AuraEnabled
+  public static void updatePaymentMethod(String cartId, String paymentMethod) {
+    //get the cart
+    WebCart webCart = [SELECT Id, Name, External_Id__c, Payment_Method__c FROM WebCart WHERE Id = :cartId LIMIT 1];
+
+    //update the cart based on the status received
+    webCart.Payment_Method__c = paymentMethod;
+    update webCart;
+  }
+
   // /**
   //  * @description fetches cart items data and related registration questiosn for the product
   //  * @param communityId - @salesforce/community/Id

@@ -7,7 +7,7 @@
         <div class="slds-grid slds-wrap slds-medium-size_11-of-12 slds-large-size_10-of-12">    
             <div class="my1 slds-col--padded slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
                 <template if:false={disableButton}>
-                    <a class="btn-link" href={payURL} target="_blank">
+                    <a class="btn-link" href={payURL} target="_blank" onclick={payNowClick}>
                         <p class="btn-title bodyBold pb2"><strong>{payTitle}</strong></p>
                         <p class="btn-text bodyRegular">{payLabel}</p>
                     </a>
@@ -22,7 +22,7 @@
             
             <div class="my1 slds-col--padded slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
                 <template if:false={disableButton}>
-                    <a class="btn-link" href={invoiceURL} target="_blank" >
+                    <a class="btn-link" href={invoiceURL} target="_blank" onclick={invoiceClick}>
                         <p class="btn-title bodyBold pb2"><strong>{invoiceTitle}</strong></p>
                         <p class="btn-text bodyRegular">{invoiceLabel}</p>
                     </a>

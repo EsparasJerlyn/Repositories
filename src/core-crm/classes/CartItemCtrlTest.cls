@@ -418,4 +418,17 @@ public with sharing class CartItemCtrlTest {
 
     System.assertNotEquals(null, prodCategId, 'Product Category Id Retrieved');
   }
+
+  @IsTest
+  static void updatePaymentMethodTest() {
+    WebCart webCart = [SELECT Id, Name FROM WebCart LIMIT 1];
+
+    Test.startTest();
+    CartItemCtrl.updatePaymentMethod(webCart.Id, 'Pay Now');
+    Test.stopTest();
+
+    WebCart webCartTest = [SELECT Id, Name, Payment_Method__c FROM WebCart LIMIT 1];
+
+    System.assertEquals('Pay Now', webCartTest.Payment_Method__c, 'Incorrect Payment Method');
+  }
 }

@@ -4,10 +4,23 @@
     <description>Identifies if cart is paid now or by invoice</description>
     <externalId>false</externalId>
     <label>Payment Method</label>
-    <length>255</length>
     <required>false</required>
     <securityClassification>Sensitive</securityClassification>
     <trackHistory>false</trackHistory>
-    <type>Text</type>
-    <unique>false</unique>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Pay Now</fullName>
+                <default>false</default>
+                <label>Pay Now</label>
+            </value>
+            <value>
+                <fullName>Invoice</fullName>
+                <default>false</default>
+                <label>Invoice</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
 </CustomField>

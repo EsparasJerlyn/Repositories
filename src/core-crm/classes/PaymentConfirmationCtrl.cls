@@ -35,7 +35,10 @@ public without sharing class PaymentConfirmationCtrl {
     * @return webCartData - WebCartData data type that contains the webcart and cartitems
     */
     @AuraEnabled(cacheable=true)
-    public static CartData getCartData(String externalId){
+    public static CartData getCartData(String externalId, String userId){
+
+        //get the contact ID of the current user
+        String contactEmail = [SELECT Contact.Email FROM User WHERE Id = :userId LIMIT 1].Contact.Email;
 
         //instantiate variables
         CartData myCartData = new CartData();
@@ -46,7 +49,9 @@ public without sharing class PaymentConfirmationCtrl {
             SELECT 
                 Id, 
                 Name, 
-                External_Id__c
+                External_Id__c,
+                Discount_Applied__c,
+                Payment_Method__c
             FROM WebCart
             WHERE External_Id__c = :externalId 
             LIMIT 1];
@@ -70,8 +75,6 @@ public without sharing class PaymentConfirmationCtrl {
         //create a set for the pricebook entries
         Set<Id> pbentryIds = new Set<Id>();
         Double mySubtotal = 0;
-        Double myDiscountTotal = 0;
-        Double myGrandTotal = 0;
 
         //loop on the returned list to populate price book entrie IDs
         for (CartItem currentCart : cartItemList) {
@@ -129,22 +132,26 @@ public without sharing class PaymentConfirmationCtrl {
         }
 
         //popoulate return object
+        myCartData.contactEmail = contactEmail;
         myCartData.cartId = webCartData.Id;
         myCartData.cartItemsList = myCartItemsList;
         myCartData.subTotal = mySubtotal;
-        myCartData.discountTotal = myDiscountTotal;
-        myCartData.grandTotal = mySubtotal;
+        myCartData.discountTotal = webCartData.Discount_Applied__c;
+        myCartData.grandTotal = mySubtotal - webCartData.Discount_Applied__c;
+        myCartData.paymentMethod = webCartData.Payment_Method__c;
 
         // return myCartData;
         return myCartData;
     }
 
     public class CartData{
+        @AuraEnabled public String contactEmail;
         @AuraEnabled public String cartId;
         @AuraEnabled public List<CartItemsWrapper> cartItemsList;
         @AuraEnabled public Double subTotal;
         @AuraEnabled public Double discountTotal;
         @AuraEnabled public Double grandTotal;
+        @AuraEnabled public String paymentMethod;
     }
 
     public class CartItemsWrapper{
@@ -162,7 +169,7 @@ public without sharing class PaymentConfirmationCtrl {
     * @return webCartData - WebCartData data type that contains the webcart and cartitems 
     */
     @AuraEnabled(cacheable=false)
-    public static List<hed__Course_Enrollment__c> createCourseConnection(String cartId, String userId, Double amount, String tranId){
+    public static List<hed__Course_Enrollment__c> createCourseConnection(String cartId, String userId, Double amount, String tranId, String paymentMethod, String paidInFull){
 
         Id studentRecordTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByName().get('Student').getRecordTypeId();
         Id studentProgramRecordTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByName().get('Student - Program').getRecordTypeId();
@@ -223,8 +230,8 @@ public without sharing class PaymentConfirmationCtrl {
             tempCourseConnectionMain.hed__Status__c = 'Active';
             tempCourseConnectionMain.Amount__c = amount;
             tempCourseConnectionMain.Transaction_ID__c = tranId;
-            // tempCourseConnectionMain.Payment_Method__c = TBD
-            // tempCourseConnectionMain.Paid_in_Full__c = TBD
+            tempCourseConnectionMain.Payment_Method__c = paymentMethod;
+            tempCourseConnectionMain.Paid_in_Full__c = paidInFull;
             tempCourseConnectionMain.Cart_Item__c = currentCart.Id;
 
             //check if current pricebook is for group booking
@@ -258,8 +265,8 @@ public without sharing class PaymentConfirmationCtrl {
                     tempCourseConnectionSub.hed__Status__c = 'Active';
                     tempCourseConnectionSub.Amount__c = amount;
                     tempCourseConnectionSub.Transaction_ID__c = tranId;
-                    // tempCourseConnectionSub.Payment_Method__c = TBD
-                    // tempCourseConnectionSub.Paid_in_Full__c = TBD
+                    tempCourseConnectionSub.Payment_Method__c = paymentMethod;
+                    tempCourseConnectionSub.Paid_in_Full__c = paidInFull;
                     tempCourseConnectionSub.Cart_Item__c = currentCart.Id;
 
                     //check if current pricebook is for group booking
@@ -304,9 +311,11 @@ public without sharing class PaymentConfirmationCtrl {
                 Invoice_Number__c,
                 Receipt_Number__c,
                 Amount_Paid__c,
-                Payment_URL__c
+                Payment_URL__c,
+                Status__c
             FROM WebCart 
-            WHERE Id = :cartId];
+            WHERE Id = :cartId
+            LIMIT 1];
 
         //update the cart based on the status received
         webCart.Payment_Status__c = paymentStatus;
@@ -314,6 +323,8 @@ public without sharing class PaymentConfirmationCtrl {
         webCart.Receipt_Number__c = receipt;
         webCart.Amount_Paid__c = amountPaid;
         webCart.Payment_URL__c = paymentUrl;
+        webCart.Status__c = 'Closed';
+
         update webCart;
     }
 }

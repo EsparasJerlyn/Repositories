@@ -507,7 +507,6 @@ export default class CartDetails extends LightningElement {
     this.updateQuestionFields();
 
     //update the cart with the discount applied
-
     updateCartDiscount({ cartId: this.recordId, discountAmount: this.discountTotal })
       .then(() => { })
 
@@ -516,7 +515,6 @@ export default class CartDetails extends LightningElement {
       .catch((error) => {
 
         console.log("updateCartDiscount error");
-
         console.log(error);
 
       });

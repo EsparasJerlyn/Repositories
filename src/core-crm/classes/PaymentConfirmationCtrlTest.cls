@@ -163,7 +163,9 @@ public with sharing class PaymentConfirmationCtrlTest {
       AccountId = accounts[0].Id,
       Status__c = 'Checkout',
       WebStoreId = testWebStore.Id,
-      External_Id__c = '6894b2af-cb62-86f5-7d21-7b54e9df96e5'
+      External_Id__c = '6894b2af-cb62-86f5-7d21-7b54e9df96e5',
+      Discount_Applied__c = 1,
+      Payment_Method__c = 'Pay Now'
     );
     insert cart;
 
@@ -226,11 +228,19 @@ public with sharing class PaymentConfirmationCtrlTest {
   @IsTest
   static void getCartDataTest() {
 
+    User userTest = [
+      SELECT Id, ContactId
+      FROM User
+      WHERE ContactId != NULL
+      LIMIT 1
+    ];
+
     PaymentConfirmationCtrl.CartData cartDataWrapper = new PaymentConfirmationCtrl.CartData();
 
     Test.startTest();
     cartDataWrapper = PaymentConfirmationCtrl.getCartData(
-      '6894b2af-cb62-86f5-7d21-7b54e9df96e5'
+      '6894b2af-cb62-86f5-7d21-7b54e9df96e5',
+      userTest.Id
     );
     Test.stopTest();
 
@@ -261,7 +271,7 @@ public with sharing class PaymentConfirmationCtrlTest {
 
     Test.startTest();
 
-    List<hed__Course_Enrollment__c> insertedCourseEnrollment = PaymentConfirmationCtrl.createCourseConnection(webCart.Id, userTest.Id, 100, '6894b2af-cb62-86f5-7d21-7b54e9df96e5');
+    List<hed__Course_Enrollment__c> insertedCourseEnrollment = PaymentConfirmationCtrl.createCourseConnection(webCart.Id, userTest.Id, 100, '6894b2af-cb62-86f5-7d21-7b54e9df96e5', 'Pay Now', 'Yes');
 
     Test.stopTest();
 

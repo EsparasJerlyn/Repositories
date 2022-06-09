@@ -12,7 +12,8 @@ export default class PaymentConfirmation extends LightningElement {
     @track subHeader;
     @track subHeaderClass = 'heading2 pb2 subheader-color-err';
     @track paymentApproved = false;
-    @track buttonLabel = 'Return cart summary'
+    @track buttonLabel = 'Return cart summary';
+    @track contactEmail;
     
     cartId;
     cartItems = [];
@@ -20,6 +21,8 @@ export default class PaymentConfirmation extends LightningElement {
     subTotal;
     discountTotal;
     grandTotal;
+    paymentMethod;
+    paidInFull = 'No';
     parameters = {};
 
     //to get the product category Id
@@ -50,30 +53,23 @@ export default class PaymentConfirmation extends LightningElement {
         } else if(this.parameters.Status == 'V'){
             this.subHeader = 'Your payment has a validation failure. Please check your payment details.';
             this.paymentStatus = "Validation Failure";
-
         }
 
         //get the the WebCart data
-        getCartData({ externalId: this.parameters.WebcartExternal_ID__c }).then((data) => {
+        getCartData({ externalId: this.parameters.WebcartExternal_ID__c, userId: userId }).then((data) => {
+            this.contactEmail = data.contactEmail;
             this.cartId = data.cartId;
             this.cartItems = data.cartItemsList;
             this.subTotal = data.subTotal;
             this.discountTotal = data.discountTotal;
             this.grandTotal = data.grandTotal;
+            this.paymentMethod = data.paymentMethod;
 
-            //if the payment is approved
-            if(this.parameters.Status == 'A'){
-
-                //create course connection record
-                createCourseConnection({ cartId: this.cartId, userId: userId, amount: parseFloat(this.parameters.TotalAmount), tranId: this.parameters.TransactionID }).then((data) => {
-
-                    //code
-
-                }).catch((error) => {
-                    console.log("createCourseConnection error");
-                    console.log(error);
-                });
+            //check if the full amount was paid for Pay Now method
+            if( this.paymentMethod == 'Pay Now' && this.parameters.TotalAmount == this.grandTotal) {
+                this.paidInFull = 'Yes';
             }
+
 
             //update the WebCart
             updateWebCart({ 
@@ -85,12 +81,32 @@ export default class PaymentConfirmation extends LightningElement {
                 paymentUrl: window.location.href
             }).then((data) => {
 
-                //code
 
             }).catch((error) => {
                 console.log("updateWebCart error");
                 console.log(error);
             });
+
+            // //if the payment is approved
+            if(this.parameters.Status == 'A'){
+
+                //create course connection record
+                createCourseConnection({ 
+                    cartId: this.cartId, 
+                    userId: userId, 
+                    amount: parseFloat(this.parameters.TotalAmount), 
+                    tranId: this.parameters.WebcartExternal_ID__c,
+                    paymentMethod: this.paymentMethod,
+                    paidInFull: this.paidInFull
+                }).then((data) => {
+
+                    //code
+
+                }).catch((error) => {
+                    console.log("createCourseConnection error");
+                    console.log(error);
+                });
+            }
 
         }).catch((error) => {
             console.log("getCartData error");
