@@ -27,9 +27,9 @@
                 <label>Release</label>
             </value>
             <value>
-                <fullName>In Delivery</fullName>
+                <fullName>Published</fullName>
                 <default>false</default>
-                <label>In Delivery</label>
+                <label>Published</label>
             </value>
             <value>
                 <fullName>Completed</fullName>

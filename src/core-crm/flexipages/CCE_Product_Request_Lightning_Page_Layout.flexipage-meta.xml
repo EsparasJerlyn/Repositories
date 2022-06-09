@@ -1651,7 +1651,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>tab</name>
-                    <value>{!$Label.PL_ProductRequest_Release}</value>
+                    <value>{!$Label.PL_ProductRequest_Release},{!$Label.PL_ProductRequest_InDelivery}</value>
                 </componentInstanceProperties>
                 <componentName>customLayoutHandler</componentName>
                 <identifier>customLayoutHandler13</identifier>
@@ -2810,7 +2810,7 @@
                     <criteria>
                         <leftValue>{!Record.Product_Request_Status__c}</leftValue>
                         <operator>EQUAL</operator>
-                        <rightValue>In Delivery</rightValue>
+                        <rightValue>Published</rightValue>
                     </criteria>
                     <criteria>
                         <leftValue>{!Record.OPE_Program_Plan_Type__c}</leftValue>
@@ -2833,7 +2833,7 @@
                     <criteria>
                         <leftValue>{!Record.Product_Request_Status__c}</leftValue>
                         <operator>EQUAL</operator>
-                        <rightValue>In Delivery</rightValue>
+                        <rightValue>Published</rightValue>
                     </criteria>
                     <criteria>
                         <leftValue>{!Record.OPE_Program_Plan_Type__c}</leftValue>

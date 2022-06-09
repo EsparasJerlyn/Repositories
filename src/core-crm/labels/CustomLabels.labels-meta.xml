@@ -199,12 +199,12 @@
         <value>Design</value>
     </labels>
     <labels>
-        <fullName>PL_ProductRequest_InDelivery</fullName>
+        <fullName>PL_ProductRequest_Published</fullName>
         <categories>Picklist,ProductRequest</categories>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>PL_ProductRequest_InDelivery</shortDescription>
-        <value>In Delivery</value>
+        <shortDescription>PL_ProductRequest_Published</shortDescription>
+        <value>Published</value>
     </labels>
     <labels>
         <fullName>PL_ProductRequest_Release</fullName>
@@ -213,6 +213,14 @@
         <protected>false</protected>
         <shortDescription>PL_ProductRequest_Release</shortDescription>
         <value>Release</value>
+    </labels>
+    <labels>
+        <fullName>PL_ProductRequest_InDelivery</fullName>
+        <categories>Picklist,ProductRequest</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PL_ProductRequest_InDelivery</shortDescription>
+        <value>Published</value>
     </labels>
     <labels>
         <fullName>PL_ProductSpecification_Complete</fullName>

@@ -81,26 +81,39 @@ public without sharing class Product2TriggerHandler implements Disableable, Befo
       ){
         prodIdPublishingEnded.add(prod.Id);
       }
+
+      
     }
 
-    if(!prodIdPublishingEnded.isEmpty()){
-      productsWithPR = [SELECT Id, Course__r.ProductRequestID__c, Program_Plan__r.Product_Request__c FROM Product2 WHERE Id IN:prodIdPublishingEnded];
+    if(!prodIdPublishingEnded.isEmpty() || !prodIdSet.isEmpty()){
+      productsWithPR = [SELECT Id, Course__r.ProductRequestID__c,  Course__r.ProductRequestID__r.Product_Request_Status__c, Program_Plan__r.Product_Request__r.Product_Request_Status__c , Program_Plan__r.Product_Request__c FROM Product2 WHERE Id IN:prodIdPublishingEnded OR Id IN:prodIdSet];
     }
 
     for(Product2 prod: productsWithPR){
       
-      if(prod.Course__c != null &&  prod.Course__r.ProductRequestID__c != null){
+      if(prod.Course__c != null &&  prod.Course__r.ProductRequestID__c != null && prodIdPublishingEnded.contains(prod.Id)){
         newPr = new Product_Request__c(Id = prod.Course__r.ProductRequestID__c, Product_Request_Status__c = 'Completed');
         prodRequestToUpdateMap.put(prod.Course__r.ProductRequestID__c,newPr);
       }
-      if(prod.Program_Plan__c != null && prod.Program_Plan__r.Product_Request__c != null){
+      if(prod.Program_Plan__c != null && prod.Program_Plan__r.Product_Request__c != null && prodIdPublishingEnded.contains(prod.Id)){
         newPr = new Product_Request__c(Id = prod.Program_Plan__r.Product_Request__c, Product_Request_Status__c = 'Completed');
         prodRequestToUpdateMap.put(prod.Course__r.ProductRequestID__c,newPr);
       }
-    }       
 
+      if(prod.Course__c != null &&  prod.Course__r.ProductRequestID__c != null && prodIdSet.contains(prod.Id) &&  prod.Course__r.ProductRequestID__r.Product_Request_Status__c == 'Release'){
+        newPr = new Product_Request__c(Id = prod.Course__r.ProductRequestID__c, Product_Request_Status__c = 'Published');
+        prodRequestToUpdateMap.put(prod.Course__r.ProductRequestID__c,newPr);
+      }
+
+      if(prod.Program_Plan__c != null && prod.Program_Plan__r.Product_Request__c != null && prodIdSet.contains(prod.Id) && prod.Program_Plan__r.Product_Request__r.Product_Request_Status__c == 'Release'){
+        newPr = new Product_Request__c(Id = prod.Program_Plan__r.Product_Request__c, Product_Request_Status__c = 'Published');
+        prodRequestToUpdateMap.put(prod.Program_Plan__r.Product_Request__c,newPr);
+      }
+    }       
+   
     if(!prodRequestToUpdateMap.keySet().isEmpty()){
       update prodRequestToUpdateMap.values();
+      
     }
 
     if (prodIdSet.size() > 0) {

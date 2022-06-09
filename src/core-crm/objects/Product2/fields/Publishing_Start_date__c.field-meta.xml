@@ -5,6 +5,6 @@
     <externalId>false</externalId>
     <label>Publishing Start Date</label>
     <required>false</required>
-    <trackHistory>false</trackHistory>
+    <trackHistory>true</trackHistory>
     <type>Date</type>
 </CustomField>
