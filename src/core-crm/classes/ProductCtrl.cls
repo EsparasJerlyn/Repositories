@@ -37,7 +37,7 @@ public without sharing class ProductCtrl {
 			pbeQueryAll += ' FROM PricebookEntry ';
 			pbeQueryAll += ' WHERE Product2.Id IN :productIds ';
 			pbeQueryAll += ' AND (Pricebook2.Name = :standardPriceBook OR Pricebook2.Name = :earlyBirdPricebook) ';
-			pbeQueryAll += ' AND IsActive = True ';
+			pbeQueryAll += ' AND IsActive = True AND Product2.Available_on_Cart__c = TRUE';
 			if(sortCourse=='priceLowToHigh'){
 				pbeQueryAll += ' ORDER BY UnitPrice ASC';
 			} else {
@@ -76,7 +76,7 @@ public without sharing class ProductCtrl {
 			pbeQuery += ' WHERE Product2Id IN :productIds';
 			pbeQuery += ' AND Id NOT IN :stdProdOnly';
 			pbeQuery += ' AND (Pricebook2.Name = :standardPriceBook OR Pricebook2.Name = :earlyBirdPricebook) ';
-			pbeQuery += ' AND IsActive = True ';
+			pbeQuery += ' AND IsActive = True AND Product2.Available_on_Cart__c = TRUE';
 			if(sortCourse=='priceLowToHigh'){
 				pbeQuery += ' ORDER BY UnitPrice ASC';
 			} else {
@@ -355,7 +355,7 @@ public without sharing class ProductCtrl {
 			filterProductsQuery += 'WHERE (Pricebook2.Name = \''+standardPriceBook+'\' OR Pricebook2.Name =\''+earlyBirdPricebook+'\'))';
 		}
 		filterProductsQuery += ' FROM Product2';
-		filterProductsQuery += ' WHERE Id IN : productAllId';
+		filterProductsQuery += ' WHERE Id IN : productAllId AND Available_on_Cart__c = TRUE';
 		
 
 		//Checks if Search Key is Empty
