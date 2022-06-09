@@ -264,15 +264,15 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
   // handles keyword search
   handleSearchKeyword(event){
     this.stringValue = event.target.value;
-    if(this.stringValue.length > 3){
-      this.parameterObject.searchKey = this.stringValue;
-      this.getFilterList();
-    }
-    if(this.stringValue.length == 0 ){
-      this.parameterObject.searchKey = '';
-      this.getFilterList();
-    }
-
+    window.clearTimeout(this.delayTimeout);
+    this.delayTimeout = setTimeout(() => {
+          this.parameterObject.searchKey = this.stringValue;
+          this.getFilterList();
+        if(this.stringValue.length == 0 ){
+          this.parameterObject.searchKey = '';
+          this.getFilterList();
+        }
+    }, DELAY);
   }
   
   // Handles the Product Type Filter when clicked Individually
