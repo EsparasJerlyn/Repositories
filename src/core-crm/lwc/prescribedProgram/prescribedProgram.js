@@ -253,14 +253,14 @@ export default class PrescribedProgram extends LightningElement {
   }
   groupRegistrationModalClosed() {
     this.openGroupRegistration = false;
-
+    
   }
   groupRegistration() {
     if(!isGuest){
       this.openGroupRegistration = true;
     }
    else{
-    this.openModal = false;
+    this.openModal = true;
    }
   }
 

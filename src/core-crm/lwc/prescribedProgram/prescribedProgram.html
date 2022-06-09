@@ -157,7 +157,6 @@
             ></lightning-button>
           </lightning-layout-item>
           <!-- Group Booking -->
-          <!-- Group Booking -->
           <lightning-layout-item
             if:true={displayGroupRegistration}
             flexibility="auto"
@@ -179,7 +178,7 @@
   <template if:true={openGroupRegistration}>
     <c-group-booking-form
     product-details={productDetails}
-    selected-course-offering={selectedProgramOffering}
+    selected-program-offering={selectedProgramOffering}
     price-book-entry={selectedPricing}
     is-prescribed={isPrescribed}
     onclose={groupRegistrationModalClosed}
