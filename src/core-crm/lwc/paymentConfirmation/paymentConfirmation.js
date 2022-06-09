@@ -6,6 +6,9 @@ import updateWebCart from "@salesforce/apex/PaymentConfirmationCtrl.updateWebCar
 import BasePath from "@salesforce/community/basePath";
 import userId from "@salesforce/user/Id";
 
+import { publish, MessageContext } from 'lightning/messageService';
+import payloadContainerLMS from '@salesforce/messageChannel/Breadcrumbs__c';
+
 export default class PaymentConfirmation extends LightningElement {
     @api recordId;
     @track prodCategId;
@@ -28,6 +31,9 @@ export default class PaymentConfirmation extends LightningElement {
     //to get the product category Id
     @wire(getOPEProductCateg)
     productCategData;
+
+    @wire(MessageContext)
+    messageContext;
 
     connectedCallback() {
 
@@ -112,7 +118,8 @@ export default class PaymentConfirmation extends LightningElement {
             console.log("getCartData error");
             console.log(error);
         });
-    
+
+        this.publishLMS();
     }
 
     //function to get the parameters from the url
@@ -146,5 +153,19 @@ export default class PaymentConfirmation extends LightningElement {
         } else {
             window.location.href = BasePath + "/cart/" + this.cartId;
         }
+    }
+
+    publishLMS() {
+      let paramObj = {
+        productId: 1,
+        productName: 'Payment confirmation',
+        clearOtherMenuItems: true
+      }
+      
+      const payLoad = {
+        parameterJson: JSON.stringify(paramObj)
+      };
+  
+      publish(this.messageContext, payloadContainerLMS, payLoad);
     }
 }

@@ -20,6 +20,9 @@ import CART_STATUS_FIELD from "@salesforce/schema/WebCart.Status";
 import ANSWER_ID_FIELD from "@salesforce/schema/Answer__c.Id";
 import ANSWER_RESPONSE_FIELD from "@salesforce/schema/Answer__c.Response__c";
 
+import { publish, MessageContext } from 'lightning/messageService';
+import payloadContainerLMS from '@salesforce/messageChannel/Breadcrumbs__c';
+
 //USER fields to be updated
 // import USER_ID_FIELD from '@salesforce/schema/User.Id';
 // import USER_FNAME_FIELD from '@salesforce/schema/User.FirstName';
@@ -90,6 +93,9 @@ export default class CartDetails extends LightningElement {
     dietaryReq: true
   };
 
+  @wire(MessageContext)
+  messageContext;
+
   //set the cart status to checkout when opening this page
   connectedCallback() {
     
@@ -116,6 +122,8 @@ export default class CartDetails extends LightningElement {
         console.log("getOPEProductCateg error");
         console.log(error);
       });
+
+      this.publishLMS();
 
     // window.addEventListener("beforeunload", beforeUnloadHandler, true);
     // var updateCartId = this.recordId;
@@ -690,5 +698,19 @@ export default class CartDetails extends LightningElement {
     } else if(fieldName == 'Nominated_Student_ID__c'){
       this.contactStudentId = newValue;
     }
+  }
+
+  publishLMS() {
+    let paramObj = {
+      productId: 1,
+      productName: 'Cart Summary',
+      clearOtherMenuItems: true
+    }
+    
+    const payLoad = {
+      parameterJson: JSON.stringify(paramObj)
+    };
+
+    publish(this.messageContext, payloadContainerLMS, payLoad);
   }
 }

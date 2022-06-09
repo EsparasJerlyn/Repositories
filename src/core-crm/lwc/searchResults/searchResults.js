@@ -15,6 +15,7 @@
       | marygrace.j.li            | April 18, 2022        | DEPP-1269            | Updated to add DEPP-1121 & DEPP-1421 changes |
       | eugene.andrew.abuan       | May 02, 2022          | DEPP-1269            | Updated logic to match with the new UI       |
       | eugene.andrew.abuan       | May 12, 2022          | DEPP-1979            | Added Filter logic                           |
+      | burhan.m.abdul            | June 09, 2022         | DEPP-2811            | Added messageService                         |
  */
 
 import { LightningElement, wire, api, track } from 'lwc';
@@ -37,6 +38,9 @@ import FIELD_DELIVERY_TYPE from '@salesforce/schema/Product2.Delivery__c';
 import Product2 from '@salesforce/schema/Product2';
 
 import qutResourceImg from "@salesforce/resourceUrl/QUTImages";
+      
+import { publish, MessageContext } from 'lightning/messageService';
+import payloadContainerLMS from '@salesforce/messageChannel/Breadcrumbs__c';
 
 const STUDY_STORE = "study";
 const ERROR_TITLE = "Error!";
@@ -203,6 +207,9 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
    */
   @api
   showProductImage;
+      
+  @wire(MessageContext)
+  messageContext;
 
   // ------------------------------------------------- FILTER --------------------------
   @wire(getObjectInfo, { objectApiName: Product2 })
@@ -821,6 +828,8 @@ handleNextPage(evt) {
    if(!isGuest){
       this.updateCartInformation();
     }
+      
+    this.publishLMS();
   }
 
   handleAccordionToggle(event) {
@@ -954,6 +963,18 @@ handleNextPage(evt) {
         // For this sample, we can just log the error
         this.errorMessage = MSG_ERROR + this.generateErrorMessage(e);
       });
+  }
+      
+  publishLMS() {
+    let paramObj = {
+      clearMenuList: true
+    }
+    
+    const payLoad = {
+      parameterJson: JSON.stringify(paramObj)
+    };
+
+    publish(this.messageContext, payloadContainerLMS, payLoad);
   }
 
 
