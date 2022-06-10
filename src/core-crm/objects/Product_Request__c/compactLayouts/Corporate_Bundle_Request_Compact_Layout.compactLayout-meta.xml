@@ -4,5 +4,6 @@
     <fields>Product_Request_Status__c</fields>
     <fields>OwnerId</fields>
     <fields>RecordTypeId</fields>
+    <fields>Product_Specification__c</fields>
     <label>Corporate Bundle Request Compact Layout</label>
 </CompactLayout>

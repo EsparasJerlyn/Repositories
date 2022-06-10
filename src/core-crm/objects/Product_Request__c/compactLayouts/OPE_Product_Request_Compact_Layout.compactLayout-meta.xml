@@ -3,5 +3,6 @@
     <fullName>OPE_Product_Request_Compact_Layout</fullName>
     <fields>OwnerId</fields>
     <fields>RecordTypeId</fields>
+    <fields>Product_Specification__c</fields>
     <label>OPE Product Request Compact Layout</label>
 </CompactLayout>
