@@ -28,6 +28,7 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
    */
   public void beforeInsert(List<SObject> newItems) {
     ContactImageHelper.validateContactImageFile((List<Contact>) newItems);
+    ContactTriggerHelper.setPrimaryBusinessOrgFromParent((List<Contact>) newItems);
   }
 
   /**
@@ -58,6 +59,7 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
 
     if(!isRunning){
       isRunning = true;
+      ContactTriggerHelper.setPrimaryBusinessOrgAsParent((List<Contact>) newItems.values());
       ContactWithMatchingLeadHelper.detectLeadDuplicates((Map<Id,Contact>) newItems);
       List<Id> contactIds = new List<Id>();
       for(Contact contact : (List<Contact>) newItems.values()){
@@ -65,6 +67,7 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
       }
       ContactWithMatchingLeadHelper.convertLead(contactIds);
     }
+    
   }
 
   /**

@@ -25,6 +25,8 @@
         <members>LinkedInRegHandler</members>
         <members>LinkedInRegHandlerTest</members>
         <!--(End) DEPP 2824 -->
+        <!--DEPP-2869-->
+        <members>Contact_Create_Triggered_FlowTest</members>
         <name>ApexClass</name>
     </types>
     <types>
@@ -446,6 +448,11 @@
         <name>ValidationRule</name>
     </types>
 
+    <types>
+    <!--DEPP-2869-->
+        <members>Contact_Create_Triggered_Flow</members>
+        <name>Flow</name>
+    </types>
 
 
     <!--(Start) Kindly comment out once it reaches PROD
