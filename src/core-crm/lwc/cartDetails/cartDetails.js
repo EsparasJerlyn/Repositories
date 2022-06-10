@@ -14,6 +14,7 @@ import getOPEProductCateg from "@salesforce/apex/CartItemCtrl.getOPEProductCateg
 import getCartItemsByCart from "@salesforce/apex/CartItemCtrl.getCartItemsByCart";
 import getCartItemDiscount from "@salesforce/apex/CartItemCtrl.getCartItemDiscount";
 import updateCartDiscount from "@salesforce/apex/CartItemCtrl.updateCartDiscount";
+import {refreshApex} from '@salesforce/apex';
 
 import CART_ID_FIELD from "@salesforce/schema/WebCart.Id";
 import CART_STATUS_FIELD from "@salesforce/schema/WebCart.Status";
@@ -66,6 +67,7 @@ export default class CartDetails extends LightningElement {
   @track showStaffId;
   @track showStudentId;
 
+  resultData;
   cartItems = [];
   questions = [];
   activeTimeout;
@@ -101,7 +103,6 @@ export default class CartDetails extends LightningElement {
     
     //create global variable
     window.isCartSumDisconnected = false;
-    console.log(window.isCartSumDisconnected);
 
     // Set Cart to Checkout
     updateCartStatus({ cartId: this.recordId, cartStatus: "Checkout" })
@@ -123,25 +124,9 @@ export default class CartDetails extends LightningElement {
         console.log(error);
       });
 
-      this.publishLMS();
-
-    // window.addEventListener("beforeunload", beforeUnloadHandler, true);
-    // var updateCartId = this.recordId;
-    // function beforeUnloadHandler(e) {
-    //   e.preventDefault();
-    //   updateCartStatus({ cartId: updateCartId, cartStatus: "Active" })
-    //     .then(() => {})
-    //     .catch((error) => {
-    //       console.log("cart update error");
-    //       console.log(error);
-    //     });
-
-      /* if (!window.location.href == BasePath) {
-        e.returnValue = "You may have unsaved Data";
-      } else {
-        e.returnValue = null;
-      } */
-    // }
+    //refresh the cart items
+    refreshApex(this.resultData);
+    this.publishLMS();
   }
 
   //set the status back to active when disconnecting
@@ -149,7 +134,6 @@ export default class CartDetails extends LightningElement {
     
     //create global variable
     window.isCartSumDisconnected = true;
-    console.log(window.isCartSumDisconnected);
 
     //remove 
     window.onload = null;
@@ -280,23 +264,39 @@ export default class CartDetails extends LightningElement {
 
   //get questions
   @wire(getCartItemsByCart, { cartId: "$recordId", userId: userId })
-  cartItemsData({ error, data }) {
+  cartItemsData(result) {
     //if data is retrieved successfully
-    if (data) {
+    if (result.data) {
+
+      //variable to use in refresh apex
+      this.resultData = result;
+
       //set variable if we are showing the staff and/or student ID
-      this.showStaffId = data.showStaffId;
-      this.showStudentId = data.showStudentId;
+      this.showStaffId = result.data.showStaffId;
+      this.showStudentId = result.data.showStudentId;
 
       //set the cart items data and questions
-      this.cartItems = data.cartItemsList;
-      this.questions = data.questionsList;
+      this.cartItems = result.data.cartItemsList;
+      this.questions = result.data.questionsList;
 
       //get totals
       this.total = this.calculateSubTotal() - this.discountTotal;
       this.cartExternalId = this.cartItems[0].externalId; // added for payment parameters
 
+      //if the pay buttons are disabled
+      if (this.disablePayment) {
+        //disable payment if no seats are available
+        this.disablePayment = !this.checkSeatsAvailable();
+      }
+
+      //redirect to products if no more cart items
+      if(this.cartItems.length == 0){
+        window.location.href = BasePath + "/category/products/" + this.prodCategId;
+
+      }
+
       //else if there's an error
-    } else if (error) {
+    } else if (result.error) {
       this.error = error;
     }
   }
@@ -305,45 +305,28 @@ export default class CartDetails extends LightningElement {
   removeCartItem(event) {
     let cartItemId = event.target.dataset.id;
 
-    //filter out the element with the current cart item id
-    this.cartItems = this.cartItems.filter(function (obj) {
-      return obj.cartItemId !== cartItemId;
-    });
-
-    //get totals
-    this.total = this.calculateSubTotal() - this.discountTotal;
-
-    //if the pay buttons are disabled
-    if (this.disablePayment) {
-      //disable payment if no seats are available
-      this.disablePayment = !this.checkSeatsAvailable();
-    }
-
     //function to delete the specific cart item
     deleteCartItem({
       communityId: communityId,
       activeCartOrId: this.recordId,
       cartItemId: cartItemId
     })
-      .then(() => {
+    .then(() => {
 
-        //custom event to update the cart item counter
-        this.dispatchEvent(new CustomEvent("cartchanged", {
-          bubbles: true,
-          composed: true
-        }));
+      //custom event to update the cart item counter
+      this.dispatchEvent(new CustomEvent("cartchanged", {
+        bubbles: true,
+        composed: true
+      }));
 
-        //redirect to products if no more cart items
-        if(this.cartItems.length == 0){
+      //refresh the cart items
+      refreshApex(this.resultData);
 
-          window.location.href = BasePath + "/category/products/" + this.prodCategId;
-        }
-
-      })
-      .catch((error) => {
-        console.log("delete error");
-        console.log(error);
-      });
+    })
+    .catch((error) => {
+      console.log("delete error");
+      console.log(error);
+    });
   }
 
   //calculate the subtotal of cart items
