@@ -1,11 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-    <apiVersion>55.0</apiVersion>
+    <apiVersion>52.0</apiVersion>
+    <decisions>
+        <name>Check_If_Course_Or_Program</name>
+        <label>Check If Course Or Program</label>
+        <locationX>1018</locationX>
+        <locationY>935</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>is_Course</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Product_Record.Course__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Course_Product_End_Date_From_Decommission_Date</targetReference>
+            </connector>
+            <label>is Course</label>
+        </rules>
+        <rules>
+            <name>is_Program</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Product_Record.Program_Plan__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Program_Product_End_Date_From_Decommission</targetReference>
+            </connector>
+            <label>is Program</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Course_Or_Program</name>
+        <label>Course Or Program</label>
+        <locationX>314</locationX>
+        <locationY>815</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>isCourse</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Product_Record.Course__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Course_Product_End_Date_From_Not_Proceeding</targetReference>
+            </connector>
+            <label>isCourse</label>
+        </rules>
+        <rules>
+            <name>isProgram</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Product_Record.Program_Plan__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Program_Product_End_Date_From_Not_Proceeding</targetReference>
+            </connector>
+            <label>isProgram</label>
+        </rules>
+    </decisions>
     <decisions>
         <name>is_Not_Proceeding</name>
         <label>is Not Proceeding</label>
-        <locationX>248</locationX>
-        <locationY>575</locationY>
+        <locationX>776</locationX>
+        <locationY>695</locationY>
         <defaultConnector>
             <targetReference>Is_Product_Decommission</targetReference>
         </defaultConnector>
@@ -21,7 +95,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Update_Product_End_Date_Not_Proceeding</targetReference>
+                <targetReference>Course_Or_Program</targetReference>
             </connector>
             <label>Not Proceeding</label>
         </rules>
@@ -29,8 +103,8 @@
     <decisions>
         <name>Is_Product_Decommission</name>
         <label>Is Product Decommission</label>
-        <locationX>446</locationX>
-        <locationY>695</locationY>
+        <locationX>1238</locationX>
+        <locationY>815</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>is_Decommision</name>
@@ -43,7 +117,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Update_Product_End_Date_Decommision</targetReference>
+                <targetReference>Check_If_Course_Or_Program</targetReference>
             </connector>
             <label>is Decommision</label>
         </rules>
@@ -72,11 +146,11 @@
     <recordLookups>
         <name>Get_Course_Record</name>
         <label>Get Course Record</label>
-        <locationX>248</locationX>
+        <locationX>776</locationX>
         <locationY>335</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Get_Product_Record</targetReference>
+            <targetReference>Get_Program_Record</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -93,8 +167,8 @@
     <recordLookups>
         <name>Get_Product_Record</name>
         <label>Get Product Record</label>
-        <locationX>248</locationX>
-        <locationY>455</locationY>
+        <locationX>776</locationX>
+        <locationY>575</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>is_Not_Proceeding</targetReference>
@@ -111,11 +185,32 @@
         <object>Product2</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
+    <recordLookups>
+        <name>Get_Program_Record</name>
+        <label>Get Program Record</label>
+        <locationX>776</locationX>
+        <locationY>455</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_Product_Record</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Product_Request__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>hed__Program_Plan__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
     <recordUpdates>
-        <name>Update_Product_End_Date_Decommision</name>
-        <label>Update Product End Date Decommision</label>
-        <locationX>314</locationX>
-        <locationY>815</locationY>
+        <name>Update_Course_Product_End_Date_From_Decommission_Date</name>
+        <label>Update Course Product End Date From Decommission Date</label>
+        <locationX>754</locationX>
+        <locationY>1055</locationY>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Course__c</field>
@@ -127,34 +222,76 @@
         <inputAssignments>
             <field>End_Date__c</field>
             <value>
-                <elementReference>CurrentDate</elementReference>
+                <elementReference>$Flow.CurrentDate</elementReference>
             </value>
         </inputAssignments>
         <object>Product2</object>
     </recordUpdates>
     <recordUpdates>
-        <name>Update_Product_End_Date_Not_Proceeding</name>
-        <label>Update Product End Date Not Proceeding</label>
+        <name>Update_Course_Product_End_Date_From_Not_Proceeding</name>
+        <label>Update Course Product End Date From Not Proceeding</label>
         <locationX>50</locationX>
-        <locationY>695</locationY>
+        <locationY>935</locationY>
         <filterLogic>and</filterLogic>
         <filters>
-            <field>Course_Code__c</field>
+            <field>Course__c</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>Get_Course_Record.Course_Code__c</elementReference>
+                <elementReference>Get_Course_Record.Id</elementReference>
             </value>
         </filters>
         <inputAssignments>
             <field>End_Date__c</field>
             <value>
-                <elementReference>CurrentDate</elementReference>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Product2</object>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Program_Product_End_Date_From_Decommission</name>
+        <label>Update Program Product End Date From Decommission</label>
+        <locationX>1018</locationX>
+        <locationY>1055</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Program_Plan__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_Program_Record.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>End_Date__c</field>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Product2</object>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Program_Product_End_Date_From_Not_Proceeding</name>
+        <label>Update Program Product End Date From Not Proceeding</label>
+        <locationX>314</locationX>
+        <locationY>935</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Program_Plan__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_Program_Record.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>End_Date__c</field>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
             </value>
         </inputAssignments>
         <object>Product2</object>
     </recordUpdates>
     <start>
-        <locationX>122</locationX>
+        <locationX>650</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Get_Course_Record</targetReference>

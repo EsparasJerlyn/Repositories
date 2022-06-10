@@ -20,6 +20,12 @@ private class Send_Application_Status_EmailTest {
 
     @IsTest
     private static void sendApprovedApplicationStatusEmailTest(){
+        Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
+        insert customEmail;
+
+        Study_Store_URL_Settings__c studyStore = new Study_Store_URL_Settings__c(Name='QUTeX', Study_Store_Link__c = 'https://studystorelinktest.com/');
+        insert studyStore;
+
         System.runAs(currentUser){
             List<Contact> conList = TestDataFactory.createTestContactRecords(1);
             for(Integer i =0;i<conList.size();i++){
@@ -60,7 +66,7 @@ private class Send_Application_Status_EmailTest {
             update qRsUpdateRec;
             Test.stopTest();
 
-            System.assertEquals(0, Limits.getEmailInvocations(),'Number of email invocations not as expected');
+            System.assertEquals(1, Limits.getEmailInvocations(),'Number of email invocations not as expected');
 
 
         }
@@ -68,6 +74,12 @@ private class Send_Application_Status_EmailTest {
 
     @IsTest
     private static void sendRejectedApplicationStatusEmailTest(){
+
+        Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
+        insert customEmail;
+
+        Study_Store_URL_Settings__c studyStore = new Study_Store_URL_Settings__c(Name='QUTeX', Study_Store_Link__c = 'https://studystorelinktest.com/');
+        insert studyStore;
         System.runAs(currentUser){
             List<Contact> conList = TestDataFactory.createTestContactRecords(1);
             for(Integer i =0;i<conList.size();i++){
@@ -109,7 +121,7 @@ private class Send_Application_Status_EmailTest {
             update qRsUpdateRec;
             Test.stopTest();
 
-            System.assertEquals(0, Limits.getEmailInvocations(),'Number of email invocations not as expected');
+            System.assertEquals(1, Limits.getEmailInvocations(),'Number of email invocations not as expected');
 
 
         }

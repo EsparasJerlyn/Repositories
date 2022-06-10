@@ -34,6 +34,7 @@ import PROD_SPEC_APINAME from '@salesforce/schema/Product_Request__c.Product_Spe
 import getAccountId from '@salesforce/apex/AddProductRequestCtrl.getAccountId';
 import getSearchedCourseProductRequests from '@salesforce/apex/AddProductRequestCtrl.getSearchedCourseProductRequests';
 import getSearchedUsers from '@salesforce/apex/AddProductRequestCtrl.getSearchedUsers';
+import SystemModstamp from '@salesforce/schema/Account.SystemModstamp';
 
 const PROD_REQUESTS = "Product Requests";
 const CHILD_PROD_REQUEST = "Child Product Requests";
@@ -374,16 +375,20 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
         const courseRtis = this.courseObjectInfo.data.recordTypeInfos;
 
         let fields = event.detail.fields;
-
+        let today = new Date();
+        let todayDate=today.toISOString();
+       
         if(!this.isProgramSelected){
             fields.ProductRequestID__c = this.prodReqId;
             fields.RecordTypeId=Object.keys(courseRtis).find(rti => courseRtis[rti].name == this.selectedRecordTypeName);
             fields.hed__Account__c=this.accountId;
+            fields.Start_Date__c = todayDate;
         }
         else{
             fields.Product_Request__c = this.prodReqId;
             fields.RecordTypeId=Object.keys(programPlanRtis).find(rti => programPlanRtis[rti].name == this.selectedRecordTypeName);
             this.programDeliveryStructure = fields.Program_Delivery_Structure__c;
+            fields.hed__Start_Date__c = todayDate;
         }
         this.template.querySelector('lightning-record-edit-form').submit(fields);
     }

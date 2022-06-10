@@ -55,10 +55,10 @@ private class SendQuestionnaireResponseEmailFlowTest{
                 qRs[i].Course_Offering__c = courseOff[0].Id;
             }
             insert qRs;
+            System.assertEquals(1, Limits.getEmailInvocations(),'Number of email invocations not as expected');
 
             Test.stopTest();
 
-            System.assertEquals(0, Limits.getEmailInvocations(),'Number of email invocations not as expected');
 
         }
     }
@@ -111,9 +111,9 @@ private class SendQuestionnaireResponseEmailFlowTest{
         Questionnaire_Response_Summary__c qrs = new Questionnaire_Response_Summary__c(Application_Status__c ='Pending', Program_Offering__c =  programOffering[0].Id, Contact__c = contacts[0].Id);
         insert qRs;
 
+        System.assertEquals(1, Limits.getEmailInvocations(),'Number of email invocations not as expected');
         Test.stopTest();
-        
-        System.assertEquals(0, Limits.getEmailInvocations(),'Number of email invocations not as expected');
+
     }
 
 
