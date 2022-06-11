@@ -123,6 +123,7 @@ public with sharing class CartItemCtrlTest {
       isActive = true,
       Name = 'Current Staff'
     );
+      
     insert priceBook3;
 
     PricebookEntry priceBookEntry = new PricebookEntry(
@@ -196,10 +197,10 @@ public with sharing class CartItemCtrlTest {
     );
     insert cartItem3;
 
-    //for registration questions setup
+    //for registration questions setup   Product2Id   ProductRequestID__c
     Questionnaire__c questionnaire = new Questionnaire__c(
       Questionnaire_Type__c = 'Registration Questions',
-      Parent_Record_ID__c = products[0].id,
+      Parent_Record_ID__c =  prodRequest[0].Id, 
       Object_Type__c = PRODUCT_API_NAME
     );
     insert questionnaire;
@@ -251,7 +252,7 @@ public with sharing class CartItemCtrlTest {
     //create related answers
     List<Related_Answer__c> relatedAnswers = TestDataFactory.createTestRelatedAnswerRecords(
       5,
-      questionnaire.Id,
+      questionnaire.Id,   
       questions
     );
     insert relatedAnswers;
@@ -362,7 +363,7 @@ public with sharing class CartItemCtrlTest {
       LIMIT 1
     ];
     CartItemCtrl.CartItemsData cartItemsDataWrapper = new CartItemCtrl.CartItemsData();
-
+      
     Test.startTest();
     cartItemsDataWrapper = CartItemCtrl.getCartItemsByCart(
       cart.Id,
