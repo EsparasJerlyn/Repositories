@@ -38,6 +38,7 @@ public without sharing class CartItemCtrl {
     cartItemList = [
       SELECT
         Id,
+        Cart.External_Id__c,
         Name,
         Product2Id,
         Pricebook_Entry_ID__c,
@@ -121,8 +122,8 @@ public without sharing class CartItemCtrl {
         .UnitPrice;
       cartItemsWrapper.unitDiscount = 0;
 
-      if (currentCart.External_Id__c!=null){
-        cartItemsWrapper.externalId = currentCart.External_Id__c;
+      if (currentCart.Cart.External_Id__c != null){
+        cartItemsWrapper.externalId = currentCart.Cart.External_Id__c;
       }
 
       // check if pricebook is staff
