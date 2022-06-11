@@ -240,6 +240,7 @@ public without sharing class Product2TriggerHandler implements Disableable, Befo
       ){
         prod.IsActive = false;
         prod.Available_on_Cart__c = false;
+        prod.End_Date__c = Date.Today();
       }
     }
 

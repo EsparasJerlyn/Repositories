@@ -27,6 +27,9 @@
         <!--(End) DEPP 2824 -->
         <!--DEPP-2869-->
         <members>Contact_Create_Triggered_FlowTest</members>
+        <!--DEPP-2523-->
+        <members>Update_Course_or_Program_Start_DateTest</members>
+        <members>Update_Product_End_DateTest</members>
         <name>ApexClass</name>
     </types>
     <types>
@@ -451,6 +454,9 @@
     <types>
     <!--DEPP-2869-->
         <members>Contact_Create_Triggered_Flow</members>
+    <!--DEPP-2523-->
+        <members>Update_Course_or_Program_Start_Date</members>
+        <members>Update_Product_End_Date</members>
         <name>Flow</name>
     </types>
 

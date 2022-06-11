@@ -213,7 +213,7 @@ public with sharing class Product2TriggerHandlerTest {
       }
       Test.startTest();
       update prod2List;
-      system.assert(![SELECT Id FROM Product2 WHERE IsActive = false].isEmpty(),'product wasnt deactivated');
+      system.assert(![SELECT Id FROM Product2 WHERE IsActive = false And End_Date__c = Today].isEmpty(),'product wasnt deactivated');
       system.assert(![SELECT Id FROM Product_Request__c WHERE Product_Request_Status__c = 'Completed'].isEmpty(),'product request wasnt completed');
       Test.stopTest();
 
@@ -341,7 +341,6 @@ public with sharing class Product2TriggerHandlerTest {
         prod2.Available_on_Cart__c = true;
         prod2.Course__c = courses[0].id;
       }
-      System.debug('test: '+prod2List);
       update prod2List;
 
       Test.stopTest();
@@ -398,7 +397,6 @@ public with sharing class Product2TriggerHandlerTest {
         prod2.Available_on_Cart__c = true;
         prod2.Program_Plan__c = programs[0].id;
       }
-      System.debug('test: '+prod2List);
       update prod2List;
 
       Test.stopTest();
