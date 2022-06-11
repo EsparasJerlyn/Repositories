@@ -81,6 +81,7 @@ export default class GroupBookingForm extends LightningElement {
     @track lastName;
     @track contactEmail;
     @track amount;
+    @track xString;
     
   //get contact data
   @wire(getRecord, { recordId: userId, fields: CONTACT_FIELDS })
@@ -129,6 +130,7 @@ export default class GroupBookingForm extends LightningElement {
     }
     
     connectedCallback() {
+
         this.isModalOpen = true;
         this.productId = this.productDetails.Id;
         this.productCourseName = this.productDetails.Name;
@@ -260,6 +262,11 @@ export default class GroupBookingForm extends LightningElement {
         else{
             this.disableAddBtn = true;
         }
+        const accordion = this.template.querySelector('.example-accordion');
+        this.xString='PARTICIPANT ' + this.currentIndex; 
+        setTimeout(() => {   
+            accordion.activeSectionName = this.xString;   
+        }, 100);         
     }
 
     handleClick(event){
