@@ -19,15 +19,16 @@ public without sharing class CartItemCtrl {
   public static CartItemsData getCartItemsByCart(String cartId, String userId) {
     //instantiate variables
     List<CartItem> cartItemList = new List<CartItem>();
+    List<Related_Answer__c> relatedAnswerList = new List<Related_Answer__c>();
     List<Answer__c> answerList = new List<Answer__c>();
 
     Set<Id> pbentryIds = new Set<Id>();
     Set<Id> productIds = new Set<Id>();
-    Set<Id> productReqIds = new Set<Id>();
     Set<Id> relatedAnswerIds = new Set<Id>();
 
     CartItemsData myCartItemsData = new CartItemsData();
     List<CartItemsWrapper> myCartItemsList = new List<CartItemsWrapper>();
+    List<QuestionsWrapper> myQuestionsList = new List<QuestionsWrapper>();
 
     //get the contact ID of the user
     String contactId = [SELECT ContactId FROM User WHERE Id = :userId LIMIT 1]
@@ -42,7 +43,6 @@ public without sharing class CartItemCtrl {
         Product2Id,
         Pricebook_Entry_ID__c,
         Course_Offering__c,
-        Course_Offering__r.hed__Course__r.ProductRequestID__c,
         Course_Offering__r.hed__Start_Date__c,
         Course_Offering__r.Delivery_Type__c,
         Course_Offering__r.Available_Seats__c,
@@ -59,33 +59,6 @@ public without sharing class CartItemCtrl {
     for (CartItem currentCart : cartItemList) {
       pbentryIds.add(currentCart.Pricebook_Entry_ID__c);
       productIds.add(currentCart.Product2Id);
-      productReqIds.add(currentCart.Course_Offering__r.hed__Course__r.ProductRequestID__c);
-    }
-
-    List<Related_Answer__c> relatedAnswerList = new List<Related_Answer__c>();     
-    //retrieve relatedAnswerList
-    relatedAnswerList = [
-      SELECT
-      Id,
-      Question__r.Type__c,
-      Question__r.Label__c,
-      Sequence__c,
-      Questionnaire__r.Parent_Record_ID__c,
-      Question__r.Acceptable_Response__c,
-      Question__r.Message__c,
-      Questionnaire__r.Questionnaire_Type__c,
-      Question__r.Dropdown_Options__c
-    FROM Related_Answer__c
-    WHERE
-      Questionnaire__r.Parent_Record_ID__c IN :productReqIds
-      AND Questionnaire__r.Questionnaire_Type__c = 'Registration Questions'
-    ORDER BY Questionnaire__r.Questionnaire_Type__c, Sequence__c
-    ];
-
-    Map<id, List<Related_Answer__c>> QuestionnaireMap = new Map<id, List<Related_Answer__c>>();
-    for(Related_Answer__c RA :relatedAnswerList){
-       //RelatedAnswerForKey = new List<Related_Answer__c>();
-       QuestionnaireMap.put(RA.Questionnaire__r.Parent_Record_ID__c, relatedAnswerList);
     }
 
     //create map of price book entry for linking with the cart items
@@ -105,56 +78,6 @@ public without sharing class CartItemCtrl {
       cartItemsWrapper.cartItemId = currentCart.Id;
       cartItemsWrapper.productName = currentCart.Name;
       cartItemsWrapper.productId = currentCart.Product2Id;
-      cartItemsWrapper.contactId = contactId;
-      cartItemsWrapper.CourseOfferingId =currentCart.Course_Offering__c;
-
-      if(QuestionnaireMap.containsKey(currentCart.Course_Offering__r.hed__Course__r.ProductRequestID__c)) {
-        
-        List<Related_Answer__c> relatedAnswersList2 = QuestionnaireMap.get(currentCart.Course_Offering__r.hed__Course__r.ProductRequestID__c);
-          List<RelatedAnswersWrapper> relatedAnswerListWrap = new List<RelatedAnswersWrapper>();  //container for related answer
-         
-          for (Related_Answer__c ra2 : relatedAnswersList2 ) {
-               RelatedAnswersWrapper relatedAnswerListSingle = new RelatedAnswersWrapper(); 
-               List<OptionsWrapper> OptionsWrapperList = new List<OptionsWrapper>();
-               List<String> tempStrList = ra2.Question__c != null ? (ra2.Question__r.Dropdown_Options__c != null ? ra2.Question__r.Dropdown_Options__c.split(';') : new List<String>()) : new List<String>();
-                      for (String opp : tempStrList) 
-                      {
-                        OptionsWrapper oppWrapper = new OptionsWrapper();
-                          oppWrapper.label = opp;
-                          oppWrapper.value = opp;
-                          OptionsWrapperList.add(oppWrapper);
-                      }
-                      relatedAnswerListSingle.Options = OptionsWrapperList;
-               relatedAnswerListSingle.Id  = ra2.Id;
-               relatedAnswerListSingle.QuestionId  = ra2.Question__r.Id;
-               relatedAnswerListSingle.Label  = ra2.Question__r.Label__c;
-               relatedAnswerListSingle.MandatoryResponse  = ra2.Question__r.Acceptable_Response__c;
-               relatedAnswerListSingle.Message  = ra2.Question__r.Message__c;
-               relatedAnswerListSingle.Type  = ra2.Question__r.Type__c;
-               relatedAnswerListSingle.IsText = ra2.Question__r.Type__c == 'Text' ? true : false;
-               relatedAnswerListSingle.IsCheckbox = ra2.Question__r.Type__c == 'Checkbox' ? true : false;
-               relatedAnswerListSingle.IsNumber = ra2.Question__r.Type__c == 'Number' ? true : false;
-               relatedAnswerListSingle.IsDate = ra2.Question__r.Type__c == 'Date' ? true : false;              
-               relatedAnswerListSingle.IsPicklist = ra2.Question__r.Type__c == 'Picklist' ? true : false;
-               relatedAnswerListSingle.IsCheckbox = ra2.Question__r.Type__c == 'Checkbox' ? true : false;
-               relatedAnswerListSingle.IsMultiPicklist = ra2.Question__r.Type__c == 'Multi-Select Picklist' ? true : false;                                           
-               relatedAnswerListSingle.Answer  = '';
-               relatedAnswerListSingle.IsFileUpload = ra2.Question__r.Type__c == 'File Upload'?true:false;
-               relatedAnswerListSingle.QuestionnaireId  = ra2.Questionnaire__c;
-               relatedAnswerListSingle.IsCriteria  = ra2.Questionnaire__r.Questionnaire_Type__c == 'Registration Criteria'
-               ? true
-               : false;
-               relatedAnswerListSingle.IsQuestion  = ra2.Questionnaire__r.Questionnaire_Type__c == 'Application Questions'
-               ? true
-               : false;
-               relatedAnswerListSingle.Sequence  = ra2.Sequence__c;
-               relatedAnswerListSingle.ErrorMessage  = '';
-               relatedAnswerListSingle.FileData  = '';         
-               relatedAnswerListWrap.add(relatedAnswerListSingle);      
-          }
-          cartItemsWrapper.relatedAnswers = relatedAnswerListWrap;
-
-      }
 
       //if course offering field is not empty (Course offering product)
       if(currentCart.Course_Offering__c != null){
@@ -221,7 +144,118 @@ public without sharing class CartItemCtrl {
       myCartItemsList.add(cartItemsWrapper);
     }
 
+    
+    //retrieve related answers for the current products in cart
+    // relatedAnswerList = [SELECT Id, Name, Question__r.Label__c, Question__r.Type__c, Questionnaire__r.Questionnaire_Type__c, Questionnaire__r.Object_Type__c, Sequence__c FROM Related_Answer__c WHERE Questionnaire__r.Questionnaire_Type__c = 'Registration Questions' AND Questionnaire__r.Parent_Record_ID__c IN :productIds ORDER BY Related_Answer__c.Sequence__c];
+    relatedAnswerList = [
+      SELECT Id
+      FROM Related_Answer__c
+      WHERE
+        Questionnaire__r.Questionnaire_Type__c = 'Registration Questions'
+        AND Questionnaire__r.Parent_Record_ID__c IN :productIds
+      ORDER BY Related_Answer__c.Sequence__c
+    ];
+
+    //loop on related answers to get the IDS
+    for (Related_Answer__c currentRelatedAnswer : relatedAnswerList) {
+      relatedAnswerIds.add(currentRelatedAnswer.Id);
+    }
+
+    //retrieve answers
+    answerList = [
+      SELECT
+        Id,
+        Name,
+        Related_Answer__r.Question__r.Label__c,
+        Related_Answer__r.Question__r.Type__c,
+        Related_Answer__r.Question__r.Dropdown_Options__c,
+        Questionnaire_Response_Summary__r.Contact__c,
+        Response__c
+      FROM Answer__c
+      WHERE
+        Related_Answer__r.Id IN :relatedAnswerIds
+        AND Questionnaire_Response_Summary__r.Contact__c = :contactId
+    ];
+
+    //loop for popoulating the returned object
+    for (Answer__c currentAnswer : answerList) {
+      QuestionsWrapper questionsWrapper = new QuestionsWrapper();
+
+      //populate data
+      questionsWrapper.answerId = currentAnswer.Id;
+      questionsWrapper.label = currentAnswer.Related_Answer__r.Question__r.Label__c;
+      questionsWrapper.inputType = currentAnswer.Related_Answer__r.Question__r.Type__c;
+      questionsWrapper.stringResponse = currentAnswer.Response__c;
+      questionsWrapper.newStringResponse = currentAnswer.Response__c;
+
+      //check the input type of the question and set property accordingly
+      //for text, number and date, set isText to true to use normal input field
+      if (
+        questionsWrapper.inputType == 'Text' ||
+        questionsWrapper.inputType == 'Number' ||
+        questionsWrapper.inputType == 'Date'
+      ) {
+        questionsWrapper.isText = true;
+      } else if (questionsWrapper.inputType == 'Checkbox') {
+        questionsWrapper.isCheckbox = true;
+        questionsWrapper.booleanResponse = Boolean.valueOf(
+          currentAnswer.Response__c
+        );
+
+        //for picklist and multi select picklist
+      } else if (
+        questionsWrapper.inputType == 'Picklist' ||
+        questionsWrapper.inputType == 'Multi-Select Picklist'
+      ) {
+        //set specific variable
+        if (questionsWrapper.inputType == 'Picklist') {
+          questionsWrapper.isPicklist = true;
+        } else if (questionsWrapper.inputType == 'Multi-Select Picklist') {
+          questionsWrapper.isMultiPicklist = true;
+
+          //store the response of the multi pick list into a list
+          List<String> multiPicklistResponse = currentAnswer.Response__c != null
+            ? currentAnswer.Response__c.split(';')
+            : null;
+
+          //set the value
+          questionsWrapper.multiPicklistResponse = multiPicklistResponse;
+        }
+
+        //instantiate the list for picklist
+        List<PicklistOptions> picklistList = new List<PicklistOptions>();
+
+        //store pick list options in list
+        List<String> picklistOptions = currentAnswer.Related_Answer__r.Question__r.Dropdown_Options__c !=
+          null
+          ? currentAnswer.Related_Answer__r.Question__r.Dropdown_Options__c.split(
+              ';'
+            )
+          : null;
+
+        //loop on all the options
+        for (String currentOption : picklistOptions) {
+          PicklistOptions picklist = new PicklistOptions();
+
+          //set label and key
+          picklist.label = currentOption;
+          picklist.value = currentOption;
+
+          //add current option to the list
+          picklistList.add(picklist);
+        }
+
+        //set the list
+        questionsWrapper.picklistOptions = picklistList;
+      } else if (questionsWrapper.inputType == 'File Upload') {
+        questionsWrapper.isFileUpload = true;
+      }
+
+      myQuestionsList.add(questionsWrapper);
+    }
+
     myCartItemsData.cartItemsList = myCartItemsList;
+    myCartItemsData.questionsList = myQuestionsList;
 
     return myCartItemsData;
   }
@@ -229,6 +263,8 @@ public without sharing class CartItemCtrl {
   public class CartItemsData {
     @AuraEnabled
     public List<CartItemsWrapper> cartItemsList;
+    @AuraEnabled
+    public List<QuestionsWrapper> questionsList;
     @AuraEnabled
     public Boolean showStaffId = false;
     @AuraEnabled
@@ -242,10 +278,6 @@ public without sharing class CartItemCtrl {
     public String productName;
     @AuraEnabled
     public String productId;
-    @AuraEnabled   
-    public String contactId;
-    @AuraEnabled
-    public String CourseOfferingId;
     @AuraEnabled
     public String startDate;
     @AuraEnabled
@@ -262,55 +294,38 @@ public without sharing class CartItemCtrl {
     public Boolean showInvalidDiscount = false;
     @AuraEnabled
     public String externalId;
-    @AuraEnabled
-    public List<RelatedAnswersWrapper> relatedAnswers;
-  }
-  public class RelatedAnswersWrapper {
-    @AuraEnabled
-    public String Id;
-    @AuraEnabled
-    public String QuestionId;
-    @AuraEnabled
-    public String Label;
-    @AuraEnabled
-    public String MandatoryResponse;
-    @AuraEnabled
-    public String Message;
-    @AuraEnabled
-    public String Type;
-    @AuraEnabled
-    public Boolean IsText;
-    @AuraEnabled
-    public Boolean IsCheckbox;
-    @AuraEnabled
-    public Boolean IsNumber;
-    @AuraEnabled
-    public Boolean IsDate;
-    @AuraEnabled
-    public Boolean IsPicklist;
-    @AuraEnabled
-    public Boolean IsMultiPicklist;                                          
-    @AuraEnabled
-    public Boolean IsFileUpload;
-    @AuraEnabled 
-    public String Answer;
-    @AuraEnabled
-    public String QuestionnaireId;
-    @AuraEnabled
-    public Boolean IsCriteria;
-    @AuraEnabled
-    public Boolean IsQuestion;
-    @AuraEnabled
-    public Decimal Sequence;
-    @AuraEnabled
-    public String ErrorMessage;
-    @AuraEnabled
-    public String FileData;
-    @AuraEnabled
-    public List<OptionsWrapper> Options;
   }
 
-  public class OptionsWrapper {
+  public class QuestionsWrapper {
+    @AuraEnabled
+    public String answerId;
+    @AuraEnabled
+    public String label;
+    @AuraEnabled
+    public String inputType;
+    @AuraEnabled
+    public String stringResponse;
+    @AuraEnabled
+    public String newStringResponse;
+    @AuraEnabled
+    public Boolean booleanResponse;
+    @AuraEnabled
+    public Boolean isText;
+    @AuraEnabled
+    public Boolean isCheckbox;
+    @AuraEnabled
+    public Boolean isPicklist;
+    @AuraEnabled
+    public Boolean isMultiPicklist;
+    @AuraEnabled
+    public Boolean isFileUpload;
+    @AuraEnabled
+    public List<PicklistOptions> picklistOptions;
+    @AuraEnabled
+    public List<String> multiPicklistResponse;
+  }
+
+  public class PicklistOptions {
     @AuraEnabled
     public String label;
     @AuraEnabled
@@ -357,7 +372,6 @@ public without sharing class CartItemCtrl {
 
     Set<Id> productIds = new Set<Id>();
     Set<Id> pbentryIds = new Set<Id>();
-
 
     //loop on the returned list to populate price book entry and product IDs
     for (CartItem currentCart : cartItemList) {
