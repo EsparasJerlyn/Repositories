@@ -312,6 +312,7 @@ public without sharing class PaymentConfirmationCtrl {
                 Receipt_Number__c,
                 Amount_Paid__c,
                 Payment_URL__c,
+                Status,
                 Status__c
             FROM WebCart 
             WHERE Id = :cartId
@@ -324,6 +325,7 @@ public without sharing class PaymentConfirmationCtrl {
         webCart.Amount_Paid__c = amountPaid;
         webCart.Payment_URL__c = paymentUrl;
         webCart.Status__c = 'Closed';
+        webCart.Status = 'Closed';
 
         update webCart;
     }
