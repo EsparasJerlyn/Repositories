@@ -276,12 +276,12 @@ export default class CartDetails extends LightningElement {
       this.showStudentId = result.data.showStudentId;
 
       //set the cart items data and questions
-      this.cartItems = result.data.cartItemsList;
+      this.cartItems = JSON.parse(JSON.stringify(result.data.cartItemsList));
       this.questions = result.data.questionsList;
 
       //get totals
       this.total = this.calculateSubTotal() - this.discountTotal;
-      this.cartExternalId = this.cartItems[0].externalId; // added for payment parameters
+      this.cartExternalId = this.cartItems[0]?this.cartItems[0].externalId:''; // added for payment parameters
 
       //if the pay buttons are disabled
       if (this.disablePayment) {
@@ -696,4 +696,52 @@ export default class CartDetails extends LightningElement {
 
     publish(this.messageContext, payloadContainerLMS, payLoad);
   }
+
+  handleChange(event) {
+
+    let tempObj = {Id:event.target.dataset.questionId,Answer:event.detail.value};
+    try {
+        this.cartItems.forEach(e=>{
+          if (e.relatedAnswers && Array.isArray(e.relatedAnswers) ){
+            e.relatedAnswers.forEach(j=>{
+
+
+
+              if(tempObj.Id === j.Id && j.IsCheckbox){ //checkbox
+                j.Answer = event.detail.checked.toString();
+              }
+              else if(tempObj.Id === j.Id && j.IsFileUpload){  //fileupload
+                j.Answer = event.detail.value.toString();
+                const file = event.target.files[0];
+                let reader = new FileReader();
+                reader.onload = () => {
+                    let base64 = reader.result.split(',')[1];
+                    j.FileData = {
+                        'filename': file.name,
+                        'base64': base64,
+                        'recordId': undefined
+                    };
+                }
+                reader.readAsDataURL(file);
+              }
+              else if(event.target.name === j.Id && j.IsMultiPicklist){
+                     j.Answer = event.detail.value?event.detail.value.toString().replace(/,/g, ';'):j.Answer;
+              }
+              else if (j.Id == tempObj.Id){
+                    j.Answer = tempObj.Answer;
+                }
+            });
+          }
+      })
+    } catch (error) {
+        console.error(error);  
+    }
+
+
+
+
+    
+  }
+
+
 }

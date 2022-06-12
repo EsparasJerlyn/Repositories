@@ -199,7 +199,7 @@ public with sharing class CartItemCtrlTest {
     //for registration questions setup
     Questionnaire__c questionnaire = new Questionnaire__c(
       Questionnaire_Type__c = 'Registration Questions',
-      Parent_Record_ID__c = products[0].id,
+      Parent_Record_ID__c =  prodRequest[0].Id,
       Object_Type__c = PRODUCT_API_NAME
     );
     insert questionnaire;
