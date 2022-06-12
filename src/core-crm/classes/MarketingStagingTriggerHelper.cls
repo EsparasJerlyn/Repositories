@@ -102,7 +102,7 @@ public with sharing class MarketingStagingTriggerHelper{
      * @param marketingStage - marketingstaging object
      * @param oldContactId - contactId
      */
-    public static sObject createContactRecord(sObject marketingStage, Id oldContactId){
+    public static sObject createContactRecord(sObject marketingStage, Id oldContactId, List<String> salutations){
         sObject obj = Schema.getGlobalDescribe().get('Contact').newSObject();
 
         if(oldContactId != null){
@@ -110,7 +110,10 @@ public with sharing class MarketingStagingTriggerHelper{
         }
 
         for(String fieldName: CONTACT_FIELDS.keySet()){
-            if(marketingStage.get(CONTACT_FIELDS.get(fieldName)) != null){
+            if(marketingStage.get(CONTACT_FIELDS.get(fieldName)) != null && 
+                ((  fieldName == 'Salutation' && 
+                    salutations.contains((String)marketingStage.get(CONTACT_FIELDS.get(fieldName)))) || 
+                    fieldName != 'Salutation')){
                 obj.put(fieldName,(marketingStage.get(CONTACT_FIELDS.get(fieldName))));
             }
         }
@@ -123,7 +126,7 @@ public with sharing class MarketingStagingTriggerHelper{
      * @param marketingStage - marketingstaging object
      * @param oldLeadId - leadId
      */
-    public static sObject createLeadRecord(sObject marketingStage, Id oldLeadId){
+    public static sObject createLeadRecord(sObject marketingStage, Id oldLeadId, List<String> salutations){
         sObject obj = Schema.getGlobalDescribe().get('Lead').newSObject();
 
         obj.put('Company','Learner');
@@ -133,7 +136,10 @@ public with sharing class MarketingStagingTriggerHelper{
         }
         
         for(String fieldName: LEAD_FIELDS.keySet()){
-            if(marketingStage.get(LEAD_FIELDS.get(fieldName)) != null){
+            if(marketingStage.get(LEAD_FIELDS.get(fieldName)) != null && 
+            ((  fieldName == 'Salutation' && 
+                salutations.contains((String)marketingStage.get(LEAD_FIELDS.get(fieldName)))) || 
+                fieldName != 'Salutation')){
                 obj.put(fieldName,(marketingStage.get(LEAD_FIELDS.get(fieldName))));
             }
         }
@@ -261,5 +267,16 @@ public with sharing class MarketingStagingTriggerHelper{
         }
         return obj;
     }
+
+
+    public static List<String> getSalutations(){
+        List<String> pickListValuesList= new List<String>();
+         Schema.DescribeFieldResult fieldResult = Contact.Salutation.getDescribe();
+         List<Schema.PicklistEntry> ple = fieldResult.getPicklistValues();
+         for( Schema.PicklistEntry pickListVal : ple){
+             pickListValuesList.add(pickListVal.getLabel());
+         }     
+         return pickListValuesList;
+     }
 
 }

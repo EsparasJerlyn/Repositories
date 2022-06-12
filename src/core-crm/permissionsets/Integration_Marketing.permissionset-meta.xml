@@ -1711,6 +1711,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Marketing_Course_Application__c.QTAC_Matching_Criteria__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Marketing_Course_Application__c.QTAC_Offer_Able__c</field>
         <readable>true</readable>
@@ -1726,6 +1731,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Marketing_Course_Application__c.SAMS_Matching_Criteria__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Marketing_Course_Application__c.Scholarship_Name__c</field>
         <readable>true</readable>
@@ -1738,6 +1748,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Marketing_Course_Application__c.Student_Study_Package_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Marketing_Course_Application__c.Studylink_Matching_Criteria__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3126,6 +3141,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Marketing_Staging__c.QTAC_Matching_Criteria__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Marketing_Staging__c.QTAC_Offer_Able__c</field>
         <readable>true</readable>
@@ -3153,6 +3173,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Marketing_Staging__c.QUT_Student_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Marketing_Staging__c.SAMS_Matching_Criteria__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3373,6 +3398,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Marketing_Staging__c.Student_Study_Package_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Marketing_Staging__c.Studylink_Matching_Criteria__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
