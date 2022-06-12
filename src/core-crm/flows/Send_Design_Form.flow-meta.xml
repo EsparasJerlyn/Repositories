@@ -99,7 +99,7 @@
         <name>Assign_External_Email_Address_0_0</name>
         <label>Assign External Email Address</label>
         <locationX>3900</locationX>
-        <locationY>638</locationY>
+        <locationY>518</locationY>
         <assignmentItems>
             <assignToReference>EmailAddresses</assignToReference>
             <operator>Add</operator>
@@ -127,14 +127,14 @@
             <assignToReference>EmailAddresses</assignToReference>
             <operator>Add</operator>
             <value>
-                <elementReference>Get_Opportunity_Contact_Role.Contact.Email</elementReference>
+                <elementReference>Get_Opportunity_Contact_Role_for_External.Contact.Email</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>DisplayEmailAddress</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>Get_Opportunity_Contact_Role.Contact.Email</elementReference>
+                <elementReference>Get_Opportunity_Contact_Role_for_External.Contact.Email</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -145,7 +145,7 @@
         <name>Assign_Internal_Email_Address</name>
         <label>Assign Internal Email Address</label>
         <locationX>3196</locationX>
-        <locationY>638</locationY>
+        <locationY>518</locationY>
         <assignmentItems>
             <assignToReference>EmailAddresses</assignToReference>
             <operator>Add</operator>
@@ -173,14 +173,14 @@
             <assignToReference>EmailAddresses</assignToReference>
             <operator>Add</operator>
             <value>
-                <elementReference>Get_Opportunity_Contact_Role.Contact.QUT_Staff_Email__c</elementReference>
+                <elementReference>Get_Opportunity_Contact_Role_for_Internal.Contact.QUT_Staff_Email__c</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>DisplayEmailAddress</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>Get_Opportunity_Contact_Role.Contact.QUT_Staff_Email__c</elementReference>
+                <elementReference>Get_Opportunity_Contact_Role_for_Internal.Contact.QUT_Staff_Email__c</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -653,7 +653,7 @@
         <name>is_OPE_or_CCE</name>
         <label>is OPE or CCE</label>
         <locationX>3460</locationX>
-        <locationY>518</locationY>
+        <locationY>398</locationY>
         <defaultConnector>
             <targetReference>Has_Assigned_Requestor</targetReference>
         </defaultConnector>
@@ -684,7 +684,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Assign_Internal_Email_Address_0</targetReference>
+                <targetReference>Get_Opportunity_Contact_Role_for_Internal</targetReference>
             </connector>
             <label>is CCE</label>
         </rules>
@@ -693,7 +693,7 @@
         <name>is_OPE_or_CCE_0</name>
         <label>is OPE or CCE</label>
         <locationX>4164</locationX>
-        <locationY>518</locationY>
+        <locationY>398</locationY>
         <defaultConnector>
             <targetReference>Has_Assigned_Requestor</targetReference>
         </defaultConnector>
@@ -724,7 +724,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Assign_External_Email_Address_0_0_0</targetReference>
+                <targetReference>Get_Opportunity_Contact_Role_for_External</targetReference>
             </connector>
             <label>is CCE</label>
         </rules>
@@ -755,7 +755,7 @@
         <name>isInternalOrExternal_0</name>
         <label>isInternalOrExternal</label>
         <locationX>3812</locationX>
-        <locationY>398</locationY>
+        <locationY>278</locationY>
         <defaultConnector>
             <targetReference>is_OPE_or_CCE_0</targetReference>
         </defaultConnector>
@@ -1016,13 +1016,41 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
-        <name>Get_Opportunity_Contact_Role</name>
-        <label>Get Opportunity Contact Role</label>
-        <locationX>3812</locationX>
-        <locationY>278</locationY>
+        <name>Get_Opportunity_Contact_Role_for_External</name>
+        <label>Get Opportunity Contact Role for External</label>
+        <locationX>4164</locationX>
+        <locationY>518</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>isInternalOrExternal_0</targetReference>
+            <targetReference>Assign_External_Email_Address_0_0_0</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>OpportunityId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_Product_Request_Record.Product_Specification__r.Opportunity_Name__r.Id</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Role</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Client Decision-Maker</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>OpportunityContactRole</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Opportunity_Contact_Role_for_Internal</name>
+        <label>Get Opportunity Contact Role for Internal</label>
+        <locationX>3460</locationX>
+        <locationY>518</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Assign_Internal_Email_Address_0</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -1071,7 +1099,7 @@
         <locationY>158</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Get_Opportunity_Contact_Role</targetReference>
+            <targetReference>isInternalOrExternal_0</targetReference>
         </connector>
         <faultConnector>
             <targetReference>Product_Request_Error</targetReference>
