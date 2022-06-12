@@ -601,6 +601,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Account.Do_Not_Sync_To_MC_Override__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Account.End_Date__c</field>
         <readable>false</readable>
@@ -704,6 +709,11 @@
         <editable>false</editable>
         <field>Account.Start_Date__c</field>
         <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Account.Sync_To_MC__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -1097,6 +1107,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Contact.Do_Not_Sync_To_MC_Override__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Contact.Email</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1307,6 +1322,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.Staff_Email_Opt_Out_DateTime__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Sync_To_MC__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1736,6 +1756,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Lead.Do_Not_Sync_To_MC_Override__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Lead.Email_Opt_In_DateTime__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1837,6 +1862,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Lead.Phone_No_Locale__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Lead.Sync_To_MC__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
