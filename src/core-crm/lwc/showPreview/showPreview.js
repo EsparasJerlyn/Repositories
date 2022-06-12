@@ -1,8 +1,7 @@
 import { LightningElement, api, wire } from "lwc";
 import { CurrentPageReference } from "lightning/navigation";
 import { loadStyle } from "lightning/platformResourceLoader";
-import customSR from "@salesforce/resourceUrl/QUTCustomLwcCss";
-import customSR1 from "@salesforce/resourceUrl/QUTMainCSS";
+import customSR1 from "@salesforce/resourceUrl/QUTInternalCSS";
 import getProductDataRelatedToProductRequest from "@salesforce/apex/ProductDetailsCtrl.getProductDataRelatedToProductRequest";
 
 export default class ShowPreview extends LightningElement {
@@ -21,7 +20,7 @@ export default class ShowPreview extends LightningElement {
   isInternalUser;
 
   renderedCallback() {
-    Promise.all([loadStyle(this, customSR + "/qutCustomLwcCss.css")]);
+    Promise.all([loadStyle(this, customSR1 + "/QUTInternalCSS.css")]);
   }
 
   @wire(CurrentPageReference)

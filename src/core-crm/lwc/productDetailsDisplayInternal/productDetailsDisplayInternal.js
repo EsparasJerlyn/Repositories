@@ -44,6 +44,7 @@ export default class ProductDetailsDisplay extends LightningElement {
   @track disablePriceBookEntry = true;
   @track disableAddToCart = true;
   @track selectedDelivery;
+  availablePricings =[];
 
   label = {
     overview,
@@ -82,6 +83,16 @@ export default class ProductDetailsDisplay extends LightningElement {
       this.productDetails.Name +
       "Professional Development Module is a stand-alone course. Choose the expertise you need and explore each topic to find the time frame that suits you.";
     this.disableDelivery = this.deliveryOptions.length == 0 ? true : false;
+
+    let pricingsLocal = [];
+    this.priceBookEntries.forEach(function (priceBookEntry) {
+      pricingsLocal.push({
+        label: priceBookEntry.label === 'Standard Price Book'? priceBookEntry.label.slice(0, 8): priceBookEntry.label,
+        value: priceBookEntry.value,
+        meta: parseInt(priceBookEntry.meta).toLocaleString('en-US', { style: 'currency', currency: 'USD',  minimumFractionDigits: 0 })
+      });
+    });
+    this.availablePricings = pricingsLocal;
   }
 
   handleAccordionToggle(event) {
@@ -97,13 +108,13 @@ export default class ProductDetailsDisplay extends LightningElement {
         "src",
         qutResourceImg + "/QUTImages/Icon/accordionClose.svg"
       );
-    } else {
+    }else {
       accordionAriaExpanded.setAttribute("aria-expanded", "true");
       accordionContent.removeAttribute("hidden");
-      accordionIcon.setAttribute(
+      /*accordionIcon.setAttribute(
         "src",
         qutResourceImg + "/QUTImages/Icon/accordionOpen.svg"
-      );
+      );*/
     }
   }
 

@@ -5,7 +5,6 @@
   flex-direction: column;
   align-items: stretch;
 }
-
 .heading1 {
   font-family: "ProximaNova-Bold";
   /*color: var(--main-color-blue500) !important;*/
@@ -126,10 +125,44 @@ img.slds-accordion__summary-action-icon {
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
   margin-left: 32px;
   padding: 16px;
-  margin-top:20px;
 }
 
 h1{
   color:#0066b9;
   font-family:"ProximaNova";
 }
+
+.slds-accordion__summary-content {
+  min-width: 98%;
+}
+
+.slds-accordion__list-item {
+  border-top: none;
+  border-bottom: 2px solid #0066b9;
+}
+
+.slds-accordion__section
+.accordionHeader{
+  color: #0066B9;
+}
+
+.slds-accordion__summary-heading{
+  padding: 16px;
+  margin: auto;
+}
+
+
+/*Accordion*/
+
+
+.slds-accordion__section .accordionHeader {
+  color: var(--main-color-blue500);
+}
+
+
+.slds-is-open button[aria-expanded="true"] img{
+  filter: brightness(0) invert(1);
+  transform: rotate(45deg);
+}
+
+/*end of accordion*/
