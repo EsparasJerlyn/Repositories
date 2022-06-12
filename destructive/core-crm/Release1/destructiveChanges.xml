@@ -458,6 +458,13 @@
     <!--DEPP-2523-->
         <members>Update_Course_or_Program_Start_Date</members>
         <members>Update_Product_End_Date</members>
+    <!--DEPP-3032-->
+        <members>Face_Face_Final_Confirmation_Email</members>
+        <members>Virtual_Confirmation_Email</members>
+        <members>Post_Course_Completion_Email</members>
+        <members>Pre_session_Reminder_Email</members>
+        <members>Send_Email_on_Registration_Confirmation</members>
+        <members>Online_Self_Paced_Confirmation_Email</members>
         <name>Flow</name>
     </types>
 
