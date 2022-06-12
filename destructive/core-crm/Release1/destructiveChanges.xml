@@ -30,6 +30,7 @@
         <!--DEPP-2523-->
         <members>Update_Course_or_Program_Start_DateTest</members>
         <members>Update_Product_End_DateTest</members>
+        <members>Validation_FlowTest</members>
         <name>ApexClass</name>
     </types>
     <types>
