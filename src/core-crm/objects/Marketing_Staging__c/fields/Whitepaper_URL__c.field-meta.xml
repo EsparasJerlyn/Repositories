@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Whitepaper_URL__c</fullName>
+    <externalId>false</externalId>
+    <formula>CASE(
+    Lead_Source__c , 
+    &apos;CCE Campagins&apos;,  
+    HYPERLINK(&apos;https://www.qut.edu.au/study/professional-and-executive-education/get-your-team-future-fit-fast&apos;, &apos;https://www.qut.edu.au/study/professional-and-executive-education/get-your-team-future-fit-fast&apos;, &apos;_blank&apos;), 
+    &apos;QUTeX INSIGHTS - Retail Whitepaper&apos;, 
+    HYPERLINK(&apos;https://www.qut.edu.au/study/professional-and-executive-education/insights/whitepapers/customer-centricity&apos;, &apos;https://www.qut.edu.au/study/professional-and-executive-education/insights/whitepapers/customer-centricity&apos;, &apos;_blank&apos;),
+    &apos;QUTeX INSIGHTS - Agribusiness Whitepaper&apos;, 
+    HYPERLINK(&apos;https://www.qut.edu.au/study/professional-and-executive-education/insights/whitepapers/agribusiness&apos;, &apos;https://www.qut.edu.au/study/professional-and-executive-education/insights/whitepapers/agribusiness&apos;, &apos;_blank&apos;),
+    &apos;QUTeX INSIGHTS - Upskilling and Microcredentialing&apos;, 
+     HYPERLINK(&apos;https://www.qut.edu.au/study/professional-and-executive-education/insights/whitepapers/qutex-insights-skills-and-credentialing&apos;, &apos;https://www.qut.edu.au/study/professional-and-executive-education/insights/whitepapers/qutex-insights-skills-and-credentialing&apos;, &apos;_blank&apos;),
+    &apos;QUTeX INSIGHTS - COVID-19&apos;, 
+    HYPERLINK(&apos;https://www.qut.edu.au/study/professional-and-executive-education/insights/whitepapers/qutex-insights-covid-19&apos;, &apos;https://www.qut.edu.au/study/professional-and-executive-education/insights/whitepapers/qutex-insights-covid-19&apos;, &apos;_blank&apos;),
+    &apos;QUTeX INSIGHTS - Digital Governance&apos;, 
+    HYPERLINK(&apos;https://www.qut.edu.au/study/professional-and-executive-education/insights/whitepapers/why-digital-governance-matters&apos;, &apos;https://www.qut.edu.au/study/professional-and-executive-education/insights/whitepapers/why-digital-governance-matters&apos;, &apos;_blank&apos;),
+    null
+)</formula>
+    <label>Whitepaper URL</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>
