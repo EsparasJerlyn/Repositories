@@ -137,7 +137,9 @@ public without sharing class PaymentConfirmationCtrl {
         myCartData.cartItemsList = myCartItemsList;
         myCartData.subTotal = mySubtotal;
         myCartData.discountTotal = webCartData.Discount_Applied__c;
-        myCartData.grandTotal = mySubtotal - webCartData.Discount_Applied__c;
+        if(webCartData.Discount_Applied__c!= null && mySubtotal != null){
+            myCartData.grandTotal = mySubtotal - webCartData.Discount_Applied__c;
+        }
         myCartData.paymentMethod = webCartData.Payment_Method__c;
 
         // return myCartData;
