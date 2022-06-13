@@ -14,6 +14,7 @@ public with sharing class CartItemCtrlTest {
   private static final String PRODUCT_API_NAME = Product2.SObjectType.getDescribe().getLocalName();
   private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
   private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
+  private static final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
 
   @TestSetup
   static void setupMethod() {
@@ -28,36 +29,12 @@ public with sharing class CartItemCtrlTest {
     contacts[0].AccountId = accounts[0].Id;
     insert contacts;
 
-    //get the sys admin user to run the insertion of portal user
-    User PORTAL_SYS_ADMIN = [
-        SELECT Id FROM User WHERE IsActive = true
-        AND FirstName = 'Sys Admin' AND LastName = 'Integration User' AND Profile.Name = 'System Administrator' LIMIT 1
-    ];
-
     //run this bloack as system admin
-    system.runAs(PORTAL_SYS_ADMIN) { 
-      //Create portal account owner
-      UserRole portalRole = [Select Id From UserRole Where PortalType = 'None' Limit 1];
-      Profile profile1 = [Select Id from Profile where name = 'System Administrator'];
-      User portalAccountOwner1 = new User(
-        UserRoleId = portalRole.Id,
-        ProfileId = profile1.Id,
-        Username = System.now().millisecond() + 'jm@test.com',
-        Alias = 'jmt',
-        Email='jm@test.com',
-        EmailEncodingKey='UTF-8',
-        Firstname='JMPortalAccOwner',
-        Lastname='JMPortalAccOwnerLast',
-        LanguageLocaleKey='en_US',
-        LocaleSidKey='en_US',
-        TimeZoneSidKey='America/Chicago'
-      );
-      insert portalAccountOwner1;
-
+    System.runAs(PORTAL_SYS_ADMIN) { 
       //Create account
       Account portalAccount1 = new Account(
         Name = 'TestAccount',
-        OwnerId = portalAccountOwner1.Id
+        OwnerId = PORTAL_SYS_ADMIN.Id
       );
       insert portalAccount1;
           
@@ -222,7 +199,7 @@ public with sharing class CartItemCtrlTest {
     //for registration questions setup
     Questionnaire__c questionnaire = new Questionnaire__c(
       Questionnaire_Type__c = 'Registration Questions',
-      Parent_Record_ID__c = products[0].id,
+      Parent_Record_ID__c =  prodRequest[0].Id,
       Object_Type__c = PRODUCT_API_NAME
     );
     insert questionnaire;
@@ -402,37 +379,26 @@ public with sharing class CartItemCtrlTest {
 
   @IsTest
   static void getCartItemDiscountTest() {
-    CartItem cartItem = [
-      SELECT Id, Name, Product2Id, Pricebook_Entry_ID__c
-      FROM CartItem
-      WHERE Name = 'TestProductCourse'
-      LIMIT 1
-    ];
-    PricebookEntry priceBookEntry = [
-      SELECT Id, Name, UnitPrice, Product2Id
-      FROM PricebookEntry
-      WHERE Product2Id = :cartItem.Product2Id
-      LIMIT 1
-    ];
+    WebCart cart = [SELECT Id, Name FROM WebCart LIMIT 1];
+
     Double discount;
     Double discount2;
-    Double unitPrice = priceBookEntry.UnitPrice;
 
     Test.startTest();
     discount = CartItemCtrl.getCartItemDiscount(
-      cartItem.Product2Id,
+      cart.Id,
       'TESTCOUP',
-      unitPrice
+      1000
     );
     discount2 = CartItemCtrl.getCartItemDiscount(
-      cartItem.Product2Id,
+      cart.Id,
       'TESTCOUP2',
-      unitPrice
+      2000
     );
     Test.stopTest();
 
-    System.assertEquals(123, discount, 'Incorrect calculation');
-    System.assertEquals(61.5, discount2, 'Incorrect calculation');
+    System.assertEquals(369, discount, 'Incorrect calculation');
+    System.assertEquals(684.0, discount2, 'Incorrect calculation');
   }
 
   @IsTest
@@ -451,5 +417,18 @@ public with sharing class CartItemCtrlTest {
     Test.stopTest();
 
     System.assertNotEquals(null, prodCategId, 'Product Category Id Retrieved');
+  }
+
+  @IsTest
+  static void updatePaymentMethodTest() {
+    WebCart webCart = [SELECT Id, Name FROM WebCart LIMIT 1];
+
+    Test.startTest();
+    CartItemCtrl.updatePaymentMethod(webCart.Id, 'Pay Now');
+    Test.stopTest();
+
+    WebCart webCartTest = [SELECT Id, Name, Payment_Method__c FROM WebCart LIMIT 1];
+
+    System.assertEquals('Pay Now', webCartTest.Payment_Method__c, 'Incorrect Payment Method');
   }
 }

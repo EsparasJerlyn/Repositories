@@ -3,7 +3,7 @@
     <fullName>Requestor_Name_is_Required</fullName>
     <active>true</active>
     <errorConditionFormula>AND(
- RecordType.DeveloperName =&apos;OPE_Program_Specification&apos;,
+ RecordType.DeveloperName =&apos;OPE&apos;,
  ISBLANK( Requestor_Name__c )
 )</errorConditionFormula>
     <errorDisplayField>Requestor_Name__c</errorDisplayField>

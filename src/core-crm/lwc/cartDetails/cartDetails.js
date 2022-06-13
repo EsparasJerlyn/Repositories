@@ -13,11 +13,16 @@ import getOPEProductCateg from "@salesforce/apex/CartItemCtrl.getOPEProductCateg
 
 import getCartItemsByCart from "@salesforce/apex/CartItemCtrl.getCartItemsByCart";
 import getCartItemDiscount from "@salesforce/apex/CartItemCtrl.getCartItemDiscount";
+import updateCartDiscount from "@salesforce/apex/CartItemCtrl.updateCartDiscount";
+import {refreshApex} from '@salesforce/apex';
 
 import CART_ID_FIELD from "@salesforce/schema/WebCart.Id";
 import CART_STATUS_FIELD from "@salesforce/schema/WebCart.Status";
 import ANSWER_ID_FIELD from "@salesforce/schema/Answer__c.Id";
 import ANSWER_RESPONSE_FIELD from "@salesforce/schema/Answer__c.Response__c";
+
+import { publish, MessageContext } from 'lightning/messageService';
+import payloadContainerLMS from '@salesforce/messageChannel/Breadcrumbs__c';
 
 //USER fields to be updated
 // import USER_ID_FIELD from '@salesforce/schema/User.Id';
@@ -54,7 +59,7 @@ export default class CartDetails extends LightningElement {
   @track contactStudentId;
   @track error;
   @track subTotal;
-  @track discountTotal;
+  @track discountTotal = 0;
   @track total;
   @track cbDetails = false;
   @track cbTerms = false;
@@ -62,6 +67,7 @@ export default class CartDetails extends LightningElement {
   @track showStaffId;
   @track showStudentId;
 
+  resultData;
   cartItems = [];
   questions = [];
   activeTimeout;
@@ -79,6 +85,7 @@ export default class CartDetails extends LightningElement {
   cartExternalId; // added for payment parameters
   checkData = false;
   fromCartSummary = true; // checks if from cart summary or group registration
+  showInvalidDiscount = false;
 
   @track readOnly = {
     firstName: true,
@@ -88,12 +95,14 @@ export default class CartDetails extends LightningElement {
     dietaryReq: true
   };
 
+  @wire(MessageContext)
+  messageContext;
+
   //set the cart status to checkout when opening this page
   connectedCallback() {
     
     //create global variable
     window.isCartSumDisconnected = false;
-    console.log(window.isCartSumDisconnected);
 
     // Set Cart to Checkout
     updateCartStatus({ cartId: this.recordId, cartStatus: "Checkout" })
@@ -115,23 +124,9 @@ export default class CartDetails extends LightningElement {
         console.log(error);
       });
 
-    // window.addEventListener("beforeunload", beforeUnloadHandler, true);
-    // var updateCartId = this.recordId;
-    // function beforeUnloadHandler(e) {
-    //   e.preventDefault();
-    //   updateCartStatus({ cartId: updateCartId, cartStatus: "Active" })
-    //     .then(() => {})
-    //     .catch((error) => {
-    //       console.log("cart update error");
-    //       console.log(error);
-    //     });
-
-      /* if (!window.location.href == BasePath) {
-        e.returnValue = "You may have unsaved Data";
-      } else {
-        e.returnValue = null;
-      } */
-    // }
+    //refresh the cart items
+    refreshApex(this.resultData);
+    this.publishLMS();
   }
 
   //set the status back to active when disconnecting
@@ -139,7 +134,6 @@ export default class CartDetails extends LightningElement {
     
     //create global variable
     window.isCartSumDisconnected = true;
-    console.log(window.isCartSumDisconnected);
 
     //remove 
     window.onload = null;
@@ -270,23 +264,39 @@ export default class CartDetails extends LightningElement {
 
   //get questions
   @wire(getCartItemsByCart, { cartId: "$recordId", userId: userId })
-  cartItemsData({ error, data }) {
+  cartItemsData(result) {
     //if data is retrieved successfully
-    if (data) {
+    if (result.data) {
+
+      //variable to use in refresh apex
+      this.resultData = result;
+
       //set variable if we are showing the staff and/or student ID
-      this.showStaffId = data.showStaffId;
-      this.showStudentId = data.showStudentId;
+      this.showStaffId = result.data.showStaffId;
+      this.showStudentId = result.data.showStudentId;
 
       //set the cart items data and questions
-      this.cartItems = data.cartItemsList;
-      this.questions = data.questionsList;
+      this.cartItems = JSON.parse(JSON.stringify(result.data.cartItemsList));
+      this.questions = result.data.questionsList;
 
       //get totals
-      this.total = this.calculateSubTotal() - this.calculateDiscountTotal();
-      this.cartExternalId = this.cartItems[0].externalId; // added for payment parameters
+      this.total = this.calculateSubTotal() - this.discountTotal;
+      this.cartExternalId = this.cartItems[0]?this.cartItems[0].externalId:''; // added for payment parameters
+
+      //if the pay buttons are disabled
+      if (this.disablePayment) {
+        //disable payment if no seats are available
+        this.disablePayment = !this.checkSeatsAvailable();
+      }
+
+      //redirect to products if no more cart items
+      if(this.cartItems.length == 0){
+        window.location.href = BasePath + "/category/products/" + this.prodCategId;
+
+      }
 
       //else if there's an error
-    } else if (error) {
+    } else if (result.error) {
       this.error = error;
     }
   }
@@ -295,39 +305,28 @@ export default class CartDetails extends LightningElement {
   removeCartItem(event) {
     let cartItemId = event.target.dataset.id;
 
-    //filter out the element with the current cart item id
-    this.cartItems = this.cartItems.filter(function (obj) {
-      return obj.cartItemId !== cartItemId;
-    });
-
-    //get totals
-    this.total = this.calculateSubTotal() - this.calculateDiscountTotal();
-
-    //if the pay buttons are disabled
-    if (this.disablePayment) {
-      //disable payment if no seats are available
-      this.disablePayment = !this.checkSeatsAvailable();
-    }
-
     //function to delete the specific cart item
     deleteCartItem({
       communityId: communityId,
       activeCartOrId: this.recordId,
       cartItemId: cartItemId
     })
-      .then(() => {
+    .then(() => {
 
-        //custom event to update the cart item counter
-        this.dispatchEvent(new CustomEvent("cartchanged", {
-          bubbles: true,
-          composed: true
-        }));
+      //custom event to update the cart item counter
+      this.dispatchEvent(new CustomEvent("cartchanged", {
+        bubbles: true,
+        composed: true
+      }));
 
-      })
-      .catch((error) => {
-        console.log("delete error");
-        console.log(error);
-      });
+      //refresh the cart items
+      refreshApex(this.resultData);
+
+    })
+    .catch((error) => {
+      console.log("delete error");
+      console.log(error);
+    });
   }
 
   //calculate the subtotal of cart items
@@ -340,18 +339,6 @@ export default class CartDetails extends LightningElement {
     }
 
     return this.subTotal;
-  }
-
-  //calculate the total discount
-  calculateDiscountTotal() {
-    this.discountTotal = 0;
-
-    //loop through the current cart items
-    for (let i = 0; i < this.cartItems.length; i++) {
-      this.discountTotal = this.discountTotal + this.cartItems[i].unitDiscount;
-    }
-
-    return this.discountTotal;
   }
 
   //checkes the availability of seats and if checkboxes are ticked
@@ -506,70 +493,66 @@ export default class CartDetails extends LightningElement {
 
   //pay button is clicked
   paymentNow() {
-    //update contact fields
-    this.updateContactFields();
 
     //update answer fields
     this.updateQuestionFields();
+
+    //update the cart with the discount applied
+    updateCartDiscount({ cartId: this.recordId, discountAmount: this.discountTotal })
+      .then(() => { })
+
+        //code
+
+      .catch((error) => {
+
+        console.log("updateCartDiscount error");
+        console.log(error);
+
+      });
   }
 
   //retrieve the discount code
   applyCoupon(event) {
 
-    //temporry cart items
-    let tempCartItems = JSON.parse(JSON.stringify(this.cartItems));
-
     //get the discount code entered by the user and index from the array
-    let couponCode = this.template.querySelector(
-      "lightning-input[data-id='" + event.target.dataset.id + "']"
-    ).value;
-    let currentIndex = this.template.querySelector(
-      "lightning-input[data-id='" + event.target.dataset.id + "']"
-    ).name;
+    let couponCode = this.template.querySelector("lightning-input[data-id='discountField']").value;
 
     //if coupon code field is empty, remove the error and recalutate the totals
     if (couponCode == "") {
+      this.discountTotal = 0;
+
       //hide invalid coupon message
-      tempCartItems[currentIndex].showInvalidDiscount = false;
-
-      //set the discount for the cart item
-      tempCartItems[currentIndex].unitDiscount = 0;
-
-      //reset the cart items
-      this.cartItems = tempCartItems;
+      this.showInvalidDiscount = false;
 
       //get totals
-      this.total = this.calculateSubTotal() - this.calculateDiscountTotal();
+      this.total = this.calculateSubTotal();
 
       return;
     }
 
     //function to get the total discount for the specific cart item
     getCartItemDiscount({
-      productId: this.cartItems[currentIndex].productId,
+      cartId: this.recordId,
       couponCode: couponCode,
-      unitPrice: this.cartItems[currentIndex].unitPrice
+      totalPrice: this.total
     })
       .then((data) => {
-        //set the discount for the cart item
-        tempCartItems[currentIndex].unitDiscount = data;
+
+        this.discountTotal = data;
 
         //if voucher is found
         if (data > 0) {
-          //hide the invalid voucher message
-          tempCartItems[currentIndex].showInvalidDiscount = false;
+          //hide invalid coupon message
+          this.showInvalidDiscount = false;
 
           //else voucher is not found
         } else {
-          //show the invalid voucher message
-          tempCartItems[currentIndex].showInvalidDiscount = true;
+          //show invalid coupon message
+          this.showInvalidDiscount = true;
         }
 
-        //reset the cart items
-        this.cartItems = tempCartItems;
-
         //get totals
-        this.total = this.calculateSubTotal() - this.calculateDiscountTotal();
+        this.total = this.calculateSubTotal() - data;
 
       })
       .catch((error) => {
@@ -624,33 +607,43 @@ export default class CartDetails extends LightningElement {
     this.editModeStudent= true;
   }
 
+  //function called everytime the contact fields are updated
+  enableReadMode(event){
 
-  enableFNReadMode(){
-    this.editModeFN = false;
-  }
-  enableLNReadMode(){
-    this.editModeLN = false;
-  }
-  enableEmailReadMode(){
-    this.editModeEmail = false;
-  }
-  enableMobileReadMode(){
-    this.editModeMob = false;
-  }
-  enableDietaryReadMode(){
-    this.editModeDietary = false;
-  }
-  enableCompanyReadMode(){
-    this.editModeCompany = false;
-  }
-  enablePositionReadMode(){
-    this.editModePosition = false;
-  }
-  enableStaffReadMode(){
-    this.editModeStaff= false;
-  }
-  enableStudentReadMode(){
-    this.editModeStudent= false;
+    //get the specific field name
+    let fieldName = event.target.fieldName;
+
+    //check for the specific field namne
+    if(fieldName == 'FirstName'){
+      this.editModeFN = false;
+
+    } else if(fieldName == 'LastName'){
+      this.editModeLN = false;
+
+    } else if(fieldName == 'Email'){
+      this.editModeEmail = false;
+
+    } else if(fieldName == 'MobilePhone'){
+      this.editModeMob = false;
+
+    } else if(fieldName == 'Dietary_Requirement__c'){
+      this.editModeDietary = false;
+
+    } else if(fieldName == 'Company_Name__c'){
+      this.editModeCompany = false;
+
+    } else if(fieldName == 'Position__c'){
+      this.editModePosition = false;
+
+    } else if(fieldName == 'Nominated_Employee_ID__c'){
+      this.editModeStaff= false;
+
+    } else if(fieldName == 'Nominated_Student_ID__c'){
+      this.editModeStudent= false;
+    }
+
+    //update the contact fields on mouse out
+    this.updateContactFields();
   }
 
   //function called everytime the contact fields are updated
@@ -689,4 +682,66 @@ export default class CartDetails extends LightningElement {
       this.contactStudentId = newValue;
     }
   }
+
+  publishLMS() {
+    let paramObj = {
+      productId: 1,
+      productName: 'Cart Summary',
+      clearOtherMenuItems: true
+    }
+    
+    const payLoad = {
+      parameterJson: JSON.stringify(paramObj)
+    };
+
+    publish(this.messageContext, payloadContainerLMS, payLoad);
+  }
+
+  handleChange(event) {
+
+    let tempObj = {Id:event.target.dataset.questionId,Answer:event.detail.value};
+    try {
+        this.cartItems.forEach(e=>{
+          if (e.relatedAnswers && Array.isArray(e.relatedAnswers) ){
+            e.relatedAnswers.forEach(j=>{
+
+
+
+              if(tempObj.Id === j.Id && j.IsCheckbox){ //checkbox
+                j.Answer = event.detail.checked.toString();
+              }
+              else if(tempObj.Id === j.Id && j.IsFileUpload){  //fileupload
+                j.Answer = event.detail.value.toString();
+                const file = event.target.files[0];
+                let reader = new FileReader();
+                reader.onload = () => {
+                    let base64 = reader.result.split(',')[1];
+                    j.FileData = {
+                        'filename': file.name,
+                        'base64': base64,
+                        'recordId': undefined
+                    };
+                }
+                reader.readAsDataURL(file);
+              }
+              else if(event.target.name === j.Id && j.IsMultiPicklist){
+                     j.Answer = event.detail.value?event.detail.value.toString().replace(/,/g, ';'):j.Answer;
+              }
+              else if (j.Id == tempObj.Id){
+                    j.Answer = tempObj.Answer;
+                }
+            });
+          }
+      })
+    } catch (error) {
+        console.error(error);  
+    }
+
+
+
+
+    
+  }
+
+
 }

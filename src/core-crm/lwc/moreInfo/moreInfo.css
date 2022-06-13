@@ -1,0 +1,23 @@
+.main-content{
+    max-width: 1140px; 
+    margin:0rem auto 0px auto;
+    padding: 64px 0px;
+
+}
+
+
+.sub-title{
+    font-weight: 400;
+    font-size: var(--text-size-18);
+    line-height: var(--dt-line-height-21);
+    margin-top: 8px;
+}
+
+
+@media only screen and (max-width: 764px){
+    .main-content{
+        max-width: 1140px; 
+        margin:0rem auto 0px auto;
+        padding: 32px 0px;
+    }
+}

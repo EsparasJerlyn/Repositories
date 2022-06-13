@@ -46,6 +46,8 @@ private class ProductDetailsCtrlTest {
   private static Id opeProgProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName()
     .get(PR_PROGRAM)
     .getRecordTypeId();
+  private static final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+
   @testSetup
   static void setupMethod() {
     System.runAs(currentUser) {
@@ -445,37 +447,11 @@ private class ProductDetailsCtrlTest {
 
   @isTest
   static void testInsertExpressionOfInterest() {
-    UserRole portalRole = [
-      SELECT Id
-      FROM UserRole
-      WHERE PortalType = 'None'
-      LIMIT 1
-    ];
-    Profile profile1 = [
-      SELECT Id
-      FROM Profile
-      WHERE name = 'System Administrator'
-    ];
-    User portalAccountOwner1 = new User(
-      UserRoleId = portalRole.Id,
-      ProfileId = profile1.Id,
-      Username = System.now().millisecond() + 'Admin1@test.com',
-      Alias = 'batman',
-      Email = 'bruce.wayne@wayneenterprises.com',
-      EmailEncodingKey = 'UTF-8',
-      Firstname = 'Bruce',
-      Lastname = 'Wayne',
-      LanguageLocaleKey = 'en_US',
-      LocaleSidKey = 'en_US',
-      TimeZoneSidKey = 'America/Chicago'
-    );
-    Database.insert(portalAccountOwner1);
-
-    System.runAs(portalAccountOwner1) {
+    System.runAs(PORTAL_SYS_ADMIN) {
       //Create account
       Account portalAccount1 = new Account(
         Name = 'TestAccount',
-        OwnerId = portalAccountOwner1.Id
+        OwnerId = PORTAL_SYS_ADMIN.Id
       );
       Database.insert(portalAccount1);
 

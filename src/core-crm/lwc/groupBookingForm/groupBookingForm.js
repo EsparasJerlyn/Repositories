@@ -5,27 +5,35 @@ import userId from "@salesforce/user/Id";
 import getQuestionsForGroupBooking from "@salesforce/apex/ProductDetailsCtrl.getQuestionsForGroupBooking";
 import addRegistration from '@salesforce/apex/ProductDetailsCtrl.addRegistration';
 import { getRecord, getFieldValue } from "lightning/uiRecordApi";
-import CONTACT_ID from "@salesforce/schema/User.ContactId";
 import ACCOUNT_ID from '@salesforce/schema/Contact.AccountId';
 import insertContactData from '@salesforce/apex/ProductDetailsCtrl.saveContactData';
 import getContactAccountId from '@salesforce/apex/ProductDetailsCtrl.getContactAccountId';
 import getUserContactDetails from '@salesforce/apex/ProductDetailsCtrl.getUserContactDetails';
 import getUserCartDetails from '@salesforce/apex/ProductDetailsCtrl.getUserCartDetails';
-import cartItemForGrpReg from '@salesforce/apex/ProductDetailsCtrl.cartItemForGrpReg';
+import addToCartItem from '@salesforce/apex/ProductDetailsCtrl.addToCartItem';
 import getPricebookEntryPrice from '@salesforce/apex/ProductDetailsCtrl.getPricebookEntryPrice';
 import LWC_Error_General from "@salesforce/label/c.LWC_Error_General";
+import communityId from "@salesforce/community/Id";
 
 const SUCCESS_MSG = 'Record successfully updated.';
 const SUCCESS_TITLE = 'Success!';
 const ERROR_TITLE = 'Error!';
 const SUCCESS_VARIANT = 'success';
 const ERROR_VARIANT = 'error';
+//Contact fields
+const CONTACT_FIELDS = [
+    "User.ContactId",
+    "User.Contact.FirstName",
+    "User.Contact.LastName",
+    "User.Contact.Email"
+  ];
 
 export default class GroupBookingForm extends LightningElement {
     //Boolean tracked variable to indicate if modal is open or not default value is false as modal is closed when page is loaded 
     @track isModalOpen;
     @api productDetails;
     @api selectedCourseOffering;
+    @api selectedProgramOffering;
     @api isPrescribed;
     @track productId;
     @track ProductRequestID;
@@ -36,7 +44,7 @@ export default class GroupBookingForm extends LightningElement {
     @track numberOfParticipants;
     @track productCourseName;
     @track objectAPIName = 'Contact';
-    @api contactId;
+    @track contactId;
     @track minParticipants;
     @track maxParticipants;
     @track listOfdata = [];
@@ -73,13 +81,24 @@ export default class GroupBookingForm extends LightningElement {
     @track lastName;
     @track contactEmail;
     @track amount;
+    @track xString;
     
-    
-    @wire(getRecord, { recordId: userId, fields: [CONTACT_ID] })
-    user;
-    get contactId() {
-      return getFieldValue(this.user.data, CONTACT_ID);
+  //get contact data
+  @wire(getRecord, { recordId: userId, fields: CONTACT_FIELDS })
+  wiredContact({ error, data }) {
+    //if data is retrieved successfully
+    if (data) {
+      //populate the variables
+      this.contactId = data.fields.ContactId.value;
+      this.firstName = data.fields.Contact.value.fields.FirstName.value;
+      this.lastName = data.fields.Contact.value.fields.LastName.value;
+      this.contactEmail = data.fields.Contact.value.fields.Email.value;
+      //else if error
+    } else if (error) {
+      this.error = error;
     }
+  } 
+
     openModal() {
         // to open modal set isModalOpen tarck value as true
         this.isModalOpen = true;
@@ -96,6 +115,8 @@ export default class GroupBookingForm extends LightningElement {
         this.disableAddBtn = false;
         this.counter = 1;
         this.num = 1;
+   
+        
         this.dispatchEvent(new CustomEvent('close'));
     }
     
@@ -106,111 +127,96 @@ export default class GroupBookingForm extends LightningElement {
             this.listOfdata=[...this.listOfdata,{label: i.toLocaleString(), value: i}];
         }
         return this.listOfdata;
-
     }
     
     connectedCallback() {
+
         this.isModalOpen = true;
         this.productId = this.productDetails.Id;
         this.productCourseName = this.productDetails.Name;
+   
         if(this.isPrescribed){
             this.minParticipants = this.productDetails.Program_Plan__r.Minimum_Participants__c;
             this.maxParticipants =  this.productDetails.Program_Plan__r.Maximum_Participants__c;
             this.ProductRequestID = this.productDetails.Program_Plan__r.Product_Request__c;
+            this.courseOffering = this.selectedProgramOffering;
         }else{
             this.minParticipants = this.productDetails.Course__r.Minimum_Participants__c;
             this.maxParticipants =  this.productDetails.Course__r.Maximum_Participants__c;
             this.ProductRequestID = this.productDetails.Course__r.ProductRequestID__c;
+            this.courseOffering = this.selectedCourseOffering;
         }
-   
-        this.courseOffering = this.selectedCourseOffering;
-      //  this.pricebookEntryId = this.priceBookEntry;
-    
+       
+        //Get the Price of the selected course/program from pricebook entry
         getPricebookEntryPrice({
             pricebookId:this.priceBookEntry
-          })
-            .then((results) => {
+        })
+        .then((results) => {
                
-                this.amount = results.UnitPrice;
-             
-            })
-            .catch((e) => {
-              this.generateToast("Error.", LWC_Error_General, "error");
-            });
+            this.amount = results.UnitPrice;
+          
+        })
+        .catch((e) => {
+            this.generateToast("Error.", LWC_Error_General, "error");
+        });
 
-     
-        getUserContactDetails({
-            connId: this.contactId
-          })
-            .then((results) => {
-
-              if (results.length > 0) {
-                    this.firstName = results[0].FirstName;
-                    this.lastName = results[0].LastName;
-                    this.contactEmail = results[0].Email;
-              }
-            })
-            .catch((e) => {
-              this.generateToast("Error.", LWC_Error_General, "error");
-            });
-        
-            //Cart Details
-            getUserCartDetails({
-                userId: userId
-              })
-                .then((results) => {
-                    this.cartExternalId = results.External_Id__c;
-                    this.cartId = results.Id;
-                    this.webStoreId = results.WebStoreId;
-             
-                })
-                .catch((e) => {
-                  this.generateToast("Error.", LWC_Error_General, "error");
-                });
+        // Get the relayed Account of the Contact
         getContactAccountId({
             connId: this.contactId
+        })
+        .then((results) => {
+            if (results.length > 0) {
+                this.actResponseData = results;
+                this.contactActId = this.actResponseData[0].AccountId; 
+            }
+        })
+        .catch((e) => {
+            this.generateToast("Error.", LWC_Error_General, "error");
+        });
+
+        //Get the related Registration Question 
+        getQuestionsForGroupBooking({
+            productReqId: this.ProductRequestID
+        })
+        .then((results) => {
+                if (results.length >= 0) {
+                    this.responseData2 = results;
+                    this.questions2= this.formatQuestions(results);
+                    this.questionsPrimary= this.formatQuestions(results);
+                }
+               
+        })
+        .catch((e) => {
+            this.generateToast("Error.", LWC_Error_General, "error");
+        });    
+        //Get the external Id from the cart
+        getUserCartDetails({
+            userId: userId
           })
             .then((results) => {
-
-              if (results.length > 0) {
-                    this.actResponseData = results;
-                    this.contactActId = this.actResponseData[0].AccountId; 
-              }
+              
+                this.cartExternalId = results.External_Id__c;
+              
             })
             .catch((e) => {
               this.generateToast("Error.", LWC_Error_General, "error");
             });
+           
 
-            getQuestionsForGroupBooking({
-                productReqId: this.ProductRequestID
-              })
-                .then((results) => {
-                 // if (results.length >= 0) {
-                        this.responseData2 = results;
-                        this.questions2= this.formatQuestions(results);
-                        this.questionsPrimary= this.formatQuestions(results);
-                // }
-                })
-                .catch((e) => {
-                  this.generateToast("Error.", LWC_Error_General, "error");
-                });    
-                
     }
   
     getQuestionsList(){
         this.responseData = getQuestionsForGroupBooking();
     }
-    async handleFirstnameChange(event){
+    handleFirstnameChange(event){
         this.firstName = event.detail.value;
-    
+       
     }
-    async handleLastnameChange(event){
+    handleLastnameChange(event){
         this.lastName = event.detail.value;
-      
     }
-    async handleEmailChange(event){
+    handleEmailChange(event){
         this.contactEmail = event.detail.value;
-        
     }
 
      // This handle the picklist for number of participants
@@ -256,6 +262,11 @@ export default class GroupBookingForm extends LightningElement {
         else{
             this.disableAddBtn = true;
         }
+        const accordion = this.template.querySelector('.example-accordion');
+        this.xString='PARTICIPANT ' + this.currentIndex; 
+        setTimeout(() => {   
+            accordion.activeSectionName = this.xString;   
+        }, 100);         
     }
 
     handleClick(event){
@@ -395,13 +406,13 @@ export default class GroupBookingForm extends LightningElement {
                                 return item;
                             });
     
-                            this.saveRegistration(this.contactFields, this.selectedCourseOffering,this.responseData2, this.answerRecords2 ,JSON.stringify(this.createFileUploadMap()));
+                            this.saveRegistration(this.contactFields, this.courseOffering,this.responseData2, this.answerRecords2 ,JSON.stringify(this.createFileUploadMap()));
     
                         }
                         this.generateToast(SUCCESS_TITLE, 'Successfully Submitted', SUCCESS_VARIANT);
                         this.isOpenPayment = true;
-                        //Create cart item
-                        this.createCartItem(this.cartId,this.productCourseName,this.productId,this.courseOffering,this.priceBookEntry);
+                        this.createCartItem(communityId,this.productId,this.contactActId,this.productCourseName,this.selectedCourseOffering,this.selectedProgramOffering,pricebookEntry,userId);
+                      
                     }
                 }).catch(error => {
                 })
@@ -584,13 +595,17 @@ saveRegistration(contact,courseOffering,relatedAnswer,answer,fileUpload){
     return answerRecords;
   }
 
-  createCartItem( cartId,productName,productId,courseOfferingId,pricebookEntryId){
-    cartItemForGrpReg({
-        cartId:cartId,
-        productName:productName,
-        productId:productId,
-        courseOfferingId:courseOfferingId,
-        pricebookEntryId:pricebookEntryId
+  createCartItem(communityId,productId,effectiveAccountId,productName,courseOfferingId,programOfferingId,pricebookEntryId,userId){
+      
+    addToCartItem({
+         communityId: communityId,
+         productId: productId ,
+         effectiveAccountId:effectiveAccountId,
+         productName:productName,
+         courseOfferingId: courseOfferingId,
+         programOfferingId: programOfferingId,
+         pricebookEntryId: pricebookEntryId,
+         userId: userId
     })
     .then(() =>{
             this.generateToast(SUCCESS_TITLE, 'Successfully Submitted', SUCCESS_VARIANT);

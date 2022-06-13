@@ -4,7 +4,7 @@
     <description>The Name given to the Course by QUT that the is being applied for</description>
     <externalId>false</externalId>
     <label>Course Name</label>
-    <length>80</length>
+    <length>255</length>
     <required>false</required>
     <securityClassification>Official</securityClassification>
     <trackHistory>false</trackHistory>

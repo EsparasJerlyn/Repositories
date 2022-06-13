@@ -23,6 +23,7 @@
       | marlon.vasquez            | May 04,2022           | DEPP-1531            | Added Questionnaire Form                     |
       | julie.jane.alegre         | May 24,2022           | DEPP-2070            | Added Group Registration Button              |
       | julie.jane.alegre         | June 01,2022          | DEPP-2781            | Fix bug for Group Registration button visibility     |
+      | julie.jane.alegre         | June 11,2022          | DEPP-2985            | Fix bug for Apply button visibility          |
 */
 
 import { LightningElement, wire, api, track } from "lwc";
@@ -428,8 +429,10 @@ export default class ProductDetailsDisplay extends NavigationMixin(
         this.selectedPriceBookEntry = undefined;
         this.disableAvailStartDate = true;
         this.disablePriceBookEntry = true;
+        this.displayAddToCart = true;
         this.disableAddToCart = true;
         this.displayGroupRegistration = false;
+        this.displayQuestionnaire = false;
 
         if (results.length > 0) {
           this.courseOfferings = results;
@@ -439,6 +442,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
       .catch((e) => {
         this.generateToast("Error.", LWC_Error_General, "error");
       });
+      
   }
 
   // Set Selected Course Offering value
@@ -457,6 +461,8 @@ export default class ProductDetailsDisplay extends NavigationMixin(
       }
     });
     this.disablePriceBookEntry = false;
+    this.displayAddToCart = true;
+    this.disableAddToCart = true;
   }
 
   handlePreviousFacilitator() {
@@ -504,6 +510,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
 
     if (selectedPBLabel == "Group Booking") {
       this.displayAddToCart = false;
+      this.disableAddToCart = true;
       this.displayGroupRegistration = true;
       if (this.responseData.length > 0) {
         this.displayQuestionnaire = true;
@@ -513,12 +520,15 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     } else {
       this.displayGroupRegistration = false;
       this.displayAddToCart = true;
+      this.disableAddToCart = false;
       if (this.responseData.length > 0) {
         this.displayQuestionnaire = true;
         this.displayAddToCart = false;
+        this.disableAddToCart = true;
       } else {
         this.displayQuestionnaire = false;
-        this.displayAddToCart = true;
+        this.displayAddToCart = false;
+        this.disableAddToCart = false;
       }
     }
   }

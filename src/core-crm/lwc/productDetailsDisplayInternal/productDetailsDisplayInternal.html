@@ -5,7 +5,7 @@
         <h1 class="heading1">{productDetails.Name}</h1>
       </lightning-layout-item>
       <lightning-layout-item flexibility="auto" size="12">
-        <h2 class="subHeader">{label.subHeader}</h2>
+        <h2 class="bodyBold  main-color-black my3">{productDetails.Description}</h2>
       </lightning-layout-item>
       <lightning-layout-item
         flexibility="auto"
@@ -206,13 +206,13 @@
                 </section>
               </li>
               <li if:true={facilitator} class="slds-accordion__list-item">
-                <section class="slds-accordion__section">
+                <section class="slds-accordion__section slds-is-open">
                   <div class="slds-accordion__summary">
                     <h2 class="slds-accordion__summary-heading">
                       <button
                         class="slds-button slds-button_reset slds-accordion__summary-action"
                         aria-controls="facilitatorContent"
-                        aria-expanded="false"
+                        aria-expanded="true"
                         title={label.facilitator}
                         onclick={handleAccordionToggle}
                       >
@@ -384,7 +384,7 @@
               field-label={label.pricing}
               placeholder={label.pricingPlaceholder}
               disabled={disablePriceBookEntry}
-              options={priceBookEntries}
+              options={availablePricings}
               value={selectedPriceBookEntry}
               onchange={handlePricebookSelected}
               slds-icon-up="utility:chevronup"

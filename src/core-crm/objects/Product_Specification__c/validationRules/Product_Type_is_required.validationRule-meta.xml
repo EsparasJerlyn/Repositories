@@ -4,11 +4,11 @@
     <active>true</active>
     <description>Product Type is required to move stage from Qualify to Design or Complete.</description>
     <errorConditionFormula>AND(
-RecordType.DeveloperName =&apos;OPE_Program_Specification&apos;,
+RecordType.DeveloperName =&apos;OPE&apos;,
 ISCHANGED(Stage__c),
 ISPICKVAL(PRIORVALUE(Stage__c),&apos;Qualify&apos;),
 OR(ISPICKVAL(Stage__c, &apos;Design&apos;),ISPICKVAL(Stage__c, &apos;Complete&apos;)),
-ISPICKVAL(Product_Type__c,&apos;&apos;)
+PICKLISTCOUNT(Product_Type__c) == 0
 )</errorConditionFormula>
     <errorDisplayField>Product_Type__c</errorDisplayField>
     <errorMessage>&quot;Product Type&quot; is required to update the Stage.</errorMessage>

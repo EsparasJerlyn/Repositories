@@ -28,6 +28,10 @@
         <apexClass>RegistrationFormCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>MainNavigationMenuCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <custom>true</custom>
     <userLicense>Guest User License</userLicense>
 </Profile>

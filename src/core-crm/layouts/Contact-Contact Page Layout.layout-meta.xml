@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Layout xmlns="http://soap.sforce.com/2006/04/metadata">
-    <excludeButtons>DataDotComClean</excludeButtons>
     <excludeButtons>DisableCustomerPortal</excludeButtons>
     <excludeButtons>DisablePartnerPortal</excludeButtons>
     <excludeButtons>DisablePrmSuperUser</excludeButtons>
     <excludeButtons>EnablePrmSuperUser</excludeButtons>
-    <excludeButtons>RequestUseSfdc</excludeButtons>
     <excludeButtons>Share</excludeButtons>
     <layoutSections>
         <customLabel>true</customLabel>
@@ -24,18 +22,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>ATSI_Code__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Phone_No_Locale__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Mobile_No_Locale__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Work_Phone_No_Locale__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -408,10 +394,18 @@
     </relatedContent>
     <relatedLists>
         <fields>NAME</fields>
+        <fields>Course_Name__c</fields>
+        <fields>RECORDTYPE</fields>
+        <fields>Offering_Start_Date__c</fields>
+        <fields>Offering_End_Date__c</fields>
+        <fields>Certificate_Type__c</fields>
         <relatedList>hed__Course_Enrollment__c.hed__Contact__c</relatedList>
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
+        <fields>hed__Course__c</fields>
+        <fields>hed__Start_Date__c</fields>
+        <fields>hed__End_Date__c</fields>
         <relatedList>hed__Course_Offering__c.hed__Faculty__c</relatedList>
     </relatedLists>
     <relatedLists>
@@ -434,6 +428,22 @@
     <relatedLists>
         <fields>NAME</fields>
         <relatedList>hed__Address__c.hed__Parent_Contact__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Marketing_Staging__c.Contact__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Marketing_Segmentation__c.Contact__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Marketing_Course_Application__c.Contact__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Marketing_Interaction__c.Contact__c</relatedList>
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>

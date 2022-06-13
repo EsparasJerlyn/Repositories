@@ -29,6 +29,7 @@ import LWC_Error_General from '@salesforce/label/c.LWC_Error_General';
 import LWC_Error_NoAccess from '@salesforce/label/c.LWC_Error_NoAccess';
 import LWC_Toast_DesignComplete from '@salesforce/label/c.LWC_Toast_DesignComplete';
 import PL_ProductRequest_Release from '@salesforce/label/c.PL_ProductRequest_Release';
+import PL_ProductRequest_Published from '@salesforce/label/c.PL_ProductRequest_Published';
 import HAS_PERMISSION from '@salesforce/customPermission/EditDesignAndReleaseTabsOfProductRequest';
 import PR_STATUS from '@salesforce/schema/Product_Request__c.Product_Request_Status__c';
 import getChildRecordId from '@salesforce/apex/CustomLayoutCtrl.getChildRecordId';
@@ -98,8 +99,20 @@ export default class CreateRecordUI extends LightningElement {
 
     //disables edit button if status does not match specified tab
     get disableEditButton(){
-        return this.tab && this.parentRecord.status !== this.tab;
+        
+        return this.tab && !this.tab.split(',').includes(this.parentRecord.status);
+
     }
+        /* if(this.tab && this.parentRecord.status !== this.tab){
+            if( this.parentRecord.status === 'Release' && this.tab === 'Published' ||
+                this.parentRecord.status === 'Published' && this.tab === 'Release' ){
+                    return false;
+            }else{
+                return true;    
+            }
+        }else{
+            return false;
+        } */
 
     //gets product request status
     @wire(getRecord, { recordId: '$recordId', fields: [PR_STATUS] })
@@ -155,7 +168,6 @@ export default class CreateRecordUI extends LightningElement {
                     }
                 });
                 this.activeSections = this.uiRecord.sections.map(section => {return section.id});
-                console.log(this.uiRecord.sections);
                 break;
             }
             this.isLoading = false;

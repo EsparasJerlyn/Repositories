@@ -10,12 +10,21 @@
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | john.bo.a.pineda               | May 3, 2022           | DEPP-2403              | Created file                 |
       | john.bo.a.pineda               | May 13, 2022          | DEPP-2591              | Updated to load to Store     |
-      |                                |                       |                        |                              |
+      | arsenio.jr.dayrit              | June 10, 2022         | DEPP-3021              | Added Method for Published   |
  */
 @isTest(SeeAllData=false)
 public with sharing class Product2TriggerHandlerTest {
+  private static final String RT_ACTIVITY = System.Label.RT_ProductRequest_Activity;
+  private static final Id RT_ACTIVITY_ID =  Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(RT_ACTIVITY).getRecordTypeId();
+  private static final string RT_PROGRAM = System.Label.RT_ProductRequest_Program;
+  private static final Id RT_PROGRAM_ID =  Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(RT_PROGRAM).getRecordTypeId();
+  private static final string C_ACTIVITY = System.Label.RT_ProductRequest_Activity;
+  private static final Id C_ACTIVITY_ID = Schema.SObjectType.hed__Course__c.getRecordTypeInfosByDeveloperName().get(C_ACTIVITY).getRecordTypeId();
+  private static string PP_PROGRAM = System.Label.RT_ProgramPlan_Program;
+  private static Id opeProgPlanId = Schema.SObjectType.hed__Program_Plan__c.getRecordTypeInfosByDeveloperName().get(PP_PROGRAM).getRecordTypeId();
   private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
   private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName()
+  
     .get(ACCT_UNIV_DEP)
     .getRecordTypeId();
   public static final Id FACULTY_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
@@ -204,7 +213,7 @@ public with sharing class Product2TriggerHandlerTest {
       }
       Test.startTest();
       update prod2List;
-      system.assert(![SELECT Id FROM Product2 WHERE IsActive = false].isEmpty(),'product wasnt deactivated');
+      system.assert(![SELECT Id FROM Product2 WHERE IsActive = false And End_Date__c = Today].isEmpty(),'product wasnt deactivated');
       system.assert(![SELECT Id FROM Product_Request__c WHERE Product_Request_Status__c = 'Completed'].isEmpty(),'product request wasnt completed');
       Test.stopTest();
 
@@ -286,4 +295,116 @@ public with sharing class Product2TriggerHandlerTest {
       System.assert(true,'dummy assert'); //Delete for DEPP-2733 fix
     }
   }
+
+  @IsTest
+  private static void CourseReleaseToPublished() {
+    User currUsr = [
+      SELECT Id
+      FROM User
+      WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
+      LIMIT 1
+    ];
+
+    DmlException expectedException;
+    System.runAs(currUsr) {
+      Test.startTest();
+
+      List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
+      for(Account acc : accounts){
+        acc.RecordTypeId = ACCT_UNIV_DEP_ID;
+        acc.Organization_Unit_Level__c = '2';
+      }
+      insert accounts;
+
+      List<Product_Request__c> productRequests = TestDataFactory.createTestProductRequestRecords(1);
+      for(Product_Request__c productRequest : productRequests){
+        productRequest.RecordTypeId = RT_ACTIVITY_ID;
+        productRequest.Product_Request_Status__c = 'Release';
+      }
+      insert productRequests;
+
+      List<hed__Course__c> courses = TestDataFactory.createTestCourseRecords(1, accounts[0].Id, productRequests[0].Id);
+      courses[0].RecordTypeId = C_ACTIVITY_ID;
+      insert courses;
+
+      List<Product2> prod2List = [
+        SELECT Id, Available_on_Cart__c
+        FROM Product2
+        WHERE
+          CreatedById = :currUsr.Id
+          AND Ready_for_publishing__c = 'Yes'
+          AND QA_Review_Completed__c = 'Yes'
+          AND Available_on_Cart__c = FALSE
+          AND Publishing_Start_date__c != NULL
+      ];
+      for (Product2 prod2 : prod2List) {
+        prod2.Available_on_Cart__c = true;
+        prod2.Course__c = courses[0].id;
+      }
+      update prod2List;
+
+      Test.stopTest();
+
+      System.assert(true,'dummy assert');
+    }
+  }
+
+  @IsTest
+  private static void ProgramReleaseToPublished() {
+    User currUsr = [
+      SELECT Id
+      FROM User
+      WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
+      LIMIT 1
+    ];
+
+    DmlException expectedException;
+    System.runAs(currUsr) {
+      Test.startTest();
+
+      List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
+      for(Account acc : accounts){
+        acc.RecordTypeId = ACCT_UNIV_DEP_ID;
+        acc.Organization_Unit_Level__c = '2';
+      }
+      insert accounts;
+
+      List<Product_Request__c> productRequests = TestDataFactory.createTestProductRequestRecords(1);
+      for(Product_Request__c productRequest : productRequests){
+        productRequest.RecordTypeId = RT_PROGRAM_ID;
+        productRequest.Product_Request_Status__c = 'Release';
+      }
+      insert productRequests;
+
+      List<hed__Program_Plan__c> programs = TestDataFactory.createTestProgramPlanRecords(1);
+      programs[0].RecordTypeId = opeProgPlanId;
+      programs[0].Product_Request__c = productRequests[0].id;
+      insert programs;
+
+
+
+      List<Product2> prod2List = [
+        SELECT Id, Available_on_Cart__c
+        FROM Product2
+        WHERE
+          CreatedById = :currUsr.Id
+          AND Ready_for_publishing__c = 'Yes'
+          AND QA_Review_Completed__c = 'Yes'
+          AND Available_on_Cart__c = FALSE
+          AND Publishing_Start_date__c != NULL
+      ];
+      for (Product2 prod2 : prod2List) {
+        prod2.Available_on_Cart__c = true;
+        prod2.Program_Plan__c = programs[0].id;
+      }
+      update prod2List;
+
+      Test.stopTest();
+
+      System.assert(true,'dummy assert');
+    }
+  }
+
+
+
 }

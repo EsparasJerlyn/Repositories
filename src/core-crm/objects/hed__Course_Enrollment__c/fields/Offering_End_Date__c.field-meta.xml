@@ -2,8 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Offering_End_Date__c</fullName>
     <externalId>false</externalId>
-    <formula>hed__Course_Offering__r.hed__End_Date__c</formula>
-    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <formula>IF(ISBLANK( hed__Course_Offering__r.hed__End_Date__c), Program_Offering__r.End_Date__c ,hed__Course_Offering__r.hed__End_Date__c)</formula>
     <label>Offering End Date</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

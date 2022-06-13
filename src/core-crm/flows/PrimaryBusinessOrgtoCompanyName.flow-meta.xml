@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>54.0</apiVersion>
+    <assignments>
+        <name>Assign_Company_Name</name>
+        <label>Assign Company Name</label>
+        <locationX>176</locationX>
+        <locationY>311</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Company_Name__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.hed__Primary_Organization__r.Name</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
     <interviewLabel>Primary Business Org to Company Name {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Primary Business Org to Company Name</label>
     <processMetadataValues>
@@ -22,24 +35,11 @@
         </value>
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
-    <recordUpdates>
-        <name>Primary_Business_Organisation_to_Company_Name</name>
-        <label>Primary Business Organisation to Company Name</label>
-        <locationX>176</locationX>
-        <locationY>335</locationY>
-        <inputAssignments>
-            <field>Company_Name__c</field>
-            <value>
-                <elementReference>$Record.hed__Primary_Organization__r.Name</elementReference>
-            </value>
-        </inputAssignments>
-        <inputReference>$Record</inputReference>
-    </recordUpdates>
     <start>
         <locationX>50</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>Primary_Business_Organisation_to_Company_Name</targetReference>
+            <targetReference>Assign_Company_Name</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -49,9 +49,16 @@
                 <booleanValue>true</booleanValue>
             </value>
         </filters>
+        <filters>
+            <field>hed__Primary_Organization__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
         <object>Contact</object>
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
-        <triggerType>RecordAfterSave</triggerType>
+        <triggerType>RecordBeforeSave</triggerType>
     </start>
     <status>Active</status>
 </Flow>

@@ -37,6 +37,7 @@ public with sharing class OnlineSelfPacedConfirmationEmailCtrlTest {
 
       List<Contact> contacts = TestDataFactory.createTestContactRecords(1);
       contacts[0].email = 'testContact@testmail.com';
+      contacts[0].QUT_Student_Username__c = 'testuserna';
       insert contacts;
 
       List<hed__Term__c> terms = TestDataFactory.createTestTermRecords(
@@ -86,6 +87,7 @@ public with sharing class OnlineSelfPacedConfirmationEmailCtrlTest {
           Course_Offering_Name__c,
           hed__Contact__r.FirstName,
           hed__Contact__r.LastName,
+          hed__Contact__r.QUT_Student_Username__c,
           Course_Offering_Start_Date__c,
           hed__Contact__r.Email
         FROM hed__Course_Enrollment__c
@@ -99,6 +101,8 @@ public with sharing class OnlineSelfPacedConfirmationEmailCtrlTest {
       param.add(courseConnectionParam.hed__Contact__r.LastName);
       param.add(courseConnectionParam.Course_Offering_Start_Date__c.format());
       param.add(courseConnectionParam.hed__Contact__r.Email);
+      param.add('Test Product');
+      param.add(courseConnectionParam.hed__Contact__r.QUT_Student_Username__c);
       paramList.add(param);
 
       OnlineSelfPacedConfirmationEmailCtrl.generateAndSendEmail(paramList);
@@ -174,7 +178,8 @@ public with sharing class OnlineSelfPacedConfirmationEmailCtrlTest {
           hed__Contact__r.FirstName,
           hed__Contact__r.LastName,
           Course_Offering_Start_Date__c,
-          hed__Contact__r.Email
+          hed__Contact__r.Email,
+          hed__Contact__r.QUT_Student_Username__c
         FROM hed__Course_Enrollment__c
         LIMIT 1
       ];
@@ -186,6 +191,8 @@ public with sharing class OnlineSelfPacedConfirmationEmailCtrlTest {
       param.add(courseConnectionParam.hed__Contact__r.LastName);
       param.add(courseConnectionParam.Course_Offering_Start_Date__c.format());
       param.add(courseConnectionParam.hed__Contact__r.Email);
+      param.add('Test Product');
+      param.add(courseConnectionParam.hed__Contact__r.QUT_Student_Username__c);
       paramList.add(param);
 
       OnlineSelfPacedConfirmationEmailCtrl.generateAndSendEmail(paramList);

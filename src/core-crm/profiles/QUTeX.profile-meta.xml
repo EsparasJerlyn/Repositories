@@ -140,11 +140,11 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Product_Specification__c-CCE Product Specification Page Layout</layout>
-        <recordType>Product_Specification__c.CCE_Program_Specification</recordType>
+        <recordType>Product_Specification__c.CCE</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Product_Specification__c-OPE Product Specification Page Layout</layout>
-        <recordType>Product_Specification__c.OPE_Program_Specification</recordType>
+        <recordType>Product_Specification__c.OPE</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Product_Specification__c-Product Specification Layout</layout>

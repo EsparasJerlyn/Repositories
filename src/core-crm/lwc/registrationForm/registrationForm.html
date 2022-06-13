@@ -3,7 +3,7 @@
   <div id="regModal" class="modal">
     <div if:true={displayForm} class="modal-content text px3 pt2">
       <div
-        class="slds-m-top_small slds-m-right_x-large slds-p-right_large slds-clearfix"
+        class="slds-m-top_small slds-m-right_large slds-p-right_large slds-clearfix"
       >
         <!--X button -->
         <span class="slds-float_right cursor" onclick={closeModal}
@@ -24,6 +24,7 @@
             >{label.qutSSOText}</a
           >
         </div>
+        <!-- DEPP-3033 comment out linkedin registration option for R1B release
         <div class="center px2">
           <button
             onclick={handleLinkedInOnClick}
@@ -33,6 +34,7 @@
             {label.registerWithLinkedIn}
           </button>
         </div>
+        -->
       </div>
       <form id="form">
         <div class="slds-m-horizontal_small">
@@ -117,7 +119,7 @@
               <!--Locale-->
               <div class="slds-col slds-size_1-of-2">
                 <div class="slds-form-element">
-                  <label for="locale" class="label-text">Locale </label>
+                  <label for="locale" class="label-text">Country Code</label>
                   <span class="required-text">*</span>
                   <div class="slds-form-element__control">
                     <c-custom-combobox
@@ -174,7 +176,7 @@
                   <span class="required-text">*</span><br />
                   <div class="slds-form-element__control">
                     <input
-                      type="text"
+                      type="number"
                       id="date"
                       value={date}
                       onchange={handleDayChange}
@@ -197,7 +199,7 @@
                   <span class="required-text">*</span><br />
                   <div class="slds-form-element__control">
                     <input
-                      type="text"
+                      type="number"
                       id="month"
                       value={month}
                       onchange={handleMonthChange}
@@ -220,7 +222,7 @@
                   <span class="required-text">*</span>
                   <div class="slds-form-element__control">
                     <input
-                      type="text"
+                      type="number"
                       id="year"
                       value={year}
                       onchange={handleYearChange}
@@ -309,50 +311,54 @@
   <!--SEND OTP -->
   <template if:true={displayVerification}>
     <div id="regModal2" class="modal">
-      <div class="modal-content modal-content-height95 text px3 pt2">
+      <div class="modal-content modal-content-height95 text px1 pt2">
         <div
-          class="slds-m-top_small slds-m-right_x-large slds-p-right_large slds-clearfix"
+          class="slds-m-top_small slds-m-right_large slds-p-right_large slds-clearfix"
         >
           <!--X button -->
           <span class="slds-float_right cursor" onclick={closeModal}
             ><img src={xButton}
           /></span>
         </div>
-        <div class="slds-text-align_center slds-m-vertical_medium">
-          <!--Static Contents-->
-          <p class="heading">Verification</p>
-          <p>Please enter the verification code we sent to your mobile no.</p>
-        </div>
-        <lightning-input
-          type="text"
-          name="verifCode"
-          pattern="[0-9]+"
-          max-length="6"
-          label="Verification Code"
-          placeholder="Enter Code Here..."
-          onchange={handleVerifInput}
-        >
-        </lightning-input>
-        <!--Modal Footer Buttons-->
-        <div
-          class="modal-footer slds-grid slds-gutters center slds-m-horizontal_x-small pb3"
-        >
-          <div class="slds-col slds-size_1-of-2">
-            <button
-              class="slds-button slds-button_outline-brand slds-float_right btnCancel"
-              onclick={handleDisplayResend}
-            >
-              Didn't recieve code?
-            </button>
+        <div class="slds-grid slds-wrap slds-m-around_medium">
+          <div class="slds-text-align_center pb2">
+            <!--Static Contents-->
+            <p class="heading">Verification</p>
+            <p class="bodyRegular">You have been sent a verification code to your nominated mobile number. Please enter below.</p>
           </div>
-          <div class="slds-col slds-size_1-of-2">
-            <button
-              type="submit"
-              class="slds-button slds-button_brand footer-button btnContinue"
-              onclick={handleVerify}
-            >
-              SUBMIT
-            </button>
+          <div class="slds-col slds-size_1-of-1 slds-medium-size_8-of-12 slds-large-size_8-of-12">
+              <lightning-input
+                type="text"
+                name="verifCode"
+                pattern="[0-9]+"
+                max-length="6"
+                label="Verification Code"
+                placeholder="Enter Code Here..."
+                onchange={handleVerifInput}
+              >
+              </lightning-input>
+          </div>
+          <!--Modal Footer Buttons-->
+          <div
+            class="modal-footer slds-align_absolute-center py3"
+          >
+            <div class="pr1 slds-col slds-size_7-of-12 slds-medium-size_10-of-12 slds-large-size_10-of-12">
+              <button
+                class="slds-button slds-button_outline-brand slds-float_right btnCancel"
+                onclick={handleDisplayResend}
+              >
+                Didn’t receive code?
+              </button>
+            </div>
+            <div class="slds-col slds-size_5-of-12 slds-medium-size_2-of-12 slds-large-size_2-of-12">
+              <button
+                type="submit"
+                class="slds-button slds-button_brand footer-button btnContinue"
+                onclick={handleVerify}
+              >
+                Submit
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -363,32 +369,39 @@
     <div id="regModal3" class="modal">
       <div class="modal-content modal-content-height95 text px3 pt2">
         <div
-          class="slds-m-top_small slds-m-right_x-large slds-p-right_large slds-clearfix"
+          class="slds-m-top_small slds-m-right_large slds-p-right_large slds-clearfix"
         >
           <!--X button -->
           <span class="slds-float_right cursor" onclick={closeModal}
             ><img src={xButton}
           /></span>
         </div>
-        <div class="slds-text-align_center slds-m-vertical_medium">
+        <div class="slds-grid slds-wrap slds-m-around_medium">
           <!--Static Contents-->
+          <div class="slds-text-align_center pb2">
+            <p class="bodyRegular">Please select an option to resend the verification code</p>
+          </div>
+          <div class="slds-size_1-of-1">
+              <lightning-radio-group
+                name="resendVerif"
+                label="Resend Code"
+                options={verifOptions}
+                value={selectionOption}
+                onchange={handleSelectedOption}
+                type="radio"
+              >
+            </lightning-radio-group>
+          </div>
 
-          <p>Please select an option to resend the verification code</p>
+          <div class="slds-size_1-of-1 pt2">
+            <lightning-button
+              label="Submit"
+              variant="brand"
+              onclick={handleResendCode}
+              class="mt2"
+            ></lightning-button>
+          </div>
         </div>
-        <lightning-radio-group
-          name="resendVerif"
-          label="Resend Code"
-          options={verifOptions}
-          value={selectionOption}
-          onchange={handleSelectedOption}
-          type="radio"
-        >
-        </lightning-radio-group>
-        <lightning-button
-          label="Submit"
-          variant="brand"
-          onclick={handleResendCode}
-        ></lightning-button>
       </div>
     </div>
   </template>

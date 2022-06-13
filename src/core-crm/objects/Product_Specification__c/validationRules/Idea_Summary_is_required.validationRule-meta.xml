@@ -4,7 +4,7 @@
     <active>true</active>
     <description>Idea Summary is required to move stage from Qualify to Design or Complete.</description>
     <errorConditionFormula>AND(
-RecordType.DeveloperName =&apos;OPE_Program_Specification&apos;,
+RecordType.DeveloperName =&apos;OPE&apos;,
 ISCHANGED(Stage__c),
 ISPICKVAL(PRIORVALUE(Stage__c),&apos;Qualify&apos;),
 OR(ISPICKVAL(Stage__c, &apos;Design&apos;),ISPICKVAL(Stage__c, &apos;Complete&apos;)),

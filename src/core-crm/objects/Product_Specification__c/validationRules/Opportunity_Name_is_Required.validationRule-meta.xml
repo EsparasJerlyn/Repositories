@@ -4,7 +4,7 @@
     <active>true</active>
     <description>Opportunity Name is Required for Product Specification Record to move the Stage from Define to Design</description>
     <errorConditionFormula>AND(
- RecordType.DeveloperName =&apos;CCE_Program_Specification&apos;,
+ RecordType.DeveloperName =&apos;CCE&apos;,
  ISCHANGED( Stage__c ),
  NOT(ISPICKVAL( Stage__c, &apos;Define&apos;)),
  ISBLANK( Opportunity_Name__c )

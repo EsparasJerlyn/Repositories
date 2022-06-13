@@ -1,11 +1,3 @@
-.gray-text{
-    color:gray;
-}
-
-.sf-blue-text{
-    color:#0176d3;
-}
-
 .title-text{
     color:#003b6f;
     padding-top: 5px;
@@ -14,13 +6,4 @@
 
 .width-expanded{
     width: 100%;
-}
-
-.bottom-position{
-    position: absolute;
-    bottom: 0;
-}
-
-.relative-position{
-    position: relative;
 }

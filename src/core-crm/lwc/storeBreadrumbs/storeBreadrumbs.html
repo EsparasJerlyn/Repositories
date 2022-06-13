@@ -23,9 +23,18 @@
         <li class="slds-breadcrumb__item slds-text-heading_small">
           <a href={forYouURL} class="Foryoulink" style="text-decoration:underline" onmouseover={changeTextDecorNone} onmouseleave={changeTextDecorUnderline}>For You</a>
         </li>
-        <li class="slds-breadcrumb__item slds-text-heading_small">
-          <p class="Foryoulink">{nameFind}</p>
-      </li>
+        <template if:true={menuList}>
+          <template for:each={menuList} for:item="item" for:index="i">
+            <li key={item} class="slds-breadcrumb__item slds-text-heading_small">
+              <template if:true={item.productUrl}>
+                <a href={item.productUrl} class="Foryoulink" style="text-decoration:underline" data-productid={item.productId} onmouseover={changeTextDecorNone} onmouseleave={changeTextDecorUnderline} onclick={handleMenuClick}>{item.productName}</a>
+              </template>
+              <template if:false={item.productUrl}>
+                <p class="Foryoulink">{item.productName}</p>
+              </template>
+            </li>
+          </template>
+        </template>
       </ol>
     </nav>
   </div>

@@ -185,7 +185,7 @@
                 <leftValueReference>DeliveryType</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>Virtual</stringValue>
+                    <stringValue>Online Classroom</stringValue>
                 </rightValue>
             </conditions>
             <connector>

@@ -128,13 +128,14 @@
     </actionOverrides>
     <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
     <enableFeeds>false</enableFeeds>
-    <externalSharingModel>ReadWrite</externalSharingModel>
+    <externalSharingModel>Private</externalSharingModel>
     <profileSearchLayouts>
         <fields>PRODUCT2.NAME</fields>
         <fields>PRODUCT2.FAMILY</fields>
         <fields>PRODUCT2.ACTIVE</fields>
         <profileName>QUTeX</profileName>
     </profileSearchLayouts>
+    <recordTypeTrackHistory>false</recordTypeTrackHistory>
     <searchLayouts>
         <customTabListAdditionalFields>PRODUCT2.NAME</customTabListAdditionalFields>
         <customTabListAdditionalFields>PRODUCT2.CUSTOMER_PRODUCT_ID</customTabListAdditionalFields>

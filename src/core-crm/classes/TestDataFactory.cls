@@ -31,6 +31,7 @@
       | adrian.c.habasa           | February 14, 2022     | DEPP-1247           | Added method for Session and Attendance Event                    |
       | eugene.andrew.abuan       | February 16, 2022     | DEPP-1265           | Added method for Creating Courses                                |
       | keno.domienri.dico        | April 11, 2022        | DEPP-1543           | Added method for Creating Communication Schedule                 |
+      | kathy.cornejo             | June 3, 2022          | DEPP-2664           | Added method for Creating Pricebook2                             |
       |                           |                       |                     |                                                                  |
 */
 @IsTest
@@ -41,6 +42,7 @@ public class TestDataFactory {
   private static final String TEST_BUYER_GROUP = 'Test Buyer Group';
   private static final String TEST_BUYER_ACCT = 'Test Buyer Account';
   private static final String TEST_ACCOUNT_NAME = 'Test Account';
+  private static final String TEST_PRICEBOOK2_NAME = 'Test Pricebook2';
 
   /**
    * @description Method for creating test Account records
@@ -678,6 +680,20 @@ public class TestDataFactory {
   }
 
   /**
+   * @description method to create test data for create Pricebook2
+   * @param doInsert - boolean true/false
+   * @return pb - Pricebook2
+   */ 
+  public static Pricebook2 createTestPricebook2(Boolean doInsert){
+    Pricebook2 pb = new Pricebook2();
+    pb.Name = TEST_PRICEBOOK2_NAME;
+
+    if (doInsert) {
+      insert pb;
+    }
+    return pb;
+  }
+  /**
    * @description method to create test data for create contact object
    * @param doInsert - boolean true/false
    * @param accId - account Id
@@ -1198,7 +1214,7 @@ public class TestDataFactory {
    * @param void
    * @return portalSysAdmin - Portal Sys Admin user
    */
-  public static User getPortalOwner() {
+  public static User getPortalSysAdminUser() {
     //get the sys admin user to run the insertion of portal user
     User portalSysAdmin = [
         SELECT Id FROM User WHERE IsActive = true
@@ -1207,9 +1223,28 @@ public class TestDataFactory {
 
     //add UserRole
     portalSysAdmin.UserRoleId = [SELECT Id FROM UserRole WHERE Name = 'System Administrator' LIMIT 1]?.Id;
-
+    update portalSysAdmin;
+    
     return portalSysAdmin;
   }
 
+  /**
+   * @description Method for creating MC_Messaging_OTP_Setting__c custom setting
+   * @param void
+   * @return setting - the created MC_Messaging_OTP_Setting__c
+   */
+  public static MC_Messaging_OTP_Setting__c createOTPCustomSetting(){
+    MC_Messaging_OTP_Setting__c setting = new MC_Messaging_OTP_Setting__c();
+    setting.Access_Token_EndPoint_URL__c = 'https://accessToken';
+    setting.Account_Id__c = '1234';
+    setting.Attributes__c = 'Attr123';
+    setting.Client_Id__c = '12344';
+    setting.Client_Secret__c = '12987';
+    setting.DefinitionKey__c = 'test';
+    setting.GrantType__c = 'test';
+    setting.Message__c = 'test';
+    setting.SMS_EndPoint_URL__c = 'https://smsendpoint';
+    return setting;
+  }
 }
 

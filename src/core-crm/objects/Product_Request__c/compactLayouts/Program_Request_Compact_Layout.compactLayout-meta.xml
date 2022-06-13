@@ -4,5 +4,6 @@
     <fields>Name</fields>
     <fields>Product_Request_Status__c</fields>
     <fields>OwnerId</fields>
+    <fields>Product_Specification__c</fields>
     <label>Program Request Compact Layout</label>
 </CompactLayout>

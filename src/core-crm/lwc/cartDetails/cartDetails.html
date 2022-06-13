@@ -20,7 +20,7 @@
                                 <p class="bodyBold slds-m-around_none">First name</p>
 
                                 <div if:true={editModeFN}>
-                                    <lightning-input-field field-name="FirstName" variant="label-hidden" onmouseout={enableFNReadMode} onchange={contactFieldChanged} value={contactFname}></lightning-input-field>
+                                    <lightning-input-field field-name="FirstName" variant="label-hidden" onmouseout={enableReadMode} onchange={contactFieldChanged} value={contactFname}></lightning-input-field>
                                 </div>
 
                                 <div if:false={editModeFN}>
@@ -45,7 +45,7 @@
                                 <p class="bodyBold slds-m-around_none">Last name</p>
 
                                 <div if:true={editModeLN}>
-                                    <lightning-input-field field-name="LastName" variant="label-hidden" onmouseout={enableLNReadMode} onchange={contactFieldChanged} value={contactLname}></lightning-input-field>
+                                    <lightning-input-field field-name="LastName" variant="label-hidden" onmouseout={enableReadMode} onchange={contactFieldChanged} value={contactLname}></lightning-input-field>
                                 </div>
 
                                 <div if:false={editModeLN}>
@@ -70,7 +70,7 @@
                                 <p class="bodyBold slds-m-around_none">Email</p>
 
                                 <div if:true={editModeEmail}>
-                                    <lightning-input-field field-name="Email" variant="label-hidden" onmouseout={enableEmailReadMode} onchange={contactFieldChanged} value={contactEmail}></lightning-input-field>
+                                    <lightning-input-field field-name="Email" variant="label-hidden" onmouseout={enableReadMode} onchange={contactFieldChanged} value={contactEmail}></lightning-input-field>
                                 </div>
 
                                 <div if:false={editModeEmail}>
@@ -95,7 +95,7 @@
                                 <p class="bodyBold slds-m-around_none">Mobile</p>
 
                                 <div if:true={editModeMob}>
-                                    <lightning-input-field field-name="MobilePhone" variant="label-hidden" onmouseout={enableMobileReadMode} onchange={contactFieldChanged} value={contactMobile}></lightning-input-field>
+                                    <lightning-input-field field-name="MobilePhone" variant="label-hidden" onmouseout={enableReadMode} onchange={contactFieldChanged} value={contactMobile}></lightning-input-field>
                                 </div>
 
                                 <div if:false={editModeMob}>
@@ -124,7 +124,7 @@
                                 <p class="bodyBold slds-m-around_none">Dietary requirements</p>
 
                                 <div if:true={editModeDietary}>
-                                    <lightning-input-field field-name="Dietary_Requirement__c" variant="label-hidden" onmouseout={enableDietaryReadMode} onchange={contactFieldChanged} value={contactDiet}></lightning-input-field>
+                                    <lightning-input-field field-name="Dietary_Requirement__c" variant="label-hidden" onmouseout={enableReadMode} onchange={contactFieldChanged} value={contactDiet}></lightning-input-field>
                                 </div>
 
                                 <div if:false={editModeDietary}>
@@ -150,7 +150,7 @@
                                 <p class="bodyBold slds-m-around_none">Company</p>
 
                                 <div if:true={editModeCompany}>
-                                    <lightning-input-field field-name="Company_Name__c" variant="label-hidden" onmouseout={enableCompanyReadMode} onchange={contactFieldChanged} value={contactCompany}></lightning-input-field>
+                                    <lightning-input-field field-name="Company_Name__c" variant="label-hidden" onmouseout={enableReadMode} onchange={contactFieldChanged} value={contactCompany}></lightning-input-field>
                                 </div>
 
                                 <div if:false={editModeCompany}>
@@ -175,7 +175,7 @@
                                 <p class="bodyBold slds-m-around_none">Position</p>
 
                                 <div if:true={editModePosition}>
-                                    <lightning-input-field field-name="Position__c" variant="label-hidden" onmouseout={enablePositionReadMode} onchange={contactFieldChanged} value={contactPosition}></lightning-input-field>
+                                    <lightning-input-field field-name="Position__c" variant="label-hidden" onmouseout={enableReadMode} onchange={contactFieldChanged} value={contactPosition}></lightning-input-field>
                                 </div>
 
                                 <div if:false={editModePosition}>
@@ -201,7 +201,7 @@
                                     <p class="bodyBold slds-m-around_none">Staff ID</p>
     
                                     <div if:true={editModeStaff}>
-                                        <lightning-input-field field-name="Nominated_Employee_ID__c" variant="label-hidden" onmouseout={enableStaffReadMode} onchange={contactFieldChanged} value={contactEmpId}></lightning-input-field>
+                                        <lightning-input-field field-name="Nominated_Employee_ID__c" variant="label-hidden" onmouseout={enableReadMode} onchange={contactFieldChanged} value={contactEmpId}></lightning-input-field>
                                     </div>
     
                                     <div if:false={editModeStaff}>
@@ -224,7 +224,7 @@
                                     <p class="bodyBold slds-m-around_none">Student ID</p>
     
                                     <div if:true={editModeStudent}>
-                                        <lightning-input-field field-name="Nominated_Student_ID__c" variant="label-hidden" onmouseout={enableStudentReadMode} onchange={contactFieldChanged} value={contactStudentId}></lightning-input-field>
+                                        <lightning-input-field field-name="Nominated_Student_ID__c" variant="label-hidden" onmouseout={enableReadMode} onchange={contactFieldChanged} value={contactStudentId}></lightning-input-field>
                                     </div>
     
                                     <div if:false={editModeStudent}>
@@ -275,9 +275,9 @@
 
                 <div class="slds-grid slds-wrap">
 
-                    <div class="slds-size_2-of-4">
+                    <div class="slds-size_3-of-4">
                         <div class="slds-grid slds-wrap">
-                            <div class="slds-size_2-of-4">
+                            <div class="slds-size_1-of-3">
                                 <div>
                                     <p class="bodyBold pt2 pb1">Date</p>
                                     <p class="bodyRegular">{currentItem.startDate}</p>
@@ -286,7 +286,7 @@
                                 </div>         
                             </div>
         
-                            <div class="slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12">
+                            <div class="slds-size_2-of-3 slds-medium-size_3-of-12 slds-large-size_3-of-12">
                                 <div>
                                     <p class="bodyBold pt2 pb1">Delivery</p>
                                     <p class="bodyRegular">{currentItem.deliveryType}</p>
@@ -300,7 +300,7 @@
                         </div>
                     </div>
 
-                    <div class="slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12">
+                    <!-- <div class="slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12">
                         <div>
                             <p class="bodyBold py2">Discount code</p>
                             <div class="slds-grid slds-wrap">
@@ -318,7 +318,7 @@
                                 <p class="warning-label slds-m-left_small">Invalid voucher.</p>
                             </template>
                         </div> 
-                    </div>
+                    </div> -->
 
 
                     <div class="slds-size_1-of-4">
@@ -331,6 +331,124 @@
                         </template>
 
                     </div>
+                                                            <!-- loop on each questions - start -->
+                                
+                                        <!-- <div class="slds-size_2-of-4">
+                                            <div class="slds-grid slds-wrap"> -->
+                                                <!--  <p class="bodyBold pt2 pb1">Questions</p> -->
+
+                                         <!-- Questions goes here -->
+                                         <lightning-layout multiple-rows size="12">
+                                            <template for:each={currentItem.relatedAnswers} for:item="question" for:index="index"> 
+                                                <lightning-layout-item size="10" padding="around-small" key={question.Id}>
+                                                 
+                                                    <template if:true={question.IsText}>
+                                                        <lightning-textarea 
+                                                        name={question.Id} 
+                                                        label={question.Label} 
+                                                        data-question-id={question.Id} 
+                                                        required 
+                                                        onchange={handleChange}
+                                                        onblur={handleBlur}>
+                                                        </lightning-textarea>
+                                                    </template>
+                                                    <template if:true={question.IsNumber}>
+                                                        <lightning-input 
+                                                        name={question.Id} 
+                                                        data-question-id={question.Id}
+                                                        type="number" 
+                                                        label={question.Label} 
+                                                        required 
+                                                        onchange={handleChange}
+                                                        onblur={handleBlur}>
+                                                        </lightning-input>
+                                                    </template>
+                                                    <template if:true={question.IsDate}>
+                                                        <lightning-input 
+                                                        name={question.Id} 
+                                                        data-question-id={question.Id} 
+                                                        type="date" 
+                                                        label={question.Label} 
+                                                        required onchange={handleChange}
+                                                        onblur={handleBlur}>
+                                                    </lightning-input>
+                                                    </template>
+                                                    <template if:true={question.IsPicklist}>
+                                                        <lightning-combobox
+                                                            name={question.Id}
+                                                            data-question-id={question.Id}
+                                                            label={question.Label}
+                                                            value={question.Response}
+                                                            placeholder="Select Option"
+                                                            options={question.Options}
+                                                            onchange={handleChange} 
+                                                            onblur={handleBlur}
+                                                            required>
+                                                        </lightning-combobox>
+                                                    </template>
+                                                    <template if:true={question.IsMultiPicklist}>
+                                                        <abbr title="required" class="slds-required">*</abbr>
+                                                        <span data-id={question.Id} class="slds-form-element__label" >{question.Label}</span>
+                                                        <lightning-dual-listbox 
+                                                            data-id={question.Id}
+                                                            data-question-id={question.Id}
+                                                            name={question.Id}
+                                                            variant="label-hidden"
+                                                            class="normal-font"
+                                                            source-label="Available"
+                                                            selected-label="Selected"
+                                                            options={question.Options}
+                                                            onchange={handleChange}
+                                                            onblur={handleBlur}
+                                                            required>
+                                                        </lightning-dual-listbox>
+                                                    </template>
+                                                    <template if:true={question.IsCheckbox}>
+                                                        <lightning-input 
+                                                        name={question.Id} 
+                                                        data-question-id={question.Id}
+                                                        type="checkbox" 
+                                                        label={question.Label} 
+                                                        onchange={handleChange}
+                                                        onblur={handleBlur}
+                                                        variant="label-stacked">
+                                                    </lightning-input>
+                                                    </template>
+                                                    <template if:true={question.IsFileUpload}>
+                                                        <lightning-input 
+                                                        name ={question.Id}
+                                                        data-question-id={question.Id}
+                                                        type="file" 
+                                                        accept=".xlsx, .xls, .csv, .png, .doc, .docx, .pdf"
+                                                        label={question.Label} 
+                                                        required 
+                                                        onchange={handleChange}
+                                                        onblur={handleBlur}>
+                                                        </lightning-input>
+                                                        <template if:true={question.FileData}>
+                                                            <lightning-icon 
+                                                                icon-name="utility:success" 
+                                                                alternative-text="Success!" 
+                                                                variant="success"
+                                                                title="success variant xx-small" 
+                                                                size="xx-small">
+                                                            </lightning-icon>
+                                                            <span class="slds-form-element__label">{question.FileData.filename}</span>
+                                                        </template>
+                                                    </template>
+                                                    <template if:true={question.ErrorMessage}>
+                                                        <p class="slds-form-element__help slds-text-color_destructive">{question.ErrorMessage}</p>
+                                                    </template>
+                                                </lightning-layout-item>
+                                            </template>
+                                        </lightning-layout>
+
+
+                    
+                                            <!-- </div>
+                                        </div>   -->
+                                        <!-- loop on each questions - end -->     
+
                 </div>
             </div>
         </template>
@@ -401,6 +519,27 @@
     </div>
     <!-- Registration Questions ends here -->
 
+    <div class="slds-grid slds-wrap pb2">
+        <div class="slds-size_1-of-4">
+            <div>
+                <p class="bodyBold py2">Discount code</p>
+                <div class="slds-grid slds-wrap">
+
+                    <div class="slds-size_1-of-2 mar-right-10">
+                        <lightning-input data-id="discountField" name={productIndex} type="text" variant="label-hidden"></lightning-input>
+                    </div>
+                    <div class="slds-size_1-of-3">
+                        <lightning-button  variant="brand" label="Apply" title="Apply code" onclick={applyCoupon}></lightning-button>
+                    </div>
+
+                </div>
+
+                <template if:true={showInvalidDiscount}>
+                    <p class="warning-label slds-m-left_small">Invalid voucher.</p>
+                </template>
+            </div> 
+        </div>
+    </div>
 
     <!-- Totals starts here -->
     <div class="component no-padd">
@@ -439,7 +578,7 @@
         </div>
         <div class="slds-grid terms-condition tandc">
             <lightning-input type="checkbox" id="terms" name="cbTerms" required onchange={checkEnablePaymentCB}></lightning-input>
-            <label for="terms">I agree with the <a href="#" target="_blank">Terms and Conditions</a><sup class="req">*</sup></label>
+            <label for="terms">I agree with the <a href="https://www.qut.edu.au/study/professional-and-executive-education/terms-and-conditions?_ga=2.147984567.1831940469.1653610703-306839491.1653610703" target="_blank">Terms and Conditions</a><sup class="req">*</sup></label>
         </div>
     </div>
     <!-- Totals ends here -->
@@ -453,6 +592,8 @@
         contact-lname={contactLname}
         contact-email={contactEmail}
         cart-external-id={cartExternalId}
+        cart-items={cartItems}
+        cart-id={recordId}
         total={total}
         onpaynow={paymentNow}
     ></c-payment>

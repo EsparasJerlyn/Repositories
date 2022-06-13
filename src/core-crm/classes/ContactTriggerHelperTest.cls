@@ -1,7 +1,7 @@
 /**
- * @description Test Class for Contact Create Triggered Flow 
+ * @description Test Class for ContactTriggerHelper
  *
- * @see ../flows/Contact_Create_Triggered_Flow
+ * @see ../fContactTriggerHelper
  *
  * @author Accenture
  *
@@ -13,7 +13,7 @@
       |                           |                       |              |                                                           |
 */
 @IsTest(SeeAllData = false)
-private class Contact_Create_Triggered_FlowTest {
+private class ContactTriggerHelperTest {
     
     private static final Id BUSINESS_ACC_RECTYPEID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get('Business_Organization').getRecordTypeId();
     private static final String STR_QUTEX = 'QUTeX';
@@ -28,7 +28,7 @@ private class Contact_Create_Triggered_FlowTest {
     @IsTest
     private static void insertContactTest(){
         System.runAs(currentUser){
-            Account acc = [SELECT Id From Account LIMIT 1];
+            Account acc = [SELECT Id From Account WHERE RecordTypeId =: BUSINESS_ACC_RECTYPEID  LIMIT 1];
             
             List<Contact> conList = TestDataFactory.createTestContactRecords(100);
             for(Contact con : conList){
@@ -47,7 +47,7 @@ private class Contact_Create_Triggered_FlowTest {
     @IsTest
     private static void insertContactWithPrimaryBusinesssOrgTest(){
         System.runAs(currentUser){
-            Account acc = [SELECT Id From Account LIMIT 1];
+            Account acc = [SELECT Id From Account WHERE RecordTypeId =: BUSINESS_ACC_RECTYPEID  LIMIT 1];
             
             List<Contact> conList = TestDataFactory.createTestContactRecords(100);
             for(Contact con : conList){

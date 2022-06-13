@@ -140,6 +140,20 @@
                 <elementReference>Loop_Course_Connection.hed__Contact__r.Email</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>generateEmailArgs</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop_Course_Connection.Course_Name__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>generateEmailArgs</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop_Course_Connection.hed__Contact__r.QUT_Student_Username__c</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Send_Email_for_Online_Self_Paced_Confirmation_0</targetReference>
         </connector>

@@ -16,6 +16,7 @@
       | roy.nino.s.regala         | December 6, 2021      | DEPP-116             | Removed unsused code and added field mapping |
       | john.bo.a.pineda          | April 11, 2022        | DEPP-1211            | Modified logic for new UI                    |
       | keno.domienri.dico        | April 29, 2022        | DEPP-2038            | Added child product records                  |
+      | burhan.m.abdul            | June 09, 2022         | DEPP-2811            | Added messageService                         |
  */
 
 import { LightningElement, wire, api } from "lwc";
@@ -26,6 +27,9 @@ import getProductDetails from "@salesforce/apex/ProductDetailsCtrl.getProductRel
 import getCartSummary from "@salesforce/apex/B2BGetInfo.getCartSummary";
 import addToCartItem from "@salesforce/apex/ProductDetailsCtrl.addToCartItem";
 import userId from "@salesforce/user/Id";
+
+import { publish, MessageContext } from 'lightning/messageService';
+import payloadContainerLMS from '@salesforce/messageChannel/Breadcrumbs__c';
 
 export default class ProductDetails extends LightningElement {
   loading;
@@ -38,6 +42,7 @@ export default class ProductDetails extends LightningElement {
   showProductDetailsSingle;
   showProductDetailsDisplay;
   cProducts;
+  isProgramFlex = false;
   availablePricings =[];
     // Gets & Sets the effective account - if any - of the user viewing the product.
   @api
@@ -59,6 +64,9 @@ export default class ProductDetails extends LightningElement {
   // The cart summary information
   cartSummary;
 
+  @wire(MessageContext)
+  messageContext;
+
   // The connectedCallback() lifecycle hook fires when a component is inserted into the DOM.
   connectedCallback() {
     this.loading = true;
@@ -75,6 +83,7 @@ export default class ProductDetails extends LightningElement {
   getProductDetailsApex(productId){
     getProductDetails({productId: productId})
       .then( (result) => {
+        this.isProgramFlex = !result.isNotFlexProgram;
         this.productDetails = result.productOnPage;
         this.priceBookEntryList = result.pricebookWrapperList;
         this.deliveryOptions = result.deliveryWrapperList;
@@ -117,6 +126,8 @@ export default class ProductDetails extends LightningElement {
           this.showProductDetailsDisplay = true;
         }
         this.loading = false;
+
+        this.publishLMS();
       })
       .catch( (error)=>{
         console.log(error);
@@ -248,4 +259,21 @@ export default class ProductDetails extends LightningElement {
   /*   handleRefresh() {
     refreshApex(this.productDetails);
   } */
+
+  //burhan
+  publishLMS() {
+    let paramObj = {
+      productId: this.productDetails.Id,
+      productName: this.productDetails.Name,
+      isProgramFlex: this.isProgramFlex,
+      children: this.cProducts,
+      clearOtherMenuItems: true
+    }
+    
+    const payLoad = {
+      parameterJson: JSON.stringify(paramObj)
+    };
+
+    publish(this.messageContext, payloadContainerLMS, payLoad);
+  }
 }

@@ -18,6 +18,7 @@ private class ProductRequestTriggerHandlerTest {
 
     private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
     private static Id opeActProdReqId =  Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_ACTIVITY).getRecordTypeId();
+    private static final Id C_ACTIVITY_ID = Schema.SObjectType.hed__Course__c.getRecordTypeInfosByDeveloperName().get(PR_ACTIVITY).getRecordTypeId();
     private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
 
@@ -50,6 +51,9 @@ private class ProductRequestTriggerHandlerTest {
 
         List<hed__Course__c> courses;
         courses = TestDataFactory.createTestCourseRecords(50,accounts[0].Id,prodRequest[0].Id);
+        for(hed__Course__c course: courses){
+            course.RecordTypeId = C_ACTIVITY_ID;
+        } 
         insert courses;
 
     }
@@ -65,7 +69,7 @@ private class ProductRequestTriggerHandlerTest {
             update prList;
         }
 
-        system.assert(![SELECT Id FROM Product2 WHERE IsActive = false LIMIT 100].isEmpty(), 'products are not deactivated');
+        system.assert(![SELECT Id FROM Product2 WHERE IsActive = false AND End_Date__c!= null LIMIT 100].isEmpty(), 'products are not deactivated');
         Test.stopTest();
     }
 

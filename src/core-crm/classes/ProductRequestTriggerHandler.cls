@@ -79,7 +79,8 @@ public without sharing class ProductRequestTriggerHandler implements Disableable
         //query products to be deactivated
         if(!completedOrNotProceedingPRs.isEmpty()){
             productsList =  [   
-                    SELECT Id, Course__r.ProductRequestID__c, Program_Plan__r.Product_Request__c
+                    SELECT Id, Course__r.ProductRequestID__r.Product_Request_Status__c, 
+                    Program_Plan__r.Product_Request__r.Product_Request_Status__c
                     FROM Product2 
                     WHERE IsActive = true 
                     AND (Course__r.ProductRequestID__c IN: completedOrNotProceedingPRs 
@@ -90,6 +91,15 @@ public without sharing class ProductRequestTriggerHandler implements Disableable
         //deactivate products
         for(Product2 prod: productsList){
             prod.IsActive = false;
+            if(    (prod.Course__c != null && 
+                    prod.Course__r.ProductRequestID__c != null && 
+                    prod.Course__r.ProductRequestID__r.Product_Request_Status__c == PR_NOT_PROCEEDING) ||
+                    (prod.Program_Plan__c != null && 
+                    prod.Program_Plan__r.Product_Request__c != null && 
+                    prod.Program_Plan__r.Product_Request__r.Product_Request_Status__c == PR_NOT_PROCEEDING)
+            ){
+                prod.End_Date__c = date.Today();
+            }
             relatedProductMap.put(prod.Id,prod);
         }
 

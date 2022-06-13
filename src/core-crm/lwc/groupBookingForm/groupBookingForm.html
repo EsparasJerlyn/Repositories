@@ -43,7 +43,7 @@
                             <div class="heading4">{productCourseName}</div>
                         </div>
                         <div class="three">
-                            <lightning-accordion allow-multiple-sections-open>
+                            <lightning-accordion allow-multiple-sections-open class="example-accordion" active-section-name="Participants">
                                 <div>
                                     <lightning-accordion-section name="Participants" label="PARTICIPANT 1">
                                         <lightning-record-edit-form
@@ -168,7 +168,7 @@
                                     </lightning-accordion-section>
                                 </div>
                                 <div onchange={updateOnAccordionDetails} for:each={items} for:item="item" data-id={item.id}  key={item.id}>
-                                    <lightning-accordion-section name="Participants" label={item.label}>
+                                    <lightning-accordion-section name={item.label} label={item.label}>
                                         <div class="slds-float--right">
                                             <lightning-button-icon icon-name="utility:delete" name="openConfirmation"  access-key={item.id} id={index}  alternative-text="Delete" class="slds-m-left_xx-small" title="Delete" onclick={handleClick}></lightning-button-icon>
                                         </div>
@@ -188,7 +188,7 @@
                                             <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
                                                 <lightning-input name="FirstName" label="First Name" key={item.id}></lightning-input>
                                                 <lightning-input name="Email" label="Email" key={item.id}></lightning-input >
-                                                <lightning-input name="Birthdate" label="Date of Birth" type="date" key={item.id}></lightning-input>
+                                                <lightning-input name="Birthdate" label="Birthdate" type="date" key={item.id}></lightning-input>
                                             </div>
                                             <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
                                                 <lightning-input name="LastName" label="Last Name" key={item.id}></lightning-input>

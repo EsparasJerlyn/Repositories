@@ -34,6 +34,11 @@
                 <default>false</default>
                 <label>Unknown</label>
             </value>
+            <value>
+                <fullName>Decline to State</fullName>
+                <default>false</default>
+                <label>Decline to State</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

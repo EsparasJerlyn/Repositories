@@ -1,0 +1,11 @@
+{
+  "activeViewId" : "d68d9473-b23c-4955-aa65-47e98297f1de",
+  "appPageId" : "b28ff838-09a0-4bed-9c7e-7d9052f13951",
+  "configurationTags" : [ ],
+  "id" : "b21b6ec9-78b4-46fc-8a1a-d02809afe62c",
+  "label" : "Payment Confirmation",
+  "pageAccess" : "UseParent",
+  "routeType" : "custom-payment-confirmation",
+  "type" : "route",
+  "urlPrefix" : "payment-confirmation"
+}

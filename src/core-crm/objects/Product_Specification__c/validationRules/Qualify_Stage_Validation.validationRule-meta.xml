@@ -3,7 +3,7 @@
     <fullName>Qualify_Stage_Validation</fullName>
     <active>true</active>
     <errorConditionFormula>AND(
- RecordType.DeveloperName = &apos;OPE_Program_Specification&apos;,
+ RecordType.DeveloperName = &apos;OPE&apos;,
  ISCHANGED( Stage__c ),
  ISPICKVAL( PRIORVALUE ( Stage__c ), &apos;Qualify&apos; ),
  ISPICKVAL( Stage__c, &apos;Idea&apos; )

@@ -23,7 +23,8 @@ export default class RegisteredLearnerRelatedList extends LightningElement {
 
     @api recordId;
     columns = [
-        { label: 'Preferred Given Name', fieldName: 'prefferedName', type: 'text', sortable: true },
+        { label: 'First Name', fieldName: 'firstName', type: 'text', sortable: true },
+        { label: 'Last Name', fieldName: 'lastName', type: 'text', sortable: true },
         { label: 'Company', fieldName: 'companyName', type: 'text', sortable: true },
         { label: 'Position', fieldName: 'positionName', type: 'text', sortable: true }       
     ];

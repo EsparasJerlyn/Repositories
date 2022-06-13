@@ -25,6 +25,12 @@
         <members>LinkedInRegHandler</members>
         <members>LinkedInRegHandlerTest</members>
         <!--(End) DEPP 2824 -->
+        <!--DEPP-2869-->
+        <members>Contact_Create_Triggered_FlowTest</members>
+        <!--DEPP-2523-->
+        <members>Update_Course_or_Program_Start_DateTest</members>
+        <members>Update_Product_End_DateTest</members>
+        <members>Validation_FlowTest</members>
         <name>ApexClass</name>
     </types>
     <types>
@@ -127,6 +133,16 @@
     </types>
     <types>
         <members>QUTeX_Email</members><!-- DEPP-2020 -->
+        <!-- (Start) DEPP 2861 --> 
+        <members>MCTransactionalAPI_AccessTokenClientId</members>
+        <members>MCTransactionalAPI_AccessTokenClientSecret</members>
+        <members>MCTransactionalAPI_AccessTokenAccountId</members>
+        <members>MCTransactionalAPI_AccessTokenURL</members>
+        <members>MCTransactionalAPI_SendSMSOTP_AttrSMSOTP</members>
+        <members>MCTransactionalAPI_SendSMSOTP_DefinitionKey</members>
+        <members>MCTransactionalAPI_SendSMSOTP_MsgTemplate</members>
+        <members>MCTransactionalAPI_SendSMSOTPURL</members>
+        <!-- (End) DEPP 2861 -->
         <name>CustomLabel</name>
     </types>
     <types>
@@ -436,6 +452,21 @@
         <name>ValidationRule</name>
     </types>
 
+    <types>
+    <!--DEPP-2869-->
+        <members>Contact_Create_Triggered_Flow</members>
+    <!--DEPP-2523-->
+        <members>Update_Course_or_Program_Start_Date</members>
+        <members>Update_Product_End_Date</members>
+    <!--DEPP-3032-->
+        <members>Face_Face_Final_Confirmation_Email</members>
+        <members>Virtual_Confirmation_Email</members>
+        <members>Post_Course_Completion_Email</members>
+        <members>Pre_session_Reminder_Email</members>
+        <members>Send_Email_on_Registration_Confirmation</members>
+        <members>Online_Self_Paced_Confirmation_Email</members>
+        <name>Flow</name>
+    </types>
 
 
     <!--(Start) Kindly comment out once it reaches PROD

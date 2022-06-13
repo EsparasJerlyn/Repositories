@@ -754,8 +754,12 @@ export default class ProductPricing extends NavigationMixin(LightningElement) {
     handleNewPricebookSave(event){
         let fields = event.detail;
         let objRecord = {'apiName':'Pricebook2',fields};
-
-        createRecord(objRecord).then(response =>{
+        
+        if(this.priceBooks.find(item => item.Name == event.detail.Name)){
+            this.generateToast('Error.','Pricebook already exist with the same name.','error');
+        }
+        else{
+            createRecord(objRecord).then(response =>{
             this.generateToast('Success!','Price Book Saved','success');
             //only add to selection if Pricebook is set to active.
             if(event.detail.IsActive === true){
@@ -765,10 +769,10 @@ export default class ProductPricing extends NavigationMixin(LightningElement) {
                 newSelection.Name = event.detail.Name;
                 this.addNewPriceBookToSelection(newSelection);
             }
-        }).catch(error => {
-            this.generateToast('Error.',LWC_Error_General,'error');
-        })
-        
+            }).catch(error => {
+                this.generateToast('Error.',LWC_Error_General,'error');
+            })
+        }
     }
 
     /*

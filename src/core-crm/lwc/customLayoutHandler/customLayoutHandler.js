@@ -75,10 +75,10 @@ export default class OpeCustomPageLayout extends LightningElement {
     handleParentRecord(result){
         if(result.data){
             this.isProgram = getFieldValue(result.data,PR_RT_DEV_NAME) == RT_ProductRequest_Program;
-            if(this.tab == PL_ProductRequest_Design){
+            if(this.tab && this.tab.split(',').includes(PL_ProductRequest_Design)){
                 //only 1 level of traversal is needed (e.g. Course/Program Plan -> Product Request)
                 this.assignLevelOne();
-            }else if(this.tab == PL_ProductRequest_Release){
+            }else if(this.tab && this.tab.split(',').includes(PL_ProductRequest_Release)){
                 //release tab defaults to Product object as the child
                 //2 levels of traversal are needed (e.g. Product -> Course/Program Plan -> Product Request)
                 this.assignLevelTwo();

@@ -15,6 +15,7 @@
  */
 @isTest(SeeAllData=false)
 public with sharing class ContactTriggerHandlerTest {
+private static final Id BUSINESS_ACC_RECTYPEID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get('Business_Organization').getRecordTypeId();
 public static final Id PERSON = Schema.SObjectType.Contact.getRecordTypeInfosByDeveloperName()
         .get('Person')
         .getRecordTypeId();
@@ -37,6 +38,10 @@ public static final Id PERSON = Schema.SObjectType.Contact.getRecordTypeInfosByD
       contacts[0]
         .Contact_Image__c = '<p><img src="https://www.w3schools.com/w3css/img_lights.jpg" alt="test.jpg"></img></p>';
       insert contacts;
+
+      Account acc = TestDataFactory.createTestAccountRecords(1).iterator().next();
+        acc.RecordTypeId = BUSINESS_ACC_RECTYPEID;
+        insert acc;
       Test.stopTest();
     }
   }
@@ -207,6 +212,57 @@ public static final Id PERSON = Schema.SObjectType.Contact.getRecordTypeInfosByD
                 [Select Id from Contact Where Parent_Person_Contact__c = :cons[0].Id].size(),
                 'Number of child MC Persona contacts'
             );
+    }
+
+    @IsTest
+    private static void insertContactTest(){
+      User currUsr = [
+      SELECT Id
+      FROM User
+      WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
+      LIMIT 1
+    ];
+        System.runAs(currUsr){
+            Account acc = [SELECT Id From Account WHERE RecordTypeId =: BUSINESS_ACC_RECTYPEID  LIMIT 1];
+            
+            List<Contact> conList = TestDataFactory.createTestContactRecords(100);
+            for(Contact con : conList){
+                con.AccountId = acc?.Id;
+            }
+
+            Test.startTest();
+            insert(conList);
+            Test.stopTest();
+
+            List<Contact> updatedContactList = new List<Contact>([SELECT Id FROM Contact WHERE hed__Primary_Organization__c != null]);
+            System.assert(updatedContactList.size() == 100,'Contacts where not updated');
+        }
+    }
+
+    @IsTest
+    private static void insertContactWithPrimaryBusinesssOrgTest(){
+      User currUsr = [
+      SELECT Id
+      FROM User
+      WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
+      LIMIT 1
+    ];
+
+        System.runAs(currUsr){
+            Account acc = [SELECT Id From Account WHERE RecordTypeId =: BUSINESS_ACC_RECTYPEID  LIMIT 1];
+            
+            List<Contact> conList = TestDataFactory.createTestContactRecords(100);
+            for(Contact con : conList){
+                con.hed__Primary_Organization__c = acc?.Id;
+            }
+
+            Test.startTest();
+            insert(conList);
+            Test.stopTest();
+			
+            List<AccountContactRelation> insertedACRList = [SELECT Id FROM AccountContactRelation WHERE ContactId IN :conList AND AccountId =: acc.Id];
+            System.assert(insertedACRList.size() == 100,'Account Contact Relation records created did not match expected');
+        }
     }
 
   /* @IsTest

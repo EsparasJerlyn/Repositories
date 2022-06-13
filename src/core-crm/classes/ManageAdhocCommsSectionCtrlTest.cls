@@ -55,10 +55,7 @@ private class ManageAdhocCommsSectionCtrlTest {
                     }
                 }
             );
-            String expectedURL = System.URL.getSalesforceBaseUrl().toExternalForm().replace(
-                '.my.salesforce.com',
-                '--c.documentforce.com/file-asset-public/'
-            ) + STR_TEST + '?oid=' + ORG_ID;
+            String expectedURL = System.URL.getOrgDomainUrl().toExternalForm() + '/file-asset-public/'  + STR_TEST + '?oid=' + ORG_ID;
             Test.startTest();
             List<GenerateImageServerURL.ImageURL> imageUrls = ManageAdhocCommsSectionCtrl.getHeaderAndFooterImageUrls(imageInfos);
             Test.stopTest();

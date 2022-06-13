@@ -7,7 +7,7 @@
       </lightning-layout-item>
       <!-- Sub Header -->
       <lightning-layout-item flexibility="auto" size="12">
-        <h2 class="subHeader">{productDetails.Description}</h2>
+        <h2 class="subHeader mt2">{productDetails.Description}</h2>
       </lightning-layout-item>
       <!-- Left: Overview, Core Concepts, Facilitator, Details -->
       <lightning-layout-item
@@ -395,9 +395,7 @@
           <!-- Pricing -->
           <lightning-layout-item
             flexibility="auto"
-            size="12"
-            class="slds-m-bottom_small"
-          >
+            size="12" class="slds-m-bottom_small">
             <c-custom-combobox
               class="pricing"
               field-label={label.pricing}
@@ -410,6 +408,7 @@
               slds-icon-down="utility:chevrondown"
             >
             </c-custom-combobox>
+            <!--<a href="#" class="whatDoesLink">What does this  mean?</a>-->
           </lightning-layout-item>
           <!-- Add to Cart -->
           <lightning-layout-item
@@ -429,6 +428,7 @@
             if:true={displayQuestionnaire}
             flexibility="auto"
             size="12"
+            style="margin-top: 10px"
           >
             <lightning-button
               label="APPLY"

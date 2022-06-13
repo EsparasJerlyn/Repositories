@@ -601,6 +601,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Account.Do_Not_Sync_To_MC_Override__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Account.End_Date__c</field>
         <readable>false</readable>
@@ -704,6 +709,11 @@
         <editable>false</editable>
         <field>Account.Start_Date__c</field>
         <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Account.Sync_To_MC__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -1097,6 +1107,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Contact.Do_Not_Sync_To_MC_Override__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Contact.Email</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1174,6 +1189,11 @@
         <editable>false</editable>
         <field>Contact.Migration_Key__c</field>
         <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.External_Key__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -1302,6 +1322,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.Staff_Email_Opt_Out_DateTime__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Sync_To_MC__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1681,6 +1706,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>hed__Course__c.Suggested_Delivery_Dates__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>hed__Course__c.Name_Left_Indented__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1720,6 +1750,16 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Lead.External_Key__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Lead.Do_Not_Sync_To_MC_Override__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Lead.Email_Opt_In_DateTime__c</field>
         <readable>true</readable>
@@ -1727,6 +1767,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Lead.Email_Opt_Out_DateTime__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Lead.hed__External_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1791,6 +1836,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Lead.MobilePhone</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Lead.Migration_Key__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Lead.Personal_Email__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1807,6 +1862,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Lead.Phone_No_Locale__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Lead.Sync_To_MC__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3441,6 +3501,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>hed__Course_Enrollment__c.Certificate_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>hed__Course_Enrollment__c.Course_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>hed__Course_Enrollment__c.Course_Offering_End_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3931,6 +4001,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Program_Plan__c.Core_Conceptsv2__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Program_Plan__c.Suggested_Delivery_Dates__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5171,11 +5246,11 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Product_Specification__c-CCE Product Specification Page Layout</layout>
-        <recordType>Product_Specification__c.CCE_Program_Specification</recordType>
+        <recordType>Product_Specification__c.CCE</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Product_Specification__c-OPE Product Specification Page Layout</layout>
-        <recordType>Product_Specification__c.OPE_Program_Specification</recordType>
+        <recordType>Product_Specification__c.OPE</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Product_Specification__c-Product Specification Layout</layout>
@@ -5730,13 +5805,13 @@
     <recordTypeVisibilities>
         <default>true</default>
         <recordType
-    >Product_Specification__c.CCE_Program_Specification</recordType>
+    >Product_Specification__c.CCE</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>false</default>
         <recordType
-    >Product_Specification__c.OPE_Program_Specification</recordType>
+    >Product_Specification__c.OPE</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <tabVisibilities>

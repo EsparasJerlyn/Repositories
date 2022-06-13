@@ -199,12 +199,12 @@
         <value>Design</value>
     </labels>
     <labels>
-        <fullName>PL_ProductRequest_InDelivery</fullName>
+        <fullName>PL_ProductRequest_Published</fullName>
         <categories>Picklist,ProductRequest</categories>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>PL_ProductRequest_InDelivery</shortDescription>
-        <value>In Delivery</value>
+        <shortDescription>PL_ProductRequest_Published</shortDescription>
+        <value>Published</value>
     </labels>
     <labels>
         <fullName>PL_ProductRequest_Release</fullName>
@@ -213,6 +213,14 @@
         <protected>false</protected>
         <shortDescription>PL_ProductRequest_Release</shortDescription>
         <value>Release</value>
+    </labels>
+    <labels>
+        <fullName>PL_ProductRequest_InDelivery</fullName>
+        <categories>Picklist,ProductRequest</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PL_ProductRequest_InDelivery</shortDescription>
+        <value>Published</value>
     </labels>
     <labels>
         <fullName>PL_ProductSpecification_Complete</fullName>
@@ -344,7 +352,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>RT_ProductSpecification_OPEProgramSpecification</shortDescription>
-        <value>OPE_Program_Specification</value>
+        <value>OPE</value>
     </labels>
     <labels>
         <fullName>RT_ProductSpecification_CCEProgramSpecification</fullName>
@@ -352,7 +360,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>RT_ProductSpecification_CCEProgramSpecification</shortDescription>
-        <value>CCE_Program_Specification</value>
+        <value>CCE</value>
     </labels>
     <labels>
         <fullName>RT_ProgramPlan_Program</fullName>
@@ -428,7 +436,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>QUT_RegistrationForm_PrivacyPolicy</shortDescription>
-        <value>I agree to the privacy policy</value>
+        <value>I acknowledge and accept the</value>
     </labels>
     <labels>
         <fullName>QUT_RegistrationForm_RegisterWithLinkedIn</fullName>
@@ -654,42 +662,6 @@
         <value>/consumer/dep/v1/registration/registerLearner</value>
     </labels>
     <labels>
-        <fullName>Base_URL_SIT</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Base_URL_SIT_UAT</shortDescription>
-        <value>https://qut-dev.xetta.com/onestopweb/qutopeintegration/tranadd?</value>
-    </labels>
-    <labels>
-        <fullName>Base_URL_UAT</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Base_URL_SIT_UAT</shortDescription>
-        <value>https://qut-test.xetta.com/onestopweb/qutopeintegration/tranadd?</value>
-    </labels>
-    <labels>
-        <fullName>Base_URL_Prod</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Base_URL_Prod</shortDescription>
-        <value>https://pay.qut.edu.au/qutopeintegration/tranadd?</value>
-    </labels>
-    <labels>
-        <fullName>Payment_GLCode</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Payment_GLCode</shortDescription>
-        <value>182003-0001-2402-58-0-0-1</value>
-    </labels>
-        <labels>
-        <fullName>RT_ProductSpecification_CCEProgramSpecification</fullName>
-        <categories>RecordType,Product Specification</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>RT_ProductSpecification_CCEProgramSpecification</shortDescription>
-        <value>CCE_Program_Specification</value>
-    </labels>
-    <labels>
         <fullName>RT_ProductRequest_Indiv_Coaching</fullName>
         <categories>RecordType,ProductRequest</categories>
         <language>en_US</language>
@@ -704,61 +676,5 @@
         <protected>false</protected>
         <shortDescription>RT_Course_Indiv_Coaching</shortDescription>
         <value>Individual_Coaching</value>
-    </labels>
-    <labels>
-        <fullName>MCTransactionalAPI_AccessTokenURL</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>MCTransactionalAPI_AccessTokenURL</shortDescription>
-        <value>https://mcls-xpv9rt6ghxqkgd5fz5ccl6y.auth.marketingcloudapis.com/v2/token</value>
-    </labels>
-    <labels>
-        <fullName>MCTransactionalAPI_AccessTokenClientId</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>MCTransactionalAPI_AccessTokenClientId</shortDescription>
-        <value>dn8oy0sln2s8k56yl3ut2rw6</value>
-    </labels>
-    <labels>
-        <fullName>MCTransactionalAPI_AccessTokenClientSecret</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>MCTransactionalAPI_AccessTokenClientSecret</shortDescription>
-        <value>872EWIYtw1zoapKduLL1gACN</value>
-    </labels>
-    <labels>
-        <fullName>MCTransactionalAPI_AccessTokenAccountId</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>MCTransactionalAPI_AccessTokenAccountId</shortDescription>
-        <value>514020017</value>
-    </labels>
-    <labels>
-        <fullName>MCTransactionalAPI_SendSMSOTPURL</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>MCTransactionalAPI_SendSMSOTPURL</shortDescription>
-        <value>https://mcls-xpv9rt6ghxqkgd5fz5ccl6y.rest.marketingcloudapis.com/messaging/v1/sms/messages/</value>
-    </labels>
-    <labels>
-        <fullName>MCTransactionalAPI_SendSMSOTP_MsgTemplate</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>MCTransactionalAPI_SendSMSOTP_MsgTemplate</shortDescription>
-        <value>QUTeX Verification Code: %%smsotp%%</value>
-    </labels>
-    <labels>
-        <fullName>MCTransactionalAPI_SendSMSOTP_DefinitionKey</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>MCTransactionalAPI_SendSMSOTP_DefinitionKey</shortDescription>
-        <value>sendsmsotp</value>
-    </labels>
-    <labels>
-        <fullName>MCTransactionalAPI_SendSMSOTP_AttrSMSOTP</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>MCTransactionalAPI_SendSMSOTP_AttrSMSOTP</shortDescription>
-        <value>smsotp</value>
     </labels>
 </CustomLabels>

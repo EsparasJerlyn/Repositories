@@ -9,15 +9,18 @@
 public without sharing class SAMSRegisterLearnerBatchHandler implements Database.Batchable<SObject>, Database.AllowsCallouts, Schedulable {
 
     private static final String STUDENT = 'Student';
+    private static final String COMPLETED = 'Completed';
 
     public Database.QueryLocator start(Database.BatchableContext param1) {
         return Database.getQueryLocator(
-                'SELECT Id, Recordtype_Name__c, hed__Contact__r.SAMS_Integration_Status__c, hed__Contact__r.QUT_Student_ID__c,' +
+                'SELECT Id, Recordtype_Name__c, hed__Status__c, hed__Contact__c, hed__Contact__r.SAMS_Integration_Status__c, hed__Contact__r.QUT_Student_ID__c,' +
                         ' hed__Contact__r.Id, hed__Contact__r.Nominated_Student_ID__c, hed__Contact__r.Salutation, hed__Contact__r.FirstName, hed__Contact__r.LastName,' +
                         ' hed__Contact__r.Birthdate, hed__Contact__r.hed__Gender__c, hed__Contact__r.MobilePhone, hed__Contact__r.Email' +
                         ' FROM hed__Course_Enrollment__c' +
                         ' WHERE hed__Contact__r.SAMS_Integration_Status__c = NULL' +
+                        ' AND hed__Status__c != :COMPLETED' +
                         ' AND Recordtype_Name__c = :STUDENT' +
+                        ' AND hed__Contact__c != NULL' +
                         ' AND hed__Contact__r.QUT_Student_ID__c = NULL'
         );
     }

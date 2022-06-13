@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Do_Not_Sync_To_MC_Override__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>When this is true, this will mark Sync to MC as false and this will not be synced to Marketing Cloud</description>
+    <externalId>false</externalId>
+    <label>Do Not Sync To MC (Override)</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

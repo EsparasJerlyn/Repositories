@@ -13,8 +13,9 @@
       |                           |                       |                      | DEPP-1293                             |
       |                           |                       |                      |                                       |
  */
-import { LightningElement, track, api } from "lwc";
+import { LightningElement, track, api, wire } from "lwc";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
+import { NavigationMixin, CurrentPageReference } from "lightning/navigation";
 import isEmailExist from "@salesforce/apex/RegistrationFormCtrl.isEmailExist";
 import registerUser from "@salesforce/apex/RegistrationFormCtrl.registerUser";
 import getCommunityUrl from "@salesforce/apex/RegistrationFormCtrl.getCommunityUrl";
@@ -27,7 +28,6 @@ import requiredField from "@salesforce/label/c.QUT_RegistrationForm_IndicatesReq
 import privacyPolicy from "@salesforce/label/c.QUT_RegistrationForm_PrivacyPolicy";
 import BasePath from "@salesforce/community/basePath";
 import sendRegistrationSMSOTP from "@salesforce/apex/RegistrationFormCtrl.sendRegistrationSMSOTP";
-import getOPEProductCateg from "@salesforce/apex/RegistrationFormCtrl.getOPEProductCateg";
 import getMobileLocaleOptions from "@salesforce/apex/RegistrationFormCtrl.getMobileLocaleOptions";
 import sendRegistrationEmailOTP from "@salesforce/apex/RegistrationFormCtrl.sendRegistrationEmailOTP";
 
@@ -107,6 +107,10 @@ export default class RegistrationForm extends LightningElement {
     ];
   }
 
+  @wire(CurrentPageReference)
+  getpageRef(pageRef) {
+    this.startURL = BasePath + "/product/detail/" + pageRef.attributes.recordId;
+  }
   /*
    * Sets the Attribute on Load of the Registration Modal
    */
@@ -137,20 +141,15 @@ export default class RegistrationForm extends LightningElement {
     this.xButton = qutResourceImg + "/QUTImages/Icon/xMark.svg";
     this.requiredErrorMessage = REQUIRED_ERROR_MESSAGE;
 
-    // Get Product Category Id
-    getOPEProductCateg()
-      .then((result) => {
-        this.startURL = BasePath + "/category/products/" + result.Id;
-      })
-      .catch((error) => {
-        console.log("getOPEProductCateg error");
-        console.log(error);
-      });
-
     //Generate Experience SSO Link
     getCommunityUrl()
       .then((res) => {
-        this.experienceSSOUrl = res.comSite + SSO + "QUT_Experience_SSO";
+        this.experienceSSOUrl =
+          res.comSite +
+          SSO +
+          "QUT_Experience_SSO" +
+          "/?startURL=" +
+          this.startURL;
       })
       .catch((error) => {
         this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
@@ -191,7 +190,8 @@ export default class RegistrationForm extends LightningElement {
       } else {
         this.linkedInSSOUrl = res.comSite + SSO + "QUT_LinkedIn";
       }
-      window.location.href = this.linkedInSSOUrl;
+      window.location.href =
+        this.linkedInSSOUrl + "/?startURL=" + this.startURL;
     });
   }
 
@@ -559,11 +559,15 @@ export default class RegistrationForm extends LightningElement {
   }
 
   handleVerify(event) {
-    if (this.verifyOTP == this.userOTP) {
-      this.generateToast("Success!", "OTP Accepted", "success");
-      this.registerPortalUser();
+    if (this.userOTP) {
+      if (this.verifyOTP == this.userOTP) {
+        this.generateToast("Success!", "OTP Accepted", "success");
+        this.registerPortalUser();
+      } else {
+        this.generateToast("Error.", "Invalid OTP", "error");
+      }
     } else {
-      this.generateToast("Error.", "Invalid OTP", "error");
+      this.generateToast("Error.", "Please enter verification code", "error");
     }
   }
 

@@ -4,7 +4,7 @@
     <active>true</active>
     <description>User should not go back to any previous stage.</description>
     <errorConditionFormula>AND(
-	RecordType.DeveloperName == &apos;OPE_Program_Specification&apos; ,
+	RecordType.DeveloperName == &apos;OPE&apos; ,
 	ISCHANGED(Stage__c),
 	OR(
 		ISPICKVAL( PRIORVALUE(Stage__c), &apos;Not Proceeding&apos;),

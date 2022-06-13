@@ -223,7 +223,7 @@
         <content>OPE_Product_Specification_Lightning_Layout</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Product_Specification__c</pageOrSobjectType>
-        <recordType>Product_Specification__c.OPE_Program_Specification</recordType>
+        <recordType>Product_Specification__c.OPE</recordType>
         <type>Flexipage</type>
         <profile>QUTeX</profile>
     </profileActionOverrides>
@@ -232,7 +232,7 @@
         <content>OPE_Product_Specification_Lightning_Layout</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Product_Specification__c</pageOrSobjectType>
-        <recordType>Product_Specification__c.OPE_Program_Specification</recordType>
+        <recordType>Product_Specification__c.OPE</recordType>
         <type>Flexipage</type>
         <profile>QUTeX</profile>
     </profileActionOverrides>
@@ -241,7 +241,7 @@
         <content>Product_Specification_Lightning_Layout</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Product_Specification__c</pageOrSobjectType>
-        <recordType>Product_Specification__c.CCE_Program_Specification</recordType>
+        <recordType>Product_Specification__c.CCE</recordType>
         <type>Flexipage</type>
         <profile>QUTeX</profile>
     </profileActionOverrides>
@@ -250,7 +250,7 @@
         <content>Product_Specification_Lightning_Layout</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Product_Specification__c</pageOrSobjectType>
-        <recordType>Product_Specification__c.CCE_Program_Specification</recordType>
+        <recordType>Product_Specification__c.CCE</recordType>
         <type>Flexipage</type>
         <profile>QUTeX</profile>
     </profileActionOverrides>
@@ -331,7 +331,7 @@
         <content>Product_Specification_Lightning_Layout</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Product_Specification__c</pageOrSobjectType>
-        <recordType>Product_Specification__c.CCE_Program_Specification</recordType>
+        <recordType>Product_Specification__c.CCE</recordType>
         <type>Flexipage</type>
         <profile>Admin</profile>
     </profileActionOverrides>
@@ -340,7 +340,7 @@
         <content>Product_Specification_Lightning_Layout</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Product_Specification__c</pageOrSobjectType>
-        <recordType>Product_Specification__c.CCE_Program_Specification</recordType>
+        <recordType>Product_Specification__c.CCE</recordType>
         <type>Flexipage</type>
         <profile>Admin</profile>
     </profileActionOverrides>
@@ -475,7 +475,7 @@
         <content>OPE_Product_Specification_Lightning_Layout</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Product_Specification__c</pageOrSobjectType>
-        <recordType>Product_Specification__c.OPE_Program_Specification</recordType>
+        <recordType>Product_Specification__c.OPE</recordType>
         <type>Flexipage</type>
         <profile>Admin</profile>
     </profileActionOverrides>
@@ -484,7 +484,7 @@
         <content>OPE_Product_Specification_Lightning_Layout</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Product_Specification__c</pageOrSobjectType>
-        <recordType>Product_Specification__c.OPE_Program_Specification</recordType>
+        <recordType>Product_Specification__c.OPE</recordType>
         <type>Flexipage</type>
         <profile>Admin</profile>
     </profileActionOverrides>
