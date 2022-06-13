@@ -33,7 +33,7 @@ import sendRegistrationEmailOTP from "@salesforce/apex/RegistrationFormCtrl.send
 
 //Add text fields in Label from HTML
 const SSO = "/services/auth/sso/";
-const REQUIRED_ERROR_MESSAGE = "Please populate required field.";
+const REQUIRED_ERROR_MESSAGE = "Please complete the mandatory fields(*) before proceeding.";
 const EMAIL_NOT_VALID = "Please enter a valid email.";
 const EMAIL_EXIST = "Your email already exists.";
 const BIRTHDATE_FORMAT = "Please check the format";
@@ -202,7 +202,7 @@ export default class RegistrationForm extends LightningElement {
    */
   handleRegister(event) {
     event.preventDefault();
-    this.mobile = this.mobile.replace(/^0+/, "");
+    this.mobile = this.mobile?this.mobile.replace(/^0+/, ""):'';
 
     this.mobileFull = this.locale + this.mobile;
     this.dietaryReq = this.template.querySelector(
