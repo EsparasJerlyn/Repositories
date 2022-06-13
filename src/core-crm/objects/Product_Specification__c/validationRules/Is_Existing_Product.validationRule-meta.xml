@@ -4,7 +4,7 @@
     <active>true</active>
     <description>OPE Process cannot proceed if idea is an existing product.</description>
     <errorConditionFormula>AND(
-RecordType.DeveloperName =&apos;OPE_Program_Specification&apos;,
+RecordType.DeveloperName =&apos;OPE&apos;,
 ISCHANGED(Stage__c),
 ISPICKVAL(PRIORVALUE(Stage__c),&apos;Qualify&apos;),
 ISPICKVAL(Stage__c, &apos;Design&apos;),

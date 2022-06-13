@@ -16,7 +16,7 @@
     <filters>
         <field>RECORDTYPE</field>
         <operation>equals</operation>
-        <value>Product_Specification__c.OPE_Program_Specification</value>
+        <value>Product_Specification__c.OPE</value>
     </filters>
     <label>OPE Product Specifications - Open</label>
 </ListView>

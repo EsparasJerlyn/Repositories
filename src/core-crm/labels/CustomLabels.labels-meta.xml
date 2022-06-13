@@ -352,7 +352,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>RT_ProductSpecification_OPEProgramSpecification</shortDescription>
-        <value>OPE_Program_Specification</value>
+        <value>OPE</value>
     </labels>
     <labels>
         <fullName>RT_ProductSpecification_CCEProgramSpecification</fullName>
@@ -360,7 +360,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>RT_ProductSpecification_CCEProgramSpecification</shortDescription>
-        <value>CCE_Program_Specification</value>
+        <value>CCE</value>
     </labels>
     <labels>
         <fullName>RT_ProgramPlan_Program</fullName>
@@ -436,7 +436,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>QUT_RegistrationForm_PrivacyPolicy</shortDescription>
-        <value>I acknowledge and accept the </value> 
+        <value>I acknowledge and accept the</value>
     </labels>
     <labels>
         <fullName>QUT_RegistrationForm_RegisterWithLinkedIn</fullName>
@@ -660,14 +660,6 @@
         <protected>false</protected>
         <shortDescription>ESBSAMSRegisterLearner</shortDescription>
         <value>/consumer/dep/v1/registration/registerLearner</value>
-    </labels>
-    <labels>
-        <fullName>RT_ProductSpecification_CCEProgramSpecification</fullName>
-        <categories>RecordType,Product Specification</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>RT_ProductSpecification_CCEProgramSpecification</shortDescription>
-        <value>CCE_Program_Specification</value>
     </labels>
     <labels>
         <fullName>RT_ProductRequest_Indiv_Coaching</fullName>

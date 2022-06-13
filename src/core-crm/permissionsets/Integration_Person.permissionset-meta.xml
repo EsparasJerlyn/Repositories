@@ -6597,11 +6597,11 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
-        <recordType>Product_Specification__c.CCE_Program_Specification</recordType>
+        <recordType>Product_Specification__c.CCE</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
-        <recordType>Product_Specification__c.OPE_Program_Specification</recordType>
+        <recordType>Product_Specification__c.OPE</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>

@@ -4,5 +4,5 @@
     <entityName>Product_Specification__c</entityName>
     <fieldName>Stage__c</fieldName>
     <masterLabel>Product Specification - OPE</masterLabel>
-    <recordTypeName>OPE_Program_Specification</recordTypeName>
+    <recordTypeName>OPE</recordTypeName>
 </PathAssistant>

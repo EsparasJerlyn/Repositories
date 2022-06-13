@@ -9,13 +9,14 @@
  *    | Developer                 | Date                  | JIRA     | Change Summary                  |
       |---------------------------|-----------------------|----------|---------------------------------|
       | arsenio.dayrit@qut.edu.au | December 09, 2021     | DEPP-1359| Created file                    | 
+      | cadalin@qut.edu.au        | June 12, 2022         | DEPP-2485| Renamed refs to OPE record-type |
       |                           |                       |          |                                 |
 */
 @isTest(SeeAllData = false)
 public with sharing class Prod_Specs_Send_EmailTest {
 
     private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
-    private static Id opeProdSpecId = Schema.SObjectType.Product_Specification__c.getRecordTypeInfosByDeveloperName().get('OPE_Program_Specification').getRecordTypeId();
+    private static Id opeProdSpecId = Schema.SObjectType.Product_Specification__c.getRecordTypeInfosByDeveloperName().get('OPE').getRecordTypeId();
 
     @isTest
     private static void updateProdSpecsFromQualifyToDesignInternal()

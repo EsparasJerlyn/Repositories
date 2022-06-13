@@ -123,7 +123,7 @@
             <field>DeveloperName</field>
             <operator>EqualTo</operator>
             <value>
-                <stringValue>CCE_Program_Specification</stringValue>
+                <stringValue>CCE</stringValue>
             </value>
         </filters>
         <object>RecordType</object>

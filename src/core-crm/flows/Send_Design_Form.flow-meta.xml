@@ -665,7 +665,7 @@
                 <leftValueReference>Get_Product_Request_Record.Product_Specification__r.RecordType.DeveloperName</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>OPE_Program_Specification</stringValue>
+                    <stringValue>OPE</stringValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -680,7 +680,7 @@
                 <leftValueReference>Get_Product_Request_Record.Product_Specification__r.RecordType.DeveloperName</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>CCE_Program_Specification</stringValue>
+                    <stringValue>CCE</stringValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -705,7 +705,7 @@
                 <leftValueReference>Get_Product_Request_Record.Product_Specification__r.RecordType.DeveloperName</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>OPE_Program_Specification</stringValue>
+                    <stringValue>OPE</stringValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -720,7 +720,7 @@
                 <leftValueReference>Get_Product_Request_Record.Product_Specification__r.RecordType.DeveloperName</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>CCE_Program_Specification</stringValue>
+                    <stringValue>CCE</stringValue>
                 </rightValue>
             </conditions>
             <connector>

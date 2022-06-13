@@ -4,5 +4,5 @@
     <entityName>Product_Specification__c</entityName>
     <fieldName>Stage__c</fieldName>
     <masterLabel>Product Specification - CCE</masterLabel>
-    <recordTypeName>CCE_Program_Specification</recordTypeName>
+    <recordTypeName>CCE</recordTypeName>
 </PathAssistant>

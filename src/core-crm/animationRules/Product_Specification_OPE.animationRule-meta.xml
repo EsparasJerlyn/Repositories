@@ -5,7 +5,7 @@
     <isActive>true</isActive>
     <masterLabel>Product Specification - OPE</masterLabel>
     <recordTypeContext>Custom</recordTypeContext>
-    <recordTypeName>OPE_Program_Specification</recordTypeName>
+    <recordTypeName>OPE</recordTypeName>
     <sobjectType>Product_Specification__c</sobjectType>
     <targetField>Stage__c</targetField>
     <targetFieldChangeToValues>Complete</targetFieldChangeToValues>

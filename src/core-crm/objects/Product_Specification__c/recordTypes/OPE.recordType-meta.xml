@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>OPE_Program_Specification</fullName>
+    <fullName>OPE</fullName>
     <active>true</active>
     <compactLayoutAssignment>OPE_Product_Specification_Compact_Layout</compactLayoutAssignment>
     <description>Used to Design products which are the result of an idea request from a faculty.</description>
-    <label>OPE Program Specification</label>
+    <label>OPE</label>
     <picklistValues>
         <picklist>Client_Review_Required__c</picklist>
         <values>
@@ -150,6 +150,17 @@
         </values>
         <values>
             <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Requestor_Internal_External__c</picklist>
+        <values>
+            <fullName>External</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Internal</fullName>
             <default>false</default>
         </values>
     </picklistValues>
