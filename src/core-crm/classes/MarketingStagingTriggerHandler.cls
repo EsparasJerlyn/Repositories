@@ -621,11 +621,11 @@ public with sharing class MarketingStagingTriggerHandler implements Disableable,
                 staging = studentIdMarStagingMap.get(segKey);
             }
             //create marketing interaction records
-            if( staging.get('Interaction_Type__c')!=null &&
-                staging.get('Interaction_DateTime__c')!=null && 
-                staging.get('Lead_Source_Category__c')!=null && 
-                staging.get('Lead_Source__c')!=null && 
-                staging.get('SPAD__c')!=null &&
+            if( staging.get('Interaction_Type__c')!=null ||
+                staging.get('Interaction_DateTime__c')!=null ||
+                staging.get('Lead_Source_Category__c')!=null ||
+                staging.get('Lead_Source__c')!=null ||
+                staging.get('SPAD__c')!=null ||
                 staging.get('Event_Name__c')!=null ){
                 marInteractionToInsertMap.put(
                     segKey,
