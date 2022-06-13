@@ -112,7 +112,7 @@ export default class TrackAttendanceAndEvaluation extends LightningElement {
         return sessionList.map(item =>{
             let newItem = {};
             newItem.value = item.Id;
-            newItem.label = item.Name + ' (' +this.formatDate(item.Date__c) + ', ' + item.Start_Time_v2__c + ')';
+            newItem.label = item.Name + ' (' +this.formatDate(item.Date__c) + ', ' + this.formatTime(item.Start_Time_v2__c) + ')';
             return newItem;
         });
     }
@@ -134,6 +134,26 @@ export default class TrackAttendanceAndEvaluation extends LightningElement {
 
     formatDate(date){
         return new Date(date).toLocaleDateString('en-AU',DATE_OPTIONS);
+    }
+
+    formatTime(time) {
+        //parameter time is in milliseconds (time/3,600,000 milliseconds to get the total hours)
+        let total = time/3600000;
+        let hours = Math.trunc(total);
+        let minutes = 60*((parseInt((total % 1).toFixed(2).substring(2)))/100);
+        let meridiem = 'am';
+
+        if (hours >= 13) {
+            hours = hours-12;
+            meridiem = 'pm';
+        } else if(hours === 0){
+            hours = 12;
+        }
+
+        if(minutes === 0){
+            minutes = '00';
+        }
+        return hours + ':' + minutes + ' ' + meridiem;
     }
 
      formatCourseConnectionStudents(connectionList)
