@@ -5,7 +5,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Build Search Index Cron Expression</shortDescription>
-        <value>0 0 8 ? * MON-FRI</value>
+        <value>0 0 * * * ?</value>
     </labels>
     <labels>
         <fullName>DOC_Badge_Logo</fullName>
