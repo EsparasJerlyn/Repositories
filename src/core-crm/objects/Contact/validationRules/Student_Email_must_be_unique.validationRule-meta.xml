@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Student_Email_must_be_unique</fullName>
+    <active>true</active>
+    <description>Validates Student Email field if unique. Must not be the same with Email, Staff Email, or Work Email.</description>
+    <errorConditionFormula>AND(
+ NOT (ISBLANK(QUT_Learner_Email__c ) ),
+ OR(
+  IF(QUT_Learner_Email__c = Email, true, false) ,
+  IF(QUT_Learner_Email__c = QUT_Staff_Email__c , true, false) ,
+  IF(QUT_Learner_Email__c = hed__WorkEmail__c, true, false) 
+ )
+)</errorConditionFormula>
+    <errorDisplayField>QUT_Learner_Email__c</errorDisplayField>
+    <errorMessage>Student Email must be unique.</errorMessage>
+</ValidationRule>

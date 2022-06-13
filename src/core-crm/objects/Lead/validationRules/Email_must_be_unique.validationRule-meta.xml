@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Email_must_be_unique</fullName>
+    <active>true</active>
+    <description>Validates Email field if unique. Must not be the same with Work Email.</description>
+    <errorConditionFormula>AND(
+ NOT (ISBLANK(Email) ),
+ IF(Email = Work_Email__c , true, false) 
+)</errorConditionFormula>
+    <errorDisplayField>Email</errorDisplayField>
+    <errorMessage>Email must be unique.</errorMessage>
+</ValidationRule>
