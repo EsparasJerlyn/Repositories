@@ -60,7 +60,6 @@
             <c-custom-datatable
                 records={records}
                 columns={columns}
-                onsave={handleSaveApplications}
                 enable-edit={enableEdit}
                 onedit={handleEditContact}>
             </c-custom-datatable>
@@ -105,11 +104,19 @@
                             custom-server-search
                             new-record-available
                             ></c-custom-search>
+                            <div class="slds-form-element slds-m-around_x-small">
+                                <lightning-combobox
+                                    label="Pricing"
+                                    value={pbEntryRecord}
+                                    options={pbEntryRecords}
+                                    onchange={handleSelectedPricing}>
+                                </lightning-combobox>
+                            </div>
                         </div>
                         <footer class="slds-modal__footer">
                             <div class="slds-var-top_medium">
                                 <lightning-button 
-                                    label="Add"
+                                    label="Redirect to Invoice"
                                     variant="brand"
                                     onclick={handleExistingContact}
                                     disabled={disableSaveExisting}
@@ -155,7 +162,7 @@
                         <footer class="slds-modal__footer">
                             <div class="slds-var-top_medium">
                                 <lightning-button 
-                                    label="Save"
+                                    label="Redirect to Invoice"
                                     variant="brand"
                                     type="submit"
                                     disabled={saveInProgress}

@@ -33,7 +33,7 @@ public without sharing class LeadPotentialDuplicateCtrl {
     @AuraEnabled(cacheable=true)
     public static List<LeadContactWrapper> getLeadPotentialDuplicate(Id recordId){
 
-        List<Potential_Duplicate__c> leadList = [SELECT Duplicate_Lead__r.Id, Duplicate_Lead__r.FirstName, Duplicate_Lead__r.LastName, 
+        List<Potential_Duplicate__c> leadList = [SELECT Lead__r.Id, Duplicate_Lead__r.Id, Duplicate_Lead__r.FirstName, Duplicate_Lead__r.LastName, 
                                         Duplicate_Lead__r.Email, Duplicate_Lead__r.Work_Email__c, Contact__r.Id, Contact__r.FirstName, Contact__r.LastName, Contact__r.Email, Contact__r.hed__WorkEmail__c 
                                                         FROM Potential_Duplicate__c WHERE (Lead__c =: recordId OR Duplicate_Lead__c =: recordId) ORDER BY Duplicate_Lead__r.FirstName ASC];
 
@@ -48,7 +48,7 @@ public without sharing class LeadPotentialDuplicateCtrl {
                 leadContactWrapper.workEmail = lead.Contact__r.hed__WorkEmail__c ;  
                 leadContactWrapper.type = 'Contact' ; 
             }else{
-                leadContactWrapper.id = lead.Duplicate_Lead__r.Id;
+                leadContactWrapper.id = lead.Lead__r.Id;
                 leadContactWrapper.firstName = lead.Duplicate_Lead__r.FirstName;
                 leadContactWrapper.lastName = lead.Duplicate_Lead__r.LastName;
                 leadContactWrapper.email = lead.Duplicate_Lead__r.Email;

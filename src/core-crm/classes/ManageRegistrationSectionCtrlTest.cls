@@ -17,6 +17,7 @@
 public with sharing class ManageRegistrationSectionCtrlTest{
 
      private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
+     private static final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
      private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
      private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
      private static final string STUDENT_RT = System.Label.RT_CourseConnection_Student;
@@ -107,11 +108,53 @@ public with sharing class ManageRegistrationSectionCtrlTest{
      }  
 
      @IsTest
-     static void addRegistrationTest(){        
+     static void getPBEntriesTest(){        
           System.runAs(currentUser){     
+               createRecord(RT_ACTIVITY_ID);    
+               List<hed__Course_Offering__c> courseOfferings = [SELECT Id FROM hed__Course_Offering__c LIMIT 1];   
+               Test.startTest();
+               List<Map<String,String>> pbEntriesMap = ManageRegistrationSectionCtrl.getPBEntries(courseOfferings[0].Id); 
+               Test.stopTest();
+               system.assert(!pbEntriesMap.isEmpty(),'Empty pricebook entries map');
+          }      
+     } 
+
+     @IsTest
+     static void addRegistrationTest(){  
+          System.runAs(PORTAL_SYS_ADMIN){   
+               Account portalAccount = new Account(Name='TestAccount', OwnerId = PORTAL_SYS_ADMIN.Id); 
+               Database.insert(portalAccount);
+
+               Contact newContact = new Contact(FirstName = 'testqtest', LastName = 'testqtest', AccountId = portalAccount.Id, Email = 'testqtest@emailemail.com', Birthdate = Date.newInstance(1990, 2, 17), MobilePhone ='012345');  
+               insert newContact;
+
+               User portalUser = TestDataFactory.createPortalUserRecords(1, 'Corporate Partner User', newContact.Id).iterator().next();
+               Database.insert(portalUser);
+
+               WebStore testWebStore = new WebStore(
+                    Name = 'Study',
+                    DefaultLanguage = 'en_US'
+               );
+               insert testWebStore;
+
+               WebCart cart = new WebCart(
+                    Name = 'Cart',
+                    AccountId = portalAccount.Id,
+                    Status = 'Closed',
+                    Status__c = 'Active',
+                    WebStoreId = testWebStore.Id,
+                    OwnerId = portalUser.Id
+               );
+               insert cart;
+
+               CartDeliveryGroup cartDeliveryGroup = new CartDeliveryGroup(
+                    CartId = cart.Id,
+                    Name = 'Default Delivery'
+               );
+               insert cartDeliveryGroup;
+
                createRecord(RT_ACTIVITY_ID); 
                String cOfferingId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;
-               Contact newContact = new Contact(FirstName = 'testqtest', LastName = 'testqtest', Email = 'testqtest@emailemail.com');  
 
                Id relatedQuestionnaireId = [SELECT Id FROM Questionnaire__c  LIMIT 1].Id;
                
@@ -138,11 +181,17 @@ public with sharing class ManageRegistrationSectionCtrlTest{
                     fileLoadList.add(fileLoad);
                }
                
+               Id pbeId;
+               List<PricebookEntry> pbeList = [SELECT Id FROM PricebookEntry LIMIT 1];
+               for(PricebookEntry pbe : pbeList){ pbeId = pbe.Id; }
+
                Test.startTest();
-               ManageRegistrationSectionCtrl.addRegistration(newContact,cOfferingId,relatedAnswers,answerList,JSON.serialize(fileLoadList),false); 
+               String resp = ManageRegistrationSectionCtrl.addRegistration(newContact,cOfferingId,relatedAnswers,answerList,JSON.serialize(fileLoadList),false,pbeId); 
+
                Test.stopTest();
                system.assert(![SELECT Id FROM ContentVersion].isEmpty(), 'Document not created');
                system.assert(![SELECT Id FROM Answer__c].isEmpty(), 'Answer not created');
+               system.assert(String.isNotBlank(resp), 'Response is invalid');
           }      
      } 
 
@@ -157,6 +206,9 @@ public with sharing class ManageRegistrationSectionCtrlTest{
                     account.Organization_Unit_Level__c = '2';
                 }
                insert accounts;
+
+               Account act = new Account(Name = 'OPE Catalogue');
+               insert act;
                
                List<Product_Request__c> productRequests = TestDataFactory.createTestProductRequestRecords(1);
                for(Product_Request__c productRequest : productRequests){
@@ -166,6 +218,16 @@ public with sharing class ManageRegistrationSectionCtrlTest{
 
                List<hed__Course__c> courses = TestDataFactory.createTestCourseRecords(1, accounts[0].Id, productRequests[0].Id);
                insert courses;
+
+               Pricebook2 priceBook;
+               pricebook = new Pricebook2(isActive = true, id = Test.getStandardPricebookId());
+               update pricebook;
+               
+               Product2 product = new Product2(Name = courses[0].Name, Course__c = courses[0].Id);
+               insert product;
+
+               PricebookEntry pbe = new PricebookEntry(Product2Id = product.Id, IsActive = true, Pricebook2Id = priceBook.Id, UnitPrice = 250.00);
+               insert pbe;
 
                List<hed__Term__c> terms = TestDataFactory.createTestTermRecords(1, accounts[0].Id);
                insert terms;
@@ -186,7 +248,8 @@ public with sharing class ManageRegistrationSectionCtrlTest{
                     hed__Course_Enrollment__c student = new hed__Course_Enrollment__c();
                     student.hed__Contact__c = contact.Id;
                     student.RecordTypeId = STUDENT_RT_ID;
-                    student.Paid_in_Full__c = 'Yes';
+                    student.Paid_in_Full__c = 'No';
+                    student.Payment_Method__c = 'Invoice';
                     student.hed__Course_Offering__c = offeringId;
                     students.add(student);
                }

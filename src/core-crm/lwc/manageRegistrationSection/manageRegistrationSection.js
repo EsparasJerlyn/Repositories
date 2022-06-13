@@ -19,6 +19,7 @@
 import { api, LightningElement, wire } from 'lwc';
 import { refreshApex } from '@salesforce/apex';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import { NavigationMixin } from "lightning/navigation";
 import getRegistrations from '@salesforce/apex/ManageRegistrationSectionCtrl.getRegistrations';
 import updateRegistration from '@salesforce/apex/ManageRegistrationSectionCtrl.updateRegistration';
 import getRegistrationStatusValues from '@salesforce/apex/ManageRegistrationSectionCtrl.getRegistrationStatusValues';
@@ -27,6 +28,7 @@ import getPricingValidationValues from '@salesforce/apex/ManageRegistrationSecti
 import getSearchedContacts from '@salesforce/apex/ManageRegistrationSectionCtrl.getSearchedContacts';
 import getQuestions from "@salesforce/apex/ManageRegistrationSectionCtrl.getQuestions";
 import addRegistration from '@salesforce/apex/ManageRegistrationSectionCtrl.addRegistration';
+import getPBEntries from '@salesforce/apex/ManageRegistrationSectionCtrl.getPBEntries';
 import LWC_Error_General from '@salesforce/label/c.LWC_Error_General';
 import LWC_List_ConfirmedLearnerStatus	 from '@salesforce/label/c.LWC_List_ConfirmedLearnerStatus';
 
@@ -41,8 +43,8 @@ const NO_REC_FOUND = 'No record(s) found.';
 const MODAL_TITLE = 'Registration Details'
 const SECTION_HEADER = 'Manage Registrations Overview';
 const COLUMN_HEADER = 'First Name,Last Name,Contact Email,Birthdate,Registration Status,LMS Integration Status'
-
-export default class ManageRegistrationSection extends LightningElement {
+      
+export default class ManageRegistrationSection extends NavigationMixin(LightningElement) {
 
     @api prodReqId;
     @api enableEdit;
@@ -92,6 +94,8 @@ export default class ManageRegistrationSection extends LightningElement {
     questions;
 
     selectedPricing;
+    pbEntryRecords;
+    pbEntryRecord;
 
     columns = [
         { label: 'Full Name', fieldName: 'contactFullName', type: 'text', sortable: true },
@@ -102,19 +106,7 @@ export default class ManageRegistrationSection extends LightningElement {
         { label: 'Registration Status', fieldName: 'registrationStatus', type: 'text', sortable: true },
         { label: 'LMS Integration Status', fieldName: 'lmsIntegrationStatus', type: 'text', sortable: true },
         { label: 'Registration Questions', fieldName: 'applicationURL', sortable: true, type: 'url', typeAttributes: {label: 'View', target: '_blank'} },
-        {
-            label: 'Regenerate Invoice',
-            type: 'button',
-            typeAttributes: {
-                label: 'Regenerate Invoice',
-                name: 'regenerate_invoice',
-                title: 'Regenerate Invoice',
-                disabled: false,
-                variant: 'brand',
-                class: {fieldName:'regenerateInvoiceButton'}
-            },
-            initialWidth: 200
-        }
+        { label: 'Regenerate Invoice', fieldName: 'regenerateInvoiceURL', type: 'url', typeAttributes: {label: 'Regenerate Invoice', target: '_blank', tooltip: 'Payment Gateway Link'} }
     ];
 
     //Retrieves questionnaire data related to the product request
@@ -124,25 +116,11 @@ export default class ManageRegistrationSection extends LightningElement {
         this.isLoading = true;
         this.tableData = result;
         if(result.data){
-            this.records = result.data.map(data => {
-                return {
-                    ...data,
-                    regenerateInvoiceButton: 
-                        data.isGroupRegistered ?
-                        'slds-show slds-text-align_center' : 'slds-hide'
-                }
-            });
+            this.records = result.data;
             this.contactList = result.data.map(item => {
                 return item.contactId;
             });
-            this.recordsTemp = result.data.map(data => {
-                return {
-                    ...data,
-                    regenerateInvoiceButton: 
-                        data.isGroupRegistered ?
-                        'slds-show slds-text-align_center' : 'slds-hide'
-                }
-            });
+            this.recordsTemp = result.data;
             if(this.records.length === 0){
                 this.empty = true;
             }else{
@@ -215,6 +193,37 @@ export default class ManageRegistrationSection extends LightningElement {
         }
     }  
 
+    //Retrieves Price Book Entries
+    pbEntries;
+    @wire(getPBEntries, {childRecordId : "$childRecordId"})
+    wiredpbEntries(result) {
+        this.pbEntries = result;
+        if (result.data) {
+            let tempRecords = [];
+            const resp = result.data;
+            const hasEarlyBird = resp.find(element => element.label === ('Early Bird'));
+            const hasStandardPricing = resp.find(element => element.label === ('Standard Price Book'));
+            if(hasEarlyBird && hasStandardPricing){
+                tempRecords = resp.filter(rec=> !rec.label.includes('Standard Price Book'));
+                this.pbEntryRecords = [...tempRecords]; 
+                this.pbEntryRecords = tempRecords.map(type => {
+                    return { label: type.label, value: type.id };
+                });               
+            }else{
+                this.pbEntryRecords = resp.map(type => {
+                    return { label: type.label, value: type.id };
+                });
+            }
+            
+        } 
+    }
+
+    //handles pricing selection
+    handleSelectedPricing(event){
+        this.isDisabled = false;
+        this.pbEntryRecord = event.detail.value;
+    }
+
     //handles opening of modal
     handleEditContact(event){
         this.isModalOpen = true;
@@ -234,11 +243,16 @@ export default class ManageRegistrationSection extends LightningElement {
 
     //handles opening of modal
     handleAddContact(){
-        this.isModalOpen = true;
-        this.isEditContact = false;
-        this.isAddContact = true;
-        this.isCreateContact = false;
-        this.isRespondQuestions = false;
+        if(!this.pbEntryRecords.length > 0){
+            this.generateToast('Error.','Please setup pricing to proceed with registration.','error');
+        }else{
+            this.isModalOpen = true;
+            this.isEditContact = false;
+            this.isAddContact = true;
+            this.isCreateContact = false;
+            this.isRespondQuestions = false;
+            this.pbEntryRecord = '';
+        }
     }
 
     handleRespondQuestions(){
@@ -250,12 +264,16 @@ export default class ManageRegistrationSection extends LightningElement {
     }
 
     handleCreateNewRecord(){
-        this.formLoading = true;
-        this.isModalOpen = true;
-        this.isEditContact = false;
-        this.isAddContact = false;
-        this.isCreateContact = true;
-        this.isRespondQuestions = false;
+        if(!this.pbEntryRecord){
+            this.generateToast('Error.','Please select pricing.','error');
+        }else{
+            this.formLoading = true;
+            this.isModalOpen = true;
+            this.isEditContact = false;
+            this.isAddContact = false;
+            this.isCreateContact = true;
+            this.isRespondQuestions = false;
+        }
     }
 
     formatQuestions(items){
@@ -425,18 +443,29 @@ export default class ManageRegistrationSection extends LightningElement {
         return answerRecords;
     }
 
-    saveRegistration(contact,offeringId,relatedAnswer,answer,fileUpload,prescribedProgram){
+    saveRegistration(contact,offeringId,relatedAnswer,answer,fileUpload,prescribedProgram){        
+        console.log(`contact check: ${JSON.stringify(contact)}`);
+        console.log(`offeringId check: ${JSON.stringify(offeringId)}`);
+        console.log(`pbEntry ${JSON.stringify(this.pbEntryRecord)}`);
         addRegistration({
             contactRecord:contact,
             offeringId:offeringId,
             relatedAnswerList:relatedAnswer,
             answerList:answer,
             fileUpload:fileUpload,
-            prescribedProgram:prescribedProgram
+            prescribedProgram:prescribedProgram,
+            priceBookEntryId : this.pbEntryRecord
         })
-        .then(() =>{
+        .then(res =>{
                 this.generateToast(SUCCESS_TITLE, 'Registration Successful', SUCCESS_VARIANT);
                 refreshApex(this.tableData);
+                const config = {
+                    type: 'standard__webPage',
+                    attributes: {
+                        url: res
+                    }
+                };
+                this[NavigationMixin.Navigate](config);
         })
         .finally(()=>{
             this.saveInProgress = false;
@@ -450,7 +479,18 @@ export default class ManageRegistrationSection extends LightningElement {
             this.contactSearchItems = [];
         })
         .catch(error =>{
-            this.generateToast('Error.',LWC_Error_General,'error');
+            let errMsg = LWC_Error_General;
+            if(error.body.pageErrors){
+                error.body.pageErrors.forEach(err => {
+                    errMsg = err.message;
+                });
+            } 
+            if(error.body.fieldErrors.Username){
+                error.body.fieldErrors.Username.forEach(err => {
+                    errMsg = err.message;
+                });
+            } 
+            this.generateToast('Error.', errMsg ,'error');
         });
     }
 
@@ -636,7 +676,7 @@ export default class ManageRegistrationSection extends LightningElement {
     get noRecordsFound(){ return NO_REC_FOUND; }
     get sectionHeader(){ return SECTION_HEADER; }
     get disableSaveExisting(){
-        return this.saveInProgress || !this.contactId;
+        return this.saveInProgress || !this.contactId || !this.pbEntryRecord;
     }
     get hasQuestions(){
         return this.questions && this.questions.length > 0?true:false;
@@ -646,9 +686,9 @@ export default class ManageRegistrationSection extends LightningElement {
         if(
             (tempQuestions && tempQuestions.length > 0) ||
             (this.questions && 
-             this.questions.filter(item => item.Answer == '' || item.Answer == undefined) && 
-             this.questions.filter(item => item.Answer == '' || item.Answer == undefined).length > 0)
-          ){
+            this.questions.filter(item => item.Answer == '' || item.Answer == undefined) && 
+            this.questions.filter(item => item.Answer == '' || item.Answer == undefined).length > 0)
+        ){
             return true;
         }else{
             return false;
