@@ -121,6 +121,18 @@
   border-color: #0066b9;
 }
 
+.privacyPolicy{
+  position: absolute;
+  left: 20px;
+}
+
+
+@media screen and (max-width: 810px) {
+  .err-msg-privacy{
+    margin-top: 0.5rem;
+  }
+}
+
 /* Mobile CSS */
 @media screen and (max-width: 767px) {
   /*.modal-content {

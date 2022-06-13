@@ -268,9 +268,9 @@
                   />
                   <label class="slds-checkbox__label" for="privacy-checkbox">
                     <span class={requiredInputClass.checkbox}></span>
-                    <span class="text"> {label.privacyPolicy} </span>
+                    <span class="text privacyPolicy">{label.privacyPolicy} <a href="https://www.qut.edu.au/additional/privacy">QUT Privacy Policy.</a></span>
                   </label>
-                  <div class="slds-grid slds-wrap">
+                  <div class="slds-grid slds-wrap err-msg-privacy">
                     <template if:true={hasErrorChk}>
                       <c-error-icon class="error-icon2"></c-error-icon>
                     </template>
