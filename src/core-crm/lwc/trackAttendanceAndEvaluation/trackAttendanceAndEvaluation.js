@@ -112,7 +112,7 @@ export default class TrackAttendanceAndEvaluation extends LightningElement {
         return sessionList.map(item =>{
             let newItem = {};
             newItem.value = item.Id;
-            newItem.label = item.Name + ' (' +this.formatDate(item.Date__c) + ', ' + this.formatTime(item.Start_Time_v2__c) + ')';
+            newItem.label = item.Name + ' (' +this.formatDate(item.Date__c) + ', ' + item.Start_Time_v2__c + ')';
             return newItem;
         });
     }
@@ -134,11 +134,6 @@ export default class TrackAttendanceAndEvaluation extends LightningElement {
 
     formatDate(date){
         return new Date(date).toLocaleDateString('en-AU',DATE_OPTIONS);
-    }
-
-    formatTime(time){
-        var addHours = 60 * 60 * 4000;
-        return new Date(time + addHours).toLocaleTimeString('en-AU');
     }
 
      formatCourseConnectionStudents(connectionList)
