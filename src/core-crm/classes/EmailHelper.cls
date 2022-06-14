@@ -52,13 +52,15 @@ public class EmailHelper {
         List<GenerateImageServerURL.ImageURL> imageURLs = GenerateImageServerURL.generateURL(imageInfos);
 
         String emailHeaderTag = 
-            '<div style="max-width: 640px;text-align: justify;">' +
+            '<!--[if mso]><center><table><tr><td width="640"><![endif]-->' +
+            '<div style="max-width:640px; margin:0 auto;">' +
             '<img alt="' + EMAIL_LETTERHEAD.get('header') + '" title="' + EMAIL_LETTERHEAD.get('header') + '"' +
             'src="' + imageURLs[0].imageUrl + '"/><br /><br />';
         String emailFooterTag = 
             '<br /><br /><img alt="' + EMAIL_LETTERHEAD.get('footer') + '" title="' + EMAIL_LETTERHEAD.get('footer') + '"' +
             'src="' + imageURLs[1].imageUrl + '"/>' +
-            '</div>';
+            '</div>' +
+            '<!--[if mso]></td></tr></table></center><![endif]-->';
 
         return emailHeaderTag + emailBody + emailFooterTag;
     }
