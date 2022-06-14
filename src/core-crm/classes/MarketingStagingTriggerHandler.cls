@@ -99,7 +99,7 @@ public with sharing class MarketingStagingTriggerHandler implements Disableable,
                         mStaging.get('Admission_Year__c') != null){
 
                             samsMatchingMap.put((String)mStaging.get('Name_and_Email__c'),(String)mStaging.get('SAMS_Matching_Criteria__c')); 
-                            samsMatchingConMap.put((String)mStaging.get('QUT_Student_ID__c'),(String)mStaging.get('QTAC_Matching_Criteria__c'));
+                            samsMatchingConMap.put((String)mStaging.get('QUT_Student_ID__c'),(String)mStaging.get('SAMS_Matching_Criteria__c'));
 
             }else if(   mStaging.get('Application_Source__c') == 'Studylink' && 
                         mStaging.get('QUT_Student_ID__c') != null &&
@@ -109,7 +109,7 @@ public with sharing class MarketingStagingTriggerHandler implements Disableable,
                         mStaging.get('Applicant_Id__c') != null ){
 
                             studylinkMatchingMap.put((String)mStaging.get('Name_and_Email__c'),(String)mStaging.get('Studylink_Matching_Criteria__c')); 
-                            studylinkMatchingConMap.put((String)mStaging.get('QUT_Student_ID__c'),(String)mStaging.get('QTAC_Matching_Criteria__c'));
+                            studylinkMatchingConMap.put((String)mStaging.get('QUT_Student_ID__c'),(String)mStaging.get('Studylink_Matching_Criteria__c'));
 
             }
         }          
