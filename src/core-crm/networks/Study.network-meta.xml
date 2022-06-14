@@ -42,7 +42,7 @@
     </networkPageOverrides>
     <picassoSite>Study1</picassoSite>
     <selfRegistration>true</selfRegistration>
-    <sendWelcomeEmail>true</sendWelcomeEmail>
+    <sendWelcomeEmail>false</sendWelcomeEmail>
     <site>Study</site>
     <status>Live</status>
     <tabs>
