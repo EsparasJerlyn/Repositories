@@ -87,6 +87,7 @@ export default class RegistrationForm extends LightningElement {
   localeDisplayName;
   localeConMobile;
   mobileFull;
+  isLoginPage = false;
 
   label = {
     header,
@@ -108,9 +109,16 @@ export default class RegistrationForm extends LightningElement {
   }
 
   @wire(CurrentPageReference)
-  getpageRef(pageRef) {
-    this.startURL = BasePath + "/product/detail/" + pageRef.attributes.recordId;
-  }
+    getpageRef(pageRef) {
+      if(pageRef && pageRef.state && pageRef.state.startURL){
+        this.startURL = pageRef.state.startURL;
+        
+      }else if(pageRef && pageRef.attributes && pageRef.attributes.recordId){ 
+        this.startURL = BasePath + "/product/detail/" + pageRef.attributes.recordId;
+      }
+  
+      this.isLoginPage = pageRef && pageRef.attributes && pageRef.attributes.name === 'Login'?true:false;
+    }  
   /*
    * Sets the Attribute on Load of the Registration Modal
    */
@@ -170,7 +178,9 @@ export default class RegistrationForm extends LightningElement {
    * Closes Modal when called
    */
   closeModal() {
-    this.dispatchEvent(new CustomEvent("close"));
+    if(!this.isLoginPage){
+      this.dispatchEvent(new CustomEvent("close"));
+    }
   }
 
   /*

@@ -1,0 +1,19 @@
+:host {
+    font-family: "ProximaNova";
+    --lwc-inputStaticFontSize: 1.125rem !important;
+    --lwc-inputStaticFontWeight: 400;
+}
+
+.error-message {
+    text-align: middle;
+    width: 100%;
+    color: #C7026F;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }

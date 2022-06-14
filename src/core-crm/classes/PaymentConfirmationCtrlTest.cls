@@ -228,10 +228,9 @@ public with sharing class PaymentConfirmationCtrlTest {
   @IsTest
   static void getCartDataTest() {
 
-    User userTest = [
-      SELECT Id, ContactId
-      FROM User
-      WHERE ContactId != NULL
+    WebCart webC = [
+      SELECT Id, External_Id__c, OwnerId
+      FROM WebCart
       LIMIT 1
     ];
 
@@ -239,8 +238,8 @@ public with sharing class PaymentConfirmationCtrlTest {
 
     Test.startTest();
     cartDataWrapper = PaymentConfirmationCtrl.getCartData(
-      '6894b2af-cb62-86f5-7d21-7b54e9df96e5',
-      userTest.Id
+      webC.External_Id__c,
+      webC.OwnerId
     );
     Test.stopTest();
 
@@ -248,6 +247,23 @@ public with sharing class PaymentConfirmationCtrlTest {
       null,
       cartDataWrapper,
       'There should be a returned object data'
+    );
+  }
+
+  @IsTest
+  static void checkCartOwnerShipTest() {
+    WebCart cart = [SELECT Id, OwnerId, Name, External_Id__c FROM WebCart LIMIT 1];
+      
+    Test.startTest();
+    Boolean isOwned = PaymentConfirmationCtrl.checkCartOwnerShip(
+      cart.External_Id__c,
+      cart.OwnerId
+    );
+    Test.stopTest();
+
+    System.assert(
+      isOwned,
+      'Cart should be owned by user'
     );
   }
 

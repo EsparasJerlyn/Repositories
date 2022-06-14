@@ -30,6 +30,18 @@ public without sharing class PaymentConfirmationCtrl {
     }
 
     /**
+   * @description checks if user owns the cart
+   * @param  externalId - externalId
+   * @param userId - userId
+   */
+  @AuraEnabled
+  public static boolean checkCartOwnerShip(String externalId, String userId) {
+    //get the cart
+    List<WebCart> ownedCart = [SELECT Id FROM WebCart WHERE External_Id__c = :externalId AND OwnerId =: userId LIMIT 1];
+    return !ownedCart.isEmpty();
+  }
+
+    /**
     * @description fetches cart data
     * @param externalId - External_Id__c of the WebCart
     * @return webCartData - WebCartData data type that contains the webcart and cartitems
@@ -54,6 +66,7 @@ public without sharing class PaymentConfirmationCtrl {
                 Payment_Method__c
             FROM WebCart
             WHERE External_Id__c = :externalId 
+            AND OwnerId =:userId
             LIMIT 1];
 
         //query the cart items with the retrieved WebCart ID
@@ -137,8 +150,10 @@ public without sharing class PaymentConfirmationCtrl {
         myCartData.cartItemsList = myCartItemsList;
         myCartData.subTotal = mySubtotal;
         myCartData.discountTotal = webCartData.Discount_Applied__c;
-        if(webCartData.Discount_Applied__c!= null && mySubtotal != null){
+        if(webCartData.Discount_Applied__c!= null){
             myCartData.grandTotal = mySubtotal - webCartData.Discount_Applied__c;
+        }else{
+            myCartData.grandTotal = mySubtotal;
         }
         myCartData.paymentMethod = webCartData.Payment_Method__c;
 

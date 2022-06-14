@@ -5,6 +5,7 @@ import createCourseConnection from "@salesforce/apex/PaymentConfirmationCtrl.cre
 import updateWebCart from "@salesforce/apex/PaymentConfirmationCtrl.updateWebCart";
 import BasePath from "@salesforce/community/basePath";
 import userId from "@salesforce/user/Id";
+import checkCartOwnerShip from "@salesforce/apex/PaymentConfirmationCtrl.checkCartOwnerShip";
 
 import { publish, MessageContext } from 'lightning/messageService';
 import payloadContainerLMS from '@salesforce/messageChannel/Breadcrumbs__c';
@@ -27,6 +28,7 @@ export default class PaymentConfirmation extends LightningElement {
     paymentMethod;
     paidInFull = 'No';
     parameters = {};
+    isLoading = true;
 
     //to get the product category Id
     @wire(getOPEProductCateg)
@@ -61,13 +63,21 @@ export default class PaymentConfirmation extends LightningElement {
             this.paymentStatus = "Validation Failure";
         }
 
+        checkCartOwnerShip({externalId: this.parameters.WebcartExternal_ID__c, userId: userId}).then((data) => {
+            if(!data){
+                window.location.href = BasePath + "/error";
+            }else{  
+                this.isLoading = false
+            }
+        });
+
         //get the the WebCart data
         getCartData({ externalId: this.parameters.WebcartExternal_ID__c, userId: userId }).then((data) => {
             this.contactEmail = data.contactEmail;
             this.cartId = data.cartId;
             this.cartItems = data.cartItemsList;
             this.subTotal = data.subTotal;
-            this.discountTotal = data.discountTotal;
+            this.discountTotal = data.discountTotal?data.discountTotal:0;
             this.grandTotal = data.grandTotal;
             this.paymentMethod = data.paymentMethod;
 
@@ -86,7 +96,25 @@ export default class PaymentConfirmation extends LightningElement {
                 amountPaid: this.parameters.TotalAmount,
                 paymentUrl: window.location.href
             }).then((data) => {
-
+                //only add course connection when cart is updated to close
+                if(this.parameters.Status == 'A'){
+                    //create course connection record
+                    createCourseConnection({ 
+                        cartId: this.cartId, 
+                        userId: userId, 
+                        amount: parseFloat(this.parameters.TotalAmount), 
+                        tranId: this.parameters.WebcartExternal_ID__c,
+                        paymentMethod: this.paymentMethod,
+                        paidInFull: this.paidInFull
+                    }).then((data) => {
+    
+                        //code
+    
+                    }).catch((error) => {
+                        console.log("createCourseConnection error");
+                        console.log(error);
+                    });
+                }
 
             }).catch((error) => {
                 console.log("updateWebCart error");
@@ -94,25 +122,7 @@ export default class PaymentConfirmation extends LightningElement {
             });
 
             // //if the payment is approved
-            if(this.parameters.Status == 'A'){
-
-                //create course connection record
-                createCourseConnection({ 
-                    cartId: this.cartId, 
-                    userId: userId, 
-                    amount: parseFloat(this.parameters.TotalAmount), 
-                    tranId: this.parameters.WebcartExternal_ID__c,
-                    paymentMethod: this.paymentMethod,
-                    paidInFull: this.paidInFull
-                }).then((data) => {
-
-                    //code
-
-                }).catch((error) => {
-                    console.log("createCourseConnection error");
-                    console.log(error);
-                });
-            }
+            
 
         }).catch((error) => {
             console.log("getCartData error");

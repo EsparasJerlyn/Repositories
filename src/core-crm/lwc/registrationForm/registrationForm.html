@@ -1,15 +1,17 @@
 <template>
   <!-- TO DO: MODAL -->
-  <div id="regModal" class="modal">
+  <div class="modal">
     <div if:true={displayForm} class="modal-content text px3 pt2">
       <div
         class="slds-m-top_small slds-m-right_large slds-p-right_large slds-clearfix"
       >
+      <div if:false={isLoginPage}>
         <!--X button -->
         <span class="slds-float_right cursor" onclick={closeModal}
-          ><img src={xButton}
+        ><img src={xButton}
         /></span>
       </div>
+      </div>      
       <div class="slds-text-align_center slds-m-vertical_medium">
         <!--Static Contents-->
         <p class="heading">{label.header}</p>
@@ -291,6 +293,7 @@
             <button
               class="slds-button slds-button_outline-brand slds-float_right btnCancel"
               onclick={closeModal}
+              disabled={isLoginPage}
             >
               Cancel
             </button>

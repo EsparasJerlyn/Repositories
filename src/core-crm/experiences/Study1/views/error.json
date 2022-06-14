@@ -4,24 +4,30 @@
   "id" : "e545d280-9da0-431c-a9e3-8bd90144f349",
   "label" : "Error",
   "regions" : [ {
-    "id" : "5c779383-06da-401e-9baf-ec926f0cb018",
-    "regionName" : "header",
-    "type" : "region"
-  }, {
     "components" : [ {
-      "componentAttributes" : {
-        "richTextValue" : "<div style='text-align: center;'>Invalid Page</div>"
-      },
-      "componentName" : "forceCommunity:richTextInline",
-      "id" : "fe3dfc7b-e023-411b-a972-951704cb116c",
+      "componentAttributes" : { },
+      "componentName" : "c:b2bErrorPage",
+      "id" : "d5833cc3-7bdc-45a4-aef8-e1962539d8ed",
       "renderPriority" : "NEUTRAL",
       "renditionMap" : { },
       "type" : "component"
     } ],
+    "id" : "5c779383-06da-401e-9baf-ec926f0cb018",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
     "id" : "4b992dd3-6fbc-4f8b-b5c1-c410a34d5dfb",
     "regionName" : "content",
     "type" : "region"
   }, {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:storeHeader",
+      "id" : "e842cb7e-2341-439c-9a47-82faae4696d3",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
     "id" : "741369a0-6594-4019-a81a-e72df371e10e",
     "regionName" : "footer",
     "type" : "region"

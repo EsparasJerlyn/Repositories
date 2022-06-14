@@ -4,7 +4,7 @@
   "configurationTags" : [ ],
   "id" : "b21b6ec9-78b4-46fc-8a1a-d02809afe62c",
   "label" : "Payment Confirmation",
-  "pageAccess" : "UseParent",
+  "pageAccess" : "RequiresLogin",
   "routeType" : "custom-payment-confirmation",
   "type" : "route",
   "urlPrefix" : "payment-confirmation"
