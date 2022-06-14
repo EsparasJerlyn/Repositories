@@ -344,6 +344,7 @@ export default class ProductPricing extends NavigationMixin(LightningElement) {
                 item.Product2Id = this.productId;
                 item.PriceBookClass = 'slds-cell-edit slds-is-edited';
                 item.IsEarlyBird = this.priceBooks.find(item => item.Id === event.detail.value).Name === 'Early Bird'?true:false;
+                item.Discount__c = this.priceBooks.find(item => item.Id === event.detail.value).Name === 'Free'?'100%':'';
             }
             //updates the pricebook selection of existing rows
             if(item.Pricebook2Id !== event.detail.value){

@@ -582,10 +582,33 @@
         </div>
     </div>
     <!-- Totals ends here -->
-
-
+    <!-- Confirmation Registration -->
+    <template if:true={isFreeOnly}>
+        <div class="main-container">
+            <div class="header-container slds-col--padded">
+                <h2 class="heading2 main-color-blue500 pb2">Payment method</h2>
+                <h5 class="bodyBold pb2 fblack">How would you like to pay?</h5>
+            </div>
+            <template if:false={disablePayment}>
+                <div class="btn-container">
+                    <!-- <a class="btn-link" onclick={handleConfirmReg}> -->
+                    <a class="btn-link" target="_blank" href={paymentConURL}>
+                        <p class="btn-title bodyBold pb2"><strong>Confirmation Registration</strong></p>
+                    </a>
+                </div>
+            </template>
+            <template if:true={disablePayment}>
+                <div class="btn-container">
+                    <div class="btn-link-disabled">
+                        <p class="btn-title bodyBold pb2"><strong>Confirmation Registration</strong></p>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </template>
      <!-- Payment method starts here -->
-     <c-payment if:true={checkData}
+     <template if:false={isFreeOnly}>
+        <c-payment if:true={checkData}
         disable-payment={disablePayment}
         from-cart-summary={fromCartSummary}
         contact-fname={contactFname}
@@ -596,6 +619,7 @@
         cart-id={recordId}
         total={total}
         onpaynow={paymentNow}
-    ></c-payment>
+        ></c-payment>
+     </template>
     <!-- Payment method ends here -->
 </template>

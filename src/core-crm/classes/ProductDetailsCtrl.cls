@@ -89,12 +89,19 @@ public without sharing class ProductDetailsCtrl {
         pbEntryMap.put(pricebookEntry.Pricebook2.Name, pricebookEntry);
       }
 
-      // Remove Standard Price Book if Early Bird Price exists
-      if (
-        pbEntryMap.containsKey('Early Bird') &&
-        pbEntryMap.containsKey('Standard Price Book')
-      ) {
-        pbEntryMap.remove('Standard Price Book');
+      // If Free is configured, Only Free PriceBook will be displayed in Options
+      if (pbEntryMap.containsKey('Free')) {
+        pbEntryMap = new Map<String, PricebookEntry>{
+          'Free' => (PricebookEntry) pbEntryMap.get('Free')
+        };
+      } else {
+        // Remove Standard Price Book if Early Bird Price exists
+        if (
+          pbEntryMap.containsKey('Early Bird') &&
+          pbEntryMap.containsKey('Standard Price Book')
+        ) {
+          pbEntryMap.remove('Standard Price Book');
+        }
       }
 
       // Process PriceBookEntry Wrapper
@@ -249,13 +256,18 @@ public without sharing class ProductDetailsCtrl {
               )
               .format('dd MMM yyyy');
           }
-          childProductWrapper.childProdPrice = cProdPBEntryMap.get(
-            'Standard Price Book'
-          );
-          if (cProdPBEntryMap.containsKey('Early Bird')) {
+
+          if (cProdPBEntryMap.containsKey('Free')) {
+            childProductWrapper.childProdPrice = cProdPBEntryMap.get('Free');
+          } else {
             childProductWrapper.childProdPrice = cProdPBEntryMap.get(
-              'Early Bird'
+              'Standard Price Book'
             );
+            if (cProdPBEntryMap.containsKey('Early Bird')) {
+              childProductWrapper.childProdPrice = cProdPBEntryMap.get(
+                'Early Bird'
+              );
+            }
           }
         }
         childProdWrapperList.add(childProductWrapper);
@@ -497,7 +509,7 @@ public without sharing class ProductDetailsCtrl {
         WHERE
           Status = 'Active'
           AND AccountId = :effectiveAccountId
-          AND OwnerId =: userId
+          AND OwnerId = :userId
           AND WebStoreId = :webstoreId
         LIMIT 1
       ]
@@ -721,8 +733,8 @@ public without sharing class ProductDetailsCtrl {
       qResSummary.Questionnaire__c = qId;
       qResSummary.Course_Offering__c = courseOfferingId;
       qResSummary.Contact__c = contactRecord.Id;
-      if(forApplication == true){
-        qResSummary.Application_Status__c  = 'Pending';
+      if (forApplication == true) {
+        qResSummary.Application_Status__c = 'Pending';
       }
       questionnaireSummaryToInsert.add(qResSummary);
     }
@@ -1407,8 +1419,8 @@ public without sharing class ProductDetailsCtrl {
 
   @AuraEnabled
   public static WebCart getUserCartDetails(Id userId) {
-
-    return [ SELECT
+    return [
+      SELECT
         Id,
         OwnerId,
         Name,
@@ -1421,7 +1433,7 @@ public without sharing class ProductDetailsCtrl {
       LIMIT 1
     ];
   }
-  
+
   @AuraEnabled
   public static PricebookEntry getPricebookEntryPrice(Id pricebookId) {
     return [

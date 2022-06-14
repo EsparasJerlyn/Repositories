@@ -431,4 +431,15 @@ public with sharing class CartItemCtrlTest {
 
     System.assertEquals('Pay Now', webCartTest.Payment_Method__c, 'Incorrect Payment Method');
   }
+
+  @isTest
+  static void getWebCartExternalIdTest(){
+    WebCart webCart = [SELECT Id, Name, External_Id__c FROM WebCart LIMIT 1];
+
+    Test.startTest();
+    String webCartExtId = CartItemCtrl.getCartExternaId(webCart.Id);
+    Test.stopTest();
+
+    System.assert( webCartExtId != null, 'No External Id');
+  }
 }

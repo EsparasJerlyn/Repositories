@@ -15,6 +15,9 @@ import getCartItemsByCart from "@salesforce/apex/CartItemCtrl.getCartItemsByCart
 import getCartItemDiscount from "@salesforce/apex/CartItemCtrl.getCartItemDiscount";
 import updateCartDiscount from "@salesforce/apex/CartItemCtrl.updateCartDiscount";
 import {refreshApex} from '@salesforce/apex';
+import getCartExternaId from "@salesforce/apex/CartItemCtrl.getCartExternaId";
+import checkCartOwnerShip from "@salesforce/apex/CartItemCtrl.checkCartOwnerShip";
+import getCommunityUrl from "@salesforce/apex/RegistrationFormCtrl.getCommunityUrl";
 
 import CART_ID_FIELD from "@salesforce/schema/WebCart.Id";
 import CART_STATUS_FIELD from "@salesforce/schema/WebCart.Status";
@@ -67,6 +70,7 @@ export default class CartDetails extends LightningElement {
   @track showStaffId;
   @track showStudentId;
 
+  isFreeOnly;
   resultData;
   cartItems = [];
   questions = [];
@@ -94,6 +98,9 @@ export default class CartDetails extends LightningElement {
     mobile: true,
     dietaryReq: true
   };
+  // For Confirmation Email Parameters
+  courseConnParams = [];
+  paymentConURL;
 
   @wire(MessageContext)
   messageContext;
@@ -103,6 +110,15 @@ export default class CartDetails extends LightningElement {
     
     //create global variable
     window.isCartSumDisconnected = false;
+
+    checkCartOwnerShip({cartId:this.recordId,userId: userId})
+    .then((result) => {
+      if(!result){
+        window.location.href = BasePath + "/error";
+      }else{  
+        this.isLoading = false
+      }
+    });
 
     // Set Cart to Checkout
     updateCartStatus({ cartId: this.recordId, cartStatus: "Checkout" })
@@ -123,6 +139,15 @@ export default class CartDetails extends LightningElement {
         console.log("getOPEProductCateg error");
         console.log(error);
       });
+
+      getCommunityUrl()
+        .then((result) => {
+          console.log('get community result', result);
+          // this.paymentConURL=  'https://uat-qut360.aus6s.sfdc-vwfla6.force.com/study/s/payment-confirmation?Status=A&InvoiceNo=[InvoiceNo]&ReceiptNo=[ReceiptNo]&TotalAmount=[TotAmt]&Webcart.External_ID__c=[OPETransactionID]'
+          this.paymentConURL = result.comSite + '/s/payment-confirmation?' + 'Status=A&InvoiceNo=[InvoiceNo]&ReceiptNo=[ReceiptNo]&TotalAmount=' + this.total + '&Webcart.External_ID__c=' + this.cartExternalId;
+          console.log('get paymentConURl', this.paymentConURL);
+
+        });
 
     //refresh the cart items
     refreshApex(this.resultData);
@@ -261,6 +286,15 @@ export default class CartDetails extends LightningElement {
       this.checkData = false;
     }
   }
+  //get cart External Id
+  @wire(getCartExternaId, { cartId: "$recordId" })
+  handleGetCartExternaId(result) {
+    if(result){
+      this.cartExternalId = result.data;
+    } else {
+      this.error = error;
+    }
+  }
 
   //get questions
   @wire(getCartItemsByCart, { cartId: "$recordId", userId: userId })
@@ -294,6 +328,7 @@ export default class CartDetails extends LightningElement {
         window.location.href = BasePath + "/category/products/" + this.prodCategId;
 
       }
+      this.isFreeOnly =  this.cartItems.length > 0 && this.total == 0;
 
       //else if there's an error
     } else if (result.error) {
@@ -318,7 +353,7 @@ export default class CartDetails extends LightningElement {
         bubbles: true,
         composed: true
       }));
-
+      this.isFreeOnly =  this.cartItems.length > 0 && this.total == 0;
       //refresh the cart items
       refreshApex(this.resultData);
 

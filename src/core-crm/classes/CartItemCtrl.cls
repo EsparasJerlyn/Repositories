@@ -510,6 +510,18 @@ public without sharing class CartItemCtrl {
   }
 
   /**
+   * @description updates the cart status
+   * @param cartId - cart item ID
+   * @param cartStatus - cart status
+   */
+  @AuraEnabled
+  public static boolean checkCartOwnerShip(String cartId, String userId) {
+    //get the cart
+    List<WebCart> ownedCart = [SELECT Id FROM WebCart WHERE Id = :cartId AND OwnerId =: userId LIMIT 1];
+    return !ownedCart.isEmpty();
+  }
+
+  /**
    * @description get OPE Product Category Id
    * @return OPE Product Category Id
    */
@@ -554,6 +566,17 @@ public without sharing class CartItemCtrl {
     //update the cart based on the status received
     webCart.Payment_Method__c = paymentMethod;
     update webCart;
+  }
+
+  /**
+   * @description updates the payment method selected by the user
+   * @param cartId - WebCart.Id
+   */
+  @AuraEnabled(cacheable=true)
+  public static String getCartExternaId(String cartId) {
+    //get the cart
+    WebCart webCart = [SELECT Id, Name, External_Id__c FROM WebCart WHERE Id = :cartId LIMIT 1];
+    return webCart.External_Id__c;
   }
 
   // /**

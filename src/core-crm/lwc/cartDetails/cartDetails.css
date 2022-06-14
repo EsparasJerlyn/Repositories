@@ -81,6 +81,60 @@ span.slds-checkbox abbr {
     text-decoration: none;
 }
 
+.btn-container {
+    width: 420px;
+}
+
+.fblack {
+    color: #000;
+}
+
+.btn-link {
+    display: block;
+    text-align: left;
+    height: 150px;
+    padding: 1em;
+    margin-left: 0.7em;
+    border: 1px solid #DBDBDB;
+    font-size: var(--icon-size-18);
+}
+
+.btn-link-disabled {
+    display: block;
+    text-align: left;
+    height: 150px;
+    padding: 1em;
+    margin-left: 0.7em;
+    border: 1px solid #DBDBDB;
+    font-size: var(--icon-size-18);
+}
+
+
+.btn-link:hover {
+    background: var(--main-color-blue500);
+    transition: 1s;
+}
+
+.btn-link-disabled:hover {
+    background: #fff;
+}
+
+
+.btn-link:hover p {
+    color:#fff !important;
+}
+
+.btn-link-disabled:hover p {
+    color:#000 !important;
+}
+
+a:hover, a:visited {
+    text-decoration: none;
+}
+
+span:hover, span:visited {
+    text-decoration: none;
+}
 
 @media only screen and (max-width: 764px) {
     .component {
@@ -158,4 +212,3 @@ span.slds-checkbox abbr {
     width:100px;
   }
   /*end of PayNow*/
-  
