@@ -1,4 +1,4 @@
-import { LightningElement, api, track } from "lwc";
+import { LightningElement, api, track, wire } from "lwc";
 import { loadStyle } from "lightning/platformResourceLoader";
 import userId from "@salesforce/user/Id";
 import qutResourceImg from "@salesforce/resourceUrl/QUTImages";
@@ -15,6 +15,9 @@ import insertExpressionOfInterest from "@salesforce/apex/ProductDetailsCtrl.inse
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import isGuest from "@salesforce/user/isGuest";
 import LWC_Error_General from "@salesforce/label/c.LWC_Error_General";
+import { getRecord, getFieldValue } from "lightning/uiRecordApi";
+import CONTACT_ID from "@salesforce/schema/User.ContactId";
+import getQuestions from "@salesforce/apex/ProductDetailsCtrl.getQuestions";
 
 const INTEREST_EXISTS_ERROR =
   "You already registered your interest for this product.";
@@ -30,6 +33,7 @@ export default class PrescribedProgram extends LightningElement {
   showOverview;
   showProgramModules;
   showProgramModulesList;
+
 
   deliveryTypeAndStartDates = {};
   @api availableDeliveryTypes = [];
@@ -51,6 +55,10 @@ export default class PrescribedProgram extends LightningElement {
   @track isPrescribed = true;
   @track displayRegisterInterest;
 
+  responseData;
+  questions;
+  openApplicationQuestionnaire = false;
+
   label = {
     delivery,
     deliveryPlaceholder,
@@ -62,9 +70,17 @@ export default class PrescribedProgram extends LightningElement {
     registerInterest
   };
 
+  @wire(getRecord, { recordId: userId, fields: [CONTACT_ID] })
+  user;
+
+  get contactId() {
+    return getFieldValue(this.user.data, CONTACT_ID);
+  }
+
   renderedCallback() {
     Promise.all([loadStyle(this, customSR + "/qutCustomLwcCss.css")]);
   }
+
 
   connectedCallback() {
     this.productDetails = this.product.productDetails;
@@ -97,6 +113,22 @@ export default class PrescribedProgram extends LightningElement {
     this.accordionIcon = qutResourceImg + "/QUTImages/Icon/accordionClose.svg";
     this.durationIcon = qutResourceImg + "/QUTImages/Icon/duration.svg";
 
+    if (this.productDetails.Program_Plan__c) {
+      getQuestions({
+        productReqId: this.productDetails.Program_Plan__r.Product_Request__c
+      })
+        .then((results) => {
+          if (results.length > 0) {
+            this.responseData = results;
+            this.questions = results;
+            this.availablePricings = JSON.parse(JSON.stringify(this.availablePricings)).filter(row => row.label != 'Group Booking');
+          }
+        })
+        .catch((e) => {
+          this.generateToast("Error.", LWC_Error_General, "error");
+        });
+    }
+
     // Display AddToCart / Register Interest
     if (
       this.availableDeliveryTypes.length == 0 &&
@@ -115,6 +147,11 @@ export default class PrescribedProgram extends LightningElement {
   get disableDelivery() {
     return this.availableDeliveryTypes.length == 0 ? true : false;
   }
+
+  get hasQuestions() {
+    return this.questions && this.questions.length > 0 ? true : false;
+  }
+
 
   handleSectionToggle(event) {
     event.stopPropagation();
@@ -174,6 +211,7 @@ export default class PrescribedProgram extends LightningElement {
     this.disableAddToCart = true;
     this.displayAddToCart = true;
     this.displayGroupRegistration = false;
+    this.displayQuestionnaire = false;
   }
 
   handleProgramOfferingSelected(event) {
@@ -183,6 +221,7 @@ export default class PrescribedProgram extends LightningElement {
     this.disableAddToCart = true;
     this.displayGroupRegistration = false;
     this.displayAddToCart = true;
+    this.displayQuestionnaire = false;
   }
 
   handlePricingSelected(event) {
@@ -198,12 +237,24 @@ export default class PrescribedProgram extends LightningElement {
       this.displayAddToCart = false;
       this.displayGroupRegistration = true;
       this.disableAddToCart = true;
+      if(this.hasQuestions){
+        this.displayAddToCart = false;
+        this.displayGroupRegistration = false;
+        this.disableAddToCart = true;
+        this.displayQuestionnaire = true;
+      }
 
     } else {
       this.displayGroupRegistration = false;
-      this.displayAddToCart = true;
+      this.displayAddToCart = false;
       this.disableAddToCart = false;
 
+    }
+    if(this.hasQuestions){
+      this.displayAddToCart = false;
+      this.displayGroupRegistration = false;
+      this.disableAddToCart = true;
+      this.displayQuestionnaire = true;
     }
 
   }
@@ -230,6 +281,16 @@ export default class PrescribedProgram extends LightningElement {
       // Display Custom Login Form LWC
       this.openModal = true;
     }
+  }
+
+  notifyApply() {
+    if (!isGuest) {
+      this.openApplicationQuestionnaire = true;
+    } else {
+      // Display Custom Login Form LWC
+      this.openModal = true;
+    }
+    
   }
 
   notifyAddToCart() {
@@ -262,6 +323,10 @@ export default class PrescribedProgram extends LightningElement {
    else{
     this.openModal = true;
    }
+  }
+
+  applicationQuestionnaireClosed(){
+    this.openApplicationQuestionnaire = false;
   }
 
   // Creates toast notification

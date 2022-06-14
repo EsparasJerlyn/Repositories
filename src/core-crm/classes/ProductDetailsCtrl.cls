@@ -816,6 +816,141 @@ public without sharing class ProductDetailsCtrl {
     }
   }
 
+  @AuraEnabled
+  public static void saveApplication(
+    String contactId,
+    String offeringId,
+    List<Related_Answer__c> relatedAnswerList,
+    List<Answer__c> answerList,
+    String fileUpload,
+    Boolean isPrescribed,
+    String pricebookEntryId
+  ) {
+
+    List<FileUpload> parsedFileUpload = new List<FileUpload>();
+    if (fileUpload != '') {
+      parsedFileUpload = (List<FileUpload>) JSON.deserialize(
+        fileUpload,
+        List<FileUpload>.class
+      );
+    }
+
+    List<Questionnaire_Response_Summary__c> questionnaireSummaryToInsert = new List<Questionnaire_Response_Summary__c>();
+    Map<String, String> cvToRelatedAnswerMap = new Map<String, String>();
+    List<ContentDocumentLink> contentDocLinkListToInsert = new List<ContentDocumentLink>();
+    List<ContentVersion> cvListToInsertList = new List<ContentVersion>();
+    Map<Id, Id> relatedAnswerToQuestionnaireMap = new Map<Id, Id>();
+    Map<Id, Id> questionnaireToqResSummaryMap = new Map<Id, Id>();
+    Map<Id, Id> relatedAnswerToAnswerMap = new Map<Id, Id>();
+    Set<Id> questionnaireIds = new Set<Id>();
+
+    List<Answer__c> answersToInsert = new List<Answer__c>();
+    Map<Id, Answer__c> answersToUpdate = new Map<Id, Answer__c>();
+
+    for (Related_Answer__c relatedA : relatedAnswerList) {
+      questionnaireIds.add(relatedA.Questionnaire__c);
+      relatedAnswerToQuestionnaireMap.put(
+        relatedA.Id,
+        relatedA.Questionnaire__c
+      );
+    }
+
+    Questionnaire_Response_Summary__c qResSummary;
+
+    for (Id qId : questionnaireIds) {
+      qResSummary = new Questionnaire_Response_Summary__c();
+      qResSummary.Questionnaire__c = qId;
+      if(isPrescribed){
+        qResSummary.Program_Offering__c = offeringId;
+      }else{
+        qResSummary.Course_Offering__c = offeringId;
+      }
+      qResSummary.Contact__c = contactId;
+      qResSummary.Application_Status__c  = 'Pending';
+      qResSummary.Pricebook_Entry_ID__c = pricebookEntryId;
+      questionnaireSummaryToInsert.add(qResSummary);
+    }
+
+    if (!questionnaireSummaryToInsert.isEmpty()) {
+      insert questionnaireSummaryToInsert;
+    }
+
+    for (
+      Questionnaire_Response_Summary__c questionResSummary : questionnaireSummaryToInsert
+    ) {
+      questionnaireToqResSummaryMap.put(
+        questionResSummary.Questionnaire__c,
+        questionResSummary.Id
+      );
+    }
+
+    if (!answerList.isEmpty()) {
+      for (Answer__c a : answerList) {
+        a.Questionnaire_Response_Summary__c = questionnaireToqResSummaryMap.get(
+          relatedAnswerToQuestionnaireMap.get(a.Related_Answer__c)
+        );
+        answersToInsert.add(a);
+      }
+      insert answersToInsert;
+    }
+
+    for (Answer__c ans : answersToInsert) {
+      relatedAnswerToAnswerMap.put(ans.Related_Answer__c, ans.Id);
+    }
+
+    for (FileUpload file : parsedFileUpload) {
+      if (relatedAnswerToAnswerMap.containsKey(file.RelatedAnswerId)) {
+        ContentVersion cv = createContentVersion(file.Base64, file.FileName);
+        cvToRelatedAnswerMap.put(cv.Title, file.RelatedAnswerId);
+        cvListToInsertList.add(cv);
+      }
+    }
+
+    if (!cvListToInsertList.isEmpty()) {
+      insert cvListToInsertList;
+    }
+
+    List<ContentVersion> newContentVersionList = new List<ContentVersion>(
+      [
+        SELECT ContentDocumentId, Title
+        FROM ContentVersion
+        WHERE Id IN :cvListToInsertList
+      ]
+    );
+
+    if (!newContentVersionList.isEmpty()) {
+      ContentDocumentLink cdl;
+      Answer__c updateAnswer;
+      for (ContentVersion cv : newContentVersionList) {
+        String test = relatedAnswerToAnswerMap.get(
+          cvToRelatedAnswerMap.get(cv.Title)
+        );
+        cdl = new ContentDocumentLink(
+          ContentDocumentId = cv.ContentDocumentId,
+          LinkedEntityId = relatedAnswerToAnswerMap.get(
+            cvToRelatedAnswerMap.get(cv.Title)
+          ),
+          ShareType = 'V'
+        );
+        updateAnswer = new Answer__c(
+          Id = cdl.LinkedEntityId,
+          Response__c = cv.ContentDocumentId
+        );
+        answersToUpdate.put(updateAnswer.Id, updateAnswer);
+        contentDocLinkListToInsert.add(cdl);
+      }
+    }
+
+    if (!contentDocLinkListToInsert.isEmpty()) {
+      insert contentDocLinkListToInsert;
+    }
+
+    if (!answersToUpdate.keySet().isEmpty()) {
+      update answersToUpdate.values();
+    }
+
+
+  }
   /**
    * @description
    * @param base64 -

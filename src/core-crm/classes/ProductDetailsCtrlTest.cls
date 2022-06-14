@@ -577,6 +577,102 @@ private class ProductDetailsCtrlTest {
     }
   }
 
+  @IsTest
+  static void saveApplicationTest() {
+    User currUsr = [
+      SELECT Id
+      FROM User
+      WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
+      LIMIT 1
+    ];
+
+    System.runAs(PORTAL_SYS_ADMIN){
+      //Create account
+      Account portalAccount1 = new Account(
+          Name = 'TestAccount',
+          OwnerId = PORTAL_SYS_ADMIN.Id
+      );
+
+      Database.insert(portalAccount1);
+
+      //Create contact
+      Contact contact1 = new Contact(
+        FirstName = 'Test',
+        Lastname = 'McTesty',
+        AccountId = portalAccount1.Id,
+        Email = System.now().millisecond() + 'test@test.com'
+      );
+      Database.insert(contact1);
+
+      //Create user
+      User portalUser = TestDataFactory.createPortalUserRecords(
+          1,
+          'Corporate Partner User',
+          contact1.Id
+        )
+        .iterator()
+        .next();
+      Database.insert(portalUser);
+    }
+
+    System.runAs(currUsr) {
+      createRecord(opeActProdReqRecType);
+      String cOfferingId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;
+
+      Id relatedQuestionnaireId = [SELECT Id FROM Questionnaire__c LIMIT 1].Id;
+
+      List<Question__c> questionList = TestDataFactory.createTestQuestionRecords(
+        5
+      );
+      insert questionList;
+
+      List<Related_Answer__c> relatedAnswers = TestDataFactory.createTestRelatedAnswerRecords(
+        5,
+        relatedQuestionnaireId,
+        questionList
+      );
+      insert relatedAnswers;
+      List<ProductDetailsCtrl.FileUpload> fileLoadList = new List<ProductDetailsCtrl.FileUpload>();
+      List<Answer__c> answerList = new List<Answer__c>();
+      Answer__c newAnswer;
+      ProductDetailsCtrl.FileUpload fileLoad = new ProductDetailsCtrl.FileUpload();
+      for (Related_Answer__c relatedA : relatedAnswers) {
+        newAnswer = new Answer__c(
+          Response__c = relatedA.Id,
+          Related_Answer__c = relatedA.Id
+        );
+        answerList.add(newAnswer);
+
+        fileLoad.Base64 = 'Test Content';
+        fileLoad.FileName = relatedA.Id;
+        fileLoad.RelatedAnswerId = relatedA.Id;
+
+        fileLoadList.add(fileLoad);
+      }
+
+      Test.startTest();
+      ProductDetailsCtrl.saveApplication(
+        [SELECT Id FROM Contact WHERE LastName ='McTesty' LIMIT 1]?.Id,
+        cOfferingId,
+        relatedAnswers,
+        answerList,
+        JSON.serialize(fileLoadList),
+        false,
+        null
+      );
+      Test.stopTest();
+      system.assert(
+        ![SELECT Id FROM ContentVersion].isEmpty(),
+        'Document not created'
+      );
+      system.assert(
+        ![SELECT Id FROM Answer__c].isEmpty(),
+        'Answer not created'
+      );
+    }
+  }
+  
+
   private static void createRecord(String productRequestRecordType) {
     User currUsr = [
       SELECT Id

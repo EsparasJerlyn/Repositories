@@ -142,7 +142,20 @@
               class="addToCartBtn"
             ></lightning-button>
           </lightning-layout-item>
-
+          <!-- Apply-->
+          <lightning-layout-item
+          if:true={displayQuestionnaire}
+          flexibility="auto"
+          size="12"
+        >
+          <lightning-button
+            label="APPLY"
+            onclick={notifyApply}
+            variant="brand"
+            class="addToCartBtn"
+          ></lightning-button>
+        </lightning-layout-item>
+        <!-- Apply-->
           <!-- Register Interest -->
           <lightning-layout-item
             if:true={displayRegisterInterest}
@@ -175,6 +188,17 @@
       </lightning-layout-item>
     </lightning-layout>
   </div>
+  <template if:true={openApplicationQuestionnaire}>
+    <c-application-questionnaire
+    contact-id={contactId}
+    questions={questions}
+    selected-offering={selectedProgramOffering}
+    price-book-entry={selectedPricing}
+    response-data={responseData}
+    is-prescribed={isPrescribed}
+    onclose={applicationQuestionnaireClosed}
+    ></c-application-questionnaire>
+  </template>
   <template if:true={openGroupRegistration}>
     <c-group-booking-form
     product-details={productDetails}
