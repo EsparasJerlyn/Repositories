@@ -341,6 +341,8 @@ public without sharing class RegistrationFormCtrl {
   ) {
     //Query Ecommerece Learner Profile
     String userId;
+    String invalidChar = '[^0-9]';
+    datetime myDate = datetime.now();
     String retURL;
     String userName = email + '.ope';
     Profile p = [SELECT Id FROM Profile WHERE Name = 'Ecommerce Learner'];
@@ -353,12 +355,13 @@ public without sharing class RegistrationFormCtrl {
     u.MobilePhone = mobile;
     u.Birthdate__c = birthdate;
     u.Username = username;
-    String alias = firstName;
+    String alias = lastName + firstName;
     if (alias.length() > 8) {
       alias = alias.substring(0, 8);
     }
     u.alias = alias;
-    u.CommunityNickname = alias;
+    u.CommunityNickname = alias + String.valueOf(myDate).replaceAll(invalidChar,'') + String.valueOf(birthdate).replaceAll(invalidChar,'');
+    system.debug(u.CommunityNickname);
     u.LanguageLocaleKey = 'en_US';
     u.localesidkey = UserInfo.getLocale();
     u.emailEncodingKey = 'UTF-8';
