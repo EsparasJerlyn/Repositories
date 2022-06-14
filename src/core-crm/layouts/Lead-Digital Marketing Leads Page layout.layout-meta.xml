@@ -375,6 +375,22 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
+        <relatedList>Marketing_Staging__c.Lead__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Marketing_Segmentation__c.Lead__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Marketing_Course_Application__c.Lead__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Marketing_Interaction__c.Lead__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
         <relatedList>et4ae5__IndividualEmailResult__c.Primary_Lead__c</relatedList>
     </relatedLists>
     <runAssignmentRulesDefault>false</runAssignmentRulesDefault>
