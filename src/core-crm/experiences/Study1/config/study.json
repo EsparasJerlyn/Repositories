@@ -25,6 +25,12 @@
     "trustedSiteName" : "www.qut.edu.au2",
     "trustedSiteUrl" : "https://www.qut.edu.au/study/professional-and-executive-education/configuration/integrations/qutex-javascript.js",
     "type" : "trustedSitesForScripts"
+  }, {
+    "id" : "2028480b-a20a-4cad-8a17-2633c8dee268",
+    "isActive" : true,
+    "trustedSiteName" : "https://kit.fontawesome.com/",
+    "trustedSiteUrl" : "https://kit.fontawesome.com/",
+    "type" : "trustedSitesForScripts"
   } ],
   "type" : "site"
 }
