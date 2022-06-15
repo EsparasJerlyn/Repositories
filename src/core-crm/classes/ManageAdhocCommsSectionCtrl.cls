@@ -57,16 +57,29 @@ public with sharing class ManageAdhocCommsSectionCtrl {
         String emailContent,
         List<String> learnerEmails
     ){
-        Messaging.SingleEmailMessage message = new Messaging.SingleEmailMessage();
-        message.toAddresses = learnerEmails;
-        message.subject = emailSubject;
-        message.htmlBody = emailContent;
-        Messaging.SingleEmailMessage[] messages = new List<Messaging.SingleEmailMessage> {message};
-        Messaging.SendEmailResult[] results = Messaging.sendEmail(messages);
-        if (results[0].success) {
-            return 'success';
-        }else {
-            return 'error';
+        String emailContentCentered = 
+            '<!--[if mso]><center><table><tr><td width="640"><![endif]-->' +
+            '<div style="max-width:640px; margin:0 auto;">' +
+                emailContent +
+            '</div>' +
+            '<!--[if mso]></td></tr></table></center><![endif]-->';
+        Messaging.SingleEmailMessage[] messages = new List<Messaging.SingleEmailMessage>();
+
+        for(String learnerEmail : learnerEmails){
+            Messaging.SingleEmailMessage message = new Messaging.SingleEmailMessage();
+            message.toAddresses = new List<String>{learnerEmail};
+            message.subject = emailSubject;
+            message.htmlBody = emailContentCentered;
+            messages.add(message);
         }
+
+        Messaging.SendEmailResult[] results = Messaging.sendEmail(messages);
+        for(Messaging.SendEmailResult result : results){
+            if (!result.isSuccess()) {
+                return 'error';
+            }
+        }
+
+        return 'success';
     }
 }
