@@ -14,7 +14,6 @@ import getOPEProductCateg from "@salesforce/apex/CartItemCtrl.getOPEProductCateg
 import getCartItemsByCart from "@salesforce/apex/CartItemCtrl.getCartItemsByCart";
 import getCartItemDiscount from "@salesforce/apex/CartItemCtrl.getCartItemDiscount";
 import updateCartDiscount from "@salesforce/apex/CartItemCtrl.updateCartDiscount";
-import {refreshApex} from '@salesforce/apex';
 import getCartExternaId from "@salesforce/apex/CartItemCtrl.getCartExternaId";
 import checkCartOwnerShip from "@salesforce/apex/CartItemCtrl.checkCartOwnerShip";
 import getCommunityUrl from "@salesforce/apex/RegistrationFormCtrl.getCommunityUrl";
@@ -26,13 +25,6 @@ import ANSWER_RESPONSE_FIELD from "@salesforce/schema/Answer__c.Response__c";
 
 import { publish, MessageContext } from 'lightning/messageService';
 import payloadContainerLMS from '@salesforce/messageChannel/Breadcrumbs__c';
-
-//USER fields to be updated
-// import USER_ID_FIELD from '@salesforce/schema/User.Id';
-// import USER_FNAME_FIELD from '@salesforce/schema/User.FirstName';
-// import USER_LNAME_FIELD from '@salesforce/schema/User.LastName';
-// import USER_EMAIL_FIELD from '@salesforce/schema/User.Email';
-// import USER_MOBILE_FIELD from '@salesforce/schema/User.MobilePhone';
 
 //Contact fields
 const CONTACT_FIELDS = [
@@ -71,7 +63,6 @@ export default class CartDetails extends LightningElement {
   @track showStudentId;
 
   isFreeOnly;
-  resultData;
   cartItems = [];
   questions = [];
   activeTimeout;
@@ -150,7 +141,7 @@ export default class CartDetails extends LightningElement {
         });
 
     //refresh the cart items
-    refreshApex(this.resultData);
+    this.getCartItemsData();
     this.publishLMS();
   }
 
@@ -222,44 +213,6 @@ export default class CartDetails extends LightningElement {
     }
   }
 
-  // // get cart items data
-  // @wire(getCartItems, {communityId: communityId, activeCartOrId: "$recordId"})
-  // testCart({ error, data }) {
-
-  //     //if data is retrieved successfully
-  //     if (data) {
-
-  //         console.log("get cart data");
-  //         console.log(data);
-
-  //     //else if error
-  //     } else if(error){
-  //         this.error = error;
-
-  //         console.log("err");
-  //         console.log(error);
-  //     }
-  // }
-
-  // // get cart items data
-  // @wire(getCartCoupons, {communityId: communityId, activeCartOrId: "$recordId"})
-  // testCoup({ error, data }) {
-
-  //     //if data is retrieved successfully
-  //     if (data) {
-
-  //         console.log("get coup data");
-  //         console.log(data);
-
-  //     //else if error
-  //     } else if(error){
-  //         this.error = error;
-
-  //         console.log("err");
-  //         console.log(error);
-  //     }
-  // }
-
   //get contact data
   @wire(getRecord, { recordId: userId, fields: CONTACT_FIELDS })
   wiredContact({ error, data }) {
@@ -296,49 +249,57 @@ export default class CartDetails extends LightningElement {
     }
   }
 
-  //get questions
-  @wire(getCartItemsByCart, { cartId: "$recordId", userId: userId })
-  cartItemsData(result) {
-    //if data is retrieved successfully
-    if (result.data) {
+  //get cart items data
+  getCartItemsData(){
+    
+    //get the cart items data
+    getCartItemsByCart({ cartId: this.recordId, userId: userId })
+      .then((result) => {
 
-      //variable to use in refresh apex
-      this.resultData = result;
+        //set variable if we are showing the staff and/or student ID
+        this.showStaffId = result.showStaffId;
+        this.showStudentId = result.showStudentId;
 
-      //set variable if we are showing the staff and/or student ID
-      this.showStaffId = result.data.showStaffId;
-      this.showStudentId = result.data.showStudentId;
+        //set the cart items data and questions
+        this.cartItems = JSON.parse(JSON.stringify(result.cartItemsList));
+        this.questions = result.questionsList;
 
-      //set the cart items data and questions
-      this.cartItems = JSON.parse(JSON.stringify(result.data.cartItemsList));
-      this.questions = result.data.questionsList;
+        //get totals
+        this.total = this.calculateSubTotal();
+        this.cartExternalId = this.cartItems[0]?this.cartItems[0].externalId:''; // added for payment parameters
+        this.isFreeOnly =  this.cartItems.length > 0 && this.total == 0;
 
-      //get totals
-      this.total = this.calculateSubTotal() - this.discountTotal;
-      this.cartExternalId = this.cartItems[0]?this.cartItems[0].externalId:''; // added for payment parameters
-
-      //if the pay buttons are disabled
-      if (this.disablePayment) {
-        //disable payment if no seats are available
-        this.disablePayment = !this.checkSeatsAvailable();
-      }
-
-      //redirect to products if no more cart items
-      if(this.cartItems.length == 0){
-        window.location.href = BasePath + "/category/products/" + this.prodCategId;
-
-      }
-      this.isFreeOnly =  this.cartItems.length > 0 && this.total == 0;
-
-      //else if there's an error
-    } else if (result.error) {
-      this.error = error;
-    }
+      })
+      .catch((error) => {
+        console.log("getCartItemsByCart error");
+        console.log(error);
+      });
   }
+
 
   //function for removing the cart item
   removeCartItem(event) {
     let cartItemId = event.target.dataset.id;
+
+    //filter out the element with the current cart item id
+    this.cartItems = this.cartItems.filter(function (obj) {
+        return obj.cartItemId !== cartItemId;
+    });
+
+    //reset totals
+    this.discountTotal = 0;
+    this.total = this.calculateSubTotal();
+
+    this.isFreeOnly = this.cartItems.length > 0 && this.total == 0;
+
+    //reapply the coupon code
+    this.applyCoupon();
+
+    //if the pay buttons are disabled
+    if (this.disablePayment) {
+      //disable payment if no seats are available
+      this.disablePayment = !this.checkSeatsAvailable();
+    }
 
     //function to delete the specific cart item
     deleteCartItem({
@@ -353,10 +314,11 @@ export default class CartDetails extends LightningElement {
         bubbles: true,
         composed: true
       }));
-      this.isFreeOnly =  this.cartItems.length > 0 && this.total == 0;
-      //refresh the cart items
-      refreshApex(this.resultData);
 
+      //redirect to products if no more cart items
+      if(this.cartItems.length == 0){
+        window.location.href = BasePath + "/category/products/" + this.prodCategId;
+      } 
     })
     .catch((error) => {
       console.log("delete error");
@@ -770,13 +732,6 @@ export default class CartDetails extends LightningElement {
       })
     } catch (error) {
         console.error(error);  
-    }
-
-
-
-
-    
+    } 
   }
-
-
 }

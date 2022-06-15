@@ -15,7 +15,7 @@ public without sharing class CartItemCtrl {
    * @param cartId - id of the current active cart
    * @return myCartItemsData - CartItemsData data type
    */
-  @AuraEnabled(cacheable=true)
+  @AuraEnabled
   public static CartItemsData getCartItemsByCart(String cartId, String userId) {
     //instantiate variables
     List<CartItem> cartItemList = new List<CartItem>();
