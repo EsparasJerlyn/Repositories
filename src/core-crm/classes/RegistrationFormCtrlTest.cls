@@ -227,4 +227,6 @@ public with sharing class RegistrationFormCtrlTest {
       return res;
     }
   }
+
+  
 }

@@ -451,4 +451,5 @@ public without sharing class RegistrationFormCtrl {
     @AuraEnabled
     public String conMobileLocale;
   }
+  
 }
