@@ -436,7 +436,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Lead.Work_Email__c</field>
+        <field>Lead.Work_Email__c</field> 
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

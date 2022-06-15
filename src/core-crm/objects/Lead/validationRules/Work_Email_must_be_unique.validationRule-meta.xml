@@ -7,6 +7,6 @@
  NOT (ISBLANK(Email) ),
  IF(Work_Email__c = Email, true, false)
 )</errorConditionFormula>
-    <errorDisplayField>Work_Email__c</errorDisplayField>
+    <errorDisplayField>Work_Email__c</errorDisplayField> 
     <errorMessage>Work Email must be unique.</errorMessage>
 </ValidationRule>

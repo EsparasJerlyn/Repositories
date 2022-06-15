@@ -61,7 +61,7 @@
         </mappingFields>
         <mappingFields>
             <inputField>Work_Email__c</inputField>
-            <outputField>hed__WorkEmail__c</outputField>
+            <outputField>Work_Email__c</outputField>
         </mappingFields>
         <mappingFields>
             <inputField>Work_Phone__c</inputField>

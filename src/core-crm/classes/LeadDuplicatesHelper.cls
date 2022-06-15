@@ -38,7 +38,7 @@ public without sharing class LeadDuplicatesHelper {
             [
                 SELECT Id,
                     FirstName, 
-                    Email, Work_Email__c, 
+                    Email, Work_Email__c,
                     LastName
                 FROM Lead
                 WHERE Id NOT IN :newLeads.keySet()
@@ -98,7 +98,7 @@ public without sharing class LeadDuplicatesHelper {
             [
                 SELECT Id,
                     FirstName, 
-                    Email, hed__WorkEmail__c, 
+                    Email, Work_Email__c, 
                     LastName
                 FROM Contact
                 WHERE RecordTypeId = :RT_CONTACT_PERSON_ID
@@ -107,7 +107,7 @@ public without sharing class LeadDuplicatesHelper {
                 AND 
                 (
                     Email IN :emailsToMatch OR
-                    hed__WorkEmail__c IN :emailsToMatch
+                    Work_Email__c IN :emailsToMatch
                 )
                 AND LastName IN :lastNamesToMatch
             ]
@@ -126,7 +126,7 @@ public without sharing class LeadDuplicatesHelper {
                             String.isNotBlank(newLead.Email) &&
                             (
                                 (existingCon.Email)?.toLowerCase() == newLead.Email.toLowerCase() ||
-                                (existingCon.hed__WorkEmail__c)?.toLowerCase() == newLead.Email.toLowerCase()
+                                (existingCon.Work_Email__c)?.toLowerCase() == newLead.Email.toLowerCase()
                             )
                         ) &&
                         existingCon.LastName.toLowerCase() == newLead.LastName.toLowerCase()
@@ -160,7 +160,7 @@ public without sharing class LeadDuplicatesHelper {
         List<Contact> existingContactsPartial = new List<Contact>(
             [
                 SELECT Id, 
-                    Email, hed__WorkEmail__c, QUT_Learner_Email__c, QUT_Staff_Email__c, 
+                    Email, Work_Email__c, QUT_Learner_Email__c, QUT_Staff_Email__c, 
                     LastName,
                     FirstName
                 FROM Contact
@@ -169,7 +169,7 @@ public without sharing class LeadDuplicatesHelper {
                 AND 
                 (
                     Email IN :emailsToMatch OR
-                    hed__WorkEmail__c IN :emailsToMatch OR
+                    Work_Email__c IN :emailsToMatch OR
                     QUT_Learner_Email__c IN :emailsToMatch OR
                     QUT_Staff_Email__c IN :emailsToMatch
                 )
@@ -192,7 +192,7 @@ public without sharing class LeadDuplicatesHelper {
                                 String.isNotBlank(newLead.Email) &&
                                 (
                                     (existingCon.Email)?.toLowerCase() == newLead.Email.toLowerCase() ||
-                                    (existingCon.hed__WorkEmail__c)?.toLowerCase() == newLead.Email.toLowerCase() ||
+                                    (existingCon.Work_Email__c)?.toLowerCase() == newLead.Email.toLowerCase() ||
                                     (existingCon.QUT_Learner_Email__c)?.toLowerCase() == newLead.Email.toLowerCase() ||
                                     (existingCon.QUT_Staff_Email__c)?.toLowerCase() == newLead.Email.toLowerCase()
                                 ) 

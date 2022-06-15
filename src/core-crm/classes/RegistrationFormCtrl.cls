@@ -172,7 +172,7 @@ public without sharing class RegistrationFormCtrl {
             AccountId,
             Birthdate,
             Email,
-            hed__WorkEmail__c,
+            Work_Email__c,
             QUT_Learner_Email__c,
             QUT_Staff_Email__c,
             LastName
@@ -182,7 +182,7 @@ public without sharing class RegistrationFormCtrl {
             AND Parent_Person_Contact__c = NULL
             AND Birthdate = :birthdate
             AND (Email = :email
-            OR hed__WorkEmail__c = :email
+            OR Work_Email__c = :email
             OR QUT_Learner_Email__c = :email
             OR QUT_Staff_Email__c = :email)
             AND LastName = :lastName

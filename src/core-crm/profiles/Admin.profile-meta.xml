@@ -1566,6 +1566,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Contact.Work_Email__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Contact.hed__WorkEmail__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1891,7 +1896,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Lead.Work_Email__c</field>
+        <field>Lead.Work_Email__c</field> 
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

@@ -5,7 +5,7 @@
     <description>Validates Email field if unique. Must not be the same with Work Email.</description>
     <errorConditionFormula>AND(
  NOT (ISBLANK(Email) ),
- IF(Email = Work_Email__c , true, false) 
+ IF(Email = Work_Email__c , true, false)  
 )</errorConditionFormula>
     <errorDisplayField>Email</errorDisplayField>
     <errorMessage>Email must be unique.</errorMessage>

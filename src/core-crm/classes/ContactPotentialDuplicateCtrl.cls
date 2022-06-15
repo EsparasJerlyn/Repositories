@@ -16,7 +16,7 @@ public without sharing class ContactPotentialDuplicateCtrl {
 
     @AuraEnabled(cacheable=true)
     public static List<ContactWrapper> getSelectedContact(Id recordId){
-        List<Contact> contactList = [SELECT Id, FirstName, LastName, Birthdate, Email, hed__WorkEmail__c, QUT_Learner_Email__c, QUT_Staff_Email__c, 
+        List<Contact> contactList = [SELECT Id, FirstName, LastName, Birthdate, Email, Work_Email__c, QUT_Learner_Email__c, QUT_Staff_Email__c, 
                                             QUT_Student_ID__c, QUT_Employee_ID__c FROM Contact WHERE Id = : recordId];
         List<ContactWrapper> responseList = new List<ContactWrapper>();
         for(Contact contact : contactList){
@@ -26,7 +26,7 @@ public without sharing class ContactPotentialDuplicateCtrl {
             contactWrapper.lastName = contact.LastName;
             contactWrapper.birthDate = contact.Birthdate;
             contactWrapper.email = contact.Email;
-            contactWrapper.workEmal = contact.hed__WorkEmail__c;
+            contactWrapper.workEmal = contact.Work_Email__c;
             contactWrapper.qutLearnerEmail = contact.QUT_Learner_Email__c;
             contactWrapper.qutStaffEmail = contact.QUT_Staff_Email__c;
             contactWrapper.qutStudentEmail = contact.QUT_Student_ID__c;
@@ -40,7 +40,7 @@ public without sharing class ContactPotentialDuplicateCtrl {
     public static List<ContactWrapper> getPotentialDuplicate(Id recordId){
         
         List<Potential_Duplicate__c> contactList = [SELECT Duplicate_Contact__r.Id, Duplicate_Contact__r.FirstName, Duplicate_Contact__r.LastName, Duplicate_Contact__r.Birthdate, 
-                                                            Duplicate_Contact__r.Email, Duplicate_Contact__r.hed__WorkEmail__c, Duplicate_Contact__r.QUT_Learner_Email__c, 
+                                                            Duplicate_Contact__r.Email, Duplicate_Contact__r.Work_Email__c, Duplicate_Contact__r.QUT_Learner_Email__c, 
                                                             Duplicate_Contact__r.QUT_Staff_Email__c, Duplicate_Contact__r.QUT_Student_ID__c, Duplicate_Contact__r.QUT_Employee_ID__c 
                                                         FROM Potential_Duplicate__c WHERE Contact__c =: recordId AND Duplicate_Contact__c != null ORDER BY Duplicate_Contact__r.FirstName ASC];
         List<ContactWrapper> responseList = new List<ContactWrapper>();
@@ -51,7 +51,7 @@ public without sharing class ContactPotentialDuplicateCtrl {
             contactWrapper.lastName = contact.Duplicate_Contact__r.LastName;
             contactWrapper.birthDate = contact.Duplicate_Contact__r.Birthdate;
             contactWrapper.email = contact.Duplicate_Contact__r.Email;
-            contactWrapper.workEmal = contact.Duplicate_Contact__r.hed__WorkEmail__c;
+            contactWrapper.workEmal = contact.Duplicate_Contact__r.Work_Email__c;
             contactWrapper.qutLearnerEmail = contact.Duplicate_Contact__r.QUT_Learner_Email__c;
             contactWrapper.qutStaffEmail = contact.Duplicate_Contact__r.QUT_Staff_Email__c;
             contactWrapper.qutStudentEmail = contact.Duplicate_Contact__r.QUT_Student_ID__c;

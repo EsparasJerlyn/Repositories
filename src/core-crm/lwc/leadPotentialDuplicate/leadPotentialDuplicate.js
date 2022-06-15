@@ -93,7 +93,7 @@ export default class LeadPotentialDuplicate extends NavigationMixin(LightningEle
             FirstName : recFName,
             LastName : recLname,
             Email : recEmail,
-            Work_Email__c : recWorkEmail
+            Work_Email__c : recWorkEmail 
         };
         const recordInput = { fields };            
         updateRecord(recordInput)

@@ -105,7 +105,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>hed__WorkEmail__c</field>
+                <field>Work_Email__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>

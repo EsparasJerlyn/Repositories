@@ -91,11 +91,11 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
 
         for(Contact con: newContacts){
             if(con.RecordTypeId == PERSON){
-                if(!String.isBlank(con.hed__WorkEmail__c)){
+                if(!String.isBlank(con.Work_Email__c)){
                     Contact conWork = new Contact(FirstName = con.FirstName,
                                                   LastName = con.LastName,
                                                   RecordtypeId = MC_PERSONA,
-                                                  Email = con.hed__WorkEmail__c,
+                                                  Email = con.Work_Email__c,
                                                   HasOptedOutOfEmail= con.Work_Email_Opt_Out__c,
                                                   Email_Opt_Out_DateTime__c = con.Work_Email_Opt_Out_DateTime__c,
                                                   Email_Opt_In_DateTime__c = con.Work_Email_Opt_In_DateTime__c,

@@ -4,13 +4,13 @@
     <active>false</active>
     <description>Validates Work Email field if unique. Must not be the same with Email, Student Email, or Staff Email.</description>
     <errorConditionFormula>AND(
- NOT (ISBLANK(hed__WorkEmail__c) ),
+ NOT (ISBLANK(Work_Email__c) ),
  OR(
-  IF(hed__WorkEmail__c= Email, true, false) ,
-  IF(hed__WorkEmail__c= QUT_Learner_Email__c, true, false) ,
-  IF(hed__WorkEmail__c= QUT_Staff_Email__c , true, false)
+  IF(Work_Email__c= Email, true, false) ,
+  IF(Work_Email__c= QUT_Learner_Email__c, true, false) ,
+  IF(Work_Email__c= QUT_Staff_Email__c , true, false)
  )
 )</errorConditionFormula>
-    <errorDisplayField>hed__WorkEmail__c</errorDisplayField>
+    <errorDisplayField>Work_Email__c</errorDisplayField>
     <errorMessage>Work Email must be unique.</errorMessage>
 </ValidationRule>

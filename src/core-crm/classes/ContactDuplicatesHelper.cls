@@ -54,7 +54,7 @@ public without sharing class ContactDuplicatesHelper {
             [
                 SELECT Id,
                     Birthdate, 
-                    Email, hed__WorkEmail__c, QUT_Learner_Email__c, QUT_Staff_Email__c, 
+                    Email, Work_Email__c, QUT_Learner_Email__c, QUT_Staff_Email__c, 
                     LastName
                 FROM Contact
                 WHERE Id NOT IN :newContacts.keySet()
@@ -64,7 +64,7 @@ public without sharing class ContactDuplicatesHelper {
                 AND 
                 (
                     Email IN :emailsToMatch OR
-                    hed__WorkEmail__c IN :emailsToMatch OR
+                    Work_Email__c IN :emailsToMatch OR
                     QUT_Learner_Email__c IN :emailsToMatch OR
                     QUT_Staff_Email__c IN :emailsToMatch
                 )
@@ -85,7 +85,7 @@ public without sharing class ContactDuplicatesHelper {
                             String.isNotBlank(newCon.Email) &&
                             (
                                 (existingCon.Email)?.toLowerCase() == newCon.Email.toLowerCase() ||
-                                (existingCon.hed__WorkEmail__c)?.toLowerCase() == newCon.Email.toLowerCase() ||
+                                (existingCon.Work_Email__c)?.toLowerCase() == newCon.Email.toLowerCase() ||
                                 (existingCon.QUT_Learner_Email__c)?.toLowerCase() == newCon.Email.toLowerCase() ||
                                 (existingCon.QUT_Staff_Email__c)?.toLowerCase() == newCon.Email.toLowerCase() 
                             )
@@ -124,7 +124,7 @@ public without sharing class ContactDuplicatesHelper {
         List<Contact> existingContactsPartial = new List<Contact>(
             [
                 SELECT Id, 
-                    Email, hed__WorkEmail__c, QUT_Learner_Email__c, QUT_Staff_Email__c, 
+                    Email, Work_Email__c, QUT_Learner_Email__c, QUT_Staff_Email__c, 
                     LastName,
                     Birthdate,
                     FirstName,
@@ -137,7 +137,7 @@ public without sharing class ContactDuplicatesHelper {
                 AND 
                 (
                     Email IN :emailsToMatch OR
-                    hed__WorkEmail__c IN :emailsToMatch OR
+                    Work_Email__c IN :emailsToMatch OR
                     QUT_Learner_Email__c IN :emailsToMatch OR
                     QUT_Staff_Email__c IN :emailsToMatch
                 )
@@ -163,7 +163,7 @@ public without sharing class ContactDuplicatesHelper {
                                 String.isNotBlank(newCon.Email) &&
                                 (
                                     (existingCon.Email)?.toLowerCase() == newCon.Email.toLowerCase() ||
-                                    (existingCon.hed__WorkEmail__c)?.toLowerCase() == newCon.Email.toLowerCase() ||
+                                    (existingCon.Work_Email__c)?.toLowerCase() == newCon.Email.toLowerCase() ||
                                     (existingCon.QUT_Learner_Email__c)?.toLowerCase() == newCon.Email.toLowerCase() ||
                                     (existingCon.QUT_Staff_Email__c)?.toLowerCase() == newCon.Email.toLowerCase() 
                                 )

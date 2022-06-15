@@ -8,7 +8,7 @@
  OR(
   IF(Email = QUT_Staff_Email__c, true, false) ,
   IF(Email = QUT_Learner_Email__c, true, false) ,
-  IF(Email = hed__WorkEmail__c, true, false) 
+  IF(Email = Work_Email__c, true, false) 
  )
 )</errorConditionFormula>
     <errorDisplayField>Email</errorDisplayField>
