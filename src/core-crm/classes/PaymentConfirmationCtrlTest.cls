@@ -294,4 +294,31 @@ public with sharing class PaymentConfirmationCtrlTest {
     System.assertNotEquals(null, insertedCourseEnrollment, 'hed__Course_Enrollment__c record not inserted');
 
   }
+
+  @IsTest
+  static void updateWebCartTest() {
+
+    WebCart webCart = [
+      SELECT 
+        Id, 
+        Name 
+      FROM WebCart 
+      LIMIT 1
+    ];
+
+    Test.startTest();
+    PaymentConfirmationCtrl.updateWebCart(webCart.Id, 'Approved', '123Invoice', '456Receipt', 100, 'https://testurl.com');
+    Test.stopTest();
+
+    WebCart webCartUpdated = [
+      SELECT 
+        Id, 
+        Name,
+        Status
+      FROM WebCart 
+      LIMIT 1
+    ];
+
+    System.assertEquals('Closed', webCartUpdated.Status, 'Cart Status should be closed');
+  }
 }

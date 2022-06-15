@@ -207,6 +207,28 @@ public without sharing class PaymentConfirmationCtrl {
             FROM CartItem
             WHERE CartId = :cartId];
 
+        //create list for existing course connections of the current cart
+        List<hed__Course_Enrollment__c> existingCC = new List<hed__Course_Enrollment__c>([
+            SELECT 
+                Id, 
+                Cart_ID__c,
+                Cart_Item__c,
+                Transaction_ID__c
+            FROM hed__Course_Enrollment__c
+            WHERE Transaction_ID__c = :tranId]);
+
+        //nested loop to check if cart items are already inserted to the course connection
+        for (CartItem currentCart : cartItemList) {
+
+            //loop on the existing course connections 
+            for(hed__Course_Enrollment__c currentCC : existingCC){
+                if(currentCC.Cart_Item__c == currentCart.Id){
+                    //return to exit function
+                    return courseConnectionInsert;
+                }
+            }
+        }
+        
         //create a set for the pricebook entries and program plans
         Set<Id> pbentryIds = new Set<Id>();
         Set<Id> programPlanIds = new Set<Id>();
@@ -250,6 +272,7 @@ public without sharing class PaymentConfirmationCtrl {
             tempCourseConnectionMain.Payment_Method__c = paymentMethod;
             tempCourseConnectionMain.Paid_in_Full__c = paidInFull;
             tempCourseConnectionMain.Cart_Item__c = currentCart.Id;
+            tempCourseConnectionMain.Cart_ID__c = cartId;
 
             //check if current pricebook is for group booking
             if(pbEntryMap.get(currentCart.Pricebook_Entry_ID__c).Pricebook2.Name == 'Group Booking'){
@@ -274,31 +297,36 @@ public without sharing class PaymentConfirmationCtrl {
                 //loop on the returned list to populate price book entrie IDs
                 for (Program_Offering__c currentProgramOfferingSibling : programOfferingSiblings) {
 
-                    //single record to be inserted
-                    hed__Course_Enrollment__c tempCourseConnectionSub = new hed__Course_Enrollment__c();
+                    //condition to skip the actual program offering and only add the siblings
+                    if(currentCart.Program_Offering__c != currentProgramOfferingSibling.Id){
 
-                    //populate data for course offering
-                    tempCourseConnectionSub.hed__Contact__c = contactId;
-                    tempCourseConnectionSub.hed__Status__c = 'Active';
-                    tempCourseConnectionSub.Amount__c = amount;
-                    tempCourseConnectionSub.Transaction_ID__c = tranId;
-                    tempCourseConnectionSub.Payment_Method__c = paymentMethod;
-                    tempCourseConnectionSub.Paid_in_Full__c = paidInFull;
-                    tempCourseConnectionSub.Cart_Item__c = currentCart.Id;
+                        //single record to be inserted
+                        hed__Course_Enrollment__c tempCourseConnectionSub = new hed__Course_Enrollment__c();
 
-                    //check if current pricebook is for group booking
-                    if(pbEntryMap.get(currentCart.Pricebook_Entry_ID__c).Pricebook2.Name == 'Group Booking'){
-                        tempCourseConnectionSub.Is_Group_Registered__c = true;
+                        //populate data for course offering
+                        tempCourseConnectionSub.hed__Contact__c = contactId;
+                        tempCourseConnectionSub.hed__Status__c = 'Active';
+                        tempCourseConnectionSub.Amount__c = amount;
+                        tempCourseConnectionSub.Transaction_ID__c = tranId;
+                        tempCourseConnectionSub.Payment_Method__c = paymentMethod;
+                        tempCourseConnectionSub.Paid_in_Full__c = paidInFull;
+                        tempCourseConnectionSub.Cart_Item__c = currentCart.Id;
+                        tempCourseConnectionSub.Cart_ID__c = cartId;
 
-                    } else{
-                        tempCourseConnectionSub.Is_Group_Registered__c = false;
+                        //check if current pricebook is for group booking
+                        if(pbEntryMap.get(currentCart.Pricebook_Entry_ID__c).Pricebook2.Name == 'Group Booking'){
+                            tempCourseConnectionSub.Is_Group_Registered__c = true;
+
+                        } else{
+                            tempCourseConnectionSub.Is_Group_Registered__c = false;
+                        }
+
+                        //program offering siblings record type should be student
+                        tempCourseConnectionSub.RecordTypeId = studentRecordTypeId;
+                        tempCourseConnectionSub.Program_Offering__c = currentProgramOfferingSibling.Id;
+
+                        courseConnectionInsert.add(tempCourseConnectionSub);
                     }
-
-                    //program offering siblings record type should be student
-                    tempCourseConnectionSub.RecordTypeId = studentRecordTypeId;
-                    tempCourseConnectionSub.Program_Offering__c = currentCart.Program_Offering__c;
-
-                    courseConnectionInsert.add(tempCourseConnectionSub);
                 }
             }
 
@@ -335,16 +363,24 @@ public without sharing class PaymentConfirmationCtrl {
             WHERE Id = :cartId
             LIMIT 1];
 
-        //update the cart based on the status received
-        webCart.Payment_Status__c = paymentStatus;
-        webCart.Invoice_Number__c = invoice;
-        webCart.Receipt_Number__c = receipt;
-        webCart.Amount_Paid__c = amountPaid;
-        webCart.Payment_URL__c = paymentUrl;
-        webCart.Status__c = 'Closed';
-        webCart.Status = 'Closed';
+        //we can only update the cart if it is not Closed
+        if(webCart.Status != 'Closed'){
 
-        update webCart;
+            //update the cart based on the status received
+            webCart.Payment_Status__c = paymentStatus;
+            webCart.Invoice_Number__c = invoice;
+            webCart.Receipt_Number__c = receipt;
+            webCart.Amount_Paid__c = amountPaid;
+            webCart.Payment_URL__c = paymentUrl;
+
+            //close the cart only if the payment is approved
+            if(paymentStatus == 'Approved'){
+                webCart.Status__c = 'Closed';
+                webCart.Status = 'Closed';
+            }
+
+            update webCart;
+        }
     }
 }
   
