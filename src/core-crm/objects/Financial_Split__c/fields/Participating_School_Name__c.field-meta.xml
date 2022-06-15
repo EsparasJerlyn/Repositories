@@ -6,7 +6,7 @@
     <label>Participating School Name</label>
     <lookupFilter>
         <active>true</active>
-        <booleanFilter>(1 AND 2) OR 3</booleanFilter>
+        <booleanFilter>(1 AND 2) OR 3 OR 4</booleanFilter>
         <filterItems>
             <field>Account.RecordType.DeveloperName</field>
             <operation>equals</operation>
@@ -21,6 +21,11 @@
             <field>Account.Name</field>
             <operation>equals</operation>
             <value>QUTeX Products</value>
+        </filterItems>
+        <filterItems>
+            <field>Account.Name</field>
+            <operation>equals</operation>
+            <value>QUT GSB &amp; QUTeX</value>
         </filterItems>
         <isOptional>false</isOptional>
     </lookupFilter>

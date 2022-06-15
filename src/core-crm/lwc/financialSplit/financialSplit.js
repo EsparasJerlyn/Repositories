@@ -8,7 +8,7 @@
  *    | Developer                 | Date                  | JIRA                | Change Summary                                         |
       |---------------------------|-----------------------|---------------------|--------------------------------------------------------|
       | angelika.j.s.galang       | February 3, 2022      | DEPP-1257           | Created file                                           |
-      |                           |                       |                     |                                                        |
+      | roy.nino.s.regala         | June 6 2022           | DEPP-3092           |  Updated default account, and logic                    |
 */
 import { LightningElement, api, wire } from 'lwc';
 import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
@@ -16,7 +16,7 @@ import { refreshApex } from '@salesforce/apex';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import LWC_Error_General from '@salesforce/label/c.LWC_Error_General';
 import RT_ProductRequest_Program from '@salesforce/label/c.RT_ProductRequest_Program';
-import QUTeX from '@salesforce/label/c.QUTeXProducts';
+import QUTeX from '@salesforce/label/c.QUT_GSB';
 import COURSE_OBJ from '@salesforce/schema/hed__Course__c';
 import C_PRODUCT_REQUEST from '@salesforce/schema/hed__Course__c.ProductRequestID__c';
 import FS_COURSE from '@salesforce/schema/Financial_Split__c.Course__c';
@@ -201,7 +201,7 @@ export default class FinancialSplit extends LightningElement {
                 return {
                     ...data,
                     rowId : 'row-' + index,
-                    Percentage_split__c : data.Percentage_split__c ? data.Percentage_split__c + '%' : '',
+                    Percentage_split__c : data.Percentage_split__c ? data.Percentage_split__c + '%' : '0%',
                     schoolName:data.Participating_School_Name__r.Name,
                     schoolNameClass: 'slds-cell-edit',
                     deleteDisabled: true,
@@ -443,6 +443,7 @@ export default class FinancialSplit extends LightningElement {
         let percentRegex = /^\d{0,18}%$/;
         let rowsValidation={};
         let errors = {};
+
         records.map(record => {
             let fieldNames = [];
             let messages = [];
@@ -454,25 +455,34 @@ export default class FinancialSplit extends LightningElement {
                 this.addErrorOutline(record.rowId);
             }else{
                 //qutex validation
-                if(!isQutex && this.getRowInteger(record.rowId) == 0){
+                if(!this.financialSplitData.find(row => row.schoolName === QUTeX)){
                     fieldNames.push('Participating_School_Name__c');
-                    messages.push('QUTeX is required to be the first entry');
+                    messages.push(QUTeX + ' is required to be the first entry');
                     this.addErrorOutline(record.rowId);
                 }
                 if(isQutex){
-                    if(this.getRowInteger(record.rowId) > 0){
+                    //check if there is an existing QUT GSB and user creates new
+                    //check if user edit existing QUT GSB and user creates new
+                    if( this.financialSplitData && 
+                        this.financialSplitData.filter(row => row.schoolName === QUTeX) && 
+                        this.financialSplitData.filter(row => row.schoolName === QUTeX).length > 1) { 
                         fieldNames.push('Participating_School_Name__c');
-                        messages.push('QUTeX has already been added');
+                        messages.push(QUTeX + ' has already been added');
                         this.addErrorOutline(record.rowId);
                     }else{
                         if(!record.Account_GL_Code__c){
                             fieldNames.push('Account_GL_Code__c');
-                            messages.push('Account GL Code is required for QUTeX');
+                            messages.push('Account GL Code is required for ' + QUTeX);
                         }
                         if(record.Account_Code__c){
                             fieldNames.push('Account_Code__c');
-                            messages.push('Please remove the Account Code for QUTeX');
+                            messages.push('Please remove the Account Code for ' + QUTeX);
                         }
+                    }
+                }else{
+                    if(record.Percentage_split__c && parseInt(record.Percentage_split__c) == 0){
+                        fieldNames.push('Percentage_split__c');
+                        messages.push('Percentage Split must not be zero');
                     }
                 }
             }

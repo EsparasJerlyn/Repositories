@@ -425,6 +425,13 @@
         <value>Tell us about you</value>
     </labels>
     <labels>
+        <fullName>QUT_GSB</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>QUT_GSB</shortDescription>
+        <value>QUT GSB &amp; QUTeX</value>
+    </labels>
+    <labels>
         <fullName>QUT_RegistrationForm_IndicatesRequiredField</fullName>
         <language>en_US</language>
         <protected>false</protected>
