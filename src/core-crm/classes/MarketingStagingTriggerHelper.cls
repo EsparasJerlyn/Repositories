@@ -9,6 +9,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | roy.nino.s.regala              | May 23, 2022          | DEPP-2103              | Created file                 |
+      | cadalin@qut.edu.au             | June 15, 2022         | DEPP-3088              | Included new fields          |
  */
 
 public with sharing class MarketingStagingTriggerHelper{
@@ -34,7 +35,8 @@ public with sharing class MarketingStagingTriggerHelper{
         'SE_Postcode__c','SE_State__c','SE_Suburb__c','ORG_Profile_Persona__c','ORG_Indigenous_Status_ATSI__c','ORG_Country_Of_Residency__c',
         'ORG_Organisation__c','ORG_Position__c','ORG_Industry__c','ORG_Primary_Study_Level__c','ORG_Primary_BSA__c','ORG_Primary_NSA__c',
         'ORG_Secondary_Study_Level__c','ORG_Secondary_BSA__c','ORG_Secondary_NSA__c','ORG_Interested_Languages__c','ORG_Interested_Course_Name__c',
-        'ORG_Postcode__c','ORG_State__c', 'ORG_Education_Level__c', 'ORG_Suburb__c', 'My_Education_Level__c','External_Key__c'
+        'ORG_Postcode__c','ORG_State__c', 'ORG_Education_Level__c', 'ORG_Suburb__c', 'My_Education_Level__c','External_Key__c','QTAC_ID__c',
+        'Mailing_Address_Country__c'
     };
 
     private static final List<String> MARKETING_INTERACTION_FIELDS = new List<String>{

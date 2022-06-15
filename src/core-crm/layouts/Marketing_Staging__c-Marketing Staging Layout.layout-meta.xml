@@ -137,6 +137,10 @@
                 <behavior>Edit</behavior>
                 <field>Dont_Market_Reason__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Mailing_Address_Country__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>
@@ -311,6 +315,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Financial_Hardship_Applicant__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>QTAC_ID__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

@@ -2012,6 +2012,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Marketing_Segmentation__c.Mailing_Address_Country__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Marketing_Segmentation__c.Migration_Key__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2283,6 +2288,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Marketing_Segmentation__c.Prospects_Score__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Marketing_Segmentation__c.QTAC_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2867,6 +2877,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Marketing_Staging__c.Mailing_Address_Country__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Marketing_Staging__c.Match_My_Skill_Completion__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3252,17 +3267,22 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Marketing_Staging__c.QTAC_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Marketing_Staging__c.QTAC_Matching_Criteria__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Marketing_Staging__c.QTAC_Offer_Able__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Marketing_Staging__c.QTAC_Offer_Round__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Marketing_Staging__c.QTAC_Matching_Criteria__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
