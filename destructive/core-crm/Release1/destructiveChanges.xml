@@ -31,6 +31,10 @@
         <members>Update_Course_or_Program_Start_DateTest</members>
         <members>Update_Product_End_DateTest</members>
         <members>Validation_FlowTest</members>
+        <!--(Start) DEPP 2824 -->
+        <members>QuestionnaireResponseSummaryCtrl</members>
+        <members>QuestionnaireResponseSummaryCtrlTest</members>
+        <!--(End) DEPP 2824 -->
         <name>ApexClass</name>
     </types>
     <types>
@@ -223,6 +227,7 @@
     </types>
     <types>
         <members>opeCustomPageLayout</members>
+        <members>questionnaireResponseSummary</members> <!-- DEPP-3094 -->
         <name>LightningComponentBundle</name>
     </types>
     <types>

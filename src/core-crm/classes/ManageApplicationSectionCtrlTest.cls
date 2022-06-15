@@ -25,6 +25,16 @@ public with sharing class ManageApplicationSectionCtrlTest {
      private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
      private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
 
+    @TestSetup
+
+     static void setupMethod(){
+         Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
+         insert customEmail;
+    
+         Study_Store_URL_Settings__c studyStore = new Study_Store_URL_Settings__c(Name='QUTeX', Study_Store_Link__c = 'https://studystorelinktest.com/');
+         insert studyStore;
+     }
+    
      @IsTest
      static void getApplicationStatusValuesTest(){
           System.runAs(currentUser){
@@ -63,52 +73,52 @@ public with sharing class ManageApplicationSectionCtrlTest {
 
      private static void createRecord(String productRequestRecordType){
           System.runAs(currentUser){
-               Id offeringId = null;
+                Id offeringId = null;
 
-               List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
-               for(Account acc : accounts){
+                List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
+                for(Account acc : accounts){
                     acc.RecordTypeId = ACCT_UNIV_DEP_ID;
                     acc.Organization_Unit_Level__c = '2';
-               }
-               insert accounts;
+                }
+                insert accounts;
 
-               List<Product_Request__c> productRequests = TestDataFactory.createTestProductRequestRecords(1);
-               for(Product_Request__c productRequest : productRequests){
+                List<Product_Request__c> productRequests = TestDataFactory.createTestProductRequestRecords(1);
+                for(Product_Request__c productRequest : productRequests){
                     productRequest.RecordTypeId = productRequestRecordType;
-               }
-               insert productRequests;
+                }
+                insert productRequests;
 
-               List<hed__Course__c> courses = TestDataFactory.createTestCourseRecords(1, accounts[0].Id, productRequests[0].Id);
-               insert courses;
+                List<hed__Course__c> courses = TestDataFactory.createTestCourseRecords(1, accounts[0].Id, productRequests[0].Id);
+                insert courses;
 
-               List<hed__Term__c> terms = TestDataFactory.createTestTermRecords(1, accounts[0].Id);
-               insert terms;
+                List<hed__Term__c> terms = TestDataFactory.createTestTermRecords(1, accounts[0].Id);
+                insert terms;
 
-               List<hed__Course_Offering__c> courseOfferings = TestDataFactory.createTestCourseOfferingRecord(1, courses, terms);
-               insert courseOfferings;
+                List<hed__Course_Offering__c> courseOfferings = TestDataFactory.createTestCourseOfferingRecord(1, courses, terms);
+                insert courseOfferings;
 
-               offeringId = courseOfferings[0].Id;
+                offeringId = courseOfferings[0].Id;
 
-               List<Contact> contacts = TestDataFactory.createTestContactRecords(numberOfRecords);
-               for(Integer i =0;i<contacts.size();i++){
+                List<Contact> contacts = TestDataFactory.createTestContactRecords(numberOfRecords);
+                for(Integer i =0;i<contacts.size();i++){
                     contacts[i].Email = 'testIdeaFormUser'+i+'@mailinator.com';
                 }
-               insert contacts;
-               
-               Questionnaire__c questionnaire = new Questionnaire__c();
-               questionnaire.Questionnaire_Type__c = 'Application Questions';
-               insert questionnaire;
+                insert contacts;
+                
+                Questionnaire__c questionnaire = new Questionnaire__c();
+                questionnaire.Questionnaire_Type__c = 'Application Questions';
+                insert questionnaire;
 
-               List<Questionnaire_Response_Summary__c> questionnaireResponseList = new List<Questionnaire_Response_Summary__c>();
-               for(Contact contact : contacts){
+                List<Questionnaire_Response_Summary__c> questionnaireResponseList = new List<Questionnaire_Response_Summary__c>();
+                for(Contact contact : contacts){
                     Questionnaire_Response_Summary__c questionResp = new Questionnaire_Response_Summary__c();
                     questionResp.Contact__c = contact.Id;
                     questionResp.Application_Status__c = 'Pending';
                     questionResp.Questionnaire__c =  questionnaire.Id;
                     questionResp.Course_Offering__c = offeringId;
                     questionnaireResponseList.add(questionResp);
-               }
-               insert questionnaireResponseList;
+                }
+                insert questionnaireResponseList;
           }
      }
 
