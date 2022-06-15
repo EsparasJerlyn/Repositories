@@ -83,9 +83,20 @@ public without sharing class CartItemCtrl {
     ];
 
     Map<id, List<Related_Answer__c>> QuestionnaireMap = new Map<id, List<Related_Answer__c>>();
-    for(Related_Answer__c RA :relatedAnswerList){
-       //RelatedAnswerForKey = new List<Related_Answer__c>();
-       QuestionnaireMap.put(RA.Questionnaire__r.Parent_Record_ID__c, relatedAnswerList);
+
+    for (Id val :productReqIds){
+        for(Related_Answer__c RA :relatedAnswerList){
+
+          if (RA.Questionnaire__r.Parent_Record_ID__c == val){
+            if (QuestionnaireMap.containsKey(val)){
+              QuestionnaireMap.get(val).add(RA);
+            }
+            else
+            {
+               QuestionnaireMap.put(val, new List<Related_Answer__c>{RA});   
+            }
+          }
+        }
     }
 
     //create map of price book entry for linking with the cart items
