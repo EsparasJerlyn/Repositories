@@ -1,0 +1,46 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">*** Enquiry details ***<br />
+Enquiry date: {createdDate}<br />
+Enquiry type: {enquiryType}<br />
+Enquiry: {enquiryDescription}<br />
+<br />
+*** Heat status ***&nbsp;<br />
+Score: {leadScore}<br />
+Rank: {leadCategorisation}<br />
+<br />
+*** Profile ***<br />
+First name: {firstname}<br />
+Surname: {lastname}<br />
+E: {email}<br />
+M: {mobile}<br />
+Citizenship:&nbsp;{citizenship}<br />
+Living in: {residency}<br />
+<br />
+*** Study plans ***<br />
+Intake year: {admissionYear}<br />
+Study level: {studyLevel}<br />
+Study Area: {BSA}<br />
+Course Major: {NSA}<br />
+Pathway/English: {pathway}<br />
+Funding: {funding}<br />
+<br />
+*** Application details ***<br />
+Student ID: 8989<br />
+Application status: Applied<br />
+Application submission date: 15/05/2022<br />
+Application last status change date:&nbsp;15/05/2022<br />
+Date offer made (if applicable):&nbsp;<br />
+Agent-assisted status:&nbsp;<br />
+Agent name (if applicable):&nbsp;<br />
+Course applied: Business<br />
+Course intake: 2023<br />
+Scholarship (if applicable):&nbsp;<br />
+Scholarship offered status:&nbsp;<br />
+<br />
+*** Attribution ***<br />
+Source Channel: {leadSource}<br />
+Source Tag: {leadSourceCategory}
+</body></html>

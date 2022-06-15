@@ -1,0 +1,35 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">Hi AskQUT Team<br />
+<br />
+This domestic student lodged their details through the international enquiry webform. &nbsp;Could you please respond to them? Thank you.<br />
+<br />
+*** Profile ***<br />
+<br />
+Surname: {lastname}<br />
+Firstname: {firstname}<br />
+DOB (d/m/y): {birthDate}<br />
+E: {email}<br />
+M: {mobile}<br />
+<br />
+Citizenship: {citizenship}<br />
+Living in: {residency}<br />
+<br />
+Intake: {admissionYear}<br />
+Level: {studyLevel}<br />
+Area: {BSA}<br />
+Major: {NSA}<br />
+<br />
+Enquiry:<br />
+{enquiryType}<br />
+{enquiryDescription}<br />
+<br />
+Enquired Date: {createdDate}<br />
+Opt-in: {emailOptInDate}<br />
+<br />
+CRM Src: {leadSource}<br />
+Channel: {leadSourceCategory}<br />
+&nbsp;
+</body></html>

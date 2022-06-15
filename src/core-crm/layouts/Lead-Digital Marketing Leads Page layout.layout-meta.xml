@@ -19,6 +19,10 @@
                 <behavior>Edit</behavior>
                 <field>Title</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Lead_Score__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -32,6 +36,10 @@
             <layoutItems>
                 <behavior>Required</behavior>
                 <field>Lead_Type__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Lead_Categorisation__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>

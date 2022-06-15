@@ -1,0 +1,40 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">Hi Research Team,<br />
+<br />
+Please find below an enquiry from a prospective international student regarding research at QUT. Please reply directly to the student.<br />
+<br />
+Many thanks,<br />
+QUT International<br />
+<br />
+*** Profile ***<br />
+Firstname: {firstname}<br />
+Surname: {lastname}<br />
+E: {email}<br />
+M: {mobile}<br />
+Citizenship: {citizenship}<br />
+Living in: {residency}<br />
+<br />
+*** Study plans ***<br />
+Intake year: {admissionYear}<br />
+Study level: {studyLevel}<br />
+Study Area: {BSA}<br />
+Course Major: {NSA}<br />
+Funding: {funding}<br />
+<br />
+*** Application details (if applicable) ***<br />
+Application status:&nbsp;<br />
+Agent-assisted status:&nbsp;<br />
+Highest Qualification:&nbsp;<br />
+<br />
+*** Enquiry details ***<br />
+Enquiry date: {createdDate}<br />
+Enquiry type: {enquiryType}<br />
+Enquiry: {enquiryDescription}<br />
+<br />
+*** Attribution ***<br />
+Source Channel: {leadSource}<br />
+Source Tag: {leadSourceCategory}
+</body></html>

@@ -1,0 +1,36 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">Hi International Relations team,<br />
+<br />
+Please find below an enquiry from an international prospective study abroad and exchange student. Please reply directly to the student.<br />
+<br />
+Many thanks,<br />
+QUT International Comms<br />
+<br />
+*** Profile ***<br />
+Firstname: {firstname}<br />
+Surname: {lastname}<br />
+E: {email}<br />
+M: {mobile}<br />
+<br />
+Citizenship: {citizenship}<br />
+Living in: {residency}<br />
+<br />
+Intake: {admissionYear}<br />
+Level: {studyLevel}<br />
+Area: {BSA}<br />
+Major: {NSA}<br />
+<br />
+Funding:<br />
+{funding}<br />
+<br />
+<br />
+Enquiry:<br />
+{enquiryType}<br />
+{enquiryDescription}<br />
+<br />
+<br />
+Opt-in: {emailOptInDate}
+</body></html>

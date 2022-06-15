@@ -44,7 +44,7 @@ public without sharing class FlowEmailHelper {
             if(!emailParam.mergeFields.isEmpty()){
                 for(FlowEmailMergeField param : emailParam.mergeFields){
                     if(!convertedParams.containsKey(param.mergeField)){
-                        convertedParams.put(param.mergeField, param.mergeFieldValue);
+                        convertedParams.put(param.mergeField, String.isNotBlank(param.mergeFieldValue) ? param.mergeFieldValue : ' ' );
                     }
                 }
             }

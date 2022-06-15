@@ -1,0 +1,163 @@
+/**
+* @description Test Class for Lead Scoring
+* @see ..
+*
+* @author Accenture
+*
+* @history
+*
+*    | Developer                | Date                  | JIRA                   | Change Summary               |
+|--------------------------------|-----------------------|------------------|------------------------------|
+| w.li                     | June 15, 2022         | DEPP-1058              | Created file                 |
+*/
+
+@IsTest(SeeAllData=false)
+public without sharing class LeadScoringManagerTest {
+    
+    @IsTest
+    public static void testOneContactMatch() {
+        Contact contact = new Contact(FirstName = 'Test1',
+                                     QUT_Student_ID__c='123456',
+                                     LastName = 'Test1 LastName',
+                                     Email = 'Test1@email.com',
+                                     Company_Name__c = 'test company'
+                                    );
+        insert contact;
+
+        et4ae5__SendDefinition__c sendDefinition = new et4ae5__SendDefinition__c();
+        insert sendDefinition;
+
+        et4ae5__IndividualEmailResult__c individualEmailResult = new et4ae5__IndividualEmailResult__c();
+        individualEmailResult.Name = 'Test';
+        individualEmailResult.et4ae5__SendDefinition__c = sendDefinition.Id;
+        individualEmailResult.Primary_Contact__c = contact.Id;
+        insert individualEmailResult;
+
+        Marketing_Staging__c marketingStaging = new Marketing_Staging__c();
+        marketingStaging.First_Name__c = 'Test1';
+        marketingStaging.Last_Name__c = 'Test1 LastName';
+        marketingStaging.Email__c = 'Test1@email.com';
+        marketingStaging.Applicant_Id__c = '12345';
+        marketingStaging.Preference_Number__c = 1;
+        marketingStaging.Application_Source__c = 'Studylink';
+        marketingStaging.Admission_Period__c ='12345';
+        marketingStaging.Course_Code__c = '12345';
+        marketingStaging.Admission_Year__c = 2202;
+        marketingStaging.QUT_Student_ID__c = '123456';
+        marketingStaging.Salutation__c = 'Mr';
+        marketingStaging.Interaction_Type__c = 'TESTINERACTIONTYPE1';
+        marketingStaging.Interaction_DateTime__c = Date.Today();
+        marketingStaging.Lead_Source_Category__c = 'Enquiry';
+        marketingStaging.Lead_Source__c = 'TESTLEADSOURCE1';
+        marketingStaging.SPAD__c = 'TESTSPAD1';
+        marketingStaging.Event_Name__c = 'TESTEVENTNAME1';
+        insert marketingStaging;
+
+        Test.startTest();
+
+        Marketing_Staging__c newMarketingStaging = new Marketing_Staging__c();
+        newMarketingStaging.First_Name__c = 'Test1';
+        newMarketingStaging.Last_Name__c = 'Test1 LastName';
+        newMarketingStaging.Email__c = 'Test1@email.com';
+        newMarketingStaging.Applicant_Id__c = '12345';
+        newMarketingStaging.Preference_Number__c = 1;
+        newMarketingStaging.Application_Source__c = 'Studylink';
+        newMarketingStaging.Admission_Period__c ='12345';
+        newMarketingStaging.Course_Code__c = '12345';
+        newMarketingStaging.Admission_Year__c = 2202;
+        newMarketingStaging.QUT_Student_ID__c = '123456';
+        newMarketingStaging.Salutation__c = 'Mr';
+        newMarketingStaging.Interaction_Type__c = 'TESTINERACTIONTYPE1';
+        newMarketingStaging.Interaction_DateTime__c = Date.Today();
+        newMarketingStaging.Lead_Source_Category__c = 'Enquiry';
+        newMarketingStaging.Lead_Source__c = 'TESTLEADSOURCE1';
+        newMarketingStaging.SPAD__c = 'TESTSPAD1';
+        newMarketingStaging.Event_Name__c = 'TESTEVENTNAME1';
+        insert newMarketingStaging;
+
+        Test.stopTest();
+    }
+
+    @IsTest
+    public static void testOneLeadMatch() {
+
+        Lead lead = new Lead(FirstName = 'Test1', LastName = 'Test1 LastName', Email = 'Test1@email.com', Company ='Test Company');
+        insert lead;
+
+        et4ae5__SendDefinition__c sendDefinition = new et4ae5__SendDefinition__c();
+        insert sendDefinition;
+
+        et4ae5__IndividualEmailResult__c individualEmailResult = new et4ae5__IndividualEmailResult__c();
+        individualEmailResult.Name = 'Test';
+        individualEmailResult.et4ae5__SendDefinition__c = sendDefinition.Id;
+        individualEmailResult.Primary_Lead__c = lead.Id;
+        insert individualEmailResult;
+
+        Marketing_Staging__c marketingStaging = new Marketing_Staging__c();
+        marketingStaging.First_Name__c = 'Test1';
+        marketingStaging.Last_Name__c = 'Test1 LastName';
+        marketingStaging.Email__c = 'Test1@email.com';
+        marketingStaging.Applicant_Id__c = '12345';
+        marketingStaging.Preference_Number__c = 1;
+        marketingStaging.Application_Source__c = 'Studylink';
+        marketingStaging.Admission_Period__c ='12345';
+        marketingStaging.Course_Code__c = '12345';
+        marketingStaging.Admission_Year__c = 2202;
+        marketingStaging.Interaction_Type__c = 'TESTINERACTIONTYPE1';
+        marketingStaging.Interaction_DateTime__c = Date.Today();
+        marketingStaging.Lead_Source_Category__c = 'Enquiry';
+        marketingStaging.Lead_Source__c = 'TESTLEADSOURCE1';
+        marketingStaging.SPAD__c = 'TESTSPAD1';
+        marketingStaging.Event_Name__c = 'TESTEVENTNAME1';
+        insert marketingStaging;
+
+        Test.startTest();
+
+        Marketing_Staging__c newMarketingStaging = new Marketing_Staging__c();
+        newMarketingStaging.First_Name__c = 'Test1';
+        newMarketingStaging.Last_Name__c = 'Test1 LastName';
+        newMarketingStaging.Email__c = 'Test1@email.com';
+        newMarketingStaging.Applicant_Id__c = '12345';
+        newMarketingStaging.Preference_Number__c = 1;
+        newMarketingStaging.Application_Source__c = 'Studylink';
+        newMarketingStaging.Admission_Period__c ='12345';
+        newMarketingStaging.Course_Code__c = '12345';
+        newMarketingStaging.Admission_Year__c = 2202;
+        newMarketingStaging.Interaction_Type__c = 'TESTINERACTIONTYPE1';
+        newMarketingStaging.Interaction_DateTime__c = Date.Today();
+        newMarketingStaging.Lead_Source_Category__c = 'Enquiry';
+        newMarketingStaging.Lead_Source__c = 'TESTLEADSOURCE1';
+        newMarketingStaging.SPAD__c = 'TESTSPAD1';
+        newMarketingStaging.Event_Name__c = 'TESTEVENTNAME1';
+        insert newMarketingStaging;
+
+        Test.stopTest();
+    }
+
+    @IsTest
+    public static void testNoMatch() {
+
+        Test.startTest();
+
+        Marketing_Staging__c newMarketingStaging = new Marketing_Staging__c();
+        newMarketingStaging.First_Name__c = 'Test1';
+        newMarketingStaging.Last_Name__c = 'Test1 LastName';
+        newMarketingStaging.Email__c = 'Test1@email.com';
+        newMarketingStaging.Applicant_Id__c = '12345';
+        newMarketingStaging.Preference_Number__c = 1;
+        newMarketingStaging.Application_Source__c = 'Studylink';
+        newMarketingStaging.Admission_Period__c ='12345';
+        newMarketingStaging.Course_Code__c = '12345';
+        newMarketingStaging.Admission_Year__c = 2202;
+        newMarketingStaging.Interaction_Type__c = 'TESTINERACTIONTYPE1';
+        newMarketingStaging.Interaction_DateTime__c = Date.Today();
+        newMarketingStaging.Lead_Source_Category__c = 'Enquiry';
+        newMarketingStaging.Lead_Source__c = 'TESTLEADSOURCE1';
+        newMarketingStaging.SPAD__c = 'TESTSPAD1';
+        newMarketingStaging.Event_Name__c = 'TESTEVENTNAME1';
+        insert newMarketingStaging;
+
+        Test.stopTest();
+    }
+    
+}

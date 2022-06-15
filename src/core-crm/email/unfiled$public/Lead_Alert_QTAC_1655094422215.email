@@ -1,0 +1,25 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">Hi team,<br />
+<br />
+student below is an onshore student who have asked a question or indicated that they are interested in double degree and/or pathway program<br />
+<br />
+First name: {firstname}<br />
+Last name: {lastname}<br />
+Email: {email}<br />
+Nationality:&nbsp;{citizenship}<br />
+Country of residence:{residency}<br />
+Study area of interest: {BSA}<br />
+Interested in double degree? : {doubleDegree}<br />
+Interested in pathway program? : {pathway}<br />
+<br />
+Question by student:<br />
+<br />
+{enquiryType}<br />
+{enquiryDescription}<br />
+<br />
+Kind regards,<br />
+QUTI Marketing and Communications
+</body></html>
