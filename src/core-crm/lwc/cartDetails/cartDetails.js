@@ -101,7 +101,6 @@ export default class CartDetails extends LightningElement {
     
     //create global variable
     window.isCartSumDisconnected = false;
-
     checkCartOwnerShip({cartId:this.recordId,userId: userId})
     .then((result) => {
       if(!result){
@@ -131,14 +130,10 @@ export default class CartDetails extends LightningElement {
         console.log(error);
       });
 
-      getCommunityUrl()
-        .then((result) => {
-          console.log('get community result', result);
-          // this.paymentConURL=  'https://uat-qut360.aus6s.sfdc-vwfla6.force.com/study/s/payment-confirmation?Status=A&InvoiceNo=[InvoiceNo]&ReceiptNo=[ReceiptNo]&TotalAmount=[TotAmt]&Webcart.External_ID__c=[OPETransactionID]'
-          this.paymentConURL = result.comSite + '/s/payment-confirmation?' + 'Status=A&InvoiceNo=[InvoiceNo]&ReceiptNo=[ReceiptNo]&TotalAmount=' + this.total + '&Webcart.External_ID__c=' + this.cartExternalId;
-          console.log('get paymentConURl', this.paymentConURL);
-
-        });
+    getCommunityUrl()
+      .then((result) => {
+        this.paymentConURL = result.comSite + '/s/payment-confirmation?' + 'Status=A&InvoiceNo=[InvoiceNo]&ReceiptNo=[ReceiptNo]&TotalAmount=' + this.total + '&Webcart.External_ID__c=' + this.cartExternalId;
+      });
 
     //refresh the cart items
     this.getCartItemsData();

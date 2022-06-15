@@ -13,7 +13,7 @@
                     </a>
                 </template>
                 <template if:true={disableButton}>
-                    <span class="btn-link" >
+                    <span class="btn-disabled">
                         <p class="btn-title bodyBold pb2"><strong>{payTitle}</strong></p>
                         <p class="btn-text bodyRegular">{payLabel}</p>
                     </span>
@@ -28,7 +28,7 @@
                     </a>
                 </template>
                 <template if:true={disableButton}>
-                    <span class="btn-link" >
+                    <span class="btn-disabled" >
                         <p class="btn-title bodyBold pb2"><strong>{invoiceTitle}</strong></p>
                         <p class="btn-text bodyRegular">{invoiceLabel}</p>
                     </span>

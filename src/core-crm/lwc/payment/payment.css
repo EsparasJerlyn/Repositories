@@ -35,6 +35,14 @@ h5, .btn-title, .btn-text {
 
 }
 
+.btn-disabled {
+    display: block;
+    text-align: left;
+    height: 150px;
+    padding: 1em;
+    border: 1px solid #DBDBDB;
+    font-size: var(--icon-size-18);
+}
 
 
 

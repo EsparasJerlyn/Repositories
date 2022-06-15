@@ -91,7 +91,6 @@ export default class Payment extends LightningElement {
      * Disable payment buttons if checkbox from Cart Summary is false
      */
     get disableButton(){
-        console.log('disablebutton: ' + this.disablePayment);
         return this.disablePayment;
     }
 
