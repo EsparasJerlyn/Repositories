@@ -31,9 +31,11 @@
         <members>Update_Course_or_Program_Start_DateTest</members>
         <members>Update_Product_End_DateTest</members>
         <members>Validation_FlowTest</members>
-        <!--(Start) DEPP 2824 -->
+        <!--(Start) DEPP 2824
+            Referenced by a component instance inside the Lightning page Questionnaire Response Summary Lightning Page Layout : Lightning Page - Sent Email to Rhea to fix
         <members>QuestionnaireResponseSummaryCtrl</members>
         <members>QuestionnaireResponseSummaryCtrlTest</members>
+         -->
         <!--(End) DEPP 2824 -->
         <name>ApexClass</name>
     </types>
