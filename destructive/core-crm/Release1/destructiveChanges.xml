@@ -223,7 +223,6 @@
     </types>
     <types>
         <members>opeCustomPageLayout</members>
-        <members>questionnaireResponseSummary</members> <!-- DEPP-3094 -->
         <name>LightningComponentBundle</name>
     </types>
     <types>
