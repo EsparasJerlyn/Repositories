@@ -265,7 +265,7 @@ public static final Id PERSON = Schema.SObjectType.Contact.getRecordTypeInfosByD
         }
     }
 
-  /* @IsTest
+   @IsTest
   private static void contactDuplicatesExactMatchTest() {
     User currUsr = [
       SELECT Id
@@ -358,7 +358,7 @@ public static final Id PERSON = Schema.SObjectType.Contact.getRecordTypeInfosByD
         'There should be 1 potential duplicate created'
       );
     }
-  } */
+  } 
 
 
   @IsTest

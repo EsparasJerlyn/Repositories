@@ -21,7 +21,6 @@ public without sharing class ContactDuplicatesHelper {
     */
     
     public static void detectDuplicates(Map<Id,Contact> newItems){
-     /* tempcomment start
         //map containing filtered main Person contacts
         Map<Id,Contact> newContacts = new Map<Id,Contact>();
 
@@ -46,10 +45,8 @@ public without sharing class ContactDuplicatesHelper {
         }
 
         List<Potential_Duplicate__c> potentialDuplicatesToInsert = new List<Potential_Duplicate__c>();
-        temp comment end */
 
         /* ---------- EXACT MATCH (Start) ---------- */
-        /*temp comment start
         List<Contact> existingContactsExact = new List<Contact>(
             [
                 SELECT Id,
@@ -114,13 +111,11 @@ public without sharing class ContactDuplicatesHelper {
                 potentialDuplicatesToInsert.addAll(createPotentialDuplicates(potentialDuplicatesExact));
             }
         }
-        temp comment end */
 
         /* ---------- EXACT MATCH (End) ---------- */
 
         /* ---------- PARTIAL MATCH (Start) ---------- */
 
-        /* temp comment start
         List<Contact> existingContactsPartial = new List<Contact>(
             [
                 SELECT Id, 
@@ -202,14 +197,11 @@ public without sharing class ContactDuplicatesHelper {
                 potentialDuplicatesToInsert.addAll(createPotentialDuplicates(potentialDuplicatesPartial));
             }
         }
-        temp comment end*/ 
         /* ---------- PARTIAL MATCH (End) ---------- */
 
-        /*tempcomment start
         if(!potentialDuplicatesToInsert.isEmpty()){
             insert potentialDuplicatesToInsert;
         }
-        tempcommentend*/
     }
     
 
@@ -218,7 +210,6 @@ public without sharing class ContactDuplicatesHelper {
     * @param potentialDuplicates - map of new contact Id's and list of existing partial matched contact Id's
     * @return dupes - list of potential duplicate records for contacts
     */
-    /*temp comment start
     private static List<Potential_Duplicate__c> createPotentialDuplicates(Map<Id,List<Id>> potentialDuplicates){
         List<Potential_Duplicate__c> dupes = new List<Potential_Duplicate__c>();
         for(Id newConId : potentialDuplicates.keySet()){
@@ -233,6 +224,5 @@ public without sharing class ContactDuplicatesHelper {
         }
         return dupes;
     }
-    tempcommetend*/
 
 }
