@@ -24,6 +24,16 @@
                 <default>false</default>
                 <label>Microcredential</label>
             </value>
+            <value>
+                <fullName>Program</fullName>
+                <default>false</default>
+                <label>Program</label>
+            </value>
+            <value>
+                <fullName>Event</fullName>
+                <default>false</default>
+                <label>Event</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
