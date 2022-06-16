@@ -136,24 +136,17 @@ export default class TrackAttendanceAndEvaluation extends LightningElement {
         return new Date(date).toLocaleDateString('en-AU',DATE_OPTIONS);
     }
 
-    formatTime(time) {
-        //parameter time is in milliseconds (time/3,600,000 milliseconds to get the total hours)
-        let total = time/3600000;
-        let hours = Math.trunc(total);
-        let minutes = 60*((parseInt((total % 1).toFixed(2).substring(2)))/100);
-        let meridiem = 'am';
+    formatTime(milli){
+        let time = new Date(milli);
+        let hrsMilitary = this.padTimePart(time.getUTCHours());
+        let hrs = hrsMilitary === '00' ? 12 : (hrsMilitary >= 13 ? hrsMilitary - 12 : hrsMilitary);
+        let min = this.padTimePart(time.getUTCMinutes());
+        let meridiem = hrsMilitary < 12 ? 'am' : 'pm';
+        return hrs + ":" + min + " " + meridiem;
+    }
 
-        if (hours >= 13) {
-            hours = hours-12;
-            meridiem = 'pm';
-        } else if(hours === 0){
-            hours = 12;
-        }
-
-        if(minutes === 0){
-            minutes = '00';
-        }
-        return hours + ':' + minutes + ' ' + meridiem;
+    padTimePart(timePart){
+        return ('00' + timePart).slice(-2);
     }
 
      formatCourseConnectionStudents(connectionList)
