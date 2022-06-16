@@ -665,6 +665,30 @@ public class TestDataFactory {
   }
 
   /**
+   * @description Method for creating Course Connection Record
+   * @param nCourseConnection - number of Course Connection to be created
+   * @param conId - Contact Id to be related to Course Connection
+   * @param programOfferings - Program Offerings to be related to Course Connection
+   * @return courseConnectionRecord - List of Course Connection Created
+   */
+  public static List<hed__Course_Enrollment__c> createTestCourseConnectionRecordProgram(
+    Integer nCourseConnection,
+    Id conId,
+    List<Program_Offering__c> programOfferings
+  ) {
+    List<hed__Course_Enrollment__c> courseConnectionRecord = new List<hed__Course_Enrollment__c>();
+    for (Integer i = 0; i < nCourseConnection; i++) {
+      courseConnectionRecord.add(
+        new hed__Course_Enrollment__c(
+          hed__Contact__c = conId,
+          Program_Offering__c = programOfferings[i].id
+        )
+      );
+    }
+    return courseConnectionRecord;
+  }
+
+  /**
    * @description method to create test data for create Account
    * @param doInsert - boolean true/false
    * @return acc - account

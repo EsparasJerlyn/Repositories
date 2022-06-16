@@ -70,19 +70,12 @@ private class Expression_of_Interest_Inactive_FlowTest{
             insert prodRequest;
             courses = TestDataFactory.createTestCourseRecords(25,accounts[0].Id,prodRequest[0].Id);
             insert courses;
-            programPlans = TestDataFactory.createTestProgramPlanRecords(25);
-            insert programPlans;
-            programOfferings = TestDataFactory.createTestProgramOfferingRecords(25, programPlans);
-            insert programOfferings;
-            products = TestDataFactory.createTestProductRecords(25,courses);
-            for (Integer i = 0; i < products.size(); i++) {
-                products[i].Program_Plan__c = programPlans[i].Id;
-            }
-            insert products;
             courseOfferings = TestDataFactory.createTestCourseOfferingRecord(25,courses,terms);
             insert courseOfferings;
-            interests = TestDataFactory.createExpressionOfInterest(25,contact1,products);
+            interests = TestDataFactory.createExpressionOfInterest(25,contact1,[SELECT Id FROM Product2 LIMIT 25]);
             insert interests;
+
+            System.debug([SELECT Id, Contact__r.Name, Product__r.Name FROM Expression_of_Interest__c LIMIT 1 ]);
 
             Test.startTest();
             courseConnections = TestDataFactory.createTestCourseConnectionRecord(25,portalUser.contactId,courseofferings);
@@ -90,7 +83,7 @@ private class Expression_of_Interest_Inactive_FlowTest{
                 cc.hed__Status__c = 'Active';
             }
             insert courseConnections;
-            System.assertEquals(true,![SELECT Id from Expression_of_interest__c].isEmpty(),'Expression of interest status was not set to inactive');
+            System.assertEquals(true,![SELECT Id from Expression_of_interest__c WHERE Status__c = 'Inactive'].isEmpty(),'Expression of interest status was not set to inactive');
             Test.stopTest();
         }
     }
@@ -145,30 +138,20 @@ private class Expression_of_Interest_Inactive_FlowTest{
             insert terms;
             prodRequest = TestDataFactory.createTestProductRequestRecords(1);
             insert prodRequest;
-            courses = TestDataFactory.createTestCourseRecords(25,accounts[0].Id,prodRequest[0].Id);
-            insert courses;
             programPlans = TestDataFactory.createTestProgramPlanRecords(25);
             insert programPlans;
             programOfferings = TestDataFactory.createTestProgramOfferingRecords(25, programPlans);
             insert programOfferings;
-            products = TestDataFactory.createTestProductRecords(25,courses);
-            for (Integer i = 0; i < products.size(); i++) {
-                products[i].Program_Plan__c = programPlans[i].Id;
-            }
-            insert products;
-            courseOfferings = TestDataFactory.createTestCourseOfferingRecord(25,courses,terms);
-            insert courseOfferings;
-            interests = TestDataFactory.createExpressionOfInterest(25,contact1,products);
+            interests = TestDataFactory.createExpressionOfInterest(25,contact1,[SELECT Id FROM Product2 LIMIT 25]);
             insert interests;
 
             Test.startTest();
-            courseConnections = TestDataFactory.createTestCourseConnectionRecord(25,portalUser.contactId,courseofferings);
-            insert courseConnections;
+            courseConnections = TestDataFactory.createTestCourseConnectionRecordProgram(25,portalUser.contactId,programOfferings);
             for(hed__Course_Enrollment__c cc: courseConnections){
                 cc.hed__Status__c = 'Active';
             }
-            update courseConnections;
-            System.assertEquals(true,![SELECT Id from Expression_of_interest__c].isEmpty(),'Expression of interest status was not set to inactive');
+            insert courseConnections;
+            System.assertEquals(true,![SELECT Id from Expression_of_interest__c WHERE Status__c = 'Inactive'].isEmpty(),'Expression of interest status was not set to inactive');
             Test.stopTest();
         }
     }

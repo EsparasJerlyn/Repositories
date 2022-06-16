@@ -2,9 +2,31 @@
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>52.0</apiVersion>
     <decisions>
+        <name>Does_Interest_Exist</name>
+        <label>Does Interest Exist?</label>
+        <locationX>182</locationX>
+        <locationY>695</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>InterestExist</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Latest_Expression_of_Interest</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Expression_of_Interest_Records_0</targetReference>
+            </connector>
+            <label>Yes</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Is_Insert_or_is_Status_Update</name>
         <label>Is Insert or is Status Update?</label>
-        <locationX>182</locationX>
+        <locationX>380</locationX>
         <locationY>335</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -53,16 +75,53 @@
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <recordLookups>
+        <name>Get_Latest_Expression_of_Interest</name>
+        <label>Get Latest Expression of Interest</label>
+        <locationX>182</locationX>
+        <locationY>575</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Does_Interest_Exist</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Contact__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.hed__Contact__r.Id</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Type__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Register Interest</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Product__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_Product.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Expression_of_Interest__c</object>
+        <sortField>CreatedDate</sortField>
+        <sortOrder>Desc</sortOrder>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <description>Get related product</description>
         <name>Get_Product</name>
         <label>Get Product</label>
-        <locationX>50</locationX>
+        <locationX>182</locationX>
         <locationY>455</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Update_Expression_of_Interest_Records</targetReference>
+            <targetReference>Get_Latest_Expression_of_Interest</targetReference>
         </connector>
-        <filterLogic>(1 AND 2)</filterLogic>
+        <filterLogic>(1 AND 2) OR (3 AND 4)</filterLogic>
         <filters>
             <field>Course__c</field>
             <operator>EqualTo</operator>
@@ -77,43 +136,36 @@
                 <booleanValue>false</booleanValue>
             </value>
         </filters>
+        <filters>
+            <field>Program_Plan__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Program_Offering__r.hed_Program_Plan__r.Id</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Program_Plan__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
         <object>Product2</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordUpdates>
         <description>Updates expression of interest records related to the product</description>
-        <name>Update_Expression_of_Interest_Records</name>
+        <name>Update_Expression_of_Interest_Records_0</name>
         <label>Update Expression of Interest Records</label>
         <locationX>50</locationX>
-        <locationY>575</locationY>
+        <locationY>815</locationY>
         <filterLogic>and</filterLogic>
         <filters>
-            <field>Product__c</field>
+            <field>Id</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>Get_Product.Id</elementReference>
-            </value>
-        </filters>
-        <filters>
-            <field>Contact__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>$Record.hed__Contact__c</elementReference>
-            </value>
-        </filters>
-        <filters>
-            <field>Status__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>Active</stringValue>
-            </value>
-        </filters>
-        <filters>
-            <field>Type__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>Register Interest</stringValue>
+                <elementReference>Get_Latest_Expression_of_Interest.Id</elementReference>
             </value>
         </filters>
         <inputAssignments>
@@ -137,7 +189,7 @@
         <object>Expression_of_Interest__c</object>
     </recordUpdates>
     <start>
-        <locationX>56</locationX>
+        <locationX>254</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Is_Insert_or_is_Status_Update</targetReference>
@@ -176,4 +228,14 @@
         <triggerType>RecordAfterSave</triggerType>
     </start>
     <status>Active</status>
+    <variables>
+        <name>Inactive</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <stringValue>Inactive</stringValue>
+        </value>
+    </variables>
 </Flow>
