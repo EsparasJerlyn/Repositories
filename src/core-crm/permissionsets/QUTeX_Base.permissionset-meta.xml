@@ -8,6 +8,10 @@
         <application>QUTeX_CCE</application>
         <visible>true</visible>
     </applicationVisibilities>
+    <applicationVisibilities>
+        <application>QUTeX_OPE</application>
+        <visible>false</visible>
+    </applicationVisibilities>
     <classAccesses>
         <apexClass>AccountCtrl</apexClass>
         <enabled>true</enabled>
@@ -617,6 +621,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Product_Specification__c.QUT_Faculty_Capacity__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Product_Specification__c.QUT_Staff_Email__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
