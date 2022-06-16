@@ -72,7 +72,7 @@ public without sharing class ManageRegistrationSectionCtrl {
       * @return List of ManageRegistrationDetails
       */
      @AuraEnabled(cacheable=true)
-     public static List<ManageRegistrationDetails> getRegistrations(String childRecordId){
+     public static List<ManageRegistrationDetails> getRegistrations(String childRecordId, Boolean prescribedProgram){
           List<ManageRegistrationDetails> response = new List<ManageRegistrationDetails>();
           Map<Id,Questionnaire_Response_Summary__c> contactToQRSummary = new Map<Id,Questionnaire_Response_Summary__c>();
           //Id courseOfferingId = [SELECT Id FROM hed__Course_Offering__c WHERE Id =: childRecordId]?.Id;
@@ -101,7 +101,7 @@ public without sharing class ManageRegistrationSectionCtrl {
           
           //must handle program offering too
           Map<String, PricebookEntry> pbeList = new Map<String, PricebookEntry>();
-          Id prodId = getProductId(childRecordId);
+          Id prodId = getProductId(childRecordId, prescribedProgram);
           List<Map<String,String>> pBEntries = new List<Map<String,String>>();
           List<PricebookEntry> priceBookEntries = [SELECT Id, UnitPrice, Pricebook2.Name FROM PricebookEntry WHERE Product2Id =: prodId ORDER BY CreatedDate];
           for(PricebookEntry p : priceBookEntries){   
@@ -291,8 +291,8 @@ public without sharing class ManageRegistrationSectionCtrl {
       * @return List<Map<String,String>> - id and price book name
       */
      @AuraEnabled(cacheable=true)  
-     public static List<Map<String,String>> getPBEntries(String childRecordId){
-          Id prodId = getProductId(childRecordId);
+     public static List<Map<String,String>> getPBEntries(String childRecordId, Boolean prescribedProgram){
+          Id prodId = getProductId(childRecordId, prescribedProgram);
           List<Map<String,String>> pBEntries = new List<Map<String,String>>();
           List<PricebookEntry> priceBookEntries = [SELECT Id, Pricebook2.Name FROM PricebookEntry WHERE Product2Id =: prodId ORDER BY CreatedDate];
           for(PricebookEntry pe : priceBookEntries){
@@ -469,7 +469,7 @@ public without sharing class ManageRegistrationSectionCtrl {
           WebCart newWebCart = createWebCart(commerceUser);
 
           insert newWebCart;
-          Id prodId = getProductId(offeringId);
+          Id prodId = getProductId(offeringId, prescribedProgram);
 
           Id pbeId;
           Decimal amount;
@@ -491,6 +491,7 @@ public without sharing class ManageRegistrationSectionCtrl {
           newCourseConnection.hed__Status__c = 'Active';
           newCourseConnection.Paid_in_Full__c = 'No';
           newCourseConnection.Payment_Method__c = 'Invoice';
+          newCourseConnection.Amount__c = amount;
           newCourseConnection.Cart_ID__c = newWebCart.Id;
           newCourseConnection.Cart_Item__c = newCartItem.Id;
           if(!prescribedProgram){               
@@ -506,6 +507,9 @@ public without sharing class ManageRegistrationSectionCtrl {
                     hed__Course_Enrollment__c childCourseConnection = new hed__Course_Enrollment__c();          
                     childCourseConnection.hed__Contact__c =  contactRecord.Id;          
                     childCourseConnection.hed__Status__c = 'Active';
+                    childCourseConnection.Paid_in_Full__c = 'No';
+                    childCourseConnection.Payment_Method__c = 'Invoice';
+                    childCourseConnection.Amount__c = amount;
                     childCourseConnection.Program_Offering__c = offeringId;
                     childCourseConnection.hed__Course_Offering__c = childOffering.Id;
                     childCourseConnection.RecordTypeId = studentRecTypeId;
@@ -615,16 +619,27 @@ public without sharing class ManageRegistrationSectionCtrl {
      * @param <Id> offeringId
      * @return Id
      */
-     private static Id getProductId(Id offeringId){
+     private static Id getProductId(Id offeringId, Boolean isPrescribedProgram){
 
-          Id courseId;
-          List<hed__Course_Offering__c> courseOfferingList = [SELECT Id, hed__Course__c FROM hed__Course_Offering__c WHERE Id =: offeringId LIMIT 1];
-          for(hed__Course_Offering__c courseOffering : courseOfferingList){
-               courseId = courseOffering.hed__Course__c;
+          Id filter;
+          Id prodId;
+
+          List<Product2> productList = new List<Product2>();
+
+          if(!isPrescribedProgram){
+               List<hed__Course_Offering__c> courseOfferingList = [SELECT Id, hed__Course__c FROM hed__Course_Offering__c WHERE Id =: offeringId LIMIT 1];
+               for(hed__Course_Offering__c courseOffering : courseOfferingList){
+                    filter = courseOffering.hed__Course__c;
+               }
+               productList = [SELECT Id FROM Product2 WHERE Course__c =: filter];
+          }else{
+               List<Program_Offering__c> programOfferingList = [SELECT Id, hed_Program_Plan__c  FROM Program_Offering__c WHERE Id =: offeringId LIMIT 1];
+               for(Program_Offering__c programOffering : programOfferingList){
+                    filter = programOffering.hed_Program_Plan__c;
+               }
+               productList = [SELECT Id FROM Product2 WHERE Program_Plan__c  =: filter];
           }
 
-          Id prodId;
-          List<Product2> productList = [SELECT Id FROM Product2 WHERE Course__c =: courseId];
           for(Product2 prod : productList){
                prodId = prod.Id;
           }

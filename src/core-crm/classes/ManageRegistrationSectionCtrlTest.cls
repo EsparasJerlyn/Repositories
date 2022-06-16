@@ -62,7 +62,7 @@ public with sharing class ManageRegistrationSectionCtrlTest{
                createRecord(RT_ACTIVITY_ID);  
                String childRecordId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;             
                Test.startTest();
-               List<ManageRegistrationSectionCtrl.ManageRegistrationDetails> registrationDetails = ManageRegistrationSectionCtrl.getRegistrations(childRecordId);      
+               List<ManageRegistrationSectionCtrl.ManageRegistrationDetails> registrationDetails = ManageRegistrationSectionCtrl.getRegistrations(childRecordId, false);      
                Test.stopTest();
               System.assertEquals(NUMBER_OF_RECORDS, registrationDetails.size(), 'Incorrect number of records retrieved.');
           }      
@@ -113,7 +113,7 @@ public with sharing class ManageRegistrationSectionCtrlTest{
                createRecord(RT_ACTIVITY_ID);    
                List<hed__Course_Offering__c> courseOfferings = [SELECT Id FROM hed__Course_Offering__c LIMIT 1];   
                Test.startTest();
-               List<Map<String,String>> pbEntriesMap = ManageRegistrationSectionCtrl.getPBEntries(courseOfferings[0].Id); 
+               List<Map<String,String>> pbEntriesMap = ManageRegistrationSectionCtrl.getPBEntries(courseOfferings[0].Id, false); 
                Test.stopTest();
                system.assert(!pbEntriesMap.isEmpty(),'Empty pricebook entries map');
           }      

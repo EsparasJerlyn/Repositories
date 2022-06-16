@@ -111,7 +111,7 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
 
     //Retrieves questionnaire data related to the product request
     tableData;
-    @wire(getRegistrations, {childRecordId : '$childRecordId'})
+    @wire(getRegistrations, {childRecordId : '$childRecordId', prescribedProgram: '$prescribedProgram'})
     getRegistrations(result) {
         this.isLoading = true;
         this.tableData = result;
@@ -195,7 +195,7 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
 
     //Retrieves Price Book Entries
     pbEntries;
-    @wire(getPBEntries, {childRecordId : "$childRecordId"})
+    @wire(getPBEntries, {childRecordId : "$childRecordId", prescribedProgram: '$prescribedProgram'})
     wiredpbEntries(result) {
         this.pbEntries = result;
         if (result.data) {
@@ -444,9 +444,6 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
     }
 
     saveRegistration(contact,offeringId,relatedAnswer,answer,fileUpload,prescribedProgram){        
-        console.log(`contact check: ${JSON.stringify(contact)}`);
-        console.log(`offeringId check: ${JSON.stringify(offeringId)}`);
-        console.log(`pbEntry ${JSON.stringify(this.pbEntryRecord)}`);
         addRegistration({
             contactRecord:contact,
             offeringId:offeringId,
