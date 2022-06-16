@@ -480,6 +480,7 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
     this.startValue ='';
     this.endValue = '';
     this.parameterObject.sortBy = this.value;
+    this.parameterObject.searchKey = null;
     this.studyAreaSelectedValues = [];
     this.selectedValues = [];
     this.deliveryTypeSelectedValues = [];
@@ -586,11 +587,8 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
       .then((result) => {
         this.newListProducts = [];
         this.allProductId = [];
-        this.displayData = result;
         this.products = result.productsPage.products;
-        this.hasMorePages = result.productsPage.total > PAGE_SIZE;
         this.pageSize = PAGE_SIZE;
-        this.totalItemCount = result.productsPage.total;
         // Store all Id
         this.products.forEach((productId) => {
           this.allProductId.push(productId.id);
@@ -738,7 +736,7 @@ handleNextPage(evt) {
    * @private
    */
   get hasMorePages() {
-    return this.displayData.total > this.newListProducts.length;
+    return this.totalItemCount > this.newListProducts.length;
   }
 
   /**
