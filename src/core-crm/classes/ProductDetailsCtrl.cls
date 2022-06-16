@@ -14,6 +14,7 @@
       | eugene.andrew.abuan       | May 10, 2022          | DEPP-1269            | Added isProgramFlex to match in prodCard   |
       | julie.jane.alegre         | May 24, 2022          | DEPP-2070            | Added logic for Group Booking              |
       | john.bo.a.pineda          | June 01, 2022         | DEPP-2853            | Updated Registration Dates Logic           |
+      | john.bo.a.pineda          | June 16, 2022         | DEPP-3016            | Updated Logic for Prescribed Child Order   |
 */
 public without sharing class ProductDetailsCtrl {
   public static final Id STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
@@ -838,7 +839,6 @@ public without sharing class ProductDetailsCtrl {
     Boolean isPrescribed,
     String pricebookEntryId
   ) {
-
     List<FileUpload> parsedFileUpload = new List<FileUpload>();
     if (fileUpload != '') {
       parsedFileUpload = (List<FileUpload>) JSON.deserialize(
@@ -872,13 +872,13 @@ public without sharing class ProductDetailsCtrl {
     for (Id qId : questionnaireIds) {
       qResSummary = new Questionnaire_Response_Summary__c();
       qResSummary.Questionnaire__c = qId;
-      if(isPrescribed){
+      if (isPrescribed) {
         qResSummary.Program_Offering__c = offeringId;
-      }else{
+      } else {
         qResSummary.Course_Offering__c = offeringId;
       }
       qResSummary.Contact__c = contactId;
-      qResSummary.Application_Status__c  = 'Pending';
+      qResSummary.Application_Status__c = 'Pending';
       qResSummary.Pricebook_Entry_ID__c = pricebookEntryId;
       questionnaireSummaryToInsert.add(qResSummary);
     }
@@ -960,8 +960,6 @@ public without sharing class ProductDetailsCtrl {
     if (!answersToUpdate.keySet().isEmpty()) {
       update answersToUpdate.values();
     }
-
-
   }
   /**
    * @description
@@ -1100,15 +1098,16 @@ public without sharing class ProductDetailsCtrl {
         SELECT Id, hed__Course__c, hed__Sequence__c
         FROM hed__Plan_Requirement__c
         WHERE hed__Program_Plan__c = :programPlanId
+        ORDER BY hed__Sequence__c
       ];
-      Map<Id, Decimal> coursesInPlanRequirements = new Map<Id, Decimal>();
+      Map<Decimal, Id> coursesInPlanRequirements = new Map<Decimal, Id>();
       System.debug('programPlanRequirements: ' + programPlanRequirements);
       for (
         hed__Plan_Requirement__c programPlanRequirement : programPlanRequirements
       ) {
         coursesInPlanRequirements.put(
-          programPlanRequirement.hed__Course__c,
-          programPlanRequirement.hed__Sequence__c
+          programPlanRequirement.hed__Sequence__c,
+          programPlanRequirement.hed__Course__c
         );
       }
       System.debug('coursesInPlanRequirements: ' + coursesInPlanRequirements);
@@ -1126,10 +1125,17 @@ public without sharing class ProductDetailsCtrl {
           Core_Concepts__c,
           More_Details__c
         FROM Product2
-        WHERE Course__c IN :coursesInPlanRequirements.keyset()
+        WHERE Course__c IN :coursesInPlanRequirements.values()
       ];
-      System.debug('courseProducts: ' + courseProducts);
-      for (Product2 courseProduct : courseProducts) {
+      Map<Id, Product2> courseProductsMap = new Map<Id, Product2>();
+      for (Product2 prod2 : courseProducts) {
+        courseProductsMap.put(prod2.Course__c, prod2);
+      }
+      for (Decimal courseOrder : coursesInPlanRequirements.keySet()) {
+        Id courseProductId = (Id) coursesInPlanRequirements.get(courseOrder);
+        Product2 courseProduct = (Product2) courseProductsMap.get(
+          courseProductId
+        );
         ModuleWrapper moduleWrapper = new ModuleWrapper();
         moduleWrapper.id = courseProduct.Id;
         moduleWrapper.name = courseProduct.Name;
@@ -1139,9 +1145,7 @@ public without sharing class ProductDetailsCtrl {
         moduleWrapper.evolveWithQUTeX = courseProduct.Evolve_with_QUTeX__c;
         moduleWrapper.whoShouldParticipate = courseProduct.Who_Should_Participate__c;
         moduleWrapper.coreConcepts = courseProduct.Core_Concepts__c;
-        moduleWrapper.sequence = coursesInPlanRequirements.get(
-          courseProduct.Course__c
-        );
+        moduleWrapper.sequence = courseOrder;
         moduleWrapper.moreDetails = courseProduct.More_Details__c;
         modules.add(moduleWrapper);
       }
