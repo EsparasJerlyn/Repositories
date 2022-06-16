@@ -178,6 +178,9 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   responseData;
   questions;
 
+  //preselected startdate and facilitators
+  preselectedStartdate;
+
   // A bit of coordination logic so that we can resolve product URLs after the component is connected to the DOM,
   // which the NavigationMixin implicitly requires to function properly.
   _resolveConnected;
@@ -239,6 +242,67 @@ export default class ProductDetailsDisplay extends NavigationMixin(
         });
     }
 
+    // Get Pre-selected fields for Delivery and Start Date
+    if (this.productDetails.Delivery__c){
+      console.log('Delivery Opt: ', this.productDetails.Delivery__c.replace(";",","));
+      this.deliveryOpt = this.productDetails.Delivery__c.replace(";",",");
+      this.deliverySplit = this.deliveryOpt.split(",");
+      this.selectedDelivery = this.deliverySplit[0];
+      console.log('Delivery: ', this.selectedDelivery);
+
+      //console.log('check ProdDetails: ', JSON.stringify(this.productDetails));
+      getRelatedCourseOffering({
+        courseId: this.productDetails.Course__c,
+        deliveryParam: this.selectedDelivery
+      })
+        .then((results) => {
+          this.courseOfferings = undefined;
+          this.selectedCourseOffering = undefined;
+          this.selectedCourseOfferingLocation = undefined;
+          this.selectedCourseOfferingFacilitator = undefined;
+          this.facilitator = undefined;
+          this.displayFacilitatorNav = true;
+          this.facilitatorIndex = 0;
+          this.selectedPriceBookEntry = undefined;
+          this.disableAvailStartDate = true;
+          this.disablePriceBookEntry = true;
+          this.disableAddToCart = true;
+          this.displayGroupRegistration = false;
+
+          console.log('results count :', results.length);
+          if (results.length > 0) {
+            this.courseOfferings = results;
+            this.disableAvailStartDate = false;
+
+            // Get Start Date and Facilitator
+            this.courseOfferings.forEach((cOffer) => {
+              this.selectedCourseOffering = cOffer.value;
+              console.log('selectedCourseOffering:', this.selectedCourseOffering);
+              console.log('cofferValue:', cOffer.value);
+                this.selectedCourseOfferingFacilitator = cOffer.facilitator;
+                if (this.selectedCourseOfferingFacilitator.length > 0) {
+                  this.setFacilitatorToDisplay();
+                  if (this.selectedCourseOfferingFacilitator.length == 1) {
+                    this.displayFacilitatorNav = false;
+                  }
+                }
+            });
+            this.disablePriceBookEntry = false;
+            this.displayAddToCart = true;
+            this.disableAddToCart = true;
+            
+          } else {
+            this.checkSDatePlaceholder = availableStartDatesPlaceholder;
+          }
+
+        })
+        .catch((e) => {
+          this.generateToast("Error.", LWC_Error_General, "error");
+        }); 
+    } else {
+      this.checkSDatePlaceholder = availableStartDatesPlaceholder;
+    }
+
     // Display AddToCart / Register Interest
     if (
       this.deliveryOptions.length == 0 &&
@@ -262,6 +326,14 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     this._connected = new Promise((resolve) => {
       this._resolveConnected = resolve;
     });
+  }
+
+  searchString(nameKey, listArray){
+    for(let i = 0; i < listArray.length; i++){
+      if(listArray[i].name === nameKey){
+        return listArray[i];
+      }
+    }
   }
 
   /* Comment out temporarily old logic used for bulk register*/

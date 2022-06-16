@@ -9,6 +9,7 @@
       | eugene.andrew.abuan       | April 26, 2022        | DEPP-1293            | Modified to add get community|
       | john.bo.a.pineda          | June 1, 2022          | DEPP-1661            | Added send SMS OTP method    |
       | rhea.b.torres             | June 6, 2022          | DEPP-2861            | Added testSetup              |
+      | keno.domienri.dico        | June 15, 2022         | DEPP-2758            | Added Accessibility Req field|
  */
 @isTest(SeeAllData=false)
 public with sharing class RegistrationFormCtrlTest {
@@ -44,6 +45,7 @@ public with sharing class RegistrationFormCtrlTest {
         1,
         1999,
         'testDietary Req',
+        'access Req',
         '/study/s/',
         '1234567890',
         'Australia (+61)'
@@ -80,6 +82,7 @@ public with sharing class RegistrationFormCtrlTest {
         1,
         1999,
         'testDietary Req',
+        'access Req',
         '/study/s/',
         '1234567890',
         'Australia (+61)'
@@ -128,6 +131,7 @@ public with sharing class RegistrationFormCtrlTest {
         1,
         1999,
         'testDietary Req',
+        'access Req',
         '/study/s/',
         '1234567890',
         'Australia (+61)'

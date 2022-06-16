@@ -11,7 +11,7 @@
       | eugene.andrew.abuan       | January 03, 2022      | DEPP-773             | Created file                          |
       | eugene.andrew.abuan       | March 28, 2022        | DEPP-1293            | Modified to meet the requirements for |
       |                           |                       |                      | DEPP-1293                             |
-      |                           |                       |                      |                                       |
+      | keno.domienri.dico        | June 15, 2022         | DEPP-2758            | Added Accessibility Req field         |
  */
 import { LightningElement, track, api, wire } from "lwc";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
@@ -52,6 +52,7 @@ export default class RegistrationForm extends LightningElement {
   month = null;
   year = null;
   dietaryReq = null;
+  accessReq = null;
   checkbox;
   linkedInSSOUrl;
   experienceSSOUrl;
@@ -218,6 +219,9 @@ export default class RegistrationForm extends LightningElement {
     this.dietaryReq = this.template.querySelector(
       "textarea[name=dietaryReq]"
     ).value;
+    this.accessReq = this.template.querySelector(
+      "textarea[name=accessReq]"
+    ).value;
     this.checkInputIsEmpty();
     if (
       this.firstName &&
@@ -345,12 +349,12 @@ export default class RegistrationForm extends LightningElement {
       month: this.month,
       year: this.year,
       dietaryReq: this.dietaryReq,
+      accessReq: this.accessReq,
       startURL: this.startURL,
       mobileNoLocale: this.mobile,
       mobileConLocale: this.localeConMobile
     })
       .then((res) => {
-        console.log(res);
         if (res == "CloseModal") {
           this.closeModal();
         } else if (res) {
@@ -537,7 +541,6 @@ export default class RegistrationForm extends LightningElement {
 
   handleSelectedOption(event) {
     this.selectionOption = event.target.value;
-    console.log("selectionOption:" + this.selectionOption);
   }
 
   handleResendCode(event) {

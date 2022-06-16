@@ -138,6 +138,10 @@
                 <behavior>Edit</behavior>
                 <field>Dietary_Requirement__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Accessibility_Requirement__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

@@ -9,7 +9,7 @@
       | eugene.andrew.abuan       | March 28, 2022        | DEPP-1293            | Added Dietary Req                 |
       | angelika.j.s.galang       | May 26, 2022          | DEPP-1455            | Added contact duplicates handler  |
       | john.bo.a.pineda          | June 1, 2022          | DEPP-1661            | Added send SMS OTP method         |
-      |                           |                       |                      |                                   |
+      | keno.domienri.dico        | June 15, 2022         | DEPP-2758            | Added Accessibility Req field     |
  */
 public without sharing class RegistrationFormCtrl {
   private static final String RT_CONTACT_PERSON = System.Label.RT_Contact_Person;
@@ -149,6 +149,7 @@ public without sharing class RegistrationFormCtrl {
     Integer month,
     Integer year,
     String dietaryReq,
+    String accessReq,
     String startURL,
     String mobileNoLocale,
     String mobileConLocale
@@ -169,6 +170,7 @@ public without sharing class RegistrationFormCtrl {
             Id,
             MobilePhone,
             Dietary_Requirement__c,
+            Accessibility_Requirement__c,
             AccountId,
             Birthdate,
             Email,
@@ -197,6 +199,7 @@ public without sharing class RegistrationFormCtrl {
         existingContact.Mobile_No_Locale__c = mobileNoLocale;
         existingContact.MobilePhone = mobile;
         existingContact.Dietary_Requirement__c = dietaryReq;
+        existingContact.Accessibility_Requirement__c = accessReq;
         update existingContact;
 
         //Create user if none associated yet
@@ -227,6 +230,7 @@ public without sharing class RegistrationFormCtrl {
           mobile,
           birthdate,
           dietaryReq,
+          accessReq,
           a.Id,
           mobileNoLocale,
           mobileConLocale
@@ -260,6 +264,7 @@ public without sharing class RegistrationFormCtrl {
           mobile,
           birthdate,
           dietaryReq,
+          accessReq,
           a.Id,
           mobileNoLocale,
           mobileConLocale
@@ -300,6 +305,7 @@ public without sharing class RegistrationFormCtrl {
     String mobile,
     Date birthdate,
     String dietaryReq,
+    String accessReq,
     Id accountId,
     String mobileNoLocale,
     String mobileConLocale
@@ -315,6 +321,7 @@ public without sharing class RegistrationFormCtrl {
     c.ContactMobile_Locale__c = mobileConLocale;
     c.Birthdate = birthdate;
     c.Dietary_Requirement__c = dietaryReq;
+    c.Accessibility_Requirement__c = accessReq;
     insert (c);
 
     return c.Id;

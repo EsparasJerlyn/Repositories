@@ -32,6 +32,7 @@ public with sharing class OPE_and_CCE_Username_FormatTest {
         1,
         1999,
         'testDietary Req',
+        'access Req',
         '/study/s/',
         '1234567890',
         'Australia (+61)'
@@ -63,6 +64,7 @@ public with sharing class OPE_and_CCE_Username_FormatTest {
       c.MobilePhone = '12345';
       c.Birthdate = birthdate;
       c.Dietary_Requirement__c = 'testDietary Req';
+      c.Accessibility_Requirement__c = 'access Req';
       insert (c);
 
       //Query Ecommerece Learner Profile

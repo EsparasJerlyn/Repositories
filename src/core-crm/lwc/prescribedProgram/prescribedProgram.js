@@ -113,6 +113,13 @@ export default class PrescribedProgram extends LightningElement {
     this.accordionIcon = qutResourceImg + "/QUTImages/Icon/accordionClose.svg";
     this.durationIcon = qutResourceImg + "/QUTImages/Icon/duration.svg";
 
+    // Get Pre-selected Delivery and Start Date
+    let getDeliveries = this.productDetails.Delivery__c.replace(";",",");
+    let deliverySplit = getDeliveries.split(",");
+    let preselected = deliverySplit[0];
+    console.log('selectedDeliveryType: ', preselected);
+    this.handleDeliveryTypePreSelected(preselected);
+
     if (this.productDetails.Program_Plan__c) {
       getQuestions({
         productReqId: this.productDetails.Program_Plan__r.Product_Request__c
@@ -177,8 +184,51 @@ export default class PrescribedProgram extends LightningElement {
     }
   }
 
+  /**
+   * Pre-selected Delivery Type
+   */
+  handleDeliveryTypePreSelected(selected) {
+    this.selectedDeliveryType = selected;
+    let availableProgramOfferingsLocal = [];
+    let programOfferingsLocal = [];
+    programOfferingsLocal =
+      this.deliveryTypeAndStartDates[this.selectedDeliveryType];
+      console.log('programOfferingsLocal: ', programOfferingsLocal);
+    programOfferingsLocal.forEach(function (programOfferingLocal) {
+      let meta = "";
+      if (
+        programOfferingLocal.availableSeats == 10 &&
+        programOfferingLocal.availableSeats > 1
+      ) {
+        meta =
+          programOfferingLocal.availableSeats + " seat left for this course";
+      } else if (programOfferingLocal.availableSeats <= 10) {
+        meta =
+          programOfferingLocal.availableSeats + " seats left for this course";
+      }
+
+      availableProgramOfferingsLocal.push({
+        label: programOfferingLocal.startDate,
+        value: programOfferingLocal.id,
+        meta: meta
+      });
+    });
+
+    this.availableProgramOfferings = availableProgramOfferingsLocal;
+    this.disableProgramOfferings = false;
+    this.selectedProgramOffering = undefined;
+    this.selectedPricing = undefined;
+    this.disablePricing = true;
+    this.disableAddToCart = true;
+
+    this.selectedProgramOffering = availableProgramOfferingsLocal[0].value;
+    console.log('programOfferingLocal Startdate: ', availableProgramOfferingsLocal[0].label); 
+    this.handleProgramOfferingPreSelected(this.selectedProgramOffering);
+  }
+
   handleDeliveryTypeSelected(event) {
     this.selectedDeliveryType = event.detail.value;
+    console.log('selectedDel:', this.selectedDeliveryType);
     let availableProgramOfferingsLocal = [];
     let programOfferingsLocal = [];
     programOfferingsLocal =
@@ -214,8 +264,16 @@ export default class PrescribedProgram extends LightningElement {
     this.displayQuestionnaire = false;
   }
 
+  handleProgramOfferingPreSelected(preselected) {
+  //  this.selectedProgramOffering = preselected;
+    this.selectedPricing = undefined;
+    this.disablePricing = false;
+    this.disableAddToCart = true;
+  }
+
   handleProgramOfferingSelected(event) {
     this.selectedProgramOffering = event.detail.value;
+    console.log('selectedProg:', this.selectedProgramOffering);
     this.selectedPricing = undefined;
     this.disablePricing = false;
     this.disableAddToCart = true;
