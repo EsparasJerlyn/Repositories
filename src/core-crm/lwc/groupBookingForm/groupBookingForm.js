@@ -55,6 +55,7 @@ export default class GroupBookingForm extends LightningElement {
     @track courseData;
     contactActId;
     @track con;
+    @track regHeader=true;
     //registration Response variables
     isRespondQuestions;
     actResponseData;
@@ -180,6 +181,10 @@ export default class GroupBookingForm extends LightningElement {
         })
         .then((results) => {
                 if (results.length >= 0) {
+                    if(results.length == 0){
+                        this.regHeader = false;
+                    }
+                    
                     this.responseData2 = results;
                     this.questions2= this.formatQuestions(results);
                     this.questionsPrimary= this.formatQuestions(results);

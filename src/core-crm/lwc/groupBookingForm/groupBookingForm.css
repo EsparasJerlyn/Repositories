@@ -139,3 +139,35 @@ div[c-customcombobox_customcombobox] .slds-combobox input[readonly] {
   border-radius: 0px;
   height: 47px !important
 }
+
+.deleteButton{
+  position: absolute;
+  right: -2px;
+
+}
+
+@media only screen and (max-width: 764px) {
+    .deleteButton{
+      top: 100px;
+  
+  }
+
+}
+.slds-button_icon-border{
+  border: 0px #fff solid !important;
+}
+
+
+.inputField{
+margin-bottom: 0.5rem;
+}
+
+.birthDate{
+  font-family: "ProximaNova-Bold";
+  color: #696969;
+  padding-top: 0.25rem;
+  margin-bottom: 0.125rem;
+  padding-right: 0.5rem;
+  hyphens: auto;
+  display: inline-block;
+}
