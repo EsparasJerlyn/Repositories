@@ -246,7 +246,7 @@ export default class PrescribedProgram extends LightningElement {
 
     } else {
       this.displayGroupRegistration = false;
-      this.displayAddToCart = false;
+      this.displayAddToCart = true;
       this.disableAddToCart = false;
 
     }
