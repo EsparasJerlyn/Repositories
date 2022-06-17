@@ -5,7 +5,9 @@
         <h1 class="heading1">{productDetails.Name}</h1>
       </lightning-layout-item>
       <lightning-layout-item flexibility="auto" size="12">
-        <h2 class="bodyBold  main-color-black my3">{productDetails.Description}</h2>
+        <h2 class="bodyBold main-color-black my3">
+          {productDetails.Description}
+        </h2>
       </lightning-layout-item>
       <lightning-layout-item
         flexibility="auto"
@@ -384,7 +386,7 @@
               field-label={label.pricing}
               placeholder={label.pricingPlaceholder}
               disabled={disablePriceBookEntry}
-              options={availablePricings}
+              options={priceBookEntriesCopy}
               value={selectedPriceBookEntry}
               onchange={handlePricebookSelected}
               slds-icon-up="utility:chevronup"
@@ -393,17 +395,60 @@
             </c-custom-combobox>
           </lightning-layout-item>
           <lightning-layout-item
+            if:true={displayAddToCart}
             flexibility="auto"
             size="12"
             class="slds-m-bottom_small"
           >
             <lightning-button
               label={label.addToCart}
-              disabled={disableAddToCart}
-              onclick={notifyAddToCart}
+              disabled="true"
               variant="brand"
               class="addToCartBtn"
             ></lightning-button>
+          </lightning-layout-item>
+          <lightning-layout-item
+            if:true={displayQuestionnaire}
+            flexibility="auto"
+            size="12"
+            style="margin-top: 10px"
+          >
+            <lightning-button
+              label="APPLY"
+              disabled="true"
+              variant="brand"
+              class="addToCartBtn"
+            ></lightning-button>
+          </lightning-layout-item>
+
+          <!-- Register Interest -->
+          <lightning-layout-item
+            if:true={displayRegisterInterest}
+            flexibility="auto"
+            size="12"
+          >
+            <lightning-button
+              label={label.registerInterest}
+              disabled="true"
+              variant="brand"
+              class="addToCartBtn"
+            ></lightning-button>
+          </lightning-layout-item>
+
+          <!-- Group Booking -->
+          <lightning-layout-item
+            if:true={displayGroupRegistration}
+            flexibility="auto"
+            size="12"
+            style="margin-top: 10px"
+          >
+            <lightning-button
+              label="GROUP REGISTRATION"
+              disabled="true"
+              variant="brand"
+              class="addToCartBtn"
+            >
+            </lightning-button>
           </lightning-layout-item>
         </lightning-layout>
       </lightning-layout-item>

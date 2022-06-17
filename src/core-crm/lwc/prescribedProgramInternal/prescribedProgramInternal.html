@@ -88,6 +88,7 @@
               class="availStartDates"
               field-label={label.delivery}
               placeholder={label.deliveryPlaceholder}
+              disabled={disableDelivery}
               options={availableDeliveryTypes}
               value={selectedDeliveryType}
               onchange={handleDeliveryTypeSelected}
@@ -131,14 +132,59 @@
             >
             </c-custom-combobox>
           </lightning-layout-item>
-          <lightning-layout-item flexibility="auto" size="12">
+          <lightning-layout-item
+            if:true={displayAddToCart}
+            flexibility="auto"
+            size="12"
+          >
             <lightning-button
               label={label.addToCart}
               disabled="true"
-              onclick={notifyAddToCart}
               variant="brand"
               class="addToCartBtn"
             ></lightning-button>
+          </lightning-layout-item>
+
+          <!-- Apply-->
+          <lightning-layout-item
+            if:true={displayQuestionnaire}
+            flexibility="auto"
+            size="12"
+          >
+            <lightning-button
+              label="APPLY"
+              disabled="true"
+              variant="brand"
+              class="addToCartBtn"
+            ></lightning-button>
+          </lightning-layout-item>
+          <!-- Register Interest -->
+          <lightning-layout-item
+            if:true={displayRegisterInterest}
+            flexibility="auto"
+            size="12"
+          >
+            <lightning-button
+              label={label.registerInterest}
+              disabled="true"
+              variant="brand"
+              class="addToCartBtn"
+            ></lightning-button>
+          </lightning-layout-item>
+          <!-- Group Booking -->
+          <lightning-layout-item
+            if:true={displayGroupRegistration}
+            flexibility="auto"
+            size="12"
+            style="margin-top: 10px"
+          >
+            <lightning-button
+              label="GROUP REGISTRATION"
+              disabled="true"
+              variant="brand"
+              class="addToCartBtn"
+            >
+            </lightning-button>
           </lightning-layout-item>
         </lightning-layout>
       </lightning-layout-item>

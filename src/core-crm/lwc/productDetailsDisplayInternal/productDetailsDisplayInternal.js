@@ -14,9 +14,11 @@ import availableStartDatesPlaceholder from "@salesforce/label/c.QUT_ProductDetai
 import pricing from "@salesforce/label/c.QUT_ProductDetail_Pricing";
 import pricingPlaceholder from "@salesforce/label/c.QUT_ProductDetail_Pricing_Placeholder";
 import addToCart from "@salesforce/label/c.QUT_ProductDetail_AddToCart";
+import registerInterest from "@salesforce/label/c.QUT_ProductDetail_RegisterInterest";
 import getRelatedCourseOffering from "@salesforce/apex/ProductDetailsCtrl.getCourseOfferingRelatedRecords";
 import LWC_Error_General from "@salesforce/label/c.LWC_Error_General";
 
+import getQuestions from "@salesforce/apex/ProductDetailsCtrl.getQuestions";
 import { loadStyle } from "lightning/platformResourceLoader";
 import qutResourceImg from "@salesforce/resourceUrl/QUTImages";
 import customSR from "@salesforce/resourceUrl/QUTCustomLwcCss";
@@ -42,9 +44,14 @@ export default class ProductDetailsDisplay extends LightningElement {
   @track selectedPriceBookEntry;
   @track disableAvailStartDate = true;
   @track disablePriceBookEntry = true;
-  @track disableAddToCart = true;
+  @track displayAddToCart;
+  @track displayRegisterInterest;
+  @track displayGroupRegistration = false;
+
   @track selectedDelivery;
-  availablePricings =[];
+  //availablePricings = [];
+  displayQuestionnaire = false;
+  priceBookEntriesCopy = [];
 
   label = {
     overview,
@@ -61,12 +68,15 @@ export default class ProductDetailsDisplay extends LightningElement {
     availableStartDatesPlaceholder,
     pricing,
     pricingPlaceholder,
-    addToCart
+    addToCart,
+    registerInterest
   };
 
   renderedCallback() {
     Promise.all([loadStyle(this, customSR + "/qutCustomLwcCss.css")]);
   }
+  responseData = [];
+  questions;
 
   connectedCallback() {
     console.log("this.product: " + JSON.stringify(this.product));
@@ -87,12 +97,52 @@ export default class ProductDetailsDisplay extends LightningElement {
     let pricingsLocal = [];
     this.priceBookEntries.forEach(function (priceBookEntry) {
       pricingsLocal.push({
-        label: priceBookEntry.label === 'Standard Price Book'? priceBookEntry.label.slice(0, 8): priceBookEntry.label,
+        label:
+          priceBookEntry.label === "Standard Price Book"
+            ? priceBookEntry.label.slice(0, 8)
+            : priceBookEntry.label,
         value: priceBookEntry.value,
-        meta: parseInt(priceBookEntry.meta).toLocaleString('en-US', { style: 'currency', currency: 'USD',  minimumFractionDigits: 0 })
+        meta: parseInt(priceBookEntry.meta).toLocaleString("en-US", {
+          style: "currency",
+          currency: "USD",
+          minimumFractionDigits: 0
+        })
       });
     });
-    this.availablePricings = pricingsLocal;
+
+    if (this.productDetails.Course__c) {
+      getQuestions({
+        productReqId: this.productDetails.Course__r.ProductRequestID__c
+      })
+        .then((results) => {
+          if (results.length > 0) {
+            this.responseData = results;
+            this.questions = results;
+            this.priceBookEntriesCopy = JSON.parse(
+              JSON.stringify(pricingsLocal)
+            ).filter((row) => row.label != "Group Booking");
+          } else {
+            this.priceBookEntriesCopy = pricingsLocal;
+          }
+        })
+        .catch((e) => {
+          this.generateToast(ERROR_TITLE, LWC_Error_General, ERROR_VARIANT);
+        });
+    }
+
+    // Display AddToCart / Register Interest
+    if (
+      this.deliveryOptions.length == 0 &&
+      this.productDetails.Register_Interest_Available__c == true
+    ) {
+      this.displayAddToCart = false;
+      this.displayRegisterInterest = true;
+    } else {
+      this.displayAddToCart = true;
+      this.displayRegisterInterest = false;
+      this.displayGroupRegistration = false;
+    }
+    this.priceBookEntriesCopy = pricingsLocal;
   }
 
   handleAccordionToggle(event) {
@@ -108,7 +158,7 @@ export default class ProductDetailsDisplay extends LightningElement {
         "src",
         qutResourceImg + "/QUTImages/Icon/accordionClose.svg"
       );
-    }else {
+    } else {
       accordionAriaExpanded.setAttribute("aria-expanded", "true");
       accordionContent.removeAttribute("hidden");
       /*accordionIcon.setAttribute(
@@ -151,6 +201,7 @@ export default class ProductDetailsDisplay extends LightningElement {
       .then((results) => {
         this.courseOfferings = undefined;
         this.selectedCourseOffering = undefined;
+        this.selectedCourseOfferingLocation = undefined;
         this.selectedCourseOfferingFacilitator = undefined;
         this.facilitator = undefined;
         this.displayFacilitatorNav = true;
@@ -158,7 +209,10 @@ export default class ProductDetailsDisplay extends LightningElement {
         this.selectedPriceBookEntry = undefined;
         this.disableAvailStartDate = true;
         this.disablePriceBookEntry = true;
+        this.displayAddToCart = true;
         this.disableAddToCart = true;
+        this.displayGroupRegistration = false;
+        this.displayQuestionnaire = false;
 
         if (results.length > 0) {
           this.courseOfferings = results;
@@ -186,25 +240,45 @@ export default class ProductDetailsDisplay extends LightningElement {
       }
     });
     this.disablePriceBookEntry = false;
+    this.displayAddToCart = true;
+    this.disableAddToCart = true;
   }
 
+  // Set Selected Price Book Entry value
   handlePricebookSelected(event) {
+    let selectedPBLabel = event.detail.label;
     this.selectedPriceBookEntry = event.detail.value;
+
     if (this.isInternalUser == true) {
       this.disableAddToCart = true;
     } else {
       this.disableAddToCart = false;
+      this.displayGroupRegistration = false;
     }
-    this.priceBookEntries.forEach((pBookEntry) => {
-      if (
-        pBookEntry.value === this.selectedPriceBookEntry &&
-        pBookEntry.label == "Group Booking"
-      ) {
-        this.displayAddToCart = false;
+
+    if (selectedPBLabel == "Group Booking") {
+      this.displayAddToCart = false;
+      this.disableAddToCart = true;
+      this.displayGroupRegistration = true;
+      if (this.responseData.length > 0) {
+        this.displayQuestionnaire = true;
       } else {
-        this.displayAddToCart = true;
+        this.displayQuestionnaire = false;
       }
-    });
+    } else {
+      this.displayGroupRegistration = false;
+      this.displayAddToCart = true;
+      this.disableAddToCart = false;
+      if (this.responseData.length > 0) {
+        this.displayQuestionnaire = true;
+        this.displayAddToCart = false;
+        this.disableAddToCart = true;
+      } else {
+        this.displayQuestionnaire = false;
+        this.displayAddToCart = true;
+        this.disableAddToCart = false;
+      }
+    }
   }
 
   notifyAddToCart() {

@@ -11,10 +11,9 @@ import registerInterest from "@salesforce/label/c.QUT_ProductDetail_RegisterInte
 import pricing from "@salesforce/label/c.QUT_ProductDetail_Pricing";
 import pricingPlaceholder from "@salesforce/label/c.QUT_ProductDetail_Pricing_Placeholder";
 import addToCart from "@salesforce/label/c.QUT_ProductDetail_AddToCart";
-import insertExpressionOfInterest from "@salesforce/apex/ProductDetailsCtrl.insertExpressionOfInterest";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
-import isGuest from "@salesforce/user/isGuest";
 import LWC_Error_General from "@salesforce/label/c.LWC_Error_General";
+import getQuestions from "@salesforce/apex/ProductDetailsCtrl.getQuestions";
 
 const INTEREST_EXISTS_ERROR =
   "You already registered your interest for this product.";
@@ -49,6 +48,9 @@ export default class PrescribedProgramInternal extends LightningElement {
   @track displayGroupButton = false;
   @track isPrescribed = true;
   @track displayRegisterInterest;
+
+  responseData;
+  questions;
 
   label = {
     delivery,
@@ -103,6 +105,24 @@ export default class PrescribedProgramInternal extends LightningElement {
     this.accordionIcon = qutResourceImg + "/QUTImages/Icon/accordionClose.svg";
     this.durationIcon = qutResourceImg + "/QUTImages/Icon/duration.svg";
 
+    if (this.productDetails.Program_Plan__c) {
+      getQuestions({
+        productReqId: this.productDetails.Program_Plan__r.Product_Request__c
+      })
+        .then((results) => {
+          if (results.length > 0) {
+            this.responseData = results;
+            this.questions = results;
+            this.availablePricings = JSON.parse(
+              JSON.stringify(this.availablePricings)
+            ).filter((row) => row.label != "Group Booking");
+          }
+        })
+        .catch((e) => {
+          this.generateToast("Error.", LWC_Error_General, "error");
+        });
+    }
+
     // Display AddToCart / Register Interest
     if (
       this.availableDeliveryTypes.length == 0 &&
@@ -119,6 +139,10 @@ export default class PrescribedProgramInternal extends LightningElement {
 
   get disableDelivery() {
     return this.availableDeliveryTypes.length == 0 ? true : false;
+  }
+
+  get hasQuestions() {
+    return this.questions && this.questions.length > 0 ? true : false;
   }
 
   handleSectionToggle(event) {
@@ -179,6 +203,7 @@ export default class PrescribedProgramInternal extends LightningElement {
     this.disableAddToCart = true;
     this.displayAddToCart = true;
     this.displayGroupRegistration = false;
+    this.displayQuestionnaire = false;
   }
 
   handleProgramOfferingSelected(event) {
@@ -188,6 +213,7 @@ export default class PrescribedProgramInternal extends LightningElement {
     this.disableAddToCart = true;
     this.displayGroupRegistration = false;
     this.displayAddToCart = true;
+    this.displayQuestionnaire = false;
   }
 
   handlePricingSelected(event) {
@@ -203,48 +229,22 @@ export default class PrescribedProgramInternal extends LightningElement {
       this.displayAddToCart = false;
       this.displayGroupRegistration = true;
       this.disableAddToCart = true;
+      if (this.hasQuestions) {
+        this.displayAddToCart = false;
+        this.displayGroupRegistration = false;
+        this.disableAddToCart = true;
+        this.displayQuestionnaire = true;
+      }
     } else {
       this.displayGroupRegistration = false;
       this.displayAddToCart = true;
       this.disableAddToCart = false;
     }
-  }
-
-  // Register Interest
-  registerInterest() {
-    if (!isGuest) {
-      insertExpressionOfInterest({
-        userId: userId,
-        productId: this.productDetails.Id
-      })
-        .then(() => {
-          this.generateToast("Success!", "Interest Registered", "success");
-        })
-        .catch((error) => {
-          if (error.body.message == "Register Interest Exists") {
-            this.generateToast("Error.", INTEREST_EXISTS_ERROR, "error");
-          } else {
-            this.generateToast("Error.", LWC_Error_General, "error");
-          }
-        });
-    } else {
-      // Display Custom Login Form LWC
-      this.openModal = true;
-    }
-  }
-
-  notifyAddToCart() {
-    if (!isGuest) {
-      this.dispatchEvent(
-        new CustomEvent("addtocart", {
-          detail: {
-            programOfferingId: this.selectedProgramOffering,
-            pricebookEntryId: this.selectedPricing
-          }
-        })
-      );
-    } else {
-      this.openModal = true;
+    if (this.hasQuestions) {
+      this.displayAddToCart = false;
+      this.displayGroupRegistration = false;
+      this.disableAddToCart = true;
+      this.displayQuestionnaire = true;
     }
   }
 
@@ -253,13 +253,6 @@ export default class PrescribedProgramInternal extends LightningElement {
   }
   groupRegistrationModalClosed() {
     this.openGroupRegistration = false;
-  }
-  groupRegistration() {
-    if (!isGuest) {
-      this.openGroupRegistration = true;
-    } else {
-      this.openModal = false;
-    }
   }
 
   // Creates toast notification
