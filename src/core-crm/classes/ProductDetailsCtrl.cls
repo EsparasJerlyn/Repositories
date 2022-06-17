@@ -183,7 +183,9 @@ public without sharing class ProductDetailsCtrl {
             ORDER BY CreatedDate, Pricebook2.IsStandard DESC
           )
         FROM Product2
-        WHERE Course__r.ProductRequestID__c IN :courseIdSet
+        WHERE
+          Course__r.ProductRequestID__c IN :courseIdSet
+          AND Available_on_Cart__c = TRUE
       ];
 
       // Flexible-Program
