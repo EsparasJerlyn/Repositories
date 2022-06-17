@@ -8,7 +8,8 @@
  * @history
  *    | Developer                 | Date                  | JIRA                 | Change Summary               |
       |---------------------------|-----------------------|----------------------|------------------------------|
-      | roy.nino.s.regala         | April 28, 2022        | DEPP-1478            | Created file                 |         
+      | roy.nino.s.regala         | April 28, 2022        | DEPP-1478            | Created file                 |  
+      | marygrace.li@qut.edu.au   | June 14, 2022         | DEPP-3066            | Added get font size          |         
       |                           |                       |                      |                              | 
  */
 public with sharing class SetupCertificateVFPageCtrl {
@@ -32,7 +33,7 @@ public with sharing class SetupCertificateVFPageCtrl {
     public string midRightText {get;set;}
     public string bottomLeftText {get;set;}
     public string bottomRightText {get;set;}
-    
+    public string fontSize {get;set;}
     
     public SetupCertificateVFPageCtrl() {
         String courseConnectionId = ApexPages.currentPage()
@@ -95,7 +96,6 @@ public with sharing class SetupCertificateVFPageCtrl {
                 this.product = 'course';
                 setupCourseCertificate();
         }
-        
     }
     
     /**
@@ -175,6 +175,9 @@ public with sharing class SetupCertificateVFPageCtrl {
             if( this.student.hed__Course_Offering__r.hed__Course__r.Department_Right_Indented__c != null){
                 this.bottomRightText = this.student.hed__Course_Offering__r.hed__Course__r.Department_Right_Indented__c;
             }
+
+            //set font size
+            this.fontSize = getFontSize(this.productName.length());
         }
 
     }
@@ -240,8 +243,27 @@ public with sharing class SetupCertificateVFPageCtrl {
         if( this.student.Program_Offering__r.hed_Program_Plan__r.Department_Right_Indented__c != null){
             this.bottomRightText = this.student.Program_Offering__r.hed_Program_Plan__r.Department_Right_Indented__c;
         }
+         //set font size
+         this.fontSize = getFontSize(this.productName.length());
     }
 
     }
-  
+
+    public static String getFontSize(Integer prodNameLength){
+        String fontName;
+        
+        if(prodNameLength >121 && prodNameLength <= 255 ){
+            fontName = 'x-small-font';
+     
+        }else if(prodNameLength >61 && prodNameLength <= 120 ){
+            fontName = 'small-font';
+     
+        }else if(prodNameLength >31){
+            fontName = 'medium-font';
+     
+        }else{
+            fontName = 'big-font';
+        }
+        return fontName;
+    }
   }

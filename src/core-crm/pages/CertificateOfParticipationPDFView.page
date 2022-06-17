@@ -15,6 +15,47 @@
                   max-width: 100%;
                   min-height: 100%;
         	}
+            .mb1{
+                margin-bottom: 1rem;
+            }
+
+            .mt1{
+                margin-top: 2rem;
+            }
+
+           /* #container {
+                display: inline-block;
+                padding: 0.5vw 1vw;
+            }*/
+            .divtext {
+                display: table;
+                font-family: "Arial Unicode MS";
+                font-weight: bold;
+            }
+
+            .x-small-font{
+               font-size: 12px;
+               line-height: 5px;
+               font-weight: bold;
+            }
+
+            .small-font{
+               font-size: 18px;
+               line-height: 10px;
+               font-weight: bold;
+            }
+
+            .medium-font{
+               font-size: 22px;
+               line-height: 16px;
+               font-weight: bold;
+            }
+
+            .big-font{
+                font-size: 26px;
+                line-height: 16px;
+                font-weight: bold;
+            }
     </style>
     
 </head>
@@ -48,19 +89,21 @@ font-family: Arial Unicode MS;">
     </apex:pageBlock>
 	
 </table>
-<span style="font-size:38px; font-family: Arial Unicode MS;"><b>Certificate of Participation</b></span></div>
+<span style="font-size:38px; font-family: Arial Unicode MS;" class="mb1"><b>Certificate of Participation</b></span></div>
 &nbsp;
 
 <div style="text-align: center; width:70%; margin:auto; font-family: Arial Unicode MS;"><br />
     <span style="font-size:16px; ">This is to certify that<br /></span>
     <br />
     <span style="font-size:34px; "><b>{!student.First_Name__c} {!student.Last_Name__c}</b><br/></span>
-    <span style="font-size:16px;"> Has participated in the QUTeX {!product}:</span><br />
-    <span style="font-size:32px; "><b>{!productName}</b></span><br />
+    <span style="font-size:16px;"> Has participated in the QUTeX {!product}:</span><br /><br />
+    <span id="container" style="margin-bottom:10px">
+        <b><apex:outputText value="{!productName}" styleClass="{!fontSize}"/></b> 
+     </span>
+    <br />
     <br />
     <span style="font-size:16px; ">and in evidence whereof this certificate is awarded&nbsp;<br />
     {!dateToday}</span><br />
-    <br />
     <br />
     <br />
     <span style="font-size:24px;"><b>Facilitated by {!facilitatorName}</b></span><br />
