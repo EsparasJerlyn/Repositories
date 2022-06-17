@@ -1,11 +1,11 @@
 <template>
     <div class="main-container">
-        <div class="header-container slds-col--padded">
+        <div class="header-container">
             <h2 class="heading2 main-color-blue500 pb2">{header}</h2>
             <h5 class="bodyBold pb2">{subheader}</h5>
         </div>
         <div class="slds-grid slds-wrap slds-medium-size_11-of-12 slds-large-size_10-of-12">    
-            <div class="my1 slds-col--padded slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+            <div class="my1 slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 pr3">
                 <template if:false={disableButton}>
                     <a class="btn-link" href={payURL} onclick={payNowClick}>
                         <p class="btn-title bodyBold pb2"><strong>{payTitle}</strong></p>
@@ -20,7 +20,7 @@
                 </template>
             </div>
             
-            <div class="my1 slds-col--padded slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+            <div class="my1 slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
                 <template if:false={disableButton}>
                     <a class="btn-link" href={invoiceURL} onclick={invoiceClick}>
                         <p class="btn-title bodyBold pb2"><strong>{invoiceTitle}</strong></p>

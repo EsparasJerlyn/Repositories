@@ -58,4 +58,8 @@ span:hover, span:visited {
     .btn-link {
         height: 135px !important;
     }
+
+    .pr3{
+        padding-right: 0;
+    }
 }

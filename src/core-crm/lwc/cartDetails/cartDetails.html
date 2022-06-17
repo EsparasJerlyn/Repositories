@@ -26,14 +26,14 @@
                                 <div if:false={editModeFN}>
                                     <div class="slds-grid slds-grid_vertical-align-center">
                                         <lightning-input-field field-name="FirstName" variant="label-hidden" class="slds-p-right_small" value={contactFname} disabled></lightning-input-field>
-                                        <!-- <lightning-button-icon
+                                        <lightning-button-icon
                                             icon-name="utility:edit"
                                             alternative-text="Edit"
                                             title="Edit Field"
                                             variant="bare"
                                             size="medium"
                                             onclick={handleEditFirstName}
-                                        ></lightning-button-icon> -->
+                                        ></lightning-button-icon>
                                     </div>
                                 </div> 
                             </div>
@@ -51,14 +51,14 @@
                                 <div if:false={editModeLN}>
                                     <div class="slds-grid slds-grid_vertical-align-center">
                                         <lightning-input-field field-name="LastName" variant="label-hidden" class="slds-p-right_small" value={contactLname} disabled></lightning-input-field>
-                                        <!-- <lightning-button-icon
+                                        <lightning-button-icon
                                             icon-name="utility:edit"
                                             alternative-text="Edit"
                                             title="Edit Field"
                                             variant="bare"
                                             size="medium"
                                             onclick={handleEditLastName}
-                                        ></lightning-button-icon> -->
+                                        ></lightning-button-icon>
                                     </div>
                                 </div> 
                             </div>
@@ -76,14 +76,14 @@
                                 <div if:false={editModeEmail}>
                                     <div class="slds-grid slds-grid_vertical-align-center">
                                         <lightning-input-field field-name="Email" variant="label-hidden" class="slds-p-right_small" value={contactEmail} disabled></lightning-input-field>
-                                        <!-- <lightning-button-icon
+                                        <lightning-button-icon
                                             icon-name="utility:edit"
                                             alternative-text="Edit"
                                             title="Edit Field"
                                             variant="bare"
                                             size="medium"
                                             onclick={handleEditEmail}
-                                        ></lightning-button-icon> -->
+                                        ></lightning-button-icon>
                                     </div>
                                 </div> 
                             </div>
@@ -101,14 +101,14 @@
                                 <div if:false={editModeMob}>
                                     <div class="slds-grid slds-grid_vertical-align-center">
                                         <lightning-input-field field-name="MobilePhone" variant="label-hidden" class="slds-p-right_small" value={contactMobile} disabled></lightning-input-field>
-                                        <!-- <lightning-button-icon
+                                        <lightning-button-icon
                                             icon-name="utility:edit"
                                             alternative-text="Edit"
                                             title="Edit Field"
                                             variant="bare"
                                             size="medium"
                                             onclick={handleEditMobile}
-                                        ></lightning-button-icon> -->
+                                        ></lightning-button-icon>
                                     </div>
                                 </div> 
                             </div>
@@ -269,7 +269,18 @@
                     </div>
 
                     <div class="slds-size_1-of-1 slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12">
-                        <p class="bodyBold slds-float_left mt2">{currentItem.pbName} ${currentItem.unitPrice}</p>
+                        <p class="bodyBold slds-float_left mt2">
+                            {currentItem.pbName} 
+                            <lightning-formatted-number
+                                class="pl1"
+                                value={currentItem.unitPrice}
+                                currency-code={currency}
+                                format-style="currency"
+                                minimum-fraction-digits="0" 
+                                maximum-fraction-digits="0"
+                            >
+                            </lightning-formatted-number>
+                        </p>
                     </div>
                 </div>
 
@@ -519,45 +530,54 @@
     </div>
     <!-- Registration Questions ends here -->
 
-    <div class="slds-grid slds-wrap pb2">
-        <div class="slds-size_1-of-4">
-            <div>
-                <p class="bodyBold py2">Discount code</p>
-                <div class="slds-grid slds-wrap">
-
-                    <div class="slds-size_1-of-2 mar-right-10">
-                        <lightning-input data-id="discountField" name={productIndex} type="text" variant="label-hidden"></lightning-input>
-                    </div>
-                    <div class="slds-size_1-of-3">
-                        <lightning-button  variant="brand" label="Apply" title="Apply code" onclick={applyCoupon}></lightning-button>
-                    </div>
-
+    <div class="slds-grid slds-wrap">
+        <div class="slds-size_1-of-1 slds-grid slds-grid_align-end">
+            <div class="slds-grid slds-wrap">
+                <div class="slds-size_8-of-12">
+                    <div>
+                        <p class="bodyBold py2">Discount code</p>
+                        <lightning-input data-id="discountField" name={productIndex} type="text" variant="label-hidden" class="pr1"></lightning-input>
+                    </div>         
                 </div>
-
-                <template if:true={showInvalidDiscount}>
-                    <p class="warning-label slds-m-left_small">Invalid voucher.</p>
-                </template>
-            </div> 
+                <div class="slds-size_4-of-12">
+                    <p class="py2">&nbsp;</p>
+                    <lightning-button  variant="brand" label="Apply" title="Apply code" onclick={applyCoupon}></lightning-button>
+                </div>
+            </div>
         </div>
     </div>
 
     <!-- Totals starts here -->
-    <div class="component no-padd">
+    <div class="py2 no-padd">
         <div>
             <p class="bodyBold pb2">
                 Subtotal
                 <span class="slds-float_right">
-                    ${subTotal}
+                    <lightning-formatted-number
+                        value={subTotal}
+                        currency-code={currency}
+                        format-style="currency"
+                        minimum-fraction-digits="0" 
+                        maximum-fraction-digits="0"
+                    >
+                    </lightning-formatted-number>
                 </span>
             </p>
         </div>
         
-
         <div>
             <p class="bodyBold">
                 Discounts applied
                 <span class="slds-float_right">
-                    -${discountTotal}
+                    -
+                   <lightning-formatted-number
+                    value={discountTotal}
+                    currency-code={currency}
+                    format-style="currency"
+                    minimum-fraction-digits="0" 
+                    maximum-fraction-digits="0"
+                    >
+                 </lightning-formatted-number>
                 </span>
             </p>
         </div>
@@ -566,7 +586,14 @@
             <h1 class="heading3 main-color-blue500">
                 Total
                 <span class="heading3 slds-float_right">
-                    ${total}
+                    <lightning-formatted-number
+                        value={total}
+                        currency-code={currency}
+                        format-style="currency"
+                        minimum-fraction-digits="0" 
+                        maximum-fraction-digits="0"
+                        >
+                    </lightning-formatted-number>
                 </span>
             </h1>
         </div>

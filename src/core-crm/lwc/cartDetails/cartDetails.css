@@ -9,7 +9,7 @@
 }
 
 .component {
-    padding: 10px;
+    padding: 10px 0;
 }
 
 .component-title {
@@ -70,6 +70,8 @@ lightning-input-field.slds-form-element {
     font-style: normal;
     font-weight: 400;
     border-radius: 0 !important;
+    color:#616161 !important;
+    width: 100%;
 }
 
 svg.slds-button__icon {
@@ -137,9 +139,9 @@ span:hover, span:visited {
 }
 
 @media only screen and (max-width: 764px) {
-    .component {
+   /* .component {
         padding: 10px 10px;
-    }
+    }*/
 
     .slds-col--padded {
         padding: 0px !important;
@@ -155,6 +157,10 @@ span:hover, span:visited {
 
     .slds-p-right_medium {
         padding: 0px !important;
+    }
+
+    .slds-grid .slds-grid_align-end{
+        justify-content: flex-start;
     }
 
 }
