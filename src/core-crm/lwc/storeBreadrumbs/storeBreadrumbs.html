@@ -2,8 +2,8 @@
 
   <div class="main-container-bc">
     <nav role="navigation" aria-label="Breadcrumbs">
-      <ol class="slds-breadcrumb slds-list_horizontal slds-wrap">
-        <li class="slds-breadcrumb__item">
+      <ol class="slds-breadcrumb slds-list_horizontal slds-grid slds-wrap ">
+        <li class="slds-breadcrumb__item slds-size_4-of-12  slds-medium-size_1-of-12  slds-large-size_1-of-12">
           <a href="http://qut.edu.au"> <img alt="" src={iconhome} /></a>
           <!--
           <a href="http://qut.edu.au">  
@@ -14,23 +14,23 @@
             </svg>
           </a> -->
         </li> 
-        <li class="slds-breadcrumb__item slds-text-heading_small">
+        <li class="slds-breadcrumb__item slds-text-heading_small slds-col slds-size_4-of-12  slds-medium-size_1-of-12  slds-large-size_1-of-12">
           <a href="http://qut.edu.au/study" style="text-decoration:underline" onmouseover={changeTextDecorNone} onmouseleave={changeTextDecorUnderline}>Study</a>
         </li>
-        <li class="slds-breadcrumb__item slds-text-heading_small">
+        <li class="slds-breadcrumb__item slds-text-heading_small slds-col slds-size_4-of-12  slds-medium-size_1-of-12  slds-large-size_1-of-12">
           <a href="http://qut.edu.au/study/professional-and-executive-education" style="text-decoration:underline" onmouseover={changeTextDecorNone} onmouseleave={changeTextDecorUnderline}>QUTeX</a>
         </li>
-        <li class="slds-breadcrumb__item slds-text-heading_small">
-          <a href={forYouURL} class="Foryoulink" style="text-decoration:underline" onmouseover={changeTextDecorNone} onmouseleave={changeTextDecorUnderline}>For You</a>
+        <li class="slds-breadcrumb__item slds-text-heading_small slds-col slds-size_4-of-12  slds-medium-size_1-of-12  slds-large-size_1-of-12">
+          <a href={forYouURL} class="Foryoulink" style="text-decoration:underline; padding: 0px;" onmouseover={changeTextDecorNone} onmouseleave={changeTextDecorUnderline}>For You</a>
         </li>
         <template if:true={menuList}>
           <template for:each={menuList} for:item="item" for:index="i">
-            <li key={item} class="slds-breadcrumb__item slds-text-heading_small">
+            <li key={item} class="slds-breadcrumb__item slds-text-heading_small slds-col slds-size_2-of-12 dynamicList">
               <template if:true={item.productUrl}>
-                <a href={item.productUrl} class="Foryoulink" style="text-decoration:underline" data-productid={item.productId} onmouseover={changeTextDecorNone} onmouseleave={changeTextDecorUnderline} onclick={handleMenuClick}>{item.productName}</a>
+                <a href={item.productUrl} class="slds-col dynamicList" style="text-decoration:underline;" data-productid={item.productId} onmouseover={changeTextDecorNone} onmouseleave={changeTextDecorUnderline} onclick={handleMenuClick}>{item.productName}</a>
               </template>
               <template if:false={item.productUrl}>
-                <p class="Foryoulink">{item.productName}</p>
+                <p class="dynamicList">{item.productName}</p>
               </template>
             </li>
           </template>

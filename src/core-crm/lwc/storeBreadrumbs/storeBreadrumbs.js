@@ -6,6 +6,8 @@ import basePath from '@salesforce/community/basePath';
 import qutResourceImg from "@salesforce/resourceUrl/QUTImages";
 import getStudyProducts from '@salesforce/apex/MainNavigationMenuCtrl.getStudyProducts';
 //import getProducts from '@salesforce/apex/ProductCtrl.getProducts';
+import { loadStyle } from "lightning/platformResourceLoader";
+import customSR from "@salesforce/resourceUrl/QUTInternalCSS";
 
 import { subscribe, unsubscribe, MessageContext } from 'lightning/messageService';
 import payloadContainerLMS from '@salesforce/messageChannel/Breadcrumbs__c';
@@ -36,6 +38,11 @@ export default class StoreBreadrumbs extends LightningElement {
         // this.init();
         this.getSsItem();
         this.subscribeLMS();
+    }
+
+      /* Load Custom CSS */
+    renderedCallback() {
+        Promise.all([loadStyle(this, customSR + "/QUTInternalCSS.css")]);
     }
 
     disconnectedCallback() {
@@ -83,11 +90,13 @@ export default class StoreBreadrumbs extends LightningElement {
     }
     changeTextDecorNone(event){
         const el = event.target;
-        el.setAttribute('style', 'text-decoration:none');
+        el.setAttribute('style', 'text-decoration:none; padding: 0px;');
+        
     }
     changeTextDecorUnderline(event){
         const el = event.target;
-        el.setAttribute('style', 'text-decoration:underline');
+        el.setAttribute('style', 'text-decoration:underline; padding: 0px;');
+        
     }
     @wire(getStudyProducts,{communityId:communityId})
     handleGetStudyProducts(result){    

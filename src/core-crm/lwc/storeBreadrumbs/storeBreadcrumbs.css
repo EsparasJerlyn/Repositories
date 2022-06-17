@@ -18,3 +18,15 @@ nav {
 @media only screen and (max-width: 764px) {
     
 }
+
+.parentProd{
+    text-align: left !important;
+
+}
+
+.childProd{
+    color: var(--greys-color-bodytext);
+    font-family: ProximaNova-Bold;
+    text-align: left !important;
+
+}

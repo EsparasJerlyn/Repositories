@@ -1393,3 +1393,29 @@ span[c-customcombobox_customcombobox].slds-listbox__option-meta_entity {
   /*end of program module*/
 	
 }
+
+/*beadcrumb*/
+.slds-breadcrumb__item.dynamicList{
+  max-width: 18%;
+}
+[c-store-breadrumbs].slds-breadcrumb__item.dynamicList p, 
+[c-store-breadrumbs].slds-breadcrumb__item.dynamicList a
+{
+  text-align: left;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  text-overflow: ellipsis; 
+}
+
+div.main-container-bc [role=navigation] ol.slds-breadcrumb li:nth-child(n+4) a.dynamicList,
+div.main-container-bc [role=navigation] ol.slds-breadcrumb li:nth-child(n+4) p.dynamicList
+{
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  text-overflow: ellipsis;
+  text-align: left;
+}
