@@ -199,6 +199,12 @@
     onclose={applicationQuestionnaireClosed}
     ></c-application-questionnaire>
   </template>
+  <template if:true={openAddToCartConfirmModal}>
+    <c-add-to-cart-confirm-dialog
+      onclose={addToCartModalClosed}
+    >
+    </c-add-to-cart-confirm-dialog>
+  </template>
   <template if:true={openGroupRegistration}>
     <c-group-booking-form
     product-details={productDetails}

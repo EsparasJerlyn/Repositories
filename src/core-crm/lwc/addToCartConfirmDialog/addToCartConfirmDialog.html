@@ -1,0 +1,39 @@
+<template>
+    <!-- <lightning-button class="mr1" label="Add to Cart" variant="brand-outline" onclick={openModal}></lightning-button> -->
+    <lightning-card if:true={isModalOpen}>
+        <div class="slds-container_medium">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">             
+                    <div class="slds-modal__content slds-p-around_medium">
+                        <div class="slds-m-top_xxx-small slds-m-right_xxx-small slds-p-right_xxx-small slds-clearfix">
+                            <!--X button -->
+                            <span class="slds-float_right cursor" onclick={closeModal}
+                                ><img src={xButton}
+                            /></span>
+                        </div>
+                        <div class="slds-size_2-of-2 slds-text-align_center">
+                            <p class="firstBodyRegular">Product is added successfully to the cart.</p>   
+                            <p class="bodyRegular">How would you like to proceed?</p>
+                        </div>                 
+                    </div>
+                    <footer class="slds-modal__footer slds-grid slds-grid_align-center">
+                        <lightning-button variant="brand"
+                                          name="cancel"
+                                          label="Continue to Payment"
+                                          class="buttonClass"
+                                          onclick={handleClickOnBtn2}                                   
+                                          ></lightning-button>
+                        <lightning-button variant="brand-outline"
+                                          name="confirm"
+                                          label="Continue Browsing"
+                                          class="buttonClass"
+                                          title={confirmLabel}
+                                          onclick={handleClickOnBtn1}
+                                          ></lightning-button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </lightning-card>
+</template>

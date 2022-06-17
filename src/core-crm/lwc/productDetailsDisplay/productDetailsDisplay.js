@@ -107,6 +107,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   displayQuestionnaire = false;
   openApplicationQuestionnaire = false;
   priceBookEntriesCopy = [];
+  openAddToCartConfirmModal = false;
 
   // Set Custom Labels
   label = {
@@ -390,6 +391,8 @@ export default class ProductDetailsDisplay extends NavigationMixin(
           }
         })
       );
+      this.openAddToCartConfirmModal = true;
+
     } else {
       // Display Custom Login Form LWC
       this.openModal = true;
@@ -629,7 +632,6 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     return this.questions && this.questions.length > 0 ? true : false;
   }
   
-
   applicationQuestionnaireClosed(){
     this.openApplicationQuestionnaire = false;
   }
@@ -641,11 +643,12 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     //this.registerInterest();
     if (!isGuest) {
       this.openGroupBookingModal = true;
-      
     }else{
      // Display Custom Login Form LWC
      this.openModal = true;
     }
-
+  }
+  addToCartModalClosed() {
+    this.openAddToCartConfirmModal = false;
   }
 }

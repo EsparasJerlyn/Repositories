@@ -54,6 +54,7 @@ export default class PrescribedProgram extends LightningElement {
   @track displayGroupButton = false;
   @track isPrescribed = true;
   @track displayRegisterInterest;
+  @track openAddToCartConfirmModal = false;
 
   responseData;
   questions;
@@ -361,6 +362,7 @@ export default class PrescribedProgram extends LightningElement {
           }
         })
       );
+      this.openAddToCartConfirmModal = true;
     } else {
       this.openModal = true;
 
@@ -395,5 +397,8 @@ export default class PrescribedProgram extends LightningElement {
       variant: _variant
     });
     this.dispatchEvent(evt);
+  }
+  addToCartModalClosed() {
+    this.openAddToCartConfirmModal = false;
   }
 }
