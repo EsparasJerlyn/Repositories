@@ -481,8 +481,19 @@ public without sharing class ManageRegistrationSectionCtrl {
 
           CartItem newCartItem = createCartItem(offeringId, newWebCart.Id, pbeId, prescribedProgram, prodId);
           insert newCartItem;
+
+          Cart_Payment__c cartPayment = new Cart_Payment__c(Status__c = 'Invoiced');
+          insert cartPayment;
+
+          String paymentURL = paymentGatewayURLBuilder(newWebCart.External_Id__c, contactRecEmail, contactRecName, amount);
           
-          WebCart webCartToClose = new WebCart(Id = newWebCart.Id, Status__c = 'Closed', Status = 'Closed');
+          WebCart webCartToClose = new WebCart(
+               Id = newWebCart.Id, 
+               Status__c = 'Closed', 
+               Status = 'Closed', 
+               Cart_Payment__c = cartPayment.Id,
+               Payment_URL__c = paymentURL
+          );
           update webCartToClose;
           
           List<hed__Course_Enrollment__c> courseConnectionList = new List<hed__Course_Enrollment__c>();
@@ -519,7 +530,7 @@ public without sharing class ManageRegistrationSectionCtrl {
           
           insert courseConnectionList;
 
-          return paymentGatewayURLBuilder(newWebCart.External_Id__c, contactRecEmail, contactRecName, amount);
+          return paymentURL;
 
      }  
 
