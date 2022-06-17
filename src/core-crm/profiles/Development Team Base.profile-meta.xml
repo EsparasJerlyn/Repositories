@@ -10,4 +10,7 @@
         <layout>Account-University And Educational Layout</layout>
         <recordType>Account.University_Department</recordType>
     </layoutAssignments>
+    <layoutAssignments>
+        <layout>Contact-Contact Page Layout</layout>
+    </layoutAssignments>
 </Profile>
