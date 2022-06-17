@@ -39,7 +39,7 @@ const SUCCESS_TITLE = 'Success'
 const SUCCESS_VARIANT = 'success'
 const SAVE_SUCCESS = 'Address saved.'
 const ADDRESS_SUFFIX = ' Address'
-const ERROR_MSG =  'An error has been encounterd. Please contact your Administrator: '
+const ERROR_MSG =  'An error has been encountered. Please contact your Administrator: '
 
 export default class LoqateAddressInformationValidation extends LightningElement {
     mapAddress = [];

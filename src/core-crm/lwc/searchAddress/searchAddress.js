@@ -19,7 +19,7 @@ const OPEN_DROPDOWN = 'slds-combobox slds-dropdown-trigger slds-dropdown-trigger
 const CLOSE_DROPDOWN = 'slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click'
 const ERROR_TITLE = 'Error'
 const ERROR_VARIANT = 'error'
-const ERROR_MSG =  'An error has been encounterd. Please contact your Administrator: '
+const ERROR_MSG =  'An error has been encountered. Please contact your Administrator: '
 
 export default class SearchAddress extends LightningElement {
     selectRecordId = '';
