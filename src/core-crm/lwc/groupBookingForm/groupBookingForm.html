@@ -52,14 +52,14 @@
                                             >
                                             <div class="slds-grid slds-wrap">
                                                 <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
-                                                    <lightning-input-field  field-name="FirstName" onchange={handleFirstnameChange} ></lightning-input-field>
-                                                    <lightning-input-field  field-name="Email" onchange={handleEmailChange}></lightning-input-field>
+                                                    <lightning-input-field  required="true" field-name="FirstName" onchange={handleFirstnameChange} ></lightning-input-field>
+                                                    <lightning-input-field  required="true" field-name="Email" onchange={handleEmailChange}></lightning-input-field>
                                                     <label for="Birthdate" class="birthDate">Date of Birth</label>
-                                                    <lightning-input-field id="Birthdate" field-name="Birthdate" type="date" class="calendar" variant="label-hidden"></lightning-input-field>
+                                                    <lightning-input-field required="true" id="Birthdate" field-name="Birthdate" type="date" class="calendar" variant="label-hidden"></lightning-input-field>
                                                 </div>
                                                 <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
-                                                    <lightning-input-field field-name="LastName" onchange={handleLastnameChange}></lightning-input-field>
-                                                    <lightning-input-field field-name="MobilePhone" ></lightning-input-field>
+                                                    <lightning-input-field required="true" field-name="LastName" onchange={handleLastnameChange}></lightning-input-field>
+                                                    <lightning-input-field required="true" field-name="MobilePhone" ></lightning-input-field>
                                                     <lightning-input-field field-name='Dietary_Requirement__c'></lightning-input-field>
                                                 </div>
                                             </div>
@@ -188,13 +188,13 @@
                                         </c-confirmation-dialog>  
                                         <div class="slds-grid slds-wrap" >
                                             <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
-                                                <lightning-input class="inputField" name="FirstName" label="First Name" key={item.id} ></lightning-input>
-                                                <lightning-input class="inputField" name="Email" label="Email" key={item.id}></lightning-input >
-                                                <lightning-input name="Birthdate" label="Date of Birth" type="date" key={item.id}></lightning-input>
+                                                <lightning-input class="inputField"  required="true" name="FirstName" label="First Name" key={item.id} ></lightning-input>
+                                                <lightning-input class="inputField" required="true" name="Email" label="Email" key={item.id}></lightning-input >
+                                                <lightning-input name="Birthdate"  required="true" label="Date of Birth" type="date" key={item.id}></lightning-input>
                                             </div>
                                             <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
-                                                <lightning-input class="inputField" name="LastName" label="Last Name" key={item.id} required="true"></lightning-input>
-                                                <lightning-input class="inputField" name="MobilePhone" label="Mobile" key={item.id}></lightning-input>
+                                                <lightning-input class="inputField" required="true" name="LastName" label="Last Name" key={item.id}></lightning-input>
+                                                <lightning-input class="inputField" required="true" name="MobilePhone" label="Mobile" key={item.id}></lightning-input>
                                                 <lightning-textarea name='Dietary_Requirement__c' label="Dietary Requirement" key={item.id}></lightning-textarea>
                                             </div>
                                         </div>

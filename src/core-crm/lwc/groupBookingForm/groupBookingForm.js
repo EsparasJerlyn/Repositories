@@ -353,90 +353,105 @@ export default class GroupBookingForm extends LightningElement {
    }
 
    submitDetails(event) {
-    // to close modal set isModalOpen tarck value as false
-    //Add your code to call apex method or do some processing
-    //save answer for Primary contact
-    this.template.querySelectorAll("lightning-record-edit-form").forEach((form) => {form.submit();});
-    if(this.counter == this.numberOfParticipants){
-        let fieldsPrimary = {};
-        fieldsPrimary.Id = this.contactId;
-        this.contactFieldsPrimary = fieldsPrimary;
-        this.total = this.amount * this.numberOfParticipants;
-        
-        this.saveRegistration(this.contactFieldsPrimary, this.courseOffering,this.responseData2, this.createAnswerRecordPrimary() ,JSON.stringify(this.createFileUploadMap())); 
-            let blankRow = this.items;
-            let contactDataList = [];
-            for(let i = 0; i < blankRow.length; i++){
-                if(blankRow[i] !== undefined){
-                    let conData = new Object();
-                    conData.FirstName = blankRow[i].FirstName;
-                    conData.LastName = blankRow[i].LastName;
-                    conData.Email = blankRow[i].Email;
-                    conData.Birthdate = blankRow[i].Birthdate;
-                    conData.MobilePhone = blankRow[i].MobilePhone;
-                    conData.Dietary_Requirement__c = blankRow[i].Dietary_Requirement__c;    
-                    contactDataList.push(conData);
-                }
-            }
-            if(contactDataList.length > 0){
-                insertContactData({contactDataString: JSON.stringify(contactDataList)}).then(result => {
-                    for(let i = 0; i < result.length; i++){
-                        if(result[i] !== undefined){
-                            let contactRecord = {'sobjectType' : 'Contact'};
-                            contactRecord.Id = result[i].Id; //newly created contact ID
-                            contactRecord.FirstName = result[i].FirstName;
-                            contactRecord.LastName = result[i].LastName;
-                            contactRecord.AccountId = result[i].AccountId;
-    
-                            let fields = {};
-                            fields.Id = result[i].Id;
-                            this.contactFields = fields;
-    
-                            let ItemsRecords = {};
-                            ItemsRecords = this.items.map(item=>{  
-    
-                                if (blankRow[i].id == item.id){
-    
-                                    let answerRecords = {};
-                                    answerRecords = item.Questions.map(row=>{
-                                        let record = {};
-                                        record.Related_Answer__c = row.Id;
-                                        record.Response__c = row.Answer;
-                                        record.Sequence__c = row.Sequence;
-                                        return record;                                  
-                                    });
-                                    this.answerRecords2 =  answerRecords;
-                                
-                                }
-                                return item;
-                            });
-    
-                            this.saveRegistration(this.contactFields, this.courseOffering,this.responseData2, this.answerRecords2 ,JSON.stringify(this.createFileUploadMap()));
-    
-                        }
-                        this.generateToast(SUCCESS_TITLE, 'Successfully Submitted', SUCCESS_VARIANT);
-                        this.isOpenPayment = true;
-                        this.createCartItem(communityId,this.productId,this.contactActId,this.productCourseName,this.selectedCourseOffering,this.selectedProgramOffering,pricebookEntry,userId);
-                      
+    const allValid = [
+        ...this.template.querySelectorAll('lightning-input'),
+    ].reduce((validSoFar, inputCmp) => {
+        inputCmp.reportValidity();
+        return validSoFar && inputCmp.checkValidity();
+    }, true);
+
+    if (allValid) {
+        this.template.querySelectorAll("lightning-record-edit-form").forEach((form) => {form.submit();});
+        if(this.counter == this.numberOfParticipants){
+            let fieldsPrimary = {};
+            fieldsPrimary.Id = this.contactId;
+            this.contactFieldsPrimary = fieldsPrimary;
+            this.total = this.amount * this.numberOfParticipants;
+            
+            this.saveRegistration(this.contactFieldsPrimary, this.courseOffering,this.responseData2, this.createAnswerRecordPrimary() ,JSON.stringify(this.createFileUploadMap())); 
+                let blankRow = this.items;
+                let contactDataList = [];
+                for(let i = 0; i < blankRow.length; i++){
+                    if(blankRow[i] !== undefined){
+                        let conData = new Object();
+                        conData.FirstName = blankRow[i].FirstName;
+                        conData.LastName = blankRow[i].LastName;
+                        conData.Email = blankRow[i].Email;
+                        conData.Birthdate = blankRow[i].Birthdate;
+                        conData.MobilePhone = blankRow[i].MobilePhone;
+                        conData.Dietary_Requirement__c = blankRow[i].Dietary_Requirement__c;    
+                        contactDataList.push(conData);
                     }
-                }).catch(error => {
-                })
-            }else{
-
-            }
-
-
+                }
+                if(contactDataList.length > 0){
+                    insertContactData({contactDataString: JSON.stringify(contactDataList)}).then(result => {
+                        for(let i = 0; i < result.length; i++){
+                            if(result[i] !== undefined){
+                                let contactRecord = {'sobjectType' : 'Contact'};
+                                contactRecord.Id = result[i].Id; //newly created contact ID
+                                contactRecord.FirstName = result[i].FirstName;
+                                contactRecord.LastName = result[i].LastName;
+                                contactRecord.AccountId = result[i].AccountId;
+        
+                                let fields = {};
+                                fields.Id = result[i].Id;
+                                this.contactFields = fields;
+        
+                                let ItemsRecords = {};
+                                ItemsRecords = this.items.map(item=>{  
+        
+                                    if (blankRow[i].id == item.id){
+        
+                                        let answerRecords = {};
+                                        answerRecords = item.Questions.map(row=>{
+                                            let record = {};
+                                            record.Related_Answer__c = row.Id;
+                                            record.Response__c = row.Answer;
+                                            record.Sequence__c = row.Sequence;
+                                            return record;                                  
+                                        });
+                                        this.answerRecords2 =  answerRecords;
+                                    
+                                    }
+                                    return item;
+                                });
+        
+                                this.saveRegistration(this.contactFields, this.courseOffering,this.responseData2, this.answerRecords2 ,JSON.stringify(this.createFileUploadMap()));
+        
+                            }
+                            this.generateToast(SUCCESS_TITLE, 'Successfully Submitted', SUCCESS_VARIANT);
+                            this.isOpenPayment = true;
+                            this.createCartItem(
+                                communityId,
+                                this.productId,
+                                this.contactActId,
+                                this.productCourseName,
+                                this.selectedCourseOffering,
+                                this.selectedProgramOffering,
+                                pricebookEntry,
+                                userId);
+                          
+                        }
+                    }).catch(error => {
+                    })
+                }else{
+    
+                }
+    
+    
+        }
+        else{
+    
+            const evt = new ShowToastEvent({
+                title: 'Toast Error',
+                message: 'Please fill up all added participants before proceed',
+                variant: 'error',
+                mode: 'dismissable'
+            });
+            this.dispatchEvent(evt);
+        }
     }
-    else{
-
-        const evt = new ShowToastEvent({
-            title: 'Toast Error',
-            message: 'Please fill up all added participants before proceed',
-            variant: 'error',
-            mode: 'dismissable'
-        });
-        this.dispatchEvent(evt);
-    }
+   
 }
 
 createFileUploadMap(){

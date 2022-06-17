@@ -1433,9 +1433,11 @@ public without sharing class ProductDetailsCtrl {
         WebStoreId,
         AccountId,
         External_Id__c,
-        Amount_Paid__c
+        Amount_Paid__c,
+        Status
       FROM WebCart
       WHERE OwnerId = :userId
+      AND   Status = : 'Active'
       LIMIT 1
     ];
   }
