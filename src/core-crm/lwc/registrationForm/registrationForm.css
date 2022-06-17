@@ -143,6 +143,7 @@
   .heading {
     font-size: 30px;
     margin: 16px 0px;
+    text-align: center;
   }
   .form-margin {
     margin: 10px 16px;
