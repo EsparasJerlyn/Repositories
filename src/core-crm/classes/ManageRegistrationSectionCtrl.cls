@@ -91,7 +91,7 @@ public without sharing class ManageRegistrationSectionCtrl {
 
           List<hed__Course_Enrollment__c > courseConnections = [
                SELECT Id, Name, hed__Contact__c, hed__Contact__r.Id, hed__Contact__r.Name, Pricing_Validation__c, hed__Course_Offering__c, Cart_ID__r.External_Id__c, Cart_ID__r.Amount_Paid__c,
-                    Cart_ID__r.TotalAmount, Paid_in_Full__c, hed__Status__c, LMS_Integration_Status__c, hed__Contact__r.FirstName, hed__Contact__r.LastName, 
+                    Cart_ID__r.TotalAmount, Paid_in_Full__c, hed__Status__c, LMS_Integration_Status__c, hed__Contact__r.FirstName, hed__Contact__r.LastName,
                     hed__Contact__r.Birthdate, hed__Contact__r.Email, Payment_Method__c, Cart_Item__r.Pricebook_Entry_ID__c, Is_Group_Registered__c
                  FROM hed__Course_Enrollment__c
                 WHERE 
@@ -148,6 +148,7 @@ public without sharing class ManageRegistrationSectionCtrl {
                          student.hed__Contact__r.Email,
                          student.hed__Contact__r.Name,
                          student.Cart_ID__r.TotalAmount
+
                     );
                }
                response.add(regDetails);

@@ -3,12 +3,20 @@ import getOPEProductCateg from "@salesforce/apex/PaymentConfirmationCtrl.getOPEP
 import getCartData from "@salesforce/apex/PaymentConfirmationCtrl.getCartData";
 import createCourseConnection from "@salesforce/apex/PaymentConfirmationCtrl.createCourseConnection";
 import updateWebCart from "@salesforce/apex/PaymentConfirmationCtrl.updateWebCart";
+import {updateRecord } from 'lightning/uiRecordApi';
 import BasePath from "@salesforce/community/basePath";
 import userId from "@salesforce/user/Id";
 import checkCartOwnerShip from "@salesforce/apex/PaymentConfirmationCtrl.checkCartOwnerShip";
 
 import { publish, MessageContext } from 'lightning/messageService';
 import payloadContainerLMS from '@salesforce/messageChannel/Breadcrumbs__c';
+import PAYMENT_STATUS_FIELD from '@salesforce/schema/Cart_Payment__c.Payment_Status__c';
+import INVOICE_FIELD from '@salesforce/schema/Cart_Payment__c.Invoice_Number__c';
+import RECEIPT_FIELD from '@salesforce/schema/Cart_Payment__c.Receipt_Number__c';
+import AMOUNT_PAID from '@salesforce/schema/Cart_Payment__c.Amount_Paid__c';
+import STATUS_FIELD from '@salesforce/schema/Cart_Payment__c.Status__c';
+import EMAIL_FIELD from '@salesforce/schema/Cart_Payment__c.Email__c';
+import ID_FIELD from '@salesforce/schema/Cart_Payment__c.Id';
 
 export default class PaymentConfirmation extends LightningElement {
     @api recordId;
@@ -17,7 +25,7 @@ export default class PaymentConfirmation extends LightningElement {
     @track subHeaderClass = 'heading2 pb2 subheader-color-err';
     @track paymentApproved = false;
     @track buttonLabel = 'Return cart summary';
-    @track contactEmail;
+    @track contactEmail; 
     
     cartId;
     cartItems = [];
@@ -26,6 +34,7 @@ export default class PaymentConfirmation extends LightningElement {
     discountTotal;
     grandTotal;
     paymentMethod;
+    cartPayment;
     paidInFull = 'No';
     parameters = {};
     isLoading = true;
@@ -36,6 +45,11 @@ export default class PaymentConfirmation extends LightningElement {
 
     @wire(MessageContext)
     messageContext;
+
+    @api
+    get effectiveAccountId() {
+        return this._effectiveAccountId;
+    }
 
     connectedCallback() {
 
@@ -73,13 +87,14 @@ export default class PaymentConfirmation extends LightningElement {
 
         //get the the WebCart data
         getCartData({ externalId: this.parameters.WebcartExternal_ID__c, userId: userId }).then((data) => {
-            this.contactEmail = data.contactEmail;
+            this.contactEmail = this.parameters.Email?this.parameters.Email:data.contactEmail;
             this.cartId = data.cartId;
             this.cartItems = data.cartItemsList;
             this.subTotal = data.subTotal;
             this.discountTotal = data.discountTotal?data.discountTotal:0;
             this.grandTotal = data.grandTotal;
             this.paymentMethod = data.paymentMethod;
+            this.cartPayment = data.cartPayment;
 
             //check if the full amount was paid for Pay Now method
             if( this.paymentMethod == 'Pay Now' && this.parameters.TotalAmount == this.grandTotal) {
@@ -94,27 +109,9 @@ export default class PaymentConfirmation extends LightningElement {
                 invoice: this.parameters.InvoiceNo,
                 receipt: this.parameters.ReceiptNo,
                 amountPaid: this.parameters.TotalAmount,
-                paymentUrl: window.location.href
+                paymentUrl: window.location.href,
+                email: this.parameters.Email
             }).then((data) => {
-                //only add course connection when cart is updated to close
-                if(this.parameters.Status == 'A'){
-                    //create course connection record
-                    createCourseConnection({ 
-                        cartId: this.cartId, 
-                        userId: userId, 
-                        amount: parseFloat(this.parameters.TotalAmount), 
-                        tranId: this.parameters.WebcartExternal_ID__c,
-                        paymentMethod: this.paymentMethod,
-                        paidInFull: this.paidInFull
-                    }).then((data) => {
-    
-                        //code
-    
-                    }).catch((error) => {
-                        console.log("createCourseConnection error");
-                        console.log(error);
-                    });
-                }
 
             }).catch((error) => {
                 console.log("updateWebCart error");
@@ -122,7 +119,33 @@ export default class PaymentConfirmation extends LightningElement {
             });
 
             // //if the payment is approved
-            
+            //only add course connection when cart is updated to close
+            if(this.parameters.Status == 'A'){
+                //create course connection record
+                createCourseConnection({ 
+                    cartId: this.cartId, 
+                    userId: userId, 
+                    amount: parseFloat(this.parameters.TotalAmount), 
+                    tranId: this.parameters.WebcartExternal_ID__c,
+                    paymentMethod: this.paymentMethod,
+                    paidInFull: this.paidInFull
+                }).then(() => {
+                }).catch((error) => {
+                    console.log("createCourseConnection error");
+                    console.log(error);
+                });
+            }
+
+            let fields = {};
+            fields[ID_FIELD.fieldApiName] = this.cartPayment;
+            fields[PAYMENT_STATUS_FIELD.fieldApiName] = this.paymentStatus;
+            fields[EMAIL_FIELD.fieldApiName] = this.parameters.Email?this.parameters.Email:this.contactEmail;
+            fields[INVOICE_FIELD.fieldApiName] = this.parameters.InvoiceNo;
+            fields[RECEIPT_FIELD.fieldApiName] = this.parameters.ReceiptNo;
+            fields[STATUS_FIELD.fieldApiName] = 'Closed';
+            fields[AMOUNT_PAID.fieldApiName] = this.parameters.TotalAmount;
+            let recordInput = {fields};
+            updateRecord(recordInput)
 
         }).catch((error) => {
             console.log("getCartData error");

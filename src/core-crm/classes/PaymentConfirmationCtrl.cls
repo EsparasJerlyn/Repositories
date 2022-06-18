@@ -41,6 +41,7 @@ public without sharing class PaymentConfirmationCtrl {
     return !ownedCart.isEmpty();
   }
 
+   
     /**
     * @description fetches cart data
     * @param externalId - External_Id__c of the WebCart
@@ -63,7 +64,8 @@ public without sharing class PaymentConfirmationCtrl {
                 Name, 
                 External_Id__c,
                 Discount_Applied__c,
-                Payment_Method__c
+                Payment_Method__c,
+                Cart_Payment__c
             FROM WebCart
             WHERE External_Id__c = :externalId 
             AND OwnerId =:userId
@@ -150,6 +152,7 @@ public without sharing class PaymentConfirmationCtrl {
         myCartData.cartItemsList = myCartItemsList;
         myCartData.subTotal = mySubtotal;
         myCartData.discountTotal = webCartData.Discount_Applied__c;
+        myCartData.cartPayment = webCartData.Cart_Payment__c;
         if(webCartData.Discount_Applied__c!= null){
             myCartData.grandTotal = mySubtotal - webCartData.Discount_Applied__c;
         }else{
@@ -169,6 +172,7 @@ public without sharing class PaymentConfirmationCtrl {
         @AuraEnabled public Double discountTotal;
         @AuraEnabled public Double grandTotal;
         @AuraEnabled public String paymentMethod;
+        @AuraEnabled public String cartPayment;
     }
 
     public class CartItemsWrapper{
@@ -186,157 +190,131 @@ public without sharing class PaymentConfirmationCtrl {
     * @return webCartData - WebCartData data type that contains the webcart and cartitems 
     */
     @AuraEnabled(cacheable=false)
-    public static List<hed__Course_Enrollment__c> createCourseConnection(String cartId, String userId, Double amount, String tranId, String paymentMethod, String paidInFull){
+    public static void createCourseConnection(String cartId, String userId, Double amount, String tranId, String paymentMethod, String paidInFull){
 
         Id studentRecordTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByName().get('Student').getRecordTypeId();
         Id studentProgramRecordTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByName().get('Student - Program').getRecordTypeId();
-
-        List<hed__Course_Enrollment__c> courseConnectionInsert = New List<hed__Course_Enrollment__c>();
+        Set<String> programOfferingIds = new Set<String>();
+        Map<String,Set<String>> programToChild = new Map<String,Set<String>>();
+        List<hed__Course_Enrollment__c> existingCourseCon = new List<hed__Course_Enrollment__c>();
+        existingCourseCon = [SELECT Id, Cart_Item__c FROM hed__Course_Enrollment__c WHERE Cart_ID__c =: cartId];
+        List<hed__Course_Enrollment__c> updateCourseCon = new List<hed__Course_Enrollment__c>();
+        List<hed__Course_Enrollment__c> courseConnectionInsert = new List<hed__Course_Enrollment__c>();
 
         //get the contact ID of the current user
         String contactId = [SELECT ContactId FROM User WHERE Id = :userId LIMIT 1].ContactId;
-
-        //retrieve cart item list
-        List<CartItem> cartItemList = [
-            SELECT
-                Id,
-                Course_Offering__c,
-                Program_Offering__c,
-                Program_Offering__r.hed_Program_Plan__c,
-                Pricebook_Entry_ID__c
-            FROM CartItem
-            WHERE CartId = :cartId];
-
-        //create list for existing course connections of the current cart
-        List<hed__Course_Enrollment__c> existingCC = new List<hed__Course_Enrollment__c>([
-            SELECT 
-                Id, 
-                Cart_ID__c,
-                Cart_Item__c,
-                Transaction_ID__c
-            FROM hed__Course_Enrollment__c
-            WHERE Transaction_ID__c = :tranId]);
-
-        //nested loop to check if cart items are already inserted to the course connection
-        for (CartItem currentCart : cartItemList) {
-
-            //loop on the existing course connections 
-            for(hed__Course_Enrollment__c currentCC : existingCC){
-                if(currentCC.Cart_Item__c == currentCart.Id){
-                    //return to exit function
-                    return courseConnectionInsert;
-                }
+        if(!existingCourseCon.isEmpty()){
+            for(hed__Course_Enrollment__c courseCon: existingCourseCon){
+                courseCon.Amount__c = amount;
+                courseCon.Transaction_ID__c = tranId;
+                courseCon.Payment_Method__c = paymentMethod;
+                courseCon.Paid_in_Full__c = paidInFull;
+                updateCourseCon.add(courseCon);
             }
+            update updateCourseCon;
+        }else{
+            //retrieve cart item list
+            List<CartItem> cartItemList = [
+                SELECT
+                    Id,
+                    Course_Offering__c,
+                    Program_Offering__c,
+                    Pricebook_Entry_ID__c
+                FROM CartItem
+                WHERE CartId = :cartId];
+
+            //create a set for the pricebook entries and program plans
+            Set<Id> pbentryIds = new Set<Id>();
+
+            //loop on the returned list to populate price book entrie IDs
+            for (CartItem currentCart : cartItemList) {
+                pbentryIds.add(currentCart.Pricebook_Entry_ID__c);
+                programOfferingIds.add(currentCart.Program_Offering__c);
+                
+            }
+
+            List<hed__Course_Offering__c> getChildCourseOffering = new List<hed__Course_Offering__c>();
+            getChildCourseOffering = [SELECT Id, Program_Offering__c FROM hed__Course_Offering__c WHERE Program_Offering__c IN: programOfferingIds];
+
+            for(hed__Course_Offering__c co: getChildCourseOffering){
+                if(!programToChild.containsKey(co.Program_Offering__c)){
+                    programToChild.put(co.Program_Offering__c, new Set<String>());
+                  }
+                  programToChild.get(co.Program_Offering__c).add(co.Id);
+            }
+            //create map of price book entry for linking with the cart items
+            Map<Id, PricebookEntry> pbEntryMap = new Map<Id, PricebookEntry>([
+                SELECT 
+                    Id, 
+                    Pricebook2.Name, 
+                    UnitPrice
+                FROM PricebookEntry
+                WHERE Id IN :pbentryIds]);
+
+            //loop on the returned list to populate price book entrie IDs
+            for (CartItem currentCart : cartItemList) {
+
+                //single record to be inserted
+                hed__Course_Enrollment__c tempCourseConnectionMain = new hed__Course_Enrollment__c();
+
+                //populate data for course offering
+                tempCourseConnectionMain.hed__Contact__c = contactId;
+                tempCourseConnectionMain.hed__Status__c = 'Active';
+                tempCourseConnectionMain.Amount__c = amount;
+                tempCourseConnectionMain.Transaction_ID__c = tranId;
+                tempCourseConnectionMain.Payment_Method__c = paymentMethod;
+                tempCourseConnectionMain.Paid_in_Full__c = paidInFull;
+                tempCourseConnectionMain.Cart_Item__c = currentCart.Id;
+                tempCourseConnectionMain.Cart_ID__c = cartId;
+
+                //check if current pricebook is for group booking
+                if(pbEntryMap.get(currentCart.Pricebook_Entry_ID__c).Pricebook2.Name == 'Group Booking'){
+                    tempCourseConnectionMain.Is_Group_Registered__c = true;
+
+                } else{
+                    tempCourseConnectionMain.Is_Group_Registered__c = false;
+                }
+
+                //identify if the current cart item is course or program offering
+                if(currentCart.Course_Offering__c != null){
+                    tempCourseConnectionMain.RecordTypeId = studentRecordTypeId;
+                    tempCourseConnectionMain.hed__Course_Offering__c = currentCart.Course_Offering__c;
+
+                } else{
+                    tempCourseConnectionMain.RecordTypeId = studentProgramRecordTypeId;
+                    tempCourseConnectionMain.Program_Offering__c = currentCart.Program_Offering__c;
+                    if(programToChild.containsKey(currentCart.Program_Offering__c)){
+                        for(String offering: programToChild.get(currentCart.Program_Offering__c)){
+                            hed__Course_Enrollment__c tempCourseConnectionSub = new hed__Course_Enrollment__c();
+                            tempCourseConnectionSub.hed__Contact__c = contactId;
+                            tempCourseConnectionSub.hed__Status__c = 'Active';
+                            tempCourseConnectionSub.Amount__c = amount;
+                            tempCourseConnectionSub.Transaction_ID__c = tranId;
+                            tempCourseConnectionSub.Payment_Method__c = paymentMethod;
+                            tempCourseConnectionSub.Paid_in_Full__c = paidInFull;
+                            tempCourseConnectionSub.Cart_Item__c = currentCart.Id;
+                            tempCourseConnectionSub.Cart_ID__c = cartId;
+                            //check if current pricebook is for group booking
+                            if(pbEntryMap.get(currentCart.Pricebook_Entry_ID__c).Pricebook2.Name == 'Group Booking'){
+                                tempCourseConnectionSub.Is_Group_Registered__c = true;
+                            } else{
+                                tempCourseConnectionSub.Is_Group_Registered__c = false;
+                            }
+                            tempCourseConnectionSub.RecordTypeId = studentRecordTypeId;
+                            tempCourseConnectionSub.hed__Course_Offering__c = offering;
+                            courseConnectionInsert.add(tempCourseConnectionSub);
+                        }
+                    }
+
+                }
+
+                courseConnectionInsert.add(tempCourseConnectionMain);
+            }
+
+            //insert the record
+            insert courseConnectionInsert;
         }
         
-        //create a set for the pricebook entries and program plans
-        Set<Id> pbentryIds = new Set<Id>();
-        Set<Id> programPlanIds = new Set<Id>();
-
-        //loop on the returned list to populate price book entrie IDs
-        for (CartItem currentCart : cartItemList) {
-            pbentryIds.add(currentCart.Pricebook_Entry_ID__c);
-            programPlanIds.add(currentCart.Program_Offering__r.hed_Program_Plan__c);
-        }
-    
-        //create map of price book entry for linking with the cart items
-        Map<Id, PricebookEntry> pbEntryMap = new Map<Id, PricebookEntry>([
-            SELECT 
-                Id, 
-                Pricebook2.Name, 
-                UnitPrice
-            FROM PricebookEntry
-            WHERE Id IN :pbentryIds]);
-
-        //create map of program plan
-        Map<Id, hed__Program_Plan__c> programPlanMap = new Map<Id, hed__Program_Plan__c>([
-            SELECT 
-                Id, 
-                Name, 
-                RecordTypeId, 
-                (Select Id, Name From Program_Offering__r)
-            FROM hed__Program_Plan__c
-            WHERE Id IN :programPlanIds]);
-
-        //loop on the returned list to populate price book entrie IDs
-        for (CartItem currentCart : cartItemList) {
-
-            //single record to be inserted
-            hed__Course_Enrollment__c tempCourseConnectionMain = new hed__Course_Enrollment__c();
-
-            //populate data for course offering
-            tempCourseConnectionMain.hed__Contact__c = contactId;
-            tempCourseConnectionMain.hed__Status__c = 'Active';
-            tempCourseConnectionMain.Amount__c = amount;
-            tempCourseConnectionMain.Transaction_ID__c = tranId;
-            tempCourseConnectionMain.Payment_Method__c = paymentMethod;
-            tempCourseConnectionMain.Paid_in_Full__c = paidInFull;
-            tempCourseConnectionMain.Cart_Item__c = currentCart.Id;
-            tempCourseConnectionMain.Cart_ID__c = cartId;
-
-            //check if current pricebook is for group booking
-            if(pbEntryMap.get(currentCart.Pricebook_Entry_ID__c).Pricebook2.Name == 'Group Booking'){
-                tempCourseConnectionMain.Is_Group_Registered__c = true;
-
-            } else{
-                tempCourseConnectionMain.Is_Group_Registered__c = false;
-            }
-
-            //identify if the current cart item is course or program offering
-            if(currentCart.Course_Offering__c != null){
-                tempCourseConnectionMain.RecordTypeId = studentRecordTypeId;
-                tempCourseConnectionMain.hed__Course_Offering__c = currentCart.Course_Offering__c;
-
-            } else{
-                tempCourseConnectionMain.RecordTypeId = studentProgramRecordTypeId;
-                tempCourseConnectionMain.Program_Offering__c = currentCart.Program_Offering__c;
-
-                //get the program offerings under the same program plan of the current program offering
-                List<Program_Offering__c> programOfferingSiblings = programPlanMap.get(currentCart.Program_Offering__r.hed_Program_Plan__c).Program_Offering__r;
-
-                //loop on the returned list to populate price book entrie IDs
-                for (Program_Offering__c currentProgramOfferingSibling : programOfferingSiblings) {
-
-                    //condition to skip the actual program offering and only add the siblings
-                    if(currentCart.Program_Offering__c != currentProgramOfferingSibling.Id){
-
-                        //single record to be inserted
-                        hed__Course_Enrollment__c tempCourseConnectionSub = new hed__Course_Enrollment__c();
-
-                        //populate data for course offering
-                        tempCourseConnectionSub.hed__Contact__c = contactId;
-                        tempCourseConnectionSub.hed__Status__c = 'Active';
-                        tempCourseConnectionSub.Amount__c = amount;
-                        tempCourseConnectionSub.Transaction_ID__c = tranId;
-                        tempCourseConnectionSub.Payment_Method__c = paymentMethod;
-                        tempCourseConnectionSub.Paid_in_Full__c = paidInFull;
-                        tempCourseConnectionSub.Cart_Item__c = currentCart.Id;
-                        tempCourseConnectionSub.Cart_ID__c = cartId;
-
-                        //check if current pricebook is for group booking
-                        if(pbEntryMap.get(currentCart.Pricebook_Entry_ID__c).Pricebook2.Name == 'Group Booking'){
-                            tempCourseConnectionSub.Is_Group_Registered__c = true;
-
-                        } else{
-                            tempCourseConnectionSub.Is_Group_Registered__c = false;
-                        }
-
-                        //program offering siblings record type should be student
-                        tempCourseConnectionSub.RecordTypeId = studentRecordTypeId;
-                        tempCourseConnectionSub.Program_Offering__c = currentProgramOfferingSibling.Id;
-
-                        courseConnectionInsert.add(tempCourseConnectionSub);
-                    }
-                }
-            }
-
-            courseConnectionInsert.add(tempCourseConnectionMain);
-        }
-
-        //insert the record
-        insert courseConnectionInsert;
-
-        return courseConnectionInsert;
     }
 
     /**
@@ -345,7 +323,7 @@ public without sharing class PaymentConfirmationCtrl {
      * @param cartStatus - cart status
      */
     @AuraEnabled
-    public static void updateWebCart(String cartId, String paymentStatus, String invoice, String receipt, Double amountPaid, String paymentUrl) {
+    public static void updateWebCart(String cartId, String paymentStatus, String invoice, String receipt, Double amountPaid, String paymentUrl,String email) {
         
         //get the cart
         WebCart webCart = [
@@ -358,7 +336,8 @@ public without sharing class PaymentConfirmationCtrl {
                 Amount_Paid__c,
                 Payment_URL__c,
                 Status,
-                Status__c
+                Status__c,
+                Cart_Payment__c
             FROM WebCart 
             WHERE Id = :cartId
             LIMIT 1];
@@ -381,6 +360,21 @@ public without sharing class PaymentConfirmationCtrl {
 
             update webCart;
         }
+        //update cartpayment 
+        if(webCart.Cart_Payment__c != null){
+            Cart_Payment__c  cpToUpdate = new Cart_Payment__c(  
+                Id = webCart.Cart_Payment__c,
+                Email__c = email,
+                Invoice_Number__c = invoice,
+                Receipt_Number__c = receipt,
+                Amount_Paid__c = amountPaid,
+                Payment_Status__c = paymentStatus
+            );
+            update cpToUpdate;
+        }
+        
+
+
     }
 }
   

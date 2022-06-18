@@ -1017,6 +1017,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Cart_Payment__c.Payment_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Cart_Payment__c.Receipt_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5105,6 +5110,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>WebCart.Cart_Payment__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>WebCart.External_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5143,6 +5153,11 @@
         <field>WebCart.Payment_Transaction_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>WebCart.Payment_Method__c</field>
+        <readable>true</readable>
+    </fieldPermissions> 
     <fieldPermissions>
         <editable>true</editable>
         <field>Potential_Duplicate__c.Contact__c</field>

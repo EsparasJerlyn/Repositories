@@ -14,6 +14,13 @@
     <targetConfigs>
         <targetConfig targets="lightningCommunity__Default">
             <property name="recordId" type="String" label="Record Id" description="Automatically bind the page's record id to the component variable" default="{!recordId}"/>
+            <property
+                name="effectiveAccountId"
+                type="String"
+                label="Effective Account Id"
+                description="The ID of the account under which the user is acting (BETA)"
+                default="{!CurrentUser.effectiveAccountId}"
+            />
         </targetConfig>
     </targetConfigs>
 </LightningComponentBundle>

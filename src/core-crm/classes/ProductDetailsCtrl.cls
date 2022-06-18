@@ -526,6 +526,8 @@ public without sharing class ProductDetailsCtrl {
       ]
       .Id;
 
+      PriceBookEntry pbEntry = [SELECT Id, UnitPrice FROM PriceBookEntry WHERE Id=: pricebookEntryId];
+
       // Set Cart Item to be inserted
       CartItem cItem = new CartItem();
       cItem.CartId = cartId;
@@ -540,6 +542,7 @@ public without sharing class ProductDetailsCtrl {
       cItem.Pricebook_Entry_ID__c = pricebookEntryId;
       cItem.Quantity = 1;
       cItem.Type = 'Product';
+      cItem.TotalPrice = pbEntry.UnitPrice;
 
       insert cItem;
     } catch (Exception e) {

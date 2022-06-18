@@ -106,6 +106,13 @@ public with sharing class PaymentConfirmationCtrlTest {
     );
     insert programOffs;
 
+    hed__Course_Offering__c newOffering = new hed__Course_Offering__c(Program_Offering__c = programOffs[0].Id, 
+          hed__Course__c = courses[0].id,
+          hed__Term__c = terms[0].id,
+          hed__Start_Date__c = system.today() + 2,
+          hed__Capacity__c = 10);
+
+          insert newOffering;
     Pricebook2 priceBook = new Pricebook2(
       isActive = true,
       id = Test.getStandardPricebookId()
@@ -287,11 +294,11 @@ public with sharing class PaymentConfirmationCtrlTest {
 
     Test.startTest();
 
-    List<hed__Course_Enrollment__c> insertedCourseEnrollment = PaymentConfirmationCtrl.createCourseConnection(webCart.Id, userTest.Id, 100, '6894b2af-cb62-86f5-7d21-7b54e9df96e5', 'Pay Now', 'Yes');
+    PaymentConfirmationCtrl.createCourseConnection(webCart.Id, userTest.Id, 100, '6894b2af-cb62-86f5-7d21-7b54e9df96e5', 'Pay Now', 'Yes');
 
     Test.stopTest();
 
-    System.assertNotEquals(null, insertedCourseEnrollment, 'hed__Course_Enrollment__c record not inserted');
+    System.assert(![SELECT Id FROM hed__Course_Enrollment__c LIMIT 1].isEmpty(), 'hed__Course_Enrollment__c record not inserted');
 
   }
 
@@ -307,7 +314,7 @@ public with sharing class PaymentConfirmationCtrlTest {
     ];
 
     Test.startTest();
-    PaymentConfirmationCtrl.updateWebCart(webCart.Id, 'Approved', '123Invoice', '456Receipt', 100, 'https://testurl.com');
+    PaymentConfirmationCtrl.updateWebCart(webCart.Id, 'Approved', '123Invoice', '456Receipt', 100, 'https://testurl.com', 'testtest@email.com');
     Test.stopTest();
 
     WebCart webCartUpdated = [

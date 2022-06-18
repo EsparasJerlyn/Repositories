@@ -10,6 +10,15 @@
 
 */
 public without sharing class CartItemCtrl {
+
+
+  public static final Id STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
+        .get('Student')
+        .getRecordTypeId();
+    public static final Id PROG_STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
+        .get('Student_Program')
+        .getRecordTypeId();
+  
   /**
    * @description fetches cart items data and related registration questiosn for the product
    * @param cartId - id of the current active cart
@@ -118,6 +127,7 @@ public without sharing class CartItemCtrl {
       cartItemsWrapper.productId = currentCart.Product2Id;
       cartItemsWrapper.contactId = contactId;
       cartItemsWrapper.CourseOfferingId =currentCart.Course_Offering__c;
+      cartItemsWrapper.programOfferingId = currentCart.Program_Offering__c;
 
       if(QuestionnaireMap.containsKey(currentCart.Course_Offering__r.hed__Course__r.ProductRequestID__c)) {
         
@@ -257,6 +267,8 @@ public without sharing class CartItemCtrl {
     public String contactId;
     @AuraEnabled
     public String CourseOfferingId;
+    @AuraEnabled
+    public String programOfferingId;
     @AuraEnabled
     public String startDate;
     @AuraEnabled
@@ -533,6 +545,92 @@ public without sharing class CartItemCtrl {
   }
 
   /**
+   * @description create course conection records
+   * @param cartitemids 
+   * @param contactId
+   * @param paidInFull
+   * @param paymentMethod
+   */
+  @AuraEnabled
+  public static void createCourseConnection(List<String> cartItemIds, String contactId, String paidInFull, String paymentMethod){
+    List<CartItem> cartList = [SELECT Id, CartId, Program_Offering__c, Course_Offering__c, Pricebook_Entry_ID__c FROM CartItem WHERE Id IN: cartItemIds];
+    List<hed__Course_Enrollment__c> connectionToInsert = new List<hed__Course_Enrollment__c>();
+    hed__Course_Enrollment__c tempConnection;
+    
+    Map<String,List<String>> productOfferingMap = new Map<String,List<String>>();
+    Set<String> programOfferings = new Set<String>();
+    Set<String> priceBookEntries = new Set<String>();
+    for(CartItem ci: cartList){
+      if(ci.Program_Offering__c != null){
+        programOfferings.add(ci.Program_Offering__c);
+      }
+      if(ci.Pricebook_Entry_ID__c != null){
+        priceBookEntries.add(ci.Pricebook_Entry_ID__c);
+      } 
+    }
+
+    Map<Id,PricebookEntry> priceBookEntriesMap =  new Map<Id,PricebookEntry>([SELECT Id, UnitPrice, Pricebook2.Name FROM PricebookEntry WHERE Id IN: priceBookEntries]);
+    List<hed__Course_Offering__c> courseOfferings = [SELECT Id, Program_Offering__c FROM hed__Course_Offering__c WHERE Program_Offering__c IN: programOfferings];
+
+    if(!courseOfferings.isEmpty()){
+      for(hed__Course_Offering__c courseOffering: courseOfferings){
+        if(!productOfferingMap.containsKey(courseOffering.Program_Offering__c)){
+          productOfferingMap.put(courseOffering.Program_Offering__c, new List<String>());
+        }
+        productOfferingMap.get(courseOffering.Program_Offering__c).add(courseOffering.Id);
+      }
+    }
+
+    for(CartItem ci: cartList){
+      tempConnection = new hed__Course_Enrollment__c();
+      tempConnection.hed__Contact__c = contactId;
+      tempConnection.hed__Course_Offering__c = ci.Course_Offering__c;
+      tempConnection.Program_Offering__c = ci.Program_Offering__c;
+      tempConnection.hed__Status__c = 'Active';
+      tempConnection.Cart_ID__c = ci.CartId;
+      tempConnection.Cart_Item__c = ci.Id;
+      if(priceBookEntriesMap.containsKey(ci.Pricebook_Entry_ID__c) && priceBookEntriesMap.get(ci.Pricebook_Entry_ID__c).Pricebook2.Name == 'Group Booking'){
+        tempConnection.Is_Group_Registered__c = true;
+      }else{
+        tempConnection.Is_Group_Registered__c = false;
+      }
+      tempConnection.Amount__c = priceBookEntriesMap.containsKey(ci.Pricebook_Entry_ID__c)?priceBookEntriesMap.get(ci.Pricebook_Entry_ID__c).UnitPrice:0;
+      tempConnection.Payment_Method__c = paymentMethod;
+      tempConnection.Paid_in_Full__c = paidInFull;
+      tempConnection.RecordTypeId = ci.Program_Offering__c != null?PROG_STUDENT_RECTYPEID:STUDENT_RECTYPEID;
+      //tempConnection.PricebookEntryID__c = ci.Pricebook_Entry_ID__c;
+      connectionToInsert.add(tempConnection);
+
+      if(ci.Program_Offering__c != null && productOfferingMap.containsKey(ci.Program_Offering__c)){
+        for(String childOffering: productOfferingMap.get(ci.Program_Offering__c)){
+          tempConnection = new hed__Course_Enrollment__c();
+          tempConnection.hed__Contact__c = contactId;
+          tempConnection.hed__Course_Offering__c = childOffering;
+          tempConnection.hed__Status__c = 'Active';
+          tempConnection.Cart_ID__c = ci.CartId;
+          tempConnection.Cart_Item__c = ci.Id;
+          if(priceBookEntriesMap.containsKey(ci.Pricebook_Entry_ID__c) && priceBookEntriesMap.get(ci.Pricebook_Entry_ID__c).Pricebook2.Name == 'Group Booking'){
+            tempConnection.Is_Group_Registered__c = true;
+          }else{
+            tempConnection.Is_Group_Registered__c = false;
+          }
+          tempConnection.Amount__c = priceBookEntriesMap.containsKey(ci.Pricebook_Entry_ID__c)?priceBookEntriesMap.get(ci.Pricebook_Entry_ID__c).UnitPrice:0;
+          tempConnection.Payment_Method__c = paymentMethod;
+          tempConnection.Paid_in_Full__c = paidInFull;
+          tempConnection.RecordTypeId = STUDENT_RECTYPEID;
+          connectionToInsert.add(tempConnection);
+        }
+      }
+      
+    }
+    
+    if(!connectionToInsert.isEmpty()){
+      insert connectionToInsert;
+    }
+
+  }
+
+  /**
    * @description get OPE Product Category Id
    * @return OPE Product Category Id
    */
@@ -575,6 +673,22 @@ public without sharing class CartItemCtrl {
     WebCart webCart = [SELECT Id, Name, External_Id__c, Payment_Method__c FROM WebCart WHERE Id = :cartId LIMIT 1];
 
     //update the cart based on the status received
+    webCart.Payment_Method__c = paymentMethod;
+    update webCart;
+  }
+
+  /**
+   * @description updates the payment method selected by the user
+   * @param cartId - WebCart.Id
+   * @param paymentMethod - WebCart.Payment_Method__c
+   */
+  @AuraEnabled
+  public static void updatePaymentMethod(String cartId, String paymentMethod, String cartPayment) {
+    //get the cart
+    WebCart webCart = [SELECT Id, Name, External_Id__c, Payment_Method__c FROM WebCart WHERE Id = :cartId LIMIT 1];
+
+    //update the cart based on the status received
+    webCart.Cart_Payment__c = cartPayment;
     webCart.Payment_Method__c = paymentMethod;
     update webCart;
   }
