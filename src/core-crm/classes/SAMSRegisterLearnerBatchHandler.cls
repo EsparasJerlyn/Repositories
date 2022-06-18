@@ -12,8 +12,10 @@ public without sharing class SAMSRegisterLearnerBatchHandler implements Database
     private static final String COMPLETED = 'Completed';
 
     public Database.QueryLocator start(Database.BatchableContext param1) {
-        return Database.getQueryLocator(
-                'SELECT Id, Recordtype_Name__c, hed__Status__c, hed__Contact__c, hed__Contact__r.SAMS_Integration_Status__c, hed__Contact__r.QUT_Student_ID__c,' +
+
+		Set<Id> contactIds = new Set<Id>();
+
+        for(hed__Course_Enrollment__c courseEnrollment : Database.query('SELECT Id, Recordtype_Name__c, hed__Status__c, hed__Contact__c, hed__Contact__r.SAMS_Integration_Status__c, hed__Contact__r.QUT_Student_ID__c,' +
                         ' hed__Contact__r.Id, hed__Contact__r.Nominated_Student_ID__c, hed__Contact__r.Salutation, hed__Contact__r.FirstName, hed__Contact__r.LastName,' +
                         ' hed__Contact__r.Birthdate, hed__Contact__r.hed__Gender__c, hed__Contact__r.MobilePhone, hed__Contact__r.Email' +
                         ' FROM hed__Course_Enrollment__c' +
@@ -21,8 +23,15 @@ public without sharing class SAMSRegisterLearnerBatchHandler implements Database
                         ' AND hed__Status__c != :COMPLETED' +
                         ' AND Recordtype_Name__c = :STUDENT' +
                         ' AND hed__Contact__c != NULL' +
-                        ' AND hed__Contact__r.QUT_Student_ID__c = NULL'
-        );
+                        ' AND hed__Contact__r.QUT_Student_ID__c = NULL')
+           )
+        {
+            contactIds.add(courseEnrollment.hed__Contact__r.Id);
+        }
+
+        return Database.getQueryLocator('SELECT Id, Nominated_Student_ID__c, Salutation, FirstName, LastName, Birthdate, hed__Gender__c, MobilePhone, Email' +
+                                       ' FROM Contact' +
+                                       ' WHERE Id IN :contactIds');
     }
 
     /**
@@ -31,7 +40,7 @@ public without sharing class SAMSRegisterLearnerBatchHandler implements Database
      * @param context The batch context.
      * @param batchObjects The objects to process.
      */
-    public void execute(Database.BatchableContext context, List<hed__Course_Enrollment__c> batchObjects) {
+    public void execute(Database.BatchableContext context, List<Contact> batchObjects) {
         System.debug('Execute SAMSRegisterLearnerBatchHandler start');
 
         if (batchObjects.size() == 1) {

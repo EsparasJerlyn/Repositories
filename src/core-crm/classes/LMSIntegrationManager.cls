@@ -43,11 +43,9 @@ public without sharing class LMSIntegrationManager {
         update courseEnrollments;
     }
 
-    public static void calloutSAMSRegisterLearner(hed__Course_Enrollment__c courseEnrollment) {
-        HttpResponse response = doCallout(ENDPOINT_ESB_SAMS_REGISTER_LEARNER, 'POST', JSON.serialize(new LearnerWrapper(courseEnrollment)));
+    public static void calloutSAMSRegisterLearner(Contact contact) {
+        HttpResponse response = doCallout(ENDPOINT_ESB_SAMS_REGISTER_LEARNER, 'POST', JSON.serialize(new LearnerWrapper(contact)));
 
-        Contact contact = new Contact();
-        contact.put('Id', courseEnrollment.hed__Contact__r.Id);
         contact.put('SAMS_Integration_Status__c', 'Sent');
         update contact;
     }
@@ -164,24 +162,24 @@ public without sharing class LMSIntegrationManager {
         private String mobile {get; set;}
         private String email {get; set;}
 
-        private LearnerWrapper(hed__Course_Enrollment__c courseEnrollment) {
-            sfid = courseEnrollment.hed__Contact__r.Id;
-            nominatedStudentId = courseEnrollment.hed__Contact__r.Nominated_Student_ID__c;
-            title = courseEnrollment.hed__Contact__r.Salutation;
-            firstName = courseEnrollment.hed__Contact__r.FirstName;
-            lastName = courseEnrollment.hed__Contact__r.LastName;
-            birthDate =  courseEnrollment.hed__Contact__r.Birthdate != null ? courseEnrollment.hed__Contact__r.Birthdate.year() + '-' + String.valueOf(courseEnrollment.hed__Contact__r.Birthdate.month()).leftPad(2,'0') + '-' + String.valueOf(courseEnrollment.hed__Contact__r.Birthdate.day()).leftPad(2,'0') : null;
-            if (courseEnrollment.hed__Contact__r.hed__Gender__c == 'Male') {
+        private LearnerWrapper(Contact contact) {
+            sfid = contact.Id;
+            nominatedStudentId = contact.Nominated_Student_ID__c;
+            title = contact.Salutation;
+            firstName = contact.FirstName;
+            lastName = contact.LastName;
+            birthDate =  contact.Birthdate != null ? contact.Birthdate.year() + '-' + String.valueOf(contact.Birthdate.month()).leftPad(2,'0') + '-' + String.valueOf(contact.Birthdate.day()).leftPad(2,'0') : null;
+            if (contact.hed__Gender__c == 'Male') {
                 gender = 'M';
-            } else if (courseEnrollment.hed__Contact__r.hed__Gender__c == 'Female') {
+            } else if (contact.hed__Gender__c == 'Female') {
                 gender = 'F';
-            } else if (courseEnrollment.hed__Contact__r.hed__Gender__c == 'Other') {
+            } else if (contact.hed__Gender__c == 'Other') {
                 gender = 'X';
             } else {
                 gender = null;
             }
-            mobile = courseEnrollment.hed__Contact__r.MobilePhone;
-            email = courseEnrollment.hed__Contact__r.Email;
+            mobile = contact.MobilePhone;
+            email = contact.Email;
         }
     }
 
