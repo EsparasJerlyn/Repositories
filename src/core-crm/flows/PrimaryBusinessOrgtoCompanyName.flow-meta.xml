@@ -2,10 +2,10 @@
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>54.0</apiVersion>
     <assignments>
-        <name>Assign_Company_Name</name>
+        <name>Assign_Company_Name_0_0</name>
         <label>Assign Company Name</label>
-        <locationX>176</locationX>
-        <locationY>311</locationY>
+        <locationX>264</locationX>
+        <locationY>431</locationY>
         <assignmentItems>
             <assignToReference>$Record.Company_Name__c</assignToReference>
             <operator>Assign</operator>
@@ -14,6 +14,28 @@
             </value>
         </assignmentItems>
     </assignments>
+    <decisions>
+        <name>Not_OPE_Catalogue</name>
+        <label>Not OPE Catalogue?</label>
+        <locationX>176</locationX>
+        <locationY>311</locationY>
+        <defaultConnector>
+            <targetReference>Assign_Company_Name_0_0</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Not_Catalogue</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.hed__Primary_Organization__r.Name</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <stringValue>OPE Catalogue</stringValue>
+                </rightValue>
+            </conditions>
+            <label>Not  Catalogue</label>
+        </rules>
+    </decisions>
     <interviewLabel>Primary Business Org to Company Name {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Primary Business Org to Company Name</label>
     <processMetadataValues>
@@ -39,7 +61,7 @@
         <locationX>50</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>Assign_Company_Name</targetReference>
+            <targetReference>Not_OPE_Catalogue</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
