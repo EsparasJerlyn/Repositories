@@ -352,6 +352,7 @@ public with sharing class MarketingStagingTriggerHandlerTest {
         msList[0].Lead_Source_Category__c = 'Enquiry';
         msList[0].Lead_Source__c = 'TESTLEADSOURCE1';
         msList[0].Application_Source__c = 'Studylink';
+        msList[0].Application_Id__c = '12345';
         msList[0].QUT_Student_ID__c = '12345';
         msList[0].Admission_Period__c ='12345';
         msList[0].Course_Code__c = '12345';
@@ -371,6 +372,7 @@ public with sharing class MarketingStagingTriggerHandlerTest {
         msList2[0].Interaction_DateTime__c = Date.Today();
         msList2[0].Lead_Source_Category__c = 'Enquiry';
         msList2[0].Lead_Source__c = 'TESTLEADSOURCE1';
+        msList2[0].Application_Id__c = '12345';
         msList2[0].Application_Source__c = 'Studylink';
         msList2[0].QUT_Student_ID__c = '12345';
         msList2[0].Admission_Period__c ='12345';
@@ -588,15 +590,15 @@ public with sharing class MarketingStagingTriggerHandlerTest {
         
         Test.startTest();
         List<Contact> contactList = new List<Contact>();
-        for(Integer i = 0; i < 100; i++){
+        for(Integer i = 0; i < 50; i++){
             contactList.add(new Contact(FirstName = 'Test' + i, LastName = 'Contact' + i, Email = 'TestEmail@email.com' + i, Company_Name__c = 'test company', QUT_Student_ID__c = '12345' + i));
         }
-        for(Integer i = 0; i < 50; i++){
+        for(Integer i = 0; i < 30; i++){
             contactList.add(new Contact(FirstName = 'Test' + i, LastName = 'Contact' + i, Email = 'TestEmail@email.com' + i, Company_Name__c = 'test company', QUT_Student_ID__c = '12345' + i));
         }
         insert contactList;
         List<Marketing_Staging__c> msList = new List<Marketing_Staging__c>();
-        for(Integer i = 0; i < 100; i++){
+        for(Integer i = 0; i < 50; i++){
             msList.add(new Marketing_Staging__c(First_Name__c = 'Test' + i, Last_Name__c = 'Contact' + i, Email__c = 'TestEmail@email.com' + i, Salutation__c = 'Mr', QUT_Student_ID__c = '12345' + i,
             Application_Source__c = 'SAMS', Admission_Period__c = '12', Course_Code__c = '12345', Admission_Year__c = 2220 ));
         }
@@ -620,18 +622,18 @@ public with sharing class MarketingStagingTriggerHandlerTest {
         Test.startTest();
         List<Lead> leadList = new List<Lead>();
         List<Lead> leadListtoUpdate = new List<Lead>();
-        for(Integer i = 0; i < 100; i++){
+        for(Integer i = 0; i < 50; i++){
             leadList.add(new Lead(FirstName = 'Test' + i, LastName = 'Lead' + i, Email = 'TestEmail@email.com' + i, Company = 'Learner'));
         }
         insert leadList;
-        for(Integer i = 75; i < 100; i++){
-            integer y = i - 75;
+        for(Integer i = 30; i < 50; i++){
+            integer y = i - 30;
             leadListtoUpdate.add(new Lead(Id=leadList[i].Id, FirstName = 'Test' + y, LastName = 'Lead' + y, Email = 'TestEmail@email.com' + y));                                                                                                                                    
         }
         update leadListtoUpdate; //update lead to match and create duplicates
 
         List<Marketing_Staging__c> msList = new List<Marketing_Staging__c>();
-        for(Integer i = 0; i < 100; i++){
+        for(Integer i = 0; i < 50; i++){
             msList.add(new Marketing_Staging__c(First_Name__c = 'Test' + i, Last_Name__c = 'Lead' + i, Email__c = 'TestEmail@email.com' + i, Salutation__c = 'Mr',
             Application_Source__c ='QTAC', Applicant_Id__c ='12345', Preference_Number__c = 1));
         }

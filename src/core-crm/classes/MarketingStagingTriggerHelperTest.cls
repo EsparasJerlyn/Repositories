@@ -210,6 +210,7 @@ public with sharing class MarketingStagingTriggerHelperTest {
         msList[0].Lead_Source_Category__c = 'Enquiry';
         msList[0].Lead_Source__c = 'TESTLEADSOURCE1';
         msList[0].Application_Source__c = 'Studylink';
+        msList[0].Application_Id__c = '12345';
         msList[0].QUT_Student_ID__c = '12345';
         msList[0].Admission_Period__c ='12345';
         msList[0].Course_Code__c = '12345';
@@ -231,6 +232,7 @@ public with sharing class MarketingStagingTriggerHelperTest {
         msList2[0].Lead_Source__c = 'TESTLEADSOURCE1';
         msList2[0].Application_Source__c = 'Studylink';
         msList2[0].QUT_Student_ID__c = '12345';
+        msList2[0].Application_Id__c = '12345';
         msList2[0].Admission_Period__c ='12345';
         msList2[0].Course_Code__c = '12345';
         msList2[0].Admission_Year__c = 2202;

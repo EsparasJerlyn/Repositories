@@ -61,7 +61,6 @@ public with sharing class MarketingStagingTriggerHandler implements Disableable,
 
     for(sObject mStaging: newItems.values()){
 
-        
 
         //make sure last name amd email is populated
         if(mStaging.get('Last_Name__c') !=null && mStaging.get('Email__c') != null && mStaging.get('Name_and_Email__c') != null){
@@ -102,10 +101,7 @@ public with sharing class MarketingStagingTriggerHandler implements Disableable,
                             samsMatchingConMap.put((String)mStaging.get('QUT_Student_ID__c'),(String)mStaging.get('SAMS_Matching_Criteria__c'));
 
             }else if(   mStaging.get('Application_Source__c') == 'Studylink' && 
-                        mStaging.get('QUT_Student_ID__c') != null &&
-                        mStaging.get('Admission_Period__c') != null &&
-                        mStaging.get('Course_Code__c') != null &&
-                        mStaging.get('Admission_Year__c') != null &&
+                        mStaging.get('Application_Id__c') != null &&
                         mStaging.get('Applicant_Id__c') != null ){
 
                             studylinkMatchingMap.put((String)mStaging.get('Name_and_Email__c'),(String)mStaging.get('Studylink_Matching_Criteria__c')); 

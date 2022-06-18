@@ -3,7 +3,7 @@
     <fullName>Studylink_Matching_Criteria__c</fullName>
     <description>Studylink matching criteria</description>
     <externalId>false</externalId>
-    <formula>Application_Source__c + QUT_Student_ID__c + Admission_Period__c + Course_Code__c + TEXT(Admission_Year__c) + Applicant_Id__c</formula>
+    <formula>Application_Source__c + Application_Id__c + Applicant_Id__c</formula>
     <label>Studylink Matching Criteria</label>
     <required>false</required>
     <trackHistory>false</trackHistory>
