@@ -1,331 +1,333 @@
 <template>
   <!-- TO DO: MODAL -->
   <div class="modal">
-    <div if:true={displayForm} class="modal-content text px3 pt2">
-      <div
-        class="slds-m-top_small slds-m-right_large slds-p-right_large slds-clearfix"
-      >
-      <div if:false={isLoginPage}>
-        <!--X button -->
-        <span class="slds-float_right cursor" onclick={closeModal}
-        ><img src={xButton}
-        /></span>
-      </div>
-      </div>      
-      <div class="slds-text-align_center slds-m-vertical_medium">
-        <!--Static Contents-->
-        <p class="heading">{label.header}</p>
-        <p>{label.subHeader}</p>
-      </div>
-      <div>
-        <!--SSO Links-->
-        <div
-          class="slds-text-align_center slds-m-vertical_medium slds-m-horizontal_small slds-p-horizontal_small"
-        >
-          <a href={experienceSSOUrl} class="sso-text colored"
-            >{label.qutSSOText}</a
-          >
-        </div>
-        <!-- DEPP-3033 comment out linkedin registration option for R1B release
-        <div class="center px2">
-          <button
-            onclick={handleLinkedInOnClick}
-            class="button slds-button slds-button_brand slds-p-vertical_small slds-p-horizontal_x-large btn-reg"
-          >
-            <img src={linkedInLogo} class="slds-m-around_x-small" />
-            {label.registerWithLinkedIn}
-          </button>
-        </div>
-        -->
-      </div>
-      <form id="form">
-        <div class="slds-m-horizontal_small">
-          <!--Form-->
-          <div class="indicate-text">
-            <span class="required-text">* </span
-            ><span style="font-style: italic">{label.requiredField}</span>
-          </div>
-          <div class="slds-grid slds-grid_vertical pb2">
-            <!--First Name and Last Name-->
-            <div class="slds-grid slds-gutters slds-wrap slds-m-top_large">
-              <div class="slds-col  slds-m-top_medium slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2">
-                <div class="slds-form-element">
-                  <label for="fname" class="label-text">First Name </label>
-                  <span class="required-text">*</span><br />
-                  <div class="slds-form-element__control">
-                    <input
-                      type="text"
-                      id="fname"
-                      value={firstName}
-                      onchange={handleFirstNameChange}
-                      class={requiredInputClass.firstName}
-                    />
-                  </div>
-                  <div>
-                    <template if:true={hasErrorFN}>
-                      <c-error-icon></c-error-icon>
-                    </template>
-                    <small class={requiredDisplayData.firstName}
-                      >{requiredErrorMessage}</small
-                    >
-                  </div>
-                </div>
+        <div if:true={displayForm} class="modal-content text px3 pt2">
+          <div class="wrapper">
+              <div
+                class="slds-m-top_small slds-m-right_large slds-p-right_large slds-clearfix"
+              >
+              <div if:false={isLoginPage}>
+                <!--X button -->
+                <span class="slds-float_right cursor" onclick={closeModal}
+                ><img src={xButton}
+                /></span>
               </div>
-              <div class="slds-col  slds-m-top_medium slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2">
-                <div class="slds-form-element">
-                  <label for="flast" class="label-text">Last Name </label>
-                  <span class="required-text">*</span><br />
-                  <div class="slds-form-element__control">
-                    <input
-                      type="text"
-                      id="flast"
-                      value={lastName}
-                      onchange={handleLastNameChange}
-                      class={requiredInputClass.lastName}
-                    />
-                  </div>
-                  <template if:true={hasErrorLN}>
-                    <c-error-icon></c-error-icon>
-                  </template>
-                  <small class={requiredDisplayData.lastName}
-                    >{requiredErrorMessage}</small
-                  >
-                </div>
+              </div>      
+              <div class="slds-text-align_center slds-m-vertical_medium">
+                <!--Static Contents-->
+                <p class="heading">{label.header}</p>
+                <p>{label.subHeader}</p>
               </div>
-            </div>
-            <!--Email-->
-            <div class="slds col slds-m-top_medium">
-              <div class="slds-form-element">
-                <label for="email" class="label-text">Email </label>
-                <span class="required-text">*</span><br />
-                <div class="slds-form-element__control">
-                  <input
-                    type="text"
-                    id="email"
-                    value={email}
-                    onchange={handleEmailChange}
-                    class={requiredInputClass.email}
-                  />
-                </div>
-                <template if:true={hasErrorEmail}>
-                  <c-error-icon></c-error-icon>
-                </template>
-                <small class={requiredDisplayData.email}
-                  >{emailErrorMessage}</small
+              <div>
+                <!--SSO Links-->
+                <div
+                  class="slds-text-align_center slds-m-vertical_medium slds-m-horizontal_small slds-p-horizontal_small"
                 >
-              </div>
-            </div>
-            <!--Contact Info-->
-            <span class="label-text slds-m-top_medium"></span>
-            <div class="slds-grid slds-wrap slds-gutters">
-              <!--Locale-->
-              <div class="slds-col slds-size_1-of-2">
-                <div class="slds-form-element">
-                  <label for="locale" class="label-text">Country Code</label>
-                  <span class="required-text">*</span>
-                  <div class="slds-form-element__control">
-                    <c-custom-combobox
-                      class=""
-                      placeholder="Select Locale"
-                      options={localeOptions}
-                      value={locale}
-                      onchange={handleLocaleChange}
-                      slds-icon-up="utility:chevronup"
-                      slds-icon-down="utility:chevrondown"
-                    >
-                    </c-custom-combobox>
-                  </div>
-                  <template if:true={hasErrorLocale}>
-                    <c-error-icon></c-error-icon>
-                  </template>
-                  <small class={requiredDisplayData.locale}
-                    >{requiredErrorMessage}</small
+                  <a href={experienceSSOUrl} class="sso-text colored"
+                    >{label.qutSSOText}</a
                   >
                 </div>
-              </div>
-              <!--Mobile-->
-              <div class="slds-col slds-size_1-of-2">
-                <div class="slds-form-element">
-                  <label for="mobile" class="label-text">Mobile </label>
-                  <span class="required-text">*</span>
-                  <div class="slds-form-element__control">
-                    <input
-                      type="text"
-                      id="mobile"
-                      value={mobile}
-                      onchange={handleMobileChange}
-                      class={requiredInputClass.mobile}
-                    />
-                  </div>
-                  <template if:true={hasErrorMob}>
-                    <c-error-icon></c-error-icon>
-                  </template>
-                  <small class={requiredDisplayData.mobile}
-                    >{requiredErrorMessage}</small
+                <!-- DEPP-3033 comment out linkedin registration option for R1B release
+                <div class="center px2">
+                  <button
+                    onclick={handleLinkedInOnClick}
+                    class="button slds-button slds-button_brand slds-p-vertical_small slds-p-horizontal_x-large btn-reg"
                   >
+                    <img src={linkedInLogo} class="slds-m-around_x-small" />
+                    {label.registerWithLinkedIn}
+                  </button>
                 </div>
+                -->
               </div>
-            </div>
-            <!--Birthdate-->
-            <span class="label-text slds-m-top_medium"
-              >What is your date of Birth?</span
-            ><br />
-            <div class="slds-grid slds-wrap slds-gutters">
-              <!--Date-->
-              <div class="slds-col slds-size_1-of-3">
-                <div class="slds-form-element">
-                  <label for="day" class="label-text">Date </label>
-                  <span class="required-text">*</span><br />
-                  <div class="slds-form-element__control">
-                    <input
-                      type="number"
-                      id="date"
-                      value={date}
-                      onchange={handleDayChange}
-                      class={requiredInputClass.date}
-                      maxlength="2"
-                    />
+              <form id="form">
+                <div class="slds-m-horizontal_small">
+                  <!--Form-->
+                  <div class="indicate-text">
+                    <span class="required-text">* </span
+                    ><span style="font-style: italic">{label.requiredField}</span>
                   </div>
-                  <template if:true={hasErrorDate}>
-                    <c-error-icon></c-error-icon>
-                  </template>
-                  <small class={requiredDisplayData.date}
-                    >{dateErrorMessage}</small
-                  >
-                </div>
-              </div>
-              <!--Month-->
-              <div class="slds-col slds-size_1-of-3">
-                <div class="slds-form-element">
-                  <label for="month" class="label-text">Month </label>
-                  <span class="required-text">*</span><br />
-                  <div class="slds-form-element__control">
-                    <input
-                      type="number"
-                      id="month"
-                      value={month}
-                      onchange={handleMonthChange}
-                      class={requiredInputClass.month}
-                      maxlength="2"
-                    />
+                  <div class="slds-grid slds-grid_vertical pb2">
+                    <!--First Name and Last Name-->
+                    <div class="slds-grid slds-gutters slds-wrap slds-m-top_large">
+                      <div class="slds-col  slds-m-top_medium slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2">
+                        <div class="slds-form-element">
+                          <label for="fname" class="label-text">First Name </label>
+                          <span class="required-text">*</span><br />
+                          <div class="slds-form-element__control">
+                            <input
+                              type="text"
+                              id="fname"
+                              value={firstName}
+                              onchange={handleFirstNameChange}
+                              class={requiredInputClass.firstName}
+                            />
+                          </div>
+                          <div>
+                            <template if:true={hasErrorFN}>
+                              <c-error-icon></c-error-icon>
+                            </template>
+                            <small class={requiredDisplayData.firstName}
+                              >{requiredErrorMessage}</small
+                            >
+                          </div>
+                        </div>
+                      </div>
+                      <div class="slds-col  slds-m-top_medium slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2">
+                        <div class="slds-form-element">
+                          <label for="flast" class="label-text">Last Name </label>
+                          <span class="required-text">*</span><br />
+                          <div class="slds-form-element__control">
+                            <input
+                              type="text"
+                              id="flast"
+                              value={lastName}
+                              onchange={handleLastNameChange}
+                              class={requiredInputClass.lastName}
+                            />
+                          </div>
+                          <template if:true={hasErrorLN}>
+                            <c-error-icon></c-error-icon>
+                          </template>
+                          <small class={requiredDisplayData.lastName}
+                            >{requiredErrorMessage}</small
+                          >
+                        </div>
+                      </div>
+                    </div>
+                    <!--Email-->
+                    <div class="slds col slds-m-top_medium">
+                      <div class="slds-form-element">
+                        <label for="email" class="label-text">Email </label>
+                        <span class="required-text">*</span><br />
+                        <div class="slds-form-element__control">
+                          <input
+                            type="text"
+                            id="email"
+                            value={email}
+                            onchange={handleEmailChange}
+                            class={requiredInputClass.email}
+                          />
+                        </div>
+                        <template if:true={hasErrorEmail}>
+                          <c-error-icon></c-error-icon>
+                        </template>
+                        <small class={requiredDisplayData.email}
+                          >{emailErrorMessage}</small
+                        >
+                      </div>
+                    </div>
+                    <!--Contact Info-->
+                    <span class="label-text slds-m-top_medium"></span>
+                    <div class="slds-grid slds-wrap slds-gutters">
+                      <!--Locale-->
+                      <div class="slds-col slds-size_1-of-2">
+                        <div class="slds-form-element">
+                          <label for="locale" class="label-text">Country Code</label>
+                          <span class="required-text">*</span>
+                          <div class="slds-form-element__control">
+                            <c-custom-combobox
+                              class=""
+                              placeholder="Select Locale"
+                              options={localeOptions}
+                              value={locale}
+                              onchange={handleLocaleChange}
+                              slds-icon-up="utility:chevronup"
+                              slds-icon-down="utility:chevrondown"
+                            >
+                            </c-custom-combobox>
+                          </div>
+                          <template if:true={hasErrorLocale}>
+                            <c-error-icon></c-error-icon>
+                          </template>
+                          <small class={requiredDisplayData.locale}
+                            >{requiredErrorMessage}</small
+                          >
+                        </div>
+                      </div>
+                      <!--Mobile-->
+                      <div class="slds-col slds-size_1-of-2">
+                        <div class="slds-form-element">
+                          <label for="mobile" class="label-text">Mobile </label>
+                          <span class="required-text">*</span>
+                          <div class="slds-form-element__control">
+                            <input
+                              type="text"
+                              id="mobile"
+                              value={mobile}
+                              onchange={handleMobileChange}
+                              class={requiredInputClass.mobile}
+                            />
+                          </div>
+                          <template if:true={hasErrorMob}>
+                            <c-error-icon></c-error-icon>
+                          </template>
+                          <small class={requiredDisplayData.mobile}
+                            >{requiredErrorMessage}</small
+                          >
+                        </div>
+                      </div>
+                    </div>
+                    <!--Birthdate-->
+                    <span class="label-text slds-m-top_medium"
+                      >What is your date of Birth?</span
+                    ><br />
+                    <div class="slds-grid slds-wrap slds-gutters">
+                      <!--Date-->
+                      <div class="slds-col slds-size_1-of-3">
+                        <div class="slds-form-element">
+                          <label for="day" class="label-text">Date </label>
+                          <span class="required-text">*</span><br />
+                          <div class="slds-form-element__control">
+                            <input
+                              type="number"
+                              id="date"
+                              value={date}
+                              onchange={handleDayChange}
+                              class={requiredInputClass.date}
+                              maxlength="2"
+                            />
+                          </div>
+                          <template if:true={hasErrorDate}>
+                            <c-error-icon></c-error-icon>
+                          </template>
+                          <small class={requiredDisplayData.date}
+                            >{dateErrorMessage}</small
+                          >
+                        </div>
+                      </div>
+                      <!--Month-->
+                      <div class="slds-col slds-size_1-of-3">
+                        <div class="slds-form-element">
+                          <label for="month" class="label-text">Month </label>
+                          <span class="required-text">*</span><br />
+                          <div class="slds-form-element__control">
+                            <input
+                              type="number"
+                              id="month"
+                              value={month}
+                              onchange={handleMonthChange}
+                              class={requiredInputClass.month}
+                              maxlength="2"
+                            />
+                          </div>
+                          <template if:true={hasErrorMonth}>
+                            <c-error-icon></c-error-icon>
+                          </template>
+                          <small class={requiredDisplayData.month}
+                            >{monthErrorMessage}</small
+                          >
+                        </div>
+                      </div>
+                      <!--Year-->
+                      <div class="slds-col slds-size_1-of-3">
+                        <div class="slds-form-element">
+                          <label for="year" class="label-text">Year </label>
+                          <span class="required-text">*</span>
+                          <div class="slds-form-element__control">
+                            <input
+                              type="number"
+                              id="year"
+                              value={year}
+                              onchange={handleYearChange}
+                              class={requiredInputClass.year}
+                              maxlength="4"
+                            />
+                          </div>
+                          <template if:true={hasErrorYear}>
+                            <c-error-icon></c-error-icon>
+                          </template>
+                          <small class={requiredDisplayData.year}
+                            >{yearErrorMessage}</small
+                          >
+                        </div>
+                      </div>
+                    </div>
+                    <!--Dietary Requirements-->
+                    <div class="slds col slds-m-top_medium">
+                      <div class="slds-form-element">
+                        <label for="dietaryReq" class="label-text"
+                          >Dietary Requirements</label
+                        >
+                        <div class="slds-form-element__control">
+                          <textarea
+                            id="dietaryReq"
+                            name="dietaryReq"
+                            class="slds-textarea input-element input-text-area"
+                          >
+                          </textarea>
+                        </div>
+                      </div>
+                    </div>
+                    <!--Accessibility Requirements-->
+                    <div class="slds col slds-m-top_medium">
+                      <div class="slds-form-element">
+                        <label for="accessReq" class="label-text"
+                          >Accessibility Requirements</label
+                        >
+                        <div class="slds-form-element__control">
+                          <textarea
+                            id="accessReq"
+                            name="accessReq"
+                            class="slds-textarea input-element input-text-area"
+                          >
+                          </textarea>
+                        </div>
+                      </div>
+                    </div>
+                    <!--Check box -->
+                    <div class="slds-m-top_small">
+                      <div class="slds-form-element__control">
+                        <div class="slds-checkbox">
+                          <input
+                            type="checkbox"
+                            name="privacy-checkbox"
+                            id="privacy-checkbox"
+                            value="Agree"
+                            onchange={handleCheckBox}
+                          />
+                          <label class="slds-checkbox__label" for="privacy-checkbox">
+                            <span class={requiredInputClass.checkbox}></span>
+                            <span class="text privacyPolicy">{label.privacyPolicy} <a href="https://www.qut.edu.au/additional/privacy" target="_blank">QUT Privacy Policy.</a></span>
+                          </label>
+                          <div class="slds-grid slds-wrap err-msg-privacy">
+                            <template if:true={hasErrorChk}>
+                              <c-error-icon class="error-icon2"></c-error-icon>
+                            </template>
+                            <small class={requiredDisplayData.checkbox}
+                              >{requiredErrorMessage}</small
+                            >
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <template if:true={hasErrorMonth}>
-                    <c-error-icon></c-error-icon>
-                  </template>
-                  <small class={requiredDisplayData.month}
-                    >{monthErrorMessage}</small
-                  >
                 </div>
-              </div>
-              <!--Year-->
-              <div class="slds-col slds-size_1-of-3">
-                <div class="slds-form-element">
-                  <label for="year" class="label-text">Year </label>
-                  <span class="required-text">*</span>
-                  <div class="slds-form-element__control">
-                    <input
-                      type="number"
-                      id="year"
-                      value={year}
-                      onchange={handleYearChange}
-                      class={requiredInputClass.year}
-                      maxlength="4"
-                    />
-                  </div>
-                  <template if:true={hasErrorYear}>
-                    <c-error-icon></c-error-icon>
-                  </template>
-                  <small class={requiredDisplayData.year}
-                    >{yearErrorMessage}</small
-                  >
-                </div>
-              </div>
-            </div>
-            <!--Dietary Requirements-->
-            <div class="slds col slds-m-top_medium">
-              <div class="slds-form-element">
-                <label for="dietaryReq" class="label-text"
-                  >Dietary Requirements</label
+                <!--Modal Footer Buttons-->
+                <div
+                  class="modal-footer slds-grid slds-gutters center slds-m-horizontal_x-small pb3"
                 >
-                <div class="slds-form-element__control">
-                  <textarea
-                    id="dietaryReq"
-                    name="dietaryReq"
-                    class="slds-textarea input-element input-text-area"
-                  >
-                  </textarea>
-                </div>
-              </div>
-            </div>
-            <!--Accessibility Requirements-->
-            <div class="slds col slds-m-top_medium">
-              <div class="slds-form-element">
-                <label for="accessReq" class="label-text"
-                  >Accessibility Requirements</label
-                >
-                <div class="slds-form-element__control">
-                  <textarea
-                    id="accessReq"
-                    name="accessReq"
-                    class="slds-textarea input-element input-text-area"
-                  >
-                  </textarea>
-                </div>
-              </div>
-            </div>
-            <!--Check box -->
-            <div class="slds-m-top_small">
-              <div class="slds-form-element__control">
-                <div class="slds-checkbox">
-                  <input
-                    type="checkbox"
-                    name="privacy-checkbox"
-                    id="privacy-checkbox"
-                    value="Agree"
-                    onchange={handleCheckBox}
-                  />
-                  <label class="slds-checkbox__label" for="privacy-checkbox">
-                    <span class={requiredInputClass.checkbox}></span>
-                    <span class="text privacyPolicy">{label.privacyPolicy} <a href="https://www.qut.edu.au/additional/privacy" target="_blank">QUT Privacy Policy.</a></span>
-                  </label>
-                  <div class="slds-grid slds-wrap err-msg-privacy">
-                    <template if:true={hasErrorChk}>
-                      <c-error-icon class="error-icon2"></c-error-icon>
-                    </template>
-                    <small class={requiredDisplayData.checkbox}
-                      >{requiredErrorMessage}</small
+                  <div class="slds-col slds-size_1-of-2">
+                    <button
+                      class="slds-button slds-button_outline-brand slds-float_right btnCancel"
+                      onclick={closeModal}
+                      disabled={isLoginPage}
                     >
+                      Cancel
+                    </button>
+                  </div>
+                  <div class="slds-col slds-size_1-of-2">
+                    <button
+                      type="submit"
+                      class="slds-button slds-button_brand footer-button btnContinue"
+                      onclick={handleRegister}
+                    >
+                      Continue
+                    </button>
                   </div>
                 </div>
-              </div>
+              </form>
             </div>
-          </div>
-        </div>
-        <!--Modal Footer Buttons-->
-        <div
-          class="modal-footer slds-grid slds-gutters center slds-m-horizontal_x-small pb3"
-        >
-          <div class="slds-col slds-size_1-of-2">
-            <button
-              class="slds-button slds-button_outline-brand slds-float_right btnCancel"
-              onclick={closeModal}
-              disabled={isLoginPage}
-            >
-              Cancel
-            </button>
-          </div>
-          <div class="slds-col slds-size_1-of-2">
-            <button
-              type="submit"
-              class="slds-button slds-button_brand footer-button btnContinue"
-              onclick={handleRegister}
-            >
-              Continue
-            </button>
-          </div>
-        </div>
-      </form>
-    </div>
+        </div>    
   </div>
   <!--SEND OTP -->
   <template if:true={displayVerification}>
@@ -359,9 +361,9 @@
           </div>
           <!--Modal Footer Buttons-->
           <div
-            class="modal-footer slds-align_absolute-center py3"
+            class="modal-footer slds-align_absolute-center slds-grid slds-wrap"
           >
-            <div class="pr1 slds-col slds-size_7-of-12 slds-medium-size_10-of-12 slds-large-size_10-of-12 p1">
+            <div class="slds-col p1 slds-size_12-of-12 slds-medium-size_6-of-12">
               <button
                 class="slds-button slds-button_outline-brand slds-float_right btnCancel"
                 onclick={handleDisplayResend}
@@ -369,7 +371,7 @@
                 Didn’t receive code?
               </button>
             </div>
-            <div class="slds-col slds-size_5-of-12 slds-medium-size_2-of-12 slds-large-size_2-of-12 p1">
+            <div class="slds-col p1 slds-size_12-of-12 slds-medium-size_6-of-12">
               <button
                 type="submit"
                 class="slds-button slds-button_brand footer-button btnContinue"

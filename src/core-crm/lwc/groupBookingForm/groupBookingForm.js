@@ -14,6 +14,8 @@ import addToCartItem from '@salesforce/apex/ProductDetailsCtrl.addToCartItem';
 import getPricebookEntryPrice from '@salesforce/apex/ProductDetailsCtrl.getPricebookEntryPrice';
 import LWC_Error_General from "@salesforce/label/c.LWC_Error_General";
 import communityId from "@salesforce/community/Id";
+import { loadStyle } from "lightning/platformResourceLoader";
+import customSR from "@salesforce/resourceUrl/QUTInternalCSS";
 
 const SUCCESS_MSG = 'Record successfully updated.';
 const SUCCESS_TITLE = 'Success!';
@@ -638,5 +640,9 @@ saveRegistration(contact,courseOffering,relatedAnswer,answer,fileUpload){
     .catch(error =>{
        
     });
+  }
+  
+  renderedCallback() {
+    Promise.all([loadStyle(this, customSR + "/QUTInternalCSS.css")]);
   }
 }

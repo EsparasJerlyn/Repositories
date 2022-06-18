@@ -1419,3 +1419,16 @@ div.main-container-bc [role=navigation] ol.slds-breadcrumb li:nth-child(n+4) p.d
   text-overflow: ellipsis;
   text-align: left;
 }
+
+/*groupbookingform */
+
+[c-groupbookingform_groupbookingform] button.slds-button[title="Delete"]{
+  border-color: #fffff !important;
+  border:1px solid #fff;
+
+}
+
+/*cartdetails */
+[c-cartdetails_cartdetails] input.slds-input[disabled],[c-cartdetails_cartdetails] textarea.slds-textarea[disabled]{
+  color: #000000 !important;
+}
