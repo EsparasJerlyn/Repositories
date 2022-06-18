@@ -13,7 +13,7 @@ A final confirmation email will be sent to you prior to the course commencing. T
 
 <p><b><span style="font-size:14px;">Name: {name}<br />
 <br />
-Amount: {amount}</span></b><br />
+Amount Due: {amount}</span></b><br />
 <br />
 <b><span style="font-size:14px;">Paid in Full: {paid}</span></b><br />
 <br />
