@@ -76,9 +76,14 @@ header.header.slds-grid.slds-gutters {
     border-right: 1px dotted #fff;
 }
 
+/*
 .menu-size{
     height: 55px;
     width: 55px;
+}*/
+
+.borderRight{
+    border-right: #fff dotted 1px;
 }
 
 @media only screen and (max-width: 764px) {
@@ -86,7 +91,7 @@ header.header.slds-grid.slds-gutters {
         top: 0;
         bottom: 0;
         max-width: 100%;
-        height: 5.333rem;
+        height: 4.6rem;
     }
 
 
@@ -157,8 +162,14 @@ header.header.slds-grid.slds-gutters {
             height: auto;
            /* padding: 3px 10px;*/
         }
-    
-    
+}
 
-
+@media only screen and (min-width: 765px) and (max-width: 767px) {
+    .contact_link_container{
+        margin-right: 3rem;
+        margin-top: 1rem;
+    }
+    .header__links__megamenu{
+        margin-top:1rem;
+    }
 }
