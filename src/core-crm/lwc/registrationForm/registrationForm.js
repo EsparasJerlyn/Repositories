@@ -12,7 +12,9 @@
       | eugene.andrew.abuan       | March 28, 2022        | DEPP-1293            | Modified to meet the requirements for |
       |                           |                       |                      | DEPP-1293                             |
       | keno.domienri.dico        | June 15, 2022         | DEPP-2758            | Added Accessibility Req field         |
- */
+      | john.bo.a.pineda          | June 16, 2022         | DEPP-3114            | Modified to set values after          |
+      |                           |                       |                      | registration                          |
+*/
 import { LightningElement, track, api, wire } from "lwc";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import { NavigationMixin, CurrentPageReference } from "lightning/navigation";
@@ -30,10 +32,13 @@ import BasePath from "@salesforce/community/basePath";
 import sendRegistrationSMSOTP from "@salesforce/apex/RegistrationFormCtrl.sendRegistrationSMSOTP";
 import getMobileLocaleOptions from "@salesforce/apex/RegistrationFormCtrl.getMobileLocaleOptions";
 import sendRegistrationEmailOTP from "@salesforce/apex/RegistrationFormCtrl.sendRegistrationEmailOTP";
+import LWC_Error_General from "@salesforce/label/c.LWC_Error_General";
 
 //Add text fields in Label from HTML
 const SSO = "/services/auth/sso/";
-const REQUIRED_ERROR_MESSAGE = "Please complete the mandatory fields(*) before proceeding.";
+const MSG_ERROR = LWC_Error_General;
+const REQUIRED_ERROR_MESSAGE =
+  "Please complete the mandatory fields(*) before proceeding.";
 const EMAIL_NOT_VALID = "Please enter a valid email.";
 const EMAIL_EXIST = "Your email already exists.";
 const BIRTHDATE_FORMAT = "Please check the format";
@@ -67,6 +72,7 @@ export default class RegistrationForm extends LightningElement {
   @track requiredDisplayData = {};
   @track requiredInputClass = {};
   @track locale = null;
+  @track paramURLDefaults;
 
   hasErrorFN = false;
   hasErrorLN = false;
@@ -109,17 +115,32 @@ export default class RegistrationForm extends LightningElement {
     ];
   }
 
+  // Get & Set paramURL value
+  @api get param() {
+    return this.paramURLDefaults;
+  }
+
+  set param(value) {
+    this.paramURLDefaults = value ? value : "";
+  }
+
   @wire(CurrentPageReference)
-    getpageRef(pageRef) {
-      if(pageRef && pageRef.state && pageRef.state.startURL){
-        this.startURL = pageRef.state.startURL;
-        
-      }else if(pageRef && pageRef.attributes && pageRef.attributes.recordId){ 
-        this.startURL = BasePath + "/product/detail/" + pageRef.attributes.recordId;
-      }
-  
-      this.isLoginPage = pageRef && pageRef.attributes && pageRef.attributes.name === 'Login'?true:false;
-    }  
+  getpageRef(pageRef) {
+    if (pageRef && pageRef.state && pageRef.state.startURL) {
+      this.startURL = pageRef.state.startURL;
+    } else if (pageRef && pageRef.attributes && pageRef.attributes.recordId) {
+      this.startURL =
+        BasePath +
+        "/product/detail/" +
+        pageRef.attributes.recordId +
+        this.paramURLDefaults;
+    }
+
+    this.isLoginPage =
+      pageRef && pageRef.attributes && pageRef.attributes.name === "Login"
+        ? true
+        : false;
+  }
   /*
    * Sets the Attribute on Load of the Registration Modal
    */
@@ -158,7 +179,8 @@ export default class RegistrationForm extends LightningElement {
           SSO +
           "QUT_Experience_SSO" +
           "/?startURL=" +
-          this.startURL;
+          this.startURL +
+          this.paramURLDefaults;
       })
       .catch((error) => {
         this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
@@ -179,7 +201,7 @@ export default class RegistrationForm extends LightningElement {
    * Closes Modal when called
    */
   closeModal() {
-    if(!this.isLoginPage){
+    if (!this.isLoginPage) {
       this.dispatchEvent(new CustomEvent("close"));
     }
   }
@@ -202,7 +224,10 @@ export default class RegistrationForm extends LightningElement {
         this.linkedInSSOUrl = res.comSite + SSO + "QUT_LinkedIn";
       }
       window.location.href =
-        this.linkedInSSOUrl + "/?startURL=" + this.startURL;
+        this.linkedInSSOUrl +
+        "/?startURL=" +
+        this.startURL +
+        this.paramURLDefaults;
     });
   }
 
@@ -213,7 +238,7 @@ export default class RegistrationForm extends LightningElement {
    */
   handleRegister(event) {
     event.preventDefault();
-    this.mobile = this.mobile?this.mobile.replace(/^0+/, ""):'';
+    this.mobile = this.mobile ? this.mobile.replace(/^0+/, "") : "";
 
     this.mobileFull = this.locale + this.mobile;
     this.dietaryReq = this.template.querySelector(

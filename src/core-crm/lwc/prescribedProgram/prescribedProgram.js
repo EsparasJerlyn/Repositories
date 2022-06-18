@@ -18,10 +18,10 @@ import LWC_Error_General from "@salesforce/label/c.LWC_Error_General";
 import { getRecord, getFieldValue } from "lightning/uiRecordApi";
 import CONTACT_ID from "@salesforce/schema/User.ContactId";
 import getQuestions from "@salesforce/apex/ProductDetailsCtrl.getQuestions";
+import { CurrentPageReference } from "lightning/navigation";
 
 const INTEREST_EXISTS_ERROR =
   "You already registered your interest for this product.";
-
 
 export default class PrescribedProgram extends LightningElement {
   @api product;
@@ -34,7 +34,6 @@ export default class PrescribedProgram extends LightningElement {
   showProgramModules;
   showProgramModulesList;
 
-
   deliveryTypeAndStartDates = {};
   @api availableDeliveryTypes = [];
   @api selectedDeliveryType;
@@ -42,7 +41,11 @@ export default class PrescribedProgram extends LightningElement {
   selectedProgramOffering = "";
   availablePricings = [];
   selectedPricing = "";
+  paramURL;
+  getParamObj = {};
+  setParamObj = {};
 
+  @track disableDelivery = false;
   @track disableProgramOfferings = true;
   @track disablePricing = true;
   @track disableAddToCart = true;
@@ -56,7 +59,7 @@ export default class PrescribedProgram extends LightningElement {
   @track displayRegisterInterest;
   @track openAddToCartConfirmModal = false;
 
-  responseData;
+  responseData = [];
   questions;
   openApplicationQuestionnaire = false;
 
@@ -74,6 +77,14 @@ export default class PrescribedProgram extends LightningElement {
   @wire(getRecord, { recordId: userId, fields: [CONTACT_ID] })
   user;
 
+  // Get param from URL and decode to get default parameters
+  @wire(CurrentPageReference)
+  getpageRef(pageRef) {
+    if (pageRef && pageRef.state && pageRef.state.param) {
+      this.getParamObj = JSON.parse(atob(pageRef.state.param));
+    }
+  }
+
   get contactId() {
     return getFieldValue(this.user.data, CONTACT_ID);
   }
@@ -81,7 +92,6 @@ export default class PrescribedProgram extends LightningElement {
   renderedCallback() {
     Promise.all([loadStyle(this, customSR + "/qutCustomLwcCss.css")]);
   }
-
 
   connectedCallback() {
     this.productDetails = this.product.productDetails;
@@ -97,9 +107,16 @@ export default class PrescribedProgram extends LightningElement {
     let pricingLabel;
     this.product.priceBookEntryList.forEach(function (priceBookEntry) {
       pricingsLocal.push({
-        label: priceBookEntry.label === 'Standard Price Book'? priceBookEntry.label.slice(0, 8): priceBookEntry.label,
+        label:
+          priceBookEntry.label === "Standard Price Book"
+            ? priceBookEntry.label.slice(0, 8)
+            : priceBookEntry.label,
         value: priceBookEntry.value,
-        meta: parseInt(priceBookEntry.meta).toLocaleString('en-US', { style: 'currency', currency: 'USD',  minimumFractionDigits: 0 })
+        meta: parseInt(priceBookEntry.meta).toLocaleString("en-US", {
+          style: "currency",
+          currency: "USD",
+          minimumFractionDigits: 0
+        })
       });
     });
     this.availablePricings = pricingsLocal;
@@ -114,13 +131,6 @@ export default class PrescribedProgram extends LightningElement {
     this.accordionIcon = qutResourceImg + "/QUTImages/Icon/accordionClose.svg";
     this.durationIcon = qutResourceImg + "/QUTImages/Icon/duration.svg";
 
-    // Get Pre-selected Delivery and Start Date
-    let getDeliveries = this.productDetails.Delivery__c.replace(";",",");
-    let deliverySplit = getDeliveries.split(",");
-    let preselected = deliverySplit[0];
-    console.log('selectedDeliveryType: ', preselected);
-    this.handleDeliveryTypePreSelected(preselected);
-
     if (this.productDetails.Program_Plan__c) {
       getQuestions({
         productReqId: this.productDetails.Program_Plan__r.Product_Request__c
@@ -129,7 +139,20 @@ export default class PrescribedProgram extends LightningElement {
           if (results.length > 0) {
             this.responseData = results;
             this.questions = results;
-            this.availablePricings = JSON.parse(JSON.stringify(this.availablePricings)).filter(row => row.label != 'Group Booking');
+            this.availablePricings = JSON.parse(
+              JSON.stringify(this.availablePricings)
+            ).filter((row) => row.label != "Group Booking");
+          }
+
+          // Get Pre-selected Delivery and Start Date
+          if (this.productDetails.Delivery__c) {
+            let getDeliveries = this.productDetails.Delivery__c.replace(
+              ";",
+              ","
+            );
+            let deliverySplit = getDeliveries.split(",");
+            let preselected = deliverySplit[0];
+            this.handleDeliveryTypePreSelected(preselected);
           }
         })
         .catch((e) => {
@@ -138,18 +161,15 @@ export default class PrescribedProgram extends LightningElement {
     }
 
     // Display AddToCart / Register Interest
+    this.displayRegisterInterest = false;
     if (
       this.availableDeliveryTypes.length == 0 &&
       this.productDetails.Register_Interest_Available__c == true
     ) {
+      this.disableDelivery = true;
       this.displayAddToCart = false;
       this.displayRegisterInterest = true;
-    } else {
-      this.displayAddToCart = true;
-      this.displayRegisterInterest = false;
-      this.displayGroupRegistration = false;
     }
-
   }
 
   get disableDelivery() {
@@ -159,7 +179,6 @@ export default class PrescribedProgram extends LightningElement {
   get hasQuestions() {
     return this.questions && this.questions.length > 0 ? true : false;
   }
-
 
   handleSectionToggle(event) {
     event.stopPropagation();
@@ -189,47 +208,86 @@ export default class PrescribedProgram extends LightningElement {
    * Pre-selected Delivery Type
    */
   handleDeliveryTypePreSelected(selected) {
-    this.selectedDeliveryType = selected;
+    if (Object.keys(this.getParamObj).length > 0) {
+      this.selectedDeliveryType = this.getParamObj.defDeliv;
+    } else {
+      this.selectedDeliveryType = selected;
+    }
     let availableProgramOfferingsLocal = [];
     let programOfferingsLocal = [];
     programOfferingsLocal =
       this.deliveryTypeAndStartDates[this.selectedDeliveryType];
-      console.log('programOfferingsLocal: ', programOfferingsLocal);
-    programOfferingsLocal.forEach(function (programOfferingLocal) {
-      let meta = "";
-      if (
-        programOfferingLocal.availableSeats == 10 &&
-        programOfferingLocal.availableSeats > 1
-      ) {
-        meta =
-          programOfferingLocal.availableSeats + " seat left for this course";
-      } else if (programOfferingLocal.availableSeats <= 10) {
-        meta =
-          programOfferingLocal.availableSeats + " seats left for this course";
-      }
+    if (programOfferingsLocal) {
+      programOfferingsLocal.forEach(function (programOfferingLocal) {
+        let meta = "";
+        if (
+          programOfferingLocal.availableSeats == 10 &&
+          programOfferingLocal.availableSeats > 1
+        ) {
+          meta =
+            programOfferingLocal.availableSeats + " seat left for this course";
+        } else if (programOfferingLocal.availableSeats <= 10) {
+          meta =
+            programOfferingLocal.availableSeats + " seats left for this course";
+        }
 
-      availableProgramOfferingsLocal.push({
-        label: programOfferingLocal.startDate,
-        value: programOfferingLocal.id,
-        meta: meta
+        availableProgramOfferingsLocal.push({
+          label: programOfferingLocal.startDate,
+          value: programOfferingLocal.id,
+          meta: meta
+        });
       });
-    });
 
-    this.availableProgramOfferings = availableProgramOfferingsLocal;
-    this.disableProgramOfferings = false;
-    this.selectedProgramOffering = undefined;
-    this.selectedPricing = undefined;
-    this.disablePricing = true;
-    this.disableAddToCart = true;
+      this.availableProgramOfferings = availableProgramOfferingsLocal;
+      this.disableProgramOfferings = false;
+      this.selectedProgramOffering = undefined;
+      this.selectedPricing = undefined;
+      this.disablePricing = true;
+      this.disableAddToCart = true;
 
-    this.selectedProgramOffering = availableProgramOfferingsLocal[0].value;
-    console.log('programOfferingLocal Startdate: ', availableProgramOfferingsLocal[0].label); 
-    this.handleProgramOfferingPreSelected(this.selectedProgramOffering);
+      if (Object.keys(this.getParamObj).length > 0) {
+        this.selectedProgramOffering = this.getParamObj.defCourseOff;
+        this.selectedPricing = this.getParamObj.defPBEntry;
+        if (this.selectedPricing) {
+          this.selectedPB = this.availablePricings.find(
+            (item) => item.value === this.selectedPricing
+          ).label;
+        }
+        this.disablePricing = false;
+        this.disableAddToCart = false;
+        if (this.selectedPB == "Group Booking") {
+          this.displayAddToCart = false;
+          this.displayGroupRegistration = true;
+          if (this.hasQuestions) {
+            this.displayQuestionnaire = true;
+          } else {
+            this.displayQuestionnaire = false;
+          }
+        } else {
+          this.displayGroupRegistration = false;
+          this.displayAddToCart = true;
+          if (this.hasQuestions) {
+            this.displayQuestionnaire = true;
+            this.displayAddToCart = false;
+            if (!this.selectedPricing) {
+              this.displayQuestionnaire = false;
+              this.displayAddToCart = true;
+              this.disableAddToCart = true;
+            }
+          } else {
+            this.displayQuestionnaire = false;
+            this.displayAddToCart = true;
+          }
+        }
+      } else {
+        this.selectedProgramOffering = availableProgramOfferingsLocal[0].value;
+        this.handleProgramOfferingPreSelected(this.selectedProgramOffering);
+      }
+    }
   }
 
   handleDeliveryTypeSelected(event) {
     this.selectedDeliveryType = event.detail.value;
-    console.log('selectedDel:', this.selectedDeliveryType);
     let availableProgramOfferingsLocal = [];
     let programOfferingsLocal = [];
     programOfferingsLocal =
@@ -266,7 +324,6 @@ export default class PrescribedProgram extends LightningElement {
   }
 
   handleProgramOfferingPreSelected(preselected) {
-  //  this.selectedProgramOffering = preselected;
     this.selectedPricing = undefined;
     this.disablePricing = false;
     this.disableAddToCart = true;
@@ -274,7 +331,6 @@ export default class PrescribedProgram extends LightningElement {
 
   handleProgramOfferingSelected(event) {
     this.selectedProgramOffering = event.detail.value;
-    console.log('selectedProg:', this.selectedProgramOffering);
     this.selectedPricing = undefined;
     this.disablePricing = false;
     this.disableAddToCart = true;
@@ -296,26 +352,23 @@ export default class PrescribedProgram extends LightningElement {
       this.displayAddToCart = false;
       this.displayGroupRegistration = true;
       this.disableAddToCart = true;
-      if(this.hasQuestions){
+      if (this.hasQuestions) {
         this.displayAddToCart = false;
         this.displayGroupRegistration = false;
         this.disableAddToCart = true;
         this.displayQuestionnaire = true;
       }
-
     } else {
       this.displayGroupRegistration = false;
       this.displayAddToCart = true;
       this.disableAddToCart = false;
-
     }
-    if(this.hasQuestions){
+    if (this.hasQuestions) {
       this.displayAddToCart = false;
       this.displayGroupRegistration = false;
       this.disableAddToCart = true;
       this.displayQuestionnaire = true;
     }
-
   }
 
   // Register Interest
@@ -329,7 +382,6 @@ export default class PrescribedProgram extends LightningElement {
           this.generateToast("Success!", "Interest Registered", "success");
         })
         .catch((error) => {
-
           if (error.body.message == "Register Interest Exists") {
             this.generateToast("Error.", INTEREST_EXISTS_ERROR, "error");
           } else {
@@ -347,9 +399,9 @@ export default class PrescribedProgram extends LightningElement {
       this.openApplicationQuestionnaire = true;
     } else {
       // Display Custom Login Form LWC
+      this.setParamURL();
       this.openModal = true;
     }
-    
   }
 
   notifyAddToCart() {
@@ -364,8 +416,8 @@ export default class PrescribedProgram extends LightningElement {
       );
       this.openAddToCartConfirmModal = true;
     } else {
+      this.setParamURL();
       this.openModal = true;
-
     }
   }
 
@@ -374,18 +426,17 @@ export default class PrescribedProgram extends LightningElement {
   }
   groupRegistrationModalClosed() {
     this.openGroupRegistration = false;
-    
   }
   groupRegistration() {
-    if(!isGuest){
+    if (!isGuest) {
       this.openGroupRegistration = true;
+    } else {
+      this.setParamURL();
+      this.openModal = true;
     }
-   else{
-    this.openModal = true;
-   }
   }
 
-  applicationQuestionnaireClosed(){
+  applicationQuestionnaireClosed() {
     this.openApplicationQuestionnaire = false;
   }
 
@@ -400,5 +451,14 @@ export default class PrescribedProgram extends LightningElement {
   }
   addToCartModalClosed() {
     this.openAddToCartConfirmModal = false;
+  }
+
+  setParamURL() {
+    this.setParamObj = {
+      defDeliv: this.selectedDeliveryType,
+      defCourseOff: this.selectedProgramOffering,
+      defPBEntry: this.selectedPricing
+    };
+    this.paramURL = "?param=" + btoa(JSON.stringify(this.setParamObj));
   }
 }

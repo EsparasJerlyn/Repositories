@@ -24,10 +24,11 @@
       | julie.jane.alegre         | May 24,2022           | DEPP-2070            | Added Group Registration Button              |
       | julie.jane.alegre         | June 01,2022          | DEPP-2781            | Fix bug for Group Registration button visibility     |
       | julie.jane.alegre         | June 11,2022          | DEPP-2985            | Fix bug for Apply button visibility          |
+      | john.bo.a.pineda          | June 16, 2022         | DEPP-3114            | Modified to set values after registration    |
 */
 
 import { LightningElement, wire, api, track } from "lwc";
-import { NavigationMixin } from "lightning/navigation";
+import { NavigationMixin, CurrentPageReference } from "lightning/navigation";
 import { loadStyle } from "lightning/platformResourceLoader";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import BasePath from "@salesforce/community/basePath";
@@ -108,6 +109,9 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   openApplicationQuestionnaire = false;
   priceBookEntriesCopy = [];
   openAddToCartConfirmModal = false;
+  paramURL;
+  getParamObj = {};
+  setParamObj = {};
 
   // Set Custom Labels
   label = {
@@ -176,7 +180,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
 
   //registration Response variables
   isRespondQuestions;
-  responseData;
+  responseData = [];
   questions;
 
   //preselected startdate and facilitators
@@ -188,6 +192,14 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   _connected = new Promise((resolve) => {
     this._resolveConnected = resolve;
   });
+
+  // Get param from URL and decode to get default parameters
+  @wire(CurrentPageReference)
+  getpageRef(pageRef) {
+    if (pageRef && pageRef.state && pageRef.state.param) {
+      this.getParamObj = JSON.parse(atob(pageRef.state.param));
+    }
+  }
 
   connectedCallback() {
     this._resolveConnected();
@@ -233,8 +245,10 @@ export default class ProductDetailsDisplay extends NavigationMixin(
           if (results.length > 0) {
             this.responseData = results;
             this.questions = results;
-            this.priceBookEntriesCopy = JSON.parse(JSON.stringify(this.priceBookEntries)).filter(row => row.label != 'Group Booking');
-          }else{
+            this.priceBookEntriesCopy = JSON.parse(
+              JSON.stringify(this.priceBookEntries)
+            ).filter((row) => row.label != "Group Booking");
+          } else {
             this.priceBookEntriesCopy = this.priceBookEntries;
           }
         })
@@ -244,14 +258,15 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     }
 
     // Get Pre-selected fields for Delivery and Start Date
-    if (this.productDetails.Delivery__c){
-      console.log('Delivery Opt: ', this.productDetails.Delivery__c.replace(";",","));
-      this.deliveryOpt = this.productDetails.Delivery__c.replace(";",",");
-      this.deliverySplit = this.deliveryOpt.split(",");
-      this.selectedDelivery = this.deliverySplit[0];
-      console.log('Delivery: ', this.selectedDelivery);
+    if (this.productDetails.Delivery__c) {
+      if (Object.keys(this.getParamObj).length > 0) {
+        this.selectedDelivery = this.getParamObj.defDeliv;
+      } else {
+        this.deliveryOpt = this.productDetails.Delivery__c.replace(";", ",");
+        this.deliverySplit = this.deliveryOpt.split(",");
+        this.selectedDelivery = this.deliverySplit[0];
+      }
 
-      //console.log('check ProdDetails: ', JSON.stringify(this.productDetails));
       getRelatedCourseOffering({
         courseId: this.productDetails.Course__c,
         deliveryParam: this.selectedDelivery
@@ -270,16 +285,27 @@ export default class ProductDetailsDisplay extends NavigationMixin(
           this.disableAddToCart = true;
           this.displayGroupRegistration = false;
 
-          console.log('results count :', results.length);
           if (results.length > 0) {
             this.courseOfferings = results;
             this.disableAvailStartDate = false;
 
+            if (Object.keys(this.getParamObj).length > 0) {
+              this.selectedCourseOffering = this.getParamObj.defCourseOff;
+              this.selectedPriceBookEntry = this.getParamObj.defPBEntry;
+              if (this.selectedPriceBookEntry) {
+                this.selectedPB = this.priceBookEntriesCopy.find(
+                  (item) => item.value === this.selectedPriceBookEntry
+                ).label;
+              }
+              this.disableAddToCart = false;
+            } else {
+              this.selectedCourseOffering = this.courseOfferings[0].value;
+              this.disableAddToCart = true;
+            }
+
             // Get Start Date and Facilitator
             this.courseOfferings.forEach((cOffer) => {
-              this.selectedCourseOffering = cOffer.value;
-              console.log('selectedCourseOffering:', this.selectedCourseOffering);
-              console.log('cofferValue:', cOffer.value);
+              if (cOffer.value === this.selectedCourseOffering) {
                 this.selectedCourseOfferingFacilitator = cOffer.facilitator;
                 if (this.selectedCourseOfferingFacilitator.length > 0) {
                   this.setFacilitatorToDisplay();
@@ -287,34 +313,52 @@ export default class ProductDetailsDisplay extends NavigationMixin(
                     this.displayFacilitatorNav = false;
                   }
                 }
+              }
             });
             this.disablePriceBookEntry = false;
-            this.displayAddToCart = true;
-            this.disableAddToCart = true;
-            
+            if (this.selectedPB == "Group Booking") {
+              this.displayAddToCart = false;
+              this.displayGroupRegistration = true;
+              if (this.responseData.length > 0) {
+                this.displayQuestionnaire = true;
+              } else {
+                this.displayQuestionnaire = false;
+              }
+            } else {
+              this.displayGroupRegistration = false;
+              this.displayAddToCart = true;
+              if (this.responseData.length > 0) {
+                this.displayQuestionnaire = true;
+                this.displayAddToCart = false;
+                if (!this.selectedPriceBookEntry) {
+                  this.displayQuestionnaire = false;
+                  this.displayAddToCart = true;
+                  this.disableAddToCart = true;
+                }
+              } else {
+                this.displayQuestionnaire = false;
+                this.displayAddToCart = true;
+              }
+            }
           } else {
             this.checkSDatePlaceholder = availableStartDatesPlaceholder;
           }
-
         })
         .catch((e) => {
           this.generateToast("Error.", LWC_Error_General, "error");
-        }); 
+        });
     } else {
       this.checkSDatePlaceholder = availableStartDatesPlaceholder;
     }
 
     // Display AddToCart / Register Interest
+    this.displayRegisterInterest = false;
     if (
       this.deliveryOptions.length == 0 &&
       this.productDetails.Register_Interest_Available__c == true
     ) {
       this.displayAddToCart = false;
       this.displayRegisterInterest = true;
-    } else {
-      this.displayAddToCart = true;
-      this.displayRegisterInterest = false;
-      this.displayGroupRegistration = false;
     }
   }
 
@@ -329,9 +373,9 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     });
   }
 
-  searchString(nameKey, listArray){
-    for(let i = 0; i < listArray.length; i++){
-      if(listArray[i].name === nameKey){
+  searchString(nameKey, listArray) {
+    for (let i = 0; i < listArray.length; i++) {
+      if (listArray[i].name === nameKey) {
         return listArray[i];
       }
     }
@@ -371,9 +415,9 @@ export default class ProductDetailsDisplay extends NavigationMixin(
       this.openApplicationQuestionnaire = true;
     } else {
       // Display Custom Login Form LWC
+      this.setParamURL();
       this.openModal = true;
     }
-    
   }
   // Emits a notification that the user wants to add the item to their cart.
   notifyAddToCart() {
@@ -392,9 +436,9 @@ export default class ProductDetailsDisplay extends NavigationMixin(
         })
       );
       this.openAddToCartConfirmModal = true;
-
     } else {
       // Display Custom Login Form LWC
+      this.setParamURL();
       this.openModal = true;
     }
     /* Comment out for bulk register */
@@ -414,12 +458,19 @@ export default class ProductDetailsDisplay extends NavigationMixin(
         productId: this.productDetails.Id
       })
         .then(() => {
-          this.generateToast(SUCCESS_TITLE, "Interest Registered", SUCCESS_VARIANT);
+          this.generateToast(
+            SUCCESS_TITLE,
+            "Interest Registered",
+            SUCCESS_VARIANT
+          );
         })
         .catch((error) => {
-     
           if (error.body.message == "Register Interest Exists") {
-            this.generateToast(ERROR_TITLE, INTEREST_EXISTS_ERROR,ERROR_VARIANT);
+            this.generateToast(
+              ERROR_TITLE,
+              INTEREST_EXISTS_ERROR,
+              ERROR_VARIANT
+            );
           } else {
             this.generateToast(ERROR_TITLE, LWC_Error_General, ERROR_VARIANT);
           }
@@ -497,7 +548,6 @@ export default class ProductDetailsDisplay extends NavigationMixin(
       .catch((e) => {
         this.generateToast(ERROR_TITLE, LWC_Error_General, ERROR_VARIANT);
       });
-      
   }
 
   // Set Selected Course Offering value
@@ -555,7 +605,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   handlePricebookSelected(event) {
     let selectedPBLabel = event.detail.label;
     this.selectedPriceBookEntry = event.detail.value;
-    
+
     if (this.isInternalUser == true) {
       this.disableAddToCart = true;
     } else {
@@ -582,10 +632,19 @@ export default class ProductDetailsDisplay extends NavigationMixin(
         this.disableAddToCart = true;
       } else {
         this.displayQuestionnaire = false;
-        this.displayAddToCart = false;
+        this.displayAddToCart = true;
         this.disableAddToCart = false;
       }
     }
+  }
+
+  setParamURL() {
+    this.setParamObj = {
+      defDeliv: this.selectedDelivery,
+      defCourseOff: this.selectedCourseOffering,
+      defPBEntry: this.selectedPriceBookEntry
+    };
+    this.paramURL = "?param=" + btoa(JSON.stringify(this.setParamObj));
   }
 
   // Creates toast notification
@@ -631,8 +690,8 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   get hasQuestions() {
     return this.questions && this.questions.length > 0 ? true : false;
   }
-  
-  applicationQuestionnaireClosed(){
+
+  applicationQuestionnaireClosed() {
     this.openApplicationQuestionnaire = false;
   }
 
@@ -643,9 +702,10 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     //this.registerInterest();
     if (!isGuest) {
       this.openGroupBookingModal = true;
-    }else{
-     // Display Custom Login Form LWC
-     this.openModal = true;
+    } else {
+      // Display Custom Login Form LWC
+      this.setParamURL();
+      this.openModal = true;
     }
   }
   addToCartModalClosed() {

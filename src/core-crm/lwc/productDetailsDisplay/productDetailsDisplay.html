@@ -395,7 +395,9 @@
           <!-- Pricing -->
           <lightning-layout-item
             flexibility="auto"
-            size="12" class="slds-m-bottom_small">
+            size="12"
+            class="slds-m-bottom_small"
+          >
             <c-custom-combobox
               class="pricing"
               field-label={label.pricing}
@@ -476,24 +478,23 @@
     <c-registration-form
       class="regModal"
       onclose={handleModalClosed}
+      param={paramURL}
     ></c-registration-form>
   </template>
-  
+
   <template if:true={openApplicationQuestionnaire}>
     <c-application-questionnaire
-    contact-id={contactId}
-    questions={questions}
-    selected-offering={selectedCourseOffering}
-    price-book-entry={selectedPriceBookEntry}
-    is-prescribed={isPrescribed}
-    response-data={responseData}
-    onclose={applicationQuestionnaireClosed}
+      contact-id={contactId}
+      questions={questions}
+      selected-offering={selectedCourseOffering}
+      price-book-entry={selectedPriceBookEntry}
+      is-prescribed={isPrescribed}
+      response-data={responseData}
+      onclose={applicationQuestionnaireClosed}
     ></c-application-questionnaire>
   </template>
   <template if:true={openAddToCartConfirmModal}>
-    <c-add-to-cart-confirm-dialog
-      onclose={addToCartModalClosed}
-    >
+    <c-add-to-cart-confirm-dialog onclose={addToCartModalClosed}>
     </c-add-to-cart-confirm-dialog>
   </template>
   <template if:true={openGroupBookingModal}>
@@ -505,8 +506,4 @@
       onclose={groupRegistrationModalClosed}
     ></c-group-booking-form>
   </template>
-
-  <!--Questionnaire Form  -->
-  
-  <!--Questionnaire Form  -->
 </template>

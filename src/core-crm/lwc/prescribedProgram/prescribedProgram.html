@@ -5,7 +5,9 @@
         <h1 class="heading1">{productDetails.Name}</h1>
       </lightning-layout-item>
       <lightning-layout-item flexibility="auto" size="12">
-        <h2 class="bodyRegular main-color-black py2">{productDetails.Description}</h2>
+        <h2 class="bodyRegular main-color-black py2">
+          {productDetails.Description}
+        </h2>
       </lightning-layout-item>
       <lightning-layout-item
         flexibility="auto"
@@ -85,6 +87,7 @@
             <c-custom-combobox
               class="availStartDates"
               field-label={label.delivery}
+              disabled={disableDelivery}
               placeholder={label.deliveryPlaceholder}
               options={availableDeliveryTypes}
               value={selectedDeliveryType}
@@ -144,18 +147,17 @@
           </lightning-layout-item>
           <!-- Apply-->
           <lightning-layout-item
-          if:true={displayQuestionnaire}
-          flexibility="auto"
-          size="12"
-        >
-          <lightning-button
-            label="APPLY"
-            onclick={notifyApply}
-            variant="brand"
-            class="addToCartBtn"
-          ></lightning-button>
-        </lightning-layout-item>
-        <!-- Apply-->
+            if:true={displayQuestionnaire}
+            flexibility="auto"
+            size="12"
+          >
+            <lightning-button
+              label="APPLY"
+              onclick={notifyApply}
+              variant="brand"
+              class="addToCartBtn"
+            ></lightning-button>
+          </lightning-layout-item>
           <!-- Register Interest -->
           <lightning-layout-item
             if:true={displayRegisterInterest}
@@ -190,34 +192,33 @@
   </div>
   <template if:true={openApplicationQuestionnaire}>
     <c-application-questionnaire
-    contact-id={contactId}
-    questions={questions}
-    selected-offering={selectedProgramOffering}
-    price-book-entry={selectedPricing}
-    response-data={responseData}
-    is-prescribed={isPrescribed}
-    onclose={applicationQuestionnaireClosed}
+      contact-id={contactId}
+      questions={questions}
+      selected-offering={selectedProgramOffering}
+      price-book-entry={selectedPricing}
+      response-data={responseData}
+      is-prescribed={isPrescribed}
+      onclose={applicationQuestionnaireClosed}
     ></c-application-questionnaire>
   </template>
   <template if:true={openAddToCartConfirmModal}>
-    <c-add-to-cart-confirm-dialog
-      onclose={addToCartModalClosed}
-    >
+    <c-add-to-cart-confirm-dialog onclose={addToCartModalClosed}>
     </c-add-to-cart-confirm-dialog>
   </template>
   <template if:true={openGroupRegistration}>
     <c-group-booking-form
-    product-details={productDetails}
-    selected-program-offering={selectedProgramOffering}
-    price-book-entry={selectedPricing}
-    is-prescribed={isPrescribed}
-    onclose={groupRegistrationModalClosed}
+      product-details={productDetails}
+      selected-program-offering={selectedProgramOffering}
+      price-book-entry={selectedPricing}
+      is-prescribed={isPrescribed}
+      onclose={groupRegistrationModalClosed}
     ></c-group-booking-form>
   </template>
   <template if:true={openModal}>
     <c-registration-form
       class="regModal"
       onclose={handleModalClosed}
+      param={paramURL}
     ></c-registration-form>
   </template>
 </template>
