@@ -59,6 +59,7 @@ export default class Payment extends LightningElement {
     paymentCartItems = [];
     selectedCourseOffering;
     fullName; 
+    processing = false;
 
     /**
      * Labels
@@ -102,7 +103,7 @@ export default class Payment extends LightningElement {
      * Disable payment buttons if checkbox from Cart Summary is false
      */
     get disableButton(){
-        return this.disablePayment;
+        return this.disablePayment || this.processing;
     }
 
     /**
@@ -164,6 +165,7 @@ export default class Payment extends LightningElement {
     payNowClick(){
         this.paymentCartItems = JSON.parse(JSON.stringify(this.cartItems));
         if(this.fromCartSummary){
+                this.processing = true;
                 let fields = {'Status__c' : 'Checkout'};
                 let objRecordInput = {'apiName':'Cart_Payment__c',fields};
                 createRecord(objRecordInput).then(response => {
@@ -299,6 +301,7 @@ export default class Payment extends LightningElement {
         //update the cart with the payment method selected
         this.paymentCartItems = JSON.parse(JSON.stringify(this.cartItems));
         if(this.fromCartSummary){
+            this.processing = true;
             let cartIds = []; 
             let contactId;
             this.paymentCartItems.map(row => {

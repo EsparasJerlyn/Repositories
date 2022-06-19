@@ -4,8 +4,11 @@
             <h2 class="heading2 main-color-blue500 pb2">{header}</h2>
             <h5 class="bodyBold pb2">{subheader}</h5>
         </div>
-        <div class="slds-grid slds-wrap slds-medium-size_11-of-12 slds-large-size_10-of-12">    
-            <div class="my1 slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 pr3">
+        <div class="slds-is-relative">
+            <lightning-spinner if:true={processing} alternative-text="Loading" size="large" variant="brand"></lightning-spinner>
+        </div>  
+        <div class="slds-grid slds-wrap slds-medium-size_11-of-12 slds-large-size_10-of-12">  
+            <div if:false={processing} class="my1 slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 pr3">
                 <template if:false={disableButton}>
                     <a class="btn-link" onclick={payNowClick}>
                         <p class="btn-title bodyBold pb2"><strong>{payTitle}</strong></p>
@@ -20,7 +23,7 @@
                 </template>
             </div>
             
-            <div class="my1 slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+            <div if:false={processing} class="my1 slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
                 <template if:false={disableButton}>
                     <a class="btn-link" onclick={invoiceClick}>
                         <p class="btn-title bodyBold pb2"><strong>{invoiceTitle}</strong></p>
@@ -33,7 +36,7 @@
                         <p class="btn-text bodyRegular">{invoiceLabel}</p>
                     </span>
                 </template>
-            </div>   
+            </div> 
         </div>   
     </div>  
 </template>
