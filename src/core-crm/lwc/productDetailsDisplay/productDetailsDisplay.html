@@ -246,15 +246,15 @@
                     class="slds-accordion__content accordionContent"
                     id="facilitatorContent"
                   >
-                    <div class="slds-media">
-                      <div class="slds-media__figure slds-m-right_x-large">
+                    <div class="slds-media slds-grid slds-wrap faci-container">
+                      <div class="slds-media__figure slds-m-right_x-large image_container slds-size_1-of-1 slds-medium-size_5-of-12 slds-large-size_5-of-12">
                         <img
                           alt=""
                           class="facilImage"
                           src={facilitator.facilitatorImage}
                         />
                       </div>
-                      <div class="slds-media__body">
+                      <div class="slds-media__body slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
                         <lightning-button-icon
                           if:true={displayFacilitatorNav}
                           icon-name="utility:chevronright"
@@ -271,7 +271,7 @@
                           title="Previous"
                           class="slds-float_right slds-m-right_small"
                         ></lightning-button-icon>
-                        <h4 class="slds-m-bottom_medium facilName">
+                        <h4 class="mb2 mt2 facilName">
                           {facilitator.facilitatorName}
                         </h4>
                         <p class="facilBio">{facilitator.facilitatorBio}</p>
