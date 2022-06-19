@@ -27,7 +27,7 @@
           <template for:each={menuList} for:item="item" for:index="i">
             <li key={item} class="slds-breadcrumb__item slds-text-heading_small slds-col slds-size_2-of-12 dynamicList">
               <template if:true={item.productUrl}>
-                <a href={item.productUrl} class="slds-col dynamicList" style="text-decoration:underline; padding: 0px;" data-productid={item.productId} onmouseover={changeTextDecorNone} onmouseleave={changeTextDecorUnderline} onclick={handleMenuClick}>{item.productName}</a>
+                <a href={item.productUrl} class="slds-col dynamicList" style="text-decoration:underline; padding: 0px;" data-productid={item.productId} onmouseover={changeTextDecorNone} onmouseleave={changeTextDecorUnderline} onclick={handleMenuClick}>{item.productName}</a> <a href={item.productUrl} class="slds-col dynamicList" style="text-decoration:underline; padding: 0px;" data-productid={item.productId} onmouseover={changeTextDecorNone} onmouseleave={changeTextDecorUnderline} onclick={handleMenuClick}>{item.productName}</a>
               </template>
               <template if:false={item.productUrl}>
                 <p class="dynamicList">{item.productName}</p>
