@@ -85,6 +85,7 @@ export default class GroupBookingForm extends LightningElement {
     @track contactEmail;
     @track amount;
     @track xString;
+    @track disabledSave;
     
   //get contact data
   @wire(getRecord, { recordId: userId, fields: CONTACT_FIELDS })
@@ -118,6 +119,7 @@ export default class GroupBookingForm extends LightningElement {
         this.disableAddBtn = false;
         this.counter = 1;
         this.num = 1;
+        this.disabledSave = false;
    
         
         this.dispatchEvent(new CustomEvent('close'));
@@ -355,6 +357,7 @@ export default class GroupBookingForm extends LightningElement {
    }
 
    submitDetails(event) {
+    this.saveInProgress = true;
     const allValid = [
         ...this.template.querySelectorAll('lightning-input'),
     ].reduce((validSoFar, inputCmp) => {
@@ -363,6 +366,7 @@ export default class GroupBookingForm extends LightningElement {
     }, true);
 
     if (allValid) {
+
         this.template.querySelectorAll("lightning-record-edit-form").forEach((form) => {form.submit();});
         if(this.counter == this.numberOfParticipants){
             let fieldsPrimary = {};
@@ -419,10 +423,12 @@ export default class GroupBookingForm extends LightningElement {
                                 });
         
                                 this.saveRegistration(this.contactFields, this.courseOffering,this.responseData2, this.answerRecords2 ,JSON.stringify(this.createFileUploadMap()));
-        
+                                
                             }
                             this.generateToast(SUCCESS_TITLE, 'Successfully Submitted', SUCCESS_VARIANT);
+                            this.saveInProgress = false;
                             this.isOpenPayment = true;
+                           
                             this.createCartItem(
                                 communityId,
                                 this.productId,
@@ -430,9 +436,9 @@ export default class GroupBookingForm extends LightningElement {
                                 this.productCourseName,
                                 this.selectedCourseOffering,
                                 this.selectedProgramOffering,
-                                pricebookEntry,
+                                this.pricebookEntry,
                                 userId);
-                          
+                                this.saveInProgress = false;
                         }
                     }).catch(error => {
                     })
@@ -496,7 +502,7 @@ saveRegistration(contact,courseOffering,relatedAnswer,answer,fileUpload){
     })
     .then(() =>{
             this.generateToast(SUCCESS_TITLE, 'Successfully Submitted', SUCCESS_VARIANT);
-            refreshApex(this.tableData);
+            this.disabledSave = true;
             
     })
     .finally(()=>{

@@ -15,7 +15,7 @@
                         <span class="slds-assistive-text">Close</span>
                     </button>
                 <!-- Modal/Popup Box LWC body starts here -->
-                <!-- <lightning-spinner if:true={saveInProgress} alternative-text="Loading" size="small"></lightning-spinner> -->
+                <lightning-spinner if:true={saveInProgress} alternative-text="Loading" size="small"></lightning-spinner>
                 <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
                     
                 <!-- Choose number of participants in here -->
@@ -323,7 +323,7 @@
                 <!-- Modal/Popup Box LWC footer starts here -->
                 <footer class="slds-modal__footer">
                     <button class="slds-button slds-button_outline-brand" onclick={closeModal} title="Cancel">Cancel</button>
-                    <button class="slds-button slds-button_brand" onclick={submitDetails} title="OK">SAVE</button>
+                    <button class="slds-button slds-button_brand" onclick={submitDetails} title="OK" disabled={disabledSave}>SAVE</button>
          
                 </footer>
             </div>
