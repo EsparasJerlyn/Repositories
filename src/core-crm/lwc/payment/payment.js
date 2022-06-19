@@ -13,6 +13,8 @@ import { LightningElement, api, wire } from 'lwc';
 import getPaymentGatewaySettings from '@salesforce/apex/PaymentGatewayCtrl.getPaymentGatewaySettings';
 import updatePaymentMethod from "@salesforce/apex/CartItemCtrl.updatePaymentMethod";
 import addRegistration from '@salesforce/apex/ProductDetailsCtrl.addRegistration';
+import getCartItemsByCart from "@salesforce/apex/CartItemCtrl.getCartItemsByCart";
+import userId from "@salesforce/user/Id";
 import createCourseConnections from '@salesforce/apex/CartItemCtrl.createCourseConnection';
 import { createRecord,updateRecord } from 'lightning/uiRecordApi';
 import PAYMENT_URL_FIELD from '@salesforce/schema/WebCart.Payment_URL__c';
@@ -48,8 +50,9 @@ export default class Payment extends LightningElement {
     @api contactLname; 
     @api contactEmail;
     @api total; 
-    @api cartItems; 
+    @api cartItems;
     @api fromCartSummary;
+    @api numberOfParticipants;
     responseDataList;
     fileUploadData = [];
     answerRecordsList = [];
@@ -80,7 +83,7 @@ export default class Payment extends LightningElement {
         this.payLabel = 'Submit your payment now';
         this.invoiceTitle = 'Invoice';
         this.invoiceLabel = 'Generate an invoice that you can send to your nominated payee';
-        this.fullName = this.contactFname + '+' + this.contactLname;
+        this.fullName = this.contactFname + ' ' + this.contactLname;
     }
 
     @wire(getPaymentGatewaySettings)
@@ -112,7 +115,7 @@ export default class Payment extends LightningElement {
          **/
             `OPETRANSACTIONID=` + this.cartExternalId + `&` + 
             `EMAIL=` + this.contactEmail.replace('@','%40') + `&` + 
-            `FULLNAME=` + this.fullName + `&` + 
+            `FULLNAME=` + this.fullName.replace(/ /g,'%20') + `&` + 
             `GLCODE=` + this.glCode + `&` + 
             `UNITAMOUNTINCTAX=` + this.total;
 
@@ -128,11 +131,34 @@ export default class Payment extends LightningElement {
         /** 
          * Passed Parameters 
          **/
-            `OPETRANSACTIONID=` + this.cartExternalId + `&` + 
-            `FULLNAME=` + this.fullName + `&` + 
-            `GLCODE=` + this.glCode + `&` + 
-            `UNITAMOUNTINCTAX=` + this.total;
-        return this.baseURL + this.formURL;        
+            `OPETransactionID=` + this.cartExternalId + `&` + 
+            `FullName=` + this.fullName.replace(/ /g,'%20') + `&` + 
+            `Email=` + this.contactEmail + `&` + 
+            `GLCode=` + this.glCode + `&`;
+
+
+        //looped url parameter based on the cart items
+        let opeDescription = '';
+        let cartItems;
+
+        //get the cart items product properties
+        cartItems = JSON.parse(JSON.stringify(this.cartItems));
+
+        //loop on the cart items to get properties
+        cartItems.forEach( currentCartItem => {
+
+            //populate string
+            opeDescription = opeDescription + `OPEDescription=` + currentCartItem.productName.replace(/ /g,'%20') + `&` + 
+            `UnitAmountIncTax=` + currentCartItem.unitPrice + `&`;
+
+            //add quantity for group booking only
+            //eugene change: quantity -> number of participants (please remove when final)
+            if(!this.fromCartSummary){
+                opeDescription = opeDescription + `Quantity=` + this.numberOfParticipants + `&`;
+            }
+        });
+
+        return this.baseURL + this.formURL + opeDescription.slice(0, -1);        
     }
 
     payNowClick(){
@@ -252,6 +278,24 @@ export default class Payment extends LightningElement {
     }
 
     invoiceClick(){
+        // console.log(this.invoiceURL);
+        // console.log('hwllo invoice');
+        // if(!this.fromCartSummary){
+        //     console.log('this cart Id in payment', this.cartId);
+        //     console.log('user Id', userId);
+        //     getCartItemsByCart({ cartId: this.cartId, userId: userId })
+        //     .then((result) => {
+        //         console.log('result', result);
+        //         //set the cart items data and questions
+        //         this.cartItems = JSON.parse(JSON.stringify(result.cartItemsList));
+        //         // this.cartItems = result.cartItemsList;
+        //         console.log('cart items in payment', this.cartItems);
+        //     })
+        //     .catch((error) => {
+        //         console.log('error in getCartItemsByCart', error);
+        //     });    
+        // }
+
         //update the cart with the payment method selected
         this.paymentCartItems = JSON.parse(JSON.stringify(this.cartItems));
         if(this.fromCartSummary){

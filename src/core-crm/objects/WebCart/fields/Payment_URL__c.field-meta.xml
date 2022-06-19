@@ -4,7 +4,7 @@
     <description>Whole payment URL that redirects to QUT Pay</description>
     <externalId>false</externalId>
     <label>Payment URL</label>
-    <length>1000</length>
+    <length>2000</length>
     <securityClassification>Sensitive</securityClassification>
     <trackHistory>false</trackHistory>
     <type>LongTextArea</type>

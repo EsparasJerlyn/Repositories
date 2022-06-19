@@ -261,7 +261,6 @@ export default class CartDetails extends LightningElement {
 
         //get totals
         this.total = this.calculateSubTotal();
-        this.cartExternalId = this.cartItems[0]?this.cartItems[0].externalId:''; // added for payment parameters
         this.isFreeOnly =  this.cartItems.length > 0 && this.total == 0;
 
       })
