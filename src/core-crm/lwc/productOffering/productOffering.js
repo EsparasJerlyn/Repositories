@@ -381,9 +381,9 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
             return {
                 ...item,
                 rowId: 'row-'+index,
-                contactName: item.Facilitator_Bio__r.Facilitator__r.Name,
-                contactId:item.Facilitator_Bio__r.Facilitator__c,
-                bio:item.Facilitator_Bio__r.Professional_Bio__c,
+                contactName: item.Facilitator_Bio__c ? item.Facilitator_Bio__r.Facilitator__c ? item.Facilitator_Bio__r.Facilitator__r.Name: null : null,
+                contactId: item.Facilitator_Bio__c ? item.Facilitator_Bio__r.Facilitator__c : null,
+                bio: item.Facilitator_Bio__c ? item.Facilitator_Bio__r.Professional_Bio__c : null,
                 customLookupClass: 'slds-cell-edit',
                 editable: this.showEditButton,
                 helpText: item.hed__Primary__c?'Unset As Primary':'Set As Primary',
