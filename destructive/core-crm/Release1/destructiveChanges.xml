@@ -31,10 +31,16 @@
         <members>Update_Course_or_Program_Start_DateTest</members>
         <members>Update_Product_End_DateTest</members>
         <members>Validation_FlowTest</members>
+        <!--(Start) DEPP DEPP-3095 -->
+        <members>AutocreatedRegHandler1653957766371</members>
+        <members>CommunitiesSelfRegController</members>
+        <members>CommunitiesSelfRegControllerTest</members>
+        <!--(End) DEPP DEPP-3095 -->
         <name>ApexClass</name>
     </types>
     <types>
         <members>PendingRegistrationTrigger</members> <!-- DEPP-1910 -->
+        <members>CallBuildSearchIndex</members> <!-- DEPP-3095 -->
         <name>ApexTrigger</name>
     </types>
     <types>
@@ -466,6 +472,10 @@
         <members>Send_Email_on_Registration_Confirmation</members>
         <members>Online_Self_Paced_Confirmation_Email</members>
         <name>Flow</name>
+    </types>
+    <types>
+        <members>CommunitiesSelfReg</members> <!-- DEPP-3095 -->
+        <members>ApexPage</members>
     </types>
 
 

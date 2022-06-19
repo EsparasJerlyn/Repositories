@@ -27,7 +27,7 @@ public class MainNavigationMenuCtrlTest {
 
         @isTest
     public static void getStoreFrontCategoriesCCETest(){
-        String COMMUNITY_NAME = 'CCE';
+        final String COMMUNITY_NAME = 'CCE';
         String communityId = B2BUtils.getCommunityIdByName(COMMUNITY_NAME);
 		
         ProductCatalog cat =new ProductCatalog(Name='CCE');
@@ -35,9 +35,9 @@ public class MainNavigationMenuCtrlTest {
         ProductCategory cate = new ProductCategory(CatalogId=cat.Id,
                                                   Name='Corporate Bundle');
         insert cate;
-        
+
         Test.startTest();
-        List<ProductCategory> Categories = MainNavigationMenuCtrl.getStoreFrontCategories(communityId);
+        List<ProductCategory> categories = MainNavigationMenuCtrl.getStoreFrontCategories(communityId);
 		System.assert(cate != null, 'Pass');
         Test.stopTest();
 
@@ -45,7 +45,7 @@ public class MainNavigationMenuCtrlTest {
     
     @isTest
     public static void getStoreFrontCategoriesStudyTest(){
-        String COMMUNITY_NAME = 'STUDY';
+        final String COMMUNITY_NAME = 'STUDY';
         String communityId = B2BUtils.getCommunityIdByName(COMMUNITY_NAME);
 		
         ProductCatalog cat =new ProductCatalog(Name='STUDY');
@@ -53,17 +53,26 @@ public class MainNavigationMenuCtrlTest {
         ProductCategory cate = new ProductCategory(CatalogId=cat.Id,
                                                   Name='Products');
         insert cate;
+
+        WebStore store = new WebStore();
+        store.Name='MyStore';
+        insert store;
+
+        WebStoreCatalog catalog = TestDataFactory.createWebStoreCatalog(cat.Id, store.Id);
+        insert catalog;
+
+        B2BUtils.communityIdToWebStoreIdCache.put(communityId, (String)catalog.SalesStoreId);
         
         Test.startTest();
-        List<ProductCategory> Categories = MainNavigationMenuCtrl.getStoreFrontCategories(communityId);
-		System.assert(cate != null, 'Pass');
+        List<ProductCategory> categories = MainNavigationMenuCtrl.getStoreFrontCategories(communityId);
+		System.assert(categories != null, 'Pass');
         Test.stopTest();
 
     }
     
     @isTest
     public static void getStudyProductsTest(){
-        String COMMUNITY_NAME = 'STUDY';
+        final String COMMUNITY_NAME = 'STUDY';
         String communityId = B2BUtils.getCommunityIdByName(COMMUNITY_NAME);
         ProductCatalog cat =new ProductCatalog(Name='STUDY');
         
@@ -72,8 +81,17 @@ public class MainNavigationMenuCtrlTest {
                                                   Name='Products');
         insert cate;
      
+        WebStore store = new WebStore();
+        store.Name='MyStore';
+        insert store;
+
+        WebStoreCatalog catalog = TestDataFactory.createWebStoreCatalog(cat.Id, store.Id);
+        insert catalog;
+
+        B2BUtils.communityIdToWebStoreIdCache.put(communityId, (String)catalog.SalesStoreId);
+
         Test.startTest();     
-        List<ProductCategory> Categories = MainNavigationMenuCtrl.getStudyProducts(communityId);
+        List<ProductCategory> categories = MainNavigationMenuCtrl.getStudyProducts(communityId);
 		System.assert(cate != null, 'Pass');
         Test.stopTest();
     }

@@ -1270,5 +1270,18 @@ public class TestDataFactory {
     setting.SMS_EndPoint_URL__c = 'https://smsendpoint';
     return setting;
   }
+
+  /**
+   * @description Method for creating WebStoreCatalog
+   * @param prodCatId - ProductCatalogId
+   * @param salesStoreId - SalesStoreId
+   * @return webStoreCatalog - the created WebStoreCatalog
+   */
+  public static WebStoreCatalog createWebStoreCatalog(Id prodCatId, Id salesStoreId){
+    WebStoreCatalog webStoreCatalog = new WebStoreCatalog();
+    webStoreCatalog.ProductCatalogId = prodCatId;
+    webStoreCatalog.SalesStoreId = salesStoreId;
+    return webStoreCatalog;
+  }
 }
 

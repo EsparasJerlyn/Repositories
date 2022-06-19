@@ -10,12 +10,14 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | marygrace.li@qut.edu.au        | November 16, 2021     | DEPP-131               | Created file                 | 
+      | rhea.b.torres                  | June 17, 2022         | DEPP-3095              | Add @TestVisible to private  | 
+      |                                |                       |                        | class member                 | 
       |                                |                       |                        |                              | 
  */
 public with sharing class B2BUtils {
 
   // A cache which maps community Ids to WebStore Ids
-  private static Map<String, String> communityIdToWebStoreIdCache = new Map<String, String>();
+  @TestVisible private static Map<String, String> communityIdToWebStoreIdCache = new Map<String, String>();
 
   /**
    * @description Given a community ID, returns the relavent webstore ID for use in B2B Commerce on lightning
