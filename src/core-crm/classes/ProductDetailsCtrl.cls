@@ -15,6 +15,7 @@
       | julie.jane.alegre         | May 24, 2022          | DEPP-2070            | Added logic for Group Booking              |
       | john.bo.a.pineda          | June 01, 2022         | DEPP-2853            | Updated Registration Dates Logic           |
       | john.bo.a.pineda          | June 16, 2022         | DEPP-3016            | Updated Logic for Prescribed Child Order   |
+      | john.bo.a.pineda          | June 18, 2022         | DEPP-3166            | Updated Logic for Facilitator Image URL    |
 */
 public without sharing class ProductDetailsCtrl {
   public static final Id STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
@@ -376,7 +377,7 @@ public without sharing class ProductDetailsCtrl {
 
           // Get Content Distribution
           List<ContentDistribution> conContentDistributionList = [
-            SELECT Id, ContentDocumentId, DistributionPublicUrl
+            SELECT Id, ContentDocumentId, ContentDownloadUrl
             FROM ContentDistribution
             WHERE
               Name = 'ContactImage.jpg'
@@ -429,39 +430,22 @@ public without sharing class ProductDetailsCtrl {
             facilWrapper.facilitatorBio = cEnroll.Facilitator_Bio__r.Professional_Bio__c;
             // Facilitator Image
             if (conContentVersionMap.containsKey(cEnroll.hed__Contact__c)) {
-              ContentVersion cv = conContentVersionMap.get(
-                cEnroll.hed__Contact__c
-              );
               ContentDistribution cDis = conContentDistributionMap.get(
                 cEnroll.hed__Contact__c
               );
 
               // Construct Public URL for Contact Image
-              String fileType = cv.FileType.toLowerCase().capitalize();
-              String cVersionId = cv.Id;
-              String cBodyId = cv.ContentBodyId;
-              String originalUrl = String.valueOf(cDis.DistributionPublicUrl);
-              String cDistParam = originalUrl.substring(
-                originalUrl.indexOf('/a/')
+
+              String picURL = String.valueOf(cDis.ContentDownloadUrl)
+                .replace(
+                  'download/?',
+                  'renditionDownload?rendition=ORIGINAL_Jpg&'
+                );
+
+              facilWrapper.facilitatorImage = picURL.replace(
+                '&ids',
+                '&versionId'
               );
-              String orgId = UserInfo.getOrganizationId();
-              String baseDomain = Url.getOrgDomainUrl().toExternalForm();
-              baseDomain =
-                baseDomain.substringBefore('.') + '--c.documentforce.com';
-              String theUrl =
-                baseDomain +
-                '/sfc/dist/version/renditionDownload?rendition=ORIGINAL_' +
-                fileType +
-                '&versionId=' +
-                cVersionId +
-                '&operationContext=DELIVERY&contentId=' +
-                cBodyId +
-                '&page=0&d=' +
-                cDistParam +
-                '&oid=' +
-                orgId +
-                '&dpt=null&viewId=';
-              facilWrapper.facilitatorImage = theUrl;
             }
             facilWrapperList.add(facilWrapper);
           }
@@ -1439,8 +1423,7 @@ public without sharing class ProductDetailsCtrl {
         Amount_Paid__c,
         Status
       FROM WebCart
-      WHERE OwnerId = :userId
-      AND   Status = : 'Active'
+      WHERE OwnerId = :userId AND Status = :'Active'
       LIMIT 1
     ];
   }
