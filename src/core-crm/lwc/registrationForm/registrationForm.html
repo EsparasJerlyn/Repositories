@@ -345,7 +345,12 @@
           <div class="slds-size_2-of-2 slds-text-align_center pb2">
             <!--Static Contents-->
             <p class="heading">Verification</p>
-            <p class="bodyRegular">You have been sent a verification code to your nominated mobile number. Please enter below.</p>
+            <div if:false={isEmail}>
+              <p class="bodyRegular">You have been sent a verification code to your nominated mobile number. Please enter below.</p>
+            </div>
+            <div if:true={isEmail}>
+              <p class="bodyRegular">You have been sent a verification code to {email}. Please enter now.</p>
+            </div>
           </div>
           <div class="slds-size_2-of-2 slds-text-align_center pb2">
               <lightning-input

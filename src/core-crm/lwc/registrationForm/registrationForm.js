@@ -576,6 +576,7 @@ export default class RegistrationForm extends LightningElement {
       this.displayForm = false;
       this.displayVerification = true;
       this.displayResendVerification = false;
+      this.isEmail = true;
     } else if (this.selectionOption == "SMS") {
       this.sendSMSOTP();
       this.generateToast("Success!", "SMS Sent", "success");
@@ -583,6 +584,7 @@ export default class RegistrationForm extends LightningElement {
       this.displayVerification = true;
       this.displayResendVerification = false;
       this.selectionOption = null;
+      this.isEmail = false;
     } else if (this.selectionOption == null) {
       this.generateToast("Error.", "Please Select Option", "error");
     }
