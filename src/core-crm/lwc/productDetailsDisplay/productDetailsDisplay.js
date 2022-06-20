@@ -25,6 +25,7 @@
       | julie.jane.alegre         | June 01,2022          | DEPP-2781            | Fix bug for Group Registration button visibility     |
       | julie.jane.alegre         | June 11,2022          | DEPP-2985            | Fix bug for Apply button visibility          |
       | john.bo.a.pineda          | June 16, 2022         | DEPP-3114            | Modified to set values after registration    |
+      | john.bo.a.pineda          | June 20, 2022         | DEPP-3185            | Modified logic for addToCard onload          |
 */
 
 import { LightningElement, wire, api, track } from "lwc";
@@ -112,6 +113,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   paramURL;
   getParamObj = {};
   setParamObj = {};
+  onLoadAddToCart = false;
 
   // Set Custom Labels
   label = {
@@ -292,6 +294,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
             if (Object.keys(this.getParamObj).length > 0) {
               this.selectedCourseOffering = this.getParamObj.defCourseOff;
               this.selectedPriceBookEntry = this.getParamObj.defPBEntry;
+              this.onLoadAddToCart = this.getParamObj.addCart;
               if (this.selectedPriceBookEntry) {
                 this.selectedPB = this.priceBookEntriesCopy.find(
                   (item) => item.value === this.selectedPriceBookEntry
@@ -339,6 +342,11 @@ export default class ProductDetailsDisplay extends NavigationMixin(
                 this.displayQuestionnaire = false;
                 this.displayAddToCart = true;
               }
+            }
+
+            // Trigger AddToCart OnLoad?
+            if (this.onLoadAddToCart) {
+              this.notifyAddToCart();
             }
           } else {
             this.checkSDatePlaceholder = availableStartDatesPlaceholder;
@@ -415,7 +423,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
       this.openApplicationQuestionnaire = true;
     } else {
       // Display Custom Login Form LWC
-      this.setParamURL();
+      this.setParamURL(false);
       this.openModal = true;
     }
   }
@@ -438,7 +446,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
       this.openAddToCartConfirmModal = true;
     } else {
       // Display Custom Login Form LWC
-      this.setParamURL();
+      this.setParamURL(true);
       this.openModal = true;
     }
     /* Comment out for bulk register */
@@ -638,11 +646,12 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     }
   }
 
-  setParamURL() {
+  setParamURL(addCart) {
     this.setParamObj = {
       defDeliv: this.selectedDelivery,
       defCourseOff: this.selectedCourseOffering,
-      defPBEntry: this.selectedPriceBookEntry
+      defPBEntry: this.selectedPriceBookEntry,
+      addCart: addCart
     };
     this.paramURL = "?param=" + btoa(JSON.stringify(this.setParamObj));
   }
@@ -704,7 +713,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
       this.openGroupBookingModal = true;
     } else {
       // Display Custom Login Form LWC
-      this.setParamURL();
+      this.setParamURL(false);
       this.openModal = true;
     }
   }

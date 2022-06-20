@@ -44,6 +44,7 @@ export default class PrescribedProgram extends LightningElement {
   paramURL;
   getParamObj = {};
   setParamObj = {};
+  onLoadAddToCart = false;
 
   @track disableDelivery = false;
   @track disableProgramOfferings = true;
@@ -248,6 +249,7 @@ export default class PrescribedProgram extends LightningElement {
       if (Object.keys(this.getParamObj).length > 0) {
         this.selectedProgramOffering = this.getParamObj.defCourseOff;
         this.selectedPricing = this.getParamObj.defPBEntry;
+        this.onLoadAddToCart = this.getParamObj.addCart;
         if (this.selectedPricing) {
           this.selectedPB = this.availablePricings.find(
             (item) => item.value === this.selectedPricing
@@ -278,6 +280,11 @@ export default class PrescribedProgram extends LightningElement {
             this.displayQuestionnaire = false;
             this.displayAddToCart = true;
           }
+        }
+
+        // Trigger AddToCart OnLoad?
+        if (this.onLoadAddToCart) {
+          this.notifyAddToCart();
         }
       } else {
         this.selectedProgramOffering = availableProgramOfferingsLocal[0].value;
@@ -399,7 +406,7 @@ export default class PrescribedProgram extends LightningElement {
       this.openApplicationQuestionnaire = true;
     } else {
       // Display Custom Login Form LWC
-      this.setParamURL();
+      this.setParamURL(false);
       this.openModal = true;
     }
   }
@@ -416,7 +423,7 @@ export default class PrescribedProgram extends LightningElement {
       );
       this.openAddToCartConfirmModal = true;
     } else {
-      this.setParamURL();
+      this.setParamURL(true);
       this.openModal = true;
     }
   }
@@ -431,7 +438,7 @@ export default class PrescribedProgram extends LightningElement {
     if (!isGuest) {
       this.openGroupRegistration = true;
     } else {
-      this.setParamURL();
+      this.setParamURL(false);
       this.openModal = true;
     }
   }
@@ -453,11 +460,12 @@ export default class PrescribedProgram extends LightningElement {
     this.openAddToCartConfirmModal = false;
   }
 
-  setParamURL() {
+  setParamURL(addCart) {
     this.setParamObj = {
       defDeliv: this.selectedDeliveryType,
       defCourseOff: this.selectedProgramOffering,
-      defPBEntry: this.selectedPricing
+      defPBEntry: this.selectedPricing,
+      addCart: addCart
     };
     this.paramURL = "?param=" + btoa(JSON.stringify(this.setParamObj));
   }
