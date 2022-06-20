@@ -45,21 +45,32 @@ export default class Slider extends LightningElement {
 
     @api
     get start() {
-        return this._start;
+        if(isNaN(this._start)){
+            this._start = MIN_VALUE;
+        }if(Math.abs(this._start) >= this._end){
+            this._start = this._end - 1;
+        }
+        return Math.abs(this._start);
     };
     set start(value) {
         this._start = this.setBoundries(value);
     }
     @api
     get end() {
-        return this._end;
+        if(isNaN(this._end)){
+            this._end = MAX_VALUE;
+            this._max = MAX_VALUE;
+            this._endValueInPixels = this.convertValueToPixels(this._end);
+            this.setThumb('end', this._endValueInPixels);
+        }
+        return Math.abs(this._end);
     };
     set end(value) {
         this._end = this.setBoundries( value);
     }
 
     get rangeValue() {
-        return Math.abs(this.end - this.start);
+        return this.end - this.start;
     }
 
     _max = MAX_VALUE;
@@ -151,26 +162,31 @@ export default class Slider extends LightningElement {
     onMouseMove(event) {
         // track mouse mouve only when toggle true
          if (this.isMoving) {
-             const currentX = event.clientX || event.targetTouches[0].clientX;
-             let moveX = currentX - this.currentThumbPositionX - this.slider.getBoundingClientRect().left;
-           
-             let moveValue = this.convertPixelsToValue(moveX, this.step);
-             // lock the thumb within the bounaries
-             moveValue = this.setBoundries(moveValue);
-             moveX = this.convertValueToPixels(moveValue);
- 
-             switch (this.currentThumbName) {
-                 case 'start':
-                     this._startValueInPixels = moveX;
-                     this._start = moveValue;
+            const currentX = event.clientX || event.targetTouches[0].clientX;
+            let moveX = currentX - this.currentThumbPositionX - this.slider.getBoundingClientRect().left;
+            let moveValue = this.convertPixelsToValue(moveX, this.step);
+            
+            // lock the thumb within the bounaries
+            moveValue = this.setBoundries(moveValue);
+            moveX = this.convertValueToPixels(moveValue);
+            switch (this.currentThumbName) {
+                case 'start':
+                    if(moveX < this._endValueInPixels){
+                        this._startValueInPixels = moveX;
+                        this._start = moveValue;
+                        this.setThumb(this.currentThumbName, moveX);
+                        this.setRange(this._endValueInPixels, this._startValueInPixels);
+                    }
                     break;
-                 case 'end':
-                     this._endValueInPixels = moveX;
-                     this._end = moveValue;
-                  break;
-             }
-             this.setThumb(this.currentThumbName, moveX);
-             this.setRange(this._endValueInPixels, this._startValueInPixels);
+                case 'end':
+                    if(moveX > this._startValueInPixels){
+                        this._endValueInPixels = moveX;
+                        this._end = moveValue;
+                        this.setThumb(this.currentThumbName, moveX);
+                        this.setRange(this._endValueInPixels, this._startValueInPixels);
+                    }
+                    break;
+            }
          }
          else {
              event.preventDefault(); 

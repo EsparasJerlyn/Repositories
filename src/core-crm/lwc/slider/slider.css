@@ -61,6 +61,10 @@
   .slds-float_left.price-from {
     padding-left: 12px;
 }
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
 
 @media screen and (max-width: 764px) {
   :host {
