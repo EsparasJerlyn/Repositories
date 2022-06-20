@@ -44,7 +44,7 @@ public without sharing class StudyLinkedInRegHandler implements Auth.Registratio
         
         //Create User
         User u = new User();
-        Profile p = [SELECT id FROM profile WHERE name = 'Ecommerce Learner'];
+        Profile p = [SELECT id FROM profile WHERE name = 'OPE Catalogue'];
         u.Username = data.email;
 		u.Email = data.email;
         u.LastName = data.lastName;
@@ -81,7 +81,7 @@ public without sharing class StudyLinkedInRegHandler implements Auth.Registratio
     @future
     public static void assignOPEPermset(List<ID> recordIds){
         User userInserted = [SELECT Id FROM User WHERE Id IN : recordIds];
-        PermissionSet ps = [SELECT Name,Id FROM PermissionSet WHERE Name ='OPE_Portal'];
+        PermissionSet ps = [SELECT Name,Id FROM PermissionSet WHERE Name ='OPE_Catalogue'];
         PermissionSetAssignment psa = new PermissionSetAssignment(PermissionSetId = ps.Id , AssigneeId = userInserted.Id );
         insert (psa);
     }   

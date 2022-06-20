@@ -15,7 +15,7 @@
                 <leftValueReference>$Record.Profile.Name</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>Ecommerce Learner</stringValue>
+                    <stringValue>OPE Catalogue</stringValue>
                 </rightValue>
             </conditions>
             <connector>

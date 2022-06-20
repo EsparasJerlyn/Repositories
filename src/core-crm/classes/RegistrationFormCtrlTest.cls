@@ -145,7 +145,7 @@ public with sharing class RegistrationFormCtrlTest {
   static void isEmailExistTest() {
     Test.startTest();
     System.runAs(PORTAL_SYS_ADMIN) {
-      Profile p = [SELECT Id FROM Profile WHERE Name = 'Ecommerce Learner'];
+      Profile p = [SELECT Id FROM Profile WHERE Name = 'OPE Catalogue'];
       Contact c = new Contact(LastName = 'Testing');
       insert c;
       User u = new User(

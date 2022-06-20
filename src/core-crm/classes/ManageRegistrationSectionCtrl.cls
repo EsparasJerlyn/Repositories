@@ -553,7 +553,7 @@ public without sharing class ManageRegistrationSectionCtrl {
                     response = u.Id;
                }
           }else{
-               Profile profile = [SELECT Id FROM Profile WHERE Name = 'Ecommerce Learner' LIMIT 1];
+               Profile profile = [SELECT Id FROM Profile WHERE Name = 'OPE Catalogue' LIMIT 1];
                User commerceUser = new User();
                commerceUser.Username = contactRecEmail;
                commerceUser.Email = contactRecEmail;

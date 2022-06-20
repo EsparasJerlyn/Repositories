@@ -352,7 +352,7 @@ public without sharing class RegistrationFormCtrl {
     datetime myDate = datetime.now();
     String retURL;
     String userName = email + '.ope';
-    Profile p = [SELECT Id FROM Profile WHERE Name = 'Ecommerce Learner'];
+    Profile p = [SELECT Id FROM Profile WHERE Name = 'OPE Catalogue'];
 
     //Create User
     User u = new User();
@@ -434,7 +434,7 @@ public without sharing class RegistrationFormCtrl {
     PermissionSet ps = [
       SELECT Name, Id
       FROM PermissionSet
-      WHERE Name = 'OPE_Portal'
+      WHERE Name = 'OPE_Catalogue'
     ];
     PermissionSetAssignment psa = new PermissionSetAssignment(
       PermissionSetId = ps.Id,

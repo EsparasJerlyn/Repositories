@@ -29,9 +29,9 @@
     <forgotPasswordTemplate>unfiled$public/CommunityForgotPasswordEmailTemplate</forgotPasswordTemplate>
     <gatherCustomerSentimentData>false</gatherCustomerSentimentData>
     <networkMemberGroups>
-        <permissionSet>OPE_Portal</permissionSet>
+        <permissionSet>OPE_Catalogue</permissionSet>
         <profile>admin</profile>
-        <profile>ecommerce learner</profile>
+        <profile>OPE Catalogue</profile>
     </networkMemberGroups>
     <networkPageOverrides>
         <changePasswordPageOverrideSetting>Standard</changePasswordPageOverrideSetting>

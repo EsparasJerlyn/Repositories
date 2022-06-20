@@ -42,7 +42,7 @@ public without sharing class StudySSORegHandler implements Auth.RegistrationHand
         
         Contact c = [SELECT Id, QUT_Student_Username__c  FROM Contact WHERE QUT_Student_Username__c =: data.username LIMIT 1];
 		User u = new User();
-		Profile p = [SELECT Id FROM Profile WHERE Name = 'Ecommerce Learner'];
+		Profile p = [SELECT Id FROM Profile WHERE Name = 'OPE Catalogue'];
 		u.Username = data.username;
 		u.Email = data.email;
 		u.LastName = data.lastName;
@@ -83,7 +83,7 @@ public without sharing class StudySSORegHandler implements Auth.RegistrationHand
     @future
     public static void assignOPEPermset(List<ID> recordIds){
         User userInserted = [SELECT Id FROM User WHERE Id IN : recordIds];
-        PermissionSet ps = [SELECT Name,Id FROM PermissionSet WHERE Name ='OPE_Portal'];
+        PermissionSet ps = [SELECT Name,Id FROM PermissionSet WHERE Name ='OPE_Catalogue'];
         PermissionSetAssignment psa = new PermissionSetAssignment(PermissionSetId = ps.Id , AssigneeId = userInserted.Id );
         insert (psa);
     }    
