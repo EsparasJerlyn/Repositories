@@ -553,7 +553,7 @@ public without sharing class CartItemCtrl {
    */
   @AuraEnabled
   public static void createCourseConnection(List<String> cartItemIds, String contactId, String paidInFull, String paymentMethod){
-    List<CartItem> cartList = [SELECT Id, CartId, Program_Offering__c, Course_Offering__c, Pricebook_Entry_ID__c FROM CartItem WHERE Id IN: cartItemIds];
+    List<CartItem> cartList = [SELECT Id, CartId, Program_Offering__c, Course_Offering__c, Pricebook_Entry_ID__c, Contact__c FROM CartItem WHERE Id IN: cartItemIds];
     List<hed__Course_Enrollment__c> connectionToInsert = new List<hed__Course_Enrollment__c>();
     hed__Course_Enrollment__c tempConnection;
     
@@ -583,7 +583,7 @@ public without sharing class CartItemCtrl {
 
     for(CartItem ci: cartList){
       tempConnection = new hed__Course_Enrollment__c();
-      tempConnection.hed__Contact__c = contactId;
+      tempConnection.hed__Contact__c = ci.Contact__c != null?ci.Contact__c:contactId;
       tempConnection.hed__Course_Offering__c = ci.Course_Offering__c;
       tempConnection.Program_Offering__c = ci.Program_Offering__c;
       tempConnection.hed__Status__c = 'Active';
@@ -604,7 +604,7 @@ public without sharing class CartItemCtrl {
       if(ci.Program_Offering__c != null && productOfferingMap.containsKey(ci.Program_Offering__c)){
         for(String childOffering: productOfferingMap.get(ci.Program_Offering__c)){
           tempConnection = new hed__Course_Enrollment__c();
-          tempConnection.hed__Contact__c = contactId;
+          tempConnection.hed__Contact__c = ci.Contact__c != null?ci.Contact__c:contactId;
           tempConnection.hed__Course_Offering__c = childOffering;
           tempConnection.hed__Status__c = 'Active';
           tempConnection.Cart_ID__c = ci.CartId;

@@ -112,7 +112,12 @@ export default class PaymentConfirmation extends LightningElement {
                 paymentUrl: window.location.href,
                 email: this.parameters.Email
             }).then((data) => {
-
+                this.dispatchEvent(
+                    new CustomEvent("cartchanged", {
+                      bubbles: true,
+                      composed: true
+                    })
+                  );
             }).catch((error) => {
                 console.log("updateWebCart error");
                 console.log(error);

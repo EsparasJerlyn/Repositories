@@ -78,6 +78,12 @@ export default class ProductDetails extends LightningElement {
     if (!isGuest) {
       this.updateCartInformation();
     }
+    this.dispatchEvent(
+      new CustomEvent("cartchanged", {
+        bubbles: true,
+        composed: true
+      })
+    );
   }
 
   getProductDetailsApex(productId){

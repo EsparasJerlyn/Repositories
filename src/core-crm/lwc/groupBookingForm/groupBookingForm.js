@@ -5,12 +5,16 @@ import userId from "@salesforce/user/Id";
 import getQuestionsForGroupBooking from "@salesforce/apex/ProductDetailsCtrl.getQuestionsForGroupBooking";
 import addRegistration from '@salesforce/apex/ProductDetailsCtrl.addRegistration';
 import { getRecord, getFieldValue } from "lightning/uiRecordApi";
+import getCartItemsByCart from "@salesforce/apex/CartItemCtrl.getCartItemsByCart";
 import ACCOUNT_ID from '@salesforce/schema/Contact.AccountId';
 import insertContactData from '@salesforce/apex/ProductDetailsCtrl.saveContactData';
 import getContactAccountId from '@salesforce/apex/ProductDetailsCtrl.getContactAccountId';
 import getUserContactDetails from '@salesforce/apex/ProductDetailsCtrl.getUserContactDetails';
 import getUserCartDetails from '@salesforce/apex/ProductDetailsCtrl.getUserCartDetails';
 import addToCartItem from '@salesforce/apex/ProductDetailsCtrl.addToCartItem';
+import saveBooking from '@salesforce/apex/GroupBookingFormCtrl.saveBooking';
+import addCartItems from '@salesforce/apex/GroupBookingFormCtrl.addCartItems';
+import removeCartItems from '@salesforce/apex/GroupBookingFormCtrl.removeCartItems';
 import getPricebookEntryPrice from '@salesforce/apex/ProductDetailsCtrl.getPricebookEntryPrice';
 import LWC_Error_General from "@salesforce/label/c.LWC_Error_General";
 import communityId from "@salesforce/community/Id";
@@ -32,15 +36,21 @@ const CONTACT_FIELDS = [
 
 export default class GroupBookingForm extends LightningElement {
     //Boolean tracked variable to indicate if modal is open or not default value is false as modal is closed when page is loaded 
-    @track isModalOpen;
+    isModalOpen = true;
+    
     @api productDetails;
-    @api selectedCourseOffering;
+    @api selectedOffering;
     @api selectedProgramOffering;
     @api isPrescribed;
-    @track productId;
-    @track ProductRequestID;
-    @track courseOffering;
     @api priceBookEntry;
+
+
+    productRequestId
+    productId;
+    courseOffering;
+    accountId;
+    cartId;
+
     @track templatePicklist = true;
     @track displayAccordion;
     @track numberOfParticipants;
@@ -72,60 +82,77 @@ export default class GroupBookingForm extends LightningElement {
     @track originalMessage;
     @track displayMessage = 'Click on the \'Open Confirmation\' button to test the dialog.';
     @track currentIndex = 1;
-    saveInProgress = false;
     @track isOpenPayment = false;
     @track fromCartSummary = false;
     @track disablePayment = false;
     @track total;  //total needed for payment 
     @track cartExternalId;
-    @track cartId;
     @track webStoreId;
     @track firstName;
     @track lastName;
     @track contactEmail;
     @track amount;
     @track xString;
-    @track disabledSave;
+    cartItems;
+    processing;
     
-  //get contact data
-  @wire(getRecord, { recordId: userId, fields: CONTACT_FIELDS })
-  wiredContact({ error, data }) {
+    
+
+@wire(getRecord, { recordId: userId, fields: CONTACT_FIELDS })
+    wiredContact({ error, data }) {
     //if data is retrieved successfully
     if (data) {
-      //populate the variables
-      this.contactId = data.fields.ContactId.value;
-      this.firstName = data.fields.Contact.value.fields.FirstName.value;
-      this.lastName = data.fields.Contact.value.fields.LastName.value;
-      this.contactEmail = data.fields.Contact.value.fields.Email.value;
-      //else if error
-    } else if (error) {
-      this.error = error;
-    }
-  } 
+        //populate the variables
+        this.contactId = data.fields.ContactId.value;
+        this.firstName = data.fields.Contact.value.fields.FirstName.value;
+        this.lastName = data.fields.Contact.value.fields.LastName.value;
+        this.contactEmail = data.fields.Contact.value.fields.Email.value;
+        //else if error
 
-    openModal() {
-        // to open modal set isModalOpen tarck value as true
-        this.isModalOpen = true;
-      
+    } else if (error) {
+        this.error = error;
+        console.log('error',error);
     }
+} 
+
+    // openModal() {
+    //     // to open modal set isModalOpen tarck value as true
+    //     this.isModalOpen = true;
+      
+    // }
+
+
     closeModal() {
         // to close modal set isModalOpen tarck value as false
-        this.isModalOpen = false;
-        this.templatePicklist = true;
-        this.displayAccordion = false;
-        this.numberOfParticipants = 0;
-        this.listOfdata=[];
-        this.items=[];
-        this.disableAddBtn = false;
-        this.counter = 1;
-        this.num = 1;
-        this.disabledSave = false;
-   
+        removeCartItems({
+            userId:userId
+        })
+        .then(()=>{
+            this.dispatchEvent(
+                new CustomEvent("cartchanged", {
+                  bubbles: true,
+                  composed: true
+                })
+              );
+        })
+        .catch((e) =>{
+            console.log(e);
+        })
+        .finally(()=>{
+            this.isModalOpen = false;
+            this.templatePicklist = true;
+            this.displayAccordion = false;
+            this.numberOfParticipants = 0;
+            this.listOfdata=[];
+            this.items=[];
+            this.disableAddBtn = false;
+            this.counter = 1;
+            this.num = 1;
+            this.dispatchEvent(new CustomEvent('close'));
+        })
         
-        this.dispatchEvent(new CustomEvent('close'));
     }
     
-   //Create a list of accepted number of Participants
     get options(){
         
         for(let i=this.minParticipants; i<= this.maxParticipants;i++){
@@ -134,89 +161,104 @@ export default class GroupBookingForm extends LightningElement {
         return this.listOfdata;
     }
     
-    connectedCallback() {
-
-        this.isModalOpen = true;
-        this.productId = this.productDetails.Id;
-        this.productCourseName = this.productDetails.Name;
-   
+    connectedCallback(){
         if(this.isPrescribed){
+            this.productRequestId = this.productDetails.Program_Plan__c.Product_Request__c;
             this.minParticipants = this.productDetails.Program_Plan__r.Minimum_Participants__c;
             this.maxParticipants =  this.productDetails.Program_Plan__r.Maximum_Participants__c;
-            this.ProductRequestID = this.productDetails.Program_Plan__r.Product_Request__c;
-            this.courseOffering = this.selectedProgramOffering;
         }else{
+            this.productRequestId = this.productDetails.Course__r.ProductRequestID__c;
             this.minParticipants = this.productDetails.Course__r.Minimum_Participants__c;
             this.maxParticipants =  this.productDetails.Course__r.Maximum_Participants__c;
-            this.ProductRequestID = this.productDetails.Course__r.ProductRequestID__c;
-            this.courseOffering = this.selectedCourseOffering;
         }
-       
-        //Get the Price of the selected course/program from pricebook entry
-        getPricebookEntryPrice({
-            pricebookId:this.priceBookEntry
-        })
-        .then((results) => {
-               
-            this.amount = results.UnitPrice;
-          
-        })
-        .catch((e) => {
-            this.generateToast("Error.", LWC_Error_General, "error");
-        });
 
-        // Get the relayed Account of the Contact
-        getContactAccountId({
-            connId: this.contactId
-        })
-        .then((results) => {
-            if (results.length > 0) {
-                this.actResponseData = results;
-                this.contactActId = this.actResponseData[0].AccountId; 
-            }
-        })
-        .catch((e) => {
-            this.generateToast("Error.", LWC_Error_General, "error");
-        });
+        this.productId = this.productDetails.Id;
+        this.productCourseName = this.productDetails.Name;
 
-        //Get the related Registration Question 
         getQuestionsForGroupBooking({
-            productReqId: this.ProductRequestID
+            productReqId: this.productRequestId
         })
         .then((results) => {
                 if (results.length >= 0) {
                     if(results.length == 0){
                         this.regHeader = false;
                     }
-                    
                     this.responseData2 = results;
                     this.questions2= this.formatQuestions(results);
                     this.questionsPrimary= this.formatQuestions(results);
+
                 }
-               
+                
         })
         .catch((e) => {
             this.generateToast("Error.", LWC_Error_General, "error");
-        });    
-        //Get the external Id from the cart
+        }); 
+
         getUserCartDetails({
             userId: userId
           })
             .then((results) => {
-              
                 this.cartExternalId = results.External_Id__c;
-              
+                this.accountId = results.AccountId;
+                this.cartId = results.Id;
             })
             .catch((e) => {
+              console.log(e);
               this.generateToast("Error.", LWC_Error_General, "error");
-            });
-           
+        });
+    }
+    // connectedCallback() {
 
-    }
-  
-    getQuestionsList(){
-        this.responseData = getQuestionsForGroupBooking();
-    }
+       
+    //     //Get the Price of the selected course/program from pricebook entry
+    //     getPricebookEntryPrice({
+    //         pricebookId:this.priceBookEntry
+    //     })
+    //     .then((results) => {
+               
+    //         this.amount = results.UnitPrice;
+          
+    //     })
+    //     .catch((e) => {
+    //         this.generateToast("Error.", LWC_Error_General, "error");
+    //     });
+
+    //     // Get the relayed Account of the Contact
+    //     getContactAccountId({
+    //         connId: this.contactId
+    //     })
+    //     .then((results) => {
+    //         if (results.length > 0) {
+    //             this.actResponseData = results;
+    //             this.contactActId = this.actResponseData[0].AccountId; 
+    //         }
+    //     })
+    //     .catch((e) => {
+    //         this.generateToast("Error.", LWC_Error_General, "error");
+    //     });
+
+    //     //Get the related Registration Question 
+    //     getQuestionsForGroupBooking({
+    //         productReqId: this.ProductRequestID
+    //     })
+    //     .then((results) => {
+    //             if (results.length >= 0) {
+    //                 if(results.length == 0){
+    //                     this.regHeader = false;
+    //                 }
+                    
+    //                 this.responseData2 = results;
+    //                 this.questions2= this.formatQuestions(results);
+    //                 this.questionsPrimary= this.formatQuestions(results);
+    //             }
+               
+    //     })
+    //     .catch((e) => {
+    //         this.generateToast("Error.", LWC_Error_General, "error");
+    //     });    
+    //     //Get the external Id from the cart       
+    // }
+    
     handleFirstnameChange(event){
         this.firstName = event.detail.value;
        
@@ -348,16 +390,17 @@ export default class GroupBookingForm extends LightningElement {
         });
         return questions2;
        }
-       handleRespondQuestions(){
+
+
+    handleRespondQuestions(){
         this.isRespondQuestions = true;
       }
 
-  get hasQuestions(){
-        return this.questions && this.questions.length > 0?true:false;
-   }
+//   get hasQuestions(){
+//         return this.questions && this.questions.length > 0?true:false;
+//    }
 
    submitDetails(event) {
-    this.saveInProgress = true;
     const allValid = [
         ...this.template.querySelectorAll('lightning-input'),
     ].reduce((validSoFar, inputCmp) => {
@@ -366,17 +409,37 @@ export default class GroupBookingForm extends LightningElement {
     }, true);
 
     if (allValid) {
+        
+        //this.template.querySelectorAll("lightning-record-edit-form").forEach((form) => {form.submit();});
 
-        this.template.querySelectorAll("lightning-record-edit-form").forEach((form) => {form.submit();});
         if(this.counter == this.numberOfParticipants){
+
             let fieldsPrimary = {};
+            let contactMap = {};
+            let answerMap = {};
+            let fileUploadMap = {};
+
             fieldsPrimary.Id = this.contactId;
+            const inputFields = this.template.querySelectorAll(
+                'lightning-input-field'
+            );
+    
+            if (inputFields) {
+                inputFields.forEach(field => {
+                    fieldsPrimary[field.fieldName] = field.value;
+                });
+            }
+
             this.contactFieldsPrimary = fieldsPrimary;
+            this.amount = this.productDetails.PricebookEntries.find(row => row.Id === this.priceBookEntry).UnitPrice,
             this.total = this.amount * this.numberOfParticipants;
-            
-            this.saveRegistration(this.contactFieldsPrimary, this.courseOffering,this.responseData2, this.createAnswerRecordPrimary() ,JSON.stringify(this.createFileUploadMap())); 
+
+            contactMap['PARTICIPANT 1'] = fieldsPrimary;
+            answerMap['PARTICIPANT 1'] = this.createAnswerRecordPrimary();
+            fileUploadMap['PARTICIPANT 1'] = JSON.stringify(this.createFileUploadMap());
+
+            this.processing = true;
                 let blankRow = this.items;
-                let contactDataList = [];
                 for(let i = 0; i < blankRow.length; i++){
                     if(blankRow[i] !== undefined){
                         let conData = new Object();
@@ -386,85 +449,185 @@ export default class GroupBookingForm extends LightningElement {
                         conData.Birthdate = blankRow[i].Birthdate;
                         conData.MobilePhone = blankRow[i].MobilePhone;
                         conData.Dietary_Requirement__c = blankRow[i].Dietary_Requirement__c;    
-                        contactDataList.push(conData);
+                        contactMap[blankRow[i].label] = conData;
+                        let answerRecords = {};
+                        answerRecords = blankRow[i].Questions.map(row=>{
+                            let record = {};
+                            record.Related_Answer__c = row.Id;
+                            record.Response__c = row.Answer;
+                            record.Sequence__c = row.Sequence;
+                            return record;                                  
+                        });
+                        answerMap[blankRow[i].label] = answerRecords;
+
+                        let fileUpload = [];
+                        fileUpload = blankRow[i].Questions.map(item =>{
+                            if(item.IsFileUpload){
+                                let record = {};
+                                record.RelatedAnswerId = item.Id;
+                                record.Base64 = item.FileData.base64;
+                                record.FileName = item.FileData.filename;
+                                return record;
+                            }
+                        });
+                        fileUploadMap[blankRow[i].label] = JSON.stringify(fileUpload.filter(key => key !== undefined)?fileUpload.filter(key => key !== undefined):fileUpload);
+
                     }
                 }
-                if(contactDataList.length > 0){
-                    insertContactData({contactDataString: JSON.stringify(contactDataList)}).then(result => {
-                        for(let i = 0; i < result.length; i++){
-                            if(result[i] !== undefined){
-                                let contactRecord = {'sobjectType' : 'Contact'};
-                                contactRecord.Id = result[i].Id; //newly created contact ID
-                                contactRecord.FirstName = result[i].FirstName;
-                                contactRecord.LastName = result[i].LastName;
-                                contactRecord.AccountId = result[i].AccountId;
-        
-                                let fields = {};
-                                fields.Id = result[i].Id;
-                                this.contactFields = fields;
-        
-                                let ItemsRecords = {};
-                                ItemsRecords = this.items.map(item=>{  
-        
-                                    if (blankRow[i].id == item.id){
-        
-                                        let answerRecords = {};
-                                        answerRecords = item.Questions.map(row=>{
-                                            let record = {};
-                                            record.Related_Answer__c = row.Id;
-                                            record.Response__c = row.Answer;
-                                            record.Sequence__c = row.Sequence;
-                                            return record;                                  
-                                        });
-                                        this.answerRecords2 =  answerRecords;
-                                    
-                                    }
-                                    return item;
-                                });
-        
-                                this.saveRegistration(this.contactFields, this.courseOffering,this.responseData2, this.answerRecords2 ,JSON.stringify(this.createFileUploadMap()));
-                                
-                            }
-                            this.generateToast(SUCCESS_TITLE, 'Successfully Submitted', SUCCESS_VARIANT);
-                            this.saveInProgress = false;
+                removeCartItems({
+                    userId:userId
+                })
+                .then(()=>{
+                    this.dispatchEvent(
+                        new CustomEvent("cartchanged", {
+                          bubbles: true,
+                          composed: true
+                        })
+                    );
+                    saveBooking({
+                        participants:contactMap,
+                        offeringId:this.selectedOffering,
+                        relatedAnswer:this.responseData2,
+                        answerMap:answerMap,
+                        fileUpload:fileUploadMap,
+                        isPrescribed: this.isPrescribed
+                    }).then((result)=>{
+                        addCartItems({
+                            productId:this.productId,
+                            productName:this.productCourseName,
+                            isPrescribed:this.isPrescribed,
+                            offeringId:this.selectedOffering,
+                            pricebookEntryId:this.priceBookEntry,
+                            pricebookUnitPrice:this.amount,
+                            userId:this.userId,
+                            contacts:result,
+                            cartId:this.cartId,
+                        })
+                        .then(() => {
+                            //this.generateToast(SUCCESS_TITLE, 'Successfully Submitted', SUCCESS_VARIANT);
                             this.isOpenPayment = true;
-                           
-                            this.createCartItem(
-                                communityId,
-                                this.productId,
-                                this.contactActId,
-                                this.productCourseName,
-                                this.selectedCourseOffering,
-                                this.selectedProgramOffering,
-                                this.pricebookEntry,
-                                userId);
-                                this.saveInProgress = false;
-                        }
-                    }).catch(error => {
+                            this.dispatchEvent(
+                                new CustomEvent("cartchanged", {
+                                  bubbles: true,
+                                  composed: true
+                                })
+                              );
+        
+                              getCartItemsByCart({
+                                cartId:this.cartId,
+                                userId:userId
+                              })
+                              .then((result) => {
+                                this.cartItems = JSON.parse(JSON.stringify(result.cartItemsList));
+                                this.processing = false;
+                              })
+                        })
+                    }).catch((error)=>{
+                        this.processing = false;
+                        console.log(error);
                     })
-                }else{
-    
-                }
-    
-    
-        }
-        else{
-    
-            const evt = new ShowToastEvent({
-                title: 'Toast Error',
-                message: 'Please fill up all added participants before proceed',
-                variant: 'error',
-                mode: 'dismissable'
-            });
-            this.dispatchEvent(evt);
-        }
+                })
+                .catch((e) =>{
+                    this.processing = false;
+                    console.log(e);
+                })
+
+            
+            //this.saveRegistration(this.contactFieldsPrimary, this.courseOffering,this.responseData2, this.createAnswerRecordPrimary() ,JSON.stringify(this.createFileUploadMap())); 
     }
+
+    }
+
+
+    
+    //             let blankRow = this.items;
+    //             let contactDataList = [];
+    //             for(let i = 0; i < blankRow.length; i++){
+    //                 if(blankRow[i] !== undefined){
+    //                     let conData = new Object();
+    //                     conData.FirstName = blankRow[i].FirstName;
+    //                     conData.LastName = blankRow[i].LastName;
+    //                     conData.Email = blankRow[i].Email;
+    //                     conData.Birthdate = blankRow[i].Birthdate;
+    //                     conData.MobilePhone = blankRow[i].MobilePhone;
+    //                     conData.Dietary_Requirement__c = blankRow[i].Dietary_Requirement__c;    
+    //                     contactDataList.push(conData);
+    //                 }
+    //             }
+    //             if(contactDataList.length > 0){
+    //                 insertContactData({contactDataString: JSON.stringify(contactDataList)}).then(result => {
+    //                     for(let i = 0; i < result.length; i++){
+    //                         if(result[i] !== undefined){
+    //                             let contactRecord = {'sobjectType' : 'Contact'};
+    //                             contactRecord.Id = result[i].Id; //newly created contact ID
+    //                             contactRecord.FirstName = result[i].FirstName;
+    //                             contactRecord.LastName = result[i].LastName;
+    //                             contactRecord.AccountId = result[i].AccountId;
+        
+    //                             let fields = {};
+    //                             fields.Id = result[i].Id;
+    //                             this.contactFields = fields;
+        
+    //                             let ItemsRecords = {};
+    //                             ItemsRecords = this.items.map(item=>{  
+        
+    //                                 if (blankRow[i].id == item.id){
+        
+    //                                     let answerRecords = {};
+    //                                     answerRecords = item.Questions.map(row=>{
+    //                                         let record = {};
+    //                                         record.Related_Answer__c = row.Id;
+    //                                         record.Response__c = row.Answer;
+    //                                         record.Sequence__c = row.Sequence;
+    //                                         return record;                                  
+    //                                     });
+    //                                     this.answerRecords2 =  answerRecords;
+                                    
+    //                                 }
+    //                                 return item;
+    //                             });
+        
+    //                             this.saveRegistration(this.contactFields, this.courseOffering,this.responseData2, this.answerRecords2 ,JSON.stringify(this.createFileUploadMap()));
+        
+    //                         }
+    //                         this.generateToast(SUCCESS_TITLE, 'Successfully Submitted', SUCCESS_VARIANT);
+    //                         this.isOpenPayment = true;
+    //                         this.createCartItem(
+    //                             communityId,
+    //                             this.productId,
+    //                             this.accountId,
+    //                             this.productCourseName,
+    //                             this.selectedCourseOffering,
+    //                             this.selectedProgramOffering,
+    //                             pricebookEntry,
+    //                             userId);
+                          
+    //                     }
+    //                 }).catch(error => {
+    //                 })
+    //             }else{
+    
+    //             }
+    
+    
+    //     }
+    //     else{
+    
+    //         const evt = new ShowToastEvent({
+    //             title: 'Toast Error',
+    //             message: 'Please fill up all added participants before proceed',
+    //             variant: 'error',
+    //             mode: 'dismissable'
+    //         });
+    //         this.dispatchEvent(evt);
+    //     }
+    // }
    
 }
 
 createFileUploadMap(){
     let fileUpload = [];
-    fileUpload = this.questions2.map(item =>{
+    fileUpload = this.questionsPrimary.map(item =>{
         if(item.IsFileUpload){
             let record = {};
             record.RelatedAnswerId = item.Id;
@@ -475,7 +638,7 @@ createFileUploadMap(){
     });
     
     return fileUpload.filter(key => key !== undefined)?fileUpload.filter(key => key !== undefined):fileUpload;
-  }
+}
 
 
 createAnswerRecord(){
@@ -491,31 +654,30 @@ createAnswerRecord(){
 
   }
 
-saveRegistration(contact,courseOffering,relatedAnswer,answer,fileUpload){
-    addRegistration({
-        contactRecord:contact,
-        courseOfferingId:courseOffering,
-        relatedAnswerList:relatedAnswer,
-        answerList:answer,
-        fileUpload:fileUpload,
-        forApplication:false
-    })
-    .then(() =>{
-            this.generateToast(SUCCESS_TITLE, 'Successfully Submitted', SUCCESS_VARIANT);
-            this.disabledSave = true;
+// saveRegistration(contact,courseOffering,relatedAnswer,answer,fileUpload){
+//     addRegistration({
+//         contactRecord:contact,
+//         courseOfferingId:courseOffering,
+//         relatedAnswerList:relatedAnswer,
+//         answerList:answer,
+//         fileUpload:fileUpload,
+//         forApplication:false
+//     })
+//     .then(() =>{
+//             this.generateToast(SUCCESS_TITLE, 'Successfully Submitted', SUCCESS_VARIANT);
             
-    })
-    .finally(()=>{
+//     })
+//     .finally(()=>{
 
-    })
-    .catch(error =>{
+//     })
+//     .catch(error =>{
        
-    });
-  }
+//     });
+//   }
 
-  get labelValue(){
-    return 'PARTICIPANT ' + this.currentIndex;
-}
+//   get labelValue(){
+//     return 'PARTICIPANT ' + this.currentIndex;
+// }
 
   // Creates toast notification
   generateToast(_title, _message, _variant) {
@@ -623,12 +785,12 @@ saveRegistration(contact,courseOffering,relatedAnswer,answer,fileUpload){
     return answerRecords;
   }
 
-  createCartItem(communityId,productId,effectiveAccountId,productName,courseOfferingId,programOfferingId,pricebookEntryId,userId){
+  createCartItem(communityId,productId,accountId,productName,courseOfferingId,programOfferingId,pricebookEntryId,userId){
       
     addToCartItem({
          communityId: communityId,
          productId: productId ,
-         effectiveAccountId:effectiveAccountId,
+         effectiveAccountId:accountId,
          productName:productName,
          courseOfferingId: courseOfferingId,
          programOfferingId: programOfferingId,
@@ -637,8 +799,6 @@ saveRegistration(contact,courseOffering,relatedAnswer,answer,fileUpload){
     })
     .then(() =>{
             this.generateToast(SUCCESS_TITLE, 'Successfully Submitted', SUCCESS_VARIANT);
-            refreshApex(this.tableData);
-          
     })
     .finally(()=>{
 

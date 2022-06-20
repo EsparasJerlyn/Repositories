@@ -83,7 +83,8 @@ public without sharing class PaymentConfirmationCtrl {
                 Course_Offering__r.Delivery_Type__c,
                 Program_Offering__c,
                 Program_Offering__r.Start_Date__c,
-                Program_Offering__r.Delivery_Type__c
+                Program_Offering__r.Delivery_Type__c,
+                Contact__c
             FROM CartItem
             WHERE CartId = :webCartData.Id];
 
@@ -219,7 +220,8 @@ public without sharing class PaymentConfirmationCtrl {
                     Id,
                     Course_Offering__c,
                     Program_Offering__c,
-                    Pricebook_Entry_ID__c
+                    Pricebook_Entry_ID__c,
+                    Contact__c
                 FROM CartItem
                 WHERE CartId = :cartId];
 
@@ -258,7 +260,7 @@ public without sharing class PaymentConfirmationCtrl {
                 hed__Course_Enrollment__c tempCourseConnectionMain = new hed__Course_Enrollment__c();
 
                 //populate data for course offering
-                tempCourseConnectionMain.hed__Contact__c = contactId;
+                tempCourseConnectionMain.hed__Contact__c = currentCart.Contact__c != null?currentCart.Contact__c:contactId;
                 tempCourseConnectionMain.hed__Status__c = 'Active';
                 tempCourseConnectionMain.Amount__c = amount;
                 tempCourseConnectionMain.Transaction_ID__c = tranId;
@@ -286,7 +288,7 @@ public without sharing class PaymentConfirmationCtrl {
                     if(programToChild.containsKey(currentCart.Program_Offering__c)){
                         for(String offering: programToChild.get(currentCart.Program_Offering__c)){
                             hed__Course_Enrollment__c tempCourseConnectionSub = new hed__Course_Enrollment__c();
-                            tempCourseConnectionSub.hed__Contact__c = contactId;
+                            tempCourseConnectionSub.hed__Contact__c = currentCart.Contact__c != null?currentCart.Contact__c:contactId;
                             tempCourseConnectionSub.hed__Status__c = 'Active';
                             tempCourseConnectionSub.Amount__c = amount;
                             tempCourseConnectionSub.Transaction_ID__c = tranId;
