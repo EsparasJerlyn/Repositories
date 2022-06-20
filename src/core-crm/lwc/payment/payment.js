@@ -4,11 +4,11 @@
  *
  * @history
  *    | Developer                 | Date                  | JIRA                 | Change Summary                               |
-      |---------------------------|-----------------------|----------------------|----------------------------------------------|
-      | keno.domienri.dico        | May 24, 2022          | DEPP-2038            | Create payment method lwc                    |
-      | marlon.vasquez            | June 10, 2022         | DEPP-2812            | Cart Summary Questionnaire                   |
+ |---------------------------|-----------------------|----------------------|----------------------------------------------|
+| keno.domienri.dico        | May 24, 2022          | DEPP-2038            | Create payment method lwc                    |
+| marlon.vasquez            | June 10, 2022         | DEPP-2812            | Cart Summary Questionnaire                   |
 
-      */
+*/
 import { LightningElement, api, wire } from 'lwc';
 import getPaymentGatewaySettings from '@salesforce/apex/PaymentGatewayCtrl.getPaymentGatewaySettings';
 import updatePaymentMethod from "@salesforce/apex/CartItemCtrl.updatePaymentMethod";
@@ -16,7 +16,7 @@ import addRegistration from '@salesforce/apex/ProductDetailsCtrl.addRegistration
 import getCartItemsByCart from "@salesforce/apex/CartItemCtrl.getCartItemsByCart";
 import userId from "@salesforce/user/Id";
 import createCourseConnections from '@salesforce/apex/CartItemCtrl.createCourseConnection';
-import { createRecord,updateRecord } from 'lightning/uiRecordApi';
+import { createRecord,updateRecord, getRecord, getFieldValue } from 'lightning/uiRecordApi';
 import PAYMENT_URL_FIELD from '@salesforce/schema/WebCart.Payment_URL__c';
 import STATUS_FIELD from '@salesforce/schema/WebCart.Status';
 import ID_FIELD from '@salesforce/schema/WebCart.Id';
@@ -98,11 +98,23 @@ export default class Payment extends LightningElement {
         }
     }
 
+    @wire(getRecord, { recordId: '$cartId', fields: [STATUS_FIELD]})
+    currentCart;
+
+
+    get cartIsClosed() {
+        if(this.currentCart && this.currentCart.data){
+            return getFieldValue(this.currentCart.data, STATUS_FIELD) === 'Closed'?true:false;
+        }else{
+            false;
+        }
+        
+    }
     /**
      * Disable payment buttons if checkbox from Cart Summary is false
      */
     get disableButton(){
-        return this.disablePayment || this.processing;
+        return this.disablePayment || this.processing || this.cartIsClosed; 
     }
 
     /**
@@ -163,9 +175,8 @@ export default class Payment extends LightningElement {
 
     payNowClick(){
         this.paymentCartItems = JSON.parse(JSON.stringify(this.cartItems));
-        this.processing = true
+        this.processing = true;
         if(this.fromCartSummary){
-                this.processing = true;
                 let fields = {'Status__c' : 'Checkout'};
                 let objRecordInput = {'apiName':'Cart_Payment__c',fields};
                 createRecord(objRecordInput).then(response => {
@@ -181,6 +192,7 @@ export default class Payment extends LightningElement {
                     })
                 })
                 .catch((error) => {
+                    this.processing = false;
                     console.log("create cartpayment error");
                     console.log(error);
                 })
@@ -201,6 +213,7 @@ export default class Payment extends LightningElement {
                     })
                 })
                 .catch((error) => {
+                    this.processing = false;
                     console.log("create cartpayment error");
                     console.log(error);
                 })
@@ -210,7 +223,7 @@ export default class Payment extends LightningElement {
         /*updatePaymentMethod({ cartId: this.cartId, paymentMethod: 'Pay Now' })
         .then(() => {
             window.location.href = this.payURL;
-         })
+        })
 
             //code
 
@@ -241,41 +254,47 @@ export default class Payment extends LightningElement {
 
         //update the cart with the payment method selected
         this.paymentCartItems = JSON.parse(JSON.stringify(this.cartItems));
-        this.processing = true
+        this.processing = true;
         if(this.fromCartSummary){
-            this.processing = true;
             let cartIds = []; 
             let contactId;
             this.paymentCartItems.map(row => {
                 cartIds.push(row.cartItemId);
                 contactId = row.contactId;
             });
-            createCourseConnections({cartItemIds:cartIds, contactId:contactId, paidInFull:'No', paymentMethod:'Invoice'})
-            .then(()=>{
-                let fields = {'Status__c' : 'Invoiced'};
-                let objRecordInput = {'apiName':'Cart_Payment__c',fields};
-                createRecord(objRecordInput).then(response => {
-                    let cartPaymentId = response.id;
+            let fields = {'Status__c' : 'Invoiced'};
+            let objRecordInput = {'apiName':'Cart_Payment__c',fields};
+            createRecord(objRecordInput).then(response => {
+                let cartPaymentId = response.id;
+                let fields = {};
+                fields[ID_FIELD.fieldApiName] = this.cartId;
+                fields[CART_PAYMENT_FIELD.fieldApiName] = cartPaymentId;
+                fields[PAYMENT_URL_FIELD.fieldApiName] = this.invoiceURL;
+                fields[PAYMENT_METHOD.fieldApiName] = 'Invoice';
+                let recordInput = {fields};
+                updateRecord(recordInput)
+                .then(()=>{
                     let fields = {};
                     fields[ID_FIELD.fieldApiName] = this.cartId;
-                    fields[CART_PAYMENT_FIELD.fieldApiName] = cartPaymentId;
-                    fields[PAYMENT_URL_FIELD.fieldApiName] = this.invoiceURL;
-                    fields[PAYMENT_METHOD.fieldApiName] = 'Invoice';
+                    fields[STATUS_FIELD.fieldApiName] = 'Closed';
                     let recordInput = {fields};
                     updateRecord(recordInput)
                     .then(()=>{
-                        let fields = {};
-                        fields[ID_FIELD.fieldApiName] = this.cartId;
-                        fields[STATUS_FIELD.fieldApiName] = 'Closed';
-                        let recordInput = {fields};
-                        updateRecord(recordInput)
+                        createCourseConnections({cartItemIds:cartIds, contactId:contactId, paidInFull:'No', paymentMethod:'Invoice'})
                         .then(()=>{
+                            this.dispatchEvent(
+                                new CustomEvent("cartchanged", {
+                                  bubbles: true,
+                                  composed: true
+                                })
+                            );
                             window.location.href = this.invoiceURL;
                         })
                     })
                 })
             })
             .catch((error) => {
+                this.processing = false;
                 console.log("createCourseConnections error");
                 console.log(error);
             })
@@ -286,32 +305,39 @@ export default class Payment extends LightningElement {
                 cartIds.push(row.cartItemId);
                 contactId = row.contactId;
             });
-            createCourseConnections({cartItemIds:cartIds, contactId:contactId, paidInFull:'No', paymentMethod:'Invoice'})
-            .then(()=>{
-                let fields = {'Status__c' : 'Invoiced'};
-                let objRecordInput = {'apiName':'Cart_Payment__c',fields};
-                createRecord(objRecordInput).then(response => {
-                    let cartPaymentId = response.id;
+            let fields = {'Status__c' : 'Invoiced'};
+            let objRecordInput = {'apiName':'Cart_Payment__c',fields};
+            createRecord(objRecordInput).then(response => {
+                let cartPaymentId = response.id;
+                let fields = {};
+                fields[ID_FIELD.fieldApiName] = this.cartId;
+                fields[CART_PAYMENT_FIELD.fieldApiName] = cartPaymentId;
+                fields[PAYMENT_URL_FIELD.fieldApiName] = this.invoiceURL;
+                fields[PAYMENT_METHOD.fieldApiName] = 'Invoice';
+                let recordInput = {fields};
+                updateRecord(recordInput)
+                .then(()=>{
                     let fields = {};
                     fields[ID_FIELD.fieldApiName] = this.cartId;
-                    fields[CART_PAYMENT_FIELD.fieldApiName] = cartPaymentId;
-                    fields[PAYMENT_URL_FIELD.fieldApiName] = this.invoiceURL;
-                    fields[PAYMENT_METHOD.fieldApiName] = 'Invoice';
+                    fields[STATUS_FIELD.fieldApiName] = 'Closed';
                     let recordInput = {fields};
                     updateRecord(recordInput)
                     .then(()=>{
-                        let fields = {};
-                        fields[ID_FIELD.fieldApiName] = this.cartId;
-                        fields[STATUS_FIELD.fieldApiName] = 'Closed';
-                        let recordInput = {fields};
-                        updateRecord(recordInput)
+                        createCourseConnections({cartItemIds:cartIds, contactId:contactId, paidInFull:'No', paymentMethod:'Invoice'})
                         .then(()=>{
+                            this.dispatchEvent(
+                                new CustomEvent("cartchanged", {
+                                  bubbles: true,
+                                  composed: true
+                                })
+                              );
                             window.location.href = this.invoiceURL;
                         })
                     })
                 })
             })
             .catch((error) => {
+                this.processing = false;
                 console.log("createCourseConnections error");
                 console.log(error);
             })
@@ -336,7 +362,7 @@ export default class Payment extends LightningElement {
     
         })
         .catch(error =>{
-           
+            
         });
-      }
+    }
 }
