@@ -110,11 +110,22 @@ export default class Payment extends LightningElement {
         }
         
     }
+
+    get cartIsEmpty() {
+        //redirect to products if no more cart items
+        if(this.cartItems.length == 0){
+            return true;
+        } else{
+            return false;
+        }
+        
+    }
+
     /**
      * Disable payment buttons if checkbox from Cart Summary is false
      */
     get disableButton(){
-        return this.disablePayment || this.processing || this.cartIsClosed; 
+        return this.disablePayment || this.processing || this.cartIsClosed || this.cartIsEmpty;
     }
 
     /**
@@ -144,10 +155,13 @@ export default class Payment extends LightningElement {
          * Passed Parameters 
          **/
             `OPETransactionID=` + this.cartExternalId + `&` + 
-            `FullName=` + this.fullName.replace(/ /g,'%20') + `&` + 
-            `Email=` + this.contactEmail + `&` + 
+            `Email=` + this.contactEmail.replace('@','%40') + `&` + 
             `GLCode=` + this.glCode + `&`;
 
+        //if from cart summary we are going to get the data for FullName from the passed parameter and adding in the URL only once
+        if(this.fromCartSummary){
+            this.formURL = this.formURL + `FullName=` + this.fullName.replace(/ /g,'%20') + `&`;
+        }
 
         //looped url parameter based on the cart items
         let opeDescription = '';
@@ -159,15 +173,15 @@ export default class Payment extends LightningElement {
         //loop on the cart items to get properties
         cartItems.forEach( currentCartItem => {
 
+            //if not from cart summary, we have to get the contact name of the cart item from the Contact__c.Name
+            if(!this.fromCartSummary){
+                opeDescription = opeDescription + `FullName=` + currentCartItem.contactFullName.replace(/ /g,'%20') + `&`;
+            }
+
             //populate string
             opeDescription = opeDescription + `OPEDescription=` + currentCartItem.productName.replace(/ /g,'%20') + `&` + 
             `UnitAmountIncTax=` + currentCartItem.unitPrice + `&`;
-
-            //add quantity for group booking only
-            //eugene change: quantity -> number of participants (please remove when final)
-            if(!this.fromCartSummary){
-                opeDescription = opeDescription + `Quantity=` + this.numberOfParticipants + `&`;
-            }
+            
         });
 
         return this.baseURL + this.formURL + opeDescription.slice(0, -1);        
@@ -234,23 +248,6 @@ export default class Payment extends LightningElement {
     }
 
     invoiceClick(){
-        // console.log(this.invoiceURL);
-        // console.log('hwllo invoice');
-        // if(!this.fromCartSummary){
-        //     console.log('this cart Id in payment', this.cartId);
-        //     console.log('user Id', userId);
-        //     getCartItemsByCart({ cartId: this.cartId, userId: userId })
-        //     .then((result) => {
-        //         console.log('result', result);
-        //         //set the cart items data and questions
-        //         this.cartItems = JSON.parse(JSON.stringify(result.cartItemsList));
-        //         // this.cartItems = result.cartItemsList;
-        //         console.log('cart items in payment', this.cartItems);
-        //     })
-        //     .catch((error) => {
-        //         console.log('error in getCartItemsByCart', error);
-        //     });    
-        // }
 
         //update the cart with the payment method selected
         this.paymentCartItems = JSON.parse(JSON.stringify(this.cartItems));

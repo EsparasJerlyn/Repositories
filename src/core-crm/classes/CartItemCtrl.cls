@@ -59,7 +59,8 @@ public without sharing class CartItemCtrl {
         Program_Offering__r.Start_Date__c,
         Program_Offering__r.Delivery_Type__c,
         Program_Offering__r.Available_Seats__c,
-        External_Id__c
+        External_Id__c,
+        Contact__r.Name
       FROM CartItem
       WHERE CartId = :cartId
     ];
@@ -128,6 +129,7 @@ public without sharing class CartItemCtrl {
       cartItemsWrapper.contactId = contactId;
       cartItemsWrapper.CourseOfferingId =currentCart.Course_Offering__c;
       cartItemsWrapper.programOfferingId = currentCart.Program_Offering__c;
+      cartItemsWrapper.contactFullName = currentCart.Contact__r.Name;
 
       if(QuestionnaireMap.containsKey(currentCart.Course_Offering__r.hed__Course__r.ProductRequestID__c)) {
         
@@ -287,6 +289,8 @@ public without sharing class CartItemCtrl {
     public String externalId;
     @AuraEnabled
     public List<RelatedAnswersWrapper> relatedAnswers;
+    @AuraEnabled
+    public String contactFullName;
   }
   public class RelatedAnswersWrapper {
     @AuraEnabled
@@ -529,6 +533,20 @@ public without sharing class CartItemCtrl {
 
     //update the cart based on the status received
     webCart.Status__c = cartStatus;
+    update webCart;
+  }
+
+  /**
+   * @description closes the current active cart
+   * @param cartId - cart item ID
+   */
+  @AuraEnabled
+  public static void closeCart(String cartId) {
+    //get the cart
+    WebCart webCart = [SELECT Id, Name, Status FROM WebCart WHERE Id = :cartId LIMIT 1];
+
+    //close cart
+    webCart.Status = 'Closed';
     update webCart;
   }
 

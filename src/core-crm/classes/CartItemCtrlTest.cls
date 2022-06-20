@@ -452,6 +452,20 @@ public with sharing class CartItemCtrlTest {
   }
 
   @IsTest
+  static void closeCartTest() {
+    WebCart webCart = [SELECT Id, Name, Status FROM WebCart LIMIT 1];
+
+    Test.startTest();
+    CartItemCtrl.closeCart(webCart.Id);
+    Test.stopTest();
+
+    WebCart webCartTest = [SELECT Id, Name, Status FROM WebCart LIMIT 1];
+
+    System.assertEquals('Closed', webCartTest.Status, 'Cart should be closed');
+  }
+
+  
+  @IsTest
   static void getOPEProductCategTest() {
     Test.startTest();
     ProductCategory prodCategId = CartItemCtrl.getOPEProductCateg();
