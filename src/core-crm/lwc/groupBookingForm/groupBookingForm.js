@@ -3,7 +3,6 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { updateRecord } from 'lightning/uiRecordApi';
 import userId from "@salesforce/user/Id";
 import getQuestionsForGroupBooking from "@salesforce/apex/ProductDetailsCtrl.getQuestionsForGroupBooking";
-import addRegistration from '@salesforce/apex/ProductDetailsCtrl.addRegistration';
 import { getRecord, getFieldValue } from "lightning/uiRecordApi";
 import getCartItemsByCart from "@salesforce/apex/CartItemCtrl.getCartItemsByCart";
 import ACCOUNT_ID from '@salesforce/schema/Contact.AccountId';
@@ -11,7 +10,6 @@ import insertContactData from '@salesforce/apex/ProductDetailsCtrl.saveContactDa
 import getContactAccountId from '@salesforce/apex/ProductDetailsCtrl.getContactAccountId';
 import getUserContactDetails from '@salesforce/apex/ProductDetailsCtrl.getUserContactDetails';
 import getUserCartDetails from '@salesforce/apex/ProductDetailsCtrl.getUserCartDetails';
-import addToCartItem from '@salesforce/apex/ProductDetailsCtrl.addToCartItem';
 import saveBooking from '@salesforce/apex/GroupBookingFormCtrl.saveBooking';
 import addCartItems from '@salesforce/apex/GroupBookingFormCtrl.addCartItems';
 import removeCartItems from '@salesforce/apex/GroupBookingFormCtrl.removeCartItems';
@@ -115,13 +113,6 @@ export default class GroupBookingForm extends LightningElement {
     }
 } 
 
-    // openModal() {
-    //     // to open modal set isModalOpen tarck value as true
-    //     this.isModalOpen = true;
-      
-    // }
-
-
     closeModal() {
         // to close modal set isModalOpen tarck value as false
         removeCartItems({
@@ -207,58 +198,7 @@ export default class GroupBookingForm extends LightningElement {
               this.generateToast("Error.", LWC_Error_General, "error");
         });
     }
-    // connectedCallback() {
-
-       
-    //     //Get the Price of the selected course/program from pricebook entry
-    //     getPricebookEntryPrice({
-    //         pricebookId:this.priceBookEntry
-    //     })
-    //     .then((results) => {
-               
-    //         this.amount = results.UnitPrice;
-          
-    //     })
-    //     .catch((e) => {
-    //         this.generateToast("Error.", LWC_Error_General, "error");
-    //     });
-
-    //     // Get the relayed Account of the Contact
-    //     getContactAccountId({
-    //         connId: this.contactId
-    //     })
-    //     .then((results) => {
-    //         if (results.length > 0) {
-    //             this.actResponseData = results;
-    //             this.contactActId = this.actResponseData[0].AccountId; 
-    //         }
-    //     })
-    //     .catch((e) => {
-    //         this.generateToast("Error.", LWC_Error_General, "error");
-    //     });
-
-    //     //Get the related Registration Question 
-    //     getQuestionsForGroupBooking({
-    //         productReqId: this.ProductRequestID
-    //     })
-    //     .then((results) => {
-    //             if (results.length >= 0) {
-    //                 if(results.length == 0){
-    //                     this.regHeader = false;
-    //                 }
-                    
-    //                 this.responseData2 = results;
-    //                 this.questions2= this.formatQuestions(results);
-    //                 this.questionsPrimary= this.formatQuestions(results);
-    //             }
-               
-    //     })
-    //     .catch((e) => {
-    //         this.generateToast("Error.", LWC_Error_General, "error");
-    //     });    
-    //     //Get the external Id from the cart       
-    // }
-    
+   
     handleFirstnameChange(event){
         this.firstName = event.detail.value;
        
@@ -396,9 +336,6 @@ export default class GroupBookingForm extends LightningElement {
         this.isRespondQuestions = true;
       }
 
-//   get hasQuestions(){
-//         return this.questions && this.questions.length > 0?true:false;
-//    }
 
    submitDetails(event) {
     const allValid = [
@@ -409,8 +346,6 @@ export default class GroupBookingForm extends LightningElement {
     }, true);
 
     if (allValid) {
-        
-        //this.template.querySelectorAll("lightning-record-edit-form").forEach((form) => {form.submit();});
 
         if(this.counter == this.numberOfParticipants){
 
@@ -504,7 +439,7 @@ export default class GroupBookingForm extends LightningElement {
                             cartId:this.cartId,
                         })
                         .then(() => {
-                            //this.generateToast(SUCCESS_TITLE, 'Successfully Submitted', SUCCESS_VARIANT);
+                            
                             this.isOpenPayment = true;
                             this.dispatchEvent(
                                 new CustomEvent("cartchanged", {
@@ -532,96 +467,17 @@ export default class GroupBookingForm extends LightningElement {
                     console.log(e);
                 })
 
-            
-            //this.saveRegistration(this.contactFieldsPrimary, this.courseOffering,this.responseData2, this.createAnswerRecordPrimary() ,JSON.stringify(this.createFileUploadMap())); 
-    }
+        }else{
+            const evt = new ShowToastEvent({
+                            title: 'Toast Error',
+                            message: 'Please fill up all added participants before proceed',
+                            variant: 'error',
+                            mode: 'dismissable'
+                        });
+                        this.dispatchEvent(evt);
+        }
 
     }
-
-
-    
-    //             let blankRow = this.items;
-    //             let contactDataList = [];
-    //             for(let i = 0; i < blankRow.length; i++){
-    //                 if(blankRow[i] !== undefined){
-    //                     let conData = new Object();
-    //                     conData.FirstName = blankRow[i].FirstName;
-    //                     conData.LastName = blankRow[i].LastName;
-    //                     conData.Email = blankRow[i].Email;
-    //                     conData.Birthdate = blankRow[i].Birthdate;
-    //                     conData.MobilePhone = blankRow[i].MobilePhone;
-    //                     conData.Dietary_Requirement__c = blankRow[i].Dietary_Requirement__c;    
-    //                     contactDataList.push(conData);
-    //                 }
-    //             }
-    //             if(contactDataList.length > 0){
-    //                 insertContactData({contactDataString: JSON.stringify(contactDataList)}).then(result => {
-    //                     for(let i = 0; i < result.length; i++){
-    //                         if(result[i] !== undefined){
-    //                             let contactRecord = {'sobjectType' : 'Contact'};
-    //                             contactRecord.Id = result[i].Id; //newly created contact ID
-    //                             contactRecord.FirstName = result[i].FirstName;
-    //                             contactRecord.LastName = result[i].LastName;
-    //                             contactRecord.AccountId = result[i].AccountId;
-        
-    //                             let fields = {};
-    //                             fields.Id = result[i].Id;
-    //                             this.contactFields = fields;
-        
-    //                             let ItemsRecords = {};
-    //                             ItemsRecords = this.items.map(item=>{  
-        
-    //                                 if (blankRow[i].id == item.id){
-        
-    //                                     let answerRecords = {};
-    //                                     answerRecords = item.Questions.map(row=>{
-    //                                         let record = {};
-    //                                         record.Related_Answer__c = row.Id;
-    //                                         record.Response__c = row.Answer;
-    //                                         record.Sequence__c = row.Sequence;
-    //                                         return record;                                  
-    //                                     });
-    //                                     this.answerRecords2 =  answerRecords;
-                                    
-    //                                 }
-    //                                 return item;
-    //                             });
-        
-    //                             this.saveRegistration(this.contactFields, this.courseOffering,this.responseData2, this.answerRecords2 ,JSON.stringify(this.createFileUploadMap()));
-        
-    //                         }
-    //                         this.generateToast(SUCCESS_TITLE, 'Successfully Submitted', SUCCESS_VARIANT);
-    //                         this.isOpenPayment = true;
-    //                         this.createCartItem(
-    //                             communityId,
-    //                             this.productId,
-    //                             this.accountId,
-    //                             this.productCourseName,
-    //                             this.selectedCourseOffering,
-    //                             this.selectedProgramOffering,
-    //                             pricebookEntry,
-    //                             userId);
-                          
-    //                     }
-    //                 }).catch(error => {
-    //                 })
-    //             }else{
-    
-    //             }
-    
-    
-    //     }
-    //     else{
-    
-    //         const evt = new ShowToastEvent({
-    //             title: 'Toast Error',
-    //             message: 'Please fill up all added participants before proceed',
-    //             variant: 'error',
-    //             mode: 'dismissable'
-    //         });
-    //         this.dispatchEvent(evt);
-    //     }
-    // }
    
 }
 
@@ -653,31 +509,6 @@ createAnswerRecord(){
     return answerRecords;
 
   }
-
-// saveRegistration(contact,courseOffering,relatedAnswer,answer,fileUpload){
-//     addRegistration({
-//         contactRecord:contact,
-//         courseOfferingId:courseOffering,
-//         relatedAnswerList:relatedAnswer,
-//         answerList:answer,
-//         fileUpload:fileUpload,
-//         forApplication:false
-//     })
-//     .then(() =>{
-//             this.generateToast(SUCCESS_TITLE, 'Successfully Submitted', SUCCESS_VARIANT);
-            
-//     })
-//     .finally(()=>{
-
-//     })
-//     .catch(error =>{
-       
-//     });
-//   }
-
-//   get labelValue(){
-//     return 'PARTICIPANT ' + this.currentIndex;
-// }
 
   // Creates toast notification
   generateToast(_title, _message, _variant) {
@@ -785,29 +616,6 @@ createAnswerRecord(){
     return answerRecords;
   }
 
-  createCartItem(communityId,productId,accountId,productName,courseOfferingId,programOfferingId,pricebookEntryId,userId){
-      
-    addToCartItem({
-         communityId: communityId,
-         productId: productId ,
-         effectiveAccountId:accountId,
-         productName:productName,
-         courseOfferingId: courseOfferingId,
-         programOfferingId: programOfferingId,
-         pricebookEntryId: pricebookEntryId,
-         userId: userId
-    })
-    .then(() =>{
-            this.generateToast(SUCCESS_TITLE, 'Successfully Submitted', SUCCESS_VARIANT);
-    })
-    .finally(()=>{
-
-    })
-    .catch(error =>{
-       
-    });
-  }
-  
   renderedCallback() {
     Promise.all([loadStyle(this, customSR + "/QUTInternalCSS.css")]);
   }
