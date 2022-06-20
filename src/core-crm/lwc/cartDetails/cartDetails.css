@@ -218,3 +218,9 @@ span:hover, span:visited {
     width:100px;
   }
   /*end of PayNow*/
+
+@media only screen and (max-width: 764px){
+	.checkboxLayout {
+        margin: 0px 0px 1.5rem 0px;
+    }
+}	 

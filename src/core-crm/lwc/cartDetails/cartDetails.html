@@ -351,7 +351,7 @@
                                          <!-- Questions goes here -->
                                          <lightning-layout multiple-rows size="12">
                                             <template for:each={currentItem.relatedAnswers} for:item="question" for:index="index"> 
-                                                <lightning-layout-item size="10" padding="around-small" key={question.Id}>
+                                                <lightning-layout-item size="12" padding="around-small" key={question.Id}>
                                                  
                                                     <template if:true={question.IsText}>
                                                         <lightning-textarea 
@@ -415,15 +415,22 @@
                                                         </lightning-dual-listbox>
                                                     </template>
                                                     <template if:true={question.IsCheckbox}>
-                                                        <lightning-input 
-                                                        name={question.Id} 
-                                                        data-question-id={question.Id}
-                                                        type="checkbox" 
-                                                        label={question.Label} 
-                                                        onchange={handleChange}
-                                                        onblur={handleBlur}
-                                                        variant="label-stacked">
-                                                    </lightning-input>
+                                                        <div class="slds-form-element__control checkboxLayout">
+                                                            <div class="slds-checkbox">
+                                                              <lightning-input
+                                                              name={question.Id} 
+                                                              data-question-id={question.Id}
+                                                              type="checkbox" 
+                                                              onchange={handleChange}
+                                                              onblur={handleBlur}
+                                                              variant="label-stacked"
+                                                              >
+                                                            </lightning-input>
+                                                              <label class="slds-checkbox__label" for="privacy-checkbox">
+                                                                <span class="text">{question.Label}</span>
+                                                              </label>
+                                                            </div>
+                                                          </div>
                                                     </template>
                                                     <template if:true={question.IsFileUpload}>
                                                         <lightning-input 

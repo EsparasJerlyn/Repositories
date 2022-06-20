@@ -1541,3 +1541,25 @@ ul.slds-accordion.searchResult .slds-form-element__label {
   margin-top: -3px;
   margin-left: 2rem;
 }
+
+/*cartdetails registration question checkbox */
+.checkboxLayout [lightning-input c-cartdetails_cartdetails] .slds-checkbox__label{
+  display: none;
+  }
+  
+.checkboxLayout [c-cartdetails_cartdetails] .slds-checkbox__label{
+  font-family: "ProximaNova-Bold";
+  top: -2px;
+  left: 35px;
+  font-size: var(--text-size-18);
+  color: var(--lwc-colorTextLabel,#696969);
+  height: 100%;
+  position: absolute;
+}
+
+/*cartdetails remove item button */
+@media screen and (max-width: 458px){
+  .removedItem-button .slds-button{
+  margin: inherit;
+  }
+}
