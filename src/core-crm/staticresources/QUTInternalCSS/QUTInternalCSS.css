@@ -402,7 +402,8 @@ a.reversed:hover{
 [c-productdetailsdisplayinternal_productdetailsdisplayinternal].slds-checkbox .slds-checkbox_faux, 
 [c-productdetailsdisplay_productdetailsdisplay].slds-checkbox .slds-checkbox--faux,
 [c-prescribedprograminternal_prescribedprograminternal].slds-checkbox .slds-checkbox--faux,
-[c-productdetailsdisplayinternal_productdetailsdisplayinternal].slds-checkbox .slds-checkbox--faux {
+[c-productdetailsdisplayinternal_productdetailsdisplayinternal].slds-checkbox .slds-checkbox--faux,
+[c-applicationquestionnaire_applicationquestionnaire] .slds-checkbox .slds-checkbox--faux {
   width: var(--lwc-squareIconMediumContent,1rem);
   height: var(--lwc-squareIconMediumContent,1rem);
   display: inline-block;
@@ -851,7 +852,7 @@ a.reversed:hover{
 [c-productdetailsdisplayinternal_productdetailsdisplayinternal].slds-textarea, .input-text-area,
 [c-prescribedprograminternal_prescribedprograminternal].slds-textarea, .input-text-area {
   border: 1px solid var(--main-color-blue500) !important;
-  border-radius: 0;
+  border-radius: 0 !important;
 }
 
 [c-productdetailsdisplay_productdetailsdisplay].slds-textarea:focus, .input-text-area:focus,
@@ -869,7 +870,8 @@ a.reversed:hover{
 /** MODALS **/
 [c-productdetailsdisplay_productdetailsdisplay].modal-content,
 [c-productdetailsdisplayinternal_productdetailsdisplayinternal].modal-content,
-[c-prescribedprograminternal_prescribedprograminternal].modal-content {
+[c-prescribedprograminternal_prescribedprograminternal].modal-content, 
+[c-applicationquestionnaire_applicationquestionnaire].modal-content {
   background-color: var(--greys-color-white);
   margin: auto;
   border: 1px solid #888;
@@ -1187,8 +1189,11 @@ span[c-customcombobox_customcombobox].slds-listbox__option-meta_entity {
   font-family: "ProximaNova" !important;
   font-weight: var(--text-weight-400);
   color: var(--greys-color-bodytext);
-  margin-left: 10px;
+  margin: 0px !important;
+  padding: 10px 0px 0px 0px !important;
+
 }
+
 
 /** Desktop */
 @media only screen and (min-width: 765px){
@@ -1310,6 +1315,12 @@ span[c-customcombobox_customcombobox].slds-listbox__option-meta_entity {
 	  font-weight: var(--text-Bold);
   }
 
+  .modal-content [c-searchResults_searchResults] ul.slds-accordion.searchResult .slds-form-element__label {
+    width: 100%;
+    display: block !important;
+    margin-top: -25px;
+    margin-left: 2rem;
+  }
 }
 
 /*timeline button*/
@@ -1392,6 +1403,12 @@ span[c-customcombobox_customcombobox].slds-listbox__option-meta_entity {
   }
   /*end of program module*/
 	
+  .modal-content [c-searchResults_searchResults] ul.slds-accordion.searchResult .slds-form-element__label {
+    width: 100%;
+    display: block !important;
+    margin-top: -25px;
+    margin-left: 2rem;
+  }
 }
 
 /*beadcrumb*/
@@ -1420,15 +1437,107 @@ div.main-container-bc [role=navigation] ol.slds-breadcrumb li:nth-child(n+4) p.d
   text-align: left;
 }
 
-/*groupbookingform */
+/*application question*/
 
-[c-groupbookingform_groupbookingform] button.slds-button[title="Delete"]{
-  border-color: #fffff !important;
-  border:1px solid #fff;
-
+[interop-primitivefiledroppablezone_primitivefiledroppablezone-host] .slds-file-selector__button:hover{
+  background:#0066b9 !important;
+  color:#fff;
 }
 
-/*cartdetails */
-[c-cartdetails_cartdetails] input.slds-input[disabled],[c-cartdetails_cartdetails] textarea.slds-textarea[disabled]{
-  color: #000000 !important;
+[interop-primitivefiledroppablezone_primitivefiledroppablezone-host] .slds-file-selector__text {
+  display:none;
+}
+
+.slds-file-selector__dropzone{
+  border: 0px solid #fff !important;
+}
+
+[c-applicationquestionnaire_applicationquestionnaire] .slds-form-element
+{
+  margin-top: 0.5rem;
+}
+
+[c-applicationquestionnaire_applicationquestionnaire] .slds-form-element__control .slds-input__icon{
+  top:0px !important;
+  margin-top:0px !important;
+}
+
+[lightning-duallistbox_duallistbox] span.slds-truncate{
+  font-size: var(--text-size-18) !important;
+  font-weight: 400 !important;
+}
+
+.slds-dueling-list__options [aria-selected=true] [lightning-duallistbox_duallistbox] span.slds-truncate, 
+.slds-picklist__options [aria-selected=true] [lightning-duallistbox_duallistbox] span.slds-truncate{
+  color: var(--greys-color-white);
+}
+
+[c-applicationquestionnaire_applicationquestionnaire] label.slds-form-element__label,
+[c-applicationquestionnaire_applicationquestionnaire] span.slds-form-element__label{
+  margin-bottom: 0.5rem;
+  color: var(--greys-color-bodytext);
+}
+
+[lightning-basecombobox_basecombobox] .slds-combobox__input, 
+[c-customcomboboxmulti_customcomboboxmulti] .slds-picklist input[readonly], 
+[c-customcombobox_customcombobox] .slds-combobox input[readonly] {
+  border-color: var(--main-color-blue500);
+  background-color: var(--lwc-colorBackgroundInput,rgb(255, 255, 255));
+  font-size: var(--icon-size-18);
+  font-weight: var(--text-normal);
+  border-radius: 0px;
+  height: 47px;
+  padding-top: 0.5rem;
+  color: inherit;
+}
+
+[lightning-basecombobox_basecombobox] .slds-listbox__option .slds-truncate {
+  font-style: inherit;
+  font-weight: 400;
+  font-size: 18px;
+}
+
+[interop-primitivefiledroppablezone_primitivefiledroppablezone-host] .slds-file-selector__button {
+  background: #F5F5F5 !important;
+  height: 70px !important;
+  width: 340px !important;
+  flex-flow: column;
+  cursor: pointer;
+  border: 1px solid #000000 dotted;
+  border-radius: 0px;
+}
+
+.slds-dueling-list__options, .slds-picklist__options {
+  border: var(--lwc-borderWidthThin,1px) solid #0066b9;
+  border-radius: 0px !important;
+  padding: var(--lwc-spacingXxSmall,0.25rem) 0;
+  width: var(--lwc-sizeSmall,15rem);
+  height: var(--lwc-sizeSmall,15rem);
+  background-color: var(--lwc-colorBackgroundInputActive,rgb(255, 255, 255));
+}
+
+[c-applicationquestionnaire_applicationquestionnaire] .slds-textarea {
+  border-radius: 0px !important;
+  height: 47px;
+  padding: 15px 10px 10px 15px;
+}
+
+@media screen and (max-width: 320px){
+  [c-applicationquestionnaire_applicationquestionnaire].modal-content {
+    width: 100% !important; 
+}
+[interop-primitivefiledroppablezone_primitivefiledroppablezone-host] .slds-file-selector__button {
+  width: 285px !important;
+}
+
+}
+/*end of application question*/
+
+
+/*Search result Filter*/
+ul.slds-accordion.searchResult .slds-form-element__label {
+  width: 100%;
+  display: block !important;
+  margin-top: -3px;
+  margin-left: 2rem;
 }

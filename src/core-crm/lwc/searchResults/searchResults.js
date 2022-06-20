@@ -42,6 +42,9 @@ import qutResourceImg from "@salesforce/resourceUrl/QUTImages";
 import { publish, MessageContext } from 'lightning/messageService';
 import payloadContainerLMS from '@salesforce/messageChannel/Breadcrumbs__c';
 
+import { loadStyle } from "lightning/platformResourceLoader";
+import customSR from "@salesforce/resourceUrl/QUTInternalCSS";
+
 const STUDY_STORE = "study";
 const ERROR_TITLE = "Error!";
 const ERROR_VARIANT = "error";
@@ -259,6 +262,11 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
           this.deliveryTypeValues = undefined;
       }
   }
+
+// Load Custom CSS
+renderedCallback() {
+  Promise.all([loadStyle(this, customSR + "/QUTInternalCSS.css")]);
+}
 
   // handles sort course combobox
   hanldeSortCourseValueChange(event) {
@@ -1009,3 +1017,4 @@ handleNextPage(evt) {
   _filteredResults = [];
   _getProducts =[];
 }
+
