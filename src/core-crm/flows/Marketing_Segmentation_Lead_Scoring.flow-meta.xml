@@ -5,7 +5,7 @@
         <name>Assign_Score</name>
         <label>Assign Score</label>
         <locationX>710</locationX>
-        <locationY>3119</locationY>
+        <locationY>2783</locationY>
         <assignmentItems>
             <assignToReference>$Record.Score__c</assignToReference>
             <operator>Assign</operator>
@@ -59,7 +59,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Check_English_Pathways</targetReference>
+            <targetReference>Assign_Score</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -207,22 +207,6 @@
         </connector>
     </assignments>
     <assignments>
-        <name>Plus_2</name>
-        <label>Plus 2</label>
-        <locationX>622</locationX>
-        <locationY>2903</locationY>
-        <assignmentItems>
-            <assignToReference>Score</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <numberValue>2.0</numberValue>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Assign_Score</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
         <name>Plus_20</name>
         <label>Plus 20</label>
         <locationX>314</locationX>
@@ -284,22 +268,6 @@
         </assignmentItems>
         <connector>
             <targetReference>Check_Course_Level</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>Plus_3_0</name>
-        <label>Plus 3</label>
-        <locationX>358</locationX>
-        <locationY>2903</locationY>
-        <assignmentItems>
-            <assignToReference>Score</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <numberValue>3.0</numberValue>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Assign_Score</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -395,7 +363,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Check_English_Pathways</targetReference>
+            <targetReference>Assign_Score</targetReference>
         </connector>
     </assignments>
     <decisions>
@@ -529,7 +497,7 @@
         <locationX>710</locationX>
         <locationY>2447</locationY>
         <defaultConnector>
-            <targetReference>Check_English_Pathways</targetReference>
+            <targetReference>Assign_Score</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -580,7 +548,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Check_English_Pathways</targetReference>
+                <targetReference>Assign_Score</targetReference>
             </connector>
             <label>Is Blank</label>
         </rules>
@@ -621,61 +589,6 @@
             </conditions>
             <connector>
                 <targetReference>Check_Commencement_Year</targetReference>
-            </connector>
-            <label>Is Blank</label>
-        </rules>
-    </decisions>
-    <decisions>
-        <name>Check_English_Pathways</name>
-        <label>Check English/Pathways</label>
-        <locationX>710</locationX>
-        <locationY>2783</locationY>
-        <defaultConnector>
-            <targetReference>Assign_Score</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
-        <rules>
-            <name>No</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>$Record.My_Interested_English_Pathways__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>No</stringValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Plus_3_0</targetReference>
-            </connector>
-            <label>No</label>
-        </rules>
-        <rules>
-            <name>Yes</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>$Record.My_Interested_English_Pathways__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>Yes</stringValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Plus_2</targetReference>
-            </connector>
-            <label>Yes</label>
-        </rules>
-        <rules>
-            <name>Is_Blank_0_0_0_0</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>$Record.My_Interested_English_Pathways__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Assign_Score</targetReference>
             </connector>
             <label>Is Blank</label>
         </rules>
@@ -815,7 +728,7 @@
                 <leftValueReference>$Record.My_Country_Of_Citizenship__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>Taiwan (Province of China)</stringValue>
+                    <stringValue>Taiwan</stringValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -893,7 +806,7 @@
                 <leftValueReference>$Record.My_Country_Of_Citizenship__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>Viet Nam</stringValue>
+                    <stringValue>Vietnam</stringValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -2238,7 +2151,7 @@
                 <leftValueReference>$Record.My_Country_Of_Residency__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>Viet Nam</stringValue>
+                    <stringValue>Vietnam</stringValue>
                 </rightValue>
             </conditions>
             <conditions>
@@ -2364,7 +2277,7 @@
                 <leftValueReference>$Record.My_Country_Of_Residency__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>Taiwan (Province of China)</stringValue>
+                    <stringValue>Taiwan</stringValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -2644,10 +2557,6 @@
             <conditions>
                 <leftValueReference>$Record.My_Country_Of_Residency__c</leftValueReference>
                 <operator>EqualTo</operator>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.My_Country_Of_Residency__c</leftValueReference>
-                <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>Paraguay</stringValue>
                 </rightValue>
@@ -2784,10 +2693,6 @@
                 <rightValue>
                     <stringValue>Czechia</stringValue>
                 </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.My_Country_Of_Residency__c</leftValueReference>
-                <operator>EqualTo</operator>
             </conditions>
             <conditions>
                 <leftValueReference>$Record.My_Country_Of_Residency__c</leftValueReference>
@@ -2935,10 +2840,6 @@
                 <rightValue>
                     <stringValue>Palestine, State of</stringValue>
                 </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.My_Country_Of_Residency__c</leftValueReference>
-                <operator>EqualTo</operator>
             </conditions>
             <conditions>
                 <leftValueReference>$Record.My_Country_Of_Residency__c</leftValueReference>
@@ -3255,10 +3156,6 @@
                 <rightValue>
                     <stringValue>Gambia (the)</stringValue>
                 </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.My_Country_Of_Residency__c</leftValueReference>
-                <operator>EqualTo</operator>
             </conditions>
             <conditions>
                 <leftValueReference>$Record.My_Country_Of_Residency__c</leftValueReference>
