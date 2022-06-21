@@ -1,11 +1,10 @@
 <template>
     <!--Questionnaire Form  -->
-    
     <!--Questionnaire Form  -->
   <template if:true={isModalOpen}>
 
     <div class="modal">
-        <div class="modal-content">
+        <div class="modal-content text px3 pt2">
           <div
             class="slds-m-top_small slds-m-right_x-small slds-p-right_small slds-clearfix"
           >
@@ -26,15 +25,12 @@
             ></lightning-spinner>
             </div>
             <form id="form">
-              <div class="slds-m-horizontal_small">
+              <div class="slds-grid slds-gutters slds-wrap">
                 <template if:true={hasQuestions}>
                   <lightning-layout multiple-rows size="12">
-                    <template for:each={_questions} for:item="question">
+                    <template for:each={_questions} for:item="question"> <!-- size="6" padding="around-small"-->
                       <lightning-layout-item
-                        size="6"
-                        padding="around-small"
-                        key={question.Id}
-                      >
+                        class="slds-col slds-m-top_medium slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2" key={question.Id}>
                         <template if:true={question.IsText}>
                           <lightning-textarea
                            class="label-text"
@@ -48,6 +44,7 @@
                         </template>
                         <template if:true={question.IsNumber}>
                           <lightning-input
+                            class="label-text"
                             name={question.Id}
                             type="number"
                             label={question.Label}
@@ -59,6 +56,7 @@
                         </template>
                         <template if:true={question.IsDate}>
                           <lightning-input
+                            class="label-text"
                             name={question.Id}
                             type="date"
                             label={question.Label}
@@ -70,6 +68,7 @@
                         </template>
                         <template if:true={question.IsPicklist}>
                           <lightning-combobox
+                            class="label-text"
                             name={question.Id}
                             label={question.Label}
                             value={question.Response}
@@ -83,11 +82,7 @@
                         </template>
                         <template if:true={question.IsMultiPicklist}>
                           <abbr title="required" class="slds-required">*</abbr>
-                          <span
-                            data-id={question.Id}
-                            class="slds-form-element__label"
-                            >{question.Label}</span
-                          >
+                          <span data-id={question.Id} class="label-text">{question.Label}</span>
                           <lightning-dual-listbox
                             data-id={question.Id}
                             name={question.Id}
@@ -110,6 +105,7 @@
                             onchange={handleChange}
                             onblur={handleBlur}
                             variant="label-stacked"
+                            class="label-text"
                           >
                           </lightning-input>
                         </template>
@@ -122,6 +118,7 @@
                             required
                             onchange={handleChange}
                             onblur={handleBlur}
+                            class="label-text fileupload"
                           >
                           </lightning-input>
                           <template if:true={question.FileData}>
