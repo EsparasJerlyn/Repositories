@@ -359,16 +359,16 @@ public without sharing class CartItemCtrl {
    * @return myCartItemsData - CartItemsData data type
    */
   @AuraEnabled(cacheable=true)
-  public static Double getCartItemDiscount(
+  public static List<DiscountData> getCartItemDiscount(
     String cartId,
-    String couponCode,
-    Double totalPrice
+    String couponCode
   ) {
     //create a list for Promotion, PromotionTarget, and Coupon
     List<CartItem> cartItemList = new List<CartItem>();
     List<Promotion> promotionList = new List<Promotion>();
     List<PromotionTarget> promotionTargetList = new List<PromotionTarget>();
     List<Coupon> couponList = new List<Coupon>();
+    List<DiscountData> discountData = new List<DiscountData>();
     Double totalDiscount = 0;
 
     //retrieve cart items
@@ -384,7 +384,6 @@ public without sharing class CartItemCtrl {
 
     Set<Id> productIds = new Set<Id>();
     Set<Id> pbentryIds = new Set<Id>();
-
 
     //loop on the returned list to populate price book entry and product IDs
     for (CartItem currentCart : cartItemList) {
@@ -441,29 +440,53 @@ public without sharing class CartItemCtrl {
         if(currentPromotionTarget.TargetType == 'Transaction'){
 
           if (currentPromotionTarget.AdjustmentType == 'PercentageDiscount') {
-            //set the discount amount
-            totalDiscount = totalDiscount + ((totalPrice * currentPromotionTarget.AdjustmentPercent) / 100);
+
+            //loop on each cart item to get the discount per line
+            for (CartItem currentCart : cartItemList) {
+              DiscountData discountDataTemp = new DiscountData();
+
+              discountDataTemp.cartItemId = currentCart.Id;
+              discountDataTemp.discount = ((pbEntryMap.get(currentCart.Pricebook_Entry_ID__c).UnitPrice * currentPromotionTarget.AdjustmentPercent) / 100).setScale(2);
+
+              discountData.add(discountDataTemp);
+            }
           }
     
         //else if for product specific
         } else if(currentPromotionTarget.TargetType == 'Product'){
 
           if (currentPromotionTarget.AdjustmentType == 'FixedAmountOffLineItemTotal') {
-            //set the discount amount
-            totalDiscount = totalDiscount + currentPromotionTarget.AdjustmentAmount;
+
+            //spread the FixedAmountOffLineItemTotal discount amount per line item
+            Double discountPerLine = (currentPromotionTarget.AdjustmentAmount / cartItemList.size()).setScale(2);
+
+            //loop on each cart item to get the discount per line
+            for (CartItem currentCart : cartItemList) {
+              DiscountData discountDataTemp = new DiscountData();
+
+              discountDataTemp.cartItemId = currentCart.Id;
+              discountDataTemp.discount = discountPerLine;
+
+              discountData.add(discountDataTemp);
+            }
   
           } else {
             //loop on the current cart to search for the specific product
-            for (CartItem currentCart : cartItemList) {
+            for (CartItem currentCart : cartItemList) { 
               
               //checck if the cart product is for the promotion target id
               if(currentCart.Product2Id == currentPromotionTarget.TargetId){
+                DiscountData discountDataTemp = new DiscountData();
+                
+                //popluate wrapper with the cart id if the produc matched the targetId
+                discountDataTemp.cartItemId = currentCart.Id;
 
                 Double unitPrice = pbEntryMap.get(currentCart.Pricebook_Entry_ID__c).UnitPrice;
+                Double discountPerLine = 0;
 
                 if (currentPromotionTarget.AdjustmentType == 'PercentageDiscount') {
                   //set the discount amount
-                  totalDiscount = totalDiscount + ((unitPrice * currentPromotionTarget.AdjustmentPercent) / 100);
+                  discountPerLine = (((unitPrice * currentPromotionTarget.AdjustmentPercent) / 100)).setScale(2);
         
                 } else if (currentPromotionTarget.AdjustmentType == 'FixedAmountOffUnitPrice') {
 
@@ -471,15 +494,18 @@ public without sharing class CartItemCtrl {
                   if (currentPromotionTarget.AdjustmentAmount > unitPrice) {
 
                     //max discount should only be the unit price
-                    totalDiscount = totalDiscount + unitPrice;
+                    discountPerLine = unitPrice;
 
                   } else{
 
                     //set the discount amount
-                    totalDiscount = totalDiscount + currentPromotionTarget.AdjustmentAmount;
-
+                    discountPerLine =  currentPromotionTarget.AdjustmentAmount;
                   }   
                 }
+
+                //populate and add discount
+                discountDataTemp.discount = discountPerLine;
+                discountData.add(discountDataTemp);
               }
             }  
           }   
@@ -487,12 +513,12 @@ public without sharing class CartItemCtrl {
       }
     }
 
-    //discount can not be greater than the price
-    if(totalDiscount > totalPrice){
-      totalDiscount = totalPrice;
-    }
+    return discountData;
+  }
 
-    return totalDiscount;
+  public class DiscountData {
+    @AuraEnabled public String cartItemId;
+    @AuraEnabled public Double discount;
   }
 
   /**

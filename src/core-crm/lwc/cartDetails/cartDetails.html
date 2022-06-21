@@ -547,6 +547,10 @@
                         <p class="bodyBold py2">Discount code</p>
                         <lightning-input data-id="discountField" name={productIndex} type="text" variant="label-hidden" class="pr1"></lightning-input>
                     </div>         
+
+                    <template if:true={showInvalidDiscount}>
+                        <p class="warning-label slds-m-left_small">Invalid code.</p>
+                    </template>
                 </div>
                 <div class="slds-size_4-of-12">
                     <p class="py2">&nbsp;</p>

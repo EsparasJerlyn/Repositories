@@ -275,14 +275,10 @@ export default class CartDetails extends LightningElement {
         return obj.cartItemId !== cartItemId;
     });
 
-    //reset totals
-    this.discountTotal = 0;
-    this.total = this.calculateSubTotal();
+    //reset total
+    this.total = this.calculateSubTotal() - this.calculateDiscountTotal();
 
     this.isFreeOnly = this.cartItems.length > 0 && this.total == 0;
-
-    //reapply the coupon code
-    this.applyCoupon();
 
     //if the pay buttons are disabled
     if (this.disablePayment) {
@@ -325,6 +321,18 @@ export default class CartDetails extends LightningElement {
     }
 
     return this.subTotal;
+  }
+
+  //calculate the total discount of cart items
+  calculateDiscountTotal() {
+    this.discountTotal = 0;
+
+    //loop through the current cart items
+    for (let i = 0; i < this.cartItems.length; i++) {
+      this.discountTotal = this.discountTotal + this.cartItems[i].unitDiscount;
+    }
+
+    return this.discountTotal;
   }
 
   //checkes the availability of seats and if checkboxes are ticked
@@ -515,13 +523,18 @@ export default class CartDetails extends LightningElement {
 
     //if coupon code field is empty, remove the error and recalutate the totals
     if (couponCode == "") {
-      this.discountTotal = 0;
+
+      //loop through the current cart items to set all unitDiscoutn to 0
+      for (let i = 0; i < this.cartItems.length; i++) {
+
+        this.cartItems[i].unitDiscount = 0;
+      }
 
       //hide invalid coupon message
       this.showInvalidDiscount = false;
 
       //get totals
-      this.total = this.calculateSubTotal();
+      this.total = this.calculateSubTotal() - this.calculateDiscountTotal();
 
       return;
     }
@@ -529,27 +542,42 @@ export default class CartDetails extends LightningElement {
     //function to get the total discount for the specific cart item
     getCartItemDiscount({
       cartId: this.recordId,
-      couponCode: couponCode,
-      totalPrice: this.total
+      couponCode: couponCode
     })
       .then((data) => {
 
-        this.discountTotal = data;
+        //if voucher is not found
+        if (data.length == 0) {
 
-        //if voucher is found
-        if (data > 0) {
-          //hide invalid coupon message
-          this.showInvalidDiscount = false;
+          //loop through the current cart items to set the unitDiscounts
+          for (let i = 0; i < this.cartItems.length; i++) {
+            this.cartItems[i].unitDiscount = 0;
+          }
 
-          //else voucher is not found
-        } else {
           //show invalid coupon message
           this.showInvalidDiscount = true;
+          
+        } else {
+
+          //loop through the current cart items to set the unitDiscounts
+          for (let i = 0; i < this.cartItems.length; i++) {
+            for (let j = 0; j < data.length; j++) {
+
+              //check if cart item id matches the cart item id of the discount
+              if(this.cartItems[i].cartItemId == data[j].cartItemId){
+
+                this.cartItems[i].unitDiscount = data[j].discount;
+
+              }
+            }
+          }
+          
+          //hide invalid coupon message
+          this.showInvalidDiscount = false;
         }
 
         //get totals
-        this.total = this.calculateSubTotal() - data;
-
+        this.total = this.calculateSubTotal() - this.calculateDiscountTotal();
       })
       .catch((error) => {
         this.error = error;

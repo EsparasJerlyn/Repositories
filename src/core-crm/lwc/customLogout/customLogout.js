@@ -46,10 +46,12 @@ export default class CustomLogout extends LightningElement {
 
                 // Set Cart to Closed
                 closeCart({ cartId: results.Id})
-                .then(() => {})
+                .then(() => {
 
-                    //code
-                    
+                    //redirect after closing the cart
+                    window.location.href = this.recordPageUrl;
+
+                })
                 .catch((error) => {
                     console.log("cart update error");
                     console.log(error);
