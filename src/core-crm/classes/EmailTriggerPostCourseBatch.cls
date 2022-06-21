@@ -37,7 +37,7 @@ public with sharing class EmailTriggerPostCourseBatch implements Database.Batcha
                         if(coursesAllowedEmail.contains(courseConnection.hed__Course_Offering__r.hed__Course__r.Id)){
                             EmailWrapper wrapper = new EmailWrapper();
                             wrapper.recordId = courseConnection.Id;
-                            wrapper.courseOfferingName = courseConnection.hed__Course_Offering__r.Name;
+                            wrapper.courseOfferingName = courseConnection.hed__Course_Offering__r.hed__Course__r.Name;
                             wrapper.firstName = courseConnection.hed__Contact__r.FirstName;
                             wrapper.lastName = courseConnection.hed__Contact__r.LastName;
                             wrapper.toAddress = courseConnection.hed__Contact__r.Email;
