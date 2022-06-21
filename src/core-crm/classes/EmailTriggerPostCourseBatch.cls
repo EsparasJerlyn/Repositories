@@ -20,26 +20,18 @@ public with sharing class EmailTriggerPostCourseBatch implements Database.Batcha
                     List<Session__c>  sessionList = [Select Id, Date__c, Course_Offering__r.hed__Course__r.Name, Course_Connection__r.hed__Contact__r.FirstName, Course_Connection__r.hed__Contact__r.LastName, Course_Connection__r.hed__Contact__r.Email FROM Session__c WHERE Course_Offering__r.hed__Course__r.Id IN :courseIdList ];
 
                     if (!sessionList.isEmpty()){
-                        List<Session__c> sessionList2 = new List<Session__c>();  
                         
+                        EmailWrapper wrapper;
                         for (Session__c  val : sessionList ){
-                                sessionList2.add(val);    
-                            
-                        }  
 
-                        if (!sessionList2.isEmpty()){
-                            EmailWrapper wrapper;
-                        
-                            for (Session__c  val : sessionList2 ){ 
-                                wrapper = new EmailWrapper();
-                                wrapper.recordId = val.Course_Connection__c;
-                                wrapper.name = val.Course_Offering__r.hed__Course__r.Name;
-                                wrapper.firstName = val.Course_Connection__r.hed__Contact__r.FirstName;
-                                wrapper.lastName = val.Course_Connection__r.hed__Contact__r.LastName;
-                                wrapper.toAddress = val.Course_Connection__r.hed__Contact__r.Email;
-                                wrapperList.add(wrapper);
-                            }      
-                        }                             
+                            wrapper = new EmailWrapper();
+                            wrapper.recordId = val.Course_Connection__c;
+                            wrapper.name = val.Course_Offering__r.hed__Course__r.Name;
+                            wrapper.firstName = val.Course_Connection__r.hed__Contact__r.FirstName;
+                            wrapper.lastName = val.Course_Connection__r.hed__Contact__r.LastName;
+                            wrapper.toAddress = val.Course_Connection__r.hed__Contact__r.Email;
+                            wrapperList.add(wrapper);      
+                        }         
                     }
                 }
            }      
