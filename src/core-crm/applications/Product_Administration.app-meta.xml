@@ -520,10 +520,13 @@
     <tabs>Product_Specification__c</tabs>
     <tabs>Product_Request__c</tabs>
     <tabs>hed__Course_Offering_Schedule__c</tabs>
-    <tabs>hed__Plan_Requirement__c</tabs>
     <tabs>hed__Facility__c</tabs>
+    <tabs>hed__Plan_Requirement__c</tabs>
     <tabs>standard-Pricebook2</tabs>
     <tabs>standard-PromotionsWorkspace</tabs>
+    <tabs>standard-EmailTemplate</tabs>
+    <tabs>standard-report</tabs>
+    <tabs>standard-Dashboard</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>Product_Administration_UtilityBar</utilityBar>
     <workspaceConfig>
@@ -543,6 +546,12 @@
             <tab>hed__Plan_Requirement__c</tab>
         </mappings>
         <mappings>
+            <tab>standard-Dashboard</tab>
+        </mappings>
+        <mappings>
+            <tab>standard-EmailTemplate</tab>
+        </mappings>
+        <mappings>
             <tab>standard-Pricebook2</tab>
         </mappings>
         <mappings>
@@ -550,6 +559,9 @@
         </mappings>
         <mappings>
             <tab>standard-home</tab>
+        </mappings>
+        <mappings>
+            <tab>standard-report</tab>
         </mappings>
     </workspaceConfig>
 </CustomApplication>
