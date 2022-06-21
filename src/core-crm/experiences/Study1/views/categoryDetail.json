@@ -9,6 +9,15 @@
     "type" : "region"
   }, {
     "components" : [ {
+      "componentAttributes" : {
+        "richTextValue" : "<p class=\"main-color-blue500 foryou-heading\">For You </p>"
+      },
+      "componentName" : "forceCommunity:htmlBlock",
+      "id" : "04f17b47-62f5-46f8-b9c9-6ac13119dc5a",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    }, {
       "componentAttributes" : { },
       "componentName" : "c:storeBanner",
       "id" : "311d937c-b74a-42a4-a0bd-fb6231e6cc7d",
