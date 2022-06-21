@@ -1,30 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>My_Interested_English_Pathways__c</fullName>
+    <defaultValue>false</defaultValue>
     <description>Profile Type = Myself
 
-Indicates whether the marketing person is interested in receiving information about English programs and/or Pathway Programs specifically for International Students.</description>
+        Indicates whether the marketing person is interested in receiving information about English programs and/or Pathway Programs specifically for International Students.</description>
     <externalId>false</externalId>
     <label>My Interested English Pathways</label>
-    <required>false</required>
     <securityClassification>Official</securityClassification>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
-    <type>Picklist</type>
-    <valueSet>
-        <restricted>true</restricted>
-        <valueSetDefinition>
-            <sorted>false</sorted>
-            <value>
-                <fullName>Yes</fullName>
-                <default>false</default>
-                <label>Yes</label>
-            </value>
-            <value>
-                <fullName>No</fullName>
-                <default>false</default>
-                <label>No</label>
-            </value>
-        </valueSetDefinition>
-    </valueSet>
+    <type>Checkbox</type>
 </CustomField>

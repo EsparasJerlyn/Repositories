@@ -886,6 +886,13 @@ a.reversed:hover{
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
 }
 
+[c-applicationquestionnaire_applicationquestionnaire] .slds-checkbox_standalone .slds-checkbox_faux {
+  display: inline-block !important;
+  margin-bottom: -47px !important;
+  margin-left: -14px !important;
+  border-color:#0066b9;
+}
+
 .uiModal--horizontalForm .modal-container{
   width: 80% !important;
   max-width: 80rem !important;
@@ -1409,6 +1416,10 @@ span[c-customcombobox_customcombobox].slds-listbox__option-meta_entity {
     margin-top: -25px;
     margin-left: 2rem;
   }
+
+  [interop-primitivefiledroppablezone_primitivefiledroppablezone-host] .slds-file-selector__button {
+    width: 43.7vw !important;
+  } 
 }
 
 /*beadcrumb*/
@@ -1500,7 +1511,7 @@ div.main-container-bc [role=navigation] ol.slds-breadcrumb li:nth-child(n+4) p.d
 [interop-primitivefiledroppablezone_primitivefiledroppablezone-host] .slds-file-selector__button {
   background: #F5F5F5 !important;
   height: 70px !important;
-  width: 340px !important;
+  width: 22.5vw;
   flex-flow: column;
   cursor: pointer;
   border: 1px solid #000000 dotted;
@@ -1522,14 +1533,42 @@ div.main-container-bc [role=navigation] ol.slds-breadcrumb li:nth-child(n+4) p.d
   padding: 15px 10px 10px 15px;
 }
 
-@media screen and (max-width: 320px){
-  [c-applicationquestionnaire_applicationquestionnaire].modal-content {
-    width: 100% !important; 
+@media screen and (max-width: 1440px) {
+  [interop-primitivefiledroppablezone_primitivefiledroppablezone-host] .slds-file-selector__button {
+    width: 21.8vw;
 }
-[interop-primitivefiledroppablezone_primitivefiledroppablezone-host] .slds-file-selector__button {
-  width: 285px !important;
+}
+@media screen and (max-width: 1090px) {
+  [interop-primitivefiledroppablezone_primitivefiledroppablezone-host] .slds-file-selector__button {
+    width: 43vw !important;
+}
 }
 
+.heading {
+  font-size: 30px;
+  margin: 16px 0px;
+}
+
+@media screen and (max-width: 767px){
+[interop-primitivefiledroppablezone_primitivefiledroppablezone-host] .slds-file-selector__button {
+  width: 44vw !important;
+}
+}
+@media screen and (max-width: 480px){
+  [c-applicationquestionnaire_applicationquestionnaire].modal-content {
+    width: 100% !important;
+}
+[interop-primitivefiledroppablezone_primitivefiledroppablezone-host] .slds-file-selector__button {
+  width: 92vw !important;
+}
+}
+@media screen and (max-width: 320px){
+  [c-applicationquestionnaire_applicationquestionnaire].modal-content {
+    width: 100% !important;
+}
+[interop-primitivefiledroppablezone_primitivefiledroppablezone-host] .slds-file-selector__button {
+  width: 88vw !important;
+}
 }
 /*end of application question*/
 
@@ -1542,11 +1581,17 @@ ul.slds-accordion.searchResult .slds-form-element__label {
   margin-left: 2rem;
 }
 
-/*cartdetails registration question checkbox */
-.checkboxLayout [lightning-input c-cartdetails_cartdetails] .slds-checkbox__label{
-  display: none;
-  }
-  
+/*groupbookingform */
+[c-groupbookingform_groupbookingform] button.slds-button[title="Delete"]{
+  border-color: #ffffff !important;
+  border:1px solid #fff;
+}
+
+/*cartdetails */
+[c-cartdetails_cartdetails] input.slds-input[disabled],[c-cartdetails_cartdetails] textarea.slds-textarea[disabled]{
+  color: #000000 !important;
+}
+
 .checkboxLayout [c-cartdetails_cartdetails] .slds-checkbox__label{
   font-family: "ProximaNova-Bold";
   top: -2px;

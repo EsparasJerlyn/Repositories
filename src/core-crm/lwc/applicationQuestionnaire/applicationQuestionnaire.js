@@ -5,6 +5,7 @@ import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import { loadStyle } from "lightning/platformResourceLoader";
 import customSR from "@salesforce/resourceUrl/QUTCustomLwcCss";
 import qutResourceImg from "@salesforce/resourceUrl/QUTImages";
+import customSR1 from "@salesforce/resourceUrl/QUTInternalCSS";
 
 const ERROR_TITLE = 'Error'
 const ERROR_VARIANT = 'error'
@@ -40,6 +41,7 @@ export default class ApplicationQuestionnaire extends LightningElement {
     /* Load Custom CSS */
     renderedCallback() {
         Promise.all([loadStyle(this, customSR + "/qutCustomLwcCss.css")]);
+        Promise.all([loadStyle(this, customSR1 + "/QUTInternalCSS.css")]);
     }
 
     _resolveConnected;

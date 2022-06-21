@@ -357,8 +357,12 @@ renderedCallback() {
     if(this.strStartDate != null){
       sDate = this.strStartDate.split("-").reverse().join("-").replace(/-/g,"/");
       this.parameterObject.startDate = sDate;
+      this.getFilterList();
+    }else{
+      this.strStartDate = '';
+      this.parameterObject.startDate = null;
+      this.getFilterList();
     }
-    this.checkDateInput();
   }
 
   //Handle End date filter when selected
@@ -368,22 +372,12 @@ renderedCallback() {
     if(this.strEndDate != null){
       eDate = this.strEndDate.split("-").reverse().join("-").replace(/-/g,"/");
       this.parameterObject.endDate = eDate;
-    }
-    this.checkDateInput();
-  }
-
-  //Checks the input of the Start Date and End Date
-  checkDateInput()
-  {
-    if(this.strStartDate !=null && this.strEndDate !=null){
       this.getFilterList();
-    }else if(this.strStartDate == null && this.strEndDate == null ){
-      this.strStartDate = '';
+    }else{
       this.strEndDate= '';
-      this.parameterObject.startDate = null;
       this.parameterObject.endDate = null;
       this.getFilterList();
-   }
+    }
   }
 
   //Handles the value of the pricing slider

@@ -180,7 +180,7 @@ export default class Payment extends LightningElement {
 
             //populate string
             opeDescription = opeDescription + `OPEDescription=` + currentCartItem.productName.replace(/ /g,'%20') + `&` + 
-            `UnitAmountIncTax=` + currentCartItem.unitPrice + `&`;
+            `UnitAmountIncTax=` + (currentCartItem.unitPrice - currentCartItem.unitDiscount)+ `&`;
             
         });
 
