@@ -130,11 +130,6 @@ export default class CartDetails extends LightningElement {
         console.log(error);
       });
 
-    getCommunityUrl()
-      .then((result) => {
-        this.paymentConURL = result.comSite + '/s/payment-confirmation?' + 'Status=A&InvoiceNo=[InvoiceNo]&ReceiptNo=[ReceiptNo]&TotalAmount=' + this.total + '&Webcart.External_ID__c=' + this.cartExternalId;
-      });
-
     //refresh the cart items
     this.getCartItemsData();
     this.publishLMS();
@@ -500,6 +495,16 @@ export default class CartDetails extends LightningElement {
         console.log(error);
 
       });
+  }
+
+  confirmRegistration(){
+    getCommunityUrl()
+    .then((result) => {
+      this.paymentConURL = result.comSite + '/s/payment-confirmation?' 
+                        + 'Status=A&InvoiceNo=[InvoiceNo]&ReceiptNo=[ReceiptNo]&TotalAmount=' 
+                        + this.total + '&Webcart.External_ID__c=' + this.cartExternalId;
+      window.location.href = this.paymentConURL;
+    });
   }
 
   //retrieve the discount code
