@@ -470,10 +470,9 @@ public without sharing class ManageRegistrationSectionCtrl {
 
           Id commerceUser = createUser(contactRecEmail, contactRecLname, contactRecFname, contactRecord.Id);           
           WebCart newWebCart = createWebCart(commerceUser);
-
           insert newWebCart;
-          Product2 product = getProduct(offeringId, prescribedProgram);
 
+          Product2 product = getProduct(offeringId, prescribedProgram);
           PricebookEntry pbe = new PricebookEntry();
           Decimal amount;
           List<PricebookEntry> pbList = [SELECT Id, UnitPrice, Product2Id FROM PricebookEntry WHERE Id =: priceBookEntryId LIMIT 1];
@@ -488,7 +487,11 @@ public without sharing class ManageRegistrationSectionCtrl {
           Cart_Payment__c cartPayment = new Cart_Payment__c(Status__c = 'Invoiced');
           insert cartPayment;
 
-          String paymentURL = paymentGatewayURLBuilder(newWebCart.External_Id__c, contactRecEmail, contactRecName, amount, product.Name);
+          String externalId;
+          List<WebCart> carts = [SELECT External_Id__c FROM WebCart WHERE OwnerId =: commerceUser LIMIT 1]; 
+          for(WebCart webCart : carts){ externalId = webCart.External_Id__c; }
+
+          String paymentURL = paymentGatewayURLBuilder(externalId, contactRecEmail, contactRecName, amount, product.Name);
           
           WebCart webCartToClose = new WebCart(
                Id = newWebCart.Id, 
