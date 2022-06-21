@@ -588,6 +588,13 @@ public without sharing class ManageRegistrationSectionCtrl {
           List<WebStore> studyWebStoreList = [SELECT Id FROM WebStore WHERE Name = 'Study' LIMIT 1];
           for(WebStore webStore : studyWebStoreList){ studyWebStoreId = webStore.Id; }
 
+          // DEPP-3152 close any carts already opened from OPE portal.
+          List<WebCart> existingCart = [Select Id, Status FROM WebCart WHERE Status='Active' and OwnerId = : userId LIMIT 1];
+          if(existingCart.size()>0){
+               existingCart[0].Status = 'Closed';
+               update existingCart;
+          }
+
           WebCart webCart = new WebCart();
           webCart.Name = 'Cart';
           webCart.AccountId = opeCatalougeAccountId;
