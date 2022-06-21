@@ -144,7 +144,7 @@ export default class PaymentConfirmation extends LightningElement {
             let fields = {};
             fields[ID_FIELD.fieldApiName] = this.cartPayment;
             fields[PAYMENT_STATUS_FIELD.fieldApiName] = this.paymentStatus;
-            fields[EMAIL_FIELD.fieldApiName] = this.parameters.Email?this.parameters.Email:this.contactEmail;
+            fields[EMAIL_FIELD.fieldApiName] = this.parameters.Email?this.parameters.Email:data.contactEmail;
             fields[INVOICE_FIELD.fieldApiName] = this.parameters.InvoiceNo;
             fields[RECEIPT_FIELD.fieldApiName] = this.parameters.ReceiptNo;
             fields[STATUS_FIELD.fieldApiName] = 'Closed';
