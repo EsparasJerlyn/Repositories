@@ -44,7 +44,8 @@ export default class PrescribedProgram extends LightningElement {
   paramURL;
   getParamObj = {};
   setParamObj = {};
-  onLoadAddToCart = false;
+  onLoadTriggerBtn;
+  onLoadTriggerRegInterest = false;
 
   @track disableDelivery = false;
   @track disableProgramOfferings = true;
@@ -83,6 +84,9 @@ export default class PrescribedProgram extends LightningElement {
   getpageRef(pageRef) {
     if (pageRef && pageRef.state && pageRef.state.param) {
       this.getParamObj = JSON.parse(atob(pageRef.state.param));
+      if (this.getParamObj.triggerBtn == "regInt") {
+        this.onLoadTriggerRegInterest = true;
+      }
     }
   }
 
@@ -171,6 +175,11 @@ export default class PrescribedProgram extends LightningElement {
       this.displayAddToCart = false;
       this.displayRegisterInterest = true;
     }
+
+    if (this.onLoadTriggerRegInterest) {
+      // Trigger Register Interest
+      this.registerInterest();
+    }
   }
 
   get disableDelivery() {
@@ -249,7 +258,7 @@ export default class PrescribedProgram extends LightningElement {
       if (Object.keys(this.getParamObj).length > 0) {
         this.selectedProgramOffering = this.getParamObj.defCourseOff;
         this.selectedPricing = this.getParamObj.defPBEntry;
-        this.onLoadAddToCart = this.getParamObj.addCart;
+        this.onLoadTriggerBtn = this.getParamObj.triggerBtn;
         if (this.selectedPricing) {
           this.selectedPB = this.availablePricings.find(
             (item) => item.value === this.selectedPricing
@@ -282,9 +291,15 @@ export default class PrescribedProgram extends LightningElement {
           }
         }
 
-        // Trigger AddToCart OnLoad?
-        if (this.onLoadAddToCart) {
+        if (this.onLoadTriggerBtn == "addCart") {
+          // Trigger AddToCart
           this.notifyAddToCart();
+        } else if (this.onLoadTriggerBtn == "groupReg") {
+          // Trigger Group Reg
+          this.groupRegistration();
+        } else if (this.onLoadTriggerBtn == "apply") {
+          // Trigger Apply
+          this.notifyApply();
         }
       } else {
         this.selectedProgramOffering = availableProgramOfferingsLocal[0].value;
@@ -397,6 +412,7 @@ export default class PrescribedProgram extends LightningElement {
         });
     } else {
       // Display Custom Login Form LWC
+      this.setParamURL("regInt");
       this.openModal = true;
     }
   }
@@ -406,7 +422,7 @@ export default class PrescribedProgram extends LightningElement {
       this.openApplicationQuestionnaire = true;
     } else {
       // Display Custom Login Form LWC
-      this.setParamURL(false);
+      this.setParamURL("apply");
       this.openModal = true;
     }
   }
@@ -423,7 +439,7 @@ export default class PrescribedProgram extends LightningElement {
       );
       this.openAddToCartConfirmModal = true;
     } else {
-      this.setParamURL(true);
+      this.setParamURL("addCart");
       this.openModal = true;
     }
   }
@@ -438,7 +454,7 @@ export default class PrescribedProgram extends LightningElement {
     if (!isGuest) {
       this.openGroupRegistration = true;
     } else {
-      this.setParamURL(false);
+      this.setParamURL("groupReg");
       this.openModal = true;
     }
   }
@@ -460,13 +476,23 @@ export default class PrescribedProgram extends LightningElement {
     this.openAddToCartConfirmModal = false;
   }
 
-  setParamURL(addCart) {
-    this.setParamObj = {
-      defDeliv: this.selectedDeliveryType,
-      defCourseOff: this.selectedProgramOffering,
-      defPBEntry: this.selectedPricing,
-      addCart: addCart
-    };
+  setParamURL(btn) {
+    // Set Button to Trigger on Load
+    this.setParamObj.triggerBtn = btn;
+    // Set Delivery default
+    if (this.selectedDeliveryType) {
+      this.setParamObj.defDeliv = this.selectedDeliveryType;
+    }
+
+    // Set Offering default
+    if (this.selectedProgramOffering) {
+      this.setParamObj.defCourseOff = this.selectedProgramOffering;
+    }
+
+    // Set Price default
+    if (this.selectedPricing) {
+      this.setParamObj.defPBEntry = this.selectedPricing;
+    }
     this.paramURL = "?param=" + btoa(JSON.stringify(this.setParamObj));
   }
 }

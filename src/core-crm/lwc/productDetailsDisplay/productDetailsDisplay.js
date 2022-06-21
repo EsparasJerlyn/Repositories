@@ -113,7 +113,8 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   paramURL;
   getParamObj = {};
   setParamObj = {};
-  onLoadAddToCart = false;
+  onLoadTriggerBtn;
+  onLoadTriggerRegInterest = false;
 
   // Set Custom Labels
   label = {
@@ -200,6 +201,9 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   getpageRef(pageRef) {
     if (pageRef && pageRef.state && pageRef.state.param) {
       this.getParamObj = JSON.parse(atob(pageRef.state.param));
+      if (this.getParamObj.triggerBtn == "regInt") {
+        this.onLoadTriggerRegInterest = true;
+      }
     }
   }
 
@@ -294,7 +298,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
             if (Object.keys(this.getParamObj).length > 0) {
               this.selectedCourseOffering = this.getParamObj.defCourseOff;
               this.selectedPriceBookEntry = this.getParamObj.defPBEntry;
-              this.onLoadAddToCart = this.getParamObj.addCart;
+              this.onLoadTriggerBtn = this.getParamObj.triggerBtn;
               if (this.selectedPriceBookEntry) {
                 this.selectedPB = this.priceBookEntriesCopy.find(
                   (item) => item.value === this.selectedPriceBookEntry
@@ -344,9 +348,15 @@ export default class ProductDetailsDisplay extends NavigationMixin(
               }
             }
 
-            // Trigger AddToCart OnLoad?
-            if (this.onLoadAddToCart) {
+            if (this.onLoadTriggerBtn == "addCart") {
+              // Trigger AddToCart
               this.notifyAddToCart();
+            } else if (this.onLoadTriggerBtn == "groupReg") {
+              // Trigger Group Reg
+              this.groupRegistration();
+            } else if (this.onLoadTriggerBtn == "apply") {
+              // Trigger Apply
+              this.notifyApply();
             }
           } else {
             this.checkSDatePlaceholder = availableStartDatesPlaceholder;
@@ -367,6 +377,11 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     ) {
       this.displayAddToCart = false;
       this.displayRegisterInterest = true;
+    }
+
+    if (this.onLoadTriggerRegInterest) {
+      // Trigger Register Interest
+      this.registerInterest();
     }
   }
 
@@ -423,7 +438,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
       this.openApplicationQuestionnaire = true;
     } else {
       // Display Custom Login Form LWC
-      this.setParamURL(false);
+      this.setParamURL("apply");
       this.openModal = true;
     }
   }
@@ -446,7 +461,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
       this.openAddToCartConfirmModal = true;
     } else {
       // Display Custom Login Form LWC
-      this.setParamURL(true);
+      this.setParamURL("addCart");
       this.openModal = true;
     }
     /* Comment out for bulk register */
@@ -485,6 +500,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
         });
     } else {
       // Display Custom Login Form LWC
+      this.setParamURL("regInt");
       this.openModal = true;
     }
   }
@@ -646,13 +662,23 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     }
   }
 
-  setParamURL(addCart) {
-    this.setParamObj = {
-      defDeliv: this.selectedDelivery,
-      defCourseOff: this.selectedCourseOffering,
-      defPBEntry: this.selectedPriceBookEntry,
-      addCart: addCart
-    };
+  setParamURL(btn) {
+    // Set Button to Trigger on Load
+    this.setParamObj.triggerBtn = btn;
+    // Set Delivery default
+    if (this.selectedDelivery) {
+      this.setParamObj.defDeliv = this.selectedDelivery;
+    }
+
+    // Set Offering default
+    if (this.selectedCourseOffering) {
+      this.setParamObj.defCourseOff = this.selectedCourseOffering;
+    }
+
+    // Set Price default
+    if (this.selectedPriceBookEntry) {
+      this.setParamObj.defPBEntry = this.selectedPriceBookEntry;
+    }
     this.paramURL = "?param=" + btoa(JSON.stringify(this.setParamObj));
   }
 
@@ -708,12 +734,11 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     this.openGroupBookingModal = false;
   }
   groupRegistration() {
-    //this.registerInterest();
     if (!isGuest) {
       this.openGroupBookingModal = true;
     } else {
       // Display Custom Login Form LWC
-      this.setParamURL(false);
+      this.setParamURL("groupReg");
       this.openModal = true;
     }
   }
