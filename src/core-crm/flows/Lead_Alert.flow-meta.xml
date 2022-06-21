@@ -4,7 +4,7 @@
         <name>Send_Email_0</name>
         <label>Send Email</label>
         <locationX>1546</locationX>
-        <locationY>815</locationY>
+        <locationY>768</locationY>
         <actionName>FlowEmailHelper</actionName>
         <actionType>apex</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -31,7 +31,7 @@
         <name>Send_Email_0_0</name>
         <label>Send Email</label>
         <locationX>1282</locationX>
-        <locationY>815</locationY>
+        <locationY>768</locationY>
         <actionName>FlowEmailHelper</actionName>
         <actionType>apex</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -58,7 +58,7 @@
         <name>Send_Email_0_0_0</name>
         <label>Send Email</label>
         <locationX>754</locationX>
-        <locationY>815</locationY>
+        <locationY>768</locationY>
         <actionName>FlowEmailHelper</actionName>
         <actionType>apex</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -85,7 +85,7 @@
         <name>Send_Email_0_0_0_0</name>
         <label>Send Email</label>
         <locationX>1018</locationX>
-        <locationY>815</locationY>
+        <locationY>768</locationY>
         <actionName>FlowEmailHelper</actionName>
         <actionType>apex</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -118,7 +118,7 @@
         <name>Send_Email_0_0_0_0_0</name>
         <label>Send Email</label>
         <locationX>314</locationX>
-        <locationY>1271</locationY>
+        <locationY>1224</locationY>
         <actionName>FlowEmailHelper</actionName>
         <actionType>apex</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -152,7 +152,7 @@
         <name>Add_Merge_Fields_0</name>
         <label>Add Merge Fields</label>
         <locationX>1546</locationX>
-        <locationY>695</locationY>
+        <locationY>648</locationY>
         <assignmentItems>
             <assignToReference>MergeFields</assignToReference>
             <operator>Add</operator>
@@ -259,7 +259,7 @@
         <name>Add_Merge_Fields_0_0</name>
         <label>Add Merge Fields</label>
         <locationX>1282</locationX>
-        <locationY>695</locationY>
+        <locationY>648</locationY>
         <assignmentItems>
             <assignToReference>MergeFields</assignToReference>
             <operator>Add</operator>
@@ -338,7 +338,7 @@
         <name>Add_Merge_Fields_0_0_0</name>
         <label>Add Merge Fields</label>
         <locationX>754</locationX>
-        <locationY>695</locationY>
+        <locationY>648</locationY>
         <assignmentItems>
             <assignToReference>MergeFields</assignToReference>
             <operator>Add</operator>
@@ -466,7 +466,7 @@
         <name>Add_Merge_Fields_0_0_0_0</name>
         <label>Add Merge Fields</label>
         <locationX>1018</locationX>
-        <locationY>695</locationY>
+        <locationY>648</locationY>
         <assignmentItems>
             <assignToReference>MergeFields</assignToReference>
             <operator>Add</operator>
@@ -587,7 +587,7 @@
         <name>Add_Merge_Fields_0_0_0_0_0</name>
         <label>Add Merge Fields</label>
         <locationX>314</locationX>
-        <locationY>1151</locationY>
+        <locationY>1104</locationY>
         <assignmentItems>
             <assignToReference>MergeFields</assignToReference>
             <operator>Add</operator>
@@ -729,7 +729,7 @@
         <name>Assign_Lead_Score_and_Lead_Categorisation</name>
         <label>Assign Lead Score and Lead Categorisation</label>
         <locationX>50</locationX>
-        <locationY>695</locationY>
+        <locationY>648</locationY>
         <assignmentItems>
             <assignToReference>leadScore.mergeField</assignToReference>
             <operator>Assign</operator>
@@ -773,7 +773,7 @@
         <name>Assign_Lead_Score_and_Lead_Categorisation_0</name>
         <label>Assign Lead Score and Lead Categorisation</label>
         <locationX>314</locationX>
-        <locationY>695</locationY>
+        <locationY>648</locationY>
         <assignmentItems>
             <assignToReference>leadScore.mergeField</assignToReference>
             <operator>Assign</operator>
@@ -817,7 +817,7 @@
         <name>Assign_Merge_Fields</name>
         <label>Assign Merge Fields</label>
         <locationX>1546</locationX>
-        <locationY>575</locationY>
+        <locationY>528</locationY>
         <assignmentItems>
             <assignToReference>firstname.mergeField</assignToReference>
             <operator>Assign</operator>
@@ -1022,7 +1022,7 @@
         <name>Assign_Merge_Fields_0</name>
         <label>Assign Merge Fields</label>
         <locationX>1282</locationX>
-        <locationY>575</locationY>
+        <locationY>528</locationY>
         <assignmentItems>
             <assignToReference>firstname.mergeField</assignToReference>
             <operator>Assign</operator>
@@ -1171,7 +1171,7 @@
         <name>Assign_Merge_Fields_0_0</name>
         <label>Assign Merge Fields</label>
         <locationX>754</locationX>
-        <locationY>575</locationY>
+        <locationY>528</locationY>
         <assignmentItems>
             <assignToReference>firstname.mergeField</assignToReference>
             <operator>Assign</operator>
@@ -1418,7 +1418,7 @@
         <name>Assign_Merge_Fields_0_0_0</name>
         <label>Assign Merge Fields</label>
         <locationX>1018</locationX>
-        <locationY>575</locationY>
+        <locationY>528</locationY>
         <assignmentItems>
             <assignToReference>firstname.mergeField</assignToReference>
             <operator>Assign</operator>
@@ -1658,7 +1658,7 @@
         <name>Assign_Merge_Fields_0_0_0_0</name>
         <label>Assign Merge Fields</label>
         <locationX>314</locationX>
-        <locationY>1031</locationY>
+        <locationY>984</locationY>
         <assignmentItems>
             <assignToReference>firstname.mergeField</assignToReference>
             <operator>Assign</operator>
@@ -1933,7 +1933,7 @@
         <name>Assign_Receipt_Email_Address_and_Email_Template</name>
         <label>Assign Receipt Email Address and Email Template</label>
         <locationX>1546</locationX>
-        <locationY>455</locationY>
+        <locationY>408</locationY>
         <assignmentItems>
             <assignToReference>ReceiptEmailAddress</assignToReference>
             <operator>Add</operator>
@@ -1970,7 +1970,7 @@
         <name>Assign_Receipt_Email_Address_and_Email_Template_0</name>
         <label>Assign Receipt Email Address and Email Template</label>
         <locationX>1282</locationX>
-        <locationY>455</locationY>
+        <locationY>408</locationY>
         <assignmentItems>
             <assignToReference>ReceiptEmailAddress</assignToReference>
             <operator>Add</operator>
@@ -2007,7 +2007,7 @@
         <name>Assign_Receipt_Email_Address_and_Email_Template_0_0</name>
         <label>Assign Receipt Email Address and Email Template</label>
         <locationX>754</locationX>
-        <locationY>455</locationY>
+        <locationY>408</locationY>
         <assignmentItems>
             <assignToReference>ReceiptEmailAddress</assignToReference>
             <operator>Add</operator>
@@ -2044,7 +2044,7 @@
         <name>Assign_Receipt_Email_Address_and_Email_Template_0_0_0</name>
         <label>Assign Receipt Email Address and Email Template</label>
         <locationX>1018</locationX>
-        <locationY>455</locationY>
+        <locationY>408</locationY>
         <assignmentItems>
             <assignToReference>ReceiptEmailAddress</assignToReference>
             <operator>Add</operator>
@@ -2081,7 +2081,7 @@
         <name>Assign_Receipt_Email_Address_and_Email_Template_0_0_0_0</name>
         <label>Assign Receipt Email Address and Email Template</label>
         <locationX>314</locationX>
-        <locationY>911</locationY>
+        <locationY>864</locationY>
         <assignmentItems>
             <assignToReference>ReceiptEmailAddress</assignToReference>
             <operator>Add</operator>
@@ -2118,7 +2118,7 @@
         <name>Get_Lead_Score_and_Lead_Categorisation</name>
         <label>Get Lead Score and Lead Categorisation</label>
         <locationX>314</locationX>
-        <locationY>455</locationY>
+        <locationY>408</locationY>
         <defaultConnector>
             <targetReference>Assign_Receipt_Email_Address_and_Email_Template_0_0_0_0</targetReference>
         </defaultConnector>
@@ -2165,7 +2165,7 @@
         <name>Leads_Alert</name>
         <label>Leads Alert</label>
         <locationX>1062</locationX>
-        <locationY>335</locationY>
+        <locationY>288</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>International_Enquiry</name>
@@ -2597,7 +2597,7 @@
         <name>Get_Contact</name>
         <label>Get Contact</label>
         <locationX>314</locationX>
-        <locationY>575</locationY>
+        <locationY>528</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Assign_Lead_Score_and_Lead_Categorisation_0</targetReference>
@@ -2618,7 +2618,7 @@
         <name>Get_Lead</name>
         <label>Get Lead</label>
         <locationX>50</locationX>
-        <locationY>575</locationY>
+        <locationY>528</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Assign_Lead_Score_and_Lead_Categorisation</targetReference>
@@ -2636,13 +2636,21 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <start>
-        <locationX>936</locationX>
+        <locationX>298</locationX>
         <locationY>0</locationY>
-        <connector>
-            <targetReference>Leads_Alert</targetReference>
-        </connector>
         <object>Marketing_Staging__c</object>
         <recordTriggerType>Create</recordTriggerType>
+        <scheduledPaths>
+            <name>Lead_Alert_10_mins</name>
+            <connector>
+                <targetReference>Leads_Alert</targetReference>
+            </connector>
+            <label>Lead Alert - 10 mins</label>
+            <maxBatchSize>1</maxBatchSize>
+            <offsetNumber>10</offsetNumber>
+            <offsetUnit>Minutes</offsetUnit>
+            <timeSource>RecordTriggerEvent</timeSource>
+        </scheduledPaths>
         <triggerType>RecordAfterSave</triggerType>
     </start>
     <status>Active</status>
