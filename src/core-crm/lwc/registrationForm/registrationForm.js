@@ -14,6 +14,8 @@
       | keno.domienri.dico        | June 15, 2022         | DEPP-2758            | Added Accessibility Req field         |
       | john.bo.a.pineda          | June 16, 2022         | DEPP-3114            | Modified to set values after          |
       |                           |                       |                      | registration                          |
+      | john.bo.a.pineda          | June 20, 2022         | DEPP-3191            | Modified to add logic for login of    |
+      |                           |                       |                      | existing Users                        |
 */
 import { LightningElement, track, api, wire } from "lwc";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
@@ -33,6 +35,7 @@ import sendRegistrationSMSOTP from "@salesforce/apex/RegistrationFormCtrl.sendRe
 import getMobileLocaleOptions from "@salesforce/apex/RegistrationFormCtrl.getMobileLocaleOptions";
 import sendRegistrationEmailOTP from "@salesforce/apex/RegistrationFormCtrl.sendRegistrationEmailOTP";
 import LWC_Error_General from "@salesforce/label/c.LWC_Error_General";
+import loginExistingUser from "@salesforce/apex/RegistrationFormCtrl.loginExistingUser";
 
 //Add text fields in Label from HTML
 const SSO = "/services/auth/sso/";
@@ -95,6 +98,9 @@ export default class RegistrationForm extends LightningElement {
   localeConMobile;
   mobileFull;
   isLoginPage = false;
+  isEmail = false;
+  userExists = false;
+  loginUser = {};
 
   label = {
     header,
@@ -322,11 +328,14 @@ export default class RegistrationForm extends LightningElement {
       //Else, executes Registration Process
       isEmailExist({ email: this.email })
         .then((res) => {
-          if (res != null && res != undefined && res == true) {
+          if (res.length > 0) {
             this.emailErrorMessage = EMAIL_EXIST;
+            this.userExists = true;
+            this.loginUser = res[0];
             this.requiredDisplayData.email = SHOW_ERROR_MESSAGE_ATTRIBUTE;
             this.requiredInputClass.email = SHOW_ERROR_BOARDER_ATTRIBUTE;
           } else {
+            this.userExists = false;
             // Call Apex to send SMS
             this.displayForm = false;
             this.displayVerification = true;
@@ -338,6 +347,15 @@ export default class RegistrationForm extends LightningElement {
           this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
         });
     }
+  }
+
+  // Handle Existing User
+  handleExistingUser() {
+    this.mobileFull = this.loginUser.MobilePhone;
+    this.displayForm = false;
+    this.displayVerification = true;
+    this.displayResendVerification = false;
+    this.sendSMSOTP();
   }
 
   sendSMSOTP() {
@@ -602,13 +620,33 @@ export default class RegistrationForm extends LightningElement {
     if (this.userOTP) {
       if (this.verifyOTP == this.userOTP) {
         this.generateToast("Success!", "OTP Accepted", "success");
-        this.registerPortalUser();
+        if (Object.keys(this.loginUser).length > 0) {
+          this.loginExistingPortalUser();
+        } else {
+          this.registerPortalUser();
+        }
       } else {
         this.generateToast("Error.", "Invalid OTP", "error");
       }
     } else {
       this.generateToast("Error.", "Please enter verification code", "error");
     }
+  }
+
+  loginExistingPortalUser() {
+    loginExistingUser({
+      userId: this.loginUser.Id,
+      userName: this.loginUser.Username,
+      startURL: this.startURL
+    })
+      .then((res) => {
+        if (res) {
+          window.location.href = res;
+        }
+      })
+      .catch((error) => {
+        this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
+      });
   }
 
   /**

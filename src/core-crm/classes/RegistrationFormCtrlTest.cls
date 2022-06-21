@@ -10,6 +10,7 @@
       | john.bo.a.pineda          | June 1, 2022          | DEPP-1661            | Added send SMS OTP method    |
       | rhea.b.torres             | June 6, 2022          | DEPP-2861            | Added testSetup              |
       | keno.domienri.dico        | June 15, 2022         | DEPP-2758            | Added Accessibility Req field|
+      | john.bo.a.pineda          | June 20, 2022         | DEPP-3191            | Added Logic for Login User   |
  */
 @isTest(SeeAllData=false)
 public with sharing class RegistrationFormCtrlTest {
@@ -19,7 +20,7 @@ public with sharing class RegistrationFormCtrlTest {
   private static final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
 
   @testSetup
-  public static void setUp(){
+  public static void setUp() {
     // Create Custom Setting
     MC_Messaging_OTP_Setting__c setting = TestDataFactory.createOTPCustomSetting();
     insert setting;
@@ -161,10 +162,10 @@ public with sharing class RegistrationFormCtrlTest {
         TimeZoneSidKey = 'Australia/Brisbane'
       );
       insert u;
-      Boolean isExist = RegistrationFormCtrl.isEmailExist(
+      List<User> isExist = RegistrationFormCtrl.isEmailExist(
         'testUser1234@test.com'
       );
-      System.assert(isExist == true, 'Email is match');
+      System.assert(isExist.size() > 0, 'Email is match');
     }
     Test.stopTest();
   }
@@ -232,5 +233,35 @@ public with sharing class RegistrationFormCtrlTest {
     }
   }
 
-  
+  @isTest
+  static void loginExistingUserTest() {
+    Test.startTest();
+    System.runAs(PORTAL_SYS_ADMIN) {
+      Profile p = [SELECT Id FROM Profile WHERE Name = 'OPE Catalogue'];
+      Contact c = new Contact(LastName = 'Testing');
+      insert c;
+      User u = new User(
+        Alias = 'standt',
+        Email = 'testUser1234@test.com',
+        EmailEncodingKey = 'UTF-8',
+        lastName = 'Testing',
+        LanguageLocaleKey = 'en_US',
+        LocaleSidKey = 'en_US',
+        ProfileId = p.Id,
+        ContactId = c.Id,
+        Username = 'testUser1234@test.com.org',
+        TimeZoneSidKey = 'Australia/Brisbane'
+      );
+      insert u;
+
+      String page;
+      page = RegistrationFormCtrl.loginExistingUser(
+        u.Id,
+        u.Username,
+        '/study/s/'
+      );
+      System.assert(page == null, 'Page must not be null');
+    }
+    Test.stopTest();
+  }
 }

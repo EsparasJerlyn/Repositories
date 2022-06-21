@@ -1023,7 +1023,7 @@
         <editable>true</editable>
         <field>WebCart.Payment_Method__c</field>
         <readable>true</readable>
-    </fieldPermissions> 
+    </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>OPE Catalogue</label>
     <license>Customer Community Plus Login</license>
@@ -1296,7 +1296,7 @@
         <name>B2BCommerceUser</name>
     </userPermissions>
     <userPermissions>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
         <name>ForceTwoFactor</name>
     </userPermissions>
     <userPermissions>

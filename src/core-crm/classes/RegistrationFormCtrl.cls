@@ -10,6 +10,7 @@
       | angelika.j.s.galang       | May 26, 2022          | DEPP-1455            | Added contact duplicates handler  |
       | john.bo.a.pineda          | June 1, 2022          | DEPP-1661            | Added send SMS OTP method         |
       | keno.domienri.dico        | June 15, 2022         | DEPP-2758            | Added Accessibility Req field     |
+      | john.bo.a.pineda          | June 20, 2022         | DEPP-3191            | Added Logic for Login User        |
  */
 public without sharing class RegistrationFormCtrl {
   private static final String RT_CONTACT_PERSON = System.Label.RT_Contact_Person;
@@ -20,14 +21,19 @@ public without sharing class RegistrationFormCtrl {
   /**
    * @description Method to check if Email exists
    * @param email - Email of the User
-   * @return userList - returns true if email exits otherwise false
+   * @return userList - returns User Details of existing user
    */
   @AuraEnabled(cacheable=false)
-  public static boolean isEmailExist(String email) {
+  public static List<User> isEmailExist(String email) {
     try {
       List<User> userList = new List<User>();
-      userList = [SELECT Id, Name FROM User WHERE Email = :email];
-      return !userList.isEmpty();
+      userList = [
+        SELECT Id, Name, MobilePhone, Username
+        FROM User
+        WHERE Email = :email AND Profile.Name = 'OPE Catalogue'
+        LIMIT 1
+      ];
+      return userList;
     } catch (Exception e) {
       throw new AuraHandledException(e.getMessage());
     }
@@ -367,7 +373,10 @@ public without sharing class RegistrationFormCtrl {
       alias = alias.substring(0, 8);
     }
     u.alias = alias;
-    u.CommunityNickname = alias + String.valueOf(myDate).replaceAll(invalidChar,'') + String.valueOf(birthdate).replaceAll(invalidChar,'');
+    u.CommunityNickname =
+      alias +
+      String.valueOf(myDate).replaceAll(invalidChar, '') +
+      String.valueOf(birthdate).replaceAll(invalidChar, '');
     system.debug(u.CommunityNickname);
     u.LanguageLocaleKey = 'en_US';
     u.localesidkey = UserInfo.getLocale();
@@ -387,7 +396,37 @@ public without sharing class RegistrationFormCtrl {
     assignOPEPermset(userInserted);
 
     ApexPages.PageReference pageRef = Site.login(userName, pwd, startURL);
-    retURL = pageRef.getUrl();
+    if (pageRef != null) {
+      retURL = pageRef.getUrl();
+    }
+
+    return retURL;
+  }
+
+  /**
+   * @description Method to login existing User
+   * @param userId - Existing User Id
+   * @param userName - Existing User Username
+   * @param startURL - Login Start URL
+   * @return retURL - Login Return URL
+   */
+  @AuraEnabled
+  public static String loginExistingUser(
+    String userId,
+    String userName,
+    String startURL
+  ) {
+    String retURL;
+
+    String key = EncodingUtil.convertToHex(crypto.generateAesKey(128));
+    String pwd = key.substring(0, 10);
+
+    system.setPassword(userId, pwd);
+
+    ApexPages.PageReference pageRef = Site.login(userName, pwd, startURL);
+    if (pageRef != null) {
+      retURL = pageRef.getUrl();
+    }
 
     return retURL;
   }
@@ -458,5 +497,4 @@ public without sharing class RegistrationFormCtrl {
     @AuraEnabled
     public String conMobileLocale;
   }
-  
 }
