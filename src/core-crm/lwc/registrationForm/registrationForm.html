@@ -360,60 +360,69 @@
           /></span>
         </div>
         <div class="slds-grid slds-wrap slds-m-around_medium">
-          <div class="slds-size_2-of-2 slds-text-align_center pb2">
-            <!--Static Contents-->
-            <p class="heading">Verification</p>
-            <div if:false={isEmail}>
-              <p class="bodyRegular">
-                You have been sent a verification code to your nominated mobile
-                number. Please enter below.
-              </p>
+          <lightning-spinner
+            if:true={loading}
+            class="slds-align_absolute-center slds-m-around_large"
+            alternative-text="Processing..."
+            size="large"
+            variant="brand"
+          ></lightning-spinner>
+          <template if:false={loading}>
+            <div class="slds-size_2-of-2 slds-text-align_center pb2">
+              <!--Static Contents-->
+              <p class="heading">Verification</p>
+              <div if:false={isEmail}>
+                <p class="bodyRegular">
+                  You have been sent a verification code to your nominated
+                  mobile number. Please enter below.
+                </p>
+              </div>
+              <div if:true={isEmail}>
+                <p class="bodyRegular">
+                  You have been sent a verification code to {email}. Please
+                  enter now.
+                </p>
+              </div>
             </div>
-            <div if:true={isEmail}>
-              <p class="bodyRegular">
-                You have been sent a verification code to {email}. Please enter
-                now.
-              </p>
-            </div>
-          </div>
-          <div class="slds-size_2-of-2 slds-text-align_center pb2">
-            <lightning-input
-              type="text"
-              name="verifCode"
-              pattern="[0-9]+"
-              max-length="6"
-              label="Verification Code"
-              placeholder="Enter Code Here..."
-              onchange={handleVerifInput}
-            >
-            </lightning-input>
-          </div>
-          <!--Modal Footer Buttons-->
-          <div
-            class="modal-footer slds-align_absolute-center slds-grid slds-wrap"
-          >
-            <div
-              class="slds-col p1 slds-size_12-of-12 slds-medium-size_6-of-12"
-            >
-              <button
-                class="slds-button slds-button_outline-brand slds-float_right btnCancel"
-                onclick={handleDisplayResend}
+            <div class="slds-size_2-of-2 slds-text-align_center pb2">
+              <lightning-input
+                type="text"
+                name="verifCode"
+                pattern="[0-9]+"
+                max-length="6"
+                label="Verification Code"
+                placeholder="Enter Code Here..."
+                onchange={handleVerifInput}
               >
-                Didn’t receive code?
-              </button>
+              </lightning-input>
             </div>
+            <!--Modal Footer Buttons-->
             <div
-              class="slds-col p1 slds-size_12-of-12 slds-medium-size_6-of-12"
+              class="modal-footer slds-align_absolute-center slds-grid slds-wrap"
             >
-              <button
-                type="submit"
-                class="slds-button slds-button_brand footer-button btnContinue"
-                onclick={handleVerify}
+              <div
+                class="slds-col p1 slds-size_12-of-12 slds-medium-size_6-of-12"
               >
-                Submit
-              </button>
+                <button
+                  class="slds-button slds-button_outline-brand slds-float_right btnCancel"
+                  onclick={handleDisplayResend}
+                >
+                  Didn’t receive code?
+                </button>
+              </div>
+              <div
+                class="slds-col p1 slds-size_12-of-12 slds-medium-size_6-of-12"
+              >
+                <button
+                  type="submit"
+                  class="slds-button slds-button_brand footer-button btnContinue"
+                  onclick={handleVerify}
+                >
+                  Submit
+                </button>
+              </div>
             </div>
-          </div>
+          </template>
         </div>
       </div>
     </div>

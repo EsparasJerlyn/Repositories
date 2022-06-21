@@ -101,6 +101,7 @@ export default class RegistrationForm extends LightningElement {
   isEmail = false;
   userExists = false;
   loginUser = {};
+  loading = false;
 
   label = {
     header,
@@ -620,6 +621,7 @@ export default class RegistrationForm extends LightningElement {
     if (this.userOTP) {
       if (this.verifyOTP == this.userOTP) {
         this.generateToast("Success!", "OTP Accepted", "success");
+        this.loading = true;
         if (Object.keys(this.loginUser).length > 0) {
           this.loginExistingPortalUser();
         } else {
