@@ -1,61 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
     <customValue>
-        <fullName>Australia</fullName>
-        <default>false</default>
-        <label>Australia</label>
-    </customValue>
-    <customValue>
-        <fullName>New Zealand</fullName>
-        <default>false</default>
-        <label>New Zealand</label>
-    </customValue>
-    <customValue>
-        <fullName>United Kingdom of Great Britain and Northern Ireland (the)</fullName>
-        <default>false</default>
-        <label>United Kingdom of Great Britain and Northern Ireland (the)</label>
-    </customValue>
-    <customValue>
-        <fullName>China</fullName>
-        <default>false</default>
-        <label>China</label>
-    </customValue>
-    <customValue>
-        <fullName>Japan</fullName>
-        <default>false</default>
-        <label>Japan</label>
-    </customValue>
-    <customValue>
-        <fullName>Thailand</fullName>
-        <default>false</default>
-        <label>Thailand</label>
-    </customValue>
-    <customValue>
-        <fullName>Viet Nam</fullName>
-        <default>false</default>
-        <label>Viet Nam</label>
-    </customValue>
-    <customValue>
-        <fullName>India</fullName>
-        <default>false</default>
-        <label>India</label>
-    </customValue>
-    <customValue>
-        <fullName>Malaysia</fullName>
-        <default>false</default>
-        <label>Malaysia</label>
-    </customValue>
-    <customValue>
-        <fullName>Singapore</fullName>
-        <default>false</default>
-        <label>Singapore</label>
-    </customValue>
-    <customValue>
-        <fullName>Philippines (the)</fullName>
-        <default>false</default>
-        <label>Philippines (the)</label>
-    </customValue>
-    <customValue>
         <fullName>Afghanistan</fullName>
         <default>false</default>
         <label>Afghanistan</label>
@@ -119,6 +64,11 @@
         <fullName>Aruba</fullName>
         <default>false</default>
         <label>Aruba</label>
+    </customValue>
+    <customValue>
+        <fullName>Australia</fullName>
+        <default>false</default>
+        <label>Australia</label>
     </customValue>
     <customValue>
         <fullName>Austria</fullName>
@@ -271,9 +221,19 @@
         <label>Chad</label>
     </customValue>
     <customValue>
+        <fullName>Channel Islands</fullName>
+        <default>false</default>
+        <label>Channel Islands</label>
+    </customValue>
+    <customValue>
         <fullName>Chile</fullName>
         <default>false</default>
         <label>Chile</label>
+    </customValue>
+    <customValue>
+        <fullName>China</fullName>
+        <default>false</default>
+        <label>China</label>
     </customValue>
     <customValue>
         <fullName>Christmas Island</fullName>
@@ -561,6 +521,11 @@
         <label>Iceland</label>
     </customValue>
     <customValue>
+        <fullName>India</fullName>
+        <default>false</default>
+        <label>India</label>
+    </customValue>
+    <customValue>
         <fullName>Indonesia</fullName>
         <default>false</default>
         <label>Indonesia</label>
@@ -601,6 +566,11 @@
         <label>Jamaica</label>
     </customValue>
     <customValue>
+        <fullName>Japan</fullName>
+        <default>false</default>
+        <label>Japan</label>
+    </customValue>
+    <customValue>
         <fullName>Jersey</fullName>
         <default>false</default>
         <label>Jersey</label>
@@ -634,6 +604,11 @@
         <fullName>Korea (the Republic of)</fullName>
         <default>false</default>
         <label>Korea (the Republic of)</label>
+    </customValue>
+    <customValue>
+        <fullName>Kosovo</fullName>
+        <default>false</default>
+        <label>Kosovo</label>
     </customValue>
     <customValue>
         <fullName>Kuwait</fullName>
@@ -704,6 +679,11 @@
         <fullName>Malawi</fullName>
         <default>false</default>
         <label>Malawi</label>
+    </customValue>
+    <customValue>
+        <fullName>Malaysia</fullName>
+        <default>false</default>
+        <label>Malaysia</label>
     </customValue>
     <customValue>
         <fullName>Maldives</fullName>
@@ -821,6 +801,11 @@
         <label>New Caledonia</label>
     </customValue>
     <customValue>
+        <fullName>New Zealand</fullName>
+        <default>false</default>
+        <label>New Zealand</label>
+    </customValue>
+    <customValue>
         <fullName>Nicaragua</fullName>
         <default>false</default>
         <label>Nicaragua</label>
@@ -866,6 +851,16 @@
         <label>Oman</label>
     </customValue>
     <customValue>
+        <fullName>Other Former Ussr And Baltic States</fullName>
+        <default>false</default>
+        <label>Other Former Ussr And Baltic States</label>
+    </customValue>
+    <customValue>
+        <fullName>Other Former Yugoslavia</fullName>
+        <default>false</default>
+        <label>Other Former Yugoslavia</label>
+    </customValue>
+    <customValue>
         <fullName>Pakistan</fullName>
         <default>false</default>
         <label>Pakistan</label>
@@ -899,6 +894,11 @@
         <fullName>Peru</fullName>
         <default>false</default>
         <label>Peru</label>
+    </customValue>
+    <customValue>
+        <fullName>Philippines (the)</fullName>
+        <default>false</default>
+        <label>Philippines (the)</label>
     </customValue>
     <customValue>
         <fullName>Pitcairn</fullName>
@@ -1001,6 +1001,11 @@
         <label>Saudi Arabia</label>
     </customValue>
     <customValue>
+        <fullName>Scotland</fullName>
+        <default>false</default>
+        <label>Scotland</label>
+    </customValue>
+    <customValue>
         <fullName>Senegal</fullName>
         <default>false</default>
         <label>Senegal</label>
@@ -1019,6 +1024,11 @@
         <fullName>Sierra Leone</fullName>
         <default>false</default>
         <label>Sierra Leone</label>
+    </customValue>
+    <customValue>
+        <fullName>Singapore</fullName>
+        <default>false</default>
+        <label>Singapore</label>
     </customValue>
     <customValue>
         <fullName>Sint Maarten (Dutch part)</fullName>
@@ -1101,9 +1111,9 @@
         <label>Syrian Arab Republic (the)</label>
     </customValue>
     <customValue>
-        <fullName>Taiwan (Province of China)</fullName>
+        <fullName>Taiwan</fullName>
         <default>false</default>
-        <label>Taiwan (Province of China)</label>
+        <label>Taiwan</label>
     </customValue>
     <customValue>
         <fullName>Tajikistan</fullName>
@@ -1114,6 +1124,11 @@
         <fullName>Tanzania, the United Republic of</fullName>
         <default>false</default>
         <label>Tanzania, the United Republic of</label>
+    </customValue>
+    <customValue>
+        <fullName>Thailand</fullName>
+        <default>false</default>
+        <label>Thailand</label>
     </customValue>
     <customValue>
         <fullName>Timor-Leste</fullName>
@@ -1181,6 +1196,11 @@
         <label>United Arab Emirates (the)</label>
     </customValue>
     <customValue>
+        <fullName>United Kingdom of Great Britain and Northern Ireland (the)</fullName>
+        <default>false</default>
+        <label>United Kingdom of Great Britain and Northern Ireland (the)</label>
+    </customValue>
+    <customValue>
         <fullName>United States Minor Outlying Islands (the)</fullName>
         <default>false</default>
         <label>United States Minor Outlying Islands (the)</label>
@@ -1206,9 +1226,19 @@
         <label>Vanuatu</label>
     </customValue>
     <customValue>
+        <fullName>Vatican City</fullName>
+        <default>false</default>
+        <label>Vatican City</label>
+    </customValue>
+    <customValue>
         <fullName>Venezuela (Bolivarian Republic of)</fullName>
         <default>false</default>
         <label>Venezuela (Bolivarian Republic of)</label>
+    </customValue>
+    <customValue>
+        <fullName>Vietnam</fullName>
+        <default>false</default>
+        <label>Vietnam</label>
     </customValue>
     <customValue>
         <fullName>Virgin Islands (British)</fullName>
@@ -1219,6 +1249,11 @@
         <fullName>Virgin Islands (U.S.)</fullName>
         <default>false</default>
         <label>Virgin Islands (U.S.)</label>
+    </customValue>
+    <customValue>
+        <fullName>Wales</fullName>
+        <default>false</default>
+        <label>Wales</label>
     </customValue>
     <customValue>
         <fullName>Wallis and Futuna</fullName>
@@ -1236,6 +1271,11 @@
         <label>Yemen</label>
     </customValue>
     <customValue>
+        <fullName>Yugoslavia, Federal Republic</fullName>
+        <default>false</default>
+        <label>Yugoslavia, Federal Republic</label>
+    </customValue>
+    <customValue>
         <fullName>Zambia</fullName>
         <default>false</default>
         <label>Zambia</label>
@@ -1245,6 +1285,6 @@
         <default>false</default>
         <label>Zimbabwe</label>
     </customValue>
-    <masterLabel>Country</masterLabel>
+    <masterLabel>Countries</masterLabel>
     <sorted>false</sorted>
 </GlobalValueSet>

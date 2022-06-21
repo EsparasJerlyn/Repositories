@@ -135,6 +135,7 @@
         <members>Product_Request__c.Implementation_Year__c</members>
         <members>Product_Specification__c.Product_Sub_Type__c</members>
         <members>Product_Request__c.Professional_Advantage_Value__c</members>
+        <members>Marketing_Staging__c.Country_Of_Residence__c</members>
         <name>CustomField</name>
     </types>
     <types>
