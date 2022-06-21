@@ -1542,11 +1542,17 @@ ul.slds-accordion.searchResult .slds-form-element__label {
   margin-left: 2rem;
 }
 
-/*cartdetails registration question checkbox */
-.checkboxLayout [lightning-input c-cartdetails_cartdetails] .slds-checkbox__label{
-  display: none;
-  }
-  
+/*groupbookingform */
+[c-groupbookingform_groupbookingform] button.slds-button[title="Delete"]{
+  border-color: #fffff !important;
+  border:1px solid #fff;
+}
+
+/*cartdetails */
+[c-cartdetails_cartdetails] input.slds-input[disabled],[c-cartdetails_cartdetails] textarea.slds-textarea[disabled]{
+  color: #000000 !important;
+}
+
 .checkboxLayout [c-cartdetails_cartdetails] .slds-checkbox__label{
   font-family: "ProximaNova-Bold";
   top: -2px;
