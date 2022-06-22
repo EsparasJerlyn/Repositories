@@ -868,6 +868,10 @@ a.reversed:hover{
 }
 
 /** MODALS **/
+[c-applicationquestionnaire_applicationquestionnaire] .slds-grid.slds-gutters.slds-wrap {
+  display: block;
+}
+
 [c-productdetailsdisplay_productdetailsdisplay].modal-content,
 [c-productdetailsdisplayinternal_productdetailsdisplayinternal].modal-content,
 [c-prescribedprograminternal_prescribedprograminternal].modal-content, 
@@ -1487,6 +1491,7 @@ div.main-container-bc [role=navigation] ol.slds-breadcrumb li:nth-child(n+4) p.d
 [c-applicationquestionnaire_applicationquestionnaire] span.slds-form-element__label{
   margin-bottom: 0.5rem;
   color: var(--greys-color-bodytext);
+  display: flow-root;
 }
 
 [lightning-basecombobox_basecombobox] .slds-combobox__input, 
@@ -1530,7 +1535,7 @@ div.main-container-bc [role=navigation] ol.slds-breadcrumb li:nth-child(n+4) p.d
 [c-applicationquestionnaire_applicationquestionnaire] .slds-textarea {
   border-radius: 0px !important;
   height: 47px;
-  padding: 15px 10px 10px 15px;
+  padding: 12px;
 }
 
 @media screen and (max-width: 1440px) {
