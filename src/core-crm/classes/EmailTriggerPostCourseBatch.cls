@@ -1,6 +1,7 @@
 public with sharing class EmailTriggerPostCourseBatch implements Database.Batchable<EmailWrapper>{          
 
     public Iterable<EmailWrapper> start(Database.BatchableContext bc) {
+        Id studentRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByName().get('Student').getRecordTypeId();
         List<EmailWrapper> wrapperList = new List<EmailWrapper>();
         try{
             // Get all records from Course Connection (API Name: hed__Course_Enrollment__c)
@@ -13,9 +14,9 @@ public with sharing class EmailTriggerPostCourseBatch implements Database.Batcha
                                                             hed__Contact__r.FirstName,
                                                             hed__Contact__r.LastName,
                                                             hed__Contact__r.Email,
-                                                    		 hed__Course_Offering__r.hed__Course__r.Name
+                                                    		hed__Course_Offering__r.hed__Course__r.Name
                                                     FROM hed__Course_Enrollment__c
-                                                    WHERE Id != Null AND Course_Offering_End_Date__c =:yesterday];
+                                                    WHERE Id != Null AND RecordTypeId =:studentRecTypeId AND Course_Offering_End_Date__c =:yesterday];
 
             Set<Id> courseIdList = new Set<Id>();
             for(hed__Course_Enrollment__c loopCourseEnroll : courseEnrollmentList){  
