@@ -23,6 +23,8 @@ src/core-crm/classes/OPE_and_CCE_Username_FormatTest.cls
 src/core-crm/classes/OPE_and_CCE_Username_FormatTest.cls-meta.xml
 src/core-crm/classes/ProductEntitlement_FlowTest.cls
 src/core-crm/classes/ProductEntitlement_FlowTest.cls-meta.xml
+src/core-crm/classes/PricebookEntryCtrlTest.cls
+src/core-crm/classes/PricebookEntryCtrlTest.cls-meta.xml
 src/core-crm/experiences/CCE1/routes/feedDetail.json
 src/core-crm/experiences/CCE1/routes/newsDetail.json
 src/core-crm/experiences/CCE1/views/feedDetail.json
