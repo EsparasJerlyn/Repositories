@@ -468,6 +468,8 @@ export default class GroupBookingForm extends LightningElement {
                 })
 
         }else{
+
+            this.processing = false;
             const evt = new ShowToastEvent({
                             title: 'Toast Error',
                             message: 'Please fill up all added participants before proceed',

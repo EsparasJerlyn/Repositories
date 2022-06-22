@@ -422,24 +422,22 @@ public with sharing class CartItemCtrlTest {
   static void getCartItemDiscountTest() {
     WebCart cart = [SELECT Id, Name FROM WebCart LIMIT 1];
 
-    Double discount;
-    Double discount2;
+    List<CartItemCtrl.DiscountData> discount = new List<CartItemCtrl.DiscountData>();
+    List<CartItemCtrl.DiscountData> discount2 = new List<CartItemCtrl.DiscountData>();
 
     Test.startTest();
     discount = CartItemCtrl.getCartItemDiscount(
       cart.Id,
-      'TESTCOUP',
-      1000
+      'TESTCOUP'
     );
     discount2 = CartItemCtrl.getCartItemDiscount(
       cart.Id,
-      'TESTCOUP2',
-      2000
+      'TESTCOUP2'
     );
     Test.stopTest();
 
-    System.assert(discount !=null,  'Incorrect calculation');
-    System.assert(discount2 !=null ,  'Incorrect calculation');
+    System.assert(discount.size() != 0, 'Incorrect calculation');
+    System.assert(discount2.size() != 0 , 'Incorrect calculation');
   }
 
   @IsTest

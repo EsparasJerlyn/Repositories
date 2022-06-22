@@ -99,11 +99,11 @@ public without sharing class ManageRegistrationSectionCtrl {
                     AND (hed__Course_Offering__c =: childRecordId OR (Program_Offering__c  =: childRecordId AND hed__Course_Offering__c = null ))
           ];
           
-          //must handle program offering too
           Map<String, PricebookEntry> pbeList = new Map<String, PricebookEntry>();
-          Id prodId = getProductId(childRecordId, prescribedProgram);
+          
+          Product2 product = getProduct(childRecordId, prescribedProgram);
           List<Map<String,String>> pBEntries = new List<Map<String,String>>();
-          List<PricebookEntry> priceBookEntries = [SELECT Id, UnitPrice, Pricebook2.Name FROM PricebookEntry WHERE Product2Id =: prodId ORDER BY CreatedDate];
+          List<PricebookEntry> priceBookEntries = [SELECT Id, UnitPrice, Pricebook2.Name FROM PricebookEntry WHERE Product2Id =: product.Id ORDER BY CreatedDate];
           for(PricebookEntry p : priceBookEntries){   
                pbeList.put(p.Id, p);
           }
@@ -147,7 +147,8 @@ public without sharing class ManageRegistrationSectionCtrl {
                          student.Cart_ID__r.External_Id__c, 
                          student.hed__Contact__r.Email,
                          student.hed__Contact__r.Name,
-                         student.Cart_ID__r.TotalAmount
+                         student.Cart_ID__r.TotalAmount,
+                         product.Name
 
                     );
                }
@@ -166,17 +167,18 @@ public without sharing class ManageRegistrationSectionCtrl {
       * @param <Decimal> amount
       * @return String - URL Generated
       */
-     private static String paymentGatewayURLBuilder(String cartExternalId, String email, String name, Decimal amount){
+     private static String paymentGatewayURLBuilder(String cartExternalId, String email, String name, Decimal amount, String productName){
 
           Payment_Gateway_Settings__c paymentGatewaySettings = Payment_Gateway_Settings__c.getorgdefaults();
 
           return paymentGatewaySettings.Payment_URL__c +
                'tran-type=' + paymentGatewaySettings.TransType_Invoice__c +
-               '&OPETRANSACTIONID=' + cartExternalId +
-               '&EMAIL=' + email +
-               '&FULLNAME=' + name +
-               '&GLCODE=' + paymentGatewaySettings.GL_Code__c +
-               '&UNITAMOUNTINCTAX=' + String.valueOf(amount);
+               '&OPETransactionID=' + cartExternalId +
+               '&OPEDescription=' + productName +
+               '&Email=' + email +
+               '&FullName=' + name +
+               '&GLCode=' + paymentGatewaySettings.GL_Code__c +
+               '&UnitAmountIncTax=' + String.valueOf(amount);
      }
 
      /**
@@ -293,9 +295,9 @@ public without sharing class ManageRegistrationSectionCtrl {
       */
      @AuraEnabled(cacheable=true)  
      public static List<Map<String,String>> getPBEntries(String childRecordId, Boolean prescribedProgram){
-          Id prodId = getProductId(childRecordId, prescribedProgram);
+          Product2 product = getProduct(childRecordId, prescribedProgram);
           List<Map<String,String>> pBEntries = new List<Map<String,String>>();
-          List<PricebookEntry> priceBookEntries = [SELECT Id, Pricebook2.Name FROM PricebookEntry WHERE Product2Id =: prodId ORDER BY CreatedDate];
+          List<PricebookEntry> priceBookEntries = [SELECT Id, Pricebook2.Name FROM PricebookEntry WHERE Product2Id =: product.Id ORDER BY CreatedDate];
           for(PricebookEntry pe : priceBookEntries){
                pBEntries.add(new Map<String,String>{
                     'id' => pe.Id,
@@ -468,25 +470,28 @@ public without sharing class ManageRegistrationSectionCtrl {
 
           Id commerceUser = createUser(contactRecEmail, contactRecLname, contactRecFname, contactRecord.Id);           
           WebCart newWebCart = createWebCart(commerceUser);
-
           insert newWebCart;
-          Id prodId = getProductId(offeringId, prescribedProgram);
 
-          Id pbeId;
+          Product2 product = getProduct(offeringId, prescribedProgram);
+          PricebookEntry pbe = new PricebookEntry();
           Decimal amount;
-          List<PricebookEntry> pbList = [SELECT Id, UnitPrice FROM PricebookEntry WHERE Id =: priceBookEntryId LIMIT 1];
+          List<PricebookEntry> pbList = [SELECT Id, UnitPrice, Product2Id FROM PricebookEntry WHERE Id =: priceBookEntryId LIMIT 1];
           for(PricebookEntry pb : pbList){
-               pbeId = pb.Id;
+               pbe = pb;
                amount = pb.UnitPrice;
           }
 
-          CartItem newCartItem = createCartItem(offeringId, newWebCart.Id, pbeId, prescribedProgram, prodId);
+          CartItem newCartItem = createCartItem(offeringId, newWebCart.Id, pbe, prescribedProgram, product.Id);
           insert newCartItem;
 
           Cart_Payment__c cartPayment = new Cart_Payment__c(Status__c = 'Invoiced');
           insert cartPayment;
 
-          String paymentURL = paymentGatewayURLBuilder(newWebCart.External_Id__c, contactRecEmail, contactRecName, amount);
+          String externalId;
+          List<WebCart> carts = [SELECT External_Id__c FROM WebCart WHERE OwnerId =: commerceUser LIMIT 1]; 
+          for(WebCart webCart : carts){ externalId = webCart.External_Id__c; }
+
+          String paymentURL = paymentGatewayURLBuilder(externalId, contactRecEmail, contactRecName, amount, product.Name);
           
           WebCart webCartToClose = new WebCart(
                Id = newWebCart.Id, 
@@ -613,7 +618,7 @@ public without sharing class ManageRegistrationSectionCtrl {
      * @param <Id> prodId - product
      * @return CartItem
      */
-     private Static CartItem createCartItem(Id offeringId, Id newWebCartId, Id pbeId, Boolean prescribedProgram, Id prodId){
+     private Static CartItem createCartItem(Id offeringId, Id newWebCartId, PricebookEntry pbe, Boolean prescribedProgram, Id prodId){
           List<CartDeliveryGroup> cartDelGrpList = [SELECT Id FROM CartDeliveryGroup WHERE Name = 'Default Delivery' LIMIT 1];
           Id cartDelGrpId;
           for(CartDeliveryGroup cdg : cartDelGrpList) { cartDelGrpId = cdg.Id; }
@@ -627,18 +632,21 @@ public without sharing class ManageRegistrationSectionCtrl {
           }else{
                cartItem.Program_Offering__c = offeringId;
           }
-          cartItem.Product2Id = prodId;
-          cartItem.Pricebook_Entry_ID__c = pbeId;
+          cartItem.Product2Id = pbe.Product2Id;
+          cartItem.Pricebook_Entry_ID__c = pbe.Id;
           cartItem.Quantity = 1;
+          cartItem.TotalPrice = pbe.UnitPrice;
+          cartItem.Type = 'Product';
           return cartItem;
      }
 
      /**
-     * Creates commerce user based on contact details
+     * Retrieves Product based on offering id
      * @param <Id> offeringId
      * @return Id
      */
-     private static Id getProductId(Id offeringId, Boolean isPrescribedProgram){
+     private static Product2 getProduct(Id offeringId, Boolean isPrescribedProgram){
+          Product2 response = new Product2();
 
           Id filter;
           Id prodId;
@@ -650,20 +658,20 @@ public without sharing class ManageRegistrationSectionCtrl {
                for(hed__Course_Offering__c courseOffering : courseOfferingList){
                     filter = courseOffering.hed__Course__c;
                }
-               productList = [SELECT Id FROM Product2 WHERE Course__c =: filter];
+               productList = [SELECT Id, Name FROM Product2 WHERE Course__c =: filter];
           }else{
                List<Program_Offering__c> programOfferingList = [SELECT Id, hed_Program_Plan__c  FROM Program_Offering__c WHERE Id =: offeringId LIMIT 1];
                for(Program_Offering__c programOffering : programOfferingList){
                     filter = programOffering.hed_Program_Plan__c;
                }
-               productList = [SELECT Id FROM Product2 WHERE Program_Plan__c  =: filter];
+               productList = [SELECT Id, Name FROM Product2 WHERE Program_Plan__c  =: filter];
           }
 
           for(Product2 prod : productList){
-               prodId = prod.Id;
+               response = prod;
           }
           
-          return prodId;
+          return response;
      }
 
      private static ContentVersion createContentVersion(String base64, String filename) {

@@ -86,7 +86,8 @@ export default class PaymentConfirmation extends LightningElement {
         });
 
         //get the the WebCart data
-        getCartData({ externalId: this.parameters.WebcartExternal_ID__c, userId: userId }).then((data) => {
+        getCartData({ externalId: this.parameters.WebcartExternal_ID__c, userId: userId }).
+        then((data) => {
             this.contactEmail = this.parameters.Email?this.parameters.Email:data.contactEmail;
             this.cartId = data.cartId;
             this.cartItems = data.cartItemsList;
@@ -144,7 +145,11 @@ export default class PaymentConfirmation extends LightningElement {
             let fields = {};
             fields[ID_FIELD.fieldApiName] = this.cartPayment;
             fields[PAYMENT_STATUS_FIELD.fieldApiName] = this.paymentStatus;
-            fields[EMAIL_FIELD.fieldApiName] = this.parameters.Email?this.parameters.Email:data.contactEmail;
+            if(this.parameters.Email){
+                fields[EMAIL_FIELD.fieldApiName] = this.parameters.Email;
+            }else{
+                fields[EMAIL_FIELD.fieldApiName] = data.contactEmail;
+            }
             fields[INVOICE_FIELD.fieldApiName] = this.parameters.InvoiceNo;
             fields[RECEIPT_FIELD.fieldApiName] = this.parameters.ReceiptNo;
             fields[STATUS_FIELD.fieldApiName] = 'Closed';

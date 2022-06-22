@@ -349,6 +349,7 @@
                                                 <!--  <p class="bodyBold pt2 pb1">Questions</p> -->
 
                                          <!-- Questions goes here -->
+                                    <div class="slds-size_4-of-4 slds-medium-size_2-of-4 slds-large-size_2-of-4 mt1">     
                                          <lightning-layout multiple-rows size="12">
                                             <template for:each={currentItem.relatedAnswers} for:item="question" for:index="index"> 
                                                 <lightning-layout-item size="12" padding="around-small" key={question.Id}>
@@ -460,6 +461,7 @@
                                                 </lightning-layout-item>
                                             </template>
                                         </lightning-layout>
+                                    </div>    
 
 
                     
@@ -545,6 +547,10 @@
                         <p class="bodyBold py2">Discount code</p>
                         <lightning-input data-id="discountField" name={productIndex} type="text" variant="label-hidden" class="pr1"></lightning-input>
                     </div>         
+
+                    <template if:true={showInvalidDiscount}>
+                        <p class="warning-label slds-m-left_small">Invalid code.</p>
+                    </template>
                 </div>
                 <div class="slds-size_4-of-12">
                     <p class="py2">&nbsp;</p>
@@ -625,8 +631,7 @@
             </div>
             <template if:false={disablePayment}>
                 <div class="btn-container">
-                    <!-- <a class="btn-link" onclick={handleConfirmReg}> -->
-                    <a class="btn-link" target="_blank" href={paymentConURL}>
+                    <a class="btn-link" target="_blank" onclick={confirmRegistration}>
                         <p class="btn-title bodyBold pb2"><strong>Confirmation Registration</strong></p>
                     </a>
                 </div>
