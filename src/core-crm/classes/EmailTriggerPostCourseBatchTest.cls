@@ -50,17 +50,11 @@ public with sharing class EmailTriggerPostCourseBatchTest {
               courses,
               terms
             );
-            for(hed__Course_Offering__c course: courseOfferings){
-                
-               course.Delivery_Type__c = 'Brisbane Classroom';
-            }
-           
             insert courseOfferings;
       
             List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(
               10
             );
-            programPlans[0].Delivery_Type__c = 'Brisbane Classroom';
             insert programPlans;
       
             List<Communication_Schedule__c> commSchedules = TestDataFactory.createTestCommunicationScheduleRecords(
