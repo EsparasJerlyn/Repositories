@@ -6,11 +6,26 @@
 src/core-crm-post/duplicateRules/hed__Course__c.Course_Duplicate_Rule.duplicateRule-meta.xml
 src/core-crm-post/duplicateRules/hed__Program_Plan__c.Program_Plan_Duplicate_Rule.duplicateRule-meta.xml
 src/core-crm-post/profiles/Study Profile.profile-meta.xml
+src/core-crm/classes/AddProductRequestCtrl.cls
+src/core-crm/classes/AddProductRequestCtrl.cls-meta.xml
+src/core-crm/classes/AddProductRequestCtrlTest.cls
+src/core-crm/classes/AddProductRequestCtrlTest.cls-meta.xml
+src/core-crm/classes/B2BGetInfo.cls
+src/core-crm/classes/B2BGetInfo.cls-meta.xml
+src/core-crm/classes/B2BGetInfoTest.cls
+src/core-crm/classes/B2BGetInfoTest.cls-meta.xml
 src/core-crm/classes/Create_Product_on_Course_InsertTest.cls
+src/core-crm/classes/Create_Product_on_Course_InsertTest.cls-meta.xml
 src/core-crm/classes/Create_Product_on_Prog_Plan_InsertTest.cls
 src/core-crm/classes/Create_Product_on_Prog_Plan_InsertTest.cls-meta.xml
 src/core-crm/classes/EmailHelper.cls
 src/core-crm/classes/EmailHelper.cls-meta.xml
+src/core-crm/classes/EmailHelperTest.cls
+src/core-crm/classes/EmailHelperTest.cls-meta.xml
+src/core-crm/classes/EmailTemplateCtrl.cls
+src/core-crm/classes/EmailTemplateCtrl.cls-meta.xml
+src/core-crm/classes/EmailTemplateCtrlTest.cls
+src/core-crm/classes/EmailTemplateCtrlTest.cls-meta.xml
 src/core-crm/classes/MarketingStagingTriggerHandlerTest.cls
 src/core-crm/classes/MarketingStagingTriggerHandlerTest.cls-meta.xml
 src/core-crm/classes/GenerateCodeCtrl.cls
@@ -21,6 +36,10 @@ src/core-crm/classes/OPE_and_CCE_Username_FormatTest.cls
 src/core-crm/classes/OPE_and_CCE_Username_FormatTest.cls-meta.xml
 src/core-crm/classes/ProductEntitlement_FlowTest.cls
 src/core-crm/classes/ProductEntitlement_FlowTest.cls-meta.xml
+src/core-crm/classes/PricebookEntryCtrl.cls
+src/core-crm/classes/PricebookEntryCtrl.cls-meta.xml
+src/core-crm/classes/PricebookEntryCtrlTest.cls
+src/core-crm/classes/PricebookEntryCtrlTest.cls-meta.xml
 src/core-crm/experiences/CCE1/routes/feedDetail.json
 src/core-crm/experiences/CCE1/routes/newsDetail.json
 src/core-crm/experiences/CCE1/views/feedDetail.json
