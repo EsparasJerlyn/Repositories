@@ -60,7 +60,7 @@ public with sharing class EmailTriggerPreSessionBatchTest {
             List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(
               10
             );
-            programPlans[0].Delivery_Type__c = 'Face-to-Face';
+          
             insert programPlans;
       
             List<Communication_Schedule__c> commSchedules = TestDataFactory.createTestCommunicationScheduleRecords(
