@@ -50,6 +50,9 @@ public with sharing class EmailTriggerPostCourseBatchTest {
               courses,
               terms
             );
+            for(hed__Course_Offering__c offering : courseOfferings){
+                offering.hed__End_Date__c = Date.today()-1;
+            }
             insert courseOfferings;
       
             List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(
