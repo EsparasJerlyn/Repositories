@@ -1,7 +1,7 @@
 public with sharing class EmailTriggerFaceToFaceBatch implements Database.Batchable<EmailWrapper>{          
 
     public Iterable<EmailWrapper> start(Database.BatchableContext bc) {
-        Id studentRecTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Student').getRecordTypeId();
+        Id studentRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByName().get('Student').getRecordTypeId();
         List<EmailWrapper> wrapperList = new List<EmailWrapper>();
         Set<String> faceToFaceSet = new Set<String>{'Brisbane Classroom',
                                                     'Canberra Classroom',
