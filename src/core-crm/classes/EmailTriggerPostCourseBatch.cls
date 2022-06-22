@@ -2,7 +2,6 @@ public with sharing class EmailTriggerPostCourseBatch implements Database.Batcha
 
     public Iterable<EmailWrapper> start(Database.BatchableContext bc) {
         List<EmailWrapper> wrapperList = new List<EmailWrapper>();
-        Id studentRecTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Student').getRecordTypeId();
         try{
             // Get all records from Course Connection (API Name: hed__Course_Enrollment__c)
             Date yesterday = Date.today()-1;
@@ -13,10 +12,10 @@ public with sharing class EmailTriggerPostCourseBatch implements Database.Batcha
                                                             hed__Course_Offering__r.Name,
                                                             hed__Contact__r.FirstName,
                                                             hed__Contact__r.LastName,
-                                                            hed__Contact__r.Email
+                                                            hed__Contact__r.Email,
+                                                    		 hed__Course_Offering__r.hed__Course__r.Name
                                                     FROM hed__Course_Enrollment__c
-                                                    WHERE RecordTypeId =:studentRecTypeId 
-                                                    AND Id != Null AND Course_Offering_End_Date__c =:yesterday];
+                                                    WHERE Id != Null AND Course_Offering_End_Date__c =:yesterday];
 
             Set<Id> courseIdList = new Set<Id>();
             for(hed__Course_Enrollment__c loopCourseEnroll : courseEnrollmentList){  
@@ -28,7 +27,7 @@ public with sharing class EmailTriggerPostCourseBatch implements Database.Batcha
                 Set<Id> coursesAllowedEmail = new Set<Id>();
                 for(Communication_Schedule__c commSched : [SELECT Id, Course__c 
                                                             FROM Communication_Schedule__c 
-                                                            WHERE Course__c IN :courseIdList AND Email_on_completion__c = TRUE]){
+                                                            WHERE Course__c IN :courseIdList AND Email_on_completion__c = true]){
                     coursesAllowedEmail.add(commSched.Course__c);
                 }
 
