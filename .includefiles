@@ -11,6 +11,8 @@ src/core-crm/classes/Create_Product_on_Prog_Plan_InsertTest.cls
 src/core-crm/classes/Create_Product_on_Prog_Plan_InsertTest.cls-meta.xml
 src/core-crm/classes/EmailHelper.cls
 src/core-crm/classes/EmailHelper.cls-meta.xml
+src/core-crm/classes/EmailHelperTest.cls
+src/core-crm/classes/EmailHelperTest.cls-meta.xml
 src/core-crm/classes/MarketingStagingTriggerHandlerTest.cls
 src/core-crm/classes/MarketingStagingTriggerHandlerTest.cls-meta.xml
 src/core-crm/classes/GenerateCodeCtrl.cls
