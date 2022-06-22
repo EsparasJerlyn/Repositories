@@ -1,10 +1,15 @@
 public with sharing class EmailTriggerFaceToFaceBatch implements Database.Batchable<EmailWrapper>{          
 
     public Iterable<EmailWrapper> start(Database.BatchableContext bc) {
-
+        Id studentRecTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Student').getRecordTypeId();
         List<EmailWrapper> wrapperList = new List<EmailWrapper>();
         try{
-           List<hed__Course_Enrollment__c>  courseEnrollmentList = [select Id, hed__Course_Offering__r.Delivery_Type__c, Course_Offering_Start_Date__c, hed__Course_Offering__r.hed__Course__r.Id from hed__Course_Enrollment__c WHERE Id != Null AND Course_Offering_Start_Date__c >= TODAY AND hed__Course_Offering__r.Delivery_Type__c = 'Face-to-Face'];
+           List<hed__Course_Enrollment__c>  courseEnrollmentList = [SELECT Id, hed__Course_Offering__r.Delivery_Type__c, 
+           Course_Offering_Start_Date__c, hed__Course_Offering__r.hed__Course__r.Id 
+                                                                    FROM hed__Course_Enrollment__c 
+                                                                    WHERE RecordTypeId =:studentRecTypeId  
+                                                                    AND Id != Null AND Course_Offering_Start_Date__c >= TODAY 
+                                                                    AND hed__Course_Offering__r.Delivery_Type__c = 'Face-to-Face'];
            List<Id> courseIdList = new List<Id>();
 
            for(hed__Course_Enrollment__c loopCourseEnroll : courseEnrollmentList){ 
