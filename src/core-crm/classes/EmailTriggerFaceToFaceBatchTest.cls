@@ -50,11 +50,6 @@ public with sharing class EmailTriggerFaceToFaceBatchTest {
               courses,
               terms
             );
-            for(hed__Course_Offering__c course: courseOfferings){
-                
-                course.Delivery_Type__c = 'Brisbane Classroom';
-            }
-           
             insert courseOfferings;
       
             List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(
