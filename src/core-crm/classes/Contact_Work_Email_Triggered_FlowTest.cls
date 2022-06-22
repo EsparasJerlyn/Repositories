@@ -51,6 +51,7 @@ public with sharing class Contact_Work_Email_Triggered_FlowTest {
             cons[0].QUT_Staff_Email__c = 'test_staff@email.com';
             cons[0].QUT_Learner_Email__c = 'test_learner@email.com';
             cons[0].hed__Preferred_Email__c = 'Work Email';
+            cons[0].hed__WorkEmail__c = 'test_work@email.com';
             insert cons;
             Test.stopTest();
         }

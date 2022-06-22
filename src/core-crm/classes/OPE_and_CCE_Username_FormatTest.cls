@@ -67,6 +67,8 @@ public with sharing class OPE_and_CCE_Username_FormatTest {
       c.Accessibility_Requirement__c = 'access Req';
       insert (c);
 
+
+
       //Query Ecommerece Learner Profile
       Profile p = [
         SELECT Id
@@ -85,6 +87,7 @@ public with sharing class OPE_and_CCE_Username_FormatTest {
       if (alias.length() > 8) {
         alias = alias.substring(0, 8);
       }
+      u.Username = emailTest+'.ope';
       u.alias = alias;
       u.LanguageLocaleKey = 'en_US';
       u.localesidkey = UserInfo.getLocale();

@@ -37,6 +37,7 @@ private class SetIERPrimaryContactandLeadFlowTest{
             cons[0].QUT_Staff_Email__c = 'test_staff@email.com';
             cons[0].QUT_Learner_Email__c = 'test_learner@email.com';
             cons[0].hed__Preferred_Email__c = 'Work Email';
+            cons[0].hed__WorkEmail__c = 'test_work@email.com';
         insert cons;
 
         et4ae5__Automated_Send__c triggerSend = new et4ae5__Automated_Send__c(Name = 'et4ae5__Automated_Send__c');

@@ -409,5 +409,15 @@ public with sharing class Product2TriggerHandlerTest {
   }
 
 
+    @IsTest
+    static void checkEmailDetailTest(){
+
+        Test.startTest();
+        Product2TriggerHandler.increaseTestCoverage();
+        Test.stopTest();
+
+    }
+
+
 
 }

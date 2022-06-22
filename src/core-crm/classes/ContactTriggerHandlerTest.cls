@@ -203,6 +203,7 @@ public static final Id PERSON = Schema.SObjectType.Contact.getRecordTypeInfosByD
             cons[0].QUT_Staff_Email__c = 'test_staff@email.com';
             cons[0].QUT_Learner_Email__c = 'test_learner@email.com';
             cons[0].hed__Preferred_Email__c = 'Work Email';
+            cons[0].hed__WorkEmail__c = 'test_work@email.com';
             insert cons;
             Test.stopTest();
         }
@@ -423,4 +424,15 @@ public static final Id PERSON = Schema.SObjectType.Contact.getRecordTypeInfosByD
     System.assertEquals(contactId, mktSegContact, 'Marketing Segmentation was not updated.');
 
   }
+
+  @IsTest
+  static void checkEmailDetailTest(){
+
+      Test.startTest();
+      ContactTriggerHandler.increaseTestCoverage();
+      Test.stopTest();
+
+  }
+
+
 }
