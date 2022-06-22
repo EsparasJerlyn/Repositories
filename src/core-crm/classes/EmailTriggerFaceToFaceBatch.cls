@@ -3,36 +3,45 @@ public with sharing class EmailTriggerFaceToFaceBatch implements Database.Batcha
     public Iterable<EmailWrapper> start(Database.BatchableContext bc) {
         Id studentRecTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Student').getRecordTypeId();
         List<EmailWrapper> wrapperList = new List<EmailWrapper>();
+        Set<String> faceToFaceSet = new Set<String>{'Brisbane Classroom',
+                                                    'Canberra Classroom',
+                                                    'Melbourne Classroom',
+                                                    'Sydney Classroom'};
         try{
-           List<hed__Course_Enrollment__c>  courseEnrollmentList = [SELECT Id, hed__Course_Offering__r.Delivery_Type__c, 
-           Course_Offering_Start_Date__c, hed__Course_Offering__r.hed__Course__r.Id 
+           List<hed__Course_Enrollment__c>  courseEnrollmentList = [SELECT Id, 
+                                                                            hed__Course_Offering__r.Delivery_Type__c, 
+                                                                            Course_Offering_Start_Date__c,
+                                                                            hed__Course_Offering__r.hed__Course__r.Id 
                                                                     FROM hed__Course_Enrollment__c 
                                                                     WHERE RecordTypeId =:studentRecTypeId  
-                                                                    AND Id != Null AND Course_Offering_Start_Date__c >= TODAY 
-                                                                    AND hed__Course_Offering__r.Delivery_Type__c = 'Face-to-Face'];
+                                                                        AND Id != Null
+                                                                        AND Course_Offering_Start_Date__c >= TODAY 
+                                                                        AND hed__Course_Offering__r.Delivery_Type__c IN :faceToFaceSet];
            List<Id> courseIdList = new List<Id>();
-
            for(hed__Course_Enrollment__c loopCourseEnroll : courseEnrollmentList){ 
-              courseIdList.add(loopCourseEnroll.hed__Course_Offering__r.hed__Course__r.Id);         
-
+              courseIdList.add(loopCourseEnroll.hed__Course_Offering__r.hed__Course__r.Id);
            }
 
            if (!courseIdList.isEmpty()){
-            List<Communication_Schedule__c>  courseList = [select Id, Email_on_final_confirmation__c from Communication_Schedule__c WHERE Course__c IN :courseIdList AND Email_on_final_confirmation__c = true];
-
+            List<Communication_Schedule__c>  courseList = [SELECT Id, 
+                                                                Email_on_final_confirmation__c 
+                                                            FROM Communication_Schedule__c 
+                                                            WHERE Course__c IN :courseIdList 
+                                                                AND Email_on_final_confirmation__c = true];
                 if (!courseList.isEmpty()){
-
-                    List<Session__c>  sessionList = [Select Id, Date__c, Course_Offering__r.hed__Course__r.Name, Course_Connection__r.hed__Contact__r.FirstName, Course_Connection__r.hed__Contact__r.LastName, Course_Connection__r.hed__Contact__r.Email FROM Session__c WHERE Course_Offering__r.hed__Course__r.Id IN :courseIdList ];
-
+                    List<Session__c>  sessionList = [SELECT Id, 
+                                                            Date__c, 
+                                                            Course_Offering__r.hed__Course__r.Name,
+                                                            Course_Connection__r.hed__Contact__r.FirstName, 
+                                                            Course_Connection__r.hed__Contact__r.LastName, 
+                                                            Course_Connection__r.hed__Contact__r.Email 
+                                                    FROM Session__c WHERE Course_Offering__r.hed__Course__r.Id IN :courseIdList ];
                     if (!sessionList.isEmpty()){
                         List<Session__c> sessionList2 = new List<Session__c>();  
-                        
                         for (Session__c  val : sessionList ){
-                            
                             Date mydate = val.Date__c;
                             Date today = Date.today();
                             Integer noOfDays = mydate.daysBetween(today);
-
                             if (noOfdays== -1){  
                                 sessionList2.add(val);    
                             }
@@ -40,9 +49,7 @@ public with sharing class EmailTriggerFaceToFaceBatch implements Database.Batcha
 
                         if (!sessionList2.isEmpty()){
                             EmailWrapper wrapper;
-                        
                             for (Session__c  val : sessionList2 ){ 
-
                                 wrapper = new EmailWrapper();
                                 wrapper.recordId = val.Course_Connection__c;
                                 wrapper.name = val.Course_Offering__r.hed__Course__r.Name;
@@ -50,7 +57,6 @@ public with sharing class EmailTriggerFaceToFaceBatch implements Database.Batcha
                                 wrapper.lastName = val.Course_Connection__r.hed__Contact__r.LastName;
                                 wrapper.toAddress = val.Course_Connection__r.hed__Contact__r.Email;
                                 wrapperList.add(wrapper);
-
                             }      
                         }                             
                     }
