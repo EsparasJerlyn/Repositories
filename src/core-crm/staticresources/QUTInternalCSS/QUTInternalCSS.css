@@ -1613,3 +1613,8 @@ ul.slds-accordion.searchResult .slds-form-element__label {
   margin: inherit;
   }
 }
+
+/*groupbookingform*/
+[c-groupbookingform_groupbookingform].mobile-locale.p1.slds-form-element {
+	margin-top: -7px;
+}

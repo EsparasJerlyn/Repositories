@@ -198,6 +198,24 @@ public with sharing class RegistrationFormCtrlTest {
   }
 
   @isTest
+  static void getUserMobileLocale(){
+    String uniqueID = GenerateUniqueId.getUUID();
+    String emailTest = 'testUser' + uniqueID + '@test.com';
+
+    Contact testContact = new Contact();
+    testContact.Birthdate = Date.newInstance(1999, 1, 1);
+    testContact.ContactMobile_Locale__c = 'Australia (+61)';
+    testContact.Email = emailTest;
+    testContact.LastName = 'User';
+    insert testContact;
+
+    Test.startTest();
+    String getMLocale = RegistrationFormCtrl.getUserMobileLocale(testContact.Id);
+    System.assert(getMLocale != null, 'User has no mobile locale.');
+    Test.stopTest();
+  }
+
+  @isTest
   static void getMobileLocaleOptionsTest() {
     Test.startTest();
     System.runAs(PORTAL_SYS_ADMIN) {

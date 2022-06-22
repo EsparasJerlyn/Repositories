@@ -171,3 +171,17 @@ margin-bottom: 0.5rem;
   hyphens: auto;
   display: inline-block;
 }
+
+/* .mobile-locale {
+  width: 238px;
+  padding-left: 4px
+}
+
+[lightning-input].birth-date-field.slds-form-element {
+  width: 233px;
+  margin-left: 4px;
+}
+
+.mobile-number .slds-form-element .slds-form-element__stacked {
+  margin-top: 8px;
+} */

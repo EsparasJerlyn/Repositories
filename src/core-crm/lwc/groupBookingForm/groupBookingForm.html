@@ -56,10 +56,13 @@
                                                     <lightning-input-field  required="true" field-name="LastName" onchange={handleLastnameChange}></lightning-input-field>
                                                 </div>
                                                 <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
-                                                    <lightning-input-field  required="true" field-name="Email" onchange={handleEmailChange}></lightning-input-field>
-                                                </div>
+                                                    <lightning-combobox required="true" placeholder={localeConMobile} class="mobile-locale p1" label="Country Code" options={localeOptions} value={locale} onchange={handleLocaleChange}></lightning-combobox>
+                                                </div>                                                
                                                 <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
                                                     <lightning-input-field required="true" field-name="MobilePhone" ></lightning-input-field>
+                                                </div>
+                                                <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+                                                    <lightning-input-field  required="true" field-name="Email" onchange={handleEmailChange}></lightning-input-field>
                                                 </div>
                                                 <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
                                                     <label for="Birthdate" class="birthDate">Date of Birth</label>
@@ -200,11 +203,14 @@
                                                     <lightning-input class="inputField" required="true" name="LastName" label="Last Name" key={item.id}></lightning-input>
                                                 </div> 
                                                 <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
-                                                    <lightning-input class="inputField" type="email" required="true" name="Email" label="Email" key={item.id}></lightning-input >
+                                                    <lightning-combobox class="inputField mobile-locale px" required="true" placeholder="Select Locale" label="Country Code" options={localeOptions} name="ContactMobile_Locale__c" key={item.id}></lightning-combobox>
                                                 </div>
                                                 <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">   
                                                     <lightning-input class="inputField" required="true" name="MobilePhone" label="Mobile" key={item.id}></lightning-input>
-                                                    </div>
+                                                </div>
+                                                <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+                                                    <lightning-input class="inputField" type="email" required="true" name="Email" label="Email" key={item.id}></lightning-input >
+                                                </div>
                                                 <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
                                                     <lightning-input name="Birthdate"  required="true" label="Date of Birth" type="date" key={item.id}></lightning-input>
                                                 </div>

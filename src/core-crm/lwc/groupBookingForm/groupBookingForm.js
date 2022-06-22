@@ -18,6 +18,8 @@ import LWC_Error_General from "@salesforce/label/c.LWC_Error_General";
 import communityId from "@salesforce/community/Id";
 import { loadStyle } from "lightning/platformResourceLoader";
 import customSR from "@salesforce/resourceUrl/QUTInternalCSS";
+import getMobileLocaleOptions from "@salesforce/apex/RegistrationFormCtrl.getMobileLocaleOptions";
+import getUserMobileLocale from "@salesforce/apex/RegistrationFormCtrl.getUserMobileLocale";
 
 const SUCCESS_MSG = 'Record successfully updated.';
 const SUCCESS_TITLE = 'Success!';
@@ -89,12 +91,16 @@ export default class GroupBookingForm extends LightningElement {
     @track firstName;
     @track lastName;
     @track contactEmail;
+    @track contactMobileLocale;
     @track amount;
     @track xString;
     cartItems;
     processing;
     
-    
+    localeOptions = [];
+    localeDisplayName;
+    localeConMobile;
+    @track locale;
 
 @wire(getRecord, { recordId: userId, fields: CONTACT_FIELDS })
     wiredContact({ error, data }) {
@@ -105,8 +111,18 @@ export default class GroupBookingForm extends LightningElement {
         this.firstName = data.fields.Contact.value.fields.FirstName.value;
         this.lastName = data.fields.Contact.value.fields.LastName.value;
         this.contactEmail = data.fields.Contact.value.fields.Email.value;
-        //else if error
+        // console.log('data:', data);
 
+        getUserMobileLocale({userId: this.contactId})
+        .then((result) => {
+            this.localeConMobile = result;
+            console.log('localeConMobile:', this.localeConMobile);
+        })
+        .catch((e)=> {
+             console.log('getUserMobLoc in wire:', e);
+        });
+
+        //else if error
     } else if (error) {
         this.error = error;
         console.log('error',error);
@@ -197,6 +213,17 @@ export default class GroupBookingForm extends LightningElement {
               console.log(e);
               this.generateToast("Error.", LWC_Error_General, "error");
         });
+
+        // Get Locale Options
+        getMobileLocaleOptions()
+        .then((resultOptions) => {
+            this.localeOptions = resultOptions;
+            this.locale = this.localeConMobile;
+        })
+        .catch((error) => {
+            this.generateToast("Error.", LWC_Error_General, "error");
+        });
+
     }
    
     handleFirstnameChange(event){
@@ -208,6 +235,20 @@ export default class GroupBookingForm extends LightningElement {
     }
     handleEmailChange(event){
         this.contactEmail = event.detail.value;
+    }
+
+    /*
+    * Sets the mobile via event
+    */
+    handleLocaleChange(event) {
+        this.locale = event.detail.value;
+        this.localeDisplayName = event.detail.label;
+        this.localeOptions.forEach((localeOption) => {
+        if (localeOption.value === this.locale) {
+            this.localeConMobile = localeOption.conMobileLocale;
+            }
+        });
+
     }
 
      // This handle the picklist for number of participants
@@ -225,7 +266,19 @@ export default class GroupBookingForm extends LightningElement {
     }
     //This handle the change on accordion data
     updateOnAccordionDetails(event) {
-        this.items[event.currentTarget.dataset.id][event.target.name] = event.target.value;
+        if(event.target.name === 'ContactMobile_Locale__c'){
+            this.locale = event.target.value;
+            this.localeOptions.forEach((localeOption) => {
+            if (localeOption.value === this.locale) {
+                this.localeConMobile = localeOption.conMobileLocale;
+                }
+            });
+            this.items[event.currentTarget.dataset.id][event.target.name] = this.localeConMobile;
+            console.log('target:', event.target.name, ' value:', this.localeConMobile);
+        } else {
+            this.items[event.currentTarget.dataset.id][event.target.name] = event.target.value;
+        }        
+        
     }
     //This handle added participants
     addParticipant() {
@@ -238,6 +291,7 @@ export default class GroupBookingForm extends LightningElement {
                 Email: '',
                 Birthdate: '',
                 LastName: '',
+                ContactMobile_Locale__c: '',
                 MobilePhone: '',
                 Dietary_Requirement__c: '',
                 label: 'PARTICIPANT ' + this.currentIndex, 
@@ -356,7 +410,7 @@ export default class GroupBookingForm extends LightningElement {
 
             fieldsPrimary.Id = this.contactId;
             const inputFields = this.template.querySelectorAll(
-                'lightning-input-field'
+                'lightning-input-field','lightning-combobox'
             );
     
             if (inputFields) {
@@ -382,6 +436,7 @@ export default class GroupBookingForm extends LightningElement {
                         conData.LastName = blankRow[i].LastName;
                         conData.Email = blankRow[i].Email;
                         conData.Birthdate = blankRow[i].Birthdate;
+                        conData.ContactMobile_Locale__c = blankRow[i].ContactMobile_Locale__c; 
                         conData.MobilePhone = blankRow[i].MobilePhone;
                         conData.Dietary_Requirement__c = blankRow[i].Dietary_Requirement__c;    
                         contactMap[blankRow[i].label] = conData;
