@@ -47,7 +47,7 @@ public with sharing class PaymentConfirmationCtrlTest {
       insert contact1;
           
       //Create user
-      Profile portalProfile = [select Id from Profile where UserType = 'PowerPartner' limit 1];
+      Profile portalProfile = [select Id from Profile where Name = 'OPE Catalogue' limit 1];
       User user1 = new User(
         Username = System.now().millisecond() + 'jm3@test.com',
         ContactId = contact1.Id,

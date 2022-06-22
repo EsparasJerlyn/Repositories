@@ -173,7 +173,10 @@ export default class ContactInformationValidation extends LightningElement {
     }
     
     combineLocaleAndNumber(locale,number){
-        return locale.replace(/[^0-9\.]+/g,"") + parseInt(number);
+        if(locale){
+            return locale.replace(/[^0-9\.]+/g,"") + parseInt(number);
+        }            
+        return parseInt(number).toString();
     }
 
     /**
