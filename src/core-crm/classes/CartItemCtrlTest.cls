@@ -404,18 +404,21 @@ public with sharing class CartItemCtrlTest {
     System.assert(![SELECT Id FROM hed__Course_Enrollment__c LIMIT 1].isEmpty(),'No course connection created');
   }
 
-
-  @isTest
-  static void checkCartOwnerShipTest(){
-    List<WebCart> webcarts = new List<WebCart>([SELECT Id, OwnerId FROM WebCart Limit 1]);
-    Boolean owned;
+  @IsTest
+  static void checkCartOwnerShipTest() {
+    WebCart cart = [SELECT Id, OwnerId, Name FROM WebCart LIMIT 1];
+      
     Test.startTest();
-
-    owned = CartItemCtrl.checkCartOwnerShip(webcarts[0].Id,webcarts[0].OwnerId);
-
+    Boolean isOwned = CartItemCtrl.checkCartOwnerShip(
+      cart.Id,
+      cart.OwnerId
+    );
     Test.stopTest();
 
-    System.assert(owned, 'user do not own the cart');
+    System.assert(
+      isOwned,
+      'Cart should be owned by user'
+    );
   }
 
   @IsTest

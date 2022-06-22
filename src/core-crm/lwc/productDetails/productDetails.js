@@ -215,7 +215,7 @@ export default class ProductDetails extends LightningElement {
           })
         ); */
       })
-      .catch(() => {
+      .catch((e) => {
         this.dispatchEvent(
           new ShowToastEvent({
             title: "Error",

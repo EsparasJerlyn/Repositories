@@ -15,6 +15,13 @@ import { LightningElement, wire, api, track } from "lwc";
 import { refreshApex } from "@salesforce/apex";
 import getQuestionnaireResponseSummaryDetails from "@salesforce/apex/QuestionnaireResponseSummaryCtrl.getQuestionnaireResponseSummaryDetails";
 import updateApplicationStatus from "@salesforce/apex/QuestionnaireResponseSummaryCtrl.updateApplicationStatus";
+import LWC_Error_General from '@salesforce/label/c.LWC_Error_General';
+import { ShowToastEvent } from "lightning/platformShowToastEvent";
+
+const ERROR_TITLE = 'Error'
+const ERROR_VARIANT = 'error'
+const SUCCESS_TITLE = 'Success'
+const SUCCESS_VARIANT = 'success'
 
 const TYPE_TITLE = "Type";
 const PRODUCT_TITLE = "Product";
@@ -34,12 +41,14 @@ export default class QuestionnaireResponseSummary extends LightningElement {
   qrsStatus;
   qaList = [];
   error;
+  saveInProgress;
 
   //Retrieves Questionnaire Summary Details
   @wire(getQuestionnaireResponseSummaryDetails, { qrsId: "$recordId" })
   wiredGetQRSDetails(result) {
     this.qrsResult = result;
 
+    console.log(JSON.stringify(this.qrsResult));
     if (result.data) {
       this.qrsType = result.data.qrsType;
       this.qrsProduct = result.data.qrsProduct;
@@ -62,17 +71,42 @@ export default class QuestionnaireResponseSummary extends LightningElement {
   }
 
   updateStatus(event) {
+    this.saveInProgress = true;
+    let status = event.currentTarget.dataset.id;
     updateApplicationStatus({
       qrsId: this.recordId,
       qrsStatus: event.currentTarget.dataset.id
     })
       .then(() => {
         refreshApex(this.qrsResult);
+        this.saveInProgress = false;
+        this.generateToast(
+          SUCCESS_TITLE,
+          status == 'Approved'?'Application Approved':'Application Declined',
+          SUCCESS_VARIANT
+          );
       })
       .catch((error) => {
+        this.saveInProgress = false;
+        this.generateToast(
+          ERROR_TITLE,
+          LWC_Error_General,
+          ERROR_VARIANT
+          );
         console.log(error);
       });
   }
+
+    // Creates toast notification
+    generateToast(_title, _message, _variant) {
+      const evt = new ShowToastEvent({
+          title: _title,
+          message: _message,
+          variant: _variant
+      });
+      this.dispatchEvent(evt);
+    }
+
 
   get showApproveDecline() {
     return (

@@ -27,6 +27,17 @@ public with sharing class QuestionnaireResponseSummaryCtrlTest {
   private static Integer numberOfRecords = 30;
   private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
   private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
+  private static final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+
+
+  @TestSetup
+  static void setupMethod(){
+    Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
+    insert customEmail;
+
+    Study_Store_URL_Settings__c studyStore = new Study_Store_URL_Settings__c(Name='QUTeX', Study_Store_Link__c = 'https://studystorelinktest.com/');
+    insert studyStore;
+  }
 
   @IsTest
   static void getAppQuestionsQRSDetailsTest() {
@@ -96,19 +107,81 @@ public with sharing class QuestionnaireResponseSummaryCtrlTest {
 
   @IsTest
   static void updateApplicationStatusTest() {
-    System.runAs(currentUser) {
+
+    System.runAs(PORTAL_SYS_ADMIN){
+
+      //Create account
+      Account portalAccount1 = new Account(
+          Name = 'OPE Catalogue',
+          OwnerId = PORTAL_SYS_ADMIN.Id
+      );
+
+      Database.insert(portalAccount1);
+
+      //Create contact
+      Contact contact1 = new Contact(
+        FirstName = 'Test',
+        Lastname = 'McTesty',
+        AccountId = portalAccount1.Id,
+        Email = System.now().millisecond() + 'test@test.com'
+      );
+      Database.insert(contact1);
+
+      //Create user
+      User portalUser = TestDataFactory.createPortalUserRecords(
+          1,
+          'Corporate Partner User',
+          contact1.Id
+        )
+        .iterator()
+        .next();
+      Database.insert(portalUser);
+
       createRecord(ACTIVITY_RECTYPEID);
-      String qrsId = [
-        SELECT Id
+
+      WebStore testWebStore = new WebStore(
+      Name = 'Study',
+      DefaultLanguage = 'en_US'
+      );
+      insert testWebStore;
+    
+    WebCart cart = new WebCart( Name = 'Cart', AccountId = portalAccount1.Id, Status = 'Active', Status__c = 'Active',
+     WebStoreId = testWebStore.Id, OwnerId = portalUser.Id
+    );
+    system.debug(cart);
+    insert cart;
+
+    CartDeliveryGroup cartDeliveryGroup = new CartDeliveryGroup(
+      CartId = cart.Id,
+      Name = 'Default Delivery'
+    );
+    insert cartDeliveryGroup;
+
+      Questionnaire_Response_Summary__c qrsId = [
+        SELECT Id, 
+        Contact__c,
+        Questionnaire__r.Parent_Record_ID__c
         FROM Questionnaire_Response_Summary__c
         WHERE Questionnaire__r.Questionnaire_Type__c = 'Application Questions'
         LIMIT 1
-      ]
-      .Id;
+      ];
+
+      Product2 product = [SELECT Id FROM Product2 WHERE Course__r.ProductRequestID__c =: qrsId.Questionnaire__r.Parent_Record_ID__c];
+
+      Pricebook2 priceBook;
+      pricebook = new Pricebook2(isActive = true, id = Test.getStandardPricebookId());
+      update pricebook;
+
+      PricebookEntry pbe = new PricebookEntry(Product2Id = product.Id, IsActive = true, Pricebook2Id = priceBook.Id, UnitPrice = 250.00);
+      insert pbe;
+
+      qrsId.Contact__c = [SELECT Id FROM Contact WHERE Lastname = 'McTesty']?.Id;
+      qrsId.Pricebook_Entry_ID__c = pbe.Id;
+      update qrsId;
 
       Test.startTest();
       QuestionnaireResponseSummaryCtrl.updateApplicationStatus(
-        qrsId,
+        qrsId.Id,
         'Approved'
       );
       Test.stopTest();
@@ -116,7 +189,7 @@ public with sharing class QuestionnaireResponseSummaryCtrlTest {
       Questionnaire_Response_Summary__c qrsUpdateResult = [
         SELECT Id, Application_Status__c
         FROM Questionnaire_Response_Summary__c
-        WHERE Id = :qrsId
+        WHERE Id = :qrsId.Id
       ];
 
       System.assertNotEquals(
@@ -152,6 +225,9 @@ public with sharing class QuestionnaireResponseSummaryCtrlTest {
         productRequests[0].Id
       );
       insert courses;
+
+      Product2 product = new Product2(name ='test product', course__c = courses[0].Id);
+      insert product;
 
       List<hed__Term__c> terms = TestDataFactory.createTestTermRecords(
         1,

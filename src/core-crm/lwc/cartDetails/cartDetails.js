@@ -81,6 +81,7 @@ export default class CartDetails extends LightningElement {
   checkData = false;
   fromCartSummary = true; // checks if from cart summary or group registration
   showInvalidDiscount = false;
+  isLoading = true;
 
   @track readOnly = {
     firstName: true,
@@ -101,22 +102,24 @@ export default class CartDetails extends LightningElement {
     
     //create global variable
     window.isCartSumDisconnected = false;
-    checkCartOwnerShip({cartId:this.recordId,userId: userId})
-    .then((result) => {
-      if(!result){
-        window.location.href = BasePath + "/error";
-      }else{  
-        this.isLoading = false
-      }
-    });
 
     // Set Cart to Checkout
-    updateCartStatus({ cartId: this.recordId, cartStatus: "Checkout" })
-      .then(() => {})
+    updateCartStatus({ cartId: this.recordId, cartStatus: "Checkout"})
+      .then(() => {
+      })
       .catch((error) => {
-        console.log("cart update error");
         console.log(error);
       });
+
+    checkCartOwnerShip({cartId:this.recordId,userId: userId})
+      .then((result) => {
+        console.log(result);
+        if(!result){
+          window.location.href = BasePath + "/error";
+        }else{  
+          this.isLoading = false
+        }
+      })
 
     // Get Product Category Id
     getOPEProductCateg()

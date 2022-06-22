@@ -1,8 +1,11 @@
 <template>
 
-    <!-- Your Details starts here -->
+<!-- Your Details starts here -->
+<div class="slds-is-relative slds-p-top_xx-large" >
+    <lightning-spinner if:true={isLoading} alternative-text="Loading" size="large" variant="brand"></lightning-spinner>
+</div>
+<div if:false={isLoading}>
     <div class="component">
-
         <div class="heading1 slds-m-bottom_medium main-color-blue500">Cart Summary</div>
         <!--<div class="bodyRegular slds-m-bottom_large"><i><span class="asterisk">*</span>indicates a required field</i></div>-->
 
@@ -479,7 +482,7 @@
 
     <!-- Registration Questions starts here -->
     <div class="component">
-       
+        
         <!-- loop on each questions -->
         <template for:each={questions} for:item="currentQuestion" for:index="questionIndex">
             <div key={currentQuestion.answerId}> 
@@ -491,7 +494,7 @@
                         <!-- for normal text input fields (text, number, date) -->
                         <template if:true={currentQuestion.isText}>
                             <p class="bodyBold">{currentQuestion.label}</p>
-						    <lightning-input data-id={currentQuestion.answerId} name={questionIndex} type={currentQuestion.inputType} variant="label-hidden" value={currentQuestion.stringResponse} required></lightning-input>
+                            <lightning-input data-id={currentQuestion.answerId} name={questionIndex} type={currentQuestion.inputType} variant="label-hidden" value={currentQuestion.stringResponse} required></lightning-input>
                         </template>
 
                         <!-- for checkbox -->
@@ -502,19 +505,19 @@
                         <!-- for picklist -->
                         <template if:true={currentQuestion.isPicklist}>
                             <p class="bodyBold">{currentQuestion.label}</p>
-						    <lightning-combobox data-id={currentQuestion.answerId} name={questionIndex} variant="label-hidden" required value={currentQuestion.stringResponse} options={currentQuestion.picklistOptions}></lightning-combobox>
+                            <lightning-combobox data-id={currentQuestion.answerId} name={questionIndex} variant="label-hidden" required value={currentQuestion.stringResponse} options={currentQuestion.picklistOptions}></lightning-combobox>
                         </template>
 
                         <!-- for picklist -->
                         <template if:true={currentQuestion.isMultiPicklist}>
                             <p class="bodyBold">{currentQuestion.label}</p>
-						    <lightning-dual-listbox data-id={currentQuestion.answerId} name={questionIndex} variant="label-hidden" source-label="Available" selected-label="Selected" required options={currentQuestion.picklistOptions} value={currentQuestion.multiPicklistResponse}></lightning-dual-listbox>
+                            <lightning-dual-listbox data-id={currentQuestion.answerId} name={questionIndex} variant="label-hidden" source-label="Available" selected-label="Selected" required options={currentQuestion.picklistOptions} value={currentQuestion.multiPicklistResponse}></lightning-dual-listbox>
                         </template>
 
                         <!-- for file upload -->
                         <template if:true={currentQuestion.isFileUpload}>
                             <p class="bodyBold">{currentQuestion.label}</p>
-						    <!-- <lightning-input data-id={currentQuestion.answerId} name={currentQuestion.answerId} type="file" accept=".xlsx, .xls, .csv, .png, .doc, .docx, .pdf" variant="label-hidden" value={currentQuestion.stringResponse} required></lightning-input> -->
+                            <!-- <lightning-input data-id={currentQuestion.answerId} name={currentQuestion.answerId} type="file" accept=".xlsx, .xls, .csv, .png, .doc, .docx, .pdf" variant="label-hidden" value={currentQuestion.stringResponse} required></lightning-input> -->
                             <lightning-file-upload record-id={currentQuestion.answerId} data-id={currentQuestion.answerId} name={questionIndex} accept=".xlsx, .xls, .csv, .png, .doc, .docx, .pdf" variant="label-hidden" onuploadfinished={fileUploadFinished}></lightning-file-upload>
                         
 
@@ -660,5 +663,6 @@
         onpaynow={paymentNow}
         ></c-payment>
      </template>
+     </div>
     <!-- Payment method ends here -->
 </template>

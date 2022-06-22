@@ -46,10 +46,15 @@ private class ProductDetailsCtrlTest {
   private static Id opeProgProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName()
     .get(PR_PROGRAM)
     .getRecordTypeId();
-  private static final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
 
+    private static final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    
   @testSetup
   static void setupMethod() {
+
+    Study_Store_URL_Settings__c studyStore = new Study_Store_URL_Settings__c(Name='QUTeX', Study_Store_Link__c = 'https://studystorelinktest.com/');
+    insert studyStore;
+
     System.runAs(currentUser) {
       Test.startTest();
       Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(
@@ -447,12 +452,14 @@ private class ProductDetailsCtrlTest {
 
   @isTest
   static void testInsertExpressionOfInterest() {
-    System.runAs(PORTAL_SYS_ADMIN) {
+   
+    System.runAs(PORTAL_SYS_ADMIN){
       //Create account
       Account portalAccount1 = new Account(
-        Name = 'TestAccount',
-        OwnerId = PORTAL_SYS_ADMIN.Id
+          Name = 'TestAccount',
+          OwnerId = PORTAL_SYS_ADMIN.Id
       );
+
       Database.insert(portalAccount1);
 
       //Create contact

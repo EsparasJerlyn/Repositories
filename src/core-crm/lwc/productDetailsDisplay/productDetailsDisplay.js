@@ -366,7 +366,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
           }
         })
         .catch((e) => {
-          this.generateToast("Error.", LWC_Error_General, "error");
+          this.generateToast(ERROR_TITLE, LWC_Error_General, ERROR_VARIANT);
         });
     } else {
       this.checkSDatePlaceholder = availableStartDatesPlaceholder;
@@ -573,6 +573,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
         }
       })
       .catch((e) => {
+        console.log(e);
         this.generateToast(ERROR_TITLE, LWC_Error_General, ERROR_VARIANT);
       });
   }
