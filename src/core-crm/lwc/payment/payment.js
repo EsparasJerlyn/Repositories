@@ -9,7 +9,7 @@
 | marlon.vasquez            | June 10, 2022         | DEPP-2812            | Cart Summary Questionnaire                   |
 
 */
-import { LightningElement, api, wire } from 'lwc';
+import { LightningElement, api, wire, track } from 'lwc';
 import getPaymentGatewaySettings from '@salesforce/apex/PaymentGatewayCtrl.getPaymentGatewaySettings';
 import updatePaymentMethod from "@salesforce/apex/CartItemCtrl.updatePaymentMethod";
 import addRegistration from '@salesforce/apex/ProductDetailsCtrl.addRegistration';
@@ -22,6 +22,8 @@ import STATUS_FIELD from '@salesforce/schema/WebCart.Status';
 import ID_FIELD from '@salesforce/schema/WebCart.Id';
 import CART_PAYMENT_FIELD from '@salesforce/schema/WebCart.Cart_Payment__c';
 import PAYMENT_METHOD from '@salesforce/schema/WebCart.Payment_Method__c';
+import getOPEProductCateg from "@salesforce/apex/PaymentConfirmationCtrl.getOPEProductCateg";
+import BasePath from "@salesforce/community/basePath";
 
 export default class Payment extends LightningElement {
 
@@ -53,6 +55,7 @@ export default class Payment extends LightningElement {
     @api cartItems;
     @api fromCartSummary;
     @api numberOfParticipants;
+    @track prodCategId;
     responseDataList;
     fileUploadData = [];
     answerRecordsList = [];
@@ -101,6 +104,17 @@ export default class Payment extends LightningElement {
     @wire(getRecord, { recordId: '$cartId', fields: [STATUS_FIELD]})
     currentCart;
 
+    @wire(getOPEProductCateg)
+    productCategData({ error, data }) { 
+        if(data){
+
+            this.prodCategId = data.Id;
+            
+        } else if (error) {
+            console.log("getOPEProductCateg error");
+            console.log(error);
+        }
+    }
 
     get cartIsClosed() {
         if(this.currentCart && this.currentCart.data){
@@ -252,93 +266,47 @@ export default class Payment extends LightningElement {
         //update the cart with the payment method selected
         this.paymentCartItems = JSON.parse(JSON.stringify(this.cartItems));
         this.processing = true;
-        if(this.fromCartSummary){
-            let cartIds = []; 
-            let contactId;
-            this.paymentCartItems.map(row => {
-                cartIds.push(row.cartItemId);
-                contactId = row.contactId;
-            });
-            let fields = {'Status__c' : 'Invoiced'};
-            let objRecordInput = {'apiName':'Cart_Payment__c',fields};
-            createRecord(objRecordInput).then(response => {
-                let cartPaymentId = response.id;
-                let fields = {};
-                fields[ID_FIELD.fieldApiName] = this.cartId;
-                fields[CART_PAYMENT_FIELD.fieldApiName] = cartPaymentId;
-                fields[PAYMENT_URL_FIELD.fieldApiName] = this.invoiceURL;
-                fields[PAYMENT_METHOD.fieldApiName] = 'Invoice';
-                let recordInput = {fields};
-                updateRecord(recordInput)
+        
+        let cartIds = []; 
+        let contactId;
+        this.paymentCartItems.map(row => {
+            cartIds.push(row.cartItemId);
+            contactId = row.contactId;
+        });
+        let fields = {'Status__c' : 'Invoiced'};
+        let objRecordInput = {'apiName':'Cart_Payment__c',fields};
+        createRecord(objRecordInput).then(response => {
+            let cartPaymentId = response.id;
+            let fields = {};
+            fields[ID_FIELD.fieldApiName] = this.cartId;
+            fields[CART_PAYMENT_FIELD.fieldApiName] = cartPaymentId;
+            fields[PAYMENT_URL_FIELD.fieldApiName] = this.invoiceURL;
+            fields[PAYMENT_METHOD.fieldApiName] = 'Invoice';
+            fields[STATUS_FIELD.fieldApiName] = 'Closed';
+            let recordInput = {fields};
+            updateRecord(recordInput)
+            .then(()=>{
+                
+                createCourseConnections({cartItemIds:cartIds, contactId:contactId, paidInFull:'No', paymentMethod:'Invoice'})
                 .then(()=>{
-                    let fields = {};
-                    fields[ID_FIELD.fieldApiName] = this.cartId;
-                    fields[STATUS_FIELD.fieldApiName] = 'Closed';
-                    let recordInput = {fields};
-                    updateRecord(recordInput)
-                    .then(()=>{
-                        createCourseConnections({cartItemIds:cartIds, contactId:contactId, paidInFull:'No', paymentMethod:'Invoice'})
-                        .then(()=>{
-                            this.dispatchEvent(
-                                new CustomEvent("cartchanged", {
-                                  bubbles: true,
-                                  composed: true
-                                })
-                            );
-                            window.location.href = this.invoiceURL;
+                    this.dispatchEvent(
+                        new CustomEvent("cartchanged", {
+                            bubbles: true,
+                            composed: true
                         })
-                    })
+                    );
+
+                    //redirect to for you page and open the xetta page in new tab
+                    window.location.href = BasePath + "/category/products/" + this.prodCategId;
+                    window.open(this.invoiceURL, '_blank').focus();
                 })
             })
-            .catch((error) => {
-                this.processing = false;
-                console.log("createCourseConnections error");
-                console.log(error);
-            })
-        }else{
-            let cartIds = []; 
-            let contactId;
-            this.paymentCartItems.map(row => {
-                cartIds.push(row.cartItemId);
-                contactId = row.contactId;
-            });
-            let fields = {'Status__c' : 'Invoiced'};
-            let objRecordInput = {'apiName':'Cart_Payment__c',fields};
-            createRecord(objRecordInput).then(response => {
-                let cartPaymentId = response.id;
-                let fields = {};
-                fields[ID_FIELD.fieldApiName] = this.cartId;
-                fields[CART_PAYMENT_FIELD.fieldApiName] = cartPaymentId;
-                fields[PAYMENT_URL_FIELD.fieldApiName] = this.invoiceURL;
-                fields[PAYMENT_METHOD.fieldApiName] = 'Invoice';
-                let recordInput = {fields};
-                updateRecord(recordInput)
-                .then(()=>{
-                    let fields = {};
-                    fields[ID_FIELD.fieldApiName] = this.cartId;
-                    fields[STATUS_FIELD.fieldApiName] = 'Closed';
-                    let recordInput = {fields};
-                    updateRecord(recordInput)
-                    .then(()=>{
-                        createCourseConnections({cartItemIds:cartIds, contactId:contactId, paidInFull:'No', paymentMethod:'Invoice'})
-                        .then(()=>{
-                            this.dispatchEvent(
-                                new CustomEvent("cartchanged", {
-                                  bubbles: true,
-                                  composed: true
-                                })
-                              );
-                            window.location.href = this.invoiceURL;
-                        })
-                    })
-                })
-            })
-            .catch((error) => {
-                this.processing = false;
-                console.log("createCourseConnections error");
-                console.log(error);
-            })
-        }
+        })
+        .catch((error) => {
+            this.processing = false;
+            console.log("createCourseConnections error");
+            console.log(error);
+        })
     }
 
     saveRegistration(contact,courseOffering,relatedAnswer,answer,fileUpload){
