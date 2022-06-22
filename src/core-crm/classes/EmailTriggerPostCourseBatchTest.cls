@@ -69,6 +69,7 @@ public with sharing class EmailTriggerPostCourseBatchTest {
             for (Communication_Schedule__c commSchedule : commSchedules) {
               commSchedule.Email_on_Registration__c = true;
               commSchedule.Email_on_final_confirmation__c = true;
+              commSchedule.Email_on_completion__c = true;
             }
             insert commSchedules;
 
