@@ -50,6 +50,10 @@ public with sharing class EmailTriggerFaceToFaceBatchTest {
               courses,
               terms
             );
+            for(hed__Course_Offering__c offering : courseOfferings){
+                offering.hed__Start_Date__c = Date.today()+1;
+                offering.Delivery_Type__c = 'Brisbane Classroom';
+            }
             insert courseOfferings;
       
             List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(
@@ -65,7 +69,6 @@ public with sharing class EmailTriggerFaceToFaceBatchTest {
             );
       
             for (Communication_Schedule__c commSchedule : commSchedules) {
-             // commSchedule.Course__c = courseOfferings[0].hed__Course__r.Id;
               commSchedule.Email_on_Registration__c = true;
               commSchedule.Email_on_final_confirmation__c = true;
             }
