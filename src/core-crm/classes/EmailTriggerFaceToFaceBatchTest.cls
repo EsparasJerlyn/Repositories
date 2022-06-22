@@ -52,7 +52,7 @@ public with sharing class EmailTriggerFaceToFaceBatchTest {
             );
             for(hed__Course_Offering__c course: courseOfferings){
                 
-                course.Delivery_Type__c = 'Face-to-Face';
+                course.Delivery_Type__c = 'Brisbane Classroom';
             }
            
             insert courseOfferings;
@@ -60,7 +60,7 @@ public with sharing class EmailTriggerFaceToFaceBatchTest {
             List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(
               10
             );
-            programPlans[0].Delivery_Type__c = 'Face-to-Face';
+           
             insert programPlans;
       
             List<Communication_Schedule__c> commSchedules = TestDataFactory.createTestCommunicationScheduleRecords(

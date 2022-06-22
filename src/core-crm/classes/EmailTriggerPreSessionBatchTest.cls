@@ -52,7 +52,7 @@ public with sharing class EmailTriggerPreSessionBatchTest {
             );
             for(hed__Course_Offering__c course: courseOfferings){
                 
-                course.Delivery_Type__c = 'Face-to-Face';
+                course.Delivery_Type__c = 'Brisbane Classroom';
             }
            
             insert courseOfferings;
