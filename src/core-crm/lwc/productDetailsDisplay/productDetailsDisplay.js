@@ -26,6 +26,8 @@
       | julie.jane.alegre         | June 11,2022          | DEPP-2985            | Fix bug for Apply button visibility          |
       | john.bo.a.pineda          | June 16, 2022         | DEPP-3114            | Modified to set values after registration    |
       | john.bo.a.pineda          | June 20, 2022         | DEPP-3185            | Modified logic for addToCard onload          |
+      | john.bo.a.pineda          | June 22, 2022         | DEPP-3211            | Modified logic to use correct logic to get   |
+      |                           |                       |                      | Earliest Upcoming Offering                   |
 */
 
 import { LightningElement, wire, api, track } from "lwc";
@@ -268,9 +270,9 @@ export default class ProductDetailsDisplay extends NavigationMixin(
       if (Object.keys(this.getParamObj).length > 0) {
         this.selectedDelivery = this.getParamObj.defDeliv;
       } else {
-        this.deliveryOpt = this.productDetails.Delivery__c.replace(";", ",");
+        this.deliveryOpt = this.productDetails.Delivery__c.replaceAll(";", ",");
         this.deliverySplit = this.deliveryOpt.split(",");
-        this.selectedDelivery = this.deliverySplit[0];
+        this.selectedDelivery = this.deliverySplit;
       }
 
       getRelatedCourseOffering({
@@ -306,6 +308,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
               }
               this.disableAddToCart = false;
             } else {
+              this.selectedDelivery = this.courseOfferings[0].defDeliv;
               this.selectedCourseOffering = this.courseOfferings[0].value;
               this.disableAddToCart = true;
             }

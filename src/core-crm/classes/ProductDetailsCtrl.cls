@@ -16,6 +16,8 @@
       | john.bo.a.pineda          | June 01, 2022         | DEPP-2853            | Updated Registration Dates Logic           |
       | john.bo.a.pineda          | June 16, 2022         | DEPP-3016            | Updated Logic for Prescribed Child Order   |
       | john.bo.a.pineda          | June 18, 2022         | DEPP-3166            | Updated Logic for Facilitator Image URL    |
+      | john.bo.a.pineda          | June 22, 2022         | DEPP-3211            | Modified logic to use correct logic to get |
+      |                           |                       |                      | Earliest Upcoming Offering                 |
 */
 public without sharing class ProductDetailsCtrl {
   public static final Id STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
@@ -305,6 +307,7 @@ public without sharing class ProductDetailsCtrl {
       List<hed__Course_Offering__c> cOfferList = [
         SELECT
           Id,
+          Delivery_Type__c,
           hed__Start_Date__c,
           Available_Seats__c,
           hed__Facility__r.Display_Name__c,
@@ -404,6 +407,8 @@ public without sharing class ProductDetailsCtrl {
             .format('dd MMM yyyy');
           // value
           cOfferWrapper.value = cOffer.Id;
+          // Delivery
+          cOfferWrapper.defDeliv = cOffer.Delivery_Type__c;
           // meta
           if (cOffer.Available_Seats__c <= 10) {
             if (cOffer.Available_Seats__c == 1) {
@@ -510,7 +515,11 @@ public without sharing class ProductDetailsCtrl {
       ]
       .Id;
 
-      PriceBookEntry pbEntry = [SELECT Id, UnitPrice FROM PriceBookEntry WHERE Id=: pricebookEntryId];
+      PriceBookEntry pbEntry = [
+        SELECT Id, UnitPrice
+        FROM PriceBookEntry
+        WHERE Id = :pricebookEntryId
+      ];
 
       // Set Cart Item to be inserted
       CartItem cItem = new CartItem();
@@ -1020,6 +1029,8 @@ public without sharing class ProductDetailsCtrl {
     @AuraEnabled
     public String meta;
     @AuraEnabled
+    public String defDeliv;
+    @AuraEnabled
     public List<facilitatorWrapper> facilitator;
   }
 
@@ -1170,6 +1181,7 @@ public without sharing class ProductDetailsCtrl {
           AND Registration_Start_Date__c <= TODAY
           AND (Registration_End_Date__c = NULL
           OR Registration_End_Date__c > TODAY)
+        ORDER BY Start_Date__c ASC
       ];
       System.debug('programOfferings: ' + programOfferings);
       for (Program_Offering__c programOffering : programOfferings) {
@@ -1180,6 +1192,7 @@ public without sharing class ProductDetailsCtrl {
             Time.newInstance(0, 0, 0, 0)
           )
           .format('dd MMM yyyy');
+        programOfferingWrapper.defDeliv = programOffering.Delivery_Type__c;
         programOfferingWrapper.availableSeats = programOffering.Available_Seats__c;
         List<ProgramOfferingWrapper> programOfferingWrapperList = new List<ProgramOfferingWrapper>();
         if (
@@ -1239,6 +1252,8 @@ public without sharing class ProductDetailsCtrl {
     public String id { get; set; }
     @AuraEnabled
     public String startDate { get; set; }
+    @AuraEnabled
+    public String defDeliv { get; set; }
     @AuraEnabled
     public Decimal availableSeats { get; set; }
     @AuraEnabled

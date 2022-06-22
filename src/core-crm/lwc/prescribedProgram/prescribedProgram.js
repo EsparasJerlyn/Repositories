@@ -151,12 +151,7 @@ export default class PrescribedProgram extends LightningElement {
 
           // Get Pre-selected Delivery and Start Date
           if (this.productDetails.Delivery__c) {
-            let getDeliveries = this.productDetails.Delivery__c.replace(
-              ";",
-              ","
-            );
-            let deliverySplit = getDeliveries.split(",");
-            let preselected = deliverySplit[0];
+            let preselected = Object.keys(this.deliveryTypeAndStartDates)[0];
             this.handleDeliveryTypePreSelected(preselected);
           }
         })
