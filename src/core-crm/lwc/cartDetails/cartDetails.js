@@ -489,10 +489,7 @@ export default class CartDetails extends LightningElement {
   }
 
   //pay button is clicked
-  paymentNow() {
-
-    //update answer fields
-    this.updateQuestionFields();
+  paymentClicked() {
 
     //update the cart with the discount applied
     updateCartDiscount({ cartId: this.recordId, discountAmount: this.discountTotal })

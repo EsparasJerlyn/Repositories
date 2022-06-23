@@ -156,7 +156,7 @@ export default class Payment extends LightningElement {
             `GLCODE=` + this.glCode + `&` + 
             `UNITAMOUNTINCTAX=` + this.total;
 
-        this.dispatchEvent(new CustomEvent('paynow'));
+        this.dispatchEvent(new CustomEvent('paymentclicked'));
         return this.baseURL + this.formURL;       
     }
 
@@ -198,6 +198,7 @@ export default class Payment extends LightningElement {
             
         });
 
+        this.dispatchEvent(new CustomEvent('paymentclicked'));
         return this.baseURL + this.formURL + opeDescription.slice(0, -1);        
     }
 
