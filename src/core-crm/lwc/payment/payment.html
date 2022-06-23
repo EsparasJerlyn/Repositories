@@ -7,35 +7,66 @@
         <div class="slds-is-relative slds-p-vertical_x-large">
             <lightning-spinner if:true={processing} alternative-text="Loading" size="large" variant="brand"></lightning-spinner>
         </div>  
-        <div class="slds-grid slds-wrap slds-medium-size_11-of-12 slds-large-size_10-of-12">  
-            <div if:false={processing} class="my1 slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 pr3">
-                <template if:false={disableButton}>
-                    <a class="btn-link" onclick={payNowClick}>
-                        <p class="btn-title bodyBold pb2"><strong>{payTitle}</strong></p>
-                        <p class="btn-text bodyRegular">{payLabel}</p>
-                    </a>
-                </template>
-                <template if:true={disableButton}>
-                    <span class="btn-disabled">
-                        <p class="btn-title bodyBold pb2"><strong>{payTitle}</strong></p>
-                        <p class="btn-text bodyRegular">{payLabel}</p>
-                    </span>
-                </template>
-            </div>
-            <div if:false={processing} class="my1 slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
-                <template if:false={disableButton}>
-                    <a class="btn-link" onclick={invoiceClick}>
-                        <p class="btn-title bodyBold pb2"><strong>{invoiceTitle}</strong></p>
-                        <p class="btn-text bodyRegular">{invoiceLabel}</p>
-                    </a>
-                </template>
-                <template if:true={disableButton}>
-                    <span class="btn-disabled" >
-                        <p class="btn-title bodyBold pb2"><strong>{invoiceTitle}</strong></p>
-                        <p class="btn-text bodyRegular">{invoiceLabel}</p>
-                    </span>
-                </template>
-            </div> 
-        </div>   
+
+        <!-- If Invoice only  -->
+        <template if:false={hasPayNow}>
+            <template if:true={hasInvoice}>
+
+                <div class="slds-grid slds-wrap slds-medium-size_11-of-12 slds-large-size_10-of-12">  
+                    <div if:false={processing} class="my1 slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 pr3">
+                        <template if:false={disableButton}>
+                            <a class="btn-link" onclick={invoiceClick}>
+                                <p class="btn-title bodyBold pb2"><strong>{invoiceTitle}</strong></p>
+                                <p class="btn-text bodyRegular">{invoiceLabel}</p>
+                            </a>
+                        </template>
+                        <template if:true={disableButton}>
+                            <span class="btn-disabled" >
+                                <p class="btn-title bodyBold pb2"><strong>{invoiceTitle}</strong></p>
+                                <p class="btn-text bodyRegular">{invoiceLabel}</p>
+                            </span>
+                        </template>
+                    </div>
+                </div>   
+
+            </template>
+        </template>
+        <!-- If has Pay Now  -->
+        <template if:true={hasPayNow}>
+            <div class="slds-grid slds-wrap slds-medium-size_11-of-12 slds-large-size_10-of-12">  
+                <div if:false={processing} class="my1 slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 pr3">
+                    <template if:true={hasPayNow}>
+                        <template if:false={disableButton}>
+                            <a class="btn-link" onclick={payNowClick}>
+                                <p class="btn-title bodyBold pb2"><strong>{payTitle}</strong></p>
+                                <p class="btn-text bodyRegular">{payLabel}</p>
+                            </a>
+                        </template>
+                        <template if:true={disableButton}>
+                            <span class="btn-disabled">
+                                <p class="btn-title bodyBold pb2"><strong>{payTitle}</strong></p>
+                                <p class="btn-text bodyRegular">{payLabel}</p>
+                            </span>
+                        </template>
+                    </template>
+                </div>
+                <div if:false={processing} class="my1 slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+                    <template if:true={hasInvoice}>
+                        <template if:false={disableButton}>
+                            <a class="btn-link" onclick={invoiceClick}>
+                                <p class="btn-title bodyBold pb2"><strong>{invoiceTitle}</strong></p>
+                                <p class="btn-text bodyRegular">{invoiceLabel}</p>
+                            </a>
+                        </template>
+                        <template if:true={disableButton}>
+                            <span class="btn-disabled" >
+                                <p class="btn-title bodyBold pb2"><strong>{invoiceTitle}</strong></p>
+                                <p class="btn-text bodyRegular">{invoiceLabel}</p>
+                            </span>
+                        </template>
+                    </template>
+                </div> 
+            </div>   
+        </template>
     </div>  
 </template>

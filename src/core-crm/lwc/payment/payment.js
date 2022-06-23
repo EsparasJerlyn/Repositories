@@ -72,7 +72,13 @@ export default class Payment extends LightningElement {
     payLabel;
     invoiceTitle;
     invoiceLabel;
-    
+
+    /**
+     * Payment Options
+     */
+    @api hasPayNow;
+    @api hasInvoice;
+
     /**
      * Load Page labels
      */
@@ -87,6 +93,7 @@ export default class Payment extends LightningElement {
         this.invoiceTitle = 'Invoice';
         this.invoiceLabel = 'Generate an invoice that you can send to your nominated payee';
         this.fullName = this.contactFname + ' ' + this.contactLname;
+
     }
 
     @wire(getPaymentGatewaySettings)

@@ -101,6 +101,13 @@ export default class GroupBookingForm extends LightningElement {
     localeDisplayName;
     localeConMobile;
     @track locale;
+    /**
+     * Payment Options
+     */
+    paymentOpt = [];
+    @api hasPayNow;
+    @api hasInvoice;
+    
 
 @wire(getRecord, { recordId: userId, fields: CONTACT_FIELDS })
     wiredContact({ error, data }) {
@@ -520,6 +527,9 @@ export default class GroupBookingForm extends LightningElement {
                                   .then((result) => {
                                     this.cartItems = JSON.parse(JSON.stringify(result.cartItemsList));
                                     this.processing = false;
+
+                                    //checks payment options after remove
+                                    this.paymentOptionButtons();
                                   })
                             })
                         }).catch((error)=>{
@@ -551,6 +561,37 @@ export default class GroupBookingForm extends LightningElement {
        
    
 }
+
+paymentOptionButtons(){
+    this.paymentOpt = this.cartItems.map(
+      row => {
+        return row.paymentOptions;
+      }
+    );
+    
+    console.log('paymentOptions:', JSON.stringify(this.paymentOpt));
+
+    if(this.paymentOpt.includes('Pay Now')){
+      this.hasPayNow = true;
+    } else {
+      this.hasPayNow = false;
+    }
+    if(this.paymentOpt.includes('Invoice')){
+      this.hasInvoice = true;
+    } else {
+      this.hasInvoice = false;
+    }
+    if(this.paymentOpt.includes('Pay Now;Invoice')){
+      this.hasPayNow = true;
+      this.hasInvoice = true;
+    }
+    
+    console.log(
+      ' paymentOptions:', JSON.stringify(this.paymentOpt),
+      ' hasPayNow:', this.hasPayNow,
+      ' hasInvoice:', this.hasInvoice
+    );
+  }
 
 createFileUploadMap(){
     let fileUpload = [];

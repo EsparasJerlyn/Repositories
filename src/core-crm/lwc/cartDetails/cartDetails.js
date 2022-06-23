@@ -94,6 +94,11 @@ export default class CartDetails extends LightningElement {
   courseConnParams = [];
   paymentConURL;
 
+  //paymentOptions
+  paymentOpt = [];
+  @track hasPayNow = false;
+  @track hasInvoice = false;
+
   @wire(MessageContext)
   messageContext;
 
@@ -261,6 +266,9 @@ export default class CartDetails extends LightningElement {
         this.total = this.calculateSubTotal();
         this.isFreeOnly =  this.cartItems.length > 0 && this.total == 0;
 
+        //checks payment options after remove
+        this.paymentOptionButtons();
+
       })
       .catch((error) => {
         console.log("getCartItemsByCart error");
@@ -268,9 +276,55 @@ export default class CartDetails extends LightningElement {
       });
   }
 
+  paymentOptionButtons(){
+    console.log('this.cartItems:', this.cartItems);
+    this.paymentOpt = this.cartItems.map(
+      row => {
+        if(this.paymentOpt!=null){
+          return row.paymentOptions;
+        } else {
+          return 'null';
+        }
+      }
+    );
+    
+    console.log('paymentOptions:', JSON.stringify(this.paymentOpt));
+
+    this.hasPayNow = false;
+    this.hasInvoice = false;
+    if(this.isFreeOnly){
+      this.hasPayNow = false;
+      this.hasInvoice = false;
+    } else {
+      if(this.paymentOpt.includes('Pay Now')){
+        this.hasPayNow = true;
+        if(this.paymentOpt.includes('Invoice')){
+          this.hasInvoice = true;       
+        } 
+      }  
+      if(this.paymentOpt.includes('Invoice')){
+        this.hasInvoice = true;
+        if(this.paymentOpt.includes('Pay Now')){
+          this.hasPayNow = true;       
+        } 
+      }
+      if(this.paymentOpt.includes('Pay Now;Invoice')){
+        this.hasPayNow = true;
+        this.hasInvoice = true;
+      }  
+      
+    }
+    console.log(
+      ' paymentOptions:', JSON.stringify(this.paymentOpt),
+      ' hasPayNow:', this.hasPayNow,
+      ' hasInvoice:', this.hasInvoice,
+      ' isFreeOnly:', this.isFreeOnly,
+      ' disablepayment:', this.disablePayment
+    );
+  }
 
   //function for removing the cart item
-  removeCartItem(event) {
+  removeCartItem(event){
     let cartItemId = event.target.dataset.id;
 
     //filter out the element with the current cart item id
@@ -303,6 +357,9 @@ export default class CartDetails extends LightningElement {
         composed: true
       }));
 
+      //checks payment options after remove
+      this.paymentOptionButtons();
+
       //redirect to products if no more cart items
       if(this.cartItems.length == 0){
         window.location.href = BasePath + "/category/products/" + this.prodCategId;
@@ -312,6 +369,7 @@ export default class CartDetails extends LightningElement {
       console.log("delete error");
       console.log(error);
     });
+
   }
 
   //calculate the subtotal of cart items

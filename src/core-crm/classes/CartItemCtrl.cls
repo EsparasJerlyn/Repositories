@@ -118,6 +118,15 @@ public without sharing class CartItemCtrl {
       ]
     );
 
+    //create map of products payment options in cart
+    Map<Id, Product2> prodPayOpt = new Map<Id, Product2>(
+      [
+        SELECT Id, Payment_Options__c
+        FROM Product2
+        WHERE Id IN :productIds
+      ]
+    );
+
     //loop for popoulating the returned object
     for (CartItem currentCart : cartItemList) {
       CartItemsWrapper cartItemsWrapper = new CartItemsWrapper();
@@ -130,6 +139,11 @@ public without sharing class CartItemCtrl {
       cartItemsWrapper.CourseOfferingId =currentCart.Course_Offering__c;
       cartItemsWrapper.programOfferingId = currentCart.Program_Offering__c;
       cartItemsWrapper.contactFullName = currentCart.Contact__r.Name;
+
+      cartItemsWrapper.paymentOptions = prodPayOpt.get(
+        currentCart.Product2Id
+      )
+      .Payment_Options__c;
 
       if(QuestionnaireMap.containsKey(currentCart.Course_Offering__r.hed__Course__r.ProductRequestID__c)) {
         
@@ -291,6 +305,8 @@ public without sharing class CartItemCtrl {
     public List<RelatedAnswersWrapper> relatedAnswers;
     @AuraEnabled
     public String contactFullName;
+    @AuraEnabled
+    public String paymentOptions;    
   }
   public class RelatedAnswersWrapper {
     @AuraEnabled
