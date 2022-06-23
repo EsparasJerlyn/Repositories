@@ -1208,8 +1208,6 @@ span[c-customcombobox_customcombobox].slds-listbox__option-meta_entity {
 
 /** Desktop */
 @media only screen and (min-width: 765px){
-
-
 	/*Grid - Right Sidebar*/
   [c-productdetailsdisplay_productdetailsdisplay].slds-large-size_8-of-12, .slds-medium-size_8-of-12,
   [c-productdetailsdisplayinternal_productdetailsdisplayinternal].slds-large-size_8-of-12, .slds-medium-size_8-of-12,
@@ -1491,7 +1489,7 @@ div.main-container-bc [role=navigation] ol.slds-breadcrumb li:nth-child(n+4) p.d
 [c-applicationquestionnaire_applicationquestionnaire] span.slds-form-element__label{
   margin-bottom: 0.5rem;
   color: var(--greys-color-bodytext);
-  display: flow-root;
+  display: inline-block;
 }
 
 [lightning-basecombobox_basecombobox] .slds-combobox__input, 
@@ -1585,6 +1583,25 @@ ul.slds-accordion.searchResult .slds-form-element__label {
   margin-top: -3px;
   margin-left: 2rem;
 }
+
+
+@media only screen and (min-width: 765px){
+[c-searchResults_searchResults] ul.slds-accordion.searchResult .searchTitle  .slds-form-element__label{
+  margin-top: 0px !important;
+  margin-left: 0px !important;
+  }
+}
+
+@media only screen and (max-width: 764px){
+.modal-content [c-searchResults_searchResults] ul.slds-accordion.searchResult .searchTitle  .slds-form-element__label{
+  margin-top: 0px !important;
+  margin-left: 0px !important;
+  }
+
+}
+
+
+/*end*/
 
 /*groupbookingform */
 [c-groupbookingform_groupbookingform] button.slds-button[title="Delete"]{

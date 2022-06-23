@@ -291,61 +291,90 @@ renderedCallback() {
   }
   
   // Handles the Product Type Filter when clicked Individually
-  handleTypePicklist(event) {    
-    if (event.target.checked) {
-        this.selectedValues.push(event.target.value);
+  handleTypePicklist(event)  {
+    let selectedCheckBox;
+    if (this.tempArray.length > 0) {
+      let temp = this.tempArray.filter((e) => e == event.target.label);
+      if (temp && temp[0]) {
+        let abc = this.tempArray.filter((e) => e != temp);
+        this.tempArray = [...abc];
+      } else {
+        this.tempArray.push(event.target.label);
+      }
     } else {
-        try {
-          this.index = this.selectedValues.indexOf(event.target.value);
-          this.selectedValues.splice(this.index, 1);
+      this.tempArray.push(event.target.label);
+    }
 
-          const checkboxes = this.template.querySelectorAll('.chk-type-all');//'[data-id="chk-type-all"]'
-          for (const elem of checkboxes) {
-              elem.checked=false;
-          }
-        } catch (error) {
-            this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
-        }
+    selectedCheckBox = this.typeValues.find(
+      (item) => item.value === event.target.value );
+
+    if (event.target.checked) {
+      this.selectedValues.push(event.target.value);
+      selectedCheckBox.selected = true;
+    } else {
+      selectedCheckBox.selected = false;
+      this.selectedValues = this.selectedValues.filter(function(e) { return e !== event.target.value })
+      this.courseAll = false;
+
     }
     this.setPickList();
  }
 
   // Handles the Study Area Filter when Clicked Individually
   handleStudyAreaPicklist(event) {
-    if (event.target.checked) {
-        this.studyAreaSelectedValues.push(event.target.value);
+    let selectedCheckBox;
+    if (this.tempArray.length > 0) {
+      let temp = this.tempArray.filter((e) => e == event.target.label);
+      if (temp && temp[0]) {
+        let abc = this.tempArray.filter((e) => e != temp);
+        this.tempArray = [...abc];
+      } else {
+        this.tempArray.push(event.target.label);
+      }
     } else {
-        try {
-          this.indexStudyArea = this.studyAreaSelectedValues.indexOf(event.target.value);
-          this.studyAreaSelectedValues.splice(this.indexStudyArea, 1);
-          const checkboxes = this.template.querySelectorAll('.chk-studyarea-all');//[data-id="chk-studyarea-all"]
-          for (const elem of checkboxes) {
-              elem.checked=false;
-          }
-        } catch (error) {
-            this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
-        }
+      this.tempArray.push(event.target.label);
+    }          
+    selectedCheckBox = this.studyAreaValues.find(
+      (item) => item.value === event.target.value );
+
+    if (event.target.checked) {
+      this.studyAreaSelectedValues.push(event.target.value);
+      selectedCheckBox.selected = true;
+    } else {
+      selectedCheckBox.selected = false;
+      this.studyAreaSelectedValues = this.studyAreaSelectedValues.filter(function(e) { return e !== event.target.value })
+      this.studyAll = false;
+
     }
     this.setPickList();
   }
 
   // Handles Delivery Filter when clicked Individually
   handleDeliveryTypePicklist(event) {
-    if (event.target.checked) {
-        this.deliveryTypeSelectedValues.push(event.target.value);
+    let selectedCheckBox;
+    if (this.tempArray.length > 0) {
+      let temp = this.tempArray.filter((e) => e == event.target.label);
+      if (temp && temp[0]) {
+        let abc = this.tempArray.filter((e) => e != temp);
+        this.tempArray = [...abc];
+      } else {
+        this.tempArray.push(event.target.label);
+      }
     } else {
-        try {
-          this.indexDeliveryType = this.deliveryTypeSelectedValues.indexOf(event.target.value);
-          this.deliveryTypeSelectedValues.splice(this.indexDeliveryType, 1);
+      this.tempArray.push(event.target.label);
+    }
 
-          const checkboxes = this.template.querySelectorAll('.chk-deliverytype-all');//[data-id="chk-deliverytype-all"]
-          for (const elem of checkboxes) {
-              elem.checked=false;
-          }
+      selectedCheckBox = this.deliveryTypeValues.find(
+      (item) => item.value === event.target.value );
 
-        } catch (error) {
-            this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
-        }
+    if (event.target.checked) {
+      this.deliveryTypeSelectedValues.push(event.target.value);
+      selectedCheckBox.selected = true;
+    } else {
+      selectedCheckBox.selected = false;
+      this.deliveryTypeSelectedValues = this.deliveryTypeSelectedValues.filter(function(e) { return e !== event.target.value })
+      this.deliveryAll = false;
+
     }
     this.setPickList();
   }
@@ -392,82 +421,73 @@ renderedCallback() {
   //Handles Product Type Filter Select All;
   handleSelectAllTypes(event) {
     this.selectedValues =[];
-
     if (event.target.checked) {
-        const checkboxes = this.template.querySelectorAll('.chk-types');
-        for (const elem of checkboxes) {
-                elem.checked=true;
+      this.courseAll = true;
+      this.tempArray.push(event.target.label);
+      this.typeValues.forEach((courseAreas) => {
+        this.selectedValues.push(courseAreas.value)
+        courseAreas.selected = true;
+        if (!this.tempArray.includes(courseAreas.label)) {
+          this.tempArray.push(courseAreas.label);
         }
-        for(const types of this.typeValues){
-            this.selectedValues.push(types.value);
-        }
-        this.setPickList();   
+      });
     } else {
-        try {
-            const checkboxes = this.template.querySelectorAll('.chk-types');
-            for (const elem of checkboxes) {
-                    elem.checked=false;
-            }
-            this.selectedValues =[];
-            this.setPickList();   
-        } catch (error) {
-            this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
-        }
-    }   
+      // clear out
+      this.courseAll = false;
+      this.tempArray = [];
+      this.typeValues.forEach((courseAreas) => {
+        courseAreas.selected = false;
+      });
+    }
+    this.setPickList();
   }
 
   //Handles Study Area Filter Select All
   handleSelectAllStudyAreas(event) {
     this.studyAreaSelectedValues =[];
-    
     if (event.target.checked) {
-        const checkboxes = this.template.querySelectorAll('.chk-studyarea');
-        for (const elem of checkboxes) {
-                elem.checked=true;
+      this.studyAll = true;
+      this.tempArray.push(event.target.label);
+      this.studyAreaValues.forEach((studyAreas) => {
+        this.studyAreaSelectedValues.push(studyAreas.value)
+        studyAreas.selected = true;
+        if (!this.tempArray.includes(studyAreas.label)) {
+          this.tempArray.push(studyAreas.label);
         }
-        for(const types of this.studyAreaSelectedValues){
-            this.studyAreaSelectedValues.push(types.value);
-        }
-        this.setPickList();   
+      });
     } else {
-        try {
-            const checkboxes = this.template.querySelectorAll('.chk-studyarea');
-            for (const elem of checkboxes) {
-                    elem.checked=false;
-            }
-            this.studyAreaSelectedValues =[];
-            this.setPickList();   
-        } catch (error) {
-            this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
-        }
-    }  
+      // clear out
+      this.studyAll = false;
+      this.tempArray = [];
+      this.studyAreaValues.forEach((studyAreas) => {
+        studyAreas.selected = false;
+      });
+    }
+    this.setPickList();
   }
 
   //Handles Delivery Type Filter Select All
   handleSelectAllDeliveryTypes(event) {
-      this.deliveryTypeSelectedValues =[];
-    
-      if (event.target.checked) {
-          const checkboxes = this.template.querySelectorAll('.chk-delivery-type');
-          for (const elem of checkboxes) {
-                  elem.checked=true;
-          }
-          for(const types of this.deliveryTypeSelectedValues){
-              this.deliveryTypeSelectedValues.push(types.value);
-          }
-          this.setPickList();   
-      } else {
-          try {
-              const checkboxes = this.template.querySelectorAll('.chk-delivery-type');
-              for (const elem of checkboxes) {
-                      elem.checked=false;
-              }
-              this.deliveryTypeSelectedValues =[];
-              this.setPickList();   
-          } catch (error) {
-              this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
-          }
-      }  
+    this.deliveryTypeSelectedValues =[];
+    if (event.target.checked) {
+      this.deliveryAll = true;
+      this.tempArray.push(event.target.label);
+      this.deliveryTypeValues.forEach((deliveryAreas) => {
+        this.deliveryTypeSelectedValues.push(deliveryAreas.value)
+        deliveryAreas.selected = true;
+        if (!this.tempArray.includes(deliveryAreas.label)) {
+          this.tempArray.push(deliveryAreas.label);
+        }
+      });
+    } else {
+      // clear out
+      this.deliveryAll = false;
+      this.tempArray = [];
+      this.deliveryTypeValues.forEach((deliveryAreas) => {
+        deliveryAreas.selected = false;
+      });
+    }
+    this.setPickList();
   }
 
   // handles Clear All filters
@@ -819,48 +839,49 @@ handleNextPage(evt) {
   /**
    * The connectedCallback() lifecycle hook fires when a component is inserted into the DOM.
    */
-  connectedCallback() {
+   tempArray = [];
+   connectedCallback() {
 
-    this.vectorIcon = qutResourceImg + "/QUTImages/Icon/icon-Vector.png";
-    this.accordionClose = qutResourceImg + "/QUTImages/Icon/accordionClose.svg";
-    this.filterFilled = qutResourceImg + "/QUTImages/Icon/icon-filter-filled.svg";
-
-   if(!isGuest){
-      this.updateCartInformation();
-    }
-      
-    this.publishLMS();
-  }
-
-  handleAccordionToggle(event) {
-    // Get Aria Expanded value
-    let accordionAriaExpanded = event.currentTarget;
-    // Get Closest Section Element
-    let accordionSection = event.currentTarget.closest("section");
-    // Get Content Element
-    let accordionContent = accordionSection.querySelector(".accordionContent");
-    // Get Button Icon Element
-    let vectorIcon = accordionSection.querySelector(".slds-button__icon");
-  
-    // Toggle Values
-    accordionSection.classList.toggle("slds-is-open");
-    if (accordionAriaExpanded.getAttribute("aria-expanded") == "true") {
-      accordionAriaExpanded.setAttribute("aria-expanded", "false");
-      accordionContent.setAttribute("hidden");
-      vectorIcon.setAttribute(
-        "src",
-        qutResourceImg + "/QUTImages/Icon/icon-Vector.png"
-      );
-    } else {
-      accordionAriaExpanded.setAttribute("aria-expanded", "true");
-      accordionContent.removeAttribute("hidden");
-      /*accordionIcon.setAttribute(
-        "src",
-        qutResourceImg + "/QUTImages/Icon/accordionOpen.svg"
-      );*/
-      
-    }
-  }
+     this.vectorIcon = qutResourceImg + "/QUTImages/Icon/icon-Vector.png";
+     this.accordionClose = qutResourceImg + "/QUTImages/Icon/accordionClose.svg";
+     this.filterFilled =
+       qutResourceImg + "/QUTImages/Icon/icon-filter-filled.svg";
+ 
+     if (!isGuest) {
+       this.updateCartInformation();
+     }
+ 
+     this.publishLMS();
+   }
+ 
+   handleAccordionToggle(event) {
+     // Get Aria Expanded value
+     let accordionAriaExpanded = event.currentTarget;
+     // Get Closest Section Element
+     let accordionSection = event.currentTarget.closest("section");
+     // Get Content Element
+     let accordionContent = accordionSection.querySelector(".accordionContent");
+     // Get Button Icon Element
+     let vectorIcon = accordionSection.querySelector(".slds-button__icon");
+ 
+     // Toggle Values
+     accordionSection.classList.toggle("slds-is-open");
+     if (accordionAriaExpanded.getAttribute("aria-expanded") == "true") {
+       accordionAriaExpanded.setAttribute("aria-expanded", "false");
+       accordionContent.setAttribute("hidden");
+       vectorIcon.setAttribute(
+         "src",
+         qutResourceImg + "/QUTImages/Icon/icon-Vector.png"
+       );
+     } else {
+       accordionAriaExpanded.setAttribute("aria-expanded", "true");
+       accordionContent.removeAttribute("hidden");
+       /*accordionIcon.setAttribute(
+         "src",
+         qutResourceImg + "/QUTImages/Icon/accordionOpen.svg"
+       );*/
+     }
+   }
 
   /*
   * Closes Modal
@@ -873,8 +894,75 @@ handleNextPage(evt) {
   /*
   * Opens Modal Onclick 
   */
-  handleModalOpen(){
+  handleModalOpen() {
     this.openModal = true;
+    console.log("tempArray", this.tempArray);
+    try {
+      let Array1 = JSON.parse(JSON.stringify(this.studyAreaValues));
+      let Array2 = JSON.parse(JSON.stringify(this.deliveryTypeValues));
+      let Array3 = JSON.parse(JSON.stringify(this.typeValues));
+      //StudyAreas
+      console.log("Array1-Study", this.studyAreaValues);
+      if (this.tempArray.length > 0) {
+        //this.studyAreaValues.all = true;
+        Array1.forEach((e) => {
+          console.log("e.label", e.label);
+          let temp = this.tempArray.filter((j) => j == e.label);
+          console.log("temp", temp);
+          if (temp && temp[0]) {
+            e.selected = true;
+            console.log("selected=>");
+          } else {
+            e.selected = false;
+          }
+        });
+      } else {
+        Array1.forEach((e) => (e.selected = false));
+      }
+      this.studyAreaValues = [...Array1];
+
+
+
+      /*Delivery*/
+      if (this.tempArray.length > 0) {
+        Array2.forEach((e) => {
+          console.log("e.label", e.label);
+          let temp = this.tempArray.filter((j) => j == e.label);
+          console.log("temp", temp);
+          if (temp && temp[0]) {
+            e.selected = true;
+            console.log("selected=>");
+          } else {
+            e.selected = false;
+          }
+        });
+      } else {
+        Array2.forEach((e) => (e.selected = false));
+      }
+      this.deliveryTypeValues = [...Array2];
+      /*end of delivery*/
+
+      /*type type*/
+      if (this.tempArray.length > 0) {
+        Array3.forEach((e) => {
+          console.log("e.label", e.label);
+          let temp = this.tempArray.filter((j) => j == e.label);
+          console.log("temp", temp);
+          if (temp && temp[0]) {
+            e.selected = true;
+            console.log("selected=>");
+          } else {
+            e.selected = false;
+          }
+        });
+      } else {
+        Array3.forEach((e) => (e.selected = false));
+      }
+      this.typeValues = [...Array3];
+      /*end of course type*/
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   /**
