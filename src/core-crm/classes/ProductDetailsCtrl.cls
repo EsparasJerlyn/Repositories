@@ -56,6 +56,8 @@ public without sharing class ProductDetailsCtrl {
         Program_Plan__r.Maximum_Participants__c,
         Duration__c,
         Delivery__c,
+        Minimum_Participants_Group__c, 
+        Maximum_Participants_Group__c,
         Register_Interest_Available__c,
         Overview__c,
         Evolve_with_QUTeX__c,

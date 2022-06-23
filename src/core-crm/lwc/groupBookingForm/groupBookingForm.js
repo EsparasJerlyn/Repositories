@@ -111,21 +111,21 @@ export default class GroupBookingForm extends LightningElement {
         this.firstName = data.fields.Contact.value.fields.FirstName.value;
         this.lastName = data.fields.Contact.value.fields.LastName.value;
         this.contactEmail = data.fields.Contact.value.fields.Email.value;
-        // console.log('data:', data);
+        
 
         getUserMobileLocale({userId: this.contactId})
         .then((result) => {
             this.localeConMobile = result;
-            console.log('localeConMobile:', this.localeConMobile);
+            
         })
         .catch((e)=> {
-             console.log('getUserMobLoc in wire:', e);
+           
         });
 
         //else if error
     } else if (error) {
         this.error = error;
-        console.log('error',error);
+       
     }
 } 
 
@@ -143,7 +143,7 @@ export default class GroupBookingForm extends LightningElement {
               );
         })
         .catch((e) =>{
-            console.log(e);
+            this.error = e;
         })
         .finally(()=>{
             this.isModalOpen = false;
@@ -171,16 +171,15 @@ export default class GroupBookingForm extends LightningElement {
     connectedCallback(){
         if(this.isPrescribed){
             this.productRequestId = this.productDetails.Program_Plan__c.Product_Request__c;
-            this.minParticipants = this.productDetails.Program_Plan__r.Minimum_Participants__c;
-            this.maxParticipants =  this.productDetails.Program_Plan__r.Maximum_Participants__c;
+           
         }else{
             this.productRequestId = this.productDetails.Course__r.ProductRequestID__c;
-            this.minParticipants = this.productDetails.Course__r.Minimum_Participants__c;
-            this.maxParticipants =  this.productDetails.Course__r.Maximum_Participants__c;
         }
-
+        
         this.productId = this.productDetails.Id;
         this.productCourseName = this.productDetails.Name;
+        this.minParticipants = this.productDetails.Minimum_Participants_Group__c;
+        this.maxParticipants =  this.productDetails.Maximum_Participants_Group__c;
 
         getQuestionsForGroupBooking({
             productReqId: this.productRequestId
@@ -210,7 +209,6 @@ export default class GroupBookingForm extends LightningElement {
                 this.cartId = results.Id;
             })
             .catch((e) => {
-              console.log(e);
               this.generateToast("Error.", LWC_Error_General, "error");
         });
 
@@ -274,7 +272,7 @@ export default class GroupBookingForm extends LightningElement {
                 }
             });
             this.items[event.currentTarget.dataset.id][event.target.name] = this.localeConMobile;
-            console.log('target:', event.target.name, ' value:', this.localeConMobile);
+         
         } else {
             this.items[event.currentTarget.dataset.id][event.target.name] = event.target.value;
         }        
@@ -401,140 +399,156 @@ export default class GroupBookingForm extends LightningElement {
 
     if (allValid) {
 
-        if(this.counter == this.numberOfParticipants){
-
-            let fieldsPrimary = {};
-            let contactMap = {};
-            let answerMap = {};
-            let fileUploadMap = {};
-
-            fieldsPrimary.Id = this.contactId;
-            const inputFields = this.template.querySelectorAll(
-                'lightning-input-field','lightning-combobox'
-            );
-    
-            if (inputFields) {
-                inputFields.forEach(field => {
-                    fieldsPrimary[field.fieldName] = field.value;
-                });
-            }
-
-            this.contactFieldsPrimary = fieldsPrimary;
-            this.amount = this.productDetails.PricebookEntries.find(row => row.Id === this.priceBookEntry).UnitPrice,
-            this.total = this.amount * this.numberOfParticipants;
-
-            contactMap['PARTICIPANT 1'] = fieldsPrimary;
-            answerMap['PARTICIPANT 1'] = this.createAnswerRecordPrimary();
-            fileUploadMap['PARTICIPANT 1'] = JSON.stringify(this.createFileUploadMap());
-
-            this.processing = true;
-                let blankRow = this.items;
-                for(let i = 0; i < blankRow.length; i++){
-                    if(blankRow[i] !== undefined){
-                        let conData = new Object();
-                        conData.FirstName = blankRow[i].FirstName;
-                        conData.LastName = blankRow[i].LastName;
-                        conData.Email = blankRow[i].Email;
-                        conData.Birthdate = blankRow[i].Birthdate;
-                        conData.ContactMobile_Locale__c = blankRow[i].ContactMobile_Locale__c; 
-                        conData.MobilePhone = blankRow[i].MobilePhone;
-                        conData.Dietary_Requirement__c = blankRow[i].Dietary_Requirement__c;    
-                        contactMap[blankRow[i].label] = conData;
-                        let answerRecords = {};
-                        answerRecords = blankRow[i].Questions.map(row=>{
-                            let record = {};
-                            record.Related_Answer__c = row.Id;
-                            record.Response__c = row.Answer;
-                            record.Sequence__c = row.Sequence;
-                            return record;                                  
-                        });
-                        answerMap[blankRow[i].label] = answerRecords;
-
-                        let fileUpload = [];
-                        fileUpload = blankRow[i].Questions.map(item =>{
-                            if(item.IsFileUpload){
-                                let record = {};
-                                record.RelatedAnswerId = item.Id;
-                                record.Base64 = item.FileData.base64;
-                                record.FileName = item.FileData.filename;
-                                return record;
-                            }
-                        });
-                        fileUploadMap[blankRow[i].label] = JSON.stringify(fileUpload.filter(key => key !== undefined)?fileUpload.filter(key => key !== undefined):fileUpload);
-
-                    }
-                }
-                removeCartItems({
-                    userId:userId
-                })
-                .then(()=>{
-                    this.dispatchEvent(
-                        new CustomEvent("cartchanged", {
-                          bubbles: true,
-                          composed: true
-                        })
-                    );
-                    saveBooking({
-                        participants:contactMap,
-                        offeringId:this.selectedOffering,
-                        relatedAnswer:this.responseData2,
-                        answerMap:answerMap,
-                        fileUpload:fileUploadMap,
-                        isPrescribed: this.isPrescribed
-                    }).then((result)=>{
-                        addCartItems({
-                            productId:this.productId,
-                            productName:this.productCourseName,
-                            isPrescribed:this.isPrescribed,
-                            offeringId:this.selectedOffering,
-                            pricebookEntryId:this.priceBookEntry,
-                            pricebookUnitPrice:this.amount,
-                            userId:this.userId,
-                            contacts:result,
-                            cartId:this.cartId,
-                        })
-                        .then(() => {
-                            
-                            this.isOpenPayment = true;
-                            this.dispatchEvent(
-                                new CustomEvent("cartchanged", {
-                                  bubbles: true,
-                                  composed: true
-                                })
-                              );
-        
-                              getCartItemsByCart({
-                                cartId:this.cartId,
-                                userId:userId
-                              })
-                              .then((result) => {
-                                this.cartItems = JSON.parse(JSON.stringify(result.cartItemsList));
-                                this.processing = false;
-                              })
-                        })
-                    }).catch((error)=>{
-                        this.processing = false;
-                        console.log(error);
-                    })
-                })
-                .catch((e) =>{
-                    this.processing = false;
-                    console.log(e);
-                })
-
-        }else{
-
+        if(this.numberOfParticipants == 1){
             this.processing = false;
             const evt = new ShowToastEvent({
                             title: 'Toast Error',
-                            message: 'Please fill up all added participants before proceed',
+                            message: 'Minimum participants for group booking is 2.',
                             variant: 'error',
                             mode: 'dismissable'
                         });
                         this.dispatchEvent(evt);
         }
+        else{
 
-    }
+            if(this.counter == this.numberOfParticipants){
+            
+                let fieldsPrimary = {};
+                let contactMap = {};
+                let answerMap = {};
+                let fileUploadMap = {};
+    
+                fieldsPrimary.Id = this.contactId;
+                const inputFields = this.template.querySelectorAll(
+                    'lightning-input-field','lightning-combobox'
+                );
+        
+                if (inputFields) {
+                    inputFields.forEach(field => {
+                        fieldsPrimary[field.fieldName] = field.value;
+                    });
+                }
+    
+                this.contactFieldsPrimary = fieldsPrimary;
+                this.amount = this.productDetails.PricebookEntries.find(row => row.Id === this.priceBookEntry).UnitPrice,
+                this.total = this.amount * this.numberOfParticipants;
+    
+                contactMap['PARTICIPANT 1'] = fieldsPrimary;
+                answerMap['PARTICIPANT 1'] = this.createAnswerRecordPrimary();
+                fileUploadMap['PARTICIPANT 1'] = JSON.stringify(this.createFileUploadMap());
+    
+                this.processing = true;
+                    let blankRow = this.items;
+                    for(let i = 0; i < blankRow.length; i++){
+                        if(blankRow[i] !== undefined){
+                            let conData = new Object();
+                            conData.FirstName = blankRow[i].FirstName;
+                            conData.LastName = blankRow[i].LastName;
+                            conData.Email = blankRow[i].Email;
+                            conData.Birthdate = blankRow[i].Birthdate;
+                            conData.ContactMobile_Locale__c = blankRow[i].ContactMobile_Locale__c; 
+                            conData.MobilePhone = blankRow[i].MobilePhone;
+                            conData.Dietary_Requirement__c = blankRow[i].Dietary_Requirement__c;    
+                            contactMap[blankRow[i].label] = conData;
+                            let answerRecords = {};
+                            answerRecords = blankRow[i].Questions.map(row=>{
+                                let record = {};
+                                record.Related_Answer__c = row.Id;
+                                record.Response__c = row.Answer;
+                                record.Sequence__c = row.Sequence;
+                                return record;                                  
+                            });
+                            answerMap[blankRow[i].label] = answerRecords;
+    
+                            let fileUpload = [];
+                            fileUpload = blankRow[i].Questions.map(item =>{
+                                if(item.IsFileUpload){
+                                    let record = {};
+                                    record.RelatedAnswerId = item.Id;
+                                    record.Base64 = item.FileData.base64;
+                                    record.FileName = item.FileData.filename;
+                                    return record;
+                                }
+                            });
+                            fileUploadMap[blankRow[i].label] = JSON.stringify(fileUpload.filter(key => key !== undefined)?fileUpload.filter(key => key !== undefined):fileUpload);
+    
+                        }
+                    }
+                    removeCartItems({
+                        userId:userId
+                    })
+                    .then(()=>{
+                        this.dispatchEvent(
+                            new CustomEvent("cartchanged", {
+                              bubbles: true,
+                              composed: true
+                            })
+                        );
+                        saveBooking({
+                            participants:contactMap,
+                            offeringId:this.selectedOffering,
+                            relatedAnswer:this.responseData2,
+                            answerMap:answerMap,
+                            fileUpload:fileUploadMap,
+                            isPrescribed: this.isPrescribed
+                        }).then((result)=>{
+                            addCartItems({
+                                productId:this.productId,
+                                productName:this.productCourseName,
+                                isPrescribed:this.isPrescribed,
+                                offeringId:this.selectedOffering,
+                                pricebookEntryId:this.priceBookEntry,
+                                pricebookUnitPrice:this.amount,
+                                userId:this.userId,
+                                contacts:result,
+                                cartId:this.cartId,
+                            })
+                            .then(() => {
+                                
+                                this.isOpenPayment = true;
+                                this.dispatchEvent(
+                                    new CustomEvent("cartchanged", {
+                                      bubbles: true,
+                                      composed: true
+                                    })
+                                  );
+            
+                                  getCartItemsByCart({
+                                    cartId:this.cartId,
+                                    userId:userId
+                                  })
+                                  .then((result) => {
+                                    this.cartItems = JSON.parse(JSON.stringify(result.cartItemsList));
+                                    this.processing = false;
+                                  })
+                            })
+                        }).catch((error)=>{
+                            this.processing = false;
+                           
+                        })
+                    })
+                    .catch((e) =>{
+                        this.processing = false;
+                       
+                    })
+    
+            }
+            else{
+    
+                this.processing = false;
+                const evt = new ShowToastEvent({
+                                title: 'Toast Error',
+                                message: 'Please fill up all added participants before proceed',
+                                variant: 'error',
+                                mode: 'dismissable'
+                            });
+                            this.dispatchEvent(evt);
+            }
+    
+        }
+            
+        }
+       
    
 }
 
