@@ -8,6 +8,7 @@ import getStudyProducts from '@salesforce/apex/MainNavigationMenuCtrl.getStudyPr
 //import getProducts from '@salesforce/apex/ProductCtrl.getProducts';
 import { loadStyle } from "lightning/platformResourceLoader";
 import customSR from "@salesforce/resourceUrl/QUTInternalCSS";
+import customCSS from "@salesforce/resourceUrl/QUTMainCSS";
 
 import { subscribe, unsubscribe, MessageContext } from 'lightning/messageService';
 import payloadContainerLMS from '@salesforce/messageChannel/Breadcrumbs__c';
@@ -42,7 +43,9 @@ export default class StoreBreadrumbs extends LightningElement {
 
       /* Load Custom CSS */
     renderedCallback() {
-        Promise.all([loadStyle(this, customSR + "/QUTInternalCSS.css")]);
+       // Promise.all([loadStyle(this, customSR + "/QUTInternalCSS.css")]);
+        Promise.all([loadStyle(this, customCSS + "/QUTCSS.css")]);
+        
     }
 
     disconnectedCallback() {
