@@ -472,6 +472,11 @@
         <members>Pre_session_Reminder_Email</members>
         <members>Send_Email_on_Registration_Confirmation</members>
         <members>Online_Self_Paced_Confirmation_Email</members>
+        <members>Face_to_Face_Final_Confirmation_Email_Flow</members>
+        <members>Virtual_Confirmation_Email_Flow</members>
+        <members>Online_Self_Paced_Confirmation_Email_Flow</members>
+        <members>Pre_session_Reminder_Email_Flow</members>
+        <members>Post_Course_Completion_Email_Flow</members>
         <name>Flow</name>
     </types>
     <types>

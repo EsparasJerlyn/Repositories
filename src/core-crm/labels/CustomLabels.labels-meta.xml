@@ -8,6 +8,13 @@
         <value>0 0 * * * ?</value>
     </labels>
     <labels>
+        <fullName>Email_Trigger_Cron_Expression</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email_Trigger_Cron_Expression</shortDescription>
+        <value>0 0 7 ? * * ?</value>
+    </labels>
+    <labels>
         <fullName>DOC_Badge_Logo</fullName>
         <categories>Document</categories>
         <language>en_US</language>

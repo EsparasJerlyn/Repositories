@@ -1,6 +1,6 @@
 System.debug('schedule-EmailTriggerPostCourseScheduler.apex');
  
-String cronExp = Label.Publishing_End_Date_Cron_Expression;
+String cronExp = Label.Email_Trigger_Cron_Expression;
 String ClassName='EmailTriggerPostCourseScheduler';
  
 list<AsyncApexJob> aJob= [

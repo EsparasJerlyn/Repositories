@@ -1,6 +1,6 @@
 System.debug('schedule-EmailTriggerVirtualScheduler.apex');
  
-String cronExp = Label.Publishing_End_Date_Cron_Expression;
+String cronExp = Label.Email_Trigger_Cron_Expression;
 String ClassName='EmailTriggerVirtualScheduler';
  
 list<AsyncApexJob> aJob= [

@@ -7,7 +7,8 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | marygrace.li@qut.edu.au        | April 4, 2022         | DEPP-1479              | Created file                 |
-      |                                |                       |                        |                              |
+      | rhea.b.torres                  | June 22, 2022         | DEPP-3188              | Get sessions with Date__c is |
+      |                                |                       |                        | tomorrow                     |
  */
 public with sharing class FacetoFaceFinalConfirmationEmailCtrl {
   private static final String STR_QUTEX = 'QUTeX';
@@ -49,7 +50,7 @@ public with sharing class FacetoFaceFinalConfirmationEmailCtrl {
           Location_Name__c,
           Location_Detail_v2__c
         FROM Session__c
-        WHERE Course_Connection__c = :courseConnectionId
+        WHERE Course_Connection__c = :courseConnectionId AND Date__c =:Date.today()+1
       ];
     }
   }
