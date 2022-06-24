@@ -164,7 +164,7 @@ margin-bottom: 0.5rem;
 
 .birthDate{
   font-family: "ProximaNova-Bold";
-  color: #696969;
+  color: var(--greys-color-bodytext);
   padding-top: 0.25rem;
   margin-bottom: 0.125rem;
   padding-right: 0.5rem;
@@ -185,3 +185,7 @@ margin-bottom: 0.5rem;
 .mobile-number .slds-form-element .slds-form-element__stacked {
   margin-top: 8px;
 } */
+
+.cursor {
+  cursor: pointer;
+}

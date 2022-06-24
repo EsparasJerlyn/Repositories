@@ -20,6 +20,7 @@ import { loadStyle } from "lightning/platformResourceLoader";
 import customSR from "@salesforce/resourceUrl/QUTInternalCSS";
 import getMobileLocaleOptions from "@salesforce/apex/RegistrationFormCtrl.getMobileLocaleOptions";
 import getUserMobileLocale from "@salesforce/apex/RegistrationFormCtrl.getUserMobileLocale";
+import qutResourceImg from "@salesforce/resourceUrl/QUTImages";
 
 const SUCCESS_MSG = 'Record successfully updated.';
 const SUCCESS_TITLE = 'Success!';
@@ -176,6 +177,7 @@ export default class GroupBookingForm extends LightningElement {
     }
     
     connectedCallback(){
+        this.xButton = qutResourceImg + "/QUTImages/Icon/xMark.svg";
         if(this.isPrescribed){
             this.productRequestId = this.productDetails.Program_Plan__c.Product_Request__c;
            
