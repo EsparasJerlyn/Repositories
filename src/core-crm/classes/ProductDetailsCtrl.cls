@@ -43,7 +43,7 @@ public without sharing class ProductDetailsCtrl {
     Product2 productOnPage = [
       SELECT
         Id,
-        Name,
+        Name, 
         Description,
         StockKeepingUnit,
         Course__c,
@@ -58,6 +58,7 @@ public without sharing class ProductDetailsCtrl {
         Delivery__c,
         Minimum_Participants_Group__c, 
         Maximum_Participants_Group__c,
+        Payment_Options__c,
         Register_Interest_Available__c,
         Overview__c,
         Evolve_with_QUTeX__c,

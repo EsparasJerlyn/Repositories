@@ -527,7 +527,7 @@ export default class GroupBookingForm extends LightningElement {
                                   .then((result) => {
                                     this.cartItems = JSON.parse(JSON.stringify(result.cartItemsList));
                                     this.processing = false;
-
+                                   
                                     //checks payment options after remove
                                     this.paymentOptionButtons();
                                   })
@@ -563,34 +563,24 @@ export default class GroupBookingForm extends LightningElement {
 }
 
 paymentOptionButtons(){
-    this.paymentOpt = this.cartItems.map(
-      row => {
-        return row.paymentOptions;
-      }
-    );
-    
-    console.log('paymentOptions:', JSON.stringify(this.paymentOpt));
 
-    if(this.paymentOpt.includes('Pay Now')){
-      this.hasPayNow = true;
-    } else {
-      this.hasPayNow = false;
-    }
-    if(this.paymentOpt.includes('Invoice')){
-      this.hasInvoice = true;
-    } else {
-      this.hasInvoice = false;
-    }
-    if(this.paymentOpt.includes('Pay Now;Invoice')){
-      this.hasPayNow = true;
-      this.hasInvoice = true;
-    }
+    this.paymentOpt = this.productDetails.Payment_Options__c;
     
-    console.log(
-      ' paymentOptions:', JSON.stringify(this.paymentOpt),
-      ' hasPayNow:', this.hasPayNow,
-      ' hasInvoice:', this.hasInvoice
-    );
+    if(this.paymentOpt == 'Pay Now'){
+        this.hasPayNow = true;
+    }
+    else if(this.paymentOpt == 'Invoice'){
+        this.hasInvoice = true;
+    }
+    else if(this.paymentOpt == 'Pay Now;Invoice'){
+        this.hasPayNow = true;
+        this.hasInvoice = true;
+    }
+    else{
+        this.hasPayNow = false;
+        this.hasInvoice = false;
+    }
+   
   }
 
 createFileUploadMap(){
