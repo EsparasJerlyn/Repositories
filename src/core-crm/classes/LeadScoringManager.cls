@@ -229,17 +229,20 @@ public without sharing class LeadScoringManager {
         for (Id id : leadIds) {
             Lead lead = new Lead();
             lead.put('Id', id);
-            if (leadToScore.get(id).get('Marketing_Segmentation_Score__c') != null) {
-                lead.put('Marketing_Segmentation_Score__c',  leadToScore.get(id).get('Marketing_Segmentation_Score__c'));
-            }
-            if (leadToScore.get(id).get('Marketing_Course_Application_Score__c') != null) {
-                lead.put('Marketing_Course_Application_Score__c',  leadToScore.get(id).get('Marketing_Course_Application_Score__c'));
-            }
-            if (leadToScore.get(id).get('Marketing_Interaction_Score__c') != null) {
-                lead.put('Marketing_Interaction_Score__c',  leadToScore.get(id).get('Marketing_Interaction_Score__c'));
-            }
-            if (leadToScore.get(id).get('IER_Score__c') != null) {
-                lead.put('IER_Score__c',  leadToScore.get(id).get('IER_Score__c'));
+            if(leadToScore.containsKey(id)){
+                Map<String,Decimal> leadScoreMap = new Map<String,Decimal>(leadToScore.get(id));
+                if (leadScoreMap.containsKey('Marketing_Segmentation_Score__c') && leadScoreMap.get('Marketing_Segmentation_Score__c') != null) {
+                    lead.put('Marketing_Segmentation_Score__c',  leadToScore.get(id).get('Marketing_Segmentation_Score__c'));
+                }
+                if (leadScoreMap.containsKey('Marketing_Course_Application_Score__c') && leadScoreMap.get('Marketing_Course_Application_Score__c') != null) {
+                    lead.put('Marketing_Course_Application_Score__c',  leadToScore.get(id).get('Marketing_Course_Application_Score__c'));
+                }
+                if (leadScoreMap.containsKey('Marketing_Interaction_Score__c') && leadScoreMap.get('Marketing_Interaction_Score__c') != null) {
+                    lead.put('Marketing_Interaction_Score__c',  leadToScore.get(id).get('Marketing_Interaction_Score__c'));
+                }
+                if (leadScoreMap.containsKey('IER_Score__c') && leadScoreMap.get('IER_Score__c') != null) {
+                    lead.put('IER_Score__c',  leadToScore.get(id).get('IER_Score__c'));
+                }
             }
             leadsToBeUpdated.add(lead);
         }
