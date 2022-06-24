@@ -153,18 +153,42 @@ export default class Payment extends LightningElement {
      * Get Pay Now button link
      */
     get payURL(){
-        this.formURL = `tran-type=` + this.transtypePayNow + `&` +
+        this.formURL = `tran-type=` + this.transtypePayNow + `&` +  
         /** 
          * Passed Parameters 
          **/
-            `OPETRANSACTIONID=` + this.cartExternalId + `&` + 
-            `EMAIL=` + this.contactEmail.replace('@','%40') + `&` + 
-            `FULLNAME=` + this.fullName.replace(/ /g,'%20') + `&` + 
-            `GLCODE=` + this.glCode + `&` + 
-            `UNITAMOUNTINCTAX=` + this.total;
+            `OPETransactionID=` + this.cartExternalId + `&` + 
+            `Email=` + this.contactEmail.replace('@','%40') + `&` + 
+            `GLCode=` + this.glCode + `&`;
+
+        //if from cart summary we are going to get the data for FullName from the passed parameter and adding in the URL only once
+        if(this.fromCartSummary){
+            this.formURL = this.formURL + `FullName=` + this.fullName.replace(/ /g,'%20') + `&`;
+        }
+
+        //looped url parameter based on the cart items
+        let opeDescription = '';
+        let cartItems;
+
+        //get the cart items product properties
+        cartItems = JSON.parse(JSON.stringify(this.cartItems));
+
+        //loop on the cart items to get properties
+        cartItems.forEach( currentCartItem => {
+
+            //if not from cart summary, we have to get the contact name of the cart item from the Contact__c.Name
+            if(!this.fromCartSummary){
+                opeDescription = opeDescription + `FullName=` + currentCartItem.contactFullName.replace(/ /g,'%20') + `&`;
+            }
+
+            //populate string
+            opeDescription = opeDescription + `OPEDescription=` + currentCartItem.productName.replace(/ /g,'%20') + `&` + 
+            `UnitAmountIncTax=` + (currentCartItem.unitPrice - currentCartItem.unitDiscount)+ `&`;
+            
+        });
 
         this.dispatchEvent(new CustomEvent('paymentclicked'));
-        return this.baseURL + this.formURL;       
+        return this.baseURL + this.formURL + opeDescription.slice(0, -1);
     }
 
     /**
@@ -212,65 +236,29 @@ export default class Payment extends LightningElement {
     payNowClick(){
         this.paymentCartItems = JSON.parse(JSON.stringify(this.cartItems));
         this.processing = true;
-        if(this.fromCartSummary){
-                let fields = {'Status__c' : 'Checkout'};
-                let objRecordInput = {'apiName':'Cart_Payment__c',fields};
-                createRecord(objRecordInput).then(response => {
-                    let cartPaymentId = response.id;
-                    let fields = {};
-                    fields[ID_FIELD.fieldApiName] = this.cartId;
-                    fields[CART_PAYMENT_FIELD.fieldApiName] = cartPaymentId;
-                    fields[PAYMENT_URL_FIELD.fieldApiName] = this.payURL;
-                    fields[PAYMENT_METHOD.fieldApiName] = 'Pay Now';
-                    let recordInput = {fields};
-                    updateRecord(recordInput).then(()=>{
-                        window.location.href = this.payURL;
-                    })
-                })
-                .catch((error) => {
-                    this.processing = false;
-                    console.log("create cartpayment error");
-                    console.log(error);
-                })
-        }else{
-            let fields = {'Status__c' : 'Checkout'};
-                let objRecordInput = {'apiName':'Cart_Payment__c',fields};
-                createRecord(objRecordInput).then(response => {
-                    let cartPaymentId = response.id;
-                    let fields = {};
-                    fields[ID_FIELD.fieldApiName] = this.cartId;
-                    fields[CART_PAYMENT_FIELD.fieldApiName] = cartPaymentId;
-                    fields[PAYMENT_URL_FIELD.fieldApiName] = this.payURL;
-                    fields[PAYMENT_METHOD.fieldApiName] = 'Pay Now';
-                    let recordInput = {fields};
-                    updateRecord(recordInput).then(()=>{
-                        console.log(this.payURL);
-                        window.location.href = this.payURL;
-                    })
-                })
-                .catch((error) => {
-                    this.processing = false;
-                    console.log("create cartpayment error");
-                    console.log(error);
-                })
-        }
 
-        //update the cart with the payment method selected
-        /*updatePaymentMethod({ cartId: this.cartId, paymentMethod: 'Pay Now' })
-        .then(() => {
-            window.location.href = this.payURL;
+        let fields = {'Status__c' : 'Checkout'};
+        let objRecordInput = {'apiName':'Cart_Payment__c',fields};
+        createRecord(objRecordInput).then(response => {
+            let cartPaymentId = response.id;
+            let fields = {};
+            fields[ID_FIELD.fieldApiName] = this.cartId;
+            fields[CART_PAYMENT_FIELD.fieldApiName] = cartPaymentId;
+            fields[PAYMENT_URL_FIELD.fieldApiName] = this.payURL;
+            fields[PAYMENT_METHOD.fieldApiName] = 'Pay Now';
+            let recordInput = {fields};
+            updateRecord(recordInput).then(()=>{
+                window.location.href = this.payURL;
+            })
         })
-
-            //code
-
         .catch((error) => {
-            console.log("updatePaymentMethod error");
+            this.processing = false;
+            console.log("create cartpayment error");
             console.log(error);
-        });*/
+        })
     }
 
     invoiceClick(){
-
         //update the cart with the payment method selected
         this.paymentCartItems = JSON.parse(JSON.stringify(this.cartItems));
         this.processing = true;
@@ -305,8 +293,9 @@ export default class Payment extends LightningElement {
                     );
 
                     //redirect to for you page and open the xetta page in new tab
+                    window.open(this.invoiceURL, '_blank');
                     window.location.href = BasePath + "/category/products/" + this.prodCategId;
-                    window.open(this.invoiceURL, '_blank').focus();
+                    
                 })
             })
         })
