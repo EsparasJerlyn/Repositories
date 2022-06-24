@@ -112,7 +112,7 @@ public with sharing class EmailTriggerFaceToFaceBatchTest {
             EmailTriggerFaceToFaceBatch emailBatch = new EmailTriggerFaceToFaceBatch ();
             Database.executebatch(emailBatch);
             System.assert(![SELECT Id FROM AsyncApexJob WHERE ApexClass.Name = 'EmailTriggerFaceToFaceBatch'].isEmpty() , 'EmailTriggerFaceToFaceBatch Job was not executed');
-
+            Test.stopTest();
         }
     }
 }

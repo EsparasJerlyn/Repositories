@@ -112,7 +112,7 @@ public with sharing class EmailTriggerVirtualBatchTest {
             EmailTriggerVirtualBatch emailBatch = new EmailTriggerVirtualBatch ();
             Database.executebatch(emailBatch);
             System.assert(![SELECT Id FROM AsyncApexJob WHERE ApexClass.Name = 'EmailTriggerVirtualBatch'].isEmpty() , 'EmailTriggerVirtualBatch Job was not executed');
-
+            Test.stopTest();
         }
     }
 }

@@ -105,7 +105,7 @@ public with sharing class EmailTriggerOnlineSelfPacedBatchTest {
             EmailTriggerOnlineSelfPacedBatch emailBatch = new EmailTriggerOnlineSelfPacedBatch();
             Database.executebatch(emailBatch);
             System.assert(![SELECT Id FROM AsyncApexJob WHERE ApexClass.Name = 'EmailTriggerOnlineSelfPacedBatch'].isEmpty() , 'EmailTriggerOnlineSelfPacedBatch Job was not executed');
-
+            Test.stopTest();
         }
     }
 }

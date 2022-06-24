@@ -90,7 +90,7 @@ public with sharing class EmailTriggerPostCourseBatchTest {
             EmailTriggerPostCourseBatch emailBatch = new EmailTriggerPostCourseBatch ();
             Database.executebatch(emailBatch);
             System.assert(![SELECT Id FROM AsyncApexJob WHERE ApexClass.Name = 'EmailTriggerPostCourseBatch'].isEmpty() , 'EmailTriggerPostCourseBatch Job was not executed');
-
+            Test.stopTest();
         }
     }
 }

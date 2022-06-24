@@ -107,7 +107,7 @@ public with sharing class EmailTriggerPreSessionBatchTest {
             EmailTriggerPreSessionBatch emailBatch = new EmailTriggerPreSessionBatch();
             Database.executebatch(emailBatch);
             System.assert(![SELECT Id FROM AsyncApexJob WHERE ApexClass.Name = 'EmailTriggerPreSessionBatch'].isEmpty() , 'EmailTriggerPreSessionBatch Job was not executed');
-
+            Test.stopTest();
         }
     }
 }
