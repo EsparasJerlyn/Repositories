@@ -78,6 +78,8 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
   @track selectedValues = [];
   @track studyAreaSelectedValues =[];
   @track deliveryTypeSelectedValues =[];
+  @track tempValStart;
+  @track tempValEnd;
   index;
   indexStudyArea;
   indexDeliveryType;
@@ -413,6 +415,8 @@ renderedCallback() {
   handlePriceRangeValueChange(event){
     this.startValue = event.detail.start;
     this.endValue = event.detail.end;
+    this.tempValStart = this.startValue;
+    this.tempValEnd = this.endValue;
     this.parameterObject.minUnitPrice = this.startValue
     this.parameterObject.maxUnitPrice = this.endValue
     this.getFilterList();
