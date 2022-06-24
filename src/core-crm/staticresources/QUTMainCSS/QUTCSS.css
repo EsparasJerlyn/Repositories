@@ -1591,6 +1591,7 @@ span[c-customcombobox_customcombobox].slds-listbox__option-meta_entity {
 @media only screen and (min-width: 1024px){
   .desk.py1{
     max-width: 200px;
+    padding: 0;
   }
 }
 
