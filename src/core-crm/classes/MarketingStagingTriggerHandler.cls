@@ -290,22 +290,23 @@ public with sharing class MarketingStagingTriggerHandler implements Disableable,
                             );
                 }
 
-            }else if(// more than 1 matching contacts
-            contactMatchWithIdMapping.containsKey(studentIdKey) && 
-            contactMatchWithIdMapping.get(studentIdKey).size() > 1
-            ){ 
-                actionMap.put(studentIdKey,'MULTI_CONTACT_MATCH');
-                //create lead records
-                leadsToUpsertMap.put(
-                    studentIdKey,
-                    (Lead) MarketingStagingTriggerHelper.createLeadRecord(
-                        studentIdMarStagingMap.get(studentIdKey),
-                        null,
-                        salutaionValues
-                    )
-                );
-
             }
+            // else if(// more than 1 matching contacts
+            // contactMatchWithIdMapping.containsKey(studentIdKey) && 
+            // contactMatchWithIdMapping.get(studentIdKey).size() > 1
+            // ){ 
+            //     actionMap.put(studentIdKey,'MULTI_CONTACT_MATCH');
+            //     //create lead records
+            //     leadsToUpsertMap.put(
+            //         studentIdKey,
+            //         (Lead) MarketingStagingTriggerHelper.createLeadRecord(
+            //             studentIdMarStagingMap.get(studentIdKey),
+            //             null,
+            //             salutaionValues
+            //         )
+            //     );
+
+            // }
         }
 
 /*******END CHECK MARKETING STAGING WITH STUDENT ID AGAINST EXISTING CONTACTS  END*******/
@@ -379,21 +380,21 @@ public with sharing class MarketingStagingTriggerHandler implements Disableable,
                             );
                 }
 
-            }else if(// more than 1 matching contacts
-                contactMatchMapping.containsKey(nameEmailItem) && 
-                contactMatchMapping.get(nameEmailItem).size() > 1
-            ){ 
-                actionMap.put(nameEmailItem,'MULTI_CONTACT_MATCH');
+            // }else if(// more than 1 matching contacts
+            //     contactMatchMapping.containsKey(nameEmailItem) && 
+            //     contactMatchMapping.get(nameEmailItem).size() > 1
+            // ){ 
+            //     actionMap.put(nameEmailItem,'MULTI_CONTACT_MATCH');
 
-                //create lead records
-                leadsToUpsertMap.put(
-                    nameEmailItem,
-                    (Lead) MarketingStagingTriggerHelper.createLeadRecord(
-                        marStagingMap.get(nameEmailItem),
-                        null,
-                        salutaionValues
-                    )
-                );
+            //     //create lead records
+            //     leadsToUpsertMap.put(
+            //         nameEmailItem,
+            //         (Lead) MarketingStagingTriggerHelper.createLeadRecord(
+            //             marStagingMap.get(nameEmailItem),
+            //             null,
+            //             salutaionValues
+            //         )
+            //     );
 
             }else if(// 1 matching Lead
                 !contactMatchMapping.containsKey(nameEmailItem) &&
@@ -464,21 +465,21 @@ public with sharing class MarketingStagingTriggerHandler implements Disableable,
                             );
                 } 
 
-            }else if(// more than 1 matching leads
-                !contactMatchMapping.containsKey(nameEmailItem) &&
-                leadMatchMapping.containsKey(nameEmailItem) && 
-                leadMatchMapping.get(nameEmailItem).size() > 1
-            ){ 
-                actionMap.put(nameEmailItem,'MULTI_LEAD_MATCH');
-                //create lead records
-                leadsToUpsertMap.put(
-                    nameEmailItem,
-                    (Lead) MarketingStagingTriggerHelper.createLeadRecord(
-                        marStagingMap.get(nameEmailItem),
-                        null,
-                        salutaionValues
-                    )
-                );
+            // }else if(// more than 1 matching leads
+            //     !contactMatchMapping.containsKey(nameEmailItem) &&
+            //     leadMatchMapping.containsKey(nameEmailItem) && 
+            //     leadMatchMapping.get(nameEmailItem).size() > 1
+            // ){ 
+            //     actionMap.put(nameEmailItem,'MULTI_LEAD_MATCH');
+            //     //create lead records
+            //     leadsToUpsertMap.put(
+            //         nameEmailItem,
+            //         (Lead) MarketingStagingTriggerHelper.createLeadRecord(
+            //             marStagingMap.get(nameEmailItem),
+            //             null,
+            //             salutaionValues
+            //         )
+            //     );
             // no match for lead and contact
             }else if( 
                 !contactMatchMapping.containsKey(nameEmailItem) &&
@@ -548,9 +549,9 @@ public with sharing class MarketingStagingTriggerHandler implements Disableable,
         }
 
         if( 
-            actionMap.get(leadKey) == 'ZERO_MATCH' || 
-            actionMap.get(leadKey) == 'MULTI_LEAD_MATCH' || 
-            actionMap.get(leadKey) == 'MULTI_CONTACT_MATCH'
+            actionMap.get(leadKey) == 'ZERO_MATCH' // || 
+            // actionMap.get(leadKey) == 'MULTI_LEAD_MATCH' || 
+            // actionMap.get(leadKey) == 'MULTI_CONTACT_MATCH'
         ){
             //create markeeting segmentation records
             marSegmentationToUpsertMap.put(
@@ -578,27 +579,27 @@ public with sharing class MarketingStagingTriggerHandler implements Disableable,
             }
         }
 
-        if(actionMap.get(leadKey) == 'MULTI_CONTACT_MATCH'){
-            //link new lead to contacts
-            potentialDupToInsertList.addAll(
-                MarketingStagingTriggerHelper.createPotentialDupRecords(
-                    leadsToUpsertMap.get(leadKey).Id,
-                    currentContacts,
-                    CONTACT_API_NAME
-                )
-            );
-        }
+        // if(actionMap.get(leadKey) == 'MULTI_CONTACT_MATCH'){
+        //     //link new lead to contacts
+        //     potentialDupToInsertList.addAll(
+        //         MarketingStagingTriggerHelper.createPotentialDupRecords(
+        //             leadsToUpsertMap.get(leadKey).Id,
+        //             currentContacts,
+        //             CONTACT_API_NAME
+        //         )
+        //     );
+        // }
 
-        if(actionMap.get(leadKey) == 'MULTI_LEAD_MATCH'){
-            //link new lead to leads
-            potentialDupToInsertList.addAll(
-                MarketingStagingTriggerHelper.createPotentialDupRecords(
-                    leadsToUpsertMap.get(leadKey).Id,
-                    leadMatchMapping.get(leadKey),
-                    LEAD_API_NAME
-                )
-            );
-        }
+        // if(actionMap.get(leadKey) == 'MULTI_LEAD_MATCH'){
+        //     //link new lead to leads
+        //     potentialDupToInsertList.addAll(
+        //         MarketingStagingTriggerHelper.createPotentialDupRecords(
+        //             leadsToUpsertMap.get(leadKey).Id,
+        //             leadMatchMapping.get(leadKey),
+        //             LEAD_API_NAME
+        //         )
+        //     );
+        // }
 
         marStageToUpdateMap.put((Id)currentStaging.get('Id'), new Marketing_Staging__c(
             Id = (Id)currentStaging.get('Id'),
