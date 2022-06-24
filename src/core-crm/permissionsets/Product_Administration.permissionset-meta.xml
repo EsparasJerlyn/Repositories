@@ -129,10 +129,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>RegistrationConfirmationEmailCtrl</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>RelatedChildProductsCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1516,7 +1512,7 @@
         <editable>true</editable>
         <field>WebCart.Payment_Method__c</field>
         <readable>true</readable>
-    </fieldPermissions> 
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>WebCart.External_Id__c</field>

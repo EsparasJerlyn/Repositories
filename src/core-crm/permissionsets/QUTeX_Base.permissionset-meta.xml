@@ -100,10 +100,6 @@
         <apexClass>ProductManagementCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-    <classAccesses>
-        <apexClass>RegistrationConfirmationEmailCtrl</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
      <classAccesses>
         <apexClass>VirtualFinalConfirmationEmailCtrl</apexClass>
         <enabled>true</enabled>
@@ -445,7 +441,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Lead.Work_Email__c</field> 
+        <field>Lead.Work_Email__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
