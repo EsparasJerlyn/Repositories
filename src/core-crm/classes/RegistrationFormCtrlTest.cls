@@ -102,7 +102,7 @@ public with sharing class RegistrationFormCtrlTest {
       insert testAccount;
 
       String uniqueID = GenerateUniqueId.getUUID();
-      String emailTest = 'testUser' + uniqueID + '@test.com';
+      String emailTest = 'testUser1' + uniqueID + '@test.com';
 
       List<Contact> testContacts = new List<Contact>();
       Contact testContact1 = new Contact();
