@@ -17,6 +17,7 @@
       | john.bo.a.pineda          | April 11, 2022        | DEPP-1211            | Modified logic for new UI                    |
       | keno.domienri.dico        | April 29, 2022        | DEPP-2038            | Added child product records                  |
       | burhan.m.abdul            | June 09, 2022         | DEPP-2811            | Added messageService                         |
+      | john.bo.a.pineda          | June 27, 2022         | DEPP-3216            | Modified to add urlDefaultAddToCart parameter|
  */
 
 import { LightningElement, wire, api } from "lwc";
@@ -28,8 +29,8 @@ import getCartSummary from "@salesforce/apex/B2BGetInfo.getCartSummary";
 import addToCartItem from "@salesforce/apex/ProductDetailsCtrl.addToCartItem";
 import userId from "@salesforce/user/Id";
 
-import { publish, MessageContext } from 'lightning/messageService';
-import payloadContainerLMS from '@salesforce/messageChannel/Breadcrumbs__c';
+import { publish, MessageContext } from "lightning/messageService";
+import payloadContainerLMS from "@salesforce/messageChannel/Breadcrumbs__c";
 
 export default class ProductDetails extends LightningElement {
   loading;
@@ -43,8 +44,8 @@ export default class ProductDetails extends LightningElement {
   showProductDetailsDisplay;
   cProducts;
   isProgramFlex = false;
-  availablePricings =[];
-    // Gets & Sets the effective account - if any - of the user viewing the product.
+  availablePricings = [];
+  // Gets & Sets the effective account - if any - of the user viewing the product.
   @api
   get effectiveAccountId() {
     return this._effectiveAccountId;
@@ -86,9 +87,9 @@ export default class ProductDetails extends LightningElement {
     );
   }
 
-  getProductDetailsApex(productId){
-    getProductDetails({productId: productId})
-      .then( (result) => {
+  getProductDetailsApex(productId) {
+    getProductDetails({ productId: productId })
+      .then((result) => {
         this.isProgramFlex = !result.isNotFlexProgram;
         this.productDetails = result.productOnPage;
         this.priceBookEntryList = result.pricebookWrapperList;
@@ -100,26 +101,40 @@ export default class ProductDetails extends LightningElement {
         let pricingsLocal = [];
         this.product.priceBookEntryList.forEach(function (priceBookEntry) {
           pricingsLocal.push({
-            label: priceBookEntry.label === 'Standard Price Book'? priceBookEntry.label.slice(0, 8): priceBookEntry.label,
+            label:
+              priceBookEntry.label === "Standard Price Book"
+                ? priceBookEntry.label.slice(0, 8)
+                : priceBookEntry.label,
             value: priceBookEntry.value,
-            meta: parseInt(priceBookEntry.meta).toLocaleString('en-US', { style: 'currency', currency: 'USD',  minimumFractionDigits: 0 })
+            meta: parseInt(priceBookEntry.meta).toLocaleString("en-US", {
+              style: "currency",
+              currency: "USD",
+              minimumFractionDigits: 0
+            })
           });
         });
         this.availablePricings = pricingsLocal;
         this.product.deliveryOptions = result.deliveryWrapperList;
-        this.product.programDeliveryAndOfferings = result.programDeliveryAndOfferingMap;      
-        console.log('testing: ' + this.product);   
-        if(this.product.productDetails.Program_Plan__r == undefined){
+        this.product.programDeliveryAndOfferings =
+          result.programDeliveryAndOfferingMap;
+        console.log("testing: " + this.product);
+        if (this.product.productDetails.Program_Plan__r == undefined) {
           this.showPrescribedProgram = false;
           this.showFlexibleProgram = true;
           this.showProductDetailsSingle = false;
           this.showProductDetailsDisplay = true;
-        } else  if(this.product.productDetails.Program_Plan__r.Program_Delivery_Structure__c == 'Prescribed Program'){ 
+        } else if (
+          this.product.productDetails.Program_Plan__r
+            .Program_Delivery_Structure__c == "Prescribed Program"
+        ) {
           this.showPrescribedProgram = true;
           this.showFlexibleProgram = false;
           this.showProductDetailsSingle = false;
           this.showProductDetailsDisplay = false;
-        } else if(this.product.productDetails.Program_Plan__r.Program_Delivery_Structure__c == 'Flexible Program'){ 
+        } else if (
+          this.product.productDetails.Program_Plan__r
+            .Program_Delivery_Structure__c == "Flexible Program"
+        ) {
           this.showPrescribedProgram = false;
           this.cProducts = result.childProductList;
           this.showFlexibleProgram = false;
@@ -135,12 +150,12 @@ export default class ProductDetails extends LightningElement {
 
         this.publishLMS();
       })
-      .catch( (error)=>{
+      .catch((error) => {
         console.log(error);
-      }).finally(()=> {
-        this.loading = false;
       })
-      
+      .finally(() => {
+        this.loading = false;
+      });
   }
 
   // Gets the normalized effective account of the user.
@@ -180,12 +195,12 @@ export default class ProductDetails extends LightningElement {
 
   //Custom
   addToCartItem(event) {
-    let courseOfferingId = '';
-    let programOfferingId = '';
-    if(event.detail.courseOfferingId!=undefined){
+    let courseOfferingId = "";
+    let programOfferingId = "";
+    if (event.detail.courseOfferingId != undefined) {
       courseOfferingId = event.detail.courseOfferingId;
     }
-    if(event.detail.programOfferingId!=undefined){
+    if (event.detail.programOfferingId != undefined) {
       programOfferingId = event.detail.programOfferingId;
     }
     addToCartItem({
@@ -196,7 +211,8 @@ export default class ProductDetails extends LightningElement {
       courseOfferingId: courseOfferingId,
       programOfferingId: programOfferingId,
       pricebookEntryId: event.detail.pricebookEntryId,
-      userId : userId
+      userId: userId,
+      urlDefaultAddToCart: event.detail.urlDefaultAddToCart
     })
       .then((result) => {
         console.log(JSON.stringify(result));
@@ -244,7 +260,7 @@ export default class ProductDetails extends LightningElement {
       });
   }
 
-  handleviewproduct(event){
+  handleviewproduct(event) {
     let tempObj = this.product;
     this.product = {};
     this.product.productDetails = event.detail.value;
@@ -254,14 +270,14 @@ export default class ProductDetails extends LightningElement {
     this.showProductDetailsSingle = true;
   }
 
-  handlebacktoprogram(event){
+  handlebacktoprogram(event) {
     let tempObj = event.detail.value;
     this.product = tempObj.parent;
     this.showPrescribedProgram = true;
     this.showFlexibleProgram = false;
     this.showProductDetailsSingle = false;
   }
-  
+
   /*   handleRefresh() {
     refreshApex(this.productDetails);
   } */
@@ -274,8 +290,8 @@ export default class ProductDetails extends LightningElement {
       isProgramFlex: this.isProgramFlex,
       children: this.cProducts,
       clearOtherMenuItems: true
-    }
-    
+    };
+
     const payLoad = {
       parameterJson: JSON.stringify(paramObj)
     };

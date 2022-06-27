@@ -28,6 +28,8 @@
       | john.bo.a.pineda          | June 20, 2022         | DEPP-3185            | Modified logic for addToCard onload          |
       | john.bo.a.pineda          | June 22, 2022         | DEPP-3211            | Modified logic to use correct logic to get   |
       |                           |                       |                      | Earliest Upcoming Offering                   |
+      | john.bo.a.pineda          | June 27, 2022         | DEPP-3216            | Modified to add identifer if values from     |
+      |                           |                       |                      | addToCart are from URL Defaults              |
 */
 
 import { LightningElement, wire, api, track } from "lwc";
@@ -117,6 +119,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   setParamObj = {};
   onLoadTriggerBtn;
   onLoadTriggerRegInterest = false;
+  urlDefaultAddToCart = false;
 
   // Set Custom Labels
   label = {
@@ -205,6 +208,8 @@ export default class ProductDetailsDisplay extends NavigationMixin(
       this.getParamObj = JSON.parse(atob(pageRef.state.param));
       if (this.getParamObj.triggerBtn == "regInt") {
         this.onLoadTriggerRegInterest = true;
+      } else if (this.getParamObj.triggerBtn == "addCart") {
+        this.urlDefaultAddToCart = true;
       }
     }
   }
@@ -353,7 +358,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
 
             if (this.onLoadTriggerBtn == "addCart") {
               // Trigger AddToCart
-              this.notifyAddToCart();
+              this.dispatchAddToCartEvent();
             } else if (this.onLoadTriggerBtn == "groupReg") {
               // Trigger Group Reg
               this.groupRegistration();
@@ -449,19 +454,8 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   notifyAddToCart() {
     // Call AddToCart
     if (!isGuest) {
-      // let quantity = 1;
-      let courseOfferingId = this.selectedCourseOffering;
-      //let programOfferingId = this.selectedCourseOffering;
-      let pricebookEntryId = this.selectedPriceBookEntry;
-      this.dispatchEvent(
-        new CustomEvent("addtocart", {
-          detail: {
-            courseOfferingId,
-            pricebookEntryId
-          }
-        })
-      );
-      this.openAddToCartConfirmModal = true;
+      this.urlDefaultAddToCart = false;
+      this.dispatchAddToCartEvent();
     } else {
       // Display Custom Login Form LWC
       this.setParamURL("addCart");
@@ -469,6 +463,22 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     }
     /* Comment out for bulk register */
     /* this.openRegisterModal(); */
+  }
+
+  dispatchAddToCartEvent() {
+    let courseOfferingId = this.selectedCourseOffering;
+    let pricebookEntryId = this.selectedPriceBookEntry;
+    let urlDefaultAddToCart = this.urlDefaultAddToCart;
+    this.dispatchEvent(
+      new CustomEvent("addtocart", {
+        detail: {
+          courseOfferingId,
+          pricebookEntryId,
+          urlDefaultAddToCart
+        }
+      })
+    );
+    this.openAddToCartConfirmModal = true;
   }
 
   // Disable Delivery when No Options retrieved

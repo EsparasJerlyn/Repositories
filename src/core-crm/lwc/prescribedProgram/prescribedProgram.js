@@ -46,6 +46,7 @@ export default class PrescribedProgram extends LightningElement {
   setParamObj = {};
   onLoadTriggerBtn;
   onLoadTriggerRegInterest = false;
+  urlDefaultAddToCart = false;
 
   @track disableDelivery = false;
   @track disableProgramOfferings = true;
@@ -86,6 +87,8 @@ export default class PrescribedProgram extends LightningElement {
       this.getParamObj = JSON.parse(atob(pageRef.state.param));
       if (this.getParamObj.triggerBtn == "regInt") {
         this.onLoadTriggerRegInterest = true;
+      } else if (this.getParamObj.triggerBtn == "addCart") {
+        this.urlDefaultAddToCart = true;
       }
     }
   }
@@ -288,7 +291,7 @@ export default class PrescribedProgram extends LightningElement {
 
         if (this.onLoadTriggerBtn == "addCart") {
           // Trigger AddToCart
-          this.notifyAddToCart();
+          this.dispatchAddToCartEvent();
         } else if (this.onLoadTriggerBtn == "groupReg") {
           // Trigger Group Reg
           this.groupRegistration();
@@ -424,19 +427,25 @@ export default class PrescribedProgram extends LightningElement {
 
   notifyAddToCart() {
     if (!isGuest) {
-      this.dispatchEvent(
-        new CustomEvent("addtocart", {
-          detail: {
-            programOfferingId: this.selectedProgramOffering,
-            pricebookEntryId: this.selectedPricing
-          }
-        })
-      );
-      this.openAddToCartConfirmModal = true;
+      this.urlDefaultAddToCart = false;
+      this.dispatchAddToCartEvent();
     } else {
       this.setParamURL("addCart");
       this.openModal = true;
     }
+  }
+
+  dispatchAddToCartEvent() {
+    this.dispatchEvent(
+      new CustomEvent("addtocart", {
+        detail: {
+          programOfferingId: this.selectedProgramOffering,
+          pricebookEntryId: this.selectedPricing,
+          urlDefaultAddToCart: this.urlDefaultAddToCart
+        }
+      })
+    );
+    this.openAddToCartConfirmModal = true;
   }
 
   handleModalClosed() {

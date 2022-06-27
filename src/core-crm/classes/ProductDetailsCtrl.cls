@@ -18,6 +18,8 @@
       | john.bo.a.pineda          | June 18, 2022         | DEPP-3166            | Updated Logic for Facilitator Image URL    |
       | john.bo.a.pineda          | June 22, 2022         | DEPP-3211            | Modified logic to use correct logic to get |
       |                           |                       |                      | Earliest Upcoming Offering                 |
+      | john.bo.a.pineda          | June 27, 2022         | DEPP-3216            | Modified add validation if Product already |
+      |                           |                       |                      | exists in Cart only for URL Defaults       |
 */
 public without sharing class ProductDetailsCtrl {
   public static final Id STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
@@ -43,7 +45,7 @@ public without sharing class ProductDetailsCtrl {
     Product2 productOnPage = [
       SELECT
         Id,
-        Name, 
+        Name,
         Description,
         StockKeepingUnit,
         Course__c,
@@ -56,7 +58,7 @@ public without sharing class ProductDetailsCtrl {
         Program_Plan__r.Maximum_Participants__c,
         Duration__c,
         Delivery__c,
-        Minimum_Participants_Group__c, 
+        Minimum_Participants_Group__c,
         Maximum_Participants_Group__c,
         Payment_Options__c,
         Register_Interest_Available__c,
@@ -486,11 +488,13 @@ public without sharing class ProductDetailsCtrl {
     String courseOfferingId,
     String programOfferingId,
     String pricebookEntryId,
-    String userId
+    String userId,
+    Boolean urlDefaultAddToCart
   ) {
     try {
       // Lookup the webstore ID associated with the community
       String webstoreId;
+      Boolean addCart = true;
       if (Test.isRunningTest()) {
         webstoreId = [SELECT Id FROM WebStore LIMIT 1].Id;
       } else {
@@ -524,23 +528,44 @@ public without sharing class ProductDetailsCtrl {
         WHERE Id = :pricebookEntryId
       ];
 
-      // Set Cart Item to be inserted
-      CartItem cItem = new CartItem();
-      cItem.CartId = cartId;
-      cItem.CartDeliveryGroupId = cartDeliveryGroupId;
-      cItem.Name = productName;
-      cItem.Product2Id = productId;
-      if (String.isNotBlank(courseOfferingId)) {
-        cItem.Course_Offering__c = courseOfferingId;
-      } else if (String.isNotBlank(programOfferingId)) {
-        cItem.Program_Offering__c = programOfferingId;
-      }
-      cItem.Pricebook_Entry_ID__c = pricebookEntryId;
-      cItem.Quantity = 1;
-      cItem.Type = 'Product';
-      cItem.TotalPrice = pbEntry.UnitPrice;
+      // Only for URL Defaults, Validate if Product Exists in Cart
+      if (urlDefaultAddToCart) {
+        List<CartItem> urlDefaultCartItem = [
+          SELECT Id
+          FROM CartItem
+          WHERE
+            CartId = :cartId
+            AND Product2Id = :productId
+            AND Pricebook_Entry_ID__c = :pricebookEntryId
+            AND (Course_Offering__c = :courseOfferingId
+            OR Program_Offering__c = :programOfferingId)
+        ];
 
-      insert cItem;
+        // If URL Defaults exists in Cart, set addCart to False
+        if (urlDefaultCartItem.size() > 0) {
+          addCart = false;
+        }
+      }
+
+      // Set Cart Item to be inserted
+      if (addCart) {
+        CartItem cItem = new CartItem();
+        cItem.CartId = cartId;
+        cItem.CartDeliveryGroupId = cartDeliveryGroupId;
+        cItem.Name = productName;
+        cItem.Product2Id = productId;
+        if (String.isNotBlank(courseOfferingId)) {
+          cItem.Course_Offering__c = courseOfferingId;
+        } else if (String.isNotBlank(programOfferingId)) {
+          cItem.Program_Offering__c = programOfferingId;
+        }
+        cItem.Pricebook_Entry_ID__c = pricebookEntryId;
+        cItem.Quantity = 1;
+        cItem.Type = 'Product';
+        cItem.TotalPrice = pbEntry.UnitPrice;
+
+        insert cItem;
+      }
     } catch (Exception e) {
       system.debug(e);
       system.debug('Error on ProductDetailsCtrl.addToCartItem');

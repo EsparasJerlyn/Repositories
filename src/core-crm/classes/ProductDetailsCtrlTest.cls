@@ -14,7 +14,8 @@
       | john.bo.a.pineda          | April 26, 2022        | DEPP-1211 | Updated logic for new UI                           |
       | keno.domienri.dico        | April 29, 2022        | DEPP-2038 | Added logic for child products display             |
       | julie.jane.alegre         | May 24, 2022          | DEPP-2070 | Added logic for Group Booking                      |
-      
+      | john.bo.a.pineda          | June 27, 2022         | DEPP-3216 | Modified add validation if Product already exists  |
+      |                           |                       |           | in Cart only for URL Defaults                      |
 */
 @isTest(SeeAllData=false)
 private class ProductDetailsCtrlTest {
@@ -47,12 +48,14 @@ private class ProductDetailsCtrlTest {
     .get(PR_PROGRAM)
     .getRecordTypeId();
 
-    private static final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
-    
+  private static final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+
   @testSetup
   static void setupMethod() {
-
-    Study_Store_URL_Settings__c studyStore = new Study_Store_URL_Settings__c(Name='QUTeX', Study_Store_Link__c = 'https://studystorelinktest.com/');
+    Study_Store_URL_Settings__c studyStore = new Study_Store_URL_Settings__c(
+      Name = 'QUTeX',
+      Study_Store_Link__c = 'https://studystorelinktest.com/'
+    );
     insert studyStore;
 
     System.runAs(currentUser) {
@@ -63,59 +66,59 @@ private class ProductDetailsCtrlTest {
       );
       insert customEmail;
 
-      List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
+      List<Account> accounts = TestDataFactory.createTestAccountRecords(100);
       for (Account account : accounts) {
         account.RecordTypeId = ACCT_UNIV_DEP_ID;
         account.Organization_Unit_Level__c = '2';
       }
       insert accounts;
 
-      List<Contact> contacts = TestDataFactory.createTestContactRecords(1);
+      List<Contact> contacts = TestDataFactory.createTestContactRecords(100);
       contacts[0]
         .Contact_Image__c = '<p><img src="https://www.w3schools.com/w3css/img_snowtops.jpg" alt="test.jpg"></img></p>';
       insert contacts;
 
       List<hed__Term__c> terms = TestDataFactory.createTestTermRecords(
-        10,
+        100,
         accounts[0].Id
       );
       insert terms;
 
       List<Product_Request__c> prodRequest = TestDataFactory.createTestProductRequestRecords(
-        1
+        100
       );
       prodRequest[0].RecordTypeId = opeActProdReqRecType;
       insert prodRequest;
 
       List<Product_Request__c> prodRequestFlexProgram = TestDataFactory.createTestProductRequestRecords(
-        1
+        100
       );
       prodRequestFlexProgram[0].RecordTypeId = opeProgProdReqId;
       prodRequestFlexProgram[0].OPE_Program_Plan_Type__c = 'Flexible Program';
       insert prodRequestFlexProgram;
 
       List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(
-        1
+        100
       );
       programPlans[0].Product_Request__c = prodRequestFlexProgram[0].Id;
       insert programPlans;
 
       List<Related_Product_Request__c> relatedProductRequests = TestDataFactory.createTestRelatedPRRecords(
-        1,
+        100,
         prodRequest,
         prodRequestFlexProgram
       );
       insert relatedProductRequests;
 
       List<hed__Course__c> courses = TestDataFactory.createTestCourseRecords(
-        10,
+        100,
         accounts[0].Id,
         prodRequest[0].Id
       );
       insert courses;
 
       List<Product2> singleProducts = TestDataFactory.createTestProductRecords(
-        10,
+        100,
         courses
       );
       for (Product2 sProd : singleProducts) {
@@ -124,7 +127,7 @@ private class ProductDetailsCtrlTest {
       insert singleProducts;
 
       List<Product2> flexProgProducts = TestDataFactory.createTestProductRecords(
-        50
+        100
       );
       for (Product2 flexProd : flexProgProducts) {
         flexProd.Delivery__c = 'Online Classroom;Online Self-paced;Brisbane Classroom';
@@ -159,7 +162,7 @@ private class ProductDetailsCtrlTest {
       insert priceBookEntryList;
 
       List<hed__Course_Offering__c> courseOfferings = TestDataFactory.createTestCourseOfferingRecord(
-        10,
+        100,
         courses,
         terms
       );
@@ -171,7 +174,7 @@ private class ProductDetailsCtrlTest {
       insert courseOfferings;
 
       List<hed__Course_Enrollment__c> courseConnections = TestDataFactory.createTestCourseConnectionRecord(
-        10,
+        100,
         contacts[0].Id,
         courseOfferings
       );
@@ -357,7 +360,7 @@ private class ProductDetailsCtrlTest {
     }
   }
 
-  /*@isTest
+  @isTest
   static void testAddToCart() {
     User currUsr = [
       SELECT Id
@@ -412,11 +415,13 @@ private class ProductDetailsCtrlTest {
         productName,
         courseOfferingId,
         '',
-        pricebookEntryId
+        pricebookEntryId,
+        currUsr.Id,
+        true
       );
       Test.stopTest();
     }
-  }*/
+  }
 
   /* @isTest
   static void testInsertLearnerInfo() {
@@ -452,12 +457,11 @@ private class ProductDetailsCtrlTest {
 
   @isTest
   static void testInsertExpressionOfInterest() {
-   
-    System.runAs(PORTAL_SYS_ADMIN){
+    System.runAs(PORTAL_SYS_ADMIN) {
       //Create account
       Account portalAccount1 = new Account(
-          Name = 'TestAccount',
-          OwnerId = PORTAL_SYS_ADMIN.Id
+        Name = 'TestAccount',
+        OwnerId = PORTAL_SYS_ADMIN.Id
       );
 
       Database.insert(portalAccount1);
@@ -593,11 +597,11 @@ private class ProductDetailsCtrlTest {
       LIMIT 1
     ];
 
-    System.runAs(PORTAL_SYS_ADMIN){
+    System.runAs(PORTAL_SYS_ADMIN) {
       //Create account
       Account portalAccount1 = new Account(
-          Name = 'TestAccount',
-          OwnerId = PORTAL_SYS_ADMIN.Id
+        Name = 'TestAccount',
+        OwnerId = PORTAL_SYS_ADMIN.Id
       );
 
       Database.insert(portalAccount1);
@@ -659,7 +663,8 @@ private class ProductDetailsCtrlTest {
 
       Test.startTest();
       ProductDetailsCtrl.saveApplication(
-        [SELECT Id FROM Contact WHERE LastName ='McTesty' LIMIT 1]?.Id,
+        [SELECT Id FROM Contact WHERE LastName = 'McTesty' LIMIT 1]
+        ?.Id,
         cOfferingId,
         relatedAnswers,
         answerList,
@@ -678,7 +683,6 @@ private class ProductDetailsCtrlTest {
       );
     }
   }
-  
 
   private static void createRecord(String productRequestRecordType) {
     User currUsr = [
@@ -942,9 +946,11 @@ private class ProductDetailsCtrlTest {
       createRecord(opeActProdReqRecType);
       String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;
       Test.startTest();
-            List<Contact> con = TestDataFactory.createTestContactRecords(1);
-            insert con;
-            List<Contact> contact = ProductDetailsCtrl.getUserContactDetails(con[0].Id);
+      List<Contact> con = TestDataFactory.createTestContactRecords(1);
+      insert con;
+      List<Contact> contact = ProductDetailsCtrl.getUserContactDetails(
+        con[0].Id
+      );
       Test.stopTest();
 
       system.assert(!contact.isEmpty(), 'Data Retrieve!');
@@ -963,25 +969,25 @@ private class ProductDetailsCtrlTest {
       createRecord(opeActProdReqRecType);
       String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;
       Test.startTest();
-        List<Account> acct = TestDataFactory.createTestAccountRecords(1);
-        insert acct;
-        WebStore testWebStore = new WebStore(
+      List<Account> acct = TestDataFactory.createTestAccountRecords(1);
+      insert acct;
+      WebStore testWebStore = new WebStore(
         Name = 'Study',
         DefaultLanguage = 'en_US'
-        );
-        insert testWebStore;
+      );
+      insert testWebStore;
 
-        WebCart cart = new WebCart(
-          Name = 'Cart',
-          AccountId = acct[0].Id,
-          Status__c = 'Checkout',
-          WebStoreId = testWebStore.Id
-        );
-        insert cart;
+      WebCart cart = new WebCart(
+        Name = 'Cart',
+        AccountId = acct[0].Id,
+        Status__c = 'Checkout',
+        WebStoreId = testWebStore.Id
+      );
+      insert cart;
 
-        WebCart wb = ProductDetailsCtrl.getUserCartDetails(currUsr.Id);
+      WebCart wb = ProductDetailsCtrl.getUserCartDetails(currUsr.Id);
       Test.stopTest();
-      System.assert( true, 'Success data retrieval');
+      System.assert(true, 'Success data retrieval');
     }
   }
 
@@ -998,12 +1004,12 @@ private class ProductDetailsCtrlTest {
       createRecord(opeActProdReqRecType);
       String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;
       Test.startTest();
-        PricebookEntry pricebookentry = [SELECT Id FROM PricebookEntry LIMIT 1];
-        PricebookEntry pb = ProductDetailsCtrl.getPricebookEntryPrice(pricebookentry.Id);
+      PricebookEntry pricebookentry = [SELECT Id FROM PricebookEntry LIMIT 1];
+      PricebookEntry pb = ProductDetailsCtrl.getPricebookEntryPrice(
+        pricebookentry.Id
+      );
       Test.stopTest();
       system.assert(true, 'Data Retrieve!');
     }
   }
- 
-  
 }
