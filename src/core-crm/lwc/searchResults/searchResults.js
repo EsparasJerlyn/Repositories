@@ -292,7 +292,7 @@ renderedCallback() {
     }, DELAY);
   }
   
-  // Handles the Product Type Filter when clicked Individually
+  // Handles the Product Type Filter when clicked Individually for Mobile
   handleTypePicklist(event)  {
     let selectedCheckBox;
     if (this.tempArray.length > 0) {
@@ -322,7 +322,7 @@ renderedCallback() {
     this.setPickList();
  }
 
-  // Handles the Study Area Filter when Clicked Individually
+  // Handles the Study Area Filter when Clicked Individually for Mobile
   handleStudyAreaPicklist(event) {
     let selectedCheckBox;
     if (this.tempArray.length > 0) {
@@ -351,7 +351,7 @@ renderedCallback() {
     this.setPickList();
   }
 
-  // Handles Delivery Filter when clicked Individually
+  // Handles Delivery Filter when clicked Individually for Mobile
   handleDeliveryTypePicklist(event) {
     let selectedCheckBox;
     if (this.tempArray.length > 0) {
@@ -379,6 +379,218 @@ renderedCallback() {
 
     }
     this.setPickList();
+  }
+    //Handles Study Area Filter Select All for Mobile
+    handleSelectAllStudyAreas(event) {
+      this.studyAreaSelectedValues =[];
+      if (event.target.checked) {
+        this.studyAll = true;
+        this.tempArray.push(event.target.label);
+        this.studyAreaValues.forEach((studyAreas) => {
+          this.studyAreaSelectedValues.push(studyAreas.value)
+          studyAreas.selected = true;
+          if (!this.tempArray.includes(studyAreas.label)) {
+            this.tempArray.push(studyAreas.label);
+          }
+        });
+      } else {
+        // clear out
+        this.studyAll = false;
+        this.tempArray = [];
+        this.studyAreaValues.forEach((studyAreas) => {
+          studyAreas.selected = false;
+        });
+      }
+      this.setPickList();
+    }
+  
+    //Handles Delivery Type Filter Select All for Mobile
+    handleSelectAllDeliveryTypes(event) {
+      this.deliveryTypeSelectedValues =[];
+      if (event.target.checked) {
+        this.deliveryAll = true;
+        this.tempArray.push(event.target.label);
+        this.deliveryTypeValues.forEach((deliveryAreas) => {
+          this.deliveryTypeSelectedValues.push(deliveryAreas.value)
+          deliveryAreas.selected = true;
+          if (!this.tempArray.includes(deliveryAreas.label)) {
+            this.tempArray.push(deliveryAreas.label);
+          }
+        });
+      } else {
+        // clear out
+        this.deliveryAll = false;
+        this.tempArray = [];
+        this.deliveryTypeValues.forEach((deliveryAreas) => {
+          deliveryAreas.selected = false;
+        });
+      }
+      this.setPickList();
+    }
+
+  //Handles Product Type Filter Select All for Mobile
+  handleSelectAllTypes(event) {
+    this.selectedValues =[];
+    if (event.target.checked) {
+      this.courseAll = true;
+      this.tempArray.push(event.target.label);
+      this.typeValues.forEach((courseAreas) => {
+        this.selectedValues.push(courseAreas.value)
+        courseAreas.selected = true;
+        if (!this.tempArray.includes(courseAreas.label)) {
+          this.tempArray.push(courseAreas.label);
+        }
+      });
+    } else {
+      // clear out
+      this.courseAll = false;
+      this.tempArray = [];
+      this.typeValues.forEach((courseAreas) => {
+        courseAreas.selected = false;
+      });
+    }
+    this.setPickList();
+  }
+
+  // Handles the Product Type Filter when clicked Individually for Desktop
+  handleTypePicklistDesktop(event) {    
+    if (event.target.checked) {
+        this.selectedValues.push(event.target.value);
+    } else {
+        try {
+          this.index = this.selectedValues.indexOf(event.target.value);
+          this.selectedValues.splice(this.index, 1);
+
+          const checkboxes = this.template.querySelectorAll('.chk-type-all');//'[data-id="chk-type-all"]'
+          for (const elem of checkboxes) {
+              elem.checked=false;
+          }
+        } catch (error) {
+            this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
+        }
+    }
+    this.setPickList();
+ }
+
+  // Handles the Study Area Filter when Clicked Individually for Desktop
+  handleStudyAreaPicklistDesktop(event) {
+    if (event.target.checked) {
+        this.studyAreaSelectedValues.push(event.target.value);
+    } else {
+        try {
+          this.indexStudyArea = this.studyAreaSelectedValues.indexOf(event.target.value);
+          this.studyAreaSelectedValues.splice(this.indexStudyArea, 1);
+          const checkboxes = this.template.querySelectorAll('.chk-studyarea-all');//[data-id="chk-studyarea-all"]
+          for (const elem of checkboxes) {
+              elem.checked=false;
+          }
+        } catch (error) {
+            this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
+        }
+    }
+    this.setPickList();
+  }
+
+  // Handles Delivery Filter when clicked Individually for Desktop
+  handleDeliveryTypePicklistDesktop(event) {
+    if (event.target.checked) {
+        this.deliveryTypeSelectedValues.push(event.target.value);
+    } else {
+        try {
+          this.indexDeliveryType = this.deliveryTypeSelectedValues.indexOf(event.target.value);
+          this.deliveryTypeSelectedValues.splice(this.indexDeliveryType, 1);
+
+          const checkboxes = this.template.querySelectorAll('.chk-deliverytype-all');//[data-id="chk-deliverytype-all"]
+          for (const elem of checkboxes) {
+              elem.checked=false;
+          }
+
+        } catch (error) {
+            this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
+        }
+    }
+    this.setPickList();
+  }
+
+   //Handles Product Type Filter Select All for Desktop
+   handleSelectAllTypesDesktop(event) {
+    this.selectedValues =[];
+
+    if (event.target.checked) {
+        const checkboxes = this.template.querySelectorAll('.chk-types');
+        for (const elem of checkboxes) {
+                elem.checked=true;
+        }
+        for(const types of this.typeValues){
+            this.selectedValues.push(types.value);
+        }
+        this.setPickList();   
+    } else {
+        try {
+            const checkboxes = this.template.querySelectorAll('.chk-types');
+            for (const elem of checkboxes) {
+                    elem.checked=false;
+            }
+            this.selectedValues =[];
+            this.setPickList();   
+        } catch (error) {
+            this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
+        }
+    }   
+  }
+
+  //Handles Study Area Filter Select All for Desktop
+  handleSelectAllStudyAreasDesktop(event) {
+    this.studyAreaSelectedValues =[];
+    
+    if (event.target.checked) {
+        const checkboxes = this.template.querySelectorAll('.chk-studyarea');
+        for (const elem of checkboxes) {
+                elem.checked=true;
+        }
+        for(const types of this.studyAreaSelectedValues){
+            this.studyAreaSelectedValues.push(types.value);
+        }
+        this.setPickList();   
+    } else {
+        try {
+            const checkboxes = this.template.querySelectorAll('.chk-studyarea');
+            for (const elem of checkboxes) {
+                    elem.checked=false;
+            }
+            this.studyAreaSelectedValues =[];
+            this.setPickList();   
+        } catch (error) {
+            this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
+        }
+    }  
+  }
+
+  //Handles Delivery Type Filter Select All for Desktop
+  handleSelectAllDeliveryTypesDesktop(event) {
+      this.deliveryTypeSelectedValues =[];
+    
+      if (event.target.checked) {
+          const checkboxes = this.template.querySelectorAll('.chk-delivery-type');
+          for (const elem of checkboxes) {
+                  elem.checked=true;
+          }
+          for(const types of this.deliveryTypeSelectedValues){
+              this.deliveryTypeSelectedValues.push(types.value);
+          }
+          this.setPickList();   
+      } else {
+          try {
+              const checkboxes = this.template.querySelectorAll('.chk-delivery-type');
+              for (const elem of checkboxes) {
+                      elem.checked=false;
+              }
+              this.deliveryTypeSelectedValues =[];
+              this.setPickList();   
+          } catch (error) {
+              this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
+          }
+      }  
   }
 
   //Handles Start date filter when selected
@@ -421,85 +633,29 @@ renderedCallback() {
     this.parameterObject.maxUnitPrice = this.endValue
     this.getFilterList();
     }
-
-  //Handles Product Type Filter Select All;
-  handleSelectAllTypes(event) {
-    this.selectedValues =[];
-    if (event.target.checked) {
-      this.courseAll = true;
-      this.tempArray.push(event.target.label);
-      this.typeValues.forEach((courseAreas) => {
-        this.selectedValues.push(courseAreas.value)
-        courseAreas.selected = true;
-        if (!this.tempArray.includes(courseAreas.label)) {
-          this.tempArray.push(courseAreas.label);
-        }
-      });
-    } else {
-      // clear out
-      this.courseAll = false;
-      this.tempArray = [];
-      this.typeValues.forEach((courseAreas) => {
-        courseAreas.selected = false;
-      });
-    }
-    this.setPickList();
-  }
-
-  //Handles Study Area Filter Select All
-  handleSelectAllStudyAreas(event) {
-    this.studyAreaSelectedValues =[];
-    if (event.target.checked) {
-      this.studyAll = true;
-      this.tempArray.push(event.target.label);
-      this.studyAreaValues.forEach((studyAreas) => {
-        this.studyAreaSelectedValues.push(studyAreas.value)
-        studyAreas.selected = true;
-        if (!this.tempArray.includes(studyAreas.label)) {
-          this.tempArray.push(studyAreas.label);
-        }
-      });
-    } else {
-      // clear out
-      this.studyAll = false;
-      this.tempArray = [];
-      this.studyAreaValues.forEach((studyAreas) => {
-        studyAreas.selected = false;
-      });
-    }
-    this.setPickList();
-  }
-
-  //Handles Delivery Type Filter Select All
-  handleSelectAllDeliveryTypes(event) {
-    this.deliveryTypeSelectedValues =[];
-    if (event.target.checked) {
-      this.deliveryAll = true;
-      this.tempArray.push(event.target.label);
-      this.deliveryTypeValues.forEach((deliveryAreas) => {
-        this.deliveryTypeSelectedValues.push(deliveryAreas.value)
-        deliveryAreas.selected = true;
-        if (!this.tempArray.includes(deliveryAreas.label)) {
-          this.tempArray.push(deliveryAreas.label);
-        }
-      });
-    } else {
-      // clear out
-      this.deliveryAll = false;
-      this.tempArray = [];
-      this.deliveryTypeValues.forEach((deliveryAreas) => {
-        deliveryAreas.selected = false;
-      });
-    }
-    this.setPickList();
-  }
-
+  
   // handles Clear All filters
   handleClearAll(){
     const checkboxes = this.template.querySelectorAll('[data-id="checkbox"]');
     for(const elem of checkboxes){
         elem.checked=false;
     }
+    this.tempArray = [];
+    this.studyAll = false;
+    this.studyAreaValues.forEach((studyAreas) => {
+      studyAreas.selected = false;
+    });
+    this.deliveryAll = false;
+    this.deliveryTypeValues.forEach((deliveryAreas) => {
+      deliveryAreas.selected = false;
+    });
+    this.courseAll = false;
+    this.typeValues.forEach((courseAreas) => {
+      courseAreas.selected = false;
+    });
+    this.tempValStart = null;
+    this.tempValEnd = null;
+
     this.stringValue ='';
     this.strStartDate ='';
     this.strEndDate ='';

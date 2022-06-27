@@ -289,6 +289,8 @@ export default class Slider extends LightningElement {
         this._start = MIN_VALUE;
         this._end = MAX_VALUE;
         this._max = MAX_VALUE;
+        this.parstart = MIN_VALUE;
+        this.parend = MAX_VALUE;
 
         this.initSlider();
     }
