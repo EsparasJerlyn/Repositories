@@ -37,7 +37,15 @@
     <picklistValues>
         <picklist>Payment_Method__c</picklist>
         <values>
+            <fullName>Admin Added</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Invoice</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No Charge</fullName>
             <default>false</default>
         </values>
         <values>

@@ -14,6 +14,8 @@
       |                           |                       |                      | Learners List button logic   |
       | roy.nino.regala           | March 29, 2022        | DEPP-1539            | Added Add Registration       |
       | eccarius.karl.munoz       | May 03, 2022          | DEPP-2314            | Handling for Prescribed Prog.|
+      | keno.domienri.dico        | June 27, 2022         | DEPP-3287            | Added new button Proceed     |
+      |                           |                       |                      | without Invoice
  */
 
 import { api, LightningElement, wire } from 'lwc';
@@ -28,6 +30,7 @@ import getPricingValidationValues from '@salesforce/apex/ManageRegistrationSecti
 import getSearchedContacts from '@salesforce/apex/ManageRegistrationSectionCtrl.getSearchedContacts';
 import getQuestions from "@salesforce/apex/ManageRegistrationSectionCtrl.getQuestions";
 import addRegistration from '@salesforce/apex/ManageRegistrationSectionCtrl.addRegistration';
+import addRegistration2 from '@salesforce/apex/ManageRegistrationSectionCtrl.addRegistration2';
 import getPBEntries from '@salesforce/apex/ManageRegistrationSectionCtrl.getPBEntries';
 import LWC_Error_General from '@salesforce/label/c.LWC_Error_General';
 import LWC_List_ConfirmedLearnerStatus	 from '@salesforce/label/c.LWC_List_ConfirmedLearnerStatus';
@@ -87,6 +90,9 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
     contactList;
     formLoading = false;
     contactFields;
+
+    //proceed without Invoice
+    isProceedNoInvoice = false;
 
     //registration Response variables
     isRespondQuestions;
@@ -373,6 +379,14 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
         });
     }
 
+    handleProceedNoInvoiceClick(event){
+        this.isProceedNoInvoice = true;
+    }
+
+    handleRedirectToInvoiceClick(event){
+        this.isProceedNoInvoice = false;
+    }
+
     handleCreateContact(event){
         event.preventDefault();
         let fields = event.detail.fields;
@@ -382,10 +396,27 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
         }else{
             this.isLoading = true;
             this.saveInProgress = true;
-            this.saveRegistration(fields,this.childRecordId,[],[],'',this.prescribedProgram);
+            if(this.isProceedNoInvoice = true){
+                this.saveRegistration2(fields,this.childRecordId,[],[],'',this.prescribedProgram,this.isProceedNoInvoice);
+            } else {
+                this.saveRegistration(fields,this.childRecordId,[],[],'',this.prescribedProgram);
+            }
         }
     }
 
+    handleExistingContactPWI(){
+        let fields = {};
+        fields.Id = this.contactId;
+        this.contactFields = fields;
+        this.isProceedNoInvoice = true;
+        if(this.hasQuestions){
+            this.handleRespondQuestions();
+        }else{
+            this.isLoading = true;
+            this.saveInProgress = true;
+            this.saveRegistration2(fields,this.childRecordId,[],[],'',this.prescribedProgram,this.isProceedNoInvoice);
+        }
+    }
 
     handleExistingContact(){
         let fields = {};
@@ -403,7 +434,7 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
     handleSaveResponse(){
         this.isLoading = true;
         this.saveInProgress = true;
-        this.saveRegistration(this.contactFields,this.childRecordId,this.responseData.data,this.createAnswerRecord(),JSON.stringify(this.createFileUploadMap()),this.prescribedProgram);
+        this.saveRegistration(this.contactFields,this.childRecordId,this.responseData.data,this.createAnswerRecord(),JSON.stringify(this.createFileUploadMap()),this.prescribedProgram,this.isProceedNoInvoice);
         this.resetResponses();
     }
 
@@ -443,7 +474,59 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
         return answerRecords;
     }
 
-    saveRegistration(contact,offeringId,relatedAnswer,answer,fileUpload,prescribedProgram){        
+    saveRegistration2(contact,offeringId,relatedAnswer,answer,fileUpload,prescribedProgram,isProceedNoInvoice){   
+        console.log('saveReg2'); 
+        addRegistration2({
+            contactRecord:contact,
+            offeringId:offeringId,
+            relatedAnswerList:relatedAnswer,
+            answerList:answer,
+            fileUpload:fileUpload,
+            prescribedProgram:prescribedProgram,
+            priceBookEntryId : this.pbEntryRecord,
+            isProceedNoInvoice : this.isProceedNoInvoice
+        })
+        .then(res =>{
+                this.generateToast(SUCCESS_TITLE, 'Registration Successful', SUCCESS_VARIANT);
+                refreshApex(this.tableData);
+                // const config = {
+                //     type: 'standard__webPage',
+                //     attributes: {
+                //         url: res
+                //     }
+                // };
+                // this[NavigationMixin.Navigate](config);
+        })
+        .finally(()=>{
+            this.saveInProgress = false;
+            this.isModalOpen = false;
+            this.isEditContact = false;
+            this.isAddContact = false;
+            this.isCreateContact = false;
+            this.isLoading = false;
+            this.saveInProgress = false;
+            this.contactId = '';
+            this.contactSearchItems = [];
+        })
+        .catch(error =>{
+            let errMsg = LWC_Error_General;
+            if(error.body.pageErrors){
+                error.body.pageErrors.forEach(err => {
+                    errMsg = err.message;
+                });
+            } 
+            if(error.body.fieldErrors.Username){
+                error.body.fieldErrors.Username.forEach(err => {
+                    errMsg = err.message;
+                });
+            } 
+            this.generateToast('Error.', errMsg ,'error');
+            console.log('ERROR:', error);
+        });
+    }
+
+    saveRegistration(contact,offeringId,relatedAnswer,answer,fileUpload,prescribedProgram){    
+        console.log('saveReg1');
         addRegistration({
             contactRecord:contact,
             offeringId:offeringId,
@@ -488,6 +571,7 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
                 });
             } 
             this.generateToast('Error.', errMsg ,'error');
+            console.log('ERROR:', error);
         });
     }
 

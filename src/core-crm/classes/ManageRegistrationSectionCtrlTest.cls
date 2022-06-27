@@ -195,6 +195,81 @@ public with sharing class ManageRegistrationSectionCtrlTest{
           }      
      } 
 
+     @IsTest
+     static void addRegistrationProceedNoInvoiceTest(){  
+          System.runAs(PORTAL_SYS_ADMIN){   
+               Account portalAccount = new Account(Name='TestAccount', OwnerId = PORTAL_SYS_ADMIN.Id); 
+               Database.insert(portalAccount);
+
+               Contact newContact = new Contact(FirstName = 'testqtest', LastName = 'testqtest', AccountId = portalAccount.Id, Email = 'testqtest@emailemail.com', Birthdate = Date.newInstance(1990, 2, 17), MobilePhone ='012345');  
+               insert newContact;
+
+               User portalUser = TestDataFactory.createPortalUserRecords(1, 'Corporate Partner User', newContact.Id).iterator().next();
+               Database.insert(portalUser);
+
+               WebStore testWebStore = new WebStore(
+                    Name = 'Study',
+                    DefaultLanguage = 'en_US'
+               );
+               insert testWebStore;
+
+               WebCart cart = new WebCart(
+                    Name = 'Cart',
+                    AccountId = portalAccount.Id,
+                    Status = 'Closed',
+                    Status__c = 'Active',
+                    WebStoreId = testWebStore.Id,
+                    OwnerId = portalUser.Id
+               );
+               insert cart;
+
+               CartDeliveryGroup cartDeliveryGroup = new CartDeliveryGroup(
+                    CartId = cart.Id,
+                    Name = 'Default Delivery'
+               );
+               insert cartDeliveryGroup;
+
+               createRecord(RT_ACTIVITY_ID); 
+               String cOfferingId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;
+
+               Id relatedQuestionnaireId = [SELECT Id FROM Questionnaire__c  LIMIT 1].Id;
+               
+               List<Question__c> questionList = TestDataFactory.createTestQuestionRecords(5);
+               insert questionList;
+
+               List<Related_Answer__c> relatedAnswers = TestDataFactory.createTestRelatedAnswerRecords(5,relatedQuestionnaireId,questionList);
+               insert relatedAnswers;
+               List<ManageRegistrationSectionCtrl.FileUpload> fileLoadList = new List<ManageRegistrationSectionCtrl.FileUpload>();
+               List<Answer__c> answerList = new List<Answer__c>();
+               Answer__c newAnswer;
+               ManageRegistrationSectionCtrl.FileUpload fileLoad = new ManageRegistrationSectionCtrl.FileUpload();
+               for(Related_Answer__c relatedA: relatedAnswers){
+                    newAnswer = new Answer__c(
+                         Response__c = relatedA.Id,
+                         Related_Answer__c = relatedA.Id
+                    );
+                    answerList.add(newAnswer);
+
+                    fileLoad.Base64 = 'Test Content';
+                    fileLoad.FileName = relatedA.Id;
+                    fileLoad.RelatedAnswerId = relatedA.Id;
+
+                    fileLoadList.add(fileLoad);
+               }
+               
+               Id pbeId;
+               List<PricebookEntry> pbeList = [SELECT Id FROM PricebookEntry LIMIT 1];
+               for(PricebookEntry pbe : pbeList){ pbeId = pbe.Id; }
+
+               Test.startTest();
+               ManageRegistrationSectionCtrl.addRegistration2(newContact,cOfferingId,relatedAnswers,answerList,JSON.serialize(fileLoadList),false,pbeId,true); 
+
+               Test.stopTest();
+               system.assert(![SELECT Id FROM ContentVersion].isEmpty(), 'Document not created');
+               system.assert(![SELECT Id FROM Answer__c].isEmpty(), 'Answer not created');
+               system.assert(![SELECT Id FROM Contact].isEmpty(), 'Contact not created');
+          }      
+     } 
 
      private static void createRecord(String productRequestRecordType){
           System.runAs(currentUser){

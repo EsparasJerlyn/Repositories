@@ -116,6 +116,12 @@
                         <footer class="slds-modal__footer">
                             <div class="slds-var-top_medium">
                                 <lightning-button 
+                                    label="Proceed without Invoice"
+                                    variant="brand"
+                                    onclick={handleExistingContactPWI}
+                                    disabled={disableSaveExisting}
+                                ></lightning-button> &nbsp;&nbsp;&nbsp;
+                                <lightning-button 
                                     label="Redirect to Invoice"
                                     variant="brand"
                                     onclick={handleExistingContact}
@@ -163,9 +169,17 @@
                         <footer class="slds-modal__footer">
                             <div class="slds-var-top_medium">
                                 <lightning-button 
+                                    label="Proceed without Invoice"
+                                    variant="brand"
+                                    type="submit"
+                                    onclick={handleProceedNoInvoiceClick}
+                                    disabled={saveInProgress}
+                                ></lightning-button> &nbsp;&nbsp;&nbsp;
+                                <lightning-button 
                                     label="Redirect to Invoice"
                                     variant="brand"
                                     type="submit"
+                                    onclick={handleRedirectToInvoiceClick}
                                     disabled={saveInProgress}
                                 ></lightning-button>
                             </div>

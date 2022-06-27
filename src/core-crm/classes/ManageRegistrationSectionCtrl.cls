@@ -35,6 +35,8 @@
       |                           |                       |                      | 3.) Added Payment Gateway    |
       |                           |                       |                      | URL Builder                  |
       |                           |                       |                      |                              |
+      | keno.domienri.dico        | June 27, 2022         | DEPP-3287            | Added logic for new button in|
+      |                           |                       |                      | Manage Registration backed   |
 */
 public without sharing class ManageRegistrationSectionCtrl {
 
@@ -539,6 +541,225 @@ public without sharing class ManageRegistrationSectionCtrl {
           return paymentURL;
 
      }  
+
+     /**
+     * @description get list of contacts searched if button clicked is Proceed without Invoice from manageRegistrationSection lwc 
+     * @param contactRecord - contact to create
+     * @param courseOfferingId - course offering id
+     * @param relatedAnswerList - related answer records
+     * @param answerList - answer records to be inserted
+     * @param fileUpload - file to upload
+     */
+    @AuraEnabled
+    public static void addRegistration2(Contact contactRecord, String offeringId, List<Related_Answer__c> relatedAnswerList, List<Answer__c> answerList, String fileUpload, Boolean prescribedProgram, Id priceBookEntryId, Boolean isProceedNoInvoice){
+         List<FileUpload> parsedFileUpload = new List<FileUpload>();
+         if(fileUpload != ''){
+              parsedFileUpload = (List<FileUpload>) JSON.deserialize(fileUpload, List<FileUpload>.class);
+         }
+
+         List<Questionnaire_Response_Summary__c> questionnaireSummaryToInsert = new List<Questionnaire_Response_Summary__c>();
+         Map<String,String> cvToRelatedAnswerMap = new Map<String,String>();
+         List<ContentDocumentLink> contentDocLinkListToInsert = new List<ContentDocumentLink>();
+         List<ContentVersion> cvListToInsertList = new List<ContentVersion>();
+         Map<Id,Id> relatedAnswerToQuestionnaireMap = new Map<Id,Id>();
+         Map<Id,Id> questionnaireToqResSummaryMap = new Map<Id,Id>();
+         Map<Id,Id> relatedAnswerToAnswerMap = new Map<Id,Id>();
+         Set<Id> questionnaireIds = new Set<Id>();
+
+         List<Answer__c> answersToInsert = new List<Answer__c>();
+         Map<Id,Answer__c> answersToUpdate = new Map<Id,Answer__c>();
+
+         String contactRecName;
+         String contactRecEmail;
+         String contactRecFname;
+         String contactRecLname;
+         
+         if(contactRecord.Id == NULL){
+              contactRecName = contactRecord.FirstName + ' ' + contactRecord.LastName;
+              contactRecEmail = contactRecord.Email;
+              contactRecFname = contactRecord.FirstName;
+              contactRecLname = contactRecord.LastName;
+              insert contactRecord;
+         }else{
+              Contact con = [SELECT Id, Name, Email, FirstName, LastName FROM Contact WHERE Id =: contactRecord.Id LIMIT 1];
+              contactRecName = con.Name;
+              contactRecEmail = con.Email;
+              contactRecFname = con.FirstName;
+              contactRecLname = con.LastName;
+         }
+
+         for(Related_Answer__c relatedA: relatedAnswerList){
+              questionnaireIds.add(relatedA.Questionnaire__c);
+              relatedAnswerToQuestionnaireMap.put(relatedA.Id,relatedA.Questionnaire__c);
+         }
+
+         Questionnaire_Response_Summary__c qResSummary;
+
+         for(Id qId:questionnaireIds){
+              qResSummary = new Questionnaire_Response_Summary__c();
+              qResSummary.Questionnaire__c = qId;
+              if(!prescribedProgram){
+                   qResSummary.Course_Offering__c = offeringId;
+              }else{
+                   qResSummary.Program_Offering__c = offeringId;
+              }  
+              qResSummary.Registration_Status__c = 'Confirmed';             
+              qResSummary.Contact__c = contactRecord.Id;
+              questionnaireSummaryToInsert.add(qResSummary);
+         }
+
+         if(!questionnaireSummaryToInsert.isEmpty()){
+              insert questionnaireSummaryToInsert;
+         }
+
+         for(Questionnaire_Response_Summary__c questionResSummary: questionnaireSummaryToInsert){
+              questionnaireToqResSummaryMap.put(questionResSummary.Questionnaire__c,questionResSummary.Id);
+         }
+
+         if(!answerList.isEmpty()){
+              for(Answer__c a: answerList){
+                   a.Questionnaire_Response_Summary__c = questionnaireToqResSummaryMap.get(relatedAnswerToQuestionnaireMap.get(a.Related_Answer__c));
+                   answersToInsert.add(a);
+              }
+              insert answersToInsert;
+         }
+
+         for(Answer__c ans :answersToInsert){
+              relatedAnswerToAnswerMap.put(ans.Related_Answer__c,ans.Id);
+         }
+
+         for(FileUpload file: parsedFileUpload){
+              if(relatedAnswerToAnswerMap.containsKey(file.RelatedAnswerId)){
+                   ContentVersion cv = createContentVersion(file.Base64, file.FileName);
+                   cvToRelatedAnswerMap.put(cv.Title,file.RelatedAnswerId);
+                   cvListToInsertList.add(cv);
+              }
+         }
+
+         if(!cvListToInsertList.isEmpty()){
+              insert cvListToInsertList;
+         }
+
+         List<ContentVersion> newContentVersionList = new List<ContentVersion>(
+              [
+                   SELECT ContentDocumentId, Title
+                   FROM ContentVersion 
+                   WHERE Id IN:cvListToInsertList
+              ]
+         );
+
+         if(!newContentVersionList.isEmpty()){
+              ContentDocumentLink cdl;
+              Answer__c updateAnswer;
+              for(ContentVersion cv:newContentVersionList){
+                   cdl = new ContentDocumentLink(
+                        ContentDocumentId = cv.ContentDocumentId,
+                        LinkedEntityId = relatedAnswerToAnswerMap.get(cvToRelatedAnswerMap.get(cv.Title)),
+                        ShareType = 'V'
+                   );
+                   updateAnswer = new Answer__c(
+                        Id = cdl.LinkedEntityId,
+                        Response__c = cv.ContentDocumentId
+                   );
+                   answersToUpdate.put(updateAnswer.Id,updateAnswer);
+                   contentDocLinkListToInsert.add(cdl);
+              }
+         }
+
+         if(!contentDocLinkListToInsert.isEmpty()){
+              insert contentDocLinkListToInsert;
+         }
+
+         if(!answersToUpdate.keySet().isEmpty()){
+              update answersToUpdate.values();
+         }
+
+     //     Id commerceUser = createUser(contactRecEmail, contactRecLname, contactRecFname, contactRecord.Id);           
+     //     WebCart newWebCart = createWebCart(commerceUser);
+     //     insert newWebCart;
+
+         Product2 product = getProduct(offeringId, prescribedProgram);
+         PricebookEntry pbe = new PricebookEntry();
+         Decimal amount;
+         List<PricebookEntry> pbList = [SELECT Id, UnitPrice, Product2Id FROM PricebookEntry WHERE Id =: priceBookEntryId LIMIT 1];
+         for(PricebookEntry pb : pbList){
+              pbe = pb;
+              amount = pb.UnitPrice;
+         }
+
+     //     CartItem newCartItem = createCartItem(offeringId, newWebCart.Id, pbe, prescribedProgram, product.Id);
+     //     insert newCartItem;
+
+     //     Cart_Payment__c cartPayment = new Cart_Payment__c(Status__c = 'Invoiced');
+     //     insert cartPayment;
+
+     //     String externalId;
+     //     List<WebCart> carts = [SELECT External_Id__c FROM WebCart WHERE OwnerId =: commerceUser LIMIT 1]; 
+     //     for(WebCart webCart : carts){ externalId = webCart.External_Id__c; }
+
+     //      String paymentURL = paymentGatewayURLBuilder(externalId, contactRecEmail, contactRecName, amount, product.Name);
+         
+     //     WebCart webCartToClose = new WebCart(
+     //          Id = newWebCart.Id, 
+     //          Status__c = 'Closed', 
+     //          Status = 'Closed', 
+     //          Cart_Payment__c = cartPayment.Id,
+     //          Payment_URL__c = paymentURL
+     //     );
+     //     update webCartToClose;
+         
+         List<hed__Course_Enrollment__c> courseConnectionList = new List<hed__Course_Enrollment__c>();
+         hed__Course_Enrollment__c newCourseConnection = new hed__Course_Enrollment__c();          
+         newCourseConnection.hed__Contact__c =  contactRecord.Id;          
+         newCourseConnection.hed__Status__c = 'Active';
+
+         if(amount == 0){
+          newCourseConnection.Paid_in_Full__c = 'Yes';
+          newCourseConnection.Payment_Method__c = 'No Charge';
+         } else {
+          newCourseConnection.Paid_in_Full__c = 'Yes';
+          newCourseConnection.Payment_Method__c = 'Admin Added';
+         }
+         
+         newCourseConnection.Amount__c = amount;
+     //     newCourseConnection.Cart_ID__c = newWebCart.Id;
+     //     newCourseConnection.Cart_Item__c = newCartItem.Id;
+         if(!prescribedProgram){               
+              newCourseConnection.hed__Course_Offering__c = offeringId;
+              newCourseConnection.RecordTypeId = studentRecTypeId;
+              courseConnectionList.add(newCourseConnection);
+         }else{               
+              newCourseConnection.Program_Offering__c = offeringId;
+              newCourseConnection.RecordTypeId = studentProgramRecTypeId;
+              courseConnectionList.add(newCourseConnection);
+              List<hed__Course_Offering__c> childOfferings = [SELECT Id FROM hed__Course_Offering__c WHERE Program_Offering__c =: offeringId];
+              for(hed__Course_Offering__c childOffering : childOfferings){
+                   hed__Course_Enrollment__c childCourseConnection = new hed__Course_Enrollment__c();          
+                   childCourseConnection.hed__Contact__c =  contactRecord.Id;          
+                   childCourseConnection.hed__Status__c = 'Active';
+
+                   if(amount == 0){
+                    childCourseConnection.Paid_in_Full__c = 'No';
+                    childCourseConnection.Payment_Method__c = 'Invoice';
+                   } else {
+                    childCourseConnection.Paid_in_Full__c = 'No';
+                    childCourseConnection.Payment_Method__c = 'Invoice';
+                   }
+
+                   
+                   childCourseConnection.Amount__c = amount;
+                   childCourseConnection.Program_Offering__c = offeringId;
+                   childCourseConnection.hed__Course_Offering__c = childOffering.Id;
+                   childCourseConnection.RecordTypeId = studentRecTypeId;
+                   courseConnectionList.add(childCourseConnection);
+              }
+         }
+         
+         insert courseConnectionList;
+
+     //     return paymentURL;
+
+    }  
 
      /**
      * Creates commerce user based on contact details
