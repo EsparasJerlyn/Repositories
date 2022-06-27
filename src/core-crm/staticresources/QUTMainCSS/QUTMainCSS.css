@@ -1357,6 +1357,10 @@ span[c-customcombobox_customcombobox].slds-listbox__option-meta_entity {
 /*end of search result */
 
 /*GroupBooking*/
+[groupbookingform_groupbookingform] .slds-combobox__input .slds-truncate {
+  margin-top: 0rem !important;
+}
+
 .slds-modal__close[c-groupBookingForm_groupBookingForm] svg {
   fill: var(--main-color-blue500) !important;
 }
