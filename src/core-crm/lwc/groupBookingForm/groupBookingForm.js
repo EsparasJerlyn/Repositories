@@ -108,7 +108,11 @@ export default class GroupBookingForm extends LightningElement {
     paymentOpt = [];
     @api hasPayNow;
     @api hasInvoice;
-    
+
+    /**
+     * X Button
+     */
+    xButton;
 
 @wire(getRecord, { recordId: userId, fields: CONTACT_FIELDS })
     wiredContact({ error, data }) {

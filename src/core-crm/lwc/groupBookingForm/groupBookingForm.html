@@ -5,13 +5,18 @@
         <!-- Modal/Popup Box LWC starts here -->
         <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
             <div class="slds-modal__container">
+                <!-- <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" disabled={processing} onclick={closeModal}>
+                    <lightning-icon icon-name="utility:close"
+                        alternative-text="close"
+                        variant="inverse"
+                        size="small" ></lightning-icon>
+                    <span class="slds-assistive-text">Close</span>
+                </button> -->                        
                 <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
-                    <div class="slds-m-top_xxx-small slds-m-right_xxx-small slds-p-right_xxx-small slds-clearfix">
-                        <!--X button -->
-                        <span class="slds-float_right cursor" onclick={closeModal}
-                            ><img src={xButton}
-                        /></span>
-                    </div>
+                    <!--X button -->
+                    <span class="slds-float_right cursor" onclick={closeModal}>
+                        <img class="close-button" src={xButton}/>
+                    </span>
                 <!-- Choose number of participants in here -->
                     <template if:true={templatePicklist}>
                         <div class="one">
@@ -49,26 +54,38 @@
                                             >
                                             <div class="slds-grid slds-wrap">
                                                 <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
-                                                    <lightning-input-field required="true" field-name="FirstName" onchange={handleFirstnameChange} ></lightning-input-field>
+                                                    <label for="fieldfname" class="label-text">First Name</label>
+                                                    <span class="required-text">*</span>
+                                                    <lightning-input-field required="true" id="fieldfname" variant="label-hidden" field-name="FirstName" onchange={handleFirstnameChange} ></lightning-input-field>
                                                 </div>
                                                 <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
-                                                    <lightning-input-field  required="true" field-name="LastName" onchange={handleLastnameChange}></lightning-input-field>
+                                                    <label for="fieldlname" class="label-text">Last Name</label>
+                                                    <span class="required-text">*</span>
+                                                    <lightning-input-field  required="true" id="fieldlname" variant="label-hidden" field-name="LastName" onchange={handleLastnameChange}></lightning-input-field>
                                                 </div>
                                                 <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
-                                                    <lightning-combobox required="true" placeholder={localeConMobile} class="mobile-locale p1" label="Country Code" options={localeOptions} value={locale} onchange={handleLocaleChange}></lightning-combobox>
+                                                    <label for="fieldccode" class="label-text">Country Code</label>
+                                                    <span class="required-text">*</span>
+                                                    <lightning-combobox required="true" id="fieldccode" variant="label-hidden" placeholder={localeConMobile} class="mobile-locale p1" options={localeOptions} value={locale} onchange={handleLocaleChange}></lightning-combobox>
                                                 </div>                                                
                                                 <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
-                                                    <lightning-input-field required="true" field-name="MobilePhone" ></lightning-input-field>
+                                                    <label for="fieldmobile" class="label-text">Mobile Phone</label>
+                                                    <span class="required-text">*</span>
+                                                    <lightning-input-field required="true" id="fieldmobile" variant="label-hidden" field-name="MobilePhone" ></lightning-input-field>
                                                 </div>
                                                 <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
-                                                    <lightning-input-field  required="true" field-name="Email" onchange={handleEmailChange}></lightning-input-field>
+                                                    <label for="fieldemail" class="label-text">Email</label>
+                                                    <span class="required-text">*</span>
+                                                    <lightning-input-field  required="true" id="fieldemail" variant="label-hidden" field-name="Email" onchange={handleEmailChange}></lightning-input-field>
                                                 </div>
                                                 <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
-                                                    <label for="Birthdate" class="birthDate">Date of Birth</label>
-                                                    <lightning-input-field required="true" id="Birthdate" field-name="Birthdate" type="date" class="calendar" variant="label-hidden"></lightning-input-field>
+                                                    <label for="fieldbdate" class="label-text birthDate">Date of Birth</label>
+                                                    <span class="required-text">*</span>
+                                                    <lightning-input-field required="true" id="fieldbdate" field-name="Birthdate" type="date" class="calendar" variant="label-hidden"></lightning-input-field>
                                                 </div>
                                                 <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
-                                                    <lightning-input-field field-name='Dietary_Requirement__c'></lightning-input-field>
+                                                    <label for="fielddreq" class="label-text">Dietary Requirements</label>
+                                                    <lightning-input-field id="fielddreq" variant="label-hidden" field-name='Dietary_Requirement__c'></lightning-input-field>
                                                 </div>
                                             </div>
                                         </lightning-record-edit-form>
@@ -196,7 +213,7 @@
                                         </c-confirmation-dialog>  
                                         <div class="slds-grid slds-wrap" >
                                                 <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
-                                                    <lightning-input class="inputField"  required="true" name="FirstName" label="First Name" key={item.id} ></lightning-input>
+                                                    <lightning-input class="inputField" required="true" name="FirstName" label="First Name" key={item.id} ></lightning-input>
                                                 </div>
                                                 <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
                                                     <lightning-input class="inputField" required="true" name="LastName" label="Last Name" key={item.id}></lightning-input>

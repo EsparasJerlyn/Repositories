@@ -877,9 +877,10 @@ a.reversed:hover{
 [c-prescribedprograminternal_prescribedprograminternal].modal-content, 
 [c-applicationquestionnaire_applicationquestionnaire].modal-content {
   background-color: var(--greys-color-white);
+  max-width: 52.0625rem;
   margin: auto;
   border: 1px solid #888;
-  width: auto;
+  width: 60%;
   height: 100%;
   top: 50%;
   position: absolute;
@@ -1514,7 +1515,7 @@ div.main-container-bc [role=navigation] ol.slds-breadcrumb li:nth-child(n+4) p.d
 [interop-primitivefiledroppablezone_primitivefiledroppablezone-host] .slds-file-selector__button {
   background: #F5F5F5 !important;
   height: 70px !important;
-  width: 22.5vw;
+  width: 19vw;
   flex-flow: column;
   cursor: pointer;
   border: 1px solid #000000 dotted;
