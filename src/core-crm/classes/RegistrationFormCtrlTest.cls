@@ -120,8 +120,7 @@ public with sharing class RegistrationFormCtrlTest {
 
       insert testContacts;
       
-      /**
-      testContact2.Email = emailTest;
+      testContact2.Email = 'testUser2' + GenerateUniqueId.getUUID() + '@test.com';
       update testContact2;
 
       String page = RegistrationFormCtrl.registerUser(
@@ -138,8 +137,7 @@ public with sharing class RegistrationFormCtrlTest {
         '1234567890',
         'Australia (+61)'
       );
-      //System.assert(page == null, 'Page must not be null');
-       */
+      System.assert(page == null, 'Page must not be null');
     }
     Test.stopTest();
   }
