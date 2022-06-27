@@ -267,6 +267,7 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
     EmailTemplate emailTemplate = EmailTemplateSelector.getEmailTemplate(
       REGISTRATION_CONFIRMATION_EMAIL_TEMPLATE
     );
+    Study_Store_URL_Settings__c storeLinkSettings =  Study_Store_URL_Settings__c.getOrgDefaults();
 
     // Process
     List<Messaging.SingleEmailMessage> sendEmailList = new List<Messaging.SingleEmailMessage>();
@@ -343,7 +344,8 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
               '{fullname}' => fullname,
               '{name}' => productName,
               '{paid}' => paidInFull,
-              '{amount}' => amount
+              '{amount}' => amount,
+              '{storeLink}' => storeLinkSettings.Study_Store_Link__c != null? String.valueOf(storeLinkSettings.Study_Store_Link__c) : ''
             };
 
             // Build the Email

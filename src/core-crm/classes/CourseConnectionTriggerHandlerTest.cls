@@ -39,6 +39,8 @@ public with sharing class CourseConnectionTriggerHandlerTest {
   private static void insertCourseConnection() {
     System.runAs(currentUser) {
       Test.startTest();
+      Study_Store_URL_Settings__c studyStore = new Study_Store_URL_Settings__c(Study_Store_Link__c = 'https://studystorelinktest.com/');
+      insert studyStore;
       List<Account> accounts = TestDataFactory.createTestAccountRecords(100);
       for (Account acc : accounts) {
         acc.RecordTypeId = ACCT_UNIV_DEP_ID;
@@ -150,6 +152,8 @@ public with sharing class CourseConnectionTriggerHandlerTest {
   private static void updateCourseConnection() {
     System.runAs(currentUser) {
       Test.startTest();
+      Study_Store_URL_Settings__c studyStore = new Study_Store_URL_Settings__c(Study_Store_Link__c = 'https://studystorelinktest.com/');
+      insert studyStore;
       List<Account> accounts = TestDataFactory.createTestAccountRecords(100);
       for (Account acc : accounts) {
         acc.RecordTypeId = ACCT_UNIV_DEP_ID;
@@ -241,6 +245,8 @@ public with sharing class CourseConnectionTriggerHandlerTest {
   private static void deleteCourseConnection() {
     System.runAs(currentUser) {
       Test.startTest();
+      Study_Store_URL_Settings__c studyStore = new Study_Store_URL_Settings__c(Study_Store_Link__c = 'https://studystorelinktest.com/');
+      insert studyStore;
       List<Account> accounts = TestDataFactory.createTestAccountRecords(100);
       for (Account acc : accounts) {
         acc.RecordTypeId = ACCT_UNIV_DEP_ID;
