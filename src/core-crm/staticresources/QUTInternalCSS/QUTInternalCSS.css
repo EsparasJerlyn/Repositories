@@ -1635,3 +1635,17 @@ ul.slds-accordion.searchResult .slds-form-element__label {
 [c-groupbookingform_groupbookingform].mobile-locale.p1.slds-form-element {
 	margin-top: -7px;
 }
+
+
+/*foryou label*/
+[data-region-name="content"] .foryou-heading{
+  font-size: 2.4rem;
+  margin-bottom: -1rem !important;
+}
+
+@media only screen and (max-width: 764px) {
+    [data-region-name="content"] .foryou-heading{
+  		font-size: 1.7rem; 
+	}
+}
+/*end of foryou label*/
