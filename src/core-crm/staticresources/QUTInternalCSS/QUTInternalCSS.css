@@ -1599,6 +1599,11 @@ ul.slds-accordion.searchResult .slds-form-element__label {
   margin-left: 0px !important;
   }
 
+  .modal-content [c-searchResults_searchResults].searchTitle .slds-input{
+    display:flex !important;
+    text-align: left !important;
+  }
+
 }
 
 
