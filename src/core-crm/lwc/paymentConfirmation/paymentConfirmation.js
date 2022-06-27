@@ -1,7 +1,6 @@
 import { LightningElement, api, track, wire } from "lwc";
 import getOPEProductCateg from "@salesforce/apex/PaymentConfirmationCtrl.getOPEProductCateg";
 import getCartData from "@salesforce/apex/PaymentConfirmationCtrl.getCartData";
-import createCourseConnection from "@salesforce/apex/PaymentConfirmationCtrl.createCourseConnection";
 import updateWebCart from "@salesforce/apex/PaymentConfirmationCtrl.updateWebCart";
 import {updateRecord } from 'lightning/uiRecordApi';
 import BasePath from "@salesforce/community/basePath";
@@ -129,7 +128,7 @@ export default class PaymentConfirmation extends LightningElement {
     
                 // //if the payment is approved
                 //only add course connection when cart is updated to close
-                if(this.parameters.Status == 'A'){
+                /*if(this.parameters.Status == 'A'){
                     //create course connection record
                     createCourseConnection({ 
                         cartId: this.cartId, 
@@ -143,7 +142,7 @@ export default class PaymentConfirmation extends LightningElement {
                         console.log("createCourseConnection error");
                         console.log(error);
                     });
-                }
+                }*/
     
                 let fields = {};
                 fields[ID_FIELD.fieldApiName] = this.cartPayment;

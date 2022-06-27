@@ -35,6 +35,7 @@
       |                           |                       |                      | 3.) Added Payment Gateway    |
       |                           |                       |                      | URL Builder                  |
       |                           |                       |                      |                              |
+      | roy.nino.s.regala         | June 27, 2022         | DEPP-3252            |remove courseconnection insert|
       | keno.domienri.dico        | June 27, 2022         | DEPP-3287            | Added logic for new button in|
       |                           |                       |                      | Manage Registration backed   |
 */
@@ -484,6 +485,7 @@ public without sharing class ManageRegistrationSectionCtrl {
           }
 
           CartItem newCartItem = createCartItem(offeringId, newWebCart.Id, pbe, prescribedProgram, product.Id);
+          newCartItem.Contact__c = contactRecord.Id;
           insert newCartItem;
 
           Cart_Payment__c cartPayment = new Cart_Payment__c(Status__c = 'Invoiced');
@@ -503,7 +505,13 @@ public without sharing class ManageRegistrationSectionCtrl {
                Payment_URL__c = paymentURL
           );
           update webCartToClose;
-          
+
+          //update cart payment to invoiced after linking the webcart
+          //so that the cart payment trigger can check related cartitems
+          cartPayment.Payment_Status__c = 'Invoiced';
+          update cartPayment;
+
+          /*
           List<hed__Course_Enrollment__c> courseConnectionList = new List<hed__Course_Enrollment__c>();
           hed__Course_Enrollment__c newCourseConnection = new hed__Course_Enrollment__c();          
           newCourseConnection.hed__Contact__c =  contactRecord.Id;          
@@ -536,7 +544,7 @@ public without sharing class ManageRegistrationSectionCtrl {
                }
           }
           
-          insert courseConnectionList;
+          insert courseConnectionList;*/
 
           return paymentURL;
 

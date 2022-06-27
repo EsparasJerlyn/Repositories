@@ -11,17 +11,15 @@
 */
 import { LightningElement, api, wire, track } from 'lwc';
 import getPaymentGatewaySettings from '@salesforce/apex/PaymentGatewayCtrl.getPaymentGatewaySettings';
-import updatePaymentMethod from "@salesforce/apex/CartItemCtrl.updatePaymentMethod";
-import addRegistration from '@salesforce/apex/ProductDetailsCtrl.addRegistration';
-import getCartItemsByCart from "@salesforce/apex/CartItemCtrl.getCartItemsByCart";
 import userId from "@salesforce/user/Id";
-import createCourseConnections from '@salesforce/apex/CartItemCtrl.createCourseConnection';
 import { createRecord,updateRecord, getRecord, getFieldValue } from 'lightning/uiRecordApi';
 import PAYMENT_URL_FIELD from '@salesforce/schema/WebCart.Payment_URL__c';
 import STATUS_FIELD from '@salesforce/schema/WebCart.Status';
 import ID_FIELD from '@salesforce/schema/WebCart.Id';
 import CART_PAYMENT_FIELD from '@salesforce/schema/WebCart.Cart_Payment__c';
 import PAYMENT_METHOD from '@salesforce/schema/WebCart.Payment_Method__c';
+import PAYMENT_STATUS_FIELD from '@salesforce/schema/Cart_Payment__c.Payment_Status__c';
+import CARTPAYMENT_ID_FIELD from '@salesforce/schema/Cart_Payment__c.Id';
 import getOPEProductCateg from "@salesforce/apex/PaymentConfirmationCtrl.getOPEProductCateg";
 import BasePath from "@salesforce/community/basePath";
 
@@ -72,6 +70,7 @@ export default class Payment extends LightningElement {
     payLabel;
     invoiceTitle;
     invoiceLabel;
+    cartPaymentId;
 
     /**
      * Payment Options
@@ -265,33 +264,42 @@ export default class Payment extends LightningElement {
         
         let cartIds = []; 
         let contactId;
+
         this.paymentCartItems.map(row => {
             cartIds.push(row.cartItemId);
             contactId = row.contactId;
         });
+
+        //create cart payment records
         let fields = {'Status__c' : 'Invoiced'};
         let objRecordInput = {'apiName':'Cart_Payment__c',fields};
         createRecord(objRecordInput).then(response => {
-            let cartPaymentId = response.id;
+            //update webcart and link the created cart payment record
+            this.cartPaymentId = response.id;
             let fields = {};
             fields[ID_FIELD.fieldApiName] = this.cartId;
-            fields[CART_PAYMENT_FIELD.fieldApiName] = cartPaymentId;
+            fields[CART_PAYMENT_FIELD.fieldApiName] = this.cartPaymentId;
             fields[PAYMENT_URL_FIELD.fieldApiName] = this.invoiceURL;
             fields[PAYMENT_METHOD.fieldApiName] = 'Invoice';
             fields[STATUS_FIELD.fieldApiName] = 'Closed';
             let recordInput = {fields};
             updateRecord(recordInput)
             .then(()=>{
-                
-                createCourseConnections({cartItemIds:cartIds, contactId:contactId, paidInFull:'No', paymentMethod:'Invoice'})
-                .then(()=>{
+                //update payment status of cartpayment
+                //so that cart payment trigger can proccess child cart items
+                let fields = {};
+                fields[CARTPAYMENT_ID_FIELD.fieldApiName] = this.cartPaymentId;
+                fields[PAYMENT_STATUS_FIELD.fieldApiName] = 'Invoiced';
+                let recordInput = {fields};
+                updateRecord(recordInput)
+                .then(() => {
                     this.dispatchEvent(
                         new CustomEvent("cartchanged", {
                             bubbles: true,
                             composed: true
                         })
                     );
-
+    
                     //redirect to for you page and open the xetta page in new tab
                     window.open(this.invoiceURL, '_blank');
                     window.location.href = BasePath + "/category/products/" + this.prodCategId;
@@ -304,27 +312,5 @@ export default class Payment extends LightningElement {
             console.log("createCourseConnections error");
             console.log(error);
         })
-    }
-
-    saveRegistration(contact,courseOffering,relatedAnswer,answer,fileUpload){
-        addRegistration({
-            contactRecord:contact,
-            courseOfferingId:courseOffering,
-            relatedAnswerList:relatedAnswer,
-            answerList:answer,
-            fileUpload:fileUpload,
-            forApplication:false
-        })
-        .then(() =>{
-                this.generateToast(SUCCESS_TITLE, 'Successfully Submitted', SUCCESS_VARIANT);
-                //refreshApex(this.tableData);
-                
-        })
-        .finally(()=>{
-    
-        })
-        .catch(error =>{
-            
-        });
     }
 }

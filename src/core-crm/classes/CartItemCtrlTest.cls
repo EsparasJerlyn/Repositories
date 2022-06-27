@@ -390,7 +390,7 @@ public with sharing class CartItemCtrlTest {
     );
   }
 
-  @isTest
+  /*@isTest
   static void createCourseConnectionTest(){
     List<Contact> contactList = new List<Contact>([SELECT Id FROM Contact LIMIT 1]);
     List<CartItem> cartItemList = new List<CartItem>([SELECT Id FROM CartItem LIMIT 10]);
@@ -402,7 +402,7 @@ public with sharing class CartItemCtrlTest {
     Test.stopTest();
 
     System.assert(![SELECT Id FROM hed__Course_Enrollment__c LIMIT 1].isEmpty(),'No course connection created');
-  }
+  }*/
 
   @IsTest
   static void checkCartOwnerShipTest() {

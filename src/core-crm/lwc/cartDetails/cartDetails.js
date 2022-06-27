@@ -1,5 +1,5 @@
 import { LightningElement, wire, api, track } from "lwc";
-import {getRecord, updateRecord} from "lightning/uiRecordApi";
+import {getRecord, updateRecord, createRecord} from "lightning/uiRecordApi";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import BasePath from "@salesforce/community/basePath";
 import userId from "@salesforce/user/Id";
@@ -22,6 +22,8 @@ import CART_ID_FIELD from "@salesforce/schema/WebCart.Id";
 import CART_STATUS_FIELD from "@salesforce/schema/WebCart.Status";
 import ANSWER_ID_FIELD from "@salesforce/schema/Answer__c.Id";
 import ANSWER_RESPONSE_FIELD from "@salesforce/schema/Answer__c.Response__c";
+
+import CART_PAYMENT_FIELD from '@salesforce/schema/WebCart.Cart_Payment__c';
 
 import { publish, MessageContext } from 'lightning/messageService';
 import payloadContainerLMS from '@salesforce/messageChannel/Breadcrumbs__c';
@@ -118,7 +120,6 @@ export default class CartDetails extends LightningElement {
 
     checkCartOwnerShip({cartId:this.recordId,userId: userId})
       .then((result) => {
-        console.log(result);
         if(!result){
           window.location.href = BasePath + "/error";
         }else{  
@@ -287,8 +288,6 @@ export default class CartDetails extends LightningElement {
         }
       }
     );
-    
-    console.log('paymentOptions:', JSON.stringify(this.paymentOpt));
 
     this.hasPayNow = false;
     this.hasInvoice = false;
@@ -542,8 +541,6 @@ export default class CartDetails extends LightningElement {
 
     //reset the value
     this.questions = tempQuestions;
-
-    console.log(this.questions);
   }
 
   //pay button is clicked
@@ -564,13 +561,31 @@ export default class CartDetails extends LightningElement {
   }
 
   confirmRegistration(){
-    getCommunityUrl()
-    .then((result) => {
-      this.paymentConURL = result.comSite + '/s/payment-confirmation?' 
-                        + 'Status=A&InvoiceNo=[InvoiceNo]&ReceiptNo=[ReceiptNo]&TotalAmount=' 
-                        + this.total + '&Webcart.External_ID__c=' + this.cartExternalId;
-      window.location.href = this.paymentConURL;
-    });
+        this.disablePayment = true;
+        let fields = {'Status__c' : 'Active'};
+        let objRecordInput = {'apiName':'Cart_Payment__c',fields};
+        createRecord(objRecordInput).then(response => {
+            let cartPaymentId = response.id;
+            let fields = {};
+            fields[CART_ID_FIELD.fieldApiName] = this.recordId;
+            fields[CART_PAYMENT_FIELD.fieldApiName] = cartPaymentId;
+            let recordInput = {fields};
+            updateRecord(recordInput).then(()=>{
+                getCommunityUrl()
+                .then((result) => {
+                  this.paymentConURL = result.comSite + '/s/payment-confirmation?' 
+                                    + 'Status=A&InvoiceNo=[InvoiceNo]&ReceiptNo=[ReceiptNo]&TotalAmount=' 
+                                    + this.total + '&Webcart.External_ID__c=' + this.cartExternalId;
+                  window.location.href = this.paymentConURL;
+                });
+            })
+        })
+        .catch((error) => {
+            this.processing = false;
+            console.log("confirmRegistration error");
+            console.log(error);
+        })
+    
   }
 
   //retrieve the discount code
@@ -643,21 +658,6 @@ export default class CartDetails extends LightningElement {
         console.log("error");
         console.log(error);
       });
-  }
-
-  //test button
-  testFunction(event) {
-    // console.log(this.cartItems);
-    // console.log("here");
-    // // console.log(this.template.querySelector("lightning-file-upload[data-id='a1C9h000000DUacEAG']").value);
-    // console.log(this.questions);
-    // //the old value of the answer field
-    // console.log(this.questions[4].stringResponse);
-    // //the current value of the answer field
-    // console.log(this.template.querySelector("lightning-file-upload[data-id='a1C9h000000DUacEAG']").files.documentId.toString());
-    // //get the discount code entered by the user and index from the array
-    // let couponCode = this.template.querySelector("lightning-input[data-id='" + event.target.dataset.id + "']").value;
-    // let currentIndex = this.template.querySelector("lightning-input[data-id='" + event.target.dataset.id + "']").name;
   }
 
   //enables edit mode

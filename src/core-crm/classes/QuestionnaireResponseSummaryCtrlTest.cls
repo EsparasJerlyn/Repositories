@@ -5,10 +5,10 @@
  * @author Accenture
  *
  * @history
- *    | Developer                 | Date                  | JIRA                 | Change Summary               |
-      |---------------------------|-----------------------|----------------------|------------------------------|
-      | john.bo.a.pineda          | March 15, 2022        | DEPP-1643            | Created file                 |
-      |                           |                       |                      |                              |
+ *    | Developer                 | Date                  | JIRA                 | Change Summary                                            |
+      |---------------------------|-----------------------|----------------------|-----------------------------------------------------------|
+      | john.bo.a.pineda          | March 15, 2022        | DEPP-1643            | Created file                                              |
+      | roy.nino.s.regala         | June 23,2022          | DEPP-3252            | added logic to create cartitems and construct pay now url |
  */
 @isTest(SeeAllData=false)
 public with sharing class QuestionnaireResponseSummaryCtrlTest {
@@ -145,11 +145,10 @@ public with sharing class QuestionnaireResponseSummaryCtrlTest {
       );
       insert testWebStore;
     
-    WebCart cart = new WebCart( Name = 'Cart', AccountId = portalAccount1.Id, Status = 'Active', Status__c = 'Active',
-     WebStoreId = testWebStore.Id, OwnerId = portalUser.Id
-    );
-    system.debug(cart);
-    insert cart;
+      WebCart cart = new WebCart( Name = 'Cart', AccountId = portalAccount1.Id, Status = 'Active', Status__c = 'Active',
+      WebStoreId = testWebStore.Id, OwnerId = portalUser.Id
+      );
+      insert cart;
 
     CartDeliveryGroup cartDeliveryGroup = new CartDeliveryGroup(
       CartId = cart.Id,
@@ -182,7 +181,8 @@ public with sharing class QuestionnaireResponseSummaryCtrlTest {
       Test.startTest();
       QuestionnaireResponseSummaryCtrl.updateApplicationStatus(
         qrsId.Id,
-        'Approved'
+        'Approved',
+        null
       );
       Test.stopTest();
 

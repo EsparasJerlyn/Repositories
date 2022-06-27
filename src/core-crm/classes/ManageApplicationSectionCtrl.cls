@@ -18,6 +18,9 @@
       | eccarius.karl.munoz       | May 03, 2022          | DEPP-2134            | Added handling for Program   |
       |                           |                       |                      | Prescribed and Updated Query |
       |                           |                       |                      | to remove course connection. |
+      | roy.nino.s.regala         | June 23,2022          | DEPP-3252            | added logic to create        |
+      |                           |                       |                      | cartitems and construct      | 
+      |                           |                       |                      | paynow url                   |
 */
 public with sharing class ManageApplicationSectionCtrl {
 
@@ -70,12 +73,8 @@ public with sharing class ManageApplicationSectionCtrl {
       */
      @AuraEnabled
      public static String updateStudentApplication(String id, String applicationStatus, String reasonForRejection){
-          Questionnaire_Response_Summary__c questionnaire = new Questionnaire_Response_Summary__c();
-          questionnaire.Id = id;
-          questionnaire.Application_Status__c = applicationStatus;
-          questionnaire.Reason_for_Rejection__c = reasonForRejection;
           try {
-               update questionnaire;
+               QuestionnaireResponseSummaryCtrl.updateApplicationStatus(id,applicationStatus,reasonForRejection);
                return 'Success';
           }
           catch (Exception e) {

@@ -1370,6 +1370,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Questionnaire_Response_Summary__c.Payment_URL__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Questionnaire_Response_Summary__c.Pricebook_Entry_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>

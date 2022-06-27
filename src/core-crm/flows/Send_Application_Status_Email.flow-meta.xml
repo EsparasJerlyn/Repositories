@@ -135,7 +135,7 @@
             <assignToReference>CartURLMergeField.mergeFieldValue</assignToReference>
             <operator>Add</operator>
             <value>
-                <elementReference>$Record.Cart_URL__c</elementReference>
+                <elementReference>$Record.Payment_URL__c</elementReference>
             </value>
         </assignmentItems>
         <connector>

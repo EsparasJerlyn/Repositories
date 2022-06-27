@@ -7,10 +7,10 @@
  *
  * @history
  *
- *    | Developer                 | Date                  | JIRA                 | Change Summary               |
-      |---------------------------|-----------------------|----------------------|------------------------------|
-      | john.bo.a.pineda          | March 14, 2022        | DEPP-1643            | Created file                 |
-      |                           |                       |                      |                              |
+ *    | Developer                 | Date                  | JIRA                 | Change Summary                                            |
+      |---------------------------|-----------------------|----------------------|-----------------------------------------------------------|
+      | john.bo.a.pineda          | March 14, 2022        | DEPP-1643            | Created file                                              |
+      | roy.nino.s.regala         | June 23,2022          | DEPP-3252            | added logic to create cartitems and construct pay now url |
  */
 public without sharing class QuestionnaireResponseSummaryCtrl {
   /**
@@ -116,11 +116,14 @@ public without sharing class QuestionnaireResponseSummaryCtrl {
    * @param qrsStatus - Questionare Response Summary Application Status value
    */
   @AuraEnabled(cacheable=false)
-  public static void updateApplicationStatus(String qrsId, String qrsStatus) {
+  public static void updateApplicationStatus(String qrsId, String qrsStatus, String reasonForRejection) {
     if (String.isNotBlank(qrsId)) {
+
       Id cartDeliveryGroupId;
+
       Questionnaire_Response_Summary__c qrs = [
         SELECT Id, Application_Status__c, Contact__c, 
+        Contact__r.Email, Contact__r.Name,
         Pricebook_Entry_ID__c, Program_Offering__c,
         Course_Offering__c, Course_Name__c,
         Questionnaire__r.Parent_Record_ID__c
@@ -129,52 +132,76 @@ public without sharing class QuestionnaireResponseSummaryCtrl {
         LIMIT 1
       ];
 
-      if (qrs.Application_Status__c == 'Pending') {
-        qrs.Application_Status__c = qrsStatus;
+      qrs.Application_Status__c = qrsStatus;
+      qrs.Reason_For_Rejection__c = reasonForRejection != null?reasonForRejection:'';
 
-        if(qrsStatus == 'Approved'){
-          User portalUser = [ SELECT Id, Contact.AccountId
-          FROM User 
-          WHERE ContactId =: qrs.Contact__c 
-          LIMIT 1];
+      if(qrsStatus == 'Approved'){
+        User portalUser = [ SELECT Id, Contact.AccountId, ContactId
+        FROM User 
+        WHERE ContactId =: qrs.Contact__c 
+        LIMIT 1];
 
-        Id offeringId = qrs.Course_Offering__c!=null?qrs.Course_Offering__c:qrs.Program_Offering__c;
-        Boolean isPrescribed = qrs.Course_Offering__c!=null?false:true;
+      Id offeringId = qrs.Course_Offering__c!=null?qrs.Course_Offering__c:qrs.Program_Offering__c;
+      Boolean isPrescribed = qrs.Course_Offering__c!=null?false:true;
 
-        PricebookEntry pbEntry = [SELECT Id, UnitPrice, Product2Id FROM PricebookEntry WHERE Id=: qrs.Pricebook_Entry_ID__c LIMIT 1];
+      PricebookEntry pbEntry = [SELECT Id, UnitPrice, Product2Id FROM PricebookEntry WHERE Id=: qrs.Pricebook_Entry_ID__c LIMIT 1];
 
-
-        WebCart newCart = createWebCart(portalUser.Id);
-        
-        insert newCart;
-
-       
-        CartDeliveryGroup cartDeliveryGroup = [SELECT Id FROM CartDeliveryGroup WHERE Name ='Default Delivery' AND Cart.OwnerId =: portalUser.Id Limit 1];
-
-        CartItem newCartItem = createCartItem(offeringId,newCart.Id,pbEntry,isPrescribed,cartDeliveryGroup.Id);
-
-        insert newCartItem;
-
-        Study_Store_URL_Settings__c storeLinkSettings = Study_Store_URL_Settings__c.getOrgDefaults();
-
-        String communityUrl = storeLinkSettings.Study_Store_Link__c != null?String.valueOf(storeLinkSettings.Study_Store_Link__c):'';
-
-        qrs.Cart_URL__c = communityUrl + 'cart/'; 
-        qrs.Cart_URL__c += newCart != null?newCart.Id:'';  
-          
-        }  
+      WebCart newCart = createWebCart(portalUser.Id);
+      Cart_Payment__c cartPayment = new Cart_Payment__c(Status__c ='Active');
+      insert cartPayment;
+      newCart.Cart_Payment__c = cartPayment.Id;
+      insert newCart;
       
+      CartDeliveryGroup cartDeliveryGroup = [SELECT Id FROM CartDeliveryGroup WHERE Name ='Default Delivery' AND Cart.OwnerId =: portalUser.Id Limit 1];
 
-      try {
+      CartItem newCartItem = createCartItem(offeringId,newCart.Id,pbEntry,isPrescribed,cartDeliveryGroup.Id);
+      newCartItem.Contact__c = portalUser.ContactId;
+      insert newCartItem;
+
+      Cart_Payment__c updateCartPayment = new Cart_Payment__c(Id = cartPayment.Id, Payment_Status__c ='Invoiced');
+
+      //update cart payment to invoiced after it has webcart and cartitems
+      update updateCartPayment;
+
+      Study_Store_URL_Settings__c storeLinkSettings = Study_Store_URL_Settings__c.getOrgDefaults();
+
+      String communityUrl = storeLinkSettings.Study_Store_Link__c != null?String.valueOf(storeLinkSettings.Study_Store_Link__c):'';
+
+
+      qrs.Payment_URL__c = paymentGatewayURLBuilder([Select Id, External_Id__c FROM WebCart WHERE Id =: newCart.Id]?.External_Id__c, 
+                                                  qrs.Contact__r.Email,
+                                                  qrs.Contact__r.Name,
+                                                  pbEntry.UnitPrice,
+                                                  qrs.Course_Name__c
+                                                  );
+      }  
+      
       update qrs;
-
-       } catch (Exception e) {
-          System.debug(LoggingLevel.WARN, 'updateApplicationStatus ERROR: ' + e.getMessage());//NOPMD
-        }
-        
-      }
     }
   }
+
+  //must used custom settings for the other hard coded query params
+     /**
+      * Generates Payment Gateway URL based on the provided parameters
+      * @param <String> cartExternalId
+      * @param <String> email
+      * @param <String> name
+      * @param <Decimal> amount
+      * @return String - URL Generated
+      */
+      private static String paymentGatewayURLBuilder(String cartExternalId, String email, String name, Decimal amount, String productName){
+
+        Payment_Gateway_Settings__c paymentGatewaySettings = Payment_Gateway_Settings__c.getorgdefaults();
+
+        return paymentGatewaySettings.Payment_URL__c +
+             'tran-type=' + paymentGatewaySettings.TransType_PayNow__c +
+             '&OPETransactionID=' + cartExternalId +
+             '&OPEDescription=' + productName +
+             '&Email=' + email +
+             '&FullName=' + name +
+             '&GLCode=' + paymentGatewaySettings.GL_Code__c +
+             '&UnitAmountIncTax=' + String.valueOf(amount);
+   }
 
 
   /**

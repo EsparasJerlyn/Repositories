@@ -514,6 +514,13 @@ public without sharing class ProductDetailsCtrl {
       ]
       .Id;
 
+      Id contactId = [
+        SELECT Id, ContactId 
+        FROM User
+        WHERE Id =: userId
+        LIMIT 1
+      ]?.ContactId;
+
       // Get Current User Active Cart Delivery Group
       Id cartDeliveryGroupId = [
         SELECT Id, Name, CreatedDate, LastModifiedDate, CartId
@@ -551,6 +558,7 @@ public without sharing class ProductDetailsCtrl {
       if (addCart) {
         CartItem cItem = new CartItem();
         cItem.CartId = cartId;
+        cItem.Contact__c = contactId;
         cItem.CartDeliveryGroupId = cartDeliveryGroupId;
         cItem.Name = productName;
         cItem.Product2Id = productId;

@@ -7,6 +7,7 @@
       |---------------------------|-----------------------|----------------------|--------------------------------------------|
       | john.m.tambasen           | May 11, 2022          | DEPP-2060            | Created file                               |
       | john.m.tambasen           | May 17, 2022          | DEPP-1151            | added the updation of cart status          |
+      | roy.nino.s.regala         | June 27, 2022         | DEPP-3252            | remove creation of course connection       |
 
 */
 public without sharing class CartItemCtrl {
@@ -611,7 +612,7 @@ public without sharing class CartItemCtrl {
    * @param paidInFull
    * @param paymentMethod
    */
-  @AuraEnabled
+  /*@AuraEnabled
   public static void createCourseConnection(List<String> cartItemIds, String contactId, String paidInFull, String paymentMethod){
     List<CartItem> cartList = [SELECT Id, CartId, Program_Offering__c, Course_Offering__c, Pricebook_Entry_ID__c, Contact__c FROM CartItem WHERE Id IN: cartItemIds];
     List<hed__Course_Enrollment__c> connectionToInsert = new List<hed__Course_Enrollment__c>();
@@ -688,7 +689,7 @@ public without sharing class CartItemCtrl {
       insert connectionToInsert;
     }
 
-  }
+  }*/
 
   /**
    * @description get OPE Product Category Id

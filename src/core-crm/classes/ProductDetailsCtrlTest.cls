@@ -420,6 +420,8 @@ private class ProductDetailsCtrlTest {
         true
       );
       Test.stopTest();
+
+      System.assert(![SELECT Id FROM CartItem Limit 1].isEmpty(), 'No Cart Item Created');
     }
   }
 

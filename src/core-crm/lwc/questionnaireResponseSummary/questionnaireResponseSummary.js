@@ -75,7 +75,8 @@ export default class QuestionnaireResponseSummary extends LightningElement {
     let status = event.currentTarget.dataset.id;
     updateApplicationStatus({
       qrsId: this.recordId,
-      qrsStatus: event.currentTarget.dataset.id
+      qrsStatus: event.currentTarget.dataset.id,
+      reasonForRejection: ''
     })
       .then(() => {
         refreshApex(this.qrsResult);
