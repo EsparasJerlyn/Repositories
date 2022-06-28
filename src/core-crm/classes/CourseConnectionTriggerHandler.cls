@@ -200,6 +200,14 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
     Set<Id> ccCourseSet = new Set<Id>();
     Set<Id> ccProgPlanSet = new Set<Id>();
 
+    // Get Org Wide Email Address
+    List<OrgWideEmailAddress> owea = [
+      SELECT Id, Address, DisplayName
+      FROM OrgWideEmailAddress
+      WHERE DisplayName = 'QUTeX'
+      LIMIT 1
+    ];
+
     // Query Course Connection Details
     List<hed__Course_Enrollment__c> crseEnrollListNew = [
       SELECT
@@ -267,7 +275,9 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
     EmailTemplate emailTemplate = EmailTemplateSelector.getEmailTemplate(
       REGISTRATION_CONFIRMATION_EMAIL_TEMPLATE
     );
-    Study_Store_URL_Settings__c storeLinkSettings =  Study_Store_URL_Settings__c.getOrgDefaults();
+
+    // Get Study Store URL Custom Setting
+    Study_Store_URL_Settings__c storeLinkSettings = Study_Store_URL_Settings__c.getOrgDefaults();
 
     // Process
     List<Messaging.SingleEmailMessage> sendEmailList = new List<Messaging.SingleEmailMessage>();
@@ -345,7 +355,9 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
               '{name}' => productName,
               '{paid}' => paidInFull,
               '{amount}' => amount,
-              '{storeLink}' => storeLinkSettings.Study_Store_Link__c != null? String.valueOf(storeLinkSettings.Study_Store_Link__c) : ''
+              '{storeLink}' => storeLinkSettings.Study_Store_Link__c != null
+                ? String.valueOf(storeLinkSettings.Study_Store_Link__c)
+                : ''
             };
 
             // Build the Email
@@ -355,6 +367,11 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
               emailTemplate.HtmlValue,
               emailParams
             );
+
+            // Set Org Wide Email Address
+            if (!owea.isEmpty()) {
+              mail.setOrgWideEmailAddressId(owea[0].Id);
+            }
 
             // Add Email to List
             sendEmailList.add(mail);
