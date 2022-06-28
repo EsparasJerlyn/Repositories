@@ -86,9 +86,9 @@
         <style>CustomLinks</style>
     </layoutSections>
     <multilineLayoutFields>Product2Id</multilineLayoutFields>
+    <multilineLayoutFields>UnitPrice</multilineLayoutFields>
     <multilineLayoutFields>Quantity</multilineLayoutFields>
     <multilineLayoutFields>OpportunityId</multilineLayoutFields>
-    <multilineLayoutFields>UnitPrice</multilineLayoutFields>
     <multilineLayoutFields>Description</multilineLayoutFields>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>

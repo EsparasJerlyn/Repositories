@@ -41,6 +41,7 @@
       | john.bo.a.pineda          | June 28, 2022         | DEPP-3314            | Uncommented code that sets   |
       |                           |                       |                      | the Selected Pricebook       |
 */
+
 public without sharing class ManageRegistrationSectionCtrl {
 
      private static string studentRT = System.Label.RT_CourseConnection_Student;
