@@ -179,10 +179,10 @@ public without sharing class ManageRegistrationSectionCtrl {
           return paymentGatewaySettings.Payment_URL__c +
                'tran-type=' + paymentGatewaySettings.TransType_Invoice__c +
                '&OPETransactionID=' + cartExternalId +
-               '&OPEDescription=' + productName +
-               '&Email=' + email +
-               '&FullName=' + name +
+               '&Email=' + email.replace('@', '%40') +
                '&GLCode=' + paymentGatewaySettings.GL_Code__c +
+               '&FullName=' + name +
+               '&OPEDescription=' + productName +
                '&UnitAmountIncTax=' + String.valueOf(amount);
      }
 
@@ -493,9 +493,7 @@ public without sharing class ManageRegistrationSectionCtrl {
           Cart_Payment__c cartPayment = new Cart_Payment__c(Status__c = 'Invoiced');
           insert cartPayment;
 
-          String externalId;
-          List<WebCart> carts = [SELECT External_Id__c FROM WebCart WHERE OwnerId =: commerceUser LIMIT 1];
-          for(WebCart webCart : carts){ externalId = webCart.External_Id__c; }
+          String externalId = [SELECT Id, External_Id__c FROM WebCart WHERE OwnerId =: commerceUser AND Status = 'Active' LIMIT 1].External_Id__c; 
 
           String paymentURL = paymentGatewayURLBuilder(externalId, contactRecEmail, contactRecName, amount, product.Name);
 
