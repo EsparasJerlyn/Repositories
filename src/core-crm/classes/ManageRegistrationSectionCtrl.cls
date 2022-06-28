@@ -38,6 +38,8 @@
       | roy.nino.s.regala         | June 27, 2022         | DEPP-3252            |remove courseconnection insert|
       | keno.domienri.dico        | June 27, 2022         | DEPP-3287            | Added logic for new button in|
       |                           |                       |                      | Manage Registration backed   |
+      | john.bo.a.pineda          | June 28, 2022         | DEPP-3314            | Uncommented code that sets   |
+      |                           |                       |                      | the Selected Pricebook       |
 */
 public without sharing class ManageRegistrationSectionCtrl {
 
@@ -51,19 +53,19 @@ public without sharing class ManageRegistrationSectionCtrl {
       * @param prodReqId - Record ID from record page
       * @return List of Related_Answer__c
       */
-     @AuraEnabled(cacheable=true)  
+     @AuraEnabled(cacheable=true)
      public static List<Related_Answer__c> getQuestions(String productReqId){
           List<Related_Answer__c> relatedAnswersList = new List<Related_Answer__c>(
                [
-                    SELECT Id, Question__r.Type__c, Question__r.Label__c, Sequence__c, 
-                    Questionnaire__r.Parent_Record_ID__c, Question__r.Acceptable_Response__c, 
+                    SELECT Id, Question__r.Type__c, Question__r.Label__c, Sequence__c,
+                    Questionnaire__r.Parent_Record_ID__c, Question__r.Acceptable_Response__c,
                     Question__r.Message__c, Questionnaire__r.Questionnaire_Type__c,
                     Question__r.Dropdown_Options__c
                     FROM Related_Answer__c
                     WHERE Questionnaire__r.Parent_Record_ID__c =: productReqId
-                    AND (Questionnaire__r.Questionnaire_Type__c = 'Registration Questions' 
+                    AND (Questionnaire__r.Questionnaire_Type__c = 'Registration Questions'
                     OR Questionnaire__r.Questionnaire_Type__c = 'Registration Criteria')
-                    ORDER BY Questionnaire__r.Questionnaire_Type__c, Sequence__c 
+                    ORDER BY Questionnaire__r.Questionnaire_Type__c, Sequence__c
                ]
           );
           return relatedAnswersList;
@@ -97,17 +99,17 @@ public without sharing class ManageRegistrationSectionCtrl {
                     Cart_ID__r.TotalAmount, Paid_in_Full__c, hed__Status__c, LMS_Integration_Status__c, hed__Contact__r.FirstName, hed__Contact__r.LastName,
                     hed__Contact__r.Birthdate, hed__Contact__r.Email, Payment_Method__c, Cart_Item__r.Pricebook_Entry_ID__c, Is_Group_Registered__c
                  FROM hed__Course_Enrollment__c
-                WHERE 
-                    RecordTypeId IN (:studentRecTypeId, :studentProgramRecTypeId) 
+                WHERE
+                    RecordTypeId IN (:studentRecTypeId, :studentProgramRecTypeId)
                     AND (hed__Course_Offering__c =: childRecordId OR (Program_Offering__c  =: childRecordId AND hed__Course_Offering__c = null ))
           ];
-          
+
           Map<String, PricebookEntry> pbeList = new Map<String, PricebookEntry>();
-          
+
           Product2 product = getProduct(childRecordId, prescribedProgram);
           List<Map<String,String>> pBEntries = new List<Map<String,String>>();
           List<PricebookEntry> priceBookEntries = [SELECT Id, UnitPrice, Pricebook2.Name FROM PricebookEntry WHERE Product2Id =: product.Id ORDER BY CreatedDate];
-          for(PricebookEntry p : priceBookEntries){   
+          for(PricebookEntry p : priceBookEntries){
                pbeList.put(p.Id, p);
           }
 
@@ -116,7 +118,7 @@ public without sharing class ManageRegistrationSectionCtrl {
                if(pbeList.containsKey(student.Cart_Item__r.Pricebook_Entry_ID__c)){
                     studentWithPricingMap.put(student.hed__Contact__r.Id, pbeList.get(student.Cart_Item__r.Pricebook_Entry_ID__c));
                }
-          }    
+          }
 
           Decimal amount;
           for(hed__Course_Enrollment__c student : courseConnections){
@@ -131,12 +133,12 @@ public without sharing class ManageRegistrationSectionCtrl {
                regDetails.contactBirthdate = student.hed__Contact__r.Birthdate;
                regDetails.contactEmail = student.hed__Contact__r.Email;
                regDetails.paymentMethod = student.Payment_Method__c;
-               regDetails.isGroupRegistered = student.Is_Group_Registered__c;   
+               regDetails.isGroupRegistered = student.Is_Group_Registered__c;
                regDetails.registrationStatus = student.hed__Status__c;
                if(studentWithPricingMap.containsKey(student.hed__Contact__c)){
                     regDetails.selectedPricing = studentWithPricingMap.get(student.hed__Contact__c).Pricebook2.Name;
                     amount = studentWithPricingMap.get(student.hed__Contact__c).UnitPrice;
-               }                               
+               }
                regDetails.pricingValidation = student.Pricing_Validation__c;
                if(contactToQRSummary.containsKey(student.hed__Contact__c)){
                     regDetails.questionId = contactToQRSummary.get(student.hed__Contact__c).Id;
@@ -147,7 +149,7 @@ public without sharing class ManageRegistrationSectionCtrl {
                }
                if((student.Paid_in_Full__c == 'No' && student.Payment_Method__c == 'Invoice' && student.Is_Group_Registered__c) || (student.Paid_in_Full__c == 'No' && student.Payment_Method__c == 'Invoice')){
                     regDetails.regenerateInvoiceURL = paymentGatewayURLBuilder(
-                         student.Cart_ID__r.External_Id__c, 
+                         student.Cart_ID__r.External_Id__c,
                          student.hed__Contact__r.Email,
                          student.hed__Contact__r.Name,
                          student.Cart_ID__r.TotalAmount,
@@ -211,9 +213,9 @@ public without sharing class ManageRegistrationSectionCtrl {
                     learner.Paid_in_Full__c = paidInFull;
                     learner.Pricing_Validation__c = pricingValidation;
                     learner.hed__Status__c = registrationStatus;
-                    studentsToUpdate.add(learner);                 
+                    studentsToUpdate.add(learner);
                }
-          }                 
+          }
 
           Questionnaire_Response_Summary__c questionnaire = new Questionnaire_Response_Summary__c();
           questionnaire.Id = questionId;
@@ -296,7 +298,7 @@ public without sharing class ManageRegistrationSectionCtrl {
       * @param childRecordId - offering Id
       * @return List<Map<String,String>> - id and price book name
       */
-     @AuraEnabled(cacheable=true)  
+     @AuraEnabled(cacheable=true)
      public static List<Map<String,String>> getPBEntries(String childRecordId, Boolean prescribedProgram){
           Product2 product = getProduct(childRecordId, prescribedProgram);
           List<Map<String,String>> pBEntries = new List<Map<String,String>>();
@@ -311,7 +313,7 @@ public without sharing class ManageRegistrationSectionCtrl {
      }
 
      /**
-     * @description get list of contacts searched 
+     * @description get list of contacts searched
      * @param filterString - search string for filter
      * @param filterContacts - list of contact ids
      * @return list of map of formatted contacts for customSearch
@@ -320,14 +322,14 @@ public without sharing class ManageRegistrationSectionCtrl {
     public static List<Map<String,String>> getSearchedContacts(String filterString, List<Id> filterContacts){
         filterString = '%' + filterString + '%';
         List<Map<String,String>> contactMap = new List<Map<String,String>>();
-        
+
         for(Contact con : [
             SELECT Id, Name, Email
             FROM Contact
             WHERE (
                 Name LIKE :filterString OR
-                Name = :filterString 
-            ) AND Id NOT IN:filterContacts 
+                Name = :filterString
+            ) AND Id NOT IN:filterContacts
             LIMIT 15
         ]){
           contactMap.add(new Map<String,String>{
@@ -337,10 +339,10 @@ public without sharing class ManageRegistrationSectionCtrl {
             });
         }
         return contactMap;
-    }  
+    }
 
      /**
-     * @description get list of contacts searched 
+     * @description get list of contacts searched
      * @param contactRecord - contact to create
      * @param courseOfferingId - course offering id
      * @param relatedAnswerList - related answer records
@@ -370,7 +372,7 @@ public without sharing class ManageRegistrationSectionCtrl {
           String contactRecEmail;
           String contactRecFname;
           String contactRecLname;
-          
+
           if(contactRecord.Id == NULL){
                contactRecName = contactRecord.FirstName + ' ' + contactRecord.LastName;
                contactRecEmail = contactRecord.Email;
@@ -399,8 +401,8 @@ public without sharing class ManageRegistrationSectionCtrl {
                     qResSummary.Course_Offering__c = offeringId;
                }else{
                     qResSummary.Program_Offering__c = offeringId;
-               }  
-               qResSummary.Registration_Status__c = 'Confirmed';             
+               }
+               qResSummary.Registration_Status__c = 'Confirmed';
                qResSummary.Contact__c = contactRecord.Id;
                questionnaireSummaryToInsert.add(qResSummary);
           }
@@ -440,7 +442,7 @@ public without sharing class ManageRegistrationSectionCtrl {
           List<ContentVersion> newContentVersionList = new List<ContentVersion>(
                [
                     SELECT ContentDocumentId, Title
-                    FROM ContentVersion 
+                    FROM ContentVersion
                     WHERE Id IN:cvListToInsertList
                ]
           );
@@ -471,7 +473,7 @@ public without sharing class ManageRegistrationSectionCtrl {
                update answersToUpdate.values();
           }
 
-          Id commerceUser = createUser(contactRecEmail, contactRecLname, contactRecFname, contactRecord.Id);           
+          Id commerceUser = createUser(contactRecEmail, contactRecLname, contactRecFname, contactRecord.Id);
           WebCart newWebCart = createWebCart(commerceUser);
           insert newWebCart;
 
@@ -492,15 +494,15 @@ public without sharing class ManageRegistrationSectionCtrl {
           insert cartPayment;
 
           String externalId;
-          List<WebCart> carts = [SELECT External_Id__c FROM WebCart WHERE OwnerId =: commerceUser LIMIT 1]; 
+          List<WebCart> carts = [SELECT External_Id__c FROM WebCart WHERE OwnerId =: commerceUser LIMIT 1];
           for(WebCart webCart : carts){ externalId = webCart.External_Id__c; }
 
           String paymentURL = paymentGatewayURLBuilder(externalId, contactRecEmail, contactRecName, amount, product.Name);
-          
+
           WebCart webCartToClose = new WebCart(
-               Id = newWebCart.Id, 
-               Status__c = 'Closed', 
-               Status = 'Closed', 
+               Id = newWebCart.Id,
+               Status__c = 'Closed',
+               Status = 'Closed',
                Cart_Payment__c = cartPayment.Id,
                Payment_URL__c = paymentURL
           );
@@ -513,26 +515,26 @@ public without sharing class ManageRegistrationSectionCtrl {
 
           /*
           List<hed__Course_Enrollment__c> courseConnectionList = new List<hed__Course_Enrollment__c>();
-          hed__Course_Enrollment__c newCourseConnection = new hed__Course_Enrollment__c();          
-          newCourseConnection.hed__Contact__c =  contactRecord.Id;          
+          hed__Course_Enrollment__c newCourseConnection = new hed__Course_Enrollment__c();
+          newCourseConnection.hed__Contact__c =  contactRecord.Id;
           newCourseConnection.hed__Status__c = 'Active';
           newCourseConnection.Paid_in_Full__c = 'No';
           newCourseConnection.Payment_Method__c = 'Invoice';
           newCourseConnection.Amount__c = amount;
           newCourseConnection.Cart_ID__c = newWebCart.Id;
           newCourseConnection.Cart_Item__c = newCartItem.Id;
-          if(!prescribedProgram){               
+          if(!prescribedProgram){
                newCourseConnection.hed__Course_Offering__c = offeringId;
                newCourseConnection.RecordTypeId = studentRecTypeId;
                courseConnectionList.add(newCourseConnection);
-          }else{               
+          }else{
                newCourseConnection.Program_Offering__c = offeringId;
                newCourseConnection.RecordTypeId = studentProgramRecTypeId;
                courseConnectionList.add(newCourseConnection);
                List<hed__Course_Offering__c> childOfferings = [SELECT Id FROM hed__Course_Offering__c WHERE Program_Offering__c =: offeringId];
                for(hed__Course_Offering__c childOffering : childOfferings){
-                    hed__Course_Enrollment__c childCourseConnection = new hed__Course_Enrollment__c();          
-                    childCourseConnection.hed__Contact__c =  contactRecord.Id;          
+                    hed__Course_Enrollment__c childCourseConnection = new hed__Course_Enrollment__c();
+                    childCourseConnection.hed__Contact__c =  contactRecord.Id;
                     childCourseConnection.hed__Status__c = 'Active';
                     childCourseConnection.Paid_in_Full__c = 'No';
                     childCourseConnection.Payment_Method__c = 'Invoice';
@@ -543,15 +545,15 @@ public without sharing class ManageRegistrationSectionCtrl {
                     courseConnectionList.add(childCourseConnection);
                }
           }
-          
+
           insert courseConnectionList;*/
 
           return paymentURL;
 
-     }  
+     }
 
      /**
-     * @description get list of contacts searched if button clicked is Proceed without Invoice from manageRegistrationSection lwc 
+     * @description get list of contacts searched if button clicked is Proceed without Invoice from manageRegistrationSection lwc
      * @param contactRecord - contact to create
      * @param courseOfferingId - course offering id
      * @param relatedAnswerList - related answer records
@@ -581,7 +583,7 @@ public without sharing class ManageRegistrationSectionCtrl {
          String contactRecEmail;
          String contactRecFname;
          String contactRecLname;
-         
+
          if(contactRecord.Id == NULL){
               contactRecName = contactRecord.FirstName + ' ' + contactRecord.LastName;
               contactRecEmail = contactRecord.Email;
@@ -610,8 +612,8 @@ public without sharing class ManageRegistrationSectionCtrl {
                    qResSummary.Course_Offering__c = offeringId;
               }else{
                    qResSummary.Program_Offering__c = offeringId;
-              }  
-              qResSummary.Registration_Status__c = 'Confirmed';             
+              }
+              qResSummary.Registration_Status__c = 'Confirmed';
               qResSummary.Contact__c = contactRecord.Id;
               questionnaireSummaryToInsert.add(qResSummary);
          }
@@ -651,7 +653,7 @@ public without sharing class ManageRegistrationSectionCtrl {
          List<ContentVersion> newContentVersionList = new List<ContentVersion>(
               [
                    SELECT ContentDocumentId, Title
-                   FROM ContentVersion 
+                   FROM ContentVersion
                    WHERE Id IN:cvListToInsertList
               ]
          );
@@ -682,9 +684,9 @@ public without sharing class ManageRegistrationSectionCtrl {
               update answersToUpdate.values();
          }
 
-     //     Id commerceUser = createUser(contactRecEmail, contactRecLname, contactRecFname, contactRecord.Id);           
-     //     WebCart newWebCart = createWebCart(commerceUser);
-     //     insert newWebCart;
+         Id commerceUser = createUser(contactRecEmail, contactRecLname, contactRecFname, contactRecord.Id);
+         WebCart newWebCart = createWebCart(commerceUser);
+         insert newWebCart;
 
          Product2 product = getProduct(offeringId, prescribedProgram);
          PricebookEntry pbe = new PricebookEntry();
@@ -695,30 +697,24 @@ public without sharing class ManageRegistrationSectionCtrl {
               amount = pb.UnitPrice;
          }
 
-     //     CartItem newCartItem = createCartItem(offeringId, newWebCart.Id, pbe, prescribedProgram, product.Id);
-     //     insert newCartItem;
+         CartItem newCartItem = createCartItem(offeringId, newWebCart.Id, pbe, prescribedProgram, product.Id);
+         newCartItem.Contact__c = contactRecord.Id;
+         insert newCartItem;
 
-     //     Cart_Payment__c cartPayment = new Cart_Payment__c(Status__c = 'Invoiced');
-     //     insert cartPayment;
+         String externalId;
+         List<WebCart> carts = [SELECT External_Id__c FROM WebCart WHERE OwnerId =: commerceUser LIMIT 1];
+         for(WebCart webCart : carts){ externalId = webCart.External_Id__c; }
 
-     //     String externalId;
-     //     List<WebCart> carts = [SELECT External_Id__c FROM WebCart WHERE OwnerId =: commerceUser LIMIT 1]; 
-     //     for(WebCart webCart : carts){ externalId = webCart.External_Id__c; }
+         WebCart webCartToClose = new WebCart(
+             Id = newWebCart.Id,
+             Status__c = 'Closed',
+             Status = 'Closed'
+         );
+         update webCartToClose;
 
-     //      String paymentURL = paymentGatewayURLBuilder(externalId, contactRecEmail, contactRecName, amount, product.Name);
-         
-     //     WebCart webCartToClose = new WebCart(
-     //          Id = newWebCart.Id, 
-     //          Status__c = 'Closed', 
-     //          Status = 'Closed', 
-     //          Cart_Payment__c = cartPayment.Id,
-     //          Payment_URL__c = paymentURL
-     //     );
-     //     update webCartToClose;
-         
          List<hed__Course_Enrollment__c> courseConnectionList = new List<hed__Course_Enrollment__c>();
-         hed__Course_Enrollment__c newCourseConnection = new hed__Course_Enrollment__c();          
-         newCourseConnection.hed__Contact__c =  contactRecord.Id;          
+         hed__Course_Enrollment__c newCourseConnection = new hed__Course_Enrollment__c();
+         newCourseConnection.hed__Contact__c =  contactRecord.Id;
          newCourseConnection.hed__Status__c = 'Active';
 
          if(amount == 0){
@@ -728,22 +724,22 @@ public without sharing class ManageRegistrationSectionCtrl {
           newCourseConnection.Paid_in_Full__c = 'Yes';
           newCourseConnection.Payment_Method__c = 'Admin Added';
          }
-         
+
          newCourseConnection.Amount__c = amount;
-     //     newCourseConnection.Cart_ID__c = newWebCart.Id;
-     //     newCourseConnection.Cart_Item__c = newCartItem.Id;
-         if(!prescribedProgram){               
+         newCourseConnection.Cart_ID__c = newWebCart.Id;
+         newCourseConnection.Cart_Item__c = newCartItem.Id;
+         if(!prescribedProgram){
               newCourseConnection.hed__Course_Offering__c = offeringId;
               newCourseConnection.RecordTypeId = studentRecTypeId;
               courseConnectionList.add(newCourseConnection);
-         }else{               
+         }else{
               newCourseConnection.Program_Offering__c = offeringId;
               newCourseConnection.RecordTypeId = studentProgramRecTypeId;
               courseConnectionList.add(newCourseConnection);
               List<hed__Course_Offering__c> childOfferings = [SELECT Id FROM hed__Course_Offering__c WHERE Program_Offering__c =: offeringId];
               for(hed__Course_Offering__c childOffering : childOfferings){
-                   hed__Course_Enrollment__c childCourseConnection = new hed__Course_Enrollment__c();          
-                   childCourseConnection.hed__Contact__c =  contactRecord.Id;          
+                   hed__Course_Enrollment__c childCourseConnection = new hed__Course_Enrollment__c();
+                   childCourseConnection.hed__Contact__c =  contactRecord.Id;
                    childCourseConnection.hed__Status__c = 'Active';
 
                    if(amount == 0){
@@ -754,7 +750,7 @@ public without sharing class ManageRegistrationSectionCtrl {
                     childCourseConnection.Payment_Method__c = 'Invoice';
                    }
 
-                   
+
                    childCourseConnection.Amount__c = amount;
                    childCourseConnection.Program_Offering__c = offeringId;
                    childCourseConnection.hed__Course_Offering__c = childOffering.Id;
@@ -762,12 +758,10 @@ public without sharing class ManageRegistrationSectionCtrl {
                    courseConnectionList.add(childCourseConnection);
               }
          }
-         
+
          insert courseConnectionList;
 
-     //     return paymentURL;
-
-    }  
+    }
 
      /**
      * Creates commerce user based on contact details
@@ -793,7 +787,7 @@ public without sharing class ManageRegistrationSectionCtrl {
                commerceUser.Email = contactRecEmail;
                commerceUser.LastName = contactRecLname;
                commerceUser.FirstName = contactRecFname;
-               commerceUser.ContactId = contactId;    
+               commerceUser.ContactId = contactId;
                commerceUser.alias = contactRecFname.substring(0, 1) + contactRecLname.substring(0, 2);
                commerceUser.LanguageLocaleKey = 'en_US';
                commerceUser.localesidkey = 'en_AU';
@@ -804,7 +798,7 @@ public without sharing class ManageRegistrationSectionCtrl {
 
                response = commerceUser.Id;
           }
-          
+
           return response;
      }
 
@@ -851,7 +845,7 @@ public without sharing class ManageRegistrationSectionCtrl {
           List<CartDeliveryGroup> cartDelGrpList = [SELECT Id FROM CartDeliveryGroup WHERE Name = 'Default Delivery' LIMIT 1];
           Id cartDelGrpId;
           for(CartDeliveryGroup cdg : cartDelGrpList) { cartDelGrpId = cdg.Id; }
-          
+
           CartItem cartItem = new CartItem();
           cartItem.CartId = newWebCartId;
           cartItem.Name = 'Cart Item';
@@ -899,7 +893,7 @@ public without sharing class ManageRegistrationSectionCtrl {
           for(Product2 prod : productList){
                response = prod;
           }
-          
+
           return response;
      }
 
