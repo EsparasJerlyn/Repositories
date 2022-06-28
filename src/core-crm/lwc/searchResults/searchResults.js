@@ -634,12 +634,8 @@ renderedCallback() {
     this.getFilterList();
     }
   
-  // handles Clear All filters
-  handleClearAll(){
-    const checkboxes = this.template.querySelectorAll('[data-id="checkbox"]');
-    for(const elem of checkboxes){
-        elem.checked=false;
-    }
+  // handles Clear All filters for Mobile
+  handleClearAllMobile(){
     this.tempArray = [];
     this.studyAll = false;
     this.studyAreaValues.forEach((studyAreas) => {
@@ -677,6 +673,33 @@ renderedCallback() {
     this.triggerProductSearch();   
    } 
    
+  // handles Clear All filters for Mobile
+  handleClearAllDesktop(){
+    const checkboxes = this.template.querySelectorAll('[data-id="checkbox"]');
+    for(const elem of checkboxes){
+        elem.checked=false;
+    }
+
+    this.stringValue ='';
+    this.strStartDate ='';
+    this.strEndDate ='';
+    this.startValue ='';
+    this.endValue = '';
+    this.parameterObject.sortBy = this.value;
+    this.parameterObject.searchKey = null;
+    this.studyAreaSelectedValues = [];
+    this.selectedValues = [];
+    this.deliveryTypeSelectedValues = [];
+    this.parameterObject.studyArea = []
+    this.parameterObject.productType = []
+    this.parameterObject.deliveryType = []
+    this.parameterObject.startDate = null;
+    this.parameterObject.endDate= null;
+    this.parameterObject.maxUnitPrice = null;
+    this.parameterObject.minUnitPrice = null;
+    this.template.querySelector('c-slider').setDefaultValues();
+    this.triggerProductSearch();   
+   } 
 
 
   // Function that calls the getFilteredProducts returns me a list of Id;

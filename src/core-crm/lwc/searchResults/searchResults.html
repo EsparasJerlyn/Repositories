@@ -434,7 +434,7 @@
       </div>
         <button onclick={handleModalClosed} class="filter-button"> Filter Courses <img  src={filterFilled} alt="" class="filterIcon" /></button>  
       </br>
-      <lightning-button variant="base" label="Clear all" title="Clear all" onclick={handleClearAll} 
+      <lightning-button variant="base" label="Clear all" title="Clear all" onclick={handleClearAllMobile} 
         class="slds-m-left_x-small slds-align_absolute-center mobileViewClear" style="text-decoration: underline #0066B9;"  ></lightning-button> 
 
       </div>
@@ -447,7 +447,7 @@
               <p class="slds-truncate heading3 main-color-blue500 filter-mobile">Filter courses</p>
             </div>
               <div class="filter-mobile">
-                  <lightning-button variant="base" label="Clear all" title="Clear all" onclick={handleClearAll} class="desktopView"></lightning-button> 
+                  <lightning-button variant="base" label="Clear all" title="Clear all" onclick={handleClearAllDesktop} class="desktopView"></lightning-button> 
                   <div class=""> <!--slds-var-m-around_medium -->
                       <lightning-input
                           label="Filter by keyword"
