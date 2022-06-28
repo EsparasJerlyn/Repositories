@@ -50,7 +50,7 @@ public with sharing class FacetoFaceFinalConfirmationEmailCtrl {
           Location_Name__c,
           Location_Detail_v2__c
         FROM Session__c
-        WHERE Course_Connection__c = :courseConnectionId AND Date__c =:Date.today()+1
+        WHERE Course_Connection__c = :courseConnectionId
       ];
     }
   }

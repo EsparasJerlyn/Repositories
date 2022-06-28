@@ -1,8 +1,11 @@
 @isTest
 public with sharing class EmailTriggerPostCourseBatchTest {
     private static final Id STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
-    .get('Student')
-    .getRecordTypeId();
+        .get('Student')
+        .getRecordTypeId();
+    private static final Id STUDENT_PROGRAM_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
+        .get('Student_Program')
+        .getRecordTypeId();
     private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
 
@@ -16,6 +19,7 @@ public with sharing class EmailTriggerPostCourseBatchTest {
 	@isTest
     public static void testEmailTriggerPostCourseBatch() {
         System.runAs(currentUser) {
+            Test.startTest();
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
             for(Account acc : accounts){
               acc.RecordTypeId = ACCT_UNIV_DEP_ID;
@@ -44,6 +48,9 @@ public with sharing class EmailTriggerPostCourseBatchTest {
               prodRequest[0].Id
             );
             insert courses;
+
+            List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(10);
+            insert programPlans;
       
             List<hed__Course_Offering__c> courseOfferings = TestDataFactory.createTestCourseOfferingRecord(
               10,
@@ -52,13 +59,18 @@ public with sharing class EmailTriggerPostCourseBatchTest {
             );
             for(hed__Course_Offering__c offering : courseOfferings){
                 offering.hed__End_Date__c = Date.today()-1;
+                offering.Delivery_Type__c = 'Online Self-paced';
             }
             insert courseOfferings;
       
-            List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(
-              10
+            List<Program_Offering__c> programOfferings = TestDataFactory.createTestProgramOfferingRecords(
+              10,
+              programPlans
             );
-            insert programPlans;
+            for(Program_Offering__c offering : programOfferings){
+                offering.End_Date__c = Date.today()-1;
+            }
+            insert programOfferings;
       
             List<Communication_Schedule__c> commSchedules = TestDataFactory.createTestCommunicationScheduleRecords(
               10,
@@ -73,19 +85,27 @@ public with sharing class EmailTriggerPostCourseBatchTest {
             }
             insert commSchedules;
 
-            Test.startTest();
-            List<hed__Course_Enrollment__c> courseConnections = TestDataFactory.createTestCourseConnectionRecord(
-              10,
+            List<hed__Course_Enrollment__c> ccForCourseOffering = TestDataFactory.createTestCourseConnectionRecord(
+              5,
               contacts[0].Id,
               courseOfferings
             );
-      
-            for (hed__Course_Enrollment__c courseConnection : courseConnections) {
+            for (hed__Course_Enrollment__c courseConnection : ccForCourseOffering) {
               courseConnection.RecordTypeId = STUDENT_RECTYPEID;
               courseConnection.Amount__c = 100;
               courseConnection.Paid_in_Full__c = '';
             }
-            insert courseConnections;
+            insert ccForCourseOffering;
+
+            List<hed__Course_Enrollment__c> ccForProgramOffering = TestDataFactory.createTestCourseConnectionRecordProgram(
+                5,
+                contacts[0].Id,
+                programOfferings
+            );
+            for (hed__Course_Enrollment__c courseConnection : ccForProgramOffering) {
+              courseConnection.RecordTypeId = STUDENT_PROGRAM_RECTYPEID;
+            }
+            insert ccForProgramOffering;
 
             EmailTriggerPostCourseBatch emailBatch = new EmailTriggerPostCourseBatch ();
             Database.executebatch(emailBatch);

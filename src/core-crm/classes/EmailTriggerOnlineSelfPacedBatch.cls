@@ -1,61 +1,87 @@
+/**
+ * @description Batch class that triggers email a day after a Course Offering has ended and sends email to the students
+ * 
+ * @author Accenture
+ *
+ * @history
+ *
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
+      |--------------------------------|-----------------------|------------------------|------------------------------|
+      | marlon.vazquez   		       | June 20,2022          | DEPP-3118/DEPP-3225    | Created file                 | 
+      | rhea.b.torres   		       | June 28,2022          | DEPP-3275              | Process Program Offering     |
+    
+ */
 public with sharing class EmailTriggerOnlineSelfPacedBatch implements Database.Batchable<EmailWrapper>{          
 
     public Iterable<EmailWrapper> start(Database.BatchableContext bc) {
-        Id studentRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByName().get('Student').getRecordTypeId();
+        final Id STUDENT_REC_TYPE = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByName()
+            .get('Student')
+            .getRecordTypeId();
         List<EmailWrapper> wrapperList = new List<EmailWrapper>();
-        try{
-            // Get all records from Course Connection (API Name: hed__Course_Enrollment__c)
-            List<hed__Course_Enrollment__c>  courseEnrollmentList = 
-                                                    [SELECT Id, 
-                                                            Course_Offering_End_Date__c,
-                                                            hed__Course_Offering__r.hed__Course__r.Id,
-                                                            hed__Course_Offering__r.Name,
-                                                            hed__Contact__r.FirstName,
-                                                            hed__Contact__r.LastName,
-                                                            hed__Contact__r.Email,
-                                                    		hed__Course_Offering__r.hed__Course__r.Name,
-                                                            hed__Course_Offering__r.hed__Start_Date__c
-                                                    FROM hed__Course_Enrollment__c
-                                                    WHERE Id != Null AND RecordTypeId =:studentRecTypeId 
-                                                        AND Course_Offering_Start_Date__c >= TODAY
-                                                        AND hed__Course_Offering__r.Delivery_Type__c = 'Online Self-paced'];
 
-            Set<Id> courseIdList = new Set<Id>();
-            for(hed__Course_Enrollment__c loopCourseEnroll : courseEnrollmentList){  
-                courseIdList.add(loopCourseEnroll.hed__Course_Offering__r.hed__Course__r.Id);      
+        try{
+            //Query all students
+            List<hed__Course_Enrollment__c>  courseEnrollmentList = [SELECT Id,
+                                                                            hed__Contact__r.FirstName, 
+                                                                            hed__Contact__r.LastName,
+                                                                            hed__Contact__r.Email,
+                                                                            hed__Course_Offering__c,
+                                                                            hed__Course_Offering__r.hed__Course__c,
+                                                                            hed__Course_Offering__r.hed__Course__r.Name,
+                                                                            Course_Offering_Start_Date__c,
+                                                                            hed__Course_Offering__r.Delivery_Type__c,
+                                                                            RecordTypeId
+                                                                    FROM hed__Course_Enrollment__c 
+                                                                    WHERE Id != Null 
+                                                                        AND RecordTypeId =:STUDENT_REC_TYPE
+                                                                        AND Course_Offering_Start_Date__c >= TODAY 
+                                                                        AND hed__Course_Offering__r.Delivery_Type__c  = 'Online Self-paced'];
+
+            Set<Id> courseIdSet= new Set<Id>();
+            for(hed__Course_Enrollment__c courseConnection : courseEnrollmentList){
+                // Add course Id to courseIdSet
+                if(String.isNotBlank(courseConnection.hed__Course_Offering__r.hed__Course__c)){
+                    courseIdSet.add(courseConnection.hed__Course_Offering__r.hed__Course__c);
+                }
             }
 
-            if(!courseIdList.isEmpty()){
-                // Set to contain Courses which allows email to be set
-                Set<Id> coursesAllowedEmail = new Set<Id>();
-                for(Communication_Schedule__c commSched : [SELECT Id, Course__c 
+            //Get Communication Schedule of the all Courses
+            Map<Id, Decimal> courseDaysBeforeMap = new Map<Id, Decimal>();
+            if(!courseIdSet.isEmpty()){
+                for(Communication_Schedule__c commSched : [SELECT Id,
+                                                                Course__c,
+                                                                Days_before_Start_Date__c,
+                                                                Course__r.Id,
+                                                                Email_on_final_confirmation__c
                                                             FROM Communication_Schedule__c 
-                                                            WHERE Course__c IN :courseIdList 
-                                                                AND Email_on_final_confirmation__c = true]){
-                    coursesAllowedEmail.add(commSched.Course__c);
+                                                            WHERE Email_on_final_confirmation__c = TRUE AND Course__c IN :courseIdSet]){
+                    courseDaysBeforeMap.put(commSched.Course__r.Id, commSched.Days_before_Start_Date__c);
                 }
+            }
 
-                // We got courses which allows email to be sent to learner
-                if(!coursesAllowedEmail.isEmpty()){
-                    for(hed__Course_Enrollment__c courseConnection : courseEnrollmentList){
-                        // Check if the course of this learner allows email
-                        if(coursesAllowedEmail.contains(courseConnection.hed__Course_Offering__r.hed__Course__r.Id)){
+            if (!courseDaysBeforeMap.isEmpty()){
+                for(hed__Course_Enrollment__c courseConnection : courseEnrollmentList){
+                    if(courseDaysBeforeMap.containsKey(courseConnection.hed__Course_Offering__r.hed__Course__c)){
+                        // Email reminder allowed
+                        Integer daysBeforeStartDate = (Integer)courseDaysBeforeMap.get(courseConnection.hed__Course_Offering__r.hed__Course__c);
+                        if((courseConnection.Course_Offering_Start_Date__c - daysBeforeStartDate) == Date.today()){
+                            //Send email to this student
                             EmailWrapper wrapper = new EmailWrapper();
                             wrapper.recordId = courseConnection.Id;
                             wrapper.courseOfferingName = courseConnection.hed__Course_Offering__r.hed__Course__r.Name;
                             wrapper.firstName = courseConnection.hed__Contact__r.FirstName;
                             wrapper.lastName = courseConnection.hed__Contact__r.LastName;
                             wrapper.toAddress = courseConnection.hed__Contact__r.Email;
-                            wrapper.startdate = courseConnection.hed__Course_Offering__r.hed__Start_Date__c;
-                            wrapperList.add(wrapper); 
+                            wrapper.startdate = courseConnection.Course_Offering_Start_Date__c;
+                            wrapperList.add(wrapper);
                         }
-                    }     
-                }
-            }      
+                    }
+                } 
+            }     
         }catch(Exception e){     
             System.debug(e);
         }
-                
+               
         return wrapperList;
     } 
 
@@ -63,6 +89,10 @@ public with sharing class EmailTriggerOnlineSelfPacedBatch implements Database.B
 
         try{
             if (!records.isEmpty()){
+                // Get Org Wide Email Address
+                List<OrgWideEmailAddress> owea = [SELECT Id, Address, DisplayName
+                                                    FROM OrgWideEmailAddress
+                                                    WHERE DisplayName = 'QUTeX'LIMIT 1];
                 List<EmailWrapper> temp =  (List<EmailWrapper>)records;
                 for (EmailWrapper val : temp){  
 
@@ -94,17 +124,20 @@ public with sharing class EmailTriggerOnlineSelfPacedBatch implements Database.B
                     String subject = STR_QUTEX + ' ' + courseOfferingName;
                     if (emailTemplate != null) {
                         Map<String, String> emailParams = new Map<String, String>{
-                          '{firstname}' => firstName,
-                          '{startdate}' => startdate
-                    };
+                        '{firstname}' => firstName,
+                        '{startdate}' => startdate};
 
-                    //Build the email
-                    Messaging.SingleEmailMessage mail = EmailHelper.emailBuilder(
-                          toAddress,
-                          subject,
-                          emailTemplate.HtmlValue,
-                          emailParams
-                    );
+                        //Build the email
+                        Messaging.SingleEmailMessage mail = EmailHelper.emailBuilder(
+                                                                            toAddress,
+                                                                            subject,
+                                                                            emailTemplate.HtmlValue,
+                                                                            emailParams);
+
+                        if(!owea.isEmpty()){
+                            mail.setOrgWideEmailAddressId(owea[0].Id);
+                        }
+
                         // Send the email
                         Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ mail });
                     }

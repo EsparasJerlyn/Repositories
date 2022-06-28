@@ -14,7 +14,9 @@
 public with sharing class EmailTriggerFaceToFaceBatch implements Database.Batchable<EmailWrapper>{          
 
     public Iterable<EmailWrapper> start(Database.BatchableContext bc) {
-        Id studentRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByName().get('Student').getRecordTypeId();
+        final Id STUDENT_REC_TYPE = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByName()
+            .get('Student')
+            .getRecordTypeId();
         List<EmailWrapper> wrapperList = new List<EmailWrapper>();
         Set<String> faceToFaceSet = new Set<String>{'Brisbane Classroom',
                                                     'Canberra Classroom',
@@ -27,42 +29,41 @@ public with sharing class EmailTriggerFaceToFaceBatch implements Database.Batcha
                                                                             hed__Contact__r.LastName,
                                                                             hed__Contact__r.Email,
                                                                             hed__Course_Offering__c,
+                                                                            hed__Course_Offering__r.hed__Course__c,
                                                                             hed__Course_Offering__r.hed__Course__r.Name,
-                                                                            hed__Course_Offering__r.hed__Course__r.Id
+                                                                            Course_Offering_Start_Date__c,
+                                                                            hed__Course_Offering__r.Delivery_Type__c,
+                                                                            RecordTypeId
                                                                     FROM hed__Course_Enrollment__c 
-                                                                    WHERE RecordTypeId =:studentRecTypeId  
-                                                                        AND Id != Null
+                                                                    WHERE Id != Null 
+                                                                        AND RecordTypeId =:STUDENT_REC_TYPE
                                                                         AND Course_Offering_Start_Date__c >= TODAY 
                                                                         AND hed__Course_Offering__r.Delivery_Type__c IN :faceToFaceSet];
 
-            Set<Id> courseIdSet = new Set<Id>();
-            for(hed__Course_Enrollment__c loopCourseEnroll : courseEnrollmentList){ 
-                courseIdSet.add(loopCourseEnroll.hed__Course_Offering__r.hed__Course__r.Id);
+            Set<Id> courseIdSet= new Set<Id>();
+            for(hed__Course_Enrollment__c courseConnection : courseEnrollmentList){
+                // Add course Id to courseIdSet
+                if(String.isNotBlank(courseConnection.hed__Course_Offering__r.hed__Course__c)){
+                    courseIdSet.add(courseConnection.hed__Course_Offering__r.hed__Course__c);
+                }
             }
 
-            if (!courseIdSet.isEmpty()){
-                //Query Courses which allows email notifications
-                Set<Id> coursesEmailAllowed = new Set<Id>();
-                for(Communication_Schedule__c commSched : [SELECT Id, Course__c 
+            //Get Communication Schedule of the all Courses
+            Map<Id, Decimal> courseDaysBeforeMap = new Map<Id, Decimal>();
+            if(!courseIdSet.isEmpty()){
+                for(Communication_Schedule__c commSched : [SELECT Id, Course__c, Days_before_Start_Date__c, Course__r.Id
                                                             FROM Communication_Schedule__c 
-                                                            WHERE Course__c IN :courseIdSet AND Email_on_final_confirmation__c = TRUE]){
-                    coursesEmailAllowed.add(commSched.Course__c);
+                                                            WHERE Email_on_final_confirmation__c = TRUE AND Course__c IN :courseIdSet]){
+                    courseDaysBeforeMap.put(commSched.Course__r.Id, commSched.Days_before_Start_Date__c);
                 }
+            }
 
-                if (!coursesEmailAllowed.isEmpty()){
-                    //Get all sessions that starts tomorrow
-                    Set<Id> offeringWithSessionTomorrow = new Set<Id>();
-                    for(Session__c session : [SELECT Id, Date__c, Course_Offering__c 
-                                                FROM Session__c 
-                                                WHERE Date__c =:Date.today()+1 AND Course_Offering__r.hed__Course__r.Id IN :courseIdSet]){
-                        offeringWithSessionTomorrow.add(session.Course_Offering__c);
-                    }
-                    
-                    //Loop through all course connections and check if associated CourseOffering has sessions tomorrow
-                    //and email reminder is allowed
-                    for(hed__Course_Enrollment__c courseConnection : courseEnrollmentList){
-                        if(offeringWithSessionTomorrow.contains(courseConnection.hed__Course_Offering__c)
-                            && coursesEmailAllowed.contains(courseConnection.hed__Course_Offering__r.hed__Course__r.Id )){
+            if (!courseDaysBeforeMap.isEmpty()){
+                for(hed__Course_Enrollment__c courseConnection : courseEnrollmentList){
+                    if(courseDaysBeforeMap.containsKey(courseConnection.hed__Course_Offering__r.hed__Course__c)){
+                        // Email reminder allowed
+                        Integer daysBeforeStartDate = (Integer)courseDaysBeforeMap.get(courseConnection.hed__Course_Offering__r.hed__Course__c);
+                        if((courseConnection.Course_Offering_Start_Date__c - daysBeforeStartDate) == Date.today()){
                             //Send email to this student
                             EmailWrapper wrapper;
                             wrapper = new EmailWrapper();
@@ -73,9 +74,9 @@ public with sharing class EmailTriggerFaceToFaceBatch implements Database.Batcha
                             wrapper.toAddress = courseConnection.hed__Contact__r.Email;
                             wrapperList.add(wrapper);
                         }
-                    } 
-                }
-           }      
+                    }
+                } 
+            }     
         }catch(Exception e){     
             System.debug(e);
         }
@@ -88,6 +89,10 @@ public with sharing class EmailTriggerFaceToFaceBatch implements Database.Batcha
 
         try{
             if (!records.isEmpty()){
+                // Get Org Wide Email Address
+                List<OrgWideEmailAddress> owea = [SELECT Id, Address, DisplayName
+                                                    FROM OrgWideEmailAddress
+                                                    WHERE DisplayName = 'QUTeX'LIMIT 1];
                 List<EmailWrapper> temp =  (List<EmailWrapper>)records;
                 for (EmailWrapper val : temp){  
 
@@ -95,20 +100,14 @@ public with sharing class EmailTriggerFaceToFaceBatch implements Database.Batcha
                     final String FILE_NAME = 'Face-to-Face(Final Confirmation).pdf';
                     final String FACE2FACE_CONFIRMATION_EMAIL_TEMPLATE = 'Face-Face Final Confirmation Email';
 
-                    String recordId;
-                    String name;
-                    String firstName;
-                    String lastName;
-                    String toAddress;
                     /**
                      * Set course connection fields in the email templates
                      **/
-
-                    recordId = val.recordId;
-                    name =  val.name;
-                    firstName = val.firstName;
-                    lastName =  val.lastName;
-                    toAddress =  val.toAddress;
+                    String recordId = val.recordId;
+                    String name = val.name;
+                    String firstName = val.firstName;
+                    String lastName = val.lastName;
+                    String toAddress = val.toAddress;
                     
                     PageReference pdf = new PageReference(
                     '/apex/FacetoFaceFinalConfirmationPDFView?courseConnectionId=' + recordId
@@ -123,33 +122,33 @@ public with sharing class EmailTriggerFaceToFaceBatch implements Database.Batcha
                     }
                     attachment.setInline(false);
                 
-                    EmailTemplate emailTemplate = EmailTemplateSelector.getEmailTemplate(
-                    FACE2FACE_CONFIRMATION_EMAIL_TEMPLATE
-                    );
-                
+                    EmailTemplate emailTemplate = EmailTemplateSelector.getEmailTemplate(FACE2FACE_CONFIRMATION_EMAIL_TEMPLATE);
                     String subject = STR_QUTEX + ' ' + name;
                 
                     if (emailTemplate != null) {
-                    Map<String, String> emailParams = new Map<String, String>{
-                        '{fullname}' => firstName +
-                        ' ' +
-                        lastName,
-                        '{name}' => name
-                    };
-                
-                    //Build the email
-                    Messaging.SingleEmailMessage mail = EmailHelper.emailBuilder(
-                        toAddress,
-                        subject,
-                        emailTemplate.HtmlValue,
-                        emailParams
-                    );
-                
-                    // Send the email with attachment
-                    mail.setFileAttachments(
-                        new List<Messaging.EmailFileAttachment>{ attachment }
-                    );
-                    Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ mail });
+                        Map<String, String> emailParams = new Map<String, String>{
+                            '{fullname}' => firstName +
+                            ' ' +
+                            lastName,
+                            '{name}' => name
+                        };
+                    
+                        //Build the email
+                        Messaging.SingleEmailMessage mail = EmailHelper.emailBuilder(
+                                                                                toAddress,
+                                                                                subject,
+                                                                                emailTemplate.HtmlValue,
+                                                                                emailParams);
+
+                        if(!owea.isEmpty()){
+                            mail.setOrgWideEmailAddressId(owea[0].Id);
+                        }
+                    
+                        // Send the email with attachment
+                        mail.setFileAttachments(
+                            new List<Messaging.EmailFileAttachment>{ attachment }
+                        );
+                        Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ mail });
                     }
                 }
             }

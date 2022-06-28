@@ -1,7 +1,9 @@
 public with sharing class EmailTriggerPreSessionBatch implements Database.Batchable<EmailWrapper>{          
 
     public Iterable<EmailWrapper> start(Database.BatchableContext bc) {
-        Id studentRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByName().get('Student').getRecordTypeId();
+        final Id STUDENT_REC_TYPE = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByName()
+            .get('Student')
+            .getRecordTypeId();
         List<EmailWrapper> wrapperList = new List<EmailWrapper>();
 
         try{
@@ -12,40 +14,47 @@ public with sharing class EmailTriggerPreSessionBatch implements Database.Batcha
                                                                             hed__Contact__r.Email,
                                                                             hed__Course_Offering__c,
                                                                             hed__Course_Offering__r.hed__Course__r.Name,
-                                                                            hed__Course_Offering__r.hed__Course__r.Id
+                                                                            hed__Course_Offering__r.hed__Course__c
                                                                     FROM hed__Course_Enrollment__c 
-                                                                    WHERE RecordTypeId =:studentRecTypeId  
+                                                                    WHERE RecordTypeId =:STUDENT_REC_TYPE  
                                                                         AND Id != Null
                                                                         AND Course_Offering_Start_Date__c >= TODAY];
 
-            Set<Id> courseIdSet = new Set<Id>();
-            for(hed__Course_Enrollment__c loopCourseEnroll : courseEnrollmentList){ 
-                courseIdSet.add(loopCourseEnroll.hed__Course_Offering__r.hed__Course__r.Id);
+            Set<Id> courseIdSet= new Set<Id>();
+            for(hed__Course_Enrollment__c courseConnection : courseEnrollmentList){
+                // Add course Id to courseIdSet
+                if(String.isNotBlank(courseConnection.hed__Course_Offering__r.hed__Course__c)){
+                    courseIdSet.add(courseConnection.hed__Course_Offering__r.hed__Course__c);
+                }
             }
 
             if (!courseIdSet.isEmpty()){
-                //Query Courses which allows email notifications
+                // Query Courses which allows email notifications
                 Set<Id> coursesEmailAllowed = new Set<Id>();
                 for(Communication_Schedule__c commSched : [SELECT Id, Course__c 
                                                             FROM Communication_Schedule__c 
-                                                            WHERE Course__c IN :courseIdSet AND Send_email_before_session__c = true]){
+                                                            WHERE Course__c IN :courseIdSet AND Send_email_before_session__c = TRUE]){
                     coursesEmailAllowed.add(commSched.Course__c);
                 }
 
                 if (!coursesEmailAllowed.isEmpty()){
-                    //Get all sessions that starts tomorrow
+                    //Get all sessions which will starts tomorrow
                     Set<Id> offeringWithSessionTomorrow = new Set<Id>();
-                    for(Session__c session : [SELECT Id, Date__c, Course_Offering__c 
+                    for(Session__c session : [SELECT Id,
+                                                Date__c,
+                                                Course_Offering__c,
+                                                Course_Offering__r.hed__Course__c 
                                                 FROM Session__c 
-                                                WHERE Date__c =:Date.today()+1 AND Course_Offering__r.hed__Course__r.Id IN :courseIdSet]){
-                        offeringWithSessionTomorrow.add(session.Course_Offering__c);
+                                                WHERE Date__c =:Date.today()+1
+                                                    AND Course_Offering__r.hed__Course__c IN :courseIdSet]){
+                        offeringWithSessionTomorrow.add(session.Course_Offering__r.hed__Course__c);
                     }
                     
                     //Loop through all course connections and check if associated CourseOffering has sessions tomorrow
                     //and email reminder is allowed
                     for(hed__Course_Enrollment__c courseConnection : courseEnrollmentList){
-                        if(offeringWithSessionTomorrow.contains(courseConnection.hed__Course_Offering__c)
-                            && coursesEmailAllowed.contains(courseConnection.hed__Course_Offering__r.hed__Course__r.Id )){
+                        if(offeringWithSessionTomorrow.contains(courseConnection.hed__Course_Offering__r.hed__Course__c)
+                            && coursesEmailAllowed.contains(courseConnection.hed__Course_Offering__r.hed__Course__c )){
                             //Send email to this student
                             EmailWrapper wrapper;
                             wrapper = new EmailWrapper();
@@ -71,6 +80,10 @@ public with sharing class EmailTriggerPreSessionBatch implements Database.Batcha
 
         try{
             if (!records.isEmpty()){
+                // Get Org Wide Email Address
+                List<OrgWideEmailAddress> owea = [SELECT Id, Address, DisplayName
+                                                    FROM OrgWideEmailAddress
+                                                    WHERE DisplayName = 'QUTeX'LIMIT 1];
                 List<EmailWrapper> temp =  (List<EmailWrapper>)records;
                 for (EmailWrapper val : temp){  
 
@@ -93,44 +106,44 @@ public with sharing class EmailTriggerPreSessionBatch implements Database.Batcha
                     toAddress =  val.toAddress;
                 
                     PageReference pdf = new PageReference(
-                        '/apex/SessionSchedulePDFView?courseConnectionId=' + recordId
-                      );
-                      Messaging.EmailFileAttachment attachment = new Messaging.EmailFileAttachment();
-                      attachment.setContentType('application/pdf');
-                      attachment.setFileName(FILE_NAME);
-                      if (Test.isRunningTest()) {
+                        '/apex/SessionSchedulePDFView?courseConnectionId=' + recordId);
+
+                    Messaging.EmailFileAttachment attachment = new Messaging.EmailFileAttachment();
+                    attachment.setContentType('application/pdf');
+                    attachment.setFileName(FILE_NAME);
+                    if (Test.isRunningTest()) {
                         attachment.body = blob.valueOf('Unit.Test');
-                      } else {
+                    } else {
                         attachment.body = pdf.getContent();
-                      }
-                      attachment.setInline(false);
-                  
-                      EmailTemplate emailTemplate = EmailTemplateSelector.getEmailTemplate(
-                        PRE_SESSION_EMAIL_TEMPLATE
-                      );
-                  
-                      String subject = STR_QUTEX + ' ' + name;
-                  
-                      if (emailTemplate != null) {
+                    }
+                    attachment.setInline(false);
+                
+                    EmailTemplate emailTemplate = EmailTemplateSelector.getEmailTemplate(
+                                                                                PRE_SESSION_EMAIL_TEMPLATE);
+                    String subject = STR_QUTEX + ' ' + name;
+                    if (emailTemplate != null) {
                         Map<String, String> emailParams = new Map<String, String>{
-                          '{firstname}' => firstName,
-                          '{name}' => name
-                        };
-                  
+                                                                            '{firstname}' => firstName,
+                                                                            '{name}' => name};
+                
                         //Build the email
                         Messaging.SingleEmailMessage mail = EmailHelper.emailBuilder(
-                          toAddress,
-                          subject,
-                          emailTemplate.HtmlValue,
-                          emailParams
+                            toAddress,
+                            subject,
+                            emailTemplate.HtmlValue,
+                            emailParams
                         );
-                  
+
+                        if(!owea.isEmpty()){
+                            mail.setOrgWideEmailAddressId(owea[0].Id);
+                        }
+                
                         // Send the email with attachment
                         mail.setFileAttachments(
-                          new List<Messaging.EmailFileAttachment>{ attachment }
+                            new List<Messaging.EmailFileAttachment>{ attachment }
                         );
                         Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ mail });
-                      }
+                    }
                 }
             }
         }catch(Exception e){  

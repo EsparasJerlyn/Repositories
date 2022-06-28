@@ -72,6 +72,7 @@ public with sharing class EmailTriggerVirtualBatchTest {
             for (Communication_Schedule__c commSchedule : commSchedules) {
               commSchedule.Email_on_Registration__c = true;
               commSchedule.Email_on_final_confirmation__c = true;
+              commSchedule.Days_before_Start_Date__c = 1;
             }
             insert commSchedules;
           

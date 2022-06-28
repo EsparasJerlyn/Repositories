@@ -53,7 +53,7 @@ public with sharing class EmailTriggerFaceToFaceBatchTest {
               terms
             );
             for(hed__Course_Offering__c offering : courseOfferings){
-                offering.hed__Start_Date__c = Date.today()+1;
+                offering.hed__Start_Date__c = Date.today()+5;
                 offering.Delivery_Type__c = 'Brisbane Classroom';
             }
             insert courseOfferings;
@@ -72,6 +72,7 @@ public with sharing class EmailTriggerFaceToFaceBatchTest {
             for (Communication_Schedule__c commSchedule : commSchedules) {
               commSchedule.Email_on_Registration__c = true;
               commSchedule.Email_on_final_confirmation__c = true;
+              commSchedule.Days_before_Start_Date__c = 5;
             }
             insert commSchedules;
           
