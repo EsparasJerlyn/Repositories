@@ -150,7 +150,7 @@ public without sharing class ProductRequestTriggerHandler implements Disableable
             }
     
             for(hed__Course__c cours: courseList){
-                if(cours.ProductRequestID__r.Product_Request_Status__c == PR_NOT_PROCEEDING){
+                if(cours.ProductRequestID__r.Product_Request_Status__c == PR_NOT_PROCEEDING || cours.ProductRequestID__r.Product_Request_Status__c == 'Completed'){
                     cours.End_Date__c = date.Today();
                 }
                 relatedCourseMap.put(cours.Id,cours);
@@ -177,7 +177,7 @@ public without sharing class ProductRequestTriggerHandler implements Disableable
                 }
         
                 for(hed__Program_Plan__c prog: progList){
-                    if(prog.Product_Request__r.Product_Request_Status__c == PR_NOT_PROCEEDING){
+                    if(prog.Product_Request__r.Product_Request_Status__c == PR_NOT_PROCEEDING || prog.Product_Request__r.Product_Request_Status__c == 'Completed'){
                         prog.hed__End_Date__c = date.Today();
                     }
                     relatedProgramMap.put(prog.Id,prog);
