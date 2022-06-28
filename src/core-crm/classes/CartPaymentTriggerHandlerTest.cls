@@ -124,7 +124,11 @@ public with sharing class CartPaymentTriggerHandlerTest {
     @IsTest
     static void testBlankToInvoice() {
         System.runAs(PORTAL_SYS_ADMIN) { 
-            User portalUser = [SELECT Id FROM User WHERE Profile.Name = 'OPE Catalogue' LIMIT 1];
+            User portalUser = [     SELECT Id FROM User 
+                                    WHERE Profile.Name = 'OPE Catalogue' 
+                                    AND Email = 'testPortaluser@mailinator.com' 
+                                    AND IsActive = TRUE 
+                                    LIMIT 1];
             Account portalAccount1 = [SELECT Id FROM Account WHERE Name = 'TestAccount' LIMIT 1];
             WebStore testWebStore = [SELECT Id FROM WebStore LIMIT 1];
 
@@ -161,7 +165,12 @@ public with sharing class CartPaymentTriggerHandlerTest {
     @IsTest
     static void testProgramOfferingWithChild() {
         System.runAs(PORTAL_SYS_ADMIN) { 
-            User portalUser = [SELECT Id FROM User WHERE Profile.Name = 'OPE Catalogue' LIMIT 1];
+            User portalUser = [     SELECT Id FROM User 
+                                    WHERE Profile.Name = 'OPE Catalogue' 
+                                    AND Email = 'testPortaluser@mailinator.com' 
+                                    AND IsActive = TRUE 
+                                    LIMIT 1];
+
             Account portalAccount1 = [SELECT Id FROM Account WHERE Name = 'TestAccount' LIMIT 1];
             WebStore testWebStore = [SELECT Id FROM WebStore LIMIT 1];
 
@@ -198,7 +207,11 @@ public with sharing class CartPaymentTriggerHandlerTest {
     @IsTest
     static void testBlankToPayNow() {
         System.runAs(PORTAL_SYS_ADMIN) { 
-            User portalUser = [SELECT Id FROM User WHERE Profile.Name = 'OPE Catalogue' LIMIT 1];
+            User portalUser = [     SELECT Id FROM User 
+                                    WHERE Profile.Name = 'OPE Catalogue' 
+                                    AND Email = 'testPortaluser@mailinator.com' 
+                                    AND IsActive = TRUE 
+                                    LIMIT 1];
             Account portalAccount1 = [SELECT Id FROM Account WHERE Name = 'TestAccount' LIMIT 1];
             WebStore testWebStore = [SELECT Id FROM WebStore LIMIT 1];
 
@@ -236,7 +249,11 @@ public with sharing class CartPaymentTriggerHandlerTest {
     @IsTest
     static void testInvoiceToPayNow() {
         System.runAs(PORTAL_SYS_ADMIN) { 
-            User portalUser = [SELECT Id FROM User WHERE Profile.Name = 'OPE Catalogue' LIMIT 1];
+            User portalUser = [     SELECT Id FROM User 
+                                    WHERE Profile.Name = 'OPE Catalogue' 
+                                    AND Email = 'testPortaluser@mailinator.com' 
+                                    AND IsActive = TRUE 
+                                    LIMIT 1];
             Account portalAccount1 = [SELECT Id FROM Account WHERE Name = 'TestAccount' LIMIT 1];
             WebStore testWebStore = [SELECT Id FROM WebStore LIMIT 1];
 
