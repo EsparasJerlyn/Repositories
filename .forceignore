@@ -18,3 +18,5 @@ profilePasswordPolicies
 # DEPP-2855
 Default_Navigation.navigationMenu-meta.xml
 Default_Navigation1.navigationMenu-meta.xml
+# DEPP-3059 An unexpected error occurred. Please include this ErrorId if you contact support: 238553133-90128 (-1712026370)",
+reportTypes/Course_Connection_with_Cart_Payments.reportType
