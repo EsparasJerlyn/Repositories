@@ -496,16 +496,31 @@
                                                       >
                                                   </lightning-input>
                                                   <template for:each={studyAreaValues} for:item="item">
+                                                    <template if:true={item.selected}>
                                                       <lightning-input
-                                                          key={item.value}
-                                                          label={item.label}
-                                                          value={item.value}
-                                                          data-id="checkbox"
-                                                          class="chk-studyarea chkBoxlabel chkOption"
-                                                          type="checkbox"
-                                                          onchange={handleStudyAreaPicklistDesktop}
+                                                      key={item.value}
+                                                      label={item.label}
+                                                      value={item.value}
+                                                      data-id="checkbox"
+                                                      class="chk-studyarea chkBoxlabel chkOption"
+                                                      type="checkbox"
+                                                      onchange={handleStudyAreaPicklistDesktop}
+                                                      checked
                                                       >
                                                       </lightning-input>
+                                                    </template> 
+                                                    <template if:false={item.selected}>
+                                                      <lightning-input
+                                                      key={item.value}
+                                                      label={item.label}
+                                                      value={item.value}
+                                                      data-id="checkbox"
+                                                      class="chk-studyarea chkBoxlabel chkOption"
+                                                      type="checkbox"
+                                                      onchange={handleStudyAreaPicklistDesktop}
+                                                      >
+                                                      </lightning-input>
+                                                    </template> 
                                                   </template>
                                               </div>
                                           </template>

@@ -16,6 +16,7 @@
       | eugene.andrew.abuan       | May 02, 2022          | DEPP-1269            | Updated logic to match with the new UI       |
       | eugene.andrew.abuan       | May 12, 2022          | DEPP-1979            | Added Filter logic                           |
       | burhan.m.abdul            | June 09, 2022         | DEPP-2811            | Added messageService                         |
+      | eugene.john.basilan       | June 28, 2022         | DEPP-2838            | Added Url Filter in Checkbox                 |
  */
 
 import { LightningElement, wire, api, track } from 'lwc';
@@ -93,6 +94,7 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
   endValue ;
   strStartDate;
   strEndDate;
+	qutFilterValue;
   value = 'comingUp';
   parameterObject = {
     searchKey : this.stringValue, 
@@ -243,6 +245,9 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
       if (data) {
           this.studyAreaValues = data.values;
           this.error = undefined;
+					if(this.qutFilterValue){
+						this.urlCheckbox();
+					}
       }
       if (error) {
           this.error = error;
@@ -269,6 +274,23 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
 renderedCallback() {
   Promise.all([loadStyle(this, customSR + "/QUTInternalCSS.css")]);
 }
+
+	//populate Url Checkbox
+	urlCheckbox(){
+		console.log(this.studyAreaValues);
+		let selectedCheckBox = this.studyAreaValues.find(
+		(item) => item.value.toLowerCase()  === this.qutFilterValue.toLowerCase());
+		let Array1 = JSON.parse(JSON.stringify(this.studyAreaValues));
+		Array1.forEach((e) => {
+			if (e.label == selectedCheckBox.value) {
+				this.studyAreaSelectedValues.push(selectedCheckBox.value);
+				e.selected = true;
+				console.log(selectedCheckBox.value);
+			}
+		});
+		this.studyAreaValues = [...Array1];
+		this.setPickList();
+	}
 
   // handles sort course combobox
   hanldeSortCourseValueChange(event) {
@@ -1022,6 +1044,12 @@ handleNextPage(evt) {
   /**
    * The connectedCallback() lifecycle hook fires when a component is inserted into the DOM.
    */
+   	handleFilterSelected(){
+		let url_string = window.location.href;
+		let url = new URL(url_string);
+		let area = url.searchParams.get("area");
+		this.qutFilterValue = area;
+	}
    tempArray = [];
    connectedCallback() {
 
@@ -1035,6 +1063,7 @@ handleNextPage(evt) {
      }
  
      this.publishLMS();
+	 this.handleFilterSelected();
    }
  
    handleAccordionToggle(event) {
