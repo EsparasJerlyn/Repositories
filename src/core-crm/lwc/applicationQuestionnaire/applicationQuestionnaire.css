@@ -352,3 +352,64 @@
     margin: 16px 0px;
     }
   }
+
+  /* Confirmation message */
+  .slds-modal__header,
+.slds-modal__footer {
+  border-bottom-style: none !important;
+  border-top-style: none !important;
+  border-radius: 0;
+  padding-bottom: 65px;
+}
+
+/** Desktop */
+@media only screen and (min-width: 765px) {
+  button.slds-button {
+    width: auto;
+  }
+}
+
+/** Mobile */
+@media only screen and (max-width: 764px) {
+  button.slds-button {
+    width: 5rem;
+  }
+
+  .slds-modal__container {
+    margin: 1rem;
+  } 
+ 
+  .firstBodyRegular {
+    font-size: 30px;
+    margin: 16px 0px;
+    text-align: center;
+  }
+}
+
+.buttonClass {
+  width: 210px !important;
+  align-items: center;
+}
+
+.firstBodyRegular {
+  font-style: normal;
+  font-family: "ProximaNova-Bold";
+  font-weight: 700;
+  font-size: 44px;
+  color: #0066b9;
+  margin: 25px 0px;
+  line-height: 40px;
+}
+
+.bodyRegular {
+  font-family: "ProximaNova";
+  color: #696969;
+  hyphens: auto;
+  display: inline-block;
+  font-size: 1.125rem;
+}
+
+img {
+  max-width: 70%;
+  height: auto;
+}

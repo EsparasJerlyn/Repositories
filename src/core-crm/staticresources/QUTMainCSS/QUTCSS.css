@@ -909,6 +909,10 @@ span.toastMessage.forceActionsText{
   display: none;
 }
 
+button.slds-button.slds-button_icon.toastClose.slds-button_icon-bare {
+  height: 1.5rem;
+}
+
 .slds-theme_success button, .slds-theme--success button:focus{
   fill: var(--status-color-confirm);
   color: var(--status-color-confirm);

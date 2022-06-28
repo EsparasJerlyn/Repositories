@@ -439,12 +439,12 @@
               class="addToCartBtn"
             ></lightning-button>
           </lightning-layout-item>
-
+   
           <!-- Register Interest -->
           <lightning-layout-item
-            if:true={displayRegisterInterest}
+            if:true={displayRegisterInterest} 
             flexibility="auto"
-            size="12"
+            size="12" 
           >
             <lightning-button
               label={label.registerInterest}
@@ -453,6 +453,20 @@
               class="registerInterest"
             ></lightning-button>
           </lightning-layout-item>
+
+          <!-- Modal Confirmation Message -->
+          <template if:true={isRegModalMessage}>
+            <c-custom-modal-confirm-message
+              is-modal-message={isRegModalMessage}
+              message1={message1}
+              message2={message2}
+              is-continue-to-payment={isContinueToPayment}
+              is-continue-browsing={isContinueBrowsing}
+              handle-continue-browsing={handleContinueBrowsing}
+              handle-continue-to-payment={handleContinueToPayment}
+              close-modal-message={closeModalMessage}
+            ></c-custom-modal-confirm-message>
+          </template>
 
           <!-- Group Booking -->
           <lightning-layout-item

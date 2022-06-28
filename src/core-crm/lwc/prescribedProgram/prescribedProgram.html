@@ -13,9 +13,9 @@
         flexibility="auto"
         size="12"
         medium-device-size="8"
-      >
+      >   
         <lightning-layout multiple-rows="true" class="leftColumn">
-          <lightning-layout-item flexibility="auto" size="12">
+          <lightning-layout-item flexibility="auto" size="12"> 
             <ul class="slds-accordion">
               <li if:true={showOverview} class="slds-accordion__list-item">
                 <c-product-section
@@ -171,6 +171,21 @@
               class="registerInterest"
             ></lightning-button>
           </lightning-layout-item>
+
+          <!-- Modal Confirmation Message -->
+          <template if:true={isRegModalMessage}>
+            <c-custom-modal-confirm-message
+              is-modal-message={isRegModalMessage}
+              message1={message1}
+              message2={message2}
+              is-continue-to-payment={isContinueToPayment}
+              is-continue-browsing={isContinueBrowsing}
+              handle-continue-browsing={handleContinueBrowsing}
+              handle-continue-to-payment={handleContinueToPayment}
+              close-modal-message={closeModalMessage}
+            ></c-custom-modal-confirm-message>
+          </template>
+
           <!-- Group Booking -->
           <lightning-layout-item
             if:true={displayGroupRegistration}

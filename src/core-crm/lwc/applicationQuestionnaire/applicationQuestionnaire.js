@@ -1,4 +1,4 @@
-import { LightningElement, api, track} from 'lwc';
+import { LightningElement, api, track, wire} from 'lwc';
 import saveApplication from "@salesforce/apex/ProductDetailsCtrl.saveApplication";
 import LWC_Error_General from '@salesforce/label/c.LWC_Error_General';
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
@@ -6,6 +6,8 @@ import { loadStyle } from "lightning/platformResourceLoader";
 import customSR from "@salesforce/resourceUrl/QUTCustomLwcCss";
 import qutResourceImg from "@salesforce/resourceUrl/QUTImages";
 import customSR1 from "@salesforce/resourceUrl/QUTInternalCSS";
+import BasePath from "@salesforce/community/basePath";
+import getOPEProductCateg from "@salesforce/apex/PaymentConfirmationCtrl.getOPEProductCateg";
 
 const ERROR_TITLE = 'Error'
 const ERROR_VARIANT = 'error'
@@ -24,6 +26,14 @@ export default class ApplicationQuestionnaire extends LightningElement {
     @api priceBookEntry;
     @track questionsCopy;
     @track _questions;
+    
+    //modal confirmation message
+    isModalMessage = false;
+    message1;
+    message2;
+    isContinueBrowsing = false;
+    isContinueToPayment = false;
+    xButton;
 
     @api
     get questions() {
@@ -53,6 +63,8 @@ export default class ApplicationQuestionnaire extends LightningElement {
       this._resolveConnected();
       // Load Default Icons
       this.xMark = qutResourceImg + "/QUTImages/Icon/xMark.svg";
+      // load confirm message
+      this.xButton = qutResourceImg + "/QUTImages/Icon/xMark.svg";
     }
     
 
@@ -226,6 +238,7 @@ export default class ApplicationQuestionnaire extends LightningElement {
     }
 
     closeModal() {
+        this.isModalMessage = false;
         this.dispatchEvent(new CustomEvent('close'));
         this.resetResponses();
     }
@@ -241,17 +254,23 @@ export default class ApplicationQuestionnaire extends LightningElement {
             fileUpload : JSON.stringify(this.createFileUploadMap()),
             isPrescribed : this.isPrescribed,
             pricebookEntryId : this.priceBookEntry
-        })
-        .then(() => {
-            this.generateToast(
-                SUCCESS_TITLE,
-                "Successfully Submitted",
-                SUCCESS_VARIANT
-                );
+        }) 
+        .then(() => { 
+            this.isModalMessage = true;
+            this.message1 = 'Your application has been successfully submitted.';
+            this.message2 = 'We will review your application and advise of the outcome shortly.';
+            this.isContinueBrowsing = true;
+            this.isContinueToPayment = false; 
+            // this.generateToast(
+            //     SUCCESS_TITLE,
+            //     "Successfully Submitted",
+            //     SUCCESS_VARIANT  
+            //     );
         })
         .finally(() => {
             this.resetResponses();
-            this.closeModal();
+            this.isModalOpen = false;
+            // this.closeModal();
             this.saveInProgress = false;
         })
         .catch((error) => {
@@ -271,6 +290,20 @@ export default class ApplicationQuestionnaire extends LightningElement {
             variant: _variant
         });
         this.dispatchEvent(evt);
+    }
+
+    //to get the product category Id
+    @wire(getOPEProductCateg)
+    productCategData;
+
+    handleContinueBrowsing(){
+        //Direct to the product catalog
+        window.location.href = BasePath + "/category/products/" + this.productCategData.data.Id;
+    }
+
+    handleContinueToPayment(event){
+        //Direct to the cart summary page
+        window.location.href = BasePath + "/cart/" + this.cartId;
     }
    
 }

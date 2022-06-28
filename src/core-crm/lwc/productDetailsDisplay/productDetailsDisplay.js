@@ -30,6 +30,7 @@
       |                           |                       |                      | Earliest Upcoming Offering                   |
       | john.bo.a.pineda          | June 27, 2022         | DEPP-3216            | Modified to add identifer if values from     |
       |                           |                       |                      | addToCart are from URL Defaults              |
+      | keno.domienri.dico        | June 28, 2022         | DEPP-3302            | Change toast confirmation to modal message   |
 */
 
 import { LightningElement, wire, api, track } from "lwc";
@@ -193,6 +194,13 @@ export default class ProductDetailsDisplay extends NavigationMixin(
 
   //preselected startdate and facilitators
   preselectedStartdate;
+
+  //parameters for modal message
+  @api isRegModalMessage;
+  @track message1;
+  @track message2;
+  @track isContinueToPayment;
+  @track isContinueBrowsing;
 
   // A bit of coordination logic so that we can resolve product URLs after the component is connected to the DOM,
   // which the NavigationMixin implicitly requires to function properly.
@@ -494,20 +502,25 @@ export default class ProductDetailsDisplay extends NavigationMixin(
         productId: this.productDetails.Id
       })
         .then(() => {
-          this.generateToast(
-            SUCCESS_TITLE,
-            "Interest Registered",
-            SUCCESS_VARIANT
-          );
+          this.isRegModalMessage = true;
+          this.message1 = 'Your interest has been successfully registered to this product.';
+          this.message2 = 'We will contact you once this product is available.';
+          this.isContinueBrowsing = true;
+          this.isContinueToPayment = false;
+          // this.generateToast(
+          //   SUCCESS_TITLE,
+          //   "Interest Registered",
+          //   SUCCESS_VARIANT
+          // );
         })
         .catch((error) => {
           if (error.body.message == "Register Interest Exists") {
             this.generateToast(
-              ERROR_TITLE,
+              ERROR_TITLE,  
               INTEREST_EXISTS_ERROR,
-              ERROR_VARIANT
+              ERROR_VARIANT 
             );
-          } else {
+          } else { 
             this.generateToast(ERROR_TITLE, LWC_Error_General, ERROR_VARIANT);
           }
         });

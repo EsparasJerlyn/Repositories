@@ -1,0 +1,44 @@
+<template>
+	<lightning-card if:true={isModalMessage}>
+		<div class="slds-container_medium">
+			<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+				<div class="slds-modal__container">             
+					<div class="slds-modal__content slds-p-around_medium">
+						<div class="slds-m-top_xxx-small slds-m-right_xxx-small slds-p-right_xxx-small slds-clearfix">
+							<!--X button -->
+							<span class="slds-float_right cursor" onclick={closeModalMessage}
+								><img src={xButton}
+							/></span> 
+						</div>
+						<div class="slds-size_2-of-2 slds-text-align_center">   
+							<p class="firstBodyRegular">{message1}</p>   
+							<p class="bodyRegular">{message2}</p>
+						</div>                 
+					</div>
+					<footer class="slds-modal__footer slds-grid slds-grid_align-center">
+						<template if:true={isContinueToPayment}>
+							<lightning-button 
+								variant="brand"
+								name="cancel"
+								label="Continue to Payment"
+								class="buttonClass"
+								onclick={handleContinueToPayment}                                   
+							></lightning-button>
+						</template>
+						<template if:true={isContinueBrowsing}>
+							<lightning-button 
+								variant="brand-outline"
+								name="confirm"
+								label="Continue Browsing"
+								class="buttonClass"
+								title={confirmLabel}
+								onclick={handleContinueBrowsing}
+							></lightning-button>
+						</template>
+					</footer>
+				</div>
+			</section>
+			<div class="slds-backdrop slds-backdrop_open"></div>
+		</div>
+	</lightning-card>
+</template>

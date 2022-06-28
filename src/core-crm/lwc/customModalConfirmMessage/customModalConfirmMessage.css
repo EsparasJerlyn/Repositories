@@ -3,9 +3,9 @@
   border-bottom-style: none !important;
   border-top-style: none !important;
   border-radius: 0;
-  padding-bottom: 65px;
+  padding-bottom: 65px;  
 }
-
+ 
 /** Desktop */
 @media only screen and (min-width: 765px) {
   button.slds-button {
@@ -24,7 +24,7 @@
   }
 
   .firstBodyRegular {
-    font-size: 30px !important;
+    font-size: 30px;
     margin: 16px 0px;
     text-align: center;
   }

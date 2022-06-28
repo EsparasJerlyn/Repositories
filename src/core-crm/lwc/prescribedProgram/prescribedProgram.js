@@ -2,7 +2,7 @@ import { LightningElement, api, track, wire } from "lwc";
 import { loadStyle } from "lightning/platformResourceLoader";
 import userId from "@salesforce/user/Id";
 import qutResourceImg from "@salesforce/resourceUrl/QUTImages";
-import customSR from "@salesforce/resourceUrl/QUTCustomLwcCss";
+import customSR from "@salesforce/resourceUrl/QUTCustomLwcCss"; 
 import delivery from "@salesforce/label/c.QUT_ProductDetail_Delivery";
 import deliveryPlaceholder from "@salesforce/label/c.QUT_ProductDetail_Delivery_Placeholder";
 import availableStartDates from "@salesforce/label/c.QUT_ProductDetail_AvailableStartDates";
@@ -14,7 +14,7 @@ import addToCart from "@salesforce/label/c.QUT_ProductDetail_AddToCart";
 import insertExpressionOfInterest from "@salesforce/apex/ProductDetailsCtrl.insertExpressionOfInterest";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import isGuest from "@salesforce/user/isGuest";
-import LWC_Error_General from "@salesforce/label/c.LWC_Error_General";
+import LWC_Error_General from "@salesforce/label/c.LWC_Error_General";   
 import { getRecord, getFieldValue } from "lightning/uiRecordApi";
 import CONTACT_ID from "@salesforce/schema/User.ContactId";
 import getQuestions from "@salesforce/apex/ProductDetailsCtrl.getQuestions";
@@ -76,6 +76,13 @@ export default class PrescribedProgram extends LightningElement {
     addToCart,
     registerInterest
   };
+
+  //parameters for modal message
+  @api isRegModalMessage;
+  @track message1;
+  @track message2;
+  @track isContinueToPayment;
+  @track isContinueBrowsing;
 
   @wire(getRecord, { recordId: userId, fields: [CONTACT_ID] })
   user;
@@ -399,7 +406,12 @@ export default class PrescribedProgram extends LightningElement {
         productId: this.productDetails.Id
       })
         .then(() => {
-          this.generateToast("Success!", "Interest Registered", "success");
+          this.isRegModalMessage = true;
+          this.message1 = 'Your interest has been successfully registered to this product.';
+          this.message2 = 'We will contact you once this product is available.';
+          this.isContinueBrowsing = true;
+          this.isContinueToPayment = false;
+          // this.generateToast("Success!", "Interest Registered", "success");
         })
         .catch((error) => {
           if (error.body.message == "Register Interest Exists") {
