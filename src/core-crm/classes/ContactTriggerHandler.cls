@@ -13,6 +13,10 @@
       | angelika.j.s.galang            | May 17, 2022          | DEPP-1455              | Added global duplicates handler |
       | alexander.cadalin              | June 22, 2022         | DEPP-3056              | + detectDuplicatesInEmails()    |
       |                                |                       |                        | - 1455 global dupes handler     |
+      |                                |                       |                        |                                 |
+      | eccarius.munoz                 | June 28, 2022         | DEPP-3235              | Added handling of exact match   |
+      |                                |                       |                        | of lead in after update.        |
+      |                                |                       |                        |                                 |
  */
 public without sharing class ContactTriggerHandler implements Disableable, BeforeInsert, BeforeUpdate, AfterInsert, AfterUpdate {
 
@@ -75,7 +79,7 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
       for(Contact contact : (List<Contact>) newItems.values()){
         contactIds.add(contact.Id);
       }
-      ContactWithMatchingLeadHelper.convertLead(contactIds);
+      ContactWithMatchingLeadHelper.convertLeadOnInsert(contactIds);
     }
     
   }
@@ -93,6 +97,31 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
       (List<Contact>) newItems.values(),
       (Map<Id, Contact>) oldItems
     );
+
+    Boolean hasChanges = false;
+    List<Contact> contactNewList = (List<Contact>) newItems.values();
+    Map<Id, Contact> oldContactMap = (Map<Id, Contact>) oldItems;
+    for(Contact c : contactNewList){
+      if(oldContactMap!=null){
+        Contact oldContact = oldContactMap.get(c.Id);
+        if((c.Email != oldContact.Email) || (c.Work_Email__c != oldContact.Work_Email__c)){
+          hasChanges = true;
+        }
+      }
+    }
+    List<Contact> contactOldList = (List<Contact>) oldItems.values();
+
+    if(!isRunning){
+      if(hasChanges){
+        isRunning = true;
+        ContactWithMatchingLeadHelper.detectLeadDuplicates((Map<Id,Contact>) newItems);
+        List<Id> contactIds = new List<Id>();
+        for(Contact contact : (List<Contact>) newItems.values()){
+          contactIds.add(contact.Id);
+        }
+        ContactWithMatchingLeadHelper.convertLeadonUpdate(contactIds);
+      }
+    }
   }
 
   public void createChildMCPersona(List<Contact> newContacts){

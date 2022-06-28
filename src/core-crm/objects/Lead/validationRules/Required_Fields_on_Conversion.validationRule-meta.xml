@@ -5,6 +5,7 @@
     <description>Fields required on conversion: First Name, Phone or Mobile, Company Category, Address</description>
     <errorConditionFormula>AND(
 IsConverted = true,
+ISPICKVAL(Lead_Type__c , &apos;CCE Corporate Partner&apos;),
 OR(  
 ISBLANK( FirstName ), 
 ISPICKVAL(Company_Category__c , &apos;&apos;),

@@ -5,7 +5,8 @@
     <description>Validates if lead status is set to qualified but not yet converted.</description>
     <errorConditionFormula>AND(
  NOT(IsConverted),
- ISPICKVAL( Status , &apos;Qualified&apos;) 
+ ISPICKVAL( Status , &apos;Qualified&apos;),
+ ISPICKVAL(Lead_Type__c , &apos;CCE Corporate Partner&apos;)
 )</errorConditionFormula>
     <errorMessage>You are unable to start at qualify stage. Please follow the lead conversion process.</errorMessage>
 </ValidationRule>
