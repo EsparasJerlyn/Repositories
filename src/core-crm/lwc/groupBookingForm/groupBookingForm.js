@@ -1,3 +1,16 @@
+/**
+ * @description A LWC component for group booking
+ *
+ * @see ../classes/GroupBookingFormCtrl.cls
+ *
+ * @author Accenture
+ *
+ * @history
+ *    | Developer                 | Date                  | JIRA                 | Change Summary                        |
+      |---------------------------|-----------------------|----------------------|---------------------------------------|
+      | julie.jane.alegre         | May 04, 2022          | DEPP-2070            | Created file                          |
+      | julie.jane.alegre         | June 28, 2022         | DEPP-3313            | Fix modal sizing                      |
+*/
 import { LightningElement, track, wire, api } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { updateRecord } from 'lightning/uiRecordApi';
@@ -108,11 +121,7 @@ export default class GroupBookingForm extends LightningElement {
     paymentOpt = [];
     @api hasPayNow;
     @api hasInvoice;
-
-    /**
-     * X Button
-     */
-    xButton;
+    
 
 @wire(getRecord, { recordId: userId, fields: CONTACT_FIELDS })
     wiredContact({ error, data }) {

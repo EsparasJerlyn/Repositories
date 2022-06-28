@@ -3,10 +3,10 @@ body {
   font-family: var(--lwc-fontFamily, ProximaNova);
 }
 
-div {
+/* div {
   padding: 10px;
 
-}
+} */
 
 h1 {
   text-align: left;
@@ -47,7 +47,7 @@ h3 {
 .two {
   background-color: white;
   /*border: 2px outset gray;*/
-  margin-bottom: 5px;
+  margin-bottom: 1rem;
   font-family: var(--lwc-fontFamily, ProximaNova);
 }
 
@@ -97,8 +97,19 @@ h3 {
   width: 60%;
   max-width: 52.0625rem;
   min-width: 20rem;
+  background-color: white;
+  
 }
+.wrapper {
+  max-height: 100%;
+ 
+}
+.modal-content {
+  width: 60%;
+  max-width: 52.0625rem;
+  min-width: 20rem;
 
+}
 .required-text {
   color: #b90015;
 }
@@ -107,27 +118,31 @@ div[c-groupbookingform_groupbookingform].slds-size_1-of-1.slds-medium-size_6-of-
   margin-top: 20px;
 }
 
-lightning-combobox[c-groupbookingform_groupbookingform].mobile-locale.p1.slds-form-element {
-  width: 354px;
-  margin-left: -7px;
-}
 
 .groupBooking {
   background-color: white;
-  margin-bottom: 5px;
+  margin-bottom: 1rem;
+
 }
 
-.slds-modal__footer {
-  border: 0px solid #fff;
-  text-align: center;
+.btnCancel,
+.btnSave {
+ min-width: 100%;
 }
-
 .slds-modal__footer button {
   padding: 0.6rem 3rem;
   height: auto;
   width: 3rem;
 }
-
+.groupfooter{
+  text-align: center;
+  background: #ffffff;
+  position: sticky;
+  width: 100%;
+  left: 0px;
+  bottom: 0px;
+  z-index: 2;
+}
 
 .slds-modal__close {
   top: 3rem;
@@ -147,6 +162,7 @@ lightning-combobox[c-groupbookingform_groupbookingform].mobile-locale.p1.slds-fo
   .three .slds-accordion div {
     padding: 0px 00px;
   }
+
 
   .slds-modal__close {
     width: 15%;
@@ -212,20 +228,6 @@ margin-bottom: 0.5rem;
   hyphens: auto;
   display: inline-block;
 }
-
-/* .mobile-locale {
-  width: 238px;
-  padding-left: 4px
-}
-
-[lightning-input].birth-date-field.slds-form-element {
-  width: 233px;
-  margin-left: 4px;
-}
-
-.mobile-number .slds-form-element .slds-form-element__stacked {
-  margin-top: 8px;
-} */
 
 .cursor {
   cursor: pointer;
