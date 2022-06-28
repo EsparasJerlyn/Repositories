@@ -1602,7 +1602,11 @@ ul.slds-accordion.searchResult .slds-form-element__label {
   .modal-content [c-searchResults_searchResults].searchTitle .slds-input{
     display:flex !important;
     text-align: left !important;
+    text-align: -moz-left !important;
+    text-align: -webkit-left !important;
+    
   }
+  .modal-content [c-searchResults_searchResults].searchTitle input::-webkit-date-and-time-value{ text-align:left; }
 
 }
 
