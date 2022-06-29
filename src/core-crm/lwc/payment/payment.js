@@ -22,7 +22,7 @@ import PAYMENT_STATUS_FIELD from '@salesforce/schema/Cart_Payment__c.Payment_Sta
 import CARTPAYMENT_ID_FIELD from '@salesforce/schema/Cart_Payment__c.Id';
 import getOPEProductCateg from "@salesforce/apex/PaymentConfirmationCtrl.getOPEProductCateg";
 import BasePath from "@salesforce/community/basePath";
-
+import { ShowToastEvent } from "lightning/platformShowToastEvent";
 export default class Payment extends LightningElement {
 
     /**
@@ -62,6 +62,7 @@ export default class Payment extends LightningElement {
     selectedCourseOffering;
     fullName; 
     processing = false;
+    regQuestionsWithNoResponse = true;
     /**
      * Labels
      */ 
@@ -233,27 +234,47 @@ export default class Payment extends LightningElement {
 
     payNowClick(){
         this.paymentCartItems = JSON.parse(JSON.stringify(this.cartItems));
-        this.processing = true;
+        try {
+            this.paymentCartItems.forEach(e=>{
+                if (e.relatedAnswers && Array.isArray(e.relatedAnswers) ){
+                    e.relatedAnswers.forEach(row=>{
+                        if(row.Answer == ''){
+                            this.regQuestionsWithNoResponse = false;
+                        }   
+                    });
+                }
+          })
+        } catch (error) {
+            console.error(error);  
+        } 
 
-        let fields = {'Status__c' : 'Checkout', 'Discount_Applied__c' : this.discountApplied};
-        let objRecordInput = {'apiName':'Cart_Payment__c',fields};
-        createRecord(objRecordInput).then(response => {
-            let cartPaymentId = response.id;
-            let fields = {};
-            fields[ID_FIELD.fieldApiName] = this.cartId;
-            fields[CART_PAYMENT_FIELD.fieldApiName] = cartPaymentId;
-            fields[PAYMENT_URL_FIELD.fieldApiName] = this.payURL;
-            fields[PAYMENT_METHOD.fieldApiName] = 'Pay Now';
-            let recordInput = {fields};
-            updateRecord(recordInput).then(()=>{
-                window.location.href = this.payURL;
+        if (this.regQuestionsWithNoResponse){
+            this.processing = true;
+            let fields = {'Status__c' : 'Checkout'};
+            let objRecordInput = {'apiName':'Cart_Payment__c',fields};
+            createRecord(objRecordInput).then(response => {
+                let cartPaymentId = response.id;
+                let fields = {};
+                fields[ID_FIELD.fieldApiName] = this.cartId;
+                fields[CART_PAYMENT_FIELD.fieldApiName] = cartPaymentId;
+                fields[PAYMENT_URL_FIELD.fieldApiName] = this.payURL;
+                fields[PAYMENT_METHOD.fieldApiName] = 'Pay Now';
+                let recordInput = {fields};
+                updateRecord(recordInput).then(()=>{
+                    window.location.href = this.payURL;
+                })
             })
-        })
-        .catch((error) => {
-            this.processing = false;
-            console.log("create cartpayment error");
-            console.log(error);
-        })
+            .catch((error) => {
+                this.processing = false;
+                console.log("create cartpayment error");
+                console.log(error);
+            })
+        }
+        else
+        {
+           this.generateToast("Error.", "Please answer the registration questions", "error");
+           window.location.reload();
+        }
     }
 
     invoiceClick(){
@@ -312,4 +333,26 @@ export default class Payment extends LightningElement {
             console.log(error);
         })
     }
+
+    generateErrorMessage(err) {
+        let _errorMsg = " (";
+    
+        _errorMsg +=
+          err.name && err.message
+            ? err.name + ": " + err.message
+            : err.body.message;
+        _errorMsg += ")";
+    
+        return _errorMsg;
+      }
+    
+      // Creates toast notification
+      generateToast(_title, _message, _variant) {
+        const evt = new ShowToastEvent({
+          title: _title,
+          message: _message,
+          variant: _variant
+        });
+        this.dispatchEvent(evt);
+      }
 }

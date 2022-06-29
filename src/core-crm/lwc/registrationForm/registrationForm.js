@@ -620,7 +620,7 @@ export default class RegistrationForm extends LightningElement {
   handleVerify(event) {
     if (this.userOTP) {
       if (this.verifyOTP == this.userOTP) {
-        this.generateToast("Success!", "OTP Accepted", "success");
+        this.generateToast("Success!", "Successfully Submitted", "success");
         this.loading = true;
         if (Object.keys(this.loginUser).length > 0) {
           this.loginExistingPortalUser();
