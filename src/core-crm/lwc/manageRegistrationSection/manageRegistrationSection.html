@@ -115,13 +115,13 @@
                         </div>
                         <footer class="slds-modal__footer">
                             <div class="slds-var-top_medium">
-                                <lightning-button 
+                                <lightning-button
                                     label="Proceed without Invoice"
                                     variant="brand"
                                     onclick={handleExistingContactPWI}
                                     disabled={disableSaveExisting}
                                 ></lightning-button> &nbsp;&nbsp;&nbsp;
-                                <lightning-button 
+                                <lightning-button
                                     label="Redirect to Invoice"
                                     variant="brand"
                                     onclick={handleExistingContact}
@@ -168,14 +168,14 @@
                         </div>
                         <footer class="slds-modal__footer">
                             <div class="slds-var-top_medium">
-                                <lightning-button 
+                                <lightning-button
                                     label="Proceed without Invoice"
                                     variant="brand"
                                     type="submit"
                                     onclick={handleProceedNoInvoiceClick}
                                     disabled={saveInProgress}
                                 ></lightning-button> &nbsp;&nbsp;&nbsp;
-                                <lightning-button 
+                                <lightning-button
                                     label="Redirect to Invoice"
                                     variant="brand"
                                     type="submit"
@@ -246,29 +246,29 @@
                                     <template for:each={questions} for:item="question">
                                         <lightning-layout-item size="6" padding="around-small" key={question.Id}>
                                             <template if:true={question.IsText}>
-                                                <lightning-textarea 
-                                                name={question.Id} 
-                                                label={question.Label} 
-                                                required 
+                                                <lightning-textarea
+                                                name={question.Id}
+                                                label={question.Label}
+                                                required
                                                 onchange={handleChange}
                                                 onblur={handleBlur}>
                                                 </lightning-textarea>
                                             </template>
                                             <template if:true={question.IsNumber}>
-                                                <lightning-input 
-                                                name={question.Id} 
-                                                type="number" 
-                                                label={question.Label} 
-                                                required 
+                                                <lightning-input
+                                                name={question.Id}
+                                                type="number"
+                                                label={question.Label}
+                                                required
                                                 onchange={handleChange}
                                                 onblur={handleBlur}>
                                                 </lightning-input>
                                             </template>
                                             <template if:true={question.IsDate}>
-                                                <lightning-input 
-                                                name={question.Id} 
-                                                type="date" 
-                                                label={question.Label} 
+                                                <lightning-input
+                                                name={question.Id}
+                                                type="date"
+                                                label={question.Label}
                                                 required onchange={handleChange}
                                                 onblur={handleBlur}>
                                             </lightning-input>
@@ -280,7 +280,7 @@
                                                     value={question.Response}
                                                     placeholder="Select Option"
                                                     options={question.Options}
-                                                    onchange={handleChange} 
+                                                    onchange={handleChange}
                                                     onblur={handleBlur}
                                                     required>
                                                 </lightning-combobox>
@@ -288,7 +288,7 @@
                                             <template if:true={question.IsMultiPicklist}>
                                                 <abbr title="required" class="slds-required">*</abbr>
                                                 <span data-id={question.Id} class="slds-form-element__label" >{question.Label}</span>
-                                                <lightning-dual-listbox 
+                                                <lightning-dual-listbox
                                                     data-id={question.Id}
                                                     name={question.Id}
                                                     variant="label-hidden"
@@ -302,31 +302,31 @@
                                                 </lightning-dual-listbox>
                                             </template>
                                             <template if:true={question.IsCheckbox}>
-                                                <lightning-input 
-                                                name={question.Id} 
-                                                type="checkbox" 
-                                                label={question.Label} 
+                                                <lightning-input
+                                                name={question.Id}
+                                                type="checkbox"
+                                                label={question.Label}
                                                 onchange={handleChange}
                                                 onblur={handleBlur}
                                                 variant="label-stacked">
                                             </lightning-input>
                                             </template>
                                             <template if:true={question.IsFileUpload}>
-                                                <lightning-input 
+                                                <lightning-input
                                                 name ={question.Id}
-                                                type="file" 
-                                                accept=".xlsx, .xls, .csv, .png, .doc, .docx, .pdf"
-                                                label={question.Label} 
-                                                required 
+                                                type="file"
+                                                accept={acceptedFormats}
+                                                label={question.Label}
+                                                required
                                                 onchange={handleChange}
                                                 onblur={handleBlur}>
                                                 </lightning-input>
                                                 <template if:true={question.FileData}>
-                                                    <lightning-icon 
-                                                        icon-name="utility:success" 
-                                                        alternative-text="Success!" 
+                                                    <lightning-icon
+                                                        icon-name="utility:success"
+                                                        alternative-text="Success!"
                                                         variant="success"
-                                                        title="success variant xx-small" 
+                                                        title="success variant xx-small"
                                                         size="xx-small">
                                                     </lightning-icon>
                                                     <span class="slds-form-element__label">{question.FileData.filename}</span>
@@ -342,7 +342,7 @@
                         </div>
                         <footer class="slds-modal__footer">
                             <div class="slds-var-top_medium">
-                                <lightning-button 
+                                <lightning-button
                                     label="Save"
                                     type="Submit"
                                     variant="brand"

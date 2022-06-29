@@ -18,6 +18,8 @@
       |                           |                       |                      | without Invoice              |
       | john.bo.a.pineda          | June 28, 2022         | DEPP-3315            | Modified handleSaveResponse  |
       |                           |                       |                      | logic for Proceed w/o Invoice|
+      | john.bo.a.pineda          | June 29, 2022         | DEPP-3323            | Modified to add logic to     |
+      |                           |                       |                      | validate Upload File Type    |
 */
 
 import { api, LightningElement, wire } from 'lwc';
@@ -116,6 +118,11 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
         { label: 'Registration Questions', fieldName: 'applicationURL', sortable: true, type: 'url', typeAttributes: {label: 'View', target: '_blank'} },
         { label: 'Regenerate Invoice', fieldName: 'regenerateInvoiceURL', type: 'url', typeAttributes: {label: 'Regenerate Invoice', target: '_blank', tooltip: 'Payment Gateway Link'} }
     ];
+
+    // Set Accepted File Formats
+    get acceptedFormats() {
+        return ['.pdf', '.png', '.jpg', 'jpeg'];
+    }
 
     //Retrieves questionnaire data related to the product request
     tableData;
@@ -329,16 +336,24 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
             }else if(event.target.name === row.Id && row.IsFileUpload){
                 row.Answer = event.detail.value.toString();
                 const file = event.target.files[0];
-                let reader = new FileReader();
-                reader.onload = () => {
-                    let base64 = reader.result.split(',')[1];
-                    row.FileData = {
-                        'filename': file.name,
-                        'base64': base64,
-                        'recordId': undefined
-                    };
+                let fileNameParts = file.name.split('.');
+                let extension = '.' + fileNameParts[fileNameParts.length - 1].toLowerCase();
+                if (this.acceptedFormats.includes(extension)) {
+                    let reader = new FileReader();
+                    reader.onload = () => {
+                        let base64 = reader.result.split(',')[1];
+                        row.FileData = {
+                            'filename': file.name,
+                            'base64': base64,
+                            'recordId': undefined
+                        };
+                    }
+                    reader.readAsDataURL(file);
+                } else {
+                    row.Answer = '';
+                    row.FileData = undefined;
+                    this.generateToast('Error.','Invalid File Format.','error');
                 }
-                reader.readAsDataURL(file);
             }else if(event.target.name === row.Id && row.IsMultiPicklist){
                 row.Answer = event.detail.value?event.detail.value.toString().replace(/,/g, ';'):row.Answer;
             }else if(event.target.name === row.Id){

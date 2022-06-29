@@ -1,3 +1,17 @@
+/**
+ * @description Lightning Web Component for Application Question in Portal
+ *
+ * @see ../classes/ProductDetailsCtrl.cls
+ *
+ * @author Accenture
+ *
+ * @history
+ *    | Developer                 | Date                  | JIRA                 | Change Summary               |
+      |---------------------------|-----------------------|----------------------|------------------------------|
+      | john.bo.a.pineda          | June 29, 2022         | DEPP-3323            | Modified to add logic to     |
+      |                           |                       |                      | validate Upload File Type    |
+*/
+
 import { LightningElement, api, track, wire} from 'lwc';
 import saveApplication from "@salesforce/apex/ProductDetailsCtrl.saveApplication";
 import LWC_Error_General from '@salesforce/label/c.LWC_Error_General';
@@ -26,7 +40,7 @@ export default class ApplicationQuestionnaire extends LightningElement {
     @api priceBookEntry;
     @track questionsCopy;
     @track _questions;
-    
+
     //modal confirmation message
     isModalMessage = false;
     message1;
@@ -54,11 +68,16 @@ export default class ApplicationQuestionnaire extends LightningElement {
         Promise.all([loadStyle(this, customSR1 + "/QUTInternalCSS.css")]);
     }
 
+    // Set Accepted File Formats
+    get acceptedFormats() {
+        return ['.pdf', '.png', '.jpg', 'jpeg'];
+    }
+
     _resolveConnected;
     _connected = new Promise((resolve) => {
       this._resolveConnected = resolve;
     });
-  
+
     connectedCallback() {
       this._resolveConnected();
       // Load Default Icons
@@ -66,7 +85,7 @@ export default class ApplicationQuestionnaire extends LightningElement {
       // load confirm message
       this.xButton = qutResourceImg + "/QUTImages/Icon/xMark.svg";
     }
-    
+
 
     get disableResponseSave() {
         let tempQuestions = this._questions?this._questions.filter(
@@ -153,16 +172,24 @@ export default class ApplicationQuestionnaire extends LightningElement {
             } else if (event.target.name === row.Id && row.IsFileUpload) {
             row.Answer = event.detail.value.toString();
             const file = event.target.files[0];
-            let reader = new FileReader();
-            reader.onload = () => {
-                let base64 = reader.result.split(",")[1];
-                row.FileData = {
-                filename: file.name,
-                base64: base64,
-                recordId: undefined
-                };
-            };
-            reader.readAsDataURL(file);
+            let fileNameParts = file.name.split('.');
+            let extension = '.' + fileNameParts[fileNameParts.length - 1].toLowerCase();
+                if (this.acceptedFormats.includes(extension)) {
+                    let reader = new FileReader();
+                    reader.onload = () => {
+                        let base64 = reader.result.split(",")[1];
+                        row.FileData = {
+                        filename: file.name,
+                        base64: base64,
+                        recordId: undefined
+                        };
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    row.Answer = '';
+                    row.FileData = undefined;
+                    this.generateToast('Error.','Invalid File Format.','error');
+                }
             } else if (event.target.name === row.Id && row.IsMultiPicklist) {
             row.Answer = event.detail.value
                 ? event.detail.value.toString().replace(/,/g, ";")
@@ -176,7 +203,7 @@ export default class ApplicationQuestionnaire extends LightningElement {
         });
 
     }
-    
+
     handleBlur() {
     this._questions = this._questions.map((row) => {
         if (
@@ -215,7 +242,7 @@ export default class ApplicationQuestionnaire extends LightningElement {
         ? fileUpload.filter((key) => key !== undefined)
         : fileUpload;
     }
-    
+
     createAnswerRecord() {
     let answerRecords = {};
     answerRecords = this._questions.map((item) => {
@@ -254,17 +281,17 @@ export default class ApplicationQuestionnaire extends LightningElement {
             fileUpload : JSON.stringify(this.createFileUploadMap()),
             isPrescribed : this.isPrescribed,
             pricebookEntryId : this.priceBookEntry
-        }) 
-        .then(() => { 
+        })
+        .then(() => {
             this.isModalMessage = true;
             this.message1 = 'Your application has been successfully submitted.';
             this.message2 = 'We will review your application and advise of the outcome shortly.';
             this.isContinueBrowsing = true;
-            this.isContinueToPayment = false; 
+            this.isContinueToPayment = false;
             // this.generateToast(
             //     SUCCESS_TITLE,
             //     "Successfully Submitted",
-            //     SUCCESS_VARIANT  
+            //     SUCCESS_VARIANT
             //     );
         })
         .finally(() => {
@@ -279,7 +306,7 @@ export default class ApplicationQuestionnaire extends LightningElement {
             this.saveInProgress = false;
             this.disableCancel = false;
         })
-    
+
     }
 
         // Creates toast notification
@@ -305,5 +332,5 @@ export default class ApplicationQuestionnaire extends LightningElement {
         //Direct to the cart summary page
         window.location.href = BasePath + "/cart/" + this.cartId;
     }
-   
+
 }

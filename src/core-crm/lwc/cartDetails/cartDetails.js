@@ -1,3 +1,17 @@
+/**
+ * @description Lightning Web Component for Cart Summary on Portal
+ *
+ * @see ../classes/CartItemCtrl.cls
+ *
+ * @author Accenture
+ *
+ * @history
+ *    | Developer                 | Date                  | JIRA                 | Change Summary               |
+      |---------------------------|-----------------------|----------------------|------------------------------|
+      | john.bo.a.pineda          | June 29, 2022         | DEPP-3323            | Modified to add logic to     |
+      |                           |                       |                      | validate Upload File Type    |
+*/
+
 import { LightningElement, wire, api, track } from "lwc";
 import {getRecord, updateRecord, createRecord} from "lightning/uiRecordApi";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
@@ -77,7 +91,7 @@ export default class CartDetails extends LightningElement {
   editModeCompany = false;
   editModePosition = false;
   editModeStaff = false;
-  editModeStudent = false;   
+  editModeStudent = false;
   cartExternalId; // added for payment parameters
   checkData = false;
   fromCartSummary = true; // checks if from cart summary or group registration
@@ -103,9 +117,15 @@ export default class CartDetails extends LightningElement {
   @wire(MessageContext)
   messageContext;
 
+  // Set Accepted File Formats
+  get acceptedFormats() {
+      return ['.pdf', '.png', '.jpg', 'jpeg'];
+  }
+
+
   //set the cart status to checkout when opening this page
   connectedCallback() {
-    
+
     //create global variable
     window.isCartSumDisconnected = false;
 
@@ -121,7 +141,7 @@ export default class CartDetails extends LightningElement {
       .then((result) => {
         if(!result){
           window.location.href = BasePath + "/error";
-        }else{  
+        }else{
           this.isLoading = false
         }
       })
@@ -145,11 +165,11 @@ export default class CartDetails extends LightningElement {
 
   //set the status back to active when disconnecting
   disconnectedCallback() {
-    
+
     //create global variable
     window.isCartSumDisconnected = true;
 
-    //remove 
+    //remove
     window.onload = null;
     window.onmousemove = null;
     window.onmousedown = null;
@@ -249,7 +269,7 @@ export default class CartDetails extends LightningElement {
 
   //get cart items data
   getCartItemsData(){
-    
+
     //get the cart items data
     getCartItemsByCart({ cartId: this.recordId, userId: userId })
       .then((result) => {
@@ -297,20 +317,20 @@ export default class CartDetails extends LightningElement {
       if(this.paymentOpt.includes('Pay Now')){
         this.hasPayNow = true;
         if(this.paymentOpt.includes('Invoice')){
-          this.hasInvoice = true;       
-        } 
-      }  
+          this.hasInvoice = true;
+        }
+      }
       if(this.paymentOpt.includes('Invoice')){
         this.hasInvoice = true;
         if(this.paymentOpt.includes('Pay Now')){
-          this.hasPayNow = true;       
-        } 
+          this.hasPayNow = true;
+        }
       }
       if(this.paymentOpt.includes('Pay Now;Invoice')){
         this.hasPayNow = true;
         this.hasInvoice = true;
-      }  
-      
+      }
+
     }
     console.log(
       ' paymentOptions:', JSON.stringify(this.paymentOpt),
@@ -361,7 +381,7 @@ export default class CartDetails extends LightningElement {
       //redirect to products if no more cart items
       if(this.cartItems.length == 0){
         window.location.href = BasePath + "/category/products/" + this.prodCategId;
-      } 
+      }
     })
     .catch((error) => {
       console.log("delete error");
@@ -555,8 +575,8 @@ export default class CartDetails extends LightningElement {
             updateRecord(recordInput).then(()=>{
                 getCommunityUrl()
                 .then((result) => {
-                  this.paymentConURL = result.comSite + '/s/payment-confirmation?' 
-                                    + 'Status=A&InvoiceNo=[InvoiceNo]&ReceiptNo=[ReceiptNo]&TotalAmount=' 
+                  this.paymentConURL = result.comSite + '/s/payment-confirmation?'
+                                    + 'Status=A&InvoiceNo=[InvoiceNo]&ReceiptNo=[ReceiptNo]&TotalAmount='
                                     + this.total + '&Webcart.External_ID__c=' + this.cartExternalId;
                   window.location.href = this.paymentConURL;
                 });
@@ -567,7 +587,7 @@ export default class CartDetails extends LightningElement {
             console.log("confirmRegistration error");
             console.log(error);
         })
-    
+
   }
 
   //retrieve the discount code
@@ -611,7 +631,7 @@ export default class CartDetails extends LightningElement {
 
           //show invalid coupon message
           this.showInvalidDiscount = true;
-          
+
         } else {
 
           //loop through the current cart items to set the unitDiscounts
@@ -626,7 +646,7 @@ export default class CartDetails extends LightningElement {
               }
             }
           }
-          
+
           //hide invalid coupon message
           this.showInvalidDiscount = false;
         }
@@ -753,7 +773,7 @@ export default class CartDetails extends LightningElement {
       productName: 'Cart Summary',
       clearOtherMenuItems: true
     }
-    
+
     const payLoad = {
       parameterJson: JSON.stringify(paramObj)
     };
@@ -777,16 +797,31 @@ export default class CartDetails extends LightningElement {
               else if(tempObj.Id === j.Id && j.IsFileUpload){  //fileupload
                 j.Answer = event.detail.value.toString();
                 const file = event.target.files[0];
-                let reader = new FileReader();
-                reader.onload = () => {
-                    let base64 = reader.result.split(',')[1];
-                    j.FileData = {
-                        'filename': file.name,
-                        'base64': base64,
-                        'recordId': undefined
-                    };
+                let fileNameParts = file.name.split('.');
+                let extension = '.' + fileNameParts[fileNameParts.length - 1].toLowerCase();
+                if (this.acceptedFormats.includes(extension)) {
+                  let reader = new FileReader();
+                  reader.onload = () => {
+                      let base64 = reader.result.split(',')[1];
+                      j.FileData = {
+                          'filename': file.name,
+                          'base64': base64,
+                          'recordId': undefined
+                      };
+                  }
+                  reader.readAsDataURL(file);
+                } else {
+                  j.Answer = '';
+                  j.FileData = undefined;
+                  this.dispatchEvent(
+                    new ShowToastEvent({
+                      title: "Error",
+                      message: 'Invalid File Format',
+                      variant: "error"
+                    })
+                  );
                 }
-                reader.readAsDataURL(file);
+
               }
               else if(event.target.name === j.Id && j.IsMultiPicklist){
                      j.Answer = event.detail.value?event.detail.value.toString().replace(/,/g, ';'):j.Answer;
@@ -798,7 +833,7 @@ export default class CartDetails extends LightningElement {
           }
       })
     } catch (error) {
-        console.error(error);  
-    } 
+        console.error(error);
+    }
   }
 }
