@@ -64,10 +64,11 @@ span:hover, span:visited {
     }
 }
 
-.heading2{
+.group-changes{
     text-align: center !important;
 }
 
-.bodyBold{
+.group-changes-body-bold{
     text-align: center !important;
 }
+
