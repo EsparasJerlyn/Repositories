@@ -414,7 +414,6 @@
                                                             selected-label="Selected"
                                                             options={question.Options}
                                                             onchange={handleChange}
-                                                            onblur={handleBlur}
                                                             required>
                                                         </lightning-dual-listbox>
                                                     </template>
@@ -426,7 +425,6 @@
                                                               data-question-id={question.Id}
                                                               type="checkbox"
                                                               onchange={handleChange}
-                                                              onblur={handleBlur}
                                                               variant="label-stacked"
                                                               >
                                                             </lightning-input>
@@ -447,7 +445,7 @@
                                                         onchange={handleChange}
                                                         onblur={handleBlur}>
                                                         </lightning-input>
-                                                        <template if:true={question.FileData}>
+                                                        <template if:true={question.FileUploadSuccess}>
                                                             <lightning-icon
                                                                 icon-name="utility:success"
                                                                 alternative-text="Success!"
@@ -455,8 +453,10 @@
                                                                 title="success variant xx-small"
                                                                 size="xx-small">
                                                             </lightning-icon>
-                                                            <span class="slds-form-element__label">{question.FileData.filename}</span>
-                                                        </template>
+                                                            <span class="slds-form-element__label"
+                                                              >{question.FileData.filename}</span
+                                                            >
+                                                          </template>
                                                     </template>
                                                     <template if:true={question.ErrorMessage}>
                                                         <p class="slds-form-element__help slds-text-color_destructive">{question.ErrorMessage}</p>
@@ -478,69 +478,6 @@
         <!-- <hr> -->
     </div>
     <!-- Product summary ends here -->
-
-
-    <!-- Registration Questions starts here -->
-    <div class="component">
-
-        <!-- loop on each questions -->
-        <template for:each={questions} for:item="currentQuestion" for:index="questionIndex">
-            <div key={currentQuestion.answerId}>
-
-                <div class="slds-grid slds-wrap slds-m-bottom_small">
-
-                    <div class="slds-size_2-of-4">
-
-                        <!-- for normal text input fields (text, number, date) -->
-                        <template if:true={currentQuestion.isText}>
-                            <p class="bodyBold">{currentQuestion.label}</p>
-                            <lightning-input data-id={currentQuestion.answerId} name={questionIndex} type={currentQuestion.inputType} variant="label-hidden" value={currentQuestion.stringResponse} required></lightning-input>
-                        </template>
-
-                        <!-- for checkbox -->
-                        <template if:true={currentQuestion.isCheckbox}>
-                            <lightning-input data-id={currentQuestion.answerId} name={questionIndex} type={currentQuestion.inputType} label={currentQuestion.label} checked={currentQuestion.booleanResponse} required></lightning-input>
-                        </template>
-
-                        <!-- for picklist -->
-                        <template if:true={currentQuestion.isPicklist}>
-                            <p class="bodyBold">{currentQuestion.label}</p>
-                            <lightning-combobox data-id={currentQuestion.answerId} name={questionIndex} variant="label-hidden" required value={currentQuestion.stringResponse} options={currentQuestion.picklistOptions}></lightning-combobox>
-                        </template>
-
-                        <!-- for picklist -->
-                        <template if:true={currentQuestion.isMultiPicklist}>
-                            <p class="bodyBold">{currentQuestion.label}</p>
-                            <lightning-dual-listbox data-id={currentQuestion.answerId} name={questionIndex} variant="label-hidden" source-label="Available" selected-label="Selected" required options={currentQuestion.picklistOptions} value={currentQuestion.multiPicklistResponse}></lightning-dual-listbox>
-                        </template>
-
-                        <!-- for file upload -->
-                        <template if:true={currentQuestion.isFileUpload}>
-                            <p class="bodyBold">{currentQuestion.label}</p>
-                            <!-- <lightning-input data-id={currentQuestion.answerId} name={currentQuestion.answerId} type="file" accept=".xlsx, .xls, .csv, .png, .doc, .docx, .pdf" variant="label-hidden" value={currentQuestion.stringResponse} required></lightning-input> -->
-                            <lightning-file-upload record-id={currentQuestion.answerId} data-id={currentQuestion.answerId} name={questionIndex} accept={acceptedFormats} variant="label-hidden" onuploadfinished={fileUploadFinished}></lightning-file-upload>
-
-
-                            <!-- <template if:true={currentQuestion.FileData}>
-                                <lightning-icon
-                                    icon-name="utility:success"
-                                    alternative-text="Success!"
-                                    variant="success"
-                                    title="success variant xx-small"
-                                    size="xx-small">
-                                </lightning-icon>
-                                <span class="slds-form-element__label">{currentQuestion.FileData.fileName}</span>
-                            </template> -->
-                        </template>
-
-                    </div>
-                </div>
-
-            </div>
-        </template>
-        <hr>
-    </div>
-    <!-- Registration Questions ends here -->
 
     <div class="slds-grid slds-wrap">
         <div class="slds-size_1-of-1 slds-grid slds-grid_align-end">
@@ -632,14 +569,14 @@
                 <h2 class="heading2 main-color-blue500 pb2">Payment method</h2>
                 <h5 class="bodyBold pb2 fblack">How would you like to pay?</h5>
             </div>
-            <template if:false={disablePayment}>
+            <template if:false={disableButton}>
                 <div class="btn-container">
                     <a class="btn-link" target="_blank" onclick={confirmRegistration}>
                         <p class="btn-title bodyBold pb2"><strong>Confirmation Registration</strong></p>
                     </a>
                 </div>
             </template>
-            <template if:true={disablePayment}>
+            <template if:true={disableButton}>
                 <div class="btn-container">
                     <div class="btn-link-disabled">
                         <p class="btn-title bodyBold pb2"><strong>Confirmation Registration</strong></p>

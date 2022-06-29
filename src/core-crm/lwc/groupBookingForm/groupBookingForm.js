@@ -199,12 +199,10 @@ export default class GroupBookingForm extends LightningElement {
     connectedCallback(){
         this.xButton = qutResourceImg + "/QUTImages/Icon/xMark.svg";
         if(this.isPrescribed){
-            this.productRequestId = this.productDetails.Program_Plan__c.Product_Request__c;
-
+            this.productRequestId = this.productDetails.Program_Plan__r.Product_Request__c;
         }else{
             this.productRequestId = this.productDetails.Course__r.ProductRequestID__c;
         }
-
         this.productId = this.productDetails.Id;
         this.productCourseName = this.productDetails.Name;
         this.minParticipants = this.productDetails.Minimum_Participants_Group__c;
@@ -417,6 +415,29 @@ export default class GroupBookingForm extends LightningElement {
         this.isRespondQuestions = true;
       }
 
+    get disableSave(){
+        let hasUnansweredQuestions = false;
+        if(this.questionsPrimary && 
+            this.questionsPrimary.filter((item) => item.Answer == '') && 
+            this.questionsPrimary.filter((item) => item.Answer == '').length > 0){
+
+                hasUnansweredQuestions = true;
+        }
+
+        if(this.items && this.items.length > 0){
+            this.items.map((row) => {
+                if( row.Questions && 
+                    row.Questions.filter((key) => key.Answer == '') &&
+                    row.Questions.filter((key) => key.Answer == '').length > 0){
+                        hasUnansweredQuestions = true;
+                    }
+            })
+        }
+
+        return hasUnansweredQuestions || this.processing;
+
+    }
+
 
    submitDetails(event) {
     const allValid = [
@@ -461,7 +482,6 @@ export default class GroupBookingForm extends LightningElement {
                 this.contactFieldsPrimary = fieldsPrimary;
                 this.amount = this.productDetails.PricebookEntries.find(row => row.Id === this.priceBookEntry).UnitPrice,
                 this.total = this.amount * this.numberOfParticipants;
-
                 contactMap['PARTICIPANT 1'] = fieldsPrimary;
                 answerMap['PARTICIPANT 1'] = this.createAnswerRecordPrimary();
                 fileUploadMap['PARTICIPANT 1'] = JSON.stringify(this.createFileUploadMap());
@@ -682,7 +702,6 @@ createAnswerRecord(){
         }
         return item;
     });
-
 
   }
 

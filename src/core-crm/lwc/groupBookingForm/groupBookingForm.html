@@ -250,6 +250,8 @@
                                                                 <lightning-input
                                                                 name={question.Id}
                                                                 type="number"
+                                                                data-contact-id={item.id}
+                                                                data-question-id={question.Id}
                                                                 label={question.Label}
                                                                 required
                                                                 onchange={handleChange}
@@ -260,6 +262,8 @@
                                                                 <lightning-input
                                                                 name={question.Id}
                                                                 type="date"
+                                                                data-contact-id={item.id}
+                                                                data-question-id={question.Id}
                                                                 label={question.Label}
                                                                 required onchange={handleChange}
                                                                 onblur={handleBlur}>
@@ -270,6 +274,8 @@
                                                                     name={question.Id}
                                                                     label={question.Label}
                                                                     value={question.Response}
+                                                                    data-contact-id={item.id}
+                                                                    data-question-id={question.Id}
                                                                     placeholder="Select Option"
                                                                     options={question.Options}
                                                                     onchange={handleChange}
@@ -285,6 +291,8 @@
                                                                     name={question.Id}
                                                                     variant="label-hidden"
                                                                     class="normal-font"
+                                                                    data-contact-id={item.id}
+                                                                    data-question-id={question.Id}
                                                                     source-label="Available"
                                                                     selected-label="Selected"
                                                                     options={question.Options}
@@ -299,6 +307,8 @@
                                                                 type="checkbox"
                                                                 label={question.Label}
                                                                 onchange={handleChange}
+                                                                data-contact-id={item.id}
+                                                                data-question-id={question.Id}
                                                                 onblur={handleBlur}
                                                                 variant="label-stacked">
                                                             </lightning-input>
@@ -309,6 +319,8 @@
                                                                 type="file"
                                                                 accept={acceptedFormats}
                                                                 label={question.Label}
+                                                                data-contact-id={item.id}
+                                                                data-question-id={question.Id}
                                                                 required
                                                                 onchange={handleChange}
                                                                 onblur={handleBlur}>
@@ -359,7 +371,7 @@
                             <button class="slds-button slds-button_outline-brand slds-float_right btnCancel" disabled={processing}  onclick={closeModal} title="Cancel">Cancel</button>
                         </div>
                         <div class="slds-col slds-size_1-of-2 ">
-                            <button class="slds-button slds-button_brand slds-float_right btnSave" disabled={processing}  onclick={submitDetails} title="OK">SAVE</button>
+                            <button class="slds-button slds-button_brand slds-float_right btnSave" disabled={disableSave}  onclick={submitDetails} title="OK">SAVE</button>
                         </div>
 
                     </div>

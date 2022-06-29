@@ -10,6 +10,7 @@
       |---------------------------|-----------------------|----------------------|------------------------------|
       | john.bo.a.pineda          | June 29, 2022         | DEPP-3323            | Modified to add logic to     |
       |                           |                       |                      | validate Upload File Type    |
+      | roy.nino.s.regala         | June 29, 2022         | DEPP-3157            | fixed questionnare issues    |
 */
 
 import { LightningElement, wire, api, track } from "lwc";
@@ -30,7 +31,7 @@ import getCartItemDiscount from "@salesforce/apex/CartItemCtrl.getCartItemDiscou
 import getCartExternaId from "@salesforce/apex/CartItemCtrl.getCartExternaId";
 import checkCartOwnerShip from "@salesforce/apex/CartItemCtrl.checkCartOwnerShip";
 import getCommunityUrl from "@salesforce/apex/RegistrationFormCtrl.getCommunityUrl";
-
+import saveCartSummaryQuestions from "@salesforce/apex/CartItemCtrl.saveCartSummaryQuestions";
 import CART_ID_FIELD from "@salesforce/schema/WebCart.Id";
 import CART_STATUS_FIELD from "@salesforce/schema/WebCart.Status";
 import ANSWER_ID_FIELD from "@salesforce/schema/Answer__c.Id";
@@ -78,7 +79,7 @@ export default class CartDetails extends LightningElement {
   @track showStudentId;
 
   isFreeOnly;
-  cartItems = [];
+  @track cartItems = [];
   questions = [];
   activeTimeout;
   @track prodCategId;
@@ -280,8 +281,9 @@ export default class CartDetails extends LightningElement {
 
         //set the cart items data and questions
         this.cartItems = JSON.parse(JSON.stringify(result.cartItemsList));
-        this.questions = result.questionsList;
-
+        /*this.questions = result.questionsList;
+        console.log(this.questions);
+        console.log(JSON.parse(JSON.stringify(this.questions)));*/
         //get totals
         this.total = this.calculateSubTotal();
         this.isFreeOnly =  this.cartItems.length > 0 && this.total == 0;
@@ -297,7 +299,6 @@ export default class CartDetails extends LightningElement {
   }
 
   paymentOptionButtons(){
-    console.log('this.cartItems:', this.cartItems);
     this.paymentOpt = this.cartItems.map(
       row => {
         if(this.paymentOpt!=null){
@@ -332,13 +333,6 @@ export default class CartDetails extends LightningElement {
       }
 
     }
-    console.log(
-      ' paymentOptions:', JSON.stringify(this.paymentOpt),
-      ' hasPayNow:', this.hasPayNow,
-      ' hasInvoice:', this.hasInvoice,
-      ' isFreeOnly:', this.isFreeOnly,
-      ' disablepayment:', this.disablePayment
-    );
   }
 
   //function for removing the cart item
@@ -463,107 +457,82 @@ export default class CartDetails extends LightningElement {
       });
   }
 
-  //function for updating the question fields
-  updateQuestionFields() {
-    //variable to compare if record needs to be updated
-    let newValue;
-    let oldValue;
+  createAnswerRecord(questions) {
+    let answerRecords = {};
+    answerRecords = questions.map((item) => {
+        let record = {};
+        record.Related_Answer__c = item.Id;
+        record.Response__c = item.Answer;
+        record.Sequence__c = item.Sequence;
+        record.Questionnaire__c = item.QuestionnaireId;
+        return record;
+    });
+    return answerRecords;
+}
 
-    //loop through the current cart items
-    for (let i = 0; i < this.questions.length; i++) {
-      //check for the field type and get the input type for different data type
-      if (this.questions[i].isText) {
-        //the old value of the answer field
-        oldValue = this.questions[i].stringResponse;
+createFileUploadMap(questions){
+    let fileUpload = [];
+    fileUpload = questions.map(item =>{
+        if(item.IsFileUpload){
+            let record = {};
+            record.RelatedAnswerId = item.Id;
+            record.Base64 = item.FileData.base64;
+            record.FileName = item.FileData.filename;
+            return record;
+        }
+    });
+    
+    return fileUpload.filter(key => key !== undefined)?fileUpload.filter(key => key !== undefined):fileUpload;
+}
 
-        //the current value of the answer field
-        newValue = this.template.querySelector(
-          "lightning-input[data-id='" + this.questions[i].answerId + "']"
-        ).value;
-      } else if (this.questions[i].isCheckbox) {
-        //the old value of the answer field
-        oldValue = this.questions[i].booleanResponse;
-
-        //the current value of the answer field
-        newValue = this.template.querySelector(
-          "lightning-input[data-id='" + this.questions[i].answerId + "']"
-        ).checked;
-      } else if (this.questions[i].isPicklist) {
-        //the old value of the answer field
-        oldValue = this.questions[i].stringResponse;
-
-        //the current value of the answer field
-        newValue = this.template.querySelector(
-          "lightning-combobox[data-id='" + this.questions[i].answerId + "']"
-        ).value;
-      } else if (this.questions[i].isMultiPicklist) {
-        //the old value of the answer field
-        oldValue = this.questions[i].stringResponse;
-
-        //the current value of the answer field
-        newValue = this.template
-          .querySelector(
-            "lightning-dual-listbox[data-id='" +
-              this.questions[i].answerId +
-              "']"
-          )
-          .value.toString()
-          .replace(/,/g, ";");
-      } else if (this.questions[i].isFileUpload) {
-        //the old value of the answer field
-        oldValue = this.questions[i].stringResponse;
-
-        //the new value of the answer field
-        newValue = this.questions[i].newStringResponse;
-      }
-
-      //if there are changes, update each record
-      if (oldValue != newValue) {
-        let fields = {};
-        let recordInput = {};
-
-        fields[ANSWER_ID_FIELD.fieldApiName] = this.questions[i].answerId;
-        fields[ANSWER_RESPONSE_FIELD.fieldApiName] = newValue.toString();
-        recordInput = { fields };
-
-        //update record
-        updateRecord(recordInput)
-          .then(() => {
-            //update success code here
-            console.log("update done");
-          })
-          .catch((error) => {
-            this.dispatchEvent(
-              new ShowToastEvent({
-                title: "Error answer updating record",
-                message: error.body.message,
-                variant: "error"
-              })
-            );
-          });
-      }
+  get disableButton(){
+    let disable = false;
+    if(this.cartItems){
+      this.cartItems.map((row)=>{
+        if( row.relatedAnswers && 
+            row.relatedAnswers.filter((item) => item.Answer == "") && 
+            row.relatedAnswers.filter((item) => item.Answer == "").length > 0){
+              disable = true;
+            }
+      })
     }
-  }
-
-  fileUploadFinished(event) {
-    //get the list of uploaded files
-    const uploadedFiles = event.detail.files;
-
-    //current index in the questions array
-    let currentIndex = event.target.name;
-
-    //tempory questions holder
-    let tempQuestions = JSON.parse(JSON.stringify(this.questions));
-
-    //update the value with the new document ID
-    tempQuestions[currentIndex].newStringResponse = uploadedFiles[0].documentId;
-
-    //reset the value
-    this.questions = tempQuestions;
+    
+    return disable || this.disablePayment;
   }
 
   confirmRegistration(){
         this.disablePayment = true;
+      
+            let questionnaireResponseDataList = [];
+            let contact = '';
+            this.cartItems.map((row)=>{
+                let questionnaireResponseData = {};
+                if(row.relatedAnswers){
+                    questionnaireResponseData['answerList'] = this.createAnswerRecord(row.relatedAnswers);
+                    questionnaireResponseData['relatedAnswerList'] = row.relatedAnswers;
+                
+                    if(this.createFileUploadMap(row.relatedAnswers).length > 0){
+                        questionnaireResponseData['fileUploadData'] = this.createFileUploadMap(row.relatedAnswers);
+                    }else{
+                        questionnaireResponseData['fileUploadData'] = [];
+                    }
+                }
+                questionnaireResponseData['offeringId'] = row.courseOfferingId?row.courseOfferingId:row.programOfferingId;
+                questionnaireResponseData['isPrescribed'] = row.courseOfferingId?false:true;
+                
+                contact = row.contactId;
+                questionnaireResponseDataList.push(questionnaireResponseData);
+            });
+
+            if(questionnaireResponseDataList.length > 0){
+                saveCartSummaryQuestions({questionnaireData:JSON.stringify(questionnaireResponseDataList),contactId:contact}).then(()=>{
+                })
+                .catch((error) => {
+                    this.processing = false;
+                    console.log("createCourseConnections error");
+                    console.log(error);
+                })
+          }
         let fields = {'Status__c' : 'Active'};
         let objRecordInput = {'apiName':'Cart_Payment__c',fields};
         createRecord(objRecordInput).then(response => {
@@ -788,14 +757,12 @@ export default class CartDetails extends LightningElement {
         this.cartItems.forEach(e=>{
           if (e.relatedAnswers && Array.isArray(e.relatedAnswers) ){
             e.relatedAnswers.forEach(j=>{
-
-
-
               if(tempObj.Id === j.Id && j.IsCheckbox){ //checkbox
                 j.Answer = event.detail.checked.toString();
               }
               else if(tempObj.Id === j.Id && j.IsFileUpload){  //fileupload
                 j.Answer = event.detail.value.toString();
+                
                 const file = event.target.files[0];
                 let fileNameParts = file.name.split('.');
                 let extension = '.' + fileNameParts[fileNameParts.length - 1].toLowerCase();
@@ -803,6 +770,7 @@ export default class CartDetails extends LightningElement {
                   let reader = new FileReader();
                   reader.onload = () => {
                       let base64 = reader.result.split(',')[1];
+                      j.FileUploadSuccess = true;
                       j.FileData = {
                           'filename': file.name,
                           'base64': base64,
@@ -832,6 +800,7 @@ export default class CartDetails extends LightningElement {
             });
           }
       })
+
     } catch (error) {
         console.error(error);
     }

@@ -7,6 +7,7 @@
  |---------------------------|-----------------------|----------------------|----------------------------------------------|
 | keno.domienri.dico        | May 24, 2022          | DEPP-2038            | Create payment method lwc                    |
 | marlon.vasquez            | June 10, 2022         | DEPP-2812            | Cart Summary Questionnaire                   |
+| roy.nino.s.regala         | June 30, 2022         | DEPP-3157            | fixed questionnaire issues                   |
 
 */
 import { LightningElement, api, wire, track } from 'lwc';
@@ -21,6 +22,7 @@ import PAYMENT_METHOD from '@salesforce/schema/WebCart.Payment_Method__c';
 import PAYMENT_STATUS_FIELD from '@salesforce/schema/Cart_Payment__c.Payment_Status__c';
 import CARTPAYMENT_ID_FIELD from '@salesforce/schema/Cart_Payment__c.Id';
 import getOPEProductCateg from "@salesforce/apex/PaymentConfirmationCtrl.getOPEProductCateg";
+import saveCartSummaryQuestions from "@salesforce/apex/CartItemCtrl.saveCartSummaryQuestions";
 import BasePath from "@salesforce/community/basePath";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 export default class Payment extends LightningElement {
@@ -147,7 +149,24 @@ export default class Payment extends LightningElement {
      * Disable payment buttons if checkbox from Cart Summary is false
      */
     get disableButton(){
-        return this.disablePayment || this.processing || this.cartIsClosed || this.cartIsEmpty;
+        return this.disablePayment || this.processing || this.cartIsClosed || this.cartIsEmpty || this.questionsNotFilled;
+    }
+
+    get questionsNotFilled(){
+
+        let cartItemsCopy = JSON.parse(JSON.stringify(this.cartItems));
+        let noAnswer = false;
+        if(cartItemsCopy && cartItemsCopy.length > 0 && this.fromCartSummary){
+            cartItemsCopy.map((row) => {
+                if( row.relatedAnswers && 
+                    row.relatedAnswers.filter((item) => item.Answer == '') &&
+                    row.relatedAnswers.filter((item) => item.Answer == '').length > 0){
+                        noAnswer = true;
+                }
+            })
+        }
+
+        return noAnswer;
     }
 
     /**
@@ -232,62 +251,136 @@ export default class Payment extends LightningElement {
         return this.baseURL + this.formURL + opeDescription.slice(0, -1);        
     }
 
-    payNowClick(){
-        this.paymentCartItems = JSON.parse(JSON.stringify(this.cartItems));
-        try {
-            this.paymentCartItems.forEach(e=>{
-                if (e.relatedAnswers && Array.isArray(e.relatedAnswers) ){
-                    e.relatedAnswers.forEach(row=>{
-                        if(row.Answer == ''){
-                            this.regQuestionsWithNoResponse = false;
-                        }   
-                    });
-                }
-          })
-        } catch (error) {
-            console.error(error);  
-        } 
+    createAnswerRecord(questions) {
+        let answerRecords = {};
+        answerRecords = questions.map((item) => {
+            let record = {};
+            record.Related_Answer__c = item.Id;
+            record.Response__c = item.Answer;
+            record.Sequence__c = item.Sequence;
+            record.Questionnaire__c = item.QuestionnaireId;
+            return record;
+        });
+        return answerRecords;
+    }
 
-        if (this.regQuestionsWithNoResponse){
-            this.processing = true;
-            let fields = {'Status__c' : 'Checkout'};
-            let objRecordInput = {'apiName':'Cart_Payment__c',fields};
-            createRecord(objRecordInput).then(response => {
-                let cartPaymentId = response.id;
-                let fields = {};
-                fields[ID_FIELD.fieldApiName] = this.cartId;
-                fields[CART_PAYMENT_FIELD.fieldApiName] = cartPaymentId;
-                fields[PAYMENT_URL_FIELD.fieldApiName] = this.payURL;
-                fields[PAYMENT_METHOD.fieldApiName] = 'Pay Now';
-                let recordInput = {fields};
-                updateRecord(recordInput).then(()=>{
-                    window.location.href = this.payURL;
+    createFileUploadMap(questions){
+        let fileUpload = [];
+        fileUpload = questions.map(item =>{
+            if(item.IsFileUpload){
+                let record = {};
+                record.RelatedAnswerId = item.Id;
+                record.Base64 = item.FileData.base64;
+                record.FileName = item.FileData.filename;
+                return record;
+            }
+        });
+        
+        return fileUpload.filter(key => key !== undefined)?fileUpload.filter(key => key !== undefined):fileUpload;
+    }
+
+    payNowClick(){
+        this.processing = true;
+        this.paymentCartItems = JSON.parse(JSON.stringify(this.cartItems));
+        if(this.fromCartSummary){
+            let questionnaireResponseDataList = [];
+            let contactId = '';
+            this.paymentCartItems.map((row)=>{
+                let questionnaireResponseData = {};
+                if(row.relatedAnswers && row.relatedAnswers.length > 0){
+                    questionnaireResponseData['answerList'] = this.createAnswerRecord(row.relatedAnswers);
+                    questionnaireResponseData['relatedAnswerList'] = row.relatedAnswers;
+                
+                    if(this.createFileUploadMap(row.relatedAnswers).length > 0){
+                        questionnaireResponseData['fileUploadData'] = this.createFileUploadMap(row.relatedAnswers);
+                    }else{
+                        questionnaireResponseData['fileUploadData'] = [];
+                    }
+
+                    questionnaireResponseData['offeringId'] = row.courseOfferingId?row.courseOfferingId:row.programOfferingId;
+                    questionnaireResponseData['isPrescribed'] = row.courseOfferingId?false:true;
+                    
+                    contactId = row.contactId;
+                    questionnaireResponseDataList.push(questionnaireResponseData);
+                }
+                
+            });
+
+            if(questionnaireResponseDataList.length > 0){
+                saveCartSummaryQuestions({questionnaireData:JSON.stringify(questionnaireResponseDataList),contactId:contactId}).then(()=>{
                 })
-            })
-            .catch((error) => {
-                this.processing = false;
-                console.log("create cartpayment error");
-                console.log(error);
-            })
+                .catch((error) => {
+                    this.processing = false;
+                    console.log("createquestionnaireresponse error");
+                    console.log(error);
+                })
+            }
         }
-        else
-        {
-           this.generateToast("Error.", "Please answer the registration questions", "error");
-           window.location.reload();
-        }
+
+        let fields = {'Status__c' : 'Checkout','Discount_Applied__c' : this.discountApplied};
+        let objRecordInput = {'apiName':'Cart_Payment__c',fields};
+        createRecord(objRecordInput).then(response => {
+            let cartPaymentId = response.id;
+            let fields = {};
+            fields[ID_FIELD.fieldApiName] = this.cartId;
+            fields[CART_PAYMENT_FIELD.fieldApiName] = cartPaymentId;
+            fields[PAYMENT_URL_FIELD.fieldApiName] = this.payURL;
+            fields[PAYMENT_METHOD.fieldApiName] = 'Pay Now';
+            let recordInput = {fields};
+            updateRecord(recordInput).then(()=>{
+                window.location.href = this.payURL;
+            })
+        })
+        .catch((error) => {
+            this.processing = false;
+            console.log("create cartpayment error");
+            console.log(error);
+        })
     }
 
     invoiceClick(){
+        this.processing = true;
         //update the cart with the payment method selected
         this.paymentCartItems = JSON.parse(JSON.stringify(this.cartItems));
-        this.processing = true;
+        if(this.fromCartSummary){
+            let questionnaireResponseDataList = [];
+            let contact = '';
+            this.paymentCartItems.map((row)=>{
+                let questionnaireResponseData = {};
+                if(row.relatedAnswers && row.relatedAnswers.length > 0){
+                    questionnaireResponseData['answerList'] = this.createAnswerRecord(row.relatedAnswers);
+                    questionnaireResponseData['relatedAnswerList'] = row.relatedAnswers;
+                
+                    if(this.createFileUploadMap(row.relatedAnswers).length > 0){
+                        questionnaireResponseData['fileUploadData'] = this.createFileUploadMap(row.relatedAnswers);
+                    }else{
+                        questionnaireResponseData['fileUploadData'] = [];
+                    }
+
+                    questionnaireResponseData['offeringId'] = row.courseOfferingId?row.courseOfferingId:row.programOfferingId;
+                    questionnaireResponseData['isPrescribed'] = row.courseOfferingId?false:true;
+                    
+                    contact = row.contactId;
+                    questionnaireResponseDataList.push(questionnaireResponseData);
+                }
+                
+            });
+
+            if(questionnaireResponseDataList.length > 0){
+                saveCartSummaryQuestions({questionnaireData:JSON.stringify(questionnaireResponseDataList),contactId:contact}).then(()=>{
+                })
+                .catch((error) => {
+                    this.processing = false;
+                    console.log("createquestionnaireresponse error");
+                    console.log(error);
+                })
+            }
+        }
         
         let cartIds = []; 
-        let contactId;
 
         this.paymentCartItems.map(row => {
             cartIds.push(row.cartItemId);
-            contactId = row.contactId;
         });
 
         //create cart payment records
@@ -333,26 +426,4 @@ export default class Payment extends LightningElement {
             console.log(error);
         })
     }
-
-    generateErrorMessage(err) {
-        let _errorMsg = " (";
-    
-        _errorMsg +=
-          err.name && err.message
-            ? err.name + ": " + err.message
-            : err.body.message;
-        _errorMsg += ")";
-    
-        return _errorMsg;
-      }
-    
-      // Creates toast notification
-      generateToast(_title, _message, _variant) {
-        const evt = new ShowToastEvent({
-          title: _title,
-          message: _message,
-          variant: _variant
-        });
-        this.dispatchEvent(evt);
-      }
 }
