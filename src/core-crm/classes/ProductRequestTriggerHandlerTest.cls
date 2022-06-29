@@ -26,7 +26,7 @@ private class ProductRequestTriggerHandlerTest {
     private static final Id P_PROGRAM_ID = Schema.SObjectType.hed__Program_Plan__c.getRecordTypeInfosByDeveloperName().get(PR_PROGRAM).getRecordTypeId();
     private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
-    private static Date endDate = date.today();
+    private static final Date TODAY = date.today();
 
     @testSetup static void setupMethod() {
         List<Account> accounts;
@@ -59,6 +59,7 @@ private class ProductRequestTriggerHandlerTest {
         courses = TestDataFactory.createTestCourseRecords(50,accounts[0].Id,prodRequest[0].Id);
         for(hed__Course__c course: courses){
             course.RecordTypeId = C_ACTIVITY_ID;
+            course.End_Date__c = Date.today()+30;
         } 
         insert courses;
 
@@ -67,6 +68,7 @@ private class ProductRequestTriggerHandlerTest {
         for(hed__Program_Plan__c pro: programs){
             pro.Product_Request__c = prodRequest[0].Id;
             pro.RecordTypeId = P_PROGRAM_ID;
+            pro.hed__End_Date__c = Date.today()+30;
         } 
         insert programs;
 
@@ -114,10 +116,8 @@ private class ProductRequestTriggerHandlerTest {
         }
 
         List<Product2> prod = [SELECT Id , End_Date__c FROM Product2 LIMIT 50];
-
         List<hed__Course__c> cours = [SELECT Id, End_Date__c FROM hed__Course__c LIMIT 50];
-        // rhea to fix tomorrow
-        //system.assertEquals(endDate, cours[0].End_Date__c, 'Course end date must be updated to not proceeding date');
+        system.assertEquals(TODAY, cours[0].End_Date__c, 'Course end date must be updated to not proceeding date');
         Test.stopTest();
     }
 
@@ -135,13 +135,8 @@ private class ProductRequestTriggerHandlerTest {
         }
 
         List<Product2> prod = [SELECT Id , End_Date__c FROM Product2 LIMIT 50];
-
         List<hed__Program_Plan__c> prog = [SELECT Id, hed__End_Date__c FROM hed__Program_Plan__c LIMIT 50];
-
-        //system.assertEquals(endDate, prog[0].hed__End_Date__c, 'Program end date must be updated to not proceeding date');
+        system.assertEquals(TODAY, prog[0].hed__End_Date__c, 'Program end date must be updated to not proceeding date');
         Test.stopTest();
     }
-
-
-
 }
