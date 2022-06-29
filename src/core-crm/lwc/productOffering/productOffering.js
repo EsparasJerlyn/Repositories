@@ -11,6 +11,7 @@
       | angelika.j.s.galang       | February 8, 2022      | DEPP-1258    | Created file                                           | 
       | roy.nino.s.regala         | April 20, 2022        | DEPP-2318    | Added option to add new contact/facilitator            |
       | eccarius.munoz            | May 03, 2022          | DEPP-2314    | Added handling for Program Plan - Prescribed           |
+      | arsenio.jr.dayrit         | June 29, 2022         | DEPP-3239    | Added validation End Date toast message                | 
 */
 import { LightningElement, api, wire, track } from 'lwc';
 import { 
@@ -31,6 +32,7 @@ import RT_ProductRequest_Program from '@salesforce/label/c.RT_ProductRequest_Pro
 import PL_ProductRequest_Completed from '@salesforce/label/c.PL_ProductRequest_Completed';
 import PL_ProgramPlan_PrescribedProgram from '@salesforce/label/c.PL_ProgramPlan_PrescribedProgram';
 import LWC_Error_General from "@salesforce/label/c.LWC_Error_General";
+import LWC_Error_EndDate from "@salesforce/label/c.LWC_Error_EndDate";
 import COURSE from "@salesforce/schema/hed__Course__c";
 import COURSE_OFFERING from "@salesforce/schema/hed__Course_Offering__c";
 import CO_COURSE from "@salesforce/schema/hed__Course_Offering__c.hed__Course__c";
@@ -787,7 +789,10 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
         .catch(error => {
             if(error.body && error.body.output && error.body.output.errors[0] && error.body.output.errors[0] && error.body.output.errors[0].errorCode == 'DUPLICATES_DETECTED'){
                 this.generateToast('Error.',error.body.output.errors[0].message,'error');
-            }else{
+            }
+            else if (error.body && error.body.output && error.body.output.fieldErrors) {    
+                this.generateToast('Error.',LWC_Error_EndDate,'error');
+            } else {
                 this.generateToast('Error.',LWC_Error_General,'error');
             }
         })

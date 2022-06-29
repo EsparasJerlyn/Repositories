@@ -55,6 +55,14 @@
         <value>An error has been encountered. Please contact your administrator.</value>
     </labels>
     <labels>
+        <fullName>LWC_Error_EndDate</fullName>
+        <categories>LWC,Error</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>LWC_Error_EndDate</shortDescription>
+        <value>End Date should not be greater than Start Date.</value>
+    </labels>
+    <labels>
         <fullName>LWC_Error_MultiRecordTypes_CompleteStageOnParent</fullName>
         <categories>LWC,Error</categories>
         <language>en_US</language>
