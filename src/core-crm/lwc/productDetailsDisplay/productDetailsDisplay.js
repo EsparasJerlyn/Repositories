@@ -487,6 +487,10 @@ export default class ProductDetailsDisplay extends NavigationMixin(
       })
     );
     this.openAddToCartConfirmModal = true;
+    this.message1 = 'Product is added successfully to the cart.';
+    this.message2 = 'How would you like to proceed?';
+    this.isContinueBrowsing = true;
+    this.isContinueToPayment = true; 
   }
 
   // Disable Delivery when No Options retrieved

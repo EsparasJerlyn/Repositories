@@ -4,9 +4,14 @@
     font-weight: 700;
     font-size: 44px;
     color: #0066b9;
-    margin: 32px 0px;
+    margin: 32px 0px; 
   }
   
+  .slds-modal__container {
+    width: 60%;
+    max-width: 52.0625rem;
+    min-width: 20rem;
+  }
 
   .text {
     font-size: 18px;

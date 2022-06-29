@@ -217,8 +217,18 @@
     ></c-application-questionnaire>
   </template>
   <template if:true={openAddToCartConfirmModal}>
-    <c-add-to-cart-confirm-dialog onclose={addToCartModalClosed}>
-    </c-add-to-cart-confirm-dialog>
+    <c-custom-modal-confirm-message
+      is-modal-message={openAddToCartConfirmModal}
+      message1={message1}
+      message2={message2}
+      is-continue-to-payment={isContinueToPayment}
+      is-continue-browsing={isContinueBrowsing}
+      handle-continue-browsing={handleContinueBrowsing}
+      handle-continue-to-payment={handleContinueToPayment}
+      close-modal-message={addToCartModalClosed}
+    ></c-custom-modal-confirm-message> 
+    <!-- <c-add-to-cart-confirm-dialog onclose={addToCartModalClosed}>
+    </c-add-to-cart-confirm-dialog> -->
   </template>
   <template if:true={openGroupRegistration}>
     <c-group-booking-form
