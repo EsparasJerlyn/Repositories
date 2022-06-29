@@ -1,0 +1,38 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">
+<p><span style="font-size:14px;">Dear {firstName},<br />
+<br />
+Your QUT username has now been created. Your username and password will be required for any online learning with QUTeX and to register for any further professional development.<br />
+<br />
+You are required to retrieve your initial password by following these steps:</span><br />
+&nbsp;</p>
+
+<p style="margin-left: 40px;"><span style="font-size:14px;">1. Go to <a href="https://access.qut.edu.au/selfservice/password/recover" rel="noopener noreferrer" target="_blank"> https://access.qut.edu.au/selfservice/password/recover</a><br />
+<br />
+2. Enter your QUT username: {qutUsername}<br />
+<br />
+3. Click SMS or Email verification<br />
+<br />
+4. Follow the prompts to reset your password</span></p>
+
+<p><br />
+<span style="font-size:14px;">If you have any access issues including password lockout, please contact the IT Helpdesk on 07 3138 4000.<br />
+<br />
+If you have registered for an online course, access details will be emailed to you prior to the course commencement.<br />
+<br />
+To explore what else QUTeX has to offer, <a href="{storeLink}">click here</a><br />
+<br />
+Best wishes with your professional development and should you have any queries, please do not hesitate to contact QUTeX on the details below.<br />
+<br />
+Kind&nbsp;Regards,&nbsp;<br />
+<br />
+<strong>The QUTeX Team</strong><br />
+Phone: + 61 7 3138 7733 | Email:&nbsp;<a href="mailto:qutex@qut.edu.au">qutex@qut.edu.au</a> <br />
+QUTeX Professional and Executive Education for the Real World&nbsp;| <a href="https://qut.edu.au/qutex" rel="noopener noreferrer" target="_blank">www.qut.edu.au/qutex</a><br />
+<br />
+<a href="https://www.linkedin.com/showcase/14561011/admin/"><strong><u>Follow</u></strong></a> QUTeX on<strong> </strong>LinkedIn<strong> | </strong><a href="https://alumni-and-friends.qut.edu.au/qutex-connect-subscription"><strong><u>Subscribe</u></strong></a> to the QUTeX Connect Newsletter&nbsp;</span></p>
+
+</body></html>

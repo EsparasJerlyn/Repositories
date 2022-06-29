@@ -515,4 +515,37 @@ public with sharing class ContactTriggerHandlerTest {
             System.assert(!sr.isSuccess(), 'Alex\'s contact record was created.');
         }
     }
+
+    @isTest
+    private static void sendEmailOnContact() {
+        User currUsr = [
+            SELECT Id
+            FROM User
+            WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
+            LIMIT 1
+        ];
+        System.runAs(currUsr) {
+            Set<Id> contactIdSet = new Set<Id>();
+            List<Contact> contacts = new List<Contact>();
+            contacts.add(new Contact(
+                FirstName = 'Alexa',
+                LastName = 'Ortiga',
+                Email = 'al.ortiga@email.test',
+                QUT_Identity_ID__c = '12345',
+                QUT_Student_Username__c ='aortiga'
+            ));
+            insert contacts;
+            
+            List<Contact> cont = [SELECT Id, QUT_Student_Username__c FROM Contact WHERE QUT_Student_Username__c ='aortiga'];
+            for(Contact c : cont){
+                contactIdSet.add(c.Id);
+            }
+            
+            test.startTest();
+            String message = ContactUserNameCreatedHelper.sendEmailUsernameCreated(contactIdSet);
+            test.stopTest();
+            
+            System.assert(message !=null, 'Email is not Sent to the user');
+        }
+    }
 }

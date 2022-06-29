@@ -16,6 +16,9 @@
       |                                |                       |                        |                                 |
       | eccarius.munoz                 | June 28, 2022         | DEPP-3235              | Added handling of exact match   |
       |                                |                       |                        | of lead in after update.        |
+      | eugene.andrew.abuan            | June 29,2022          | DEPP-3339              | Added logic in After Update if  |
+      |                                |                       |                        | QUT_Username & QUT_Idenitiy_Id  |
+      |                                |                       |                        | is populated                    |
       |                                |                       |                        |                                 |
  */
 public without sharing class ContactTriggerHandler implements Disableable, BeforeInsert, BeforeUpdate, AfterInsert, AfterUpdate {
@@ -107,6 +110,10 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
         if((c.Email != oldContact.Email) || (c.Work_Email__c != oldContact.Work_Email__c)){
           hasChanges = true;
         }
+      }
+      //Send Email to user
+      if(String.IsNotBlank(c.QUT_Identity_ID__c) && String.IsNotBlank(c.QUT_Student_Username__c)){
+        ContactUserNameCreatedHelper.sendEmailUsernameCreated(newItems.keySet());
       }
     }
     List<Contact> contactOldList = (List<Contact>) oldItems.values();
