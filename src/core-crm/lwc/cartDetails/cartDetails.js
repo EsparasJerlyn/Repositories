@@ -13,7 +13,6 @@ import getOPEProductCateg from "@salesforce/apex/CartItemCtrl.getOPEProductCateg
 
 import getCartItemsByCart from "@salesforce/apex/CartItemCtrl.getCartItemsByCart";
 import getCartItemDiscount from "@salesforce/apex/CartItemCtrl.getCartItemDiscount";
-import updateCartDiscount from "@salesforce/apex/CartItemCtrl.updateCartDiscount";
 import getCartExternaId from "@salesforce/apex/CartItemCtrl.getCartExternaId";
 import checkCartOwnerShip from "@salesforce/apex/CartItemCtrl.checkCartOwnerShip";
 import getCommunityUrl from "@salesforce/apex/RegistrationFormCtrl.getCommunityUrl";
@@ -541,23 +540,6 @@ export default class CartDetails extends LightningElement {
 
     //reset the value
     this.questions = tempQuestions;
-  }
-
-  //pay button is clicked
-  paymentClicked() {
-
-    //update the cart with the discount applied
-    updateCartDiscount({ cartId: this.recordId, discountAmount: this.discountTotal })
-      .then(() => { })
-
-        //code
-
-      .catch((error) => {
-
-        console.log("updateCartDiscount error");
-        console.log(error);
-
-      });
   }
 
   confirmRegistration(){

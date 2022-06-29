@@ -63,7 +63,7 @@ public without sharing class PaymentConfirmationCtrl {
                 Id, 
                 Name, 
                 External_Id__c,
-                Discount_Applied__c,
+                Cart_Payment__r.Discount_Applied__c,
                 Payment_Method__c,
                 Cart_Payment__c
             FROM WebCart
@@ -152,10 +152,10 @@ public without sharing class PaymentConfirmationCtrl {
         myCartData.cartId = webCartData.Id;
         myCartData.cartItemsList = myCartItemsList;
         myCartData.subTotal = mySubtotal;
-        myCartData.discountTotal = webCartData.Discount_Applied__c;
+        myCartData.discountTotal = webCartData.Cart_Payment__r.Discount_Applied__c;
         myCartData.cartPayment = webCartData.Cart_Payment__c;
-        if(webCartData.Discount_Applied__c!= null){
-            myCartData.grandTotal = mySubtotal - webCartData.Discount_Applied__c;
+        if(webCartData.Cart_Payment__r.Discount_Applied__c!= null){
+            myCartData.grandTotal = mySubtotal - webCartData.Cart_Payment__r.Discount_Applied__c;
         }else{
             myCartData.grandTotal = mySubtotal;
         }

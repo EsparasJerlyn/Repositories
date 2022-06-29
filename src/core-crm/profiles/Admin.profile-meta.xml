@@ -996,6 +996,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Cart_Payment__c.Discount_Applied__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Cart_Payment__c.Email__c</field>
         <readable>true</readable>
     </fieldPermissions>

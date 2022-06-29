@@ -171,7 +171,6 @@ public with sharing class PaymentConfirmationCtrlTest {
       Status__c = 'Checkout',
       WebStoreId = testWebStore.Id,
       External_Id__c = '6894b2af-cb62-86f5-7d21-7b54e9df96e5',
-      Discount_Applied__c = 1,
       Payment_Method__c = 'Pay Now'
     );
     insert cart;

@@ -709,21 +709,6 @@ public without sharing class CartItemCtrl {
   }
 
   /**
-   * @description updates the cart discount applied field
-   * @param cartId - cart item ID
-   * @param discountAmount - cart status
-   */
-  @AuraEnabled
-  public static void updateCartDiscount(String cartId, Double discountAmount) {
-    //get the cart
-    WebCart webCart = [SELECT Id, Name, Discount_Applied__c FROM WebCart WHERE Id = :cartId LIMIT 1];
-
-    //update the cart based on the status received
-    webCart.Discount_Applied__c = discountAmount;
-    update webCart;
-  }
-
-  /**
    * @description updates the payment method selected by the user
    * @param cartId - WebCart.Id
    * @param paymentMethod - WebCart.Payment_Method__c

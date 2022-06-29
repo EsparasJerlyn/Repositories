@@ -841,13 +841,14 @@ public without sharing class ManageRegistrationSectionCtrl {
      * @return CartItem
      */
      private Static CartItem createCartItem(Id offeringId, Id newWebCartId, PricebookEntry pbe, Boolean prescribedProgram, Id prodId){
+          String prodName = [SELECT Id, Name FROM Product2 WHERE Id =: prodId LIMIT 1].Name;
           List<CartDeliveryGroup> cartDelGrpList = [SELECT Id FROM CartDeliveryGroup WHERE Name = 'Default Delivery' LIMIT 1];
           Id cartDelGrpId;
           for(CartDeliveryGroup cdg : cartDelGrpList) { cartDelGrpId = cdg.Id; }
 
           CartItem cartItem = new CartItem();
           cartItem.CartId = newWebCartId;
-          cartItem.Name = 'Cart Item';
+          cartItem.Name = prodName;
           cartItem.CartDeliveryGroupId = cartDelGrpId;
           if(!prescribedProgram){
                cartItem.Course_Offering__c = offeringId;

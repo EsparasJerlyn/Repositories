@@ -49,7 +49,8 @@ export default class Payment extends LightningElement {
     @api contactFname; 
     @api contactLname; 
     @api contactEmail;
-    @api total; 
+    @api total;
+    @api discountApplied;
     @api cartItems;
     @api fromCartSummary;
     @api numberOfParticipants;
@@ -186,7 +187,6 @@ export default class Payment extends LightningElement {
             
         });
 
-        this.dispatchEvent(new CustomEvent('paymentclicked'));
         return this.baseURL + this.formURL + opeDescription.slice(0, -1);
     }
 
@@ -228,7 +228,6 @@ export default class Payment extends LightningElement {
             
         });
 
-        this.dispatchEvent(new CustomEvent('paymentclicked'));
         return this.baseURL + this.formURL + opeDescription.slice(0, -1);        
     }
 
@@ -236,7 +235,7 @@ export default class Payment extends LightningElement {
         this.paymentCartItems = JSON.parse(JSON.stringify(this.cartItems));
         this.processing = true;
 
-        let fields = {'Status__c' : 'Checkout'};
+        let fields = {'Status__c' : 'Checkout', 'Discount_Applied__c' : this.discountApplied};
         let objRecordInput = {'apiName':'Cart_Payment__c',fields};
         createRecord(objRecordInput).then(response => {
             let cartPaymentId = response.id;
@@ -271,7 +270,7 @@ export default class Payment extends LightningElement {
         });
 
         //create cart payment records
-        let fields = {'Status__c' : 'Invoiced'};
+        let fields = {'Status__c' : 'Invoiced', 'Discount_Applied__c' : this.discountApplied};
         let objRecordInput = {'apiName':'Cart_Payment__c',fields};
         createRecord(objRecordInput).then(response => {
             //update webcart and link the created cart payment record
@@ -299,7 +298,7 @@ export default class Payment extends LightningElement {
                             composed: true
                         })
                     );
-    
+
                     //redirect to for you page and open the xetta page in new tab
                     window.open(this.invoiceURL, '_blank');
                     window.location.href = BasePath + "/category/products/" + this.prodCategId;
