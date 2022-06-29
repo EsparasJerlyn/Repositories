@@ -21,7 +21,7 @@ public with sharing class EmailTriggerOnlineSelfPacedBatch implements Database.B
 
         try{
             //Query all students
-            List<hed__Course_Enrollment__c>  courseEnrollmentList = [SELECT Id,
+            Map<Id, hed__Course_Enrollment__c>  courseEnrollmentMap = new Map<Id, hed__Course_Enrollment__c>([SELECT Id,
                                                                             hed__Contact__r.FirstName, 
                                                                             hed__Contact__r.LastName,
                                                                             hed__Contact__r.Email,
@@ -30,40 +30,71 @@ public with sharing class EmailTriggerOnlineSelfPacedBatch implements Database.B
                                                                             hed__Course_Offering__r.hed__Course__r.Name,
                                                                             Course_Offering_Start_Date__c,
                                                                             hed__Course_Offering__r.Delivery_Type__c,
-                                                                            RecordTypeId
+                                                                            RecordTypeId,
+                                                                            Program_Offering__r.hed_Program_Plan__c
                                                                     FROM hed__Course_Enrollment__c 
                                                                     WHERE Id != Null 
                                                                         AND RecordTypeId =:STUDENT_REC_TYPE
                                                                         AND Course_Offering_Start_Date__c >= TODAY 
-                                                                        AND hed__Course_Offering__r.Delivery_Type__c  = 'Online Self-paced'];
+                                                                        AND hed__Course_Offering__r.Delivery_Type__c = 'Online Self-paced']);
 
             Set<Id> courseIdSet= new Set<Id>();
-            for(hed__Course_Enrollment__c courseConnection : courseEnrollmentList){
-                // Add course Id to courseIdSet
+            Set<Id> progPlanIdSet = new Set<Id>();
+            for(Id courseConnectionId : courseEnrollmentMap.keySet()){
+                hed__Course_Enrollment__c courseConnection = courseEnrollmentMap.get(courseConnectionId);
+                // Get all Course IDs
                 if(String.isNotBlank(courseConnection.hed__Course_Offering__r.hed__Course__c)){
                     courseIdSet.add(courseConnection.hed__Course_Offering__r.hed__Course__c);
                 }
+                // Get all ProgramPlan IDs
+                if(String.isNotBlank(courseConnection.Program_Offering__r.hed_Program_Plan__c)){
+                    progPlanIdSet.add(courseConnection.Program_Offering__r.hed_Program_Plan__c);
+                }
             }
 
-            //Get Communication Schedule of the all Courses
+            //Get Communication Schedule of the all Courses and Program Plan
             Map<Id, Decimal> courseDaysBeforeMap = new Map<Id, Decimal>();
-            if(!courseIdSet.isEmpty()){
-                for(Communication_Schedule__c commSched : [SELECT Id,
-                                                                Course__c,
+            if(!courseIdSet.isEmpty() || !progPlanIdSet.isEmpty()){
+                for(Communication_Schedule__c commSched : [SELECT Id, Course__c,
+                                                                Program_Plan__c, 
                                                                 Days_before_Start_Date__c,
-                                                                Course__r.Id,
                                                                 Email_on_final_confirmation__c
                                                             FROM Communication_Schedule__c 
-                                                            WHERE Email_on_final_confirmation__c = TRUE AND Course__c IN :courseIdSet]){
-                    courseDaysBeforeMap.put(commSched.Course__r.Id, commSched.Days_before_Start_Date__c);
+                                                            WHERE Email_on_final_confirmation__c = TRUE
+                                                                AND (Course__c IN :courseIdSet OR Program_Plan__c IN :progPlanIdSet)]){
+                    if(commSched.Days_before_Start_Date__c != null){
+                        if(String.isNotBlank(commSched.Course__c)){
+                            courseDaysBeforeMap.put(commSched.Course__c, commSched.Days_before_Start_Date__c);
+                        }
+                        if(String.isNotBlank(commSched.Program_Plan__c)){
+                            courseDaysBeforeMap.put(commSched.Program_Plan__c, commSched.Days_before_Start_Date__c);
+                        }
+                    }
                 }
             }
 
             if (!courseDaysBeforeMap.isEmpty()){
-                for(hed__Course_Enrollment__c courseConnection : courseEnrollmentList){
+                for(Id courseConnectionId : courseEnrollmentMap.keySet()){
+                    hed__Course_Enrollment__c courseConnection = courseEnrollmentMap.get(courseConnectionId);
+                    Integer daysBeforeStartDate = 0;
+                    Boolean allowedEmailReminder = false;
+                    
+                    //Get DaysBeforeStartDate
                     if(courseDaysBeforeMap.containsKey(courseConnection.hed__Course_Offering__r.hed__Course__c)){
+                        allowedEmailReminder = true;
+                        daysBeforeStartDate = (Integer)courseDaysBeforeMap
+                                                            .get(courseConnection.hed__Course_Offering__r.hed__Course__c);
+                    } else {
+                        // Course is for a Program
+                        if(courseDaysBeforeMap.containsKey(courseConnection.Program_Offering__r.hed_Program_Plan__c)){
+                            allowedEmailReminder = true;
+                            daysBeforeStartDate = (Integer)courseDaysBeforeMap
+                                                            .get(courseConnection.Program_Offering__r.hed_Program_Plan__c);
+                        }
+                    }
+
+                    if(allowedEmailReminder){
                         // Email reminder allowed
-                        Integer daysBeforeStartDate = (Integer)courseDaysBeforeMap.get(courseConnection.hed__Course_Offering__r.hed__Course__c);
                         if((courseConnection.Course_Offering_Start_Date__c - daysBeforeStartDate) == Date.today()){
                             //Send email to this student
                             EmailWrapper wrapper = new EmailWrapper();
@@ -81,9 +112,9 @@ public with sharing class EmailTriggerOnlineSelfPacedBatch implements Database.B
         }catch(Exception e){     
             System.debug(e);
         }
-               
+
         return wrapperList;
-    } 
+    }
 
     public void execute(Database.BatchableContext bc, List<Object> records) {
 

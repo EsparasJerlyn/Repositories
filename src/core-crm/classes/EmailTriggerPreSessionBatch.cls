@@ -8,66 +8,95 @@ public with sharing class EmailTriggerPreSessionBatch implements Database.Batcha
 
         try{
             //Query all students
-            List<hed__Course_Enrollment__c>  courseEnrollmentList = [SELECT Id,
+            Map<Id, hed__Course_Enrollment__c>  courseEnrollmentMap = new Map<Id, hed__Course_Enrollment__c>([SELECT Id,
                                                                             hed__Contact__r.FirstName, 
                                                                             hed__Contact__r.LastName,
                                                                             hed__Contact__r.Email,
                                                                             hed__Course_Offering__c,
                                                                             hed__Course_Offering__r.hed__Course__r.Name,
-                                                                            hed__Course_Offering__r.hed__Course__c
+                                                                            hed__Course_Offering__r.hed__Course__c,
+                                                                            Program_Offering__r.hed_Program_Plan__c
                                                                     FROM hed__Course_Enrollment__c 
                                                                     WHERE RecordTypeId =:STUDENT_REC_TYPE  
                                                                         AND Id != Null
-                                                                        AND Course_Offering_Start_Date__c >= TODAY];
+                                                                        AND Course_Offering_Start_Date__c >= TODAY]);
 
             Set<Id> courseIdSet= new Set<Id>();
-            for(hed__Course_Enrollment__c courseConnection : courseEnrollmentList){
-                // Add course Id to courseIdSet
+            Set<Id> progPlanIdSet = new Set<Id>();
+            for(Id courseConnectionId : courseEnrollmentMap.keySet()){
+                hed__Course_Enrollment__c courseConnection = courseEnrollmentMap.get(courseConnectionId);
+                // Get all Course IDs
                 if(String.isNotBlank(courseConnection.hed__Course_Offering__r.hed__Course__c)){
                     courseIdSet.add(courseConnection.hed__Course_Offering__r.hed__Course__c);
                 }
+                // Get all ProgramPlan IDs
+                if(String.isNotBlank(courseConnection.Program_Offering__r.hed_Program_Plan__c)){
+                    progPlanIdSet.add(courseConnection.Program_Offering__r.hed_Program_Plan__c);
+                }
             }
 
-            if (!courseIdSet.isEmpty()){
-                // Query Courses which allows email notifications
-                Set<Id> coursesEmailAllowed = new Set<Id>();
-                for(Communication_Schedule__c commSched : [SELECT Id, Course__c 
+            //Get Communication Schedule of the all Courses and Program Plan
+            Map<Id, Boolean> courseAllowedEmailMap = new Map<Id, Boolean>();
+            if(!courseIdSet.isEmpty() || !progPlanIdSet.isEmpty()){
+                for(Communication_Schedule__c commSched : [SELECT Id, Course__c,
+                                                                Program_Plan__c,
+                                                                Send_email_before_session__c
                                                             FROM Communication_Schedule__c 
-                                                            WHERE Course__c IN :courseIdSet AND Send_email_before_session__c = TRUE]){
-                    coursesEmailAllowed.add(commSched.Course__c);
-                }
-
-                if (!coursesEmailAllowed.isEmpty()){
-                    //Get all sessions which will starts tomorrow
-                    Set<Id> offeringWithSessionTomorrow = new Set<Id>();
-                    for(Session__c session : [SELECT Id,
-                                                Date__c,
-                                                Course_Offering__c,
-                                                Course_Offering__r.hed__Course__c 
-                                                FROM Session__c 
-                                                WHERE Date__c =:Date.today()+1
-                                                    AND Course_Offering__r.hed__Course__c IN :courseIdSet]){
-                        offeringWithSessionTomorrow.add(session.Course_Offering__r.hed__Course__c);
+                                                            WHERE Send_email_before_session__c = TRUE
+                                                                AND (Course__c IN :courseIdSet OR Program_Plan__c IN :progPlanIdSet)]){
+                    if(String.isNotBlank(commSched.Course__c)){
+                        courseAllowedEmailMap.put(commSched.Course__c, commSched.Send_email_before_session__c);
                     }
-                    
-                    //Loop through all course connections and check if associated CourseOffering has sessions tomorrow
-                    //and email reminder is allowed
-                    for(hed__Course_Enrollment__c courseConnection : courseEnrollmentList){
-                        if(offeringWithSessionTomorrow.contains(courseConnection.hed__Course_Offering__r.hed__Course__c)
-                            && coursesEmailAllowed.contains(courseConnection.hed__Course_Offering__r.hed__Course__c )){
-                            //Send email to this student
-                            EmailWrapper wrapper;
-                            wrapper = new EmailWrapper();
-                            wrapper.recordId = courseConnection.Id;
-                            wrapper.name = courseConnection.hed__Course_Offering__r.hed__Course__r.Name;
-                            wrapper.firstName = courseConnection.hed__Contact__r.FirstName;
-                            wrapper.lastName = courseConnection.hed__Contact__r.LastName;
-                            wrapper.toAddress = courseConnection.hed__Contact__r.Email;
-                            wrapperList.add(wrapper);
-                        }
-                    } 
+                    if(String.isNotBlank(commSched.Program_Plan__c)){
+                        courseAllowedEmailMap.put(commSched.Program_Plan__c, commSched.Send_email_before_session__c);
+                    }
                 }
-           }      
+            }
+
+            if (!courseAllowedEmailMap.isEmpty()){
+                //Get all sessions which will starts tomorrow
+                Set<Id> offeringWithSessionTomorrow = new Set<Id>();
+                for(Session__c session : [SELECT Id,
+                                            Date__c,
+                                            Course_Offering__c,
+                                            Course_Offering__r.hed__Course__c 
+                                            FROM Session__c 
+                                            WHERE Date__c =:Date.today()+1
+                                                AND Course_Offering__r.hed__Course__c IN :courseIdSet]){
+                    offeringWithSessionTomorrow.add(session.Course_Offering__r.hed__Course__c);
+                }
+                
+                //Loop through all course connections and check if associated CourseOffering has sessions tomorrow
+                //and email reminder is allowed
+                for(Id courseConnectionId : courseEnrollmentMap.keySet()){
+                    hed__Course_Enrollment__c courseConnection = courseEnrollmentMap.get(courseConnectionId);
+                    Boolean allowedEmailReminder = false;
+
+                    //Do not send email if Course has no related Sessions
+                    if(offeringWithSessionTomorrow.contains(courseConnection.hed__Course_Offering__r.hed__Course__c)){
+                        if(courseAllowedEmailMap.containsKey(courseConnection.hed__Course_Offering__r.hed__Course__c)){
+                            allowedEmailReminder = true;
+                        } else {
+                            // Course is for a Program
+                            if(courseAllowedEmailMap.containsKey(courseConnection.Program_Offering__r.hed_Program_Plan__c)){
+                                allowedEmailReminder = true;
+                            }
+                        }
+                    }
+
+                    if(allowedEmailReminder){
+                        //Send email to this student
+                        EmailWrapper wrapper;
+                        wrapper = new EmailWrapper();
+                        wrapper.recordId = courseConnection.Id;
+                        wrapper.name = courseConnection.hed__Course_Offering__r.hed__Course__r.Name;
+                        wrapper.firstName = courseConnection.hed__Contact__r.FirstName;
+                        wrapper.lastName = courseConnection.hed__Contact__r.LastName;
+                        wrapper.toAddress = courseConnection.hed__Contact__r.Email;
+                        wrapperList.add(wrapper);
+                    }
+                }
+            }      
         }catch(Exception e){     
             System.debug(e);
         }
@@ -123,7 +152,7 @@ public with sharing class EmailTriggerPreSessionBatch implements Database.Batcha
                     String subject = STR_QUTEX + ' ' + name;
                     if (emailTemplate != null) {
                         Map<String, String> emailParams = new Map<String, String>{
-                                                                            '{firstname}' => firstName,
+                                                                            '{fullname}' => firstName + ' ' + lastName,
                                                                             '{name}' => name};
                 
                         //Build the email

@@ -20,50 +20,79 @@ public with sharing class EmailTriggerPostCourseBatch implements Database.Batcha
         List<EmailWrapper> wrapperList = new List<EmailWrapper>();
         try{
             // Get all records from Course Connection (API Name: hed__Course_Enrollment__c)
-            List<hed__Course_Enrollment__c>  courseEnrollmentList = 
-                                                    [SELECT Id, 
+            Map<Id, hed__Course_Enrollment__c>  courseEnrollmentMap = new Map<Id, hed__Course_Enrollment__c>([SELECT Id, 
                                                             Offering_End_Date__c,
                                                             hed__Course_Offering__r.hed__Course__c,
                                                             hed__Course_Offering__r.hed__Course__r.Name,
                                                             hed__Contact__r.FirstName,
                                                             hed__Contact__r.LastName,
-                                                            hed__Contact__r.Email
+                                                            hed__Contact__r.Email,
+                                                            Program_Offering__r.hed_Program_Plan__c
                                                     FROM hed__Course_Enrollment__c
                                                     WHERE Id != Null 
                                                         AND RecordTypeId =:STUDENT_REC_TYPE
-                                                        AND Offering_End_Date__c =:Date.today()-1];
+                                                        AND Offering_End_Date__c =:Date.today()-1]);
 
             Set<Id> courseIdSet= new Set<Id>();
-            for(hed__Course_Enrollment__c courseConnection : courseEnrollmentList){
-                // Add course Id to courseIdSet
+            Set<Id> progPlanIdSet = new Set<Id>();
+            for(Id courseConnectionId : courseEnrollmentMap.keySet()){
+                hed__Course_Enrollment__c courseConnection = courseEnrollmentMap.get(courseConnectionId);
+                // Get all Course IDs
                 if(String.isNotBlank(courseConnection.hed__Course_Offering__r.hed__Course__c)){
                     courseIdSet.add(courseConnection.hed__Course_Offering__r.hed__Course__c);
                 }
+                // Get all ProgramPlan IDs
+                if(String.isNotBlank(courseConnection.Program_Offering__r.hed_Program_Plan__c)){
+                    progPlanIdSet.add(courseConnection.Program_Offering__r.hed_Program_Plan__c);
+                }
             }
 
-            if (!courseIdSet.isEmpty()){
-                // Query Courses which allows email notifications
-                Set<Id> coursesEmailAllowed = new Set<Id>();
-                for(Communication_Schedule__c commSched : [SELECT Id, Course__c, Email_on_completion__c 
+            //Get Communication Schedule of the all Courses and Program Plan
+            Map<Id, Boolean> courseAllowedEmailMap = new Map<Id, Boolean>();
+            if(!courseIdSet.isEmpty() || !progPlanIdSet.isEmpty()){
+                for(Communication_Schedule__c commSched : [SELECT Id, Course__c,
+                                                                Program_Plan__c,
+                                                                Email_on_completion__c
                                                             FROM Communication_Schedule__c 
-                                                            WHERE Course__c IN :courseIdSet AND Email_on_completion__c = TRUE]){
-                    coursesEmailAllowed.add(commSched.Course__c);
+                                                            WHERE Email_on_completion__c = TRUE
+                                                                AND (Course__c IN :courseIdSet OR Program_Plan__c IN :progPlanIdSet)]){
+                    if(String.isNotBlank(commSched.Course__c)){
+                        courseAllowedEmailMap.put(commSched.Course__c, commSched.Email_on_completion__c);
+                    }
+                    if(String.isNotBlank(commSched.Program_Plan__c)){
+                        courseAllowedEmailMap.put(commSched.Program_Plan__c, commSched.Email_on_completion__c);
+                    }
                 }
+            }
 
-                if(!coursesEmailAllowed.isEmpty()){
-                    for(hed__Course_Enrollment__c courseConnection : courseEnrollmentList){
-                        if(coursesEmailAllowed.contains(courseConnection.hed__Course_Offering__r.hed__Course__c)){
-                            //Send email to this student
-                            EmailWrapper wrapper;
-                            wrapper = new EmailWrapper();
-                            wrapper.recordId = courseConnection.Id;
-                            wrapper.productOfferingName = courseConnection.hed__Course_Offering__r.hed__Course__r.Name;
-                            wrapper.firstName = courseConnection.hed__Contact__r.FirstName;
-                            wrapper.lastName = courseConnection.hed__Contact__r.LastName;
-                            wrapper.toAddress = courseConnection.hed__Contact__r.Email;
-                            wrapperList.add(wrapper);
+            if (!courseAllowedEmailMap.isEmpty()){
+                //Loop through all course connections and check if associated CourseOffering has sessions tomorrow
+                //and email reminder is allowed
+                for(Id courseConnectionId : courseEnrollmentMap.keySet()){
+                    hed__Course_Enrollment__c courseConnection = courseEnrollmentMap.get(courseConnectionId);
+                    Boolean allowedEmailReminder = false;
+
+                    //Do not send email if Course has no related Sessions
+                    if(courseAllowedEmailMap.containsKey(courseConnection.hed__Course_Offering__r.hed__Course__c)){
+                        allowedEmailReminder = true;
+                    } else {
+                        // Course is for a Program
+                        if(courseAllowedEmailMap.containsKey(courseConnection.Program_Offering__r.hed_Program_Plan__c)){
+                            allowedEmailReminder = true;
                         }
-                    } 
+                    }
+
+                    if(allowedEmailReminder){
+                        //Send email to this student
+                        EmailWrapper wrapper;
+                        wrapper = new EmailWrapper();
+                        wrapper.recordId = courseConnection.Id;
+                        wrapper.productOfferingName = courseConnection.hed__Course_Offering__r.hed__Course__r.Name;
+                        wrapper.firstName = courseConnection.hed__Contact__r.FirstName;
+                        wrapper.lastName = courseConnection.hed__Contact__r.LastName;
+                        wrapper.toAddress = courseConnection.hed__Contact__r.Email;
+                        wrapperList.add(wrapper);
+                    }
                 }
             }      
         }catch(Exception e){     
