@@ -169,6 +169,7 @@ div[c-groupbookingform_groupbookingform].slds-size_1-of-1.slds-medium-size_6-of-
     right: 0px !important;
   }
 
+  
 
 }
 
@@ -231,4 +232,8 @@ margin-bottom: 0.5rem;
 
 .cursor {
   cursor: pointer;
+}
+
+.mob-ui{
+  text-align: center !important;
 }

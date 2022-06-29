@@ -33,8 +33,8 @@
         </template>
         <!-- If has Pay Now  -->
         <template if:true={hasPayNow}>
-            <div class="slds-grid slds-wrap slds-medium-size_11-of-12 slds-large-size_10-of-12">  
-                <div if:false={processing} class="my1 slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 pr3">
+            <div class="slds-grid slds-wrap slds-medium-size_11-of-12 slds-large-size_10-of-12 slds-align_absolute-center">  
+                <div if:false={processing} class="my1 slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 pr3 slds-align_absolute-center">
                     <template if:true={hasPayNow}>
                         <template if:false={disableButton}>
                             <a class="btn-link" onclick={payNowClick}>
@@ -50,7 +50,7 @@
                         </template>
                     </template>
                 </div>
-                <div if:false={processing} class="my1 slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+                <div if:false={processing} class="my1 slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-align_absolute-center">
                     <template if:true={hasInvoice}>
                         <template if:false={disableButton}>
                             <a class="btn-link" onclick={invoiceClick}>

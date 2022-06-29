@@ -122,7 +122,7 @@ export default class CustomCombobox extends LightningElement {
   // getter setter for labelClass
   get labelClass() {
     return this.fieldLabel && this.fieldLabel != ""
-      ? "slds-form-element__label slds-show"
+      ? "slds-form-element__label slds-show combo-label"
       : "slds-form-element__label slds-hide";
   }
 

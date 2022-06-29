@@ -63,3 +63,11 @@ span:hover, span:visited {
         padding-right: 0;
     }
 }
+
+.heading2{
+    text-align: center !important;
+}
+
+.bodyBold{
+    text-align: center !important;
+}

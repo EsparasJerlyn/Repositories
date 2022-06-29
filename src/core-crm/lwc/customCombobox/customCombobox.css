@@ -27,3 +27,7 @@
     width:100% !important;
   }
 }
+.combo-label{
+  text-align: center !important;
+  padding-bottom: 10px;
+}
