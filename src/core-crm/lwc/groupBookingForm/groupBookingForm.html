@@ -217,7 +217,7 @@
                                                     <lightning-combobox class="inputField mobile-locale px" required="true" placeholder="Select Locale" label="Country Code" options={localeOptions} name="ContactMobile_Locale__c" key={item.id}></lightning-combobox>
                                                 </div>
                                                 <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">   
-                                                    <lightning-input class="inputField" required="true" name="MobilePhone" type="number" label="Mobile" key={item.id}></lightning-input>
+                                                    <lightning-input class="inputField" required="true" name="MobilePhone" pattern="([0-9][0-9]*)$" type="phone" label="Mobile" key={item.id}></lightning-input>
                                                 </div>
                                                 <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
                                                     <lightning-input class="inputField" type="email" required="true" name="Email" label="Email" key={item.id}></lightning-input >
