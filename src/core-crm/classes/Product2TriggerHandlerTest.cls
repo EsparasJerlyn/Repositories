@@ -199,7 +199,7 @@ public with sharing class Product2TriggerHandlerTest {
     System.runAs(currUsr) {
       List<Product2> prod2List = [
         SELECT Id, Decommission_Product__c, 
-        Publishing_End_Date__c, 
+        End_Date__c, 
         Decommission_Reason__c
         FROM Product2
         WHERE
@@ -207,7 +207,7 @@ public with sharing class Product2TriggerHandlerTest {
           AND QA_Review_Completed__c = 'Yes'
       ];
       for (Product2 prod2 : prod2List) {
-        prod2.Publishing_End_Date__c = Date.Today();
+        prod2.End_Date__c = Date.Today();
         prod2.Decommission_Product__c = true;
         prod2.Decommission_Reason__c = 'test';
       }
