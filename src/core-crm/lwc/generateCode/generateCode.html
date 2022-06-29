@@ -1,8 +1,23 @@
 <template>    
     <lightning-spinner if:true={isLoading} alternative-text="Loading" size="medium"></lightning-spinner> 
-    <lightning-layout horizontal-align="left" vertical-align="end">
+    <template if:true={displayDuplicateError}>
+        <lightning-layout horizontal-align="left" vertical-align="end" class="slds-text-color_error">        
+            <lightning-layout-item>
+                {dupErrorMessage} 
+            </lightning-layout-item>
+            <lightning-layout-item>
+                 <a href={getProdUrl}>
+                    {getProductRequestName}
+                 </a>
+            </lightning-layout-item>
+            <lightning-layout-item>
+                 - {getProgCourseName}]
+            </lightning-layout-item>
+        </lightning-layout>    
+    </template>
+    <lightning-layout horizontal-align="left" vertical-align="end">        
         <lightning-layout-item class="slds-size_1-of-3 slds-p-left_none slds-p-bottom_small slds-p-top_small">
-            <div>
+            <div>                
                 <lightning-button 
                     class="slds-text-title_bold"
                     variant="brand"
