@@ -247,14 +247,18 @@
                     id="facilitatorContent"
                   >
                     <div class="slds-media slds-grid slds-wrap faci-container">
-                      <div class="slds-media__figure slds-m-right_x-large image_container slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_5-of-12">
+                      <div
+                        class="slds-media__figure slds-m-right_x-large image_container slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_5-of-12"
+                      >
                         <img
                           alt=""
                           class="facilImage"
                           src={facilitator.facilitatorImage}
                         />
                       </div>
-                      <div class="slds-media__body slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+                      <div
+                        class="slds-media__body slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12"
+                      >
                         <lightning-button-icon
                           if:true={displayFacilitatorNav}
                           icon-name="utility:chevronright"
@@ -434,17 +438,18 @@
           >
             <lightning-button
               label="APPLY"
+              disabled={disableApply}
               onclick={notifyApply}
               variant="brand"
               class="addToCartBtn"
             ></lightning-button>
           </lightning-layout-item>
-   
+
           <!-- Register Interest -->
           <lightning-layout-item
-            if:true={displayRegisterInterest} 
+            if:true={displayRegisterInterest}
             flexibility="auto"
-            size="12" 
+            size="12"
           >
             <lightning-button
               label={label.registerInterest}
@@ -507,7 +512,7 @@
       onclose={applicationQuestionnaireClosed}
     ></c-application-questionnaire>
   </template>
-  <template if:true={openAddToCartConfirmModal}> 
+  <template if:true={openAddToCartConfirmModal}>
     <c-custom-modal-confirm-message
       is-modal-message={openAddToCartConfirmModal}
       message1={message1}

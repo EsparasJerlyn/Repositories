@@ -13,9 +13,9 @@
         flexibility="auto"
         size="12"
         medium-device-size="8"
-      >   
+      >
         <lightning-layout multiple-rows="true" class="leftColumn">
-          <lightning-layout-item flexibility="auto" size="12"> 
+          <lightning-layout-item flexibility="auto" size="12">
             <ul class="slds-accordion">
               <li if:true={showOverview} class="slds-accordion__list-item">
                 <c-product-section
@@ -153,6 +153,7 @@
           >
             <lightning-button
               label="APPLY"
+              disabled={disableApply}
               onclick={notifyApply}
               variant="brand"
               class="addToCartBtn"
@@ -226,7 +227,7 @@
       handle-continue-browsing={handleContinueBrowsing}
       handle-continue-to-payment={handleContinueToPayment}
       close-modal-message={addToCartModalClosed}
-    ></c-custom-modal-confirm-message> 
+    ></c-custom-modal-confirm-message>
     <!-- <c-add-to-cart-confirm-dialog onclose={addToCartModalClosed}>
     </c-add-to-cart-confirm-dialog> -->
   </template>

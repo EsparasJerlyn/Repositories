@@ -1,3 +1,15 @@
+/**
+ * @description A LWC component to display product details on CRM as Preview
+ *
+ * @see ../classes/ProductDetailsCtrl.cls
+ * @see productDetailsDisplayInternal
+ * @author Accenture
+ *
+ * @history
+ *    | Developer                 | Date                  | JIRA                 | Change Summary                               |
+      |---------------------------|-----------------------|----------------------|----------------------------------------------|
+      | john.bo.a.pineda          | June 29, 2022         | DEPP-3323            | Modified logic for button display for Apply  |
+*/
 import { LightningElement, wire, api, track } from "lwc";
 import overview from "@salesforce/label/c.QUT_ProductDetail_Overview";
 import duration from "@salesforce/label/c.QUT_ProductDetail_Duration";
@@ -79,7 +91,6 @@ export default class ProductDetailsDisplay extends LightningElement {
   questions;
 
   connectedCallback() {
-    console.log("this.product: " + JSON.stringify(this.product));
     this.productDetails = this.product.productDetails;
     this.priceBookEntries = this.product.priceBookEntryList;
     this.deliveryOptions = this.product.deliveryOptions;
@@ -110,39 +121,42 @@ export default class ProductDetailsDisplay extends LightningElement {
       });
     });
 
+    this.displayRegisterInterest = false;
+    this.displayGroupRegistration = false;
+    this.displayQuestionnaire = false;
+    this.displayAddToCart = true;
+
     if (this.productDetails.Course__c) {
       getQuestions({
         productReqId: this.productDetails.Course__r.ProductRequestID__c
       })
         .then((results) => {
+          this.priceBookEntriesCopy = pricingsLocal;
           if (results.length > 0) {
             this.responseData = results;
+            this.displayQuestionnaire = true;
+            this.displayAddToCart = false;
             this.questions = results;
             this.priceBookEntriesCopy = JSON.parse(
               JSON.stringify(pricingsLocal)
             ).filter((row) => row.label != "Group Booking");
-          } else {
-            this.priceBookEntriesCopy = pricingsLocal;
           }
         })
         .catch((e) => {
           this.generateToast(ERROR_TITLE, LWC_Error_General, ERROR_VARIANT);
+        })
+        .finally(() => {
+          // Display AddToCart / Register Interest
+          if (
+            this.deliveryOptions.length == 0 &&
+            this.productDetails.Register_Interest_Available__c == true
+          ) {
+            this.displayAddToCart = false;
+            this.displayQuestionnaire = false;
+            this.displayRegisterInterest = true;
+          }
         });
     }
-
-    // Display AddToCart / Register Interest
-    if (
-      this.deliveryOptions.length == 0 &&
-      this.productDetails.Register_Interest_Available__c == true
-    ) {
-      this.displayAddToCart = false;
-      this.displayRegisterInterest = true;
-    } else {
-      this.displayAddToCart = true;
-      this.displayRegisterInterest = false;
-      this.displayGroupRegistration = false;
-    }
-    this.priceBookEntriesCopy = pricingsLocal;
   }
 
   handleAccordionToggle(event) {
@@ -209,10 +223,14 @@ export default class ProductDetailsDisplay extends LightningElement {
         this.selectedPriceBookEntry = undefined;
         this.disableAvailStartDate = true;
         this.disablePriceBookEntry = true;
-        this.displayAddToCart = true;
         this.disableAddToCart = true;
         this.displayGroupRegistration = false;
+        this.displayAddToCart = true;
         this.displayQuestionnaire = false;
+        if (this.responseData.length > 0) {
+          this.displayAddToCart = false;
+          this.displayQuestionnaire = true;
+        }
 
         if (results.length > 0) {
           this.courseOfferings = results;
@@ -240,8 +258,6 @@ export default class ProductDetailsDisplay extends LightningElement {
       }
     });
     this.disablePriceBookEntry = false;
-    this.displayAddToCart = true;
-    this.disableAddToCart = true;
   }
 
   // Set Selected Price Book Entry value

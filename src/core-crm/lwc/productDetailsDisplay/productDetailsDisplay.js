@@ -31,6 +31,7 @@
       | john.bo.a.pineda          | June 27, 2022         | DEPP-3216            | Modified to add identifer if values from     |
       |                           |                       |                      | addToCart are from URL Defaults              |
       | keno.domienri.dico        | June 28, 2022         | DEPP-3302            | Change toast confirmation to modal message   |
+      | john.bo.a.pineda          | June 29, 2022         | DEPP-3323            | Modified logic for button display for Apply  |
 */
 
 import { LightningElement, wire, api, track } from "lwc";
@@ -101,6 +102,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   @track disableAvailStartDate = true;
   @track disablePriceBookEntry = true;
   @track disableAddToCart = true;
+  @track disableApply = true;
   @track displayAddToCart;
   @track displayRegisterInterest;
   @track facilitator;
@@ -304,6 +306,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
           this.disableAvailStartDate = true;
           this.disablePriceBookEntry = true;
           this.disableAddToCart = true;
+          this.disableApply = true;
           this.displayGroupRegistration = false;
 
           if (results.length > 0) {
@@ -320,10 +323,12 @@ export default class ProductDetailsDisplay extends NavigationMixin(
                 ).label;
               }
               this.disableAddToCart = false;
+              this.disableApply = false;
             } else {
               this.selectedDelivery = this.courseOfferings[0].defDeliv;
               this.selectedCourseOffering = this.courseOfferings[0].value;
               this.disableAddToCart = true;
+              this.disableApply = true;
             }
 
             // Get Start Date and Facilitator
@@ -352,15 +357,11 @@ export default class ProductDetailsDisplay extends NavigationMixin(
               this.displayAddToCart = true;
               if (this.responseData.length > 0) {
                 this.displayQuestionnaire = true;
+                this.disableApply = false;
                 this.displayAddToCart = false;
                 if (!this.selectedPriceBookEntry) {
-                  this.displayQuestionnaire = false;
-                  this.displayAddToCart = true;
-                  this.disableAddToCart = true;
+                  this.disableApply = true;
                 }
-              } else {
-                this.displayQuestionnaire = false;
-                this.displayAddToCart = true;
               }
             }
 
@@ -392,6 +393,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
       this.productDetails.Register_Interest_Available__c == true
     ) {
       this.displayAddToCart = false;
+      this.displayQuestionnaire = false;
       this.displayRegisterInterest = true;
     }
 
@@ -487,10 +489,10 @@ export default class ProductDetailsDisplay extends NavigationMixin(
       })
     );
     this.openAddToCartConfirmModal = true;
-    this.message1 = 'Product is added successfully to the cart.';
-    this.message2 = 'How would you like to proceed?';
+    this.message1 = "Product is added successfully to the cart.";
+    this.message2 = "How would you like to proceed?";
     this.isContinueBrowsing = true;
-    this.isContinueToPayment = true; 
+    this.isContinueToPayment = true;
   }
 
   // Disable Delivery when No Options retrieved
@@ -507,8 +509,9 @@ export default class ProductDetailsDisplay extends NavigationMixin(
       })
         .then(() => {
           this.isRegModalMessage = true;
-          this.message1 = 'Your interest has been successfully registered for this product.';
-          this.message2 = 'We will contact you once this product is available.';
+          this.message1 =
+            "Your interest has been successfully registered for this product.";
+          this.message2 = "We will contact you once this product is available.";
           this.isContinueBrowsing = true;
           this.isContinueToPayment = false;
           // this.generateToast(
@@ -520,11 +523,11 @@ export default class ProductDetailsDisplay extends NavigationMixin(
         .catch((error) => {
           if (error.body.message == "Register Interest Exists") {
             this.generateToast(
-              ERROR_TITLE,  
+              ERROR_TITLE,
               INTEREST_EXISTS_ERROR,
-              ERROR_VARIANT 
+              ERROR_VARIANT
             );
-          } else { 
+          } else {
             this.generateToast(ERROR_TITLE, LWC_Error_General, ERROR_VARIANT);
           }
         });
@@ -589,10 +592,15 @@ export default class ProductDetailsDisplay extends NavigationMixin(
         this.selectedPriceBookEntry = undefined;
         this.disableAvailStartDate = true;
         this.disablePriceBookEntry = true;
-        this.displayAddToCart = true;
         this.disableAddToCart = true;
+        this.disableApply = true;
         this.displayGroupRegistration = false;
+        this.displayAddToCart = true;
         this.displayQuestionnaire = false;
+        if (this.responseData.length > 0) {
+          this.displayAddToCart = false;
+          this.displayQuestionnaire = true;
+        }
 
         if (results.length > 0) {
           this.courseOfferings = results;
@@ -621,8 +629,6 @@ export default class ProductDetailsDisplay extends NavigationMixin(
       }
     });
     this.disablePriceBookEntry = false;
-    this.displayAddToCart = true;
-    this.disableAddToCart = true;
   }
 
   handlePreviousFacilitator() {
@@ -673,8 +679,10 @@ export default class ProductDetailsDisplay extends NavigationMixin(
       this.disableAddToCart = true;
       this.displayGroupRegistration = true;
       if (this.responseData.length > 0) {
+        this.disableApply = false;
         this.displayQuestionnaire = true;
       } else {
+        this.disableApply = true;
         this.displayQuestionnaire = false;
       }
     } else {
@@ -683,10 +691,12 @@ export default class ProductDetailsDisplay extends NavigationMixin(
       this.disableAddToCart = false;
       if (this.responseData.length > 0) {
         this.displayQuestionnaire = true;
+        this.disableApply = false;
         this.displayAddToCart = false;
         this.disableAddToCart = true;
       } else {
         this.displayQuestionnaire = false;
+        this.disableApply = true;
         this.displayAddToCart = true;
         this.disableAddToCart = false;
       }

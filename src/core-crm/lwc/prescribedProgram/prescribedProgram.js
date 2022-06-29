@@ -1,8 +1,20 @@
+/**
+ * @description A LWC component to display product details for Prescribed Program
+ *
+ * @see ../classes/ProductDetailsCtrl.cls
+ * @see PrescribedProgram
+ * @author Accenture
+ *
+ * @history
+ *    | Developer                 | Date                  | JIRA                 | Change Summary                               |
+      |---------------------------|-----------------------|----------------------|----------------------------------------------|
+      | john.bo.a.pineda          | June 29, 2022         | DEPP-3323            | Modified logic for button display for Apply  |
+*/
 import { LightningElement, api, track, wire } from "lwc";
 import { loadStyle } from "lightning/platformResourceLoader";
 import userId from "@salesforce/user/Id";
 import qutResourceImg from "@salesforce/resourceUrl/QUTImages";
-import customSR from "@salesforce/resourceUrl/QUTCustomLwcCss"; 
+import customSR from "@salesforce/resourceUrl/QUTCustomLwcCss";
 import delivery from "@salesforce/label/c.QUT_ProductDetail_Delivery";
 import deliveryPlaceholder from "@salesforce/label/c.QUT_ProductDetail_Delivery_Placeholder";
 import availableStartDates from "@salesforce/label/c.QUT_ProductDetail_AvailableStartDates";
@@ -14,7 +26,7 @@ import addToCart from "@salesforce/label/c.QUT_ProductDetail_AddToCart";
 import insertExpressionOfInterest from "@salesforce/apex/ProductDetailsCtrl.insertExpressionOfInterest";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import isGuest from "@salesforce/user/isGuest";
-import LWC_Error_General from "@salesforce/label/c.LWC_Error_General";   
+import LWC_Error_General from "@salesforce/label/c.LWC_Error_General";
 import { getRecord, getFieldValue } from "lightning/uiRecordApi";
 import CONTACT_ID from "@salesforce/schema/User.ContactId";
 import getQuestions from "@salesforce/apex/ProductDetailsCtrl.getQuestions";
@@ -52,7 +64,9 @@ export default class PrescribedProgram extends LightningElement {
   @track disableProgramOfferings = true;
   @track disablePricing = true;
   @track disableAddToCart = true;
+  @track disableApply = true;
   @track displayAddToCart = true;
+  @track displayQuestionnaire = false;
   @track openModal;
   @track displayGroupRegistration = false;
   @track openGroupRegistration;
@@ -146,12 +160,19 @@ export default class PrescribedProgram extends LightningElement {
     this.accordionIcon = qutResourceImg + "/QUTImages/Icon/accordionClose.svg";
     this.durationIcon = qutResourceImg + "/QUTImages/Icon/duration.svg";
 
+    this.displayRegisterInterest = false;
+    this.displayGroupRegistration = false;
+    this.displayQuestionnaire = false;
+    this.displayAddToCart = true;
+
     if (this.productDetails.Program_Plan__c) {
       getQuestions({
         productReqId: this.productDetails.Program_Plan__r.Product_Request__c
       })
         .then((results) => {
           if (results.length > 0) {
+            this.displayQuestionnaire = true;
+            this.displayAddToCart = false;
             this.responseData = results;
             this.questions = results;
             this.availablePricings = JSON.parse(
@@ -167,18 +188,20 @@ export default class PrescribedProgram extends LightningElement {
         })
         .catch((e) => {
           this.generateToast("Error.", LWC_Error_General, "error");
+        })
+        .finally(() => {
+          // Display AddToCart / Register Interest
+          this.displayRegisterInterest = false;
+          if (
+            this.availableDeliveryTypes.length == 0 &&
+            this.productDetails.Register_Interest_Available__c == true
+          ) {
+            this.disableDelivery = true;
+            this.displayAddToCart = false;
+            this.displayQuestionnaire = false;
+            this.displayRegisterInterest = true;
+          }
         });
-    }
-
-    // Display AddToCart / Register Interest
-    this.displayRegisterInterest = false;
-    if (
-      this.availableDeliveryTypes.length == 0 &&
-      this.productDetails.Register_Interest_Available__c == true
-    ) {
-      this.disableDelivery = true;
-      this.displayAddToCart = false;
-      this.displayRegisterInterest = true;
     }
 
     if (this.onLoadTriggerRegInterest) {
@@ -259,6 +282,7 @@ export default class PrescribedProgram extends LightningElement {
       this.selectedPricing = undefined;
       this.disablePricing = true;
       this.disableAddToCart = true;
+      this.disableApply = true;
 
       if (Object.keys(this.getParamObj).length > 0) {
         this.selectedProgramOffering = this.getParamObj.defCourseOff;
@@ -282,17 +306,14 @@ export default class PrescribedProgram extends LightningElement {
         } else {
           this.displayGroupRegistration = false;
           this.displayAddToCart = true;
+          this.displayQuestionnaire = false;
           if (this.hasQuestions) {
             this.displayQuestionnaire = true;
+            this.disableApply = false;
             this.displayAddToCart = false;
             if (!this.selectedPricing) {
-              this.displayQuestionnaire = false;
-              this.displayAddToCart = true;
-              this.disableAddToCart = true;
+              this.disableApply = true;
             }
-          } else {
-            this.displayQuestionnaire = false;
-            this.displayAddToCart = true;
           }
         }
 
@@ -344,26 +365,37 @@ export default class PrescribedProgram extends LightningElement {
     this.selectedProgramOffering = undefined;
     this.selectedPricing = undefined;
     this.disablePricing = true;
-    this.disableAddToCart = true;
-    this.displayAddToCart = true;
     this.displayGroupRegistration = false;
     this.displayQuestionnaire = false;
+    this.disableApply = true;
+    this.disableAddToCart = true;
+    this.displayAddToCart = true;
+    if (this.hasQuestions) {
+      this.displayQuestionnaire = true;
+      this.displayAddToCart = false;
+    }
   }
 
   handleProgramOfferingPreSelected(preselected) {
     this.selectedPricing = undefined;
     this.disablePricing = false;
     this.disableAddToCart = true;
+    this.disableApply = true;
   }
 
   handleProgramOfferingSelected(event) {
     this.selectedProgramOffering = event.detail.value;
     this.selectedPricing = undefined;
     this.disablePricing = false;
-    this.disableAddToCart = true;
     this.displayGroupRegistration = false;
-    this.displayAddToCart = true;
     this.displayQuestionnaire = false;
+    this.disableApply = true;
+    this.disableAddToCart = true;
+    this.displayAddToCart = true;
+    if (this.hasQuestions) {
+      this.displayQuestionnaire = true;
+      this.displayAddToCart = false;
+    }
   }
 
   handlePricingSelected(event) {
@@ -395,6 +427,7 @@ export default class PrescribedProgram extends LightningElement {
       this.displayGroupRegistration = false;
       this.disableAddToCart = true;
       this.displayQuestionnaire = true;
+      this.disableApply = false;
     }
   }
 
@@ -407,8 +440,9 @@ export default class PrescribedProgram extends LightningElement {
       })
         .then(() => {
           this.isRegModalMessage = true;
-          this.message1 = 'Your interest has been successfully registered for this product.';
-          this.message2 = 'We will contact you once this product is available.';
+          this.message1 =
+            "Your interest has been successfully registered for this product.";
+          this.message2 = "We will contact you once this product is available.";
           this.isContinueBrowsing = true;
           this.isContinueToPayment = false;
           // this.generateToast("Success!", "Interest Registered", "success");
@@ -458,10 +492,10 @@ export default class PrescribedProgram extends LightningElement {
       })
     );
     this.openAddToCartConfirmModal = true;
-    this.message1 = 'Product is added successfully to the cart.';
-    this.message2 = 'How would you like to proceed?';
+    this.message1 = "Product is added successfully to the cart.";
+    this.message2 = "How would you like to proceed?";
     this.isContinueBrowsing = true;
-    this.isContinueToPayment = true; 
+    this.isContinueToPayment = true;
   }
 
   handleModalClosed() {
