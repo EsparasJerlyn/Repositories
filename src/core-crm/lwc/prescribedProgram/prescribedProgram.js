@@ -407,7 +407,7 @@ export default class PrescribedProgram extends LightningElement {
       })
         .then(() => {
           this.isRegModalMessage = true;
-          this.message1 = 'Your interest has been successfully registered to this product.';
+          this.message1 = 'Your interest has been successfully registered for this product.';
           this.message2 = 'We will contact you once this product is available.';
           this.isContinueBrowsing = true;
           this.isContinueToPayment = false;
