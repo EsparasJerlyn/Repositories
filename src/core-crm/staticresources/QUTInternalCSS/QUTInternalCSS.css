@@ -1419,10 +1419,11 @@ span[c-customcombobox_customcombobox].slds-listbox__option-meta_entity {
     margin-top: -25px;
     margin-left: 2rem;
   }
-
+  
+  /*
   [interop-primitivefiledroppablezone_primitivefiledroppablezone-host] .slds-file-selector__button {
     width: 43.7vw !important;
-  } 
+  } */
 }
 
 /*beadcrumb*/
@@ -1491,6 +1492,20 @@ div.main-container-bc [role=navigation] ol.slds-breadcrumb li:nth-child(n+4) p.d
   margin-bottom: 0.5rem;
   color: var(--greys-color-bodytext);
   display: inline-block;
+
+}
+
+[c-applicationquestionnaire_applicationquestionnaire] .label-text label.slds-form-element__label,
+[c-applicationquestionnaire_applicationquestionnaire] .label-text span.slds-form-element__label{
+
+  width: 100%;
+  text-align: left;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  text-overflow: ellipsis;
+
 }
 
 [lightning-basecombobox_basecombobox] .slds-combobox__input, 
@@ -1515,7 +1530,7 @@ div.main-container-bc [role=navigation] ol.slds-breadcrumb li:nth-child(n+4) p.d
 [interop-primitivefiledroppablezone_primitivefiledroppablezone-host] .slds-file-selector__button {
   background: #F5F5F5 !important;
   height: 70px !important;
-  width: 19vw;
+  width: 100%;
   flex-flow: column;
   cursor: pointer;
   border: 1px solid #000000 dotted;
@@ -1537,29 +1552,90 @@ div.main-container-bc [role=navigation] ol.slds-breadcrumb li:nth-child(n+4) p.d
   padding: 12px;
 }
 
-@media screen and (max-width: 1440px) {
+
+[c-applicationquestionnaire_applicationquestionnaire] slot[interop-primitiveFileDroppableZone_primitiveFileDroppableZone]{
+  display: block !important;
+}
+
+
+[c-applicationquestionnaire_applicationquestionnaire]  .slds-file-selector{
+	display: flex !important;
+	flex-flow: column  !important;
+}
+
+[c-applicationquestionnaire_applicationquestionnaire] .posRelative{
+    position: relative;
+}
+
+[c-applicationquestionnaire_applicationquestionnaire].tooltip .slds-button:active,
+[c-applicationquestionnaire_applicationquestionnaire].tooltip .slds-button:focus{
+    border-color: transparent;
+    box-shadow: none;
+}
+
+[c-applicationquestionnaire_applicationquestionnaire].tooltip-checkbox .slds-button:active,
+[c-applicationquestionnaire_applicationquestionnaire].tooltip-checkbox .slds-button:focus{
+    border-color: transparent;
+    box-shadow: none;
+}
+
+
+[c-applicationquestionnaire_applicationquestionnaire].tooltip-checkbox .slds-form-element__icon{
+	position: absolute;
+    width: 75%;
+    display: block;
+    top: 0;
+    left: 15%;
+    height: 30px;
+}
+
+[c-applicationquestionnaire_applicationquestionnaire].tooltip .slds-form-element__icon{
+  position: absolute;
+  width: 85%;
+  display: block;
+  top: 0;
+  left: 0;
+  height: 30px;
+}
+
+
+[c-applicationquestionnaire_applicationquestionnaire].tooltip-checkbox .slds-form-element__icon button{
+  width:100%;
+}
+
+[c-applicationquestionnaire_applicationquestionnaire].tooltip-checkbox .slds-form-element__icon button svg{
+display: none;
+}
+
+[c-applicationquestionnaire_applicationquestionnaire].label-text label.slds-checkbox__label{
+  padding-left: 10px;
+}
+
+/* @media screen and (max-width: 1440px) {
   [interop-primitivefiledroppablezone_primitivefiledroppablezone-host] .slds-file-selector__button {
     width: 21.8vw;
 }
-}
-@media screen and (max-width: 1090px) {
+} */
+/* @media screen and (max-width: 1090px) {
   [interop-primitivefiledroppablezone_primitivefiledroppablezone-host] .slds-file-selector__button {
     width: 43vw !important;
 }
-}
+} */
 
 .heading {
   font-size: 30px;
   margin: 16px 0px;
 }
 
-@media screen and (max-width: 767px){
+/* @media screen and (max-width: 767px){
 [interop-primitivefiledroppablezone_primitivefiledroppablezone-host] .slds-file-selector__button {
   width: 44vw !important;
 }
-}
+} */
+
 @media screen and (max-width: 480px){
-  [c-applicationquestionnaire_applicationquestionnaire].modal-content {
+
+  /* [c-applicationquestionnaire_applicationquestionnaire].modal-content {
     width: 100% !important;
 }
 [interop-primitivefiledroppablezone_primitivefiledroppablezone-host] .slds-file-selector__button {
@@ -1572,7 +1648,8 @@ div.main-container-bc [role=navigation] ol.slds-breadcrumb li:nth-child(n+4) p.d
 }
 [interop-primitivefiledroppablezone_primitivefiledroppablezone-host] .slds-file-selector__button {
   width: 88vw !important;
-}
+} */
+
 }
 /*end of application question*/
 
@@ -1622,6 +1699,8 @@ ul.slds-accordion.searchResult .slds-form-element__label {
 /*cartdetails */
 [c-cartdetails_cartdetails] input.slds-input[disabled],[c-cartdetails_cartdetails] textarea.slds-textarea[disabled]{
   color: #000000 !important;
+  -webkit-text-fill-color: #000000;
+  opacity: 1; /* required on iOS */
 }
 
 .checkboxLayout [c-cartdetails_cartdetails] .slds-checkbox__label{
@@ -1659,3 +1738,4 @@ ul.slds-accordion.searchResult .slds-form-element__label {
 	}
 }
 /*end of foryou label*/
+
