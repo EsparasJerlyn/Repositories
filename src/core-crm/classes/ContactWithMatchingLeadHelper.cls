@@ -16,7 +16,10 @@
       |                           |                       |                      | Modified handling of marketing seg- |  
       |                           |                       |                      | mentation to always clone if        |  
       |                           |                       |                      | there's any record(s) found.        |  
-      |                           |                       |                      |                                     |  
+      |                           |                       |                      |                                     | 
+      | eccarius.munoz            | June 29, 2022         | DEPP-3250            | Modified handling of marketing seg- | 
+      |                           |                       |                      | mentation.                          |   
+      |                           |                       |                      |                                     | 
  */
 public without sharing class ContactWithMatchingLeadHelper {
 
@@ -49,12 +52,14 @@ public without sharing class ContactWithMatchingLeadHelper {
 
     public static void detectLeadDuplicates(Map<Id,Contact> newItems){
         Map<String, Contact> contactsMap = new Map<String, Contact>();
+        Set<Id> contactIdSet = new Set<Id>();
         for(Contact con : newItems.values()){
             String idStr = con.Email;
             if(!String.isBlank(con.Work_Email__c)){
                 idStr = con.Work_Email__c;
             }
             contactsMap.put(idStr, con); 
+            contactIdSet.add(con.Id);
         }
 
         List<Lead> leads = [SELECT Id, Email, Work_Email__c 
@@ -101,31 +106,12 @@ public without sharing class ContactWithMatchingLeadHelper {
             }
         }
 
+        List<Marketing_Segmentation__c> contactMarketingSegmentations = getLinkedMarketingSegFromContact(contactIdSet);   
+        List<Marketing_Segmentation__c> marketingSegmentations = getLinkedMarketingSegFromLead(leadIdSet);
+
+        Map<Id, Marketing_Segmentation__c> leadMarketingSegmentationsMap = new Map<Id, Marketing_Segmentation__c>();
         Map<Id, List<Marketing_Segmentation__c>> marketingSegmentationsMap = new Map<Id, List<Marketing_Segmentation__c>>();
-        List<Marketing_Segmentation__c> marketingSegmentations = [SELECT Id, Lead__c, Contact__c, Migration_Key__c,Prospects_Behaviour__c,Prospects_Rank__c,
-            Prospects_Score__c,Previous_Educational_Institution__c,Secondary_School_Name__c,
-            Alumnus_Educational_Institution__c,Course_Referrer__c,My_Profile_Persona__c,My_Citizenship_Status__c,
-            My_Indigenous_Status_ATSI__c,My_Country_Of_Citizenship__c,My_Country_Of_Residency__c,My_Expected_Admission_Year__c,
-            My_Year_12_Expected_Completion_Year__c,My_Studying_Australian_Curriculum__c,My_Funding_Source__c,
-            My_Moving_To_Brisbane__c,My_High_Achieving_Student__c,My_Elite_Athlete__c,My_Organisation__c,
-            My_Position__c,My_Industry__c,My_Primary_Study_Level__c,My_Primary_BSA__c,My_Primary_NSA__c,
-            My_Secondary_Study_Level__c,My_Secondary_BSA__c,My_Secondary_NSA__c,My_Double_Degree__c,
-            My_Interested_Pathway_Program_or_Diploma__c,My_Interested_English_Pathways__c,My_Interested_Financial_Assistance__c,
-            My_Interested_Entrepreneurship__c,My_Interested_Languages__c,My_Interested_ESport_Interest__c,My_Postcode__c,
-            My_State__c,My_Suburb__c,SE_Profile_Persona__c,SE_Citizenship_Status__c,SE_Indigenous_Status_ATSI__c,
-            SE_Country_Of_Citizenship__c,SE_Country_Of_Residency__c,SE_Expected_Admission_Year__c,SE_Education_Level__c, SE_Year_12_Expected_Completion_Year__c,
-            SE_Studying_Australian_Curriculum__c,SE_Funding_Source__c,SE_Moving_To_Brisbane__c,SE_High_Achieving_Student__c,
-            SE_Elite_Athlete__c,SE_Organisation__c,SE_Position__c,SE_Industry__c,SE_Primary_Study_Level__c,SE_Primary_BSA__c,
-            SE_Primary_NSA__c,SE_Secondary_Study_Level__c,SE_Secondary_BSA__c,SE_Secondary_NSA__c,SE_Double_Degree__c,
-            SE_Interested_Pathway_Program_or_Diploma__c,SE_Interested_English_Pathways__c,SE_Interested_Financial_Assistance__c,
-            SE_Interested_Entrepreneurship__c,SE_Interested_Languages__c,SE_Interested_ESport_Interest__c,SE_Interested_Course_Name__c,
-            SE_Postcode__c,SE_State__c,SE_Suburb__c,ORG_Profile_Persona__c,ORG_Indigenous_Status_ATSI__c,ORG_Country_Of_Residency__c,
-            ORG_Organisation__c,ORG_Position__c,ORG_Industry__c,ORG_Primary_Study_Level__c,ORG_Primary_BSA__c,ORG_Primary_NSA__c,
-            ORG_Secondary_Study_Level__c,ORG_Secondary_BSA__c,ORG_Secondary_NSA__c,ORG_Interested_Languages__c,ORG_Interested_Course_Name__c,
-            ORG_Postcode__c,ORG_State__c, ORG_Education_Level__c, ORG_Suburb__c, My_Education_Level__c,External_Key__c,QTAC_ID__c,
-            Mailing_Address_Country__c FROM Marketing_Segmentation__c WHERE Lead__c IN : leadIdSet
-        ];
-        for(Marketing_Segmentation__c ms : marketingSegmentations){
+        for(Marketing_Segmentation__c ms : marketingSegmentations){            
             if(marketingSegmentationsMap.containsKey(ms.Lead__c)){
                 marketingSegmentationsMap.get(ms.Lead__c).add(ms);
             }else{
@@ -133,12 +119,14 @@ public without sharing class ContactWithMatchingLeadHelper {
                 msList.add(ms);
                 marketingSegmentationsMap.put(ms.Lead__c, msList);
             }
+            leadMarketingSegmentationsMap.put(ms.Lead__c, ms);
         }
         
         List<Contact> contactsToUpdate = new List<Contact>();
         List<Marketing_Interaction__c> marketingInteractionsToUpdate = new List<Marketing_Interaction__c>();
         List<Marketing_Course_Application__c> marketingCourseAppsToUpdate = new List<Marketing_Course_Application__c>();
         List<Marketing_Segmentation__c> marketingSegmentationToInsert = new List<Marketing_Segmentation__c>();
+        List<Marketing_Segmentation__c> marketingSegmentationToUpdate = new List<Marketing_Segmentation__c>();
         
         LeadStatus convertStatus = [SELECT Id, MasterLabel FROM LeadStatus WHERE IsConverted=true LIMIT 1];
         for(Lead lead : leads){
@@ -169,7 +157,20 @@ public without sharing class ContactWithMatchingLeadHelper {
                     marketingCourseAppsToUpdate.add(marketingCourseApp);
                 }
             }
-            if(marketingSegmentationsMap.containsKey(lead.Id)){
+            
+            if(marketingSegmentationsMap.containsKey(lead.Id) && (contactMarketingSegmentations != null && !contactMarketingSegmentations.isEmpty())){
+                for(Marketing_Segmentation__c msFromContact : contactMarketingSegmentations){
+                    sObject obj = Schema.getGlobalDescribe().get('Marketing_Segmentation__c').newSObject();
+                    obj.put('Id', msFromContact.Id);                        
+                    for(String fieldName: MARKETING_SEGMENTATION_FIELDS){
+                        if(msFromContact.get(fieldName) == null){    
+                            obj.put(fieldName, leadMarketingSegmentationsMap.get(lead.Id).get(fieldName)  );
+                        }
+                    }
+                    Marketing_Segmentation__c marketingSegmentation = (Marketing_Segmentation__c) obj;
+                    marketingSegmentationToUpdate.add(marketingSegmentation);
+                }
+            }else if(marketingSegmentationsMap.containsKey(lead.Id) && (contactMarketingSegmentations == null && contactMarketingSegmentations.isEmpty())){
                 for(Marketing_Segmentation__c m : marketingSegmentationsMap.get(lead.Id)){
                     sObject obj = Schema.getGlobalDescribe().get('Marketing_Segmentation__c').newSObject();
                     obj.put('Contact__c', contactsMap.get(lead.Email)?.Id != null ? contactsMap.get(lead.Email).Id : contactsMap.get(lead.Work_Email__c).Id);
@@ -181,7 +182,7 @@ public without sharing class ContactWithMatchingLeadHelper {
                     Marketing_Segmentation__c marketingSegmentation = (Marketing_Segmentation__c) obj;
                     marketingSegmentationToInsert.add(marketingSegmentation);
                 }
-            }       
+            }
         }
         if(!contactsToUpdate.isEmpty()){
             Database.SaveResult[] sr = Database.update(contactsToUpdate, false);
@@ -195,6 +196,9 @@ public without sharing class ContactWithMatchingLeadHelper {
         if(!marketingSegmentationToInsert.isEmpty()){
             Database.SaveResult[] sr = Database.insert(marketingSegmentationToInsert, false);
         }   
+        if(!marketingSegmentationToUpdate.isEmpty()){
+            Database.SaveResult[] sr = Database.update(marketingSegmentationToUpdate, false);
+        }
     }
 
     @Future
@@ -281,5 +285,56 @@ public without sharing class ContactWithMatchingLeadHelper {
             }
             Database.LeadConvertResult[] leadConvertResult = Database.convertLead(leadsToConvert, false); 
         }
+    }
+
+    private static List<Marketing_Segmentation__c> getLinkedMarketingSegFromContact(Set<Id> contactIdSet){
+        return [SELECT Id, Lead__c, Contact__c, Migration_Key__c,Prospects_Behaviour__c,Prospects_Rank__c,
+                Prospects_Score__c,Previous_Educational_Institution__c,Secondary_School_Name__c,
+                Alumnus_Educational_Institution__c,Course_Referrer__c,My_Profile_Persona__c,My_Citizenship_Status__c,
+                My_Indigenous_Status_ATSI__c,My_Country_Of_Citizenship__c,My_Country_Of_Residency__c,My_Expected_Admission_Year__c,
+                My_Year_12_Expected_Completion_Year__c,My_Studying_Australian_Curriculum__c,My_Funding_Source__c,
+                My_Moving_To_Brisbane__c,My_High_Achieving_Student__c,My_Elite_Athlete__c,My_Organisation__c,
+                My_Position__c,My_Industry__c,My_Primary_Study_Level__c,My_Primary_BSA__c,My_Primary_NSA__c,
+                My_Secondary_Study_Level__c,My_Secondary_BSA__c,My_Secondary_NSA__c,My_Double_Degree__c,
+                My_Interested_Pathway_Program_or_Diploma__c,My_Interested_English_Pathways__c,My_Interested_Financial_Assistance__c,
+                My_Interested_Entrepreneurship__c,My_Interested_Languages__c,My_Interested_ESport_Interest__c,My_Postcode__c,
+                My_State__c,My_Suburb__c,SE_Profile_Persona__c,SE_Citizenship_Status__c,SE_Indigenous_Status_ATSI__c,
+                SE_Country_Of_Citizenship__c,SE_Country_Of_Residency__c,SE_Expected_Admission_Year__c,SE_Education_Level__c, SE_Year_12_Expected_Completion_Year__c,
+                SE_Studying_Australian_Curriculum__c,SE_Funding_Source__c,SE_Moving_To_Brisbane__c,SE_High_Achieving_Student__c,
+                SE_Elite_Athlete__c,SE_Organisation__c,SE_Position__c,SE_Industry__c,SE_Primary_Study_Level__c,SE_Primary_BSA__c,
+                SE_Primary_NSA__c,SE_Secondary_Study_Level__c,SE_Secondary_BSA__c,SE_Secondary_NSA__c,SE_Double_Degree__c,
+                SE_Interested_Pathway_Program_or_Diploma__c,SE_Interested_English_Pathways__c,SE_Interested_Financial_Assistance__c,
+                SE_Interested_Entrepreneurship__c,SE_Interested_Languages__c,SE_Interested_ESport_Interest__c,SE_Interested_Course_Name__c,
+                SE_Postcode__c,SE_State__c,SE_Suburb__c,ORG_Profile_Persona__c,ORG_Indigenous_Status_ATSI__c,ORG_Country_Of_Residency__c,
+                ORG_Organisation__c,ORG_Position__c,ORG_Industry__c,ORG_Primary_Study_Level__c,ORG_Primary_BSA__c,ORG_Primary_NSA__c,
+                ORG_Secondary_Study_Level__c,ORG_Secondary_BSA__c,ORG_Secondary_NSA__c,ORG_Interested_Languages__c,ORG_Interested_Course_Name__c,
+                ORG_Postcode__c,ORG_State__c, ORG_Education_Level__c, ORG_Suburb__c, My_Education_Level__c,External_Key__c,QTAC_ID__c,
+                Mailing_Address_Country__c FROM Marketing_Segmentation__c WHERE Contact__c IN : contactIdSet
+            ];
+    }
+
+    private static List<Marketing_Segmentation__c> getLinkedMarketingSegFromLead(Set<Id> leadIdSet){
+        return [SELECT Id, Lead__c, Contact__c, Migration_Key__c,Prospects_Behaviour__c,Prospects_Rank__c,
+            Prospects_Score__c,Previous_Educational_Institution__c,Secondary_School_Name__c,
+            Alumnus_Educational_Institution__c,Course_Referrer__c,My_Profile_Persona__c,My_Citizenship_Status__c,
+            My_Indigenous_Status_ATSI__c,My_Country_Of_Citizenship__c,My_Country_Of_Residency__c,My_Expected_Admission_Year__c,
+            My_Year_12_Expected_Completion_Year__c,My_Studying_Australian_Curriculum__c,My_Funding_Source__c,
+            My_Moving_To_Brisbane__c,My_High_Achieving_Student__c,My_Elite_Athlete__c,My_Organisation__c,
+            My_Position__c,My_Industry__c,My_Primary_Study_Level__c,My_Primary_BSA__c,My_Primary_NSA__c,
+            My_Secondary_Study_Level__c,My_Secondary_BSA__c,My_Secondary_NSA__c,My_Double_Degree__c,
+            My_Interested_Pathway_Program_or_Diploma__c,My_Interested_English_Pathways__c,My_Interested_Financial_Assistance__c,
+            My_Interested_Entrepreneurship__c,My_Interested_Languages__c,My_Interested_ESport_Interest__c,My_Postcode__c,
+            My_State__c,My_Suburb__c,SE_Profile_Persona__c,SE_Citizenship_Status__c,SE_Indigenous_Status_ATSI__c,
+            SE_Country_Of_Citizenship__c,SE_Country_Of_Residency__c,SE_Expected_Admission_Year__c,SE_Education_Level__c, SE_Year_12_Expected_Completion_Year__c,
+            SE_Studying_Australian_Curriculum__c,SE_Funding_Source__c,SE_Moving_To_Brisbane__c,SE_High_Achieving_Student__c,
+            SE_Elite_Athlete__c,SE_Organisation__c,SE_Position__c,SE_Industry__c,SE_Primary_Study_Level__c,SE_Primary_BSA__c,
+            SE_Primary_NSA__c,SE_Secondary_Study_Level__c,SE_Secondary_BSA__c,SE_Secondary_NSA__c,SE_Double_Degree__c,
+            SE_Interested_Pathway_Program_or_Diploma__c,SE_Interested_English_Pathways__c,SE_Interested_Financial_Assistance__c,
+            SE_Interested_Entrepreneurship__c,SE_Interested_Languages__c,SE_Interested_ESport_Interest__c,SE_Interested_Course_Name__c,
+            SE_Postcode__c,SE_State__c,SE_Suburb__c,ORG_Profile_Persona__c,ORG_Indigenous_Status_ATSI__c,ORG_Country_Of_Residency__c,
+            ORG_Organisation__c,ORG_Position__c,ORG_Industry__c,ORG_Primary_Study_Level__c,ORG_Primary_BSA__c,ORG_Primary_NSA__c,
+            ORG_Secondary_Study_Level__c,ORG_Secondary_BSA__c,ORG_Secondary_NSA__c,ORG_Interested_Languages__c,ORG_Interested_Course_Name__c,
+            ORG_Postcode__c,ORG_State__c, ORG_Education_Level__c, ORG_Suburb__c, My_Education_Level__c,External_Key__c,QTAC_ID__c,
+            Mailing_Address_Country__c FROM Marketing_Segmentation__c WHERE Lead__c IN : leadIdSet];
     }
 }
