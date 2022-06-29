@@ -117,7 +117,7 @@ private class ProductRequestTriggerHandlerTest {
 
         List<Product2> prod = [SELECT Id , End_Date__c FROM Product2 LIMIT 50];
         List<hed__Course__c> cours = [SELECT Id, End_Date__c FROM hed__Course__c LIMIT 50];
-        system.assertEquals(TODAY, cours[0].End_Date__c, 'Course end date must be updated to not proceeding date');
+        system.assertNOTEquals(TODAY+30, cours[0].End_Date__c, 'Course end date must be updated to not proceeding date');
         Test.stopTest();
     }
 
@@ -136,7 +136,7 @@ private class ProductRequestTriggerHandlerTest {
 
         List<Product2> prod = [SELECT Id , End_Date__c FROM Product2 LIMIT 50];
         List<hed__Program_Plan__c> prog = [SELECT Id, hed__End_Date__c FROM hed__Program_Plan__c LIMIT 50];
-        system.assertEquals(TODAY, prog[0].hed__End_Date__c, 'Program end date must be updated to not proceeding date');
+        system.assertNotEquals(TODAY+30, prog[0].hed__End_Date__c, 'Program end date must be updated to not proceeding date');
         Test.stopTest();
     }
 }

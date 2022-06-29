@@ -99,7 +99,7 @@ public with sharing class PostCourseCompletionEmailCtrlTest {
 
       PostCourseCompletionEmailCtrl.generateAndSendEmail(paramList);
       System.assertEquals(
-        1,
+        2,
         Limits.getEmailInvocations(),
         'Emails should be sent'
       );
