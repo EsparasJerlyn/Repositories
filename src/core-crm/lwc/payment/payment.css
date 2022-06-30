@@ -3,7 +3,7 @@
     margin-bottom: var(--space-4);
 }
 
-.button-container{ 
+.button-container{
     width: 70%;
 }
 
@@ -64,10 +64,10 @@ span:hover, span:visited {
     }
 }
 
-.heading2{
+.group-changes{
     text-align: center !important;
 }
 
-.bodyBold{
+.group-changes-body-bold{
     text-align: center !important;
 }
