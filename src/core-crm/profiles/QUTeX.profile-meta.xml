@@ -627,15 +627,7 @@
         <recordType>hed__Course__c.Unit</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>hed__Program_Plan__c-QUT Program Plan Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>hed__Program_Plan__c-QUT Program Plan Layout</layout>
-        <recordType>hed__Program_Plan__c.OPE_Program_Request</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>hed__Program_Plan__c-QUT Program Plan Layout</layout>
-        <recordType>hed__Program_Plan__c.Program</recordType>
+        <layout>hed__Program_Plan__c-Program Page Layout</layout>
     </layoutAssignments>
     <recordTypeVisibilities>
         <default>false</default>

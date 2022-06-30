@@ -468,6 +468,6 @@
         <layout>hed__Course_Offering__c-QUT Course Offering Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>hed__Program_Plan__c-QUT Program Plan Layout</layout>
+        <layout>hed__Program_Plan__c-Program Page Layout</layout>
     </layoutAssignments>
 </Profile>
