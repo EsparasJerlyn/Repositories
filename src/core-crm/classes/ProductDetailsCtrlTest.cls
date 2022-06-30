@@ -260,6 +260,7 @@ private class ProductDetailsCtrlTest {
     }
   }
 
+  /**
   @isTest
   static void testGetProductRelatedRecordsForPrescribedProgram() {
     User currUsr = [
@@ -326,6 +327,8 @@ private class ProductDetailsCtrlTest {
       );
     }
   }
+
+   */
 
   @isTest
   static void testGetCourseOfferingRelatedRecords() {
