@@ -10,7 +10,7 @@
   }, {
     "components" : [ {
       "componentAttributes" : {
-        "richTextValue" : "<p class=\"main-color-blue500 foryou-heading\">For You </p>"
+        "richTextValue" : "<p class=\"main-color-blue500 foryou-heading\">For you </p>"
       },
       "componentName" : "forceCommunity:htmlBlock",
       "id" : "04f17b47-62f5-46f8-b9c9-6ac13119dc5a",

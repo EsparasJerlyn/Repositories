@@ -8,6 +8,13 @@
         <value>0 0 * * * ?</value>
     </labels>
     <labels>
+        <fullName>Email_Trigger_Cron_Expression</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email_Trigger_Cron_Expression</shortDescription>
+        <value>0 0 7 * * ?</value>
+    </labels>
+    <labels>
         <fullName>DOC_Badge_Logo</fullName>
         <categories>Document</categories>
         <language>en_US</language>
@@ -46,6 +53,14 @@
         <protected>false</protected>
         <shortDescription>LWC_Error_General</shortDescription>
         <value>An error has been encountered. Please contact your administrator.</value>
+    </labels>
+    <labels>
+        <fullName>LWC_Error_EndDate</fullName>
+        <categories>LWC,Error</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>LWC_Error_EndDate</shortDescription>
+        <value>End Date should not be greater than Start Date.</value>
     </labels>
     <labels>
         <fullName>LWC_Error_MultiRecordTypes_CompleteStageOnParent</fullName>

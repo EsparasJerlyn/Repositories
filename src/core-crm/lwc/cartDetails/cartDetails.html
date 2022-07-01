@@ -1,8 +1,11 @@
 <template>
 
-    <!-- Your Details starts here -->
+<!-- Your Details starts here -->
+<div class="slds-is-relative slds-p-top_xx-large" >
+    <lightning-spinner if:true={isLoading} alternative-text="Loading" size="large" variant="brand"></lightning-spinner>
+</div>
+<div if:false={isLoading}>
     <div class="component">
-
         <div class="heading1 slds-m-bottom_medium main-color-blue500">Cart Summary</div>
         <!--<div class="bodyRegular slds-m-bottom_large"><i><span class="asterisk">*</span>indicates a required field</i></div>-->
 
@@ -26,16 +29,16 @@
                                 <div if:false={editModeFN}>
                                     <div class="slds-grid slds-grid_vertical-align-center">
                                         <lightning-input-field field-name="FirstName" variant="label-hidden" class="slds-p-right_small" value={contactFname} disabled></lightning-input-field>
-                                        <lightning-button-icon
+                                        <!-- <lightning-button-icon
                                             icon-name="utility:edit"
                                             alternative-text="Edit"
                                             title="Edit Field"
                                             variant="bare"
                                             size="medium"
                                             onclick={handleEditFirstName}
-                                        ></lightning-button-icon>
+                                        ></lightning-button-icon> -->
                                     </div>
-                                </div> 
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -51,16 +54,16 @@
                                 <div if:false={editModeLN}>
                                     <div class="slds-grid slds-grid_vertical-align-center">
                                         <lightning-input-field field-name="LastName" variant="label-hidden" class="slds-p-right_small" value={contactLname} disabled></lightning-input-field>
-                                        <lightning-button-icon
+                                        <!-- <lightning-button-icon
                                             icon-name="utility:edit"
                                             alternative-text="Edit"
                                             title="Edit Field"
                                             variant="bare"
                                             size="medium"
                                             onclick={handleEditLastName}
-                                        ></lightning-button-icon>
+                                        ></lightning-button-icon> -->
                                     </div>
-                                </div> 
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -76,16 +79,16 @@
                                 <div if:false={editModeEmail}>
                                     <div class="slds-grid slds-grid_vertical-align-center">
                                         <lightning-input-field field-name="Email" variant="label-hidden" class="slds-p-right_small" value={contactEmail} disabled></lightning-input-field>
-                                        <lightning-button-icon
+                                        <!-- <lightning-button-icon
                                             icon-name="utility:edit"
                                             alternative-text="Edit"
                                             title="Edit Field"
                                             variant="bare"
                                             size="medium"
                                             onclick={handleEditEmail}
-                                        ></lightning-button-icon>
+                                        ></lightning-button-icon> -->
                                     </div>
-                                </div> 
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -101,16 +104,16 @@
                                 <div if:false={editModeMob}>
                                     <div class="slds-grid slds-grid_vertical-align-center">
                                         <lightning-input-field field-name="MobilePhone" variant="label-hidden" class="slds-p-right_small" value={contactMobile} disabled></lightning-input-field>
-                                        <lightning-button-icon
+                                        <!-- <lightning-button-icon
                                             icon-name="utility:edit"
                                             alternative-text="Edit"
                                             title="Edit Field"
                                             variant="bare"
                                             size="medium"
                                             onclick={handleEditMobile}
-                                        ></lightning-button-icon>
+                                        ></lightning-button-icon> -->
                                     </div>
-                                </div> 
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -139,9 +142,9 @@
                                             onclick={handleEditDietary}
                                         ></lightning-button-icon>
                                     </div>
-                                </div> 
+                                </div>
                             </div>
-                        
+
                         </div>
                     </div>
                     <div class="slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12" >
@@ -165,7 +168,7 @@
                                             onclick={handleEditCompany}
                                         ></lightning-button-icon>
                                     </div>
-                                </div> 
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -190,7 +193,7 @@
                                             onclick={handleEditPosition}
                                         ></lightning-button-icon>
                                     </div>
-                                </div> 
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -199,11 +202,11 @@
                             <template if:true={showStaffId}>
                                 <div class="edit-textbox slds-form-element__control slds-input-has-icon slds-input-has-icon_right slds-p-right_medium" >
                                     <p class="bodyBold slds-m-around_none">Staff ID</p>
-    
+
                                     <div if:true={editModeStaff}>
                                         <lightning-input-field field-name="Nominated_Employee_ID__c" variant="label-hidden" onmouseout={enableReadMode} onchange={contactFieldChanged} value={contactEmpId}></lightning-input-field>
                                     </div>
-    
+
                                     <div if:false={editModeStaff}>
                                         <div class="slds-grid slds-grid_vertical-align-center">
                                             <lightning-input-field field-name="Nominated_Employee_ID__c" variant="label-hidden" class="slds-p-right_small" value={contactEmpId} disabled></lightning-input-field>
@@ -216,17 +219,17 @@
                                                 onclick={handleEditStaff}
                                             ></lightning-button-icon>
                                         </div>
-                                    </div> 
+                                    </div>
                                 </div>
                             </template>
                             <template if:true={showStudentId}>
                                 <div class="edit-textbox slds-form-element__control slds-input-has-icon slds-input-has-icon_right slds-p-right_medium" >
                                     <p class="bodyBold slds-m-around_none">Student ID</p>
-    
+
                                     <div if:true={editModeStudent}>
                                         <lightning-input-field field-name="Nominated_Student_ID__c" variant="label-hidden" onmouseout={enableReadMode} onchange={contactFieldChanged} value={contactStudentId}></lightning-input-field>
                                     </div>
-    
+
                                     <div if:false={editModeStudent}>
                                         <div class="slds-grid slds-grid_vertical-align-center">
                                             <lightning-input-field field-name="Nominated_Student_ID__c" variant="label-hidden" class="slds-p-right_small" value={contactStudentId} disabled></lightning-input-field>
@@ -239,7 +242,7 @@
                                                 onclick={handleEditStudent}
                                             ></lightning-button-icon>
                                         </div>
-                                    </div> 
+                                    </div>
                                 </div>
                             </template>
                         </div>
@@ -260,7 +263,7 @@
 
         <!-- loop on each cart item -->
         <template for:each={cartItems} for:item="currentItem" for:index="productIndex">
-            <div key={currentItem.cartItemId}> 
+            <div key={currentItem.cartItemId}>
                 <div class="slds-grid slds-wrap mar-bot-10">
                     <div class="slds-size_1-of-1 slds-medium-size_9-of-12 slds-large-size_9-of-12">
                         <div>
@@ -270,13 +273,13 @@
 
                     <div class="slds-size_1-of-1 slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12">
                         <p class="bodyBold slds-float_left mt2">
-                            {currentItem.pbName} 
+                            {currentItem.pbName}
                             <lightning-formatted-number
                                 class="pl1"
                                 value={currentItem.unitPrice}
                                 currency-code={currency}
                                 format-style="currency"
-                                minimum-fraction-digits="0" 
+                                minimum-fraction-digits="0"
                                 maximum-fraction-digits="0"
                             >
                             </lightning-formatted-number>
@@ -292,22 +295,22 @@
                                 <div>
                                     <p class="bodyBold pt2 pb1">Date</p>
                                     <p class="bodyRegular">{currentItem.startDate}</p>
-                                    
-        
-                                </div>         
+
+
+                                </div>
                             </div>
-        
+
                             <div class="slds-size_2-of-3 slds-medium-size_3-of-12 slds-large-size_3-of-12">
                                 <div>
                                     <p class="bodyBold pt2 pb1">Delivery</p>
                                     <p class="bodyRegular">{currentItem.deliveryType}</p>
-                                </div>   
+                                </div>
                             </div>
 
                             <template if:false={currentItem.seatsAvailable}>
                                 <p class="warning-label">There are no longer seats available for the selected date.</p>
                             </template>
-                        
+
                         </div>
                     </div>
 
@@ -328,14 +331,14 @@
                             <template if:true={currentItem.showInvalidDiscount}>
                                 <p class="warning-label slds-m-left_small">Invalid voucher.</p>
                             </template>
-                        </div> 
+                        </div>
                     </div> -->
 
 
                     <div class="slds-size_1-of-4">
-                        <div> 
+                        <div>
                             <lightning-button data-id={currentItem.cartItemId} variant="base" label="Remove Item" title="Remove item" onclick={removeCartItem} class="removedItem-button slds-m-top_small"></lightning-button>
-                        </div> 
+                        </div>
 
                         <template if:false={currentItem.seatsAvailable}>
                             <p class="warning-label slds-m-left_small">Please remove this item to proceed.</p>
@@ -343,44 +346,44 @@
 
                     </div>
                                                             <!-- loop on each questions - start -->
-                                
+
                                         <!-- <div class="slds-size_2-of-4">
                                             <div class="slds-grid slds-wrap"> -->
                                                 <!--  <p class="bodyBold pt2 pb1">Questions</p> -->
 
                                          <!-- Questions goes here -->
-                                    <div class="slds-size_4-of-4 slds-medium-size_2-of-4 slds-large-size_2-of-4 mt1">     
+                                    <div class="slds-size_4-of-4 slds-medium-size_2-of-4 slds-large-size_2-of-4 mt1">
                                          <lightning-layout multiple-rows size="12">
-                                            <template for:each={currentItem.relatedAnswers} for:item="question" for:index="index"> 
+                                            <template for:each={currentItem.relatedAnswers} for:item="question" for:index="index">
                                                 <lightning-layout-item size="12" padding="around-small" key={question.Id}>
-                                                 
+
                                                     <template if:true={question.IsText}>
-                                                        <lightning-textarea 
-                                                        name={question.Id} 
-                                                        label={question.Label} 
-                                                        data-question-id={question.Id} 
-                                                        required 
+                                                        <lightning-textarea
+                                                        name={question.Id}
+                                                        label={question.Label}
+                                                        data-question-id={question.Id}
+                                                        required
                                                         onchange={handleChange}
                                                         onblur={handleBlur}>
                                                         </lightning-textarea>
                                                     </template>
                                                     <template if:true={question.IsNumber}>
-                                                        <lightning-input 
-                                                        name={question.Id} 
+                                                        <lightning-input
+                                                        name={question.Id}
                                                         data-question-id={question.Id}
-                                                        type="number" 
-                                                        label={question.Label} 
-                                                        required 
+                                                        type="number"
+                                                        label={question.Label}
+                                                        required
                                                         onchange={handleChange}
                                                         onblur={handleBlur}>
                                                         </lightning-input>
                                                     </template>
                                                     <template if:true={question.IsDate}>
-                                                        <lightning-input 
-                                                        name={question.Id} 
-                                                        data-question-id={question.Id} 
-                                                        type="date" 
-                                                        label={question.Label} 
+                                                        <lightning-input
+                                                        name={question.Id}
+                                                        data-question-id={question.Id}
+                                                        type="date"
+                                                        label={question.Label}
                                                         required onchange={handleChange}
                                                         onblur={handleBlur}>
                                                     </lightning-input>
@@ -393,7 +396,7 @@
                                                             value={question.Response}
                                                             placeholder="Select Option"
                                                             options={question.Options}
-                                                            onchange={handleChange} 
+                                                            onchange={handleChange}
                                                             onblur={handleBlur}
                                                             required>
                                                         </lightning-combobox>
@@ -401,7 +404,7 @@
                                                     <template if:true={question.IsMultiPicklist}>
                                                         <abbr title="required" class="slds-required">*</abbr>
                                                         <span data-id={question.Id} class="slds-form-element__label" >{question.Label}</span>
-                                                        <lightning-dual-listbox 
+                                                        <lightning-dual-listbox
                                                             data-id={question.Id}
                                                             data-question-id={question.Id}
                                                             name={question.Id}
@@ -411,7 +414,6 @@
                                                             selected-label="Selected"
                                                             options={question.Options}
                                                             onchange={handleChange}
-                                                            onblur={handleBlur}
                                                             required>
                                                         </lightning-dual-listbox>
                                                     </template>
@@ -419,11 +421,10 @@
                                                         <div class="slds-form-element__control checkboxLayout">
                                                             <div class="slds-checkbox">
                                                               <lightning-input
-                                                              name={question.Id} 
+                                                              name={question.Id}
                                                               data-question-id={question.Id}
-                                                              type="checkbox" 
+                                                              type="checkbox"
                                                               onchange={handleChange}
-                                                              onblur={handleBlur}
                                                               variant="label-stacked"
                                                               >
                                                             </lightning-input>
@@ -434,26 +435,28 @@
                                                           </div>
                                                     </template>
                                                     <template if:true={question.IsFileUpload}>
-                                                        <lightning-input 
+                                                        <lightning-input
                                                         name ={question.Id}
                                                         data-question-id={question.Id}
-                                                        type="file" 
-                                                        accept=".xlsx, .xls, .csv, .png, .doc, .docx, .pdf"
-                                                        label={question.Label} 
-                                                        required 
+                                                        type="file"
+                                                        accept=".pdf, .png, .jpg, .jpeg"
+                                                        label={question.Label}
+                                                        required
                                                         onchange={handleChange}
                                                         onblur={handleBlur}>
                                                         </lightning-input>
-                                                        <template if:true={question.FileData}>
-                                                            <lightning-icon 
-                                                                icon-name="utility:success" 
-                                                                alternative-text="Success!" 
+                                                        <template if:true={question.FileUploadSuccess}>
+                                                            <lightning-icon
+                                                                icon-name="utility:success"
+                                                                alternative-text="Success!"
                                                                 variant="success"
-                                                                title="success variant xx-small" 
+                                                                title="success variant xx-small"
                                                                 size="xx-small">
                                                             </lightning-icon>
-                                                            <span class="slds-form-element__label">{question.FileData.filename}</span>
-                                                        </template>
+                                                            <span class="slds-form-element__label"
+                                                              >{question.FileData.filename}</span
+                                                            >
+                                                          </template>
                                                     </template>
                                                     <template if:true={question.ErrorMessage}>
                                                         <p class="slds-form-element__help slds-text-color_destructive">{question.ErrorMessage}</p>
@@ -461,13 +464,13 @@
                                                 </lightning-layout-item>
                                             </template>
                                         </lightning-layout>
-                                    </div>    
+                                    </div>
 
 
-                    
+
                                             <!-- </div>
                                         </div>   -->
-                                        <!-- loop on each questions - end -->     
+                                        <!-- loop on each questions - end -->
 
                 </div>
             </div>
@@ -476,69 +479,6 @@
     </div>
     <!-- Product summary ends here -->
 
-
-    <!-- Registration Questions starts here -->
-    <div class="component">
-       
-        <!-- loop on each questions -->
-        <template for:each={questions} for:item="currentQuestion" for:index="questionIndex">
-            <div key={currentQuestion.answerId}> 
-                
-                <div class="slds-grid slds-wrap slds-m-bottom_small">
-
-                    <div class="slds-size_2-of-4">
-
-                        <!-- for normal text input fields (text, number, date) -->
-                        <template if:true={currentQuestion.isText}>
-                            <p class="bodyBold">{currentQuestion.label}</p>
-						    <lightning-input data-id={currentQuestion.answerId} name={questionIndex} type={currentQuestion.inputType} variant="label-hidden" value={currentQuestion.stringResponse} required></lightning-input>
-                        </template>
-
-                        <!-- for checkbox -->
-                        <template if:true={currentQuestion.isCheckbox}>
-                            <lightning-input data-id={currentQuestion.answerId} name={questionIndex} type={currentQuestion.inputType} label={currentQuestion.label} checked={currentQuestion.booleanResponse} required></lightning-input>
-                        </template>
-                        
-                        <!-- for picklist -->
-                        <template if:true={currentQuestion.isPicklist}>
-                            <p class="bodyBold">{currentQuestion.label}</p>
-						    <lightning-combobox data-id={currentQuestion.answerId} name={questionIndex} variant="label-hidden" required value={currentQuestion.stringResponse} options={currentQuestion.picklistOptions}></lightning-combobox>
-                        </template>
-
-                        <!-- for picklist -->
-                        <template if:true={currentQuestion.isMultiPicklist}>
-                            <p class="bodyBold">{currentQuestion.label}</p>
-						    <lightning-dual-listbox data-id={currentQuestion.answerId} name={questionIndex} variant="label-hidden" source-label="Available" selected-label="Selected" required options={currentQuestion.picklistOptions} value={currentQuestion.multiPicklistResponse}></lightning-dual-listbox>
-                        </template>
-
-                        <!-- for file upload -->
-                        <template if:true={currentQuestion.isFileUpload}>
-                            <p class="bodyBold">{currentQuestion.label}</p>
-						    <!-- <lightning-input data-id={currentQuestion.answerId} name={currentQuestion.answerId} type="file" accept=".xlsx, .xls, .csv, .png, .doc, .docx, .pdf" variant="label-hidden" value={currentQuestion.stringResponse} required></lightning-input> -->
-                            <lightning-file-upload record-id={currentQuestion.answerId} data-id={currentQuestion.answerId} name={questionIndex} accept=".xlsx, .xls, .csv, .png, .doc, .docx, .pdf" variant="label-hidden" onuploadfinished={fileUploadFinished}></lightning-file-upload>
-                        
-
-                            <!-- <template if:true={currentQuestion.FileData}>
-                                <lightning-icon 
-                                    icon-name="utility:success" 
-                                    alternative-text="Success!" 
-                                    variant="success"
-                                    title="success variant xx-small" 
-                                    size="xx-small">
-                                </lightning-icon>
-                                <span class="slds-form-element__label">{currentQuestion.FileData.fileName}</span>
-                            </template> -->
-                        </template>
-
-                    </div>
-                </div>
-
-            </div>
-        </template>
-        <hr>
-    </div>
-    <!-- Registration Questions ends here -->
-
     <div class="slds-grid slds-wrap">
         <div class="slds-size_1-of-1 slds-grid slds-grid_align-end">
             <div class="slds-grid slds-wrap">
@@ -546,7 +486,7 @@
                     <div>
                         <p class="bodyBold py2">Discount code</p>
                         <lightning-input data-id="discountField" name={productIndex} type="text" variant="label-hidden" class="pr1"></lightning-input>
-                    </div>         
+                    </div>
 
                     <template if:true={showInvalidDiscount}>
                         <p class="warning-label slds-m-left_small">Invalid code.</p>
@@ -570,14 +510,14 @@
                         value={subTotal}
                         currency-code={currency}
                         format-style="currency"
-                        minimum-fraction-digits="0" 
+                        minimum-fraction-digits="0"
                         maximum-fraction-digits="0"
                     >
                     </lightning-formatted-number>
                 </span>
             </p>
         </div>
-        
+
         <div>
             <p class="bodyBold">
                 Discounts applied
@@ -587,7 +527,7 @@
                     value={discountTotal}
                     currency-code={currency}
                     format-style="currency"
-                    minimum-fraction-digits="0" 
+                    minimum-fraction-digits="0"
                     maximum-fraction-digits="0"
                     >
                  </lightning-formatted-number>
@@ -603,7 +543,7 @@
                         value={total}
                         currency-code={currency}
                         format-style="currency"
-                        minimum-fraction-digits="0" 
+                        minimum-fraction-digits="0"
                         maximum-fraction-digits="0"
                         >
                     </lightning-formatted-number>
@@ -629,14 +569,14 @@
                 <h2 class="heading2 main-color-blue500 pb2">Payment method</h2>
                 <h5 class="bodyBold pb2 fblack">How would you like to pay?</h5>
             </div>
-            <template if:false={disablePayment}>
+            <template if:false={disableButton}>
                 <div class="btn-container">
                     <a class="btn-link" target="_blank" onclick={confirmRegistration}>
                         <p class="btn-title bodyBold pb2"><strong>Confirmation Registration</strong></p>
                     </a>
                 </div>
             </template>
-            <template if:true={disablePayment}>
+            <template if:true={disableButton}>
                 <div class="btn-container">
                     <div class="btn-link-disabled">
                         <p class="btn-title bodyBold pb2"><strong>Confirmation Registration</strong></p>
@@ -657,8 +597,11 @@
         cart-items={cartItems}
         cart-id={recordId}
         total={total}
-        onpaynow={paymentNow}
+        discount-applied={discountTotal}
+        has-pay-now={hasPayNow}
+        has-invoice={hasInvoice}
         ></c-payment>
      </template>
+     </div>
     <!-- Payment method ends here -->
 </template>

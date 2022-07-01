@@ -27,7 +27,7 @@
                 <behavior>Edit</behavior>
                 <field>Loss_Stage__c</field>
             </layoutItems>
-             <layoutItems>
+            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Contact__c</field>
             </layoutItems>

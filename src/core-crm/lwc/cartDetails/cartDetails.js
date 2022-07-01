@@ -1,5 +1,20 @@
+/**
+ * @description Lightning Web Component for Cart Summary on Portal
+ *
+ * @see ../classes/CartItemCtrl.cls
+ *
+ * @author Accenture
+ *
+ * @history
+ *    | Developer                 | Date                  | JIRA                 | Change Summary               |
+      |---------------------------|-----------------------|----------------------|------------------------------|
+      | john.bo.a.pineda          | June 29, 2022         | DEPP-3323            | Modified to add logic to     |
+      |                           |                       |                      | validate Upload File Type    |
+      | roy.nino.s.regala         | June 29, 2022         | DEPP-3157            | fixed questionnare issues    |
+*/
+
 import { LightningElement, wire, api, track } from "lwc";
-import {getRecord, updateRecord} from "lightning/uiRecordApi";
+import {getRecord, updateRecord, createRecord} from "lightning/uiRecordApi";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import BasePath from "@salesforce/community/basePath";
 import userId from "@salesforce/user/Id";
@@ -13,15 +28,16 @@ import getOPEProductCateg from "@salesforce/apex/CartItemCtrl.getOPEProductCateg
 
 import getCartItemsByCart from "@salesforce/apex/CartItemCtrl.getCartItemsByCart";
 import getCartItemDiscount from "@salesforce/apex/CartItemCtrl.getCartItemDiscount";
-import updateCartDiscount from "@salesforce/apex/CartItemCtrl.updateCartDiscount";
 import getCartExternaId from "@salesforce/apex/CartItemCtrl.getCartExternaId";
 import checkCartOwnerShip from "@salesforce/apex/CartItemCtrl.checkCartOwnerShip";
 import getCommunityUrl from "@salesforce/apex/RegistrationFormCtrl.getCommunityUrl";
-
+import saveCartSummaryQuestions from "@salesforce/apex/CartItemCtrl.saveCartSummaryQuestions";
 import CART_ID_FIELD from "@salesforce/schema/WebCart.Id";
 import CART_STATUS_FIELD from "@salesforce/schema/WebCart.Status";
 import ANSWER_ID_FIELD from "@salesforce/schema/Answer__c.Id";
 import ANSWER_RESPONSE_FIELD from "@salesforce/schema/Answer__c.Response__c";
+
+import CART_PAYMENT_FIELD from '@salesforce/schema/WebCart.Cart_Payment__c';
 
 import { publish, MessageContext } from 'lightning/messageService';
 import payloadContainerLMS from '@salesforce/messageChannel/Breadcrumbs__c';
@@ -63,7 +79,7 @@ export default class CartDetails extends LightningElement {
   @track showStudentId;
 
   isFreeOnly;
-  cartItems = [];
+  @track cartItems = [];
   questions = [];
   activeTimeout;
   @track prodCategId;
@@ -76,11 +92,12 @@ export default class CartDetails extends LightningElement {
   editModeCompany = false;
   editModePosition = false;
   editModeStaff = false;
-  editModeStudent = false;   
+  editModeStudent = false;
   cartExternalId; // added for payment parameters
   checkData = false;
   fromCartSummary = true; // checks if from cart summary or group registration
   showInvalidDiscount = false;
+  isLoading = true;
 
   @track readOnly = {
     firstName: true,
@@ -93,30 +110,42 @@ export default class CartDetails extends LightningElement {
   courseConnParams = [];
   paymentConURL;
 
+  //paymentOptions
+  paymentOpt = [];
+  @track hasPayNow = false;
+  @track hasInvoice = false;
+
   @wire(MessageContext)
   messageContext;
 
+  // Set Accepted File Formats
+  get acceptedFormats() {
+      return ['.pdf', '.png', '.jpg', 'jpeg'];
+  }
+
+
   //set the cart status to checkout when opening this page
   connectedCallback() {
-    
+
     //create global variable
     window.isCartSumDisconnected = false;
-    checkCartOwnerShip({cartId:this.recordId,userId: userId})
-    .then((result) => {
-      if(!result){
-        window.location.href = BasePath + "/error";
-      }else{  
-        this.isLoading = false
-      }
-    });
 
     // Set Cart to Checkout
-    updateCartStatus({ cartId: this.recordId, cartStatus: "Checkout" })
-      .then(() => {})
+    updateCartStatus({ cartId: this.recordId, cartStatus: "Checkout"})
+      .then(() => {
+      })
       .catch((error) => {
-        console.log("cart update error");
         console.log(error);
       });
+
+    checkCartOwnerShip({cartId:this.recordId,userId: userId})
+      .then((result) => {
+        if(!result){
+          window.location.href = BasePath + "/error";
+        }else{
+          this.isLoading = false
+        }
+      })
 
     // Get Product Category Id
     getOPEProductCateg()
@@ -137,11 +166,11 @@ export default class CartDetails extends LightningElement {
 
   //set the status back to active when disconnecting
   disconnectedCallback() {
-    
+
     //create global variable
     window.isCartSumDisconnected = true;
 
-    //remove 
+    //remove
     window.onload = null;
     window.onmousemove = null;
     window.onmousedown = null;
@@ -241,7 +270,7 @@ export default class CartDetails extends LightningElement {
 
   //get cart items data
   getCartItemsData(){
-    
+
     //get the cart items data
     getCartItemsByCart({ cartId: this.recordId, userId: userId })
       .then((result) => {
@@ -252,11 +281,15 @@ export default class CartDetails extends LightningElement {
 
         //set the cart items data and questions
         this.cartItems = JSON.parse(JSON.stringify(result.cartItemsList));
-        this.questions = result.questionsList;
-
+        /*this.questions = result.questionsList;
+        console.log(this.questions);
+        console.log(JSON.parse(JSON.stringify(this.questions)));*/
         //get totals
         this.total = this.calculateSubTotal();
         this.isFreeOnly =  this.cartItems.length > 0 && this.total == 0;
+
+        //checks payment options after remove
+        this.paymentOptionButtons();
 
       })
       .catch((error) => {
@@ -265,9 +298,45 @@ export default class CartDetails extends LightningElement {
       });
   }
 
+  paymentOptionButtons(){
+    this.paymentOpt = this.cartItems.map(
+      row => {
+        if(this.paymentOpt!=null){
+          return row.paymentOptions;
+        } else {
+          return 'null';
+        }
+      }
+    );
+
+    this.hasPayNow = false;
+    this.hasInvoice = false;
+    if(this.isFreeOnly){
+      this.hasPayNow = false;
+      this.hasInvoice = false;
+    } else {
+      if(this.paymentOpt.includes('Pay Now')){
+        this.hasPayNow = true;
+        if(this.paymentOpt.includes('Invoice')){
+          this.hasInvoice = true;
+        }
+      }
+      if(this.paymentOpt.includes('Invoice')){
+        this.hasInvoice = true;
+        if(this.paymentOpt.includes('Pay Now')){
+          this.hasPayNow = true;
+        }
+      }
+      if(this.paymentOpt.includes('Pay Now;Invoice')){
+        this.hasPayNow = true;
+        this.hasInvoice = true;
+      }
+
+    }
+  }
 
   //function for removing the cart item
-  removeCartItem(event) {
+  removeCartItem(event){
     let cartItemId = event.target.dataset.id;
 
     //filter out the element with the current cart item id
@@ -300,15 +369,19 @@ export default class CartDetails extends LightningElement {
         composed: true
       }));
 
+      //checks payment options after remove
+      this.paymentOptionButtons();
+
       //redirect to products if no more cart items
       if(this.cartItems.length == 0){
         window.location.href = BasePath + "/category/products/" + this.prodCategId;
-      } 
+      }
     })
     .catch((error) => {
       console.log("delete error");
       console.log(error);
     });
+
   }
 
   //calculate the subtotal of cart items
@@ -384,135 +457,106 @@ export default class CartDetails extends LightningElement {
       });
   }
 
-  //function for updating the question fields
-  updateQuestionFields() {
-    //variable to compare if record needs to be updated
-    let newValue;
-    let oldValue;
+  createAnswerRecord(questions) {
+    let answerRecords = {};
+    answerRecords = questions.map((item) => {
+        let record = {};
+        record.Related_Answer__c = item.Id;
+        record.Response__c = item.Answer;
+        record.Sequence__c = item.Sequence;
+        record.Questionnaire__c = item.QuestionnaireId;
+        return record;
+    });
+    return answerRecords;
+}
 
-    //loop through the current cart items
-    for (let i = 0; i < this.questions.length; i++) {
-      //check for the field type and get the input type for different data type
-      if (this.questions[i].isText) {
-        //the old value of the answer field
-        oldValue = this.questions[i].stringResponse;
+createFileUploadMap(questions){
+    let fileUpload = [];
+    fileUpload = questions.map(item =>{
+        if(item.IsFileUpload){
+            let record = {};
+            record.RelatedAnswerId = item.Id;
+            record.Base64 = item.FileData.base64;
+            record.FileName = item.FileData.filename;
+            return record;
+        }
+    });
+    
+    return fileUpload.filter(key => key !== undefined)?fileUpload.filter(key => key !== undefined):fileUpload;
+}
 
-        //the current value of the answer field
-        newValue = this.template.querySelector(
-          "lightning-input[data-id='" + this.questions[i].answerId + "']"
-        ).value;
-      } else if (this.questions[i].isCheckbox) {
-        //the old value of the answer field
-        oldValue = this.questions[i].booleanResponse;
-
-        //the current value of the answer field
-        newValue = this.template.querySelector(
-          "lightning-input[data-id='" + this.questions[i].answerId + "']"
-        ).checked;
-      } else if (this.questions[i].isPicklist) {
-        //the old value of the answer field
-        oldValue = this.questions[i].stringResponse;
-
-        //the current value of the answer field
-        newValue = this.template.querySelector(
-          "lightning-combobox[data-id='" + this.questions[i].answerId + "']"
-        ).value;
-      } else if (this.questions[i].isMultiPicklist) {
-        //the old value of the answer field
-        oldValue = this.questions[i].stringResponse;
-
-        //the current value of the answer field
-        newValue = this.template
-          .querySelector(
-            "lightning-dual-listbox[data-id='" +
-              this.questions[i].answerId +
-              "']"
-          )
-          .value.toString()
-          .replace(/,/g, ";");
-      } else if (this.questions[i].isFileUpload) {
-        //the old value of the answer field
-        oldValue = this.questions[i].stringResponse;
-
-        //the new value of the answer field
-        newValue = this.questions[i].newStringResponse;
-      }
-
-      //if there are changes, update each record
-      if (oldValue != newValue) {
-        let fields = {};
-        let recordInput = {};
-
-        fields[ANSWER_ID_FIELD.fieldApiName] = this.questions[i].answerId;
-        fields[ANSWER_RESPONSE_FIELD.fieldApiName] = newValue.toString();
-        recordInput = { fields };
-
-        //update record
-        updateRecord(recordInput)
-          .then(() => {
-            //update success code here
-            console.log("update done");
-          })
-          .catch((error) => {
-            this.dispatchEvent(
-              new ShowToastEvent({
-                title: "Error answer updating record",
-                message: error.body.message,
-                variant: "error"
-              })
-            );
-          });
-      }
+  get disableButton(){
+    let disable = false;
+    if(this.cartItems){
+      this.cartItems.map((row)=>{
+        if( row.relatedAnswers && 
+            row.relatedAnswers.filter((item) => item.Answer == "") && 
+            row.relatedAnswers.filter((item) => item.Answer == "").length > 0){
+              disable = true;
+            }
+      })
     }
-  }
-
-  fileUploadFinished(event) {
-    //get the list of uploaded files
-    const uploadedFiles = event.detail.files;
-
-    //current index in the questions array
-    let currentIndex = event.target.name;
-
-    //tempory questions holder
-    let tempQuestions = JSON.parse(JSON.stringify(this.questions));
-
-    //update the value with the new document ID
-    tempQuestions[currentIndex].newStringResponse = uploadedFiles[0].documentId;
-
-    //reset the value
-    this.questions = tempQuestions;
-
-    console.log(this.questions);
-  }
-
-  //pay button is clicked
-  paymentNow() {
-
-    //update answer fields
-    this.updateQuestionFields();
-
-    //update the cart with the discount applied
-    updateCartDiscount({ cartId: this.recordId, discountAmount: this.discountTotal })
-      .then(() => { })
-
-        //code
-
-      .catch((error) => {
-
-        console.log("updateCartDiscount error");
-        console.log(error);
-
-      });
+    
+    return disable || this.disablePayment;
   }
 
   confirmRegistration(){
-    getCommunityUrl()
-    .then((result) => {
-      this.paymentConURL = result.comSite + '/s/payment-confirmation?' 
-                        + 'Status=A&InvoiceNo=[InvoiceNo]&ReceiptNo=[ReceiptNo]&TotalAmount=' 
-                        + this.total + '&Webcart.External_ID__c=' + this.cartExternalId;
-      window.location.href = this.paymentConURL;
-    });
+        this.disablePayment = true;
+      
+            let questionnaireResponseDataList = [];
+            let contact = '';
+            this.cartItems.map((row)=>{
+                let questionnaireResponseData = {};
+                if(row.relatedAnswers){
+                    questionnaireResponseData['answerList'] = this.createAnswerRecord(row.relatedAnswers);
+                    questionnaireResponseData['relatedAnswerList'] = row.relatedAnswers;
+                
+                    if(this.createFileUploadMap(row.relatedAnswers).length > 0){
+                        questionnaireResponseData['fileUploadData'] = this.createFileUploadMap(row.relatedAnswers);
+                    }else{
+                        questionnaireResponseData['fileUploadData'] = [];
+                    }
+                }
+                questionnaireResponseData['offeringId'] = row.courseOfferingId?row.courseOfferingId:row.programOfferingId;
+                questionnaireResponseData['isPrescribed'] = row.courseOfferingId?false:true;
+                
+                contact = row.contactId;
+                questionnaireResponseDataList.push(questionnaireResponseData);
+            });
+
+            if(questionnaireResponseDataList.length > 0){
+                saveCartSummaryQuestions({questionnaireData:JSON.stringify(questionnaireResponseDataList),contactId:contact}).then(()=>{
+                })
+                .catch((error) => {
+                    this.processing = false;
+                    console.log("createCourseConnections error");
+                    console.log(error);
+                })
+          }
+        let fields = {'Status__c' : 'Active'};
+        let objRecordInput = {'apiName':'Cart_Payment__c',fields};
+        createRecord(objRecordInput).then(response => {
+            let cartPaymentId = response.id;
+            let fields = {};
+            fields[CART_ID_FIELD.fieldApiName] = this.recordId;
+            fields[CART_PAYMENT_FIELD.fieldApiName] = cartPaymentId;
+            let recordInput = {fields};
+            updateRecord(recordInput).then(()=>{
+                getCommunityUrl()
+                .then((result) => {
+                  this.paymentConURL = result.comSite + '/s/payment-confirmation?'
+                                    + 'Status=A&InvoiceNo=[InvoiceNo]&ReceiptNo=[ReceiptNo]&TotalAmount='
+                                    + this.total + '&Webcart.External_ID__c=' + this.cartExternalId;
+                  window.location.href = this.paymentConURL;
+                });
+            })
+        })
+        .catch((error) => {
+            this.processing = false;
+            console.log("confirmRegistration error");
+            console.log(error);
+        })
+
   }
 
   //retrieve the discount code
@@ -556,7 +600,7 @@ export default class CartDetails extends LightningElement {
 
           //show invalid coupon message
           this.showInvalidDiscount = true;
-          
+
         } else {
 
           //loop through the current cart items to set the unitDiscounts
@@ -571,7 +615,7 @@ export default class CartDetails extends LightningElement {
               }
             }
           }
-          
+
           //hide invalid coupon message
           this.showInvalidDiscount = false;
         }
@@ -585,21 +629,6 @@ export default class CartDetails extends LightningElement {
         console.log("error");
         console.log(error);
       });
-  }
-
-  //test button
-  testFunction(event) {
-    // console.log(this.cartItems);
-    // console.log("here");
-    // // console.log(this.template.querySelector("lightning-file-upload[data-id='a1C9h000000DUacEAG']").value);
-    // console.log(this.questions);
-    // //the old value of the answer field
-    // console.log(this.questions[4].stringResponse);
-    // //the current value of the answer field
-    // console.log(this.template.querySelector("lightning-file-upload[data-id='a1C9h000000DUacEAG']").files.documentId.toString());
-    // //get the discount code entered by the user and index from the array
-    // let couponCode = this.template.querySelector("lightning-input[data-id='" + event.target.dataset.id + "']").value;
-    // let currentIndex = this.template.querySelector("lightning-input[data-id='" + event.target.dataset.id + "']").name;
   }
 
   //enables edit mode
@@ -713,7 +742,7 @@ export default class CartDetails extends LightningElement {
       productName: 'Cart Summary',
       clearOtherMenuItems: true
     }
-    
+
     const payLoad = {
       parameterJson: JSON.stringify(paramObj)
     };
@@ -728,25 +757,39 @@ export default class CartDetails extends LightningElement {
         this.cartItems.forEach(e=>{
           if (e.relatedAnswers && Array.isArray(e.relatedAnswers) ){
             e.relatedAnswers.forEach(j=>{
-
-
-
               if(tempObj.Id === j.Id && j.IsCheckbox){ //checkbox
                 j.Answer = event.detail.checked.toString();
               }
               else if(tempObj.Id === j.Id && j.IsFileUpload){  //fileupload
                 j.Answer = event.detail.value.toString();
+                
                 const file = event.target.files[0];
-                let reader = new FileReader();
-                reader.onload = () => {
-                    let base64 = reader.result.split(',')[1];
-                    j.FileData = {
-                        'filename': file.name,
-                        'base64': base64,
-                        'recordId': undefined
-                    };
+                let fileNameParts = file.name.split('.');
+                let extension = '.' + fileNameParts[fileNameParts.length - 1].toLowerCase();
+                if (this.acceptedFormats.includes(extension)) {
+                  let reader = new FileReader();
+                  reader.onload = () => {
+                      let base64 = reader.result.split(',')[1];
+                      j.FileUploadSuccess = true;
+                      j.FileData = {
+                          'filename': file.name,
+                          'base64': base64,
+                          'recordId': undefined
+                      };
+                  }
+                  reader.readAsDataURL(file);
+                } else {
+                  j.Answer = '';
+                  j.FileData = undefined;
+                  this.dispatchEvent(
+                    new ShowToastEvent({
+                      title: "Error",
+                      message: 'Invalid File Format',
+                      variant: "error"
+                    })
+                  );
                 }
-                reader.readAsDataURL(file);
+
               }
               else if(event.target.name === j.Id && j.IsMultiPicklist){
                      j.Answer = event.detail.value?event.detail.value.toString().replace(/,/g, ';'):j.Answer;
@@ -757,8 +800,9 @@ export default class CartDetails extends LightningElement {
             });
           }
       })
+
     } catch (error) {
-        console.error(error);  
-    } 
+        console.error(error);
+    }
   }
 }

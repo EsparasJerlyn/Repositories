@@ -26,6 +26,12 @@
       | julie.jane.alegre         | June 11,2022          | DEPP-2985            | Fix bug for Apply button visibility          |
       | john.bo.a.pineda          | June 16, 2022         | DEPP-3114            | Modified to set values after registration    |
       | john.bo.a.pineda          | June 20, 2022         | DEPP-3185            | Modified logic for addToCard onload          |
+      | john.bo.a.pineda          | June 22, 2022         | DEPP-3211            | Modified logic to use correct logic to get   |
+      |                           |                       |                      | Earliest Upcoming Offering                   |
+      | john.bo.a.pineda          | June 27, 2022         | DEPP-3216            | Modified to add identifer if values from     |
+      |                           |                       |                      | addToCart are from URL Defaults              |
+      | keno.domienri.dico        | June 28, 2022         | DEPP-3302            | Change toast confirmation to modal message   |
+      | john.bo.a.pineda          | June 29, 2022         | DEPP-3323            | Modified logic for button display for Apply  |
 */
 
 import { LightningElement, wire, api, track } from "lwc";
@@ -96,6 +102,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   @track disableAvailStartDate = true;
   @track disablePriceBookEntry = true;
   @track disableAddToCart = true;
+  @track disableApply = true;
   @track displayAddToCart;
   @track displayRegisterInterest;
   @track facilitator;
@@ -115,6 +122,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   setParamObj = {};
   onLoadTriggerBtn;
   onLoadTriggerRegInterest = false;
+  urlDefaultAddToCart = false;
 
   // Set Custom Labels
   label = {
@@ -189,6 +197,13 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   //preselected startdate and facilitators
   preselectedStartdate;
 
+  //parameters for modal message
+  @api isRegModalMessage;
+  @track message1;
+  @track message2;
+  @track isContinueToPayment;
+  @track isContinueBrowsing;
+
   // A bit of coordination logic so that we can resolve product URLs after the component is connected to the DOM,
   // which the NavigationMixin implicitly requires to function properly.
   _resolveConnected;
@@ -203,6 +218,8 @@ export default class ProductDetailsDisplay extends NavigationMixin(
       this.getParamObj = JSON.parse(atob(pageRef.state.param));
       if (this.getParamObj.triggerBtn == "regInt") {
         this.onLoadTriggerRegInterest = true;
+      } else if (this.getParamObj.triggerBtn == "addCart") {
+        this.urlDefaultAddToCart = true;
       }
     }
   }
@@ -268,9 +285,9 @@ export default class ProductDetailsDisplay extends NavigationMixin(
       if (Object.keys(this.getParamObj).length > 0) {
         this.selectedDelivery = this.getParamObj.defDeliv;
       } else {
-        this.deliveryOpt = this.productDetails.Delivery__c.replace(";", ",");
+        this.deliveryOpt = this.productDetails.Delivery__c.replaceAll(";", ",");
         this.deliverySplit = this.deliveryOpt.split(",");
-        this.selectedDelivery = this.deliverySplit[0];
+        this.selectedDelivery = this.deliverySplit;
       }
 
       getRelatedCourseOffering({
@@ -289,6 +306,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
           this.disableAvailStartDate = true;
           this.disablePriceBookEntry = true;
           this.disableAddToCart = true;
+          this.disableApply = true;
           this.displayGroupRegistration = false;
 
           if (results.length > 0) {
@@ -305,9 +323,12 @@ export default class ProductDetailsDisplay extends NavigationMixin(
                 ).label;
               }
               this.disableAddToCart = false;
+              this.disableApply = false;
             } else {
+              this.selectedDelivery = this.courseOfferings[0].defDeliv;
               this.selectedCourseOffering = this.courseOfferings[0].value;
               this.disableAddToCart = true;
+              this.disableApply = true;
             }
 
             // Get Start Date and Facilitator
@@ -336,21 +357,17 @@ export default class ProductDetailsDisplay extends NavigationMixin(
               this.displayAddToCart = true;
               if (this.responseData.length > 0) {
                 this.displayQuestionnaire = true;
+                this.disableApply = false;
                 this.displayAddToCart = false;
                 if (!this.selectedPriceBookEntry) {
-                  this.displayQuestionnaire = false;
-                  this.displayAddToCart = true;
-                  this.disableAddToCart = true;
+                  this.disableApply = true;
                 }
-              } else {
-                this.displayQuestionnaire = false;
-                this.displayAddToCart = true;
               }
             }
 
             if (this.onLoadTriggerBtn == "addCart") {
               // Trigger AddToCart
-              this.notifyAddToCart();
+              this.dispatchAddToCartEvent();
             } else if (this.onLoadTriggerBtn == "groupReg") {
               // Trigger Group Reg
               this.groupRegistration();
@@ -363,7 +380,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
           }
         })
         .catch((e) => {
-          this.generateToast("Error.", LWC_Error_General, "error");
+          this.generateToast(ERROR_TITLE, LWC_Error_General, ERROR_VARIANT);
         });
     } else {
       this.checkSDatePlaceholder = availableStartDatesPlaceholder;
@@ -376,6 +393,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
       this.productDetails.Register_Interest_Available__c == true
     ) {
       this.displayAddToCart = false;
+      this.displayQuestionnaire = false;
       this.displayRegisterInterest = true;
     }
 
@@ -446,19 +464,8 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   notifyAddToCart() {
     // Call AddToCart
     if (!isGuest) {
-      // let quantity = 1;
-      let courseOfferingId = this.selectedCourseOffering;
-      //let programOfferingId = this.selectedCourseOffering;
-      let pricebookEntryId = this.selectedPriceBookEntry;
-      this.dispatchEvent(
-        new CustomEvent("addtocart", {
-          detail: {
-            courseOfferingId,
-            pricebookEntryId
-          }
-        })
-      );
-      this.openAddToCartConfirmModal = true;
+      this.urlDefaultAddToCart = false;
+      this.dispatchAddToCartEvent();
     } else {
       // Display Custom Login Form LWC
       this.setParamURL("addCart");
@@ -466,6 +473,26 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     }
     /* Comment out for bulk register */
     /* this.openRegisterModal(); */
+  }
+
+  dispatchAddToCartEvent() {
+    let courseOfferingId = this.selectedCourseOffering;
+    let pricebookEntryId = this.selectedPriceBookEntry;
+    let urlDefaultAddToCart = this.urlDefaultAddToCart;
+    this.dispatchEvent(
+      new CustomEvent("addtocart", {
+        detail: {
+          courseOfferingId,
+          pricebookEntryId,
+          urlDefaultAddToCart
+        }
+      })
+    );
+    this.openAddToCartConfirmModal = true;
+    this.message1 = "Product is added successfully to the cart.";
+    this.message2 = "How would you like to proceed?";
+    this.isContinueBrowsing = true;
+    this.isContinueToPayment = true;
   }
 
   // Disable Delivery when No Options retrieved
@@ -481,11 +508,17 @@ export default class ProductDetailsDisplay extends NavigationMixin(
         productId: this.productDetails.Id
       })
         .then(() => {
-          this.generateToast(
-            SUCCESS_TITLE,
-            "Interest Registered",
-            SUCCESS_VARIANT
-          );
+          this.isRegModalMessage = true;
+          this.message1 =
+            "Your interest has been successfully registered for this product.";
+          this.message2 = "We will contact you once this product is available.";
+          this.isContinueBrowsing = true;
+          this.isContinueToPayment = false;
+          // this.generateToast(
+          //   SUCCESS_TITLE,
+          //   "Interest Registered",
+          //   SUCCESS_VARIANT
+          // );
         })
         .catch((error) => {
           if (error.body.message == "Register Interest Exists") {
@@ -559,10 +592,15 @@ export default class ProductDetailsDisplay extends NavigationMixin(
         this.selectedPriceBookEntry = undefined;
         this.disableAvailStartDate = true;
         this.disablePriceBookEntry = true;
-        this.displayAddToCart = true;
         this.disableAddToCart = true;
+        this.disableApply = true;
         this.displayGroupRegistration = false;
+        this.displayAddToCart = true;
         this.displayQuestionnaire = false;
+        if (this.responseData.length > 0) {
+          this.displayAddToCart = false;
+          this.displayQuestionnaire = true;
+        }
 
         if (results.length > 0) {
           this.courseOfferings = results;
@@ -570,6 +608,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
         }
       })
       .catch((e) => {
+        console.log(e);
         this.generateToast(ERROR_TITLE, LWC_Error_General, ERROR_VARIANT);
       });
   }
@@ -590,8 +629,6 @@ export default class ProductDetailsDisplay extends NavigationMixin(
       }
     });
     this.disablePriceBookEntry = false;
-    this.displayAddToCart = true;
-    this.disableAddToCart = true;
   }
 
   handlePreviousFacilitator() {
@@ -642,8 +679,10 @@ export default class ProductDetailsDisplay extends NavigationMixin(
       this.disableAddToCart = true;
       this.displayGroupRegistration = true;
       if (this.responseData.length > 0) {
+        this.disableApply = false;
         this.displayQuestionnaire = true;
       } else {
+        this.disableApply = true;
         this.displayQuestionnaire = false;
       }
     } else {
@@ -652,10 +691,12 @@ export default class ProductDetailsDisplay extends NavigationMixin(
       this.disableAddToCart = false;
       if (this.responseData.length > 0) {
         this.displayQuestionnaire = true;
+        this.disableApply = false;
         this.displayAddToCart = false;
         this.disableAddToCart = true;
       } else {
         this.displayQuestionnaire = false;
+        this.disableApply = true;
         this.displayAddToCart = true;
         this.disableAddToCart = false;
       }

@@ -128,7 +128,7 @@ public with sharing class FacetoFaceFinalConfirmationEmailCtrlTest {
 
       FacetoFaceFinalConfirmationEmailCtrl.generatePDFandSendEmail(paramList);
       System.assertEquals(
-        1,
+        2,
         Limits.getEmailInvocations(),
         'Emails should be sent'
       );

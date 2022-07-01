@@ -63,7 +63,7 @@ public without sharing class PaymentConfirmationCtrl {
                 Id, 
                 Name, 
                 External_Id__c,
-                Discount_Applied__c,
+                Cart_Payment__r.Discount_Applied__c,
                 Payment_Method__c,
                 Cart_Payment__c
             FROM WebCart
@@ -152,10 +152,10 @@ public without sharing class PaymentConfirmationCtrl {
         myCartData.cartId = webCartData.Id;
         myCartData.cartItemsList = myCartItemsList;
         myCartData.subTotal = mySubtotal;
-        myCartData.discountTotal = webCartData.Discount_Applied__c;
+        myCartData.discountTotal = webCartData.Cart_Payment__r.Discount_Applied__c;
         myCartData.cartPayment = webCartData.Cart_Payment__c;
-        if(webCartData.Discount_Applied__c!= null){
-            myCartData.grandTotal = mySubtotal - webCartData.Discount_Applied__c;
+        if(webCartData.Cart_Payment__r.Discount_Applied__c!= null){
+            myCartData.grandTotal = mySubtotal - webCartData.Cart_Payment__r.Discount_Applied__c;
         }else{
             myCartData.grandTotal = mySubtotal;
         }
@@ -190,7 +190,7 @@ public without sharing class PaymentConfirmationCtrl {
     * @param cartId - ID of the WebCart
     * @return webCartData - WebCartData data type that contains the webcart and cartitems 
     */
-    @AuraEnabled(cacheable=false)
+    /*@AuraEnabled(cacheable=false)
     public static void createCourseConnection(String cartId, String userId, Double amount, String tranId, String paymentMethod, String paidInFull){
 
         Id studentRecordTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByName().get('Student').getRecordTypeId();
@@ -317,7 +317,7 @@ public without sharing class PaymentConfirmationCtrl {
             insert courseConnectionInsert;
         }
         
-    }
+    }*/
 
     /**
      * @description updates the cart status
@@ -362,21 +362,6 @@ public without sharing class PaymentConfirmationCtrl {
 
             update webCart;
         }
-        //update cartpayment 
-        if(webCart.Cart_Payment__c != null){
-            Cart_Payment__c  cpToUpdate = new Cart_Payment__c(  
-                Id = webCart.Cart_Payment__c,
-                Email__c = email,
-                Invoice_Number__c = invoice,
-                Receipt_Number__c = receipt,
-                Amount_Paid__c = amountPaid,
-                Payment_Status__c = paymentStatus
-            );
-            update cpToUpdate;
-        }
-        
-
-
     }
 }
   

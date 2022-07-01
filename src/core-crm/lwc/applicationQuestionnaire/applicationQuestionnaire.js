@@ -1,4 +1,18 @@
-import { LightningElement, api, track} from 'lwc';
+/**
+ * @description Lightning Web Component for Application Question in Portal
+ *
+ * @see ../classes/ProductDetailsCtrl.cls
+ *
+ * @author Accenture
+ *
+ * @history
+ *    | Developer                 | Date                  | JIRA                 | Change Summary               |
+      |---------------------------|-----------------------|----------------------|------------------------------|
+      | john.bo.a.pineda          | June 29, 2022         | DEPP-3323            | Modified to add logic to     |
+      |                           |                       |                      | validate Upload File Type    |
+*/
+
+import { LightningElement, api, track, wire} from 'lwc';
 import saveApplication from "@salesforce/apex/ProductDetailsCtrl.saveApplication";
 import LWC_Error_General from '@salesforce/label/c.LWC_Error_General';
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
@@ -6,6 +20,8 @@ import { loadStyle } from "lightning/platformResourceLoader";
 import customSR from "@salesforce/resourceUrl/QUTCustomLwcCss";
 import qutResourceImg from "@salesforce/resourceUrl/QUTImages";
 import customSR1 from "@salesforce/resourceUrl/QUTInternalCSS";
+import BasePath from "@salesforce/community/basePath";
+import getOPEProductCateg from "@salesforce/apex/PaymentConfirmationCtrl.getOPEProductCateg";
 
 const ERROR_TITLE = 'Error'
 const ERROR_VARIANT = 'error'
@@ -24,6 +40,14 @@ export default class ApplicationQuestionnaire extends LightningElement {
     @api priceBookEntry;
     @track questionsCopy;
     @track _questions;
+
+    //modal confirmation message
+    isModalMessage = false;
+    message1;
+    message2;
+    isContinueBrowsing = false;
+    isContinueToPayment = false;
+    xButton;
 
     @api
     get questions() {
@@ -44,17 +68,24 @@ export default class ApplicationQuestionnaire extends LightningElement {
         Promise.all([loadStyle(this, customSR1 + "/QUTInternalCSS.css")]);
     }
 
+    // Set Accepted File Formats
+    get acceptedFormats() {
+        return ['.pdf', '.png', '.jpg', 'jpeg'];
+    }
+
     _resolveConnected;
     _connected = new Promise((resolve) => {
       this._resolveConnected = resolve;
     });
-  
+
     connectedCallback() {
       this._resolveConnected();
       // Load Default Icons
       this.xMark = qutResourceImg + "/QUTImages/Icon/xMark.svg";
+      // load confirm message
+      this.xButton = qutResourceImg + "/QUTImages/Icon/xMark.svg";
     }
-    
+
 
     get disableResponseSave() {
         let tempQuestions = this._questions?this._questions.filter(
@@ -141,16 +172,24 @@ export default class ApplicationQuestionnaire extends LightningElement {
             } else if (event.target.name === row.Id && row.IsFileUpload) {
             row.Answer = event.detail.value.toString();
             const file = event.target.files[0];
-            let reader = new FileReader();
-            reader.onload = () => {
-                let base64 = reader.result.split(",")[1];
-                row.FileData = {
-                filename: file.name,
-                base64: base64,
-                recordId: undefined
-                };
-            };
-            reader.readAsDataURL(file);
+            let fileNameParts = file.name.split('.');
+            let extension = '.' + fileNameParts[fileNameParts.length - 1].toLowerCase();
+                if (this.acceptedFormats.includes(extension)) {
+                    let reader = new FileReader();
+                    reader.onload = () => {
+                        let base64 = reader.result.split(",")[1];
+                        row.FileData = {
+                        filename: file.name,
+                        base64: base64,
+                        recordId: undefined
+                        };
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    row.Answer = '';
+                    row.FileData = undefined;
+                    this.generateToast('Error.','Invalid File Format.','error');
+                }
             } else if (event.target.name === row.Id && row.IsMultiPicklist) {
             row.Answer = event.detail.value
                 ? event.detail.value.toString().replace(/,/g, ";")
@@ -164,7 +203,7 @@ export default class ApplicationQuestionnaire extends LightningElement {
         });
 
     }
-    
+
     handleBlur() {
     this._questions = this._questions.map((row) => {
         if (
@@ -203,7 +242,7 @@ export default class ApplicationQuestionnaire extends LightningElement {
         ? fileUpload.filter((key) => key !== undefined)
         : fileUpload;
     }
-    
+
     createAnswerRecord() {
     let answerRecords = {};
     answerRecords = this._questions.map((item) => {
@@ -226,6 +265,7 @@ export default class ApplicationQuestionnaire extends LightningElement {
     }
 
     closeModal() {
+        this.isModalMessage = false;
         this.dispatchEvent(new CustomEvent('close'));
         this.resetResponses();
     }
@@ -243,15 +283,21 @@ export default class ApplicationQuestionnaire extends LightningElement {
             pricebookEntryId : this.priceBookEntry
         })
         .then(() => {
-            this.generateToast(
-                SUCCESS_TITLE,
-                "Successfully Submitted",
-                SUCCESS_VARIANT
-                );
+            this.isModalMessage = true;
+            this.message1 = 'Your application has been successfully submitted.';
+            this.message2 = 'We will review your application and advise of the outcome shortly.';
+            this.isContinueBrowsing = true;
+            this.isContinueToPayment = false;
+            // this.generateToast(
+            //     SUCCESS_TITLE,
+            //     "Successfully Submitted",
+            //     SUCCESS_VARIANT
+            //     );
         })
         .finally(() => {
             this.resetResponses();
-            this.closeModal();
+            this.isModalOpen = false;
+            // this.closeModal();
             this.saveInProgress = false;
         })
         .catch((error) => {
@@ -260,7 +306,7 @@ export default class ApplicationQuestionnaire extends LightningElement {
             this.saveInProgress = false;
             this.disableCancel = false;
         })
-    
+
     }
 
         // Creates toast notification
@@ -272,5 +318,19 @@ export default class ApplicationQuestionnaire extends LightningElement {
         });
         this.dispatchEvent(evt);
     }
-   
+
+    //to get the product category Id
+    @wire(getOPEProductCateg)
+    productCategData;
+
+    handleContinueBrowsing(){
+        //Direct to the product catalog
+        window.location.href = BasePath + "/category/products/" + this.productCategData.data.Id;
+    }
+
+    handleContinueToPayment(event){
+        //Direct to the cart summary page
+        window.location.href = BasePath + "/cart/" + this.cartId;
+    }
+
 }

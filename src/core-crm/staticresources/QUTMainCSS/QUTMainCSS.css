@@ -1357,8 +1357,8 @@ span[c-customcombobox_customcombobox].slds-listbox__option-meta_entity {
 /*end of search result */
 
 /*GroupBooking*/
-[c-groupbookingform_groupbookingform] .slds-combobox__input .slds-truncate{
-  margin-top: 0.4rem;
+[groupbookingform_groupbookingform] .slds-combobox__input .slds-truncate {
+  margin-top: 0rem !important;
 }
 
 .slds-modal__close[c-groupBookingForm_groupBookingForm] svg {

@@ -153,6 +153,7 @@
           >
             <lightning-button
               label="APPLY"
+              disabled={disableApply}
               onclick={notifyApply}
               variant="brand"
               class="addToCartBtn"
@@ -171,6 +172,21 @@
               class="registerInterest"
             ></lightning-button>
           </lightning-layout-item>
+
+          <!-- Modal Confirmation Message -->
+          <template if:true={isRegModalMessage}>
+            <c-custom-modal-confirm-message
+              is-modal-message={isRegModalMessage}
+              message1={message1}
+              message2={message2}
+              is-continue-to-payment={isContinueToPayment}
+              is-continue-browsing={isContinueBrowsing}
+              handle-continue-browsing={handleContinueBrowsing}
+              handle-continue-to-payment={handleContinueToPayment}
+              close-modal-message={closeModalMessage}
+            ></c-custom-modal-confirm-message>
+          </template>
+
           <!-- Group Booking -->
           <lightning-layout-item
             if:true={displayGroupRegistration}
@@ -202,8 +218,18 @@
     ></c-application-questionnaire>
   </template>
   <template if:true={openAddToCartConfirmModal}>
-    <c-add-to-cart-confirm-dialog onclose={addToCartModalClosed}>
-    </c-add-to-cart-confirm-dialog>
+    <c-custom-modal-confirm-message
+      is-modal-message={openAddToCartConfirmModal}
+      message1={message1}
+      message2={message2}
+      is-continue-to-payment={isContinueToPayment}
+      is-continue-browsing={isContinueBrowsing}
+      handle-continue-browsing={handleContinueBrowsing}
+      handle-continue-to-payment={handleContinueToPayment}
+      close-modal-message={addToCartModalClosed}
+    ></c-custom-modal-confirm-message>
+    <!-- <c-add-to-cart-confirm-dialog onclose={addToCartModalClosed}>
+    </c-add-to-cart-confirm-dialog> -->
   </template>
   <template if:true={openGroupRegistration}>
     <c-group-booking-form

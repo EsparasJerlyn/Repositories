@@ -247,14 +247,18 @@
                     id="facilitatorContent"
                   >
                     <div class="slds-media slds-grid slds-wrap faci-container">
-                      <div class="slds-media__figure slds-m-right_x-large image_container slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_5-of-12">
+                      <div
+                        class="slds-media__figure slds-m-right_x-large image_container slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_5-of-12"
+                      >
                         <img
                           alt=""
                           class="facilImage"
                           src={facilitator.facilitatorImage}
                         />
                       </div>
-                      <div class="slds-media__body slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+                      <div
+                        class="slds-media__body slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12"
+                      >
                         <lightning-button-icon
                           if:true={displayFacilitatorNav}
                           icon-name="utility:chevronright"
@@ -434,6 +438,7 @@
           >
             <lightning-button
               label="APPLY"
+              disabled={disableApply}
               onclick={notifyApply}
               variant="brand"
               class="addToCartBtn"
@@ -453,6 +458,20 @@
               class="registerInterest"
             ></lightning-button>
           </lightning-layout-item>
+
+          <!-- Modal Confirmation Message -->
+          <template if:true={isRegModalMessage}>
+            <c-custom-modal-confirm-message
+              is-modal-message={isRegModalMessage}
+              message1={message1}
+              message2={message2}
+              is-continue-to-payment={isContinueToPayment}
+              is-continue-browsing={isContinueBrowsing}
+              handle-continue-browsing={handleContinueBrowsing}
+              handle-continue-to-payment={handleContinueToPayment}
+              close-modal-message={closeModalMessage}
+            ></c-custom-modal-confirm-message>
+          </template>
 
           <!-- Group Booking -->
           <lightning-layout-item
@@ -494,8 +513,18 @@
     ></c-application-questionnaire>
   </template>
   <template if:true={openAddToCartConfirmModal}>
-    <c-add-to-cart-confirm-dialog onclose={addToCartModalClosed}>
-    </c-add-to-cart-confirm-dialog>
+    <c-custom-modal-confirm-message
+      is-modal-message={openAddToCartConfirmModal}
+      message1={message1}
+      message2={message2}
+      is-continue-to-payment={isContinueToPayment}
+      is-continue-browsing={isContinueBrowsing}
+      handle-continue-browsing={handleContinueBrowsing}
+      handle-continue-to-payment={handleContinueToPayment}
+      close-modal-message={addToCartModalClosed}
+    ></c-custom-modal-confirm-message>
+    <!-- <c-add-to-cart-confirm-dialog onclose={addToCartModalClosed}>
+    </c-add-to-cart-confirm-dialog> -->
   </template>
   <template if:true={openGroupBookingModal}>
     <c-group-booking-form

@@ -171,7 +171,6 @@ public with sharing class PaymentConfirmationCtrlTest {
       Status__c = 'Checkout',
       WebStoreId = testWebStore.Id,
       External_Id__c = '6894b2af-cb62-86f5-7d21-7b54e9df96e5',
-      Discount_Applied__c = 1,
       Payment_Method__c = 'Pay Now'
     );
     insert cart;
@@ -274,7 +273,7 @@ public with sharing class PaymentConfirmationCtrlTest {
     );
   }
 
-  @IsTest
+  /*@IsTest
   static void createCourseConnectionTest() {
 
     WebCart webCart = [
@@ -300,7 +299,7 @@ public with sharing class PaymentConfirmationCtrlTest {
 
     System.assert(![SELECT Id FROM hed__Course_Enrollment__c LIMIT 1].isEmpty(), 'hed__Course_Enrollment__c record not inserted');
 
-  }
+  }*/
 
   @IsTest
   static void updateWebCartTest() {

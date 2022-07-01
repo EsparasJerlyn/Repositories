@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>DecommReason_PubEndDate_must_be_entered</fullName>
-    <active>true</active>
+    <active>false</active>
     <description>Decommission Reason and Publishing End Date must be entered</description>
     <errorConditionFormula>AND
 (

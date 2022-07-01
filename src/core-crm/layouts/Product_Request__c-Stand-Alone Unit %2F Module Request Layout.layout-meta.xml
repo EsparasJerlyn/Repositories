@@ -37,8 +37,7 @@
         <detailHeading>true</detailHeading>
         <editHeading>true</editHeading>
         <label>Unit / Module Request Detail</label>
-        <layoutColumns>
-        </layoutColumns>
+        <layoutColumns/>
         <layoutColumns>
             <layoutItems>
                 <behavior>Required</behavior>
@@ -52,6 +51,8 @@
         <detailHeading>true</detailHeading>
         <editHeading>true</editHeading>
         <label>CourseLoop Detail</label>
+        <layoutColumns/>
+        <layoutColumns/>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
     <layoutSections>

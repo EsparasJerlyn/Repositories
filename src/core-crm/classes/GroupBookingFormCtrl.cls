@@ -46,6 +46,7 @@ public without sharing class GroupBookingFormCtrl {
     Map<String,Set<Id>> questionnaireIdsMap = new Map<String,Set<Id>>();
     Map<String,Questionnaire_Response_Summary__c> questionnaireSummaryToInsertMap = new Map<String,Questionnaire_Response_Summary__c>();
     Map<String,Answer__c> answersToInsertMap = new Map<String,Answer__c>();
+    List<Answer__c> answersToInsertList = new List<Answer__c>();
     
     Set<String> emailSet = new Set<String>();
     Set<String> birthDateSet = new Set<String>();
@@ -82,6 +83,7 @@ public without sharing class GroupBookingFormCtrl {
         }else{
             qResSummary.Course_Offering__c = offeringId;
         }
+        qResSummary.Registration_Status__c = 'Confirmed';
         qResSummary.Contact__c = finalParticipants.get(key).Id;
         questionnaireSummaryToInsertMap.put(key,qResSummary);
     }
@@ -93,12 +95,12 @@ public without sharing class GroupBookingFormCtrl {
     for(String key: answerMap.keySet()){
         for(Answer__c ans: answerMap.get(key)){
             ans.Questionnaire_Response_Summary__c = questionnaireSummaryToInsertMap.get(key).Id;
-            answersToInsertMap.put(key,ans);
+            answersToInsertList.add(ans);
         }
     }
     
-    if(!answersToInsertMap.keySet().isEmpty()){
-        insert answersToInsertMap.values();
+    if(!answersToInsertList.isEmpty()){
+        insert answersToInsertList;
     }
 
 

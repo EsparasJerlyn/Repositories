@@ -16,6 +16,7 @@
       | eugene.andrew.abuan       | May 02, 2022          | DEPP-1269            | Updated logic to match with the new UI       |
       | eugene.andrew.abuan       | May 12, 2022          | DEPP-1979            | Added Filter logic                           |
       | burhan.m.abdul            | June 09, 2022         | DEPP-2811            | Added messageService                         |
+      | eugene.john.basilan       | June 28, 2022         | DEPP-2838            | Added Url Filter in Checkbox                 |
  */
 
 import { LightningElement, wire, api, track } from 'lwc';
@@ -78,6 +79,8 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
   @track selectedValues = [];
   @track studyAreaSelectedValues =[];
   @track deliveryTypeSelectedValues =[];
+  @track tempValStart;
+  @track tempValEnd;
   index;
   indexStudyArea;
   indexDeliveryType;
@@ -91,6 +94,7 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
   endValue ;
   strStartDate;
   strEndDate;
+	qutFilterValue;
   value = 'comingUp';
   parameterObject = {
     searchKey : this.stringValue, 
@@ -241,6 +245,9 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
       if (data) {
           this.studyAreaValues = data.values;
           this.error = undefined;
+					if(this.qutFilterValue){
+						this.urlCheckbox();
+					}
       }
       if (error) {
           this.error = error;
@@ -268,6 +275,23 @@ renderedCallback() {
   Promise.all([loadStyle(this, customSR + "/QUTInternalCSS.css")]);
 }
 
+	//populate Url Checkbox
+	urlCheckbox(){
+		console.log(this.studyAreaValues);
+		let selectedCheckBox = this.studyAreaValues.find(
+		(item) => item.value.toLowerCase()  === this.qutFilterValue.toLowerCase());
+		let Array1 = JSON.parse(JSON.stringify(this.studyAreaValues));
+		Array1.forEach((e) => {
+			if (e.label == selectedCheckBox.value) {
+				this.studyAreaSelectedValues.push(selectedCheckBox.value);
+				e.selected = true;
+				console.log(selectedCheckBox.value);
+			}
+		});
+		this.studyAreaValues = [...Array1];
+		this.setPickList();
+	}
+
   // handles sort course combobox
   hanldeSortCourseValueChange(event) {
     //this.sortCourseBy = event.detail;
@@ -290,8 +314,168 @@ renderedCallback() {
     }, DELAY);
   }
   
-  // Handles the Product Type Filter when clicked Individually
-  handleTypePicklist(event) {    
+  // Handles the Product Type Filter when clicked Individually for Mobile
+  handleTypePicklist(event)  {
+    let selectedCheckBox;
+    if (this.tempArray.length > 0) {
+      let temp = this.tempArray.filter((e) => e == event.target.label);
+      if (temp && temp[0]) {
+        let abc = this.tempArray.filter((e) => e != temp);
+        this.tempArray = [...abc];
+      } else {
+        this.tempArray.push(event.target.label);
+      }
+    } else {
+      this.tempArray.push(event.target.label);
+    }
+
+    selectedCheckBox = this.typeValues.find(
+      (item) => item.value === event.target.value );
+
+    if (event.target.checked) {
+      this.selectedValues.push(event.target.value);
+      selectedCheckBox.selected = true;
+    } else {
+      selectedCheckBox.selected = false;
+      this.selectedValues = this.selectedValues.filter(function(e) { return e !== event.target.value })
+      this.courseAll = false;
+
+    }
+    this.setPickList();
+ }
+
+  // Handles the Study Area Filter when Clicked Individually for Mobile
+  handleStudyAreaPicklist(event) {
+    let selectedCheckBox;
+    if (this.tempArray.length > 0) {
+      let temp = this.tempArray.filter((e) => e == event.target.label);
+      if (temp && temp[0]) {
+        let abc = this.tempArray.filter((e) => e != temp);
+        this.tempArray = [...abc];
+      } else {
+        this.tempArray.push(event.target.label);
+      }
+    } else {
+      this.tempArray.push(event.target.label);
+    }          
+    selectedCheckBox = this.studyAreaValues.find(
+      (item) => item.value === event.target.value );
+
+    if (event.target.checked) {
+      this.studyAreaSelectedValues.push(event.target.value);
+      selectedCheckBox.selected = true;
+    } else {
+      selectedCheckBox.selected = false;
+      this.studyAreaSelectedValues = this.studyAreaSelectedValues.filter(function(e) { return e !== event.target.value })
+      this.studyAll = false;
+
+    }
+    this.setPickList();
+  }
+
+  // Handles Delivery Filter when clicked Individually for Mobile
+  handleDeliveryTypePicklist(event) {
+    let selectedCheckBox;
+    if (this.tempArray.length > 0) {
+      let temp = this.tempArray.filter((e) => e == event.target.label);
+      if (temp && temp[0]) {
+        let abc = this.tempArray.filter((e) => e != temp);
+        this.tempArray = [...abc];
+      } else {
+        this.tempArray.push(event.target.label);
+      }
+    } else {
+      this.tempArray.push(event.target.label);
+    }
+
+      selectedCheckBox = this.deliveryTypeValues.find(
+      (item) => item.value === event.target.value );
+
+    if (event.target.checked) {
+      this.deliveryTypeSelectedValues.push(event.target.value);
+      selectedCheckBox.selected = true;
+    } else {
+      selectedCheckBox.selected = false;
+      this.deliveryTypeSelectedValues = this.deliveryTypeSelectedValues.filter(function(e) { return e !== event.target.value })
+      this.deliveryAll = false;
+
+    }
+    this.setPickList();
+  }
+    //Handles Study Area Filter Select All for Mobile
+    handleSelectAllStudyAreas(event) {
+      this.studyAreaSelectedValues =[];
+      if (event.target.checked) {
+        this.studyAll = true;
+        this.tempArray.push(event.target.label);
+        this.studyAreaValues.forEach((studyAreas) => {
+          this.studyAreaSelectedValues.push(studyAreas.value)
+          studyAreas.selected = true;
+          if (!this.tempArray.includes(studyAreas.label)) {
+            this.tempArray.push(studyAreas.label);
+          }
+        });
+      } else {
+        // clear out
+        this.studyAll = false;
+        this.tempArray = [];
+        this.studyAreaValues.forEach((studyAreas) => {
+          studyAreas.selected = false;
+        });
+      }
+      this.setPickList();
+    }
+  
+    //Handles Delivery Type Filter Select All for Mobile
+    handleSelectAllDeliveryTypes(event) {
+      this.deliveryTypeSelectedValues =[];
+      if (event.target.checked) {
+        this.deliveryAll = true;
+        this.tempArray.push(event.target.label);
+        this.deliveryTypeValues.forEach((deliveryAreas) => {
+          this.deliveryTypeSelectedValues.push(deliveryAreas.value)
+          deliveryAreas.selected = true;
+          if (!this.tempArray.includes(deliveryAreas.label)) {
+            this.tempArray.push(deliveryAreas.label);
+          }
+        });
+      } else {
+        // clear out
+        this.deliveryAll = false;
+        this.tempArray = [];
+        this.deliveryTypeValues.forEach((deliveryAreas) => {
+          deliveryAreas.selected = false;
+        });
+      }
+      this.setPickList();
+    }
+
+  //Handles Product Type Filter Select All for Mobile
+  handleSelectAllTypes(event) {
+    this.selectedValues =[];
+    if (event.target.checked) {
+      this.courseAll = true;
+      this.tempArray.push(event.target.label);
+      this.typeValues.forEach((courseAreas) => {
+        this.selectedValues.push(courseAreas.value)
+        courseAreas.selected = true;
+        if (!this.tempArray.includes(courseAreas.label)) {
+          this.tempArray.push(courseAreas.label);
+        }
+      });
+    } else {
+      // clear out
+      this.courseAll = false;
+      this.tempArray = [];
+      this.typeValues.forEach((courseAreas) => {
+        courseAreas.selected = false;
+      });
+    }
+    this.setPickList();
+  }
+
+  // Handles the Product Type Filter when clicked Individually for Desktop
+  handleTypePicklistDesktop(event) {    
     if (event.target.checked) {
         this.selectedValues.push(event.target.value);
     } else {
@@ -310,8 +494,8 @@ renderedCallback() {
     this.setPickList();
  }
 
-  // Handles the Study Area Filter when Clicked Individually
-  handleStudyAreaPicklist(event) {
+  // Handles the Study Area Filter when Clicked Individually for Desktop
+  handleStudyAreaPicklistDesktop(event) {
     if (event.target.checked) {
         this.studyAreaSelectedValues.push(event.target.value);
     } else {
@@ -329,8 +513,8 @@ renderedCallback() {
     this.setPickList();
   }
 
-  // Handles Delivery Filter when clicked Individually
-  handleDeliveryTypePicklist(event) {
+  // Handles Delivery Filter when clicked Individually for Desktop
+  handleDeliveryTypePicklistDesktop(event) {
     if (event.target.checked) {
         this.deliveryTypeSelectedValues.push(event.target.value);
     } else {
@@ -348,6 +532,87 @@ renderedCallback() {
         }
     }
     this.setPickList();
+  }
+
+   //Handles Product Type Filter Select All for Desktop
+   handleSelectAllTypesDesktop(event) {
+    this.selectedValues =[];
+
+    if (event.target.checked) {
+        const checkboxes = this.template.querySelectorAll('.chk-types');
+        for (const elem of checkboxes) {
+                elem.checked=true;
+        }
+        for(const types of this.typeValues){
+            this.selectedValues.push(types.value);
+        }
+        this.setPickList();   
+    } else {
+        try {
+            const checkboxes = this.template.querySelectorAll('.chk-types');
+            for (const elem of checkboxes) {
+                    elem.checked=false;
+            }
+            this.selectedValues =[];
+            this.setPickList();   
+        } catch (error) {
+            this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
+        }
+    }   
+  }
+
+  //Handles Study Area Filter Select All for Desktop
+  handleSelectAllStudyAreasDesktop(event) {
+    this.studyAreaSelectedValues =[];
+    
+    if (event.target.checked) {
+        const checkboxes = this.template.querySelectorAll('.chk-studyarea');
+        for (const elem of checkboxes) {
+                elem.checked=true;
+        }
+        for(const types of this.studyAreaSelectedValues){
+            this.studyAreaSelectedValues.push(types.value);
+        }
+        this.setPickList();   
+    } else {
+        try {
+            const checkboxes = this.template.querySelectorAll('.chk-studyarea');
+            for (const elem of checkboxes) {
+                    elem.checked=false;
+            }
+            this.studyAreaSelectedValues =[];
+            this.setPickList();   
+        } catch (error) {
+            this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
+        }
+    }  
+  }
+
+  //Handles Delivery Type Filter Select All for Desktop
+  handleSelectAllDeliveryTypesDesktop(event) {
+      this.deliveryTypeSelectedValues =[];
+    
+      if (event.target.checked) {
+          const checkboxes = this.template.querySelectorAll('.chk-delivery-type');
+          for (const elem of checkboxes) {
+                  elem.checked=true;
+          }
+          for(const types of this.deliveryTypeSelectedValues){
+              this.deliveryTypeSelectedValues.push(types.value);
+          }
+          this.setPickList();   
+      } else {
+          try {
+              const checkboxes = this.template.querySelectorAll('.chk-delivery-type');
+              for (const elem of checkboxes) {
+                      elem.checked=false;
+              }
+              this.deliveryTypeSelectedValues =[];
+              this.setPickList();   
+          } catch (error) {
+              this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
+          }
+      }  
   }
 
   //Handles Start date filter when selected
@@ -384,98 +649,31 @@ renderedCallback() {
   handlePriceRangeValueChange(event){
     this.startValue = event.detail.start;
     this.endValue = event.detail.end;
+    this.tempValStart = this.startValue;
+    this.tempValEnd = this.endValue;
     this.parameterObject.minUnitPrice = this.startValue
     this.parameterObject.maxUnitPrice = this.endValue
     this.getFilterList();
     }
+  
+  // handles Clear All filters for Mobile
+  handleClearAllMobile(){
+    this.tempArray = [];
+    this.studyAll = false;
+    this.studyAreaValues.forEach((studyAreas) => {
+      studyAreas.selected = false;
+    });
+    this.deliveryAll = false;
+    this.deliveryTypeValues.forEach((deliveryAreas) => {
+      deliveryAreas.selected = false;
+    });
+    this.courseAll = false;
+    this.typeValues.forEach((courseAreas) => {
+      courseAreas.selected = false;
+    });
+    this.tempValStart = null;
+    this.tempValEnd = null;
 
-  //Handles Product Type Filter Select All;
-  handleSelectAllTypes(event) {
-    this.selectedValues =[];
-
-    if (event.target.checked) {
-        const checkboxes = this.template.querySelectorAll('.chk-types');
-        for (const elem of checkboxes) {
-                elem.checked=true;
-        }
-        for(const types of this.typeValues){
-            this.selectedValues.push(types.value);
-        }
-        this.setPickList();   
-    } else {
-        try {
-            const checkboxes = this.template.querySelectorAll('.chk-types');
-            for (const elem of checkboxes) {
-                    elem.checked=false;
-            }
-            this.selectedValues =[];
-            this.setPickList();   
-        } catch (error) {
-            this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
-        }
-    }   
-  }
-
-  //Handles Study Area Filter Select All
-  handleSelectAllStudyAreas(event) {
-    this.studyAreaSelectedValues =[];
-    
-    if (event.target.checked) {
-        const checkboxes = this.template.querySelectorAll('.chk-studyarea');
-        for (const elem of checkboxes) {
-                elem.checked=true;
-        }
-        for(const types of this.studyAreaSelectedValues){
-            this.studyAreaSelectedValues.push(types.value);
-        }
-        this.setPickList();   
-    } else {
-        try {
-            const checkboxes = this.template.querySelectorAll('.chk-studyarea');
-            for (const elem of checkboxes) {
-                    elem.checked=false;
-            }
-            this.studyAreaSelectedValues =[];
-            this.setPickList();   
-        } catch (error) {
-            this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
-        }
-    }  
-  }
-
-  //Handles Delivery Type Filter Select All
-  handleSelectAllDeliveryTypes(event) {
-      this.deliveryTypeSelectedValues =[];
-    
-      if (event.target.checked) {
-          const checkboxes = this.template.querySelectorAll('.chk-delivery-type');
-          for (const elem of checkboxes) {
-                  elem.checked=true;
-          }
-          for(const types of this.deliveryTypeSelectedValues){
-              this.deliveryTypeSelectedValues.push(types.value);
-          }
-          this.setPickList();   
-      } else {
-          try {
-              const checkboxes = this.template.querySelectorAll('.chk-delivery-type');
-              for (const elem of checkboxes) {
-                      elem.checked=false;
-              }
-              this.deliveryTypeSelectedValues =[];
-              this.setPickList();   
-          } catch (error) {
-              this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
-          }
-      }  
-  }
-
-  // handles Clear All filters
-  handleClearAll(){
-    const checkboxes = this.template.querySelectorAll('[data-id="checkbox"]');
-    for(const elem of checkboxes){
-        elem.checked=false;
-    }
     this.stringValue ='';
     this.strStartDate ='';
     this.strEndDate ='';
@@ -497,6 +695,33 @@ renderedCallback() {
     this.triggerProductSearch();   
    } 
    
+  // handles Clear All filters for Mobile
+  handleClearAllDesktop(){
+    const checkboxes = this.template.querySelectorAll('[data-id="checkbox"]');
+    for(const elem of checkboxes){
+        elem.checked=false;
+    }
+
+    this.stringValue ='';
+    this.strStartDate ='';
+    this.strEndDate ='';
+    this.startValue ='';
+    this.endValue = '';
+    this.parameterObject.sortBy = this.value;
+    this.parameterObject.searchKey = null;
+    this.studyAreaSelectedValues = [];
+    this.selectedValues = [];
+    this.deliveryTypeSelectedValues = [];
+    this.parameterObject.studyArea = []
+    this.parameterObject.productType = []
+    this.parameterObject.deliveryType = []
+    this.parameterObject.startDate = null;
+    this.parameterObject.endDate= null;
+    this.parameterObject.maxUnitPrice = null;
+    this.parameterObject.minUnitPrice = null;
+    this.template.querySelector('c-slider').setDefaultValues();
+    this.triggerProductSearch();   
+   } 
 
 
   // Function that calls the getFilteredProducts returns me a list of Id;
@@ -819,48 +1044,56 @@ handleNextPage(evt) {
   /**
    * The connectedCallback() lifecycle hook fires when a component is inserted into the DOM.
    */
-  connectedCallback() {
+   	handleFilterSelected(){
+		let url_string = window.location.href;
+		let url = new URL(url_string);
+		let area = url.searchParams.get("area");
+		this.qutFilterValue = area;
+	}
+   tempArray = [];
+   connectedCallback() {
 
-    this.vectorIcon = qutResourceImg + "/QUTImages/Icon/icon-Vector.png";
-    this.accordionClose = qutResourceImg + "/QUTImages/Icon/accordionClose.svg";
-    this.filterFilled = qutResourceImg + "/QUTImages/Icon/icon-filter-filled.svg";
-
-   if(!isGuest){
-      this.updateCartInformation();
-    }
-      
-    this.publishLMS();
-  }
-
-  handleAccordionToggle(event) {
-    // Get Aria Expanded value
-    let accordionAriaExpanded = event.currentTarget;
-    // Get Closest Section Element
-    let accordionSection = event.currentTarget.closest("section");
-    // Get Content Element
-    let accordionContent = accordionSection.querySelector(".accordionContent");
-    // Get Button Icon Element
-    let vectorIcon = accordionSection.querySelector(".slds-button__icon");
-  
-    // Toggle Values
-    accordionSection.classList.toggle("slds-is-open");
-    if (accordionAriaExpanded.getAttribute("aria-expanded") == "true") {
-      accordionAriaExpanded.setAttribute("aria-expanded", "false");
-      accordionContent.setAttribute("hidden");
-      vectorIcon.setAttribute(
-        "src",
-        qutResourceImg + "/QUTImages/Icon/icon-Vector.png"
-      );
-    } else {
-      accordionAriaExpanded.setAttribute("aria-expanded", "true");
-      accordionContent.removeAttribute("hidden");
-      /*accordionIcon.setAttribute(
-        "src",
-        qutResourceImg + "/QUTImages/Icon/accordionOpen.svg"
-      );*/
-      
-    }
-  }
+     this.vectorIcon = qutResourceImg + "/QUTImages/Icon/icon-Vector.png";
+     this.accordionClose = qutResourceImg + "/QUTImages/Icon/accordionClose.svg";
+     this.filterFilled =
+       qutResourceImg + "/QUTImages/Icon/icon-filter-filled.svg";
+ 
+     if (!isGuest) {
+       this.updateCartInformation();
+     }
+ 
+     this.publishLMS();
+	 this.handleFilterSelected();
+   }
+ 
+   handleAccordionToggle(event) {
+     // Get Aria Expanded value
+     let accordionAriaExpanded = event.currentTarget;
+     // Get Closest Section Element
+     let accordionSection = event.currentTarget.closest("section");
+     // Get Content Element
+     let accordionContent = accordionSection.querySelector(".accordionContent");
+     // Get Button Icon Element
+     let vectorIcon = accordionSection.querySelector(".slds-button__icon");
+ 
+     // Toggle Values
+     accordionSection.classList.toggle("slds-is-open");
+     if (accordionAriaExpanded.getAttribute("aria-expanded") == "true") {
+       accordionAriaExpanded.setAttribute("aria-expanded", "false");
+       accordionContent.setAttribute("hidden");
+       vectorIcon.setAttribute(
+         "src",
+         qutResourceImg + "/QUTImages/Icon/icon-Vector.png"
+       );
+     } else {
+       accordionAriaExpanded.setAttribute("aria-expanded", "true");
+       accordionContent.removeAttribute("hidden");
+       /*accordionIcon.setAttribute(
+         "src",
+         qutResourceImg + "/QUTImages/Icon/accordionOpen.svg"
+       );*/
+     }
+   }
 
   /*
   * Closes Modal
@@ -873,8 +1106,75 @@ handleNextPage(evt) {
   /*
   * Opens Modal Onclick 
   */
-  handleModalOpen(){
+  handleModalOpen() {
     this.openModal = true;
+    console.log("tempArray", this.tempArray);
+    try {
+      let Array1 = JSON.parse(JSON.stringify(this.studyAreaValues));
+      let Array2 = JSON.parse(JSON.stringify(this.deliveryTypeValues));
+      let Array3 = JSON.parse(JSON.stringify(this.typeValues));
+      //StudyAreas
+      console.log("Array1-Study", this.studyAreaValues);
+      if (this.tempArray.length > 0) {
+        //this.studyAreaValues.all = true;
+        Array1.forEach((e) => {
+          console.log("e.label", e.label);
+          let temp = this.tempArray.filter((j) => j == e.label);
+          console.log("temp", temp);
+          if (temp && temp[0]) {
+            e.selected = true;
+            console.log("selected=>");
+          } else {
+            e.selected = false;
+          }
+        });
+      } else {
+        Array1.forEach((e) => (e.selected = false));
+      }
+      this.studyAreaValues = [...Array1];
+
+
+
+      /*Delivery*/
+      if (this.tempArray.length > 0) {
+        Array2.forEach((e) => {
+          console.log("e.label", e.label);
+          let temp = this.tempArray.filter((j) => j == e.label);
+          console.log("temp", temp);
+          if (temp && temp[0]) {
+            e.selected = true;
+            console.log("selected=>");
+          } else {
+            e.selected = false;
+          }
+        });
+      } else {
+        Array2.forEach((e) => (e.selected = false));
+      }
+      this.deliveryTypeValues = [...Array2];
+      /*end of delivery*/
+
+      /*type type*/
+      if (this.tempArray.length > 0) {
+        Array3.forEach((e) => {
+          console.log("e.label", e.label);
+          let temp = this.tempArray.filter((j) => j == e.label);
+          console.log("temp", temp);
+          if (temp && temp[0]) {
+            e.selected = true;
+            console.log("selected=>");
+          } else {
+            e.selected = false;
+          }
+        });
+      } else {
+        Array3.forEach((e) => (e.selected = false));
+      }
+      this.typeValues = [...Array3];
+      /*end of course type*/
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   /**

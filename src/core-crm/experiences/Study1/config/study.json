@@ -28,8 +28,8 @@
   }, {
     "id" : "2028480b-a20a-4cad-8a17-2633c8dee268",
     "isActive" : true,
-    "trustedSiteName" : "https://kit.fontawesome.com/",
-    "trustedSiteUrl" : "https://kit.fontawesome.com/",
+    "trustedSiteName" : "https://kit.fontawesome.com/ef61aff3f9.j",
+    "trustedSiteUrl" : "https://kit.fontawesome.com/ef61aff3f9.js",
     "type" : "trustedSitesForScripts"
   } ],
   "type" : "site"

@@ -7,6 +7,8 @@
       |---------------------------|-----------------------|----------------------|--------------------------------------------|
       | john.m.tambasen           | May 11, 2022          | DEPP-2060            | Created file                               |
       | john.m.tambasen           | May 17, 2022          | DEPP-1151            | added the updation of cart status          |
+      | roy.nino.s.regala         | June 27, 2022         | DEPP-3252            | remove creation of course connection       |
+      | roy.nino.s.regala         | June 29, 2022         | DEPP-3157            | fixed questionnare issues                  |
 
 */
 public without sharing class CartItemCtrl {
@@ -29,6 +31,7 @@ public without sharing class CartItemCtrl {
     //instantiate variables
     List<CartItem> cartItemList = new List<CartItem>();
     List<Answer__c> answerList = new List<Answer__c>();
+    List<Related_Answer__c> relatedAnswersList = new List<Related_Answer__c>();
 
     Set<Id> pbentryIds = new Set<Id>();
     Set<Id> productIds = new Set<Id>();
@@ -56,6 +59,7 @@ public without sharing class CartItemCtrl {
         Course_Offering__r.Delivery_Type__c,
         Course_Offering__r.Available_Seats__c,
         Program_Offering__c,
+        Program_Offering__r.hed_Program_Plan__r.Product_Request__c,
         Program_Offering__r.Start_Date__c,
         Program_Offering__r.Delivery_Type__c,
         Program_Offering__r.Available_Seats__c,
@@ -69,7 +73,12 @@ public without sharing class CartItemCtrl {
     for (CartItem currentCart : cartItemList) {
       pbentryIds.add(currentCart.Pricebook_Entry_ID__c);
       productIds.add(currentCart.Product2Id);
-      productReqIds.add(currentCart.Course_Offering__r.hed__Course__r.ProductRequestID__c);
+      if(currentCart.Course_Offering__c != null){
+        productReqIds.add(currentCart.Course_Offering__r.hed__Course__r.ProductRequestID__c);
+      }else{
+        productReqIds.add(currentCart.Program_Offering__r.hed_Program_Plan__r.Product_Request__c);
+      }
+      
     }
 
     List<Related_Answer__c> relatedAnswerList = new List<Related_Answer__c>();     
@@ -118,6 +127,15 @@ public without sharing class CartItemCtrl {
       ]
     );
 
+    //create map of products payment options in cart
+    Map<Id, Product2> prodPayOpt = new Map<Id, Product2>(
+      [
+        SELECT Id, Payment_Options__c
+        FROM Product2
+        WHERE Id IN :productIds
+      ]
+    );
+
     //loop for popoulating the returned object
     for (CartItem currentCart : cartItemList) {
       CartItemsWrapper cartItemsWrapper = new CartItemsWrapper();
@@ -127,16 +145,27 @@ public without sharing class CartItemCtrl {
       cartItemsWrapper.productName = currentCart.Name;
       cartItemsWrapper.productId = currentCart.Product2Id;
       cartItemsWrapper.contactId = contactId;
-      cartItemsWrapper.CourseOfferingId =currentCart.Course_Offering__c;
+      cartItemsWrapper.courseOfferingId =currentCart.Course_Offering__c;
       cartItemsWrapper.programOfferingId = currentCart.Program_Offering__c;
       cartItemsWrapper.contactFullName = currentCart.Contact__r.Name;
 
-      if(QuestionnaireMap.containsKey(currentCart.Course_Offering__r.hed__Course__r.ProductRequestID__c)) {
+      cartItemsWrapper.paymentOptions = prodPayOpt.get(
+        currentCart.Product2Id
+      )
+      .Payment_Options__c;
+
+      if( QuestionnaireMap.containsKey(currentCart.Course_Offering__r.hed__Course__r.ProductRequestID__c) || 
+          QuestionnaireMap.containsKey(currentCart.Program_Offering__r.hed_Program_Plan__r.Product_Request__c)) {
         
-        List<Related_Answer__c> relatedAnswersList2 = QuestionnaireMap.get(currentCart.Course_Offering__r.hed__Course__r.ProductRequestID__c);
+            if(QuestionnaireMap.containsKey(currentCart.Program_Offering__r.hed_Program_Plan__r.Product_Request__c)){
+              relatedAnswersList = QuestionnaireMap.get(currentCart.Program_Offering__r.hed_Program_Plan__r.Product_Request__c);
+            }else{
+              relatedAnswersList = QuestionnaireMap.get(currentCart.Course_Offering__r.hed__Course__r.ProductRequestID__c);
+            }
+        
           List<RelatedAnswersWrapper> relatedAnswerListWrap = new List<RelatedAnswersWrapper>();  //container for related answer
          
-          for (Related_Answer__c ra2 : relatedAnswersList2 ) {
+          for (Related_Answer__c ra2 : relatedAnswersList ) {
                RelatedAnswersWrapper relatedAnswerListSingle = new RelatedAnswersWrapper(); 
                List<OptionsWrapper> OptionsWrapperList = new List<OptionsWrapper>();
                List<String> tempStrList = ra2.Question__c != null ? (ra2.Question__r.Dropdown_Options__c != null ? ra2.Question__r.Dropdown_Options__c.split(';') : new List<String>()) : new List<String>();
@@ -161,7 +190,7 @@ public without sharing class CartItemCtrl {
                relatedAnswerListSingle.IsPicklist = ra2.Question__r.Type__c == 'Picklist' ? true : false;
                relatedAnswerListSingle.IsCheckbox = ra2.Question__r.Type__c == 'Checkbox' ? true : false;
                relatedAnswerListSingle.IsMultiPicklist = ra2.Question__r.Type__c == 'Multi-Select Picklist' ? true : false;                                           
-               relatedAnswerListSingle.Answer  = '';
+               relatedAnswerListSingle.Answer  = ra2.Question__r.Type__c == 'Checkbox' ? 'false':'';
                relatedAnswerListSingle.IsFileUpload = ra2.Question__r.Type__c == 'File Upload'?true:false;
                relatedAnswerListSingle.QuestionnaireId  = ra2.Questionnaire__c;
                relatedAnswerListSingle.IsCriteria  = ra2.Questionnaire__r.Questionnaire_Type__c == 'Registration Criteria'
@@ -172,7 +201,8 @@ public without sharing class CartItemCtrl {
                : false;
                relatedAnswerListSingle.Sequence  = ra2.Sequence__c;
                relatedAnswerListSingle.ErrorMessage  = '';
-               relatedAnswerListSingle.FileData  = '';         
+               relatedAnswerListSingle.FileData  = new FileData(); 
+               relatedAnswerListSingle.FileUploadSuccess  = false;     
                relatedAnswerListWrap.add(relatedAnswerListSingle);      
           }
           cartItemsWrapper.relatedAnswers = relatedAnswerListWrap;
@@ -268,7 +298,7 @@ public without sharing class CartItemCtrl {
     @AuraEnabled   
     public String contactId;
     @AuraEnabled
-    public String CourseOfferingId;
+    public String courseOfferingId;
     @AuraEnabled
     public String programOfferingId;
     @AuraEnabled
@@ -291,6 +321,8 @@ public without sharing class CartItemCtrl {
     public List<RelatedAnswersWrapper> relatedAnswers;
     @AuraEnabled
     public String contactFullName;
+    @AuraEnabled
+    public String paymentOptions;    
   }
   public class RelatedAnswersWrapper {
     @AuraEnabled
@@ -332,7 +364,9 @@ public without sharing class CartItemCtrl {
     @AuraEnabled
     public String ErrorMessage;
     @AuraEnabled
-    public String FileData;
+    public FileData FileData;
+    @AuraEnabled
+    public Boolean FileUploadSuccess;
     @AuraEnabled
     public List<OptionsWrapper> Options;
   }
@@ -349,6 +383,19 @@ public without sharing class CartItemCtrl {
     public String fileName;
     @AuraEnabled
     public String base64;
+    @AuraEnabled
+    public String recordId; 
+  }
+  /**
+    * @description Wrapper class that holds the file uploaded by user
+    */
+    public class FileUpload{
+      @AuraEnabled
+      public String Base64;
+      @AuraEnabled
+      public String FileName;
+      @AuraEnabled
+      public String RelatedAnswerId;
   }
 
   /**
@@ -521,6 +568,14 @@ public without sharing class CartItemCtrl {
     @AuraEnabled public Double discount;
   }
 
+  public class QuestionnaireResponseData{
+    @AuraEnabled public String offeringId;
+    @AuraEnabled public Boolean isPrescribed;
+    @AuraEnabled public List<RelatedAnswersWrapper> relatedAnswerList;
+    @AuraEnabled public List<Answer__c> answerList;
+    @AuraEnabled public List<FileUpload> fileUploadData;
+  }
+
   /**
    * @description fetches cart items data and related registration questiosn for the product
    * @param communityId - @salesforce/community/Id
@@ -546,6 +601,148 @@ public without sharing class CartItemCtrl {
       cartItemId
     );
   }
+
+
+   /**
+   * @description save questions from user
+   * @param contactId - portal user answered the questions
+   * @param cartItems - 
+   */
+  @AuraEnabled
+  public static void saveCartSummaryQuestions(String questionnaireData, Id contactId) {
+    List<QuestionnaireResponseData> qrsData = new List<QuestionnaireResponseData>();
+
+    if (questionnaireData != '') {
+      qrsData = (List<QuestionnaireResponseData>) JSON.deserialize(
+        questionnaireData,
+        List<QuestionnaireResponseData>.class
+      );
+    }
+    List<Questionnaire_Response_Summary__c> qrsListToInsert = new List<Questionnaire_Response_Summary__c>();
+
+    Map<String,String> questionnaireToQRSMap = new Map<String,String>();
+    Map<String,String> relatedAnswerToQuestionnaireMap = new Map<String, String>();
+    List<Answer__c> allAnswers = new List<Answer__c>();
+    List<FileUpload> allFileData = new List<FileUpload>();
+    List<Answer__c> answersToInsert = new List<Answer__c>();
+    Map<String,String> relatedAnswerToAnswerMap = new Map<String, String>();
+    Map<String, String> cvToRelatedAnswerMap = new Map<String, String>();
+    List<ContentDocumentLink> contentDocLinkListToInsert = new List<ContentDocumentLink>();
+    List<ContentVersion> cvListToInsertList = new List<ContentVersion>();
+    Map<Id, Answer__c> answersToUpdate = new Map<Id, Answer__c>();
+
+    Questionnaire_Response_Summary__c qResSummary;
+
+    for(QuestionnaireResponseData qrs: qrsData){
+
+      qResSummary = new Questionnaire_Response_Summary__c();
+      qResSummary.Questionnaire__c = qrs.relatedAnswerList[0].QuestionnaireId;
+      if (qrs.isPrescribed) {
+        qResSummary.Program_Offering__c = qrs.offeringId;
+      } else {
+        qResSummary.Course_Offering__c = qrs.offeringId;
+      }
+      qResSummary.Registration_Status__c = 'Confirmed';
+      qResSummary.Contact__c = contactId;
+      qrsListToInsert.add(qResSummary);
+
+      for(RelatedAnswersWrapper wrapper: qrs.relatedAnswerList){
+        relatedAnswerToQuestionnaireMap.put(
+          wrapper.Id,
+          wrapper.QuestionnaireId
+        );
+      }
+      if(!qrs.answerList.isEmpty()){
+        allAnswers.addAll(qrs.answerList);
+      }
+      if(!qrs.fileUploadData.isEmpty()){
+        allFileData.addAll(qrs.fileUploadData);
+      }
+    }
+
+    if(!qrsListToInsert.isEmpty()){
+      insert qrsListToInsert;
+    }
+    
+    for(Questionnaire_Response_Summary__c qrs:qrsListToInsert){
+      questionnaireToQRSMap.put(qrs.Questionnaire__c,qrs.Id);
+    }
+
+
+    if (!allAnswers.isEmpty()) {
+      for (Answer__c a : allAnswers) {
+        a.Questionnaire_Response_Summary__c = questionnaireToQRSMap.get(
+          relatedAnswerToQuestionnaireMap.get(a.Related_Answer__c)
+        );
+        answersToInsert.add(a);
+      }
+      insert answersToInsert;
+    }
+
+    for (Answer__c ans : answersToInsert) {
+      relatedAnswerToAnswerMap.put(ans.Related_Answer__c, ans.Id);
+    }
+
+    for (FileUpload file : allFileData) {
+      if (relatedAnswerToAnswerMap.containsKey(file.RelatedAnswerId)) {
+        ContentVersion cv = createContentVersion(file.Base64, file.FileName);
+        cvToRelatedAnswerMap.put(cv.Title, file.RelatedAnswerId);
+        cvListToInsertList.add(cv);
+      }
+    }
+
+    if (!cvListToInsertList.isEmpty()) {
+      insert cvListToInsertList;
+    }
+
+    List<ContentVersion> newContentVersionList = new List<ContentVersion>(
+      [
+        SELECT ContentDocumentId, Title
+        FROM ContentVersion
+        WHERE Id IN :cvListToInsertList
+      ]
+    );
+
+    if (!newContentVersionList.isEmpty()) {
+      ContentDocumentLink cdl;
+      Answer__c updateAnswer;
+      for (ContentVersion cv : newContentVersionList) {
+        String test = relatedAnswerToAnswerMap.get(
+          cvToRelatedAnswerMap.get(cv.Title)
+        );
+        cdl = new ContentDocumentLink(
+          ContentDocumentId = cv.ContentDocumentId,
+          LinkedEntityId = relatedAnswerToAnswerMap.get(
+            cvToRelatedAnswerMap.get(cv.Title)
+          ),
+          ShareType = 'V'
+        );
+        updateAnswer = new Answer__c(
+          Id = cdl.LinkedEntityId,
+          Response__c = cv.ContentDocumentId
+        );
+        answersToUpdate.put(updateAnswer.Id, updateAnswer);
+        contentDocLinkListToInsert.add(cdl);
+      }
+    }
+
+    if (!contentDocLinkListToInsert.isEmpty()) {
+      insert contentDocLinkListToInsert;
+    }
+
+    if (!answersToUpdate.keySet().isEmpty()) {
+      update answersToUpdate.values();
+    }
+   
+  }
+
+  private static ContentVersion createContentVersion(String base64, String filename) {
+    ContentVersion cv = new ContentVersion();
+    cv.VersionData = EncodingUtil.base64Decode(base64);
+    cv.Title = filename;
+    cv.PathOnClient = filename;
+    return cv;
+}
 
   /**
    * @description updates the cart status
@@ -595,7 +792,7 @@ public without sharing class CartItemCtrl {
    * @param paidInFull
    * @param paymentMethod
    */
-  @AuraEnabled
+  /*@AuraEnabled
   public static void createCourseConnection(List<String> cartItemIds, String contactId, String paidInFull, String paymentMethod){
     List<CartItem> cartList = [SELECT Id, CartId, Program_Offering__c, Course_Offering__c, Pricebook_Entry_ID__c, Contact__c FROM CartItem WHERE Id IN: cartItemIds];
     List<hed__Course_Enrollment__c> connectionToInsert = new List<hed__Course_Enrollment__c>();
@@ -672,7 +869,7 @@ public without sharing class CartItemCtrl {
       insert connectionToInsert;
     }
 
-  }
+  }*/
 
   /**
    * @description get OPE Product Category Id
@@ -689,21 +886,6 @@ public without sharing class CartItemCtrl {
     ];
 
     return prodCateg;
-  }
-
-  /**
-   * @description updates the cart discount applied field
-   * @param cartId - cart item ID
-   * @param discountAmount - cart status
-   */
-  @AuraEnabled
-  public static void updateCartDiscount(String cartId, Double discountAmount) {
-    //get the cart
-    WebCart webCart = [SELECT Id, Name, Discount_Applied__c FROM WebCart WHERE Id = :cartId LIMIT 1];
-
-    //update the cart based on the status received
-    webCart.Discount_Applied__c = discountAmount;
-    update webCart;
   }
 
   /**

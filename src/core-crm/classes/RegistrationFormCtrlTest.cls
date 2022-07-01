@@ -102,7 +102,7 @@ public with sharing class RegistrationFormCtrlTest {
       insert testAccount;
 
       String uniqueID = GenerateUniqueId.getUUID();
-      String emailTest = 'testUser' + uniqueID + '@test.com';
+      String emailTest = 'testUser1' + uniqueID + '@test.com';
 
       List<Contact> testContacts = new List<Contact>();
       Contact testContact1 = new Contact();
@@ -119,8 +119,8 @@ public with sharing class RegistrationFormCtrlTest {
       testContacts.add(testContact2);
 
       insert testContacts;
-
-      testContact2.Email = emailTest;
+      
+      testContact2.Email = 'testUser2' + GenerateUniqueId.getUUID() + '@test.com';
       update testContact2;
 
       String page = RegistrationFormCtrl.registerUser(
@@ -194,6 +194,24 @@ public with sharing class RegistrationFormCtrlTest {
 
       System.assert(sentOTP != null, 'sentOTP must not be null');
     }
+    Test.stopTest();
+  }
+
+  @isTest
+  static void getUserMobileLocale(){
+    String uniqueID = GenerateUniqueId.getUUID();
+    String emailTest = 'testUser' + uniqueID + '@test.com';
+
+    Contact testContact = new Contact();
+    testContact.Birthdate = Date.newInstance(1999, 1, 1);
+    testContact.ContactMobile_Locale__c = 'Australia (+61)';
+    testContact.Email = emailTest;
+    testContact.LastName = 'User';
+    insert testContact;
+
+    Test.startTest();
+    String getMLocale = RegistrationFormCtrl.getUserMobileLocale(testContact.Id);
+    System.assert(getMLocale != null, 'User has no mobile locale.');
     Test.stopTest();
   }
 

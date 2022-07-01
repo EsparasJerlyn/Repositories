@@ -14,7 +14,13 @@
       |                           |                       |                      | Learners List button logic   |
       | roy.nino.regala           | March 29, 2022        | DEPP-1539            | Added Add Registration       |
       | eccarius.karl.munoz       | May 03, 2022          | DEPP-2314            | Handling for Prescribed Prog.|
- */
+      | keno.domienri.dico        | June 27, 2022         | DEPP-3287            | Added new button Proceed     |
+      |                           |                       |                      | without Invoice              |
+      | john.bo.a.pineda          | June 28, 2022         | DEPP-3315            | Modified handleSaveResponse  |
+      |                           |                       |                      | logic for Proceed w/o Invoice|
+      | john.bo.a.pineda          | June 29, 2022         | DEPP-3323            | Modified to add logic to     |
+      |                           |                       |                      | validate Upload File Type    |
+*/
 
 import { api, LightningElement, wire } from 'lwc';
 import { refreshApex } from '@salesforce/apex';
@@ -28,6 +34,7 @@ import getPricingValidationValues from '@salesforce/apex/ManageRegistrationSecti
 import getSearchedContacts from '@salesforce/apex/ManageRegistrationSectionCtrl.getSearchedContacts';
 import getQuestions from "@salesforce/apex/ManageRegistrationSectionCtrl.getQuestions";
 import addRegistration from '@salesforce/apex/ManageRegistrationSectionCtrl.addRegistration';
+import addRegistration2 from '@salesforce/apex/ManageRegistrationSectionCtrl.addRegistration2';
 import getPBEntries from '@salesforce/apex/ManageRegistrationSectionCtrl.getPBEntries';
 import LWC_Error_General from '@salesforce/label/c.LWC_Error_General';
 import LWC_List_ConfirmedLearnerStatus	 from '@salesforce/label/c.LWC_List_ConfirmedLearnerStatus';
@@ -43,7 +50,7 @@ const NO_REC_FOUND = 'No record(s) found.';
 const MODAL_TITLE = 'Registration Details'
 const SECTION_HEADER = 'Manage Registrations Overview';
 const COLUMN_HEADER = 'First Name,Last Name,Contact Email,Birthdate,Registration Status,LMS Integration Status'
-      
+
 export default class ManageRegistrationSection extends NavigationMixin(LightningElement) {
 
     @api prodReqId;
@@ -88,6 +95,9 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
     formLoading = false;
     contactFields;
 
+    //proceed without Invoice
+    isProceedNoInvoice = false;
+
     //registration Response variables
     isRespondQuestions;
     responseData;
@@ -108,6 +118,11 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
         { label: 'Registration Questions', fieldName: 'applicationURL', sortable: true, type: 'url', typeAttributes: {label: 'View', target: '_blank'} },
         { label: 'Regenerate Invoice', fieldName: 'regenerateInvoiceURL', type: 'url', typeAttributes: {label: 'Regenerate Invoice', target: '_blank', tooltip: 'Payment Gateway Link'} }
     ];
+
+    // Set Accepted File Formats
+    get acceptedFormats() {
+        return ['.pdf', '.png', '.jpg', 'jpeg'];
+    }
 
     //Retrieves questionnaire data related to the product request
     tableData;
@@ -191,7 +206,7 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
             });
             this.pricingValidationValues.unshift({ label: 'None', value: '' });
         }
-    }  
+    }
 
     //Retrieves Price Book Entries
     pbEntries;
@@ -205,17 +220,17 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
             const hasStandardPricing = resp.find(element => element.label === ('Standard Price Book'));
             if(hasEarlyBird && hasStandardPricing){
                 tempRecords = resp.filter(rec=> !rec.label.includes('Standard Price Book'));
-                this.pbEntryRecords = [...tempRecords]; 
+                this.pbEntryRecords = [...tempRecords];
                 this.pbEntryRecords = tempRecords.map(type => {
                     return { label: type.label, value: type.id };
-                });               
+                });
             }else{
                 this.pbEntryRecords = resp.map(type => {
                     return { label: type.label, value: type.id };
                 });
             }
-            
-        } 
+
+        }
     }
 
     //handles pricing selection
@@ -321,16 +336,24 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
             }else if(event.target.name === row.Id && row.IsFileUpload){
                 row.Answer = event.detail.value.toString();
                 const file = event.target.files[0];
-                let reader = new FileReader();
-                reader.onload = () => {
-                    let base64 = reader.result.split(',')[1];
-                    row.FileData = {
-                        'filename': file.name,
-                        'base64': base64,
-                        'recordId': undefined
-                    };
+                let fileNameParts = file.name.split('.');
+                let extension = '.' + fileNameParts[fileNameParts.length - 1].toLowerCase();
+                if (this.acceptedFormats.includes(extension)) {
+                    let reader = new FileReader();
+                    reader.onload = () => {
+                        let base64 = reader.result.split(',')[1];
+                        row.FileData = {
+                            'filename': file.name,
+                            'base64': base64,
+                            'recordId': undefined
+                        };
+                    }
+                    reader.readAsDataURL(file);
+                } else {
+                    row.Answer = '';
+                    row.FileData = undefined;
+                    this.generateToast('Error.','Invalid File Format.','error');
                 }
-                reader.readAsDataURL(file);
             }else if(event.target.name === row.Id && row.IsMultiPicklist){
                 row.Answer = event.detail.value?event.detail.value.toString().replace(/,/g, ';'):row.Answer;
             }else if(event.target.name === row.Id){
@@ -373,6 +396,14 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
         });
     }
 
+    handleProceedNoInvoiceClick(event){
+        this.isProceedNoInvoice = true;
+    }
+
+    handleRedirectToInvoiceClick(event){
+        this.isProceedNoInvoice = false;
+    }
+
     handleCreateContact(event){
         event.preventDefault();
         let fields = event.detail.fields;
@@ -382,10 +413,27 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
         }else{
             this.isLoading = true;
             this.saveInProgress = true;
-            this.saveRegistration(fields,this.childRecordId,[],[],'',this.prescribedProgram);
+            if(this.isProceedNoInvoice = true){
+                this.saveRegistration2(fields,this.childRecordId,[],[],'',this.prescribedProgram,this.isProceedNoInvoice);
+            } else {
+                this.saveRegistration(fields,this.childRecordId,[],[],'',this.prescribedProgram);
+            }
         }
     }
 
+    handleExistingContactPWI(){
+        let fields = {};
+        fields.Id = this.contactId;
+        this.contactFields = fields;
+        this.isProceedNoInvoice = true;
+        if(this.hasQuestions){
+            this.handleRespondQuestions();
+        }else{
+            this.isLoading = true;
+            this.saveInProgress = true;
+            this.saveRegistration2(fields,this.childRecordId,[],[],'',this.prescribedProgram,this.isProceedNoInvoice);
+        }
+    }
 
     handleExistingContact(){
         let fields = {};
@@ -403,7 +451,12 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
     handleSaveResponse(){
         this.isLoading = true;
         this.saveInProgress = true;
-        this.saveRegistration(this.contactFields,this.childRecordId,this.responseData.data,this.createAnswerRecord(),JSON.stringify(this.createFileUploadMap()),this.prescribedProgram);
+        if(this.isProceedNoInvoice = true){
+            this.saveRegistration2(this.contactFields,this.childRecordId,this.responseData.data,this.createAnswerRecord(),JSON.stringify(this.createFileUploadMap()),this.prescribedProgram,this.isProceedNoInvoice);
+        } else {
+            this.saveRegistration(this.contactFields,this.childRecordId,this.responseData.data,this.createAnswerRecord(),JSON.stringify(this.createFileUploadMap()),this.prescribedProgram);
+        }
+
         this.resetResponses();
     }
 
@@ -427,7 +480,7 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
                 return record;
             }
         });
-        
+
         return fileUpload.filter(key => key !== undefined)?fileUpload.filter(key => key !== undefined):fileUpload;
     }
 
@@ -443,7 +496,57 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
         return answerRecords;
     }
 
-    saveRegistration(contact,offeringId,relatedAnswer,answer,fileUpload,prescribedProgram){        
+    saveRegistration2(contact,offeringId,relatedAnswer,answer,fileUpload,prescribedProgram,isProceedNoInvoice){
+        addRegistration2({
+            contactRecord:contact,
+            offeringId:offeringId,
+            relatedAnswerList:relatedAnswer,
+            answerList:answer,
+            fileUpload:fileUpload,
+            prescribedProgram:prescribedProgram,
+            priceBookEntryId : this.pbEntryRecord,
+            isProceedNoInvoice : this.isProceedNoInvoice
+        })
+        .then(res =>{
+                this.generateToast(SUCCESS_TITLE, 'Registration Successful', SUCCESS_VARIANT);
+                refreshApex(this.tableData);
+                // const config = {
+                //     type: 'standard__webPage',
+                //     attributes: {
+                //         url: res
+                //     }
+                // };
+                // this[NavigationMixin.Navigate](config);
+        })
+        .finally(()=>{
+            this.saveInProgress = false;
+            this.isModalOpen = false;
+            this.isEditContact = false;
+            this.isAddContact = false;
+            this.isCreateContact = false;
+            this.isLoading = false;
+            this.saveInProgress = false;
+            this.contactId = '';
+            this.contactSearchItems = [];
+        })
+        .catch(error =>{
+            let errMsg = LWC_Error_General;
+            if(error.body.pageErrors){
+                error.body.pageErrors.forEach(err => {
+                    errMsg = err.message;
+                });
+            }
+            if(error.body.fieldErrors.Username){
+                error.body.fieldErrors.Username.forEach(err => {
+                    errMsg = err.message;
+                });
+            }
+            this.generateToast('Error.', errMsg ,'error');
+            console.log('ERROR:', error);
+        });
+    }
+
+    saveRegistration(contact,offeringId,relatedAnswer,answer,fileUpload,prescribedProgram){
         addRegistration({
             contactRecord:contact,
             offeringId:offeringId,
@@ -481,13 +584,14 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
                 error.body.pageErrors.forEach(err => {
                     errMsg = err.message;
                 });
-            } 
+            }
             if(error.body.fieldErrors.Username){
                 error.body.fieldErrors.Username.forEach(err => {
                     errMsg = err.message;
                 });
-            } 
+            }
             this.generateToast('Error.', errMsg ,'error');
+            console.log('ERROR:', error);
         });
     }
 
@@ -682,8 +786,8 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
         let tempQuestions = this.questions.filter(row => row.IsCriteria && row.Answer!= '' && row.Answer.toUpperCase() != row.MandatoryResponse.toUpperCase());
         if(
             (tempQuestions && tempQuestions.length > 0) ||
-            (this.questions && 
-            this.questions.filter(item => item.Answer == '' || item.Answer == undefined) && 
+            (this.questions &&
+            this.questions.filter(item => item.Answer == '' || item.Answer == undefined) &&
             this.questions.filter(item => item.Answer == '' || item.Answer == undefined).length > 0)
         ){
             return true;

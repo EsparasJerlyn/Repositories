@@ -29,7 +29,8 @@ public with sharing class PreSessionReminderEmailCtrl {
         hed__Contact__r.FirstName,
         hed__Contact__r.LastName,
         Course_Offering_Name__c,
-        Paid_in_Full__c
+        Paid_in_Full__c,
+        hed__Course_Offering__r.hed__Course__c
       FROM hed__Course_Enrollment__c
       WHERE Id = :courseConnectionId
       LIMIT 1
@@ -50,7 +51,8 @@ public with sharing class PreSessionReminderEmailCtrl {
           Location_Name__c,
           Location_Detail_v2__c
         FROM Session__c
-        WHERE Course_Connection__c = :courseConnectionId
+        WHERE Date__c =:Date.today()+1
+            AND Course_Offering__r.hed__Course__c = :courseConnect.hed__Course_Offering__r.hed__Course__c
       ];
     }
   }

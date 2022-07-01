@@ -6,6 +6,10 @@
     <description>Product Request with Course and Course Offering</description>
     <join>
         <join>
+            <join>
+                <outerJoin>false</outerJoin>
+                <relationship>hed__Course_Enrollment__r</relationship>
+            </join>
             <outerJoin>false</outerJoin>
             <relationship>hed__Course_Offerings__r</relationship>
         </join>
@@ -16,27 +20,7 @@
     <sections>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Id</field>
-            <table>Product_Request__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Owner</field>
-            <table>Product_Request__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>true</checkedByDefault>
-            <field>Name</field>
-            <table>Product_Request__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>RecordType</field>
-            <table>Product_Request__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>CreatedDate</field>
+            <field>Child_of_Prescribed_Program__c</field>
             <table>Product_Request__c</table>
         </columns>
         <columns>
@@ -46,22 +30,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>LastModifiedDate</field>
-            <table>Product_Request__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>LastModifiedBy</field>
-            <table>Product_Request__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>LastActivityDate</field>
-            <table>Product_Request__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Child_of_Prescribed_Program__c</field>
+            <field>CreatedDate</field>
             <table>Product_Request__c</table>
         </columns>
         <columns>
@@ -81,6 +50,21 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <field>LastActivityDate</field>
+            <table>Product_Request__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>LastModifiedBy</field>
+            <table>Product_Request__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>LastModifiedDate</field>
+            <table>Product_Request__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
             <field>Migration_Key__c</field>
             <table>Product_Request__c</table>
         </columns>
@@ -92,6 +76,21 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>OPE_Program_Plan_Type__c</field>
+            <table>Product_Request__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Owner</field>
+            <table>Product_Request__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Id</field>
+            <table>Product_Request__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>true</checkedByDefault>
+            <field>Name</field>
             <table>Product_Request__c</table>
         </columns>
         <columns>
@@ -116,6 +115,11 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <field>RecordType</field>
+            <table>Product_Request__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
             <field>Unit_Module_Name__c</field>
             <table>Product_Request__c</table>
         </columns>
@@ -124,87 +128,7 @@
     <sections>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Id</field>
-            <table>Product_Request__c.Courses__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>true</checkedByDefault>
-            <field>Name</field>
-            <table>Product_Request__c.Courses__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>RecordType</field>
-            <table>Product_Request__c.Courses__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>CreatedDate</field>
-            <table>Product_Request__c.Courses__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>CreatedBy</field>
-            <table>Product_Request__c.Courses__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>LastModifiedDate</field>
-            <table>Product_Request__c.Courses__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>LastModifiedBy</field>
-            <table>Product_Request__c.Courses__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>hed__Account__c</field>
-            <table>Product_Request__c.Courses__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>hed__Course_ID__c</field>
-            <table>Product_Request__c.Courses__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>hed__Credit_Hours__c</field>
-            <table>Product_Request__c.Courses__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>hed__Description__c</field>
-            <table>Product_Request__c.Courses__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>hed__Extended_Description__c</field>
-            <table>Product_Request__c.Courses__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>External_Id__c</field>
-            <table>Product_Request__c.Courses__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>hed__Academic_Level__c</field>
-            <table>Product_Request__c.Courses__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>hed__Credentialing_Identifier__c</field>
-            <table>Product_Request__c.Courses__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>hed__Issuer__c</field>
-            <table>Product_Request__c.Courses__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>hed__Subject__c</field>
             <table>Product_Request__c.Courses__r</table>
         </columns>
         <columns>
@@ -219,7 +143,17 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <field>Course_Code__c</field>
+            <table>Product_Request__c.Courses__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
             <field>Collaboration_with_External_Organisation__c</field>
+            <table>Product_Request__c.Courses__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Content__c</field>
             <table>Product_Request__c.Courses__r</table>
         </columns>
         <columns>
@@ -234,12 +168,17 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Content__c</field>
+            <field>Core_Conceptsv2__c</field>
             <table>Product_Request__c.Courses__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Core_Conceptsv2__c</field>
+            <field>Id</field>
+            <table>Product_Request__c.Courses__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>hed__Course_ID__c</field>
             <table>Product_Request__c.Courses__r</table>
         </columns>
         <columns>
@@ -259,7 +198,12 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Course_Code__c</field>
+            <field>CreatedBy</field>
+            <table>Product_Request__c.Courses__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>CreatedDate</field>
             <table>Product_Request__c.Courses__r</table>
         </columns>
         <columns>
@@ -269,12 +213,17 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Credits__c</field>
+            <field>hed__Credentialing_Identifier__c</field>
             <table>Product_Request__c.Courses__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Delivery_Comments__c</field>
+            <field>hed__Credit_Hours__c</field>
+            <table>Product_Request__c.Courses__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Credits__c</field>
             <table>Product_Request__c.Courses__r</table>
         </columns>
         <columns>
@@ -289,7 +238,17 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <field>Delivery_Comments__c</field>
+            <table>Product_Request__c.Courses__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
             <field>Delivery_Type__c</field>
+            <table>Product_Request__c.Courses__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>hed__Account__c</field>
             <table>Product_Request__c.Courses__r</table>
         </columns>
         <columns>
@@ -300,6 +259,11 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Department_Right_Indented__c</field>
+            <table>Product_Request__c.Courses__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>hed__Description__c</field>
             <table>Product_Request__c.Courses__r</table>
         </columns>
         <columns>
@@ -325,6 +289,16 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Evolve_with_QUTeXv2__c</field>
+            <table>Product_Request__c.Courses__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>hed__Extended_Description__c</field>
+            <table>Product_Request__c.Courses__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>External_Id__c</field>
             <table>Product_Request__c.Courses__r</table>
         </columns>
         <columns>
@@ -359,6 +333,26 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <field>hed__Issuer__c</field>
+            <table>Product_Request__c.Courses__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>LastModifiedBy</field>
+            <table>Product_Request__c.Courses__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>LastModifiedDate</field>
+            <table>Product_Request__c.Courses__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Left_Signature__c</field>
+            <table>Product_Request__c.Courses__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
             <field>LMS_Content_Delivery_Location__c</field>
             <table>Product_Request__c.Courses__r</table>
         </columns>
@@ -374,17 +368,12 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Left_Signature__c</field>
+            <field>Location__c</field>
             <table>Product_Request__c.Courses__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Location_Details__c</field>
-            <table>Product_Request__c.Courses__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Location__c</field>
             <table>Product_Request__c.Courses__r</table>
         </columns>
         <columns>
@@ -430,6 +419,11 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>More_Detailsv2__c</field>
+            <table>Product_Request__c.Courses__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>true</checkedByDefault>
+            <field>Name</field>
             <table>Product_Request__c.Courses__r</table>
         </columns>
         <columns>
@@ -529,6 +523,11 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <field>RecordType</field>
+            <table>Product_Request__c.Courses__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
             <field>Recordtype_Name__c</field>
             <table>Product_Request__c.Courses__r</table>
         </columns>
@@ -545,6 +544,11 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Start_Date__c</field>
+            <table>Product_Request__c.Courses__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>hed__Subject__c</field>
             <table>Product_Request__c.Courses__r</table>
         </columns>
         <columns>
@@ -582,81 +586,6 @@
     <sections>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Id</field>
-            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>true</checkedByDefault>
-            <field>Name</field>
-            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>CreatedDate</field>
-            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>CreatedBy</field>
-            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>LastModifiedDate</field>
-            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>LastModifiedBy</field>
-            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>hed__Term__c</field>
-            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>hed__Capacity__c</field>
-            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>hed__End_Date__c</field>
-            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>hed__Facility__c</field>
-            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>hed__Faculty__c</field>
-            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>hed__Section_ID__c</field>
-            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>hed__Start_Date__c</field>
-            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>hed__Time_Block__c</field>
-            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>External_Id__c</field>
-            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Action_Required__c</field>
             <table>Product_Request__c.Courses__r.hed__Course_Offerings__r</table>
         </columns>
@@ -668,6 +597,11 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Available_Seats__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>hed__Capacity__c</field>
             <table>Product_Request__c.Courses__r.hed__Course_Offerings__r</table>
         </columns>
         <columns>
@@ -687,6 +621,26 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <field>Id</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>true</checkedByDefault>
+            <field>Name</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>CreatedBy</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>CreatedDate</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
             <field>Delivery_Type__c</field>
             <table>Product_Request__c.Courses__r.hed__Course_Offerings__r</table>
         </columns>
@@ -702,12 +656,22 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <field>hed__End_Date__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
             <field>Evaluation_Summary__c</field>
             <table>Product_Request__c.Courses__r.hed__Course_Offerings__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Evaluation_Type__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>External_Id__c</field>
             <table>Product_Request__c.Courses__r.hed__Course_Offerings__r</table>
         </columns>
         <columns>
@@ -727,7 +691,22 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <field>hed__Facility__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
             <field>IsActive__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>LastModifiedBy</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>LastModifiedDate</field>
             <table>Product_Request__c.Courses__r.hed__Course_Offerings__r</table>
         </columns>
         <columns>
@@ -777,6 +756,11 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <field>hed__Faculty__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
             <field>Program_Offering__c</field>
             <table>Product_Request__c.Courses__r.hed__Course_Offerings__r</table>
         </columns>
@@ -797,6 +781,31 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <field>hed__Affiliation__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>hed__Section_ID__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>hed__Start_Date__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>hed__Term__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>hed__Time_Block__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
             <field>Total_Number_of_Registered_Learners__c</field>
             <table>Product_Request__c.Courses__r.hed__Course_Offerings__r</table>
         </columns>
@@ -811,5 +820,303 @@
             <table>Product_Request__c.Courses__r.hed__Course_Offerings__r</table>
         </columns>
         <masterLabel>Course Offerings</masterLabel>
+    </sections>
+    <sections>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Birthdate__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Certificate_Type__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>hed__Account__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Id</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Course_Name__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>hed__Course_Offering__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Course_Offering_Start_Date__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Amount__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Cart_Item__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>hed__Contact__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Course_Code__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Name</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Course_Offering_End_Date__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Course_Offering_Name__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Course_Primary_Delivery_Platform__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>CreatedBy</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>hed__Credentialing_Identifier__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>hed__Credits_Earned__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Email__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>External_Key__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>First_Name__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>hed__Grade__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Is_Group_Registered__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>CreatedDate</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>hed__Credits_Attempted__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>hed__Display_Grade__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>External_Id__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Facilitator_Bio__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Gender__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>IsActive__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>LastModifiedBy</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>LastModifiedDate</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>LMS_Integration_Status__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Marks_Description__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Mobile__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Offering_End_Date__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Owner</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Payment_Method__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>hed__Primary__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Last_Name__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Marks__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Migration_Key__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Nominated_Student_ID__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Offering_Start_Date__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Paid_in_Full__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Pricing_Validation__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>hed__Program_Enrollment__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Program_Offering__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>QUT_Employee_ID__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>QUT_Student_ID__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Recordtype_Name__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>hed__Status__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>hed__Verification_Status__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Purchased_Price__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>QUT_Identity_ID__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>RecordType</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Salutation__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Transaction_ID__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>hed__Verification_Status_Date__c</field>
+            <table>Product_Request__c.Courses__r.hed__Course_Offerings__r.hed__Course_Enrollment__r</table>
+        </columns>
+        <masterLabel>Course Connection</masterLabel>
     </sections>
 </ReportType>

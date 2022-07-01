@@ -491,51 +491,57 @@ public without sharing class ProductCtrl{
 		if (filterData.startDate != null || filterData.endDate != null){
 			Date sDate ;
 			Date eDate ;
-
-			List<AggregateResult> startDateListCourse = new List<AggregateResult>();
-			String startDateListCourseQuery = 'SELECT hed__Course__c, MIN(hed__Start_Date__c)startDate ';
-					startDateListCourseQuery += 'FROM hed__Course_Offering__c ';
-					startDateListCourseQuery += 'WHERE Registration_Start_Date__c <= TODAY ';
-					startDateListCourseQuery += 'AND (Registration_End_Date__c = NULL OR Registration_End_Date__c > TODAY) ';
-					startDateListCourseQuery += 'AND IsActive__c = TRUE ';
-					startDateListCourseQuery += 'AND Available_Seats__c > 0 ';
-					if(filterData.startDate != null){
-						sDate = Date.parse(filterData.startDate);
-						startDateListCourseQuery += 'AND hed__Start_Date__c >= : sDate ';
-					} 
-					if(filterData.endDate !=null){
-						eDate = Date.parse(filterData.endDate);
-						startDateListCourseQuery += 'AND hed__Start_Date__c <= : eDate ';
-					}
-					startDateListCourseQuery += 'AND hed__Course__c IN : courseIdSet  ';
-					startDateListCourseQuery += 'GROUP BY hed__Course__c  ';
-					startDateListCourse = Database.query(startDateListCourseQuery);
-			for (AggregateResult startDate : startDateListCourse){
-				prodCourseStartDateId.add((Id) startDate.get('hed__Course__c'));
+			if(filterData.startDate != null){
+				sDate = Date.parse(filterData.startDate);
+			}
+			if(filterData.endDate !=null){
+				eDate = Date.parse(filterData.endDate);
 			}
 
-			List<AggregateResult> startDateListProgram = new List<AggregateResult>();
-			String startDateListProgramQuery = 'SELECT hed_Program_Plan__c, MIN(Start_Date__c)startDate ';
-					startDateListProgramQuery += 'FROM Program_Offering__c '; 
-					startDateListProgramQuery += 'WHERE Registration_Start_Date__c <= TODAY ';
-					startDateListProgramQuery += 'AND (Registration_End_Date__c = NULL OR Registration_End_Date__c > TODAY) ';
-					startDateListProgramQuery += 'AND IsActive__c = TRUE ';
-					startDateListProgramQuery += 'AND Available_Seats__c > 0 ';
-					if(filterData.startDate != null){
-						sDate = Date.parse(filterData.startDate);
-						startDateListProgramQuery += 'AND Start_Date__c >= : sDate ';
-					} 
-					if(filterData.endDate !=null){
-						eDate = Date.parse(filterData.endDate);
-						startDateListProgramQuery += 'AND Start_Date__c <= : eDate ';
-					}
-					startDateListProgramQuery += 'AND hed_Program_Plan__c IN : programIdSet  ';
-					startDateListProgramQuery += 'GROUP BY hed_Program_Plan__c  ';
-					
-					startDateListProgram = Database.query(startDateListProgramQuery);
+            List<AggregateResult> startDateListCourse = [
+                SELECT hed__Course__c, MIN(hed__Start_Date__c) startDate
+                FROM hed__Course_Offering__c
+                WHERE
+                    hed__Start_Date__c >= TODAY 
+					AND Registration_Start_Date__c <= TODAY
+					AND (Registration_End_Date__c = NULL OR Registration_End_Date__c > TODAY) 
+					AND IsActive__c = TRUE 
+					AND Available_Seats__c > 0 
+                    AND hed__Course__c IN :courseIdSet
+                GROUP BY hed__Course__c
+            ];
+
+			for (AggregateResult startDate : startDateListCourse){
+				if(filterData.startDate != null && filterData.endDate == null && (Date) startDate.get('startDate') >= sDate){
+					prodCourseStartDateId.add((Id) startDate.get('hed__Course__c'));
+				}else if(filterData.endDate != null && filterData.startDate == null && (Date) startDate.get('startDate') <= eDate){
+					prodCourseStartDateId.add((Id) startDate.get('hed__Course__c'));
+				}else if(filterData.endDate != null && filterData.startDate != null && (Date) startDate.get('startDate') <= eDate && (Date) startDate.get('startDate') >= sDate){
+					prodCourseStartDateId.add((Id) startDate.get('hed__Course__c'));
+				}
+			}
+
+            List<AggregateResult> startDateListProgram = [
+                SELECT hed_Program_Plan__c, MIN(Start_Date__c) startDate
+                FROM Program_Offering__c
+                WHERE
+                    Start_Date__c >= TODAY 
+					AND Registration_Start_Date__c <= TODAY
+					AND (Registration_End_Date__c = NULL OR Registration_End_Date__c > TODAY) 
+					AND IsActive__c = TRUE 
+					AND Available_Seats__c > 0                  
+                    AND hed_Program_Plan__c IN :programIdSet
+                GROUP BY hed_Program_Plan__c
+            ];
 
 			for (AggregateResult startDate : startDateListProgram){
-				prodProgramStartDateId.add((Id) startDate.get('hed_Program_Plan__c'));
+				if(filterData.startDate != null && filterData.endDate == null && (Date) startDate.get('startDate') >= sDate){
+					prodProgramStartDateId.add((Id) startDate.get('hed_Program_Plan__c'));
+				}else if(filterData.endDate != null && filterData.startDate == null && (Date) startDate.get('startDate') <= eDate){
+					prodProgramStartDateId.add((Id) startDate.get('hed_Program_Plan__c'));
+				}else if(filterData.endDate != null && filterData.startDate != null && (Date) startDate.get('startDate') <= eDate && (Date) startDate.get('startDate') >= sDate){
+					prodProgramStartDateId.add((Id) startDate.get('hed_Program_Plan__c'));
+				}
 			}
 		}
 

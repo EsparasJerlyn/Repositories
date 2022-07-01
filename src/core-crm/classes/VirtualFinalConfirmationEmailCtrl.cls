@@ -28,7 +28,9 @@ public with sharing class VirtualFinalConfirmationEmailCtrl {
         hed__Contact__r.FirstName,
         hed__Contact__r.LastName,
         Course_Offering_Name__c,
-        Paid_in_Full__c
+        Paid_in_Full__c,
+        hed__Course_Offering__r.hed__Course__c,
+        hed__Course_Offering__r.Delivery_Type__c
       FROM hed__Course_Enrollment__c
       WHERE Id = :courseConnectionId
       LIMIT 1
@@ -49,7 +51,8 @@ public with sharing class VirtualFinalConfirmationEmailCtrl {
           Location_Name__c,
           Location_Detail_v2__c
         FROM Session__c
-        WHERE Course_Connection__c = :courseConnectionId
+        WHERE Course_Offering__r.hed__Course__c = :courseConnect.hed__Course_Offering__r.hed__Course__c
+            AND Course_Offering__r.Delivery_Type__c = 'Online Classroom'
       ];
     }
   }

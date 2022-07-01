@@ -7,7 +7,8 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | marygrace.li@qut.edu.au        | April 4, 2022         | DEPP-1479              | Created file                 |
-      |                                |                       |                        |                              |
+      | rhea.b.torres                  | June 22, 2022         | DEPP-3188              | Get sessions with Date__c is |
+      |                                |                       |                        | tomorrow                     |
  */
 public with sharing class FacetoFaceFinalConfirmationEmailCtrl {
   private static final String STR_QUTEX = 'QUTeX';
@@ -15,6 +16,10 @@ public with sharing class FacetoFaceFinalConfirmationEmailCtrl {
   private static final String FACE2FACE_CONFIRMATION_EMAIL_TEMPLATE = 'Face-Face Final Confirmation Email';
   public hed__Course_Enrollment__c courseConnect { get; set; }
   public List<Session__c> sessions { get; set; }
+  Set<String> faceToFaceSet = new Set<String>{'Brisbane Classroom',
+                                            'Canberra Classroom',
+                                            'Melbourne Classroom',
+                                            'Sydney Classroom'};
 
   public facetoFaceFinalConfirmationEmailCtrl() {
     String courseConnectionId = ApexPages.currentPage()
@@ -28,7 +33,9 @@ public with sharing class FacetoFaceFinalConfirmationEmailCtrl {
         hed__Contact__r.FirstName,
         hed__Contact__r.LastName,
         Course_Offering_Name__c,
-        Paid_in_Full__c
+        Paid_in_Full__c,
+        hed__Course_Offering__r.hed__Course__c,
+        hed__Course_Offering__r.Delivery_Type__c
       FROM hed__Course_Enrollment__c
       WHERE Id = :courseConnectionId
       LIMIT 1
@@ -49,7 +56,8 @@ public with sharing class FacetoFaceFinalConfirmationEmailCtrl {
           Location_Name__c,
           Location_Detail_v2__c
         FROM Session__c
-        WHERE Course_Connection__c = :courseConnectionId
+        WHERE Course_Offering__r.hed__Course__c = :courseConnect.hed__Course_Offering__r.hed__Course__c
+            AND Course_Offering__r.Delivery_Type__c IN :faceToFaceSet
       ];
     }
   }

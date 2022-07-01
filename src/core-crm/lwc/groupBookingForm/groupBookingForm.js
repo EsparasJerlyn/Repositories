@@ -1,3 +1,18 @@
+/**
+ * @description A LWC component for group booking
+ *
+ * @see ../classes/GroupBookingFormCtrl.cls
+ *
+ * @author Accenture
+ *
+ * @history
+ *    | Developer                 | Date                  | JIRA                 | Change Summary                        |
+      |---------------------------|-----------------------|----------------------|---------------------------------------|
+      | julie.jane.alegre         | May 04, 2022          | DEPP-2070            | Created file                          |
+      | julie.jane.alegre         | June 28, 2022         | DEPP-3313            | Fix modal sizing                      |
+      | john.bo.a.pineda          | June 29, 2022         | DEPP-3323            | Modified to add logic to validate     |
+      |                           |                       |                      | Upload File Type                      |
+*/
 import { LightningElement, track, wire, api } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { updateRecord } from 'lightning/uiRecordApi';
@@ -18,6 +33,9 @@ import LWC_Error_General from "@salesforce/label/c.LWC_Error_General";
 import communityId from "@salesforce/community/Id";
 import { loadStyle } from "lightning/platformResourceLoader";
 import customSR from "@salesforce/resourceUrl/QUTInternalCSS";
+import getMobileLocaleOptions from "@salesforce/apex/RegistrationFormCtrl.getMobileLocaleOptions";
+import getUserMobileLocale from "@salesforce/apex/RegistrationFormCtrl.getUserMobileLocale";
+import qutResourceImg from "@salesforce/resourceUrl/QUTImages";
 
 const SUCCESS_MSG = 'Record successfully updated.';
 const SUCCESS_TITLE = 'Success!';
@@ -33,9 +51,9 @@ const CONTACT_FIELDS = [
   ];
 
 export default class GroupBookingForm extends LightningElement {
-    //Boolean tracked variable to indicate if modal is open or not default value is false as modal is closed when page is loaded 
+    //Boolean tracked variable to indicate if modal is open or not default value is false as modal is closed when page is loaded
     isModalOpen = true;
-    
+
     @api productDetails;
     @api selectedOffering;
     @api selectedProgramOffering;
@@ -83,18 +101,34 @@ export default class GroupBookingForm extends LightningElement {
     @track isOpenPayment = false;
     @track fromCartSummary = false;
     @track disablePayment = false;
-    @track total;  //total needed for payment 
+    @track total;  //total needed for payment
     @track cartExternalId;
     @track webStoreId;
     @track firstName;
     @track lastName;
     @track contactEmail;
+    @track contactMobileLocale;
     @track amount;
     @track xString;
     cartItems;
     processing;
-    
-    
+    @track questionsPrimary;
+
+    localeOptions = [];
+    localeDisplayName;
+    localeConMobile;
+    @track locale;
+    /**
+     * Payment Options
+     */
+    paymentOpt = [];
+    @api hasPayNow;
+    @api hasInvoice;
+
+    // Set Accepted File Formats
+    get acceptedFormats() {
+        return ['.pdf', '.png', '.jpg', 'jpeg'];
+    }
 
 @wire(getRecord, { recordId: userId, fields: CONTACT_FIELDS })
     wiredContact({ error, data }) {
@@ -105,13 +139,23 @@ export default class GroupBookingForm extends LightningElement {
         this.firstName = data.fields.Contact.value.fields.FirstName.value;
         this.lastName = data.fields.Contact.value.fields.LastName.value;
         this.contactEmail = data.fields.Contact.value.fields.Email.value;
-        //else if error
 
+
+        getUserMobileLocale({userId: this.contactId})
+        .then((result) => {
+            this.localeConMobile = result;
+
+        })
+        .catch((e)=> {
+
+        });
+
+        //else if error
     } else if (error) {
         this.error = error;
-        console.log('error',error);
+
     }
-} 
+}
 
     closeModal() {
         // to close modal set isModalOpen tarck value as false
@@ -127,7 +171,7 @@ export default class GroupBookingForm extends LightningElement {
               );
         })
         .catch((e) =>{
-            console.log(e);
+            this.error = e;
         })
         .finally(()=>{
             this.isModalOpen = false;
@@ -141,30 +185,28 @@ export default class GroupBookingForm extends LightningElement {
             this.num = 1;
             this.dispatchEvent(new CustomEvent('close'));
         })
-        
+
     }
-    
+
     get options(){
-        
+
         for(let i=this.minParticipants; i<= this.maxParticipants;i++){
             this.listOfdata=[...this.listOfdata,{label: i.toLocaleString(), value: i}];
         }
         return this.listOfdata;
     }
-    
+
     connectedCallback(){
+        this.xButton = qutResourceImg + "/QUTImages/Icon/xMark.svg";
         if(this.isPrescribed){
-            this.productRequestId = this.productDetails.Program_Plan__c.Product_Request__c;
-            this.minParticipants = this.productDetails.Program_Plan__r.Minimum_Participants__c;
-            this.maxParticipants =  this.productDetails.Program_Plan__r.Maximum_Participants__c;
+            this.productRequestId = this.productDetails.Program_Plan__r.Product_Request__c;
         }else{
             this.productRequestId = this.productDetails.Course__r.ProductRequestID__c;
-            this.minParticipants = this.productDetails.Course__r.Minimum_Participants__c;
-            this.maxParticipants =  this.productDetails.Course__r.Maximum_Participants__c;
         }
-
         this.productId = this.productDetails.Id;
         this.productCourseName = this.productDetails.Name;
+        this.minParticipants = this.productDetails.Minimum_Participants_Group__c;
+        this.maxParticipants =  this.productDetails.Maximum_Participants_Group__c;
 
         getQuestionsForGroupBooking({
             productReqId: this.productRequestId
@@ -179,11 +221,11 @@ export default class GroupBookingForm extends LightningElement {
                     this.questionsPrimary= this.formatQuestions(results);
 
                 }
-                
+
         })
         .catch((e) => {
             this.generateToast("Error.", LWC_Error_General, "error");
-        }); 
+        });
 
         getUserCartDetails({
             userId: userId
@@ -194,14 +236,24 @@ export default class GroupBookingForm extends LightningElement {
                 this.cartId = results.Id;
             })
             .catch((e) => {
-              console.log(e);
               this.generateToast("Error.", LWC_Error_General, "error");
         });
+
+        // Get Locale Options
+        getMobileLocaleOptions()
+        .then((resultOptions) => {
+            this.localeOptions = resultOptions;
+            this.locale = this.localeConMobile;
+        })
+        .catch((error) => {
+            this.generateToast("Error.", LWC_Error_General, "error");
+        });
+
     }
-   
+
     handleFirstnameChange(event){
         this.firstName = event.detail.value;
-       
+
     }
     handleLastnameChange(event){
         this.lastName = event.detail.value;
@@ -210,40 +262,67 @@ export default class GroupBookingForm extends LightningElement {
         this.contactEmail = event.detail.value;
     }
 
+    /*
+    * Sets the mobile via event
+    */
+    handleLocaleChange(event) {
+        this.locale = event.detail.value;
+        this.localeDisplayName = event.detail.label;
+        this.localeOptions.forEach((localeOption) => {
+        if (localeOption.value === this.locale) {
+            this.localeConMobile = localeOption.conMobileLocale;
+            }
+        });
+
+    }
+
      // This handle the picklist for number of participants
      handleAfterPick(event){
-        
+
         this.numberOfParticipants = event.detail.value;
         if(this.numberOfParticipants == this.counter){
             this.disableAddBtn = true;
         }
         if(this.numberOfParticipants != null){
             this.templatePicklist = false;
-           
+
         }
-      
+
     }
     //This handle the change on accordion data
     updateOnAccordionDetails(event) {
-        this.items[event.currentTarget.dataset.id][event.target.name] = event.target.value;
+        if(event.target.name === 'ContactMobile_Locale__c'){
+            this.locale = event.target.value;
+            this.localeOptions.forEach((localeOption) => {
+            if (localeOption.value === this.locale) {
+                this.localeConMobile = localeOption.conMobileLocale;
+                }
+            });
+            this.items[event.currentTarget.dataset.id][event.target.name] = this.localeConMobile;
+
+        } else {
+            this.items[event.currentTarget.dataset.id][event.target.name] = event.target.value;
+        }
+
     }
     //This handle added participants
     addParticipant() {
-        this.currentIndex = this.currentIndex + 1;   
+        this.currentIndex = this.currentIndex + 1;
         //Contact list
-        this.items = [...this.items, 
-            { 
-                id: this.items.length, 
-                FirstName: '', 
+        this.items = [...this.items,
+            {
+                id: this.items.length,
+                FirstName: '',
                 Email: '',
                 Birthdate: '',
                 LastName: '',
+                ContactMobile_Locale__c: '',
                 MobilePhone: '',
                 Dietary_Requirement__c: '',
-                label: 'PARTICIPANT ' + this.currentIndex, 
+                label: 'PARTICIPANT ' + this.currentIndex,
                 Questions: this.questions2
             }
-            ];  
+            ];
         this.info = JSON.stringify(this.items);
         this.counter++;
 
@@ -254,14 +333,14 @@ export default class GroupBookingForm extends LightningElement {
             this.disableAddBtn = true;
         }
         const accordion = this.template.querySelector('.example-accordion');
-        this.xString='PARTICIPANT ' + this.currentIndex; 
-        setTimeout(() => {   
-            accordion.activeSectionName = this.xString;   
-        }, 100);         
+        this.xString='PARTICIPANT ' + this.currentIndex;
+        setTimeout(() => {
+            accordion.activeSectionName = this.xString;
+        }, 100);
     }
 
     handleClick(event){
-    
+
         if(event.target.name === 'openConfirmation'){
               //shows the component
              this.isDialogVisible = true;
@@ -269,13 +348,13 @@ export default class GroupBookingForm extends LightningElement {
         }else if(event.target.name === 'confirmModal'){
             //when user clicks outside of the dialog area, the event is dispatched with detail value  as 1
             if(event.detail !== 1){
-               
+
                 if(event.detail.status === 'confirm') {
 
                     this.items = this.items.filter(function (element) {
                         return parseInt(element.id) !== parseInt(event.target.accessKey);
                     });
-                    
+
                     this.counter--;
                     this.currentIndex = this.currentIndex - 1;
                     if(this.counter < this.numberOfParticipants){
@@ -286,7 +365,7 @@ export default class GroupBookingForm extends LightningElement {
                         this.disableAddBtn = true;
                     }
                 }
-                else if(event.detail.status === 'cancel'){         
+                else if(event.detail.status === 'cancel'){
                 }
             }
             //hides the component
@@ -336,6 +415,29 @@ export default class GroupBookingForm extends LightningElement {
         this.isRespondQuestions = true;
       }
 
+    get disableSave(){
+        let hasUnansweredQuestions = false;
+        if(this.questionsPrimary && 
+            this.questionsPrimary.filter((item) => item.Answer == '') && 
+            this.questionsPrimary.filter((item) => item.Answer == '').length > 0){
+
+                hasUnansweredQuestions = true;
+        }
+
+        if(this.items && this.items.length > 0){
+            this.items.map((row) => {
+                if( row.Questions && 
+                    row.Questions.filter((key) => key.Answer == '') &&
+                    row.Questions.filter((key) => key.Answer == '').length > 0){
+                        hasUnansweredQuestions = true;
+                    }
+            })
+        }
+
+        return hasUnansweredQuestions || this.processing;
+
+    }
+
 
    submitDetails(event) {
     const allValid = [
@@ -347,141 +449,181 @@ export default class GroupBookingForm extends LightningElement {
 
     if (allValid) {
 
-        if(this.counter == this.numberOfParticipants){
-
-            let fieldsPrimary = {};
-            let contactMap = {};
-            let answerMap = {};
-            let fileUploadMap = {};
-
-            fieldsPrimary.Id = this.contactId;
-            const inputFields = this.template.querySelectorAll(
-                'lightning-input-field'
-            );
-    
-            if (inputFields) {
-                inputFields.forEach(field => {
-                    fieldsPrimary[field.fieldName] = field.value;
-                });
-            }
-
-            this.contactFieldsPrimary = fieldsPrimary;
-            this.amount = this.productDetails.PricebookEntries.find(row => row.Id === this.priceBookEntry).UnitPrice,
-            this.total = this.amount * this.numberOfParticipants;
-
-            contactMap['PARTICIPANT 1'] = fieldsPrimary;
-            answerMap['PARTICIPANT 1'] = this.createAnswerRecordPrimary();
-            fileUploadMap['PARTICIPANT 1'] = JSON.stringify(this.createFileUploadMap());
-
-            this.processing = true;
-                let blankRow = this.items;
-                for(let i = 0; i < blankRow.length; i++){
-                    if(blankRow[i] !== undefined){
-                        let conData = new Object();
-                        conData.FirstName = blankRow[i].FirstName;
-                        conData.LastName = blankRow[i].LastName;
-                        conData.Email = blankRow[i].Email;
-                        conData.Birthdate = blankRow[i].Birthdate;
-                        conData.MobilePhone = blankRow[i].MobilePhone;
-                        conData.Dietary_Requirement__c = blankRow[i].Dietary_Requirement__c;    
-                        contactMap[blankRow[i].label] = conData;
-                        let answerRecords = {};
-                        answerRecords = blankRow[i].Questions.map(row=>{
-                            let record = {};
-                            record.Related_Answer__c = row.Id;
-                            record.Response__c = row.Answer;
-                            record.Sequence__c = row.Sequence;
-                            return record;                                  
-                        });
-                        answerMap[blankRow[i].label] = answerRecords;
-
-                        let fileUpload = [];
-                        fileUpload = blankRow[i].Questions.map(item =>{
-                            if(item.IsFileUpload){
-                                let record = {};
-                                record.RelatedAnswerId = item.Id;
-                                record.Base64 = item.FileData.base64;
-                                record.FileName = item.FileData.filename;
-                                return record;
-                            }
-                        });
-                        fileUploadMap[blankRow[i].label] = JSON.stringify(fileUpload.filter(key => key !== undefined)?fileUpload.filter(key => key !== undefined):fileUpload);
-
-                    }
-                }
-                removeCartItems({
-                    userId:userId
-                })
-                .then(()=>{
-                    this.dispatchEvent(
-                        new CustomEvent("cartchanged", {
-                          bubbles: true,
-                          composed: true
-                        })
-                    );
-                    saveBooking({
-                        participants:contactMap,
-                        offeringId:this.selectedOffering,
-                        relatedAnswer:this.responseData2,
-                        answerMap:answerMap,
-                        fileUpload:fileUploadMap,
-                        isPrescribed: this.isPrescribed
-                    }).then((result)=>{
-                        addCartItems({
-                            productId:this.productId,
-                            productName:this.productCourseName,
-                            isPrescribed:this.isPrescribed,
-                            offeringId:this.selectedOffering,
-                            pricebookEntryId:this.priceBookEntry,
-                            pricebookUnitPrice:this.amount,
-                            userId:this.userId,
-                            contacts:result,
-                            cartId:this.cartId,
-                        })
-                        .then(() => {
-                            
-                            this.isOpenPayment = true;
-                            this.dispatchEvent(
-                                new CustomEvent("cartchanged", {
-                                  bubbles: true,
-                                  composed: true
-                                })
-                              );
-        
-                              getCartItemsByCart({
-                                cartId:this.cartId,
-                                userId:userId
-                              })
-                              .then((result) => {
-                                this.cartItems = JSON.parse(JSON.stringify(result.cartItemsList));
-                                this.processing = false;
-                              })
-                        })
-                    }).catch((error)=>{
-                        this.processing = false;
-                        console.log(error);
-                    })
-                })
-                .catch((e) =>{
-                    this.processing = false;
-                    console.log(e);
-                })
-
-        }else{
-
+        if(this.numberOfParticipants == 1){
             this.processing = false;
             const evt = new ShowToastEvent({
                             title: 'Toast Error',
-                            message: 'Please fill up all added participants before proceed',
+                            message: 'Minimum participants for group booking is 2.',
                             variant: 'error',
                             mode: 'dismissable'
                         });
                         this.dispatchEvent(evt);
         }
+        else{
 
-    }
-   
+            if(this.counter == this.numberOfParticipants){
+
+                let fieldsPrimary = {};
+                let contactMap = {};
+                let answerMap = {};
+                let fileUploadMap = {};
+
+                fieldsPrimary.Id = this.contactId;
+                const inputFields = this.template.querySelectorAll(
+                    'lightning-input-field','lightning-combobox'
+                );
+
+                if (inputFields) {
+                    inputFields.forEach(field => {
+                        fieldsPrimary[field.fieldName] = field.value;
+                    });
+                }
+
+                this.contactFieldsPrimary = fieldsPrimary;
+                this.amount = this.productDetails.PricebookEntries.find(row => row.Id === this.priceBookEntry).UnitPrice,
+                this.total = this.amount * this.numberOfParticipants;
+                contactMap['PARTICIPANT 1'] = fieldsPrimary;
+                answerMap['PARTICIPANT 1'] = this.createAnswerRecordPrimary();
+                fileUploadMap['PARTICIPANT 1'] = JSON.stringify(this.createFileUploadMap());
+
+                this.processing = true;
+                    let blankRow = this.items;
+                    for(let i = 0; i < blankRow.length; i++){
+                        if(blankRow[i] !== undefined){
+                            let conData = new Object();
+                            conData.FirstName = blankRow[i].FirstName;
+                            conData.LastName = blankRow[i].LastName;
+                            conData.Email = blankRow[i].Email;
+                            conData.Birthdate = blankRow[i].Birthdate;
+                            conData.ContactMobile_Locale__c = blankRow[i].ContactMobile_Locale__c;
+                            conData.MobilePhone = blankRow[i].MobilePhone;
+                            conData.Dietary_Requirement__c = blankRow[i].Dietary_Requirement__c;
+                            contactMap[blankRow[i].label] = conData;
+                            let answerRecords = {};
+                            answerRecords = blankRow[i].Questions.map(row=>{
+                                let record = {};
+                                record.Related_Answer__c = row.Id;
+                                record.Response__c = row.Answer;
+                                record.Sequence__c = row.Sequence;
+                                return record;
+                            });
+                            answerMap[blankRow[i].label] = answerRecords;
+
+                            let fileUpload = [];
+                            fileUpload = blankRow[i].Questions.map(item =>{
+                                if(item.IsFileUpload){
+                                    let record = {};
+                                    record.RelatedAnswerId = item.Id;
+                                    record.Base64 = item.FileData.base64;
+                                    record.FileName = item.FileData.filename;
+                                    return record;
+                                }
+                            });
+                            fileUploadMap[blankRow[i].label] = JSON.stringify(fileUpload.filter(key => key !== undefined)?fileUpload.filter(key => key !== undefined):fileUpload);
+
+                        }
+                    }
+                    removeCartItems({
+                        userId:userId
+                    })
+                    .then(()=>{
+                        this.dispatchEvent(
+                            new CustomEvent("cartchanged", {
+                              bubbles: true,
+                              composed: true
+                            })
+                        );
+                        saveBooking({
+                            participants:contactMap,
+                            offeringId:this.selectedOffering,
+                            relatedAnswer:this.responseData2,
+                            answerMap:answerMap,
+                            fileUpload:fileUploadMap,
+                            isPrescribed: this.isPrescribed
+                        }).then((result)=>{
+                            addCartItems({
+                                productId:this.productId,
+                                productName:this.productCourseName,
+                                isPrescribed:this.isPrescribed,
+                                offeringId:this.selectedOffering,
+                                pricebookEntryId:this.priceBookEntry,
+                                pricebookUnitPrice:this.amount,
+                                userId:this.userId,
+                                contacts:result,
+                                cartId:this.cartId,
+                            })
+                            .then(() => {
+
+                                this.isOpenPayment = true;
+                                this.dispatchEvent(
+                                    new CustomEvent("cartchanged", {
+                                      bubbles: true,
+                                      composed: true
+                                    })
+                                  );
+
+                                  getCartItemsByCart({
+                                    cartId:this.cartId,
+                                    userId:userId
+                                  })
+                                  .then((result) => {
+                                    this.cartItems = JSON.parse(JSON.stringify(result.cartItemsList));
+                                    this.processing = false;
+
+                                    //checks payment options after remove
+                                    this.paymentOptionButtons();
+                                  })
+                            })
+                        }).catch((error)=>{
+                            this.processing = false;
+
+                        })
+                    })
+                    .catch((e) =>{
+                        this.processing = false;
+
+                    })
+
+            }
+            else{
+
+                this.processing = false;
+                const evt = new ShowToastEvent({
+                                title: 'Toast Error',
+                                message: 'Please fill up all added participants before proceed',
+                                variant: 'error',
+                                mode: 'dismissable'
+                            });
+                            this.dispatchEvent(evt);
+            }
+
+        }
+
+        }
+
+
 }
+
+paymentOptionButtons(){
+
+    this.paymentOpt = this.productDetails.Payment_Options__c;
+
+    if(this.paymentOpt == 'Pay Now'){
+        this.hasPayNow = true;
+    }
+    else if(this.paymentOpt == 'Invoice'){
+        this.hasInvoice = true;
+    }
+    else if(this.paymentOpt == 'Pay Now;Invoice'){
+        this.hasPayNow = true;
+        this.hasInvoice = true;
+    }
+    else{
+        this.hasPayNow = false;
+        this.hasInvoice = false;
+    }
+
+  }
 
 createFileUploadMap(){
     let fileUpload = [];
@@ -494,7 +636,7 @@ createFileUploadMap(){
             return record;
         }
     });
-    
+
     return fileUpload.filter(key => key !== undefined)?fileUpload.filter(key => key !== undefined):fileUpload;
 }
 
@@ -523,25 +665,33 @@ createAnswerRecord(){
   }
 
   handleChange(event){
-    this.items = this.items.map(item=>{  
+    this.items = this.items.map(item=>{
         if (event.target.dataset.contactId == item.id){
 
-            Questions = item.Questions.map(row=>{
+            item.Questions = item.Questions.map(row=>{
                 if(event.target.dataset.questionId === row.Id && row.IsCheckbox){ //checkbox
                     row.Answer = event.detail.checked.toString();
                 }else if(event.target.dataset.questionId === row.Id && row.IsFileUpload){  //fileupload
                     row.Answer = event.detail.value.toString();
                     const file = event.target.files[0];
-                    let reader = new FileReader();
-                    reader.onload = () => {
-                        let base64 = reader.result.split(',')[1];
-                        row.FileData = {
-                            'filename': file.name,
-                            'base64': base64,
-                            'recordId': undefined
-                        };
+                    let fileNameParts = file.name.split('.');
+                    let extension = '.' + fileNameParts[fileNameParts.length - 1].toLowerCase();
+                    if (this.acceptedFormats.includes(extension)) {
+                        let reader = new FileReader();
+                        reader.onload = () => {
+                            let base64 = reader.result.split(',')[1];
+                            row.FileData = {
+                                'filename': file.name,
+                                'base64': base64,
+                                'recordId': undefined
+                            };
+                        }
+                        reader.readAsDataURL(file);
+                    } else {
+                        row.Answer = '';
+                        row.FileData = undefined;
+                        this.generateToast('Error.','Invalid File Format.','error');
                     }
-                    reader.readAsDataURL(file);
                 }else if(event.target.dataset.questionId === row.Id && row.IsMultiPicklist){  //picklist
                     row.Answer = event.detail.value?event.detail.value.toString().replace(/,/g, ';'):row.Answer;
                 }else if(event.target.dataset.questionId === row.Id){   //textbox
@@ -552,11 +702,10 @@ createAnswerRecord(){
         }
         return item;
     });
-   
 
   }
-  
-  handleBlur(event){                  
+
+  handleBlur(event){
     this.items.Questions = this.items.Questions.map(row=>{
         if(row.IsCriteria && row.Answer!= '' && row.Answer.toUpperCase() != row.MandatoryResponse.toUpperCase()){
             row.Answer = '';
@@ -566,7 +715,7 @@ createAnswerRecord(){
         }
         return row;
     });
-  }  
+  }
 
   handleChangePrimary(event){
     this.questionsPrimary = this.questionsPrimary.map(row=>{
@@ -575,16 +724,24 @@ createAnswerRecord(){
         }else if(event.target.name === row.Id && row.IsFileUpload){
             row.Answer = event.detail.value.toString();
             const file = event.target.files[0];
-            let reader = new FileReader();
-            reader.onload = () => {
-                let base64 = reader.result.split(',')[1];
-                row.FileData = {
-                    'filename': file.name,
-                    'base64': base64,
-                    'recordId': undefined
-                };
+            let fileNameParts = file.name.split('.');
+            let extension = '.' + fileNameParts[fileNameParts.length - 1].toLowerCase();
+            if (this.acceptedFormats.includes(extension)) {
+                let reader = new FileReader();
+                reader.onload = () => {
+                    let base64 = reader.result.split(',')[1];
+                    row.FileData = {
+                        'filename': file.name,
+                        'base64': base64,
+                        'recordId': undefined
+                    };
+                }
+                reader.readAsDataURL(file);
+            } else {
+                row.Answer = '';
+                row.FileData = undefined;
+                this.generateToast('Error.','Invalid File Format.','error');
             }
-            reader.readAsDataURL(file);
         }else if(event.target.name === row.Id && row.IsMultiPicklist){
             row.Answer = event.detail.value?event.detail.value.toString().replace(/,/g, ';'):row.Answer;
         }else if(event.target.name === row.Id){
@@ -593,7 +750,7 @@ createAnswerRecord(){
         return row;
     });
   }
-  
+
   handleBlurPrimary(){
     this.questionsPrimary = this.questionsPrimary.map(row=>{
         if(row.IsCriteria && row.Answer!= '' && row.Answer.toUpperCase() != row.MandatoryResponse.toUpperCase()){
@@ -605,7 +762,7 @@ createAnswerRecord(){
         return row;
     });
   }
-  
+
   createAnswerRecordPrimary(){
     let answerRecords = {};
     answerRecords = this.questionsPrimary.map(item =>{

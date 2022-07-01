@@ -3,7 +3,7 @@
     margin-bottom: var(--space-4);
 }
 
-.button-container{ 
+.button-container{
     width: 70%;
 }
 
@@ -62,4 +62,12 @@ span:hover, span:visited {
     .pr3{
         padding-right: 0;
     }
+}
+
+.group-changes{
+    text-align: center !important;
+}
+
+.group-changes-body-bold{
+    text-align: center !important;
 }

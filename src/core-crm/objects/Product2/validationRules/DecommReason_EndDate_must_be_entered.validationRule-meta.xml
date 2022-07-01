@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>DecommReason_EndDate_must_be_entered</fullName>
+    <active>true</active>
+    <description>Decommission Reason and End Date must be entered</description>
+    <errorConditionFormula>AND
+(
+Decommission_Product__c = true,
+
+OR( ISBLANK(Decommission_Reason__c),
+ISNULL(End_Date__c )
+)
+
+
+)</errorConditionFormula>
+    <errorDisplayField>Decommission_Product__c</errorDisplayField>
+    <errorMessage>Please ensure the Decommission Reason and End Date is populated</errorMessage>
+</ValidationRule>

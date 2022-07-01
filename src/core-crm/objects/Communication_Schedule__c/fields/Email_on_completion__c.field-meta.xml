@@ -3,7 +3,7 @@
     <fullName>Email_on_completion__c</fullName>
     <defaultValue>false</defaultValue>
     <externalId>false</externalId>
-    <inlineHelpText>Upon selection of the email template for use, the registered learner will receive an email one (1) calendar day prior to the start of the product.</inlineHelpText>
+    <inlineHelpText>Upon the selection of the email template for use, the registered learner will receive an email one calendar day after the end date of the product offering</inlineHelpText>
     <label>Send Email on completion</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

@@ -6,193 +6,390 @@
 *
 * @history
 *
-*    | Developer Email                | Date                  | JIRA                   | Change Summary                                                               |
+| Developer Email                | Date                  | JIRA                   | Change Summary                                                                |
 |--------------------------------|-----------------------|------------------------|-------------------------------------------------------------------------------|
 | johnbo.pineda@qut.edu.au       | December 03, 2021     | DEPP-789               | Created file                                                                  |
 | johnbo.pineda@qut.edu.au       | January 03, 2022      | DEPP-1382              | Updated Class to include changes for DEPP-1382.                               |
 | johnbo.pineda@qut.edu.au       | January 31, 2022      | DEPP-1519              | Updated Class to include changes for DEPP-1519.                               |
 | roy.nino.s.regala@qut.edu.au   | March 04, 2022        | DEPP-1985              | External user is trying to update the field,removed with sharing restriction  |
 | eugene.andrew.abuan            | March 22, 2022        | DEPP-1991              | Added Class for Before Insert                                                 |
+| john.bo.a.pineda               | June 23, 2022         | DEPP-3222              | Added logic to Send Email on Registration for Student / Student - Program     |
 
 */
 public without sharing class CourseConnectionTriggerHandler implements Disableable, BeforeInsert, AfterInsert, AfterUpdate, AfterDelete {
-    public static final Id STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
-        .get('Student')
-        .getRecordTypeId();
-    public static final Id PROG_STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
-        .get('Student_Program')
-        .getRecordTypeId();
-    
-    /**
-* @description calls the ExternalIdHelper function to update the External Id
-* @param newItems - List of hed__Course_Enrollment__c.Trigger.new
-*/
-    public void beforeInsert(List<SObject> newItems) {
-        SetExternalIdHelper.updateExternalId(newItems);
-    }
-    
-    
-    /**
-* @description update counter for Course Connections
-* @param newItems - List of hed__Course_Enrollment__c.Trigger.new
-*/
-    public void afterInsert(Map<Id, SObject> newItems) {
-        updateCourseConnectionCounter(
-            (List<hed__Course_Enrollment__c>) newItems.values(),
-            null
-        );
-    }
-    
-    /**
-* @description update counter for Course Connections
-* @param newItems - List of hed__Course_Enrollment__c.Trigger.new
-* @param oldItems - Map of hed__Course_Enrollment__c.Trigger.old
-*/
-    public void afterUpdate(
-        Map<Id, SObject> newItems,
-        Map<Id, SObject> oldItems
-    ) {
-        updateCourseConnectionCounter(
-            (List<hed__Course_Enrollment__c>) newItems.values(),
-            (List<hed__Course_Enrollment__c>) oldItems.values()
-        );
-    }
-    
-    /**
-* @description update counter for Course Connections
-* @param oldItems - Map of hed__Course_Enrollment__c.Trigger.old
-*/
-    public void afterDelete(Map<Id, SObject> oldItems) {
-        updateCourseConnectionCounter(
-            (List<hed__Course_Enrollment__c>) oldItems.values(),
-            null
-        );
-    }
-    
-    /**
-* @description update counter for Course Connections
-* @param crseEnrollListNew - List of hed__Course_Enrollment__c.Trigger.new
-* @param crseEnrollListOld - Map of hed__Course_Enrollment__c.Trigger.old
-*/
-    public void updateCourseConnectionCounter(
-        List<hed__Course_Enrollment__c> crseEnrollListNew,
-        List<hed__Course_Enrollment__c> crseEnrollListOld
-    ) {
-        try {
-            Map<Id, Integer> courseOfferMap = new Map<Id, Integer>();
-            Map<Id, Integer> programOfferMap = new Map<Id, Integer>();
-            Set<Id> courseOfferIdSet = new Set<Id>();
-            Set<Id> programOfferIdSet = new Set<Id>();
-            
-            for (hed__Course_Enrollment__c crseEnroll : crseEnrollListNew) {
-                if (String.isNotBlank(crseEnroll.hed__Course_Offering__c)) {
-                    courseOfferIdSet.add(crseEnroll.hed__Course_Offering__c);
-                }else if(String.isNotBlank(crseEnroll.Program_Offering__c)){
-                    programOfferIdSet.add(crseEnroll.Program_Offering__c);
-                }
-            }
-            
-            if (crseEnrollListOld != null) {
-                for (hed__Course_Enrollment__c crseEnrollOld : crseEnrollListOld) {
-                    if (String.isNotBlank(crseEnrollOld.hed__Course_Offering__c)) {
-                        courseOfferIdSet.add(crseEnrollOld.hed__Course_Offering__c);
-                    }else if(String.isNotBlank(crseEnrollOld.Program_Offering__c)){
-                        programOfferIdSet.add(crseEnrollOld.Program_Offering__c);
-                    }
-                }
-            }
-            
-            //count enrolments in course offering
-            List<AggregateResult> aggrCourseOfferList = [
-                SELECT hed__Course_Offering__c, COUNT(Id) counter
-                FROM hed__Course_Enrollment__c
-                WHERE
-                RecordTypeId = :STUDENT_RECTYPEID
-                AND hed__Course_Offering__c IN :courseOfferIdSet
-                AND hed__Status__c != 'Cancelled'
-                GROUP BY hed__Course_Offering__c
-            ];
-            
-            for (AggregateResult aggrCourseOffer : aggrCourseOfferList) {
-                if (
-                    String.isNotBlank((Id) aggrCourseOffer.get('hed__Course_Offering__c'))
-                ) {
-                    courseOfferMap.put(
-                        (Id) aggrCourseOffer.get('hed__Course_Offering__c'),
-                        (Integer) aggrCourseOffer.get('counter')
-                    );
-                }
-            }
-            
-            List<hed__Course_Offering__c> courseOfferList = [
-                SELECT Id, Total_Number_of_Registered_Learners__c
-                FROM hed__Course_Offering__c
-                WHERE Id IN :courseOfferIdSet
-            ];
-            
-            for (hed__Course_Offering__c courseOffer : courseOfferList) {
-                if (courseOfferMap.containsKey(courseOffer.Id)) {
-                    courseOffer.Total_Number_of_Registered_Learners__c = courseOfferMap.get(
-                        courseOffer.Id
-                    );
-                } else {
-                    courseOffer.Total_Number_of_Registered_Learners__c = 0;
-                }
-            }
-            
-            update courseOfferList;
-            
-            //count enrolments in program offering             
-            List<AggregateResult> aggrProgramOfferList = [
-                SELECT Program_Offering__c, COUNT(Id) counter
-                FROM hed__Course_Enrollment__c
-                WHERE
-                RecordTypeId = :PROG_STUDENT_RECTYPEID
-                AND Program_Offering__c IN :programOfferIdSet
-                AND hed__Status__c != 'Cancelled'
-                GROUP BY Program_Offering__c
-            ];
-            
-            for (AggregateResult aggrProgramOffer : aggrProgramOfferList) {
-                if (
-                    String.isNotBlank((Id) aggrProgramOffer.get('Program_Offering__c'))
-                ) {
-                    programOfferMap.put(
-                        (Id) aggrProgramOffer.get('Program_Offering__c'),
-                        (Integer) aggrProgramOffer.get('counter')
-                    );
-                }
-            }
-            
-            List<Program_Offering__c> programOfferList = [
-                SELECT Id, Total_Number_of_Registered_Learners__c
-                FROM Program_Offering__c
-                WHERE Id IN :programOfferIdSet
-            ];
-            
-            for (Program_Offering__c programOffer : programOfferList) {
-                if (programOfferMap.containsKey(programOffer.Id)) {
-                    programOffer.Total_Number_of_Registered_Learners__c = programOfferMap.get(
-                        programOffer.Id
-                    );
-                } else {
-                    programOffer.Total_Number_of_Registered_Learners__c = 0;
-                }
-            }
-            
-            update programOfferList;
-            
-        } catch (Exception e) {
-            System.debug(LoggingLevel.DEBUG,e);//NOPMD
+  public static final Id STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
+    .get('Student')
+    .getRecordTypeId();
+  public static final Id PROG_STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
+    .get('Student_Program')
+    .getRecordTypeId();
+  private static final String STR_QUTEX = 'QUTeX';
+  private static final String REGISTRATION_CONFIRMATION_EMAIL_TEMPLATE = 'Registration Confirmation Email Template';
+
+  /**
+   * @description calls the ExternalIdHelper function to update the External Id
+   * @param newItems - List of hed__Course_Enrollment__c.Trigger.new
+   */
+  public void beforeInsert(List<SObject> newItems) {
+    SetExternalIdHelper.updateExternalId(newItems);
+  }
+
+  /**
+   * @description update counter for Course Connections
+   * @param newItems - List of hed__Course_Enrollment__c.Trigger.new
+   */
+  public void afterInsert(Map<Id, SObject> newItems) {
+    updateCourseConnectionCounter(
+      (List<hed__Course_Enrollment__c>) newItems.values(),
+      null
+    );
+
+    // Trigger Send Email on Registration Confirmation
+    sendRegistrationConfirmEmail(newItems.keySet());
+  }
+
+  /**
+   * @description update counter for Course Connections
+   * @param newItems - List of hed__Course_Enrollment__c.Trigger.new
+   * @param oldItems - Map of hed__Course_Enrollment__c.Trigger.old
+   */
+  public void afterUpdate(
+    Map<Id, SObject> newItems,
+    Map<Id, SObject> oldItems
+  ) {
+    updateCourseConnectionCounter(
+      (List<hed__Course_Enrollment__c>) newItems.values(),
+      (List<hed__Course_Enrollment__c>) oldItems.values()
+    );
+  }
+
+  /**
+   * @description update counter for Course Connections
+   * @param oldItems - Map of hed__Course_Enrollment__c.Trigger.old
+   */
+  public void afterDelete(Map<Id, SObject> oldItems) {
+    updateCourseConnectionCounter(
+      (List<hed__Course_Enrollment__c>) oldItems.values(),
+      null
+    );
+  }
+
+  /**
+   * @description update counter for Course Connections
+   * @param crseEnrollListNew - List of hed__Course_Enrollment__c.Trigger.new
+   * @param crseEnrollListOld - Map of hed__Course_Enrollment__c.Trigger.old
+   */
+  public void updateCourseConnectionCounter(
+    List<hed__Course_Enrollment__c> crseEnrollListNew,
+    List<hed__Course_Enrollment__c> crseEnrollListOld
+  ) {
+    try {
+      Map<Id, Integer> courseOfferMap = new Map<Id, Integer>();
+      Map<Id, Integer> programOfferMap = new Map<Id, Integer>();
+      Set<Id> courseOfferIdSet = new Set<Id>();
+      Set<Id> programOfferIdSet = new Set<Id>();
+
+      for (hed__Course_Enrollment__c crseEnroll : crseEnrollListNew) {
+        if (String.isNotBlank(crseEnroll.hed__Course_Offering__c)) {
+          courseOfferIdSet.add(crseEnroll.hed__Course_Offering__c);
+        } else if (String.isNotBlank(crseEnroll.Program_Offering__c)) {
+          programOfferIdSet.add(crseEnroll.Program_Offering__c);
         }
+      }
+
+      if (crseEnrollListOld != null) {
+        for (hed__Course_Enrollment__c crseEnrollOld : crseEnrollListOld) {
+          if (String.isNotBlank(crseEnrollOld.hed__Course_Offering__c)) {
+            courseOfferIdSet.add(crseEnrollOld.hed__Course_Offering__c);
+          } else if (String.isNotBlank(crseEnrollOld.Program_Offering__c)) {
+            programOfferIdSet.add(crseEnrollOld.Program_Offering__c);
+          }
+        }
+      }
+
+      //count enrolments in course offering
+      List<AggregateResult> aggrCourseOfferList = [
+        SELECT hed__Course_Offering__c, COUNT(Id) counter
+        FROM hed__Course_Enrollment__c
+        WHERE
+          RecordTypeId = :STUDENT_RECTYPEID
+          AND hed__Course_Offering__c IN :courseOfferIdSet
+          AND hed__Status__c != 'Cancelled'
+        GROUP BY hed__Course_Offering__c
+      ];
+
+      for (AggregateResult aggrCourseOffer : aggrCourseOfferList) {
+        if (
+          String.isNotBlank((Id) aggrCourseOffer.get('hed__Course_Offering__c'))
+        ) {
+          courseOfferMap.put(
+            (Id) aggrCourseOffer.get('hed__Course_Offering__c'),
+            (Integer) aggrCourseOffer.get('counter')
+          );
+        }
+      }
+
+      List<hed__Course_Offering__c> courseOfferList = [
+        SELECT Id, Total_Number_of_Registered_Learners__c
+        FROM hed__Course_Offering__c
+        WHERE Id IN :courseOfferIdSet
+      ];
+
+      for (hed__Course_Offering__c courseOffer : courseOfferList) {
+        if (courseOfferMap.containsKey(courseOffer.Id)) {
+          courseOffer.Total_Number_of_Registered_Learners__c = courseOfferMap.get(
+            courseOffer.Id
+          );
+        } else {
+          courseOffer.Total_Number_of_Registered_Learners__c = 0;
+        }
+      }
+
+      update courseOfferList;
+
+      //count enrolments in program offering
+      List<AggregateResult> aggrProgramOfferList = [
+        SELECT Program_Offering__c, COUNT(Id) counter
+        FROM hed__Course_Enrollment__c
+        WHERE
+          RecordTypeId = :PROG_STUDENT_RECTYPEID
+          AND Program_Offering__c IN :programOfferIdSet
+          AND hed__Status__c != 'Cancelled'
+        GROUP BY Program_Offering__c
+      ];
+
+      for (AggregateResult aggrProgramOffer : aggrProgramOfferList) {
+        if (
+          String.isNotBlank((Id) aggrProgramOffer.get('Program_Offering__c'))
+        ) {
+          programOfferMap.put(
+            (Id) aggrProgramOffer.get('Program_Offering__c'),
+            (Integer) aggrProgramOffer.get('counter')
+          );
+        }
+      }
+
+      List<Program_Offering__c> programOfferList = [
+        SELECT Id, Total_Number_of_Registered_Learners__c
+        FROM Program_Offering__c
+        WHERE Id IN :programOfferIdSet
+      ];
+
+      for (Program_Offering__c programOffer : programOfferList) {
+        if (programOfferMap.containsKey(programOffer.Id)) {
+          programOffer.Total_Number_of_Registered_Learners__c = programOfferMap.get(
+            programOffer.Id
+          );
+        } else {
+          programOffer.Total_Number_of_Registered_Learners__c = 0;
+        }
+      }
+
+      update programOfferList;
+    } catch (Exception e) {
+      System.debug(LoggingLevel.DEBUG, e); //NOPMD
     }
-    
-    /**
-* @description indicates it the trigger is disabled
-* @return disabled bypass
-*/
-    public Boolean isDisabled() {
-        final TriggerBypassStrategy bypass = new TriggerBypassStrategy();
-        return bypass.isDisabled();
+  }
+
+  /**
+   * @description send Registration Confirmation Email on New Course Connections
+   * @param crseEnrollListNew - List of hed__Course_Enrollment__c.Trigger.new
+   */
+  public void sendRegistrationConfirmEmail(Set<Id> crseEnrollIdSet) {
+    // Init
+    Set<Id> ccCourseSet = new Set<Id>();
+    Set<Id> ccProgPlanSet = new Set<Id>();
+
+    // Get Org Wide Email Address
+    List<OrgWideEmailAddress> owea = [
+      SELECT Id, Address, DisplayName
+      FROM OrgWideEmailAddress
+      WHERE DisplayName = 'QUTeX'
+      LIMIT 1
+    ];
+
+    // Query Course Connection Details
+    List<hed__Course_Enrollment__c> crseEnrollListNew = [
+      SELECT
+        Id,
+        RecordTypeId,
+        hed__Course_Offering__r.hed__Course__c,
+        Program_Offering__r.hed_Program_Plan__c,
+        hed__Course_Offering__r.hed__Course__r.Name,
+        Program_Offering__r.hed_Program_Plan__r.Name,
+        hed__Contact__r.FirstName,
+        hed__Contact__r.LastName,
+        Paid_in_Full__c,
+        Amount__c,
+        hed__Contact__r.Email
+      FROM hed__Course_Enrollment__c
+      WHERE Id IN :crseEnrollIdSet
+    ];
+
+    // Get Course Connection Course / Program Plan
+    for (hed__Course_Enrollment__c crsEnroll : crseEnrollListNew) {
+      // Add Course Id to Course Set
+      if (String.isNotBlank(crsEnroll.hed__Course_Offering__r.hed__Course__c)) {
+        ccCourseSet.add(crsEnroll.hed__Course_Offering__r.hed__Course__c);
+      }
+
+      // Add Program Plan Id to Program Plan Set
+      if (
+        String.isNotBlank(crsEnroll.Program_Offering__r.hed_Program_Plan__c)
+      ) {
+        ccProgPlanSet.add(crsEnroll.Program_Offering__r.hed_Program_Plan__c);
+      }
     }
+
+    // Set Map for Course Send Registration Email
+    Map<Id, Boolean> courseSendRegEmailMap = new Map<Id, Boolean>();
+    for (Communication_Schedule__c courseCommSched : [
+      SELECT Id, Course__c, Email_on_Registration__c
+      FROM Communication_Schedule__c
+      WHERE Course__c IN :ccCourseSet
+    ]) {
+      if (courseCommSched.Email_on_Registration__c == true) {
+        courseSendRegEmailMap.put(
+          courseCommSched.Course__c,
+          courseCommSched.Email_on_Registration__c
+        );
+      }
+    }
+
+    // Get List of Communication Schedule for Program Plan
+    Map<Id, Boolean> progPlanSendRegEmailMap = new Map<Id, Boolean>();
+    for (Communication_Schedule__c courseCommSched : [
+      SELECT Id, Program_Plan__c, Email_on_Registration__c
+      FROM Communication_Schedule__c
+      WHERE Program_Plan__c IN :ccProgPlanSet
+    ]) {
+      if (courseCommSched.Email_on_Registration__c == true) {
+        progPlanSendRegEmailMap.put(
+          courseCommSched.Program_Plan__c,
+          courseCommSched.Email_on_Registration__c
+        );
+      }
+    }
+
+    // Get Email Template
+    EmailTemplate emailTemplate = EmailTemplateSelector.getEmailTemplate(
+      REGISTRATION_CONFIRMATION_EMAIL_TEMPLATE
+    );
+
+    // Get Study Store URL Custom Setting
+    Study_Store_URL_Settings__c storeLinkSettings = Study_Store_URL_Settings__c.getOrgDefaults();
+
+    // Process
+    List<Messaging.SingleEmailMessage> sendEmailList = new List<Messaging.SingleEmailMessage>();
+    if (emailTemplate != null) {
+      for (hed__Course_Enrollment__c procCrsEnroll : crseEnrollListNew) {
+        // Check if Student / Student Program
+        if (
+          procCrsEnroll.RecordTypeId == STUDENT_RECTYPEID ||
+          procCrsEnroll.RecordTypeId == PROG_STUDENT_RECTYPEID
+        ) {
+          String productName;
+          Boolean sendEmail = false;
+          // Check Course
+          if (
+            String.isNotBlank(
+              procCrsEnroll.hed__Course_Offering__r.hed__Course__c
+            )
+          ) {
+            // Set Product Name
+            productName = procCrsEnroll.hed__Course_Offering__r.hed__Course__r.Name;
+
+            // Check if Send Registration Email is True for Course
+            if (
+              courseSendRegEmailMap.containsKey(
+                procCrsEnroll.hed__Course_Offering__r.hed__Course__c
+              )
+            ) {
+              sendEmail = (Boolean) courseSendRegEmailMap.get(
+                procCrsEnroll.hed__Course_Offering__r.hed__Course__c
+              );
+            }
+          }
+
+          // Check Program Plan
+          if (
+            String.isNotBlank(
+              procCrsEnroll.Program_Offering__r.hed_Program_Plan__c
+            )
+          ) {
+            // Set Product Name
+            productName = procCrsEnroll.Program_Offering__r.hed_Program_Plan__r.Name;
+
+            // Check if Send Registration Email is True for Program Plan
+            if (
+              progPlanSendRegEmailMap.containsKey(
+                procCrsEnroll.Program_Offering__r.hed_Program_Plan__c
+              )
+            ) {
+              sendEmail = (Boolean) progPlanSendRegEmailMap.get(
+                procCrsEnroll.Program_Offering__r.hed_Program_Plan__c
+              );
+            }
+          }
+
+          // If Send Email True, Process Single Email
+          if (sendEmail == true) {
+            // Set Email values
+            String subject = STR_QUTEX + ' ' + productName;
+            String fullname =
+              procCrsEnroll.hed__Contact__r.FirstName +
+              ' ' +
+              procCrsEnroll.hed__Contact__r.LastName;
+            String paidInFull = 'No';
+            if (String.isNotBlank(procCrsEnroll.Paid_in_Full__c)) {
+              paidInFull = procCrsEnroll.Paid_in_Full__c;
+            }
+            String amount = '0.00';
+            if (String.isNotBlank(String.valueof(procCrsEnroll.Amount__c))) {
+              amount = String.valueof(procCrsEnroll.Amount__c);
+            }
+
+            // Set Email Params
+            Map<String, String> emailParams = new Map<String, String>{
+              '{fullname}' => fullname,
+              '{name}' => productName,
+              '{paid}' => paidInFull,
+              '{amount}' => amount,
+              '{storeLink}' => storeLinkSettings.Study_Store_Link__c != null
+                ? String.valueOf(storeLinkSettings.Study_Store_Link__c)
+                : ''
+            };
+
+            // Build the Email
+            Messaging.SingleEmailMessage mail = EmailHelper.emailBuilder(
+              procCrsEnroll.hed__Contact__r.Email,
+              subject,
+              emailTemplate.HtmlValue,
+              emailParams
+            );
+
+            // Set Org Wide Email Address
+            if (!owea.isEmpty()) {
+              mail.setOrgWideEmailAddressId(owea[0].Id);
+            }
+
+            // Add Email to List
+            sendEmailList.add(mail);
+          }
+        }
+      }
+
+      // Send Email List
+      Messaging.sendEmail(sendEmailList);
+    }
+  }
+
+  /**
+   * @description indicates it the trigger is disabled
+   * @return disabled bypass
+   */
+  public Boolean isDisabled() {
+    final TriggerBypassStrategy bypass = new TriggerBypassStrategy();
+    return bypass.isDisabled();
+  }
 }

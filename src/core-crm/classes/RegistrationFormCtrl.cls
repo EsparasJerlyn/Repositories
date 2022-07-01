@@ -432,6 +432,16 @@ public without sharing class RegistrationFormCtrl {
   }
 
   /**
+   * Get user mobile locale
+   */
+  @AuraEnabled(cacheable=false)
+  public static String getUserMobileLocale(Id userId){
+    Contact userMobileLoc = [SELECT Id, ContactMobile_Locale__c FROM Contact WHERE Id =:userId LIMIT 1];
+    String mLocale = userMobileLoc.ContactMobile_Locale__c;
+    return mLocale;
+  }
+
+  /**
    * @description Method to get All Mobile Locale Options
    * @return mobileLocaleWrapperList - List of Mobile Locale Options
    */

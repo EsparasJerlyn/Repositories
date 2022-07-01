@@ -7,7 +7,7 @@ resources:
       endpoint: Bitbucket_QUT
       name: qutdev/sfdx-pipelines
       ref: main ## PRODUCTION pipeline branch (to merge and put live when bitbucket pipeline is fully off)
-      #ref: feature/DEPP-790 ## DEV pipeline branch
+      #ref: feature/DEPP-3279-deleteflowinterviews ## DEV pipeline branch
 
 # Deploy to branch on commit
 trigger: none

@@ -392,7 +392,7 @@
         <apexClass>PostCourseCompletionEmailCtrlTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-    <classAccesses> 
+    <classAccesses>
         <apexClass>PreSessionReminderEmailCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -434,14 +434,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ProductManagementCtrlTest</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses> 
-        <apexClass>RegistrationConfirmationEmailCtrl</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>RegistrationConfirmationEmailCtrlTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -528,7 +520,7 @@
         <apexClass>TriggerHandlerFactoryTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-    <classAccesses> 
+    <classAccesses>
         <apexClass>VirtualFinalConfirmationEmailCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1000,6 +992,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Cart_Payment__c.Amount_Paid__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Cart_Payment__c.Discount_Applied__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1933,7 +1930,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Lead.Work_Email__c</field> 
+        <field>Lead.Work_Email__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2303,6 +2300,46 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Promotion.DisplayName</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Promotion.EndDateTime</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Promotion.IsAutomatic</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Promotion.IsCommercePromotion</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Promotion.MaximumUsageCount</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Promotion.QualifierCriteria</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Promotion.StartDateTime</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Promotion.TermsAndConditions</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Product_Request__c.Create_Product_Complete__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2654,6 +2691,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Questionnaire_Response_Summary__c.Course_Offering__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Questionnaire_Response_Summary__c.Payment_URL__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5154,7 +5196,7 @@
         <editable>true</editable>
         <field>WebCart.Payment_Method__c</field>
         <readable>true</readable>
-    </fieldPermissions> 
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Potential_Duplicate__c.Contact__c</field>
@@ -5179,72 +5221,220 @@
         <layout>Account-Account Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Account-Account Layout</layout>
-        <recordType>Account.Academic_Program</recordType>
+        <layout>AccountBrand-Account Brand Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Account-Account Layout</layout>
-        <recordType>Account.Administrative</recordType>
+        <layout>AccountContactRelation-Account Contact Relationship Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Account-Account Layout</layout>
-        <recordType>Account.HH_Account</recordType>
+        <layout>AccountRelationship-Account RelationshipLayout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Account-Account Layout</layout>
-        <recordType>Account.Sports_Organization</recordType>
+        <layout>Adhoc_Communication__c-Adhoc Communication Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Account-Business Organization Layout</layout>
-        <recordType>Account.Business_Organization</recordType>
+        <layout>Answer__c-Answer Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Account-University And Educational Layout</layout>
-        <recordType>Account.Educational_Institution</recordType>
+        <layout>ApiAnomalyEventStore-API Anomaly Event Store Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Account-University And Educational Layout</layout>
-        <recordType>Account.University_Department</recordType>
+        <layout>Asset-Asset Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>AssetRelationship-Asset Relationship Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Associated_Accounts__c-Associated Account Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Associated_Products__c-Associated Products Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>AuthorizationForm-Authorization Form Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>AuthorizationFormConsent-Authorization Form Consent Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>AuthorizationFormDataUse-Authorization Form Data Use Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>AuthorizationFormText-Authorization Form Text Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>BusinessBrand-Business Brand Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>BuyerAccount-Buyer Account Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>BuyerGroupMember-Buyer Group Member Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Campaign-Campaign Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>CampaignMember-Campaign Member Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>CardPaymentMethod-Card Payment Method Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>CartItem-Cart Item Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Cart_Payment__c-Cart Payment Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>CaseClose-Close Case Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>CaseInteraction-Case Feed Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>ChannelProgram-Channel Program Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>ChannelProgramLevel-Channel Program Level Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>ChannelProgramMember-Channel Program Member Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>CollaborationGroup-Group Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>CommSubscription-Communication Subscription Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>CommSubscriptionChannelType-Communication Subscription Channel Type Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>CommSubscriptionConsent-Communication Subscription Consent Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>CommSubscriptionTiming-Communication Subscription Timing Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Communication_Schedule__c-Communication Schedule Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Contact-Contact Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>ContactPointAddress-Contact Point Address Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>ContactPointEmail-Contact Point Email Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>ContactPointPhone-Contact Point Phone Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>ContactPointTypeConsent-Contact Point Type Consent Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>ContentAsset-Asset File Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>ContentVersion-Content Version</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Contract-Contract Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Country_Locale_Metadata__mdt-Country Locale Metadata Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>CredentialStuffingEventStore-Credential Stuffing Event Store Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Credential__c-Credential Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Customer-Customer Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>DataUseLegalBasis-Data Use Legal Basis Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>DataUsePurpose-Data Use Purpose Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>DelegatedAccount-External Managed Account Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>DigitalWallet-Digital Wallet Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>DuplicateRecordSet-Duplicate Record Set Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>EmailMessage-Email Message Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>EngagementChannelType-Engagement Channel Type Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Expression_of_Interest__c-Expression of Interest Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Facilitator_Bio__c-Facilitator Bio Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>FeedItem-Feed Item Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Field_Layout_Setting__mdt-Field Layout Setting Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Financial_Split__c-Financial Split Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>FlowInterview-Flow Interview Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Global-Chatter Publisher Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>hed__Affiliation__c-hed__HEDA Affiliation Layout</layout>
+        <layout>Idea-Idea Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>hed__Course__c-OPE Activity Page Layout</layout>
-        <recordType>hed__Course__c.OPE_Activity</recordType>
+        <layout>Individual-Individual Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>hed__Course__c-OPE Short Course Page Layout</layout>
-        <recordType>hed__Course__c.Short_Course</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>hed__Course__c-OPE Unit Page Layout</layout>
-        <recordType>hed__Course__c.Unit</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>hed__Course__c-CCE Individual Coaching Layout</layout>
-        <recordType>hed__Course__c.Individual_Coaching</recordType>
-    </layoutAssignments>-
-    <layoutAssignments>
-        <layout>hed__Program_Plan__c-OPE Program Request Page Layout</layout>
+        <layout>Knowledge__kav-Knowledge Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Lead-QUTeX Leads</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Location-Location Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>LocationTrustMeasure-Location Trust Measure Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Loqate_Component__mdt-Loqate Component Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Macro-Macro Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Marketing_Course_Application__c-Marketing Course Application Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Marketing_Interaction__c-Marketing Interaction Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Marketing_Segmentation__c-Marketing Segmentation Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Marketing_Staging__c-Marketing Staging Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Mobile_Country_Code__mdt-Mobile Country Code Mapping Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Offering_Evaluation_Setting__mdt-Offering Evaluation Setting Layout</layout>
@@ -5253,84 +5443,253 @@
         <layout>Opportunity-QUTeX Opportunity Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Opportunity-QUTeX Opportunity Layout</layout>
-        <recordType>Opportunity.QUTex_CCE</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
         <layout>OpportunityContactRole-Opportunity Contact Role Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>OpportunityLineItem-Opportunity Product Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Product2-OPE Product Page Layout</layout>
+        <layout>Order-Order Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>OrderAdjustmentGroup-Order Adjustment Group Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>OrderAdjustmentGroupSummary-Order Adjustment Group Summary Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>OrderDeliveryGroup-Order Delivery Group Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>OrderDeliveryGroupSummary-Order Delivery Group Summary Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>OrderDeliveryMethod-Order Delivery Method Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>OrderItem-Order Product Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>OrderItemAdjustmentLineItem-Order Product Adjustment Line Item Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>OrderItemAdjustmentLineSummary-Order Product Adjustment Line Item Summary Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>OrderItemSummary-Order Product Summary Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>OrderItemSummaryChange-Order Product Summary Change Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>OrderItemTaxLineItem-Order Product Tax Line Item Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>OrderItemTaxLineItemSummary-Order Product Tax Line Item Summary Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>OrderPaymentSummary-Order Payment Summary Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>OrderSummary-Order Summary Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>PartyConsent-Party Consent Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Payment-Payment Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>PaymentAuthorization-Payment Authorization Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>PaymentGateway-Payment Gateway Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>PaymentGatewayLog-Payment Gateway Log Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>PaymentGroup-Payment Group Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Potential_Duplicate__c-Potential Duplicate Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Pricebook2-Price Book Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>PricebookEntry-Price Book Entry Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>ProcessException-Process Exception Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Product2-OPE Product Page Layout</layout>
-        <recordType>Product2.Module</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Product_Request__c-Product Request Layout</layout>
+        <layout>ProductCatalog-Catalog Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Product_Request__c-Diagnostic Tool Request Layout</layout>
-        <recordType>Product_Request__c.Diagnostic_Tool_Request</recordType>
+        <layout>ProductCategory-Category Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Product_Request__c-Activity Request Layout</layout>
-        <recordType>Product_Request__c.Activity_Request</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Product_Request__c-Activity Request Layout</layout>
-        <recordType>Product_Request__c.Activity</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Product_Request__c-Coaching Request Layout</layout>
-        <recordType>Product_Request__c.Coaching_Request</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout
-    >Product_Request__c-Educational Consultancy Request Layout</layout>
-        <recordType
-    >Product_Request__c.Educational_Consultancy_Request</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout
-    >Product_Request__c-Corporate Bundle Request Layout</layout>
-        <recordType
-    >Product_Request__c.Corporate_Bundle_Request</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout
-    >Product_Request__c-Stand-Alone Unit %2F Module Request Layout</layout>
-        <recordType
-    >Product_Request__c.Stand_Alone_Unit_Module_Request</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Product_Specification__c-CCE Product Specification Page Layout</layout>
-        <recordType>Product_Specification__c.CCE</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Product_Specification__c-OPE Product Specification Page Layout</layout>
-        <recordType>Product_Specification__c.OPE</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Product_Specification__c-Product Specification Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>TriggerHandler__mdt-Trigger Handler Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>WebCart-Cart Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Record_Type_Setting__mdt-Record Type Setting Layout</layout>
+        <layout>ProductCategoryProduct-Product Category Product Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Product_Ledger__c-Product Ledger Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Product_Request_Contact_Role__c-Product Request Contact Role Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Product_Request__c-Product Request Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Product_Specification__c-Product Specification Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>ProfileSkill-Skill Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>ProfileSkillEndorsement-Endorsement Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>ProfileSkillUser-Skill User Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Program_Offering__c-Program Offering Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>PromotionMarketSegment-Promotion Market Segment Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Question__c-Question Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Questionnaire_Response_Summary__c-Questionnaire Response Summary Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Questionnaire__c-Questionnaire Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>QuickText-Quick Text Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Quote-Quote Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>QuoteLineItem-Quote Line Item Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Record_Type_Setting__mdt-Record Type Setting Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Refund-Refund Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>RefundLinePayment-Refund Line Payment Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Related_Answer__c-Related Answer Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Related_Product_Request__c-Related Product Request Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>ReportAnomalyEventStore-Report Anomaly Event Store Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>SalesChannel-Sales Channel Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Scorecard-Scorecard Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>ScorecardAssociation-Scorecard Association Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>ScorecardMetric-Scorecard Metric Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Seller-Seller Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>SessionHijackingEventStore-Session Hijacking Event Store Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Session__c-Session Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Shipment-Shipment Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>ShipmentItem-Shipment Item Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>SocialPersona-Social Persona Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>SocialPost-Social Post Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Solution-Solution Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>ThreatDetectionFeedback-Threat Detection Feedback Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>TriggerHandler__mdt-Trigger Handler Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>User-User Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>UserAlt-User Profile Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>UserAppMenuItem-Application Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>UserProvAccount-User Provisioning Account Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>UserProvisioningLog-User Provisioning Log Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>UserProvisioningRequest-User Provisioning Request Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>WebCart-Cart Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>WebStore-Store Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>WebStoreBuyerGroup-Store Buyer Group Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>WorkAccess-Access Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>WorkBadge-Badge Received Layout 192</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>WorkBadgeDefinition-Badge Layout 192</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>WorkThanks-Thanks Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Attendance_Event__c-QUT Attendance Event Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course_Enrollment__c-QUT Course Connection Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course_Offering__c-QUT Course Offering Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Program_Plan__c-Program Page Layout</layout>
     </layoutAssignments>
     <objectPermissions>
         <allowCreate>true</allowCreate>
@@ -5492,6 +5851,15 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>Product2</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>Promotion</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>

@@ -46,6 +46,7 @@ export default class Slider extends LightningElement {
     @api
     get start() {
         if(isNaN(this._start)){
+            
             this._start = MIN_VALUE;
         }if(Math.abs(this._start) >= this._end){
             this._start = this._end - 1;
@@ -57,7 +58,8 @@ export default class Slider extends LightningElement {
     }
     @api
     get end() {
-        if(isNaN(this._end)){
+        if(isNaN(this._end))
+        {
             this._end = MAX_VALUE;
             this._max = MAX_VALUE;
             this._endValueInPixels = this.convertValueToPixels(this._end);
@@ -77,10 +79,13 @@ export default class Slider extends LightningElement {
     _min = 0;
     _step = 1;
     _start = MIN_VALUE;
-    _end = MAX_VALUE;
+    _end =  MAX_VALUE;
     _startValueInPixels;
     _endValueInPixels;
-   
+    @track tempValStart;
+    @track tempValEnd;
+    @api parend;
+    @api parstart;
     // Elements
     slider;
     sliderRange;
@@ -90,6 +95,7 @@ export default class Slider extends LightningElement {
     currentThumbName;   
     currentThumbPositionX; 
     maxRange = 300; 
+    newchanges = 0;
    
     isMoving = false;
     rendered = false;
@@ -102,23 +108,27 @@ export default class Slider extends LightningElement {
         if (!this.rendered) {
             this.initSlider();
             this.rendered = true;
+            if(this.parend || this.parstart){
+                this.onChangeValue();
+            }
         }
     }
 
     // Functions that set the values of the slider on Load
     initSlider() {
+       
         this.slider = this.template.querySelector('.slider');
         this.sliderRange = this.template.querySelector('.range');
         const thumb = this.template.querySelector('.thumb');
         if(this.slider && thumb){
             this.maxRange = this.slider.offsetWidth - thumb.offsetWidth;
-      
-            this._startValueInPixels = this.convertValueToPixels(this.start);
-            this._endValueInPixels = this.convertValueToPixels(this.end);
+            this._startValueInPixels = this.convertValueToPixels(this.parstart ? this.parstart :this.start);
+            this._endValueInPixels = this.convertValueToPixels(this.parend ? this.parend : this.end);
             this.setThumb('start', this._startValueInPixels);
             this.setThumb('end', this._endValueInPixels);
             this.setRange(this._startValueInPixels, this._endValueInPixels);
         }
+      
     }
 
     //Function that sets boundaries between min price and max price
@@ -176,6 +186,7 @@ export default class Slider extends LightningElement {
                         this._start = moveValue;
                         this.setThumb(this.currentThumbName, moveX);
                         this.setRange(this._endValueInPixels, this._startValueInPixels);
+                        tempValStart = this._start;
                     }
                     break;
                 case 'end':
@@ -184,6 +195,7 @@ export default class Slider extends LightningElement {
                         this._end = moveValue;
                         this.setThumb(this.currentThumbName, moveX);
                         this.setRange(this._endValueInPixels, this._startValueInPixels);
+                        this.tempValEnd = this._end;
                     }
                     break;
             }
@@ -197,6 +209,7 @@ export default class Slider extends LightningElement {
     onMouseUp(event) {
         this.isMoving = false;
         this.toggleActiveThumb(false);
+        this.newchanges = 1;
         this.onChangeValue();
         event.preventDefault(); 
     }
@@ -228,6 +241,8 @@ export default class Slider extends LightningElement {
 
     //Functions that pass the values to the parent component
     onChangeValue() {
+        this.parend && this.newchanges == 0 ? this._end = this.parend :this._end = this._end;
+        this.parstart && this.newchanges == 0 ? this._start = this.parstart :this._start = this._start;
         this.dispatchEvent(new CustomEvent('pricevaluechange', {
             detail: {
                 start: this.start,
@@ -239,6 +254,7 @@ export default class Slider extends LightningElement {
 
     //Handles when Min price is edited in the input box
     handleOnChangePriceStart(event){
+        this.newchanges = 1;
         this._start = parseInt(event.target.value);
         this._startValueInPixels = this.convertValueToPixels(this.start);
         this.setThumb('start', this._startValueInPixels);
@@ -249,6 +265,7 @@ export default class Slider extends LightningElement {
 
     //Handles when Max price is edited in the input box
     handleOnChangePriceEnd(event){
+        this.newchanges = 1;
         this._end = parseInt(event.target.value);
         this._max = parseInt(event.target.value);
         this._endValueInPixels = this.convertValueToPixels(this.end);
@@ -272,6 +289,8 @@ export default class Slider extends LightningElement {
         this._start = MIN_VALUE;
         this._end = MAX_VALUE;
         this._max = MAX_VALUE;
+        this.parstart = MIN_VALUE;
+        this.parend = MAX_VALUE;
 
         this.initSlider();
     }

@@ -9,9 +9,12 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | eccarius.munoz                 | June 1, 2022          | DEPP-2281              | creates test class           |
+      | eccarius.munoz                 | June 28, 2022         | DEPP-3235              | Sets test records to 100     |
  */
 @isTest(SeeAllData=false)
 public with sharing class ContactWithMatchingLeadHelperTest {
+
+    public static final Integer NUM_RECORDS = 100;
 
     public static final Id PERSON = Schema.SObjectType.Contact.getRecordTypeInfosByDeveloperName()
         .get('Person')
@@ -24,45 +27,50 @@ public with sharing class ContactWithMatchingLeadHelperTest {
     static void makeData(){
         List<Account> accounts = TestDataFactory.createTestAccountRecords(1);  
         insert accounts;
-                
         List<Lead> leads = new List<Lead>();
+        for(Integer i = 0; i < NUM_RECORDS; i++){
             leads.add(new Lead(
-            FirstName = 'Test',
-            LastName = 'Record',
-            Company = 'TestCompany',
-            Phone = '012345678',
-            Street = 'TestStreet',
-            State = 'TestState',
-            City = 'TestCity',
-            Country = 'Japan',
-            PostalCode = '4102',
-            Email = 'test@record.com',
-            Personal_Email__c = 'test@record.com',
-            MobilePhone = '012345678',
-            Personal_Mobile__c = '012345678',
-            Company_Category__c = 'Corporate',
-            ABN__c = '000',
-            LeadABNEntity_Validation__c = 'Valid',
-            LeadAddress_Validation__c = 'Valid',
-            LeadMobile_Validation__c = 'Valid',
-            Mobile_No_Locale__c = '012345678',
-            LeadPersonalMobile_Validation__c = 'Valid',
-            LeadPhone_Validation__c = 'Valid',
-            LinkedIn_Profile_URL__c = 'test@record.com',
-            WorkPhone_Validation__c = 'Valid',
-            Phone_No_Locale__c  = '012345678',
-            Lead_Type__c = 'Learner'
-        ));
+                FirstName = 'Test' + i,
+                LastName = 'Record' + i,
+                Company = 'TestCompany',
+                Phone = '012345678',
+                Street = 'TestStreet',
+                State = 'TestState',
+                City = 'TestCity',
+                Country = 'Japan',
+                PostalCode = '4102',
+                Email = 'test@record.com' + i,
+                Work_Email__c = 'test@record.comw' + i,
+                Personal_Email__c = 'test@record.com' + i,
+                MobilePhone = '012345678',
+                Personal_Mobile__c = '012345678',
+                Company_Category__c = 'Corporate',
+                ABN__c = '000',
+                LeadABNEntity_Validation__c = 'Valid',
+                LeadAddress_Validation__c = 'Valid',
+                LeadMobile_Validation__c = 'Valid',
+                Mobile_No_Locale__c = '012345678',
+                LeadPersonalMobile_Validation__c = 'Valid',
+                LeadPhone_Validation__c = 'Valid',
+                LinkedIn_Profile_URL__c = 'test@record.com',
+                WorkPhone_Validation__c = 'Valid',
+                Phone_No_Locale__c  = '012345678',
+                Lead_Type__c = 'Learner',
+                Marketing_Segmentation_Score__c = 75
+            ));
+        }   
         insert leads;
 
         List<Marketing_Interaction__c> marketingInteractionList = new List<Marketing_Interaction__c>();
         List<Marketing_Course_Application__c> marketingCourseAppList = new List<Marketing_Course_Application__c>();
         List<Marketing_Segmentation__c> marketingSegmentationList = new List<Marketing_Segmentation__c>();
         List<Contact> contactList = new List<Contact>();
-        marketingInteractionList.add(new Marketing_Interaction__c(Lead__c = leads[0].Id));
-        marketingCourseAppList.add(new Marketing_Course_Application__c(Lead__c = leads[0].Id));
-        marketingSegmentationList.add(new Marketing_Segmentation__c(Lead__c = leads[0].Id));
-        contactList.add(new Contact(FirstName = 'MC Test', LastName = 'MC Record', Email = 'mctest@record.com', Company_Name__c = 'mcTestCompany', RecordTypeId = MC_PERSONA, Parent_Person_Lead__c = leads[0].Id));
+        for(Integer i = 0; i < NUM_RECORDS; i++){
+            marketingInteractionList.add(new Marketing_Interaction__c(Lead__c = leads[i].Id));
+            marketingCourseAppList.add(new Marketing_Course_Application__c(Lead__c = leads[i].Id));
+            marketingSegmentationList.add(new Marketing_Segmentation__c(Lead__c = leads[i].Id));
+            contactList.add(new Contact(FirstName = 'MC Test', LastName = 'MC Record', Email = 'mctest@record.com', Company_Name__c = 'mcTestCompany', Marketing_Segmentation_Score__c = 80, RecordTypeId = MC_PERSONA, Parent_Person_Lead__c = leads[i].Id));
+        }        
         insert marketingInteractionList;
         insert marketingCourseAppList;
         insert marketingSegmentationList; 
@@ -72,30 +80,56 @@ public with sharing class ContactWithMatchingLeadHelperTest {
     @IsTest
     static void detectLeadDuplicatesAndConvertTest(){
 
-        List<Lead> leadList = [SELECT Id FROM Lead WHERE Lead_Type__c = 'Learner' LIMIT 1];
+        List<Lead> leadList = [SELECT Id FROM Lead WHERE Lead_Type__c = 'Learner'];
 
         Test.startTest();
         List<Contact> contacts = new List<Contact>();
-        contacts.add(new Contact(FirstName = 'Test', LastName = 'Record', Email = 'test@record.com', Company_Name__c = 'TestCompany', RecordTypeId = PERSON));
+        for(Integer i = 0; i < NUM_RECORDS; i++){
+            contacts.add(new Contact(
+                FirstName = 'Test', 
+                LastName = 'Record' + i, 
+                Email = 'test@record.com' + i, 
+                Company_Name__c = 'TestCompany', 
+                RecordTypeId = PERSON, 
+                Marketing_Segmentation_Score__c = 80)
+            );
+        }
+        
         insert contacts;
 
-        String contactId = contacts[0].Id;
-
         Map<Id,Contact> contactsMap = new Map<Id,Contact>();
-        contactsMap.put(contactId, contacts[0]);
+        List<Contact> contactList = [SELECT Id, Email, Work_Email__c, AccountId, Parent_Person_Contact__r.Id, Parent_Person_Contact__r.Email, Parent_Person_Contact__r.Work_Email__c, Parent_Person_Contact__r.AccountId FROM Contact WHERE RecordTypeId =: PERSON];
+        for(Contact con : contactList){
+            contactsMap.put(con.Id, con);
+        }
+               
         ContactWithMatchingLeadHelper.detectLeadDuplicates(contactsMap);
+
+        Set<Id> leadIds = new Set<Id>();
+        for(Lead lead : leadList){
+            leadIds.add(lead.Id);
+        }
         
-        String mktInteractionContact = [SELECT Contact__r.Id FROM Marketing_Interaction__c WHERE Lead__c =: leadList[0].Id LIMIT 1].Contact__r.Id;
-        String mktCourseAppContact = [SELECT Contact__r.Id FROM Marketing_Course_Application__c WHERE Lead__c =: leadList[0].Id LIMIT 1].Contact__r.Id;
-        String mktSegContact = [SELECT Contact__r.Id FROM Marketing_Segmentation__c WHERE Contact__c =: contactId LIMIT 1].Contact__r.Id;
-        String mcContact = [SELECT Parent_Person_Contact__c FROM Contact WHERE Parent_Person_Lead__c =: leadList[0].Id LIMIT 1].Parent_Person_Contact__c;
+        List<Marketing_Interaction__c> mktInteractionContacts = [SELECT Contact__r.Id FROM Marketing_Interaction__c WHERE Lead__c IN : leadIds];        
+        List<Marketing_Course_Application__c> mktCourseAppContacts = [SELECT Contact__r.Id FROM Marketing_Course_Application__c WHERE Lead__c IN : leadIds];
+        List<Marketing_Segmentation__c> mktSegContacts = [SELECT Contact__r.Id FROM Marketing_Segmentation__c WHERE Contact__c IN : contactsMap.keySet()];
+        List<Contact> mcContacts = [SELECT Parent_Person_Contact__c FROM Contact WHERE Parent_Person_Lead__c IN : leadIds];
         
         Test.stopTest();
 
-        System.assertEquals(contactId, mktInteractionContact, 'Marketing Interaction was not updated.');
-        System.assertEquals(contactId, mktCourseAppContact, 'Marketing Course Application was not updated.');
-        System.assertEquals(contactId, mktSegContact, 'Marketing Segmentation was not updated.');
-        System.assertEquals(contactId, mcContact, 'MC Persona was not updated.');
+        for(Marketing_Interaction__c mi : mktInteractionContacts){
+            System.assert(contactsMap.containsKey(mi.Contact__r.Id), 'Marketing Interaction was not updated.');
+        }
+        for(Marketing_Course_Application__c mca : mktCourseAppContacts){
+            System.assert(contactsMap.containsKey(mca.Contact__r.Id), 'Marketing Course Application was not updated.');
+        }
+        for(Marketing_Segmentation__c ms : mktSegContacts){
+            System.assert(contactsMap.containsKey(ms.Contact__r.Id), 'Marketing Segmentation was not updated.');
+        }
+        for(Contact c : mcContacts){
+            System.assert(contactsMap.containsKey(c.Parent_Person_Contact__c), 'MC Persona was not updated.');
+        }
+        
     }
         
 }

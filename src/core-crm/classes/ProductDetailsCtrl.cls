@@ -16,6 +16,10 @@
       | john.bo.a.pineda          | June 01, 2022         | DEPP-2853            | Updated Registration Dates Logic           |
       | john.bo.a.pineda          | June 16, 2022         | DEPP-3016            | Updated Logic for Prescribed Child Order   |
       | john.bo.a.pineda          | June 18, 2022         | DEPP-3166            | Updated Logic for Facilitator Image URL    |
+      | john.bo.a.pineda          | June 22, 2022         | DEPP-3211            | Modified logic to use correct logic to get |
+      |                           |                       |                      | Earliest Upcoming Offering                 |
+      | john.bo.a.pineda          | June 27, 2022         | DEPP-3216            | Modified add validation if Product already |
+      |                           |                       |                      | exists in Cart only for URL Defaults       |
 */
 public without sharing class ProductDetailsCtrl {
   public static final Id STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
@@ -54,6 +58,9 @@ public without sharing class ProductDetailsCtrl {
         Program_Plan__r.Maximum_Participants__c,
         Duration__c,
         Delivery__c,
+        Minimum_Participants_Group__c,
+        Maximum_Participants_Group__c,
+        Payment_Options__c,
         Register_Interest_Available__c,
         Overview__c,
         Evolve_with_QUTeX__c,
@@ -305,6 +312,7 @@ public without sharing class ProductDetailsCtrl {
       List<hed__Course_Offering__c> cOfferList = [
         SELECT
           Id,
+          Delivery_Type__c,
           hed__Start_Date__c,
           Available_Seats__c,
           hed__Facility__r.Display_Name__c,
@@ -404,6 +412,8 @@ public without sharing class ProductDetailsCtrl {
             .format('dd MMM yyyy');
           // value
           cOfferWrapper.value = cOffer.Id;
+          // Delivery
+          cOfferWrapper.defDeliv = cOffer.Delivery_Type__c;
           // meta
           if (cOffer.Available_Seats__c <= 10) {
             if (cOffer.Available_Seats__c == 1) {
@@ -478,11 +488,13 @@ public without sharing class ProductDetailsCtrl {
     String courseOfferingId,
     String programOfferingId,
     String pricebookEntryId,
-    String userId
+    String userId,
+    Boolean urlDefaultAddToCart
   ) {
     try {
       // Lookup the webstore ID associated with the community
       String webstoreId;
+      Boolean addCart = true;
       if (Test.isRunningTest()) {
         webstoreId = [SELECT Id FROM WebStore LIMIT 1].Id;
       } else {
@@ -502,6 +514,13 @@ public without sharing class ProductDetailsCtrl {
       ]
       .Id;
 
+      Id contactId = [
+        SELECT Id, ContactId 
+        FROM User
+        WHERE Id =: userId
+        LIMIT 1
+      ]?.ContactId;
+
       // Get Current User Active Cart Delivery Group
       Id cartDeliveryGroupId = [
         SELECT Id, Name, CreatedDate, LastModifiedDate, CartId
@@ -510,25 +529,51 @@ public without sharing class ProductDetailsCtrl {
       ]
       .Id;
 
-      PriceBookEntry pbEntry = [SELECT Id, UnitPrice FROM PriceBookEntry WHERE Id=: pricebookEntryId];
+      PriceBookEntry pbEntry = [
+        SELECT Id, UnitPrice
+        FROM PriceBookEntry
+        WHERE Id = :pricebookEntryId
+      ];
+
+      // Only for URL Defaults, Validate if Product Exists in Cart
+      if (urlDefaultAddToCart) {
+        List<CartItem> urlDefaultCartItem = [
+          SELECT Id
+          FROM CartItem
+          WHERE
+            CartId = :cartId
+            AND Product2Id = :productId
+            AND Pricebook_Entry_ID__c = :pricebookEntryId
+            AND (Course_Offering__c = :courseOfferingId
+            OR Program_Offering__c = :programOfferingId)
+        ];
+
+        // If URL Defaults exists in Cart, set addCart to False
+        if (urlDefaultCartItem.size() > 0) {
+          addCart = false;
+        }
+      }
 
       // Set Cart Item to be inserted
-      CartItem cItem = new CartItem();
-      cItem.CartId = cartId;
-      cItem.CartDeliveryGroupId = cartDeliveryGroupId;
-      cItem.Name = productName;
-      cItem.Product2Id = productId;
-      if (String.isNotBlank(courseOfferingId)) {
-        cItem.Course_Offering__c = courseOfferingId;
-      } else if (String.isNotBlank(programOfferingId)) {
-        cItem.Program_Offering__c = programOfferingId;
-      }
-      cItem.Pricebook_Entry_ID__c = pricebookEntryId;
-      cItem.Quantity = 1;
-      cItem.Type = 'Product';
-      cItem.TotalPrice = pbEntry.UnitPrice;
+      if (addCart) {
+        CartItem cItem = new CartItem();
+        cItem.CartId = cartId;
+        cItem.Contact__c = contactId;
+        cItem.CartDeliveryGroupId = cartDeliveryGroupId;
+        cItem.Name = productName;
+        cItem.Product2Id = productId;
+        if (String.isNotBlank(courseOfferingId)) {
+          cItem.Course_Offering__c = courseOfferingId;
+        } else if (String.isNotBlank(programOfferingId)) {
+          cItem.Program_Offering__c = programOfferingId;
+        }
+        cItem.Pricebook_Entry_ID__c = pricebookEntryId;
+        cItem.Quantity = 1;
+        cItem.Type = 'Product';
+        cItem.TotalPrice = pbEntry.UnitPrice;
 
-      insert cItem;
+        insert cItem;
+      }
     } catch (Exception e) {
       system.debug(e);
       system.debug('Error on ProductDetailsCtrl.addToCartItem');
@@ -1020,6 +1065,8 @@ public without sharing class ProductDetailsCtrl {
     @AuraEnabled
     public String meta;
     @AuraEnabled
+    public String defDeliv;
+    @AuraEnabled
     public List<facilitatorWrapper> facilitator;
   }
 
@@ -1170,6 +1217,7 @@ public without sharing class ProductDetailsCtrl {
           AND Registration_Start_Date__c <= TODAY
           AND (Registration_End_Date__c = NULL
           OR Registration_End_Date__c > TODAY)
+        ORDER BY Start_Date__c ASC
       ];
       System.debug('programOfferings: ' + programOfferings);
       for (Program_Offering__c programOffering : programOfferings) {
@@ -1180,6 +1228,7 @@ public without sharing class ProductDetailsCtrl {
             Time.newInstance(0, 0, 0, 0)
           )
           .format('dd MMM yyyy');
+        programOfferingWrapper.defDeliv = programOffering.Delivery_Type__c;
         programOfferingWrapper.availableSeats = programOffering.Available_Seats__c;
         List<ProgramOfferingWrapper> programOfferingWrapperList = new List<ProgramOfferingWrapper>();
         if (
@@ -1239,6 +1288,8 @@ public without sharing class ProductDetailsCtrl {
     public String id { get; set; }
     @AuraEnabled
     public String startDate { get; set; }
+    @AuraEnabled
+    public String defDeliv { get; set; }
     @AuraEnabled
     public Decimal availableSeats { get; set; }
     @AuraEnabled

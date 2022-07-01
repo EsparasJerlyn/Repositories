@@ -5,7 +5,7 @@
 <body style="height: auto; min-height: auto;">
 <p><span style="font-size:14px;">Dear {firstname},<br />
 <br />
-Thank you for attending the QUTeX {name} course, we hope you found your learning with us valuable experience.<br />
+Thank you for attending the QUTeX {courseOfferingName} course, we hope you found your learning with us valuable experience.<br />
 <br />
 Should you have any questions, please feel free to contact the QUTeX team using the details below.</span><br />
 <br />

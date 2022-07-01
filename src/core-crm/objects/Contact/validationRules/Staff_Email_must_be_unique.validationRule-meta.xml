@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Staff_Email_must_be_unique</fullName>
-    <active>false</active>
+    <active>true</active>
     <description>Validates Staff Email field if unique. Must not be the same with Email, Student Email, or Work Email.</description>
     <errorConditionFormula>AND(
  NOT (ISBLANK(QUT_Staff_Email__c) ),

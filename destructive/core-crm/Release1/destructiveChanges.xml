@@ -36,6 +36,16 @@
         <members>CommunitiesSelfRegController</members>
         <members>CommunitiesSelfRegControllerTest</members>
         <!--(End) DEPP DEPP-3095 -->
+        <!--DEPP-3222-->
+        <members>RegistrationConfirmationEmailCtrl</members>
+        <members>SendEmailonRegisConfirmationFlowTest</members>
+        <members>RegistrationConfirmationEmailCtrlTest</members>
+        <members>FacetoFaceConfirmationEmailFlowTest</members>
+        <members>OnlineSelfPacedConfirmationEmailFlowTest</members>
+        <members>PostCourseCompletionEmailFlowTest</members>
+        <members>PreSessionReminderEmailFlowTest</members>
+        <members>VirtualConfirmationEmailFlowTest</members>
+        <!--DEPP-3222-->
         <name>ApexClass</name>
     </types>
     <types>
@@ -140,7 +150,7 @@
     </types>
     <types>
         <members>QUTeX_Email</members><!-- DEPP-2020 -->
-        <!-- (Start) DEPP 2861 --> 
+        <!-- (Start) DEPP 2861 -->
         <members>MCTransactionalAPI_AccessTokenClientId</members>
         <members>MCTransactionalAPI_AccessTokenClientSecret</members>
         <members>MCTransactionalAPI_AccessTokenAccountId</members>
@@ -472,7 +482,15 @@
         <members>Pre_session_Reminder_Email</members>
         <members>Send_Email_on_Registration_Confirmation</members>
         <members>Online_Self_Paced_Confirmation_Email</members>
-        <name>Flow</name>
+        <members>Face_to_Face_Final_Confirmation_Email_Flow</members>
+        <members>Virtual_Confirmation_Email_Flow</members>
+        <members>Online_Self_Paced_Confirmation_Email_Flow</members>
+        <members>Pre_session_Reminder_Email_Flow</members>
+        <members>Post_Course_Completion_Email_Flow</members>
+        <!--DEPP-3222-->
+        <members>Send_Email_on_Regis_Confirmation_Flow</members>
+        <!--DEPP-3222-->
+    <name>Flow</name>
     </types>
     <types>
         <members>CommunitiesSelfReg</members> <!-- DEPP-3095 -->

@@ -112,30 +112,61 @@
                           <div
                             class="slds-accordion__content accordionContent" id="studyAreas">
                                   <template if:true={studyAreaValues}>
-                                      <div class="">
-                                          <lightning-input
-                                              label='All areas'
-                                              class="chk-studyarea-all chkBoxlabel"
+                                    <div class="">
+                                          
+                                      <template if:true={studyAll}> 
+                                           <lightning-input 
+                                           label='All areas'
+                                           class="chk-studyarea-all chkBoxlabel"
+                                           data-id="checkbox"
+                                           type="checkbox"
+                                           onchange={handleSelectAllStudyAreas}
+                                           checked
+                                           >
+                                       </lightning-input>
+                                      </template>
+                                   <template if:false={studyAll}>
+                                       <lightning-input
+                                           label='All areas'
+                                           class="chk-studyarea-all chkBoxlabel"
+                                           data-id="checkbox"
+                                           type="checkbox"
+                                           onchange={handleSelectAllStudyAreas}
+                                           >
+                                       </lightning-input>
+                                     </template>
+                                              
+                                    <template for:each={studyAreaValues} for:item="item">
+                                          <template if:true={item.selected}>
+                                            <lightning-input
+                                            key={item.value}
+                                            label={item.label}
+                                            value={item.value}
+                                            data-id="checkbox"
+                                            class="chk-studyarea chkBoxlabel chkOption"
+                                            type="checkbox"
+                                            onchange={handleStudyAreaPicklist}
+                                            checked
+                                        >
+                                          </lightning-input>
+                                            </template> 
+                                            <template if:false={item.selected}>
+                                              <lightning-input
+                                              key={item.value}
+                                              label={item.label}
+                                              value={item.value}
                                               data-id="checkbox"
+                                              class="chk-studyarea chkBoxlabel chkOption"
                                               type="checkbox"
-                                              onchange={handleSelectAllStudyAreas}
+                                              onchange={handleStudyAreaPicklist}
                                               >
                                           </lightning-input>
-                                          <template for:each={studyAreaValues} for:item="item">
-                                              <lightning-input
-                                                  key={item.value}
-                                                  label={item.label}
-                                                  value={item.value}
-                                                  data-id="checkbox"
-                                                  class="chk-studyarea chkBoxlabel chkOption"
-                                                  type="checkbox"
-                                                  onchange={handleStudyAreaPicklist}
-                                              >
-                                              </lightning-input>
+                                          </template> 
+                                             
                                           </template>
-                                      </div>
-                                  </template>
-                          </div>
+                                        </div>
+                                    </template>
+                            </div>
                         </section>
                   </li>
                   <li class="slds-accordion__list-item">
@@ -165,18 +196,48 @@
                             </h2>
                           </div>
                           <div
-                            class="slds-accordion__content accordionContent">
+                            class="slds-accordion__content accordionContent" id="deliveryAreas">
                             <template if:true={deliveryTypeValues}>
-                              <div class="">
-                                  <lightning-input
-                                      label='All delivery options'
-                                      data-id="checkbox"
-                                      class="chk-deliverytype-all chkBoxlabel"
-                                      type="checkbox"
-                                      onchange={handleSelectAllDeliveryTypes}
-                                      >
-                              </lightning-input>
+                                  <div class="">
+
+                                    <template if:true={deliveryAll}>
+                                      <lightning-input
+                                          label='All delivery options'
+                                          data-id="checkbox"
+                                          class="chk-deliverytype-all chkBoxlabel"
+                                          type="checkbox"
+                                          onchange={handleSelectAllDeliveryTypes}
+                                          checked
+                                          >
+                                      </lightning-input>
+                                    </template>
+
+                                    <template if:false={deliveryAll}>
+                                      <lightning-input
+                                          label='All delivery options'
+                                          data-id="checkbox"
+                                          class="chk-deliverytype-all chkBoxlabel"
+                                          type="checkbox"
+                                          onchange={handleSelectAllDeliveryTypes}
+                                          >
+                                      </lightning-input>
+                                    </template>
+
                                   <template for:each={deliveryTypeValues} for:item="item">
+                                    <template if:true={item.selected}>
+                                      <lightning-input
+                                          key={item.value}
+                                          label={item.label}
+                                          value={item.value}
+                                          data-id="checkbox"
+                                          class="chk-delivery-type chkBoxlabel chkOption"
+                                          type="checkbox"
+                                          onchange={handleDeliveryTypePicklist}
+                                          checked
+                                      >
+                                      </lightning-input>
+                                    </template>
+                                    <template if:false={item.selected}>
                                       <lightning-input
                                           key={item.value}
                                           label={item.label}
@@ -187,7 +248,11 @@
                                           onchange={handleDeliveryTypePicklist}
                                       >
                                       </lightning-input>
-                                  </template>
+                                    </template>
+                                </template> 
+                                
+  
+
                               </div>
                           </template>
                           </div>
@@ -220,18 +285,49 @@
                             </h2>
                           </div>
                           <div
-                            class="slds-accordion__content accordionContent">
+                            class="slds-accordion__content accordionContent"  id="courseAreas">
                             <template if:true={typeValues}>
                               <div class="slds-var-m-around_medium">
+
+                                <template if:true={courseAll}>
                                   <lightning-input
                                       label='All types'
                                       class="chk-type-all chkBoxlabel"
                                       data-id="checkbox"
                                       type="checkbox"
                                       onchange={handleSelectAllTypes}
+                                      checked
                                       >
                                   </lightning-input>
+                                  </template>
+
+                                  <template if:false={courseAll}>
+                                    <lightning-input
+                                        label='All types'
+                                        class="chk-type-all chkBoxlabel"
+                                        data-id="checkbox"
+                                        type="checkbox"
+                                        onchange={handleSelectAllTypes}
+                                        >
+                                    </lightning-input>
+                                    </template>
+
                                   <template for:each={typeValues} for:item="item">
+                                    <template if:true={item.selected}>
+                                      <lightning-input
+                                          key={item.value}
+                                          label={item.label}
+                                          value={item.value}
+                                          data-id="checkbox"
+                                          class="chk-types chkBoxlabel chkOption"
+                                          type="checkbox"
+                                          onchange={handleTypePicklist}
+                                          checked
+                                      >
+                                      </lightning-input>
+                                    </template>
+
+                                    <template if:false={item.selected}>
                                       <lightning-input
                                           key={item.value}
                                           label={item.label}
@@ -242,6 +338,7 @@
                                           onchange={handleTypePicklist}
                                       >
                                       </lightning-input>
+                                    </template>
                                   </template>
                               </div>
                           </template>
@@ -277,7 +374,10 @@
                       <div
                         class="slds-accordion__content accordionContent">
                         <c-slider
-                          onpricevaluechange={handlePriceRangeValueChange}>
+                          onpricevaluechange={handlePriceRangeValueChange}
+                          parend={tempValEnd}
+                          parstart={tempValStart}
+                        >
                         </c-slider>
                       </div>
                     </section>
@@ -334,7 +434,7 @@
       </div>
         <button onclick={handleModalClosed} class="filter-button"> Filter Courses <img  src={filterFilled} alt="" class="filterIcon" /></button>  
       </br>
-      <lightning-button variant="base" label="Clear all" title="Clear all" onclick={handleClearAll} 
+      <lightning-button variant="base" label="Clear all" title="Clear all" onclick={handleClearAllMobile} 
         class="slds-m-left_x-small slds-align_absolute-center mobileViewClear" style="text-decoration: underline #0066B9;"  ></lightning-button> 
 
       </div>
@@ -347,7 +447,7 @@
               <p class="slds-truncate heading3 main-color-blue500 filter-mobile">Filter courses</p>
             </div>
               <div class="filter-mobile">
-                  <lightning-button variant="base" label="Clear all" title="Clear all" onclick={handleClearAll} class="desktopView"></lightning-button> 
+                  <lightning-button variant="base" label="Clear all" title="Clear all" onclick={handleClearAllDesktop} class="desktopView"></lightning-button> 
                   <div class=""> <!--slds-var-m-around_medium -->
                       <lightning-input
                           label="Filter by keyword"
@@ -392,20 +492,35 @@
                                                       class="chk-studyarea-all chkBoxlabel"
                                                       data-id="checkbox"
                                                       type="checkbox"
-                                                      onchange={handleSelectAllStudyAreas}
+                                                      onchange={handleSelectAllStudyAreasDesktop}
                                                       >
                                                   </lightning-input>
                                                   <template for:each={studyAreaValues} for:item="item">
+                                                    <template if:true={item.selected}>
                                                       <lightning-input
-                                                          key={item.value}
-                                                          label={item.label}
-                                                          value={item.value}
-                                                          data-id="checkbox"
-                                                          class="chk-studyarea chkBoxlabel chkOption"
-                                                          type="checkbox"
-                                                          onchange={handleStudyAreaPicklist}
+                                                      key={item.value}
+                                                      label={item.label}
+                                                      value={item.value}
+                                                      data-id="checkbox"
+                                                      class="chk-studyarea chkBoxlabel chkOption"
+                                                      type="checkbox"
+                                                      onchange={handleStudyAreaPicklistDesktop}
+                                                      checked
                                                       >
                                                       </lightning-input>
+                                                    </template> 
+                                                    <template if:false={item.selected}>
+                                                      <lightning-input
+                                                      key={item.value}
+                                                      label={item.label}
+                                                      value={item.value}
+                                                      data-id="checkbox"
+                                                      class="chk-studyarea chkBoxlabel chkOption"
+                                                      type="checkbox"
+                                                      onchange={handleStudyAreaPicklistDesktop}
+                                                      >
+                                                      </lightning-input>
+                                                    </template> 
                                                   </template>
                                               </div>
                                           </template>
@@ -447,7 +562,7 @@
                                               data-id="checkbox"
                                               class="chk-deliverytype-all chkBoxlabel"
                                               type="checkbox"
-                                              onchange={handleSelectAllDeliveryTypes}
+                                              onchange={handleSelectAllDeliveryTypesDesktop}
                                               >
                                       </lightning-input>
                                           <template for:each={deliveryTypeValues} for:item="item">
@@ -458,7 +573,7 @@
                                                   data-id="checkbox"
                                                   class="chk-delivery-type chkBoxlabel chkOption"
                                                   type="checkbox"
-                                                  onchange={handleDeliveryTypePicklist}
+                                                  onchange={handleDeliveryTypePicklistDesktop}
                                               >
                                               </lightning-input>
                                           </template>
@@ -502,7 +617,7 @@
                                               class="chk-type-all chkBoxlabel"
                                               data-id="checkbox"
                                               type="checkbox"
-                                              onchange={handleSelectAllTypes}
+                                              onchange={handleSelectAllTypesDesktop}
                                               >
                                           </lightning-input>
                                           <template for:each={typeValues} for:item="item">
@@ -513,7 +628,7 @@
                                                   data-id="checkbox"
                                                   class="chk-types chkBoxlabel chkOption"
                                                   type="checkbox"
-                                                  onchange={handleTypePicklist}
+                                                  onchange={handleTypePicklistDesktop}
                                               >
                                               </lightning-input>
                                           </template>

@@ -19,7 +19,7 @@ Amount Due: {amount}</span></b><br />
 <br />
 <span style="font-size:14px;">If you have any questions regarding your registration details or payment please contact QUTeX. Please refer to the <a href="https://www.qut.edu.au/study/professional-and-executive-education/terms-and-conditions">QUTeX T&amp;C's</a> regarding our cancellation policy.<br />
 <br />
-To continue expanding your professional and personal success <a href="https://www.qut.edu.au/study/professional-and-executive-education/courses">click here</a> to check out what else QUTeX has to offer.<br />
+To continue expanding your professional and personal success <a href="{storeLink}">click here</a> to check out what else QUTeX has to offer.<br />
 <br />
 <br />
 Kind&nbsp;Regards,&nbsp;<br />

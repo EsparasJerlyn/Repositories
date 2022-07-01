@@ -6,7 +6,7 @@
  *    | Developer                 | Date                  | JIRA                 | Change Summary               |
       |---------------------------|-----------------------|----------------------|------------------------------|
       | john.m.tambasen           | May 11, 2022          | DEPP-2060            | Created file                 |
-      |                           |                       |                      |                              |
+      | roy.nino.s.regala         | June 30, 2022         | DEPP-3157            | test class for creating questionnaires|
  */
 @isTest(SeeAllData=false)
 public with sharing class CartItemCtrlTest {
@@ -390,7 +390,7 @@ public with sharing class CartItemCtrlTest {
     );
   }
 
-  @isTest
+  /*@isTest
   static void createCourseConnectionTest(){
     List<Contact> contactList = new List<Contact>([SELECT Id FROM Contact LIMIT 1]);
     List<CartItem> cartItemList = new List<CartItem>([SELECT Id FROM CartItem LIMIT 10]);
@@ -402,20 +402,81 @@ public with sharing class CartItemCtrlTest {
     Test.stopTest();
 
     System.assert(![SELECT Id FROM hed__Course_Enrollment__c LIMIT 1].isEmpty(),'No course connection created');
-  }
+  }*/
 
-
-  @isTest
-  static void checkCartOwnerShipTest(){
-    List<WebCart> webcarts = new List<WebCart>([SELECT Id, OwnerId FROM WebCart Limit 1]);
-    Boolean owned;
+  @IsTest
+  static void checkCartOwnerShipTest() {
+    WebCart cart = [SELECT Id, OwnerId, Name FROM WebCart LIMIT 1];
+      
     Test.startTest();
-
-    owned = CartItemCtrl.checkCartOwnerShip(webcarts[0].Id,webcarts[0].OwnerId);
-
+    Boolean isOwned = CartItemCtrl.checkCartOwnerShip(
+      cart.Id,
+      cart.OwnerId
+    );
     Test.stopTest();
 
-    System.assert(owned, 'user do not own the cart');
+    System.assert(
+      isOwned,
+      'Cart should be owned by user'
+    );
+  }
+
+  @IsTest
+  static void saveCartSummaryQuestionsTest(){
+
+
+    hed__Course_Offering__c courseOffering = [SELECT Id FROM hed__Course_Offering__c LIMIT 1];
+    List<CartItemCtrl.QuestionnaireResponseData> qrsDataList = new List<CartItemCtrl.QuestionnaireResponseData>();
+    CartItemCtrl.QuestionnaireResponseData qrsData = new CartItemCtrl.QuestionnaireResponseData();
+    CartItemCtrl.RelatedAnswersWrapper relatedAnswerData = new CartItemCtrl.RelatedAnswersWrapper();
+    CartItemCtrl.FileUpload fileUploadData = new CartItemCtrl.FileUpload();
+
+    qrsData.offeringId = courseOffering.Id;
+    qrsData.isPrescribed = false;
+    qrsData.relatedAnswerList = new List<CartItemCtrl.RelatedAnswersWrapper>();
+    qrsData.answerList = new List<Answer__c>();
+    qrsData.fileUploadData = new List<CartItemCtrl.FileUpload>();
+
+
+    List<Question__c> questionList = [SELECT Id FROM Question__c LIMIT 5];
+
+    List<Related_Answer__c> relatedAnswers = [SELECT Id, Questionnaire__c FROM Related_Answer__c LIMIT 5];
+    List<CartItemCtrl.FileUpload> fileLoadList = new List<CartItemCtrl.FileUpload>();
+    List<Answer__c> answerList = new List<Answer__c>();
+
+    Answer__c newAnswer;
+    
+    for(Related_Answer__c relatedA: relatedAnswers){
+      CartItemCtrl.RelatedAnswersWrapper relatedWrapper = new CartItemCtrl.RelatedAnswersWrapper();
+
+      relatedWrapper.Id =relatedA.Id;
+      relatedWrapper.QuestionnaireId = relatedA.Questionnaire__c;
+
+      qrsData.relatedAnswerList.add(relatedWrapper);
+
+        newAnswer = new Answer__c(
+              Response__c = relatedA.Id,
+              Related_Answer__c = relatedA.Id
+        );
+        answerList.add(newAnswer);
+        CartItemCtrl.FileUpload fileLoad = new CartItemCtrl.FileUpload();
+        fileLoad.Base64 = 'Test Content';
+        fileLoad.FileName = relatedA.Id;
+        fileLoad.RelatedAnswerId = relatedA.Id;
+
+        fileLoadList.add(fileLoad);
+    }
+
+    qrsData.answerList.addAll(answerList);
+    qrsData.fileUploadData.addAll(fileLoadList);
+    qrsDataList.add(qrsData);
+    Contact con = [SELECT Id FROM Contact Limit 1];
+    Test.startTest();
+    CartItemCtrl.saveCartSummaryQuestions(JSON.serialize(qrsDataList),con.Id);
+    Test.stopTest();
+
+    System.assert(![SELECT Id FROM Questionnaire_Response_Summary__c WHERE Contact__c =: con.Id LIMIT 5].isEmpty(), 'No QRS is created against the contact');
+  
   }
 
   @IsTest

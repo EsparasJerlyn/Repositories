@@ -1,8 +1,5 @@
 <template>
-    <div class="slds-is-relative">
-        <lightning-spinner if:true={isLoading} alternative-text="Loading" size="large" type="brand"></lightning-spinner>
-    </div>
-    <div class="component" if:false={isLoading}>
+    <div class="component">
         <div if:true={paymentApproved}>
             <div class="heading1 slds-m-bottom_medium main-color-blue500">Payment confirmation</div>
         </div>
@@ -15,104 +12,112 @@
             </div>
         </div>
 
-        
-        <div class="slds-grid slds-wrap slds-p-bottom_small btm-border-black">
+        <div if:false={isGuestUser}>
+            <div class="slds-grid slds-wrap slds-p-bottom_small btm-border-black">
 
-            <div class="slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12">
-                <div class="slds-grid slds-wrap slds-p-right_small">
-                    <div class="slds-p-right_medium">
-                        <p class="bodyBold slds-m-around_none">Course name</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12">
-                <div class="slds-grid slds-wrap slds-p-right_small">
-                    <div class="slds-p-right_medium">
-                        <p class="bodyBold slds-m-around_none">Date</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12">
-                <div class="slds-grid slds-wrap slds-p-right_small">
-                    <div class="slds-p-right_medium">
-                        <p class="bodyBold slds-m-around_none">Delivery</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12">
-                <div class="slds-grid slds-wrap slds-p-right_small">
-                    <div class="slds-p-right_medium">
-                        <p class="bodyBold slds-m-around_none">Price</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div>
-            <!-- loop on each cart item -->
-            <template for:each={cartItems} for:item="currentItem" for:index="courseIndex">
-                <div key={currentItem.cartItemId} class="btm-border-lightgray slds-p-bottom_small slds-p-top_small"> 
-                    <div class="slds-grid slds-wrap">
-                        <div class="slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12">
-                            <div>
-                                <p class="bodyRegular slds-m-around_none">{currentItem.productName}</p>
-                            </div>
-                        </div>
-
-                        <div class="slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12">
-                            <div>
-                                <p class="bodyRegular slds-m-around_none">{currentItem.startDate}</p>
-                            </div>
-                        </div>
-
-                        <div class="slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12">
-                            <div>
-                                <p class="bodyRegular slds-m-around_none">{currentItem.deliveryType}</p>
-                            </div>
-                        </div>
-
-                        <div class="slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12">
-                            <div>
-                                <p class="bodyRegular slds-m-around_none slds-float_right">{currentItem.pbName} ${currentItem.unitPrice}</p>
-                            </div>
+                <div class="slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12">
+                    <div class="slds-grid slds-wrap slds-p-right_small">
+                        <div class="slds-p-right_medium">
+                            <p class="bodyBold slds-m-around_none">Course name</p>
                         </div>
                     </div>
                 </div>
-            </template>
+    
+                <div class="slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12">
+                    <div class="slds-grid slds-wrap slds-p-right_small">
+                        <div class="slds-p-right_medium">
+                            <p class="bodyBold slds-m-around_none">Date</p>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12">
+                    <div class="slds-grid slds-wrap slds-p-right_small">
+                        <div class="slds-p-right_medium">
+                            <p class="bodyBold slds-m-around_none">Delivery</p>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12">
+                    <div class="slds-grid slds-wrap slds-p-right_small">
+                        <div class="slds-p-right_medium">
+                            <p class="bodyBold slds-m-around_none">Price</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+    
+            <div>
+                <!-- loop on each cart item -->
+                <template for:each={cartItems} for:item="currentItem" for:index="courseIndex">
+                    <div key={currentItem.cartItemId} class="btm-border-lightgray slds-p-bottom_small slds-p-top_small"> 
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12">
+                                <div>
+                                    <p class="bodyRegular slds-m-around_none">{currentItem.productName}</p>
+                                </div>
+                            </div>
+    
+                            <div class="slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12">
+                                <div>
+                                    <p class="bodyRegular slds-m-around_none">{currentItem.startDate}</p>
+                                </div>
+                            </div>
+    
+                            <div class="slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12">
+                                <div>
+                                    <p class="bodyRegular slds-m-around_none">{currentItem.deliveryType}</p>
+                                </div>
+                            </div>
+    
+                            <div class="slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12">
+                                <div>
+                                    <p class="bodyRegular slds-m-around_none slds-float_right">{currentItem.pbName} ${currentItem.unitPrice}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+    
+            <div>
+                <p class="bodyBold pt2">
+                    Subtotal
+                    <span class="slds-float_right">
+                        ${subTotal}
+                    </span>
+                </p>
+            </div>
+            
+    
+            <div>
+                <p class="bodyBold pt2">
+                    Discounts applied
+                    <span class="slds-float_right">
+                        -${discountTotal}
+                    </span>
+                </p>
+            </div>
+    
+            <div>
+                <h1 class="heading3 main-color-blue500 pt2">
+                    Total
+                    <span class="heading3 slds-float_right">
+                        ${grandTotal}
+                    </span>
+                </h1>
+            </div>
         </div>
-
-        <div>
-            <p class="bodyBold pt2">
-                Subtotal
-                <span class="slds-float_right">
-                    ${subTotal}
-                </span>
-            </p>
-        </div>
-        
-
-        <div>
-            <p class="bodyBold pt2">
-                Discounts applied
-                <span class="slds-float_right">
-                    -${discountTotal}
-                </span>
-            </p>
-        </div>
-
-        <div>
+        <div if:true={isGuestUser} class="slds-p-bottom_x-large">
             <h1 class="heading3 main-color-blue500 pt2">
                 Total
                 <span class="heading3 slds-float_right">
-                    ${grandTotal}
+                    ${parameters.TotalAmount}
                 </span>
             </h1>
         </div>
-
         <div class="pt3">
             <lightning-button variant="brand" label={buttonLabel} onclick={buttonClicked}></lightning-button>
         </div>

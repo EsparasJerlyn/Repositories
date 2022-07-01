@@ -1,3 +1,15 @@
+/**
+ * @description A LWC component to display product details for Prescribed Program in CRM Preview
+ *
+ * @see ../classes/ProductDetailsCtrl.cls
+ * @see PrescribedProgramInternal
+ * @author Accenture
+ *
+ * @history
+ *    | Developer                 | Date                  | JIRA                 | Change Summary                               |
+      |---------------------------|-----------------------|----------------------|----------------------------------------------|
+      | john.bo.a.pineda          | June 29, 2022         | DEPP-3323            | Modified logic for button display for Apply  |
+*/
 import { LightningElement, api, track } from "lwc";
 import { loadStyle } from "lightning/platformResourceLoader";
 import userId from "@salesforce/user/Id";
@@ -41,6 +53,7 @@ export default class PrescribedProgramInternal extends LightningElement {
   @track disablePricing = true;
   @track disableAddToCart = true;
   @track displayAddToCart = true;
+  @track displayQuestionnaire = false;
   @track openModal = false;
   @track displayGroupRegistration = false;
   @track openGroupRegistration;
@@ -105,12 +118,19 @@ export default class PrescribedProgramInternal extends LightningElement {
     this.accordionIcon = qutResourceImg + "/QUTImages/Icon/accordionClose.svg";
     this.durationIcon = qutResourceImg + "/QUTImages/Icon/duration.svg";
 
+    this.displayRegisterInterest = false;
+    this.displayGroupRegistration = false;
+    this.displayQuestionnaire = false;
+    this.displayAddToCart = true;
+
     if (this.productDetails.Program_Plan__c) {
       getQuestions({
         productReqId: this.productDetails.Program_Plan__r.Product_Request__c
       })
         .then((results) => {
           if (results.length > 0) {
+            this.displayQuestionnaire = true;
+            this.displayAddToCart = false;
             this.responseData = results;
             this.questions = results;
             this.availablePricings = JSON.parse(
@@ -120,20 +140,19 @@ export default class PrescribedProgramInternal extends LightningElement {
         })
         .catch((e) => {
           this.generateToast("Error.", LWC_Error_General, "error");
+        })
+        .finally(() => {
+          // Display AddToCart / Register Interest
+          this.displayRegisterInterest = false;
+          if (
+            this.availableDeliveryTypes.length == 0 &&
+            this.productDetails.Register_Interest_Available__c == true
+          ) {
+            this.displayAddToCart = false;
+            this.displayQuestionnaire = false;
+            this.displayRegisterInterest = true;
+          }
         });
-    }
-
-    // Display AddToCart / Register Interest
-    if (
-      this.availableDeliveryTypes.length == 0 &&
-      this.productDetails.Register_Interest_Available__c == true
-    ) {
-      this.displayAddToCart = false;
-      this.displayRegisterInterest = true;
-    } else {
-      this.displayAddToCart = true;
-      this.displayRegisterInterest = false;
-      this.displayGroupRegistration = false;
     }
   }
 
@@ -200,20 +219,28 @@ export default class PrescribedProgramInternal extends LightningElement {
     this.selectedProgramOffering = undefined;
     this.selectedPricing = undefined;
     this.disablePricing = true;
-    this.disableAddToCart = true;
-    this.displayAddToCart = true;
     this.displayGroupRegistration = false;
     this.displayQuestionnaire = false;
+    this.disableAddToCart = true;
+    this.displayAddToCart = true;
+    if (this.hasQuestions) {
+      this.displayQuestionnaire = true;
+      this.displayAddToCart = false;
+    }
   }
 
   handleProgramOfferingSelected(event) {
     this.selectedProgramOffering = event.detail.value;
     this.selectedPricing = undefined;
     this.disablePricing = false;
-    this.disableAddToCart = true;
     this.displayGroupRegistration = false;
-    this.displayAddToCart = true;
     this.displayQuestionnaire = false;
+    this.disableAddToCart = true;
+    this.displayAddToCart = true;
+    if (this.hasQuestions) {
+      this.displayQuestionnaire = true;
+      this.displayAddToCart = false;
+    }
   }
 
   handlePricingSelected(event) {

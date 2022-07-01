@@ -74,10 +74,10 @@ public without sharing class Product2TriggerHandler implements Disableable, Befo
         //make sure decomission product or publishing enddate is updated  DEPP-2820
         (prodOld.get(prod.Id).Decommission_Product__c !=
         prod.Decommission_Product__c || 
-        prodOld.get(prod.Id).Publishing_End_date__c !=
-        prod.Publishing_End_date__c) && 
+        prodOld.get(prod.Id).End_date__c !=
+        prod.End_date__c) && 
         prod.Decommission_Product__c == true && 
-        prod.Publishing_End_date__c <= date.today()
+        prod.End_date__c <= date.today()
       ){
         prodIdPublishingEnded.add(prod.Id);
       }
@@ -233,10 +233,10 @@ public without sharing class Product2TriggerHandler implements Disableable, Befo
       if( //make sure decomission product or publishing enddate is updated is updated DEPP-2820
         (prod2Old.get(prod.Id).Decommission_Product__c !=
         prod.Decommission_Product__c || 
-        prod2Old.get(prod.Id).Publishing_End_date__c !=
-        prod.Publishing_End_date__c) && 
+        prod2Old.get(prod.Id).End_Date__c !=
+        prod.End_Date__c) && 
         prod.Decommission_Product__c == true && 
-        prod.Publishing_End_date__c <= date.today()
+        prod.End_Date__c <= date.today()
       ){
         prod.IsActive = false;
         prod.Available_on_Cart__c = false;

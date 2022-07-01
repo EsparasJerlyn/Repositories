@@ -7,29 +7,51 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | angelika.j.s.galang            | May 19, 2022          | DEPP-1455              | Created file                 |
-      |                                |                       |                        |                              |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                |
+ *    |--------------------------------|-----------------------|------------------------|-------------------------------|
+ *    | angelika.j.s.galang            | May 19, 2022          | DEPP-1455              | Created file                  |
+ *    | alexander.cadalin              | June 22, 2022         | DEPP-3056              | + before insert,update        |
+ *    |                                |                       |                        | + detectDuplicatesInEmails    |
+ *    |                                |                       |                        | - global dupes handlers       |
  */
 
-public without sharing class LeadTriggerHandler implements Disableable, AfterInsert {
-
-/**
-   * @description performs afterinsert event for Lead object
-   * @param newItems - List of Lead.Trigger.new
-   */
-  public void afterInsert(Map<Id,SObject> newItems) {
-    LeadDuplicatesHelper.detectDuplicates((Map<Id,Lead>) newItems);
-  }
-  
-/**
- * @description indicates it the trigger is disabled
- * @return disabled bypass
- */
-  public Boolean isDisabled() {
-    final TriggerBypassStrategy bypass = new TriggerBypassStrategy();
-    return bypass.isDisabled();
-  }
-  
+public without sharing class LeadTriggerHandler implements Disableable, BeforeInsert, BeforeUpdate {
+    /**
+     * @description performs beforeInsert event for Lead object
+     * @param newItems - List of Lead.Trigger.new
+     */
+    public void beforeInsert(List<SObject> newItems) {
+        LeadDuplicatesHelper.detectDuplicatesInEmails((List<Lead>) newItems, null);
+    }
+    
+    /**
+     * @description performs beforeUpdate event for Lead object
+     * @param newItems - Map of Lead.Trigger.newMap
+     * @param oldItems - Map of Lead.Trigger.oldMap
+     */
+    public void beforeUpdate(
+        Map<Id, SObject> newItems,
+        Map<Id, Sobject> oldItems
+    ) {
+        LeadDuplicatesHelper.detectDuplicatesInEmails((List<Lead>) newItems.values(), (Map<Id, Lead>) oldItems);
+    }
+    
+    /**
+     * @description performs afterinsert event for Lead object
+     * @param newItems - Map of Lead.Trigger.newMap
+     */
+    // removed as per DEPP-3056
+    // public void afterInsert(Map<Id,SObject> newItems) {
+    //     LeadDuplicatesHelper.detectDuplicates((Map<Id,Lead>) newItems);
+    // }
+    
+    /**
+     * @description indicates it the trigger is disabled
+     * @return disabled bypass
+     */
+    public Boolean isDisabled() {
+        final TriggerBypassStrategy bypass = new TriggerBypassStrategy();
+        return bypass.isDisabled();
+    }
+    
 }
