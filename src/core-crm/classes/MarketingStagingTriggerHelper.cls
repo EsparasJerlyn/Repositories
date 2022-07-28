@@ -6,22 +6,24 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | roy.nino.s.regala              | May 23, 2022          | DEPP-2103              | Created file                 |
-      | cadalin@qut.edu.au             | June 15, 2022         | DEPP-3088              | Included new fields          |
-      | roy.nino.s.regala              | June 28, 2022         | DEPP-3070              | updated matching logic       |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                 |
+      |--------------------------------|-----------------------|------------------------|------------------------------------------------|
+      | roy.nino.s.regala              | May 23, 2022          | DEPP-2103              | Created file                                   |
+      | cadalin@qut.edu.au             | June 15, 2022         | DEPP-3088              | Included new fields                            |
+      | roy.nino.s.regala              | June 28, 2022         | DEPP-3070              | updated matching logic                         |
+      | roy.nino.s.regala              | July 20, 2022         | DEPP-3535              | Updated logic to update mobile and birthdate   |
  */
 
 public with sharing class MarketingStagingTriggerHelper{
-   
-    
+
+
 
 
     private static final String CONTACT_API_NAME = Contact.SObjectType.getDescribe().getLocalName();
     private static final String LEAD_API_NAME = Lead.SObjectType.getDescribe().getLocalName();
-
-
+    public static Map<Id,Contact> contactMatches = new Map<Id,Contact>();
+    public static Map<Id,Lead> leadMatches = new Map<Id,Lead>();
+    public static String currentProfileName;
     /**
      * @description create contact record from marketing staging fields
      * @param newItems - map of new marketing staging records
@@ -31,36 +33,37 @@ public with sharing class MarketingStagingTriggerHelper{
         Map<String,String> qtacMatchingMap = new Map<String,String>();
         Map<String,String> samsMatchingMap = new Map<String,String>();
         Map<String,String> studylinkMatchingMap = new Map<String,String>();
-        Set<String> lastNameList = new Set<String>();
-        Set<String> emailList = new Set<String>();
         Map<String,sObject> emailMap = new Map<String,sObject>();
         Map<String,sObject> mobileMap = new Map<String,sObject>();
         Map<String,sObject> studentIdMap = new Map<String, sObject>();
-        MarketingStagingMatchingHelper.RelatedMarketingRecordsClass marketingClass = new MarketingStagingMatchingHelper.RelatedMarketingRecordsClass(); 
-        MarketingStagingMatchingHelper.LeadContactMatchingClass matchingClass = new MarketingStagingMatchingHelper.LeadContactMatchingClass(); 
-        MarketingStagingMatchingHelper.RecordsToUpsertClass recordsClass; 
-        List<Contact> contactMatches = new List<Contact>();
-        List<Lead> leadMatches = new List<Lead>();
-        Map<String,Lead> leadsToUpsertMap = new Map<String,Lead>(); 
-        Map<String,Contact> contactsToUpsertMap = new Map<String,Contact>(); 
+        MarketingStagingMatchingHelper.RelatedMarketingRecordsClass marketingClass = new MarketingStagingMatchingHelper.RelatedMarketingRecordsClass();
+        MarketingStagingMatchingHelper.LeadContactMatchingClass matchingClass = new MarketingStagingMatchingHelper.LeadContactMatchingClass();
+        MarketingStagingMatchingHelper.RecordsToUpsertClass recordsClass;
+        Map<String,Lead> leadsToUpsertMap = new Map<String,Lead>();
+        Map<String,Contact> contactsToUpsertMap = new Map<String,Contact>();
         Map<String,Marketing_Segmentation__c> marSegmentationToUpsertMap = new Map<String,Marketing_Segmentation__c>();
         Map<String,Marketing_Interaction__c> marInteractionToInsertMap = new Map<String,Marketing_Interaction__c>();
         Map<String,Marketing_Course_Application__c> marCourseAppToUpsertMap = new Map<String,Marketing_Course_Application__c>();
         Map<String,Marketing_Staging__c> marStageToUpdateMap = new Map<String, Marketing_Staging__c>();
-        
+
 
         List<String> salutaionValues = new List<String>();
         salutaionValues.addAll(MarketingStagingMatchingHelper.getSalutations());
 
         Map<Id,Marketing_Staging__c> newMap = (Map<Id,Marketing_Staging__c>)newItems;
 
+        Id currentUserProfileId = UserInfo.getProfileId();
+        //Retrieve profile name of current user
+        String profileName = [SELECT Name FROM Profile WHERE Id =: currentUserProfileId].Name;
+        currentProfileName = profileName;
+
+
         for(sObject mStaging: newItems.values()){
             //make sure last name amd email is populated
-            if(mStaging.get('Last_Name__c') !=null && mStaging.get('Email__c') != null){
-                lastNameList.add((String)mStaging.get('Last_Name__c'));
-                emailList.add((String)mStaging.get('Email__c'));
-                //collect marketing staging emails
-                emailMap.put((String)mStaging.get('Email__c'),mStaging);
+                if(mStaging.get('Email__c') != null){
+                    //collect marketing staging emails
+                    emailMap.put((String)mStaging.get('Email__c'),mStaging);
+                }
                 //collects student ids from inserted marketing stagings
                 if(mStaging.get('QUT_Student_ID__c') != null){
                     studentIdMap.put((String)mStaging.get('QUT_Student_ID__c'),mStaging);
@@ -69,49 +72,48 @@ public with sharing class MarketingStagingTriggerHelper{
                 if(mStaging.get('Mobile__c') !=null){
                     mobileMap.put((String)mStaging.get('Mobile__c'),mStaging);
                 }
-    
+
                 //create Application Source criteria map against the marketing staging records
-                if( mStaging.get('Application_Source__c') == 'QTAC' && 
+                if( mStaging.get('Application_Source__c') == 'QTAC' &&
                     mStaging.get('Applicant_Id__c') != null &&
                     mStaging.get('Preference_Number__c') != null){
-    
-                        qtacMatchingMap.put((String)mStaging.get('Id'),(String)mStaging.get('QTAC_Matching_Criteria__c'));    
-    
-                }else if(   mStaging.get('Application_Source__c') == 'SAMS' && 
+
+                        qtacMatchingMap.put((String)mStaging.get('Id'),(String)mStaging.get('QTAC_Matching_Criteria__c'));
+
+                }else if(   mStaging.get('Application_Source__c') == 'SAMS' &&
                             mStaging.get('QUT_Student_ID__c') != null &&
                             mStaging.get('Admission_Period__c') != null &&
                             mStaging.get('Course_Code__c') != null &&
                             mStaging.get('Admission_Year__c') != null){
-    
-                                samsMatchingMap.put((String)mStaging.get('Id'),(String)mStaging.get('SAMS_Matching_Criteria__c')); 
-    
-                }else if(   mStaging.get('Application_Source__c') == 'Studylink' && 
+
+                                samsMatchingMap.put((String)mStaging.get('Id'),(String)mStaging.get('SAMS_Matching_Criteria__c'));
+
+                }else if(   mStaging.get('Application_Source__c') == 'Studylink' &&
                             mStaging.get('Application_Id__c') != null &&
                             mStaging.get('Applicant_Id__c') != null ){
-    
-                                studylinkMatchingMap.put((String)mStaging.get('Id'),(String)mStaging.get('Studylink_Matching_Criteria__c')); 
+
+                                studylinkMatchingMap.put((String)mStaging.get('Id'),(String)mStaging.get('Studylink_Matching_Criteria__c'));
                 }
-            }          
         }
 
-            
+
         //get all matching contacts and leads
-        contactMatches = [  SELECT Id, QUT_Student_ID__c, Email, Mobile_No_Locale__c
-                            FROM Contact 
+        contactMatches = new Map<Id,Contact>([  SELECT Id, QUT_Student_ID__c, Email, Mobile_No_Locale__c, BirthDate
+                            FROM Contact
                             WHERE (Email IN: emailMap.keySet()
                             OR Mobile_No_Locale__c IN: mobileMap.keySet()
                             OR QUT_Student_ID__c IN:studentIdMap.keySet())
-                            ];
+                            ]);
 
-        leadMatches = [ SELECT Id, Email, Mobile_No_Locale__c
-                        FROM Lead 
+        leadMatches = new Map<Id,Lead>([ SELECT Id, Email, Mobile_No_Locale__c, hed__Birth_Date__c
+                        FROM Lead
                         WHERE (Email IN:emailMap.keySet()
-                        OR Mobile_No_Locale__c IN: mobileMap.keySet())];   
+                        OR Mobile_No_Locale__c IN: mobileMap.keySet())]);
 
         //get existing marketingrecords
-        marketingClass = MarketingStagingMatchingHelper.getRelatedMarketingRecords(  
-            leadMatches,
-            contactMatches,
+        marketingClass = MarketingStagingMatchingHelper.getRelatedMarketingRecords(
+            leadMatches.values(),
+            contactMatches.values(),
             qtacMatchingMap.values(),
             samsMatchingMap.values(),
             studylinkMatchingMap.values()
@@ -119,8 +121,8 @@ public with sharing class MarketingStagingTriggerHelper{
 
         //get matching map for lead and contact
         matchingClass = MarketingStagingMatchingHelper.getContactLeadMapping(
-            contactMatches,
-            leadMatches
+            contactMatches.values(),
+            leadMatches.values()
         );
     
         for(sObject mStaging: newItems.values()){

@@ -6,9 +6,10 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | roy.nino.s.regala              | June 28, 2022         | DEPP-3070              | Created file                 |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                 |
+      |--------------------------------|-----------------------|------------------------|------------------------------------------------|
+      | roy.nino.s.regala              | June 28, 2022         | DEPP-3070              | Created file                                   |
+      | roy.nino.s.regala              | July 20, 2022         | DEPP-3535              | Updated logic to update mobile and birthdate   |
  */
 public with sharing class MarketingStagingMatchingHelper{
 
@@ -36,7 +37,7 @@ public with sharing class MarketingStagingMatchingHelper{
         'SE_Postcode__c','SE_State__c','SE_Suburb__c','ORG_Profile_Persona__c','ORG_Indigenous_Status_ATSI__c','ORG_Country_Of_Residency__c',
         'ORG_Organisation__c','ORG_Position__c','ORG_Industry__c','ORG_Primary_Study_Level__c','ORG_Primary_BSA__c','ORG_Primary_NSA__c',
         'ORG_Secondary_Study_Level__c','ORG_Secondary_BSA__c','ORG_Secondary_NSA__c','ORG_Interested_Languages__c','ORG_Interested_Course_Name__c',
-        'ORG_Postcode__c','ORG_State__c', 'ORG_Education_Level__c', 'ORG_Suburb__c', 'My_Education_Level__c','External_Key__c','QTAC_ID__c',
+        'ORG_Postcode__c','ORG_State__c', 'ORG_Education_Level__c', 'ORG_Suburb__c', 'My_Education_Level__c','External_Key__c',
         'Mailing_Address_Country__c'
     };
 
@@ -61,29 +62,29 @@ public with sharing class MarketingStagingMatchingHelper{
         'IsPackaged_Offer__c','Offer_Response_Date__c','Scholarship_Name__c','Scholarship_Status__c','Previous_Enrolled_Student__c','IsOffer_Made__c',
         'Admission_Category__c','Admission_Period__c','Admission_Status__c','Student_Study_Package_Status__c','Agency_Branch__c','Agency_Country__c',
         'Agency_Email__c','Agency_Name__c','Has_Offer_Condition__c','Offer_Status__c','Offer_Status_Date__c','Application_Number__c',
-        'Is_International_Student_Application__c','Is_Research_Application__c','App_Condition_Verification_Status__c','Admission_Process__c','Agency_Code__c'
+        'Is_International_Student_Application__c','Is_Research_Application__c','App_Condition_Verification_Status__c','Admission_Process__c','Agency_Code__c','QTAC_ID__c'
     };
 
     private static final Map<String,String> CONTACT_FIELDS = new Map<String,String>{
         'HasOptedOutOfEmail' => 'HasOptedOutOfEmail__c', 'Email_Opt_In_DateTime__c' => 'Email_OptIn_DateTime__c',
-        'Email_Opt_Out_DateTime__c' => 'Email_OptOut_DateTime__c', 'hed__SMS_Opt_Out__c' => 'SMS_Opt_Out__c', 
+        'Email_Opt_Out_DateTime__c' => 'Email_OptOut_DateTime__c', 'hed__SMS_Opt_Out__c' => 'SMS_Opt_Out__c',
         'SMS_Opt_In_DateTime__c' => 'SMS_OptIn_DateTime__c', 'SMS_Opt_Out_DateTime__c' => 'SMS_OptOut_DateTime__c',
-        'Dont_Market__c' => 'Dont_Market__c', 'Dont_Market_Reason__c' => 'Dont_Market_Reason__c', 
-        'Dont_Market_DateTime__c' => 'Dont_Market_DateTime__c', 'Dont_Market_DateTime__c' => 'Dont_Market_DateTime__c', 
+        'Dont_Market__c' => 'Dont_Market__c', 'Dont_Market_Reason__c' => 'Dont_Market_Reason__c',
+        'Dont_Market_DateTime__c' => 'Dont_Market_DateTime__c', 'Dont_Market_DateTime__c' => 'Dont_Market_DateTime__c',
         'Consent_Source_Category__c' => 'Consent_Source_Category__c','Consent_Source__c' => 'Consent_Source__c'
     };
 
     private static final Map<String,String> LEAD_FIELDS = new Map<String,String>{
-        'Migration_key__c' => 'Migration_Key__c','FirstName' => 'First_Name__c' , 
+        'Migration_key__c' => 'Migration_Key__c','FirstName' => 'First_Name__c' ,
         'LastName' => 'Last_Name__c', 'Email' => 'Email__c',
         'MiddleName' => 'Middle_Name__c','Marketing_Mobile_Locale__c' => 'Mobile_Locale__c',
-        'Preferred_Given_Name__c' => 'Preferred_Given_Name__c','Salutation' => 'Salutation__c', 
+        'Preferred_Given_Name__c' => 'Preferred_Given_Name__c','Salutation' => 'Salutation__c',
         'hed__Birth_Date__c' => 'Birthdate__c', 'hed__Gender__c' => 'Gender__c',
         'Phone_No_Locale__c' => 'Phone__c', 'Mobile_No_Locale__c' => 'Mobile__c', 'Street' => 'Street__c',
         'City' => 'City__c', 'PostalCode' => 'PostalCode__c', 'State' => 'State__c',
         'Country' => 'Country__c', 'HasOptedOutOfEmail' => 'HasOptedOutOfEmail__c',
-        'Email_Opt_In_DateTime__c' => 'Email_OptIn_DateTime__c','Email_Opt_Out_DateTime__c' => 'Email_OptOut_DateTime__c', 
-        'hed__SMS_Opt_Out__c' => 'SMS_Opt_Out__c', 'SMS_Opt_In_DateTime__c' => 'SMS_OptIn_DateTime__c', 
+        'Email_Opt_In_DateTime__c' => 'Email_OptIn_DateTime__c','Email_Opt_Out_DateTime__c' => 'Email_OptOut_DateTime__c',
+        'hed__SMS_Opt_Out__c' => 'SMS_Opt_Out__c', 'SMS_Opt_In_DateTime__c' => 'SMS_OptIn_DateTime__c',
         'SMS_Opt_Out_DateTime__c' => 'SMS_OptOut_DateTime__c','Dont_Market__c' => 'Dont_Market__c',
         'Dont_Market_Reason__c' => 'Dont_Market_Reason__c', 'Dont_Market_DateTime__c' => 'Dont_Market_DateTime__c',
         'Consent_Source_Category__c' => 'Consent_Source_Category__c',
@@ -92,9 +93,9 @@ public with sharing class MarketingStagingMatchingHelper{
 
     private static final Map<String,String> LEAD_FIELDS_UPDATE = new Map<String,String>{
         'HasOptedOutOfEmail' => 'HasOptedOutOfEmail__c','Email_Opt_In_DateTime__c' => 'Email_OptIn_DateTime__c',
-        'Email_Opt_Out_DateTime__c' => 'Email_OptOut_DateTime__c', 'hed__SMS_Opt_Out__c' => 'SMS_Opt_Out__c', 
+        'Email_Opt_Out_DateTime__c' => 'Email_OptOut_DateTime__c', 'hed__SMS_Opt_Out__c' => 'SMS_Opt_Out__c',
         'SMS_Opt_In_DateTime__c' => 'SMS_OptIn_DateTime__c', 'SMS_Opt_Out_DateTime__c' => 'SMS_OptOut_DateTime__c',
-        'Dont_Market__c' => 'Dont_Market__c','Dont_Market_Reason__c' => 'Dont_Market_Reason__c', 
+        'Dont_Market__c' => 'Dont_Market__c','Dont_Market_Reason__c' => 'Dont_Market_Reason__c',
         'Dont_Market_DateTime__c' => 'Dont_Market_DateTime__c', 'Consent_Source_Category__c' => 'Consent_Source_Category__c',
         'Consent_Source__c' => 'Consent_Source__c'
     };
@@ -115,22 +116,35 @@ public with sharing class MarketingStagingMatchingHelper{
      */
     public static sObject createContactRecord(sObject marketingStage, Id oldContactId, List<String> salutations){
         sObject obj = Schema.getGlobalDescribe().get('Contact').newSObject();
-
+        Map<String,String> finalMaping = new Map<String,String>();
+        finalMaping = CONTACT_FIELDS;
         if(oldContactId != null){
             obj.put('Id',oldContactId);
+            //check if staging is created by integration website user
+            if( MarketingStagingTriggerHelper.currentProfileName == 'Integration Website' &&
+                MarketingStagingTriggerHelper.contactMatches.containsKey(oldContactId)){
+                //check if current contact in loop has its mobile no locale populated
+                if(MarketingStagingTriggerHelper.contactMatches.get(oldContactId).Mobile_No_Locale__c == null){
+                    finalMaping.put('Mobile_No_Locale__c','Mobile__c');
+                }
+                //check if current contact in loop has its birthdate populated
+                if(MarketingStagingTriggerHelper.contactMatches.get(oldContactId).BirthDate == null){
+                    finalMaping.put('BirthDate','Birthdate__c');
+                }
+            }
         }
 
-        for(String fieldName: CONTACT_FIELDS.keySet()){
-            if(marketingStage.get(CONTACT_FIELDS.get(fieldName)) != null && 
-                ((  fieldName == 'Salutation' && 
-                    salutations.contains((String)marketingStage.get(CONTACT_FIELDS.get(fieldName)))) || 
+        for(String fieldName: finalMaping.keySet()){
+            if(marketingStage.get(finalMaping.get(fieldName)) != null &&
+                ((  fieldName == 'Salutation' &&
+                    salutations.contains((String)marketingStage.get(finalMaping.get(fieldName)))) ||
                     fieldName != 'Salutation')){
-                obj.put(fieldName,(marketingStage.get(CONTACT_FIELDS.get(fieldName))));
+                obj.put(fieldName,(marketingStage.get(finalMaping.get(fieldName))));
             }
         }
 
         return obj;
-    }  
+    }
 
     /**
      * @description create lead record from marketing staging fields
@@ -145,6 +159,18 @@ public with sharing class MarketingStagingMatchingHelper{
         if(oldLeadId != null){
             obj.put('Id',oldLeadId);
             finalMaping = LEAD_FIELDS_UPDATE;
+            //check if staging is created by integration website user
+            if( MarketingStagingTriggerHelper.currentProfileName == 'Integration Website' &&
+                MarketingStagingTriggerHelper.leadMatches.containsKey(oldLeadId)){
+                //check if current lead in loop has its mobile no locale populated
+                if(MarketingStagingTriggerHelper.leadMatches.get(oldLeadId).Mobile_No_Locale__c == null){
+                    finalMaping.put('Mobile_No_Locale__c','Mobile__c');
+                }
+                //check if current lead in loop has its birthdate populated
+                if(MarketingStagingTriggerHelper.leadMatches.get(oldLeadId).hed__Birth_Date__c == null){
+                    finalMaping.put('hed__Birth_Date__c','Birthdate__c');
+                }
+            }
         }else{
             obj.put('Company','Learner');
             obj.put('Lead_Type__c','Learner');

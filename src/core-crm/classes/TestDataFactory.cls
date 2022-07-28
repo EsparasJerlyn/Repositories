@@ -32,8 +32,9 @@
       | eugene.andrew.abuan       | February 16, 2022     | DEPP-1265           | Added method for Creating Courses                                |
       | keno.domienri.dico        | April 11, 2022        | DEPP-1543           | Added method for Creating Communication Schedule                 |
       | kathy.cornejo             | June 3, 2022          | DEPP-2664           | Added method for Creating Pricebook2                             |
-      |                           |                       |                     |                                                                  |
+      | rhea.b.torres             | June 12, 2022         | DEPP-2734           | Implement proper testing persona                                 |
 */
+
 @IsTest
 public class TestDataFactory {
   private static final String STR_QUALIFY = 'Qualify';
@@ -43,6 +44,7 @@ public class TestDataFactory {
   private static final String TEST_BUYER_ACCT = 'Test Buyer Account';
   private static final String TEST_ACCOUNT_NAME = 'Test Account';
   private static final String TEST_PRICEBOOK2_NAME = 'Test Pricebook2';
+  private static final TestUserGenerator TEST_USER_GENERATOR = new TestUserGenerator();
 
   /**
    * @description Method for creating test Account records
@@ -214,7 +216,8 @@ public class TestDataFactory {
       ps.Program_Name__c = 'TEST PS ' + i;
       ps.Program_Lead__c = contacts[i].id;
       ps.Opportunity_Name__c = ops[i].id;
-      ps.Stage__c = 'Define';
+      ps.Status__c = 'Design';
+      ps.Stage__c = 'Design';
       ps.Client_Review_Required__c = 'N/A';
       ps.Requestor_Name__c =  contacts[i].id;
       productSpecifications.add(ps);
@@ -707,7 +710,7 @@ public class TestDataFactory {
    * @description method to create test data for create Pricebook2
    * @param doInsert - boolean true/false
    * @return pb - Pricebook2
-   */ 
+   */
   public static Pricebook2 createTestPricebook2(Boolean doInsert){
     Pricebook2 pb = new Pricebook2();
     pb.Name = TEST_PRICEBOOK2_NAME;
@@ -1207,13 +1210,13 @@ public class TestDataFactory {
   /**
    * @description Method for generating random string for unique fields
    * @param identifier - additinal string to add as identifier
-   * @return random string 
+   * @return random string
    */
   public static String generateRandomString(String identifier){
-    return 
-      identifier + 
+    return
+      identifier +
       String.valueOf(System.today().month()) +
-      String.valueOf(System.today().year()) + 
+      String.valueOf(System.today().year()) +
       String.valueOf(Integer.valueOf(Math.floor(100000 + Math.random() * 900000)));
   }
 
@@ -1231,25 +1234,6 @@ public class TestDataFactory {
     }
 
     return cons;
-  }
-
-  /**
-   * @description Method for creating Sys Admin Portal Owner
-   * @param void
-   * @return portalSysAdmin - Portal Sys Admin user
-   */
-  public static User getPortalSysAdminUser() {
-    //get the sys admin user to run the insertion of portal user
-    User portalSysAdmin = [
-        SELECT Id FROM User WHERE IsActive = true
-        AND FirstName = 'Sys Admin' AND LastName = 'Integration User' AND Profile.Name = 'System Administrator' LIMIT 1
-    ];
-
-    //add UserRole
-    portalSysAdmin.UserRoleId = [SELECT Id FROM UserRole WHERE Name = 'System Administrator' LIMIT 1]?.Id;
-    update portalSysAdmin;
-    
-    return portalSysAdmin;
   }
 
   /**
@@ -1283,5 +1267,738 @@ public class TestDataFactory {
     webStoreCatalog.SalesStoreId = salesStoreId;
     return webStoreCatalog;
   }
-}
 
+    /**
+     * @description Method for generating test users
+     * @param void
+     * @return List<User> - all generated user records
+     */
+    public static List<User> generateTestUsers(){
+        return TEST_USER_GENERATOR.generateTestUsers();
+    }
+
+    /**
+     * @description Method for getting Program Administrator
+     * @param void
+     * @return portalSysAdmin - QUTeX Program Admin User
+     */
+    public static User getProgramAdminUser(){
+        User progAdmin = [SELECT Id From User WHERE Username LIKE 'QUT_Program_Administrator%' LIMIT 1];
+        return progAdmin;
+    }
+
+    /**
+     * @description Method for creating Sys Admin Portal Owner
+     * @param void
+     * @return portalSysAdmin - Portal Sys Admin user
+     */
+    public static User getPortalSysAdminUser(){
+        User portalSysAdmin = [SELECT Id FROM User WHERE Username LIKE 'QUT_Sys_Admin%' LIMIT 1];
+        return portalSysAdmin;
+    }
+
+    /**
+     * @description Method for getting integration website user
+     * @param void
+     * @return integWebSiteUser - Integration Website User
+     */
+    public static User getIntegrationWebsiteUser(){
+      User integWebSiteUser = [SELECT Id FROM User WHERE Username LIKE 'QUT_Website_Integration_User%' LIMIT 1];
+      return integWebSiteUser;
+  }
+
+    class TestUserGenerator{
+        public Map<String,Id> groupMap;
+        public Map<String,Id> profileMap;
+        public Map<String,Id> roleMap;
+        public Map<String,Id> permSetMap;
+        public List<User> addUsers = new list<User>{};
+        public List<String> addPermSets = new List<String>{};
+        public List<String> addGroups = new List<String>{};
+        public Map<String,String> usermap;
+
+        public void addPermissionAssignment(){
+            // insert perm sets if not null
+            if(addPermSets!=null && addPermSets.size()>0){
+                list<PermissionSetAssignment> addPS = new List<PermissionSetAssignment>{};
+                for(String i:addPermSets){
+                    List<String> res = i.split('%%');
+                    addPS.add(new PermissionSetAssignment(
+                        PermissionSetId=permSetMap.get(res[1])
+                        ,AssigneeId=usermap.get(res[0])
+                    ));
+                }
+                insert addPS;
+            }
+        }
+
+        public void addPublicGroupAssignment(){
+            // insert Group if not null
+            if(addGroups!=null && addGroups.size()>0){
+                list<GroupMember> addPG = new List<GroupMember>{};
+                for(String i:addGroups){
+                    List<String> res = i.split('%%');
+                    System.Debug('groupMap SPLIT res: '+res);
+                    addPG.add(new GroupMember(
+                        GroupId=groupMap.get(res[1])
+                        ,UserOrGroupId=usermap.get(res[0])
+                    ));
+                }
+                insert addPG;
+            }
+        }
+
+        public void generateUsers(String userName,
+                                    String profileName,
+                                    String roleName,
+                                    String permSets,
+                                    String publicGroups,
+                                    Boolean isServiceCloudUser,
+                                    Boolean isFlowUser,
+                                    Boolean isKnowledgeUser,
+                                    Boolean isMarketingUser,
+                                    Boolean isAppExchangeAdmin,
+                                    Boolean isAppExchangeUser,
+                                    Boolean isPortal,
+                                    Id contactId,
+                                    Integer noOfUsers){
+            if(profileMap == null){
+                profileMap = new Map<String,Id>{};
+                list<Profile> profileList = [SELECT Id,Name FROM Profile];
+                for(Profile i:profileList){profileMap.put(i.Name,i.Id);}
+            }
+            if(roleMap == null){
+                roleMap = new Map<String,Id>{};
+                list<UserRole> roleList = [SELECT Id,Name FROM UserRole];
+                for(UserRole i:roleList){roleMap.put(i.Name,i.Id);}
+            }
+            if(permSetMap == null){
+                permSetMap = new Map<String,Id>{};
+                list<PermissionSet> pmList = [SELECT Id,Name FROM PermissionSet];
+                for(PermissionSet i:pmList){permSetMap.put(i.Name,i.Id);}
+            }
+            if(groupMap == null){
+                groupMap = new Map<String,Id>{};
+                list<Group> pmList = [SELECT Id,Name FROM Group];
+                for(Group i:pmList){groupMap.put(i.Name,i.Id);}
+            }
+
+            for(Integer i = 0; i<noOfUsers; i++){
+                Blob b = Crypto.GenerateAESKey(128);
+                String h = EncodingUtil.ConvertTohex(b);
+                String uid = h.SubString(0,8);
+
+                User u = new User();
+                u.UserName=userName+String.valueOf(i)+uid+'@qut.com';
+                u.FirstName='Test';
+                u.LastName=userName;
+                u.Email=userName+String.valueOf(i)+uid+'@qut.com';
+                u.alias=uid;
+                u.ProfileId = profileMap.get(profileName);
+                u.UserRoleId=roleMap.get(roleName);
+                u.LocaleSidKey = 'en_AU';
+                u.EmailEncodingKey ='UTF-8';
+                u.LanguageLocaleKey = 'en_US';
+                u.TimeZoneSidKey = 'Australia/Brisbane';
+                u.UserPermissionsInteractionUser = isServiceCloudUser;
+                u.UserPermissionsSupportUser = isFlowUser;
+                u.UserPermissionsKnowledgeUser = isKnowledgeUser;
+                u.UserPermissionsMarketingUser = isMarketingUser;
+                u.et4ae5__ExactTargetForAppExchangeAdmin__c = isAppExchangeAdmin;
+                u.et4ae5__ExactTargetForAppExchangeUser__c = isAppExchangeUser;
+                if(isPortal){
+                    u.ContactId = contactId;
+                }
+                addUsers.add(u);
+
+                // add permission sets
+                if(permSets!=null && permSets!=''){
+                    if(permSets.contains(',')){
+                        // has multiple perm sets
+                        List<String> res = permSets.split(',');
+                        for(String r:res){
+                            String permset = r.trim();
+                            addPermSets.add(u.userName+'%%'+permset);
+                        }
+
+                    }else{
+                        // has single perm set
+                        addPermSets.add(u.userName+'%%'+permSets.trim());
+                    }
+                }
+
+                // add addGroups
+                if(publicGroups!=null && publicGroups!=''){
+                    if(publicGroups.contains(',')){
+                        // has multiple queues
+                        List<String> res = publicGroups.split(',');
+                        for(String r:res){
+                            addGroups.add(u.userName+'%%'+r.trim());
+                        }
+                    }else{
+                        // has single queues
+                        addGroups.add(u.userName+'%%'+publicGroups.trim());
+                    }
+                }
+            }
+        }
+
+        public List<User> generateTestUsers(){
+            final User PORTAL_SYS_ADMIN = [
+                SELECT Id FROM User WHERE IsActive = true
+                                        AND FirstName = 'Sys Admin'
+                                        AND LastName = 'Integration User'
+                                        AND Profile.Name = 'System Administrator' LIMIT 1];
+            //add UserRole
+            PORTAL_SYS_ADMIN.UserRoleId = [SELECT Id FROM UserRole WHERE Name = 'System Administrator' LIMIT 1]?.Id;
+            update PORTAL_SYS_ADMIN;
+            System.runAs(PORTAL_SYS_ADMIN){
+                // users below match personas on the following page https://wiki.qut.edu.au/display/DEP/User+Onboarding+Guide
+                /** START - Creation of  Development Users */
+                //Create System Administrator
+                generateUsers(
+                    'QUT_System_Administrator'
+                    ,'System Administrator'
+                    ,''
+                    ,'DocuSign_Administrator,DocuSign_Generator,DocuSign_Negotiator,DocuSign_User'
+                    ,''
+                    ,true
+                    ,true
+                    ,true
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,null
+                    ,1
+                );
+                //Create Development User
+                generateUsers(
+                    'QUT_Developer'
+                    ,'Development Team Base'
+                    ,''
+                    ,'	Development_Team'
+                    ,''
+                    ,true
+                    ,true
+                    ,true
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,null
+                    ,1
+                );
+                //Create QUT ReadOnly
+                generateUsers(
+                    'QUT_Read_Only'
+                    ,'QUT Read Only'
+                    ,''
+                    ,'Integration_Person'
+                    ,''
+                    ,true
+                    ,true
+                    ,true
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,null
+                    ,1
+                );
+                /** END - Creation of  Development Users */
+
+                /** START - Creation of Integration/System Users */
+                //Create Sys Admin
+                generateUsers(
+                    'QUT_Sys_Admin'
+                    ,'System Administrator'
+                    ,'System Administrator'
+                    ,''
+                    ,''
+                    ,true
+                    ,true
+                    ,true
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,null
+                    ,1
+                );
+                //Create Form Builder
+                generateUsers(
+                    'QUT_Form_Builder'
+                    ,'Integration Forms'
+                    ,'None'
+                    ,'Permission_API_Only_User,Integration_Forms'
+                    ,''
+                    ,true
+                    ,true
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,null
+                    ,1
+                );
+                //Create Website Integration User
+                generateUsers(
+                    'QUT_Website_Integration_User'
+                    ,'Integration Website'
+                    ,'None'
+                    ,'Permission_API_Only_User,Permission_API_Enabled,Lead_Forms,Product_Catalogue_Read_Only,Website_Connected_App'
+                    ,''
+                    ,true
+                    ,true
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,null
+                    ,1
+                );
+                //Create Marketing Cloud
+                generateUsers(
+                    'QUT_Marketing_Cloud'
+                    ,'Integration Marketing'
+                    ,'None'
+                    ,'Permission_API_Only_User,Integration_Marketing,Marketing_Cloud_Connected_App,' // Missing permSets: Marketing Cloud Connector,Marketing Cloud Connector Admin
+                    ,''
+                    ,true
+                    ,true
+                    ,false
+                    ,true
+                    ,true
+                    ,true
+                    ,false
+                    ,null
+                    ,1
+                );
+                //Create ESB (Dell Boomi)
+                generateUsers(
+                    'QUT_ESB'
+                    ,'Integration'
+                    ,'None'
+                    ,'Permission_API_Only_User,Integration_Person,Integration_Webcart'
+                    ,''
+                    ,true
+                    ,true
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,null
+                    ,1
+                );
+                //Create Data Migration
+                generateUsers(
+                    'QUT_Data_Migration'
+                    ,'Integration'
+                    ,'None'
+                    ,'Permission_API_Only_User,Integration_Person'
+                    ,''
+                    ,true
+                    ,true
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,null
+                    ,1
+                );
+                //Create Trailtracker
+                /** Commented-out due to 'Integration Base' profile and 'Trailhead Admin' permset does not exist
+                 * Uncomment code when profile and permSets are available */
+                /*generateUsers(
+                    'QUT_Trailtracker'
+                    ,'Integration Base'
+                    ,''
+                    ,'Permission_API_Only_User,Permission_API_Enabled,Trailhead_Admin'
+                    ,''
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,null
+                    ,1
+                );*/
+                /** END - Creation of Integration/System Users */
+
+                /** START - Creation of General Users */
+                generateUsers(
+                    'QUT_Chatter_Free'
+                    ,'Chatter Free User'
+                    ,''
+                    ,''
+                    ,''
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,null
+                    ,1
+                );
+                /** END - Creation of General Users */
+
+                /** START - Creation of QUTeX Users */
+                //Create Executive Director
+                generateUsers(
+                    'QUT_Executive_Director'
+                    ,'QUTeX'
+                    ,'QUTeX Leadership'
+                    ,'QUTeX_Base,QUTeX_CCE,QUTeX_Leader,Marketing,DocuSign_Generator,DocuSign_Negotiator,DocuSign_Sender,DocuSign_User,Permission_API_Enabled' //missing permset: QUTeX OPE
+                    ,''
+                    ,true
+                    ,true
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,null
+                    ,1
+                );
+                //Create Business Manager
+                generateUsers(
+                    'QUT_Business_Manager'
+                    ,'QUTeX'
+                    ,'QUTeX Leadership'
+                    ,'QUTeX_Base,QUTeX_CCE,QUTeX_Leader,DocuSign_Generator,DocuSign_Negotiator,DocuSign_Sender,DocuSign_User,Permission_API_Enabled' //missing permset: QUTeX OPE
+                    ,''
+                    ,true
+                    ,true
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,null
+                    ,1
+                );
+                //Create Director of OPE
+                generateUsers(
+                    'QUT_OPE_Director'
+                    ,'QUTeX'
+                    ,'QUTeX Super User'
+                    ,'QUTeX_Base,QUTeX_CCE,QUTeX_Leader,DocuSign_Generator,DocuSign_Negotiator,DocuSign_Sender,DocuSign_User,Permission_API_Enabled' //missing permset: QUTeX OPE
+                    ,''
+                    ,true
+                    ,true
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,null
+                    ,1
+                );
+                //Create Portfolio Co-Ordinator
+                generateUsers(
+                    'QUT_Portfolio_Coordinator'
+                    ,'QUTeX'
+                    ,'QUTeX Super User'
+                    ,'QUTeX_Base,QUTeX_CCE,QUTeX_Leader' //missing permset: QUTeX OPE
+                    ,''
+                    ,true
+                    ,true
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,null
+                    ,1
+                );
+                //Create Product Administrator
+                generateUsers(
+                    'QUT_Product_Admin'
+                    ,'QUTeX'
+                    ,'QUTeX User'
+                    ,'QUTeX_Base,QUTeX_CCE,QUTeX_Leader'  //missing permset: QUTeX OPE
+                    ,''
+                    ,true
+                    ,true
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,null
+                    ,1
+                );
+                //Create Learning Innovation Manager
+                generateUsers(
+                    'QUT_Learning_Innovation_Manager'
+                    ,'QUTeX'
+                    ,'QUTeX User'
+                    ,'QUTeX_Base,QUTeX_CCE,QUTeX_Leader' //missing permset: QUTeX OPE
+                    ,''
+                    ,true
+                    ,true
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,null
+                    ,1
+                );
+                //Create Learning Designer
+                generateUsers(
+                    'QUT_Learning_Designer'
+                    ,'QUTeX'
+                    ,'QUTeX User'
+                    ,'QUTeX_Base,QUTeX_CCE,QUTeX_Leader,Product_Administration'
+                    ,''
+                    ,true
+                    ,true
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,null
+                    ,1
+                );
+                //Create Partnership Manager
+                generateUsers(
+                    'QUT_Partnership_Manager'
+                    ,'QUTeX'
+                    ,'QUTeX Super User'
+                    //TODO: Add Product_Administration permset when approved in Onboarding Guide
+                    ,'QUTeX_Base,QUTeX_CCE,QUTeX_Leader,DocuSign_Generator,DocuSign_Negotiator,DocuSign_Sender,DocuSign_User,Permission_API_Enabled'
+                    ,''
+                    ,true
+                    ,true
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,null
+                    ,1
+                );
+                //Create Program Co-Ordinator
+                generateUsers(
+                    'QUT_Program_Coordinator'
+                    ,'QUTeX'
+                    ,'QUTeX User'
+                    ,'QUTeX_Base,QUTeX_CCE'
+                    ,''
+                    ,true
+                    ,true
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,null
+                    ,1
+                );
+                //Create Program Administrator
+                generateUsers(
+                    'QUT_Program_Administrator'
+                    ,'QUTeX'
+                    ,'QUTeX Super User'
+                    ,'QUTeX_Base,QUTeX_CCE,QUTeX_Leader,Product_Administration,DocuSign_Generator,DocuSign_Negotiator,DocuSign_Sender,DocuSign_User,Permission_API_Enabled'
+                    ,'CCE Product Design,OPE Product Design'
+                    ,true
+                    ,true
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,null
+                    ,1
+                );
+                /** END - Creation of QUTeX Users */
+
+                /** START - Creation of  Marketing Users */
+                //Create Marketing Manager
+                generateUsers(
+                    'QUT_Marketing_Manager'
+                    ,'Digital Marketing'
+                    ,'Marketing Super User'
+                    ,'Marketing'
+                    ,''
+                    ,true
+                    ,true
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,null
+                    ,1
+                );
+                //Create Partnership Manager
+                generateUsers(
+                    'QUT_Partnership_Manager'
+                    ,'QUTeX'
+                    ,'Marketing Super User'
+                    ,'QUTeX_Base,QUTeX_CCE,Marketing'
+                    ,''
+                    ,true
+                    ,true
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,null
+                    ,1
+                );
+                //Create Quality Assurance
+                generateUsers(
+                    'QUT_Quality_Assurance'
+                    ,'QUTeX'
+                    ,'Marketing User'
+                    ,'QUTeX_Base,QUTeX_CCE,Marketing'
+                    ,''
+                    ,true
+                    ,true
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,null
+                    ,1
+                );
+                //Create Digital Marketing Officer
+                generateUsers(
+                    'QUT_Digital_Marketing_Officer'
+                    ,'Digital Marketing'
+                    ,'Marketing User'
+                    ,'Marketing'
+                    ,''
+                    ,true
+                    ,true
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,null
+                    ,1
+                );
+                //Create Digital Communication Officer
+                generateUsers(
+                    'QUT_Digital_Communication_Officer'
+                    ,'QUTeX'
+                    ,'Marketing User'
+                    ,'QUTeX_Base,QUTeX_CCE,Marketing'
+                    ,''
+                    ,true
+                    ,true
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,null
+                    ,1
+                );
+                /** END - Creation of Marketing Users */
+                generatePortalUsers(PORTAL_SYS_ADMIN.Id);
+                insert addUsers;
+
+                // get users, map userName and id.
+                usermap = new Map<String,String>{};
+                for(User i:addUsers){
+                    usermap.put(i.userName,i.Id);
+                }
+
+                addPermissionAssignment();
+                addPublicGroupAssignment();
+            }//End System.runAs
+
+            return addUsers;
+        }
+
+        private void generatePortalUsers(Id portalSysAdminId){
+            List<Contact> contactList = createTestContactRecords(3);
+            //Create account
+            List<Account> accountList = createTestAccountRecords(3);
+            for(Integer i=0; i<3; i++){
+                accountList[i].Name = 'PortalAccount' + String.valueOf(i);
+            }
+            insert accountList;
+
+            //Update created contacts
+            for(Integer i=0; i<3; i++){
+                contactList[i].FirstName = 'PortalFirst' + String.valueOf(i);
+                contactList[i].LastName = 'PortalLast' + String.valueOf(i);
+                contactList[i].Email = System.now().millisecond() + '@qut.com';
+                contactList[i].AccountId = accountList[i].Id;
+            }
+            insert contactList;
+
+            /** START - Creation of Portal Users */
+            //Create Corporate Partner Admin
+            generateUsers(
+                'QUT_Corporate_Partner_Admin'
+                ,'Partner Community User'
+                ,''
+                ,'Corporate_Portal_Base,Corporate_Portal_Admin,Account_Switcher_User'
+                ,''
+                ,false
+                ,false
+                ,false
+                ,false
+                ,false
+                ,false
+                ,true
+                ,contactList[0].Id
+                ,1
+            );
+            //Create Corporate Partner User
+            generateUsers(
+                'QUT_Corporate_Partner_User'
+                ,'Partner Community User'
+                ,''
+                ,'Corporate_Portal_Base,Account_Switcher_User'
+                ,''
+                ,false
+                ,false
+                ,false
+                ,false
+                ,false
+                ,false
+                ,true
+                ,contactList[1].Id
+                ,1
+            );
+            //Create OPE Catalogue (Study Website User)
+            generateUsers(
+                'QUT_OPE_Catalogue'
+                ,'OPE Catalogue'
+                ,'OPECatalogueCustomerUser'
+                ,'OPE_Catalogue'
+                ,''
+                ,false
+                ,false
+                ,false
+                ,false
+                ,false
+                ,false
+                ,true
+                ,contactList[2].Id
+                ,1
+            );
+            /** END - Creation of Portal Users */
+        }
+    }
+}

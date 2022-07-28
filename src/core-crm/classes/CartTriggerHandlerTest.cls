@@ -13,17 +13,22 @@
  */
 @isTest(SeeAllData=false)
 public with sharing class CartTriggerHandlerTest {
-    private static User currentUser = TestDataFactory.createUserRecords(1, 'QUTeX').iterator().next();
-    private static Id opeShortProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get('Short_Course').getRecordTypeId();
-    private static Id opeShortCourseId = Schema.SObjectType.hed__Course__c.getRecordTypeInfosByDeveloperName().get('Short_Course').getRecordTypeId();
+
+
+    @TestSetup
+    static void setupMethod() {
+
+        TestDataFactory.generateTestUsers();
+    }
+
     @IsTest
     static void insertCartTest(){
-        System.runAs(currentUser) {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
             Test.startTest();
 
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
             insert accounts;
-            
+
             WebStore testWebStore = new WebStore(Name='CCE', DefaultLanguage='en_US');
             insert testWebStore;
 
@@ -33,6 +38,27 @@ public with sharing class CartTriggerHandlerTest {
             Test.stopTest();
 
             System.assert(![SELECT External_Id__c FROM WebCart].IsEmpty(), 'External Id is not populated');
+        }
+
+    }
+
+    @IsTest
+    static void insertCartWithCartPaymentTest(){
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+
+            List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
+            insert accounts;
+
+            WebStore testWebStore = new WebStore(Name='CCE', DefaultLanguage='en_US');
+            insert testWebStore;
+
+            WebCart cart = new WebCart(Name='Cart', AccountId = accounts[0].Id , Status = 'Active', WebStoreId = testWebStore.Id);
+            insert cart;
+
+            Test.stopTest();
+
+            System.assert(![SELECT External_Id__c FROM WebCart WHERE Cart_Payment__c != null].IsEmpty(), 'No CartPayment Created');
         }
 
     }
