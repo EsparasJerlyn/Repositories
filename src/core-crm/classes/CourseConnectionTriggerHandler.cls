@@ -14,6 +14,7 @@
 | roy.nino.s.regala@qut.edu.au   | March 04, 2022        | DEPP-1985              | External user is trying to update the field,removed with sharing restriction  |
 | eugene.andrew.abuan            | March 22, 2022        | DEPP-1991              | Added Class for Before Insert                                                 |
 | john.bo.a.pineda               | June 23, 2022         | DEPP-3222              | Added logic to Send Email on Registration for Student / Student - Program     |
+| rhea.b.torres                  | July 22, 2022         | DEPP-3557              | Added logic to use email template setup in Communication Schedule             |
 
 */
 public without sharing class CourseConnectionTriggerHandler implements Disableable, BeforeInsert, AfterInsert, AfterUpdate, AfterDelete {
@@ -24,7 +25,6 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
     .get('Student_Program')
     .getRecordTypeId();
   private static final String STR_QUTEX = 'QUTeX';
-  private static final String REGISTRATION_CONFIRMATION_EMAIL_TEMPLATE = 'Registration Confirmation Email Template';
 
   /**
    * @description calls the ExternalIdHelper function to update the External Id
@@ -199,6 +199,8 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
     // Init
     Set<Id> ccCourseSet = new Set<Id>();
     Set<Id> ccProgPlanSet = new Set<Id>();
+    Map<Id,String> productEmailTemplateMap = new Map<Id,String>();
+    Set<String> emailTemplateIdSet = new Set<String>();
 
     // Get Org Wide Email Address
     List<OrgWideEmailAddress> owea = [
@@ -221,9 +223,12 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
         hed__Contact__r.LastName,
         Paid_in_Full__c,
         Amount__c,
-        hed__Contact__r.Email
+        hed__Contact__r.Registered_Email__c,
+        Course_Offering_Start_Date__c,
+        Offering_End_Date__c
       FROM hed__Course_Enrollment__c
       WHERE Id IN :crseEnrollIdSet
+      AND hed__Contact__r.Registered_Email__c != null
     ];
 
     // Get Course Connection Course / Program Plan
@@ -244,7 +249,7 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
     // Set Map for Course Send Registration Email
     Map<Id, Boolean> courseSendRegEmailMap = new Map<Id, Boolean>();
     for (Communication_Schedule__c courseCommSched : [
-      SELECT Id, Course__c, Email_on_Registration__c
+      SELECT Id, Course__c, Email_on_Registration__c,On_Registration_Template__c
       FROM Communication_Schedule__c
       WHERE Course__c IN :ccCourseSet
     ]) {
@@ -253,13 +258,19 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
           courseCommSched.Course__c,
           courseCommSched.Email_on_Registration__c
         );
+
+        if(String.isNotBlank(courseCommSched.On_Registration_Template__c)){
+          // use custom email template
+          emailTemplateIdSet.add(String.valueOf(courseCommSched.On_Registration_Template__c));
+          productEmailTemplateMap.put(courseCommSched.Course__c, String.valueOf(courseCommSched.On_Registration_Template__c));
+        }
       }
     }
 
     // Get List of Communication Schedule for Program Plan
     Map<Id, Boolean> progPlanSendRegEmailMap = new Map<Id, Boolean>();
     for (Communication_Schedule__c courseCommSched : [
-      SELECT Id, Program_Plan__c, Email_on_Registration__c
+      SELECT Id, Program_Plan__c, Email_on_Registration__c,On_Registration_Template__c
       FROM Communication_Schedule__c
       WHERE Program_Plan__c IN :ccProgPlanSet
     ]) {
@@ -268,120 +279,164 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
           courseCommSched.Program_Plan__c,
           courseCommSched.Email_on_Registration__c
         );
+
+        if(String.isNotBlank(courseCommSched.On_Registration_Template__c)){
+          // use custom email template
+          emailTemplateIdSet.add(String.valueOf(courseCommSched.On_Registration_Template__c));
+          productEmailTemplateMap.put(courseCommSched.Program_Plan__c, courseCommSched.On_Registration_Template__c);
+        }
       }
     }
 
-    // Get Email Template
-    EmailTemplate emailTemplate = EmailTemplateSelector.getEmailTemplate(
-      REGISTRATION_CONFIRMATION_EMAIL_TEMPLATE
-    );
+    // Get all email templates for new learners
+    Map<Id,EmailTemplate> emailTemplateMap = new Map<Id,EmailTemplate>([SELECT Id,
+                                                                              Name,
+                                                                              Subject,
+                                                                              HtmlValue,
+                                                                              Body
+                                                                        FROM EmailTemplate
+                                                                        WHERE Id IN :emailTemplateIdSet]);
 
     // Get Study Store URL Custom Setting
     Study_Store_URL_Settings__c storeLinkSettings = Study_Store_URL_Settings__c.getOrgDefaults();
 
     // Process
     List<Messaging.SingleEmailMessage> sendEmailList = new List<Messaging.SingleEmailMessage>();
-    if (emailTemplate != null) {
-      for (hed__Course_Enrollment__c procCrsEnroll : crseEnrollListNew) {
-        // Check if Student / Student Program
+    for (hed__Course_Enrollment__c procCrsEnroll : crseEnrollListNew) {
+      // Check if Student / Student Program
+      if (
+        procCrsEnroll.RecordTypeId == STUDENT_RECTYPEID ||
+        procCrsEnroll.RecordTypeId == PROG_STUDENT_RECTYPEID
+      ) {
+        String productName;
+        Boolean sendEmail = false;
+        Id emailTemplateIdStr;
+
+        /**Check Course */
         if (
-          procCrsEnroll.RecordTypeId == STUDENT_RECTYPEID ||
-          procCrsEnroll.RecordTypeId == PROG_STUDENT_RECTYPEID
+          String.isNotBlank(
+            procCrsEnroll.hed__Course_Offering__r.hed__Course__c
+          )
         ) {
-          String productName;
-          Boolean sendEmail = false;
-          // Check Course
+          // Set Product Name
+          productName = procCrsEnroll.hed__Course_Offering__r.hed__Course__r.Name;
+
+          // Check if Send Registration Email is True for Course
           if (
-            String.isNotBlank(
+            courseSendRegEmailMap.containsKey(
               procCrsEnroll.hed__Course_Offering__r.hed__Course__c
             )
           ) {
-            // Set Product Name
-            productName = procCrsEnroll.hed__Course_Offering__r.hed__Course__r.Name;
-
-            // Check if Send Registration Email is True for Course
-            if (
-              courseSendRegEmailMap.containsKey(
-                procCrsEnroll.hed__Course_Offering__r.hed__Course__c
-              )
-            ) {
-              sendEmail = (Boolean) courseSendRegEmailMap.get(
-                procCrsEnroll.hed__Course_Offering__r.hed__Course__c
-              );
-            }
+            sendEmail = (Boolean) courseSendRegEmailMap.get(
+              procCrsEnroll.hed__Course_Offering__r.hed__Course__c
+            );
           }
 
-          // Check Program Plan
+          // Resolve email template to use for this course
+          if(productEmailTemplateMap.containsKey(procCrsEnroll.hed__Course_Offering__r.hed__Course__c)){
+            emailTemplateIdStr = productEmailTemplateMap.get(procCrsEnroll.hed__Course_Offering__r.hed__Course__c);
+          }
+        }
+
+        /** Check Program */
+        if (
+          String.isNotBlank(
+            procCrsEnroll.Program_Offering__r.hed_Program_Plan__c
+          )
+        ) {
+          // Set Product Name
+          productName = procCrsEnroll.Program_Offering__r.hed_Program_Plan__r.Name;
+
+          // Check if Send Registration Email is True for Program Plan
           if (
-            String.isNotBlank(
+            progPlanSendRegEmailMap.containsKey(
               procCrsEnroll.Program_Offering__r.hed_Program_Plan__c
             )
           ) {
-            // Set Product Name
-            productName = procCrsEnroll.Program_Offering__r.hed_Program_Plan__r.Name;
-
-            // Check if Send Registration Email is True for Program Plan
-            if (
-              progPlanSendRegEmailMap.containsKey(
-                procCrsEnroll.Program_Offering__r.hed_Program_Plan__c
-              )
-            ) {
-              sendEmail = (Boolean) progPlanSendRegEmailMap.get(
-                procCrsEnroll.Program_Offering__r.hed_Program_Plan__c
-              );
-            }
+            sendEmail = (Boolean) progPlanSendRegEmailMap.get(
+              procCrsEnroll.Program_Offering__r.hed_Program_Plan__c
+            );
           }
 
-          // If Send Email True, Process Single Email
-          if (sendEmail == true) {
-            // Set Email values
-            String subject = STR_QUTEX + ' ' + productName;
-            String fullname =
-              procCrsEnroll.hed__Contact__r.FirstName +
-              ' ' +
-              procCrsEnroll.hed__Contact__r.LastName;
-            String paidInFull = 'No';
-            if (String.isNotBlank(procCrsEnroll.Paid_in_Full__c)) {
-              paidInFull = procCrsEnroll.Paid_in_Full__c;
-            }
-            String amount = '0.00';
-            if (String.isNotBlank(String.valueof(procCrsEnroll.Amount__c))) {
-              amount = String.valueof(procCrsEnroll.Amount__c);
-            }
-
-            // Set Email Params
-            Map<String, String> emailParams = new Map<String, String>{
-              '{fullname}' => fullname,
-              '{name}' => productName,
-              '{paid}' => paidInFull,
-              '{amount}' => amount,
-              '{storeLink}' => storeLinkSettings.Study_Store_Link__c != null
-                ? String.valueOf(storeLinkSettings.Study_Store_Link__c)
-                : ''
-            };
-
-            // Build the Email
-            Messaging.SingleEmailMessage mail = EmailHelper.emailBuilder(
-              procCrsEnroll.hed__Contact__r.Email,
-              subject,
-              emailTemplate.HtmlValue,
-              emailParams
-            );
-
-            // Set Org Wide Email Address
-            if (!owea.isEmpty()) {
-              mail.setOrgWideEmailAddressId(owea[0].Id);
-            }
-
-            // Add Email to List
-            sendEmailList.add(mail);
+          // Resolve email template to use for this program
+          if(productEmailTemplateMap.containsKey(procCrsEnroll.Program_Offering__r.hed_Program_Plan__c)){
+            emailTemplateIdStr = productEmailTemplateMap.get(procCrsEnroll.Program_Offering__r.hed_Program_Plan__c);
           }
         }
-      }
 
-      // Send Email List
-      Messaging.sendEmail(sendEmailList);
+        // If Send Email True, Process Single Email
+        if (sendEmail == true && String.isNotBlank(emailTemplateIdStr)) {
+          EmailTemplate emailTemplate = emailTemplateMap.get(Id.valueOf(emailTemplateIdStr));
+          // Set Email values
+          String subject = STR_QUTEX + ' ' + productName;
+          String fullname =
+            procCrsEnroll.hed__Contact__r.FirstName +
+            ' ' +
+            procCrsEnroll.hed__Contact__r.LastName;
+
+          String paidInFull = 'No';
+          if (String.isNotBlank(procCrsEnroll.Paid_in_Full__c)) {
+            paidInFull = procCrsEnroll.Paid_in_Full__c;
+          }
+
+          String amount = '0.00';
+          if (String.isNotBlank(String.valueof(procCrsEnroll.Amount__c))) {
+            amount = String.valueof(procCrsEnroll.Amount__c);
+          }
+
+          String startDate = '';
+          if(procCrsEnroll.Course_Offering_Start_Date__c != null){
+              startDate = procCrsEnroll.Course_Offering_Start_Date__c.format();
+          }
+
+          String endDate = '';
+          if(procCrsEnroll.Offering_End_Date__c != null){
+              endDate = procCrsEnroll.Offering_End_Date__c.format();
+          }
+
+          // Set Email Params
+          Map<String, String> emailParams = new Map<String, String>{
+            '{fullname}' => fullname,
+            '{name}' => productName,
+            '{paid}' => paidInFull,
+            '{amount}' => amount,
+            '{storeLink}' => storeLinkSettings.Study_Store_Link__c != null
+              ? String.valueOf(storeLinkSettings.Study_Store_Link__c)
+              : '',
+            '{contactFirstName}' => procCrsEnroll.hed__Contact__r.FirstName,
+            '{firstName}' => procCrsEnroll.hed__Contact__r.FirstName,
+            '{firstname}' => procCrsEnroll.hed__Contact__r.FirstName,
+            '{contactLastName}' => procCrsEnroll.hed__Contact__r.LastName,
+            '{courseName}' => productName,
+            '{courseOfferingName}' => productName,
+            '{productName}' => productName,
+            '{fullName}' => fullname,
+            '{startDate}' => startDate,
+            '{startdate}' => startDate,
+            '{endDate}' => endDate
+          };
+
+          // Build the Email
+          Messaging.SingleEmailMessage mail = EmailHelper.emailBuilder(
+            procCrsEnroll.hed__Contact__r.Registered_Email__c,
+            subject,
+            emailTemplate.HtmlValue,
+            emailParams
+          );
+
+          // Set Org Wide Email Address
+          if (!owea.isEmpty()) {
+            mail.setOrgWideEmailAddressId(owea[0].Id);
+          }
+
+          // Add Email to List
+          sendEmailList.add(mail);
+        }
+      }
     }
+
+    // Send Email List
+    Messaging.sendEmail(sendEmailList);
   }
 
   /**

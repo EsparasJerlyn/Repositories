@@ -1,3 +1,14 @@
+/**
+ * @description Test class for EmailTriggerOnlineSelfPacedBatch
+ * @EmailTriggerOnlineSelfPacedBatch
+ *
+ * @history
+ *
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                                 |
+      |--------------------------------|-----------------------|------------------------|----------------------------------------------------------------|
+      | rhea.b.torres                  | June 22,2022          | DEPP-3188              | Created file                                                   |
+      | rhea.b.torres                  | July 23,2022          | DEPP-3557              | Setup email template for Comms Schedule                        |
+ */
 @isTest
 public with sharing class EmailTriggerOnlineSelfPacedBatchTest {
     private static final Id STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
@@ -18,6 +29,7 @@ public with sharing class EmailTriggerOnlineSelfPacedBatchTest {
 
 	@isTest
     public static void testEmailOnlineSeldPacedBatch() {
+        final String STR_EMAIL_TEMPLATE = 'Test Email Template';
         System.runAs(currentUser) {
             Test.startTest();
             /** ACCOUNT CREATION */
@@ -27,25 +39,25 @@ public with sharing class EmailTriggerOnlineSelfPacedBatchTest {
               acc.Organization_Unit_Level__c = '2';
             }
             insert accounts;
-      
+
             /** CONTACT CREATION */
             List<Contact> contacts = TestDataFactory.createTestContactRecords(1);
-            contacts[0].email = 'testContact@testmail.com';
+            contacts[0].Registered_Email__c = 'testContact@testmail.com';
             insert contacts;
-      
+
             /** TERM CREATION */
             List<hed__Term__c> terms = TestDataFactory.createTestTermRecords(
               10,
               accounts[0].Id
             );
             insert terms;
-      
+
             /** PRODUCT REQUEST CREATION */
             List<Product_Request__c> prodRequest = TestDataFactory.createTestProductRequestRecords(
               1
             );
             insert prodRequest;
-      
+
             /** COURSE CREATION */
             List<hed__Course__c> courses = TestDataFactory.createTestCourseRecords(
               10,
@@ -57,7 +69,7 @@ public with sharing class EmailTriggerOnlineSelfPacedBatchTest {
             /** PROGRAM PLAN CREATION */
             List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(10);
             insert programPlans;
-      
+
             /** COURSE OFFERING CREATION */
             List<hed__Course_Offering__c> courseOfferings = TestDataFactory.createTestCourseOfferingRecord(
               10,
@@ -66,10 +78,11 @@ public with sharing class EmailTriggerOnlineSelfPacedBatchTest {
             );
             for(hed__Course_Offering__c course: courseOfferings){
                 course.hed__Start_Date__c = Date.today()+6;
+                course.hed__End_Date__c = Date.today()+10;
                 course.Delivery_Type__c = 'Online Self-paced';
             }
             insert courseOfferings;
-      
+
             /** PROGRAM OFFERING CREATION */
             List<Program_Offering__c> programOfferings = TestDataFactory.createTestProgramOfferingRecords(
               10,
@@ -80,17 +93,23 @@ public with sharing class EmailTriggerOnlineSelfPacedBatchTest {
                 offering.Delivery_Type__c = 'Online Self-paced';
             }
             insert programOfferings;
-      
+
             List<Communication_Schedule__c> commSchedules = TestDataFactory.createTestCommunicationScheduleRecords(
               10,
               courses,
               programPlans
             );
-      
+
+            EmailTemplate template = TestDataFactory.createTestEmailTemplateRecords(1,new Map<String,String>{
+              STR_EMAIL_TEMPLATE => 'Test Email Subject'
+            }).iterator().next();
+            insert template;
+
             for (Communication_Schedule__c commSchedule : commSchedules) {
               commSchedule.Email_on_Registration__c = true;
               commSchedule.Email_on_final_confirmation__c = true;
               commSchedule.Days_before_Start_Date__c = 6;
+              commSchedule.On_Final_Confirmation_Template__c =  String.valueOf(template.Id);
             }
             insert commSchedules;
 
@@ -99,11 +118,12 @@ public with sharing class EmailTriggerOnlineSelfPacedBatchTest {
               contacts[0].Id,
               courseOfferings
             );
-      
+
             for (hed__Course_Enrollment__c courseConnection : courseConnections) {
               courseConnection.RecordTypeId = STUDENT_RECTYPEID;
               courseConnection.Amount__c = 100;
               courseConnection.Paid_in_Full__c = '';
+              courseConnection.hed__Status__c = 'Active';
             }
             insert courseConnections;
 
@@ -114,6 +134,7 @@ public with sharing class EmailTriggerOnlineSelfPacedBatchTest {
             );
             for (hed__Course_Enrollment__c courseConnection : ccForProgramOffering) {
               courseConnection.RecordTypeId = STUDENT_PROGRAM_RECTYPEID;
+              courseConnection.hed__Status__c = 'Active';
             }
             insert ccForProgramOffering;
 

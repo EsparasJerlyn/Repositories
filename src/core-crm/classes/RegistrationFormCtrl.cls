@@ -11,6 +11,8 @@
       | john.bo.a.pineda          | June 1, 2022          | DEPP-1661            | Added send SMS OTP method         |
       | keno.domienri.dico        | June 15, 2022         | DEPP-2758            | Added Accessibility Req field     |
       | john.bo.a.pineda          | June 20, 2022         | DEPP-3191            | Added Logic for Login User        |
+      | john.bo.a.pineda          | July 07, 2022         | DEPP-3444            | Modified query to Mobile Country  |
+      |                           |                       |                      | Code to sort by Display Name      |
  */
 public without sharing class RegistrationFormCtrl {
   private static final String RT_CONTACT_PERSON = System.Label.RT_Contact_Person;
@@ -175,6 +177,8 @@ public without sharing class RegistrationFormCtrl {
           SELECT
             Id,
             MobilePhone,
+            Mobile_No_Locale__c,
+            ContactMobile_Locale__c,
             Dietary_Requirement__c,
             Accessibility_Requirement__c,
             AccountId,
@@ -204,6 +208,7 @@ public without sharing class RegistrationFormCtrl {
         existingContact.ContactMobile_Locale__c = mobileConLocale;
         existingContact.Mobile_No_Locale__c = mobileNoLocale;
         existingContact.MobilePhone = mobile;
+        existingContact.Registered_Email__c = email;
         existingContact.Dietary_Requirement__c = dietaryReq;
         existingContact.Accessibility_Requirement__c = accessReq;
         update existingContact;
@@ -322,6 +327,7 @@ public without sharing class RegistrationFormCtrl {
     c.FirstName = firstName;
     c.lastName = lastName;
     c.Email = email;
+    c.Registered_Email__c = email;
     c.MobilePhone = mobile;
     c.Mobile_No_Locale__c = mobileNoLocale;
     c.ContactMobile_Locale__c = mobileConLocale;
@@ -454,6 +460,7 @@ public without sharing class RegistrationFormCtrl {
       List<Mobile_Country_Code__mdt> mobileCountryCodeMDTList = [
         SELECT Id, Display_Name__c, Mobile_Coutnry_Code__c, Loqate_Locale__c
         FROM Mobile_Country_Code__mdt
+        ORDER BY Display_Name__c
       ];
       if (mobileCountryCodeMDTList.size() > 0) {
         for (
@@ -461,7 +468,8 @@ public without sharing class RegistrationFormCtrl {
         ) {
           MobileLocaleWrapper mobileLocaleWrapper = new MobileLocaleWrapper();
           mobileLocaleWrapper.label = mobileCountryCodeMDT.Display_Name__c;
-          mobileLocaleWrapper.value = mobileCountryCodeMDT.Mobile_Coutnry_Code__c;
+          mobileLocaleWrapper.value = mobileCountryCodeMDT.Display_Name__c;
+          mobileLocaleWrapper.countryCode = mobileCountryCodeMDT.Mobile_Coutnry_Code__c;
           mobileLocaleWrapper.conMobileLocale = mobileCountryCodeMDT.Loqate_Locale__c;
           mobileLocaleWrapperList.add(mobileLocaleWrapper);
         }
@@ -506,5 +514,7 @@ public without sharing class RegistrationFormCtrl {
     public String value;
     @AuraEnabled
     public String conMobileLocale;
+    @AuraEnabled
+    public String countryCode;
   }
 }

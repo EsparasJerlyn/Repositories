@@ -2,6 +2,7 @@
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Person</fullName>
     <active>true</active>
+    <compactLayoutAssignment>Contact_Compact_Layout</compactLayoutAssignment>
     <description>This is the record type which will be used for the Primary Contact Record. Users  and integration interacts with this record type</description>
     <label>Person</label>
     <picklistValues>

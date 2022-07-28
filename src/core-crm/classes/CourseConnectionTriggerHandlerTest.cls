@@ -37,6 +37,7 @@ public with sharing class CourseConnectionTriggerHandlerTest {
 
   @isTest
   private static void insertCourseConnection() {
+    final String STR_EMAIL_TEMPLATE = 'Test Email Template';
     System.runAs(currentUser) {
       Test.startTest();
       Study_Store_URL_Settings__c studyStore = new Study_Store_URL_Settings__c(Study_Store_Link__c = 'https://studystorelinktest.com/');
@@ -51,7 +52,7 @@ public with sharing class CourseConnectionTriggerHandlerTest {
       Integer i = 0;
       List<Contact> contacts = TestDataFactory.createTestContactRecords(100);
       for (Contact contact : contacts) {
-        contact.Email = 'test' + i + '@mail.com';
+        contact.Registered_Email__c = 'test' + i + '@mail.com';
         i++;
       }
       insert contacts;
@@ -79,6 +80,10 @@ public with sharing class CourseConnectionTriggerHandlerTest {
         courses,
         terms
       );
+      for(hed__Course_Offering__c courseOffering : courseOfferings){
+        courseOffering.hed__Start_Date__c = Date.today()+1;
+        courseOffering.hed__End_Date__c = Date.today()+2;
+      }
       insert courseOfferings;
 
       List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(
@@ -92,6 +97,11 @@ public with sharing class CourseConnectionTriggerHandlerTest {
       );
       insert programOfferings;
 
+      EmailTemplate template = TestDataFactory.createTestEmailTemplateRecords(1,new Map<String,String>{
+        STR_EMAIL_TEMPLATE => 'Test Email Subject'
+      }).iterator().next();
+      insert template;
+
       List<Communication_Schedule__c> commScheds = TestDataFactory.createTestCommunicationScheduleRecords(
         100,
         courses,
@@ -99,6 +109,7 @@ public with sharing class CourseConnectionTriggerHandlerTest {
       );
       for (Communication_Schedule__c commSched : commScheds) {
         commSched.Email_on_Registration__c = true;
+        commSched.On_Registration_Template__c = String.valueOf(template.Id);
       }
       insert commScheds;
 

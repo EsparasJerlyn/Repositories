@@ -3,13 +3,15 @@
  * @see ../lwc/productDetails
  * @author Accenture
  * @history
- *  | Developer                 | Date                  | JIRA                 | Change Summary                             |
+ | Developer                 | Date                  | JIRA                 | Change Summary                             |
  |---------------------------|-----------------------|----------------------|--------------------------------------------|
  | mary.grace.li             | May 02, 2022          | DEPP-1269            | Created File                               |
  | eugene.andrew.abuan       | May 02, 2022          | DEPP-1269            | Modified Ctrl to Map fields                |
  | eugene.andrew.abuan       | May 09, 2022          | DEPP-1979            | Added getFilteredProducts function         |
  | keno.domienri.dico        | May 19, 2022          | DEPP-1980            | Added sorting of courses                   |
  | john.bo.a.pineda          | June 01, 2022         | DEPP-2853            | Updated Registration Dates Logic           |
+ | mary.grace.li             | July 01, 2022         | DEPP-3124            | Added new field DetailURL for SEO          |
+ | john.bo.a.pineda          | June 11, 2022         | DEPP-3460            | Updated to get Detail_URL__c for Price Sort|
  */
 public without sharing class ProductCtrl{
 
@@ -37,7 +39,7 @@ public without sharing class ProductCtrl{
 
 			// New Query with selected productIds per page
 			String pbeQuery = 'SELECT Id, Name, Pricebook2.ID, Pricebook2.Name, UnitPrice, ';
-			pbeQuery += ' Product2.Id, Product2.Name, Product2.Description, Product2.Professional_level__c, Product2.Duration__c, Product2.Delivery__c, Product2.Program_Plan__c, Product2.Course__c ';
+			pbeQuery += ' Product2.Id, Product2.Name, Product2.Description, Product2.Professional_level__c, Product2.Duration__c, Product2.Delivery__c, Product2.Detail_URL__c, Product2.Program_Plan__c, Product2.Course__c ';
 			pbeQuery += ' FROM PricebookEntry ';
 			pbeQuery += ' WHERE Product2Id IN :productIds';
 			pbeQuery += ' AND (Pricebook2.Name = :standardPriceBook OR Pricebook2.Name = :earlyBirdPricebook OR Pricebook2.Name = :freePricebook) ';
@@ -48,6 +50,7 @@ public without sharing class ProductCtrl{
 
             //--new---
             map<id, Product2> productMap = new map<id, Product2>();
+						map<id, String> productURLMap = new Map<id, String>();
             map<id, PricebookEntry> peMap = new map<id, PricebookEntry>();
 			Map<Id, Id> productPriceFreeMap = new Map<Id, Id>();
 			Map<Id, Id> productPriceEarlyBirdMap = new Map<Id, Id>();
@@ -65,7 +68,7 @@ public without sharing class ProductCtrl{
                     myProduct.Program_Plan__c = data.Product2.Program_Plan__c;
                     myProduct.Course__c = data.Product2.Course__c;
                     myProduct.Program_Plan__c = data.Product2.Program_Plan__c;
-                    
+                    productURLMap.put(data.Product2Id, data.Product2.Detail_URL__c);
                     productMap.put(data.Product2Id, myProduct);
                 }
                 
@@ -193,6 +196,7 @@ public without sharing class ProductCtrl{
                     productListWrapper.childProdPrice = String.valueOf(productPriceMap.get(product.Id));
                 }
 
+				productListWrapper.detailURL = productURLMap.get(product.Id);
                 prodWrapperList.add(productListWrapper);
             }
 
@@ -238,7 +242,7 @@ public without sharing class ProductCtrl{
 			String priceQry = '';
 			String dateQry = '';
 
-			String prodQry1 = 'SELECT Id, Name, Course__c, Duration__c, Delivery__c, Professional_Level__c, Available_on_Cart__c, Start_Date__c, Description, ';
+			String prodQry1 = 'SELECT Id, Name, Course__c, Duration__c, Detail_URL__c, Delivery__c, Professional_Level__c, Available_on_Cart__c, Start_Date__c, Description, ';
 			String prodQry2 = ' Program_Plan__r.Program_Delivery_Structure__c, ';
 			prodQry2 += ' ( SELECT Id, Pricebook2.Name, UnitPrice FROM PricebookEntries WHERE IsActive = TRUE AND (Pricebook2.Name = :standardPriceBook OR Pricebook2.Name = :earlyBirdPricebook OR Pricebook2.Name =:freePricebook)) ';
 			prodQry2 += ' FROM Product2 ';
@@ -352,6 +356,7 @@ public without sharing class ProductCtrl{
 						}
 					}
 				}
+				productListWrapper.detailURL = prod.Detail_URL__c;
 				prodWrapperList.add(productListWrapper);
 			}
 		}
@@ -785,6 +790,9 @@ public without sharing class ProductCtrl{
 
 		@AuraEnabled
 		public Boolean isProgramFlex{ get; set; }
+
+		@AuraEnabled
+		public String detailURL{ get; set; }
 
 	}
 	/**

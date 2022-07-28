@@ -2,6 +2,7 @@
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>MC_Persona</fullName>
     <active>true</active>
+    <compactLayoutAssignment>Contact_Compact_Layout</compactLayoutAssignment>
     <description>This record type will be used for Child Contacts.  MC Integration user has access to this record type. Users and other Integration users will not have access to records with this type</description>
     <label>MC Persona</label>
     <picklistValues>
