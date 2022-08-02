@@ -5,7 +5,7 @@
         <name>Assign_Score</name>
         <label>Assign Score</label>
         <locationX>182</locationX>
-        <locationY>1103</locationY>
+        <locationY>767</locationY>
         <assignmentItems>
             <assignToReference>$Record.Score__c</assignToReference>
             <operator>Assign</operator>
@@ -27,7 +27,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Check_Applicant</targetReference>
+            <targetReference>Check_Applicant_or_QUT_Student</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -43,37 +43,21 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Check_QUT_Student_ID</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>Plus_1000_0</name>
-        <label>Plus 1000</label>
-        <locationX>50</locationX>
-        <locationY>887</locationY>
-        <assignmentItems>
-            <assignToReference>Score</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <numberValue>1000.0</numberValue>
-            </value>
-        </assignmentItems>
-        <connector>
             <targetReference>Assign_Score</targetReference>
         </connector>
     </assignments>
     <decisions>
-        <name>Check_Applicant</name>
-        <label>Check Applicant</label>
+        <name>Check_Applicant_or_QUT_Student</name>
+        <label>Check Applicant or QUT Student</label>
         <locationX>182</locationX>
         <locationY>431</locationY>
         <defaultConnector>
-            <targetReference>Check_QUT_Student_ID</targetReference>
+            <targetReference>Assign_Score</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
-            <name>Is_In_Query</name>
-            <conditionLogic>and</conditionLogic>
+            <name>Applicant_Submitted_or_QUT_Student</name>
+            <conditionLogic>(1 AND 2) OR 3</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.Application_Source__c</leftValueReference>
                 <operator>EqualTo</operator>
@@ -83,29 +67,11 @@
             </conditions>
             <conditions>
                 <leftValueReference>$Record.Application_Status__c</leftValueReference>
-                <operator>IsNull</operator>
+                <operator>EqualTo</operator>
                 <rightValue>
-                    <booleanValue>false</booleanValue>
+                    <stringValue>Submitted</stringValue>
                 </rightValue>
             </conditions>
-            <connector>
-                <targetReference>Plus_1000</targetReference>
-            </connector>
-            <label>Is In Query</label>
-        </rules>
-    </decisions>
-    <decisions>
-        <name>Check_QUT_Student_ID</name>
-        <label>Check QUT Student ID</label>
-        <locationX>182</locationX>
-        <locationY>767</locationY>
-        <defaultConnector>
-            <targetReference>Assign_Score</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
-        <rules>
-            <name>Not_Blank</name>
-            <conditionLogic>and</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.QUT_Student_ID__c</leftValueReference>
                 <operator>IsNull</operator>
@@ -114,9 +80,9 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Plus_1000_0</targetReference>
+                <targetReference>Plus_1000</targetReference>
             </connector>
-            <label>Not Blank</label>
+            <label>Applicant Submitted or QUT Student</label>
         </rules>
     </decisions>
     <interviewLabel>Marketing Course Application - Lead Scoring {!$Flow.CurrentDateTime}</interviewLabel>

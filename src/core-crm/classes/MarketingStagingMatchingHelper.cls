@@ -77,7 +77,7 @@ public with sharing class MarketingStagingMatchingHelper{
     private static final Map<String,String> LEAD_FIELDS = new Map<String,String>{
         'Migration_key__c' => 'Migration_Key__c','FirstName' => 'First_Name__c' ,
         'LastName' => 'Last_Name__c', 'Email' => 'Email__c',
-        'MiddleName' => 'Middle_Name__c','Marketing_Mobile_Locale__c' => 'Mobile_Locale__c',
+        'MiddleName' => 'Middle_Name__c','LeadMobile_Locale__c' => 'MarketingStaging_Mobile_Locale__c',
         'Preferred_Given_Name__c' => 'Preferred_Given_Name__c','Salutation' => 'Salutation__c',
         'hed__Birth_Date__c' => 'Birthdate__c', 'hed__Gender__c' => 'Gender__c',
         'Phone_No_Locale__c' => 'Phone__c', 'Mobile_No_Locale__c' => 'Mobile__c', 'Street' => 'Street__c',
@@ -120,17 +120,18 @@ public with sharing class MarketingStagingMatchingHelper{
         finalMaping = CONTACT_FIELDS;
         if(oldContactId != null){
             obj.put('Id',oldContactId);
-            //check if staging is created by integration website user
-            if( MarketingStagingTriggerHelper.currentProfileName == 'Integration Website' &&
-                MarketingStagingTriggerHelper.contactMatches.containsKey(oldContactId)){
+
+            //check if current contact in loop has its birthdate populated
+            if( MarketingStagingTriggerHelper.contactMatches.containsKey(oldContactId) &&
+                MarketingStagingTriggerHelper.contactMatches.get(oldContactId).BirthDate == null){
+                finalMaping.put('BirthDate','Birthdate__c');
+            }
+
                 //check if current contact in loop has its mobile no locale populated
-                if(MarketingStagingTriggerHelper.contactMatches.get(oldContactId).Mobile_No_Locale__c == null){
+            if( MarketingStagingTriggerHelper.contactMatches.containsKey(oldContactId) &&
+                MarketingStagingTriggerHelper.contactMatches.get(oldContactId).Mobile_No_Locale__c == null){
                     finalMaping.put('Mobile_No_Locale__c','Mobile__c');
-                }
-                //check if current contact in loop has its birthdate populated
-                if(MarketingStagingTriggerHelper.contactMatches.get(oldContactId).BirthDate == null){
-                    finalMaping.put('BirthDate','Birthdate__c');
-                }
+                finalMaping.put('ContactMobile_Locale__c','MarketingStaging_Mobile_Locale__c');
             }
         }
 
@@ -159,17 +160,18 @@ public with sharing class MarketingStagingMatchingHelper{
         if(oldLeadId != null){
             obj.put('Id',oldLeadId);
             finalMaping = LEAD_FIELDS_UPDATE;
-            //check if staging is created by integration website user
-            if( MarketingStagingTriggerHelper.currentProfileName == 'Integration Website' &&
-                MarketingStagingTriggerHelper.leadMatches.containsKey(oldLeadId)){
-                //check if current lead in loop has its mobile no locale populated
-                if(MarketingStagingTriggerHelper.leadMatches.get(oldLeadId).Mobile_No_Locale__c == null){
-                    finalMaping.put('Mobile_No_Locale__c','Mobile__c');
-                }
+
                 //check if current lead in loop has its birthdate populated
-                if(MarketingStagingTriggerHelper.leadMatches.get(oldLeadId).hed__Birth_Date__c == null){
+            if( MarketingStagingTriggerHelper.leadMatches.containsKey(oldLeadId) &&
+                MarketingStagingTriggerHelper.leadMatches.get(oldLeadId).hed__Birth_Date__c == null){
                     finalMaping.put('hed__Birth_Date__c','Birthdate__c');
                 }
+
+            //check if current lead in loop has its contact mobile locale populated
+            if( MarketingStagingTriggerHelper.leadMatches.containsKey(oldLeadId) &&
+                MarketingStagingTriggerHelper.leadMatches.get(oldLeadId).Mobile_No_Locale__c == null){
+                finalMaping.put('LeadMobile_Locale__c','MarketingStaging_Mobile_Locale__c');
+                finalMaping.put('Mobile_No_Locale__c','Mobile__c');
             }
         }else{
             obj.put('Company','Learner');
@@ -486,11 +488,13 @@ public with sharing class MarketingStagingMatchingHelper{
             }
 
             if( applicationMap.containsKey(parentId)){
+                Boolean exactMatchFound = false;
                 for(Marketing_Course_Application__c courseApp:applicationMap.get(parentId)){
                     if( ( qtacMatchingMap.containsKey(staging.Id) && courseApp.QTAC_Matching_Criteria__c == qtacMatchingMap.get(staging.Id)) ||
                         ( samsMatchingMap.containsKey(staging.Id) && courseApp.SAMS_Matching_Criteria__c == samsMatchingMap.get(staging.Id)) ||
                         ( studylinkMatchingMap.containsKey(staging.Id) && courseApp.Studylink_Matching_Criteria__c == studylinkMatchingMap.get(staging.Id)) 
                     ){
+                        exactMatchFound = true;
                         recordsClass.applicationToUpsertMap.put(
                             courseApp.Id,
                         (Marketing_Course_Application__c)createMarketingRecord(
@@ -503,7 +507,26 @@ public with sharing class MarketingStagingMatchingHelper{
                         );
                     }
                 }
-            }else if(   qtacMatchingMap.containsKey(staging.Id) || 
+                //if there is no match found
+                //and required fields are populated on staging record
+                //we need to create a new course application
+                if( exactMatchFound == false &&
+                    (qtacMatchingMap.containsKey(staging.Id) ||
+                    samsMatchingMap.containsKey(staging.Id) ||
+                    studylinkMatchingMap.containsKey(staging.Id)))
+                    {
+                        recordsClass.applicationToUpsertMap.put(
+                            staging.Id,
+                            (Marketing_Course_Application__c)createMarketingRecord(
+                                staging,
+                                contactId,
+                                leadId,
+                                null,
+                                'Marketing_Course_Application__c'
+                            )
+                        );
+                }
+            }else if(   qtacMatchingMap.containsKey(staging.Id) ||
                         samsMatchingMap.containsKey(staging.Id) || 
                         studylinkMatchingMap.containsKey(staging.Id)){
                         recordsClass.applicationToUpsertMap.put(

@@ -45,7 +45,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Mobile_Locale__c</field>
+                <field>MarketingStaging_Mobile_Locale__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

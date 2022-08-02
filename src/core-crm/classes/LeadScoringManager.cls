@@ -92,7 +92,9 @@ public without sharing class LeadScoringManager {
         for (Marketing_Course_Application__c marketingCourseApplication : existingMarketingCourseApplications) {
             if (marketingCourseApplication.Lead__c != null && marketingCourseApplication.Lead__r.IsConverted != true) {
                 if (leadToMCAScore.get(marketingCourseApplication.Lead__r.Id) != null) {
-                    leadToMCAScore.put(marketingCourseApplication.Lead__r.Id, leadToMCAScore.get(marketingCourseApplication.Lead__r.Id) + marketingCourseApplication.Score__c);
+                    if (marketingCourseApplication.Score__c > leadToMCAScore.get(marketingCourseApplication.Lead__r.Id)) {
+                        leadToMCAScore.put(marketingCourseApplication.Lead__r.Id, marketingCourseApplication.Score__c);
+                    }
                 } else {
                     leadToMCAScore.put(marketingCourseApplication.Lead__r.Id, marketingCourseApplication.Score__c);
                 }    
@@ -100,7 +102,9 @@ public without sharing class LeadScoringManager {
 
             if (marketingCourseApplication.Contact__c != null) {
                 if (contactToMCAScore.get(marketingCourseApplication.Contact__r.Id) != null) {
-                    contactToMCAScore.put(marketingCourseApplication.Contact__r.Id, contactToMCAScore.get(marketingCourseApplication.Contact__r.Id) + marketingCourseApplication.Score__c);
+                    if (marketingCourseApplication.Score__c > contactToMCAScore.get(marketingCourseApplication.Contact__r.Id)) {
+                        contactToMCAScore.put(marketingCourseApplication.Contact__r.Id, marketingCourseApplication.Score__c);
+                    }
                 } else {
                     contactToMCAScore.put(marketingCourseApplication.Contact__r.Id, marketingCourseApplication.Score__c);
                 }

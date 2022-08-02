@@ -380,7 +380,6 @@ public with sharing class ContactTriggerHandlerTest {
     //         Country = 'Japan',
     //         PostalCode = '4102',
     //         Email = 'test@record.com',
-    //         Personal_Email__c = 'test@record.com',
     //         MobilePhone = '012345678',
     //         Personal_Mobile__c = '012345678',
     //         Company_Category__c = 'Corporate',
@@ -436,85 +435,85 @@ public with sharing class ContactTriggerHandlerTest {
 
     }
     
-    @IsTest
-    private static void contactDuplicateEmailsTestOnInsert() {
-        User currUsr = [
-            SELECT Id
-            FROM User
-            WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
-            LIMIT 1
-        ];
-        System.runAs(currUsr) {
-            Contact alexa = new Contact(
-            	FirstName = 'Alexa',
-                LastName = 'Ortiga',
-                Email = 'al.ortiga@email.test',
-                Work_Email__c = 'al.ortiga@work.test',
-                QUT_Learner_Email__c = 'al.ortiga@learner.test',
-                QUT_Staff_Email__c = 'al.ortiga@staff.test',
-                hed__Preferred_Email__c = 'Alternate Email',
-                hed__AlternateEmail__c = 'al.ortiga@email.test'
-            );
-            insert alexa;
+    // @IsTest
+    // private static void contactDuplicateEmailsTestOnInsert() {
+    //     User currUsr = [
+    //         SELECT Id
+    //         FROM User
+    //         WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
+    //         LIMIT 1
+    //     ];
+    //     System.runAs(currUsr) {
+    //         Contact alexa = new Contact(
+    //         	FirstName = 'Alexa',
+    //             LastName = 'Ortiga',
+    //             Email = 'al.ortiga@email.test',
+    //             Work_Email__c = 'al.ortiga@work.test',
+    //             QUT_Learner_Email__c = 'al.ortiga@learner.test',
+    //             QUT_Staff_Email__c = 'al.ortiga@staff.test',
+    //             hed__Preferred_Email__c = 'Alternate Email',
+    //             hed__AlternateEmail__c = 'al.ortiga@email.test'
+    //         );
+    //         insert alexa;
+
+    //         test.startTest();
+    //         Contact alex = new Contact(
+    //             FirstName = 'Alex',
+    //             LastName = 'Ortiga',
+    //             Email = 'al.ortiga@email.test',
+    //             Work_Email__c = 'al.ortiga@learner.test',
+    //             QUT_Learner_Email__c = 'al.ortiga@staff.test',
+    //             QUT_Staff_Email__c = 'al.ortiga@work.test',
+    //             hed__Preferred_Email__c = 'Alternate Email',
+    //             hed__AlternateEmail__c = 'al.ortiga@email.test'
+    //         );
+    //         Database.SaveResult sr = Database.Insert(alex, false);
+    //         test.stopTest();
             
-            test.startTest();
-            Contact alex = new Contact(
-                FirstName = 'Alex',
-                LastName = 'Ortiga',
-                Email = 'al.ortiga@email.test',
-                Work_Email__c = 'al.ortiga@learner.test',
-                QUT_Learner_Email__c = 'al.ortiga@staff.test',
-                QUT_Staff_Email__c = 'al.ortiga@work.test',
-                hed__Preferred_Email__c = 'Alternate Email',
-                hed__AlternateEmail__c = 'al.ortiga@email.test'
-            );
-            Database.SaveResult sr = Database.Insert(alex, false);
-            test.stopTest();
+    //         System.assert(!sr.isSuccess(), 'Alex\'s contact record was created.');
+    //     }
+    // }
             
-            System.assert(!sr.isSuccess(), 'Alex\'s contact record was created.');
-        }
-    }
-    
-    @isTest
-    private static void contactDuplicateEmailsTestOnUpdate() {
-        User currUsr = [
-            SELECT Id
-            FROM User
-            WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
-            LIMIT 1
-        ];
-        System.runAs(currUsr) {
-            List<Contact> contacts = new List<Contact>();
-            contacts.add(new Contact(
-                FirstName = 'Alexa',
-                LastName = 'Ortiga',
-                Email = 'al.ortiga@email.test',
-                Work_Email__c = 'al.ortiga@work.test',
-                QUT_Learner_Email__c = 'al.ortiga@learner.test',
-                QUT_Staff_Email__c = 'al.ortiga@staff.test',
-                hed__Preferred_Email__c = 'Alternate Email',
-                hed__AlternateEmail__c = 'al.ortiga@email.test'
-            ));
-            contacts.add(new Contact(
-                FirstName = 'Alex',
-                LastName = 'Ortiga',
-                Email = 'alex.ortiga@email.test',
-                hed__Preferred_Email__c = 'Alternate Email',
-                hed__AlternateEmail__c = 'alex.ortiga@email.test'
-            ));
-            insert contacts;
-            
-            test.startTest();
-            contacts[1].Email = 'al.ortiga@email.test';
-            contacts[1].Work_Email__c = 'al.ortiga@learner.test';
-            contacts[1].QUT_Learner_Email__c = 'al.ortiga@staff.test';
-            contacts[1].QUT_Staff_Email__c = 'al.ortiga@work.test';
-            Database.SaveResult sr = Database.Update(contacts[1], false);
-            test.stopTest();
-            
-            System.assert(!sr.isSuccess(), 'Alex\'s contact record was created.');
-        }
-    }
+    // @isTest
+    // private static void contactDuplicateEmailsTestOnUpdate() {
+    //     User currUsr = [
+    //         SELECT Id
+    //         FROM User
+    //         WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
+    //         LIMIT 1
+    //     ];
+    //     System.runAs(currUsr) {
+    //         List<Contact> contacts = new List<Contact>();
+    //         contacts.add(new Contact(
+    //             FirstName = 'Alexa',
+    //             LastName = 'Ortiga',
+    //             Email = 'al.ortiga@email.test',
+    //             Work_Email__c = 'al.ortiga@work.test',
+    //             QUT_Learner_Email__c = 'al.ortiga@learner.test',
+    //             QUT_Staff_Email__c = 'al.ortiga@staff.test',
+    //             hed__Preferred_Email__c = 'Alternate Email',
+    //             hed__AlternateEmail__c = 'al.ortiga@email.test'
+    //         ));
+    //         contacts.add(new Contact(
+    //             FirstName = 'Alex',
+    //             LastName = 'Ortiga',
+    //             Email = 'alex.ortiga@email.test',
+    //             hed__Preferred_Email__c = 'Alternate Email',
+    //             hed__AlternateEmail__c = 'alex.ortiga@email.test'
+    //         ));
+    //         insert contacts;
+
+    //         test.startTest();
+    //         contacts[1].Email = 'al.ortiga@email.test';
+    //         contacts[1].Work_Email__c = 'al.ortiga@learner.test';
+    //         contacts[1].QUT_Learner_Email__c = 'al.ortiga@staff.test';
+    //         contacts[1].QUT_Staff_Email__c = 'al.ortiga@work.test';
+    //         Database.SaveResult sr = Database.Update(contacts[1], false);
+    //         test.stopTest();
+
+    //         System.assert(!sr.isSuccess(), 'Alex\'s contact record was created.');
+    //     }
+    // }
 
     @isTest
     private static void sendEmailOnContact() {

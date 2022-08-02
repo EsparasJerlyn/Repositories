@@ -7,9 +7,10 @@
  * 
  * @history
  *    | Developer                 | Date                  | JIRA                 | Change Summary                      |
- *    |---------------------------|-----------------------|----------------------|-------------------------------------|
+ *    |---------------------------|-----------------------|----------------------|------------------------------------------|
  *    | angelika.j.s.galang       | May 17, 2022          | DEPP-1455            | Created File                        | 
  *    | alexander.cadalin         | June 22, 2022         | DEPP-3056            | Appended detectDuplicateInEmails    |
+ *    | alexander.cadalin         | July 30, 2022         | DEPP-3623            | Included within batch duplicate checking |
  */
 public without sharing class ContactDuplicatesHelper {
     private static final String RT_CONTACT_PERSON = System.Label.RT_Contact_Person;
@@ -23,7 +24,8 @@ public without sharing class ContactDuplicatesHelper {
     public static void detectDuplicatesInEmails(List<Contact> newItems, Map<Id, Contact> oldItems) {
         Set<String> allEmailsToMatch = new Set<String>();
         Map<Id, Contact> newContacts = new Map<Id, Contact>();
-        
+        Map<String, Integer> newItemsEmailCount = new Map<String, Integer>();
+
         for(Contact con : newItems) {
             if(oldItems != null){
                 Contact oldCon = oldItems.get(con.Id);
@@ -36,10 +38,38 @@ public without sharing class ContactDuplicatesHelper {
             }
             
             if(con.RecordTypeId == RT_CONTACT_PERSON_ID){
-                if(String.isNotBlank(con.Email)) { allEmailsToMatch.add(con.Email); }
-                if(String.isNotBlank(con.QUT_Learner_Email__c)) { allEmailsToMatch.add(con.QUT_Learner_Email__c); }
-                if(String.isNotBlank(con.QUT_Staff_Email__c)) { allEmailsToMatch.add(con.QUT_Staff_Email__c); }
-                if(String.isNotBlank(con.Work_Email__c)) { allEmailsToMatch.add(con.Work_Email__c); }
+                if(String.isNotBlank(con.Email)) {
+                    allEmailsToMatch.add(con.Email);
+                    if(newItemsEmailCount.containsKey(con.Email)) {
+                        newItemsEmailCount.put(con.Email, newItemsEmailCount.get(con.Email) + 1);
+                    } else {
+                        newItemsEmailCount.put(con.Email, 1);
+                	}
+                }
+                if(String.isNotBlank(con.QUT_Learner_Email__c)) {
+                    allEmailsToMatch.add(con.QUT_Learner_Email__c);
+                    if(newItemsEmailCount.containsKey(con.QUT_Learner_Email__c)) {
+                        newItemsEmailCount.put(con.QUT_Learner_Email__c, newItemsEmailCount.get(con.QUT_Learner_Email__c) + 1);
+                    } else {
+                        newItemsEmailCount.put(con.QUT_Learner_Email__c, 1);
+                    }
+                }
+                if(String.isNotBlank(con.QUT_Staff_Email__c)) {
+                    allEmailsToMatch.add(con.QUT_Staff_Email__c);
+                    if(newItemsEmailCount.containsKey(con.QUT_Staff_Email__c)) {
+                        newItemsEmailCount.put(con.QUT_Staff_Email__c, newItemsEmailCount.get(con.QUT_Staff_Email__c) + 1);
+                    } else {
+                        newItemsEmailCount.put(con.QUT_Staff_Email__c, 1);
+                	}
+                }
+                if(String.isNotBlank(con.Work_Email__c)) {
+                    allEmailsToMatch.add(con.Work_Email__c);
+                    if(newItemsEmailCount.containsKey(con.Work_Email__c)) {
+                        newItemsEmailCount.put(con.Work_Email__c, newItemsEmailCount.get(con.Work_Email__c) + 1);
+                    } else {
+                        newItemsEmailCount.put(con.Work_Email__c, 1);
+                	}
+                }
                 if(String.isNotBlank(con.Id)) { newContacts.put(con.Id, con); }
             }
         }
@@ -68,6 +98,20 @@ public without sharing class ContactDuplicatesHelper {
         if(!existingContactsWithMatchingEmails.isEmpty()) {
             for(Contact newCon : (oldItems == null ? newItems : newContacts.values())) {
                 if(newCon.RecordTypeId == RT_CONTACT_PERSON_ID){
+                    // Within batch checking
+                    if(newItemsEmailCount?.get(newCon.Email) > 1) {
+                        newCon.addError('Email', 'Email must be unique across the organization and this batch.');
+                    }
+                    if(newItemsEmailCount?.get(newCon.QUT_Learner_Email__c) > 1) {
+                        newCon.addError('QUT_Learner_Email__c', 'Work Email must be unique across the organization and this batch.');
+                    }
+                    if(newItemsEmailCount?.get(newCon.QUT_Staff_Email__c) > 1) {
+                        newCon.addError('QUT_Staff_Email__c', 'Work Email must be unique across the organization and this batch.');
+                    }
+                    if(newItemsEmailCount?.get(newCon.Work_Email__c) > 1) {
+                        newCon.addError('Work_Email__c', 'Work Email must be unique across the organization and this batch.');
+                    }
+                    // Within organization checking
                     for(Contact existingCon : existingContactsWithMatchingEmails) {
                         if(
                             String.isNotBlank(newCon.Email) &&

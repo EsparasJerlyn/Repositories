@@ -54,12 +54,17 @@ public without sharing class ContactWithMatchingLeadHelper {
         Map<String, Contact> contactsMap = new Map<String, Contact>();
         Set<Id> contactIdSet = new Set<Id>();
         for(Contact con : newItems.values()){
-            String idStr = con.Email;
-            if(!String.isBlank(con.Work_Email__c)){
-                idStr = con.Work_Email__c;
+            if(!String.isBlank(con.Email)){
+                contactsMap.put(con.Email, con);
             }
-            contactsMap.put(idStr, con); 
+
+            if(!String.isBlank(con.Work_Email__c)){
+                contactsMap.put(con.Work_Email__c, con);
+            }
+
+            if(!String.isBlank(con.Email) || !String.isBlank(con.Work_Email__c)){
             contactIdSet.add(con.Id);
+        }
         }
 
         List<Lead> leads = [SELECT Id, Email, Work_Email__c 
@@ -235,7 +240,8 @@ public without sharing class ContactWithMatchingLeadHelper {
                 Database.LeadConvert leadToConvert = new Database.LeadConvert();
                 leadToConvert.setLeadId(lead.Id);
                 leadToConvert.setConvertedStatus(convertStatus.MasterLabel);
-                if(initContactEmailMap.containsKey(lead.Email)){                       
+                leadToConvert.setDoNotCreateOpportunity(true);
+                if(initContactEmailMap.containsKey(lead.Email)){
                     leadToConvert.setContactId(initContactEmailMap.get(lead.Email)?.Id);
                     leadToConvert.setAccountId(initContactEmailMap.get(lead.Email)?.AccountId);      
                 }
@@ -266,7 +272,8 @@ public without sharing class ContactWithMatchingLeadHelper {
                 Database.LeadConvert leadToConvert = new Database.LeadConvert();
                 leadToConvert.setLeadId(lead.Id);
                 leadToConvert.setConvertedStatus(convertStatus.MasterLabel);
-                if(contactEmailMap.containsKey(lead.Email)){                       
+                leadToConvert.setDoNotCreateOpportunity(true);
+                if(contactEmailMap.containsKey(lead.Email)){
                     leadToConvert.setContactId(contactEmailMap.get(lead.Email)?.Parent_Person_Contact__r.Id);
                     leadToConvert.setAccountId(contactEmailMap.get(lead.Email)?.Parent_Person_Contact__r.AccountId);      
                 }

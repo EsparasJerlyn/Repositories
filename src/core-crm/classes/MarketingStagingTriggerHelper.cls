@@ -23,7 +23,6 @@ public with sharing class MarketingStagingTriggerHelper{
     private static final String LEAD_API_NAME = Lead.SObjectType.getDescribe().getLocalName();
     public static Map<Id,Contact> contactMatches = new Map<Id,Contact>();
     public static Map<Id,Lead> leadMatches = new Map<Id,Lead>();
-    public static String currentProfileName;
     /**
      * @description create contact record from marketing staging fields
      * @param newItems - map of new marketing staging records
@@ -33,7 +32,7 @@ public with sharing class MarketingStagingTriggerHelper{
         Map<String,String> qtacMatchingMap = new Map<String,String>();
         Map<String,String> samsMatchingMap = new Map<String,String>();
         Map<String,String> studylinkMatchingMap = new Map<String,String>();
-        Map<String,sObject> emailMap = new Map<String,sObject>();
+        Map<String,List<Marketing_Staging__c>> emailMap = new Map<String,List<Marketing_Staging__c>>();
         Map<String,sObject> mobileMap = new Map<String,sObject>();
         Map<String,sObject> studentIdMap = new Map<String, sObject>();
         MarketingStagingMatchingHelper.RelatedMarketingRecordsClass marketingClass = new MarketingStagingMatchingHelper.RelatedMarketingRecordsClass();
@@ -45,24 +44,20 @@ public with sharing class MarketingStagingTriggerHelper{
         Map<String,Marketing_Interaction__c> marInteractionToInsertMap = new Map<String,Marketing_Interaction__c>();
         Map<String,Marketing_Course_Application__c> marCourseAppToUpsertMap = new Map<String,Marketing_Course_Application__c>();
         Map<String,Marketing_Staging__c> marStageToUpdateMap = new Map<String, Marketing_Staging__c>();
-
+        Map<String,Marketing_Staging__c> newMap = new Map<String,Marketing_Staging__c>();
 
         List<String> salutaionValues = new List<String>();
         salutaionValues.addAll(MarketingStagingMatchingHelper.getSalutations());
 
-        Map<Id,Marketing_Staging__c> newMap = (Map<Id,Marketing_Staging__c>)newItems;
-
-        Id currentUserProfileId = UserInfo.getProfileId();
-        //Retrieve profile name of current user
-        String profileName = [SELECT Name FROM Profile WHERE Id =: currentUserProfileId].Name;
-        currentProfileName = profileName;
-
-
         for(sObject mStaging: newItems.values()){
+            newMap.put((String)mStaging.get('Id'),(Marketing_Staging__c)mStaging);
             //make sure last name amd email is populated
                 if(mStaging.get('Email__c') != null){
                     //collect marketing staging emails
-                    emailMap.put((String)mStaging.get('Email__c'),mStaging);
+                    if(!emailMap.containsKey((String)mStaging.get('Email__c'))){
+                        emailMap.put((String)mStaging.get('Email__c'), new List<Marketing_Staging__c>());
+                    }
+                    emailMap.get((String)mStaging.get('Email__c')).add((Marketing_Staging__c)mStaging);
                 }
                 //collects student ids from inserted marketing stagings
                 if(mStaging.get('QUT_Student_ID__c') != null){
@@ -98,14 +93,18 @@ public with sharing class MarketingStagingTriggerHelper{
 
 
         //get all matching contacts and leads
-        contactMatches = new Map<Id,Contact>([  SELECT Id, QUT_Student_ID__c, Email, Mobile_No_Locale__c, BirthDate
+        contactMatches = new Map<Id,Contact>([
+                            SELECT Id, QUT_Student_ID__c, Email,
+                            Mobile_No_Locale__c, BirthDate, ContactMobile_Locale__c
                             FROM Contact
                             WHERE (Email IN: emailMap.keySet()
                             OR Mobile_No_Locale__c IN: mobileMap.keySet()
                             OR QUT_Student_ID__c IN:studentIdMap.keySet())
                             ]);
 
-        leadMatches = new Map<Id,Lead>([ SELECT Id, Email, Mobile_No_Locale__c, hed__Birth_Date__c
+        leadMatches = new Map<Id,Lead>([
+                        SELECT Id, Email, Mobile_No_Locale__c,
+                        hed__Birth_Date__c, LeadMobile_Locale__c
                         FROM Lead
                         WHERE (Email IN:emailMap.keySet()
                         OR Mobile_No_Locale__c IN: mobileMap.keySet())]);
@@ -300,8 +299,14 @@ public with sharing class MarketingStagingTriggerHelper{
             }
 
             if(mStaging.get('Last_Name__c') != null){
+                String newLeadKey = '';
+                if(mStaging.get('Email__c') != null){
+                    newLeadKey = (String)mStaging.get('Email__c');
+                }else{
+                    newLeadKey = (String)mStaging.get('Id');
+                }
                 leadsToUpsertMap.put(
-                    (Id)mStaging.get('Id'),
+                    newLeadKey,
                     (Lead) MarketingStagingMatchingHelper.createLeadRecord(
                         mStaging,
                         null,
@@ -354,7 +359,44 @@ public with sharing class MarketingStagingTriggerHelper{
                         )
                     );
                 }
+                //if linked to marketingstaging email
+                //create multple marketing records based on number of staging with the same email
+                if(emailMap.containsKey(leadKey)){
+                    for(Marketing_Staging__c ms: emailMap.get(leadKey)){
+                        //create marketing segmentation records
+                        marSegmentationToUpsertMap.put(
+                            leadKey,
+                            (Marketing_Segmentation__c) MarketingStagingMatchingHelper.createMarketingRecord(
+                                ms,
+                                null,
+                                leadsToUpsertMap.get(leadKey).Id,
+                                null,
+                                'Marketing_Segmentation__c'
+                            )
+                        );
+
+                        //check first if application data is populated
+                        if( qtacMatchingMap.containsKey(ms.Id) || samsMatchingMap.containsKey(ms.Id) || studylinkMatchingMap.containsKey(ms.Id)){
+                            marCourseAppToUpsertMap.put(
+                                ms.Id,
+                                (Marketing_Course_Application__c)MarketingStagingMatchingHelper.createMarketingRecord(
+                                    ms,
+                                    null,
+                                    leadsToUpsertMap.get(leadKey).Id,
+                                    null,
+                                    'Marketing_Course_Application__c'
+                                )
+                            );
+                        }
+
+                        marStageToUpdateMap.put(ms.Id, new Marketing_Staging__c(
+                            Id = ms.Id,
+                            Lead__c = leadsToUpsertMap.get(leadKey).Id
+                        )
+                    );
+                }
             }
+        }
         }
 
         if(!marSegmentationToUpsertMap.keySet().isEmpty()){
@@ -380,6 +422,28 @@ public with sharing class MarketingStagingTriggerHelper{
                                 'Marketing_Interaction__c'
                             )
                         );
+                    }
+                }else if(emailMap.containsKey(segKey)){
+                    //create marketing interaction records
+                    //against multple staging and 1 lead with the same email
+                    for(Marketing_Staging__c ms: emailMap.get(segKey)){
+                        if( ms.Interaction_Type__c !=null ||
+                            ms.Interaction_DateTime__c !=null ||
+                            ms.Lead_Source_Category__c !=null ||
+                            ms.Lead_Source__c !=null ||
+                            ms.SPAD__c !=null ||
+                            ms.Event_Name__c !=null ){
+                        marInteractionToInsertMap.put(
+                            ms.Id,
+                            (Marketing_Interaction__c) MarketingStagingMatchingHelper.createMarketingRecord(
+                                    ms,
+                                    marSegmentationToUpsertMap.get(segKey).Contact__c,
+                                    marSegmentationToUpsertMap.get(segKey).Lead__c,
+                                    marSegmentationToUpsertMap.get(segKey).Id,
+                                    'Marketing_Interaction__c'
+                                )
+                            );
+                        }
                     }
                 }
             }

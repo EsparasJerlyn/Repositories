@@ -14,7 +14,7 @@
       
  */
 
-import { LightningElement, api, wire, track } from 'lwc';
+import { LightningElement, api, wire } from 'lwc';
 import { getRecord, getFieldValue, updateRecord } from 'lightning/uiRecordApi';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { publish, MessageContext } from 'lightning/messageService';
@@ -173,10 +173,16 @@ export default class ContactInformationValidation extends LightningElement {
     }
     
     combineLocaleAndNumber(locale,number){
+        let localeFormatted = locale.replace(/[^0-9\.]+/g,"");
+        let num = number.replace(/\D/g, "");
         if(locale){
-            return locale.replace(/[^0-9\.]+/g,"") + parseInt(number);
+            let tempNum = num.slice(0, 2);
+            if(localeFormatted == tempNum){
+                num = num.slice(2);
         }            
-        return parseInt(number).toString();
+            return localeFormatted + parseInt(num);
+        }
+        return parseInt(num).toString();
     }
 
     /**

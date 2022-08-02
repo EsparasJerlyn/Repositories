@@ -146,6 +146,10 @@
                 <behavior>Edit</behavior>
                 <field>Is_International_Student_Application__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>QTAC_Id__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

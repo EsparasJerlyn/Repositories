@@ -1836,6 +1836,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Marketing_Course_Application__c.QTAC_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Marketing_Course_Application__c.QTAC_Matching_Criteria__c</field>
         <readable>true</readable>
@@ -3003,6 +3008,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Marketing_Staging__c.Mobile__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Marketing_Staging__c.MarketingStaging_Mobile_Locale__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
