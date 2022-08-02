@@ -17,10 +17,9 @@
                         <div class="one">
                             <div class="heading2 headerColor mob-ui">Number of Participants</div>
                                 <c-custom-combobox
-                                    class="availStartDates groupRegSelectNbr"
                                     field-label="Please select the number of people you are looking to register "
                                     placeholder="Number of Participant"
-                                    options={options}
+                                    options={listOfdata}
                                     value={value}
                                     onchange={handleAfterPick}
                                     slds-icon-up="utility:chevronup"
@@ -51,36 +50,40 @@
                                                 <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
                                                     <label for="fieldfname" class="label-text">First Name</label>
                                                     <span class="required-text">*</span>
-                                                    <lightning-input-field required="true" id="fieldfname" variant="label-hidden" field-name="FirstName" onchange={handleFirstnameChange} ></lightning-input-field>
+                                                    <lightning-input-field disabled="true" id="fieldfname" variant="label-hidden" field-name="FirstName" onchange={handleFirstnameChange} ></lightning-input-field>
                                                 </div>
                                                 <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
                                                     <label for="fieldlname" class="label-text">Last Name</label>
                                                     <span class="required-text">*</span>
-                                                    <lightning-input-field  required="true" id="fieldlname" variant="label-hidden" field-name="LastName" onchange={handleLastnameChange}></lightning-input-field>
+                                                    <lightning-input-field  disabled="true" id="fieldlname" variant="label-hidden" field-name="LastName" onchange={handleLastnameChange}></lightning-input-field>
                                                 </div>
                                                 <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
                                                     <label for="fieldccode" class="label-text">Country Code</label>
                                                     <span class="required-text">*</span>
-                                                    <lightning-combobox required="true" id="fieldccode" variant="label-hidden" placeholder={localeConMobile} class="mobile-locale" options={localeOptions} value={locale} onchange={handleLocaleChange}></lightning-combobox>
+                                                    <lightning-combobox read-only="true" id="fieldccode" variant="label-hidden" placeholder={localeConMobilep1} class="mobile-locale"  value={localeConMobilep1} onchange={handleLocaleChange}></lightning-combobox>
                                                 </div>
                                                 <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
                                                     <label for="fieldmobile" class="label-text">Mobile Phone</label>
                                                     <span class="required-text">*</span>
-                                                    <lightning-input-field required="true" id="fieldmobile" variant="label-hidden" field-name="MobilePhone" ></lightning-input-field>
+                                                    <lightning-input-field disabled="true" id="fieldmobile" variant="label-hidden" field-name="Mobile_No_Locale__c" ></lightning-input-field>
                                                 </div>
                                                 <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
                                                     <label for="fieldemail" class="label-text">Email</label>
                                                     <span class="required-text">*</span>
-                                                    <lightning-input-field  required="true" id="fieldemail" variant="label-hidden" field-name="Email" onchange={handleEmailChange}></lightning-input-field>
+                                                    <lightning-input-field  disabled="true" id="fieldemail" variant="label-hidden" field-name="Registered_Email__c" onchange={handleEmailChange}></lightning-input-field>
                                                 </div>
                                                 <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
                                                     <label for="fieldbdate" class="label-text birthDate">Date of Birth</label>
                                                     <span class="required-text">*</span>
-                                                    <lightning-input-field required="true" id="fieldbdate" field-name="Birthdate" type="date" class="calendar" variant="label-hidden"></lightning-input-field>
+                                                    <lightning-input-field disabled="true" id="fieldbdate" field-name="Birthdate" type="date" class="calendar" variant="label-hidden"></lightning-input-field>
                                                 </div>
                                                 <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
                                                     <label for="fielddreq" class="label-text">Dietary Requirements</label>
                                                     <lightning-input-field id="fielddreq" variant="label-hidden" field-name='Dietary_Requirement__c'></lightning-input-field>
+                                                </div>
+                                                <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+                                                    <label for="fieldacc" class="label-text">Accessibility Requirement</label>
+                                                    <lightning-input-field id="fieldacc" variant="label-hidden" field-name='Accessibility_Requirement__c'></lightning-input-field>
                                                 </div>
                                             </div>
                                         </lightning-record-edit-form>
@@ -217,7 +220,7 @@
                                                     <lightning-combobox class="inputField mobile-locale px" required="true" placeholder="Select Locale" label="Country Code" options={localeOptions} name="ContactMobile_Locale__c" key={item.id}></lightning-combobox>
                                                 </div>
                                                 <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
-                                                    <lightning-input class="inputField" required="true" name="MobilePhone" pattern="([0-9][0-9]*)$" type="phone" label="Mobile" key={item.id}></lightning-input>
+                                                    <lightning-input class="inputField" required="true" name="Mobile_No_Locale__c" pattern="([0-9][0-9]*)$" type="phone" label="Mobile" key={item.id}></lightning-input>
                                                 </div>
                                                 <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
                                                     <lightning-input class="inputField" type="email" required="true" name="Email" label="Email" key={item.id}></lightning-input >
@@ -225,9 +228,12 @@
                                                 <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
                                                     <lightning-input name="Birthdate"  required="true" label="Date of Birth" type="date" key={item.id}></lightning-input>
                                                 </div>
-                                            <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
-                                                <lightning-textarea name='Dietary_Requirement__c' label="Dietary Requirement" key={item.id}></lightning-textarea>
-                                            </div>
+                                                <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+                                                    <lightning-textarea name='Dietary_Requirement__c' label="Dietary Requirement" key={item.id}></lightning-textarea>
+                                                </div>
+                                                <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+                                                    <lightning-textarea name='Accessibility_Requirement__c' label="Accessibility Requirement" key={item.id}></lightning-textarea>
+                                                </div>
                                         </div>
 
                                         <h2 if:true={regHeader} style="margin-top: 0.5rem;">Registration Questions</h2>

@@ -12,6 +12,7 @@
       | julie.jane.alegre         | June 28, 2022         | DEPP-3313            | Fix modal sizing                      |
       | john.bo.a.pineda          | June 29, 2022         | DEPP-3323            | Modified to add logic to validate     |
       |                           |                       |                      | Upload File Type                      |
+      | julie.jane.alegre         | July 28, 2022         | DEPP-3548            | Modified                              |
 */
 import { LightningElement, track, wire, api } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
@@ -47,7 +48,7 @@ const CONTACT_FIELDS = [
     "User.ContactId",
     "User.Contact.FirstName",
     "User.Contact.LastName",
-    "User.Contact.Email"
+    "User.Contact.Registered_Email__c"
   ];
 
 export default class GroupBookingForm extends LightningElement {
@@ -117,7 +118,12 @@ export default class GroupBookingForm extends LightningElement {
     localeOptions = [];
     localeDisplayName;
     localeConMobile;
+    localeOptionsp1 = [];
+    localeDisplayNamep1;
+    localeConMobilep1;
     @track locale;
+    @track localep1;
+    hideMe = true;
     /**
      * Payment Options
      */
@@ -138,13 +144,12 @@ export default class GroupBookingForm extends LightningElement {
         this.contactId = data.fields.ContactId.value;
         this.firstName = data.fields.Contact.value.fields.FirstName.value;
         this.lastName = data.fields.Contact.value.fields.LastName.value;
-        this.contactEmail = data.fields.Contact.value.fields.Email.value;
+        this.contactEmail = data.fields.Contact.value.fields.Registered_Email__c.value;
 
 
         getUserMobileLocale({userId: this.contactId})
         .then((result) => {
-            this.localeConMobile = result;
-
+            this.localeConMobilep1 = result;
         })
         .catch((e)=> {
 
@@ -188,7 +193,7 @@ export default class GroupBookingForm extends LightningElement {
 
     }
 
-    get options(){
+    getoptions(){
 
         for(let i=this.minParticipants; i<= this.maxParticipants;i++){
             this.listOfdata=[...this.listOfdata,{label: i.toLocaleString(), value: i}];
@@ -207,7 +212,7 @@ export default class GroupBookingForm extends LightningElement {
         this.productCourseName = this.productDetails.Name;
         this.minParticipants = this.productDetails.Minimum_Participants_Group__c;
         this.maxParticipants =  this.productDetails.Maximum_Participants_Group__c;
-
+        this.getoptions();
         getQuestionsForGroupBooking({
             productReqId: this.productRequestId
         })
@@ -243,7 +248,9 @@ export default class GroupBookingForm extends LightningElement {
         getMobileLocaleOptions()
         .then((resultOptions) => {
             this.localeOptions = resultOptions;
+            this.localeOptionsp1 = resultOptions;
             this.locale = this.localeConMobile;
+            this.localep1 = this.localeConMobile;
         })
         .catch((error) => {
             this.generateToast("Error.", LWC_Error_General, "error");
@@ -262,27 +269,28 @@ export default class GroupBookingForm extends LightningElement {
         this.contactEmail = event.detail.value;
     }
 
+
     /*
     * Sets the mobile via event
     */
     handleLocaleChange(event) {
-        this.locale = event.detail.value;
+        this.localep1 = event.detail.value;
         this.localeDisplayName = event.detail.label;
         this.localeOptions.forEach((localeOption) => {
-        if (localeOption.value === this.locale) {
-            this.localeConMobile = localeOption.conMobileLocale;
-            }
-        });
-
+        if (localeOption.value === this.localep1) {
+            this.localeConMobilep1 = localeOption.conMobileLocale;
+        }
+    });
     }
 
-     // This handle the picklist for number of participants
-     handleAfterPick(event){
+    // This handle the picklist for number of participants
+    handleAfterPick(event){
 
         this.numberOfParticipants = event.detail.value;
         if(this.numberOfParticipants == this.counter){
             this.disableAddBtn = true;
         }
+
         if(this.numberOfParticipants != null){
             this.templatePicklist = false;
 
@@ -291,19 +299,7 @@ export default class GroupBookingForm extends LightningElement {
     }
     //This handle the change on accordion data
     updateOnAccordionDetails(event) {
-        if(event.target.name === 'ContactMobile_Locale__c'){
-            this.locale = event.target.value;
-            this.localeOptions.forEach((localeOption) => {
-            if (localeOption.value === this.locale) {
-                this.localeConMobile = localeOption.conMobileLocale;
-                }
-            });
-            this.items[event.currentTarget.dataset.id][event.target.name] = this.localeConMobile;
-
-        } else {
-            this.items[event.currentTarget.dataset.id][event.target.name] = event.target.value;
-        }
-
+        this.items[event.currentTarget.dataset.id][event.target.name] = event.target.value;
     }
     //This handle added participants
     addParticipant() {
@@ -317,8 +313,9 @@ export default class GroupBookingForm extends LightningElement {
                 Birthdate: '',
                 LastName: '',
                 ContactMobile_Locale__c: '',
-                MobilePhone: '',
+                Mobile_No_Locale__c: '',
                 Dietary_Requirement__c: '',
+                Accessibility_Requirement__c: '',
                 label: 'PARTICIPANT ' + this.currentIndex,
                 Questions: this.questions2
             }
@@ -469,6 +466,7 @@ export default class GroupBookingForm extends LightningElement {
                 let fileUploadMap = {};
 
                 fieldsPrimary.Id = this.contactId;
+                fieldsPrimary["ContactMobile_Locale__c"] = this.localeConMobilep1;
                 const inputFields = this.template.querySelectorAll(
                     'lightning-input-field','lightning-combobox'
                 );
@@ -477,6 +475,7 @@ export default class GroupBookingForm extends LightningElement {
                     inputFields.forEach(field => {
                         fieldsPrimary[field.fieldName] = field.value;
                     });
+                    fieldsPrimary['MobilePhone'] = this.localeOptions.find( opt => opt.label === this.localeConMobilep1).countryCode + fieldsPrimary['Mobile_No_Locale__c'];
                 }
 
                 this.contactFieldsPrimary = fieldsPrimary;
@@ -494,10 +493,13 @@ export default class GroupBookingForm extends LightningElement {
                             conData.FirstName = blankRow[i].FirstName;
                             conData.LastName = blankRow[i].LastName;
                             conData.Email = blankRow[i].Email;
+                            conData.Registered_Email__c = blankRow[i].Email;
                             conData.Birthdate = blankRow[i].Birthdate;
-                            conData.ContactMobile_Locale__c = blankRow[i].ContactMobile_Locale__c;
-                            conData.MobilePhone = blankRow[i].MobilePhone;
+                            conData.ContactMobile_Locale__c = this.localeOptions.find( opt => opt.label === blankRow[i].ContactMobile_Locale__c).conMobileLocale;
+                            conData.Mobile_No_Locale__c = blankRow[i].Mobile_No_Locale__c;
+                            conData.MobilePhone = this.localeOptions.find( opt => opt.label === blankRow[i].ContactMobile_Locale__c).countryCode + blankRow[i].Mobile_No_Locale__c;
                             conData.Dietary_Requirement__c = blankRow[i].Dietary_Requirement__c;
+                            conData.Accessibility_Requirement__c = blankRow[i].Accessibility_Requirement__c;
                             contactMap[blankRow[i].label] = conData;
                             let answerRecords = {};
                             answerRecords = blankRow[i].Questions.map(row=>{
@@ -576,14 +578,14 @@ export default class GroupBookingForm extends LightningElement {
                             })
                         }).catch((error)=>{
                             this.processing = false;
+                            console.log('Save booking Error:', error);
 
                         })
                     })
                     .catch((e) =>{
                         this.processing = false;
-
+                        console.log('Remove Error:', e);
                     })
-
             }
             else{
 

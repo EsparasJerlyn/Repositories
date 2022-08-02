@@ -1248,11 +1248,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Contact.Personal_Email__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Contact.Personal_Mobile__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2328,11 +2323,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Lead.Personal_Email__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Lead.Personal_Mobile__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2388,7 +2378,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Lead.Work_Email__c</field> 
+        <field>Lead.Work_Email__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3448,6 +3438,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Product2.Detail_URL__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Product2.Detail_Full_URL__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Product2.Description__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3504,6 +3504,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Product2.DisplayUrl</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Product2.Do_not_Show_Start_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3716,7 +3721,7 @@
         <field>Potential_Duplicate__c.Lead__c</field>
         <readable>true</readable>
     </fieldPermissions>
-     <fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Product2.Professional_Level__c</field>
         <readable>true</readable>
@@ -4020,7 +4025,8 @@
         <editable>false</editable>
         <field>Program_Offering__c.Content_Challenged_Thinking__c</field>
         <readable>true</readable>
-    </fieldPermissions> <fieldPermissions>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Program_Offering__c.Develop_Topic_Insights__c</field>
         <readable>true</readable>
@@ -7564,7 +7570,7 @@
         <editable>false</editable>
         <field>hed__Program_Plan__c.External_Organisation_Details__c</field>
         <readable>true</readable>
-    </fieldPermissions>    
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>hed__Program_Plan__c.Implementation_Year__c</field>
@@ -7695,12 +7701,12 @@
         <field>hed__Program_Plan__c.Field_of_Education__c</field>
         <readable>true</readable>
     </fieldPermissions>
-     <fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>hed__Program_Plan__c.Other_Completion_Requirements__c</field>
         <readable>true</readable>
     </fieldPermissions>
-      <fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>hed__Program_Plan__c.Code__c</field>
         <readable>true</readable>

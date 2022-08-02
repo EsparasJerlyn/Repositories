@@ -595,6 +595,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Contact.Registered_Email__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Contact.Staff_Email_Opt_In_DateTime__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -841,6 +846,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Product2.Description__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Product2.Do_not_Show_Start_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

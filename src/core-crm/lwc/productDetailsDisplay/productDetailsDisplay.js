@@ -32,6 +32,13 @@
       |                           |                       |                      | addToCart are from URL Defaults              |
       | keno.domienri.dico        | June 28, 2022         | DEPP-3302            | Change toast confirmation to modal message   |
       | john.bo.a.pineda          | June 29, 2022         | DEPP-3323            | Modified logic for button display for Apply  |
+      | keno.domienri.dico        | June 30, 2022         | DEPP-3349            | Bugfix custom modal confirmation message     |
+      | mary.grace.li             | July 02, 2022         | DEPP-3124            | Modified to add recordNameId                 |
+      | mary.grace.li             | July 04, 2022         | DEPP-3184            | Replaced custom labels with constant         |
+      | john.bo.a.pineda          | July 04, 2022         | DEPP-3385            | Changed ?param to &param                     |
+      | john.m.tambasen           | July 29, 2022         | DEPP-3577            | early bird changes no of days                |
+      | eugene.andrew.abuan       | June 30, 2022         | DEPP-3534            | Added Do not Show Start Date                 |
+
 */
 
 import { LightningElement, wire, api, track } from "lwc";
@@ -45,23 +52,6 @@ import customSR from "@salesforce/resourceUrl/QUTCustomLwcCss";
 import qutResourceImg from "@salesforce/resourceUrl/QUTImages";
 import insertExpressionOfInterest from "@salesforce/apex/ProductDetailsCtrl.insertExpressionOfInterest";
 import getRelatedCourseOffering from "@salesforce/apex/ProductDetailsCtrl.getCourseOfferingRelatedRecords";
-import overview from "@salesforce/label/c.QUT_ProductDetail_Overview";
-import evolveWithQUTeX from "@salesforce/label/c.QUT_ProductDetail_EvolveWithQUTeX";
-import whoShouldParticipate from "@salesforce/label/c.QUT_ProductDetail_WhoShouldParticipate";
-import coreConcepts from "@salesforce/label/c.QUT_ProductDetail_CoreConcepts";
-import facilitator from "@salesforce/label/c.QUT_ProductDetail_Facilitator";
-import details from "@salesforce/label/c.QUT_ProductDetail_Details";
-import duration from "@salesforce/label/c.QUT_ProductDetail_Duration";
-import delivery from "@salesforce/label/c.QUT_ProductDetail_Delivery";
-import deliveryPlaceholder from "@salesforce/label/c.QUT_ProductDetail_Delivery_Placeholder";
-import availableStartDates from "@salesforce/label/c.QUT_ProductDetail_AvailableStartDates";
-import availableStartDatesPlaceholder from "@salesforce/label/c.QUT_ProductDetail_AvailableStartDates_Placeholder";
-import pricing from "@salesforce/label/c.QUT_ProductDetail_Pricing";
-import pricingPlaceholder from "@salesforce/label/c.QUT_ProductDetail_Pricing_Placeholder";
-import addToCart from "@salesforce/label/c.QUT_ProductDetail_AddToCart";
-import registerInterest from "@salesforce/label/c.QUT_ProductDetail_RegisterInterest";
-import LWC_Error_General from "@salesforce/label/c.LWC_Error_General";
-import professionalDevelopmentModules from "@salesforce/label/c.QUT_ProductDetail_Professional_Development_Modules";
 import { getRecord, getFieldValue } from "lightning/uiRecordApi";
 import CONTACT_ID from "@salesforce/schema/User.ContactId";
 import getQuestions from "@salesforce/apex/ProductDetailsCtrl.getQuestions";
@@ -73,6 +63,23 @@ const NO_REC_FOUND = "No record(s) found.";
 const MODAL_TITLE = "Registration Details";
 const INTEREST_EXISTS_ERROR =
   "You already registered your interest for this product.";
+const LWC_ERROR_GENERAL ="An error has been encountered. Please contact your administrator.";
+const DELIVERY= "Delivery";
+const DELIVERY_PLACEHOLDER= "Choose delivery method";
+const AVAILABLE_STARTDATES="Available start dates";
+const AVAILABLE_STARTDATES_PLACEHOLDER="Choose start date";
+const REGISTER_INTEREST="REGISTER INTEREST";
+const PRICING="Pricing";
+const PRICING_PLACEHOLDER="Choose pricing";
+const ADD_TO_CART="ADD TO CART";
+const OVERVIEW ="Overview";
+const EVOLVE_WITH_QUTEX="Evolve with QUTeX";
+const WHO_SHOULD_PARTICIPATE ="Who should participate";
+const CORE_CONCEPTS ="Core concepts";
+const FACILITATOR="Facilitator";
+const DETAILS="Details";
+const DURATION="Duration";
+const PROF_DEV_MODULES ="Professional Development Modules";
 
 export default class ProductDetailsDisplay extends NavigationMixin(
   LightningElement
@@ -113,35 +120,60 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   @track openGroupBookingModal;
   @track selectedDelivery;
   @track isPrescribed = false;
+  @track displayPricing = true;
+  @track displayBulkRegistration = false;
+  @track displayEmployeeSelfRegistration = false;
+  @track displayManageRegistration = false;
+  @track disableBulkRegistration = true;
+  @track disableEmployeeSelfRegistration = true;
+  @track disableManageRegistration = false; 
   displayQuestionnaire = false;
   openApplicationQuestionnaire = false;
   priceBookEntriesCopy = [];
-  openAddToCartConfirmModal = false;
+  priceBookEntriesFiltered = [];
   paramURL;
   getParamObj = {};
   setParamObj = {};
   onLoadTriggerBtn;
   onLoadTriggerRegInterest = false;
   urlDefaultAddToCart = false;
+  @api recordNameId;
 
-  // Set Custom Labels
+
+  @track overview;
+  @track evolveWithQUTeX;
+  @track whoShouldParticipate;
+  @track coreConcepts;
+  @track facilitator;
+  @track details;
+  @track duration;
+  @track delivery;
+  @track deliveryPlaceholder;
+  @track availableStartDates;
+  @track availableStartDatesPlaceholder;
+  @track pricing;
+  @track pricingPlaceholder;
+  @track addToCart;
+  @track registerInterest;
+  @track professionalDevelopmentModules;
+
   label = {
-    overview,
-    evolveWithQUTeX,
-    whoShouldParticipate,
-    coreConcepts,
-    facilitator,
-    details,
-    duration,
-    delivery,
-    deliveryPlaceholder,
-    availableStartDates,
-    availableStartDatesPlaceholder,
-    pricing,
-    pricingPlaceholder,
-    addToCart,
-    registerInterest,
-    professionalDevelopmentModules
+    overview:OVERVIEW,
+    evolveWithQUTeX: EVOLVE_WITH_QUTEX,
+    whoShouldParticipate: WHO_SHOULD_PARTICIPATE,
+    coreConcepts: CORE_CONCEPTS,
+    facilitator: FACILITATOR,
+    details: DETAILS,
+    duration: DURATION,
+    delivery: DELIVERY,
+    deliveryPlaceholder: DELIVERY_PLACEHOLDER,
+    availableStartDates: AVAILABLE_STARTDATES,
+    availableStartDatesPlaceholder: AVAILABLE_STARTDATES_PLACEHOLDER,
+    pricing: PRICING,
+    pricingPlaceholder: PRICING_PLACEHOLDER,
+    addToCart: ADD_TO_CART,
+    registerInterest: REGISTER_INTEREST,
+    professionalDevelopmentModules: PROF_DEV_MODULES
   };
 
   bulkRegister = false;
@@ -188,6 +220,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   contactFields;
   contactsDetail;
   responseDataQuestionnaire = [];
+  doNotShowStartDate = false;
 
   //registration Response variables
   isRespondQuestions;
@@ -199,6 +232,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
 
   //parameters for modal message
   @api isRegModalMessage;
+  @api isModalMessage = false;
   @track message1;
   @track message2;
   @track isContinueToPayment;
@@ -276,8 +310,12 @@ export default class ProductDetailsDisplay extends NavigationMixin(
           }
         })
         .catch((e) => {
-          this.generateToast(ERROR_TITLE, LWC_Error_General, ERROR_VARIANT);
+          this.generateToast(ERROR_TITLE, LWC_ERROR_GENERAL, ERROR_VARIANT);
         });
+    }
+    //Populate the do not show start date
+    if(this.productDetails.Do_not_Show_Start_Date__c){
+      this.doNotShowStartDate = this.productDetails.Do_not_Show_Start_Date__c;
     }
 
     // Get Pre-selected fields for Delivery and Start Date
@@ -292,7 +330,8 @@ export default class ProductDetailsDisplay extends NavigationMixin(
 
       getRelatedCourseOffering({
         courseId: this.productDetails.Course__c,
-        deliveryParam: this.selectedDelivery
+        deliveryParam: this.selectedDelivery,
+        ccePortal: this.isCCEPortal
       })
         .then((results) => {
           this.courseOfferings = undefined;
@@ -304,6 +343,17 @@ export default class ProductDetailsDisplay extends NavigationMixin(
           this.facilitatorIndex = 0;
           this.selectedPriceBookEntry = undefined;
           this.disableAvailStartDate = true;
+          if (this.isCCEPortal) {
+            this.displayPricing = false;
+            this.displayBulkRegistration = true;
+            this.displayEmployeeSelfRegistration = true;
+            this.displayManageRegistration = true;            
+          }
+          else
+          {
+            this.displayPricing = true;
+          }         
+
           this.disablePriceBookEntry = true;
           this.disableAddToCart = true;
           this.disableApply = true;
@@ -330,19 +380,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
               this.disableAddToCart = true;
               this.disableApply = true;
             }
-
-            // Get Start Date and Facilitator
-            this.courseOfferings.forEach((cOffer) => {
-              if (cOffer.value === this.selectedCourseOffering) {
-                this.selectedCourseOfferingFacilitator = cOffer.facilitator;
-                if (this.selectedCourseOfferingFacilitator.length > 0) {
-                  this.setFacilitatorToDisplay();
-                  if (this.selectedCourseOfferingFacilitator.length == 1) {
-                    this.displayFacilitatorNav = false;
-                  }
-                }
-              }
-            });
+            this.handleFilterPricing();
             this.disablePriceBookEntry = false;
             if (this.selectedPB == "Group Booking") {
               this.displayAddToCart = false;
@@ -354,7 +392,13 @@ export default class ProductDetailsDisplay extends NavigationMixin(
               }
             } else {
               this.displayGroupRegistration = false;
-              this.displayAddToCart = true;
+              if (this.isCCEPortal) {
+                this.displayAddToCart = false;
+              }
+              else
+              {
+                this.displayAddToCart = true;
+              }
               if (this.responseData.length > 0) {
                 this.displayQuestionnaire = true;
                 this.disableApply = false;
@@ -376,14 +420,14 @@ export default class ProductDetailsDisplay extends NavigationMixin(
               this.notifyApply();
             }
           } else {
-            this.checkSDatePlaceholder = availableStartDatesPlaceholder;
+            this.checkSDatePlaceholder = this.availableStartDatesPlaceholder;
           }
         })
         .catch((e) => {
-          this.generateToast(ERROR_TITLE, LWC_Error_General, ERROR_VARIANT);
+          this.generateToast(ERROR_TITLE, LWC_ERROR_GENERAL, ERROR_VARIANT);
         });
     } else {
-      this.checkSDatePlaceholder = availableStartDatesPlaceholder;
+      this.checkSDatePlaceholder = this.availableStartDatesPlaceholder;
     }
 
     // Display AddToCart / Register Interest
@@ -399,7 +443,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
 
     if (this.onLoadTriggerRegInterest) {
       // Trigger Register Interest
-      this.registerInterest();
+      this.handleRegisterInterest();
     }
   }
 
@@ -422,6 +466,10 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     }
   }
 
+  get isOPEPortal() {
+    return BasePath.toLowerCase().includes("study");
+  }
+  
   /* Comment out temporarily old logic used for bulk register*/
   /* openRegisterModal() {
     if (this.isCCEPortal) {
@@ -431,10 +479,6 @@ export default class ProductDetailsDisplay extends NavigationMixin(
 
   closeModal() {
     this.bulkRegister = false;
-  }
-
-  get isCCEPortal() {
-    return BasePath.toLowerCase().includes("cce");
   }
 
   get isOPEPortal() {
@@ -450,7 +494,9 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     let event = new CustomEvent("refreshproduct");
     this.dispatchEvent(event);
   } */
-
+  get isCCEPortal() {
+    return BasePath.toLowerCase().includes("cce");
+  }
   notifyApply() {
     if (!isGuest) {
       this.openApplicationQuestionnaire = true;
@@ -488,7 +534,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
         }
       })
     );
-    this.openAddToCartConfirmModal = true;
+    this.isModalMessage = true;
     this.message1 = "Product is added successfully to the cart.";
     this.message2 = "How would you like to proceed?";
     this.isContinueBrowsing = true;
@@ -497,11 +543,11 @@ export default class ProductDetailsDisplay extends NavigationMixin(
 
   // Disable Delivery when No Options retrieved
   get disableDelivery() {
-    return this.deliveryOptions.length == 0 ? true : false;
+    return this.deliveryOptions.length == 0 || this.doNotShowStartDate ? true : false;
   }
 
   // Register Interest
-  registerInterest() {
+  handleRegisterInterest() {
     if (!isGuest) {
       insertExpressionOfInterest({
         userId: userId,
@@ -528,7 +574,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
               ERROR_VARIANT
             );
           } else {
-            this.generateToast(ERROR_TITLE, LWC_Error_General, ERROR_VARIANT);
+            this.generateToast(ERROR_TITLE, LWC_ERROR_GENERAL, ERROR_VARIANT);
           }
         });
     } else {
@@ -579,7 +625,8 @@ export default class ProductDetailsDisplay extends NavigationMixin(
 
     getRelatedCourseOffering({
       courseId: this.productDetails.Course__c,
-      deliveryParam: this.selectedDelivery
+      deliveryParam: this.selectedDelivery,
+      ccePortal: this.isCCEPortal
     })
       .then((results) => {
         this.courseOfferings = undefined;
@@ -594,14 +641,20 @@ export default class ProductDetailsDisplay extends NavigationMixin(
         this.disablePriceBookEntry = true;
         this.disableAddToCart = true;
         this.disableApply = true;
-        this.displayGroupRegistration = false;
-        this.displayAddToCart = true;
+        this.displayGroupRegistration = false; 
+        if (this.isCCEPortal) {
+          this.displayAddToCart = false;
+          this.disableBulkRegistration = true;
+          this.disableEmployeeSelfRegistration = true;          
+        }  
+        else{
+          this.displayAddToCart = true; 
+        }
         this.displayQuestionnaire = false;
         if (this.responseData.length > 0) {
           this.displayAddToCart = false;
           this.displayQuestionnaire = true;
         }
-
         if (results.length > 0) {
           this.courseOfferings = results;
           this.disableAvailStartDate = false;
@@ -609,16 +662,38 @@ export default class ProductDetailsDisplay extends NavigationMixin(
       })
       .catch((e) => {
         console.log(e);
-        this.generateToast(ERROR_TITLE, LWC_Error_General, ERROR_VARIANT);
+        this.generateToast(ERROR_TITLE, LWC_ERROR_GENERAL, ERROR_VARIANT);
       });
   }
 
   // Set Selected Course Offering value
   handleStartDateSelected(event) {
+
+    //check if the same value was clicked 
+    if(this.selectedCourseOffering != event.detail.value){
+      //reset the price dropdown and buttos
+      this.selectedPriceBookEntry = undefined;
+      this.disableAddToCart = true
+      this.disableApply = true
+      this.displayGroupRegistration = false
+      this.displayQuestionnaire = false
+    }
+
     this.displayFacilitatorNav = true;
     this.selectedCourseOffering = event.detail.value;
+    this.disablePriceBookEntry = false;
+    this.handleFilterPricing();
+  }
+
+  //handles filtering of prices
+  handleFilterPricing(){
     this.courseOfferings.forEach((cOffer) => {
       if (cOffer.value === this.selectedCourseOffering) {
+        if (this.isCCEPortal) {
+          this.disableBulkRegistration = false;
+          this.disableEmployeeSelfRegistration = false;
+        }
+
         this.selectedCourseOfferingFacilitator = cOffer.facilitator;
         if (this.selectedCourseOfferingFacilitator.length > 0) {
           this.setFacilitatorToDisplay();
@@ -626,9 +701,46 @@ export default class ProductDetailsDisplay extends NavigationMixin(
             this.displayFacilitatorNav = false;
           }
         }
+
+        //create temp array for pricebookentries
+        let pbEntriesTemp = [...this.priceBookEntriesCopy];
+
+        //loop on the price book entries
+        pbEntriesTemp.forEach((item, index, arr) => {
+
+          if (item.label === 'Early Bird') {
+
+            //get and convert the date values
+            let offeringDate = new Date(cOffer.label);
+            let offeringDateMilli = offeringDate.setDate(offeringDate.getDate() - item.noOfDays);
+            let offeringDateConverted = new Date(offeringDateMilli);
+            let today = new Date();
+            today = today.setHours(0, 0, 0, 0);
+
+            //if today is past the early bird days
+            if(today >= offeringDateConverted){
+              //remove the early bird element
+              arr.splice(index, 1);
+            }
+          }
+        });
+
+        //check if early bird is still there after checking for the number of days
+        let found = pbEntriesTemp.find(element => element.label === 'Early Bird');
+
+        //if early bird is found, remove the Standard Pricebookj
+        if(found != undefined){
+
+          //filter out the element with the current cart item id
+          pbEntriesTemp = pbEntriesTemp.filter(function (obj) {
+            return obj.label !== 'Standard';
+          });
+        }
+
+        //reassign
+        this.priceBookEntriesFiltered = pbEntriesTemp;
       }
     });
-    this.disablePriceBookEntry = false;
   }
 
   handlePreviousFacilitator() {
@@ -720,7 +832,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     if (this.selectedPriceBookEntry) {
       this.setParamObj.defPBEntry = this.selectedPriceBookEntry;
     }
-    this.paramURL = "?param=" + btoa(JSON.stringify(this.setParamObj));
+    this.paramURL = "&param=" + btoa(JSON.stringify(this.setParamObj));
   }
 
   // Creates toast notification
@@ -784,6 +896,6 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     }
   }
   addToCartModalClosed() {
-    this.openAddToCartConfirmModal = false;
+    this.isModalMessage = false;
   }
 }

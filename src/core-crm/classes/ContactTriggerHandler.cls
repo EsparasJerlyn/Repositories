@@ -20,10 +20,16 @@
       |                                |                       |                        | QUT_Username & QUT_Idenitiy_Id  |
       |                                |                       |                        | is populated                    |
       |                                |                       |                        |                                 |
+      | eugene.andrew.abuan            | July 01, 2022         | DEPP-3387              | Updated logic for QUT_Username  |
+      |                                |                       |                        | in AfterUpdate                  |
+      | roy.nino.s.regala              | July 30, 2022         | DEPP-3577              | removed send welcome email logic|
+
+
  */
 public without sharing class ContactTriggerHandler implements Disableable, BeforeInsert, BeforeUpdate, AfterInsert, AfterUpdate {
 
   public static Boolean isRunning = false;
+  private static final String STUDENT = 'Student';
   public static final Id PERSON = Schema.SObjectType.Contact.getRecordTypeInfosByDeveloperName()
       .get('Person')
       .getRecordTypeId();
@@ -104,16 +110,28 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
     Boolean hasChanges = false;
     List<Contact> contactNewList = (List<Contact>) newItems.values();
     Map<Id, Contact> oldContactMap = (Map<Id, Contact>) oldItems;
+    Set<Id> contactsWithActiveCourseConnection = new Set<Id>();
+
+    // Query Course Connection Details
+    for(hed__Course_Enrollment__c courseConnection: [
+                                                      SELECT
+                                                        Id,
+                                                        hed__Contact__r.Id
+                                                      FROM hed__Course_Enrollment__c
+                                                      WHERE hed__Contact__r.Id IN: newItems.keySet()
+                                                      AND hed__Status__c = 'Active'
+                                                      AND Recordtype_Name__c =: STUDENT
+                                                      LIMIT 1
+                                                    ]){
+      contactsWithActiveCourseConnection.add(courseConnection.hed__Contact__r.Id);                                                
+    }
+
     for(Contact c : contactNewList){
       if(oldContactMap!=null){
         Contact oldContact = oldContactMap.get(c.Id);
         if((c.Email != oldContact.Email) || (c.Work_Email__c != oldContact.Work_Email__c)){
           hasChanges = true;
         }
-      }
-      //Send Email to user
-      if(String.IsNotBlank(c.QUT_Identity_ID__c) && String.IsNotBlank(c.QUT_Student_Username__c)){
-        ContactUserNameCreatedHelper.sendEmailUsernameCreated(newItems.keySet());
       }
     }
     List<Contact> contactOldList = (List<Contact>) oldItems.values();

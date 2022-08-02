@@ -18,7 +18,9 @@
       | keno.domienri.dico        | April 29, 2022        | DEPP-2038            | Added child product records                  |
       | burhan.m.abdul            | June 09, 2022         | DEPP-2811            | Added messageService                         |
       | john.bo.a.pineda          | June 27, 2022         | DEPP-3216            | Modified to add urlDefaultAddToCart parameter|
- */
+      | john.bo.a.pineda          | June 27, 2022         | DEPP-3385            | Modified to get recordId from url p param    |
+      | john.m.tambasen           | July 29, 2022         | DEPP-3577            | early bird changes no of days                |
+*/
 
 import { LightningElement, wire, api } from "lwc";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
@@ -31,6 +33,7 @@ import userId from "@salesforce/user/Id";
 
 import { publish, MessageContext } from "lightning/messageService";
 import payloadContainerLMS from "@salesforce/messageChannel/Breadcrumbs__c";
+import { CurrentPageReference } from "lightning/navigation";
 
 export default class ProductDetails extends LightningElement {
   loading;
@@ -45,6 +48,8 @@ export default class ProductDetails extends LightningElement {
   cProducts;
   isProgramFlex = false;
   availablePricings = [];
+  recordNameId;
+
   // Gets & Sets the effective account - if any - of the user viewing the product.
   @api
   get effectiveAccountId() {
@@ -68,6 +73,16 @@ export default class ProductDetails extends LightningElement {
   @wire(MessageContext)
   messageContext;
 
+  // Get param from URL
+  @wire(CurrentPageReference)
+  getpageRef(pageRef) {
+    if (pageRef && pageRef.state && pageRef.state.p) {
+      this.recordId = pageRef.state.p.substring(
+        pageRef.state.p.lastIndexOf("_") + 1
+      );
+      this.recordNameId = pageRef.state.p;
+    }
+  }
   // The connectedCallback() lifecycle hook fires when a component is inserted into the DOM.
   connectedCallback() {
     this.loading = true;
@@ -75,6 +90,7 @@ export default class ProductDetails extends LightningElement {
     this.showFlexibleProgram = false;
     this.showProductDetailsSingle = false;
     this.showProductDetailsDisplay = false;
+
     this.getProductDetailsApex(this.recordId);
     if (!isGuest) {
       this.updateCartInformation();
@@ -110,7 +126,8 @@ export default class ProductDetails extends LightningElement {
               style: "currency",
               currency: "USD",
               minimumFractionDigits: 0
-            })
+            }),
+            noOfDays: priceBookEntry.noOfDays
           });
         });
         this.availablePricings = pricingsLocal;

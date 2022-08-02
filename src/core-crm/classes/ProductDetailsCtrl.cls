@@ -20,6 +20,10 @@
       |                           |                       |                      | Earliest Upcoming Offering                 |
       | john.bo.a.pineda          | June 27, 2022         | DEPP-3216            | Modified add validation if Product already |
       |                           |                       |                      | exists in Cart only for URL Defaults       |
+      | john.bo.a.pineda          | July 07, 2022         | DEPP-3435            | Added Detail URL to Flex Child Query       |
+      | john.m.tambasen           | July 29, 2022         | DEPP-3577            | early bird number of days                  |
+      | eugene.andrew.abuan       | July 30, 2022         | DEPP-3534            | Added Do not Show Start Date               |
+      
 */
 public without sharing class ProductDetailsCtrl {
   public static final Id STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
@@ -67,8 +71,9 @@ public without sharing class ProductDetailsCtrl {
         Who_Should_Participate__c,
         Core_Concepts__c,
         More_Details__c,
+        Do_not_Show_Start_Date__c,
         (
-          SELECT Id, Pricebook2.Name, UnitPrice
+          SELECT Id, Pricebook2.Name, UnitPrice, Early_Bird_No_of_Days__c
           FROM PricebookEntries
           WHERE IsActive = TRUE
           ORDER BY CreatedDate, Pricebook2.IsStandard DESC
@@ -103,15 +108,16 @@ public without sharing class ProductDetailsCtrl {
         pbEntryMap = new Map<String, PricebookEntry>{
           'Free' => (PricebookEntry) pbEntryMap.get('Free')
         };
-      } else {
-        // Remove Standard Price Book if Early Bird Price exists
-        if (
-          pbEntryMap.containsKey('Early Bird') &&
-          pbEntryMap.containsKey('Standard Price Book')
-        ) {
-          pbEntryMap.remove('Standard Price Book');
-        }
-      }
+      } 
+      // else {
+      //   // Remove Standard Price Book if Early Bird Price exists
+      //   if (
+      //     pbEntryMap.containsKey('Early Bird') &&
+      //     pbEntryMap.containsKey('Standard Price Book')
+      //   ) {
+      //     pbEntryMap.remove('Standard Price Book');
+      //   }
+      // }
 
       // Process PriceBookEntry Wrapper
       for (String pbEntryString : pbEntryMap.keySet()) {
@@ -120,6 +126,7 @@ public without sharing class ProductDetailsCtrl {
         pbEntryWrapper.label = pbEntry.Pricebook2.Name;
         pbEntryWrapper.value = pbEntry.Id;
         pbEntryWrapper.meta = String.valueOf(pbEntry.UnitPrice);
+        pbEntryWrapper.noOfDays = Integer.valueOf(pbEntry.Early_Bird_No_of_Days__c);
         pbEntryWrapperList.add(pbEntryWrapper);
       }
     }
@@ -184,8 +191,9 @@ public without sharing class ProductDetailsCtrl {
           Delivery__c,
           Description,
           Professional_Level__c,
+          Detail_URL__c,
           (
-            SELECT Id, Pricebook2.Name, UnitPrice
+            SELECT Id, Pricebook2.Name, UnitPrice, Early_Bird_No_of_Days__c
             FROM PricebookEntries
             WHERE IsActive = TRUE
             ORDER BY CreatedDate, Pricebook2.IsStandard DESC
@@ -280,6 +288,7 @@ public without sharing class ProductDetailsCtrl {
               );
             }
           }
+          childProductWrapper.detailURL = childProd.Detail_URL__c;
         }
         childProdWrapperList.add(childProductWrapper);
       }
@@ -298,12 +307,14 @@ public without sharing class ProductDetailsCtrl {
    * @description fetches related course offerings to the product
    * @param courseId - Product Id on productdetailpage
    * @param deliveryParam - Delivery Parameter selected on productdetailpage
+   * @param ccePortal - check if CCE Portal
    * @return cOfferList - Product Details & Pricebook Entries for Price picklist
    */
   @AuraEnabled(cacheable=true)
   public static List<CourseOfferingWrapper> getCourseOfferingRelatedRecords(
     Id courseId,
-    List<String> deliveryParam
+    List<String> deliveryParam,
+    Boolean ccePortal
   ) {
     List<CourseOfferingWrapper> cOfferWrapperList = new List<CourseOfferingWrapper>();
 
@@ -324,7 +335,7 @@ public without sharing class ProductDetailsCtrl {
               Facilitator_Bio__r.Professional_Bio__c,
               hed__Contact__r.Contact_Image__c
             FROM hed__Course_Enrollment__r
-            WHERE RecordTypeId = :FACULTY_RECTYPEID
+            WHERE RecordTypeId = :FACULTY_RECTYPEID AND IsActive__c = TRUE
           )
         FROM hed__Course_Offering__c
         WHERE
@@ -415,7 +426,7 @@ public without sharing class ProductDetailsCtrl {
           // Delivery
           cOfferWrapper.defDeliv = cOffer.Delivery_Type__c;
           // meta
-          if (cOffer.Available_Seats__c <= 10) {
+          if (ccePortal){
             if (cOffer.Available_Seats__c == 1) {
               cOfferWrapper.meta =
                 cOffer.Available_Seats__c +
@@ -427,6 +438,22 @@ public without sharing class ProductDetailsCtrl {
                 ' ' +
                 Label.QUT_ProductDetail_CourseSeatsLeft;
             }
+          }
+          else
+          {
+           if (cOffer.Available_Seats__c <= 10) {           
+              if (cOffer.Available_Seats__c == 1) {
+                cOfferWrapper.meta =
+                  cOffer.Available_Seats__c +
+                  ' ' +
+                  Label.QUT_ProductDetail_CourseSeatLeft;
+              } else {
+                cOfferWrapper.meta =
+                  cOffer.Available_Seats__c +
+                  ' ' +
+                  Label.QUT_ProductDetail_CourseSeatsLeft;
+              }  
+            }         
           }
           // facilitator
           List<facilitatorWrapper> facilWrapperList = new List<facilitatorWrapper>();
@@ -514,12 +541,8 @@ public without sharing class ProductDetailsCtrl {
       ]
       .Id;
 
-      Id contactId = [
-        SELECT Id, ContactId 
-        FROM User
-        WHERE Id =: userId
-        LIMIT 1
-      ]?.ContactId;
+      Id contactId = [SELECT Id, ContactId FROM User WHERE Id = :userId LIMIT 1]
+      ?.ContactId;
 
       // Get Current User Active Cart Delivery Group
       Id cartDeliveryGroupId = [
@@ -711,158 +734,6 @@ public without sharing class ProductDetailsCtrl {
     return relatedAnswersList;
   }
 
-  /**
-   * @description get list of contacts searched
-   * @param contactRecord - contact to create
-   * @param courseOfferingId - course offering id
-   * @param relatedAnswerList - related answer records
-   * @param answerList - answer records to be inserted
-   * @param fileUpload - file to upload
-   * @param forApplication - flag for checking if only for application
-   */
-  @AuraEnabled
-  public static void addRegistration(
-    Contact contactRecord,
-    String courseOfferingId,
-    List<Related_Answer__c> relatedAnswerList,
-    List<Answer__c> answerList,
-    String fileUpload,
-    Boolean forApplication
-  ) {
-    List<FileUpload> parsedFileUpload = new List<FileUpload>();
-    if (fileUpload != '') {
-      parsedFileUpload = (List<FileUpload>) JSON.deserialize(
-        fileUpload,
-        List<FileUpload>.class
-      );
-    }
-
-    List<Questionnaire_Response_Summary__c> questionnaireSummaryToInsert = new List<Questionnaire_Response_Summary__c>();
-    Map<String, String> cvToRelatedAnswerMap = new Map<String, String>();
-    List<ContentDocumentLink> contentDocLinkListToInsert = new List<ContentDocumentLink>();
-    List<ContentVersion> cvListToInsertList = new List<ContentVersion>();
-    Map<Id, Id> relatedAnswerToQuestionnaireMap = new Map<Id, Id>();
-    Map<Id, Id> questionnaireToqResSummaryMap = new Map<Id, Id>();
-    Map<Id, Id> relatedAnswerToAnswerMap = new Map<Id, Id>();
-    Set<Id> questionnaireIds = new Set<Id>();
-
-    List<Answer__c> answersToInsert = new List<Answer__c>();
-    Map<Id, Answer__c> answersToUpdate = new Map<Id, Answer__c>();
-
-    if (contactRecord.Id == null) {
-      insert contactRecord;
-    }
-
-    for (Related_Answer__c relatedA : relatedAnswerList) {
-      questionnaireIds.add(relatedA.Questionnaire__c);
-      relatedAnswerToQuestionnaireMap.put(
-        relatedA.Id,
-        relatedA.Questionnaire__c
-      );
-    }
-
-    Questionnaire_Response_Summary__c qResSummary;
-
-    for (Id qId : questionnaireIds) {
-      qResSummary = new Questionnaire_Response_Summary__c();
-      qResSummary.Questionnaire__c = qId;
-      qResSummary.Course_Offering__c = courseOfferingId;
-      qResSummary.Contact__c = contactRecord.Id;
-      if (forApplication == true) {
-        qResSummary.Application_Status__c = 'Pending';
-      }
-      questionnaireSummaryToInsert.add(qResSummary);
-    }
-
-    if (!questionnaireSummaryToInsert.isEmpty()) {
-      insert questionnaireSummaryToInsert;
-    }
-
-    for (
-      Questionnaire_Response_Summary__c questionResSummary : questionnaireSummaryToInsert
-    ) {
-      questionnaireToqResSummaryMap.put(
-        questionResSummary.Questionnaire__c,
-        questionResSummary.Id
-      );
-    }
-
-    if (!answerList.isEmpty()) {
-      for (Answer__c a : answerList) {
-        a.Questionnaire_Response_Summary__c = questionnaireToqResSummaryMap.get(
-          relatedAnswerToQuestionnaireMap.get(a.Related_Answer__c)
-        );
-        answersToInsert.add(a);
-      }
-      insert answersToInsert;
-    }
-
-    for (Answer__c ans : answersToInsert) {
-      relatedAnswerToAnswerMap.put(ans.Related_Answer__c, ans.Id);
-    }
-
-    for (FileUpload file : parsedFileUpload) {
-      if (relatedAnswerToAnswerMap.containsKey(file.RelatedAnswerId)) {
-        ContentVersion cv = createContentVersion(file.Base64, file.FileName);
-        cvToRelatedAnswerMap.put(cv.Title, file.RelatedAnswerId);
-        cvListToInsertList.add(cv);
-      }
-    }
-
-    if (!cvListToInsertList.isEmpty()) {
-      insert cvListToInsertList;
-    }
-
-    List<ContentVersion> newContentVersionList = new List<ContentVersion>(
-      [
-        SELECT ContentDocumentId, Title
-        FROM ContentVersion
-        WHERE Id IN :cvListToInsertList
-      ]
-    );
-
-    if (!newContentVersionList.isEmpty()) {
-      ContentDocumentLink cdl;
-      Answer__c updateAnswer;
-      for (ContentVersion cv : newContentVersionList) {
-        String test = relatedAnswerToAnswerMap.get(
-          cvToRelatedAnswerMap.get(cv.Title)
-        );
-        cdl = new ContentDocumentLink(
-          ContentDocumentId = cv.ContentDocumentId,
-          LinkedEntityId = relatedAnswerToAnswerMap.get(
-            cvToRelatedAnswerMap.get(cv.Title)
-          ),
-          ShareType = 'V'
-        );
-        updateAnswer = new Answer__c(
-          Id = cdl.LinkedEntityId,
-          Response__c = cv.ContentDocumentId
-        );
-        answersToUpdate.put(updateAnswer.Id, updateAnswer);
-        contentDocLinkListToInsert.add(cdl);
-      }
-    }
-
-    if (!contentDocLinkListToInsert.isEmpty()) {
-      insert contentDocLinkListToInsert;
-    }
-
-    if (!answersToUpdate.keySet().isEmpty()) {
-      update answersToUpdate.values();
-    }
-
-    if (!forApplication) {
-      hed__Course_Enrollment__c newCourseConnection = new hed__Course_Enrollment__c(
-        hed__Course_Offering__c = courseOfferingId,
-        hed__Contact__c = contactRecord.Id,
-        RecordTypeId = STUDENT_RECTYPEID,
-        hed__Status__c = 'Active'
-      );
-      insert newCourseConnection;
-    }
-  }
-
   @AuraEnabled
   public static void saveApplication(
     String contactId,
@@ -1042,6 +913,8 @@ public without sharing class ProductDetailsCtrl {
     public String value;
     @AuraEnabled
     public String meta;
+    @AuraEnabled
+    public Integer noOfDays;
   }
 
   /**
@@ -1116,6 +989,8 @@ public without sharing class ProductDetailsCtrl {
     public String childProdDuration { get; set; }
     @AuraEnabled
     public Boolean isProgramFlex { get; set; }
+    @AuraEnabled
+    public String detailURL { get; set; }
   }
 
   /**

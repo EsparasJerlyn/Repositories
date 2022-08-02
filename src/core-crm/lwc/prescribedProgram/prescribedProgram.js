@@ -9,20 +9,17 @@
  *    | Developer                 | Date                  | JIRA                 | Change Summary                               |
       |---------------------------|-----------------------|----------------------|----------------------------------------------|
       | john.bo.a.pineda          | June 29, 2022         | DEPP-3323            | Modified logic for button display for Apply  |
+      | mary.grace.li             | July 04, 2022         | DEPP-3184            | Replaced custom labels with constant         |
+      | john.bo.a.pineda          | July 04, 2022         | DEPP-3385            | Changed ?param to &param                     |
+      | john.m.tambasen           | July 29, 2022         | DEPP-3577            | early bird changes no of days                |
+      | eugene.andrew.abuan       | July 31, 2022         | DEPP-3534            | Added Do not show start date logic           |
+
 */
 import { LightningElement, api, track, wire } from "lwc";
 import { loadStyle } from "lightning/platformResourceLoader";
 import userId from "@salesforce/user/Id";
 import qutResourceImg from "@salesforce/resourceUrl/QUTImages";
 import customSR from "@salesforce/resourceUrl/QUTCustomLwcCss";
-import delivery from "@salesforce/label/c.QUT_ProductDetail_Delivery";
-import deliveryPlaceholder from "@salesforce/label/c.QUT_ProductDetail_Delivery_Placeholder";
-import availableStartDates from "@salesforce/label/c.QUT_ProductDetail_AvailableStartDates";
-import availableStartDatesPlaceholder from "@salesforce/label/c.QUT_ProductDetail_AvailableStartDates_Placeholder";
-import registerInterest from "@salesforce/label/c.QUT_ProductDetail_RegisterInterest";
-import pricing from "@salesforce/label/c.QUT_ProductDetail_Pricing";
-import pricingPlaceholder from "@salesforce/label/c.QUT_ProductDetail_Pricing_Placeholder";
-import addToCart from "@salesforce/label/c.QUT_ProductDetail_AddToCart";
 import insertExpressionOfInterest from "@salesforce/apex/ProductDetailsCtrl.insertExpressionOfInterest";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import isGuest from "@salesforce/user/isGuest";
@@ -34,9 +31,19 @@ import { CurrentPageReference } from "lightning/navigation";
 
 const INTEREST_EXISTS_ERROR =
   "You already registered your interest for this product.";
+const DELIVERY= "Delivery";
+const DELIVERY_PLACEHOLDER= "Choose delivery method";
+const AVAILABLE_STARTDATES="Available start dates";
+const AVAILABLE_STARTDATES_PLACEHOLDER="Choose start date";
+const REGISTER_INTEREST="REGISTER INTEREST";
+const PRICING="Pricing";
+const PRICING_PLACEHOLDER="Choose pricing";
+const ADD_TO_CART="ADD TO CART";
 
 export default class PrescribedProgram extends LightningElement {
   @api product;
+  @api recordNameId;
+  @api recordId;
   @api isInternalUser;
   productDetails;
   programModules;
@@ -52,6 +59,7 @@ export default class PrescribedProgram extends LightningElement {
   availableProgramOfferings = [];
   selectedProgramOffering = "";
   availablePricings = [];
+  availablePricingsFiltered = [];
   selectedPricing = "";
   paramURL;
   getParamObj = {};
@@ -79,17 +87,28 @@ export default class PrescribedProgram extends LightningElement {
   responseData = [];
   questions;
   openApplicationQuestionnaire = false;
+  doNotShowStartDate = false;
+
+  @track delivery;
+  @track deliveryPlaceholder;
+  @track availableStartDates;
+  @track availableStartDatesPlaceholder;
+  @track pricing;
+  @track pricingPlaceholder;
+  @track addToCart;
+  @track registerInterest;
 
   label = {
-    delivery,
-    deliveryPlaceholder,
-    availableStartDates,
-    availableStartDatesPlaceholder,
-    pricing,
-    pricingPlaceholder,
-    addToCart,
-    registerInterest
+    delivery: DELIVERY,
+    deliveryPlaceholder: DELIVERY_PLACEHOLDER,
+    availableStartDates: AVAILABLE_STARTDATES,
+    availableStartDatesPlaceholder: AVAILABLE_STARTDATES_PLACEHOLDER,
+    pricing: PRICING,
+    pricingPlaceholder: PRICING_PLACEHOLDER,
+    addToCart: ADD_TO_CART,
+    registerInterest: REGISTER_INTEREST
   };
+
 
   //parameters for modal message
   @api isRegModalMessage;
@@ -145,7 +164,8 @@ export default class PrescribedProgram extends LightningElement {
           style: "currency",
           currency: "USD",
           minimumFractionDigits: 0
-        })
+        }),
+        noOfDays: priceBookEntry.noOfDays
       });
     });
     this.availablePricings = pricingsLocal;
@@ -204,9 +224,15 @@ export default class PrescribedProgram extends LightningElement {
         });
     }
 
+    //Populate Do not show start date
+    if(this.productDetails.Do_not_Show_Start_Date__c){
+      this.doNotShowStartDate = this.productDetails.Do_not_Show_Start_Date__c;
+      this.disableDelivery = true;
+    }
+
     if (this.onLoadTriggerRegInterest) {
       // Trigger Register Interest
-      this.registerInterest();
+      this.handleRegisterInterest();
     }
   }
 
@@ -224,9 +250,10 @@ export default class PrescribedProgram extends LightningElement {
     let value = event.detail.value;
     if (sourceId == "pp_programDevelopmentModules") {
       this.showProgramModulesList = value;
-    } else {
-      this.showProgramModulesList = false;
+    }else {
+      
     }
+
     let eventSource = event.currentTarget;
     let parentSection = event.currentTarget.closest("ul");
     let productSectionComponents =
@@ -236,8 +263,8 @@ export default class PrescribedProgram extends LightningElement {
         eventSource != productSectionComponents[i] &&
         productSectionComponents[i].showvalue == true
       ) {
-        productSectionComponents[i].expand = "false";
-        productSectionComponents[i].showvalue = false;
+        //productSectionComponents[i].expand = "false";
+        //productSectionComponents[i].showvalue = false;
       }
     }
   }
@@ -381,6 +408,7 @@ export default class PrescribedProgram extends LightningElement {
     this.disablePricing = false;
     this.disableAddToCart = true;
     this.disableApply = true;
+    this.handleFilterPricing();
   }
 
   handleProgramOfferingSelected(event) {
@@ -396,6 +424,7 @@ export default class PrescribedProgram extends LightningElement {
       this.displayQuestionnaire = true;
       this.displayAddToCart = false;
     }
+    this.handleFilterPricing();
   }
 
   handlePricingSelected(event) {
@@ -431,8 +460,56 @@ export default class PrescribedProgram extends LightningElement {
     }
   }
 
+  //handles the filtering of prices
+  handleFilterPricing(){
+        //loop in available offerings to find the selected
+    this.availableProgramOfferings.forEach((pOffer) => {
+      if(pOffer.value === this.selectedProgramOffering) {
+
+        //create temp array for pricebookentries
+        let pbEntriesTemp = [...this.availablePricings];
+
+        //loop on the price book entries
+        pbEntriesTemp.forEach((item, index, arr) => {
+
+          //find the early bird
+          if (item.label === 'Early Bird') {
+
+            //get and convert the date values
+            let offeringDate = new Date(pOffer.label);
+            let offeringDateMilli = offeringDate.setDate(offeringDate.getDate() - item.noOfDays);
+            let offeringDateConverted = new Date(offeringDateMilli);
+            let today = new Date();
+            today = today.setHours(0, 0, 0, 0);
+
+            //if today is past the early bird days
+            if(today >= offeringDateConverted){
+              //remove the early bird element
+              arr.splice(index, 1);
+            }
+          }
+        });
+
+        //check if early bird is still there after checking for the number of days
+        let found = pbEntriesTemp.find(element => element.label === 'Early Bird');
+
+        //if early bird is found, remove the Standard Pricebookj
+        if(found != undefined){
+
+          //filter out the element with the current cart item id
+          pbEntriesTemp = pbEntriesTemp.filter(function (obj) {
+            return obj.label !== 'Standard';
+          });
+        }
+
+        //reassign
+        this.availablePricingsFiltered = pbEntriesTemp;
+      }
+    });
+  }
+
   // Register Interest
-  registerInterest() {
+  handleRegisterInterest() {
     if (!isGuest) {
       insertExpressionOfInterest({
         userId: userId,
@@ -547,6 +624,6 @@ export default class PrescribedProgram extends LightningElement {
     if (this.selectedPricing) {
       this.setParamObj.defPBEntry = this.selectedPricing;
     }
-    this.paramURL = "?param=" + btoa(JSON.stringify(this.setParamObj));
+    this.paramURL = "&param=" + btoa(JSON.stringify(this.setParamObj));
   }
 }

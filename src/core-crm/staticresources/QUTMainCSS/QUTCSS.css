@@ -327,6 +327,14 @@ a.reversed:hover{
 
 
 /*cart summary*/
+
+/*cartdetails */
+[c-cartdetails_cartdetails] input.slds-input[disabled],[c-cartdetails_cartdetails] textarea.slds-textarea[disabled]{
+  color: #000000 !important;
+  webkit-text-fill-color: #000000;
+  opacity: 1; /* required on iOS */
+}
+
 .tandc abbr[title]{
   position: absolute;
   right: -19rem;
@@ -1125,7 +1133,9 @@ button.slds-button.slds-button_outline-brand:disabled {
   --slds-c-icon-color-foreground: var(--status-color-error) !important;
 }
 
-
+.slds-textarea{
+  font-size: var(--text-size-18) !important;
+}
 /** TABS **/
 .slds-tabs_default__item.slds-is-active {
   font-family: "ProximaNova-Bold";
@@ -1309,7 +1319,9 @@ ul.layout-grid li{
     color: var(--greys-color-bodytext);
 }
 
-
+div[lightning-basecombobox_basecombobox] .slds-combobox__input:disabled {
+  background: #F3F3F3;
+}
 /*Multiselect and combobox*/
 div[lightning-basecombobox_basecombobox] .slds-combobox__input,
 div[c-customcomboboxmulti_customcomboboxmulti] .slds-picklist input[readonly],
