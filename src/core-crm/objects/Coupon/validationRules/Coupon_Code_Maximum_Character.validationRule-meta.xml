@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Coupon_Code_Maximum_Character</fullName>
+    <active>true</active>
+    <description>Coupon Code Maximum Character</description>
+    <errorConditionFormula>LEN( CouponCode ) &gt; 15</errorConditionFormula>
+    <errorMessage>Coupon Code limit should be 15 characters only</errorMessage>
+</ValidationRule>

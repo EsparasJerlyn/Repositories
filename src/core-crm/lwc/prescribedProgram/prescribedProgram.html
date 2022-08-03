@@ -101,7 +101,8 @@
             size="12"
             class="slds-m-bottom_small"
           >
-            <c-custom-combobox
+            <template if:false={doNotShowStartDate}>
+              <c-custom-combobox
               class="availStartDates"
               field-label={label.availableStartDates}
               placeholder={label.availableStartDatesPlaceholder}
@@ -111,8 +112,9 @@
               onchange={handleProgramOfferingSelected}
               slds-icon-up="utility:chevronup"
               slds-icon-down="utility:chevrondown"
-            >
-            </c-custom-combobox>
+              >
+              </c-custom-combobox>
+            </template>
           </lightning-layout-item>
           <lightning-layout-item
             flexibility="auto"
@@ -124,7 +126,7 @@
               field-label={label.pricing}
               placeholder={label.pricingPlaceholder}
               disabled={disablePricing}
-              options={availablePricings}
+              options={availablePricingsFiltered}
               value={selectedPricing}
               onchange={handlePricingSelected}
               slds-icon-up="utility:chevronup"
@@ -167,7 +169,7 @@
           >
             <lightning-button
               label={label.registerInterest}
-              onclick={registerInterest}
+              onclick={handleRegisterInterest}
               variant="brand"
               class="registerInterest"
             ></lightning-button>
@@ -245,6 +247,8 @@
       class="regModal"
       onclose={handleModalClosed}
       param={paramURL}
+      record-id={recordId}
+      record-name-id={recordNameId}
     ></c-registration-form>
   </template>
 </template>

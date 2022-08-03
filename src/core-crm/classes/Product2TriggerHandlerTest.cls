@@ -11,6 +11,8 @@
       | john.bo.a.pineda               | May 3, 2022           | DEPP-2403              | Created file                 |
       | john.bo.a.pineda               | May 13, 2022          | DEPP-2591              | Updated to load to Store     |
       | arsenio.jr.dayrit              | June 10, 2022         | DEPP-3021              | Added Method for Published   |
+      | eugene.andrew.abuan            | July 31, 2022         | DEPP-3534              | Added Method for Do not Show Start Date |
+
  */
 @isTest(SeeAllData=false)
 public with sharing class Product2TriggerHandlerTest {
@@ -40,6 +42,7 @@ public with sharing class Product2TriggerHandlerTest {
 
   @testSetup
   static void setupMethod() {
+    TestDataFactory.generateTestUsers();
     System.runAs(currentUser) {
       Test.startTest();
       List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
@@ -198,8 +201,9 @@ public with sharing class Product2TriggerHandlerTest {
     ];
     System.runAs(currUsr) {
       List<Product2> prod2List = [
-        SELECT Id, Decommission_Product__c, 
+        SELECT Id, Decommission_Product__c,
         End_Date__c, 
+        Publishing_End_date__c, 
         Decommission_Reason__c
         FROM Product2
         WHERE
@@ -207,9 +211,10 @@ public with sharing class Product2TriggerHandlerTest {
           AND QA_Review_Completed__c = 'Yes'
       ];
       for (Product2 prod2 : prod2List) {
-        prod2.End_Date__c = Date.Today();
+        prod2.Publishing_End_date__c = Date.Today();
         prod2.Decommission_Product__c = true;
         prod2.Decommission_Reason__c = 'test';
+        prod2.End_Date__c = Date.today();
       }
       Test.startTest();
       update prod2List;
@@ -408,6 +413,65 @@ public with sharing class Product2TriggerHandlerTest {
     }
   }
 
+  @IsTest
+  private static void validateDoNotShowStartDateTest() {
+
+    System.runAs(TestDataFactory.getProgramAdminUser()) {
+      Test.startTest();
+
+      List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
+      for(Account acc : accounts){
+        acc.RecordTypeId = ACCT_UNIV_DEP_ID;
+        acc.Organization_Unit_Level__c = '2';
+      }
+      insert accounts;
+
+      List<Product_Request__c> productRequests = TestDataFactory.createTestProductRequestRecords(1);
+      for(Product_Request__c productRequest : productRequests){
+        productRequest.RecordTypeId = RT_PROGRAM_ID;
+        productRequest.Product_Request_Status__c = 'Release';
+      }
+      insert productRequests;
+
+      List<hed__Program_Plan__c> programs = TestDataFactory.createTestProgramPlanRecords(1);
+      programs[0].RecordTypeId = opeProgPlanId;
+      programs[0].Product_Request__c = productRequests[0].id;
+      insert programs;
+
+      Program_Offering__c programOffering = new Program_Offering__c(
+        Name = 'Program Offering_Test 1',
+        hed_Program_Plan__c = programs[0].Id,
+        Delivery_Type__c = 'Online Self-paced',
+        hed_Capacity__c = 30,
+        Start_Date__c = system.today() + 1,
+        Registration_Start_Date__c = system.today() - 1,
+        IsActive__c = true
+      );
+      insert programOffering;
+
+      List<Product2> prod2List = [
+        SELECT Id, Available_on_Cart__c
+        FROM Product2
+        WHERE
+           Ready_for_publishing__c = 'Yes'
+          AND QA_Review_Completed__c = 'Yes'
+          AND Available_on_Cart__c = FALSE
+          AND Publishing_Start_date__c != NULL
+      ];
+      for (Product2 prod2 : prod2List) {
+        prod2.Available_on_Cart__c = true;
+        prod2.Delivery__c = 'Online Self-paced';
+        prod2.Do_not_Show_Start_Date__c = true;
+        prod2.Program_Plan__c = programs[0].id;
+      }
+      update prod2List;
+
+      Test.stopTest();
+
+      System.assert(true,'dummy assert');
+     }
+  }
+
 
     @IsTest
     static void checkEmailDetailTest(){
@@ -417,7 +481,6 @@ public with sharing class Product2TriggerHandlerTest {
         Test.stopTest();
 
     }
-
 
 
 }

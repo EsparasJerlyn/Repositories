@@ -10,7 +10,9 @@
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | john.bo.a.pineda               | May 2, 2022           | DEPP-2403              | Created file                 |
       | john.bo.a.pineda               | May 13, 2022          | DEPP-2591              | Updated to load to Store     |
-      |                                |                       |                        |                              |
+      | kathy.cornejo                  | July 1, 2022          | DEPP-3303,3367         | Updated decommission logic   |
+      | eugene.andrew.abuan            | July 29, 2022         | DEPP-3534              | Added Do no show start date logic   |
+      
  */
 public without sharing class Product2TriggerHandler implements Disableable, BeforeUpdate, AfterUpdate {
   public static final Id FACULTY_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
@@ -30,6 +32,8 @@ public without sharing class Product2TriggerHandler implements Disableable, Befo
       (List<Product2>) newItems.values(),
       (Map<Id, Product2>) oldItems
     );
+    validateDoNotShowStartDate(
+      (List<Product2>) newItems.values());
   }
 
   /**
@@ -45,6 +49,38 @@ public without sharing class Product2TriggerHandler implements Disableable, Befo
       (List<Product2>) newItems.values(),
       (Map<Id, Product2>) oldItems
     );
+    updateCourseFields(
+      (List<Product2>) newItems.values(),
+      (Map<Id, Product2>) oldItems
+    );
+  }
+
+  public void updateCourseFields(
+    List<Product2> prod2New,
+    Map<Id, Product2> prodOld
+  ){
+    Map<Id, hed__Program_Plan__c> programToUpdate = new Map<Id, hed__Program_Plan__c>();
+    Map<Id, hed__Course__c> courseToUpdate = new Map<Id, hed__Course__c>();
+
+    for(Product2 prod: prod2New){
+      if(( prodOld.get(prod.Id).Decommission_Product__c !=
+          prod.Decommission_Product__c || 
+          prodOld.get(prod.Id).End_Date__c !=
+          prod.End_Date__c) && prod.Decommission_Product__c == true && prod.End_Date__c != null){
+          if(prod.Program_Plan__c != NULL){
+            programToUpdate.put(prod.Program_Plan__c, new hed__Program_Plan__c(Id = prod.Program_Plan__c, hed__End_Date__c = prod.End_Date__c));
+          }
+          if(prod.Course__c != NULL){
+            courseToUpdate.put(prod.Course__c, new hed__Course__c(Id = prod.Course__c, End_Date__c = prod.End_Date__c));
+          }
+        }
+    }
+    if(!programToUpdate.keySet().isEmpty()){
+      update programToUpdate.values();
+    }
+    if(!courseToUpdate.keySet().isEmpty()){
+      update courseToUpdate.values();
+    }
   }
 
   /**
@@ -64,8 +100,11 @@ public without sharing class Product2TriggerHandler implements Disableable, Befo
     Product_Request__c newPr;
     for (Product2 prod : prod2New) {
       if (
-        prod.Available_on_Cart__c == true &&
-        prodOld.get(prod.Id).Available_on_Cart__c != prod.Available_on_Cart__c
+        prod.Ready_for_publishing__c == 'Yes' &&
+        prod.IsActive == true &&
+        prod.Publishing_Start_date__c <= date.today() &&
+        (prod.Publishing_End_date__c == null || 
+        prod.Publishing_End_date__c > date.today())
       ) {
         prodIdSet.add(prod.Id);
       }
@@ -74,10 +113,10 @@ public without sharing class Product2TriggerHandler implements Disableable, Befo
         //make sure decomission product or publishing enddate is updated  DEPP-2820
         (prodOld.get(prod.Id).Decommission_Product__c !=
         prod.Decommission_Product__c || 
-        prodOld.get(prod.Id).End_date__c !=
-        prod.End_date__c) && 
+        prodOld.get(prod.Id).Publishing_End_date__c !=
+        prod.Publishing_End_date__c) && 
         prod.Decommission_Product__c == true && 
-        prod.End_date__c <= date.today()
+        prod.Publishing_End_date__c <= date.today()
       ){
         prodIdPublishingEnded.add(prod.Id);
       }
@@ -216,6 +255,15 @@ public without sharing class Product2TriggerHandler implements Disableable, Befo
         courseIdSet.add(prod.Course__c);
       }
 
+      //copy over end date to publishing enddate if decomission product is true
+      if(
+        (prod2Old.get(prod.Id).Decommission_Product__c !=
+          prod.Decommission_Product__c || 
+          prod2Old.get(prod.Id).End_Date__c !=
+          prod.End_Date__c) && prod.Decommission_Product__c == true && prod.End_Date__c != null){
+            prod.Publishing_End_date__c = prod.End_Date__c;
+      }
+
       // Update Available to Cart when condition is true else false
       if (
         prod.Ready_for_publishing__c == 'Yes' &&
@@ -228,19 +276,18 @@ public without sharing class Product2TriggerHandler implements Disableable, Befo
         prod.Available_on_Cart__c = true;
       } else {
         prod.Available_on_Cart__c = false;
-      }
+      } 
 
       if( //make sure decomission product or publishing enddate is updated is updated DEPP-2820
         (prod2Old.get(prod.Id).Decommission_Product__c !=
         prod.Decommission_Product__c || 
-        prod2Old.get(prod.Id).End_Date__c !=
-        prod.End_Date__c) && 
+        prod2Old.get(prod.Id).Publishing_End_date__c !=
+        prod.Publishing_End_date__c) && 
         prod.Decommission_Product__c == true && 
-        prod.End_Date__c <= date.today()
+        prod.Publishing_End_date__c <= date.today()
       ){
         prod.IsActive = false;
         prod.Available_on_Cart__c = false;
-        prod.End_Date__c = Date.Today();
       }
     }
 
@@ -325,6 +372,145 @@ public without sharing class Product2TriggerHandler implements Disableable, Befo
           }
         }
       }
+    }
+  }
+
+    /**
+   * @description validate Do not Show Start Date if it is checked
+   * @param prod2New - List of Product2.Trigger.new
+   */
+  public void validateDoNotShowStartDate(
+    List<Product2> prod2New
+  ) {
+    Set<Id> courseIdSet = new Set<Id>();
+    Set<Id> programIdSet = new Set<Id>();
+    // Get Course Id / Program Id of the Product
+    for (Product2 prod : prod2New) {
+      if (
+        prod.Do_not_Show_Start_Date__c == true 
+        // prod.Do_not_Show_Start_Date__c != prod2Old.get(prod.Id).Do_not_Show_Start_Date__c
+      ) {
+        if(String.isNotBlank(prod.Course__c)){
+          courseIdSet.add(prod.Course__c);
+        }
+        if(String.IsNotBlank(prod.Program_Plan__c)){
+          programIdSet.add(prod.Program_Plan__c);
+        }
+      }
+    }  
+
+    //Single Product
+    if (!courseIdSet.isEmpty()) {
+      // Get Active Course Offering Count per Course
+      Map<Id, Integer> cCounterMap = new Map<Id, Integer>();
+      for (AggregateResult cOffCounter : [
+          SELECT hed__Course__c, Count(Id) counter
+          FROM hed__Course_Offering__c
+          WHERE hed__Course__c IN :courseIdSet AND IsActive__c = TRUE
+          GROUP BY hed__Course__c
+      ]) {
+          cCounterMap.put(
+              (Id) cOffCounter.get('hed__Course__c'),
+              (Integer) cOffCounter.get('counter')
+          );
+      }
+
+      List<hed__Course_Offering__c> cOfferList = [
+      SELECT
+        Id,
+        hed__Course__c,
+        IsActive__c	
+      FROM hed__Course_Offering__c
+      WHERE IsActive__c = TRUE AND hed__Course__c IN :courseIdSet
+      ];
+
+      // Process
+      for(Product2 p : prod2New){
+        for (hed__Course_Offering__c cOffVal : cOfferList) {
+          Integer cOffCount = (Integer) cCounterMap.get(cOffVal.hed__Course__c);
+          if(
+              p.Do_not_Show_Start_Date__c == true
+            )
+          {
+            //Scenario 1 : Delivery is not Online Self Paced
+            if( p.Delivery__c.contains('Brisbane Classroom') || 
+                p.Delivery__c.contains('Canberra Classroom') || 
+                p.Delivery__c.contains('Sydney Classroom') ||             
+                p.Delivery__c.contains('Melbourne Classroom') || 
+                p.Delivery__c.contains('Online Classroom')||
+                !p.Delivery__c.contains('Online Self-paced')
+                ){
+                  p.Do_not_Show_Start_Date__c.addError(
+                    'Please ensure you have one product offering active and the delivery is online self-paced'
+                );
+            }
+            //Scenario 2: Delivery Online Self Paced but offering is greater than 1
+            else if( cOffCount > 1 ){
+              p.Do_not_Show_Start_Date__c.addError(
+                'Please ensure you have one product offering active and the delivery is online self-paced'
+              );
+            }
+          }
+        }
+      }
+    }
+
+    //Program 
+    if(!programIdSet.isEmpty()){
+      // Get Active Program Offering Count per Program Plan
+      Map<Id, Integer> pCounterMap = new Map<Id, Integer>();
+      for (AggregateResult pOffCounter : [
+          SELECT hed_Program_Plan__c, Count(Id) counter
+          FROM Program_Offering__c
+          WHERE hed_Program_Plan__c IN :programIdSet AND IsActive__c = TRUE
+          GROUP BY hed_Program_Plan__c
+      ]) {
+          pCounterMap.put(
+              (Id) pOffCounter.get('hed_Program_Plan__c'),
+              (Integer) pOffCounter.get('counter')
+          );
+      }
+
+      //Query the list of Program Offering based on the Program Plan
+      List<Program_Offering__c> pOfferList = [
+        SELECT
+          Id,
+          hed_Program_Plan__c,
+          IsActive__c	
+        FROM Program_Offering__c
+        WHERE IsActive__c = TRUE AND hed_Program_Plan__c IN :programIdSet
+        ];
+
+        // Process
+        for(Product2 p : prod2New){
+          for (Program_Offering__c pOffVal : pOfferList) {
+            Integer pOffCount = (Integer) pCounterMap.get(pOffVal.hed_Program_Plan__c);
+            if(
+                p.Do_not_Show_Start_Date__c == true
+              )
+            {
+              //Scenario 1 : Delivery is not Online Self Paced
+              if( p.Delivery__c.contains('Brisbane Classroom') || 
+                  p.Delivery__c.contains('Canberra Classroom') || 
+                  p.Delivery__c.contains('Sydney Classroom') ||             
+                  p.Delivery__c.contains('Melbourne Classroom') || 
+                  p.Delivery__c.contains('Online Classroom')||
+                  !p.Delivery__c.contains('Online Self-paced')
+                  ){
+                    p.Do_not_Show_Start_Date__c.addError(
+                      'Please ensure you have one product offering active and the delivery is online self-paced'
+                  );
+              }
+              //Scenario 2: Delivery Online Self Paced but offering is greater than 1
+              else if(pOffCount > 1 ){
+                p.Do_not_Show_Start_Date__c.addError(
+                  'Please ensure you have one product offering active and the delivery is online self-paced'
+                );
+              }
+            }
+          }
+        }
+
     }
   }
 

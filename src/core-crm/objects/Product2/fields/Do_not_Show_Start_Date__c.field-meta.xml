@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Do_not_Show_Start_Date__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Hide the available start date from the Product Catalogue</description>
+    <externalId>false</externalId>
+    <label>Do not Show Start Date</label>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

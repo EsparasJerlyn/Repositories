@@ -1260,11 +1260,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Contact.Personal_Email__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Contact.Personal_Mobile__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1326,6 +1321,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.QUT_Student_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Registered_Email__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1881,11 +1881,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Lead.Migration_Key__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Lead.Personal_Email__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2808,7 +2803,7 @@
         <field>Session__c.IsActive__c</field>
         <readable>true</readable>
     </fieldPermissions>
-     <fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Session__c.Is_Managed_Externally__c</field>
         <readable>true</readable>
@@ -2998,7 +2993,7 @@
         <field>hed__Course__c.End_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
-     <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course__c.Enrolment_Rules__c</field>
         <readable>true</readable>
@@ -3009,7 +3004,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-         <editable>true</editable>
+        <editable>true</editable>
         <field>hed__Course__c.Implementation_Year__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3068,7 +3063,7 @@
         <field>hed__Course__c.Owning_School_Discipline_Area__c</field>
         <readable>true</readable>
     </fieldPermissions>
-     <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course__c.Previously_Developed_Content__c</field>
         <readable>true</readable>
@@ -3143,17 +3138,17 @@
         <field>hed__Course__c.External_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course__c.Collaboration_with_External_Organisation__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course__c.Content__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course__c.Delivery_Comments__c</field>
         <readable>true</readable>
@@ -3168,7 +3163,7 @@
         <field>hed__Course__c.Delivery_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course__c.External_Organisation__c</field>
         <readable>true</readable>
@@ -3178,17 +3173,17 @@
         <field>hed__Course__c.Field_of_Education__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course__c.Location_Details__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course__c.LMS_Content_Delivery_Location__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course__c.Maximum_Participants__c</field>
         <readable>true</readable>
@@ -3203,7 +3198,7 @@
         <field>hed__Course__c.OPE_Design_Complete__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course__c.Resource_Details__c</field>
         <readable>true</readable>
@@ -3259,6 +3254,16 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Product2.Detail_URL__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Product2.Detail_Full_URL__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Product2.Description__c</field>
         <readable>true</readable>
@@ -3276,6 +3281,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Product2.Duration__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Product2.Do_not_Show_Start_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3308,7 +3318,7 @@
         <field>Product2.Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
-     <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Product2.Program_Plan__c</field>
         <readable>true</readable>
@@ -3932,7 +3942,8 @@
         <editable>true</editable>
         <field>Program_Offering__c.Content_Challenged_Thinking__c</field>
         <readable>true</readable>
-    </fieldPermissions> <fieldPermissions>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Program_Offering__c.Develop_Topic_Insights__c</field>
         <readable>true</readable>
@@ -4128,7 +4139,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-         <editable>true</editable>
+        <editable>true</editable>
         <field>hed__Program_Plan__c.Implementation_Year__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4168,7 +4179,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-         <editable>true</editable>
+        <editable>true</editable>
         <field>hed__Program_Plan__c.Owning_Faculty__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4178,7 +4189,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-         <editable>true</editable>
+        <editable>true</editable>
         <field>hed__Program_Plan__c.Product_Request__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4257,12 +4268,12 @@
         <field>hed__Program_Plan__c.Field_of_Education__c</field>
         <readable>true</readable>
     </fieldPermissions>
-     <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>hed__Program_Plan__c.Other_Completion_Requirements__c</field>
         <readable>true</readable>
     </fieldPermissions>
-      <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>hed__Program_Plan__c.Code__c</field>
         <readable>true</readable>
@@ -4307,7 +4318,7 @@
         <field>hed__Program_Plan__c.Right_Signature__c</field>
         <readable>true</readable>
     </fieldPermissions>
-     <fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Product_Ledger__c.Purchased_Price_v2__c</field>
         <readable>true</readable>
@@ -6224,33 +6235,13 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
-        <default>false</default>
-        <recordType
-    >Product_Request__c.Educational_Consultancy_Request</recordType>
-        <visible>true</visible>
-    </recordTypeVisibilities>
-    <recordTypeVisibilities>
-        <default>false</default>
-        <recordType
-    >Product_Request__c.Corporate_Bundle_Request</recordType>
-        <visible>true</visible>
-    </recordTypeVisibilities>
-    <recordTypeVisibilities>
-        <default>false</default>
-        <recordType
-    >Product_Request__c.Stand_Alone_Unit_Module_Request</recordType>
-        <visible>true</visible>
-    </recordTypeVisibilities>
-    <recordTypeVisibilities>
         <default>true</default>
-        <recordType
-    >Product_Specification__c.CCE</recordType>
+        <recordType>Product_Specification__c.CCE</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>false</default>
-        <recordType
-    >Product_Specification__c.OPE</recordType>
+        <recordType>Product_Specification__c.OPE</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <tabVisibilities>

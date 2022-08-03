@@ -40,6 +40,9 @@
       |                           |                       |                      | Manage Registration backed   |
       | john.bo.a.pineda          | June 28, 2022         | DEPP-3314            | Uncommented code that sets   |
       |                           |                       |                      | the Selected Pricebook       |
+      | julie.jane.alegre         | July 4, 2022          | DEPP-3389            | Remove Registration Criteria |
+      |                           |                       |                      | on getQuestions method       |
+      | john.m.tambasen           | July 29, 2022         | DEPP-3577            | PBE early bird               |
 */
 
 public without sharing class ManageRegistrationSectionCtrl {
@@ -64,8 +67,7 @@ public without sharing class ManageRegistrationSectionCtrl {
                     Question__r.Dropdown_Options__c
                     FROM Related_Answer__c
                     WHERE Questionnaire__r.Parent_Record_ID__c =: productReqId
-                    AND (Questionnaire__r.Questionnaire_Type__c = 'Registration Questions'
-                    OR Questionnaire__r.Questionnaire_Type__c = 'Registration Criteria')
+                    AND Questionnaire__r.Questionnaire_Type__c = 'Registration Questions'
                     ORDER BY Questionnaire__r.Questionnaire_Type__c, Sequence__c
                ]
           );
@@ -98,7 +100,7 @@ public without sharing class ManageRegistrationSectionCtrl {
           List<hed__Course_Enrollment__c > courseConnections = [
                SELECT Id, Name, hed__Contact__c, hed__Contact__r.Id, hed__Contact__r.Name, Pricing_Validation__c, hed__Course_Offering__c, Cart_ID__r.External_Id__c, Cart_ID__r.Amount_Paid__c,
                     Cart_ID__r.TotalAmount, Paid_in_Full__c, hed__Status__c, LMS_Integration_Status__c, hed__Contact__r.FirstName, hed__Contact__r.LastName,
-                    hed__Contact__r.Birthdate, hed__Contact__r.Email, Payment_Method__c, Cart_Item__r.Pricebook_Entry_ID__c, Is_Group_Registered__c
+                    hed__Contact__r.Birthdate, Payment_Method__c, Cart_Item__r.Pricebook_Entry_ID__c, Is_Group_Registered__c, hed__Contact__r.Registered_Email__c
                  FROM hed__Course_Enrollment__c
                 WHERE
                     RecordTypeId IN (:studentRecTypeId, :studentProgramRecTypeId)
@@ -132,7 +134,7 @@ public without sharing class ManageRegistrationSectionCtrl {
                regDetails.contactFirstName = student.hed__Contact__r.FirstName;
                regDetails.contactLastName = student.hed__Contact__r.LastName;
                regDetails.contactBirthdate = student.hed__Contact__r.Birthdate;
-               regDetails.contactEmail = student.hed__Contact__r.Email;
+               regDetails.contactEmail = student.hed__Contact__r.Registered_Email__c;
                regDetails.paymentMethod = student.Payment_Method__c;
                regDetails.isGroupRegistered = student.Is_Group_Registered__c;
                regDetails.registrationStatus = student.hed__Status__c;
@@ -148,10 +150,11 @@ public without sharing class ManageRegistrationSectionCtrl {
                          regDetails.applicationName =  contactToQRSummary.get(student.hed__Contact__c).Name;
                     }
                }
-               if((student.Paid_in_Full__c == 'No' && student.Payment_Method__c == 'Invoice' && student.Is_Group_Registered__c) || (student.Paid_in_Full__c == 'No' && student.Payment_Method__c == 'Invoice')){
+               if(((student.Paid_in_Full__c == 'No' && student.Payment_Method__c == 'Invoice' && student.Is_Group_Registered__c) || (student.Paid_in_Full__c == 'No' && student.Payment_Method__c == 'Invoice'))
+                    && student.hed__Contact__r.Registered_Email__c != null){
                     regDetails.regenerateInvoiceURL = paymentGatewayURLBuilder(
                          student.Cart_ID__r.External_Id__c,
-                         student.hed__Contact__r.Email,
+                         student.hed__Contact__r.Registered_Email__c,
                          student.hed__Contact__r.Name,
                          student.Cart_ID__r.TotalAmount,
                          product.Name
@@ -303,8 +306,48 @@ public without sharing class ManageRegistrationSectionCtrl {
      public static List<Map<String,String>> getPBEntries(String childRecordId, Boolean prescribedProgram){
           Product2 product = getProduct(childRecordId, prescribedProgram);
           List<Map<String,String>> pBEntries = new List<Map<String,String>>();
-          List<PricebookEntry> priceBookEntries = [SELECT Id, Pricebook2.Name FROM PricebookEntry WHERE Product2Id =: product.Id ORDER BY CreatedDate];
+
+          Date startDate;
+
+          //get the offering start date to be checked with early bird no of days
+          //if prescribed program
+          if(prescribedProgram){
+               //get start date value in Program_Offering__c
+               // Program_Offering__c programOffering = [SELECT Id, Start_Date__c FROM Program_Offering__c WHERE Id =: childRecordId LIMIT 1];
+
+               startDate = [SELECT Id, Start_Date__c, Registration_Start_Date__c  FROM Program_Offering__c WHERE Id =: childRecordId LIMIT 1].Start_Date__c;
+
+          //else course only
+          } else{
+               //get start date value in hed__Course_Offering__c
+               // hed__Course_Offering__c courseOffering = [SELECT Id, hed__Start_Date__c  FROM hed__Course_Offering__c WHERE Id =: childRecordId LIMIT 1];
+
+               startDate = [SELECT Id, hed__Start_Date__c, Registration_Start_Date__c  FROM hed__Course_Offering__c WHERE Id =: childRecordId LIMIT 1].hed__Start_Date__c;
+          }
+
+          List<PricebookEntry> priceBookEntries = [SELECT 
+                                                       Id, Pricebook2.Name, IsActive, Early_Bird_No_of_Days__c
+                                                  FROM 
+                                                       PricebookEntry 
+                                                  WHERE 
+                                                       Product2Id =: product.Id AND IsActive = true
+                                                  ORDER BY 
+                                                       CreatedDate];
+
           for(PricebookEntry pe : priceBookEntries){
+
+               //if current iteration is for Early Bird
+               if(pe.Pricebook2.Name == 'Early Bird'){
+
+                    //convert to int to use addDays, multiply by -1 to subract instead of adding, and -1 to include today
+                    Integer daysInt = -1 * Integer.valueOf(pe.Early_Bird_No_of_Days__c);
+
+                    //compare today if it is less than the start date allowed for early bird
+                    if( Datetime.now().Date() >= startDate.addDays(daysInt) ){
+                         continue;
+                    }
+               }
+
                pBEntries.add(new Map<String,String>{
                     'id' => pe.Id,
                     'label' => pe.Pricebook2.Name
@@ -331,6 +374,7 @@ public without sharing class ManageRegistrationSectionCtrl {
                 Name LIKE :filterString OR
                 Name = :filterString
             ) AND Id NOT IN:filterContacts
+            AND RecordType.DeveloperName = 'Person'
             LIMIT 15
         ]){
           contactMap.add(new Map<String,String>{
@@ -341,6 +385,49 @@ public without sharing class ManageRegistrationSectionCtrl {
         }
         return contactMap;
     }
+    
+    /**
+      * @Retrieves list of Price Book Entries from Product Management tab
+      * @param childRecordId - offering Id
+      * @return List<Map<String,String>> - id and price book name
+      */
+      @AuraEnabled(cacheable=true)
+      public static List<Map<String,String>> getEmailOptions(String contactId){
+          List<Map<String,String>> emailOptions = new List<Map<String,String>>();
+           List<Contact> con = [SELECT Id, Email, QUT_Staff_Email__c, QUT_Learner_Email__c, Work_Email__c FROM Contact WHERE Id=: contactId];
+           
+           if(!con.isEmpty() && con[0].Email != null){
+               emailOptions.add(new Map<String,String>{
+                    'value' => con[0].Email,
+                    'label' => con[0].Email,
+                    'meta' => 'Email'
+               });
+           }
+           if(!con.isEmpty() && con[0].QUT_Learner_Email__c != null){
+               emailOptions.add(new Map<String,String>{
+                    'value' => con[0].QUT_Learner_Email__c,
+                    'label' => con[0].QUT_Learner_Email__c,
+                    'meta' => 'Learner Email'
+               });
+           }
+           if(!con.isEmpty() && con[0].QUT_Staff_Email__c != null){
+               emailOptions.add(new Map<String,String>{
+                    'value' => con[0].QUT_Staff_Email__c,
+                    'label' => con[0].QUT_Staff_Email__c,
+                    'meta' => 'Staff Email'
+               });
+           }
+           if(!con.isEmpty() && con[0].Work_Email__c != null){
+               emailOptions.add(new Map<String,String>{
+                    'value' => con[0].Work_Email__c,
+                    'label' => con[0].Work_Email__c,
+                    'meta' => 'Work Email'
+               });
+           }
+
+           return emailOptions;
+      }
+    
 
      /**
      * @description get list of contacts searched
@@ -379,13 +466,15 @@ public without sharing class ManageRegistrationSectionCtrl {
                contactRecEmail = contactRecord.Email;
                contactRecFname = contactRecord.FirstName;
                contactRecLname = contactRecord.LastName;
+               contactRecord.Registered_Email__c = contactRecord.Email;
                insert contactRecord;
           }else{
                Contact con = [SELECT Id, Name, Email, FirstName, LastName FROM Contact WHERE Id =: contactRecord.Id LIMIT 1];
                contactRecName = con.Name;
-               contactRecEmail = con.Email;
+               contactRecEmail = contactRecord.Registered_Email__c;
                contactRecFname = con.FirstName;
                contactRecLname = con.LastName;
+               update contactRecord;
           }
 
           for(Related_Answer__c relatedA: relatedAnswerList){
@@ -584,18 +673,20 @@ public without sharing class ManageRegistrationSectionCtrl {
          String contactRecLname;
 
          if(contactRecord.Id == NULL){
-              contactRecName = contactRecord.FirstName + ' ' + contactRecord.LastName;
-              contactRecEmail = contactRecord.Email;
-              contactRecFname = contactRecord.FirstName;
-              contactRecLname = contactRecord.LastName;
-              insert contactRecord;
-         }else{
-              Contact con = [SELECT Id, Name, Email, FirstName, LastName FROM Contact WHERE Id =: contactRecord.Id LIMIT 1];
-              contactRecName = con.Name;
-              contactRecEmail = con.Email;
-              contactRecFname = con.FirstName;
-              contactRecLname = con.LastName;
-         }
+               contactRecName = contactRecord.FirstName + ' ' + contactRecord.LastName;
+               contactRecEmail = contactRecord.Email;
+               contactRecFname = contactRecord.FirstName;
+               contactRecLname = contactRecord.LastName;
+               contactRecord.Registered_Email__c = contactRecord.Email;
+               insert contactRecord;
+          }else{
+               Contact con = [SELECT Id, Name, Email, FirstName, LastName FROM Contact WHERE Id =: contactRecord.Id LIMIT 1];
+               contactRecName = con.Name;
+               contactRecEmail = contactRecord.Registered_Email__c;
+               contactRecFname = con.FirstName;
+               contactRecLname = con.LastName;
+               update contactRecord;
+          }
 
          for(Related_Answer__c relatedA: relatedAnswerList){
               questionnaireIds.add(relatedA.Questionnaire__c);
@@ -742,11 +833,11 @@ public without sharing class ManageRegistrationSectionCtrl {
                    childCourseConnection.hed__Status__c = 'Active';
 
                    if(amount == 0){
-                    childCourseConnection.Paid_in_Full__c = 'No';
-                    childCourseConnection.Payment_Method__c = 'Invoice';
+                    childCourseConnection.Paid_in_Full__c = 'Yes';
+                    childCourseConnection.Payment_Method__c = 'No Charge';
                    } else {
-                    childCourseConnection.Paid_in_Full__c = 'No';
-                    childCourseConnection.Payment_Method__c = 'Invoice';
+                    childCourseConnection.Paid_in_Full__c = 'Yes';
+                    childCourseConnection.Payment_Method__c = 'Admin Added';
                    }
 
 

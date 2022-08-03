@@ -48,10 +48,13 @@ private class ProductDetailsCtrlTest {
     .get(PR_PROGRAM)
     .getRecordTypeId();
 
-  private static final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
-
   @testSetup
   static void setupMethod() {
+    TestDataFactory.generateTestUsers();
+    EmailTemplate template = TestDataFactory.createTestEmailTemplateRecords(1,new Map<String,String>{
+      'Send Register Interest Email' => 'Test Email Subject'}).iterator().next();
+    insert template;
+
     Study_Store_URL_Settings__c studyStore = new Study_Store_URL_Settings__c(
       Name = 'QUTeX',
       Study_Store_Link__c = 'https://studystorelinktest.com/'
@@ -341,7 +344,7 @@ private class ProductDetailsCtrlTest {
 
     System.runAs(currUsr) {
       Test.startTest();
-
+	Boolean CCE = true;
       List<ProductDetailsCtrl.CourseOfferingWrapper> getCourseOfferings = new List<ProductDetailsCtrl.CourseOfferingWrapper>();
       getCourseOfferings = ProductDetailsCtrl.getCourseOfferingRelatedRecords(
         [
@@ -351,7 +354,8 @@ private class ProductDetailsCtrlTest {
           LIMIT 1
         ]
         .Course__c,
-        new List<String>{ 'Online Classroom' }
+        new List<String>{ 'Online Classroom' },
+          CCE
       );
 
       Test.stopTest();
@@ -462,6 +466,7 @@ private class ProductDetailsCtrlTest {
 
   @isTest
   static void testInsertExpressionOfInterest() {
+    User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
     System.runAs(PORTAL_SYS_ADMIN) {
       //Create account
       Account portalAccount1 = new Account(
@@ -476,7 +481,7 @@ private class ProductDetailsCtrlTest {
         FirstName = 'Test',
         Lastname = 'McTesty',
         AccountId = portalAccount1.Id,
-        Email = System.now().millisecond() + 'test@test.com'
+        Registered_Email__c = System.now().millisecond() + 'test@test.com'
       );
       Database.insert(contact1);
 
@@ -524,77 +529,8 @@ private class ProductDetailsCtrlTest {
   }
 
   @IsTest
-  static void addRegistrationTest() {
-    User currUsr = [
-      SELECT Id
-      FROM User
-      WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
-      LIMIT 1
-    ];
-
-    System.runAs(currUsr) {
-      createRecord(opeActProdReqRecType);
-      String cOfferingId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;
-      Contact newContact = new Contact(
-        FirstName = 'testqtest123',
-        LastName = 'testqtest',
-        Email = 'testqtest123@emailemail.com'
-      );
-
-      Id relatedQuestionnaireId = [SELECT Id FROM Questionnaire__c LIMIT 1].Id;
-
-      List<Question__c> questionList = TestDataFactory.createTestQuestionRecords(
-        5
-      );
-      insert questionList;
-
-      List<Related_Answer__c> relatedAnswers = TestDataFactory.createTestRelatedAnswerRecords(
-        5,
-        relatedQuestionnaireId,
-        questionList
-      );
-      insert relatedAnswers;
-      List<ProductDetailsCtrl.FileUpload> fileLoadList = new List<ProductDetailsCtrl.FileUpload>();
-      List<Answer__c> answerList = new List<Answer__c>();
-      Answer__c newAnswer;
-      ProductDetailsCtrl.FileUpload fileLoad = new ProductDetailsCtrl.FileUpload();
-      for (Related_Answer__c relatedA : relatedAnswers) {
-        newAnswer = new Answer__c(
-          Response__c = relatedA.Id,
-          Related_Answer__c = relatedA.Id
-        );
-        answerList.add(newAnswer);
-
-        fileLoad.Base64 = 'Test Content';
-        fileLoad.FileName = relatedA.Id;
-        fileLoad.RelatedAnswerId = relatedA.Id;
-
-        fileLoadList.add(fileLoad);
-      }
-
-      Test.startTest();
-      ProductDetailsCtrl.addRegistration(
-        newContact,
-        cOfferingId,
-        relatedAnswers,
-        answerList,
-        JSON.serialize(fileLoadList),
-        false
-      );
-      Test.stopTest();
-      system.assert(
-        ![SELECT Id FROM ContentVersion].isEmpty(),
-        'Document not created'
-      );
-      system.assert(
-        ![SELECT Id FROM Answer__c].isEmpty(),
-        'Answer not created'
-      );
-    }
-  }
-
-  @IsTest
   static void saveApplicationTest() {
+    User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
     User currUsr = [
       SELECT Id
       FROM User
@@ -632,6 +568,7 @@ private class ProductDetailsCtrlTest {
     }
 
     System.runAs(currUsr) {
+      Test.startTest();
       createRecord(opeActProdReqRecType);
       String cOfferingId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;
 
@@ -666,7 +603,6 @@ private class ProductDetailsCtrlTest {
         fileLoadList.add(fileLoad);
       }
 
-      Test.startTest();
       ProductDetailsCtrl.saveApplication(
         [SELECT Id FROM Contact WHERE LastName = 'McTesty' LIMIT 1]
         ?.Id,
@@ -781,7 +717,10 @@ private class ProductDetailsCtrlTest {
 
   @isTest
   static void testGetProductDataRelatedToProductRequestForPrescribedProgram() {
-    Id accountId = [SELECT Id FROM Account LIMIT 1].Id;
+    Id accountId = [SELECT Id 
+                    FROM Account 
+                    WHERE RecordTypeId=:ACCT_UNIV_DEP_ID 
+                    	AND Organization_Unit_Level__c='2' LIMIT 1].Id;
     User currUsr = [
       SELECT Id
       FROM User

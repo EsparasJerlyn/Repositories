@@ -60,7 +60,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>LWC_Error_EndDate</shortDescription>
-        <value>End Date should not be greater than Start Date.</value>
+        <value>End Date should be equal to or greater than Start Date.</value>
     </labels>
     <labels>
         <fullName>LWC_Error_MultiRecordTypes_CompleteStageOnParent</fullName>
@@ -124,7 +124,8 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>LWC_List_CCEChildFilter</shortDescription>
-        <value>Coaching Request,Diagnostic Tool Request,Educational Consultancy Request,Activity,Unit,Module,Individual Coaching</value>
+        <!-- <value>Coaching Request,Diagnostic Tool Request,Educational Consultancy,Activity,Unit,Module,Individual Coaching, Group Coaching</value> -->
+        <value>Individual Coaching,Group Coaching,Educational Consultancy,Diagnostic Tool,Unit,Module,Activity,Standing Offer Arrangement</value>
     </labels>
     <labels>
         <fullName>LWC_List_CCEParentFilter</fullName>
@@ -132,7 +133,16 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>LWC_List_CCEParentFilter</shortDescription>
-        <value>Program,Stand-Alone Unit / Module Request,Coaching Request,Educational Consultancy Request,Activity,Corporate Bundle Request,Unit,Module,Individual Coaching</value>
+        <!-- <value>Coaching Request,Diagnostic Tool Request,Educational Consultancy,Activity,Unit,Module,Individual Coaching, Group Coaching</value> -->
+        <value>Program,Individual Coaching,Group Coaching,Educational Consultancy,Diagnostic Tool,Unit,Module,Activity,Standing Offer Arrangement</value>
+    </labels>
+    <labels>
+        <fullName>LWC_List_SOA_ChildFilter</fullName>
+        <categories>LWC,List</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>LWC_List_SOA_ChildFilter</shortDescription>
+        <value>Program,Diagnostic Tool,Educational Consultancy,Activity,Unit,Module,Individual Coaching, Group Coaching</value>
     </labels>
     <labels>
         <fullName>LWC_List_ConfirmedLearnerStatus</fullName>
@@ -261,6 +271,13 @@
         <value>0 0 0 ? * MON-FRI</value>
     </labels>
     <labels>
+        <fullName>Send_Welcome_Email_Cron_Expression</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Send Welcome Email Cron Expression</shortDescription>
+        <value>0 0 7 ? * MON-SUN</value>
+    </labels>
+    <labels>
         <fullName>Loqate_Mobile_Validation_Cron_Expression</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -280,6 +297,22 @@
         <protected>false</protected>
         <shortDescription>QUTeXProducts</shortDescription>
         <value>QUTeX Products</value>
+    </labels>
+    <labels>
+        <fullName>RT_Action_Activity</fullName>
+        <categories>RecordType,Action</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RT_Action_Activity</shortDescription>
+        <value>Activity</value>
+    </labels>
+    <labels>
+        <fullName>RT_Action_Investigation</fullName>
+        <categories>RecordType,Action</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RT_Action_Investigation</shortDescription>
+        <value>Investigation</value>
     </labels>
     <labels>
         <fullName>RT_Contact_Person</fullName>
@@ -330,6 +363,30 @@
         <value>Activity</value>
     </labels>
     <labels>
+        <fullName>RT_ProductRequest_Educ_Consultancy</fullName>
+        <categories>RecordType,ProductRequest</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RT_ProductRequest_Educ_Consultancy</shortDescription>
+        <value>Educational_Consultancy</value>
+    </labels>
+    <labels>
+        <fullName>DesignToPublishObjects</fullName>
+        <categories>LWC,List</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DesignToPublishObjects</shortDescription>
+        <value>Consultancy__c</value>
+    </labels>
+    <labels>
+        <fullName>RT_ProductRequest_SOA</fullName>
+        <categories>RecordType,ProductRequest</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RT_ProductRequest_SOA</shortDescription>
+        <value>Standing_Offer_Arrangement</value>
+    </labels>
+    <labels>
         <fullName>RT_ProductRequest_Module</fullName>
         <categories>RecordType,ProductRequest</categories>
         <language>en_US</language>
@@ -360,6 +417,30 @@
         <protected>false</protected>
         <shortDescription>RT_ProductRequest_Unit</shortDescription>
         <value>Unit</value>
+    </labels>
+    <labels>
+        <fullName>RT_ProductRequest_Diagnostic_Tool</fullName>
+        <categories>RecordType,ProductRequest</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RT_ProductRequest_Diagnostic_Tool</shortDescription>
+        <value>Diagnostic_Tool</value>
+    </labels>
+    <labels>
+        <fullName>RT_ProductRequest_Individual_Coaching</fullName>
+        <categories>RecordType,ProductRequest</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RT_ProductRequest_Individual_Coaching</shortDescription>
+        <value>Individual_Coaching</value>
+    </labels>
+    <labels>
+        <fullName>RT_ProductRequest_Educational_Consultancy_Request</fullName>
+        <categories>RecordType,ProductRequest</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RT_ProductRequest_Educational_Consultancy_Request</shortDescription>
+        <value>Educational_Consultancy_Request</value>
     </labels>
     <labels>
         <fullName>RT_ProductSpecification_OPEProgramSpecification</fullName>
@@ -433,13 +514,6 @@
         <value>Faculty</value>
     </labels>
     <labels>
-        <fullName>QUT_RegistrationForm_Header</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>QUT_RegistrationForm_Header</shortDescription>
-        <value>Tell us about you</value>
-    </labels>
-    <labels>
         <fullName>QUT_GSB</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -447,158 +521,11 @@
         <value>QUT GSB &amp; QUTeX</value>
     </labels>
     <labels>
-        <fullName>QUT_RegistrationForm_IndicatesRequiredField</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>QUT_RegistrationForm_IndicatesRequiredField</shortDescription>
-        <value>Indicates a required field</value>
-    </labels>
-    <labels>
-        <fullName>QUT_RegistrationForm_PrivacyPolicy</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>QUT_RegistrationForm_PrivacyPolicy</shortDescription>
-        <value>I acknowledge and accept the</value>
-    </labels>
-    <labels>
-        <fullName>QUT_RegistrationForm_RegisterWithLinkedIn</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>QUT_RegistrationForm_RegisterWithLinkedIn</shortDescription>
-        <value>Register with LinkedIn</value>
-    </labels>
-    <labels>
-        <fullName>QUT_RegistrationForm_SSO</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>QUT_RegistrationForm_SSO</shortDescription>
-        <value>Previously studied with QUTeX? Login instead</value>
-    </labels>
-    <labels>
-        <fullName>QUT_RegistrationForm_subHeader</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>QUT_RegistrationForm_subHeader</shortDescription>
-        <value>Register to participate in professional and executive education</value>
-    </labels>
-    <labels>
-        <fullName>QUT_ProductDetail_Overview</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>QUT_ProductDetail_Overview</shortDescription>
-        <value>Overview</value>
-    </labels>
-    <labels>
-        <fullName>QUT_ProductDetail_Professional_Development_Modules</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>QUT_ProductDetail_Professional_Development_Modules</shortDescription>
-        <value>Professional Development Modules</value>
-    </labels>
-    <labels>
-        <fullName>QUT_ProductDetail_CoreConcepts</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>QUT_ProductDetail_CoreConcepts</shortDescription>
-        <value>Core concepts</value>
-    </labels>
-    <labels>
-        <fullName>QUT_ProductDetail_EvolveWithQUTeX</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>QUT_ProductDetail_EvolveWithQUTeX</shortDescription>
-        <value>Evolve with QUTeX</value>
-    </labels>
-    <labels>
-        <fullName>QUT_ProductDetail_WhoShouldParticipate</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>QUT_ProductDetail_WhoShouldParticipate</shortDescription>
-        <value>Who should participate</value>
-    </labels>
-    <labels>
-        <fullName>QUT_ProductDetail_Facilitator</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>QUT_ProductDetail_Facilitator</shortDescription>
-        <value>Facilitator</value>
-    </labels>
-    <labels>
         <fullName>QUT_ProductDetail_Location</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>QUT_ProductDetail_Location</shortDescription>
         <value>Location</value>
-    </labels>
-    <labels>
-        <fullName>QUT_ProductDetail_Details</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>QUT_ProductDetail_Details</shortDescription>
-        <value>Details</value>
-    </labels>
-    <labels>
-        <fullName>QUT_ProductDetail_Duration</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>QUT_ProductDetail_Duration</shortDescription>
-        <value>Duration</value>
-    </labels>
-    <labels>
-        <fullName>QUT_ProductDetail_Delivery</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>QUT_ProductDetail_Delivery</shortDescription>
-        <value>Delivery</value>
-    </labels>
-    <labels>
-        <fullName>QUT_ProductDetail_Delivery_Placeholder</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>QUT_ProductDetail_Delivery_Placeholder</shortDescription>
-        <value>Choose delivery method</value>
-    </labels>
-    <labels>
-        <fullName>QUT_ProductDetail_AvailableStartDates</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>QUT_ProductDetail_AvailableStartDates</shortDescription>
-        <value>Available start dates</value>
-    </labels>
-    <labels>
-        <fullName>QUT_ProductDetail_AvailableStartDates_Placeholder</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>QUT_ProductDetail_AvailableStartDates_Placeholder</shortDescription>
-        <value>Choose start date</value>
-    </labels>
-    <labels>
-        <fullName>QUT_ProductDetail_Pricing</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>QUT_ProductDetail_Pricing</shortDescription>
-        <value>Pricing</value>
-    </labels>
-    <labels>
-        <fullName>QUT_ProductDetail_Pricing_Placeholder</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>QUT_ProductDetail_Pricing_Placeholder</shortDescription>
-        <value>Choose pricing</value>
-    </labels>
-    <labels>
-        <fullName>QUT_ProductDetail_AddToCart</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>QUT_ProductDetail_AddToCart</shortDescription>
-        <value>ADD TO CART</value>
-    </labels>
-    <labels>
-        <fullName>QUT_ProductDetail_RegisterInterest</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>QUT_ProductDetail_RegisterInterest</shortDescription>
-        <value>REGISTER INTEREST</value>
     </labels>
     <labels>
         <fullName>QUT_ProductDetail_SubHeader</fullName>
@@ -692,11 +619,19 @@
         <value>Individual_Coaching</value>
     </labels>
     <labels>
-        <fullName>RT_Course_Indiv_Coaching</fullName>
+        <fullName>RT_ProductRequest_Group_Coaching</fullName>
+        <categories>RecordType,ProductRequest</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RT_ProductRequest_Group_Coaching</shortDescription>
+        <value>Group_Coaching</value>
+    </labels>
+    <labels>
+        <fullName>RT_Course_Group_Coaching</fullName>
         <categories>RecordType,Course</categories>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>RT_Course_Indiv_Coaching</shortDescription>
-        <value>Individual_Coaching</value>
+        <shortDescription>RT_Course_Group_Coaching</shortDescription>
+        <value>Group_Coaching</value>
     </labels>
 </CustomLabels>

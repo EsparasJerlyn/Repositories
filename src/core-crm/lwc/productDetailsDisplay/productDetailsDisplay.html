@@ -352,9 +352,17 @@
                 <div class="slds-card__header-title">
                   <span class="durationTitle">{label.duration}</span>
                 </div>
-                <div class="slds-m-top_x-small durationValue">
+                <div 
+                if:false={isCCEPortal}
+                class="slds-m-top_x-small durationValue">
                   {productDetails.Duration__c}
                 </div>
+                <div 
+                if:true={isCCEPortal}
+                class="slds-m-top_x-small durationValue">
+                  {productDetails.Duration__c} hours
+                </div>                
+                
               </div>
             </div>
           </lightning-layout-item>
@@ -383,7 +391,8 @@
             size="12"
             class="slds-m-bottom_small"
           >
-            <c-custom-combobox
+            <template if:false={doNotShowStartDate}>
+              <c-custom-combobox
               class="availStartDates"
               field-label={label.availableStartDates}
               placeholder={label.availableStartDatesPlaceholder}
@@ -393,11 +402,13 @@
               onchange={handleStartDateSelected}
               slds-icon-up="utility:chevronup"
               slds-icon-down="utility:chevrondown"
-            >
-            </c-custom-combobox>
+              >
+              </c-custom-combobox>
+            </template>
           </lightning-layout-item>
           <!-- Pricing -->
           <lightning-layout-item
+            if:true={displayPricing}
             flexibility="auto"
             size="12"
             class="slds-m-bottom_small"
@@ -407,7 +418,7 @@
               field-label={label.pricing}
               placeholder={label.pricingPlaceholder}
               disabled={disablePriceBookEntry}
-              options={priceBookEntriesCopy}
+              options={priceBookEntriesFiltered}
               value={selectedPriceBookEntry}
               onchange={handlePricebookSelected}
               slds-icon-up="utility:chevronup"
@@ -453,7 +464,7 @@
           >
             <lightning-button
               label={label.registerInterest}
-              onclick={registerInterest}
+              onclick={handleRegisterInterest}
               variant="brand"
               class="registerInterest"
             ></lightning-button>
@@ -488,6 +499,71 @@
             >
             </lightning-button>
           </lightning-layout-item>
+
+            <!-- Bulk Registration -->
+     
+            <lightning-layout-item
+              if:true={displayBulkRegistration}
+              flexibility="auto"
+              size="12"
+              style="margin-top: 10px"
+            >
+            <span class="tooltip">   
+              <lightning-button
+                label="Bulk Registration"
+                onclick={bulkRegistration}
+                disabled={disableBulkRegistration}
+                variant="brand"
+                class="addToCartBtn"
+              >
+              </lightning-button> 
+              <span class="tooltiptext">Assign your employees to this product</span>              
+            </span>             
+            </lightning-layout-item>
+
+            <!-- Employee Self-Registration -->
+            <lightning-layout-item
+              if:true={displayEmployeeSelfRegistration}
+              flexibility="auto"
+              size="12"
+              style="margin-top: 10px"
+            >
+            <span class="tooltip">  
+              <lightning-button
+                label="Employee Self-Registration"
+                onclick={employeeSelfRegistration}
+                disabled={disableEmployeeSelfRegistration}
+                variant="brand"
+                class="addToCartBtn"
+              >
+              </lightning-button>
+              <span class="tooltiptext">Receive an email to send on to your employees so they can self register into this product</span>              
+            </span>                 
+            </lightning-layout-item>          
+
+            <!-- Manage Registration -->
+                     
+            <lightning-layout-item
+              if:true={displayManageRegistration}
+              flexibility="auto"
+              size="12"
+              style="margin-top: 10px"
+            >
+             <span class="tooltip">   
+              <lightning-button
+                label="Manage Registration"
+                onclick={manageRegistration}
+                disabled={disableManageRegistration}
+                variant="brand"
+                class="addToCartBtn"
+              >
+              </lightning-button>
+              
+              <span class="tooltiptext">Review, add or update the employees registered against a product</span>              
+ 
+            </span>  
+            </lightning-layout-item> 
+            
         </lightning-layout>
       </lightning-layout-item>
     </lightning-layout>
@@ -498,6 +574,8 @@
       class="regModal"
       onclose={handleModalClosed}
       param={paramURL}
+      record-id={recordId}
+      record-name-id={recordNameId}
     ></c-registration-form>
   </template>
 
@@ -512,16 +590,16 @@
       onclose={applicationQuestionnaireClosed}
     ></c-application-questionnaire>
   </template>
-  <template if:true={openAddToCartConfirmModal}>
+  <template if:true={isModalMessage}>
     <c-custom-modal-confirm-message
-      is-modal-message={openAddToCartConfirmModal}
+      is-modal-message={isModalMessage}
       message1={message1}
       message2={message2}
       is-continue-to-payment={isContinueToPayment}
       is-continue-browsing={isContinueBrowsing}
       handle-continue-browsing={handleContinueBrowsing}
       handle-continue-to-payment={handleContinueToPayment}
-      close-modal-message={addToCartModalClosed}
+      onclose={addToCartModalClosed}
     ></c-custom-modal-confirm-message>
     <!-- <c-add-to-cart-confirm-dialog onclose={addToCartModalClosed}>
     </c-add-to-cart-confirm-dialog> -->
