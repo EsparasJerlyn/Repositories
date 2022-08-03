@@ -199,11 +199,16 @@
         <fields>RestrictionAmount</fields>
         <relatedList>PromotionTargets</relatedList>
     </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <fields>Product__c</fields>
+        <relatedList>Promotion_Product__c.Promotion__c</relatedList>
+    </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h9n00000022Lt</masterLabel>
+        <masterLabel>00h9n0000002KZU</masterLabel>
         <sizeX>3</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

@@ -1365,6 +1365,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Promotion_Product__c.IsActive__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Promotion_Product__c.Product__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Question__c.Acceptable_Response__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2035,6 +2045,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>hed__Course__c.Coach_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>hed__Course__c.Collaboration_with_External_Organisation__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2113,6 +2128,7 @@
         <field>hed__Course__c.Design_Form_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
+
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course__c.End_Date__c</field>
@@ -2143,6 +2159,7 @@
         <field>hed__Course__c.Field_of_Education__c</field>
         <readable>true</readable>
     </fieldPermissions>
+
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course__c.Implementation_Year__c</field>
@@ -2223,6 +2240,7 @@
         <field>hed__Course__c.More_Detailsv2__c</field>
         <readable>true</readable>
     </fieldPermissions>
+   
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course__c.Number_Of_Groups__c</field>
@@ -2288,6 +2306,7 @@
         <field>hed__Course__c.Resource_Details__c</field>
         <readable>true</readable>
     </fieldPermissions>
+
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course__c.Start_Date__c</field>
@@ -2523,6 +2542,7 @@
         <field>hed__Program_Plan__c.Location__c</field>
         <readable>true</readable>
     </fieldPermissions>
+
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Program_Plan__c.Mark_Design_Stage_as_Complete__c</field>
@@ -2941,6 +2961,15 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
+        <object>Promotion_Product__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
         <object>Question__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
@@ -3161,6 +3190,10 @@
     </tabSettings>
     <tabSettings>
         <tab>Program_Offering__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>Promotion_Product__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>

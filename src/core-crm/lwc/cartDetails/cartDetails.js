@@ -47,13 +47,14 @@ const CONTACT_FIELDS = [
   "User.ContactId",
   "User.Contact.FirstName",
   "User.Contact.LastName",
-  "User.Contact.Email",
   "User.Contact.MobilePhone",
+  "User.Contact.Registered_Email__c",
   "User.Contact.Dietary_Requirement__c",
+  "User.Contact.Accessibility_Requirement__c",
   "User.Contact.Company_Name__c",
   "User.Contact.Position__c",
   "User.Contact.Nominated_Employee_ID__c",
-  "User.Contact.Nominated_Student_ID__c",
+  "User.Contact.Nominated_Student_ID__c"
 ];
 
 export default class CartDetails extends LightningElement {
@@ -61,9 +62,10 @@ export default class CartDetails extends LightningElement {
   @track contactId;
   @track contactFname;
   @track contactLname;
-  @track contactEmail;
   @track contactMobile;
+  @track contactEmail;
   @track contactDiet;
+  @track contactAccReq;
   @track contactCompany;
   @track contactPosition;
   @track contactEmpId;
@@ -89,6 +91,7 @@ export default class CartDetails extends LightningElement {
   editModeEmail = false;
   editModeMob = false;
   editModeDietary = false;
+  editModeAccReq = false;
   editModeCompany = false;
   editModePosition = false;
   editModeStaff = false;
@@ -125,8 +128,20 @@ export default class CartDetails extends LightningElement {
 
 
   //set the cart status to checkout when opening this page
+  @track isCheckedDetails;
+  @track isCheckedTerms;
+  
   connectedCallback() {
 
+    this.isCheckedDetails = false;
+    this.isCheckedTerms = false;
+    const checkboxes = this.template.querySelectorAll('#cbDetails', '#cbTerms');
+          for (const elem of checkboxes) {
+              elem.checked=false;
+    }
+
+
+  
     //create global variable
     window.isCartSumDisconnected = false;
 
@@ -162,6 +177,10 @@ export default class CartDetails extends LightningElement {
     //refresh the cart items
     this.getCartItemsData();
     this.publishLMS();
+
+
+    //Onload check the checkbox TandC
+     
   }
 
   //set the status back to active when disconnecting
@@ -241,9 +260,10 @@ export default class CartDetails extends LightningElement {
       this.contactId = data.fields.ContactId.value;
       this.contactFname = data.fields.Contact.value.fields.FirstName.value;
       this.contactLname = data.fields.Contact.value.fields.LastName.value;
-      this.contactEmail = data.fields.Contact.value.fields.Email.value;
+      this.contactEmail = data.fields.Contact.value.fields.Registered_Email__c.value;
       this.contactMobile = data.fields.Contact.value.fields.MobilePhone.value;
       this.contactDiet = data.fields.Contact.value.fields.Dietary_Requirement__c.value;
+      this.contactAccReq = data.fields.Contact.value.fields.Accessibility_Requirement__c.value;
       this.contactCompany = data.fields.Contact.value.fields.Company_Name__c.value;
       this.contactPosition = data.fields.Contact.value.fields.Position__c.value;
       this.contactEmpId = data.fields.Contact.value.fields.Nominated_Employee_ID__c.value;
@@ -256,6 +276,7 @@ export default class CartDetails extends LightningElement {
     } else if (error) {
       this.error = error;
       this.checkData = false;
+      console.log(error);
     }
   }
   //get cart External Id
@@ -405,20 +426,28 @@ export default class CartDetails extends LightningElement {
       this.discountTotal = this.discountTotal + this.cartItems[i].unitDiscount;
     }
 
+    //discount total should not exceed the subtotal
+    if(this.discountTotal > this.subTotal){
+      this.discountTotal = this.subTotal;
+    }
+
     return this.discountTotal;
   }
 
   //checkes the availability of seats and if checkboxes are ticked
   checkEnablePaymentCB(event) {
+
     //only proceed with checking the checkboxes if all cart items has seat avaialble
     if (this.checkSeatsAvailable()) {
       let name = event.target.name;
 
       //set the global variables for the checkboxes
       if (name == "cbDetails") {
-        this.cbDetails = event.target.checked;
+        this.cbDetails =  event.target.checked;
+        this.isCheckedDetails = true;
       } else if (name == "cbTerms") {
         this.cbTerms = event.target.checked;
+        this.isCheckedTerms = true;
       }
 
       //if both checkboxes are ticked
@@ -432,6 +461,21 @@ export default class CartDetails extends LightningElement {
         this.disablePayment = true;
       }
     }
+  }
+
+  get getCheckErrorClass() {
+    let css = 'checkBoxStyle ';
+    if (this.cbDetails == false) {
+        css += 'checkboxRedline';
+    }
+    return css;
+  }
+  get getCheckErrorClassTerms() {
+    let css = 'checkBoxStyle ';
+    if (this.cbTerms == false) {
+        css += 'checkboxRedline';
+    }
+    return css;
   }
 
   //function for checking if all cart items has available seats
@@ -647,6 +691,9 @@ createFileUploadMap(questions){
   handleEditDietary(){
     this.editModeDietary = true;
   }
+  handleEditAccReq(){
+    this.editModeAccReq = true;
+  }
   handleEditCompany(){
     this.editModeCompany = true;
   }
@@ -673,7 +720,7 @@ createFileUploadMap(questions){
     } else if(fieldName == 'LastName'){
       this.editModeLN = false;
 
-    } else if(fieldName == 'Email'){
+    } else if(fieldName == 'Registered_Email__c'){
       this.editModeEmail = false;
 
     } else if(fieldName == 'MobilePhone'){
@@ -681,6 +728,9 @@ createFileUploadMap(questions){
 
     } else if(fieldName == 'Dietary_Requirement__c'){
       this.editModeDietary = false;
+    }
+      else if(fieldName == 'Accessibility_Requirement__c'){
+        this.editModeAccReq = false;
 
     } else if(fieldName == 'Company_Name__c'){
       this.editModeCompany = false;
@@ -713,16 +763,19 @@ createFileUploadMap(questions){
     } else if(fieldName == 'LastName'){
       this.contactLname = newValue;
 
-    } else if(fieldName == 'Email'){
-      this.contactEmail = newValue;
-
     } else if(fieldName == 'MobilePhone'){
       this.contactMobile = newValue;
+
+    } else if(fieldName == 'Registered_Email__c'){
+      this.contactEmail = newValue;
 
     } else if(fieldName == 'Dietary_Requirement__c'){
       this.contactDiet = newValue;
 
-    } else if(fieldName == 'Company_Name__c'){
+    } else if(fieldName == 'Accessibility_Requirement__c'){
+      this.contactAccReq = newValue;
+    }
+    else if(fieldName == 'Company_Name__c'){
       this.contactCompany = newValue;
 
     } else if(fieldName == 'Position__c'){
@@ -805,4 +858,6 @@ createFileUploadMap(questions){
         console.error(error);
     }
   }
+
+
 }
