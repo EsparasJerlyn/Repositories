@@ -9,6 +9,7 @@
       | john.m.tambasen           | May 17, 2022          | DEPP-1151            | added the updation of cart status          |
       | roy.nino.s.regala         | June 27, 2022         | DEPP-3252            | remove creation of course connection       |
       | roy.nino.s.regala         | June 29, 2022         | DEPP-3157            | fixed questionnare issues                  |
+      | john.m.tambasen           | August 01, 2022       | DEPP-3616            | reworked logic for discount                |
 
 */
 public without sharing class CartItemCtrl {
@@ -412,8 +413,9 @@ public without sharing class CartItemCtrl {
   ) {
     //create a list for Promotion, PromotionTarget, and Coupon
     List<CartItem> cartItemList = new List<CartItem>();
+    Map<Id, PricebookEntry> cartItemPbeMap = new Map<Id, PricebookEntry>();
+    Map<Id, PricebookEntry> cartItemPbeActualMap = new Map<Id, PricebookEntry>();
     List<Promotion> promotionList = new List<Promotion>();
-    List<PromotionTarget> promotionTargetList = new List<PromotionTarget>();
     List<Coupon> couponList = new List<Coupon>();
     List<DiscountData> discountData = new List<DiscountData>();
     Double totalDiscount = 0;
@@ -438,27 +440,65 @@ public without sharing class CartItemCtrl {
       pbentryIds.add(currentCart.Pricebook_Entry_ID__c);
     }
 
-    //create map of price book entry for linking with the cart items
-    Map<Id, PricebookEntry> pbEntryMap = new Map<Id, PricebookEntry>(
+    //create list of standard pricebook for each cart item product
+    List<PricebookEntry> pbEntryStandardList = new List<PricebookEntry>(
       [
-        SELECT Id, Pricebook2.Name, UnitPrice
+        SELECT Id, Pricebook2.Name, Pricebook2.IsStandard, UnitPrice, Product2Id
+        FROM PricebookEntry
+        WHERE Product2Id IN :productIds AND Pricebook2.IsStandard = true
+      ]
+    );
+
+    //create list of the actual prices added by the user in the cart
+    List<PricebookEntry> pbEntryActualList = new List<PricebookEntry>(
+      [
+        SELECT Id, Pricebook2.Name, UnitPrice, Product2Id
         FROM PricebookEntry
         WHERE Id IN :pbentryIds
       ]
     );
+ 
+    //nested loop on the cartitem to create a map with its standard pricebook
+    for (CartItem currentCartItem : cartItemList) {
+      for(PricebookEntry currentPbe: pbEntryStandardList){
+        
+        //if product id of cart matches the pbe]
+        if(currentCartItem.Product2Id == currentPbe.Product2Id){
+
+          //create a map if it doesnt exist yet
+          if(!cartItemPbeMap.containsKey(currentCartItem.Id)){
+            cartItemPbeMap.put(currentCartItem.Id, currentPbe); 
+          }
+        }
+      }
+    }
+
+    //nested loop on the cartitem to create a map with its actual pricebook added by the user
+    for (CartItem currentCartItem : cartItemList) {
+      for(PricebookEntry currentPbe: pbEntryActualList){
+        
+        //if product id of cart matches the pbe]
+        if(currentCartItem.Pricebook_Entry_ID__c == currentPbe.Id){
+
+          //create a map if it doesnt exist yet
+          if(!cartItemPbeActualMap.containsKey(currentCartItem.Id)){
+            cartItemPbeActualMap.put(currentCartItem.Id, currentPbe); 
+          }
+        }
+      }
+    }
 
     //retrieve Promotions for specific Coupon Code and Product
     promotionList = [
-      SELECT
-        Id,
-        Name,
+      SELECT 
+        Id, 
+        Name, 
         IsActive,
         (SELECT Id, Name, CouponCode FROM PromotionCoupons),
-        (
-          SELECT Id, Name, AdjustmentType, AdjustmentPercent, AdjustmentAmount, TargetType, TargetId
-          FROM PromotionTargets
-        )
-      FROM Promotion
+        (SELECT Id, Name, AdjustmentType, AdjustmentPercent, AdjustmentAmount, TargetType, TargetId FROM PromotionTargets),
+        (SELECT Id, Name, Promotion__c, IsActive__c, Product__c FROM Promotion_Products__r WHERE IsActive__c = true)
+      FROM 
+        Promotion
       WHERE
         IsActive = TRUE
         AND Promotion.Id IN (
@@ -473,7 +513,9 @@ public without sharing class CartItemCtrl {
         AND Promotion.Id IN (
           SELECT PromotionId
           FROM PromotionTarget
-          WHERE (TargetType = 'Product' AND TargetId IN :productIds) OR TargetType = 'Transaction'
+          WHERE (TargetType = 'Product' AND TargetId IN :productIds) 
+          OR (TargetType = 'ProductCategory')
+          OR TargetType = 'Transaction' 
         )
     ];
 
@@ -491,9 +533,10 @@ public without sharing class CartItemCtrl {
             //loop on each cart item to get the discount per line
             for (CartItem currentCart : cartItemList) {
               DiscountData discountDataTemp = new DiscountData();
+              Double calculatedDiscount = ((cartItemPbeMap.get(currentCart.Id).UnitPrice * currentPromotionTarget.AdjustmentPercent) / 100).setScale(2);
 
               discountDataTemp.cartItemId = currentCart.Id;
-              discountDataTemp.discount = ((pbEntryMap.get(currentCart.Pricebook_Entry_ID__c).UnitPrice * currentPromotionTarget.AdjustmentPercent) / 100).setScale(2);
+              discountDataTemp.discount = calculatedDiscount;
 
               discountData.add(discountDataTemp);
             }
@@ -528,30 +571,164 @@ public without sharing class CartItemCtrl {
                 //popluate wrapper with the cart id if the produc matched the targetId
                 discountDataTemp.cartItemId = currentCart.Id;
 
-                Double unitPrice = pbEntryMap.get(currentCart.Pricebook_Entry_ID__c).UnitPrice;
-                Double discountPerLine = 0;
+                Double standardPrice = cartItemPbeMap.get(currentCart.Id).UnitPrice;
+                Double actualPrice = cartItemPbeActualMap.get(currentCart.Id).UnitPrice;
+                Double discountedPrice = 0;
+                Double unitDiscount = 0;
 
                 if (currentPromotionTarget.AdjustmentType == 'PercentageDiscount') {
                   //set the discount amount
-                  discountPerLine = (((unitPrice * currentPromotionTarget.AdjustmentPercent) / 100)).setScale(2);
+                  unitDiscount = (((standardPrice * currentPromotionTarget.AdjustmentPercent) / 100)).setScale(2);
+
+                  //set the discounted price
+                  discountedPrice = standardPrice - unitDiscount;
+
+                  //if the actual price is still less than the discounted price
+                  if(actualPrice < discountedPrice){
+
+                    //set discount to 0 since discount should not be applied
+                    unitDiscount = 0;
+                  } else {
+
+                    unitDiscount = actualPrice - discountedPrice;
+                  }
         
                 } else if (currentPromotionTarget.AdjustmentType == 'FixedAmountOffUnitPrice') {
 
-                  //if the specified amount is greater than the unitPrice
-                  if (currentPromotionTarget.AdjustmentAmount > unitPrice) {
+                  //if the specified amount is greater than the standardPrice
+                  if (currentPromotionTarget.AdjustmentAmount > standardPrice) {
 
                     //max discount should only be the unit price
-                    discountPerLine = unitPrice;
+                    unitDiscount = standardPrice;
 
                   } else{
 
                     //set the discount amount
-                    discountPerLine =  currentPromotionTarget.AdjustmentAmount;
+                    unitDiscount =  currentPromotionTarget.AdjustmentAmount;
                   }   
+
+                  //set the discounted price
+                  discountedPrice = standardPrice - unitDiscount;
+
+                  //if the actual price is still less than the discounted price
+                  if(actualPrice < discountedPrice){
+
+                    //set discount to 0 since discount should not be applied
+                    unitDiscount = 0;
+                  }else {
+
+                    unitDiscount = actualPrice - discountedPrice;
+                  }
                 }
 
                 //populate and add discount
-                discountDataTemp.discount = discountPerLine;
+                discountDataTemp.discount = unitDiscount;
+                discountData.add(discountDataTemp);
+              }
+            }  
+          }   
+
+        //else if for product category
+        } else if(currentPromotionTarget.TargetType == 'ProductCategory'){
+
+          //create a set of product Ids that are present in the Promotion_Products__r
+          Set<String> productPromotionIds = new Set<String>();
+          for (Promotion_Product__c currentPromotionProduct : currentPromotion.Promotion_Products__r) {
+            productPromotionIds.add(currentPromotionProduct.Product__c);
+          }
+
+          if (currentPromotionTarget.AdjustmentType == 'FixedAmountOffLineItemTotal') {
+
+            Boolean productFound = false;
+
+            //loop on the cartitems to check if one of the cartitem is included in the Promotion Product
+            for (CartItem currentCart : cartItemList) {
+              if(productPromotionIds.contains(currentCart.Product2Id)){
+                productFound = true;
+                break;
+              }
+            }
+
+            //if the product is found
+            if(productFound){
+              //spread the FixedAmountOffLineItemTotal discount amount per line item
+              Double unitDiscount = (currentPromotionTarget.AdjustmentAmount / cartItemList.size()).setScale(2);
+
+              //loop on each cart item to get the discount per line
+              for (CartItem currentCart : cartItemList) {
+                DiscountData discountDataTemp = new DiscountData();
+
+                discountDataTemp.cartItemId = currentCart.Id;
+                discountDataTemp.discount = unitDiscount;
+
+                discountData.add(discountDataTemp);
+              }
+            }
+          
+          } else {
+            //loop on the current cart to search for the product
+            for (CartItem currentCart : cartItemList) { 
+
+              //if the current cart item exitst in the Product Promotion list
+              if(productPromotionIds.contains(currentCart.Product2Id)){
+
+                DiscountData discountDataTemp = new DiscountData();
+                
+                //popluate wrapper with the cart id if the produc matched the targetId
+                discountDataTemp.cartItemId = currentCart.Id;
+
+                Double standardPrice = cartItemPbeMap.get(currentCart.Id).UnitPrice;
+                Double actualPrice = cartItemPbeActualMap.get(currentCart.Id).UnitPrice;
+                Double discountedPrice = 0;
+                Double unitDiscount = 0;
+
+                if (currentPromotionTarget.AdjustmentType == 'PercentageDiscount') {
+                  //set the discount amount
+                  unitDiscount = (((standardPrice * currentPromotionTarget.AdjustmentPercent) / 100)).setScale(2);
+
+                  //set the discounted price
+                  discountedPrice = standardPrice - unitDiscount;
+
+                  //if the actual price is still less than the discounted price
+                  if(actualPrice < discountedPrice){
+
+                    //set discount to 0 since discount should not be applied
+                    unitDiscount = 0;
+                  } else {
+
+                    unitDiscount = actualPrice - discountedPrice;
+                  }
+        
+                } else if (currentPromotionTarget.AdjustmentType == 'FixedAmountOffUnitPrice') {
+
+                  //if the specified amount is greater than the standardPrice
+                  if (currentPromotionTarget.AdjustmentAmount > standardPrice) {
+
+                    //max discount should only be the unit price
+                    unitDiscount = standardPrice;
+
+                  } else{
+
+                    //set the discount amount
+                    unitDiscount =  currentPromotionTarget.AdjustmentAmount;
+                  }   
+
+                  //set the discounted price
+                  discountedPrice = standardPrice - unitDiscount;
+
+                  //if the actual price is still less than the discounted price
+                  if(actualPrice < discountedPrice){
+
+                    //set discount to 0 since discount should not be applied
+                    unitDiscount = 0;
+                  } else {
+
+                    unitDiscount = actualPrice - discountedPrice;
+                  }
+                }
+
+                //populate and add discount
+                discountDataTemp.discount = unitDiscount;
                 discountData.add(discountDataTemp);
               }
             }  

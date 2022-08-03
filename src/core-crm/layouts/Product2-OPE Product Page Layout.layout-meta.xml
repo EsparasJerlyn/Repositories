@@ -66,6 +66,10 @@
                 <behavior>Edit</behavior>
                 <field>Duration__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Do_not_Show_Start_Date__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>

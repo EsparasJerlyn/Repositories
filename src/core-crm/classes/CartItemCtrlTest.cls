@@ -14,10 +14,12 @@ public with sharing class CartItemCtrlTest {
   private static final String PRODUCT_API_NAME = Product2.SObjectType.getDescribe().getLocalName();
   private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
   private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
-  private static final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
 
   @TestSetup
   static void setupMethod() {
+    TestDataFactory.generateTestUsers();
+    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    Test.startTest();
     //create account
     List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
     accounts[0].RecordTypeId = ACCT_UNIV_DEP_ID;
@@ -313,8 +315,13 @@ public with sharing class CartItemCtrlTest {
       Name = 'Test Promotion2',
       isActive = true
     );
+      Promotion promotion3 = new Promotion(
+      Name = 'Test Promotion3',
+      isActive = true
+    );
     promotionList.add(promotion1);
     promotionList.add(promotion2);
+    promotionList.add(promotion3);
     insert promotionList;
 
     List<PromotionTarget> promotionTargetList = new List<PromotionTarget>();
@@ -327,13 +334,21 @@ public with sharing class CartItemCtrlTest {
     );
     PromotionTarget promotionTarget2 = new PromotionTarget(
       PromotionId = promotionList[1].Id,
-      TargetType = 'Product',
-      TargetId = products[0].id,
+      TargetType = 'Transaction',
+      //TargetId = products[0].id,
       AdjustmentType = 'PercentageDiscount',
       AdjustmentPercent = 50
     );
+      PromotionTarget promotionTarget3 = new PromotionTarget(
+      PromotionId = promotionList[2].Id,
+      TargetType = 'Product',
+      TargetId = products[0].id,
+      AdjustmentType = 'FixedAmountOffLineItemTotal',
+      AdjustmentAmount = 100
+    );
     promotionTargetList.add(promotionTarget1);
     promotionTargetList.add(promotionTarget2);
+   	promotionTargetList.add(promotionTarget3);
     insert promotionTargetList;
 
     List<Coupon> couponList = new List<Coupon>();
@@ -351,8 +366,16 @@ public with sharing class CartItemCtrlTest {
       StartDateTime = System.now() - 1,
       EndDateTime = System.now() + 1
     );
+     Coupon coupon3 = new Coupon(
+      PromotionId = promotionList[2].Id,
+      CouponCode = 'TESTCOUP3',
+      status = 'Active',
+      StartDateTime = System.now() - 1,
+      EndDateTime = System.now() + 1
+    );
     couponList.add(coupon1);
     couponList.add(coupon2);
+    couponList.add(coupon3);
     insert couponList;
 
     ProductCatalog prodCatalog = new ProductCatalog(Name = 'Study Catalog');
@@ -363,6 +386,7 @@ public with sharing class CartItemCtrlTest {
       CatalogId = prodCatalog.Id
     );
     insert prodCateg;
+    Test.stopTest();
   }
 
   @IsTest

@@ -40,7 +40,8 @@ public with sharing class EmailTriggerFaceToFaceBatch implements Database.Batcha
                                                                             RecordTypeId,
                                                                             Program_Offering__r.hed_Program_Plan__c,
                                                                             Paid_in_Full__c,
-                                                                            Amount__c
+                                                                            Amount__c,
+                                                                            hed__Contact__r.QUT_Student_Username__c
                                                                     FROM hed__Course_Enrollment__c
                                                                     WHERE Id != Null
                                                                         AND RecordTypeId =:STUDENT_REC_TYPE
@@ -167,6 +168,9 @@ public with sharing class EmailTriggerFaceToFaceBatch implements Database.Batcha
                             wrapper.storeLink = storeLinkSettings.Study_Store_Link__c != null
                                                                 ? String.valueOf(storeLinkSettings.Study_Store_Link__c)
                                                                 : '';
+                            wrapper.userName = courseConnection.hed__Contact__r.QUT_Student_Username__c!=null
+                                                                ? courseConnection.hed__Contact__r.QUT_Student_Username__c
+                                                                : '';
                             wrapperList.add(wrapper);
                         }
                     }
@@ -223,6 +227,7 @@ public with sharing class EmailTriggerFaceToFaceBatch implements Database.Batcha
                     String paidInFull = emailWrapper.paidInFull;
                     String storeLink = emailWrapper.storeLink;
                     String emailTemplateIdStr = emailWrapper.emailTemplateIdStr;
+                    String userName = emailWrapper.userName;
                     String startDate = '';
                     if(emailWrapper.startDate != null){
                         startDate = emailWrapper.startDate.format();
@@ -270,7 +275,8 @@ public with sharing class EmailTriggerFaceToFaceBatch implements Database.Batcha
                             '{contactLastName}' => lastName,
                             '{paid}' => paidInFull,
                             '{amount}' => amount,
-                            '{storeLink}' => storeLink
+                            '{storeLink}' => storeLink,
+                            '{username}' => userName
                         };
 
                         //Build the email
@@ -317,5 +323,6 @@ public with sharing class EmailTriggerFaceToFaceBatch implements Database.Batcha
         public String paidInFull;
         public String amount;
         public String storeLink;
+        public String userName;
     }   
 }
