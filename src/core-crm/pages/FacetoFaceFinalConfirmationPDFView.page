@@ -80,31 +80,9 @@
                         <br />
                     </apex:repeat>
                     <br />
-                    <span style="line-height:normal">
-                        <span lang="EN-AU">Please </span>
-                        <a href="https://www.qut.edu.au/about/campuses-and-facilities/maps-and-getting-here/gardens-point">click here</a>
-                        <span lang="EN-AU"> for a campus map, parking and accessibility details.&nbsp;
-                            <i>(link depends on location)</i>
-                        </span>
-                    </span>
                 </span>
             </span>
             <br />
-            <br />
-            <span>
-                <i>
-                    <span>*Tea and coffee available on arrival. Morning tea, lunch and afternoon tea also provided.
-                        <br />
-                        <br /> &lt;will need the ability to add any extra info here regarding pre-work, course requirements, and/or
-                        what to bring&gt;</span>
-                </i>
-                <br />
-                <br />
-                <span>We would also like to assure you that we are taking additional precautions in the current environment to
-                    keep everyone safe whilst visiting QUT. For more information, please click here.
-                    <i>(temporary text pending the future of Covid)</i>
-                </span>
-            </span>
             <br />
         </p>
     </body>
