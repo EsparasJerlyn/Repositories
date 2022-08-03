@@ -25,9 +25,9 @@ Course Major: {NSA}<br />
 Funding: {funding}<br />
 <br />
 *** Application details (if applicable) ***<br />
-Application status:&nbsp;<br />
-Agent-assisted status:&nbsp;<br />
-Highest Qualification:&nbsp;<br />
+QUT Id:&nbsp; {QUTStudentId}<br />
+Application status: {applicationStatus}<br />
+Agent-assisted status: {isAgentAssisted}<br />
 <br />
 *** Enquiry details ***<br />
 Enquiry date: {createdDate}<br />

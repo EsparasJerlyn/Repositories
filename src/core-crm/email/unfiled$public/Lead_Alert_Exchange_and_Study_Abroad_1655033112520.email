@@ -7,7 +7,7 @@
 Please find below an enquiry from an international prospective study abroad and exchange student. Please reply directly to the student.<br />
 <br />
 Many thanks,<br />
-QUT International Comms<br />
+Marketing and Communications<br />
 <br />
 *** Profile ***<br />
 Firstname: {firstname}<br />
@@ -26,11 +26,8 @@ Major: {NSA}<br />
 Funding:<br />
 {funding}<br />
 <br />
-<br />
-Enquiry:<br />
-{enquiryType}<br />
-{enquiryDescription}<br />
-<br />
+Enquiry Type: {enquiryType}<br />
+Enquiry: {enquiryDescription}<br />
 <br />
 Opt-in: {emailOptInDate}
 </body></html>

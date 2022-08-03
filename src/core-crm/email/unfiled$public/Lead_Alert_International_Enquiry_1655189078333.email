@@ -28,17 +28,18 @@ Pathway/English: {pathway}<br />
 Funding: {funding}<br />
 <br />
 *** Application details ***<br />
-Student ID: 8989<br />
-Application status: Applied<br />
-Application submission date: 15/05/2022<br />
-Application last status change date:&nbsp;15/05/2022<br />
-Date offer made (if applicable):&nbsp;<br />
-Agent-assisted status:&nbsp;<br />
-Agent name (if applicable):&nbsp;<br />
-Course applied: Business<br />
-Course intake: 2023<br />
-Scholarship (if applicable):&nbsp;<br />
-Scholarship offered status:&nbsp;<br />
+Student ID: {QUTStudentId}<br />
+Application status: {applicationStatus}<br />
+Application submission date: {SubmissionDate}<br />
+Application last status change date: {applicationStatusDate}<br />
+Date offer made (if applicable): {offerDate}<br />
+Agent-assisted status: {isAgentAssisted}<br />
+Agent name (if applicable): {agencyName}<br />
+Course applied: {courseName}<br />
+Course intake: {intakePeriodType}<br />
+Course intake Year: {intakeYear}<br />
+Scholarship (if applicable): {scholarshipName}<br />
+Scholarship offered status: {scholarshipStatus}<br />
 <br />
 *** Attribution ***<br />
 Source Channel: {leadSource}<br />
