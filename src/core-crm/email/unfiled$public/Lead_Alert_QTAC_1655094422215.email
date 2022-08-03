@@ -4,7 +4,7 @@
 </head>
 <body style="height: auto; min-height: auto;">Hi team,<br />
 <br />
-student below is an onshore student who have asked a question or indicated that they are interested in double degree and/or pathway program<br />
+Student below is a potential onshore student who has asked a question or indicated that they are studying the Australian curriculum.<br />
 <br />
 First name: {firstname}<br />
 Last name: {lastname}<br />
@@ -21,5 +21,5 @@ Question by student:<br />
 {enquiryDescription}<br />
 <br />
 Kind regards,<br />
-QUTI Marketing and Communications
+Marketing and Communications
 </body></html>

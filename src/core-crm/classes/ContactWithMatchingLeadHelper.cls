@@ -46,7 +46,7 @@ public without sharing class ContactWithMatchingLeadHelper {
         'SE_Postcode__c','SE_State__c','SE_Suburb__c','ORG_Profile_Persona__c','ORG_Indigenous_Status_ATSI__c','ORG_Country_Of_Residency__c',
         'ORG_Organisation__c','ORG_Position__c','ORG_Industry__c','ORG_Primary_Study_Level__c','ORG_Primary_BSA__c','ORG_Primary_NSA__c',
         'ORG_Secondary_Study_Level__c','ORG_Secondary_BSA__c','ORG_Secondary_NSA__c','ORG_Interested_Languages__c','ORG_Interested_Course_Name__c',
-        'ORG_Postcode__c','ORG_State__c', 'ORG_Education_Level__c', 'ORG_Suburb__c', 'My_Education_Level__c','External_Key__c','QTAC_ID__c',
+        'ORG_Postcode__c','ORG_State__c', 'ORG_Education_Level__c', 'ORG_Suburb__c', 'My_Education_Level__c','External_Key__c',
         'Mailing_Address_Country__c'
     };
 
@@ -175,7 +175,7 @@ public without sharing class ContactWithMatchingLeadHelper {
                     Marketing_Segmentation__c marketingSegmentation = (Marketing_Segmentation__c) obj;
                     marketingSegmentationToUpdate.add(marketingSegmentation);
                 }
-            }else if(marketingSegmentationsMap.containsKey(lead.Id) && (contactMarketingSegmentations == null && contactMarketingSegmentations.isEmpty())){
+            }else if(marketingSegmentationsMap.containsKey(lead.Id) && contactMarketingSegmentations.isEmpty()){
                 for(Marketing_Segmentation__c m : marketingSegmentationsMap.get(lead.Id)){
                     sObject obj = Schema.getGlobalDescribe().get('Marketing_Segmentation__c').newSObject();
                     obj.put('Contact__c', contactsMap.get(lead.Email)?.Id != null ? contactsMap.get(lead.Email).Id : contactsMap.get(lead.Work_Email__c).Id);
@@ -315,7 +315,7 @@ public without sharing class ContactWithMatchingLeadHelper {
                 SE_Postcode__c,SE_State__c,SE_Suburb__c,ORG_Profile_Persona__c,ORG_Indigenous_Status_ATSI__c,ORG_Country_Of_Residency__c,
                 ORG_Organisation__c,ORG_Position__c,ORG_Industry__c,ORG_Primary_Study_Level__c,ORG_Primary_BSA__c,ORG_Primary_NSA__c,
                 ORG_Secondary_Study_Level__c,ORG_Secondary_BSA__c,ORG_Secondary_NSA__c,ORG_Interested_Languages__c,ORG_Interested_Course_Name__c,
-                ORG_Postcode__c,ORG_State__c, ORG_Education_Level__c, ORG_Suburb__c, My_Education_Level__c,External_Key__c,QTAC_ID__c,
+                ORG_Postcode__c,ORG_State__c, ORG_Education_Level__c, ORG_Suburb__c, My_Education_Level__c,External_Key__c,
                 Mailing_Address_Country__c FROM Marketing_Segmentation__c WHERE Contact__c IN : contactIdSet
             ];
     }
@@ -341,7 +341,7 @@ public without sharing class ContactWithMatchingLeadHelper {
             SE_Postcode__c,SE_State__c,SE_Suburb__c,ORG_Profile_Persona__c,ORG_Indigenous_Status_ATSI__c,ORG_Country_Of_Residency__c,
             ORG_Organisation__c,ORG_Position__c,ORG_Industry__c,ORG_Primary_Study_Level__c,ORG_Primary_BSA__c,ORG_Primary_NSA__c,
             ORG_Secondary_Study_Level__c,ORG_Secondary_BSA__c,ORG_Secondary_NSA__c,ORG_Interested_Languages__c,ORG_Interested_Course_Name__c,
-            ORG_Postcode__c,ORG_State__c, ORG_Education_Level__c, ORG_Suburb__c, My_Education_Level__c,External_Key__c,QTAC_ID__c,
+            ORG_Postcode__c,ORG_State__c, ORG_Education_Level__c, ORG_Suburb__c, My_Education_Level__c,External_Key__c,
             Mailing_Address_Country__c FROM Marketing_Segmentation__c WHERE Lead__c IN : leadIdSet];
     }
 }
