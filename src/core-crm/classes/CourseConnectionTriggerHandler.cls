@@ -225,7 +225,8 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
         Amount__c,
         hed__Contact__r.Registered_Email__c,
         Course_Offering_Start_Date__c,
-        Offering_End_Date__c
+        Offering_End_Date__c,
+        hed__Contact__r.QUT_Student_Username__c
       FROM hed__Course_Enrollment__c
       WHERE Id IN :crseEnrollIdSet
       AND hed__Contact__r.Registered_Email__c != null
@@ -413,7 +414,10 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
             '{fullName}' => fullname,
             '{startDate}' => startDate,
             '{startdate}' => startDate,
-            '{endDate}' => endDate
+            '{endDate}' => endDate,
+            '{username}' => procCrsEnroll.hed__Contact__r.QUT_Student_Username__c!=null
+              ? procCrsEnroll.hed__Contact__r.QUT_Student_Username__c
+              : ''
           };
 
           // Build the Email

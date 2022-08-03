@@ -36,7 +36,8 @@ public with sharing class EmailTriggerOnlineSelfPacedBatch implements Database.B
                                                                             RecordTypeId,
                                                                             Program_Offering__r.hed_Program_Plan__c,
                                                                             Paid_in_Full__c,
-                                                                            Amount__c
+                                                                            Amount__c,
+                                                                            hed__Contact__r.QUT_Student_Username__c
                                                                     FROM hed__Course_Enrollment__c
                                                                     WHERE Id != Null
                                                                         AND RecordTypeId =:STUDENT_REC_TYPE
@@ -143,6 +144,9 @@ public with sharing class EmailTriggerOnlineSelfPacedBatch implements Database.B
                             wrapper.storeLink = storeLinkSettings.Study_Store_Link__c != null
                                                                 ? String.valueOf(storeLinkSettings.Study_Store_Link__c)
                                                                 : '';
+                            wrapper.userName = courseConnection.hed__Contact__r.QUT_Student_Username__c!=null
+                                                                ? courseConnection.hed__Contact__r.QUT_Student_Username__c
+                                                                : '';
                             wrapperList.add(wrapper);
                         }
                     }
@@ -194,6 +198,7 @@ public with sharing class EmailTriggerOnlineSelfPacedBatch implements Database.B
                     String amount = emailWrapper.amount;
                     String paidInFull = emailWrapper.paidInFull;
                     String storeLink = emailWrapper.storeLink;
+                    String userName = emailWrapper.userName;
                     String startDate = '';
                     if(emailWrapper.startDate != null){
                         startDate = emailWrapper.startDate.format();
@@ -228,7 +233,8 @@ public with sharing class EmailTriggerOnlineSelfPacedBatch implements Database.B
                         '{contactLastName}' => lastName,
                         '{paid}' => paidInFull,
                         '{amount}' => amount,
-                        '{storeLink}' => storeLink};
+                        '{storeLink}' => storeLink,
+                        '{username}' => userName};
 
                         //Build the email
                         Messaging.SingleEmailMessage mail = EmailHelper.emailBuilder(
@@ -267,5 +273,6 @@ public with sharing class EmailTriggerOnlineSelfPacedBatch implements Database.B
         public String paidInFull;
         public String amount;
         public String storeLink;
+        public String userName;
     }   
 }
