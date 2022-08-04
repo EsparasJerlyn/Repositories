@@ -1,5 +1,29 @@
 <template>
+    <!-- Logout Button -->
     <template if:false={isGuest}>
         <a class="colored" onclick={logoutClicked}>Logout</a>
     </template>
- </template>
+    <template if:true={isGuest}>
+        <!-- Login Button -->
+        <div>
+            <a class="colored" onclick={handleLoginModalOpen}>Sign In</a>
+        </div>
+        <!-- Login Modal -->
+        <template if:true={openLoginModal}>
+            <c-custom-sign-in
+                class="regModal noFloat"
+                onclose={handleModalClose}
+                onopenregister={handleRegisterModalOpen}
+            ></c-custom-sign-in>
+        </template>
+        <!-- Register Modal -->
+        <template if:true={openRegisterModal}>
+            <c-registration-form
+                class="regModal noFloat"
+                onopenlogin={handleLoginModalOpen}
+                onclose={handleModalClose}
+                start-u-r-l={startURL}
+            ></c-registration-form>
+        </template>
+    </template>
+</template>

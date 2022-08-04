@@ -93,9 +93,6 @@
 	 --text-size-32: 2rem; 
 
   }
-
-
-
   
   .siteforceB2bBody>.body.isPageWidthFixed-true
   {
@@ -1998,5 +1995,71 @@ span[c-customcombobox_customcombobox].slds-listbox__option-meta_entity {
       font-stretch: revert;
       font-weight: normal;
       color: #DBDBDB !important;
-    }
+    }   
+  }
+c-custom-sign-in.regModal.noFloat .wrapper {
+  width: 100%;
+}
+
+c-custom-sign-in.regModal.noFloat .slds-m-horizontal_small {
+  width: 100%;
+  display: contents;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+}
+
+c-custom-sign-in.regModal.noFloat .slds-form-element.elementStyle {
+  width: 100%;
+  text-align: left;
+}
+
+c-custom-sign-in.regModal.noFloat .slds-text-align_center.slds-m-vertical_medium {
+  width: 100%;
+}
+
+
+c-custom-sign-in.regModal.noFloat a.sso-text.colored.slds-p-top_small {
+  width: 100%;
+  padding: 0px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  margin-right: 50px;
+}
+
+c-custom-sign-in.regModal.noFloat .slds-size_1-of-1.pt2 {
+  text-align: left;
+}
+
+c-custom-sign-in.regModal.noFloat .slds-grid.slds-wrap.slds-m-around_medium {
+  margin: 3rem;
+}
+  .indicate-text[c-registrationForm_registrationForm] {
+  margin: 32px 0px 16px 0px;
+  text-align: center;
+}
+
+
+.profileMenu div[c-registrationForm_registrationForm]:first-child,
+.profileMenu div[c-registrationForm_registrationForm] + div,
+.profileMenu div[c-registrationForm_registrationForm] div[c-customcombobox_customcombobox]{
+  float: none !important;
+}
+
+.profileMenu div[c-registrationForm_registrationForm]:first-child{
+  font-weight: normal !important;
+}
+
+form[c-registrationform_registrationform] div.slds-form-element,
+form[c-registrationform_registrationform]  span.label-text{
+  text-align: left;
+}
+
+div[c-registrationform_registrationform].slds-form-element__control label[c-registrationform_registrationform].slds-checkbox__label{
+  float:left;
 }

@@ -3,7 +3,7 @@
     <lightning-layout multiple-rows="true">
       <!-- Product Name -->
       <lightning-layout-item flexibility="auto" size="12">
-        <h1 class="heading1">{productDetails.Name}</h1>
+        <h1 class="main-color-blue500 heading1">{productDetails.Name}</h1>
       </lightning-layout-item>
       <!-- Sub Header -->
       <lightning-layout-item flexibility="auto" size="12">
@@ -353,16 +353,9 @@
                   <span class="durationTitle">{label.duration}</span>
                 </div>
                 <div 
-                if:false={isCCEPortal}
                 class="slds-m-top_x-small durationValue">
                   {productDetails.Duration__c}
-                </div>
-                <div 
-                if:true={isCCEPortal}
-                class="slds-m-top_x-small durationValue">
-                  {productDetails.Duration__c} hours
                 </div>                
-                
               </div>
             </div>
           </lightning-layout-item>
@@ -508,17 +501,15 @@
               size="12"
               style="margin-top: 10px"
             >
-            <span class="tooltip">   
               <lightning-button
                 label="Bulk Registration"
                 onclick={bulkRegistration}
                 disabled={disableBulkRegistration}
                 variant="brand"
-                class="addToCartBtn"
+                class="addToCartBtn btnCCE"
+                title="Assign your employees to this product"
               >
-              </lightning-button> 
-              <span class="tooltiptext">Assign your employees to this product</span>              
-            </span>             
+              </lightning-button>                     
             </lightning-layout-item>
 
             <!-- Employee Self-Registration -->
@@ -528,17 +519,15 @@
               size="12"
               style="margin-top: 10px"
             >
-            <span class="tooltip">  
               <lightning-button
                 label="Employee Self-Registration"
                 onclick={employeeSelfRegistration}
                 disabled={disableEmployeeSelfRegistration}
                 variant="brand"
-                class="addToCartBtn"
+                class="addToCartBtn btnCCE"
+                title="Receive an email to send on to your employees so they can self register into this product"
               >
-              </lightning-button>
-              <span class="tooltiptext">Receive an email to send on to your employees so they can self register into this product</span>              
-            </span>                 
+              </lightning-button>               
             </lightning-layout-item>          
 
             <!-- Manage Registration -->
@@ -549,19 +538,15 @@
               size="12"
               style="margin-top: 10px"
             >
-             <span class="tooltip">   
               <lightning-button
                 label="Manage Registration"
                 onclick={manageRegistration}
                 disabled={disableManageRegistration}
                 variant="brand"
-                class="addToCartBtn"
+                class="addToCartBtn btnCCE"
+                title="Review, add or update the employees registered against a product"
               >
-              </lightning-button>
-              
-              <span class="tooltiptext">Review, add or update the employees registered against a product</span>              
- 
-            </span>  
+              </lightning-button> 
             </lightning-layout-item> 
             
         </lightning-layout>
@@ -569,16 +554,24 @@
     </lightning-layout>
   </div>
   <!-- Custom Login Form LWC for Guest User -->
-  <template if:true={openModal}>
+  <template if:true={openRegisterModal}>
     <c-registration-form
-      class="regModal"
-      onclose={handleModalClosed}
-      param={paramURL}
-      record-id={recordId}
-      record-name-id={recordNameId}
+        class="regModal"
+        onclose={handleModalClosed}
+        onopenlogin={handleLoginModalOpen}
+        param={paramURL}
+        record-id={recordId}
+        record-name-id={recordNameId}
     ></c-registration-form>
   </template>
-
+  <template if:true={openLoginModal}>
+    <c-custom-sign-in
+        class="regModal"
+        onclose={handleModalClosed}
+        onopenregister={handleRegisterModalOpen}
+        start-u-r-l={startURL}
+    ></c-custom-sign-in>
+  </template>
   <template if:true={openApplicationQuestionnaire}>
     <c-application-questionnaire
       contact-id={contactId}

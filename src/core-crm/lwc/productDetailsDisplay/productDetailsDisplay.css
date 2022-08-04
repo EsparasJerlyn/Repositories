@@ -286,3 +286,43 @@ lightning-button-icon.slds-float_right button {
     width: 50%;
   }
 }
+
+/* Tooltip container 
+ .tooltip {
+    position: relative;
+    display: inline-block;
+  }
+*/
+/* Tooltip text */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 320px;
+  background-color:midnightblue;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+ 
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+.btnCCE button[title]:hover::after {
+  content: attr(title);
+  position: absolute;
+  top: -100%;
+  left: 0;
+  Background: #032d60;
+  Color: #fff;
+  font-weight: normal; 
+  Font-size: 11px;
+  border-radius: 4px;
+  font-family: sans-serif;
+  padding: 0.5rem 1rem;
+}

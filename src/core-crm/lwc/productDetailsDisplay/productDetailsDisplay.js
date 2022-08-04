@@ -115,7 +115,9 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   @track facilitator;
   @track displayFacilitatorNav = true;
   @track facilitatorIndex = 0;
-  @track openModal;
+  @track openRegisterModal;
+  @track openLoginModal;
+  @track startURL;  
   @track displayGroupRegistration = false;
   @track openGroupBookingModal;
   @track selectedDelivery;
@@ -138,7 +140,6 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   onLoadTriggerRegInterest = false;
   urlDefaultAddToCart = false;
   @api recordNameId;
-
 
   @track overview;
   @track evolveWithQUTeX;
@@ -515,7 +516,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     } else {
       // Display Custom Login Form LWC
       this.setParamURL("addCart");
-      this.openModal = true;
+      this.openRegisterModal = true;
     }
     /* Comment out for bulk register */
     /* this.openRegisterModal(); */
@@ -586,7 +587,21 @@ export default class ProductDetailsDisplay extends NavigationMixin(
 
   // Close Custom Login Form LWC
   handleModalClosed() {
-    this.openModal = false;
+    this.openRegisterModal = false;
+    this.openLoginModal = false;
+  }
+
+  // Handle Login Modal Open
+  handleLoginModalOpen(event) {
+    this.startURL = event.detail.startURL;
+    this.openLoginModal = true;
+    this.openRegisterModal = false;
+  }
+
+  // Handle Register Modal Open
+  handleRegisterModalOpen() {
+    this.openLoginModal = false;
+    this.openRegisterModal = true;
   }
 
   // Accordion Toggle logic

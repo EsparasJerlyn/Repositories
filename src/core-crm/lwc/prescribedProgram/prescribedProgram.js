@@ -11,6 +11,7 @@
       | john.bo.a.pineda          | June 29, 2022         | DEPP-3323            | Modified logic for button display for Apply  |
       | mary.grace.li             | July 04, 2022         | DEPP-3184            | Replaced custom labels with constant         |
       | john.bo.a.pineda          | July 04, 2022         | DEPP-3385            | Changed ?param to &param                     |
+      | john.bo.a.pineda          | July 15, 2022         | DEPP-3130            | Modified to include Login when Guest User    |
       | john.m.tambasen           | July 29, 2022         | DEPP-3577            | early bird changes no of days                |
       | eugene.andrew.abuan       | July 31, 2022         | DEPP-3534            | Added Do not show start date logic           |
 
@@ -75,7 +76,9 @@ export default class PrescribedProgram extends LightningElement {
   @track disableApply = true;
   @track displayAddToCart = true;
   @track displayQuestionnaire = false;
-  @track openModal;
+  @track openRegisterModal;
+  @track openLoginModal;
+  @track startURL;
   @track displayGroupRegistration = false;
   @track openGroupRegistration;
   @track openGroupBookingModal;
@@ -576,7 +579,21 @@ export default class PrescribedProgram extends LightningElement {
   }
 
   handleModalClosed() {
-    this.openModal = false;
+    this.openRegisterModal = false;
+    this.openLoginModal = false;
+  }
+
+// Handle Login Modal Open
+  handleLoginModalOpen(event) {
+    this.startURL = event.detail.startURL;
+    this.openLoginModal = true;
+    this.openRegisterModal = false;
+  }
+
+// Handle Register Modal Open
+  handleRegisterModalOpen() {
+    this.openLoginModal = false;
+    this.openRegisterModal = true;
   }
   groupRegistrationModalClosed() {
     this.openGroupRegistration = false;

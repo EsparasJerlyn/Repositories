@@ -22,6 +22,7 @@
 
 .indicate-text {
   margin: 32px 0px 16px 0px;
+  text-align: left;
 }
 
 /* Modal */
@@ -127,6 +128,7 @@
 .privacyPolicy {
   position: absolute;
   left: 20px;
+  font-weight: normal;
 }
 
 .clickHere {
@@ -171,6 +173,9 @@
   .px3,
   .pt2 {
     padding: 0;
+  }
+  .privacyPolicy a {
+    color: var(--lwc-brandTextLink) !important;
   }
 }
 
@@ -223,4 +228,8 @@ input[type="number"] {
   .slds-large-size_6-of-12 {
     width: 50% !important;
   }
+}
+
+.textLeft {
+  text-align: left;
 }

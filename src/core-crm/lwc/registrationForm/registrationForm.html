@@ -27,6 +27,16 @@
               >{label.qutSSOText}</a
             >
           </div>
+            <!-- Login -->
+            <div
+              class="slds-text-align_center slds-m-vertical_medium slds-m-horizontal_small slds-p-horizontal_small"
+            >
+            <a
+                onclick={handleOpenLogin}
+                class="sso-text colored slds-p-top_small"
+                >{label.qutLoginText}</a
+            >
+           </div>
           <!-- DEPP-3033 comment out linkedin registration option for R1B release
                 <div class="center px2">
                   <button
@@ -299,11 +309,11 @@
                     <label class="slds-checkbox__label" for="privacy-checkbox">
                       <span class={requiredInputClass.checkbox}></span>
                       <span class="text privacyPolicy"
-                        >{label.privacyPolicy} &nbsp;
+                        >{label.acknowledge} &nbsp;
                         <a
                           href="https://www.qut.edu.au/additional/privacy"
                           target="_blank"
-                          >QUT Privacy Policy.</a
+                          >{label.privacyPolicy}</a
                         ></span
                       >
                     </label>
@@ -446,7 +456,7 @@
               Please select an option to resend the verification code
             </p>
           </div>
-          <div class="slds-size_1-of-1">
+          <div class="slds-size_1-of-1 textLeft">
             <lightning-radio-group
               name="resendVerif"
               label="Resend Code"
@@ -458,7 +468,7 @@
             </lightning-radio-group>
           </div>
 
-          <div class="slds-size_1-of-1 pt2">
+          <div class="slds-size_1-of-1 pt2 textLeft">
             <lightning-button
               label="Submit"
               variant="brand"
