@@ -11,6 +11,8 @@
       | john.bo.a.pineda          | June 29, 2022         | DEPP-3323            | Modified to add logic to     |
       |                           |                       |                      | validate Upload File Type    |
       | roy.nino.s.regala         | June 29, 2022         | DEPP-3157            | fixed questionnare issues    |
+      | john.m.tambasen           | August 04, 2022       | DEPP-3674            | added strikethrough for      |
+                                  |                       |                      | discounted items             |
 */
 
 import { LightningElement, wire, api, track } from "lwc";
@@ -101,6 +103,7 @@ export default class CartDetails extends LightningElement {
   fromCartSummary = true; // checks if from cart summary or group registration
   showInvalidDiscount = false;
   isLoading = true;
+  cartItemsPbeUpdate = []
 
   @track readOnly = {
     firstName: true,
@@ -411,7 +414,23 @@ export default class CartDetails extends LightningElement {
 
     //loop through the current cart items
     for (let i = 0; i < this.cartItems.length; i++) {
-      this.subTotal = this.subTotal + this.cartItems[i].unitPrice;
+
+      let indexPrice;
+
+      //if showStrikedStandardPb, substituing the standard pricebook
+      if(this.cartItems[i].showStrikedStandardPb){
+        indexPrice = this.cartItems[i].unitPriceStandard;
+
+        //set the discoutned price
+        this.cartItems[i].unitDiscountedPrice = this.cartItems[i].unitPriceStandard - this.cartItems[i].unitDiscount;
+
+      //else use the specific pb selected
+      } else{
+        indexPrice = this.cartItems[i].unitPrice;
+
+      }
+
+      this.subTotal = this.subTotal + indexPrice;
     }
 
     return this.subTotal;
@@ -612,10 +631,14 @@ createFileUploadMap(questions){
     //if coupon code field is empty, remove the error and recalutate the totals
     if (couponCode == "") {
 
+      let cartItemsPbeUpdateTemp = []
+      this.cartItemsPbeUpdate = cartItemsPbeUpdateTemp;
+
       //loop through the current cart items to set all unitDiscoutn to 0
       for (let i = 0; i < this.cartItems.length; i++) {
 
         this.cartItems[i].unitDiscount = 0;
+        this.cartItems[i].showStrikedStandardPb = false;
       }
 
       //hide invalid coupon message
@@ -634,12 +657,15 @@ createFileUploadMap(questions){
     })
       .then((data) => {
 
+        let cartItemsPbeUpdateTemp = []
+
         //if voucher is not found
         if (data.length == 0) {
 
           //loop through the current cart items to set the unitDiscounts
           for (let i = 0; i < this.cartItems.length; i++) {
             this.cartItems[i].unitDiscount = 0;
+            this.cartItems[i].showStrikedStandardPb = false;
           }
 
           //show invalid coupon message
@@ -649,6 +675,11 @@ createFileUploadMap(questions){
 
           //loop through the current cart items to set the unitDiscounts
           for (let i = 0; i < this.cartItems.length; i++) {
+
+            //reset values
+            this.cartItems[i].showStrikedStandardPb = false;
+            this.cartItems[i].unitDiscount = 0;
+
             for (let j = 0; j < data.length; j++) {
 
               //check if cart item id matches the cart item id of the discount
@@ -656,6 +687,15 @@ createFileUploadMap(questions){
 
                 this.cartItems[i].unitDiscount = data[j].discount;
 
+                if(data[j].standardPbe != undefined){
+                  this.cartItems[i].showStrikedStandardPb = true;
+
+                  //check if the curent cartitem is not having a standard pb and discount was applied
+                  if(this.cartItems[i].pbName != this.cartItems[i].pbNameStandard){
+                    //add element to array
+                    cartItemsPbeUpdateTemp.push(data[j]);
+                  }
+                }
               }
             }
           }
@@ -663,6 +703,8 @@ createFileUploadMap(questions){
           //hide invalid coupon message
           this.showInvalidDiscount = false;
         }
+
+        this.cartItemsPbeUpdate = cartItemsPbeUpdateTemp;
 
         //get totals
         this.total = this.calculateSubTotal() - this.calculateDiscountTotal();

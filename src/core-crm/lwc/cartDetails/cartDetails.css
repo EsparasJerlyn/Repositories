@@ -138,6 +138,12 @@ span:hover, span:visited {
     text-decoration: none;
 }
 
+.striked-text {
+    text-decoration: line-through;
+    text-decoration-color: red;
+    text-decoration-thickness: 2px;
+}
+
 @media only screen and (max-width: 764px) {
    /* .component {
         padding: 10px 10px;

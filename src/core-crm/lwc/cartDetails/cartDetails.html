@@ -298,27 +298,57 @@
         <!-- loop on each cart item -->
         <template for:each={cartItems} for:item="currentItem" for:index="productIndex">
             <div key={currentItem.cartItemId}>
-                <div class="slds-grid slds-wrap mar-bot-10">
-                    <div class="slds-size_1-of-1 slds-medium-size_9-of-12 slds-large-size_9-of-12">
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-size_1-of-1 slds-medium-size_9-of-12 slds-large-size_9-of-12 mb2">
                         <div>
                             <h1 class="heading3 main-color-blue500 mt1">{currentItem.productName}</h1>
                         </div>
                     </div>
 
-                    <div class="slds-size_1-of-1 slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12">
-                        <p class="bodyBold slds-float_left mt2">
-                            {currentItem.pbName}
-                            <lightning-formatted-number
-                                class="pl1"
-                                value={currentItem.unitPrice}
-                                currency-code={currency}
-                                format-style="currency"
-                                minimum-fraction-digits="0"
-                                maximum-fraction-digits="0"
-                            >
-                            </lightning-formatted-number>
-                        </p>
-                    </div>
+                    <template if:false={currentItem.showStrikedStandardPb}>
+                        <div class="slds-size_1-of-1 slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12 mb2">
+                            <p class="bodyBold slds-float_left mt2">
+                                {currentItem.pbName}
+                                <lightning-formatted-number
+                                    class="pl1"
+                                    value={currentItem.unitPrice}
+                                    currency-code={currency}
+                                    format-style="currency"
+                                    minimum-fraction-digits="0"
+                                    maximum-fraction-digits="0"
+                                >
+                                </lightning-formatted-number>
+                            </p>
+                        </div>
+                    </template>
+                    <template if:true={currentItem.showStrikedStandardPb}>
+                        <div class="slds-size_1-of-1 slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12">
+                            <p class="bodyBold slds-float_left mt2 striked-text">
+                                {currentItem.pbNameStandard}
+                                <lightning-formatted-number
+                                    class="pl1"
+                                    value={currentItem.unitPriceStandard}
+                                    currency-code={currency}
+                                    format-style="currency"
+                                    minimum-fraction-digits="0"
+                                    maximum-fraction-digits="0"
+                                >
+                                </lightning-formatted-number>
+                            </p>
+                            <p class="bodyBold slds-float_left">
+                                Discounted Price = 
+                                <lightning-formatted-number
+                                    class="pl1"
+                                    value={currentItem.unitDiscountedPrice}
+                                    currency-code={currency}
+                                    format-style="currency"
+                                    minimum-fraction-digits="0"
+                                    maximum-fraction-digits="0"
+                                >
+                                </lightning-formatted-number>
+                            </p>
+                        </div>
+                    </template>
                 </div>
 
                 <div class="slds-grid slds-wrap">
@@ -651,6 +681,7 @@
         discount-applied={discountTotal}
         has-pay-now={hasPayNow}
         has-invoice={hasInvoice}
+        cart-items-pbe-update={cartItemsPbeUpdate}
         ></c-payment>
      </template>
      </div>

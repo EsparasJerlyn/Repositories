@@ -10,6 +10,7 @@
       | roy.nino.s.regala         | June 27, 2022         | DEPP-3252            | remove creation of course connection       |
       | roy.nino.s.regala         | June 29, 2022         | DEPP-3157            | fixed questionnare issues                  |
       | john.m.tambasen           | August 01, 2022       | DEPP-3616            | reworked logic for discount                |
+      | john.m.tambasen           | August 04, 2022       | DEPP-3674            | added strikethrough for discounted items   |
 
 */
 public without sharing class CartItemCtrl {
@@ -33,6 +34,7 @@ public without sharing class CartItemCtrl {
     List<CartItem> cartItemList = new List<CartItem>();
     List<Answer__c> answerList = new List<Answer__c>();
     List<Related_Answer__c> relatedAnswersList = new List<Related_Answer__c>();
+    Map<Id, PricebookEntry> pbEntryMapStandard = new Map<Id, PricebookEntry>();
 
     Set<Id> pbentryIds = new Set<Id>();
     Set<Id> productIds = new Set<Id>();
@@ -82,6 +84,24 @@ public without sharing class CartItemCtrl {
       
     }
 
+    //create list of standard pricebook for each cart item product
+    List<PricebookEntry> pbEntryStandardList = new List<PricebookEntry>(
+      [
+        SELECT Id, Pricebook2.Name, Pricebook2.IsStandard, UnitPrice, Product2Id
+        FROM PricebookEntry
+        WHERE Product2Id IN :productIds AND Pricebook2.IsStandard = true
+      ]
+    );
+
+    //create map of standard pricebook with product id as the key
+    for(PricebookEntry currentPbe: pbEntryStandardList){
+
+      //create a map if it doesnt exist yet
+      if(!pbEntryMapStandard.containsKey(currentPbe.Product2Id)){
+        pbEntryMapStandard.put(currentPbe.Product2Id, currentPbe); 
+      }
+    }
+    
     List<Related_Answer__c> relatedAnswerList = new List<Related_Answer__c>();     
     //retrieve relatedAnswerList
     relatedAnswerList = [
@@ -251,6 +271,14 @@ public without sharing class CartItemCtrl {
           currentCart.Pricebook_Entry_ID__c
         )
         .UnitPrice;
+      cartItemsWrapper.pbNameStandard = pbEntryMapStandard.get(
+          currentCart.Product2Id
+        )
+        .Pricebook2.Name;
+      cartItemsWrapper.unitPriceStandard = pbEntryMapStandard.get(
+          currentCart.Product2Id
+        )
+        .UnitPrice;
       cartItemsWrapper.unitDiscount = 0;
 
       if (currentCart.Cart.External_Id__c != null){
@@ -310,6 +338,14 @@ public without sharing class CartItemCtrl {
     public String pbName;
     @AuraEnabled
     public Double unitPrice;
+    @AuraEnabled
+    public String pbNameStandard;
+    @AuraEnabled
+    public Double unitPriceStandard;
+    @AuraEnabled
+    public Boolean showStrikedStandardPb = false;
+    @AuraEnabled
+    public Double unitDiscountedPrice = 0;
     @AuraEnabled
     public Double unitDiscount = 0;
     @AuraEnabled
@@ -537,6 +573,7 @@ public without sharing class CartItemCtrl {
 
               discountDataTemp.cartItemId = currentCart.Id;
               discountDataTemp.discount = calculatedDiscount;
+              discountDataTemp.standardPbe = cartItemPbeMap.get(currentCart.Id).Id;
 
               discountData.add(discountDataTemp);
             }
@@ -584,13 +621,13 @@ public without sharing class CartItemCtrl {
                   discountedPrice = standardPrice - unitDiscount;
 
                   //if the actual price is still less than the discounted price
-                  if(actualPrice < discountedPrice){
+                  if(actualPrice <= discountedPrice){
 
                     //set discount to 0 since discount should not be applied
                     unitDiscount = 0;
                   } else {
 
-                    unitDiscount = actualPrice - discountedPrice;
+                    discountDataTemp.standardPbe = cartItemPbeMap.get(currentCart.Id).Id;
                   }
         
                 } else if (currentPromotionTarget.AdjustmentType == 'FixedAmountOffUnitPrice') {
@@ -611,13 +648,13 @@ public without sharing class CartItemCtrl {
                   discountedPrice = standardPrice - unitDiscount;
 
                   //if the actual price is still less than the discounted price
-                  if(actualPrice < discountedPrice){
+                  if(actualPrice <= discountedPrice){
 
                     //set discount to 0 since discount should not be applied
                     unitDiscount = 0;
                   }else {
 
-                    unitDiscount = actualPrice - discountedPrice;
+                    discountDataTemp.standardPbe = cartItemPbeMap.get(currentCart.Id).Id;
                   }
                 }
 
@@ -690,13 +727,13 @@ public without sharing class CartItemCtrl {
                   discountedPrice = standardPrice - unitDiscount;
 
                   //if the actual price is still less than the discounted price
-                  if(actualPrice < discountedPrice){
+                  if(actualPrice <= discountedPrice){
 
                     //set discount to 0 since discount should not be applied
                     unitDiscount = 0;
                   } else {
 
-                    unitDiscount = actualPrice - discountedPrice;
+                    discountDataTemp.standardPbe = cartItemPbeMap.get(currentCart.Id).Id;
                   }
         
                 } else if (currentPromotionTarget.AdjustmentType == 'FixedAmountOffUnitPrice') {
@@ -717,13 +754,13 @@ public without sharing class CartItemCtrl {
                   discountedPrice = standardPrice - unitDiscount;
 
                   //if the actual price is still less than the discounted price
-                  if(actualPrice < discountedPrice){
+                  if(actualPrice <= discountedPrice){
 
                     //set discount to 0 since discount should not be applied
                     unitDiscount = 0;
                   } else {
 
-                    unitDiscount = actualPrice - discountedPrice;
+                    discountDataTemp.standardPbe = cartItemPbeMap.get(currentCart.Id).Id;
                   }
                 }
 
@@ -743,6 +780,7 @@ public without sharing class CartItemCtrl {
   public class DiscountData {
     @AuraEnabled public String cartItemId;
     @AuraEnabled public Double discount;
+    @AuraEnabled public String standardPbe;
   }
 
   public class QuestionnaireResponseData{
