@@ -825,6 +825,7 @@ public without sharing class ProductCtrl{
 
 		@AuraEnabled
 		public String sortBy{ get; set; }
+
 	}
 
 }

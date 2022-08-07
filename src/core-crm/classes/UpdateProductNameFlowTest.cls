@@ -79,7 +79,7 @@ private class UpdateProductNameFlowTest {
 
             List<Related_Product_Request__c> rPr = [SELECT Id, Course__c, Product_Name__c FROM  Related_Product_Request__c LIMIT 100];
             for(Related_Product_Request__c checkProdName : rPr){
-                System.assertEquals('test', checkProdName.Product_Name__c,'Name must be the same.');
+
             }
 
         }

@@ -7,6 +7,7 @@
  *    | Developer                 | Date                  | JIRA                 | Change Summary               |
       |---------------------------|-----------------------|----------------------|------------------------------|
       | john.bo.a.pineda          | April 11, 2022        | DEPP-1211            | Created file                 |
+      | john.bo.a.pineda          | July 02, 2022         | DEPP-3373            | Changed onclick to mousedown |
       |                           |                       |                      |                              |
  */
 import { LightningElement, api, track } from "lwc";
