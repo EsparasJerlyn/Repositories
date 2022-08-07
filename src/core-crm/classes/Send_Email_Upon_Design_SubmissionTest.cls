@@ -117,7 +117,7 @@ private class Send_Email_Upon_Design_SubmissionTest {
 
     private static void createRecord(Id psRecordType, Id prRecordType, Id courseRecordType){
         System.runAs(currentUser){
-            Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
+            Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'qutex@qut.edu.au');
             insert customEmail;
 
             List<Account> acc = TestDataFactory.createTestAccountRecords(1);

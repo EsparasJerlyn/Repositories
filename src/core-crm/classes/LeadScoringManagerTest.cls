@@ -40,6 +40,7 @@ public without sharing class LeadScoringManagerTest {
         marketingStaging.Applicant_Id__c = '12345';
         marketingStaging.Preference_Number__c = 1;
         marketingStaging.Application_Source__c = 'Studylink';
+        marketingStaging.Application_Id__c = '12345';
         marketingStaging.Admission_Period__c ='12345';
         marketingStaging.Course_Code__c = '12345';
         marketingStaging.Admission_Year__c = 2202;
@@ -62,6 +63,7 @@ public without sharing class LeadScoringManagerTest {
         newMarketingStaging.Applicant_Id__c = '12345';
         newMarketingStaging.Preference_Number__c = 1;
         newMarketingStaging.Application_Source__c = 'Studylink';
+        newMarketingStaging.Application_Id__c = '12345';
         newMarketingStaging.Admission_Period__c ='12345';
         newMarketingStaging.Course_Code__c = '12345';
         newMarketingStaging.Admission_Year__c = 2202;

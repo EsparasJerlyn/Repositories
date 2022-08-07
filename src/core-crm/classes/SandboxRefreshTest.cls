@@ -1,8 +1,7 @@
 @isTest
 public class SandboxRefreshTest {
     
-    @isTest
-    public static void testSandboxRefresh() {
+    public static testMethod void testSandboxRefresh() {
         Profile adminUserProfile = [SELECT Id FROM Profile WHERE Name = :SandboxRefresh.ADMIN_PROFILE_NAME]; 
         Profile standardUserProfile = [SELECT Id FROM Profile WHERE Name = 'Standard User']; 
         

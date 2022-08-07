@@ -22,7 +22,7 @@ public with sharing class Prod_Specs_Send_EmailTest {
     private static void updateProdSpecsFromQualifyToDesignInternal()
     {
         System.runAs(currentUser){
-            Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
+            Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'qutex@qut.edu.au');
             insert customEmail;
             
             Account acc = TestDataFactory.createTestAccountRecords(1).iterator().next();
@@ -87,7 +87,7 @@ public with sharing class Prod_Specs_Send_EmailTest {
     private static void updateProdSpecsFromQualifyToDesignExternal()
     {
         System.runAs(currentUser){
-            Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
+            Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'qutex@qut.edu.au');
             insert customEmail;
             
             Account acc = TestDataFactory.createTestAccountRecords(1).iterator().next();

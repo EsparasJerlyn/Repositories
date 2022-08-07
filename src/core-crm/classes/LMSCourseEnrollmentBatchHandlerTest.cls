@@ -11,6 +11,7 @@ public class LMSCourseEnrollmentBatchHandlerTest {
             acc.Organization_Unit_Level__c = '2';
         }
         insert accounts;
+    
         List<Contact> contacts = TestDataFactory.createTestContactRecords(1);
         insert contacts;
     

@@ -124,7 +124,6 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>LWC_List_CCEChildFilter</shortDescription>
-        <!-- <value>Coaching Request,Diagnostic Tool Request,Educational Consultancy,Activity,Unit,Module,Individual Coaching, Group Coaching</value> -->
         <value>Individual Coaching,Group Coaching,Educational Consultancy,Diagnostic Tool,Unit,Module,Activity,Standing Offer Arrangement</value>
     </labels>
     <labels>
@@ -133,7 +132,6 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>LWC_List_CCEParentFilter</shortDescription>
-        <!-- <value>Coaching Request,Diagnostic Tool Request,Educational Consultancy,Activity,Unit,Module,Individual Coaching, Group Coaching</value> -->
         <value>Program,Individual Coaching,Group Coaching,Educational Consultancy,Diagnostic Tool,Unit,Module,Activity,Standing Offer Arrangement</value>
     </labels>
     <labels>
