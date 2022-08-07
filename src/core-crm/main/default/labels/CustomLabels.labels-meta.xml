@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>RT_Course_Indiv_Coaching</fullName>
+        <categories>RecordType,Course</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RT_Course_Indiv_Coaching</shortDescription>
+        <value>Individual_Coaching</value>
+    </labels>
+</CustomLabels>

@@ -28,7 +28,7 @@ public with sharing class ManageApplicationSectionCtrlTest {
     @TestSetup
 
      static void setupMethod(){
-         Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
+         Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'qutex@qut.edu.au');
          insert customEmail;
     
          Study_Store_URL_Settings__c studyStore = new Study_Store_URL_Settings__c(Name='QUTeX', Study_Store_Link__c = 'https://studystorelinktest.com/');

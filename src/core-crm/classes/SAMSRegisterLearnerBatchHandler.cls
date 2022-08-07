@@ -17,7 +17,7 @@ public without sharing class SAMSRegisterLearnerBatchHandler implements Database
 
         for(hed__Course_Enrollment__c courseEnrollment : Database.query('SELECT Id, Recordtype_Name__c, hed__Status__c, hed__Contact__c, hed__Contact__r.SAMS_Integration_Status__c, hed__Contact__r.QUT_Student_ID__c,' +
                         ' hed__Contact__r.Id, hed__Contact__r.Nominated_Student_ID__c, hed__Contact__r.Salutation, hed__Contact__r.FirstName, hed__Contact__r.LastName,' +
-                        ' hed__Contact__r.Birthdate, hed__Contact__r.hed__Gender__c, hed__Contact__r.MobilePhone, hed__Contact__r.Email' +
+                        ' hed__Contact__r.Birthdate, hed__Contact__r.hed__Gender__c, hed__Contact__r.MobilePhone, hed__Contact__r.Registered_Email__c' +
                         ' FROM hed__Course_Enrollment__c' +
                         ' WHERE hed__Contact__r.SAMS_Integration_Status__c = NULL' +
                         ' AND hed__Status__c != :COMPLETED' +
@@ -29,7 +29,7 @@ public without sharing class SAMSRegisterLearnerBatchHandler implements Database
             contactIds.add(courseEnrollment.hed__Contact__r.Id);
         }
 
-        return Database.getQueryLocator('SELECT Id, Nominated_Student_ID__c, Salutation, FirstName, LastName, Birthdate, hed__Gender__c, MobilePhone, Email' +
+        return Database.getQueryLocator('SELECT Id, Nominated_Student_ID__c, Salutation, FirstName, LastName, Birthdate, hed__Gender__c, MobilePhone, Registered_Email__c' +
                                        ' FROM Contact' +
                                        ' WHERE Id IN :contactIds');
     }

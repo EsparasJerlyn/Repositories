@@ -16,6 +16,11 @@
       |                           |                       |                      | registration                          |
       | john.bo.a.pineda          | June 20, 2022         | DEPP-3191            | Modified to add logic for login of    |
       |                           |                       |                      | existing Users                        |
+      | john.bo.a.pineda          | July 04, 2022         | DEPP-3384            | Modified to add Boolean parameter to  |
+      |                           |                       |                      | verify if action is login             |
+      | john.bo.a.pineda          | July 04, 2022         | DEPP-3385            | Added "p" object keyword to URL       |
+      | john.bo.a.pineda          | July 05, 2022         | DEPP-3393            | Replaced all special characters to URL|
+      |                           |                       |                      | equivalents for startURL              |
 */
 import { LightningElement, track, api, wire } from "lwc";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
@@ -24,22 +29,14 @@ import isEmailExist from "@salesforce/apex/RegistrationFormCtrl.isEmailExist";
 import registerUser from "@salesforce/apex/RegistrationFormCtrl.registerUser";
 import getCommunityUrl from "@salesforce/apex/RegistrationFormCtrl.getCommunityUrl";
 import qutResourceImg from "@salesforce/resourceUrl/QUTImages";
-import header from "@salesforce/label/c.QUT_RegistrationForm_Header";
-import subHeader from "@salesforce/label/c.QUT_RegistrationForm_subHeader";
-import registerWithLinkedIn from "@salesforce/label/c.QUT_RegistrationForm_RegisterWithLinkedIn";
-import qutSSOText from "@salesforce/label/c.QUT_RegistrationForm_SSO";
-import requiredField from "@salesforce/label/c.QUT_RegistrationForm_IndicatesRequiredField";
-import privacyPolicy from "@salesforce/label/c.QUT_RegistrationForm_PrivacyPolicy";
 import BasePath from "@salesforce/community/basePath";
 import sendRegistrationSMSOTP from "@salesforce/apex/RegistrationFormCtrl.sendRegistrationSMSOTP";
 import getMobileLocaleOptions from "@salesforce/apex/RegistrationFormCtrl.getMobileLocaleOptions";
 import sendRegistrationEmailOTP from "@salesforce/apex/RegistrationFormCtrl.sendRegistrationEmailOTP";
-import LWC_Error_General from "@salesforce/label/c.LWC_Error_General";
 import loginExistingUser from "@salesforce/apex/RegistrationFormCtrl.loginExistingUser";
 
 //Add text fields in Label from HTML
 const SSO = "/services/auth/sso/";
-const MSG_ERROR = LWC_Error_General;
 const REQUIRED_ERROR_MESSAGE =
   "Please complete the mandatory fields(*) before proceeding.";
 const EMAIL_NOT_VALID = "Please enter a valid email.";
@@ -50,6 +47,16 @@ const SHOW_ERROR_MESSAGE_ATTRIBUTE = "error-message error-message-show";
 const SHOW_ERROR_BOARDER_ATTRIBUTE = "slds-input input-element border-error";
 const HIDE_ERROR_MESSAGE_ATTRIBUTE = "error-message error-message-hide";
 const HIDE_ERROR_BOARDER_ATTRIBUTE = "slds-input input-element";
+
+const HEADER ="Tell us about you";
+const SUBHEADER = "Register to participate in professional and executive education";
+const REGISTER_WITH_LINKEDIN = "Register with LinkedIn";
+const QUT_SSO_TEXT = "Previously studied with QUTeX? Login instead";
+const REQ_FIELD = "Indicates a required field";
+const ACKNOWLDGE = "I acknowledge and accept the";
+const QUT_PRIVACY_POLICY ="QUT Privacy Policy.";
+const LWC_ERROR_GENERAL = "An error has been encountered. Please contact your administrator.";
+
 
 export default class RegistrationForm extends LightningElement {
   firstName = null;
@@ -102,14 +109,28 @@ export default class RegistrationForm extends LightningElement {
   userExists = false;
   loginUser = {};
   loading = false;
+  executeLogin = false;
+
+  @api recordId;
+  @api recordNameId;
+
+  @track header;
+  @track subHeader;
+  @track registerWithLinkedIn;
+  @track qutSSOText;
+  @track requiredField;
+  @track privacyPolicy;
+  @track acknowledge;
+
 
   label = {
-    header,
-    subHeader,
-    requiredField,
-    registerWithLinkedIn,
-    qutSSOText,
-    privacyPolicy
+    header: HEADER,
+    subHeader: SUBHEADER,
+    requiredField: REQ_FIELD,
+    registerWithLinkedIn :REGISTER_WITH_LINKEDIN,
+    qutSSOText: QUT_SSO_TEXT,
+    privacyPolicy: QUT_PRIVACY_POLICY,
+    acknowledge: ACKNOWLDGE
   };
 
   /*
@@ -135,11 +156,11 @@ export default class RegistrationForm extends LightningElement {
   getpageRef(pageRef) {
     if (pageRef && pageRef.state && pageRef.state.startURL) {
       this.startURL = pageRef.state.startURL;
-    } else if (pageRef && pageRef.attributes && pageRef.attributes.recordId) {
+    } else if (pageRef && pageRef.attributes && this.recordId) {
       this.startURL =
         BasePath +
-        "/product/detail/" +
-        pageRef.attributes.recordId +
+        "/products/detail?p=" +
+        this.recordNameId +
         this.paramURLDefaults;
     }
 
@@ -186,21 +207,21 @@ export default class RegistrationForm extends LightningElement {
           SSO +
           "QUT_Experience_SSO" +
           "/?startURL=" +
-          this.startURL +
-          this.paramURLDefaults;
+          encodeURIComponent(this.startURL);
       })
       .catch((error) => {
-        this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
+        this.errorMessage = LWC_ERROR_GENERAL + this.generateErrorMessage(error);
       });
 
     // Get Locale Options
     getMobileLocaleOptions()
       .then((resultOptions) => {
         this.localeOptions = resultOptions;
-        this.locale = "61";
+        this.locale = "Australia (+61)";
+        this.localeConMobile = "Australia (+61)";
       })
       .catch((error) => {
-        this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
+        this.errorMessage = LWC_ERROR_GENERAL + this.generateErrorMessage(error);
       });
   }
 
@@ -245,9 +266,15 @@ export default class RegistrationForm extends LightningElement {
    */
   handleRegister(event) {
     event.preventDefault();
+    this.executeLogin = false;
     this.mobile = this.mobile ? this.mobile.replace(/^0+/, "") : "";
 
-    this.mobileFull = this.locale + this.mobile;
+    if(this.localeOptions.find( opt => opt.value === this.locale)){
+      this.mobileFull = this.localeOptions.find( opt => opt.value === this.locale).countryCode + this.mobile;
+    } else {
+      this.mobileFull = '';
+    }
+    console.log('mobileFull:', this.mobileFull);
     this.dietaryReq = this.template.querySelector(
       "textarea[name=dietaryReq]"
     ).value;
@@ -345,13 +372,15 @@ export default class RegistrationForm extends LightningElement {
           }
         })
         .catch((error) => {
-          this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
+          this.errorMessage = LWC_ERROR_GENERAL + this.generateErrorMessage(error);
+          console.log('email error:', error);
         });
     }
   }
 
   // Handle Existing User
   handleExistingUser() {
+    this.executeLogin = true;
     this.mobileFull = this.loginUser.MobilePhone;
     this.displayForm = false;
     this.displayVerification = true;
@@ -367,7 +396,7 @@ export default class RegistrationForm extends LightningElement {
         }
       })
       .catch((error) => {
-        this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
+        this.errorMessage = LWC_ERROR_GENERAL + this.generateErrorMessage(error);
       });
   }
 
@@ -379,7 +408,7 @@ export default class RegistrationForm extends LightningElement {
         }
       })
       .catch((error) => {
-        this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
+        this.errorMessage = LWC_ERROR_GENERAL + this.generateErrorMessage(error);
       });
   }
 
@@ -406,7 +435,8 @@ export default class RegistrationForm extends LightningElement {
         }
       })
       .catch((error) => {
-        this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
+      this.errorMessage = LWC_ERROR_GENERAL + this.generateErrorMessage(error);
+      console.log('register error:', error);
       });
   }
 
@@ -622,7 +652,7 @@ export default class RegistrationForm extends LightningElement {
       if (this.verifyOTP == this.userOTP) {
         this.generateToast("Success!", "Successfully Submitted", "success");
         this.loading = true;
-        if (Object.keys(this.loginUser).length > 0) {
+        if (Object.keys(this.loginUser).length > 0 && this.executeLogin) {
           this.loginExistingPortalUser();
         } else {
           this.registerPortalUser();
@@ -647,7 +677,7 @@ export default class RegistrationForm extends LightningElement {
         }
       })
       .catch((error) => {
-        this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
+        this.errorMessage = LWC_ERROR_GENERAL + this.generateErrorMessage(error);
       });
   }
 
