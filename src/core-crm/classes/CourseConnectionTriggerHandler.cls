@@ -44,8 +44,13 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
       null
     );
 
-    // Trigger Send Email on Registration Confirmation
-    sendRegistrationConfirmEmail(newItems.keySet());
+    try{
+      // Trigger Send Email on Registration Confirmation
+      sendRegistrationConfirmEmail(newItems.keySet());
+    } catch(Exception e){
+      System.debug('Sending of Registration Email fail, see error: ' + e.getMessage());
+    }
+    
   }
 
   /**
@@ -439,8 +444,11 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
       }
     }
 
-    // Send Email List
-    Messaging.sendEmail(sendEmailList);
+    // Send Email only when list it's not empty
+    if(!sendEmailList.isEmpty()){
+      Messaging.sendEmail(sendEmailList);
+    }
+    
   }
 
   /**
