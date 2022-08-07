@@ -101,7 +101,7 @@ public class ProductOfferingCtrlTest {
             ProductOfferingCtrl.updateFacilitatorData(faciData);
             Test.stopTest();
             List<hed__Course_Enrollment__c> updatedCourseConnections = [Select hed__Account__c From hed__Course_Enrollment__c Where hed__Account__c =: accounts[0].Id];
-            System.assertEquals(1, updatedCourseConnections.size(), 'updatedCourseConnections is not equal to 1');
+            System.assertEquals(1, updatedCourseConnections.size());
         }
     }
 
@@ -109,11 +109,13 @@ public class ProductOfferingCtrlTest {
     @isTest
     static void getProductOfferingDataTest() {
         System.runAs(currentUser){
-            Test.startTest();
             List<Product_Request__c> prodRequest =new List<Product_Request__c>();
+            List<hed__Course_Enrollment__c> courseConnectionRecord = new List<hed__Course_Enrollment__c>();
 
-            final String PROGRAM_OFFERING_FIELDS = 'Id,Delivery_Type__c,Start_Date__c,Registration_Start_Date__c,'+
+            String PROGRAM_OFFERING_FIELDS = 'Id,Delivery_Type__c,Start_Date__c,Registration_Start_Date__c,'+
                 'Registration_End_Date__c,End_Date__c,hed_Program_Plan__c';
+            String COURSE_OFFERING_FIELDS ='Id,Delivery_Type__c,hed__Start_Date__c,Registration_Start_Date__c,'+
+                'Registration_End_Date__c,hed__End_Date__c,hed__Course__c,hed__Term__c';
             String productRequestId;
             Map<String,String> parentInfo = new Map<String,String>();
             parentInfo.put('objectType','hed__Program_Plan__c');
@@ -123,6 +125,7 @@ public class ProductOfferingCtrlTest {
             childInfo.put('fields',PROGRAM_OFFERING_FIELDS);
             childInfo.put('conditionField','hed_Program_Plan__c');
 
+            List<hed__Program_Plan__c> programPlans = new List<hed__Program_Plan__c>();
             List<Program_Offering__c> programOfferings = new List<Program_Offering__c>();
 
             prodRequest = TestDataFactory.createTestProductRequestRecords(1);
@@ -142,11 +145,9 @@ public class ProductOfferingCtrlTest {
             );
             insert programOfferings;
 
-            ProductOfferingCtrl.ProductOfferingData pod = ProductOfferingCtrl.getProductOfferingData(productRequestId,parentInfo,childInfo);
+            Test.startTest();
+            ProductOfferingCtrl.ProductOfferingData POD = ProductOfferingCtrl.getProductOfferingData(productRequestId,parentInfo,childInfo);
             Test.stopTest();
-
-            System.assert(pod.relatedFacilitators != null, 'No related facilitators');
-            System.assert(pod.relatedSessions != null, 'No related sessions');
         }
     }
 

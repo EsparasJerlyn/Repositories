@@ -1311,4 +1311,3 @@ handleNextPage(evt) {
   _filteredResults = [];
   _getProducts =[];
 }
-

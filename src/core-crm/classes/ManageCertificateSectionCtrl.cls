@@ -73,7 +73,7 @@ public with sharing class ManageCertificateSectionCtrl {
           }
 
           List<hed__Course_Enrollment__c > courseConnections = [
-               SELECT Id, Name, hed__Contact__c, hed__Contact__r.Name, hed__Contact__r.Email, hed__Course_Offering__c, Paid_in_Full__c, 
+               SELECT Id, Name, hed__Contact__c, hed__Contact__r.Name, hed__Contact__r.Registered_Email__c, hed__Course_Offering__c, Paid_in_Full__c, 
                     hed__Status__c, Marks__c, Marks_Description__c, hed__Course_Offering__r.hed__Course__r.Name, Program_Offering__r.hed_Program_Plan__r.Name
                  FROM hed__Course_Enrollment__c 
                 WHERE RecordTypeId IN (:studentRecTypeId, :studentProgramRecTypeId) 
@@ -90,7 +90,7 @@ public with sharing class ManageCertificateSectionCtrl {
                ManageCertificateDetails certDetails = new ManageCertificateDetails();
                certDetails.id = crsconnMap.get(learnerId).Id;
                certDetails.contactFullName = crsconnMap.get(learnerId).hed__Contact__r.Name;
-               certDetails.contactEmail = crsconnMap.get(learnerId).hed__Contact__r.Email;
+               certDetails.contactEmail = crsconnMap.get(learnerId).hed__Contact__r.Registered_Email__c;
                certDetails.registrationStatus = crsconnMap.get(learnerId).hed__Status__c; 
                certDetails.marks = crsconnMap.get(learnerId).Marks__c;
                certDetails.marksDesc = crsconnMap.get(learnerId).Marks_Description__c;

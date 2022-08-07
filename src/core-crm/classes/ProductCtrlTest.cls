@@ -8,6 +8,7 @@
       | eugene.andrew.abuan       | May 02, 2022          | DEPP-1269            | Created File                               |
       | eugene.andrew.abuan       | May 20, 2022          | DEPP-1979            | Added methods for filters                  |
 	    | keno.domienri.dico		    | May 30, 2022		      | DEPP-1980			       | Added methods for sorting				          |
+      | mary.grace.li             | July 01, 2022         | DEPP-3124            | Added new method for createTestProducts    |
 */
 @isTest(SeeAllData=false)
 public with sharing class ProductCtrlTest {
@@ -116,6 +117,18 @@ public with sharing class ProductCtrlTest {
       }
       insert prodProgProducts;
 
+      List<Product2> prodProgProducts2 = TestDataFactory.createTestProductRecords(
+        50
+      );
+      for (Product2 presProd : prodProgProducts2) {
+        presProd.Delivery__c = 'Online Classroom;Online Self-paced;Brisbane Classroom';
+        presProd.Study_Area__c = 'Business';
+        presProd.Product_Type__c = 'Short Course';
+        presProd.Program_Plan__c = programPlans[0].Id;
+        presProd.Available_on_Cart__c = true;
+      }
+      insert prodProgProducts2;
+	  
       Pricebook2 pricebook = new Pricebook2(
         isActive = true,
         id = Test.getStandardPricebookId()
@@ -140,6 +153,7 @@ public with sharing class ProductCtrlTest {
         priceBookEntry.isActive = true;
         priceBookEntryList.add(priceBookEntry);
       }
+        
       insert priceBookEntryList;
 
       List<hed__Course_Offering__c> courseOfferings = TestDataFactory.createTestCourseOfferingRecord(

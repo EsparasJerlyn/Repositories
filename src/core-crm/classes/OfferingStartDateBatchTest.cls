@@ -62,11 +62,11 @@ public with sharing class OfferingStartDateBatchTest {
             try{
                 Test.startTest();
                 OfferingStartDateBatch batch = new OfferingStartDateBatch(COURSE_OFFERING_API_NAME);
-                Database.executeBatch(batch);
+                Id batchId = Database.executeBatch(batch);
                 Test.stopTest();
                 System.assert(![SELECT Id FROM AsyncApexJob WHERE ApexClass.Name = 'OfferingStartDateBatch'].isEmpty() , 'OfferingStartDateBatch Job was not executed');
             }catch(Exception e){
-               System.debug(LoggingLevel.WARN, 'ERROR: ' + e.getMessage());//NOPMD
+               System.debug('ERROR: ' + e.getMessage());
             }
         }
     }

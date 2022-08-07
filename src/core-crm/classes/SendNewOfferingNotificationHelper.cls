@@ -9,6 +9,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | roy.nino.s.regala              | April 22, 2022        | DEPP-1687              | Created file                 |
+      | mary.grace.li                  | July 02, 2022         | DEPP-3124              | Update product detail url    |
       |                                |                       |                        |                              |
  */
 
@@ -38,12 +39,12 @@ public without sharing class SendNewOfferingNotificationHelper {
         (
           [
             SELECT Id, Product__r.Course__c, Product__c, Product__r.Name,
-            Contact__r.Email,Contact__r.FirstName, Contact__r.LastName
+            Contact__r.Registered_Email__c,Contact__r.FirstName, Contact__r.LastName
             FROM Expression_of_Interest__c 
             WHERE Product__r.IsActive = true
             AND Product__r.Course__c IN: courseToOfferingMap.keySet()
             AND Status__c = 'Active'
-            AND Contact__r.Email != null
+            AND Contact__r.Registered_Email__c != null
             AND Type__c = 'Register Interest'
           ]
         );
@@ -110,12 +111,12 @@ public without sharing class SendNewOfferingNotificationHelper {
         (
           [
             SELECT Id, Product__r.Program_Plan__c, Product__c, Product__r.Name,
-            Contact__r.Email,Contact__r.FirstName, Contact__r.LastName
+            Contact__r.Registered_Email__c,Contact__r.FirstName, Contact__r.LastName
             FROM Expression_of_Interest__c 
             WHERE Product__r.IsActive = true
             AND Product__r.Program_Plan__c IN: programToOfferingMap.keySet()
             AND Status__c = 'Active'
-            AND Contact__r.Email != null
+            AND Contact__r.Registered_Email__c != null
             AND Type__c = 'Register Interest'
           ]
         );
@@ -179,7 +180,7 @@ public without sharing class SendNewOfferingNotificationHelper {
          
         List<EmailTemplate> emailTemplateList = new List<EmailTemplate>([SELECT Id, HTMLValue from EmailTemplate WHERE DeveloperName = 'Offering_Available_Email_Notification']);
 
-        String basePortalUrl = communityUrl + '/s/product/';
+        String basePortalUrl = communityUrl + '/s/products/detail';
 
         List<OrgWideEmailAddress> owea = [SELECT Id, Address, DisplayName FROM OrgWideEmailAddress WHERE DisplayName='QUTeX' LIMIT 1];
 
@@ -202,7 +203,7 @@ public without sharing class SendNewOfferingNotificationHelper {
                 emailContent.put('{optOutURL}', 'https://qut.tfaforms.net/f/notification-opt-out' + '?id=' + interestId);
 
                 objEmail = EmailHelper.emailBuilder(
-                  expresionOfInterestMap.get(interestId).Contact__r.Email,
+                  expresionOfInterestMap.get(interestId).Contact__r.Registered_Email__c,
                   expresionOfInterestMap.get(interestId).Product__r.Name,
                   emailTemplateList[0].HTMLValue,
                   emailContent

@@ -65,7 +65,7 @@ private class ProductDetailsCtrlTest {
       Test.startTest();
       Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(
         Name = 'test123',
-        New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com'
+        New_Idea_To_Email_Address__c = 'qutex@qut.edu.au'
       );
       insert customEmail;
 
