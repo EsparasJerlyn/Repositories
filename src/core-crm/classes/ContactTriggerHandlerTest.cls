@@ -531,8 +531,13 @@ public with sharing class ContactTriggerHandlerTest {
 
     @isTest
     private static void sendEmailOnContact() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
-            test.startTest();
+        User currUsr = [
+            SELECT Id
+            FROM User
+            WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
+            LIMIT 1
+        ];
+        System.runAs(currUsr) {
             Set<Id> contactIdSet = new Set<Id>();
             List<Contact> contacts = new List<Contact>();
             contacts.add(new Contact(
@@ -544,35 +549,6 @@ public with sharing class ContactTriggerHandlerTest {
                 QUT_Student_Username__c ='aortiga'
             ));
             insert contacts;
-
-            List<Account> accounts = TestDataFactory.createTestAccountRecords(100);
-            for (Account account : accounts) {
-              account.RecordTypeId = ACCT_UNIV_DEP_ID;
-              account.Organization_Unit_Level__c = '2';
-            }
-            insert accounts;
-            List<hed__Term__c> terms = TestDataFactory.createTestTermRecords(100,accounts[0].Id);
-            insert terms;
-
-            List<Product_Request__c> prodRequest = TestDataFactory.createTestProductRequestRecords(100);
-            insert prodRequest;
-
-            List<hed__Course__c> courses = TestDataFactory.createTestCourseRecords(100,accounts[0].Id,prodRequest[0].Id);
-            insert courses;
-
-            List<hed__Course_Offering__c> courseOfferings = TestDataFactory.createTestCourseOfferingRecord(100,courses,terms);
-            for(hed__Course_Offering__c courseOffering : courseOfferings){
-            courseOffering.hed__Start_Date__c = Date.today()-1;
-            courseOffering.hed__End_Date__c = Date.today()+2;
-            }
-            insert courseOfferings;
-
-            List<hed__Course_Enrollment__c> courseConnections = TestDataFactory.createTestCourseConnectionRecord(100,contacts[0].Id,courseOfferings);
-            for (hed__Course_Enrollment__c courseConnection : courseConnections) {
-            courseConnection.RecordTypeId = STUDENT_RECTYPEID;
-            }
-            insert courseConnections;
-
 
             Study_Store_URL_Settings__c studyStore = new Study_Store_URL_Settings__c(Study_Store_Link__c = 'https://studystorelinktest.com/');
             insert studyStore;
@@ -608,9 +584,10 @@ public with sharing class ContactTriggerHandlerTest {
                 contactIdSet.add(c.Id);
             }
 
+            test.startTest();
             String message = ContactUserNameCreatedHelper.sendEmailUsernameCreated(contactIdSet);
             test.stopTest();
-            
+
             System.assert(message !=null, 'Email is not Sent to the user');
         }
     }
