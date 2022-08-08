@@ -38,6 +38,8 @@
       | john.bo.a.pineda          | July 04, 2022         | DEPP-3385            | Changed ?param to &param                     |
       | john.m.tambasen           | July 29, 2022         | DEPP-3577            | early bird changes no of days                |
       | eugene.andrew.abuan       | June 30, 2022         | DEPP-3534            | Added Do not Show Start Date                 |
+      | eugene.andrew.abuan       | August 08, 2022       | DEPP-3708            | Updated openModal to openRegisterModal       |
+
 
 */
 
@@ -504,7 +506,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     } else {
       // Display Custom Login Form LWC
       this.setParamURL("apply");
-      this.openModal = true;
+      this.openRegisterModal = true;
     }
   }
   // Emits a notification that the user wants to add the item to their cart.
@@ -581,7 +583,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     } else {
       // Display Custom Login Form LWC
       this.setParamURL("regInt");
-      this.openModal = true;
+      this.openRegisterModal = true;
     }
   }
 
@@ -907,7 +909,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     } else {
       // Display Custom Login Form LWC
       this.setParamURL("groupReg");
-      this.openModal = true;
+      this.openRegisterModal = true;
     }
   }
   addToCartModalClosed() {

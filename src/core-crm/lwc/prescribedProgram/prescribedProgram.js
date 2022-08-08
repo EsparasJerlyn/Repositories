@@ -14,6 +14,8 @@
       | john.bo.a.pineda          | July 15, 2022         | DEPP-3130            | Modified to include Login when Guest User    |
       | john.m.tambasen           | July 29, 2022         | DEPP-3577            | early bird changes no of days                |
       | eugene.andrew.abuan       | July 31, 2022         | DEPP-3534            | Added Do not show start date logic           |
+      | eugene.andrew.abuan       | August 08, 2022       | DEPP-3708            | Updated openModal to openRegisterModal       |
+
 
 */
 import { LightningElement, api, track, wire } from "lwc";
@@ -537,7 +539,7 @@ export default class PrescribedProgram extends LightningElement {
     } else {
       // Display Custom Login Form LWC
       this.setParamURL("regInt");
-      this.openModal = true;
+      this.openRegisterModal = true;
     }
   }
 
@@ -547,7 +549,7 @@ export default class PrescribedProgram extends LightningElement {
     } else {
       // Display Custom Login Form LWC
       this.setParamURL("apply");
-      this.openModal = true;
+      this.openRegisterModal = true;
     }
   }
 
@@ -557,7 +559,7 @@ export default class PrescribedProgram extends LightningElement {
       this.dispatchAddToCartEvent();
     } else {
       this.setParamURL("addCart");
-      this.openModal = true;
+      this.openRegisterModal = true;
     }
   }
 
@@ -603,7 +605,7 @@ export default class PrescribedProgram extends LightningElement {
       this.openGroupRegistration = true;
     } else {
       this.setParamURL("groupReg");
-      this.openModal = true;
+      this.openRegisterModal = true;
     }
   }
 
