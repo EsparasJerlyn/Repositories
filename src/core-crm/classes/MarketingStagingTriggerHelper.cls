@@ -28,7 +28,6 @@ public with sharing class MarketingStagingTriggerHelper{
      * @param newItems - map of new marketing staging records
      */
     public static void marketingStagingMatching(Map<Id, SObject> newItems){
-
         Map<String,String> qtacMatchingMap = new Map<String,String>();
         Map<String,String> samsMatchingMap = new Map<String,String>();
         Map<String,String> studylinkMatchingMap = new Map<String,String>();

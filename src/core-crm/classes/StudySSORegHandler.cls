@@ -34,9 +34,10 @@ public without sharing class StudySSORegHandler implements Auth.RegistrationHand
         Account a =  [SELECT Id, Name FROM Account WHERE Name ='OPE Catalogue'];
 
         //Link Contact to OPE Catalogue
-		List<Contact> contacts = [SELECT Id, QUT_Student_Username__c  FROM Contact WHERE QUT_Student_Username__c =: data.username LIMIT 1];
+		List<Contact> contacts = [SELECT Id, QUT_Student_Username__c, Registered_Email__c  FROM Contact WHERE QUT_Student_Username__c =: data.username LIMIT 1];
         for (Contact con : contacts){
             con.AccountId = a.Id;
+            con.Registered_Email__c = data.email;
         }
         update(contacts);
         

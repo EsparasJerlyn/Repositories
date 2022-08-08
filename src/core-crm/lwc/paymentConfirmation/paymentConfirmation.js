@@ -158,6 +158,10 @@ export default class PaymentConfirmation extends LightningElement {
                 fields[AMOUNT_PAID.fieldApiName] = this.parameters.TotalAmount;
                 let recordInput = {fields};
                 updateRecord(recordInput)
+                .catch((error) => {
+                    console.log('error on cartpayment update');
+                    console.log(error);
+                })
     
             }).catch((error) => {
                 console.log("getCartData error");

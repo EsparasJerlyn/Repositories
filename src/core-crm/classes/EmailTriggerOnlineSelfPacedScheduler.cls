@@ -1,5 +1,5 @@
 global without sharing class EmailTriggerOnlineSelfPacedScheduler implements Schedulable{
     global void execute(SchedulableContext sc) {
-        Database.executeBatch(new EmailTriggerOnlineSelfPacedBatch());
+        Database.executeBatch(new EmailTriggerOnlineSelfPacedBatch(),1);
     }
 }
