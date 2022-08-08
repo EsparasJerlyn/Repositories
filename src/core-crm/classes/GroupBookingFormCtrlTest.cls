@@ -319,10 +319,15 @@ public with sharing class GroupBookingFormCtrlTest {
   static void saveBookingTest(){
 
     List<Contact> newContacts = new List<Contact>();
-    Contact newContact1 = new Contact(Email ='testemail@email1.com', FirstName ='tetfirstname', lastname ='lastnametestda', Birthdate = Date.Today());
-    Contact newContact2 = new Contact(Email ='testemail12@email.com', FirstName ='tetfirstnam2e', lastname ='lastnametes2tda', Birthdate = Date.Today());
+    Contact newContact = new Contact(Email ='testemail12@email.com', FirstName ='tetfirstnam2e', lastname ='lastnametes2tda', Birthdate = Date.Today());
+    insert newContact;
+    Contact newContact1 = new Contact(Registered_Email__c ='testemail@email1.com', FirstName ='tetfirstname', lastname ='lastnametestda', Birthdate = Date.Today());
+    Contact newContact2 = new Contact(Registered_Email__c ='testemail12@email.com', FirstName ='tetfirstnam2e', lastname ='lastnametes2tda', Birthdate = Date.Today());
 
     Map<String,Contact> participantsMap = new Map<String, Contact>();
+    GroupBookingFormCtrl.FileUpload fileLoad = new GroupBookingFormCtrl.FileUpload();
+    List<GroupBookingFormCtrl.FileUpload> fileLoadList = new List<GroupBookingFormCtrl.FileUpload>();
+    Map<String,String> fileUploadMap = new Map<String,String>();
     participantsMap.put('PARTICIPANT 1',newContact1);
     participantsMap.put('PARTICIPANT 2',newContact2);
 
@@ -337,13 +342,19 @@ public with sharing class GroupBookingFormCtrlTest {
                 Related_Answer__c = relatedA.Id
         );
         answerList.add(newAnswer);
+
+        fileLoad = new GroupBookingFormCtrl.FileUpload();
+        fileLoad.Base64 = 'Test Content';
+        fileLoad.FileName = relatedA.Id;
+        fileLoad.RelatedAnswerId = relatedA.Id;
+        fileLoadList.add(fileLoad);
     }
     answerMap.put('PARTICIPANT 1', answerList);
-
+    fileUploadMap.put('PARTICIPANT 1',JSON.serialize(fileLoadList));
 
     Test.startTest();
 
-    GroupBookingFormCtrl.saveBooking(participantsMap,courseOfferingId, relatedAnswerList,answerMap,null,false);
+    GroupBookingFormCtrl.saveBooking(participantsMap,courseOfferingId, relatedAnswerList,answerMap,fileUploadMap,false);
 
     Test.stopTest();
 
@@ -364,5 +375,20 @@ public with sharing class GroupBookingFormCtrlTest {
 
     Test.stopTest();
     System.assert(![SELECT Id FROM CartItem WHERE Contact__c =: contacts[0].Id].isEmpty(),'no cartitems linked to contact created');
+  }
+
+
+  @isTest
+  static void removeCartItemsTest(){
+    CartItem cartItem = [SELECT Id, Cart.OwnerId FROM CartItem WHERE Cart.Status = 'Active' LIMIT 1];
+    Id ownerId = cartItem.Cart.OwnerId;
+    Id cartItemId = cartItem.Id;
+    Test.startTest();
+
+    GroupBookingFormCtrl.removeCartItems(ownerId);
+
+    Test.stopTest();
+    List<CartItem> deletedCartItems = [SELECT Id, Cart.OwnerId FROM CartItem WHERE Id=: cartItemId];
+    System.assert(deletedCartItems.isEmpty(),'no cartitems deleted');
   }
 }

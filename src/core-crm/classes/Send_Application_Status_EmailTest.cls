@@ -20,7 +20,7 @@ private class Send_Application_Status_EmailTest {
 
     @IsTest
     private static void sendApprovedApplicationStatusEmailTest(){
-        Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
+        Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'qutex@qut.edu.au');
         insert customEmail;
 
         Study_Store_URL_Settings__c studyStore = new Study_Store_URL_Settings__c(Name='QUTeX', Study_Store_Link__c = 'https://studystorelinktest.com/');
@@ -29,7 +29,7 @@ private class Send_Application_Status_EmailTest {
         System.runAs(currentUser){
             List<Contact> conList = TestDataFactory.createTestContactRecords(1);
             for(Integer i =0;i<conList.size();i++){
-                conList[i].Email = 'testIdeaFormUser'+i+'@mailinator.com';
+                conList[i].Registered_Email__c = 'testIdeaFormUser'+i+'@mailinator.com';
             }
             insert conList;
             List<Account> acc = TestDataFactory.createTestAccountRecords(1);
@@ -75,7 +75,7 @@ private class Send_Application_Status_EmailTest {
     @IsTest
     private static void sendRejectedApplicationStatusEmailTest(){
 
-        Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
+        Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'qutex@qut.edu.au');
         insert customEmail;
 
         Study_Store_URL_Settings__c studyStore = new Study_Store_URL_Settings__c(Name='QUTeX', Study_Store_Link__c = 'https://studystorelinktest.com/');
@@ -83,7 +83,7 @@ private class Send_Application_Status_EmailTest {
         System.runAs(currentUser){
             List<Contact> conList = TestDataFactory.createTestContactRecords(1);
             for(Integer i =0;i<conList.size();i++){
-                conList[i].Email = 'testIdeaFormUser'+i+'@mailinator.com';
+                conList[i].Registered_Email__c = 'testIdeaFormUser'+i+'@mailinator.com';
             }
             insert conList;
             List<Account> acc = TestDataFactory.createTestAccountRecords(1);

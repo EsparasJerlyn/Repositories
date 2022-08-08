@@ -18,7 +18,7 @@ public class SendCertificateBatch implements Database.batchable<sObject>{
     public Database.QueryLocator start(Database.BatchableContext BC) {
         String queryString = 'Select Id, RecordType.DeveloperName, hed__Course_Offering__r.hed__Course__r.Name, ' +
         'Program_Offering__r.hed_Program_Plan__r.Name, Program_Offering__r.hed_Program_Plan__r.Certificate_Type__c, ' +
-        'hed__Course_Offering__r.hed__Course__r.Certificate_Type__c, hed__Contact__r.Email,hed__Contact__r.Name ' + 
+        'hed__Course_Offering__r.hed__Course__r.Certificate_Type__c, hed__Contact__r.Registered_Email__c,hed__Contact__r.Name ' + 
         ' From hed__Course_Enrollment__c Where Id IN :courseConnectionIds' + (Test.isRunningTest()?' LIMIT 14':'');        
         return Database.getQueryLocator(queryString);
     }
@@ -49,8 +49,8 @@ public class SendCertificateBatch implements Database.batchable<sObject>{
             }
 
             if( conEnroll.hed__Contact__c != null &&
-                conEnroll.hed__Contact__r.Email != null){
-                    certDetail.contactEmail = conEnroll.hed__Contact__r.Email; 
+                conEnroll.hed__Contact__r.Registered_Email__c != null){
+                    certDetail.contactEmail = conEnroll.hed__Contact__r.Registered_Email__c; 
             }
 
             if( conEnroll.hed__Contact__c != null &&

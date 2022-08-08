@@ -17,8 +17,7 @@
         <!-- If Invoice only  -->
         <template if:false={hasPayNow}>
             <template if:true={hasInvoice}>
-
-                <div class="slds-grid slds-wrap slds-medium-size_11-of-12 slds-large-size_10-of-12">
+                <div class={paymentAlignment}>  
                     <div if:false={processing} class="my1 slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 pr3">
                         <template if:false={disableButton}>
                             <a class="btn-link" onclick={invoiceClick}>
@@ -39,8 +38,8 @@
         </template>
         <!-- If has Pay Now  -->
         <template if:true={hasPayNow}>
-            <div class="slds-grid slds-wrap slds-medium-size_11-of-12 slds-large-size_10-of-12 slds-align_absolute-center">
-                <div if:false={processing} class="my1 slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 pr3 slds-align_absolute-center">
+            <div class={paymentAlignment}>  
+                <div if:false={processing} class="my1 slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 pr3">
                     <template if:true={hasPayNow}>
                         <template if:false={disableButton}>
                             <a class="btn-link" onclick={payNowClick}>
@@ -56,7 +55,7 @@
                         </template>
                     </template>
                 </div>
-                <div if:false={processing} class="my1 slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-align_absolute-center">
+                <div if:false={processing} class="my1 slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
                     <template if:true={hasInvoice}>
                         <template if:false={disableButton}>
                             <a class="btn-link" onclick={invoiceClick}>
