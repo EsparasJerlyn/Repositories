@@ -17,7 +17,7 @@ public class B2BRegisterInterestBatchTest {
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
 
     @testSetup static void setupMethod() {
-        Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
+        Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'qutex@qut.edu.au');
         insert customEmail;
 
         List<Account> accounts;
@@ -82,7 +82,7 @@ public class B2BRegisterInterestBatchTest {
                                             );
         insert e;
         Test.startTest();
-        Database.executeBatch(new B2BRegisterInterestBatch(), 200);
+        Id batchJobId = Database.executeBatch(new B2BRegisterInterestBatch(), 200);
         system.assertEquals(0,
                             Limits.getEmailInvocations(),
                             'Number of email invocations not as expected'

@@ -51,7 +51,7 @@ public with sharing class VirtualFinalConfirmationEmailCtrl {
           Location_Name__c,
           Location_Detail_v2__c
         FROM Session__c
-        WHERE Course_Offering__r.hed__Course__c = :courseConnect.hed__Course_Offering__r.hed__Course__c
+        WHERE Course_Offering__c = :courseConnect.hed__Course_Offering__c
             AND Course_Offering__r.Delivery_Type__c = 'Online Classroom'
       ];
     }

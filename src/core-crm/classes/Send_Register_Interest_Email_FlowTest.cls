@@ -19,7 +19,7 @@ private class Send_Register_Interest_Email_FlowTest{
     @isTest
     private static void sendEmailTest()
     {   
-        Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
+        Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'qutex@qut.edu.au');
         insert customEmail;
         
         System.runAs ( PORTAL_SYS_ADMIN ) {
@@ -36,7 +36,8 @@ private class Send_Register_Interest_Email_FlowTest{
             FirstName = 'Test',
             Lastname = 'McTesty',
             AccountId = portalAccount1.Id,
-            Email = System.now().millisecond() + 'test@test.com'
+            Email = System.now().millisecond() + 'test@test.com',
+            Registered_Email__c = System.now().millisecond() + 'test@test.com'
             );
             Database.insert(contact1);
             

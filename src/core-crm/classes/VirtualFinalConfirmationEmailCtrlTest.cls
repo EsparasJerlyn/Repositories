@@ -127,11 +127,7 @@ public with sharing class VirtualFinalConfirmationEmailCtrlTest {
       paramList.add(param);
 
       VirtualFinalConfirmationEmailCtrl.generatePDFandSendEmail(paramList);
-      System.assertEquals(
-        2,
-        Limits.getEmailInvocations(),
-        'Emails should be sent'
-      );
+      System.assertEquals(2,Limits.getEmailInvocations(),'Emails should be sent');
       Test.stopTest();
     }
   }

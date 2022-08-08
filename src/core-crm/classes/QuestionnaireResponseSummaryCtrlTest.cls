@@ -32,7 +32,7 @@ public with sharing class QuestionnaireResponseSummaryCtrlTest {
 
   @TestSetup
   static void setupMethod(){
-    Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
+    Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'qutex@qut.edu.au');
     insert customEmail;
 
     Study_Store_URL_Settings__c studyStore = new Study_Store_URL_Settings__c(Name='QUTeX', Study_Store_Link__c = 'https://studystorelinktest.com/');
@@ -123,7 +123,8 @@ public with sharing class QuestionnaireResponseSummaryCtrlTest {
         FirstName = 'Test',
         Lastname = 'McTesty',
         AccountId = portalAccount1.Id,
-        Email = System.now().millisecond() + 'test@test.com'
+        Email = System.now().millisecond() + 'test@test.com',
+        Registered_Email__c = System.now().millisecond() + 'test@test.com'
       );
       Database.insert(contact1);
 
@@ -248,7 +249,8 @@ public with sharing class QuestionnaireResponseSummaryCtrlTest {
         numberOfRecords
       );
       for (Integer i = 0; i < contacts.size(); i++) {
-        contacts[i].Email = 'testIdeaFormUser' + i + '@mailinator.com';
+        contacts[i].Registered_Email__c = 'testIdeaFormUser' + i + '@mailinator.com';
+        
       }
       insert contacts;
 

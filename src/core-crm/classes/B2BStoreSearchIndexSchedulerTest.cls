@@ -1,4 +1,4 @@
-@IsTest(SeeAllData=false) 
+@IsTest(SeeAllData=true) 
 public class B2BStoreSearchIndexSchedulerTest {
     private static final String GET_METHOD = 'GET';
     private static final String POST_METHOD = 'POST';
@@ -90,40 +90,30 @@ public class B2BStoreSearchIndexSchedulerTest {
 
     @IsTest
     public static void testCatchErr() {
-        String catchError = NULL;
-        //Boolean hasException = false;
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new SchedulerMockHttpResponse(GET_METHOD, true));
         Test.setMock(HttpCalloutMock.class, new SchedulerMockHttpResponse(POST_METHOD, true));
         try{
         	B2BStoreSearchIndexScheduler.postCCESearchIndexRequest();
         }catch(Exception e){
-            catchError = e.getMessage();
-            //hasException = true;
+            System.debug('POST Err: '+e.getMessage());
         }
         Test.stopTest();
-        //System.assert(catchError != NULL, 'catchError message is NULL');
-        //System.assertEquals(true, hasException, 'No Exception occurred');
-        System.assertEquals(true, true, 'CatchError');
+        System.assertEquals(true, true, 'Catch error');
     }
     
     @IsTest
     public static void testStudyCatchErr() {
-        String catchError = NULL;
-        //Boolean hasException = false;
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new SchedulerMockHttpResponse(GET_METHOD, true));
         Test.setMock(HttpCalloutMock.class, new SchedulerMockHttpResponse(POST_METHOD, true));
         try{
             B2BStoreSearchIndexScheduler.postStudySearchIndexRequest();
         }catch(Exception e){
-            catchError = e.getMessage();
-            //hasException = true;
+            System.debug('POST Err: '+e.getMessage());
         }
         Test.stopTest();
-        //System.assert(catchError != NULL, 'catchError message is NULL');
-        //System.assertEquals(true, hasException, 'No Exception occurred');
-        System.assertEquals(true, true, 'CatchError');
+        System.assertEquals(true, true, 'Catch error');
     }
 
     public class SchedulerMockHttpResponse implements HttpCalloutMock
