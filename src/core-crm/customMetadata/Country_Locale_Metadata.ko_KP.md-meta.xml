@@ -8,6 +8,6 @@
     </values>
     <values>
         <field>Salesforce_Country_Locale__c</field>
-        <value xsi:type="xsd:string">Korea (the Democratic People's Republic of) (850)</value>
+        <value xsi:type="xsd:string">Korea (the Democratic People&apos;s Republic of) (850)</value>
     </values>
 </CustomMetadata>

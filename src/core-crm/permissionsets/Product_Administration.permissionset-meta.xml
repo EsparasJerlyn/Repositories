@@ -2128,7 +2128,6 @@
         <field>hed__Course__c.Design_Form_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
-
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course__c.End_Date__c</field>
@@ -2159,7 +2158,6 @@
         <field>hed__Course__c.Field_of_Education__c</field>
         <readable>true</readable>
     </fieldPermissions>
-
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course__c.Implementation_Year__c</field>
@@ -2240,7 +2238,6 @@
         <field>hed__Course__c.More_Detailsv2__c</field>
         <readable>true</readable>
     </fieldPermissions>
-   
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course__c.Number_Of_Groups__c</field>
@@ -2306,7 +2303,6 @@
         <field>hed__Course__c.Resource_Details__c</field>
         <readable>true</readable>
     </fieldPermissions>
-
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course__c.Start_Date__c</field>
@@ -2542,7 +2538,6 @@
         <field>hed__Program_Plan__c.Location__c</field>
         <readable>true</readable>
     </fieldPermissions>
-
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Program_Plan__c.Mark_Design_Stage_as_Complete__c</field>
