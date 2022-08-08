@@ -85,7 +85,6 @@ export default class Payment extends LightningElement {
      */
     @api hasPayNow;
     @api hasInvoice;
-
     /**
      * Load Page labels
      */
@@ -287,6 +286,14 @@ export default class Payment extends LightningElement {
         return this.baseURL + this.formURL + opeDescription.slice(0, -1);        
     }
 
+    get paymentAlignment(){
+        if(this.fromCartSummary){
+            return 'slds-grid slds-wrap slds-medium-size_11-of-12 slds-large-size_10-of-12';
+        }else{
+            return 'slds-grid slds-wrap slds-medium-size_11-of-12 slds-large-size_10-of-12 slds-align_absolute-center';
+        }
+    }
+
     createAnswerRecord(questions) {
         let answerRecords = {};
         answerRecords = questions.map((item) => {
@@ -383,7 +390,7 @@ export default class Payment extends LightningElement {
             updateRecord(recordInput)
             .then(()=>{
                 //code
-            }) 
+            })
         }
     }
 
@@ -463,7 +470,6 @@ export default class Payment extends LightningElement {
                     );
 
                     //redirect to for you page and open the xetta page in new tab
-                    window.open(this.invoiceURL, '_blank');
                     window.location.href = BasePath + "/category/products/" + this.prodCategId;
                     
                 })
@@ -485,7 +491,14 @@ export default class Payment extends LightningElement {
             updateRecord(recordInput)
             .then(()=>{
                 //code
-            }) 
+            })
         }
+
+        //redirect to for you page and open the xetta page in new tab
+         this.openNewTab();
+    }
+
+    openNewTab(){
+        window.open(this.invoiceURL, '_blank');
     }
 }

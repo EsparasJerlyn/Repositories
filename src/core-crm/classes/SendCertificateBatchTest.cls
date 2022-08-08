@@ -80,7 +80,7 @@ public with sharing class SendCertificateBatchTest {
 
             List<Contact> contacts = TestDataFactory.createTestContactRecords(numberOfRecords);
             for(Integer i =0;i<contacts.size();i++){
-                contacts[i].Email = 'testIdeaFormUser'+i+'@mailinator.com';
+                contacts[i].Registered_Email__c = 'testIdeaFormUser'+i+'@mailinator.com';
             }
             insert contacts;
 
@@ -128,14 +128,14 @@ public with sharing class SendCertificateBatchTest {
             insert terms;
 
             List<hed__Course_Offering__c> courseOfferings = TestDataFactory.createTestCourseOfferingRecord(1, courses, terms);
-            courseOfferings[0].hed__End_Date__c = date.today();
+            courseOfferings[0].hed__End_Date__c = date.today() + 2;
             insert courseOfferings;
 
             offeringId = courseOfferings[0].Id;
 
             List<Contact> contacts = TestDataFactory.createTestContactRecords(numberOfRecords);
             for(Integer i =0;i<contacts.size();i++){
-                contacts[i].Email = 'testIdeaFormUser'+i+'@mailinator.com';
+                contacts[i].Registered_Email__c = 'testIdeaFormUser'+i+'@mailinator.com';
             }
             insert contacts;
 

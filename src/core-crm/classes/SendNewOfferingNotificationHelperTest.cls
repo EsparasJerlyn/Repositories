@@ -20,7 +20,7 @@ public with sharing class SendNewOfferingNotificationHelperTest {
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
 
     @testSetup static void setupMethod() {
-        Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
+        Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'qutex@qut.edu.au');
         insert customEmail;
          
         List<Account> accounts;
@@ -43,7 +43,7 @@ public with sharing class SendNewOfferingNotificationHelperTest {
         }
         insert accounts;
         contacts = TestDataFactory.createTestContactRecords(1);
-        contacts[0].email ='testquttestqut@email.com';
+        contacts[0].Registered_Email__c ='testquttestqut@email.com';
         insert Contacts;
         terms = TestDataFactory.createTestTermRecords(25,accounts[0].Id);
         insert terms;

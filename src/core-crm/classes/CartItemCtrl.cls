@@ -98,11 +98,11 @@ public without sharing class CartItemCtrl {
 
       //create a map if it doesnt exist yet
       if(!pbEntryMapStandard.containsKey(currentPbe.Product2Id)){
-        pbEntryMapStandard.put(currentPbe.Product2Id, currentPbe); 
+        pbEntryMapStandard.put(currentPbe.Product2Id, currentPbe);
       }
     }
-    
-    List<Related_Answer__c> relatedAnswerList = new List<Related_Answer__c>();     
+
+    List<Related_Answer__c> relatedAnswerList = new List<Related_Answer__c>();
     //retrieve relatedAnswerList
     relatedAnswerList = [
       SELECT
@@ -493,17 +493,17 @@ public without sharing class CartItemCtrl {
         WHERE Id IN :pbentryIds
       ]
     );
- 
+
     //nested loop on the cartitem to create a map with its standard pricebook
     for (CartItem currentCartItem : cartItemList) {
       for(PricebookEntry currentPbe: pbEntryStandardList){
-        
+
         //if product id of cart matches the pbe]
         if(currentCartItem.Product2Id == currentPbe.Product2Id){
 
           //create a map if it doesnt exist yet
           if(!cartItemPbeMap.containsKey(currentCartItem.Id)){
-            cartItemPbeMap.put(currentCartItem.Id, currentPbe); 
+            cartItemPbeMap.put(currentCartItem.Id, currentPbe);
           }
         }
       }
@@ -512,13 +512,13 @@ public without sharing class CartItemCtrl {
     //nested loop on the cartitem to create a map with its actual pricebook added by the user
     for (CartItem currentCartItem : cartItemList) {
       for(PricebookEntry currentPbe: pbEntryActualList){
-        
+
         //if product id of cart matches the pbe]
         if(currentCartItem.Pricebook_Entry_ID__c == currentPbe.Id){
 
           //create a map if it doesnt exist yet
           if(!cartItemPbeActualMap.containsKey(currentCartItem.Id)){
-            cartItemPbeActualMap.put(currentCartItem.Id, currentPbe); 
+            cartItemPbeActualMap.put(currentCartItem.Id, currentPbe);
           }
         }
       }
@@ -526,14 +526,14 @@ public without sharing class CartItemCtrl {
 
     //retrieve Promotions for specific Coupon Code and Product
     promotionList = [
-      SELECT 
-        Id, 
-        Name, 
+      SELECT
+        Id,
+        Name,
         IsActive,
         (SELECT Id, Name, CouponCode FROM PromotionCoupons),
         (SELECT Id, Name, AdjustmentType, AdjustmentPercent, AdjustmentAmount, TargetType, TargetId FROM PromotionTargets),
         (SELECT Id, Name, Promotion__c, IsActive__c, Product__c FROM Promotion_Products__r WHERE IsActive__c = true)
-      FROM 
+      FROM
         Promotion
       WHERE
         IsActive = TRUE
@@ -549,9 +549,9 @@ public without sharing class CartItemCtrl {
         AND Promotion.Id IN (
           SELECT PromotionId
           FROM PromotionTarget
-          WHERE (TargetType = 'Product' AND TargetId IN :productIds) 
+          WHERE (TargetType = 'Product' AND TargetId IN :productIds)
           OR (TargetType = 'ProductCategory')
-          OR TargetType = 'Transaction' 
+          OR TargetType = 'Transaction'
         )
     ];
 
@@ -662,8 +662,8 @@ public without sharing class CartItemCtrl {
                 discountDataTemp.discount = unitDiscount;
                 discountData.add(discountDataTemp);
               }
-            }  
-          }   
+            }
+          }
 
         //else if for product category
         } else if(currentPromotionTarget.TargetType == 'ProductCategory'){
@@ -701,16 +701,16 @@ public without sharing class CartItemCtrl {
                 discountData.add(discountDataTemp);
               }
             }
-          
+
           } else {
             //loop on the current cart to search for the product
-            for (CartItem currentCart : cartItemList) { 
+            for (CartItem currentCart : cartItemList) {
 
               //if the current cart item exitst in the Product Promotion list
               if(productPromotionIds.contains(currentCart.Product2Id)){
 
                 DiscountData discountDataTemp = new DiscountData();
-                
+
                 //popluate wrapper with the cart id if the produc matched the targetId
                 discountDataTemp.cartItemId = currentCart.Id;
 
@@ -735,7 +735,7 @@ public without sharing class CartItemCtrl {
 
                     discountDataTemp.standardPbe = cartItemPbeMap.get(currentCart.Id).Id;
                   }
-        
+
                 } else if (currentPromotionTarget.AdjustmentType == 'FixedAmountOffUnitPrice') {
 
                   //if the specified amount is greater than the standardPrice
@@ -748,7 +748,7 @@ public without sharing class CartItemCtrl {
 
                     //set the discount amount
                     unitDiscount =  currentPromotionTarget.AdjustmentAmount;
-                  }   
+                  }
 
                   //set the discounted price
                   discountedPrice = standardPrice - unitDiscount;

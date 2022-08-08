@@ -179,7 +179,7 @@ public without sharing class LMSIntegrationManager {
                 gender = null;
             }
             mobile = contact.MobilePhone;
-            email = contact.Email;
+            email = contact.Registered_Email__c;
         }
     }
 

@@ -707,7 +707,7 @@ export default class RegistrationForm extends LightningElement {
     });
     this.dispatchEvent(evt);
   }
-  
+
   handleOpenLogin() {
     this.dispatchEvent(
         new CustomEvent("openlogin", {
