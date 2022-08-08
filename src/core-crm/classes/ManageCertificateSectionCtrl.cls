@@ -78,7 +78,7 @@ public with sharing class ManageCertificateSectionCtrl {
                  FROM hed__Course_Enrollment__c 
                 WHERE RecordTypeId IN (:studentRecTypeId, :studentProgramRecTypeId) 
                 AND (hed__Course_Offering__c =: offeringId OR (Program_Offering__c  =: offeringId AND hed__Course_Offering__c = null )) 
-                AND hed__Status__c != 'Cancelled'
+                AND (hed__Status__c = 'Active' OR (hed__Status__c = 'Completed'))
           ];
 
           Map<Id, hed__Course_Enrollment__c> crsconnMap = new Map<Id, hed__Course_Enrollment__c>();
