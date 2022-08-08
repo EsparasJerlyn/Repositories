@@ -36,13 +36,6 @@ export default class CustomModalConfirmMessage extends LightningElement {
 	connectedCallback(){
 	   this.xButton = qutResourceImg + "/QUTImages/Icon/xMark.svg";
 
-	   console.log(
-		' isModalMessage:', this.isModalMessage,
-		' message1:', this.message1,
-		' message2:', this.message2,
-		' isContinueBrowsing:', this.isContinueBrowsing,
-		' isContinueToPayment:', this.isContinueToPayment
-		);
 		//Get the external Id from the cart
 		getUserCartDetails({
 		   userId: userId

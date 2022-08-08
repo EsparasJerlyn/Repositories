@@ -39,7 +39,8 @@ public without sharing class StudyLinkedInRegHandler implements Auth.Registratio
         c.AccountId = a.Id;
         c.FirstName = data.firstName;
         c.lastName = data.lastName;
-        c.email = data.email;
+        c.Email = data.email;
+        c.Registered_Email__c = data.email;
         insert (c);
         
         //Create User

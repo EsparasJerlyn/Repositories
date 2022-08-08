@@ -6,4 +6,3 @@ public with sharing class PaymentGatewayCtrl {
     }
 
 }
-

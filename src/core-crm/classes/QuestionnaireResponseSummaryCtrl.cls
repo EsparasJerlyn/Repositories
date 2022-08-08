@@ -121,30 +121,32 @@ public without sharing class QuestionnaireResponseSummaryCtrl {
 
       Id cartDeliveryGroupId;
 
-      Questionnaire_Response_Summary__c qrs = [
+      List<Questionnaire_Response_Summary__c> qrs = [
         SELECT Id, Application_Status__c, Contact__c, 
-        Contact__r.Email, Contact__r.Name,
+        Contact__r.Registered_Email__c, Contact__r.Name,
         Pricebook_Entry_ID__c, Program_Offering__c,
         Course_Offering__c, Course_Name__c,
         Questionnaire__r.Parent_Record_ID__c
         FROM Questionnaire_Response_Summary__c
         WHERE Id = :qrsId
+        AND Contact__r.Registered_Email__c != null
         LIMIT 1
       ];
 
-      qrs.Application_Status__c = qrsStatus;
-      qrs.Reason_For_Rejection__c = reasonForRejection != null?reasonForRejection:'';
+      if(!qrs.isEmpty()){
+        qrs[0].Application_Status__c = qrsStatus;
+        qrs[0].Reason_For_Rejection__c = reasonForRejection != null?reasonForRejection:'';
 
       if(qrsStatus == 'Approved'){
         User portalUser = [ SELECT Id, Contact.AccountId, ContactId
         FROM User 
-        WHERE ContactId =: qrs.Contact__c 
+          WHERE ContactId =: qrs[0].Contact__c 
         LIMIT 1];
 
-      Id offeringId = qrs.Course_Offering__c!=null?qrs.Course_Offering__c:qrs.Program_Offering__c;
-      Boolean isPrescribed = qrs.Course_Offering__c!=null?false:true;
+        Id offeringId = qrs[0].Course_Offering__c!=null?qrs[0].Course_Offering__c:qrs[0].Program_Offering__c;
+        Boolean isPrescribed = qrs[0].Course_Offering__c!=null?false:true;
 
-      PricebookEntry pbEntry = [SELECT Id, UnitPrice, Product2Id FROM PricebookEntry WHERE Id=: qrs.Pricebook_Entry_ID__c LIMIT 1];
+        PricebookEntry pbEntry = [SELECT Id, UnitPrice, Product2Id FROM PricebookEntry WHERE Id=: qrs[0].Pricebook_Entry_ID__c LIMIT 1];
 
       WebCart newCart = createWebCart(portalUser.Id);
       Cart_Payment__c cartPayment = new Cart_Payment__c(Status__c ='Active');
@@ -168,15 +170,17 @@ public without sharing class QuestionnaireResponseSummaryCtrl {
       String communityUrl = storeLinkSettings.Study_Store_Link__c != null?String.valueOf(storeLinkSettings.Study_Store_Link__c):'';
 
 
-      qrs.Payment_URL__c = paymentGatewayURLBuilder([Select Id, External_Id__c FROM WebCart WHERE Id =: newCart.Id]?.External_Id__c, 
-                                                  qrs.Contact__r.Email,
-                                                  qrs.Contact__r.Name,
+        qrs[0].Payment_URL__c = paymentGatewayURLBuilder([Select Id, External_Id__c FROM WebCart WHERE Id =: newCart.Id]?.External_Id__c, 
+                                                    qrs[0].Contact__r.Registered_Email__c,
+                                                    qrs[0].Contact__r.Name,
                                                   pbEntry.UnitPrice,
-                                                  qrs.Course_Name__c
+                                                    qrs[0].Course_Name__c
                                                   );
       }  
       
       update qrs;
+    }
+      
     }
   }
 

@@ -13,7 +13,6 @@
 	  | alexander.cadalin         | July 29, 2022         | DEPP-3623  | Fixed issues with batch operations  |
  */
 public without sharing class LeadDuplicatesHelper {
-    
     private static final String RT_CONTACT_PERSON = System.Label.RT_Contact_Person;
     private static final Id RT_CONTACT_PERSON_ID = Schema.SObjectType.Contact.getRecordTypeInfosByDeveloperName().get(RT_CONTACT_PERSON).getRecordTypeId();
 
