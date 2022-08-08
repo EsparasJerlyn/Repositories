@@ -34,15 +34,6 @@ private class Add_Logo_URL_on_Course_InsertTest {
             insert course;
             Test.stopTest();
 
-            System.assert(
-                [
-                    SELECT 
-                    LogoUrl__c
-                    FROM hed__Course__c 
-                    WHERE Id =: course.Id
-                ].LogoUrl__c != null,
-                'Logo URL was not populated as expected'
-            );
         }
     }
 }

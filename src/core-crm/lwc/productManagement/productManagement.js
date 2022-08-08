@@ -9,6 +9,8 @@
       | angelika.j.s.galang       | February 3, 2022      | DEPP-1257           | Created file                                           |
       | arsenio.jr.dayrit         | February 14, 2021     | DEPP-1947           | Added Content Section                                  |
       | roy.nino.s.regala         | May 23, 2021          | DEPP-2663           | Added logic to control editing of decomission section  |
+      | kathy.cornejo             | June 30, 2022         | DEPP-3343           | Updated logic for decomission section                  |
+
 */
 import { LightningElement, api, wire } from 'lwc';
 import { getRecord, getFieldValue } from "lightning/uiRecordApi";
@@ -50,7 +52,7 @@ export default class ProductManagement extends LightningElement {
     }
 
     get showEditButtonForDecomission(){
-        return !this.isStatusCompleted && this.isAvailbleOnCart;
+        return !this.isStatusCompleted;
     }
 
     //checks if product request is program and hides content section if true

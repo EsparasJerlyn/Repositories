@@ -9,31 +9,33 @@
  *    | Developer                 | Date                  | JIRA                 | Change Summary                               |
       |---------------------------|-----------------------|----------------------|----------------------------------------------|
       | john.bo.a.pineda          | June 29, 2022         | DEPP-3323            | Modified logic for button display for Apply  |
+      | mary.grace.li             | July 04, 2022         | DEPP-3184            | Replaced custom labels with constant         |
 */
 import { LightningElement, wire, api, track } from "lwc";
-import overview from "@salesforce/label/c.QUT_ProductDetail_Overview";
-import duration from "@salesforce/label/c.QUT_ProductDetail_Duration";
-import professionalDevelopmentModules from "@salesforce/label/c.QUT_ProductDetail_Professional_Development_Modules";
-import facilitator from "@salesforce/label/c.QUT_ProductDetail_Facilitator";
-import evolveWithQUTeX from "@salesforce/label/c.QUT_ProductDetail_EvolveWithQUTeX";
-import whoShouldParticipate from "@salesforce/label/c.QUT_ProductDetail_WhoShouldParticipate";
-import coreConcepts from "@salesforce/label/c.QUT_ProductDetail_CoreConcepts";
-import details from "@salesforce/label/c.QUT_ProductDetail_Details";
-import delivery from "@salesforce/label/c.QUT_ProductDetail_Delivery";
-import deliveryPlaceholder from "@salesforce/label/c.QUT_ProductDetail_Delivery_Placeholder";
-import availableStartDates from "@salesforce/label/c.QUT_ProductDetail_AvailableStartDates";
-import availableStartDatesPlaceholder from "@salesforce/label/c.QUT_ProductDetail_AvailableStartDates_Placeholder";
-import pricing from "@salesforce/label/c.QUT_ProductDetail_Pricing";
-import pricingPlaceholder from "@salesforce/label/c.QUT_ProductDetail_Pricing_Placeholder";
-import addToCart from "@salesforce/label/c.QUT_ProductDetail_AddToCart";
-import registerInterest from "@salesforce/label/c.QUT_ProductDetail_RegisterInterest";
 import getRelatedCourseOffering from "@salesforce/apex/ProductDetailsCtrl.getCourseOfferingRelatedRecords";
-import LWC_Error_General from "@salesforce/label/c.LWC_Error_General";
 
 import getQuestions from "@salesforce/apex/ProductDetailsCtrl.getQuestions";
 import { loadStyle } from "lightning/platformResourceLoader";
 import qutResourceImg from "@salesforce/resourceUrl/QUTImages";
 import customSR from "@salesforce/resourceUrl/QUTCustomLwcCss";
+
+const LWC_ERROR_GENERAL ="An error has been encountered. Please contact your administrator.";
+const DELIVERY= "Delivery";
+const DELIVERY_PLACEHOLDER= "Choose delivery method";
+const AVAILABLE_STARTDATES="Available start dates";
+const AVAILABLE_STARTDATES_PLACEHOLDER="Choose start date";
+const REGISTER_INTEREST="REGISTER INTEREST";
+const PRICING="Pricing";
+const PRICING_PLACEHOLDER="Choose pricing";
+const ADD_TO_CART="ADD TO CART";
+const OVERVIEW ="Overview";
+const EVOLVE_WITH_QUTEX="Evolve with QUTeX";
+const WHO_SHOULD_PARTICIPATE ="Who should participate";
+const CORE_CONCEPTS ="Core concepts";
+const FACILITATOR="Facilitator";
+const DETAILS="Details";
+const DURATION="Duration";
+const PROF_DEV_MODULES ="Professional Development Modules";
 
 export default class ProductDetailsDisplay extends LightningElement {
   @api product;
@@ -65,23 +67,40 @@ export default class ProductDetailsDisplay extends LightningElement {
   displayQuestionnaire = false;
   priceBookEntriesCopy = [];
 
+  @track overview;
+  @track evolveWithQUTeX;
+  @track whoShouldParticipate;
+  @track coreConcepts;
+  @track facilitator;
+  @track details;
+  @track duration;
+  @track delivery;
+  @track deliveryPlaceholder;
+  @track availableStartDates;
+  @track availableStartDatesPlaceholder;
+  @track pricing;
+  @track pricingPlaceholder;
+  @track addToCart;
+  @track registerInterest;
+  @track professionalDevelopmentModules;
+
   label = {
-    overview,
-    duration,
-    professionalDevelopmentModules,
-    facilitator,
-    evolveWithQUTeX,
-    whoShouldParticipate,
-    coreConcepts,
-    details,
-    delivery,
-    deliveryPlaceholder,
-    availableStartDates,
-    availableStartDatesPlaceholder,
-    pricing,
-    pricingPlaceholder,
-    addToCart,
-    registerInterest
+    overview:OVERVIEW,
+    evolveWithQUTeX: EVOLVE_WITH_QUTEX,
+    whoShouldParticipate: WHO_SHOULD_PARTICIPATE,
+    coreConcepts: CORE_CONCEPTS,
+    facilitator: FACILITATOR,
+    details: DETAILS,
+    duration: DURATION,
+    delivery: DELIVERY,
+    deliveryPlaceholder: DELIVERY_PLACEHOLDER,
+    availableStartDates: AVAILABLE_STARTDATES,
+    availableStartDatesPlaceholder: AVAILABLE_STARTDATES_PLACEHOLDER,
+    pricing: PRICING,
+    pricingPlaceholder: PRICING_PLACEHOLDER,
+    addToCart: ADD_TO_CART,
+    registerInterest: REGISTER_INTEREST,
+    professionalDevelopmentModules: PROF_DEV_MODULES
   };
 
   renderedCallback() {
@@ -143,7 +162,7 @@ export default class ProductDetailsDisplay extends LightningElement {
           }
         })
         .catch((e) => {
-          this.generateToast(ERROR_TITLE, LWC_Error_General, ERROR_VARIANT);
+          this.generateToast(ERROR_TITLE, LWC_ERROR_GENERAL, ERROR_VARIANT);
         })
         .finally(() => {
           // Display AddToCart / Register Interest
@@ -238,7 +257,7 @@ export default class ProductDetailsDisplay extends LightningElement {
         }
       })
       .catch((e) => {
-        this.generateToast("Error.", LWC_Error_General, "error");
+        this.generateToast("Error.", LWC_ERROR_GENERAL, "error");
       });
   }
 

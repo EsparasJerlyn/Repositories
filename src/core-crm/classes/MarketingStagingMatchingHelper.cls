@@ -173,6 +173,7 @@ public with sharing class MarketingStagingMatchingHelper{
                 finalMaping.put('LeadMobile_Locale__c','MarketingStaging_Mobile_Locale__c');
                 finalMaping.put('Mobile_No_Locale__c','Mobile__c');
             }
+            
         }else{
             obj.put('Company','Learner');
             obj.put('Lead_Type__c','Learner');

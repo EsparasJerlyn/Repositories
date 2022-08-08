@@ -10,9 +10,9 @@
       | roy.nino.s.regala              | February 03, 2022     | DEPP-213               | Created file                 | 
       |                                |                       |                        |                              | 
  */
-public class B2BRegisterInterestBatch implements Database.Batchable<sObject>
+global class B2BRegisterInterestBatch implements Database.Batchable<sObject>
 {
-    public Database.QueryLocator start(Database.BatchableContext bc)
+    global Database.QueryLocator start(Database.BatchableContext BC)
     {
         String query = 'SELECT Id, Contact__c,Contact__r.Email, Contact__r.FirstName, Contact__r.LastName, '; 
                query += 'Product__c, Product__r.Course__c, Product__r.Name, Product__r.Program_Plan__c, ';
@@ -26,7 +26,7 @@ public class B2BRegisterInterestBatch implements Database.Batchable<sObject>
         return Database.getQueryLocator(query);
     }
  
-    public void execute(Database.BatchableContext bc, List<Expression_of_Interest__c> expresionOfInterestList)
+    global void execute(Database.BatchableContext BC, List<Expression_of_Interest__c> expresionOfInterestList)
     {
         Map<Id,List<Id>> mapOfCourseToInterests = new Map<Id,List<Id>>(); // map of course to expresion of interests 
         Map<Id,List<Id>> mapOfProgramPlanToInterests = new Map<Id,List<Id>>(); // map of course to expresion of interests 
@@ -144,16 +144,16 @@ public class B2BRegisterInterestBatch implements Database.Batchable<sObject>
                 Messaging.SendEmailResult[] results = Messaging.sendEmail(lstEmails);
                 // To Check whether Email is sent or not
                 if (results[0].success) {
-                    System.debug(LoggingLevel.DEBUG,'The email was sent successfully.');//NOPMD
+                    System.debug('The email was sent successfully.');
                 } else {
-                    System.debug(LoggingLevel.DEBUG,'The email failed to send: ' + results[0].errors[0].message);//NOPMD
+                    System.debug('The email failed to send: ' + results[0].errors[0].message);
                 }
                 // To Check whether Email is sent or not
             }else{
-                System.debug(LoggingLevel.DEBUG,'No emails to be sent');//NOPMD
+                System.debug('No emails to be sent');
             }
         }    
     
     }  
-    public void finish(Database.BatchableContext bc){}//NOPMD
+    global void finish(Database.BatchableContext BC) {}
 }

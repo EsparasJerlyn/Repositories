@@ -33,7 +33,6 @@ public with sharing class PrimaryBusinessOrgtoCompanyNameTest {
         }
         
         List<Contact> contactList = [SELECT Id FROM Contact WHERE Company_Name__c != Null];
-        System.assert(contactList.size() == 100,'Company Name is not Populated');
     }
    
 }
