@@ -33,6 +33,7 @@ import getPaidInFullValues from '@salesforce/apex/ManageRegistrationSectionCtrl.
 import getPricingValidationValues from '@salesforce/apex/ManageRegistrationSectionCtrl.getPricingValidationValues';
 import getSearchedContacts from '@salesforce/apex/ManageRegistrationSectionCtrl.getSearchedContacts';
 import getQuestions from "@salesforce/apex/ManageRegistrationSectionCtrl.getQuestions";
+import getEmailOptions from "@salesforce/apex/ManageRegistrationSectionCtrl.getEmailOptions";
 import addRegistration from '@salesforce/apex/ManageRegistrationSectionCtrl.addRegistration';
 import addRegistration2 from '@salesforce/apex/ManageRegistrationSectionCtrl.addRegistration2';
 import getPBEntries from '@salesforce/apex/ManageRegistrationSectionCtrl.getPBEntries';
@@ -94,6 +95,8 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
     contactList;
     formLoading = false;
     contactFields;
+    emailOptions = [];
+    registeredEmail;
 
     //proceed without Invoice
     isProceedNoInvoice = false;
@@ -106,6 +109,8 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
     selectedPricing;
     pbEntryRecords;
     pbEntryRecord;
+
+    pbEntryFreeRecord;
 
     columns = [
         { label: 'Full Name', fieldName: 'contactFullName', type: 'text', sortable: true },
@@ -151,11 +156,15 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
                     ).map(record => {return record.contactEmail})
                 }
             }));
+            this.registeredEmail = undefined;
+            this.emailOptions = [];
         } else if(result.error){
             this.records = undefined;
             this.recordsTemp = undefined;
             this.error = result.error;
             this.isLoading = false;
+            this.registeredEmail = undefined;
+            this.emailOptions = [];
         }
     }
 
@@ -218,6 +227,7 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
             const resp = result.data;
             const hasEarlyBird = resp.find(element => element.label === ('Early Bird'));
             const hasStandardPricing = resp.find(element => element.label === ('Standard Price Book'));
+            this.pbEntryFreeRecord = resp.find(element => element.label === ('Free'));
             if(hasEarlyBird && hasStandardPricing){
                 tempRecords = resp.filter(rec=> !rec.label.includes('Standard Price Book'));
                 this.pbEntryRecords = [...tempRecords];
@@ -237,6 +247,10 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
     handleSelectedPricing(event){
         this.isDisabled = false;
         this.pbEntryRecord = event.detail.value;
+    }
+
+    handleEmailChange(event){
+        this.registeredEmail = event.detail.value;
     }
 
     //handles opening of modal
@@ -413,7 +427,7 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
         }else{
             this.isLoading = true;
             this.saveInProgress = true;
-            if(this.isProceedNoInvoice = true){
+            if(this.isProceedNoInvoice == true){
                 this.saveRegistration2(fields,this.childRecordId,[],[],'',this.prescribedProgram,this.isProceedNoInvoice);
             } else {
                 this.saveRegistration(fields,this.childRecordId,[],[],'',this.prescribedProgram);
@@ -424,6 +438,7 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
     handleExistingContactPWI(){
         let fields = {};
         fields.Id = this.contactId;
+        fields.Registered_Email__c = this.registeredEmail;
         this.contactFields = fields;
         this.isProceedNoInvoice = true;
         if(this.hasQuestions){
@@ -438,6 +453,7 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
     handleExistingContact(){
         let fields = {};
         fields.Id = this.contactId;
+        fields.Registered_Email__c = this.registeredEmail;
         this.contactFields = fields;
         if(this.hasQuestions){
             this.handleRespondQuestions();
@@ -451,7 +467,7 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
     handleSaveResponse(){
         this.isLoading = true;
         this.saveInProgress = true;
-        if(this.isProceedNoInvoice = true){
+        if(this.isProceedNoInvoice == true){
             this.saveRegistration2(this.contactFields,this.childRecordId,this.responseData.data,this.createAnswerRecord(),JSON.stringify(this.createFileUploadMap()),this.prescribedProgram,this.isProceedNoInvoice);
         } else {
             this.saveRegistration(this.contactFields,this.childRecordId,this.responseData.data,this.createAnswerRecord(),JSON.stringify(this.createFileUploadMap()),this.prescribedProgram);
@@ -528,6 +544,8 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
             this.saveInProgress = false;
             this.contactId = '';
             this.contactSearchItems = [];
+            this.registeredEmail = undefined;
+            this.emailOptions = [];
         })
         .catch(error =>{
             let errMsg = LWC_Error_General;
@@ -542,7 +560,6 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
                 });
             }
             this.generateToast('Error.', errMsg ,'error');
-            console.log('ERROR:', error);
         });
     }
 
@@ -577,6 +594,8 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
             this.saveInProgress = false;
             this.contactId = '';
             this.contactSearchItems = [];
+            this.registeredEmail = undefined;
+            this.emailOptions = [];
         })
         .catch(error =>{
             let errMsg = LWC_Error_General;
@@ -597,17 +616,28 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
 
     handleLookupSelect(event){
         this.contactId = event.detail.value;
+        getEmailOptions({contactId:event.detail.value})
+        .then((res) => {
+            this.emailOptions = [...res];
+            this.emailOptions = res.map(type => {
+                return { label: type.label, value: type.value};
+            });
+        })
     }
 
     handleLookupRemove(){
         this.contactId = '';
         this.contactSearchItems = [];
+        this.emailOptions = [];
+        this.registeredEmail = '';
     }
 
     closeModalAction(){
         this.isModalOpen = false;
         this.isDisabled = true;
         this.contactId = undefined;
+        this.emailOptions = [];
+        this.registeredEmail = undefined;
     }
 
     closeManageResponse(){
@@ -776,9 +806,23 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
     get modalName() {return this.modalName;}
     get noRecordsFound(){ return NO_REC_FOUND; }
     get sectionHeader(){ return SECTION_HEADER; }
+
     get disableSaveExisting(){
-        return this.saveInProgress || !this.contactId || !this.pbEntryRecord;
+        return this.saveInProgress || !this.contactId || !this.pbEntryRecord || !this.registeredEmail;
     }
+
+    get hasEmailOptions(){
+        return this.emailOptions && this.emailOptions.length > 0;
+    }
+
+    get disableInvoiceBtn(){
+        return this.saveInProgress || !this.contactId || !this.pbEntryRecord || (this.pbEntryFreeRecord && this.pbEntryRecord  == this.pbEntryFreeRecord.id) || !this.registeredEmail;
+    }
+
+    get disableInvoiceBtnOncreate(){
+        return this.saveInProgress || (this.pbEntryFreeRecord && this.pbEntryRecord  == this.pbEntryFreeRecord.id);
+    }
+
     get hasQuestions(){
         return this.questions && this.questions.length > 0?true:false;
     }

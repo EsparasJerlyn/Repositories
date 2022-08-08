@@ -41,9 +41,7 @@ public without sharing class GroupBookingFormCtrl {
     Map<Id, Id> relatedAnswerToQuestionnaireMap = new Map<Id, Id>();
     Map<String,Map<Id,Id>> conToRelatedAnswerToQMap = new Map<String,Map<Id,Id>>();
     Map<Id, Id> questionnaireToqResSummaryMap = new Map<Id, Id>();
-    Map<Id, Id> relatedAnswerToAnswerMap = new Map<Id, Id>();
-    Set<String> questionnaireIds = new Set<String>();
-    Map<String,Set<Id>> questionnaireIdsMap = new Map<String,Set<Id>>();
+    Map<String, Answer__c> relatedAnswerToAnswerMap = new Map<String, Answer__c>();
     Map<String,Questionnaire_Response_Summary__c> questionnaireSummaryToInsertMap = new Map<String,Questionnaire_Response_Summary__c>();
     Map<String,Answer__c> answersToInsertMap = new Map<String,Answer__c>();
     List<Answer__c> answersToInsertList = new List<Answer__c>();
@@ -57,13 +55,10 @@ public without sharing class GroupBookingFormCtrl {
     List<Answer__c> answersToInsert = new List<Answer__c>();
     Map<Id, Answer__c> answersToUpdate = new Map<Id, Answer__c>();
     
-    // List<FileUpload> parsedFileUpload = new List<FileUpload>();
-    // Map<String,List<FileUpload>> parsedFUploadMap = new Map<String,List<FileUplaod>>();
 
     finalParticipants = checkDuplicateContacts(participants);
   
 
-    
     if(!participants.values().isEmpty()){
         upsert finalParticipants.values();
     }
@@ -71,6 +66,19 @@ public without sharing class GroupBookingFormCtrl {
     for (Related_Answer__c relatedA : relatedAnswer) {
         questionnaireId = relatedA.Questionnaire__c; //always one questionnaire(registration questions)
         break;
+    }
+
+    List<FileUpload> parsedFileUpload;
+
+    for(String stringKey : fileUpload.keySet()){
+        parsedFileUpload = new List<FileUpload>();
+        parsedFileUpload.addALL((List<FileUpload>) JSON.deserialize(fileUpload.get(stringKey), List<FileUpload>.class));
+
+        for (FileUpload file : parsedFileUpload) {
+            ContentVersion cv = createContentVersion(file.Base64, file.FileName);
+            cvToRelatedAnswerMap.put(cv.Title, file.RelatedAnswerId + stringKey);
+            cvListToInsertList.add(cv);
+        }
     }
 
     Questionnaire_Response_Summary__c qResSummary;
@@ -95,73 +103,56 @@ public without sharing class GroupBookingFormCtrl {
     for(String key: answerMap.keySet()){
         for(Answer__c ans: answerMap.get(key)){
             ans.Questionnaire_Response_Summary__c = questionnaireSummaryToInsertMap.get(key).Id;
-            answersToInsertList.add(ans);
+            relatedAnswerToAnswerMap.put(ans.Related_Answer__c + key, ans);
         }
     }
     
-    if(!answersToInsertList.isEmpty()){
-        insert answersToInsertList;
+    if(!relatedAnswerToAnswerMap.keySet().isEmpty()){
+        insert relatedAnswerToAnswerMap.values();
     }
 
+    if (!cvListToInsertList.isEmpty()) {
+      insert cvListToInsertList;
+    }
+
+    List<ContentVersion> newContentVersionList = new List<ContentVersion>(
+      [
+        SELECT ContentDocumentId, Title
+        FROM ContentVersion
+        WHERE Id IN :cvListToInsertList
+      ]
+    );
+
+    ContentDocumentLink cdl;
+    Answer__c updateAnswer;
+
+    if (!newContentVersionList.isEmpty()) {
+      
+      for (ContentVersion cv : newContentVersionList) {
+
+        cdl = new ContentDocumentLink(
+          ContentDocumentId = cv.ContentDocumentId,
+          LinkedEntityId = relatedAnswerToAnswerMap.get(cvToRelatedAnswerMap.get(cv.Title)).Id,
+          ShareType = 'V'
+        );
+        updateAnswer = new Answer__c(
+          Id = cdl.LinkedEntityId,
+          Response__c = cv.ContentDocumentId
+        );
+        answersToUpdate.put(updateAnswer.Id, updateAnswer);
+        contentDocLinkListToInsert.add(cdl);
+      }
+    }
+
+    if (!contentDocLinkListToInsert.isEmpty()) {
+      insert contentDocLinkListToInsert;
+    }
+
+    if (!answersToUpdate.keySet().isEmpty()) {
+      update answersToUpdate.values();
+    }
 
     return finalParticipants.values();
-    // for (Answer__c ans : answersToInsertMap.values()) {
-    //   relatedAnswerToAnswerMap.put(ans.Related_Answer__c, ans.Id);
-    // }
-
-    // for(String key: parsedFUploadMap.keySet()){
-    //     for (FileUpload file : parsedFUploadMap.get(key)) {
-    //         if (relatedAnswerToAnswerMap.containsKey(file.RelatedAnswerId)) {
-    //           ContentVersion cv = createContentVersion(file.Base64, file.FileName);
-    //           cvToRelatedAnswerMap.put(cv.Title, file.RelatedAnswerId);
-    //           cvListToInsertList.add(cv);
-    //         }
-    //     }
-    // }
-    
-
-    // if (!cvListToInsertList.isEmpty()) {
-    //   insert cvListToInsertList;
-    // }
-
-    // List<ContentVersion> newContentVersionList = new List<ContentVersion>(
-    //   [
-    //     SELECT ContentDocumentId, Title
-    //     FROM ContentVersion
-    //     WHERE Id IN :cvListToInsertList
-    //   ]
-    // );
-
-    // if (!newContentVersionList.isEmpty()) {
-    //   ContentDocumentLink cdl;
-    //   Answer__c updateAnswer;
-    //   for (ContentVersion cv : newContentVersionList) {
-    //     String test = relatedAnswerToAnswerMap.get(
-    //       cvToRelatedAnswerMap.get(cv.Title)
-    //     );
-    //     cdl = new ContentDocumentLink(
-    //       ContentDocumentId = cv.ContentDocumentId,
-    //       LinkedEntityId = relatedAnswerToAnswerMap.get(
-    //         cvToRelatedAnswerMap.get(cv.Title)
-    //       ),
-    //       ShareType = 'V'
-    //     );
-    //     updateAnswer = new Answer__c(
-    //       Id = cdl.LinkedEntityId,
-    //       Response__c = cv.ContentDocumentId
-    //     );
-    //     answersToUpdate.put(updateAnswer.Id, updateAnswer);
-    //     contentDocLinkListToInsert.add(cdl);
-    //   }
-    // }
-
-    // if (!contentDocLinkListToInsert.isEmpty()) {
-    //   insert contentDocLinkListToInsert;
-    // }
-
-    // if (!answersToUpdate.keySet().isEmpty()) {
-    //   update answersToUpdate.values();
-    // }
     
     
 
@@ -179,6 +170,13 @@ public without sharing class GroupBookingFormCtrl {
 
 }
 
+private static ContentVersion createContentVersion(String base64, String filename) {
+    ContentVersion cv = new ContentVersion();
+    cv.VersionData = EncodingUtil.base64Decode(base64);
+    cv.Title = filename;
+    cv.PathOnClient = filename;
+    return cv;
+}
 
 /**
    * @description Custom Add to Cart process
@@ -247,11 +245,11 @@ public without sharing class GroupBookingFormCtrl {
         for(String item: participants.keySet()){
             
             birthDateSet.add(participants.get(item).Birthdate);
-            emailSet.add(participants.get(item).Email);
+            emailSet.add(participants.get(item).Registered_Email__c);
             lastNameSet.add(participants.get(item).LastName);
 
-            criteriaMap.put(JSON.serialize(participants.get(item).Birthdate) + participants.get(item).Email + participants.get(item).LastName,participants.get(item));
-            participantMap.put(JSON.serialize(participants.get(item).Birthdate) + participants.get(item).Email + participants.get(item).LastName,item);
+            criteriaMap.put(JSON.serialize(participants.get(item).Birthdate) + participants.get(item).Registered_Email__c + participants.get(item).LastName,participants.get(item));
+            participantMap.put(JSON.serialize(participants.get(item).Birthdate) + participants.get(item).Registered_Email__c + participants.get(item).LastName,item);
         }
         
 
@@ -261,11 +259,14 @@ public without sharing class GroupBookingFormCtrl {
         SELECT
             Id,
             MobilePhone,
+            Mobile_No_Locale__c,
+            ContactMobile_Locale__c,
             Dietary_Requirement__c,
             Accessibility_Requirement__c,
             AccountId,
             Birthdate,
             Email,
+            Registered_Email__c,
             Work_Email__c,
             QUT_Learner_Email__c,
             QUT_Staff_Email__c,
@@ -275,21 +276,52 @@ public without sharing class GroupBookingFormCtrl {
             RecordTypeId = :RT_CONTACT_PERSON_ID
             AND Parent_Person_Contact__c = NULL
             AND Birthdate IN: birthDateSet
-            AND Email IN: emailSet
+            AND (Registered_Email__c IN: emailSet
+            OR Email IN: emailSet
+            OR Work_Email__c IN: emailSet
+            OR QUT_Learner_Email__c IN: emailSet
+            OR QUT_Staff_Email__c IN: emailSet)
             AND LastName IN:lastNameSet
+            AND RecordTypeId =:RT_CONTACT_PERSON_ID
         ]);
 
         for(Contact item: duplicateContacts){
             Contact tempCon = new Contact();
-            String criteria = JSON.serialize(item.Birthdate) + item.Email + item.LastName;
+            
+            String criteria = '';
+
+            //check if registred email matches with contact emails
+            if(item.Registered_Email__c != null && participantMap.containsKey(JSON.serialize(item.Birthdate) + item.Registered_Email__c + item.LastName)){
+              criteria = JSON.serialize(item.Birthdate) + item.Registered_Email__c + item.LastName;
+            }else if(item.Email != null && participantMap.containsKey(JSON.serialize(item.Birthdate) + item.Email + item.LastName)){
+              criteria = JSON.serialize(item.Birthdate) + item.Email + item.LastName;
+            }else if(item.Work_Email__c != null && participantMap.containsKey(JSON.serialize(item.Birthdate) + item.Work_Email__c + item.LastName)){
+              criteria = JSON.serialize(item.Birthdate) + item.Work_Email__c + item.LastName;
+            }else if(item.QUT_Learner_Email__c != null && participantMap.containsKey(JSON.serialize(item.Birthdate) + item.QUT_Learner_Email__c + item.LastName)){
+              criteria = JSON.serialize(item.Birthdate) + item.QUT_Learner_Email__c + item.LastName;
+            }else if(item.QUT_Staff_Email__c != null && participantMap.containsKey(JSON.serialize(item.Birthdate) + item.QUT_Staff_Email__c + item.LastName)){
+              criteria = JSON.serialize(item.Birthdate) + item.QUT_Staff_Email__c + item.LastName;
+            }
+
             if(criteriaMap.containsKey(criteria)){      
                 tempCon.Id = item.Id;
-            }
+                tempCon.Registered_Email__c = participants.get(participantMap.get(criteria)).Registered_Email__c;
+                tempCon.Mobile_No_Locale__c = participants.get(participantMap.get(criteria)).Mobile_No_Locale__c;
+                tempCon.Dietary_Requirement__c = participants.get(participantMap.get(criteria)).Dietary_Requirement__c;
+                tempCon.ContactMobile_Locale__c = participants.get(participantMap.get(criteria)).ContactMobile_Locale__c;
+                tempCon.MobilePhone = participants.get(participantMap.get(criteria)).MobilePhone;
+            }else{
+                //user not existing
+                //map registered email to email
+                tempCon.Email = participants.get(participantMap.get(criteria)).Registered_Email__c;
             tempCon.RecordTypeId = RT_CONTACT_PERSON_ID;
             tempCon.Birthdate = participants.get(participantMap.get(criteria)).Birthdate;
-            tempCon.Email = participants.get(participantMap.get(criteria)).Email;
-            tempCon.MobilePhone = participants.get(participantMap.get(criteria)).MobilePhone;
+                tempCon.Registered_Email__c = participants.get(participantMap.get(criteria)).Registered_Email__c;
+                tempCon.ContactMobile_Locale__c = participants.get(participantMap.get(criteria)).ContactMobile_Locale__c;
+                tempCon.Mobile_No_Locale__c = participants.get(participantMap.get(criteria)).Mobile_No_Locale__c;
             tempCon.Dietary_Requirement__c = participants.get(participantMap.get(criteria)).Dietary_Requirement__c;
+                tempCon.MobilePhone = participants.get(participantMap.get(criteria)).MobilePhone;
+            }
             participants.put(participantMap.get(criteria),tempCon);
         }  
 

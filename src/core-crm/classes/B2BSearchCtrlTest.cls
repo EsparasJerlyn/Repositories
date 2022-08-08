@@ -17,7 +17,7 @@ public class B2BSearchCtrlTest {
     private static final String COMMUNITY_NAME = 'CCE';
     
     @testSetup static void setupMethod() {
-        TestDataFactory.createTestAccount(true);
+        Account acc = TestDataFactory.createTestAccount(true);
     }
 	
     @IsTest

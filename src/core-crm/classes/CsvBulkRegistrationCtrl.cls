@@ -10,7 +10,7 @@
       |                           |                       |                      |                              | 
  */
 
-public with sharing class CsvBulkRegistrationCtrl {
+public class CsvBulkRegistrationCtrl {
 
     	@AuraEnabled(cacheable=true)
         public static ConnectApi.ManagedContentVersion GetCMSContentDataByName(
@@ -43,7 +43,8 @@ public with sharing class CsvBulkRegistrationCtrl {
                     pageNo += 1;
                 }
             } catch (ConnectApi.ConnectApiException e) {                
-                System.debug(LoggingLevel.DEBUG, 'error on CsvBulkRegistrationCtrl.GetCMSContentDataByName'); //NOPMD
+                System.debug(e);
+                System.debug('error on CsvBulkRegistrationCtrl.GetCMSContentDataByName');
             }
             return returnList;
         }
@@ -61,6 +62,7 @@ public with sharing class CsvBulkRegistrationCtrl {
             for(Integer i = 1; i < lstCSVLines.size(); i++){
                 FieldDataType objAcc = new FieldDataType();
                 list<String> csvRowData = lstCSVLines[i].split(',');
+                System.debug('csvRowData====> '+csvRowData);
                 objAcc.Salutation = csvRowData[0]; // accName
                 objAcc.FirstName = csvRowData[1];
                 objAcc.MiddleName = csvRowData[2];

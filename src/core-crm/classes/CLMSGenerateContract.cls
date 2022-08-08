@@ -61,8 +61,8 @@ public with sharing class CLMSGenerateContract{
         }else{
             response = http.send(request);
         }
-        System.debug(LoggingLevel.DEBUG, 'HTTP REQUEST: '+payload); //NOPMD
-        System.debug(LoggingLevel.DEBUG, 'HTTP RESPONSE: '+response.getBody()); //NOPMD
+        System.debug('HTTP REQUEST: '+payload);
+        System.debug('HTTP RESPONSE: '+response.getBody());
         if(response.getStatusCode() == 200 || response.getStatusCode() == 422) {
             return response.getBody();
         }else{

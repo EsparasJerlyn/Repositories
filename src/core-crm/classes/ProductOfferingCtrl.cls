@@ -200,7 +200,7 @@ public with sharing class ProductOfferingCtrl {
      *              of a product request
      * @param productRequestId - id of product request
      * @param parentInfo - map containing condition field and object api name of parent
-     * @param childInfo - map containing fields, object api name, and condition field of child
+     * @param childInfo - map contaning fileds, object api name, and condition field of child
      * @return custom ProductOfferingData wrapper
     */
     @AuraEnabled(cacheable=true)

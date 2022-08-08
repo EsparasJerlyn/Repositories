@@ -50,8 +50,8 @@ public without sharing class PaymentConfirmationCtrl {
     @AuraEnabled(cacheable=true)
     public static CartData getCartData(String externalId, String userId){
 
-        //get the contact ID of the current user
-        String contactEmail = [SELECT Contact.Email FROM User WHERE Id = :userId LIMIT 1].Contact.Email;
+        //get the email of user
+        String userEmail = [SELECT Email FROM User WHERE Id = :userId LIMIT 1].Email;
 
         //instantiate variables
         CartData myCartData = new CartData();
@@ -148,7 +148,7 @@ public without sharing class PaymentConfirmationCtrl {
         }
 
         //popoulate return object
-        myCartData.contactEmail = contactEmail;
+        myCartData.contactEmail = userEmail;
         myCartData.cartId = webCartData.Id;
         myCartData.cartItemsList = myCartItemsList;
         myCartData.subTotal = mySubtotal;
@@ -364,4 +364,3 @@ public without sharing class PaymentConfirmationCtrl {
         }
     }
 }
-  

@@ -393,7 +393,7 @@ public without sharing class RegistrationFormCtrl {
     insert (u);
 
     String key = EncodingUtil.convertToHex(crypto.generateAesKey(128));
-    String pwd = key.substring(0, 10);
+    String pwd = key.substring(0, 10) + 'AbC123';
 
     system.setPassword(u.id, pwd);
 
@@ -442,7 +442,12 @@ public without sharing class RegistrationFormCtrl {
    */
   @AuraEnabled(cacheable=false)
   public static String getUserMobileLocale(Id userId){
-    Contact userMobileLoc = [SELECT Id, ContactMobile_Locale__c FROM Contact WHERE Id =:userId LIMIT 1];
+    Contact userMobileLoc = [
+      SELECT Id, ContactMobile_Locale__c
+      FROM Contact
+      WHERE Id = :userId
+      LIMIT 1
+    ];
     String mLocale = userMobileLoc.ContactMobile_Locale__c;
     return mLocale;
   }

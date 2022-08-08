@@ -159,14 +159,14 @@
                 class="modal-footer slds-grid slds-gutters center slds-m-horizontal_x-small"
             >
                 <div class="slds-col slds-size_1-of-1">
-                <button
-                    class="slds-button slds-button_brand footer-button btnContinue"
+                <lightning-button
+                    class="applicationButton"
                     onclick={submitDetails}
-                        type="submit"
+                        label="Save"
+                        variant="brand"
                         disabled={disableResponseSave}
                 >
-                Save
-                </button>
+                </lightning-button>
                 </div>
             </div>
             </form>

@@ -9,6 +9,7 @@
 | Developer Email                | Date                  | JIRA                   | Change Summary                                                                |
 |--------------------------------|-----------------------|------------------------|-------------------------------------------------------------------------------|
 | eugene.andrew.abuan            | June 29, 2022         | DEPP-3339              | Created File                                                                  |
+| eugene.andrew.abuan            | July 04, 2022         | DEPP-3387              | Updated Email to Registered Email                                             |
 |                                |                       |                        |                                                                               |
 
 */
@@ -28,7 +29,7 @@ public without sharing class ContactUserNameCreatedHelper {
 			  QUT_Identity_ID__c,
 			  QUT_Student_Username__c,
 			  FirstName,
-			  Email
+			  Registered_Email__c
 			FROM Contact
 			WHERE Id IN :contactIdSet
 		 ];
@@ -52,7 +53,7 @@ public without sharing class ContactUserNameCreatedHelper {
 			 List<Messaging.SingleEmailMessage> sendEmailList = new List<Messaging.SingleEmailMessage>();
 			 if (emailTemplate != null) {
 				for (Contact c : opeContact) {
-				  if (String.IsNotBlank(c.Email)){
+				  if (String.IsNotBlank(c.Registered_Email__c)){
 						// Set Email values
 						String subject = 'QUTeX Professional & Executive Education';
 						String firstName = c.FirstName;
@@ -69,7 +70,7 @@ public without sharing class ContactUserNameCreatedHelper {
 		
 						// Build the Email
 						Messaging.SingleEmailMessage mail = EmailHelper.emailBuilder(
-							c.Email,
+							c.Registered_Email__c,
 							subject,
 							emailTemplate.HtmlValue,
 							emailParams
