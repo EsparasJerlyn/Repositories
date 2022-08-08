@@ -6,10 +6,10 @@
  * @author Accenture
  *
  * @history
- *    | Developer                 | Date                  | JIRA      | Change Summary                  |
-      |---------------------------|-----------------------|-----------|---------------------------------|
-      | adrian.c.habasa           | Febuary 11, 2022      | DEPP-1247 | Created file                    | 
-      |                           |                       |           |                                 | 
+ *    | Developer                 | Date                  | JIRA      | Change Summary                         |
+      |---------------------------|-----------------------|-----------|----------------------------------------|
+      | adrian.c.habasa           | Febuary 11, 2022      | DEPP-1247 | Created file                           | 
+      | arsenio.jr.dayrit         | Auguts 04, 2022       | DEPP-3684 | Add Active Status on Course Enrollment | 
 */
 
 public with sharing class TrackAttendanceAndEvaluationCtrl {
@@ -51,7 +51,7 @@ public with sharing class TrackAttendanceAndEvaluationCtrl {
             [
                 Select Id,Name,hed__Course_Offering__c,hed__Contact__r.Name 
                 FROM hed__Course_Enrollment__c 
-                WHERE RecordTypeId=:studentRTId AND hed__Course_Offering__c in:courseOfferingMap.keySet()
+                WHERE hed__Status__c = 'Active' AND RecordTypeId=:studentRTId AND hed__Course_Offering__c in:courseOfferingMap.keySet()
             ];
 
         Map<Id,List<Session__c>> sessionOfferingMap = new Map<Id, List<Session__c>>();

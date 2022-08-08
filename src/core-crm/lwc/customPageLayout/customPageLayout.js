@@ -203,6 +203,12 @@ export default class CreateRecordUI extends LightningElement {
     //disables spinner on error
     handleError(event){
         this.popoverErrorMessages = [];
+        if( event.detail && event.detail.output &&
+            event.detail.output.errors[0] &&
+            event.detail.output.errors[0].errorCode == 'FIELD_CUSTOM_VALIDATION_EXCEPTION'){
+            this.popoverErrorMessages.unshift(event.detail.output.errors[0].message);
+        }
+
         if( event.detail && event.detail.output && 
             event.detail.output.errors[0] && 
             event.detail.output.errors[0] && 

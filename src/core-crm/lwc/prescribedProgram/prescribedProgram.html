@@ -242,13 +242,22 @@
       onclose={groupRegistrationModalClosed}
     ></c-group-booking-form>
   </template>
-  <template if:true={openModal}>
+  <template if:true={openRegisterModal}>
     <c-registration-form
       class="regModal"
       onclose={handleModalClosed}
+      onopenlogin={handleLoginModalOpen}
       param={paramURL}
       record-id={recordId}
       record-name-id={recordNameId}
     ></c-registration-form>
   </template>
+  <template if:true={openLoginModal}>
+    <c-custom-sign-in
+        class="regModal"
+        onclose={handleModalClosed}
+        onopenregister={handleRegisterModalOpen}
+        start-u-r-l={startURL}
+    ></c-custom-sign-in>
+</template>
 </template>

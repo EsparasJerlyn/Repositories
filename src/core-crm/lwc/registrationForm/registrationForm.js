@@ -21,6 +21,7 @@
       | john.bo.a.pineda          | July 04, 2022         | DEPP-3385            | Added "p" object keyword to URL       |
       | john.bo.a.pineda          | July 05, 2022         | DEPP-3393            | Replaced all special characters to URL|
       |                           |                       |                      | equivalents for startURL              |
+      | john.bo.a.pineda          | July 15, 2022         | DEPP-3130            | Set startURL param as API             |
 */
 import { LightningElement, track, api, wire } from "lwc";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
@@ -52,6 +53,7 @@ const HEADER ="Tell us about you";
 const SUBHEADER = "Register to participate in professional and executive education";
 const REGISTER_WITH_LINKEDIN = "Register with LinkedIn";
 const QUT_SSO_TEXT = "Previously studied with QUTeX? Login instead";
+const QUT_LOGIN_TEXT = "Previously told us about you? Continue here.";
 const REQ_FIELD = "Indicates a required field";
 const ACKNOWLDGE = "I acknowledge and accept the";
 const QUT_PRIVACY_POLICY ="QUT Privacy Policy.";
@@ -99,7 +101,6 @@ export default class RegistrationForm extends LightningElement {
   userOTP;
   verifyOTP;
   selectionOption;
-  startURL;
   localeOptions = [];
   localeDisplayName;
   localeConMobile;
@@ -111,6 +112,7 @@ export default class RegistrationForm extends LightningElement {
   loading = false;
   executeLogin = false;
 
+  @api startURL;
   @api recordId;
   @api recordNameId;
 
@@ -129,6 +131,7 @@ export default class RegistrationForm extends LightningElement {
     requiredField: REQ_FIELD,
     registerWithLinkedIn :REGISTER_WITH_LINKEDIN,
     qutSSOText: QUT_SSO_TEXT,
+    qutLoginText: QUT_LOGIN_TEXT,
     privacyPolicy: QUT_PRIVACY_POLICY,
     acknowledge: ACKNOWLDGE
   };
@@ -274,7 +277,6 @@ export default class RegistrationForm extends LightningElement {
     } else {
       this.mobileFull = '';
     }
-    console.log('mobileFull:', this.mobileFull);
     this.dietaryReq = this.template.querySelector(
       "textarea[name=dietaryReq]"
     ).value;
@@ -427,17 +429,17 @@ export default class RegistrationForm extends LightningElement {
       mobileNoLocale: this.mobile,
       mobileConLocale: this.localeConMobile
     })
-      .then((res) => {
-        if (res == "CloseModal") {
-          this.closeModal();
-        } else if (res) {
-          window.location.href = res;
-        }
-      })
-      .catch((error) => {
+    .then((res) => {
+      if (res == "CloseModal") {
+        this.closeModal();
+      } else if (res) {
+        window.location.href = res;
+      }
+    })
+    .catch((error) => {
       this.errorMessage = LWC_ERROR_GENERAL + this.generateErrorMessage(error);
       console.log('register error:', error);
-      });
+    });
   }
 
   handleDisplayResend(event) {
@@ -705,4 +707,14 @@ export default class RegistrationForm extends LightningElement {
     });
     this.dispatchEvent(evt);
   }
+
+  handleOpenLogin() {
+    this.dispatchEvent(
+        new CustomEvent("openlogin", {
+            detail: {
+                startURL: this.startURL
+            }
+        })
+    );
+}
 }

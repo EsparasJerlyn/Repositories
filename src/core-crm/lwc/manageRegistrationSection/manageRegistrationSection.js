@@ -20,6 +20,7 @@
       |                           |                       |                      | logic for Proceed w/o Invoice|
       | john.bo.a.pineda          | June 29, 2022         | DEPP-3323            | Modified to add logic to     |
       |                           |                       |                      | validate Upload File Type    |
+      | john.m.tambasen           | August 03, 2022       | DEPP-3614            | show free pb ony if available|
 */
 
 import { api, LightningElement, wire } from 'lwc';
@@ -109,7 +110,6 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
     selectedPricing;
     pbEntryRecords;
     pbEntryRecord;
-
     pbEntryFreeRecord;
 
     columns = [
@@ -228,18 +228,25 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
             const hasEarlyBird = resp.find(element => element.label === ('Early Bird'));
             const hasStandardPricing = resp.find(element => element.label === ('Standard Price Book'));
             this.pbEntryFreeRecord = resp.find(element => element.label === ('Free'));
-            if(hasEarlyBird && hasStandardPricing){
+
+            //check if free is available first
+            if(this.pbEntryFreeRecord){
+                tempRecords = resp.filter(rec=> rec.label.includes('Free'));
+                this.pbEntryRecords = [...tempRecords];
+                this.pbEntryRecords = tempRecords.map(type => {
+                    return { label: type.label, value: type.id };
+                });
+            } else if(hasEarlyBird && hasStandardPricing){
                 tempRecords = resp.filter(rec=> !rec.label.includes('Standard Price Book'));
                 this.pbEntryRecords = [...tempRecords];
                 this.pbEntryRecords = tempRecords.map(type => {
                     return { label: type.label, value: type.id };
                 });
             }else{
-                this.pbEntryRecords = resp.map(type => {
-                    return { label: type.label, value: type.id };
-                });
+            this.pbEntryRecords = resp.map(type => {
+                return { label: type.label, value: type.id };
+            });
             }
-
         }
     }
 

@@ -453,6 +453,7 @@ public with sharing class MarketingStagingMatchingHelper{
                             'Marketing_Segmentation__c'
                         )
                     ); 
+                    //create interaction for when segmentation is updated
                     if(
                         staging.Interaction_Type__c !=null ||
                         staging.Interaction_DateTime__c !=null ||

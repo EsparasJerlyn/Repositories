@@ -8,6 +8,7 @@
 | keno.domienri.dico        | May 24, 2022          | DEPP-2038            | Create payment method lwc                    |
 | marlon.vasquez            | June 10, 2022         | DEPP-2812            | Cart Summary Questionnaire                   |
 | roy.nino.s.regala         | June 30, 2022         | DEPP-3157            | fixed questionnaire issues                   |
+| john.m.tambasen           | August 04, 2022       | DEPP-3674            | added strikethrough for discounted items     |
 
 */
 import { LightningElement, api, wire, track } from 'lwc';
@@ -21,6 +22,8 @@ import CART_PAYMENT_FIELD from '@salesforce/schema/WebCart.Cart_Payment__c';
 import PAYMENT_METHOD from '@salesforce/schema/WebCart.Payment_Method__c';
 import PAYMENT_STATUS_FIELD from '@salesforce/schema/Cart_Payment__c.Payment_Status__c';
 import CARTPAYMENT_ID_FIELD from '@salesforce/schema/Cart_Payment__c.Id';
+import CARTITEM_ID_FIELD from '@salesforce/schema/CartItem.Id';
+import CARTITEM_PBE_FIELD from '@salesforce/schema/CartItem.Pricebook_Entry_ID__c';
 import getOPEProductCateg from "@salesforce/apex/PaymentConfirmationCtrl.getOPEProductCateg";
 import saveCartSummaryQuestions from "@salesforce/apex/CartItemCtrl.saveCartSummaryQuestions";
 import BasePath from "@salesforce/community/basePath";
@@ -56,6 +59,7 @@ export default class Payment extends LightningElement {
     @api cartItems;
     @api fromCartSummary;
     @api numberOfParticipants;
+    @api cartItemsPbeUpdate;
     @track prodCategId;
     responseDataList;
     fileUploadData = [];
@@ -202,8 +206,24 @@ export default class Payment extends LightningElement {
 
             //populate string
             opeDescription = opeDescription + `OPEDescription=` + currentCartItem.productName.replace(/ /g,'%20') + `&` + 
-            `UnitAmountIncTax=` + (currentCartItem.unitPrice - currentCartItem.unitDiscount)+ `&`;
+            `UnitAmountIncTax=`;
+
+            let unitPriceTemp;
             
+            //if showStrikedStandardPb, means discount was appied
+            if(currentCartItem.showStrikedStandardPb){
+                //set the discoutned price
+                unitPriceTemp = currentCartItem.unitPriceStandard - currentCartItem.unitDiscount;
+
+            //else use the specific pb selected
+            } else{
+                //set the price from the pb entry
+                unitPriceTemp = currentCartItem.unitPrice;
+            }
+
+            //complete the URL
+            opeDescription = opeDescription + unitPriceTemp + `&`;
+
         });
 
         return this.baseURL + this.formURL + opeDescription.slice(0, -1);
@@ -243,8 +263,24 @@ export default class Payment extends LightningElement {
 
             //populate string
             opeDescription = opeDescription + `OPEDescription=` + currentCartItem.productName.replace(/ /g,'%20') + `&` + 
-            `UnitAmountIncTax=` + (currentCartItem.unitPrice - currentCartItem.unitDiscount)+ `&`;
+            `UnitAmountIncTax=`;
+
+            let unitPriceTemp;
             
+            //if showStrikedStandardPb, means discount was appied
+            if(currentCartItem.showStrikedStandardPb){
+                //set the discoutned price
+                unitPriceTemp = currentCartItem.unitPriceStandard - currentCartItem.unitDiscount;
+
+            //else use the specific pb selected
+            } else{
+                //set the price from the pb entry
+                unitPriceTemp = currentCartItem.unitPrice;
+
+            }
+
+            //complete the URL
+            opeDescription = opeDescription + unitPriceTemp + `&`;
         });
 
         return this.baseURL + this.formURL + opeDescription.slice(0, -1);        
@@ -343,6 +379,19 @@ export default class Payment extends LightningElement {
             console.log("create cartpayment error");
             console.log(error);
         })
+
+        //loop through the pass object of cartitem records to be updated
+        for (let i = 0; i < this.cartItemsPbeUpdate.length; i++) {
+            //update CartItem with the standard pricebook
+            let fields = {};
+            fields[CARTITEM_ID_FIELD.fieldApiName] = this.cartItemsPbeUpdate[i].cartItemId;
+            fields[CARTITEM_PBE_FIELD.fieldApiName] = this.cartItemsPbeUpdate[i].standardPbe;
+            let recordInput = {fields};
+            updateRecord(recordInput)
+            .then(()=>{
+                //code
+            })
+        }
     }
 
     invoiceClick(){
@@ -431,6 +480,19 @@ export default class Payment extends LightningElement {
             console.log("createCourseConnections error");
             console.log(error);
         })
+
+        //loop through the pass object of cartitem records to be updated
+        for (let i = 0; i < this.cartItemsPbeUpdate.length; i++) {
+            //update CartItem with the standard pricebook
+            let fields = {};
+            fields[CARTITEM_ID_FIELD.fieldApiName] = this.cartItemsPbeUpdate[i].cartItemId;
+            fields[CARTITEM_PBE_FIELD.fieldApiName] = this.cartItemsPbeUpdate[i].standardPbe;
+            let recordInput = {fields};
+            updateRecord(recordInput)
+            .then(()=>{
+                //code
+            })
+        }
 
         //redirect to for you page and open the xetta page in new tab
          this.openNewTab();

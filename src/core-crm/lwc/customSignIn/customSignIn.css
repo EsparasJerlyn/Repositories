@@ -1,0 +1,156 @@
+.heading {
+    font-style: normal;
+    font-family: "ProximaNova-Bold";
+    font-weight: 700;
+    font-size: 44px;
+    color: #0066b9;
+    margin: 32px 0px;
+}
+
+.text {
+    font-size: 18px;
+}
+
+/* Modal */
+.modal {
+    display: block;
+    position: fixed;
+    z-index: 10;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+    opacity: unset;
+    visibility: visible;
+}
+
+.modal-content::-webkit-scrollbar {
+    display: none;
+}
+
+.btnCancel,
+.btnContinue {
+    min-width: 100%;
+}
+
+.modal-footer {
+    background: #ffffff;
+    position: sticky;
+    height: 112px;
+    left: 0px;
+    bottom: 0px;
+    z-index: 2;
+}
+
+.required-text {
+    color: #b90015;
+}
+
+.error-message {
+    color: #b90015;
+    visibility: hidden;
+}
+.error-message-hide {
+    visibility: hidden;
+    display: none;
+}
+
+.error-message-show {
+    display: block;
+    visibility: visible !important;
+}
+
+.border-error {
+    border-color: #b90015 !important;
+}
+
+.sso-text,
+.emailtxt {
+    font-weight: normal !important;
+}
+
+/* Mobile CSS */
+@media screen and (max-width: 767px) {
+    .heading {
+        font-size: 30px;
+        margin: 16px 0px;
+        text-align: center;
+    }
+    .form-margin {
+        margin: 10px 16px;
+    }
+
+    .slds-p-right_large,
+    .slds-p-right--large {
+        padding-right: 0px;
+    }
+}
+
+@media screen and (max-width: 764px) {
+    .px3,
+    .pt2 {
+        padding: 0;
+    }
+}
+
+@media screen and (min-width: 765px) {
+    .slds-large-size_1-of-2,
+    .slds-large-size--1-of-2,
+    .slds-medium-size_1-of-2,
+    .slds-medium-size--1-of-2 {
+        width: 50%;
+    }
+    .slds-large-size_1-of-3,
+    .slds-large-size--1-of-3 {
+        width: 33.3333333333%;
+    }
+}
+
+.cursor {
+    cursor: pointer;
+}
+
+.modal-content {
+    width: 60%;
+    max-width: 52.0625rem;
+    min-width: 20rem;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+.wrapper {
+    max-height: 100%;
+}
+
+@media only screen and (min-width: 765px) and (max-width: 767px) {
+    .slds-medium-size_6-of-12,
+    .slds-large-size_6-of-12 {
+        width: 50% !important;
+    }
+}
+
+.elementStyle {
+    margin: 1rem 0px;
+}
+
+[lightning-radio-group].slds-form-element {
+    text-align: left !important;
+}
+
+.textLeft {
+    text-align: left;
+}

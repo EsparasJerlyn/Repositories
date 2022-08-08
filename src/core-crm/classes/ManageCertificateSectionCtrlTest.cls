@@ -12,8 +12,6 @@
  */
 @isTest(SeeAllData=false)
 public with sharing class ManageCertificateSectionCtrlTest {
-    private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
-
     private static final string STUDENT_RT = System.Label.RT_CourseConnection_Student;
     private static final Id STUDENT_RT_ID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(STUDENT_RT).getRecordTypeId();
     private static final String RT_ACTIVITY = System.Label.RT_ProductRequest_Activity;    
@@ -22,11 +20,26 @@ public with sharing class ManageCertificateSectionCtrlTest {
     private static final Id RT_PROG_PLAN_ID = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(RT_PROG_PLAN).getRecordTypeId();
     private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
-    private static Integer numberOfRecords = 100;   
+    private static Integer numberOfRecords = 100;
+    private static final String EMAIL_TEMPLATE = 'Certificate of Participation';
+    private static final String COVER_TEMPLATE = 'Send Certificate';   
+
+    @TestSetup
+    static void makeData(){
+        Test.startTest();
+        TestDataFactory.generateTestUsers();
+        Test.stopTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()){
+            List<EmailTemplate> templates = TestDataFactory.createTestEmailTemplateRecords(2,new Map<String,String>{
+                EMAIL_TEMPLATE => 'Test Email Subject',
+                COVER_TEMPLATE => 'Send Certificate'});
+            insert templates;
+        }
+    }
 
     @IsTest
     static void getRegDetailsForNonProgPlanTest(){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactory.getProgramAdminUser()){
             createRecord(RT_ACTIVITY_ID);
             String offeringId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;
             Test.startTest();
@@ -38,7 +51,7 @@ public with sharing class ManageCertificateSectionCtrlTest {
 
     @IsTest
     static void getRegDetailsForProgPlanTest(){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactory.getProgramAdminUser()){
             createRecord(RT_PROG_PLAN_ID);
             String offeringId = [SELECT Id FROM Program_Offering__c LIMIT 1].Id;
             Test.startTest();
@@ -50,7 +63,7 @@ public with sharing class ManageCertificateSectionCtrlTest {
 
     @IsTest
     static void sendEmailTest(){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactory.getProgramAdminUser()){
             Study_Store_URL_Settings__c studyStore = new Study_Store_URL_Settings__c(Study_Store_Link__c = 'https://studystorelinktest.com/');
             insert studyStore;
             createRecord(RT_ACTIVITY_ID);
@@ -65,7 +78,7 @@ public with sharing class ManageCertificateSectionCtrlTest {
 
     @IsTest
     static void previewPDFTest(){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactory.getProgramAdminUser()){
             createRecord(RT_ACTIVITY_ID);
             String offeringId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;
             Test.startTest();
@@ -78,7 +91,7 @@ public with sharing class ManageCertificateSectionCtrlTest {
 
     @IsTest
     static void updateCourseConnDetailsTest(){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactory.getProgramAdminUser()){
             createRecord(RT_ACTIVITY_ID);
             String offeringId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;
             List<ManageCertificateSectionCtrl.ManageCertificateDetails> certificateDetails = ManageCertificateSectionCtrl.getCertificateDetails(offeringId, false);
@@ -93,7 +106,7 @@ public with sharing class ManageCertificateSectionCtrlTest {
     }
 
     private static void createRecord(String productRequestRecordType){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactory.getProgramAdminUser()){
             Id offeringId = null;
 
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
@@ -118,7 +131,7 @@ public with sharing class ManageCertificateSectionCtrlTest {
             List<Program_Offering__c> programOfferings = new List<Program_Offering__c>();
             if(productRequestRecordType == RT_PROG_PLAN_ID){
                 List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(1);
-                programPlans[0].Certificate_Type__c = 'Certificate of Participation';                
+                programPlans[0].Certificate_Type__c = EMAIL_TEMPLATE;                
                 insert programPlans;
     
                 programOfferings = TestDataFactory.createTestProgramOfferingRecords(1, programPlans);
@@ -127,6 +140,9 @@ public with sharing class ManageCertificateSectionCtrlTest {
                 insert programOfferings;
     
                 List<hed__Course__c> childCourses = TestDataFactory.createTestCourseRecords(1, accounts[0].Id, productRequests[0].Id);
+                for(hed__Course__c course : childCourses){
+                    course.Certificate_Type__c = EMAIL_TEMPLATE;
+                }
                 insert childCourses;
     
                 List<hed__Term__c> pterms = TestDataFactory.createTestTermRecords(1, accounts[0].Id);
@@ -139,6 +155,9 @@ public with sharing class ManageCertificateSectionCtrlTest {
             }
 
             List<hed__Course__c> courses = TestDataFactory.createTestCourseRecords(1, accounts[0].Id, productRequests[0].Id);
+            for(hed__Course__c course : courses){
+                course.Certificate_Type__c = EMAIL_TEMPLATE;
+            }
             insert courses;
 
             List<hed__Term__c> terms = TestDataFactory.createTestTermRecords(1, accounts[0].Id);
@@ -155,7 +174,8 @@ public with sharing class ManageCertificateSectionCtrlTest {
                 hed__Course_Enrollment__c student = new hed__Course_Enrollment__c();
                 student.hed__Contact__c = contact.Id;
                 student.RecordTypeId = STUDENT_RT_ID;
-                student.Paid_in_Full__c = 'Yes';                
+                student.Paid_in_Full__c = 'Yes';    
+                student.hed__Status__c = 'Active';            
                 if(productRequestRecordType == RT_PROG_PLAN_ID){
                     student.Program_Offering__c = programOfferings[0].Id;
                 }else{

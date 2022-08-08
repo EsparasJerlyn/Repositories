@@ -152,6 +152,9 @@ public with sharing class MarketingStagingTriggerHelper{
                     if(!recordsClass.applicationToUpsertMap.keySet().isEmpty()){
                         marCourseAppToUpsertMap.putAll(recordsClass.applicationToUpsertMap);
                     }
+                    if(!recordsClass.interactionToUpsertMap.keySet().isEmpty()){
+                        marInteractionToInsertMap.putAll(recordsClass.interactionToUpsertMap);
+                    }
 
                     marStageToUpdateMap.put(mStaging.Id, new Marketing_Staging__c(
                         Id = (Id)mStaging.get('Id'),
@@ -187,6 +190,9 @@ public with sharing class MarketingStagingTriggerHelper{
                     if(!recordsClass.applicationToUpsertMap.keySet().isEmpty()){
                         marCourseAppToUpsertMap.putAll(recordsClass.applicationToUpsertMap);
                     }
+                    if(!recordsClass.interactionToUpsertMap.keySet().isEmpty()){
+                        marInteractionToInsertMap.putAll(recordsClass.interactionToUpsertMap);
+                    }
 
                     marStageToUpdateMap.put(mStaging.Id, new Marketing_Staging__c(
                         Id = (Id)mStaging.get('Id'),
@@ -219,6 +225,9 @@ public with sharing class MarketingStagingTriggerHelper{
                     }
                     if(!recordsClass.applicationToUpsertMap.keySet().isEmpty()){
                         marCourseAppToUpsertMap.putAll(recordsClass.applicationToUpsertMap);
+                    }
+                    if(!recordsClass.interactionToUpsertMap.keySet().isEmpty()){
+                        marInteractionToInsertMap.putAll(recordsClass.interactionToUpsertMap);
                     }
                     
                     marStageToUpdateMap.put((Id)mStaging.get('Id'), new Marketing_Staging__c(
@@ -255,6 +264,9 @@ public with sharing class MarketingStagingTriggerHelper{
                     if(!recordsClass.applicationToUpsertMap.keySet().isEmpty()){
                         marCourseAppToUpsertMap.putAll(recordsClass.applicationToUpsertMap);
                     }
+                    if(!recordsClass.interactionToUpsertMap.keySet().isEmpty()){
+                        marInteractionToInsertMap.putAll(recordsClass.interactionToUpsertMap);
+                    }
 
                     marStageToUpdateMap.put((Id)mStaging.get('Id'), new Marketing_Staging__c(
                         Id = (Id)mStaging.get('Id'),
@@ -286,6 +298,9 @@ public with sharing class MarketingStagingTriggerHelper{
                     }
                     if(!recordsClass.applicationToUpsertMap.keySet().isEmpty()){
                         marCourseAppToUpsertMap.putAll(recordsClass.applicationToUpsertMap);
+                    }
+                    if(!recordsClass.interactionToUpsertMap.keySet().isEmpty()){
+                        marInteractionToInsertMap.putAll(recordsClass.interactionToUpsertMap);
                     }
                     
                     marStageToUpdateMap.put((Id)mStaging.get('Id'), new Marketing_Staging__c(
@@ -359,7 +374,7 @@ public with sharing class MarketingStagingTriggerHelper{
                     );
                 }
                 //if linked to marketingstaging email
-                //create multple marketing records based on number of staging with the same email
+                //create multiple marketing records based on number of staging with the same email
                 if(emailMap.containsKey(leadKey)){
                     for(Marketing_Staging__c ms: emailMap.get(leadKey)){
                         //create marketing segmentation records
@@ -388,40 +403,39 @@ public with sharing class MarketingStagingTriggerHelper{
                             );
                         }
 
-                        marStageToUpdateMap.put(ms.Id, new Marketing_Staging__c(
-                            Id = ms.Id,
-                            Lead__c = leadsToUpsertMap.get(leadKey).Id
-                        )
-                    );
+                            marStageToUpdateMap.put(ms.Id, new Marketing_Staging__c(
+                                Id = ms.Id,
+                                Lead__c = leadsToUpsertMap.get(leadKey).Id
+                            )
+                        );
+                    }
                 }
             }
-        }
         }
 
         if(!marSegmentationToUpsertMap.keySet().isEmpty()){
             Database.upsert(marSegmentationToUpsertMap.values(),false);
 
             for(String segKey: marSegmentationToUpsertMap.keySet()){
-                
                 if(newMap.containsKey(segKey)){
-                    //create marketing interaction records
+                    //create marketing new interaction records
                     if( newMap.get(segKey).Interaction_Type__c !=null ||
-                    newMap.get(segKey).Interaction_DateTime__c !=null ||
-                    newMap.get(segKey).Lead_Source_Category__c !=null ||
-                    newMap.get(segKey).Lead_Source__c !=null ||
-                    newMap.get(segKey).SPAD__c !=null ||
-                    newMap.get(segKey).Event_Name__c !=null ){
-                    marInteractionToInsertMap.put(
-                        segKey,
-                        (Marketing_Interaction__c) MarketingStagingMatchingHelper.createMarketingRecord(
-                                newMap.get(segKey),
-                                marSegmentationToUpsertMap.get(segKey).Contact__c,
-                                marSegmentationToUpsertMap.get(segKey).Lead__c,
-                                marSegmentationToUpsertMap.get(segKey).Id,
-                                'Marketing_Interaction__c'
-                            )
-                        );
-                    }
+                        newMap.get(segKey).Interaction_DateTime__c !=null ||
+                        newMap.get(segKey).Lead_Source_Category__c !=null ||
+                        newMap.get(segKey).Lead_Source__c !=null ||
+                        newMap.get(segKey).SPAD__c !=null ||
+                        newMap.get(segKey).Event_Name__c !=null ){
+                        marInteractionToInsertMap.put(
+                            segKey,
+                            (Marketing_Interaction__c) MarketingStagingMatchingHelper.createMarketingRecord(
+                                    newMap.get(segKey),
+                                    marSegmentationToUpsertMap.get(segKey).Contact__c,
+                                    marSegmentationToUpsertMap.get(segKey).Lead__c,
+                                    marSegmentationToUpsertMap.get(segKey).Id,
+                                    'Marketing_Interaction__c'
+                                )
+                            );
+                        }
                 }else if(emailMap.containsKey(segKey)){
                     //create marketing interaction records
                     //against multple staging and 1 lead with the same email
