@@ -20,7 +20,7 @@ private class SendQuestionnaireResponseEmailFlowTest{
 
     @IsTest
     private static void sendApprovedApplicationStatusEmailTest(){
-        Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
+        Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'qutex@qut.edu.au');
         
         insert customEmail;
 
@@ -30,7 +30,7 @@ private class SendQuestionnaireResponseEmailFlowTest{
         System.runAs(currentUser){
             List<Contact> conList = TestDataFactory.createTestContactRecords(1);
             for(Integer i =0;i<conList.size();i++){
-                conList[i].Email = 'testIdeaFormUser'+i+'@mailinator.com';
+                conList[i].Registered_Email__c = 'testIdeaFormUser'+i+'@mailinator.com';
             }
             insert conList;
             List<Account> acc = TestDataFactory.createTestAccountRecords(1);
@@ -66,7 +66,7 @@ private class SendQuestionnaireResponseEmailFlowTest{
 
     @IsTest
     private static void applyOnProgramTest(){
-        Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
+        Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'qutex@qut.edu.au');
         insert customEmail;
 
         Study_Store_URL_Settings__c studyStore = new Study_Store_URL_Settings__c(Name='QUTeX', Study_Store_Link__c = 'https://studystorelinktest.com/');
@@ -92,7 +92,7 @@ private class SendQuestionnaireResponseEmailFlowTest{
         }
         insert accounts;
         contacts = TestDataFactory.createTestContactRecords(1);
-        contacts[0].email ='testquttestqut@email.com';
+        contacts[0].Registered_Email__c ='testquttestqut@email.com';
         insert Contacts;
         terms = TestDataFactory.createTestTermRecords(25,accounts[0].Id);
         insert terms;

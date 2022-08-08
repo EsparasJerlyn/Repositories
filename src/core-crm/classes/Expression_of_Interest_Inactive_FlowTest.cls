@@ -23,7 +23,7 @@ private class Expression_of_Interest_Inactive_FlowTest{
     {
         System.runAs ( PORTAL_SYS_ADMIN ) {
 
-            Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
+            Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'qutex@qut.edu.au');
             insert customEmail;
 
             //Create account
@@ -93,7 +93,7 @@ private class Expression_of_Interest_Inactive_FlowTest{
     {
         System.runAs ( PORTAL_SYS_ADMIN ) {
 
-            Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
+            Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'qutex@qut.edu.au');
             insert customEmail;
 
             //Create account

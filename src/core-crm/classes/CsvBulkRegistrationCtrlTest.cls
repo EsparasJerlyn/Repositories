@@ -24,9 +24,10 @@ public class CsvBulkRegistrationCtrlTest {
         ContentData= CsvBulkRegistrationCtrl.GetCMSContentDataByName('Fake Name',communityId,'cms_document','en_US');
         if(ContentData!=null){
         String contentKey =  ContentData.contentKey;
-        System.assertEquals(contentKey,null, 'contentKey is not equal to NULL');            
+        System.debug(contentKey);
+        System.assertEquals(contentKey,null);            
         }
-        System.assertEquals(ContentData,null, 'ContentData is not equal to NULL');            
+        System.assertEquals(ContentData,null);            
         Test.stopTest();
     }
     
@@ -39,9 +40,10 @@ public class CsvBulkRegistrationCtrlTest {
         ContentData= CsvBulkRegistrationCtrl.GetCMSContentDataByName('Fake Name',FakecommunityId,'cms_doc','en_US');
         if(ContentData!=null){
         String contentKey =  ContentData.contentKey;
-        System.assertEquals(contentKey,null,'contentKey is not equal to NULL');            
+        System.debug(contentKey);
+        System.assertEquals(contentKey,null);            
         }
-        System.assertEquals(ContentData,null,'ContentData is not equal to NULL');            
+        System.assertEquals(ContentData,null);            
         Test.stopTest();
     }
     
@@ -51,7 +53,7 @@ public class CsvBulkRegistrationCtrlTest {
     
     @isTest
     static void testreadCSVFileSucces(){
-        List<CsvBulkRegistrationCtrl.FieldDataType> cSVContent = new List<CsvBulkRegistrationCtrl.FieldDataType>();
+        List<CsvBulkRegistrationCtrl.FieldDataType> CSVContent = new List<CsvBulkRegistrationCtrl.FieldDataType>();
         ContentVersion contentVersionInsert = new ContentVersion(
             Title = 'Test',
             PathOnClient = 'Test.csv',
@@ -64,8 +66,8 @@ public class CsvBulkRegistrationCtrlTest {
                     WHERE Id =:contentVersionInsert.id 
                     AND isLatest=true].ContentDocumentId;
 		Test.startTest();
-        cSVContent = CsvBulkRegistrationCtrl.readCSVFile(getId);
-        System.assert(!cSVContent.isEmpty(), 'pass');
+        CSVContent = CsvBulkRegistrationCtrl.readCSVFile(getId);
+        System.assert(!CSVContent.isEmpty(), 'pass');
 	    Test.stopTest();
     }
     

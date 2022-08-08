@@ -104,6 +104,14 @@
                             custom-server-search
                             new-record-available
                             ></c-custom-search>
+                            <div class="slds-form-element slds-m-around_x-small slds-p-top_small" if:true={hasEmailOptions}>
+                                <lightning-combobox
+                                    label="Registered Email"
+                                    value={registeredEmail}
+                                    options={emailOptions}
+                                    onchange={handleEmailChange}>
+                                </lightning-combobox>
+                            </div>
                             <div class="slds-form-element slds-m-around_x-small">
                                 <lightning-combobox
                                     label="Pricing"
@@ -125,7 +133,7 @@
                                     label="Redirect to Invoice"
                                     variant="brand"
                                     onclick={handleExistingContact}
-                                    disabled={disableSaveExisting}
+                                    disabled={disableInvoiceBtn}
                                 ></lightning-button>
                             </div>
                         </footer>
@@ -180,7 +188,7 @@
                                     variant="brand"
                                     type="submit"
                                     onclick={handleRedirectToInvoiceClick}
-                                    disabled={saveInProgress}
+                                    disabled={disableInvoiceBtnOncreate}
                                 ></lightning-button>
                             </div>
                         </footer>

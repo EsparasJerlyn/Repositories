@@ -6,6 +6,8 @@
  *    | Developer                 | Date                  | JIRA                 | Change Summary                               |
       |---------------------------|-----------------------|----------------------|----------------------------------------------|
       | keno.domienri.dico        | April 29, 2022        | DEPP-2038            | Create child product display records                  |
+      | mary.grace.li             | July 01, 2022         | DEPP-3124            | Updated product detail URL for SEO           |
+      | john.bo.a.pineda          | July 04, 2022         | DEPP-3385            | Removed replaceAll spaces to "-"             |
  */
 
 import { LightningElement, api } from "lwc";
@@ -32,40 +34,27 @@ export default class ProductCard extends NavigationMixin(LightningElement){
   baseUrl;
   cProductId;
   cProductName;
+  detailUrl;
 
   // Navigate to the Single Product Page
   navigateToProductPage(event) {
     if (!this.readOnly) {
       this.cProductId = event.currentTarget.dataset.id;
       this.cProductName = event.currentTarget.dataset.name;
+      this.detailUrl = event.currentTarget.dataset.url;
       this.productPath = window.location.pathname;
       this.baseUrl = window.location.origin;
-      this.recordPageUrl =
-        this.baseUrl +
-        "/study/s/product/" +
-        this.cProductName.replaceAll(" ", "-") +
-        "/" +
-        this.cProductId;
-        console.log("URL: " + this.recordPageUrl);
+
+      this.recordPageUrl = this.baseUrl + "/study/s/" + this.detailUrl;
 
         this[NavigationMixin.Navigate]({
-          "type": "standard__webPage",
-          "attributes": {
-              "url": this.recordPageUrl
+        type: "standard__webPage",
+        attributes: {
+          url: this.recordPageUrl
           }
       });
     }
   }
-
-  // Navigation to web page 
-  /* navigateToWebPage() {
-      this[NavigationMixin.Navigate]({
-          "type": "standard__webPage",
-          "attributes": {
-              "url": this.recordPageUrl
-          }
-      });
-  }*/
 
   connectedCallback() {
     // Get icons

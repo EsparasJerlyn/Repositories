@@ -9,26 +9,27 @@
  *    | Developer                 | Date                  | JIRA                 | Change Summary                               |
       |---------------------------|-----------------------|----------------------|----------------------------------------------|
       | john.bo.a.pineda          | June 29, 2022         | DEPP-3323            | Modified logic for button display for Apply  |
+      | mary.grace.li             | July 04, 2022         | DEPP-3184            | Replaced custom labels with constant         |
 */
 import { LightningElement, api, track } from "lwc";
 import { loadStyle } from "lightning/platformResourceLoader";
 import userId from "@salesforce/user/Id";
 import qutResourceImg from "@salesforce/resourceUrl/QUTImages";
 import customSR from "@salesforce/resourceUrl/QUTCustomLwcCss";
-import delivery from "@salesforce/label/c.QUT_ProductDetail_Delivery";
-import deliveryPlaceholder from "@salesforce/label/c.QUT_ProductDetail_Delivery_Placeholder";
-import availableStartDates from "@salesforce/label/c.QUT_ProductDetail_AvailableStartDates";
-import availableStartDatesPlaceholder from "@salesforce/label/c.QUT_ProductDetail_AvailableStartDates_Placeholder";
-import registerInterest from "@salesforce/label/c.QUT_ProductDetail_RegisterInterest";
-import pricing from "@salesforce/label/c.QUT_ProductDetail_Pricing";
-import pricingPlaceholder from "@salesforce/label/c.QUT_ProductDetail_Pricing_Placeholder";
-import addToCart from "@salesforce/label/c.QUT_ProductDetail_AddToCart";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
-import LWC_Error_General from "@salesforce/label/c.LWC_Error_General";
 import getQuestions from "@salesforce/apex/ProductDetailsCtrl.getQuestions";
 
 const INTEREST_EXISTS_ERROR =
   "You already registered your interest for this product.";
+const LWC_ERROR_GENERAL ="An error has been encountered. Please contact your administrator.";
+const DELIVERY= "Delivery";
+const DELIVERY_PLACEHOLDER= "Choose delivery method";
+const AVAILABLE_STARTDATES="Available start dates";
+const AVAILABLE_STARTDATES_PLACEHOLDER="Choose start date";
+const REGISTER_INTEREST="REGISTER INTEREST";
+const PRICING="Pricing";
+const PRICING_PLACEHOLDER="Choose pricing";
+const ADD_TO_CART="ADD TO CART";
 
 export default class PrescribedProgramInternal extends LightningElement {
   @api product;
@@ -65,15 +66,24 @@ export default class PrescribedProgramInternal extends LightningElement {
   responseData;
   questions;
 
+  @track delivery;
+  @track deliveryPlaceholder;
+  @track availableStartDates;
+  @track availableStartDatesPlaceholder;
+  @track pricing;
+  @track pricingPlaceholder;
+  @track addToCart;
+  @track registerInterest;
+
   label = {
-    delivery,
-    deliveryPlaceholder,
-    availableStartDates,
-    availableStartDatesPlaceholder,
-    pricing,
-    pricingPlaceholder,
-    addToCart,
-    registerInterest
+    delivery: DELIVERY,
+    deliveryPlaceholder: DELIVERY_PLACEHOLDER,
+    availableStartDates: AVAILABLE_STARTDATES,
+    availableStartDatesPlaceholder: AVAILABLE_STARTDATES_PLACEHOLDER,
+    pricing: PRICING,
+    pricingPlaceholder: PRICING_PLACEHOLDER,
+    addToCart: ADD_TO_CART,
+    registerInterest: REGISTER_INTEREST
   };
 
   renderedCallback() {
@@ -139,7 +149,7 @@ export default class PrescribedProgramInternal extends LightningElement {
           }
         })
         .catch((e) => {
-          this.generateToast("Error.", LWC_Error_General, "error");
+          this.generateToast("Error.", LWC_ERROR_GENERAL, "error");
         })
         .finally(() => {
           // Display AddToCart / Register Interest

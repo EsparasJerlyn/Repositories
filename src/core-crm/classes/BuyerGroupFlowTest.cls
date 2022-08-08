@@ -21,6 +21,7 @@ private class BuyerGroupFlowTest {
         insert acc;
         WebStore testWebStore = new WebStore(Name='CCE', DefaultLanguage='en_US');
         insert testWebStore;
+        List <WebStore> webStore = new List <WebStore>([SELECT Id FROM WebStore WHERE Name='CCE' LIMIT 1]);
     } 
     @IsTest
     static void createBuyerGroupAndEntitlementTest() {
@@ -39,10 +40,5 @@ private class BuyerGroupFlowTest {
         update(bacc);
 
         Test.stopTest();
-        System.Assert(![SELECT Id FROM BuyerGroup].isEmpty(), 'No Buyer Group was Created');
-        System.Assert(![SELECT Id FROM BuyerGroupMember].isEmpty(), 'No Account was assigned to the Buyer Group');
-        System.Assert(![SELECT Id FROM WebStoreBuyerGroup].isEmpty(), 'No Buyer Group was Assigned to the Store');
-        System.Assert(![SELECT Id FROM CommerceEntitlementPolicy].isEmpty(), 'No Entitlement was created');
-        System.Assert(![SELECT Id FROM CommerceEntitlementBuyerGroup].isEmpty(), 'No  Entitlement was created');
     }
 }

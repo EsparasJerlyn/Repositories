@@ -42,6 +42,7 @@ public class TriggerHandlerConfig {
          * @return a builder augmented with the trigger handler type
          */
         public Builder triggerHandler(String triggerHandler) {
+            System.debug('>>>' + Type.forName(triggerHandler));
             if (Type.forName(triggerHandler) != null) {
                 this.triggerHandler = Type.forName(triggerHandler);
             }
