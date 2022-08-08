@@ -1,5 +1,5 @@
 global without sharing class EmailTriggerVirtualScheduler implements Schedulable{
     global void execute(SchedulableContext sc) {
-        Database.executeBatch(new EmailTriggerVirtualBatch());
+        Database.executeBatch(new EmailTriggerVirtualBatch(),1);
     }
 }

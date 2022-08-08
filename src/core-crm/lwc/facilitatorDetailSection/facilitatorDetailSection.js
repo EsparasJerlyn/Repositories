@@ -230,15 +230,7 @@ export default class FacilitatorDetailSection extends LightningElement {
                 bio:
                     draft.bio === undefined ?
                     unsavedItem.bio :
-                    draft.bio,
-                IsActive__c:
-                    draft.IsActive__c === undefined ?
-                    unsavedItem.IsActive__c :
-                    draft.IsActive__c,
-                hed__Primary__c:
-                    draft.hed__Primary__c === undefined ?
-                    unsavedItem.hed__Primary__c :
-                    draft.hed__Primary__c
+                    draft.bio
             };
         });
 
@@ -307,11 +299,6 @@ export default class FacilitatorDetailSection extends LightningElement {
             if(!record.bio){
                 fieldNames.push('bio');
                 messages.push('Professional bio is required');
-            }
-            //set as primary validation
-            if(!record.IsActive__c && record.hed__Primary__c){
-                fieldNames.push('IsActive__c');
-                messages.push('Please select another Primary Facilitator before marking this facilitator as In-Active');
             }
             
             if(fieldNames.length > 0){
