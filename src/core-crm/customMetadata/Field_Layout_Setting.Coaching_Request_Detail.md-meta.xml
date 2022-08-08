@@ -4,11 +4,15 @@
     <protected>false</protected>
     <values>
         <field>Left_Column_Long__c</field>
-        <value xsi:type="xsd:string"></value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Left_Column__c</field>
-        <value xsi:type="xsd:string"></value>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Left_Right_Column_Long__c</field>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Order__c</field>
@@ -20,11 +24,11 @@
     </values>
     <values>
         <field>Right_Column_Long__c</field>
-        <value xsi:type="xsd:string"></value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Right_Column__c</field>
-        <value xsi:type="xsd:string"></value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Single_Column_Long__c</field>

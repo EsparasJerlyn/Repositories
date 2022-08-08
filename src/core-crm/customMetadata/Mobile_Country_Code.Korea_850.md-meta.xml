@@ -4,11 +4,11 @@
     <protected>false</protected>
     <values>
         <field>Display_Name__c</field>
-        <value xsi:type="xsd:string">Korea (the Democratic People's Republic of) (850)</value>
+        <value xsi:type="xsd:string">Korea (the Democratic People&apos;s Republic of) (850)</value>
     </values>
     <values>
         <field>Loqate_Locale__c</field>
-        <value xsi:type="xsd:string">Korea (the Democratic People's Republic of) (850)</value>
+        <value xsi:type="xsd:string">Korea (the Democratic People&apos;s Republic of) (850)</value>
     </values>
     <values>
         <field>Mobile_Coutnry_Code__c</field>

@@ -1,0 +1,87 @@
+@font-face {
+  font-family: "ProximaNova";
+  src: url("/sfsites/c/resource/QUTCustomFont/ProximaNova/ProximaNova-Regular.ttf") format("TrueType");
+}
+
+@font-face {
+  font-family: "ProximaNova-Bold";
+  src: url("/sfsites/c/resource/QUTCustomFont/ProximaNova/ProximaNova-Bold.ttf") format("TrueType");
+}
+
+
+body {
+    font-family: "proxima-nova", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+.siteforceB2bBody{
+    font-family: "ProximaNova";
+}
+
+/*dekstop - size*/
+.forceCommunityThemeHeaderB2B .block.rightRegion{
+    width: 300px !important;
+}
+
+
+/*@media only screen and (min-width: 765px) and (max-width: 876px) {
+    div.main-container-bc [role=navigation] ol.slds-breadcrumb li:last-child{
+        max-width: 40% !important;
+    }
+  }*/
+
+@media only screen and (min-width: 765px) and (max-width: 767px) {
+    
+    .forceCommunityThemeHeaderB2B .centerRegion {
+   		 width: 68% !important;
+	}
+    
+    .forceCommunityThemeHeaderB2B .block.rightRegion{
+        width: 30% !important;
+    }
+    
+    /*div.main-container-bc [role=navigation] ol.slds-breadcrumb li:last-child{
+    	max-width: 39% !important;
+    }*/
+}
+
+@media only screen and (max-width: 764px){
+   /* div.main-container-bc [role=navigation] ol.slds-breadcrumb li:last-child {
+        width: 100% !important;
+        margin-left: 20px !important;
+    }*/
+    
+    .forceCommunityThemeHeaderB2B .rightRegion div.profileMenu  {
+    	display:none;
+	}
+
+}
+
+
+
+
+/*end*/
+/*div.main-container-bc [role=navigation] ol.slds-breadcrumb li:last-child{
+    white-space: normal;
+    position: relative;
+    max-width: 60%;
+    text-align: left;
+    margin-left: 4px;
+    width: 50%;
+}
+
+div.main-container-bc [role=navigation] ol.slds-breadcrumb li:before {
+    margin: 0px -6px !important;
+}
+
+
+
+div.main-container-bc [role=navigation] ol.slds-breadcrumb li:last-child .Foryoulink {
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    text-overflow: ellipsis;
+    margin-left: 9px;
+    margin-top: 2px;
+}*/
+:root { --dxp-c-section-columns-max-width: 1170px; }

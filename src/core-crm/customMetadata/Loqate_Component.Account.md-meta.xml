@@ -26,4 +26,8 @@
         <field>Object_Type__c</field>
         <value xsi:type="xsd:string">Account</value>
     </values>
+    <values>
+        <field>Validation_Rule_Fields__c</field>
+        <value xsi:nil="true"/>
+    </values>
 </CustomMetadata>

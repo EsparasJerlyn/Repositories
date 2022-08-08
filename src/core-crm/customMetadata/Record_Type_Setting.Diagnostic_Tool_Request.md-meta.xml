@@ -7,6 +7,10 @@
         <value xsi:type="xsd:string">This record type will be used to set up a diagnostic tool that is part of a Program Request for Award Units, Non Award Modules or Coaching. This will not be delivered in isolation.</value>
     </values>
     <values>
+        <field>For_OPE__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
         <field>Object_Type__c</field>
         <value xsi:type="xsd:string">Product_Request__c</value>
     </values>
