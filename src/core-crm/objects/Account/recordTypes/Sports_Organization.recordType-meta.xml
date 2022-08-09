@@ -1,0 +1,748 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sports_Organization</fullName>
+    <active>true</active>
+    <description>A sports organization.</description>
+    <label>Sports Organization</label>
+    <picklistValues>
+        <picklist>AccountABNEntity_Validation__c</picklist>
+        <values>
+            <fullName>None</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Not Valid</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unvalidated</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Valid</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>AccountBillingAddress_Validation__c</picklist>
+        <values>
+            <fullName>None</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Not Valid</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unvalidated</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Valid</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>AccountShippingAddress_Validation__c</picklist>
+        <values>
+            <fullName>None</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Not Valid</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unvalidated</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Valid</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>AccountSource</picklist>
+        <values>
+            <fullName>Website</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Company_Category__c</picklist>
+        <values>
+            <fullName>Corporate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Education Provider</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Government Body - Commonwealth</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Government Body - International</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Government Body - Local</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Government Body - State%2FTerritory</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not For Profit</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Professional Association</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Trust or Foundation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>University</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Industry</picklist>
+        <values>
+            <fullName>Agriculture</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Apparel</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Banking</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Biotechnology</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Chemicals</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Communications</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Construction</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Consulting</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Education</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Electronics</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Energy</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Engineering</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Entertainment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Environmental</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Finance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Food %26 Beverage</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Government</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Healthcare</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hospitality</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Insurance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Machinery</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Manufacturing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Media</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not For Profit</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Recreation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Retail</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Shipping</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Technology</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Telecommunications</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Transportation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Utilities</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Industry_Classification__c</picklist>
+        <values>
+            <fullName>A - Agriculture%2C Forestry and Fishing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>B - Mining</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>C - Manufacturing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>D - Electricity%2C Gas%2C Water and Waste Services</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>E - Construction</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>F - Wholesale Trade</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>G - Retail Trade</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>H - Accommodation and Food Services</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>I - Transport%2C Postal and Warehousing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>J - Information Media and Telecommunications</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>K - Financial and Insurance Services</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>L - Rental%2C Hiring and Real Estate Services</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>M - Professional%2C Scientific and Technical Services</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>N - Administrative and Support Services</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>O - Public Administration and Safety</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>P - Education and Training</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Q - Health Care and Social Assistance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>R - Arts and Recreation Services</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>S - Other Services</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Industry_Sub_Classification__c</picklist>
+        <values>
+            <fullName>01 - Agriculture</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>02 - Aquaculture</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>03 - Forestry and Logging</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>04 - Fishing%2C Hunting and Trapping</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>05 - Agriculture%2C Forestry and Fishing Support Services</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>06 - Coal Mining</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>07 - Oil and Gas Extraction</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>08 - Metal Ore Mining</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>09 - Non-Metallic Mineral Mining and Quarrying</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>10 - Exploration and Other Mining Support Services</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>11 - Food Product Manufacturing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>12 - Beverage and Tobacco Product Manufacturing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>13 - Textile%2C Leather%2C Clothing and Footwear Manufacturing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>14 - Wood Product Manufacturing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>15 - Pulp%2C Paper and Converted Paper Product Manufacturing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>16 - Printing %28including the Reproduction of Recorded Media%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>17 - Petroleum and Coal Product Manufacturing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>18 - Basic Chemical and Chemical Product Manufacturing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>19 - Polymer Product and Rubber Product Manufacturing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>20 - Non-Metallic Mineral Product Manufacturing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>21 - Primary Metal and Metal Product Manufacturing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>22 - Fabricated Metal Product Manufacturing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>23 - Transport Equipment Manufacturing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>24 - Machinery and Equipment Manufacturing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>25 - Furniture and Other Manufacturing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>26 - Electricity Supply</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>27 - Gas Supply</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>28 - Water Supply%2C Sewerage and Drainage Services</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>29 - Waste Collection%2C Treatment and Disposal Services</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>30 - Building Construction</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>31 - Heavy and Civil Engineering Construction</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>32 - Construction Services</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>33 - Basic Material Wholesaling</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>34 - Machinery and Equipment Wholesaling</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>35 - Motor Vehicle and Motor Vehicle Parts Wholesaling</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>36 - Grocery%2C Liquor and Tobacco Product Wholesaling</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>37 - Other Goods Wholesaling</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>38 - Commission-Based Wholesaling</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>39 - Motor Vehicle and Motor Vehicle Parts Retailing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>40 - Fuel Retailing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>41 - Food Retailing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>42 - Other Store-Based Retailing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>43 - Non-Store Retailing and Retail Commission-Based Buying and%2For Selling</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>44 - Accommodation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>45 - Food and Beverage Services</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>46 - Road Transport</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>47 - Rail Transport</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>48 - Water Transport</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>49 - Air and Space Transport</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>50 - Other Transport</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>51 - Postal and Courier Pick-up and Delivery Services</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>52 - Transport Support Services</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>53 - Warehousing and Storage Services</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>54 - Publishing %28except Internet and Music Publishing%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>55 - Motion Picture and Sound Recording Activities</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>56 - Broadcasting %28except Internet%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>57 - Internet Publishing and Broadcasting</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>58 - Telecommunications Services</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>59 - Internet Service Providers%2C Web Search Portals and Data Processing Services</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>60 - Library and Other Information Services</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>62 - Finance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>63 - Insurance and Superannuation Funds</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>64 - Auxiliary Finance and Insurance Services</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>66 - Rental and Hiring Services %28except Real Estate%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>67 - Property Operators and Real Estate Services</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>69 - Professional%2C Scientific and Technical Services %28Except Computer System Design%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>70 - Computer System Design and Related Services</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>72 - Administrative Services</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>73 - Building Cleaning%2C Pest Control and Other Support Services</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>75 - Public Administration</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>76 - Defence</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>77 - Public Order%2C Safety and Regulatory Services</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>80 - Preschool and School Education</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>81 - Tertiary Education</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>82 - Adult%2C Community and Other Education</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>84 - Hospitals</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>85 - Medical and Other Health Care Services</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>86 - Residential Care Services</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>87 - Social Assistance Services</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>89 - Heritage Activities</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>90 - Creative and Performing Arts Activities</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>91 - Sports and Recreation Activities</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>92 - Gambling Activities</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>94 - Repair and Maintenance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>95 - Personal and Other Services</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>96 - Private Households Employing Staff and Undifferentiated Goods- and Service-Producing Activities of Households for Own Use</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Ownership</picklist>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Private</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Public</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Subsidiary</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Rating</picklist>
+        <values>
+            <fullName>Cold</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hot</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Warm</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Type</picklist>
+        <values>
+            <fullName>Analyst</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Competitor</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Customer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Integrator</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Investor</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Partner</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Press</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Prospect</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reseller</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

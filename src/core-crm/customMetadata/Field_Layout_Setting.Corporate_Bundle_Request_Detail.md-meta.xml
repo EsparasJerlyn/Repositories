@@ -11,6 +11,10 @@
         <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Start_Date__c&quot;}]</value>
     </values>
     <values>
+        <field>Left_Right_Column_Long__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
         <field>Order__c</field>
         <value xsi:type="xsd:double">2.0</value>
     </values>
@@ -28,10 +32,10 @@
     </values>
     <values>
         <field>Single_Column_Long__c</field>
-        <value xsi:type="xsd:string"></value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Single_Column__c</field>
-        <value xsi:type="xsd:string"></value>
+        <value xsi:nil="true"/>
     </values>
 </CustomMetadata>

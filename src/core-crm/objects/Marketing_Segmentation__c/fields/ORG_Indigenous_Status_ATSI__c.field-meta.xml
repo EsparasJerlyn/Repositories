@@ -35,6 +35,24 @@ Indicates if the marketing person identifies as Aboriginal or Torres Strait Isla
                 <default>false</default>
                 <label>No information</label>
             </value>
+            <value>
+                <fullName>Indigenous Australian</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Indigenous Australian</label>
+            </value>
+            <value>
+                <fullName>No response</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>No response</label>
+            </value>
+            <value>
+                <fullName>Non-Indigenous</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Non-Indigenous</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

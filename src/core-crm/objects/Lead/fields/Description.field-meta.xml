@@ -3,4 +3,5 @@
     <fullName>Description</fullName>
     <description>The business requirement for the lead.</description>
     <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
 </CustomField>

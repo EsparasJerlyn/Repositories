@@ -1285,6 +1285,18 @@
         <default>false</default>
         <label>Zimbabwe</label>
     </customValue>
+    <customValue>
+        <fullName>Taiwan (Province of China)</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Taiwan (Province of China)</label>
+    </customValue>
+    <customValue>
+        <fullName>Viet Nam</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Viet Nam</label>
+    </customValue>
     <masterLabel>Countries</masterLabel>
     <sorted>false</sorted>
 </GlobalValueSet>

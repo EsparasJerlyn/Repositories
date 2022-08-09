@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        
+        <script type="text/javascript" nonce="cb635201-06fe-4ea4-80d0-833e0b33dd48">!function(){const e={documentCreateElement:Document.prototype.createElement,elementSetAttribute:Element.prototype.setAttribute,elementAttachShadow:Element.prototype.attachShadow,elementAppendChild:Element.prototype.appendChild,htmlelementAddEventListener:Element.prototype.addEventListener,iframeContentDocumentGet:Object.getOwnPropertyDescriptor(HTMLIFrameElement.prototype,"contentDocument").get,iframeContentWindowGet:Object.getOwnPropertyDescriptor(HTMLIFrameElement.prototype,"contentWindow").get};Object.freeze(e),Object.defineProperty(window,"originalDomApis",{writable:!1,value:e});const t=window.frames;Object.defineProperty(window,"frames",{get:function(){const e=[];for(let n=0;n<t.length;n++)try{t[n].frameElement.getRootNode().nodeType===Node.DOCUMENT_FRAGMENT_NODE||e.push(t[n])}catch(o){e.push(t[n])}return e.length===t.length?t:e}})}();</script>
+        <script type="text/javascript" nonce="cb635201-06fe-4ea4-80d0-833e0b33dd48">!function(){"use strict";window.isBrowserSupportedByWebruntime=function(){const n="performance"in window&&"mark"in window.performance,e="customElements"in window;return n&&e}()}();
+</script>
+        <script type="text/javascript" nonce="cb635201-06fe-4ea4-80d0-833e0b33dd48">globalThis.LWR = globalThis.LWR || {};
+globalThis.LWR.customInit = (lwr) => {
+
+        LWR.define('@app/apexApiBasePath', [], function() { return "webruntime/api"; });
+        LWR.define('@app/apiBasePath', [], function() { return "webruntime/api"; });
+        LWR.define('@app/basePath', [], function() { return ""; });
+        LWR.define('@app/brandingProperties', [], function() { return {"--dxp-g-brand":"#2574A9","--dxp-c-link-text-color":"#2574A9","--dxp-c-link-text-color-hover":"#135F90","--dxp-c-link-text-color-active":"#135F90","--dxp-g-neutral-contrast-3":"#fff","--dxp-s-body-font-family":"ProximaNova","--dxp-g-neutral-contrast-2":"#000","--dxp-g-neutral":"#ecebea","--dxp-g-neutral-contrast-1":"#000","--dxp-g-root":"#FFFFFF","--dxp-g-root-contrast-1":"rgb(31, 31, 31)","--dxp-g-root-contrast":"#333","--dxp-g-root-contrast-2":"rgb(0, 0, 0)","--dxp-g-root-contrast-3":"rgb(0, 0, 0)","--dxp-g-neutral-contrast":"#000","--dxp-g-root-1":"rgb(235, 235, 235)","--dxp-g-root-2":"rgb(194, 194, 194)","--dxp-g-root-3":"rgb(133, 133, 133)","--dxp-g-brand-contrast-1":"rgb(255, 255, 255)","--dxp-g-brand-contrast":"#FFF","--dxp-g-neutral-3":"rgb(118, 113, 107)","--dxp-g-neutral-2":"rgb(178, 174, 170)","--dxp-g-brand-contrast-3":"rgb(255, 255, 255)","--dxp-g-sna-heading-font-family":"ProximaNova","--dxp-g-brand-contrast-2":"rgb(255, 255, 255)","--dxp-g-neutral-1":"rgb(217, 215, 213)","--dxp-g-brand-1":"rgb(30, 93, 136)","--dxp-g-brand-2":"rgb(15, 47, 69)","--dxp-g-brand-3":"rgb(0, 0, 0)"}; });
+        LWR.define('@app/guestUuidCookieName', [], function() { return null; });
+        LWR.define('@app/isDesignMode', [], function() { return false; });
+        LWR.define('@app/isPreviewMode', [], function() { return false; });
+        LWR.define('@app/publicApiBasePath', [], function() { return "webruntime/api/public"; });
+        LWR.define('@app/routes', [], function() { return [{"label":"Widget","isPublic":true,"viewId":"09aa2cfd-f86b-4e4c-b259-8bdefd174fc0","hasVanityURL":false,"patterns":["\\/service-not-available\\/?"],"id":"0b5765f8-67c6-4ced-934a-e7cf909de83b","path":"/maintenance.html","view":"service_Not_Available_1","isRoot":true,"isDefault":true,"page":{"type":"comm__namedPage","attributes":{"name":"Service_Not_Available"}}}]; });
+        LWR.define('@app/viewToThemeLayoutMap', [], function() { return {"service_Not_Available_1":"serviceNotAvailable"}; });
+        LWR.define('@salesforce/i18n/lang', [], function() { return "en_US"; });
+lwr.initializeApp();
+globalThis.process = { env: { NODE_ENV: "dev" } };};</script>
+        <script type="text/javascript" nonce="cb635201-06fe-4ea4-80d0-833e0b33dd48">globalThis.LWR = globalThis.LWR || {};
+Object.assign(globalThis.LWR, {
+  "bootstrapModule": "@lwrjs/app-service/communities_app/module/amd/v/0_6_4",
+  "autoBoot": false,
+  "rootComponents": [
+    "webruntime/app/v/1"
+  ],
+  "requiredModules": [
+    "lwc/v/2_12_1",
+    "@lwrjs/app-service/communities_app/module/amd/v/0_6_4"
+  ],
+  "importMappings": {
+    "default": "webruntime/component/latest/prod/en_US/",
+    "imports": {
+      "/webruntime/component/latest/prod/en_US/lwc": "webruntime/framework/1f4de125a7/prod/lwr_lwc",
+      "@app/csrfToken": "webruntime/module/@app/csrfToken",
+      "@app/user": "webruntime/module/@app/user",
+      "@perm/": "webruntime/perm/",
+      "@salesforce/client/formFactor": "webruntime/module/@salesforce/client/formFactor",
+      "@salesforce/user/Id": "webruntime/module/@salesforce/user/Id",
+      "@salesforce/user/isGuest": "webruntime/module/@salesforce/user/isGuest",
+      "@salesforce/userPermission/": "webruntime/perm/",
+      "@view/serviceNotAvailable": "webruntime/view/654cc497d6/prod/en_US/serviceNotAvailable",
+      "@view/service_Not_Available_1": "webruntime/view/15a886874e/prod/en_US/service_Not_Available_1",
+      "mobileruntime/hybridAppManager": "webruntime/framework/ee8ccbae57/prod/lwr_mobile"
+    }
+  }
+});</script>
+        <script src="webruntime/framework/14049159b4/prod/lwr_loader"></script>
+        <script src="webruntime/framework/37ed7667dc/prod/lwr_bootstrap"></script>
+        <script src="webruntime/framework/1f4de125a7/prod/lwr_lwc"></script>
+        <script src="webruntime/framework/03b5909940/prod/lwr_app"></script>
+        <script type="text/javascript" nonce="cb635201-06fe-4ea4-80d0-833e0b33dd48">LWR.define('lwc', ['lwc/v/2_12_1'], function(module) { return module; });</script>
+        <script type="text/javascript" nonce="cb635201-06fe-4ea4-80d0-833e0b33dd48">
+        LWR.define('@app/authenticationCookieName', [], function() { return "sid"; });
+        LWR.define('@app/isMobileAppMode', [], function() { return false; });
+        LWR.define('@app/loginPath', [], function() { return null; });
+        LWR.define('@app/user', [], function() { return {"isGuest":true,"id":null,"csrfToken":null}; });
+        LWR.define('@salesforce/community/basePath', [], function() { return ""; });</script>
+        <script type="text/javascript" nonce="cb635201-06fe-4ea4-80d0-833e0b33dd48">LWR.define('@app/csrfToken/v/1', ['@app/csrfToken'], function(module) { return module; });</script>
+        <script type="text/javascript" nonce="cb635201-06fe-4ea4-80d0-833e0b33dd48">LWR.define('@app/user/v/1', ['@app/user'], function(module) { return module; });</script>
+        <script src="webruntime/view/15a886874e/prod/en_US/service_Not_Available_1"></script>
+        <script src="webruntime/view/654cc497d6/prod/en_US/serviceNotAvailable"></script>
+        <link rel="shortcut icon" href="/study/resource/Favicon" type="image/x-icon" />
+<link rel="stylesheet" type="text/css" href="/study/resource/QUTMainCSS/QUTMainCSS.css"/>
+<link rel="stylesheet" href="https://use.typekit.net/hbv2spc.css">
+<link rel="stylesheet" type="text/css" href="https://www.qut.edu.au/__data/assets/css_file_folder/0018/707013/global-2017.min.css?0.3.481" media="all">
+<link rel="stylesheet" type="text/css" href="https://www.qut.edu.au/__data/assets/css_file_folder/0010/786961/qutex.min.css?0.9.38" media="all">
+
+<style>
+    
+    @font-face {
+      font-family: "ProximaNova";
+      src: url("/sfsites/c/resource/QUTCustomFont/ProximaNova/ProximaNova-Regular.ttf") format("TrueType");
+    }
+
+    @font-face {
+      font-family: "ProximaNova-Bold";
+      src: url("/sfsites/c/resource/QUTCustomFont/ProximaNova/ProximaNova-Bold.ttf") format("TrueType");
+    }
+    
+    #secondary-qutex-nav ul li a {
+    	margin-right: 1.3rem !important;
+    }
+    #secondary-qutex-nav ul li:last-child a {
+    	margin-right: 0 !important;
+    }
+    @media only screen and (max-width: 1199px) {
+    	#secondary-qutex-nav ul li a {
+    		margin-right: 1rem !important;
+    	}
+    }    
+   
+   
+ #secondary-qutex-nav .qutex-nav-heading .qutex-nav-button::after {
+	content: "\f078";
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 18px;
+    padding: 8px 1rem;
+    color: white;
+    font-family: "Font Awesome 5 Pro";
+    transition: transform 0.3s ease-out, padding 0.3s ease-out;
+    transform: rotate(0deg);
+	}
+  
+  
+    
+</style>
+
+<script defer src="https://kit.fontawesome.com/ef61aff3f9.js" crossorigin='anonymous'></script>
+<script src="https://www.qut.edu.au/study/professional-and-executive-education/configuration/integrations/polyfills.js"></script>
+<script src="https://www.qut.edu.au/study/professional-and-executive-education/configuration/integrations/QUT-2017-Javascript-Folder.min.js"></script>
+<script src="https://www.qut.edu.au/study/professional-and-executive-education/configuration/integrations/qutex-javascript.js"></script>
+
+
+<script>
+    
+QUT.Console.enable();
+
+var initHeader = function(){
+    console.log("document ready");
+    // Set the call button for QUTex
+    $('.header__links__contact').attr("href","#");
+    $('.header__links__contact').on('click', function(){
+        if($(window).width() < 767){
+            // perform call
+            window.location.href = "tel: +61 7 3138 7733"
+        }else{
+            // Link to Contact Page
+            window.location.href = "https://www.qut.edu.au/about/contact";
+        }});
+
+    QUT.Megamenu.init();
+    console.log("mega init");
+
+    $(".header .megamenu__overlay").css("top","205px !important");
+
+    function toggleFatFooterTab(e) {
+        console.log("fat footer pressed");
+    if ($('.fatfooter__content__wrapper').is(':visible')) {
+        e.preventDefault();
+        
+        if (!$(this).hasClass('fatfooter__tab--current')) {
+            $(".fatfooter__tab--current, .fatfooter__content--current").removeClass('fatfooter__tab--current fatfooter__content--current');
+            $(this).addClass('fatfooter__tab--current');
+            $('#' + $(this).data('tab')).addClass('fatfooter__content--current');
+        }
+    }
+    }
+
+    $(".fatfooter__tab").click(function(e) {
+        toggleFatFooterTab.call(this, e);
+    });
+    
+    let nav = "#secondary-qutex-nav";
+    $(nav + " .qutex-nav-button").click(function(){
+        $(nav + " ul").slideToggle();
+        $(this).toggleClass("open")
+        let ariaExpand = $(this).attr("aria-expanded")
+        $(this).attr("aria-expanded", ariaExpand == "true" ? "false" : "true");
+    });
+}
+    
+
+let observer = new MutationObserver((mutations) => {
+  mutations.forEach((mutation) => {
+    if (mutation.addedNodes.length == 0) return
+
+    for (let i = 0; i < mutation.addedNodes.length; i++) {
+      let node = mutation.addedNodes[i]
+        if(mutation.addedNodes[i].children != undefined && mutation.addedNodes[i].children.length > 0){
+            var childrenList = mutation.addedNodes[i].children;
+            for(let x = 0; x < childrenList.length; x++) {
+                if(childrenList[x] != undefined && childrenList[x].className == "qutex-courses qutex-update-2021   animated-page"){
+                    setTimeout(function(){
+                        initHeader();
+                    },250);
+                    observer.disconnect(); 
+                }
+            }
+        }
+    }
+  })
+})
+
+$(document).ready(function(){
+    observer.observe(document.body, {
+        childList: true
+      , subtree: true
+      , attributes: false
+      , characterData: false
+    })
+    setTimeout(function(){
+        // stop watching using:
+        observer.disconnect()
+    },10000)
+})
+
+</script><meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Service Not Available</title>
+
+<link rel="stylesheet" href="assets/styles/styles.css?0DB8q00000000Gn:10" />
+
+
+
+
+<!-- webruntime-branding-shared stylesheets -->
+<link rel="stylesheet" href="assets/styles/salesforce-lightning-design-system.min.css?0DB8q00000000Gn:10" />
+<link rel="stylesheet" href="assets/styles/dxp-site-spacing-styling-hooks.min.css?0DB8q00000000Gn:10" /><link rel="stylesheet" href="assets/styles/dxp-styling-hooks.min.css?0DB8q00000000Gn:10" />
+<link rel="stylesheet" href="assets/styles/dxp-slds-extensions.min.css?0DB8q00000000Gn:10" />
+
+
+<!-- webruntime-branding-shared stylesheets -->
+        <link rel="stylesheet" href="assets/styles/overrides.css?0DB8q00000000Gn:10" />
+        <link rel="stylesheet" href="assets/css/fonts-and-custom.css?0DB8q00000000Gn:10" />
+    </head>
+    <body>
+        <div id="webruntime-browser-not-supported-message" style="display: none;">
+            <section
+                role="alertdialog"
+                tabindex="-1"
+                aria-labelledby="prompt-heading-id"
+                aria-describedby="prompt-message-wrapper"
+                class="slds-modal slds-fade-in-open slds-modal_prompt"
+                aria-modal="true"
+                style="color: rgb(62, 62, 60);"
+            >
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header slds-theme_info slds-theme_alert-texture">
+                        <h2 class="slds-text-heading_medium" id="prompt-heading-id">
+                            Your browser isn't supported
+                        </h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="prompt-message-wrapper">
+                        <p>
+                            Your browser doesn’t support some features on this site. For the best
+                            experience, update your browser to the latest version, or switch to another
+                            browser.
+                        </p>
+                    </div>
+                    <footer class="slds-modal__footer slds-theme_default">
+                        <button class="slds-button slds-button_neutral">Got It</button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+        <script type="text/javascript">
+            function displayBrowserUnsupportedModalIfNeeded() {
+                if (!window.isBrowserSupportedByWebruntime) {
+                    var WEBRUNTIME_UNSUPPORTED_BROWSER_MODAL_ID = 'webruntime-browser-not-supported-message';
+                    var modal = document.getElementById(WEBRUNTIME_UNSUPPORTED_BROWSER_MODAL_ID);
+                    if (modal) {
+                        modal.style.display = '';
+                        var okButton = document.querySelector(
+                            '#' + WEBRUNTIME_UNSUPPORTED_BROWSER_MODAL_ID + ' ' + '.slds-button'
+                        );
+                        okButton.addEventListener('click', function() {
+                            var modal = document.getElementById(WEBRUNTIME_UNSUPPORTED_BROWSER_MODAL_ID);
+                            if (modal) {
+                                document.body.removeChild(modal);
+                            }
+                        });
+                    }
+                }
+            }
+            displayBrowserUnsupportedModalIfNeeded();
+        </script>
+        <webruntime-app></webruntime-app>
+    </body>
+</html>

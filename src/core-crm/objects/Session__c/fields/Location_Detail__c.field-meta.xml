@@ -5,6 +5,7 @@
     <inlineHelpText>For on-campus face-to-face sessions enter Building, Level, and Room details, for external enter address, and for virtual add Web Conferring URL</inlineHelpText>
     <label>Location Detail</label>
     <length>32000</length>
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>LongTextArea</type>
     <visibleLines>3</visibleLines>

@@ -75,23 +75,4 @@
             <default>false</default>
         </values>
     </picklistValues>
-    <picklistValues>
-        <picklist>hed__Verification_Status__c</picklist>
-        <values>
-            <fullName>Pending</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Revoked</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Unverified</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Verified</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
 </RecordType>

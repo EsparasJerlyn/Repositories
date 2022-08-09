@@ -3,4 +3,5 @@
     <fullName>Website</fullName>
     <description>Website for the lead.</description>
     <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
 </CustomField>

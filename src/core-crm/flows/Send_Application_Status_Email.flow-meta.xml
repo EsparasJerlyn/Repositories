@@ -73,7 +73,7 @@
             <assignToReference>EmailAddresses</assignToReference>
             <operator>Add</operator>
             <value>
-                <elementReference>$Record.Contact__r.Email</elementReference>
+                <elementReference>$Record.Contact__r.Registered_Email__c</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -426,7 +426,7 @@
         <recordTriggerType>Update</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Active</status>
+    <status>Draft</status>
     <variables>
         <name>CartURLMergeField</name>
         <apexClass>FlowEmailMergeField</apexClass>

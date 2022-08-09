@@ -3,5 +3,6 @@
     <fullName>Status</fullName>
     <description>Status code for this converted lead.</description>
     <trackFeedHistory>true</trackFeedHistory>
+    <trackHistory>false</trackHistory>
     <type>Picklist</type>
 </CustomField>

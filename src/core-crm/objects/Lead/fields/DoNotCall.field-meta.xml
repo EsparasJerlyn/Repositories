@@ -3,4 +3,5 @@
     <fullName>DoNotCall</fullName>
     <description>Indicates whether the lead doesn’t want to receive calls (true) or does (false).</description>
     <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
 </CustomField>

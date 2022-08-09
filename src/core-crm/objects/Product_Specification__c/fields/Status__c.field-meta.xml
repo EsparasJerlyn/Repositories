@@ -65,16 +65,16 @@
             <valueName>Design</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Complete</controllingFieldValue>
-            <valueName>Complete</valueName>
-        </valueSettings>
-        <valueSettings>
             <controllingFieldValue>Not Proceeding</controllingFieldValue>
             <valueName>Does Not Meet Qualification</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Not Proceeding</controllingFieldValue>
             <valueName>Existing Product</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Complete</controllingFieldValue>
+            <valueName>Complete</valueName>
         </valueSettings>
     </valueSet>
 </CustomField>

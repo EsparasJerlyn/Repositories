@@ -2,10 +2,8 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
   <fullName>Program_Offering__c</fullName>
   <deleteConstraint>SetNull</deleteConstraint>
-  <description
-    >Linked the course offering to the Program offering for Prescribed
-    Program.</description
-  >
+    <description>Linked the course offering to the Program offering for Prescribed
+    Program.</description>
   <externalId>false</externalId>
   <label>Program Offering</label>
   <referenceTo>Program_Offering__c</referenceTo>

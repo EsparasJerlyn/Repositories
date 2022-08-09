@@ -5,7 +5,93 @@
     <description>This record type will be used to create a Program. This can be a combination of a Unit, a Module, a Short Course, or an Activity.</description>
     <label>Program</label>
     <picklistValues>
-        <picklist>Type__c</picklist> <!-- Rename from Course_Type__c-->
+        <picklist>Certificate_Type__c</picklist>
+        <values>
+            <fullName>Certificate of Achievement</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Certificate of Participation</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Collaboration_with_External_Organisation__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Delivery_Type__c</picklist>
+        <values>
+            <fullName>Blended</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Face To Face</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Online</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Virtual Classroom</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>PP_Design_Form_Status__c</picklist>
+        <values>
+            <fullName>Design Form Received</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Design Form Sent</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Program_Delivery_Structure__c</picklist>
+        <values>
+            <fullName>Flexible Program</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Prescribed Program</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Program_Type__c</picklist>
+        <values>
+            <fullName>Award Course</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Custom Award Course %28Based on existing%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Custom Award Course %28Not Base on existing%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Double Degree</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Open or Custom Program</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Type__c</picklist>
         <values>
             <fullName>Associate Degree</fullName>
             <default>false</default>
@@ -81,62 +167,6 @@
         <values>
             <fullName>Undergraduate Certificate</fullName>
             <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>PP_Design_Form_Status__c</picklist>
-        <values>
-            <fullName>Design Form Received</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Design Form Sent</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>    
-    <picklistValues>
-        <picklist>Program_Delivery_Structure__c</picklist>
-        <values>
-            <fullName>Flexible Program</fullName>
-            <default>true</default>
-        </values>
-        <values>
-            <fullName>Prescribed Program</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Program_Type__c</picklist>
-        <values>
-            <fullName>Award Course</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Custom Award Course %28Based on existing%29</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Custom Award Course %28Not Base on existing%29</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Double Degree</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Open or Custom Program</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>hed__Status__c</picklist>
-        <values>
-            <fullName>Archived</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Current</fullName>
-            <default>true</default>
         </values>
     </picklistValues>
 </RecordType>

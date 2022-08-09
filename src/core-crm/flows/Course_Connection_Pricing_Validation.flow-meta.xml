@@ -354,7 +354,7 @@
             <field>Id</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>$Record.Cart_Item__r.Pricebook_entry_ID__c</elementReference>
+                <elementReference>$Record.Cart_Item__r.Pricebook_Entry_ID__c</elementReference>
             </value>
         </filters>
         <object>PricebookEntry</object>
