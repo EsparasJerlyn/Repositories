@@ -15,6 +15,7 @@
 | eugene.andrew.abuan            | March 22, 2022        | DEPP-1991              | Added Class for Before Insert                                                 |
 | john.bo.a.pineda               | June 23, 2022         | DEPP-3222              | Added logic to Send Email on Registration for Student / Student - Program     |
 | rhea.b.torres                  | July 22, 2022         | DEPP-3557              | Added logic to use email template setup in Communication Schedule             |
+| rhea.b.torres                  | August 9, 2022        | DEPP-3723              | Added logic to send Welcome Email for learners with QUT Student Username      |
 
 */
 public without sharing class CourseConnectionTriggerHandler implements Disableable, BeforeInsert, AfterInsert, AfterUpdate, AfterDelete {
@@ -47,6 +48,7 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
     try{
       // Trigger Send Email on Registration Confirmation
       sendRegistrationConfirmEmail(newItems.keySet());
+      sendWelcomeEmail(newItems.keySet());
     } catch(Exception e){
       System.debug('Sending of Registration Email fail, see error: ' + e.getMessage());
     }
@@ -194,6 +196,112 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
     } catch (Exception e) {
       System.debug(LoggingLevel.DEBUG, e); //NOPMD
     }
+  }
+
+  /**
+   * @description Sends Welcome Email on New Course Connections with QUT Student Username
+   * @param crseEnrollListNew - List of hed__Course_Enrollment__c.Trigger.new
+   */
+  public void sendWelcomeEmail(Set<Id> crseEnrollIdSet){
+
+    Set<Id> programOfferingIdSet = new Set<Id>();
+    Set<Id> courseOfferingIdSet = new Set<Id>();
+
+    // Query Course Connection Details based on the Contact Id
+    //Id: hed__Course_Offering__c or Program_Offering__c
+    Map<Id, hed__Course_Enrollment__c> productCourseConnectionMap = new Map<Id, hed__Course_Enrollment__c>();
+    for(hed__Course_Enrollment__c courseConnection : [ SELECT
+                                                        Id,
+                                                        hed__Course_Offering__c,
+                                                        Program_Offering__c,
+                                                        hed__Contact__c,
+                                                        Program_Offering__r.hed_Program_Plan__r.Id,
+                                                        Program_Offering__r.hed_Program_Plan__c,
+                                                        hed__Course_Offering__r.hed__Course__r.Id,
+                                                        hed__Course_Offering__r.hed__Course__c
+                                                      FROM hed__Course_Enrollment__c
+                                                      WHERE Id IN :crseEnrollIdSet
+                                                      AND RecordTypeId = :STUDENT_RECTYPEID
+                                                      AND hed__Contact__r.Registered_Email__c != null
+                                                      AND hed__Contact__r.QUT_Student_Username__c != null]){
+
+      if(String.isNotBlank(courseConnection.Program_Offering__r.hed_Program_Plan__c)){
+        productCourseConnectionMap.put(courseConnection.Program_Offering__r.hed_Program_Plan__r.Id, courseConnection);
+      }
+
+      if(String.isNotBlank(courseConnection.hed__Course_Offering__r.hed__Course__c)){
+        productCourseConnectionMap.put(courseConnection.hed__Course_Offering__r.hed__Course__r.Id, courseConnection);
+      }
+
+      //Populate the Offering Sets based on the course connection
+      if(String.isNotBlank(courseConnection.Program_Offering__c)){
+        programOfferingIdSet.add(courseConnection.Program_Offering__c);
+      }else if(String.isNotBlank(courseConnection.hed__Course_Offering__c)){
+        courseOfferingIdSet.add(courseConnection.hed__Course_Offering__c);
+      }
+    }
+
+    Set<Id> programPlanIdSet = new Set<Id>();
+    Set<Id> courseIdSet = new Set<Id>();
+
+    //Query Program Offering to get valid Offerings based on status and Start Date
+    List<Program_Offering__c> programOfferings = [
+      SELECT 
+        Id , 
+        hed_Program_Plan__c
+      FROM Program_Offering__c
+      WHERE Id IN: programOfferingIdSet 
+      AND Start_Date__c < TODAY
+      AND IsActive__c = true
+    ];
+
+    //Query Course Offering
+    List<hed__Course_Offering__c> courseOfferings = [
+      SELECT Id,
+      hed__Course__c 
+      FROM hed__Course_Offering__c
+      WHERE Id IN: courseOfferingIdSet
+      AND hed__Start_Date__c < TODAY
+      AND IsActive__c = true
+    ];
+
+    // Populate the Course/ProgramPlan Set based on the offering.
+    for(Program_Offering__c programOffering : programOfferings){
+      if(String.isNotBlank(programOffering.hed_Program_Plan__c )){
+        programPlanIdSet.add(programOffering.hed_Program_Plan__c);
+      }
+    }
+
+    for(hed__Course_Offering__c courseOffering : courseOfferings){
+      if(String.isNotBlank(courseOffering.hed__Course__c)){
+        courseIdSet.add(courseOffering.hed__Course__c);
+      }
+    }
+
+    Set<Id> validContactForEmail = new Set<Id>();
+    // Query Product based on the ProgramPlan/Course
+    //PROGRAM PLAN
+    for(Product2 product : [SELECT Id,
+                                    Program_Plan__c
+                              FROM Product2
+                              WHERE Delivery__c INCLUDES ('Online Self-paced')
+                                AND Program_Plan__c IN: programPlanIdSet]){
+      if(productCourseConnectionMap.containsKey(product.Program_Plan__c)){
+        validContactForEmail.add(productCourseConnectionMap.get(product.Program_Plan__c).hed__Contact__c);
+      }                    
+    }
+    //COURSE
+    for(Product2 product : [SELECT Id,
+                                  Course__c
+                            FROM Product2
+                            WHERE Delivery__c INCLUDES ('Online Self-paced')
+                            AND Course__c IN : courseIdSet]){
+      if(productCourseConnectionMap.containsKey(product.Course__c)){
+        validContactForEmail.add(productCourseConnectionMap.get(product.Course__c).hed__Contact__c);
+      }                    
+    }
+
+    ContactUserNameCreatedHelper.sendEmailUsernameCreated(validContactForEmail);
   }
 
   /**
