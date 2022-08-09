@@ -9,6 +9,7 @@
 | marlon.vasquez            | June 10, 2022         | DEPP-2812            | Cart Summary Questionnaire                   |
 | roy.nino.s.regala         | June 30, 2022         | DEPP-3157            | fixed questionnaire issues                   |
 | john.m.tambasen           | August 04, 2022       | DEPP-3674            | added strikethrough for discounted items     |
+| john.m.tambasen           | August 09, 2022       | DEPP-3721            | consider as free for 0 total                 |
 
 */
 import { LightningElement, api, wire, track } from 'lwc';
@@ -371,7 +372,29 @@ export default class Payment extends LightningElement {
             fields[PAYMENT_METHOD.fieldApiName] = 'Pay Now';
             let recordInput = {fields};
             updateRecord(recordInput).then(()=>{
-                window.location.href = this.payURL;
+
+                //if cartitem's pb needs to be updated
+                if(this.cartItemsPbeUpdate.length > 0){
+                    //loop through the pass object of cartitem records to be updated
+                    for (let i = 0; i < this.cartItemsPbeUpdate.length; i++) {
+                        //update CartItem with the standard pricebook
+                        let fields = {};
+                        fields[CARTITEM_ID_FIELD.fieldApiName] = this.cartItemsPbeUpdate[i].cartItemId;
+                        fields[CARTITEM_PBE_FIELD.fieldApiName] = this.cartItemsPbeUpdate[i].standardPbe;
+                        let recordInput = {fields};
+                        updateRecord(recordInput)
+                        .then(()=>{
+                            
+                            //if last item
+                            if(i + 1 == this.cartItemsPbeUpdate.length){
+                                window.location.href = this.payURL;
+                            }
+                        })
+                    }
+
+                } else{
+                    window.location.href = this.payURL;
+                }     
             })
         })
         .catch((error) => {
@@ -379,19 +402,6 @@ export default class Payment extends LightningElement {
             console.log("create cartpayment error");
             console.log(error);
         })
-
-        //loop through the pass object of cartitem records to be updated
-        for (let i = 0; i < this.cartItemsPbeUpdate.length; i++) {
-            //update CartItem with the standard pricebook
-            let fields = {};
-            fields[CARTITEM_ID_FIELD.fieldApiName] = this.cartItemsPbeUpdate[i].cartItemId;
-            fields[CARTITEM_PBE_FIELD.fieldApiName] = this.cartItemsPbeUpdate[i].standardPbe;
-            let recordInput = {fields};
-            updateRecord(recordInput)
-            .then(()=>{
-                //code
-            })
-        }
     }
 
     invoiceClick(){
@@ -469,9 +479,31 @@ export default class Payment extends LightningElement {
                         })
                     );
 
-                    //redirect to for you page and open the xetta page in new tab
-                    window.location.href = BasePath + "/category/products/" + this.prodCategId;
-                    
+
+                    //if cartitem's pb needs to be updated
+                    if(this.cartItemsPbeUpdate.length > 0){
+
+                        //loop through the pass object of cartitem records to be updated
+                        for (let i = 0; i < this.cartItemsPbeUpdate.length; i++) {
+                            //update CartItem with the standard pricebook
+                            let fields = {};
+                            fields[CARTITEM_ID_FIELD.fieldApiName] = this.cartItemsPbeUpdate[i].cartItemId;
+                            fields[CARTITEM_PBE_FIELD.fieldApiName] = this.cartItemsPbeUpdate[i].standardPbe;
+                            let recordInput = {fields};
+                            updateRecord(recordInput)
+                            .then(()=>{
+                               
+                                //if last item
+                                if(i + 1 == this.cartItemsPbeUpdate.length){
+                                    //redirect to for you page and open the xetta page in new tab
+                                    window.location.href = BasePath + "/category/products/" + this.prodCategId;
+                                }
+                            })
+                        }
+                    } else{
+                        //redirect to for you page and open the xetta page in new tab
+                        window.location.href = BasePath + "/category/products/" + this.prodCategId;
+                    }        
                 })
             })
         })
@@ -480,19 +512,6 @@ export default class Payment extends LightningElement {
             console.log("createCourseConnections error");
             console.log(error);
         })
-
-        //loop through the pass object of cartitem records to be updated
-        for (let i = 0; i < this.cartItemsPbeUpdate.length; i++) {
-            //update CartItem with the standard pricebook
-            let fields = {};
-            fields[CARTITEM_ID_FIELD.fieldApiName] = this.cartItemsPbeUpdate[i].cartItemId;
-            fields[CARTITEM_PBE_FIELD.fieldApiName] = this.cartItemsPbeUpdate[i].standardPbe;
-            let recordInput = {fields};
-            updateRecord(recordInput)
-            .then(()=>{
-                //code
-            })
-        }
 
         //redirect to for you page and open the xetta page in new tab
          this.openNewTab();
