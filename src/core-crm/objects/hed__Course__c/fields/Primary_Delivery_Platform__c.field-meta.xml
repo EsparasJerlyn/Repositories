@@ -32,14 +32,14 @@
                 <label>FutureLearn</label>
             </value>
             <value>
-                <fullName>No LMS</fullName>
-                <default>false</default>
-                <label>No LMS</label>
-            </value>
-            <value>
                 <fullName>Other</fullName>
                 <default>false</default>
                 <label>Other</label>
+            </value>
+            <value>
+                <fullName>No LMS</fullName>
+                <default>false</default>
+                <label>No LMS</label>
             </value>
         </valueSetDefinition>
     </valueSet>

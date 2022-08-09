@@ -9,5 +9,10 @@
     <columns>CORE.USERS.FIRST_NAME</columns>
     <columns>CORE.USERS.LAST_NAME</columns>
     <filterScope>Everything</filterScope>
+    <filters>
+        <field>QUT_Student_ID__c</field>
+        <operation>equals</operation>
+        <value>11425881</value>
+    </filters>
     <label>All Contacts</label>
 </ListView>

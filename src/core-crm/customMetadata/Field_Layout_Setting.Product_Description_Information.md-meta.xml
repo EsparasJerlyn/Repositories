@@ -11,6 +11,10 @@
         <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Description&quot;}]</value>
     </values>
     <values>
+        <field>Left_Right_Column_Long__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
         <field>Order__c</field>
         <value xsi:type="xsd:double">2.0</value>
     </values>

@@ -3,4 +3,5 @@
     <fullName>Company</fullName>
     <description>The lead’s company.</description>
     <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
 </CustomField>

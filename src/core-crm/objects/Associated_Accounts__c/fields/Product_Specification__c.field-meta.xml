@@ -7,7 +7,6 @@
     <relationshipLabel>Associated Accounts</relationshipLabel>
     <relationshipName>Associated_Accounts</relationshipName>
     <relationshipOrder>1</relationshipOrder>
-    <required>false</required>
     <reparentableMasterDetail>false</reparentableMasterDetail>
     <trackTrending>false</trackTrending>
     <type>MasterDetail</type>

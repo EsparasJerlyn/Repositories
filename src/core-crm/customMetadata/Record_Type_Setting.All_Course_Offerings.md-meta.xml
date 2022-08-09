@@ -7,6 +7,10 @@
         <value xsi:nil="true"/>
     </values>
     <values>
+        <field>For_OPE__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
         <field>Object_Type__c</field>
         <value xsi:type="xsd:string">hed__Course_Offering__c</value>
     </values>

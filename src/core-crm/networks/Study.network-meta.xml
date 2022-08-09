@@ -31,7 +31,7 @@
     <networkMemberGroups>
         <permissionSet>OPE_Catalogue</permissionSet>
         <profile>admin</profile>
-        <profile>OPE Catalogue</profile>
+        <profile>ope catalogue</profile>
     </networkMemberGroups>
     <networkPageOverrides>
         <changePasswordPageOverrideSetting>Standard</changePasswordPageOverrideSetting>

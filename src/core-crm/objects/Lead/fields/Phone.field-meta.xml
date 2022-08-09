@@ -3,4 +3,5 @@
     <fullName>Phone</fullName>
     <description>The lead’s phone number.</description>
     <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
 </CustomField>
