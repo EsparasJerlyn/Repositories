@@ -10,8 +10,9 @@
       |---------------------------|-----------------------|----------------------|----------------------------------------------|
       | john.bo.a.pineda          | July 07, 2022         | DEPP-3136            | Modified to include Login when Guest User    |
       | john.bo.a.pineda          | July 15, 2022         | DEPP-3136            | Modified to include Register when Guest User |
+      | mary.grace.j.li           | August 9, 2022        | DEPP-3720            | Added LMS to call another component          |
 */
-import { LightningElement, wire, track } from "lwc";
+import { LightningElement, wire, track, api } from "lwc";
 import { loadStyle } from "lightning/platformResourceLoader";
 import isGuest from "@salesforce/user/isGuest";
 import basePath from "@salesforce/community/basePath";
@@ -21,6 +22,8 @@ import getStudyStore from "@salesforce/apex/MainNavigationMenuCtrl.getStoreFront
 import getUserCartDetails from "@salesforce/apex/ProductDetailsCtrl.getUserCartDetails";
 import closeCart from "@salesforce/apex/CartItemCtrl.closeCart";
 import userId from "@salesforce/user/Id";
+import { publish, MessageContext } from "lightning/messageService";
+import payloadContainerLMS from "@salesforce/messageChannel/SignIn__c";
 
 export default class CustomLogout extends LightningElement {
     @track openLoginModal = false;
@@ -28,6 +31,11 @@ export default class CustomLogout extends LightningElement {
     categoryId;
     recordPageUrl;
     startURL;
+
+
+    @wire(MessageContext)
+    messageContext;
+
 
     get isGuest() {
         return isGuest;
@@ -81,6 +89,7 @@ export default class CustomLogout extends LightningElement {
     handleLoginModalOpen() {
         this.openLoginModal = true;
         this.openRegisterModal = false;
+        this.publishLMS();
     }
 
     // Handle Modal Close
@@ -95,5 +104,18 @@ export default class CustomLogout extends LightningElement {
         this.openRegisterModal = true;
         // Set startURL for Register LWC
         this.startURL = window.location.pathname + window.location.search;
+    }
+
+    publishLMS() {
+        let paramObj = {
+            openLogin: this.openLoginModal,
+            openRegister: this.openRegisterModal
+        };
+
+        const message = {
+            parameterJson: JSON.stringify(paramObj)
+        };
+
+        publish(this.messageContext, payloadContainerLMS, message);
     }
 }

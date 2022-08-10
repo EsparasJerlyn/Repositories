@@ -4,6 +4,14 @@
   "id" : "ef806142-71bb-42ba-bf0c-5ed0f7617ddc",
   "label" : "Category Detail",
   "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:customSignInRegistration",
+      "id" : "c1aeea0d-6d52-4a41-9cd4-fffb5a809763",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
     "id" : "9d6b0a6c-2083-4b79-8160-fa3cd490e88e",
     "regionName" : "header",
     "type" : "region"

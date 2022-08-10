@@ -5,10 +5,15 @@
     font-size: 44px;
     color: #0066b9;
     margin: 32px 0px;
+    line-height: 3rem;
 }
 
 .text {
     font-size: 18px;
+}
+
+.word-wrap{
+    overflow-wrap: break-word;
 }
 
 /* Modal */
