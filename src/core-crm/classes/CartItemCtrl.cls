@@ -11,6 +11,7 @@
       | roy.nino.s.regala         | June 29, 2022         | DEPP-3157            | fixed questionnare issues                  |
       | john.m.tambasen           | August 01, 2022       | DEPP-3616            | reworked logic for discount                |
       | john.m.tambasen           | August 04, 2022       | DEPP-3674            | added strikethrough for discounted items   |
+      | john.m.tambasenb          | August 11, 2022       | DEPP-3738            | negative amount showing                    |
 
 */
 public without sharing class CartItemCtrl {
@@ -574,6 +575,7 @@ public without sharing class CartItemCtrl {
               discountDataTemp.cartItemId = currentCart.Id;
               discountDataTemp.discount = calculatedDiscount;
               discountDataTemp.standardPbe = cartItemPbeMap.get(currentCart.Id).Id;
+              discountDataTemp.standardPbePrice = cartItemPbeMap.get(currentCart.Id).UnitPrice;
 
               discountData.add(discountDataTemp);
             }
@@ -628,6 +630,7 @@ public without sharing class CartItemCtrl {
                   } else {
 
                     discountDataTemp.standardPbe = cartItemPbeMap.get(currentCart.Id).Id;
+                    discountDataTemp.standardPbePrice = cartItemPbeMap.get(currentCart.Id).UnitPrice;
                   }
         
                 } else if (currentPromotionTarget.AdjustmentType == 'FixedAmountOffUnitPrice') {
@@ -655,6 +658,7 @@ public without sharing class CartItemCtrl {
                   }else {
 
                     discountDataTemp.standardPbe = cartItemPbeMap.get(currentCart.Id).Id;
+                    discountDataTemp.standardPbePrice = cartItemPbeMap.get(currentCart.Id).UnitPrice;
                   }
                 }
 
@@ -734,6 +738,7 @@ public without sharing class CartItemCtrl {
                   } else {
 
                     discountDataTemp.standardPbe = cartItemPbeMap.get(currentCart.Id).Id;
+                    discountDataTemp.standardPbePrice = cartItemPbeMap.get(currentCart.Id).UnitPrice;
                   }
 
                 } else if (currentPromotionTarget.AdjustmentType == 'FixedAmountOffUnitPrice') {
@@ -761,6 +766,7 @@ public without sharing class CartItemCtrl {
                   } else {
 
                     discountDataTemp.standardPbe = cartItemPbeMap.get(currentCart.Id).Id;
+                    discountDataTemp.standardPbePrice = cartItemPbeMap.get(currentCart.Id).UnitPrice;
                   }
                 }
 
@@ -781,6 +787,7 @@ public without sharing class CartItemCtrl {
     @AuraEnabled public String cartItemId;
     @AuraEnabled public Double discount;
     @AuraEnabled public String standardPbe;
+    @AuraEnabled public Double standardPbePrice;
   }
 
   public class QuestionnaireResponseData{

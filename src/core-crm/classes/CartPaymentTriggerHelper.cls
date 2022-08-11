@@ -8,7 +8,8 @@
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
-      || roy.nino.s.regala             | June 24, 2022         | DEPP-3252              | Created file                 |
+      | roy.nino.s.regala              | June 24, 2022         | DEPP-3252              | Created file                 |
+      | john.m.tambasenb               | August 11, 2022       | DEPP-3738              | negative amount showing      |
  */
 
 public without sharing class CartPaymentTriggerHelper{
@@ -171,16 +172,17 @@ public without sharing class CartPaymentTriggerHelper{
         hed__Course_Enrollment__c tempCourseEnrollment;
         hed__Course_Enrollment__c tempCourseEnrollmentChild;
         String offeringId;
+        Decimal discount = payment.Discount_Applied__c != null?payment.Discount_Applied__c:0;
 
         //update existing course connections
         //create new course connection records
         tempCourseEnrollment = new hed__Course_Enrollment__c();
         tempCourseEnrollment.hed__Contact__c = cItem.Contact__c;
         tempCourseEnrollment.hed__Status__c = 'Active';
-        tempCourseEnrollment.Amount__c = cItem.TotalPrice;
+        tempCourseEnrollment.Amount__c = cItem.Cart.TotalAmount - discount;
         tempCourseEnrollment.Transaction_ID__c =  cItem.CartId != null?cItem.Cart.External_Id__c:'';
         tempCourseEnrollment.Payment_Method__c = payment.Payment_Status__c == 'Approved'?'Pay Now':'Invoice';
-        tempCourseEnrollment.Paid_in_Full__c = cItem.CartId != null && cItem.Cart.TotalAmount <= payment.Amount_Paid__c?'Yes':'No';
+        tempCourseEnrollment.Paid_in_Full__c = cItem.CartId != null && (cItem.Cart.TotalAmount - discount) <= payment.Amount_Paid__c?'Yes':'No';
         tempCourseEnrollment.Cart_Item__c = cItem.Id;
         tempCourseEnrollment.Cart_ID__c = cItem.CartId;
         if( pbEntryMap.containsKey(cItem.Pricebook_Entry_ID__c) && 
@@ -199,10 +201,10 @@ public without sharing class CartPaymentTriggerHelper{
                     tempCourseEnrollmentChild = new hed__Course_Enrollment__c();
                     tempCourseEnrollmentChild.hed__Contact__c = cItem.Contact__c;
                     tempCourseEnrollmentChild.hed__Status__c = 'Active';
-                    tempCourseEnrollmentChild.Amount__c = cItem.TotalPrice;
+                    tempCourseEnrollmentChild.Amount__c = cItem.Cart.TotalAmount - discount;
                     tempCourseEnrollmentChild.Transaction_ID__c = cItem.CartId != null?cItem.Cart.External_Id__c:'';
                     tempCourseEnrollmentChild.Payment_Method__c = payment.Payment_Status__c == 'Approved'?'Pay Now':'Invoice';
-                    tempCourseEnrollmentChild.Paid_in_Full__c = cItem.CartId != null && cItem.Cart.TotalAmount <= payment.Amount_Paid__c?'Yes':'No';
+                    tempCourseEnrollmentChild.Paid_in_Full__c = cItem.CartId != null && (cItem.Cart.TotalAmount - discount) <= payment.Amount_Paid__c?'Yes':'No';
                     tempCourseEnrollmentChild.Cart_Item__c = cItem.Id;
                     tempCourseEnrollmentChild.Cart_ID__c = cItem.CartId;
                     //check if current pricebook is for group booking

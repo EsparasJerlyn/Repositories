@@ -25,6 +25,7 @@ import PAYMENT_STATUS_FIELD from '@salesforce/schema/Cart_Payment__c.Payment_Sta
 import CARTPAYMENT_ID_FIELD from '@salesforce/schema/Cart_Payment__c.Id';
 import CARTITEM_ID_FIELD from '@salesforce/schema/CartItem.Id';
 import CARTITEM_PBE_FIELD from '@salesforce/schema/CartItem.Pricebook_Entry_ID__c';
+import CARTITEM_TOTAL_PRICE_FIELD from '@salesforce/schema/CartItem.TotalPrice';
 import getOPEProductCateg from "@salesforce/apex/PaymentConfirmationCtrl.getOPEProductCateg";
 import saveCartSummaryQuestions from "@salesforce/apex/CartItemCtrl.saveCartSummaryQuestions";
 import BasePath from "@salesforce/community/basePath";
@@ -381,6 +382,7 @@ export default class Payment extends LightningElement {
                         let fields = {};
                         fields[CARTITEM_ID_FIELD.fieldApiName] = this.cartItemsPbeUpdate[i].cartItemId;
                         fields[CARTITEM_PBE_FIELD.fieldApiName] = this.cartItemsPbeUpdate[i].standardPbe;
+                        fields[CARTITEM_TOTAL_PRICE_FIELD.fieldApiName] = this.cartItemsPbeUpdate[i].standardPbePrice;
                         let recordInput = {fields};
                         updateRecord(recordInput)
                         .then(()=>{
@@ -489,6 +491,7 @@ export default class Payment extends LightningElement {
                             let fields = {};
                             fields[CARTITEM_ID_FIELD.fieldApiName] = this.cartItemsPbeUpdate[i].cartItemId;
                             fields[CARTITEM_PBE_FIELD.fieldApiName] = this.cartItemsPbeUpdate[i].standardPbe;
+                            fields[CARTITEM_TOTAL_PRICE_FIELD.fieldApiName] = this.cartItemsPbeUpdate[i].standardPbePrice;
                             let recordInput = {fields};
                             updateRecord(recordInput)
                             .then(()=>{

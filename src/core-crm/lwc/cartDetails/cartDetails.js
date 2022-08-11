@@ -41,6 +41,7 @@ import ANSWER_ID_FIELD from "@salesforce/schema/Answer__c.Id";
 import ANSWER_RESPONSE_FIELD from "@salesforce/schema/Answer__c.Response__c";
 import CARTITEM_ID_FIELD from '@salesforce/schema/CartItem.Id';
 import CARTITEM_PBE_FIELD from '@salesforce/schema/CartItem.Pricebook_Entry_ID__c';
+import CARTITEM_TOTAL_PRICE_FIELD from '@salesforce/schema/CartItem.TotalPrice';
 
 import CART_PAYMENT_FIELD from '@salesforce/schema/WebCart.Cart_Payment__c';
 
@@ -623,6 +624,7 @@ createFileUploadMap(questions){
                         let fields = {};
                         fields[CARTITEM_ID_FIELD.fieldApiName] = this.cartItemsPbeUpdate[i].cartItemId;
                         fields[CARTITEM_PBE_FIELD.fieldApiName] = this.cartItemsPbeUpdate[i].standardPbe;
+                        fields[CARTITEM_TOTAL_PRICE_FIELD.fieldApiName] = this.cartItemsPbeUpdate[i].standardPbePrice;
                         let recordInput = {fields};
                         updateRecord(recordInput)
                         .then(()=>{
