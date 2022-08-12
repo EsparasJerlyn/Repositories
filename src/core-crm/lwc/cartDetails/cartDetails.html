@@ -157,7 +157,7 @@
                     <div class="slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12">
                         <div class="slds-grid slds-wrap slds-p-bottom_small slds-p-right_small">
                             <div class="edit-textbox slds-form-element__control slds-input-has-icon slds-input-has-icon_right slds-p-right_medium" >
-                                <p class="bodyBold slds-m-around_none">Accessibilty Requirements</p>
+                                <p class="bodyBold slds-m-around_none">Accessibility requirements</p>
 
                                 <div if:true={editModeAccReq}>
                                     <lightning-input-field field-name="Accessibility_Requirement__c" variant="label-hidden" onmouseout={enableReadMode} onchange={contactFieldChanged} value={contactAccReq}></lightning-input-field>
@@ -234,9 +234,9 @@
                     </div>
                     </div>
 
-                    <div class="slds-grid slds-wrap"> 
+                    <div class="slds-grid slds-wrap">
                     <div class="slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12" if:true={showStaffId}>
-                        <div class="slds-grid slds-wrap slds-p-bottom_small slds-p-right_small">                    
+                        <div class="slds-grid slds-wrap slds-p-bottom_small slds-p-right_small">
                                 <div class="edit-textbox slds-form-element__control slds-input-has-icon slds-input-has-icon_right slds-p-right_medium" >
                                     <p class="bodyBold slds-m-around_none">Staff ID</p>
                                     <div if:true={editModeStaff}>
@@ -298,8 +298,8 @@
         <!-- loop on each cart item -->
         <template for:each={cartItems} for:item="currentItem" for:index="productIndex">
             <div key={currentItem.cartItemId}>
-                <div class="slds-grid slds-wrap">
-                    <div class="slds-size_1-of-1 slds-medium-size_9-of-12 slds-large-size_9-of-12 mb2">
+                <div class="slds-grid slds-wrap mar-bot-10">
+                    <div class="slds-size_1-of-1 slds-medium-size_9-of-12 slds-large-size_9-of-12">
                         <div>
                             <h1 class="heading3 main-color-blue500 mt1">{currentItem.productName}</h1>
                         </div>
@@ -549,7 +549,7 @@
                 <div class="slds-size_8-of-12">
                     <div>
                         <div style="display: flex">
-                            <p class="bodyBold py2 pr1">Discount code</p> 
+                            <p class="bodyBold py2 pr1">Discount code</p>
                             <lightning-helptext content="Coupon code will apply a discount on the Standard Price only"></lightning-helptext>
                         </div>
                         <lightning-input data-id="discountField" name={productIndex} type="text" variant="label-hidden" class="pr1"></lightning-input>
@@ -587,7 +587,7 @@
 
         <div>
             <p class="bodyBold">
-                Discounts applied               
+                Discounts applied
                 <span class="slds-float_right">
                     -
                    <lightning-formatted-number
@@ -619,21 +619,21 @@
         </div>
         <br>
         <div class="slds-grid terms-condition confirm">
-                    <input type="checkbox" 
-                    id="cbDetails" 
-                    name="cbDetails" 
+                    <input type="checkbox"
+                    id="cbDetails"
+                    name="cbDetails"
                     onchange={checkEnablePaymentCB}
                     class={getCheckErrorClass}
-                     /> 
+                     />
                 <label for="terms">I confirm my details are correct<sup class="req">*</sup></label>
                 <div class="msg-def-error" role="error" if:false={cbDetails} >Complete this field.</div>
         </div>
         <div class="slds-grid terms-condition tandc">
-            <input type="checkbox" 
-                    id="cbTerms"  
-                    name="cbTerms" 
-                    onchange={checkEnablePaymentCB} 
-                    class={getCheckErrorClassTerms} 
+            <input type="checkbox"
+                    id="cbTerms"
+                    name="cbTerms"
+                    onchange={checkEnablePaymentCB}
+                    class={getCheckErrorClassTerms}
                 />
             <label for="terms">I agree with the <a href="https://www.qut.edu.au/study/professional-and-executive-education/terms-and-conditions?_ga=2.147984567.1831940469.1653610703-306839491.1653610703" target="_blank">Terms and Conditions</a><sup class="req">*</sup></label>
             <div class="msg-def-error" role="error-tc" if:false={cbTerms} >Complete this field.</div>
