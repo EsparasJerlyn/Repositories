@@ -80,7 +80,8 @@ const columns = [
     },
     { 
         label: 'Early Bird No. of Days', 
-        fieldName: 'Early_Bird_No_of_Days__c', 
+        fieldName: 'Early_Bird_No_of_Days__c',
+        iconName: 'utility:info',
         type: 'number', 
         cellAttributes:{
             alignment: 'left'
