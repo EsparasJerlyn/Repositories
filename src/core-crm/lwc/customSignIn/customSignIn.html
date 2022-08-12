@@ -1,7 +1,7 @@
 <template>
     <!-- LOGIN -->
     <div class="modal">
-        <div if:true={displayForm} class="modal-content text px3 pt2">
+        <div if:true={displayForm} class="modal-content text px3 pt2 slds-gutters">
             <div class="wrapper">
                 <div
                     class="slds-m-top_small slds-m-right_large slds-p-right_large slds-clearfix"
@@ -126,7 +126,7 @@
                                 </p>
                             </div>
                             <div if:true={isEmail}>
-                                <p class="bodyRegular">
+                                <p class="bodyRegular word-wrap">
                                     You have been sent a verification code to
                                     {email}. Please enter now.
                                 </p>

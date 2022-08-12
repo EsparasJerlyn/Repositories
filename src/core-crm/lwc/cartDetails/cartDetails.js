@@ -12,7 +12,8 @@
       |                           |                       |                      | validate Upload File Type    |
       | roy.nino.s.regala         | June 29, 2022         | DEPP-3157            | fixed questionnare issues    |
       | john.m.tambasen           | August 04, 2022       | DEPP-3674            | added strikethrough for      |
-                                  |                       |                      | discounted items             |
+      |                           |                       |                      | discounted items             |
+      | john.m.tambasen           | August 09, 2022       | DEPP-3721            | consider as free for 0 total |
 */
 
 import { LightningElement, wire, api, track } from "lwc";
@@ -38,6 +39,9 @@ import CART_ID_FIELD from "@salesforce/schema/WebCart.Id";
 import CART_STATUS_FIELD from "@salesforce/schema/WebCart.Status";
 import ANSWER_ID_FIELD from "@salesforce/schema/Answer__c.Id";
 import ANSWER_RESPONSE_FIELD from "@salesforce/schema/Answer__c.Response__c";
+import CARTITEM_ID_FIELD from '@salesforce/schema/CartItem.Id';
+import CARTITEM_PBE_FIELD from '@salesforce/schema/CartItem.Pricebook_Entry_ID__c';
+import CARTITEM_TOTAL_PRICE_FIELD from '@salesforce/schema/CartItem.TotalPrice';
 
 import CART_PAYMENT_FIELD from '@salesforce/schema/WebCart.Cart_Payment__c';
 
@@ -596,7 +600,7 @@ createFileUploadMap(questions){
                     console.log(error);
                 })
           }
-        let fields = {'Status__c' : 'Active'};
+        let fields = {'Status__c' : 'Checkout','Discount_Applied__c' : this.discountTotal};
         let objRecordInput = {'apiName':'Cart_Payment__c',fields};
         createRecord(objRecordInput).then(response => {
             let cartPaymentId = response.id;
@@ -610,7 +614,30 @@ createFileUploadMap(questions){
                   this.paymentConURL = result.comSite + '/s/payment-confirmation?'
                                     + 'Status=A&InvoiceNo=[InvoiceNo]&ReceiptNo=[ReceiptNo]&TotalAmount='
                                     + this.total + '&Webcart.External_ID__c=' + this.cartExternalId;
-                  window.location.href = this.paymentConURL;
+                  
+
+                  //if cartitem's pb needs to be updated
+                  if(this.cartItemsPbeUpdate.length > 0){
+                    //loop through the pass object of cartitem records to be updated
+                    for (let i = 0; i < this.cartItemsPbeUpdate.length; i++) {
+                        //update CartItem with the standard pricebook
+                        let fields = {};
+                        fields[CARTITEM_ID_FIELD.fieldApiName] = this.cartItemsPbeUpdate[i].cartItemId;
+                        fields[CARTITEM_PBE_FIELD.fieldApiName] = this.cartItemsPbeUpdate[i].standardPbe;
+                        fields[CARTITEM_TOTAL_PRICE_FIELD.fieldApiName] = this.cartItemsPbeUpdate[i].standardPbePrice;
+                        let recordInput = {fields};
+                        updateRecord(recordInput)
+                        .then(()=>{
+                            
+                            //if last item
+                            if(i + 1 == this.cartItemsPbeUpdate.length){
+                              window.location.href = this.paymentConURL;
+                            }
+                        })
+                    }
+                  } else{
+                    window.location.href = this.paymentConURL;
+                  }     
                 });
             })
         })
@@ -646,6 +673,7 @@ createFileUploadMap(questions){
 
       //get totals
       this.total = this.calculateSubTotal() - this.calculateDiscountTotal();
+      this.isFreeOnly = this.cartItems.length > 0 && this.total == 0;
 
       return;
     }
@@ -708,6 +736,7 @@ createFileUploadMap(questions){
 
         //get totals
         this.total = this.calculateSubTotal() - this.calculateDiscountTotal();
+        this.isFreeOnly = this.cartItems.length > 0 && this.total == 0;
       })
       .catch((error) => {
         this.error = error;

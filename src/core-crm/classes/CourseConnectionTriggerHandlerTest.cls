@@ -53,6 +53,7 @@ public with sharing class CourseConnectionTriggerHandlerTest {
       List<Contact> contacts = TestDataFactory.createTestContactRecords(100);
       for (Contact contact : contacts) {
         contact.Registered_Email__c = 'test' + i + '@mail.com';
+        contact.QUT_Student_Username__c = 'U1248792' + i;
         i++;
       }
       insert contacts;

@@ -12,7 +12,7 @@ You are required to retrieve your initial password by following these steps:</sp
 
 <p style="margin-left: 40px;"><span style="font-size:14px;">1. Go to <a href="https://access.qut.edu.au/selfservice/password/recover" rel="noopener noreferrer" target="_blank"> https://access.qut.edu.au/selfservice/password/recover</a><br />
 <br />
-2. Enter your QUT username: {qutUsername}<br />
+2. Enter your QUT username: {username}<br />
 <br />
 3. Click SMS or Email verification<br />
 <br />

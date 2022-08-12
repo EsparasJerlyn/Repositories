@@ -49,46 +49,48 @@ public without sharing class ContactUserNameCreatedHelper {
 		// Get Study Store URL Custom Setting
 		Study_Store_URL_Settings__c storeLinkSettings = Study_Store_URL_Settings__c.getOrgDefaults();
 
-		    // Process
-			 List<Messaging.SingleEmailMessage> sendEmailList = new List<Messaging.SingleEmailMessage>();
-			 if (emailTemplate != null) {
-				for (Contact c : opeContact) {
-				  if (String.IsNotBlank(c.Registered_Email__c)){
-						// Set Email values
-						String subject = 'QUTeX Professional & Executive Education';
-						String firstName = c.FirstName;
-						String qutUsername = c.QUT_Student_Username__c;
+		// Process
+		List<Messaging.SingleEmailMessage> sendEmailList = new List<Messaging.SingleEmailMessage>();
+		if (emailTemplate != null) {
+			for (Contact c : opeContact) {
+				if (String.IsNotBlank(c.Registered_Email__c)){
+					// Set Email values
+					String subject = 'QUTeX Professional & Executive Education';
+					String firstName = c.FirstName;
+					String username = c.QUT_Student_Username__c;
 
-						// Set Email Params
-						Map<String, String> emailParams = new Map<String, String>{
-						  '{firstName}' => firstName,
-						  '{qutUsername}' => qutUsername,
-						  '{storeLink}' => storeLinkSettings.Study_Store_Link__c != null
-							 ? String.valueOf(storeLinkSettings.Study_Store_Link__c)
-							 : ''
-						};
-		
-						// Build the Email
-						Messaging.SingleEmailMessage mail = EmailHelper.emailBuilder(
-							c.Registered_Email__c,
-							subject,
-							emailTemplate.HtmlValue,
-							emailParams
-						);
-		
-						// Set Org Wide Email Address
-						if (!owea.isEmpty()) {
-						  mail.setOrgWideEmailAddressId(owea[0].Id);
-						}
-		
-						// Add Email to List
-						sendEmailList.add(mail);
+					// Set Email Params
+					Map<String, String> emailParams = new Map<String, String>{
+						'{firstName}' => firstName,
+						'{username}' => username,
+						'{storeLink}' => storeLinkSettings.Study_Store_Link__c != null
+							? String.valueOf(storeLinkSettings.Study_Store_Link__c)
+							: ''
+					};
+	
+					// Build the Email
+					Messaging.SingleEmailMessage mail = EmailHelper.emailBuilder(
+						c.Registered_Email__c,
+						subject,
+						emailTemplate.HtmlValue,
+						emailParams
+					);
+	
+					// Set Org Wide Email Address
+					if (!owea.isEmpty()) {
+						mail.setOrgWideEmailAddressId(owea[0].Id);
 					}
+	
+					// Add Email to List
+					sendEmailList.add(mail);
 				}
-				
-				// Send Email List
+			}
+			
+			// Send Email only when list it's not empty
+			if(!sendEmailList.isEmpty()){
 				Messaging.sendEmail(sendEmailList);
 			}
-			return 'success';
+		}
+		return 'success';
     }
 }

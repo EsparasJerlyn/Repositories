@@ -991,6 +991,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>CartItem.TotalPrice</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Cart_Payment__c.Amount_Paid__c</field>
         <readable>true</readable>
     </fieldPermissions>
