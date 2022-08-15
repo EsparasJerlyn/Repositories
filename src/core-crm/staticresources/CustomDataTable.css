@@ -65,3 +65,23 @@ th.slds-has-focus, td.slds-has-focus{
 
 }
 
+.prodmgt table.slds-table tr th:nth-child(5) .slds-is-resizable div.slds-has-flexi-truncate {
+
+    flex-direction: row-reverse;
+    position: absolute;
+    }
+
+.prodmgt table.slds-table tr th:nth-child(5) .slds-is-resizable div.slds-has-flexi-truncate .slds-icon-utility-info:hover::after {
+    content: "This field will control the visibility of the number of days for each  product for the early bird price book entry to be removed before offering on Commerce Cloud";
+    position: absolute;
+    top: 0px;
+    left: 155px;
+    background: #f8fbea;
+    font-weight: normal;
+    font-size: 12px;
+    z-index: 9999;
+    padding: 5px;
+    border: 1px solid #ccc;
+    white-space: pre-wrap;
+    width: 350px;
+}

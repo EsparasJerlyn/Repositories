@@ -6,9 +6,10 @@
  * @author Accenture
  *
  * @history
- *    | Developer                 | Date                  | JIRA                 | Change Summary                        |
-      |---------------------------|-----------------------|----------------------|---------------------------------------|
-      | john.bo.a.pineda          | July 07, 2022         | DEPP-3136            | Created file                          |
+ *    | Developer                 | Date                  | JIRA                 | Change Summary                                   |
+      |---------------------------|-----------------------|----------------------|--------------------------------------------------|
+      | john.bo.a.pineda          | July 07, 2022         | DEPP-3136            | Created file                                     |
+      | eugene.andrew.abuan       | August 08, 2022       | DEPP-3705            | Updated error message when email does not exist  |
 */
 import { LightningElement, track, api } from "lwc";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
@@ -23,7 +24,7 @@ import loginExistingUser from "@salesforce/apex/RegistrationFormCtrl.loginExisti
 const SSO = "/services/auth/sso/";
 const REQUIRED_ERROR_MESSAGE = "Field is required.";
 const EMAIL_NOT_VALID = "Please enter a valid email.";
-const EMAIL_NOT_EXIST = "Your email does not exist.";
+const EMAIL_NOT_EXIST = "Email address does not exist. Please";
 const SHOW_ERROR_MESSAGE_ATTRIBUTE = "error-message error-message-show";
 const SHOW_ERROR_BOARDER_ATTRIBUTE = "slds-input input-element border-error";
 const HIDE_ERROR_MESSAGE_ATTRIBUTE = "error-message error-message-hide";
@@ -55,6 +56,7 @@ export default class CustomSignIn extends LightningElement {
     isEmail = false;
     loginUser = {};
     loading = false;
+    isExistingEmail = false;
 
     label = {
         header: HEADER,
@@ -139,6 +141,7 @@ export default class CustomSignIn extends LightningElement {
                         this.sendSMSOTP();
                     } else {
                         // If not Exists, display Email not exist
+                        this.isExistingEmail = true;
                         this.emailErrorMessage = EMAIL_NOT_EXIST;
                         this.requiredDisplayData.email =
                             SHOW_ERROR_MESSAGE_ATTRIBUTE;

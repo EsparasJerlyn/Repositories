@@ -27,7 +27,7 @@
                                     class="slds-col slds-size_1-of-1 slds-form-element elementStyle"
                                 >
                                     <label for="email" class="label-text"
-                                        >Email
+                                        >Enter your email
                                     </label>
                                     <span class="required-text">*</span><br />
                                     <div
@@ -45,7 +45,12 @@
                                         <c-error-icon></c-error-icon>
                                     </template>
                                     <small class={requiredDisplayData.email}>
-                                        {emailErrorMessage}
+                                        {emailErrorMessage} 
+                                            <span if:true={isExistingEmail}>
+                                                &nbsp;
+                                                <a onclick={handleOpenRegister} class="clickHere">click here</a>
+                                                &nbsp;to sign up
+                                            </span>
                                     </small>
                                 </div>
                                 <!--Continue Button-->

@@ -216,11 +216,13 @@ export default class Payment extends LightningElement {
             if(currentCartItem.showStrikedStandardPb){
                 //set the discoutned price
                 unitPriceTemp = currentCartItem.unitPriceStandard - currentCartItem.unitDiscount;
+                unitPriceTemp = parseFloat(unitPriceTemp.toFixed(0));
 
             //else use the specific pb selected
             } else{
                 //set the price from the pb entry
                 unitPriceTemp = currentCartItem.unitPrice;
+                unitPriceTemp = parseFloat(unitPriceTemp.toFixed(0));
             }
 
             //complete the URL
