@@ -22,11 +22,12 @@
       | john.bo.a.pineda          | July 05, 2022         | DEPP-3393            | Replaced all special characters to URL|
       |                           |                       |                      | equivalents for startURL              |
       | john.bo.a.pineda          | July 15, 2022         | DEPP-3130            | Set startURL param as API             |
+      | julie.jane.alegre         | August 15, 2022       | DEPP-3568            | Added Contact Duplication Handling    |
 */
 import { LightningElement, track, api, wire } from "lwc";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import { NavigationMixin, CurrentPageReference } from "lightning/navigation";
-import isEmailExist from "@salesforce/apex/RegistrationFormCtrl.isEmailExist";
+import QUTeX_Contact_Detail from '@salesforce/label/c.QUTeX_Contact_Detail';
 import registerUser from "@salesforce/apex/RegistrationFormCtrl.registerUser";
 import getCommunityUrl from "@salesforce/apex/RegistrationFormCtrl.getCommunityUrl";
 import qutResourceImg from "@salesforce/resourceUrl/QUTImages";
@@ -34,7 +35,10 @@ import BasePath from "@salesforce/community/basePath";
 import sendRegistrationSMSOTP from "@salesforce/apex/RegistrationFormCtrl.sendRegistrationSMSOTP";
 import getMobileLocaleOptions from "@salesforce/apex/RegistrationFormCtrl.getMobileLocaleOptions";
 import sendRegistrationEmailOTP from "@salesforce/apex/RegistrationFormCtrl.sendRegistrationEmailOTP";
+import validateContactMatching from "@salesforce/apex/RegistrationMatchingHelper.validateContactMatching";
 import loginExistingUser from "@salesforce/apex/RegistrationFormCtrl.loginExistingUser";
+import isUserExist from "@salesforce/apex/RegistrationFormCtrl.isUserExist";
+import updateContact from "@salesforce/apex/RegistrationFormCtrl.updateContact";
 
 //Add text fields in Label from HTML
 const SSO = "/services/auth/sso/";
@@ -58,8 +62,6 @@ const REQ_FIELD = "Indicates a required field";
 const ACKNOWLDGE = "I acknowledge and accept the";
 const QUT_PRIVACY_POLICY ="QUT Privacy Policy.";
 const LWC_ERROR_GENERAL = "An error has been encountered. Please contact your administrator.";
-
-
 export default class RegistrationForm extends LightningElement {
   firstName = null;
   lastName = null;
@@ -111,6 +113,14 @@ export default class RegistrationForm extends LightningElement {
   loginUser = {};
   loading = false;
   executeLogin = false;
+  displayEmailValidation = false;
+  otherEmailError = false;
+  noRecordforEmail = false;
+  matchedContact;
+  fieldsMismatch = [];
+  contactId;
+  otherEmail;
+  contactDetail;
 
   @api startURL;
   @api recordId;
@@ -123,6 +133,7 @@ export default class RegistrationForm extends LightningElement {
   @track requiredField;
   @track privacyPolicy;
   @track acknowledge;
+  
 
 
   label = {
@@ -133,7 +144,8 @@ export default class RegistrationForm extends LightningElement {
     qutSSOText: QUT_SSO_TEXT,
     qutLoginText: QUT_LOGIN_TEXT,
     privacyPolicy: QUT_PRIVACY_POLICY,
-    acknowledge: ACKNOWLDGE
+    acknowledge: ACKNOWLDGE,
+    contactDetail: QUTeX_Contact_Detail
   };
 
   /*
@@ -201,6 +213,7 @@ export default class RegistrationForm extends LightningElement {
     this.linkedInLogo = qutResourceImg + "/QUTImages/Icon/linkedInLogo.svg";
     this.xButton = qutResourceImg + "/QUTImages/Icon/xMark.svg";
     this.requiredErrorMessage = REQUIRED_ERROR_MESSAGE;
+    this.fieldsMismatch = [];
 
     //Generate Experience SSO Link
     getCommunityUrl()
@@ -354,40 +367,81 @@ export default class RegistrationForm extends LightningElement {
         return;
       }
 
-      //Checks if Email Exists in Salesforce Org
-      //Else, executes Registration Process
-      isEmailExist({ email: this.email })
+      let contactList = [];
+      let contact = {};
+      contact.FirstName = this.firstName;
+      contact.LastName = this.lastName;
+      contact.Birthdate = this.year + '-'+ this.month + '-' + this.date;
+      contact.Registered_Email__c = this.email;
+      contactList.push(contact);
+      
+        this.fieldsMismatch = [];
+        validateContactMatching({newContactList:JSON.stringify(contactList)})
         .then((res) => {
-          if (res.length > 0) {
-            this.emailErrorMessage = EMAIL_EXIST;
-            this.userExists = true;
-            this.loginUser = res[0];
-            this.requiredDisplayData.email = SHOW_ERROR_MESSAGE_ATTRIBUTE;
-            this.requiredInputClass.email = SHOW_ERROR_BOARDER_ATTRIBUTE;
-          } else {
-            this.userExists = false;
-            // Call Apex to send SMS
-            this.displayForm = false;
-            this.displayVerification = true;
-            this.displayResendVerification = false;
-            this.sendSMSOTP();
-          }
+          let validationResult = res[0];
+          if( validationResult.isPartialMatch == false && 
+              validationResult.isEmailMatch == false){ //email and contact details did not match
+                  //Proceed to creating new record
+                  this.userExists = false;
+                  this.displayForm = false;
+                  this.displayVerification = true;
+                  this.displayResendVerification = false;
+                  this.sendSMSOTP();
+
+          }else if( validationResult.isPartialMatch == false && 
+                    validationResult.isEmailMatch == true){ //email and contact details matched
+                      //Proceed to log in, existing record
+                      this.contactId = validationResult.contactRecord.Id;
+                      isUserExist({contactId: this.contactId})
+                      .then((res) => {
+                          if(res.length > 0){
+                              this.userExists = true;
+                              this.loginUser = res[0];
+                              this.handleExistingUser();
+                          }
+                          else{
+                              //'User does not exist'
+                          }
+                      })
+
+          }else if( validationResult.isPartialMatch == true &&
+                    validationResult.isEmailMatch == false){ //email did not match and contact details matched
+                      //Request user to enter email
+                      //Tell Me More About You screen is display
+                      this.displayForm = false;
+                      this.displayEmailValidation = true;
+
+          }else if( validationResult.isPartialMatch == true && 
+                    validationResult.isEmailMatch == true){  //email match and contact details did not match
+                    //Request update contact details
+                    //Display Error on the form
+                    this.noRecordforEmail = true;
+                    this.fieldsMismatch = validationResult.fieldsMismatch && validationResult.fieldsMismatch.length > 0?validationResult.fieldsMismatch:[];
+                    if(validationResult.fieldsMismatch.includes('First Name')){
+                        this.requiredInputClass.firstName = SHOW_ERROR_BOARDER_ATTRIBUTE;
+                    }
+                    if(validationResult.fieldsMismatch.includes('Last Name')){
+                        this.requiredInputClass.lastName = SHOW_ERROR_BOARDER_ATTRIBUTE;
+                    }
+                    if(validationResult.fieldsMismatch.includes('Date of Birth')){
+                        this.requiredInputClass.year = SHOW_ERROR_BOARDER_ATTRIBUTE;
+                        this.requiredInputClass.month = SHOW_ERROR_BOARDER_ATTRIBUTE;
+                        this.requiredInputClass.date = SHOW_ERROR_BOARDER_ATTRIBUTE;
+                    }                                      
+          } 
         })
-        .catch((error) => {
-          this.errorMessage = LWC_ERROR_GENERAL + this.generateErrorMessage(error);
-          console.log('email error:', error);
-        });
     }
   }
 
-  // Handle Existing User
+  // Handle Existing User with mobile default
   handleExistingUser() {
     this.executeLogin = true;
     this.mobileFull = this.loginUser.MobilePhone;
     this.displayForm = false;
     this.displayVerification = true;
     this.displayResendVerification = false;
-    this.sendSMSOTP();
+    this.isEmail = true;
+    this.sendEmailOTP();
   }
 
   sendSMSOTP() {
@@ -438,7 +492,6 @@ export default class RegistrationForm extends LightningElement {
     })
     .catch((error) => {
       this.errorMessage = LWC_ERROR_GENERAL + this.generateErrorMessage(error);
-      console.log('register error:', error);
     });
   }
 
@@ -582,7 +635,57 @@ export default class RegistrationForm extends LightningElement {
       }
     });
   }
+  //Handles the input email on "Tell Me More About You"
+  handleOtherEmail(event){
+      this.otherEmail = event.detail.value;
+  }
 
+  //Handle the other existing email on "Tell Me More About You"
+  handleOtherExistEmail(){
+      //Pass other email to email
+      this.email = this.otherEmail;
+      let contactList = [];
+      let contact = {};
+      contact.FirstName = this.firstName;
+      contact.LastName = this.lastName;
+      contact.Birthdate = this.year + '-'+ this.month + '-' + this.date;
+      contact.Registered_Email__c = this.email;
+      contactList.push(contact);
+      this.fieldsMismatch = [];
+
+      validateContactMatching({newContactList:JSON.stringify(contactList)})
+      .then((res) => {
+        let validationResult = res[0];
+          if(validationResult.isPartialMatch == false && 
+             validationResult.isEmailMatch == true){ //email and contact details matched
+                this.contactId = validationResult.contactRecord.Id;
+                //Check if the user exist
+                isUserExist({contactId: this.contactId})
+                .then((res) => {
+                    if(res.length > 0){
+                        this.displayEmailValidation = false;
+                        this.userExists = true;
+                        this.loginUser = res[0];
+                        this.executeLogin = true;
+                        this.displayForm = false;
+                        this.displayVerification = true;
+                        this.displayResendVerification = false;
+                        this.handleExistingUser();
+                    }
+                    else{
+                      //User does not exist
+                    }
+                })
+
+          }else if(validationResult.isPartialMatch == true && 
+                   validationResult.isEmailMatch == false){
+                   //Show error message
+                   this.otherEmailError = true;
+                   this.displayEmailValidation = true;
+          }
+
+      })
+  }
   /*
    * Sets the mobile via event
    */
@@ -676,13 +779,28 @@ export default class RegistrationForm extends LightningElement {
       .then((res) => {
         if (res) {
           window.location.href = res;
+          this.updateContactOfExistingUser();
         }
       })
       .catch((error) => {
         this.errorMessage = LWC_ERROR_GENERAL + this.generateErrorMessage(error);
       });
   }
-
+  // Update the existing user contact details 
+  updateContactOfExistingUser(){
+      updateContact({
+            contactId: this.contactId,
+            email: this.email,
+            mobile: this.mobile,
+            mobileNoLocale: this.mobileNoLocale,
+            mobileConLocale: this.mobileConLocale,
+            dietaryReq: this.dietaryReq,
+            accessibilityReq: this.accessReq
+          })
+          .then(()=>{
+            //Updated contact...
+          })
+  }
   /**
    * concatenates error name and message
    */

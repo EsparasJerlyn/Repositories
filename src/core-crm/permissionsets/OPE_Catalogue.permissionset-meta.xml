@@ -48,6 +48,10 @@
         <apexClass>RegistrationFormCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>RegistrationMatchingHelper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <description>Learner Permission Set</description>
     <fieldPermissions>
         <editable>true</editable>

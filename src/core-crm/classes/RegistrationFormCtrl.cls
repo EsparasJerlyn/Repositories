@@ -13,6 +13,7 @@
       | john.bo.a.pineda          | June 20, 2022         | DEPP-3191            | Added Logic for Login User        |
       | john.bo.a.pineda          | July 07, 2022         | DEPP-3444            | Modified query to Mobile Country  |
       |                           |                       |                      | Code to sort by Display Name      |
+      | julie.jane.alegre         | August 15, 2022       | DEPP-3568            | Added updateContact Method        |
  */
 public without sharing class RegistrationFormCtrl {
   private static final String RT_CONTACT_PERSON = System.Label.RT_Contact_Person;
@@ -25,14 +26,97 @@ public without sharing class RegistrationFormCtrl {
    * @param email - Email of the User
    * @return userList - returns User Details of existing user
    */
+  // @AuraEnabled(cacheable=false)
+  // public static List<User> isEmailExist(String email) {
+  //   try {
+  //     List<User> userList = new List<User>();
+  //     userList = [
+  //       SELECT Id, Name, MobilePhone, Username
+  //       FROM User
+  //       WHERE Email = :email AND Profile.Name = 'OPE Catalogue'
+  //       LIMIT 1
+  //     ];
+  //     return userList;
+  //   } catch (Exception e) {
+  //     throw new AuraHandledException(e.getMessage());
+  //   }
+  // }
+
+   /**
+   * @description Method to Update Contact
+   * @param contactId - Contact Id
+   * @param email - Contact Email
+   * @param mobile - Contact Mobile
+   * @param mobileNoLocale - Contact mobileNoLocale
+   * @param mobileConLocale - Contact mobileConLocale
+   * @param dietaryReq - Contact dietaryRequirements
+   * @param accessibilityReq - Contact accessibilityRequirements
+   * 
+   */
+  @AuraEnabled
+  public static void updateContact(
+    Id contactId,
+    String email,
+    String mobile,
+    String mobileNoLocale,
+    String mobileConLocale,
+    String dietaryReq,
+    String accessibilityReq
+  ) {
+
+      List<Contact> currentContacts = new List<Contact>(
+        [
+          SELECT
+            Id,
+            MobilePhone,
+            Mobile_No_Locale__c,
+            ContactMobile_Locale__c,
+            Dietary_Requirement__c,
+            Accessibility_Requirement__c,
+            Email,
+            Work_Email__c,
+            QUT_Learner_Email__c,
+            QUT_Staff_Email__c
+          FROM Contact
+          WHERE
+            RecordTypeId = :RT_CONTACT_PERSON_ID
+            AND Parent_Person_Contact__c = NULL
+            AND Id = :contactId
+            AND (Email = :email
+            OR Work_Email__c = :email
+            OR QUT_Learner_Email__c = :email
+            OR QUT_Staff_Email__c = :email)
+        ]
+      );
+
+      //Update existing contact if there's only 1 exact match
+      if (currentContacts.size() == 1) {
+        Contact existingContact = currentContacts[0];
+        existingContact.ContactMobile_Locale__c = mobileConLocale;
+        existingContact.Mobile_No_Locale__c = mobileNoLocale;
+        existingContact.MobilePhone = mobile;
+        existingContact.Registered_Email__c = email;
+        existingContact.Dietary_Requirement__c = dietaryReq;
+        existingContact.Accessibility_Requirement__c = accessibilityReq;
+        update existingContact;
+
+      }
+   
+  }
+
+  /**
+   * @description Method to check if Email exists
+   * @param email - Email of the User
+   * @return userList - returns User Details of existing user
+   */
   @AuraEnabled(cacheable=false)
-  public static List<User> isEmailExist(String email) {
+  public static List<User> isUserExist(Id contactId) {
     try {
       List<User> userList = new List<User>();
       userList = [
-        SELECT Id, Name, MobilePhone, Username
+        SELECT Id, Name, MobilePhone, Username, ContactId
         FROM User
-        WHERE Email = :email AND Profile.Name = 'OPE Catalogue'
+        WHERE ContactId = :contactId AND Profile.Name = 'OPE Catalogue'
         LIMIT 1
       ];
       return userList;

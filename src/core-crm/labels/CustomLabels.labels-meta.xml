@@ -634,4 +634,11 @@
         <shortDescription>RT_Course_Group_Coaching</shortDescription>
         <value>Group_Coaching</value>
     </labels>
+    <labels>
+        <fullName>QUTeX_Contact_Detail</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>QUTeX_Contact_Detail</shortDescription>
+        <value>+61 7 3138 7733</value>
+    </labels>
 </CustomLabels>
