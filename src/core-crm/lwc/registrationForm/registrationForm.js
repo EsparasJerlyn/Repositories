@@ -52,7 +52,7 @@ const HIDE_ERROR_BOARDER_ATTRIBUTE = "slds-input input-element";
 const HEADER ="Tell us about you";
 const SUBHEADER = "Register to participate in professional and executive education";
 const REGISTER_WITH_LINKEDIN = "Register with LinkedIn";
-const QUT_SSO_TEXT = "Previously studied with QUTeX? Login instead";
+const QUT_SSO_TEXT ="Previously/Currently studied with QUTeX or QUT? Login Instead";
 const QUT_LOGIN_TEXT = "Previously told us about you? Continue here.";
 const REQ_FIELD = "Indicates a required field";
 const ACKNOWLDGE = "I acknowledge and accept the";
@@ -707,7 +707,7 @@ export default class RegistrationForm extends LightningElement {
     });
     this.dispatchEvent(evt);
   }
-
+  
   handleOpenLogin() {
     this.dispatchEvent(
         new CustomEvent("openlogin", {
