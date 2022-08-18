@@ -10,16 +10,24 @@
 
 @isTest(SeeAllData=false)
 public with sharing class OPE_and_CCE_Username_FormatTest {
-  private static final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+
+  @testSetup
+  public static void setUp() {
+    Test.startTest();
+        TestDataFactory.generateTestUsers();
+
+    Test.stopTest();
+  
+  }
 
   @isTest
   static void registerOPEUserTest() {
     Test.startTest();
-    System.runAs(PORTAL_SYS_ADMIN) {
+    System.runAs(TestDataFactory.getPortalSysAdminUser()) {
       Account testAccount = new Account();
       testAccount.Name = 'OPE Catalogue';
       insert testAccount;
-
+      
       String uniqueID = GenerateUniqueId.getUUID();
       String emailTest = 'testUser' + uniqueID + '@test.com';
 
@@ -35,7 +43,8 @@ public with sharing class OPE_and_CCE_Username_FormatTest {
         'access Req',
         '/study/s/',
         '1234567890',
-        'Australia (+61)'
+        'Australia (+61)',
+         null
       );
       System.assert(page == null, 'Page must not be null');
     }
@@ -45,7 +54,7 @@ public with sharing class OPE_and_CCE_Username_FormatTest {
   @isTest
   static void registerCCEUserTest() {
     Test.startTest();
-    System.runAs(PORTAL_SYS_ADMIN) {
+    System.runAs(TestDataFactory.getPortalSysAdminUser()) {
       Account testAccount = new Account();
       testAccount.Name = 'OPE Catalogue';
       insert testAccount;

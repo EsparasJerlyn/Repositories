@@ -401,6 +401,12 @@ export default class RegistrationForm extends LightningElement {
                           }
                           else{
                               //'User does not exist'
+                              //Proceed to creating new record
+                              this.userExists = false;
+                              this.displayForm = false;
+                              this.displayVerification = true;
+                              this.displayResendVerification = false;
+                              this.sendEmailOTP();
                           }
                       })
 
@@ -436,7 +442,7 @@ export default class RegistrationForm extends LightningElement {
   // Handle Existing User with mobile default
   handleExistingUser() {
     this.executeLogin = true;
-    this.mobileFull = this.loginUser.MobilePhone;
+   // this.mobileFull = this.loginUser.MobilePhone;
     this.displayForm = false;
     this.displayVerification = true;
     this.displayResendVerification = false;
@@ -481,7 +487,8 @@ export default class RegistrationForm extends LightningElement {
       accessReq: this.accessReq,
       startURL: this.startURL,
       mobileNoLocale: this.mobile,
-      mobileConLocale: this.localeConMobile
+      mobileConLocale: this.localeConMobile,
+      contactId: this.contactId
     })
     .then((res) => {
       if (res == "CloseModal") {
@@ -674,6 +681,12 @@ export default class RegistrationForm extends LightningElement {
                     }
                     else{
                       //User does not exist
+                      this.userExists = false;
+                      this.displayForm = false;
+                      this.displayVerification = true;
+                      this.displayResendVerification = false;
+                      this.sendEmailOTP();
+
                     }
                 })
 
@@ -787,13 +800,13 @@ export default class RegistrationForm extends LightningElement {
       });
   }
   // Update the existing user contact details 
-  updateContactOfExistingUser(){
+  updateContactOfExistingUser(){ 
       updateContact({
             contactId: this.contactId,
             email: this.email,
-            mobile: this.mobile,
-            mobileNoLocale: this.mobileNoLocale,
-            mobileConLocale: this.mobileConLocale,
+            mobile: this.mobileFull,
+            mobileNoLocale: this.mobile,
+            mobileConLocale: this.localeConMobile,
             dietaryReq: this.dietaryReq,
             accessibilityReq: this.accessReq
           })

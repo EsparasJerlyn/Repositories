@@ -52,7 +52,8 @@ public with sharing class RegistrationFormCtrlTest {
         'access Req',
         '/study/s/',
         '1234567890',
-        'Australia (+61)'
+        'Australia (+61)',
+         null
       );
       System.assert(page == null, 'Page must not be null');
     }
@@ -90,7 +91,8 @@ public with sharing class RegistrationFormCtrlTest {
         'access Req',
         '/study/s/',
         '1234567890',
-        'Australia (+61)'
+        'Australia (+61)',
+        null
       );
       System.assert(page == null, 'Page must not be null');
     }
@@ -140,7 +142,8 @@ public with sharing class RegistrationFormCtrlTest {
         'access Req',
         '/study/s/',
         '1234567890',
-        'Australia (+61)'
+        'Australia (+61)',
+        null
       );
       System.assert(page == null, 'Page must not be null');
     }
@@ -206,34 +209,34 @@ public with sharing class RegistrationFormCtrlTest {
   }
 
 
-  // @isTest
-  // static void isEmailExistTest() {
-  //   final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
-  //   Test.startTest();
-  //   System.runAs(PORTAL_SYS_ADMIN) {
-  //     Profile p = [SELECT Id FROM Profile WHERE Name = 'OPE Catalogue'];
-  //     Contact c = new Contact(LastName = 'Testing');
-  //     insert c;
-  //     User u = new User(
-  //       Alias = 'standt',
-  //       Email = 'testUser1234@test.com',
-  //       EmailEncodingKey = 'UTF-8',
-  //       lastName = 'Testing',
-  //       LanguageLocaleKey = 'en_US',
-  //       LocaleSidKey = 'en_US',
-  //       ProfileId = p.Id,
-  //       ContactId = c.Id,
-  //       Username = 'testUser1234@test.com.org',
-  //       TimeZoneSidKey = 'Australia/Brisbane'
-  //     );
-  //     insert u;
-  //     List<User> isExist = RegistrationFormCtrl.isEmailExist(
-  //       'testUser1234@test.com'
-  //     );
-  //     System.assert(isExist.size() > 0, 'Email is match');
-  //   }
-  //   Test.stopTest();
-  // }
+  @isTest
+  static void isEmailExistTest() {
+    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    Test.startTest();
+    System.runAs(PORTAL_SYS_ADMIN) {
+      Profile p = [SELECT Id FROM Profile WHERE Name = 'OPE Catalogue'];
+      Contact c = new Contact(LastName = 'Testing');
+      insert c;
+      User u = new User(
+        Alias = 'standt',
+        Email = 'testUser1234@test.com',
+        EmailEncodingKey = 'UTF-8',
+        lastName = 'Testing',
+        LanguageLocaleKey = 'en_US',
+        LocaleSidKey = 'en_US',
+        ProfileId = p.Id,
+        ContactId = c.Id,
+        Username = 'testUser1234@test.com.org',
+        TimeZoneSidKey = 'Australia/Brisbane'
+      );
+      insert u;
+      List<User> isExist = RegistrationFormCtrl.isEmailExist(
+        'testUser1234@test.com'
+      );
+      System.assert(isExist.size() > 0, 'Email is match');
+    }
+    Test.stopTest();
+  }
 
   @isTest
   static void getCommunityUrlTest() {
