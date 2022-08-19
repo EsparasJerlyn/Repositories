@@ -20,13 +20,15 @@
         </div>
         <div>
           <!--SSO Links-->
-          <div
+          <!--          <div
             class="slds-text-align_center slds-m-vertical_medium slds-m-horizontal_small slds-p-horizontal_small"
           >
             <a href={experienceSSOUrl} class="sso-text colored"
               >{label.qutSSOText}</a
             >
           </div>
+          -->
+
             <!-- Login -->
             <div
               class="slds-text-align_center slds-m-vertical_medium slds-m-horizontal_small slds-p-horizontal_small"
@@ -57,6 +59,16 @@
               ><span style="font-style: italic">{label.requiredField}</span>
             </div>
             <div class="slds-grid slds-grid_vertical pb2">
+              <div if:true={noRecordforEmail}>
+                <div class="bodyRegular reg-error-style">
+                  The following details do not match QUT records for the specified email address: 
+                  <ul class="error-list">
+                      <template for:each={fieldsMismatch} for:item="field">
+                        <li key={field}>{field}</li>
+                      </template>
+                  </ul>
+                </div>
+              </div>
               <!--First Name and Last Name-->
               <div class="slds-grid slds-gutters slds-wrap slds-m-top_large">
                 <div
@@ -190,7 +202,7 @@
               </div>
               <!--Birthdate-->
               <span class="label-text slds-m-top_medium"
-                >What is your date of Birth?</span
+                >What is your Date of Birth?</span
               ><br />
               <div class="slds-grid slds-wrap slds-gutters">
                 <!--Date-->
@@ -390,8 +402,11 @@
               </div>
               <div if:true={isEmail}>
                 <p class="bodyRegular">
-                  You have been sent a verification code to {email}. Please
+                  You have been sent a verification code to your nominated address. Please
                   enter now.
+                </p>
+                <p class="bodyRegular">
+                  Email address: {email}
                 </p>
               </div>
             </div>
@@ -481,4 +496,82 @@
       </div>
     </div>
   </template>
-</template>
+      <!--EMAIL VALIDATION -->
+      <template if:true={displayEmailValidation}>
+        <div id="regModal4" class="modal">
+          <div class="modal-content modal-content-height95 text px1 pt2">
+            <div
+              class="slds-m-top_small slds-m-right_large slds-p-right_large slds-clearfix"
+            >
+              <!--X button -->
+              <span class="slds-float_right cursor" onclick={closeModal}
+                ><img src={xButton}
+              /></span>
+            </div>
+            <div class="slds-grid slds-wrap slds-m-around_medium">
+              <lightning-spinner
+                if:true={loading}
+                class="slds-align_absolute-center slds-m-around_large"
+                alternative-text="Processing..."
+                size="large"
+                variant="brand"
+              ></lightning-spinner>
+              <template if:false={loading}>
+                <div class="slds-size_2-of-2 slds-text-align_center pb2">
+                  <!--Static Contents-->
+                  <p class="heading">Tell Me More About You</p>
+                  <div class="bodyRegular reg-line-style">
+                      Please enter an alternate email address that you’ve used with us before to help us find you.
+                      <ul class="line-list">
+                        <li>Personal Email</li>
+                        <li>Work Email</li>
+                        <li>QUT Learner Email</li>
+                        <li>QUT Staff Email</li>
+                      </ul>
+                  </div>
+                </div>
+                <div class="slds-size_2-of-2 slds-text-align_center pb2">
+                  <lightning-input
+                    type="text"
+                    name="verifyEmails"
+                    placeholder="Enter Email Here..."
+                    onchange={handleOtherEmail}
+                  >
+                  </lightning-input>
+                  <div class="bodyRegular reg-error-style-email" if:true={otherEmailError}>
+                    <p>
+                      The email that you have provided does not match out records. 
+                      Please check the spelling and try again.
+                      If you are still unable to log in, please contact QUTeX on {label.contactDetail}.
+                    </p>
+                  </div>
+                </div>
+                <!--Modal Footer Buttons-->
+                <div
+                class="modal-footer slds-grid slds-gutters center slds-m-horizontal_x-small pb3 mx-auto"
+              >
+                <div class="slds-col slds-size_1-of-2">
+                  <button
+                    class="slds-button slds-button_outline-brand slds-float_right btnCancel"
+                    onclick={closeModal}
+                    disabled={isLoginPage}
+                  >
+                    Cancel
+                  </button>
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                  <button
+                    type="submit"
+                    class="slds-button slds-button_brand footer-button btnContinue"
+                    onclick={handleOtherExistEmail}
+                  >
+                    Continue
+                  </button>
+                </div>
+              </div>
+              </template>
+            </div>
+         </div>
+        </div>
+      </template>
+  </template>

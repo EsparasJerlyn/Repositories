@@ -233,3 +233,46 @@ input[type="number"] {
 .textLeft {
   text-align: left;
 }
+/*add error message*/
+.reg-error-style-email{
+  color: red !important; 
+  padding: 1rem;
+  text-align: left;
+}
+/* end */
+/*add error message*/
+.reg-error-style{
+  color: red !important; 
+  border: 2px solid red;
+  padding: 1rem;
+  text-align: left;
+}
+
+.reg-error-style ul.error-list{
+    margin-left: 2rem;
+    margin-top: 1.5rem;
+}
+
+.reg-error-style ul.error-list li{
+   list-style: outside;
+}
+    
+/*end*/
+
+/*add line message*/
+.reg-line-style{
+  /* color: red !important; 
+  border: 2px solid red;*/
+  padding: 1rem; 
+  text-align: left;
+}
+
+.reg-line-style ul.line-list{
+    margin-left: 2rem;
+    margin-top: 1.5rem;
+}
+
+.reg-line-style ul.line-list li{
+   list-style: outside;
+}
+/*end*/

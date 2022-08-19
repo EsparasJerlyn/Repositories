@@ -11,6 +11,8 @@
       | rhea.b.torres             | June 6, 2022          | DEPP-2861            | Added testSetup              |
       | keno.domienri.dico        | June 15, 2022         | DEPP-2758            | Added Accessibility Req field|
       | john.bo.a.pineda          | June 20, 2022         | DEPP-3191            | Added Logic for Login User   |
+      | julie.jane.alegre         | August 02, 2022       | DEPP-3568            | Added test method for update |
+      |                           |                       |                      | contact & check if user exist|
  */
 @isTest(SeeAllData=false)
 public with sharing class RegistrationFormCtrlTest {
@@ -50,7 +52,8 @@ public with sharing class RegistrationFormCtrlTest {
         'access Req',
         '/study/s/',
         '1234567890',
-        'Australia (+61)'
+        'Australia (+61)',
+         null
       );
       System.assert(page == null, 'Page must not be null');
     }
@@ -77,8 +80,8 @@ public with sharing class RegistrationFormCtrlTest {
       insert testContact;
 
       String page = RegistrationFormCtrl.registerUser(
-        'Test',
-        'User',
+        'Test001',
+        'User001',
         emailTest,
         '611234567890',
         1,
@@ -88,7 +91,8 @@ public with sharing class RegistrationFormCtrlTest {
         'access Req',
         '/study/s/',
         '1234567890',
-        'Australia (+61)'
+        'Australia (+61)',
+        null
       );
       System.assert(page == null, 'Page must not be null');
     }
@@ -138,12 +142,72 @@ public with sharing class RegistrationFormCtrlTest {
         'access Req',
         '/study/s/',
         '1234567890',
-        'Australia (+61)'
+        'Australia (+61)',
+        null
       );
       System.assert(page == null, 'Page must not be null');
     }
     Test.stopTest();
   }
+
+  @isTest
+  static void isUserExistTest() {
+    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    Test.startTest();
+    System.runAs(PORTAL_SYS_ADMIN) {
+      Profile p = [SELECT Id FROM Profile WHERE Name = 'OPE Catalogue'];
+      Contact c = new Contact(LastName = 'Testing');
+      insert c;
+      User u = new User(
+        Alias = 'standt',
+        Email = 'testUser12345@test.com',
+        EmailEncodingKey = 'UTF-8',
+        lastName = 'Testing',
+        LanguageLocaleKey = 'en_US',
+        LocaleSidKey = 'en_US',
+        ProfileId = p.Id,
+        ContactId = c.Id,
+        Username = 'testUser1234@test.com.org',
+        TimeZoneSidKey = 'Australia/Brisbane'
+      );
+      insert u;
+      List<User> isExist = RegistrationFormCtrl.isUserExist(
+        c.Id
+      );
+      System.assert(isExist.size() > 0, 'The user exist');
+    }
+    Test.stopTest();
+  }
+
+  @isTest
+  static void updateContactTest() {
+    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    Test.startTest();
+    System.runAs(PORTAL_SYS_ADMIN) {
+      Contact c = new Contact(
+                              LastName = 'Testing01', 
+                              FirstName ='Testing01',
+                              Email = 'test12345@sample.com',
+                              MobilePhone = '1234567890',
+                              RecordTypeId = PERSON
+                              );
+      insert c;
+
+      RegistrationFormCtrl.updateContact(
+                                          c.Id, 
+                                          'test12345@sample.com', 
+                                          '0987654321', 
+                                          '+630987654321', 
+                                          'Australia (+61)', 
+                                          'testing', 
+                                          'testing');
+      String contact = c.Accessibility_Requirement__c;
+
+      System.assert(contact == null, 'The contact details is updated');
+    }
+    Test.stopTest();
+  }
+
 
   @isTest
   static void isEmailExistTest() {

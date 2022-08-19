@@ -712,7 +712,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>tab</name>
-                    <value>{!$Label.PL_ProductRequest_Release}</value>
+                    <value>{!$Label.PL_ProductRequest_Release},{!$Label.PL_ProductRequest_Published}</value>
                 </componentInstanceProperties>
                 <componentName>customLayoutHandler</componentName>
                 <identifier>customLayoutHandler5</identifier>
@@ -1354,7 +1354,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>tab</name>
-                    <value>{!$Label.PL_ProductRequest_Release}</value>
+                    <value>{!$Label.PL_ProductRequest_Release},{!$Label.PL_ProductRequest_Published}</value>
                 </componentInstanceProperties>
                 <componentName>customLayoutHandler</componentName>
                 <identifier>customLayoutHandler11</identifier>
