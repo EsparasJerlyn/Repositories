@@ -406,6 +406,7 @@ export default class RegistrationForm extends LightningElement {
                               this.displayForm = false;
                               this.displayVerification = true;
                               this.displayResendVerification = false;
+                              this.isEmail = true;
                               this.sendEmailOTP();
                           }
                       })
@@ -685,6 +686,7 @@ export default class RegistrationForm extends LightningElement {
                       this.displayForm = false;
                       this.displayVerification = true;
                       this.displayResendVerification = false;
+                      this.isEmail = true;
                       this.sendEmailOTP();
 
                     }
