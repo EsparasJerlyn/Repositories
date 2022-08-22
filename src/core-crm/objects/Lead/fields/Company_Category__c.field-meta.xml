@@ -61,6 +61,12 @@
                 <default>false</default>
                 <label>University</label>
             </value>
+            <value>
+                <fullName>Test Value 1</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Test Value 1</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

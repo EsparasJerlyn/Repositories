@@ -34,7 +34,6 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <!-- Renamed from Collaboation_External__c-->
         <picklist>Collaboration_with_External_Organisation__c</picklist>
         <values>
             <fullName>No</fullName>
@@ -42,6 +41,33 @@
         </values>
         <values>
             <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Delivery_Support__c</picklist>
+        <values>
+            <fullName>Catering</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Handouts Printed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Name Badges</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Others</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Prework communications</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Workbook Printed</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -83,11 +109,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Virtual Classroom</fullName>
+            <fullName>Online</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Online</fullName> <!-- Added Value-->
+            <fullName>Virtual Classroom</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -99,6 +125,21 @@
         </values>
         <values>
             <fullName>Design Form Sent</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>LMS_Integration_Status__c</picklist>
+        <values>
+            <fullName>Fail</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sent</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Success</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -167,6 +208,21 @@
         </values>
         <values>
             <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Provider__c</picklist>
+        <values>
+            <fullName>QUT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>QUT and Third Party</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Third Party</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -251,140 +307,6 @@
         </values>
         <values>
             <fullName>Unit</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>hed__Academic_Level__c</picklist>
-        <values>
-            <fullName>Adult Education</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Doctoral</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Elementary</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Graduate</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>High School</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Middle School</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Post-Baccalaureate Certificate</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Pre-K%2FPreschool</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Professional Education</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Undergraduate</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>hed__Subject__c</picklist>
-        <values>
-            <fullName>Agriculture</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Architecture</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Biology</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Business%2C Management%2C and Marketing</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Communication</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Computer and Information Sciences</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Education</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Engineering</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>English Language and Literature%2FLetters</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Family and Consumer Sciences</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Foreign Languages</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>General Studies and Humanities</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Health Professions</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>History</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Legal Professions and Studies</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Mathematics and Statistics</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Natural Resources and Conservation</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Philosophy and Religious Studies</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Physical Sciences</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Psychology</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Social Sciences</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Visual and Performing Arts</fullName>
             <default>false</default>
         </values>
     </picklistValues>

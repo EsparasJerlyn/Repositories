@@ -159,7 +159,7 @@
         <type>Text</type>
     </nameField>
     <pluralLabel>Product Request Contact Roles</pluralLabel>
-    <searchLayouts/>
+    <searchLayouts></searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>

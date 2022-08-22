@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CCE_Product_Design_Product_Specification</fullName>
+    <filterScope>Queue</filterScope>
+    <label>CCE Product Design</label>
+    <queue>CCE_Product_Design</queue>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
+</ListView>

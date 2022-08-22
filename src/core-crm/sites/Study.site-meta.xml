@@ -21,6 +21,7 @@
     <masterLabel>Study</masterLabel>
     <redirectToCustomDomain>false</redirectToCustomDomain>
     <referrerPolicyOriginWhenCrossOrigin>true</referrerPolicyOriginWhenCrossOrigin>
+    <serverIsDown>SNA_Study1_sf_edge_0CXJ0</serverIsDown>
     <siteAdmin>sysadmin.integration@qut.edu.au.dep</siteAdmin>
     <siteGuestRecordDefaultOwner>sysadmin.integration@qut.edu.au.dep</siteGuestRecordDefaultOwner>
     <siteType>ChatterNetwork</siteType>

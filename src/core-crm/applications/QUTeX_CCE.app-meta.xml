@@ -40,78 +40,6 @@
     <navType>Console</navType>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>CCE_Product_Request_Lightning_Page_Layout</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Product_Request__c</pageOrSobjectType>
-        <recordType>Product_Request__c.Individual_Coaching</recordType>
-        <type>Flexipage</type>
-        <profile>QUTeX</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>CCE_Product_Request_Lightning_Page_Layout</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Product_Request__c</pageOrSobjectType>
-        <recordType>Product_Request__c.Individual_Coaching</recordType>
-        <type>Flexipage</type>
-        <profile>QUTeX</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>CCE_Product_Request_Lightning_Page_Layout</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Product_Request__c</pageOrSobjectType>
-        <recordType>Product_Request__c.Individual_Coaching</recordType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>CCE_Product_Request_Lightning_Page_Layout</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Product_Request__c</pageOrSobjectType>
-        <recordType>Product_Request__c.Individual_Coaching</recordType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Opportunity_Record_Page_QUTex_CCE</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Opportunity</pageOrSobjectType>
-        <recordType>Opportunity.QUTex_CCE</recordType>
-        <type>Flexipage</type>
-        <profile>QUTeX</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Opportunity_Record_Page_QUTex_CCE</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Opportunity</pageOrSobjectType>
-        <recordType>Opportunity.QUTex_CCE</recordType>
-        <type>Flexipage</type>
-        <profile>QUTeX</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>CCE_Product_Request_Lightning_Page_Layout</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Product_Request__c</pageOrSobjectType>
-        <recordType>Product_Request__c.Program</recordType>
-        <type>Flexipage</type>
-        <profile>QUTeX</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>CCE_Product_Request_Lightning_Page_Layout</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Product_Request__c</pageOrSobjectType>
-        <recordType>Product_Request__c.Program</recordType>
-        <type>Flexipage</type>
-        <profile>QUTeX</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
         <content>Product_Request_Lightning_Page_Layout</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Product_Request__c</pageOrSobjectType>
@@ -163,6 +91,51 @@
         <recordType>Product_Request__c.Educational_Consultancy_Request</recordType>
         <type>Flexipage</type>
         <profile>QUTeX</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CCE_Product_Request_Lightning_Page_Layout</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Product_Request__c</pageOrSobjectType>
+        <recordType>Product_Request__c.Module</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CCE_Product_Request_Lightning_Page_Layout</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Product_Request__c</pageOrSobjectType>
+        <recordType>Product_Request__c.Module</recordType>
+        <type>Flexipage</type>
+        <profile>QUTeX</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CCE_Product_Request_Lightning_Page_Layout</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Product_Request__c</pageOrSobjectType>
+        <recordType>Product_Request__c.Module</recordType>
+        <type>Flexipage</type>
+        <profile>QUTeX</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>OPE_Product_Specification_Lightning_Layout</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Product_Specification__c</pageOrSobjectType>
+        <recordType>Product_Specification__c.OPE</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>OPE_Product_Specification_Lightning_Layout</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Product_Specification__c</pageOrSobjectType>
+        <recordType>Product_Specification__c.OPE</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -446,18 +419,9 @@
     <profileActionOverrides>
         <actionName>View</actionName>
         <content>CCE_Product_Request_Lightning_Page_Layout</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Product_Request__c</pageOrSobjectType>
-        <recordType>Product_Request__c.Module</recordType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>CCE_Product_Request_Lightning_Page_Layout</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Product_Request__c</pageOrSobjectType>
-        <recordType>Product_Request__c.Module</recordType>
+        <recordType>Product_Request__c.Individual_Coaching</recordType>
         <type>Flexipage</type>
         <profile>QUTeX</profile>
     </profileActionOverrides>
@@ -466,27 +430,63 @@
         <content>CCE_Product_Request_Lightning_Page_Layout</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Product_Request__c</pageOrSobjectType>
-        <recordType>Product_Request__c.Module</recordType>
+        <recordType>Product_Request__c.Individual_Coaching</recordType>
         <type>Flexipage</type>
         <profile>QUTeX</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>OPE_Product_Specification_Lightning_Layout</content>
+        <content>CCE_Product_Request_Lightning_Page_Layout</content>
         <formFactor>Small</formFactor>
-        <pageOrSobjectType>Product_Specification__c</pageOrSobjectType>
-        <recordType>Product_Specification__c.OPE</recordType>
+        <pageOrSobjectType>Product_Request__c</pageOrSobjectType>
+        <recordType>Product_Request__c.Individual_Coaching</recordType>
         <type>Flexipage</type>
         <profile>Admin</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>OPE_Product_Specification_Lightning_Layout</content>
+        <content>CCE_Product_Request_Lightning_Page_Layout</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>Product_Specification__c</pageOrSobjectType>
-        <recordType>Product_Specification__c.OPE</recordType>
+        <pageOrSobjectType>Product_Request__c</pageOrSobjectType>
+        <recordType>Product_Request__c.Individual_Coaching</recordType>
         <type>Flexipage</type>
         <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Opportunity_Record_Page_QUTex_CCE</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Opportunity</pageOrSobjectType>
+        <recordType>Opportunity.QUTex_CCE</recordType>
+        <type>Flexipage</type>
+        <profile>QUTeX</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Opportunity_Record_Page_QUTex_CCE</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Opportunity</pageOrSobjectType>
+        <recordType>Opportunity.QUTex_CCE</recordType>
+        <type>Flexipage</type>
+        <profile>QUTeX</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CCE_Product_Request_Lightning_Page_Layout</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Product_Request__c</pageOrSobjectType>
+        <recordType>Product_Request__c.Program</recordType>
+        <type>Flexipage</type>
+        <profile>QUTeX</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CCE_Product_Request_Lightning_Page_Layout</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Product_Request__c</pageOrSobjectType>
+        <recordType>Product_Request__c.Program</recordType>
+        <type>Flexipage</type>
+        <profile>QUTeX</profile>
     </profileActionOverrides>
     <tabs>standard-home</tabs>
     <tabs>standard-Lead</tabs>
