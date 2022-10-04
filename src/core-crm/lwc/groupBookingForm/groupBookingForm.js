@@ -16,33 +16,22 @@
 */
 import { LightningElement, track, wire, api } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import { updateRecord } from 'lightning/uiRecordApi';
 import userId from "@salesforce/user/Id";
 import getQuestionsForGroupBooking from "@salesforce/apex/ProductDetailsCtrl.getQuestionsForGroupBooking";
 import { getRecord, getFieldValue } from "lightning/uiRecordApi";
 import getCartItemsByCart from "@salesforce/apex/CartItemCtrl.getCartItemsByCart";
-import ACCOUNT_ID from '@salesforce/schema/Contact.AccountId';
-import insertContactData from '@salesforce/apex/ProductDetailsCtrl.saveContactData';
-import getContactAccountId from '@salesforce/apex/ProductDetailsCtrl.getContactAccountId';
-import getUserContactDetails from '@salesforce/apex/ProductDetailsCtrl.getUserContactDetails';
 import getUserCartDetails from '@salesforce/apex/ProductDetailsCtrl.getUserCartDetails';
 import saveBooking from '@salesforce/apex/GroupBookingFormCtrl.saveBooking';
 import addCartItems from '@salesforce/apex/GroupBookingFormCtrl.addCartItems';
 import removeCartItems from '@salesforce/apex/GroupBookingFormCtrl.removeCartItems';
-import getPricebookEntryPrice from '@salesforce/apex/ProductDetailsCtrl.getPricebookEntryPrice';
 import LWC_Error_General from "@salesforce/label/c.LWC_Error_General";
-import communityId from "@salesforce/community/Id";
 import { loadStyle } from "lightning/platformResourceLoader";
 import customSR from "@salesforce/resourceUrl/QUTInternalCSS";
 import getMobileLocaleOptions from "@salesforce/apex/RegistrationFormCtrl.getMobileLocaleOptions";
 import getUserMobileLocale from "@salesforce/apex/RegistrationFormCtrl.getUserMobileLocale";
 import qutResourceImg from "@salesforce/resourceUrl/QUTImages";
+import validateContactMatching from "@salesforce/apex/RegistrationMatchingHelper.validateContactMatching";
 
-const SUCCESS_MSG = 'Record successfully updated.';
-const SUCCESS_TITLE = 'Success!';
-const ERROR_TITLE = 'Error!';
-const SUCCESS_VARIANT = 'success';
-const ERROR_VARIANT = 'error';
 //Contact fields
 const CONTACT_FIELDS = [
     "User.ContactId",
@@ -111,8 +100,6 @@ export default class GroupBookingForm extends LightningElement {
     @track contactMobileLocale;
     @track amount;
     @track xString;
-    cartItems;
-    processing;
     @track questionsPrimary;
 
     localeOptions = [];
@@ -124,12 +111,21 @@ export default class GroupBookingForm extends LightningElement {
     @track locale;
     @track localep1;
     hideMe = true;
+
+    fieldsPrimary = {};
+    contactMap = {};
+    answerMap = {};
+    fileUploadMap = {};
+    emailToParticipantMap = {};
+    cartItems;
+    processing;
     /**
      * Payment Options
      */
     paymentOpt = [];
     @api hasPayNow;
     @api hasInvoice;
+    cartItemsPbeUpdate;
 
     // Set Accepted File Formats
     get acceptedFormats() {
@@ -229,7 +225,7 @@ export default class GroupBookingForm extends LightningElement {
 
         })
         .catch((e) => {
-            this.generateToast("Error.", LWC_Error_General, "error");
+            this.generateToast("Error.", LWC_Error_General, "warning", 'dismissable');
         });
 
         getUserCartDetails({
@@ -241,7 +237,7 @@ export default class GroupBookingForm extends LightningElement {
                 this.cartId = results.Id;
             })
             .catch((e) => {
-              this.generateToast("Error.", LWC_Error_General, "error");
+              this.generateToast("Error.", LWC_Error_General, "warning", 'dismissable');
         });
 
         // Get Locale Options
@@ -253,7 +249,7 @@ export default class GroupBookingForm extends LightningElement {
             this.localep1 = this.localeConMobile;
         })
         .catch((error) => {
-            this.generateToast("Error.", LWC_Error_General, "error");
+            this.generateToast("Error.", LWC_Error_General, "warning",'dismissable');
         });
 
     }
@@ -317,7 +313,10 @@ export default class GroupBookingForm extends LightningElement {
                 Dietary_Requirement__c: '',
                 Accessibility_Requirement__c: '',
                 label: 'PARTICIPANT ' + this.currentIndex,
-                Questions: this.questions2
+                Questions: this.questions2,
+                hasError: false,
+                errorMessage:'',
+                fieldsMismatch:[]
             }
             ];
         this.info = JSON.stringify(this.items);
@@ -436,7 +435,7 @@ export default class GroupBookingForm extends LightningElement {
     }
 
 
-   submitDetails(event) {
+ submitDetails() {
     const allValid = [
         ...this.template.querySelectorAll('lightning-input'),
     ].reduce((validSoFar, inputCmp) => {
@@ -444,166 +443,278 @@ export default class GroupBookingForm extends LightningElement {
         return validSoFar && inputCmp.checkValidity();
     }, true);
 
-    if (allValid) {
-
+    if (allValid && !this.checkForDuplicateEmails()) {
         if(this.numberOfParticipants == 1){
             this.processing = false;
-            const evt = new ShowToastEvent({
-                            title: 'Toast Error',
-                            message: 'Minimum participants for group booking is 2.',
-                            variant: 'error',
-                            mode: 'dismissable'
-                        });
-                        this.dispatchEvent(evt);
+            this.generateToast('Error.','Minimum participants for group booking is 2.','warning','dismissable');
         }
-        else{
+        else if(this.counter == this.numberOfParticipants){
+            this.validateContact(this.setupContactDetailsData());
+        }else{
+            this.processing = false;
+            this.generateToast(
+                'Error.',
+                'Please fill up all added participants before proceed.',
+                'warning',
+                'dismissable'
+            );
+        }
+    }
+}
 
-            if(this.counter == this.numberOfParticipants){
+processSaving(){
+    removeCartItems({
+        userId:userId
+    })
+    .then(()=>{
+        this.dispatchEvent(
+            new CustomEvent("cartchanged", {
+                bubbles: true,
+                composed: true
+            })
+        );
+        return saveBooking({
+            participants:this.contactMap,
+            offeringId:this.selectedOffering,
+            relatedAnswer:this.responseData2,
+            answerMap:this.answerMap,
+            fileUpload:this.fileUploadMap,
+            isPrescribed: this.isPrescribed
+        })
+    })
+    .then((result)=>{
+        return addCartItems({
+            productId:this.productId,
+            productName:this.productCourseName,
+            isPrescribed:this.isPrescribed,
+            offeringId:this.selectedOffering,
+            pricebookEntryId:this.priceBookEntry,
+            pricebookUnitPrice:this.amount,
+            userId:this.userId,
+            contacts:result,
+            cartId:this.cartId,
+        })
+    })
+    .then(()=>{
+        this.isOpenPayment = true;
+        this.dispatchEvent(
+            new CustomEvent("cartchanged", {
+                bubbles: true,
+                composed: true
+            })
+        );
 
-                let fieldsPrimary = {};
-                let contactMap = {};
-                let answerMap = {};
-                let fileUploadMap = {};
+        return getCartItemsByCart({
+        cartId:this.cartId,
+        userId:userId
+        })
+    })
+    .then((result)=>{
+        this.cartItems = JSON.parse(JSON.stringify(result.cartItemsList));
+        this.processing = false;
 
-                fieldsPrimary.Id = this.contactId;
-                fieldsPrimary["ContactMobile_Locale__c"] = this.localeConMobilep1;
-                const inputFields = this.template.querySelectorAll(
-                    'lightning-input-field','lightning-combobox'
-                );
+        //checks payment options after remove
+        this.paymentOptionButtons();
+    })
+    .catch((error)=>{
+        this.processing = false;
+        this.generateToast("Error.", LWC_Error_General, "warning", 'dismissable');
+        console.log(error);
 
-                if (inputFields) {
-                    inputFields.forEach(field => {
-                        fieldsPrimary[field.fieldName] = field.value;
-                    });
-                    fieldsPrimary['MobilePhone'] = this.localeOptions.find( opt => opt.label === this.localeConMobilep1).countryCode + fieldsPrimary['Mobile_No_Locale__c'];
+    })
+}
+
+checkForDuplicateEmails(){
+    let emailArray = [];
+    let hasDuplicate = false;
+
+    emailArray.push(this.contactEmail);
+    this.items.map(item =>{
+        emailArray.push(item.Email);
+    });
+
+    this.items = this.items.map(item => {
+        let record = item;
+        if( emailArray.filter(obj => obj === record.Email) && 
+            emailArray.filter(obj => obj === record.Email).length > 1){
+            record.hasError = true;
+            record.errorMessage = 'Duplicate emails found. Please review details provided.';
+            hasDuplicate = true;
+        }else{
+            record.hasError = false;
+            record.errorMessage = '';
+        }
+        return record;
+    });
+
+    if(hasDuplicate){
+        this.generateToast(
+            'Error.',
+            'Error(s) found: Please review details provided.',
+            'warning',
+            'dismissable'
+        );
+    }
+
+    return hasDuplicate;
+   
+}
+
+setupContactDetailsData(){
+
+    this.fieldsPrimary.Id = this.contactId;
+    this.fieldsPrimary["ContactMobile_Locale__c"] = this.localeConMobilep1;
+
+    
+    const inputFields = this.template.querySelectorAll(
+        'lightning-input-field','lightning-combobox'
+    );
+
+    if (inputFields) {
+        inputFields.forEach(field => {
+            this.fieldsPrimary[field.fieldName] = field.value;
+        });
+        this.fieldsPrimary['MobilePhone'] = this.localeOptions.find( opt => opt.label === this.localeConMobilep1).countryCode + this.fieldsPrimary['Mobile_No_Locale__c'];
+    }
+
+    this.contactFieldsPrimary = this.fieldsPrimary;
+    this.amount = this.productDetails.PricebookEntries.find(row => row.Id === this.priceBookEntry).UnitPrice,
+    this.total = this.amount * this.numberOfParticipants;
+    this.contactMap['PARTICIPANT 1'] = this.fieldsPrimary;
+    this.answerMap['PARTICIPANT 1'] = this.createAnswerRecordPrimary();
+    this.fileUploadMap['PARTICIPANT 1'] = JSON.stringify(this.createFileUploadMap());
+
+    this.processing = true;
+    let blankRow = this.items;
+    let additionalContacts = [];
+
+    for(let i = 0; i < blankRow.length; i++){
+        if(blankRow[i] !== undefined){
+            let conData = new Object();
+            conData.Id = null;
+            conData.FirstName = blankRow[i].FirstName;
+            conData.LastName = blankRow[i].LastName;
+            conData.Email = blankRow[i].Email;
+            conData.Registered_Email__c = blankRow[i].Email;
+            conData.Birthdate = blankRow[i].Birthdate;
+            conData.ContactMobile_Locale__c = this.localeOptions.find( opt => opt.label === blankRow[i].ContactMobile_Locale__c).conMobileLocale;
+            conData.Mobile_No_Locale__c = blankRow[i].Mobile_No_Locale__c;
+            conData.MobilePhone = this.localeOptions.find( opt => opt.label === blankRow[i].ContactMobile_Locale__c).countryCode + blankRow[i].Mobile_No_Locale__c;
+            conData.Dietary_Requirement__c = blankRow[i].Dietary_Requirement__c;
+            conData.Accessibility_Requirement__c = blankRow[i].Accessibility_Requirement__c;
+            this.emailToParticipantMap[blankRow[i].Email] = blankRow[i].label;
+            this.contactMap[blankRow[i].label] = conData;
+            additionalContacts.push(conData);
+            let answerRecords = {};
+            answerRecords = blankRow[i].Questions.map(row=>{
+                let record = {};
+                record.Related_Answer__c = row.Id;
+                record.Response__c = row.Answer;
+                record.Sequence__c = row.Sequence;
+                return record;
+            });
+            this.answerMap[blankRow[i].label] = answerRecords;
+
+            let fileUpload = [];
+            fileUpload = blankRow[i].Questions.map(item =>{
+                if(item.IsFileUpload){
+                    let record = {};
+                    record.RelatedAnswerId = item.Id;
+                    record.Base64 = item.FileData.base64;
+                    record.FileName = item.FileData.filename;
+                    return record;
                 }
+            });
+            this.fileUploadMap[blankRow[i].label] = JSON.stringify(fileUpload.filter(key => key !== undefined)?fileUpload.filter(key => key !== undefined):fileUpload);
+        }
+    }
+    return additionalContacts;
+}
 
-                this.contactFieldsPrimary = fieldsPrimary;
-                this.amount = this.productDetails.PricebookEntries.find(row => row.Id === this.priceBookEntry).UnitPrice,
-                this.total = this.amount * this.numberOfParticipants;
-                contactMap['PARTICIPANT 1'] = fieldsPrimary;
-                answerMap['PARTICIPANT 1'] = this.createAnswerRecordPrimary();
-                fileUploadMap['PARTICIPANT 1'] = JSON.stringify(this.createFileUploadMap());
+validateContact(additionalContacts){
+    
+    validateContactMatching({newContactList:JSON.stringify(additionalContacts)})
+    .then((result)=>{
 
-                this.processing = true;
-                    let blankRow = this.items;
-                    for(let i = 0; i < blankRow.length; i++){
-                        if(blankRow[i] !== undefined){
-                            let conData = new Object();
-                            conData.FirstName = blankRow[i].FirstName;
-                            conData.LastName = blankRow[i].LastName;
-                            conData.Email = blankRow[i].Email;
-                            conData.Registered_Email__c = blankRow[i].Email;
-                            conData.Birthdate = blankRow[i].Birthdate;
-                            conData.ContactMobile_Locale__c = this.localeOptions.find( opt => opt.label === blankRow[i].ContactMobile_Locale__c).conMobileLocale;
-                            conData.Mobile_No_Locale__c = blankRow[i].Mobile_No_Locale__c;
-                            conData.MobilePhone = this.localeOptions.find( opt => opt.label === blankRow[i].ContactMobile_Locale__c).countryCode + blankRow[i].Mobile_No_Locale__c;
-                            conData.Dietary_Requirement__c = blankRow[i].Dietary_Requirement__c;
-                            conData.Accessibility_Requirement__c = blankRow[i].Accessibility_Requirement__c;
-                            contactMap[blankRow[i].label] = conData;
-                            let answerRecords = {};
-                            answerRecords = blankRow[i].Questions.map(row=>{
-                                let record = {};
-                                record.Related_Answer__c = row.Id;
-                                record.Response__c = row.Answer;
-                                record.Sequence__c = row.Sequence;
-                                return record;
-                            });
-                            answerMap[blankRow[i].label] = answerRecords;
+        let hasMatchingError = false;
+        let validationResult = result;
 
-                            let fileUpload = [];
-                            fileUpload = blankRow[i].Questions.map(item =>{
-                                if(item.IsFileUpload){
-                                    let record = {};
-                                    record.RelatedAnswerId = item.Id;
-                                    record.Base64 = item.FileData.base64;
-                                    record.FileName = item.FileData.filename;
-                                    return record;
-                                }
-                            });
-                            fileUploadMap[blankRow[i].label] = JSON.stringify(fileUpload.filter(key => key !== undefined)?fileUpload.filter(key => key !== undefined):fileUpload);
+        validationResult.map(row => {
+            if( row.isPartialMatch == false && 
+                row.isEmailMatch == false){ //email and contact details did not match
+                        this.items = this.items.map(item => {
+                            let record = item;
+                            if(record.Email === row.email ){
+                                record.hasError = false;
+                                record.errorMessage = '';
+                                record.fieldsMismatch = [];
+                            }
+                            return record;
+                        });
+            }else if(   row.isPartialMatch == false && 
+                        row.isEmailMatch == true){ //email and contact details matched
+                        this.contactMap[this.emailToParticipantMap[row.email]].Id = row.contactRecord.Id;
 
-                        }
-                    }
-                    removeCartItems({
-                        userId:userId
-                    })
-                    .then(()=>{
-                        this.dispatchEvent(
-                            new CustomEvent("cartchanged", {
-                              bubbles: true,
-                              composed: true
-                            })
-                        );
-                        saveBooking({
-                            participants:contactMap,
-                            offeringId:this.selectedOffering,
-                            relatedAnswer:this.responseData2,
-                            answerMap:answerMap,
-                            fileUpload:fileUploadMap,
-                            isPrescribed: this.isPrescribed
-                        }).then((result)=>{
-                            addCartItems({
-                                productId:this.productId,
-                                productName:this.productCourseName,
-                                isPrescribed:this.isPrescribed,
-                                offeringId:this.selectedOffering,
-                                pricebookEntryId:this.priceBookEntry,
-                                pricebookUnitPrice:this.amount,
-                                userId:this.userId,
-                                contacts:result,
-                                cartId:this.cartId,
-                            })
-                            .then(() => {
-
-                                this.isOpenPayment = true;
-                                this.dispatchEvent(
-                                    new CustomEvent("cartchanged", {
-                                      bubbles: true,
-                                      composed: true
-                                    })
-                                  );
-
-                                  getCartItemsByCart({
-                                    cartId:this.cartId,
-                                    userId:userId
-                                  })
-                                  .then((result) => {
-                                    this.cartItems = JSON.parse(JSON.stringify(result.cartItemsList));
-                                    this.processing = false;
-
-                                    //checks payment options after remove
-                                    this.paymentOptionButtons();
-                                  })
-                            })
-                        }).catch((error)=>{
-                            this.processing = false;
-                            console.log('Save booking Error:', error);
-
-                        })
-                    })
-                    .catch((e) =>{
+                        this.items = this.items.map(item => {
+                            let record = item;
+                            if(record.Email === row.email ){
+                                record.hasError = false;
+                                record.errorMessage = '';
+                                record.fieldsMismatch = [];
+                            }
+                            return record;
+                        });
+            }else if(   row.isPartialMatch == true &&
+                        row.isEmailMatch == false){ //email did not match and contact details matched
+                        this.items = this.items.map(item => {
+                            let record = item;
+                            if(record.Email === row.email ){
+                                record.hasError = true;
+                                record.errorMessage = 'The email address doesn’t match the contact details provided. Please contact QUTeX.';
+                                record.fieldsMismatch = [];
+                            }
+                            return record;
+                        });
                         this.processing = false;
-                        console.log('Remove Error:', e);
-                    })
-            }
-            else{
+                        hasMatchingError = true;
+            }else if(   row.isPartialMatch == true && 
+                        row.isEmailMatch == true){ //email match and contact details did not match   
+                        this.items = this.items.map(item => {
+                            let record = item;
+                            if(record.Email === row.email ){
+                                record.hasError = true;
+                                record.errorMessage = 'Your personal details do not match with the email provided. Please check your details or contact QUTeX.';
+                                record.fieldsMismatch = row.fieldsMismatch;
+                            }
+                            return record;
+                        });
+                        this.processing = false;    
+                        hasMatchingError = true;                   
+            } 
+        }) 
 
-                this.processing = false;
-                const evt = new ShowToastEvent({
-                                title: 'Toast Error',
-                                message: 'Please fill up all added participants before proceed',
-                                variant: 'error',
-                                mode: 'dismissable'
-                            });
-                            this.dispatchEvent(evt);
-            }
-
+        if(hasMatchingError){
+            this.generateToast(
+                'Error.',
+                'Error(s) found: Please review details provided.',
+                'warning',
+                'dismissable'
+            );
         }
-
+        
+        return hasMatchingError;
+    })
+    .then((result) =>{
+        if(result === false){
+            this.processSaving();
         }
+    })
+    .catch((error)=>{
+       console.log(error);
+       this.generateToast("Error.", LWC_Error_General, "warning", 'dismissable');
+    })
 
-
+    return hasMatchingError;
 }
 
 paymentOptionButtons(){
@@ -657,11 +768,12 @@ createAnswerRecord(){
   }
 
   // Creates toast notification
-  generateToast(_title, _message, _variant) {
+  generateToast(_title, _message, _variant, _mode) {
     const evt = new ShowToastEvent({
       title: _title,
       message: _message,
-      variant: _variant
+      variant: _variant,
+      mode:_mode
     });
     this.dispatchEvent(evt);
   }
@@ -692,7 +804,7 @@ createAnswerRecord(){
                     } else {
                         row.Answer = '';
                         row.FileData = undefined;
-                        this.generateToast('Error.','Invalid File Format.','error');
+                        this.generateToast('Error.','Invalid File Format.','error','dismissable');
                     }
                 }else if(event.target.dataset.questionId === row.Id && row.IsMultiPicklist){  //picklist
                     row.Answer = event.detail.value?event.detail.value.toString().replace(/,/g, ';'):row.Answer;
@@ -742,7 +854,7 @@ createAnswerRecord(){
             } else {
                 row.Answer = '';
                 row.FileData = undefined;
-                this.generateToast('Error.','Invalid File Format.','error');
+                this.generateToast('Error.','Invalid File Format.','error','dismissable');
             }
         }else if(event.target.name === row.Id && row.IsMultiPicklist){
             row.Answer = event.detail.value?event.detail.value.toString().replace(/,/g, ';'):row.Answer;

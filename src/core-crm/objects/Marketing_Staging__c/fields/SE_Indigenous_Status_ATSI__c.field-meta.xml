@@ -16,23 +16,52 @@ Indicates if the marketing person identifies as Aboriginal or Torres Strait Isla
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
+                <fullName>Aboriginal</fullName>
+                <default>false</default>
+                <label>Aboriginal</label>
+            </value>
+            <value>
+                <fullName>Torres Strait Islander</fullName>
+                <default>false</default>
+                <label>Torres Strait Islander</label>
+            </value>
+            <value>
+                <fullName>Aboriginal and Torres Strait Islander</fullName>
+                <default>false</default>
+                <label>Aboriginal and Torres Strait Islander</label>
+            </value>
+            <value>
+                <fullName>Non-Indigenous Australian</fullName>
+                <default>false</default>
+                <label>Non-Indigenous Australian</label>
+            </value>
+            <value>
+                <fullName>I prefer not to say</fullName>
+                <default>false</default>
+                <label>I prefer not to say</label>
+            </value>
+            <value>
                 <fullName>Non indigenous – neither Aboriginal nor Torres Strait Islander origin</fullName>
                 <default>false</default>
+                <isActive>false</isActive>
                 <label>Non indigenous – neither Aboriginal nor Torres Strait Islander origin</label>
             </value>
             <value>
                 <fullName>Of Torres Strait Islander origin but not Aboriginal</fullName>
                 <default>false</default>
+                <isActive>false</isActive>
                 <label>Of Torres Strait Islander origin but not Aboriginal</label>
             </value>
             <value>
                 <fullName>Both Aboriginal and Torres Strait Islander origin</fullName>
                 <default>false</default>
+                <isActive>false</isActive>
                 <label>Both Aboriginal and Torres Strait Islander origin</label>
             </value>
             <value>
                 <fullName>No information</fullName>
                 <default>false</default>
+                <isActive>false</isActive>
                 <label>No information</label>
             </value>
         </valueSetDefinition>

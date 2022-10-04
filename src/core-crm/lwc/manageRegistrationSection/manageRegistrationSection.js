@@ -138,7 +138,9 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
         if(result.data){
             this.records = result.data;
             this.contactList = result.data.map(item => {
-                return item.contactId;
+                if(item.registrationStatus !== 'Cancelled'){
+                    return item.contactId;
+                }
             });
             this.recordsTemp = result.data;
             if(this.records.length === 0){

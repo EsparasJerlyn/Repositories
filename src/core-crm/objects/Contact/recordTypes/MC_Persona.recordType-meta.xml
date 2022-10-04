@@ -8,19 +8,23 @@
     <picklistValues>
         <picklist>ATSI_Code__c</picklist>
         <values>
-            <fullName>Both Aboriginal and Torres Strait Islander origin</fullName>
+            <fullName>Aboriginal</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>No information</fullName>
+            <fullName>Aboriginal and Torres Strait Islander</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Non indigenous %E2%80%93 neither Aboriginal nor Torres Strait Islander origin</fullName>
+            <fullName>I prefer not to say</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Of Torres Strait Islander origin but not Aboriginal</fullName>
+            <fullName>Non-Indigenous Australian</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Torres Strait Islander</fullName>
             <default>false</default>
         </values>
     </picklistValues>

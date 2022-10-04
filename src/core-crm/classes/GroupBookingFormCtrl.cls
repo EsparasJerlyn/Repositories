@@ -49,18 +49,20 @@ public without sharing class GroupBookingFormCtrl {
     Set<String> emailSet = new Set<String>();
     Set<String> birthDateSet = new Set<String>();
     Set<String> lastNameSet = new Set<String>();
-    Map<String,Contact> finalParticipants = new Map<String, Contact>();
     String questionnaireId;
 
     List<Answer__c> answersToInsert = new List<Answer__c>();
     Map<Id, Answer__c> answersToUpdate = new Map<Id, Answer__c>();
-    
 
-    finalParticipants = checkDuplicateContacts(participants);
-  
 
-    if(!participants.values().isEmpty()){
-        upsert finalParticipants.values();
+    for(Contact con: participants.values()){
+      if(con.Id == null){
+        con.RecordTypeId = RT_CONTACT_PERSON_ID; //recordtype id
+      }
+    }
+
+    if(!participants.keySet().isEmpty()){
+        upsert participants.values();
     }
 
     for (Related_Answer__c relatedA : relatedAnswer) {
@@ -83,7 +85,7 @@ public without sharing class GroupBookingFormCtrl {
 
     Questionnaire_Response_Summary__c qResSummary;
 
-    for(String key: finalParticipants.keySet()){
+    for(String key: participants.keySet()){
         qResSummary = new Questionnaire_Response_Summary__c();
         qResSummary.Questionnaire__c = questionnaireId;
         if(isPrescribed){
@@ -92,7 +94,7 @@ public without sharing class GroupBookingFormCtrl {
             qResSummary.Course_Offering__c = offeringId;
         }
         qResSummary.Registration_Status__c = 'Confirmed';
-        qResSummary.Contact__c = finalParticipants.get(key).Id;
+        qResSummary.Contact__c = participants.get(key).Id;
         questionnaireSummaryToInsertMap.put(key,qResSummary);
     }
 
@@ -152,22 +154,7 @@ public without sharing class GroupBookingFormCtrl {
       update answersToUpdate.values();
     }
 
-    return finalParticipants.values();
-    
-    
-
-//     if (!forApplication) {
-//       hed__Course_Enrollment__c newCourseConnection = new hed__Course_Enrollment__c(
-//         hed__Course_Offering__c = courseOfferingId,
-//         hed__Contact__c = contactRecord.Id,
-//         RecordTypeId = STUDENT_RECTYPEID,
-//         hed__Status__c = 'Active'
-//       );
-//       insert newCourseConnection;
-//     }
-//   }
-
-
+    return participants.values();
 }
 
 private static ContentVersion createContentVersion(String base64, String filename) {
@@ -233,100 +220,6 @@ private static ContentVersion createContentVersion(String base64, String filenam
         insert cartItemsToInsert;
       }
   }
-
-
-    public static Map<String, Contact> checkDuplicateContacts(Map<String, Contact> participants){
-        Map<String, Contact> criteriaMap = new Map<String, Contact>();
-        Map<String,String> participantMap = new Map<String,String>();
-        Set<Date> birthDateSet = new Set<Date>();
-        Set<String> emailSet = new Set<String>();
-        Set<String> lastNameSet = new Set<String>();
-
-        for(String item: participants.keySet()){
-            
-            birthDateSet.add(participants.get(item).Birthdate);
-            emailSet.add(participants.get(item).Registered_Email__c);
-            lastNameSet.add(participants.get(item).LastName);
-
-            criteriaMap.put(JSON.serialize(participants.get(item).Birthdate) + participants.get(item).Registered_Email__c + participants.get(item).LastName,participants.get(item));
-            participantMap.put(JSON.serialize(participants.get(item).Birthdate) + participants.get(item).Registered_Email__c + participants.get(item).LastName,item);
-        }
-        
-
-    //Detect contact duplicates
-    List<Contact> duplicateContacts = new List<Contact>(
-        [
-        SELECT
-            Id,
-            MobilePhone,
-            Mobile_No_Locale__c,
-            ContactMobile_Locale__c,
-            Dietary_Requirement__c,
-            Accessibility_Requirement__c,
-            AccountId,
-            Birthdate,
-            Email,
-            Registered_Email__c,
-            Work_Email__c,
-            QUT_Learner_Email__c,
-            QUT_Staff_Email__c,
-            LastName
-        FROM Contact
-        WHERE
-            RecordTypeId = :RT_CONTACT_PERSON_ID
-            AND Parent_Person_Contact__c = NULL
-            AND Birthdate IN: birthDateSet
-            AND (Registered_Email__c IN: emailSet
-            OR Email IN: emailSet
-            OR Work_Email__c IN: emailSet
-            OR QUT_Learner_Email__c IN: emailSet
-            OR QUT_Staff_Email__c IN: emailSet)
-            AND LastName IN:lastNameSet
-            AND RecordTypeId =:RT_CONTACT_PERSON_ID
-        ]);
-
-        for(Contact item: duplicateContacts){
-            Contact tempCon = new Contact();
-            
-            String criteria = '';
-
-            //check if registred email matches with contact emails
-            if(item.Registered_Email__c != null && participantMap.containsKey(JSON.serialize(item.Birthdate) + item.Registered_Email__c + item.LastName)){
-              criteria = JSON.serialize(item.Birthdate) + item.Registered_Email__c + item.LastName;
-            }else if(item.Email != null && participantMap.containsKey(JSON.serialize(item.Birthdate) + item.Email + item.LastName)){
-              criteria = JSON.serialize(item.Birthdate) + item.Email + item.LastName;
-            }else if(item.Work_Email__c != null && participantMap.containsKey(JSON.serialize(item.Birthdate) + item.Work_Email__c + item.LastName)){
-              criteria = JSON.serialize(item.Birthdate) + item.Work_Email__c + item.LastName;
-            }else if(item.QUT_Learner_Email__c != null && participantMap.containsKey(JSON.serialize(item.Birthdate) + item.QUT_Learner_Email__c + item.LastName)){
-              criteria = JSON.serialize(item.Birthdate) + item.QUT_Learner_Email__c + item.LastName;
-            }else if(item.QUT_Staff_Email__c != null && participantMap.containsKey(JSON.serialize(item.Birthdate) + item.QUT_Staff_Email__c + item.LastName)){
-              criteria = JSON.serialize(item.Birthdate) + item.QUT_Staff_Email__c + item.LastName;
-            }
-
-            if(criteriaMap.containsKey(criteria)){      
-                tempCon.Id = item.Id;
-                tempCon.Registered_Email__c = participants.get(participantMap.get(criteria)).Registered_Email__c;
-                tempCon.Mobile_No_Locale__c = participants.get(participantMap.get(criteria)).Mobile_No_Locale__c;
-                tempCon.Dietary_Requirement__c = participants.get(participantMap.get(criteria)).Dietary_Requirement__c;
-                tempCon.ContactMobile_Locale__c = participants.get(participantMap.get(criteria)).ContactMobile_Locale__c;
-                tempCon.MobilePhone = participants.get(participantMap.get(criteria)).MobilePhone;
-            }else{
-                //user not existing
-                //map registered email to email
-                tempCon.Email = participants.get(participantMap.get(criteria)).Registered_Email__c;
-            tempCon.RecordTypeId = RT_CONTACT_PERSON_ID;
-            tempCon.Birthdate = participants.get(participantMap.get(criteria)).Birthdate;
-                tempCon.Registered_Email__c = participants.get(participantMap.get(criteria)).Registered_Email__c;
-                tempCon.ContactMobile_Locale__c = participants.get(participantMap.get(criteria)).ContactMobile_Locale__c;
-                tempCon.Mobile_No_Locale__c = participants.get(participantMap.get(criteria)).Mobile_No_Locale__c;
-            tempCon.Dietary_Requirement__c = participants.get(participantMap.get(criteria)).Dietary_Requirement__c;
-                tempCon.MobilePhone = participants.get(participantMap.get(criteria)).MobilePhone;
-            }
-            participants.put(participantMap.get(criteria),tempCon);
-        }  
-
-        return participants;
-    }
 
     @AuraEnabled
     public static void removeCartItems(String userId){

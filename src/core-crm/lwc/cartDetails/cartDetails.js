@@ -14,6 +14,7 @@
       | john.m.tambasen           | August 04, 2022       | DEPP-3674            | added strikethrough for      |
       |                           |                       |                      | discounted items             |
       | john.m.tambasen           | August 09, 2022       | DEPP-3721            | consider as free for 0 total |
+      | julie.jane.alegre         | September 07, 2022    | DEPP-3613            | add validation for early bird|
 */
 
 import { LightningElement, wire, api, track } from "lwc";
@@ -22,9 +23,6 @@ import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import BasePath from "@salesforce/community/basePath";
 import userId from "@salesforce/user/Id";
 import communityId from "@salesforce/community/Id";
-// import getCartItems from '@salesforce/apex/CartItemCtrl.getCartItems';
-// import getCartCoupons from '@salesforce/apex/CartItemCtrl.getCartCoupons';
-// import applyCartCoupon from '@salesforce/apex/CartItemCtrl.applyCartCoupon';
 import deleteCartItem from "@salesforce/apex/CartItemCtrl.deleteCartItem";
 import updateCartStatus from "@salesforce/apex/CartItemCtrl.updateCartStatus";
 import getOPEProductCateg from "@salesforce/apex/CartItemCtrl.getOPEProductCateg";
@@ -137,18 +135,17 @@ export default class CartDetails extends LightningElement {
   //set the cart status to checkout when opening this page
   @track isCheckedDetails;
   @track isCheckedTerms;
-  
+
   connectedCallback() {
 
-    this.isCheckedDetails = false;
-    this.isCheckedTerms = false;
+    this.isCheckedDetails = true;
+    this.isCheckedTerms = true;
+
     const checkboxes = this.template.querySelectorAll('#cbDetails', '#cbTerms');
           for (const elem of checkboxes) {
               elem.checked=false;
     }
 
-
-  
     //create global variable
     window.isCartSumDisconnected = false;
 
@@ -467,35 +464,45 @@ export default class CartDetails extends LightningElement {
       //set the global variables for the checkboxes
       if (name == "cbDetails") {
         this.cbDetails =  event.target.checked;
-        this.isCheckedDetails = true;
+        if(!this.cbDetails){
+          this.isCheckedDetails = false;
+        }else{
+          this.isCheckedDetails = true;
+        }
+        
+      
       } else if (name == "cbTerms") {
         this.cbTerms = event.target.checked;
-        this.isCheckedTerms = true;
+        if(!this.cbTerms){
+          this.isCheckedTerms = false;
+        }else{
+          this.isCheckedTerms = true;
+        }
       }
+
 
       //if both checkboxes are ticked
       if (this.cbDetails && this.cbTerms) {
         //enable the payment buttons
         this.disablePayment = false;
-
         //else at least 1 is not ticked
       } else {
         //disable the payment buttons
-        this.disablePayment = true;
+        this.disablePayment = true; //disabled
       }
     }
   }
 
   get getCheckErrorClass() {
     let css = 'checkBoxStyle ';
-    if (this.cbDetails == false) {
+    if (this.isCheckedDetails == false) {
         css += 'checkboxRedline';
     }
     return css;
   }
   get getCheckErrorClassTerms() {
     let css = 'checkBoxStyle ';
-    if (this.cbTerms == false) {
+    if (this.isCheckedTerms == false) {
         css += 'checkboxRedline';
     }
     return css;
@@ -506,7 +513,7 @@ export default class CartDetails extends LightningElement {
     //loop through the current cart items
     for (let i = 0; i < this.cartItems.length; i++) {
       //check if the product has available seats
-      if (!this.cartItems[i].seatsAvailable) {
+      if (!this.cartItems[i].seatsAvailable || this.cartItems[i].isEarlyBirdPassed) {
         return false;
       }
     }

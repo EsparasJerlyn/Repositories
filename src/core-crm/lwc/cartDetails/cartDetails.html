@@ -303,6 +303,12 @@
                         <div>
                             <h1 class="heading3 main-color-blue500 mt1">{currentItem.productName}</h1>
                         </div>
+                        <template if:false={currentItem.seatsAvailable}>
+                            <p class="warning-label">The product is no longer available for registration. Please remove the item.</p>
+                        </template>  
+                        <template if:true={currentItem.isEarlyBirdPassed}>
+                            <p class="warning-label">The Early Bird price is no longer available.</p>
+                        </template>    
                     </div>
 
                     <template if:false={currentItem.showStrikedStandardPb}>
@@ -370,11 +376,6 @@
                                     <p class="bodyRegular">{currentItem.deliveryType}</p>
                                 </div>
                             </div>
-
-                            <template if:false={currentItem.seatsAvailable}>
-                                <p class="warning-label">There are no longer seats available for the selected date.</p>
-                            </template>
-
                         </div>
                     </div>
 
@@ -403,10 +404,6 @@
                         <div>
                             <lightning-button data-id={currentItem.cartItemId} variant="base" label="Remove Item" title="Remove item" onclick={removeCartItem} class="removedItem-button slds-m-top_small"></lightning-button>
                         </div>
-
-                        <template if:false={currentItem.seatsAvailable}>
-                            <p class="warning-label slds-m-left_small">Please remove this item to proceed.</p>
-                        </template>
 
                     </div>
                                                             <!-- loop on each questions - start -->
@@ -626,7 +623,12 @@
                     class={getCheckErrorClass}
                      />
                 <label for="terms">I confirm my details are correct<sup class="req">*</sup></label>
-                <div class="msg-def-error" role="error" if:false={cbDetails} >Complete this field.</div>
+                <div if:false={isCheckedDetails}>
+                    <div class="msg-def-error" role="error" if:false={cbDetails}>
+                        Complete this field.
+                    </div>
+                </div>
+
         </div>
         <div class="slds-grid terms-condition tandc">
             <input type="checkbox"
@@ -636,7 +638,11 @@
                     class={getCheckErrorClassTerms}
                 />
             <label for="terms">I agree with the <a href="https://www.qut.edu.au/study/professional-and-executive-education/terms-and-conditions?_ga=2.147984567.1831940469.1653610703-306839491.1653610703" target="_blank">Terms and Conditions</a><sup class="req">*</sup></label>
-            <div class="msg-def-error" role="error-tc" if:false={cbTerms} >Complete this field.</div>
+            <div if:false={isCheckedTerms}>
+                <div class="msg-def-error" role="error-tc" if:false={cbTerms} >
+                    Complete this field.
+                </div>
+            </div>
         </div>
 
 

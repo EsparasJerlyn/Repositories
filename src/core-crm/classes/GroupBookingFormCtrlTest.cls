@@ -8,17 +8,20 @@
       | roy.nino.s.regala         | June 20, 2022         | DEPP-3141            | Created file                 |
       |                           |                       |                      |                              |
  */
-@isTest(SeeAllData=false)
+@isTest
 public with sharing class GroupBookingFormCtrlTest {
 
   private static final String PRODUCT_API_NAME = Product2.SObjectType.getDescribe().getLocalName();
   private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
   private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
-  private static final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
 
   @TestSetup
   static void setupMethod() {
     //create account
+    
+    TestDataFactory.generateTestUsers();
+    Test.startTest();
+    User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
     List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
     accounts[0].RecordTypeId = ACCT_UNIV_DEP_ID;
     accounts[0].Organization_Unit_Level__c = '2';
@@ -311,6 +314,7 @@ public with sharing class GroupBookingFormCtrlTest {
       CatalogId = prodCatalog.Id
     );
     insert prodCateg;
+    Test.stopTest();
   }
 
   
@@ -318,18 +322,32 @@ public with sharing class GroupBookingFormCtrlTest {
   @isTest
   static void saveBookingTest(){
 
+    Test.startTest();
     List<Contact> newContacts = new List<Contact>();
-    Contact newContact = new Contact(Email ='testemail12@email.com', FirstName ='tetfirstnam2e', lastname ='lastnametes2tda', Birthdate = Date.Today());
+    Contact newContact = new Contact(
+      Email ='testemail12@email.com', 
+      FirstName ='tetfirstnam2e', 
+      lastname ='lastnametes2tda', 
+      Birthdate = Date.Today(),
+      hed__AlternateEmail__c = 'testemail12@email.com',
+      hed__Preferred_Email__c = 'Alternate Email'
+    );
     insert newContact;
-    Contact newContact1 = new Contact(Registered_Email__c ='testemail@email1.com', FirstName ='tetfirstname', lastname ='lastnametestda', Birthdate = Date.Today());
-    Contact newContact2 = new Contact(Registered_Email__c ='testemail12@email.com', FirstName ='tetfirstnam2e', lastname ='lastnametes2tda', Birthdate = Date.Today());
+
+    Contact newContact1 = new Contact(  
+      Registered_Email__c ='testemail@email1.com', 
+      FirstName ='tetfirstname', 
+      lastname ='lastnametestda', 
+      Birthdate = Date.Today(),
+      hed__AlternateEmail__c = 'testemail@email1.com',
+      hed__Preferred_Email__c = 'Alternate Email'
+    );
 
     Map<String,Contact> participantsMap = new Map<String, Contact>();
     GroupBookingFormCtrl.FileUpload fileLoad = new GroupBookingFormCtrl.FileUpload();
     List<GroupBookingFormCtrl.FileUpload> fileLoadList = new List<GroupBookingFormCtrl.FileUpload>();
     Map<String,String> fileUploadMap = new Map<String,String>();
     participantsMap.put('PARTICIPANT 1',newContact1);
-    participantsMap.put('PARTICIPANT 2',newContact2);
 
     String courseOfferingId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;
     List<Related_Answer__c> relatedAnswerList = [SELECT Id,Questionnaire__c FROM Related_Answer__c LIMIT 2];
@@ -352,7 +370,7 @@ public with sharing class GroupBookingFormCtrlTest {
     answerMap.put('PARTICIPANT 1', answerList);
     fileUploadMap.put('PARTICIPANT 1',JSON.serialize(fileLoadList));
 
-    Test.startTest();
+    
 
     GroupBookingFormCtrl.saveBooking(participantsMap,courseOfferingId, relatedAnswerList,answerMap,fileUploadMap,false);
 

@@ -26,8 +26,12 @@ public with sharing class ManageRegistrationSectionCtrlTest{
 
      @TestSetup
      static void makeData(){
+          BypassTriggers__c bypass = new BypassTriggers__c(Bypass__c = true, SetupOwnerId = UserInfo.getOrganizationId());
+          insert bypass;
           TestDataFactory.generateTestUsers();
+          Test.startTest();
           createRecord(RT_ACTIVITY_ID);
+          Test.stopTest();
      }
 
      @IsTest
@@ -101,6 +105,9 @@ public with sharing class ManageRegistrationSectionCtrlTest{
      static void getSearchedContactsTest(){
           System.runAs(TestDataFactory.getProgramAdminUser()){
                Test.startTest();
+               List<Id> contactIds = new List<Id>();
+               contactIds.add([SELECT Id FROM Contact Where Name LIKE :'Test%' AND Recordtype.DeveloperName = 'Person' LIMIT 1].Id);
+               Test.setFixedSearchResults(contactIds);
                List<Map<String,String>> contactMap = ManageRegistrationSectionCtrl.getSearchedContacts('Test',new List<Id>());
                Test.stopTest();
                system.assert(!contactMap.isEmpty(),'Empty contact map');

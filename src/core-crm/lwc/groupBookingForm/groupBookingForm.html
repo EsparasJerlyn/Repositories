@@ -5,6 +5,7 @@
         <!-- Modal/Popup Box LWC starts here -->
         <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
             <div class="modal-content px3 pt2">
+                
                 <!--X button -->
                 <div class="slds-m-top_small slds-large-right_large slds-p-right_large slds-clearfix">
                     <span class="slds-float_right cursor" onclick={closeModal}>
@@ -35,12 +36,10 @@
                             <div class="heading4 headerColor">Selected Product</div>
                             <div class="heading4">{productCourseName}</div>
                         </div>
-                        <div class="slds-is-relative" if:true={processing}>
-                            <lightning-spinner if:true={processing} alternative-text="Loading" size="large" variant="brand"></lightning-spinner>
-                        </div>
                         <div class="three" if:false={isOpenPayment}>
-                            <lightning-accordion allow-multiple-sections-open class="example-accordion" active-section-name="Participants" if:false={processing}>
-                                <div>
+                            <lightning-accordion allow-multiple-sections-open class="example-accordion slds-is-relative" active-section-name="Participants">
+                                <lightning-spinner if:true={processing} alternative-text="Loading" size="large" variant="brand"></lightning-spinner>
+                                <div >
                                     <lightning-accordion-section name="Participants" label="PARTICIPANT 1">
                                         <lightning-record-edit-form
                                             object-api-name={objectAPIName}
@@ -192,8 +191,11 @@
                                     </lightning-accordion-section>
                                 </div>
                                 <div onchange={updateOnAccordionDetails} for:each={items} for:item="item" data-id={item.id}  key={item.id}>
-
+                                    
                                     <lightning-accordion-section name={item.label} label={item.label}>
+                                        <div class="grp-error-style " if:true={item.hasError}>
+                                            {item.errorMessage}
+                                        </div>
                                         <div class="slds-float--right">
                                             <lightning-button-icon icon-name="utility:delete" name="openConfirmation"  access-key={item.id} id={index}  alternative-text="Delete" class="slds-m-left_xx-small" title="Delete" onclick={handleClick}></lightning-button-icon>
                                         </div>
@@ -354,7 +356,7 @@
                         </div>
                         <!-- This is the ADD button -->
                         <div class="addparticipant" if:false={isOpenPayment}>
-                            <lightning-button style="" variant="brand" label="Add Participant" onclick={addParticipant} disabled={disableAddBtn} title="Add Participant" ></lightning-button>
+                            <lightning-button if:false={disableAddBtn} variant="brand" label="Add Participant" onclick={addParticipant} title="Add Participant" ></lightning-button>
                         </div>
                         <c-payment if:true={isOpenPayment}
                             disable-payment={disablePayment}
@@ -369,6 +371,7 @@
                             onpaynow={paymentNow}
                             has-pay-now={hasPayNow}
                             has-invoice={hasInvoice}
+                            cart-items-pbe-update={cartItemsPbeUpdate}
                         ></c-payment>
                     </template>
                       <!-- Modal/Popup Box LWC footer starts here -->

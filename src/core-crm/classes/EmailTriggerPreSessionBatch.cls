@@ -39,8 +39,7 @@ public with sharing class EmailTriggerPreSessionBatch implements Database.Batcha
                                                                     FROM hed__Course_Enrollment__c
                                                                     WHERE RecordTypeId =:STUDENT_REC_TYPE
                                                                         AND Id != Null
-                                                                        AND hed__Status__c = 'Active'
-                                                                        AND Course_Offering_Start_Date__c >= TODAY]);
+                                                                        AND hed__Status__c = 'Active']);
 
             Set<Id> courseIdSet= new Set<Id>();
             Set<Id> progPlanIdSet = new Set<Id>();

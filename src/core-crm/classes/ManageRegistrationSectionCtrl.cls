@@ -43,6 +43,8 @@
       | julie.jane.alegre         | July 4, 2022          | DEPP-3389            | Remove Registration Criteria |
       |                           |                       |                      | on getQuestions method       |
       | john.m.tambasen           | July 29, 2022         | DEPP-3577            | PBE early bird               |
+      | kathy.cornejo             | September 08, 2022    | DEPP-4097            | Updated logic for searched   |
+      |                           |                       |                      | contacts                     |
 */
 
 public without sharing class ManageRegistrationSectionCtrl {
@@ -364,25 +366,19 @@ public without sharing class ManageRegistrationSectionCtrl {
      */
     @AuraEnabled(cacheable=true)
     public static List<Map<String,String>> getSearchedContacts(String filterString, List<Id> filterContacts){
-        filterString = '%' + filterString + '%';
         List<Map<String,String>> contactMap = new List<Map<String,String>>();
-
-        for(Contact con : [
-            SELECT Id, Name, Email
-            FROM Contact
-            WHERE (
-                Name LIKE :filterString OR
-                Name = :filterString
-            ) AND Id NOT IN:filterContacts
-            AND RecordType.DeveloperName = 'Person'
-            LIMIT 15
-        ]){
+        
+        List<List<Contact>> contacts = [Find :filterString 
+                                        In Name Fields 
+                                        Returning Contact (Id, Name, Email, FirstName, LastName, MiddleName, Preferred_Full_Name__c 
+                                        WHERE Recordtype.DeveloperName = 'Person' AND Id NOT IN: filterContacts LIMIT 15)];
+        for(Contact con :contacts[0]){
           contactMap.add(new Map<String,String>{
                 'id' => con.Id,
                 'label' => con.Name,
                 'meta' => con.Email
             });
-        }
+          }
         return contactMap;
     }
     

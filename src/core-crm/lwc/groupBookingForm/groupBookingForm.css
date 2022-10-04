@@ -32,6 +32,16 @@ h3 {
   font-family: var(--lwc-fontFamily, ProximaNova);
 }
 
+.grp-error-style{
+  color: red !important; 
+  padding: 1rem;
+  text-align: left;
+}
+
+.border-error {
+  border-color: #b90015 !important;
+}
+
 .one {
   background-color: white;
   margin-bottom: 5px;

@@ -12,7 +12,9 @@
       | john.m.tambasen           | August 01, 2022       | DEPP-3616            | reworked logic for discount                |
       | john.m.tambasen           | August 04, 2022       | DEPP-3674            | added strikethrough for discounted items   |
       | john.m.tambasenb          | August 11, 2022       | DEPP-3738            | negative amount showing                    |
-
+      | julie.jane.alegre         | September 07, 2022    | DEPP-3613            | Add validation on early bird               |
+      | julie.jane.alegre         | September 17, 2022    | DEPP-4338            | Add validation for active offering         |
+      | julie.jane.alegre         | September 20, 2022    | DEPP-4371            | Add validation for inactive EarlyBird      |
 */
 public without sharing class CartItemCtrl {
 
@@ -24,6 +26,7 @@ public without sharing class CartItemCtrl {
         .get('Student_Program')
         .getRecordTypeId();
   
+
   /**
    * @description fetches cart items data and related registration questiosn for the product
    * @param cartId - id of the current active cart
@@ -36,6 +39,7 @@ public without sharing class CartItemCtrl {
     List<Answer__c> answerList = new List<Answer__c>();
     List<Related_Answer__c> relatedAnswersList = new List<Related_Answer__c>();
     Map<Id, PricebookEntry> pbEntryMapStandard = new Map<Id, PricebookEntry>();
+    Date earlyBirdDatePlusToday;
 
     Set<Id> pbentryIds = new Set<Id>();
     Set<Id> productIds = new Set<Id>();
@@ -62,11 +66,15 @@ public without sharing class CartItemCtrl {
         Course_Offering__r.hed__Start_Date__c,
         Course_Offering__r.Delivery_Type__c,
         Course_Offering__r.Available_Seats__c,
+        Course_Offering__r.IsActive__c,
+        Course_Offering__r.Registration_End_Date__c,
         Program_Offering__c,
         Program_Offering__r.hed_Program_Plan__r.Product_Request__c,
         Program_Offering__r.Start_Date__c,
         Program_Offering__r.Delivery_Type__c,
         Program_Offering__r.Available_Seats__c,
+        Program_Offering__r.IsActive__c,
+        Program_Offering__r.Registration_End_Date__c,
         External_Id__c,
         Contact__r.Name
       FROM CartItem
@@ -88,12 +96,13 @@ public without sharing class CartItemCtrl {
     //create list of standard pricebook for each cart item product
     List<PricebookEntry> pbEntryStandardList = new List<PricebookEntry>(
       [
-        SELECT Id, Pricebook2.Name, Pricebook2.IsStandard, UnitPrice, Product2Id
+        SELECT Id, Pricebook2.Name, Pricebook2.IsStandard, UnitPrice, Product2Id, Early_Bird_No_of_Days__c, IsActive
         FROM PricebookEntry
         WHERE Product2Id IN :productIds AND Pricebook2.IsStandard = true
       ]
     );
 
+    System.debug('pbEntryStandardList====' + pbEntryStandardList);
     //create map of standard pricebook with product id as the key
     for(PricebookEntry currentPbe: pbEntryStandardList){
 
@@ -143,7 +152,7 @@ public without sharing class CartItemCtrl {
     //create map of price book entry for linking with the cart items
     Map<Id, PricebookEntry> pbEntryMap = new Map<Id, PricebookEntry>(
       [
-        SELECT Id, Pricebook2.Name, UnitPrice
+        SELECT Id, Pricebook2.Name, UnitPrice,Early_Bird_No_of_Days__c, IsActive
         FROM PricebookEntry
         WHERE Id IN :pbentryIds
       ]
@@ -152,7 +161,7 @@ public without sharing class CartItemCtrl {
     //create map of products payment options in cart
     Map<Id, Product2> prodPayOpt = new Map<Id, Product2>(
       [
-        SELECT Id, Payment_Options__c
+        SELECT Id, Payment_Options__c,Available_on_Cart__c
         FROM Product2
         WHERE Id IN :productIds
       ]
@@ -175,7 +184,23 @@ public without sharing class CartItemCtrl {
         currentCart.Product2Id
       )
       .Payment_Options__c;
+      cartItemsWrapper.availableToCart = prodPayOpt.get(
+        currentCart.Product2Id
+      )
+      .Available_on_Cart__c;
 
+      if(Integer.valueOf(pbEntryMap.get(
+        currentCart.Pricebook_Entry_ID__c
+      )
+      .Early_Bird_No_of_Days__c) != null){
+        cartItemsWrapper.earlyBirdNoOfDays = Integer.valueOf(pbEntryMap.get(
+          currentCart.Pricebook_Entry_ID__c
+        )
+        .Early_Bird_No_of_Days__c);
+      }else{
+        cartItemsWrapper.earlyBirdNoOfDays = 0;
+      }
+    
       if( QuestionnaireMap.containsKey(currentCart.Course_Offering__r.hed__Course__r.ProductRequestID__c) || 
           QuestionnaireMap.containsKey(currentCart.Program_Offering__r.hed_Program_Plan__r.Product_Request__c)) {
         
@@ -243,8 +268,24 @@ public without sharing class CartItemCtrl {
         cartItemsWrapper.deliveryType = currentCart.Course_Offering__r.Delivery_Type__c;
 
         //check if seats are still available
-        if (currentCart.Course_Offering__r.Available_Seats__c > 0) {
+        if (currentCart.Course_Offering__r.Available_Seats__c > 0 &&
+            currentCart.Course_Offering__r.Registration_End_Date__c > Date.Today() &&
+            currentCart.Course_Offering__r.IsActive__c == true
+            ) {
           cartItemsWrapper.seatsAvailable = true;
+        }
+
+        if(cartItemsWrapper.earlyBirdNoOfDays != null){
+          earlyBirdDatePlusToday = Date.Today() + cartItemsWrapper.earlyBirdNoOfDays;
+        }
+
+        if((pbEntryMap.get(currentCart.Pricebook_Entry_ID__c).Pricebook2.Name == 'Early Bird' &&
+            cartItemsWrapper.earlyBirdNoOfDays > 0 &&
+            currentCart.Course_Offering__r.hed__Start_Date__c <= earlyBirdDatePlusToday) ||
+            pbEntryMap.get(currentCart.Pricebook_Entry_ID__c).IsActive == false){
+          cartItemsWrapper.isEarlyBirdPassed = true;
+        }else{
+          cartItemsWrapper.isEarlyBirdPassed = false;
         }
 
       //else it is a program offering product
@@ -259,8 +300,25 @@ public without sharing class CartItemCtrl {
         cartItemsWrapper.deliveryType = currentCart.Program_Offering__r.Delivery_Type__c;
 
         //check if seats are still available
-        if (currentCart.Program_Offering__r.Available_Seats__c > 0) {
+        if (currentCart.Program_Offering__r.Available_Seats__c > 0 && 
+            currentCart.Program_Offering__r.Registration_End_Date__c > Date.Today() &&
+            currentCart.Program_Offering__r.IsActive__c == true
+            ) {
+
           cartItemsWrapper.seatsAvailable = true;
+        }
+
+        if(cartItemsWrapper.earlyBirdNoOfDays != null){
+          earlyBirdDatePlusToday = Date.Today() + cartItemsWrapper.earlyBirdNoOfDays;
+        }
+
+        if((pbEntryMap.get(currentCart.Pricebook_Entry_ID__c).Pricebook2.Name == 'Early Bird' &&
+            cartItemsWrapper.earlyBirdNoOfDays > 0 &&
+            currentCart.Program_Offering__r.Start_Date__c >= earlyBirdDatePlusToday) ||
+            pbEntryMap.get(currentCart.Pricebook_Entry_ID__c).IsActive == false){
+          cartItemsWrapper.isEarlyBirdPassed = true;
+        }else{
+          cartItemsWrapper.isEarlyBirdPassed = false;
         }
       }
 
@@ -288,7 +346,7 @@ public without sharing class CartItemCtrl {
 
       // check if pricebook is staff
       if (cartItemsWrapper.pbName == 'Current Staff') {
-        //showthe staff ID
+        //showthe staff ID 
         myCartItemsData.showStaffId = true;
       }
 
@@ -352,6 +410,8 @@ public without sharing class CartItemCtrl {
     @AuraEnabled
     public Boolean seatsAvailable = false;
     @AuraEnabled
+    public Boolean isEarlyBirdPassed = false;
+    @AuraEnabled
     public Boolean showInvalidDiscount = false;
     @AuraEnabled
     public String externalId;
@@ -361,6 +421,13 @@ public without sharing class CartItemCtrl {
     public String contactFullName;
     @AuraEnabled
     public String paymentOptions;    
+    @AuraEnabled
+    public Integer earlyBirdNoOfDays;
+    @AuraEnabled
+    public Date registeredEndDate;
+    @AuraEnabled
+    public Boolean availableToCart;
+
   }
   public class RelatedAnswersWrapper {
     @AuraEnabled
