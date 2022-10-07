@@ -10,7 +10,7 @@
       |                           |                       |                      |                              | 
  */
 
-public class CsvBulkRegistrationCtrl {
+public with sharing class CsvBulkRegistrationCtrl {
 
     	@AuraEnabled(cacheable=true)
         public static ConnectApi.ManagedContentVersion GetCMSContentDataByName(
@@ -43,8 +43,7 @@ public class CsvBulkRegistrationCtrl {
                     pageNo += 1;
                 }
             } catch (ConnectApi.ConnectApiException e) {                
-                System.debug(e);
-                System.debug('error on CsvBulkRegistrationCtrl.GetCMSContentDataByName');
+                System.debug(LoggingLevel.DEBUG, 'error on CsvBulkRegistrationCtrl.GetCMSContentDataByName'); //NOPMD
             }
             return returnList;
         }
@@ -62,16 +61,14 @@ public class CsvBulkRegistrationCtrl {
             for(Integer i = 1; i < lstCSVLines.size(); i++){
                 FieldDataType objAcc = new FieldDataType();
                 list<String> csvRowData = lstCSVLines[i].split(',');
-                System.debug('csvRowData====> '+csvRowData);
-                objAcc.Salutation = csvRowData[0]; // accName
-                objAcc.FirstName = csvRowData[1];
-                objAcc.MiddleName = csvRowData[2];
-                objAcc.LastName = csvRowData[3];
-                objAcc.Suffix = csvRowData[4];
-                objAcc.Email = csvRowData[5];
-                objAcc.MobilePhone = csvRowData[6];
-                objAcc.Phone = csvRowData[7];
-                objAcc.Birthdate = csvRowData[8];
+                objAcc.FirstName = csvRowData[0];
+                objAcc.LastName = csvRowData[1];
+                objAcc.Email = csvRowData[2];
+                objAcc.MobileLocale = csvRowData[3];
+                objAcc.MobilePhone = csvRowData[4];
+                objAcc.Birthdate = csvRowData[5];
+                objAcc.DietaryRequirement = csvRowData[6];
+                objAcc.AccessibilityRequirement = csvRowData[7];
                 lstAccsToInsert.add(objAcc);
             }
         }
@@ -79,24 +76,24 @@ public class CsvBulkRegistrationCtrl {
     }
     
        public class FieldDataType {
-	        @AuraEnabled
-            public String Salutation;
             @AuraEnabled
             public String FirstName;
             @AuraEnabled
-            public String MiddleName;
-            @AuraEnabled
             public String LastName;
             @AuraEnabled
-            public String Suffix;
-            @AuraEnabled
             public String Email;
+            // @AuraEnabled
+            // public String Suffix;
+            @AuraEnabled
+            public String MobileLocale;
             @AuraEnabled
             public String MobilePhone;
             @AuraEnabled
-            public String Phone;
-            @AuraEnabled
             public String Birthdate;
+            @AuraEnabled
+            public String DietaryRequirement;
+            @AuraEnabled
+            public String AccessibilityRequirement;
        }
     
 }

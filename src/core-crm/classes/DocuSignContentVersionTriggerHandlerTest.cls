@@ -11,7 +11,7 @@
       | arsenio.dayrit@qut.edu.au      | November 11, 2021     | DEPP-503               | Created file                 | 
       |                                |                       |                        |                              | 
  */
-@isTest(SeeAllData = false)
+@isTest
 public class DocuSignContentVersionTriggerHandlerTest {
     
     private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();

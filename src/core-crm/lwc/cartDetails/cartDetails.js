@@ -137,7 +137,6 @@ export default class CartDetails extends LightningElement {
   @track isCheckedTerms;
 
   connectedCallback() {
-
     this.isCheckedDetails = true;
     this.isCheckedTerms = true;
 

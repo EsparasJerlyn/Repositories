@@ -11,7 +11,7 @@
       | eugene.andrew.abuan            | March 22, 2022        | DEPP-1991              | Created file                 |
       |                                |                       |                        |                              |
  */
-@isTest(SeeAllData=false)
+@isTest
 
 public with sharing class CourseTriggerHandlerTest {
     private static User currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
@@ -20,7 +20,7 @@ public with sharing class CourseTriggerHandlerTest {
     private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
 
-    @IsTest
+    @isTest
     private static void insertCourseTest() {
         System.runAs(currentUser) {
             Test.startTest();

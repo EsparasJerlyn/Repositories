@@ -15,6 +15,7 @@ import getCommunicationData from '@salesforce/apex/EmailTemplateCtrl.getCommunic
 import LWC_Error_General from "@salesforce/label/c.LWC_Error_General";
 import COMMUNICATION_SCHEDULE from "@salesforce/schema/Communication_Schedule__c";
 import { refreshApex } from "@salesforce/apex";
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 const REGISTRATION_CONFIRMATION_EMAIL_TEMPLATE = "Registration Confirmation Email Template";
 const PRE_SESSION_REMINDER_EMAIL = "Pre-Session Reminder Email";
@@ -26,7 +27,7 @@ const ONLINE_SELF_PACED_FINAL_CONFIRMATION_EMAIL = "Online Self-paced Final Conf
 export default class SetupCommunication extends LightningElement {
   @api productRequestId;
   @api isStatusCompleted;
-  @api isProgram; 
+  @api recordType; 
   formLoading = false;
   objectToBeCreated = COMMUNICATION_SCHEDULE;
   objectLabelName = "Email Template";
@@ -69,7 +70,7 @@ export default class SetupCommunication extends LightningElement {
       ONLINE_SELF_PACED_FINAL_CONFIRMATION_EMAIL
     ],
     prodReqId : '$productRequestId',
-    isProgram : '$isProgram'
+    recordType : '$recordType'
   })
   wiredGetCommunicationData(result) {
     //console.log(result);

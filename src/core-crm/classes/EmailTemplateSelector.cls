@@ -9,7 +9,7 @@
       | marygrace.li@qut.edu.au        | April 4, 2022         | DEPP-1479              | Created file                 |
       |                                |                       |                        |                              |
  */
-public class EmailTemplateSelector {
+public with sharing class EmailTemplateSelector {
 
     public static EmailTemplate getEmailTemplate(string name)
     {  

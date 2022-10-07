@@ -2,9 +2,12 @@
  * @description An LWC component for Track attendance
  * @author Accenture
  * @history
- *    | Developer                 | Date                  | JIRA                            | Change Summary                       |
-      |---------------------------|-----------------------|---------------------------------|--------------------------------------|
-      | adrian.c.habasa           | Febuary 11, 2022      | DEPP-1247                       | Created                              |
+ *    | Developer                 | Date                  | JIRA                  | Change Summary                               |
+      |---------------------------|-----------------------|-----------------------|----------------------------------------------|
+      | adrian.c.habasa           | Febuary 11, 2022      | DEPP-1247             | Created                                      |
+      | kathy.cornejo             | July 27, 2022         | DEPP-1771             | Added Section Header                         |
+      | kathy.cornejo             | August 31, 2022       | DEPP-2254             | Removed Track Attendance Section from PWP    |
+      | alexander.cadalin         | September 05, 2022    | DEPP-4100             | Removed Time from Session Combobox Text      |
  */
 
 import { LightningElement,wire,api } from 'lwc';
@@ -15,6 +18,10 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { refreshApex } from '@salesforce/apex';
 import LWC_Error_General from '@salesforce/label/c.LWC_Error_General';
 import RT_ProductRequest_Program from '@salesforce/label/c.RT_ProductRequest_Program';
+import RT_ProductRequest_Diagnostic_Tool from '@salesforce/label/c.RT_ProductRequest_Diagnostic_Tool';
+import RT_ProductRequest_Indiv_Coaching from '@salesforce/label/c.RT_ProductRequest_Indiv_Coaching';
+import RT_ProductRequest_Group_Coaching from '@salesforce/label/c.RT_ProductRequest_Group_Coaching';
+import RT_ProductRequest_Program_Without_Pathway from '@salesforce/label/c.RT_ProductRequest_Program_Without_Pathway';
 import HAS_PERMISSION from '@salesforce/customPermission/EditDesignAndReleaseTabsOfProductRequest';
 import PR_STATUS from '@salesforce/schema/Product_Request__c.Product_Request_Status__c';
 import PR_RECORD_TYPE from '@salesforce/schema/Product_Request__c.RecordType.DeveloperName';
@@ -27,7 +34,8 @@ const SUCCESS_VARIANT = 'success';
 const ERROR_TITLE = 'Error!';
 const ERROR_VARIANT = 'error';
 const DATE_OPTIONS = { year: 'numeric', month: 'short', day: '2-digit' };
-
+const SECTION_HEADER_OVERVIEW = 'Track Attendance Overview';
+const SECTION_HEADER_STUDENTS = 'Registered Students';
 
 
 export default class TrackAttendanceAndEvaluation extends LightningElement {
@@ -49,15 +57,22 @@ export default class TrackAttendanceAndEvaluation extends LightningElement {
     connectionStudentData=[];
     selectedRelatedConnections={};
     studentData = [];
-    columns = [ { label: 'Name', fieldName: 'name' }, 
-    { label: 'Present', fieldName: 'Present__c', type:'boolean', editable: true}];
+    columns = [ { label: 'Name', fieldName: 'contactName' }, 
+    { label: 'Attendance', fieldName: 'Present__c', type:'boolean', editable: true}];
     activeSections = ['trackAttendance','evaluations'];
     isStatusCompleted;
     showAttendance = false;
     showEvaluation = false;
+    recordType;
     
     get hasAccess(){
         return HAS_PERMISSION;
+    }
+    get sectionHeaderOverview(){ 
+        return SECTION_HEADER_OVERVIEW; 
+    }
+    get sectionHeaderStudents(){ 
+        return SECTION_HEADER_STUDENTS; 
     }
 
     /**
@@ -66,8 +81,10 @@ export default class TrackAttendanceAndEvaluation extends LightningElement {
     @wire(getRecord, { recordId: '$recordId', fields: [PR_STATUS,PR_RECORD_TYPE,PRESCRIBED_CHILD] })
     handleParentRecord(result){
         if(result.data){
+            this.recordType = getFieldValue(result.data,PR_RECORD_TYPE);
             this.isStatusCompleted = getFieldValue(result.data,PR_STATUS) == PL_ProductRequest_Completed;
-            this.showAttendance = getFieldValue(result.data,PR_RECORD_TYPE) !== RT_ProductRequest_Program;
+            this.showAttendance = (getFieldValue(result.data,PR_RECORD_TYPE) !== RT_ProductRequest_Program &&
+                                    getFieldValue(result.data,PR_RECORD_TYPE) !== RT_ProductRequest_Program_Without_Pathway);
             this.showEvaluation = !getFieldValue(result.data,PRESCRIBED_CHILD);
         }
     }
@@ -110,9 +127,18 @@ export default class TrackAttendanceAndEvaluation extends LightningElement {
     formatSession(sessionList)
     {
         return sessionList.map(item =>{
+            let itemDateTime = '';
+            if(this.recordType === RT_ProductRequest_Indiv_Coaching || this.recordType === RT_ProductRequest_Group_Coaching){
+                itemDateTime = item.Date__c!=null? ' (' + this.formatDate(item.Date__c) + ')':'';
+            }else if(this.recordType === RT_ProductRequest_Diagnostic_Tool){
+                itemDateTime='';
+            }else{
+                itemDateTime = ' (' + this.formatDate(item.Date__c) + ', ' + this.formatTime(item.Start_Time_v2__c) + ')';
+            }
+
             let newItem = {};
             newItem.value = item.Id;
-            newItem.label = item.Name + ' (' +this.formatDate(item.Date__c) + ', ' + this.formatTime(item.Start_Time_v2__c) + ')';
+            newItem.label = item.Name + itemDateTime;
             return newItem;
         });
     }

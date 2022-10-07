@@ -2,7 +2,7 @@
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Unit</fullName>
     <active>true</active>
-    <compactLayoutAssignment>OPE_Product_Request_Compact_Layout</compactLayoutAssignment>
+    <compactLayoutAssignment>Unit_Compact_Layout</compactLayoutAssignment>
     <description>This record type will be used to create an Award Unit with a learning pathway.</description>
     <label>Unit</label>
     <picklistValues>

@@ -49,7 +49,6 @@ export default class ProductDetailsSectionCard extends LightningElement {
     }
 
     toggleSection(event) {
-        console.log("toggleSection is called");
         let containerSection = event.currentTarget.closest("section");
         containerSection.classList.toggle("slds-is-open");
         if (!this.showvalue) {
@@ -57,7 +56,7 @@ export default class ProductDetailsSectionCard extends LightningElement {
             this.expand = "true";
         } else {
             this.showvalue = false;
-            this.expand = "false";
+            //this.expand = "false";
         }
         const toggleSectionEvent = new CustomEvent("togglesection", {
             detail: {
@@ -69,4 +68,5 @@ export default class ProductDetailsSectionCard extends LightningElement {
         });
         this.dispatchEvent(toggleSectionEvent);
     }
+
 }

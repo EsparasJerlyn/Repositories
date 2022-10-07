@@ -1,0 +1,26 @@
+.pipe-header{
+    margin: 0px 1rem;
+}
+
+.notif-header{
+    margin-top: 4px;
+    font-size: 18px;
+    font-family: 'ProximaNova-Bold';
+}
+
+@media only screen and (max-width: 764px){
+    .notif-header{
+        margin-top: 4px !important;
+        display: none;
+    }
+
+    .iconBell::after{
+        content: "";
+        border-right: 2px solid #fff;
+        margin: 0px 0rem 0px 1rem;
+    }
+
+    .iconBell img{
+        width: 25px;
+    }
+}

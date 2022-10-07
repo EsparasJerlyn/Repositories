@@ -1,0 +1,134 @@
+.comp-body{
+    font-family: 'ProximaNova';
+}
+.manage-reg-btn{
+    display: flex;
+    justify-content: space-between;
+}
+@media only screen and (max-width:764px){
+    .manage-reg-btn{
+        flex-direction: column;
+    }
+}
+.heading1{
+    font-size: 3.0831rem !important;
+    color: var(--main-color-blue500);
+    line-height: var(--mb-line-height-h1);
+    font-weight: var(--text-Bold);
+    font-family: 'ProximaNova-Bold';
+}
+
+.heading{
+    font-size: 3.0831rem;
+    color: var(--main-color-blue500);
+    line-height: var(--mb-line-height-h1);
+    font-weight: var(--text-Bold);
+    font-family: 'ProximaNova-Bold';
+}
+
+@media only screen and (max-width:768px){
+    .heading1{
+        font-family: "ProximaNova-Bold";
+        font-size: var(--dt-size-heading3) !important;
+        line-height: var(--dt-line-height-h3) !important;
+        font-style: var(--text-normal);
+        font-weight: var(--text-weight-700);
+    }
+
+    .heading{
+        font-family: "ProximaNova-Bold";
+        font-size: var(--dt-size-heading3) !important;
+        line-height: var(--dt-line-height-h3) !important;
+        font-style: var(--text-normal);
+        font-weight: var(--text-weight-700);
+    }
+}
+
+@media only screen and (max-width:720px){
+    .heading1{
+        font-family: "ProximaNova-Bold";
+        font-size: var(--dt-size-heading3) !important;
+        line-height: var(--dt-line-height-h3) !important;
+        font-style: var(--text-normal);
+        font-weight: var(--text-weight-700);
+        margin-bottom: 30px !important;
+    }
+}
+
+
+.blue{
+    color: var(--main-color-blue500);
+}
+
+.buttonSearch{
+    margin-top: 27px !important;
+}
+
+button.slds-button{
+    width: 100% !important;
+}
+
+button.search-button{
+    background: #0066B9;
+    text-align: center;
+    color: #fff;
+    margin: 0px auto;
+    display: block;
+    height: 100%;
+    width: 100%;
+    border: 0px solid #fff;
+    font-size: 18px;
+    font-family: 'ProximaNova';
+    font-weight: bold;
+}
+
+
+.calenderIcon .slds-input-has-icon .slds-input__icon {
+    top: 15% !important }
+
+/* Modal */
+.modal {
+    display: block;
+    position: fixed;
+    z-index: 10;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+    opacity: unset;
+    visibility: visible;
+}
+
+.modal-content{
+    width: 60%;
+    max-width: 52.0625rem;
+    min-width: 20rem;
+}
+
+.modal-footer {
+    background: #ffffff;
+    position: sticky;
+    height: 112px;
+    left: 0px;
+    bottom: 0px;
+    z-index: 2;
+    
+}
+
+.center{
+    text-align: center;
+}
+
+
+.modal-content::-webkit-scrollbar {
+    display: none;
+}
+
+/*spinner*/
+.spinnerHeight{
+    height: var(--spinnerHeight, 700px);
+}

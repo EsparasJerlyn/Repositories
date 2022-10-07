@@ -10,7 +10,7 @@
       |---------------------------|-----------------------|----------------------|---------------------------------|
       | angelika.j.s.galang       | April 21, 2022        | DEPP-1481            | Created file                    | 
 */
-@IsTest(SeeAllData = false)
+@isTest
 private class GenerateImageServerURLTest {
     
     private static final String BADGE_LOGO = System.Label.DOC_Badge_Logo;
@@ -18,7 +18,7 @@ private class GenerateImageServerURLTest {
     private static User currentUser = TestDataFactory.createUserRecords(1, QUTEX).iterator().next(); 
     private static final String ORG_ID = UserInfo.getOrganizationId();
 
-    @IsTest
+    @isTest
     private static void generateURLTest(){
         System.runAs(currentUser){
             String expectedURL = System.URL.getOrgDomainUrl().toExternalForm() + '/file-asset-public/'  + BADGE_LOGO + '?oid=' + ORG_ID;

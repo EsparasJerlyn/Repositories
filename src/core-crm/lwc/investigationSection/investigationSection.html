@@ -1,0 +1,151 @@
+<template>
+    <lightning-accordion allow-multiple-sections-open active-section-name={activeSections}> 
+        <lightning-button 
+            label={addInvestigationName}
+            title={addInvestigationName}
+            icon-name="utility:add"
+            onclick={handleAddInvestigation} 
+            variant="brand" 
+            class="add-activity-button slds-p-bottom_medium"
+            disabled={disableEditing}>
+        </lightning-button>       
+        <!-- Investigation Plan Section -->
+        <lightning-accordion-section name={getSectionTitle} label={getSectionTitle} class="accordion-section">
+            <br/>
+            <div class="slds-scrollable slds-p-bottom_medium">
+                <template if:true={investigationActionData}>
+                    <lightning-datatable 
+                        data={investigationActionData}
+                        columns={columns} 
+                        key-field="id" 
+                        sorted-by={sortBy}
+                        sorted-direction={sortDirection}
+                        onsort={handleSort}
+                        onrowaction={handleRowAction}
+                        hide-checkbox-column="true">
+                    </lightning-datatable>
+                </template>
+                <template if:true={isEmpty}>
+                    <div class="slds-float_center">
+                        {noRecordsFound}
+                    </div>
+                </template>
+            </div>
+        </lightning-accordion-section>
+        <!-- Investigation Summary Section -->
+        <lightning-accordion-section name={getInvSummSectionTitle} label={getInvSummSectionTitle} class="accordion-section">
+            <lightning-record-edit-form object-api-name="Consultancy__c" onsubmit={handleEdit} >
+                <div class="slds-modal__content slds-p-around_medium ">
+                    <lightning-input-field field-name="Investigation_Summary__c" value={recInvSummary} required="true" disabled={disableEditing}></lightning-input-field>
+                    <lightning-file-upload
+                        class="file"
+                        label="Upload Investigation Report"
+                        name="fileUploader"
+                        accept={acceptedFormats}
+                        record-id={recConsId}
+                        onuploadfinished={handleUploadFinished}
+                        disabled={disableEditing}>
+                    </lightning-file-upload>
+                    <lightning-layout>    
+                        <template if:true={filesList}>
+                            <template for:each={filesList} for:item="file">  
+                                <div key={file.value}>
+                                    <lightning-icon icon-name="doctype:image" size="small" title={file.label}></lightning-icon>
+                                    <a href={file.url} download>{file.label}</a>
+                                </div>                          
+                            </template>
+                        </template>
+                    </lightning-layout>
+                    <br/><br/>
+                    <lightning-input-field field-name="Mark_Investigation_as_Complete__c" value={recMarkInvAsComplete} class="investigationComplete" disabled={disableEditing}></lightning-input-field>
+                    <lightning-input-field field-name="Publish_to_the_Portal__c" value={recPublishToPortal} disabled={disableEditing}></lightning-input-field>
+                    <lightning-button 
+                        data-name="save"
+                        label="Save"
+                        variant="brand"
+                        type="submit"
+                        class="slds-float_right slds-p-bottom_xx-large"
+                        disabled={disableEditing}
+                    ></lightning-button>
+                </div>
+            </lightning-record-edit-form>   
+        </lightning-accordion-section>
+    </lightning-accordion>
+
+    <!-- Add Investigation Modal -->
+    <template if:true={isModalOpen}>
+        <section class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModalAction}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse" size="small" ></lightning-icon>
+                    </button>
+                    <h2 class="slds-text-heading_medium slds-hyphenate">{addInvestigationName}</h2>
+                </header>
+                <lightning-record-edit-form object-api-name="Action__c" onsubmit={handleSubmit} onsuccess={handleSuccess}>
+                    <div class="slds-modal__content slds-p-around_medium ">
+                        <lightning-input-field field-name="Investigation_Name__c" required></lightning-input-field>
+                        <lightning-input-field field-name="Investigation_Method__c" ></lightning-input-field>
+                        <lightning-input-field field-name="Start_Date__c"></lightning-input-field>
+                        <lightning-input-field field-name="End_Date__c"></lightning-input-field>
+                        <lightning-input-field field-name="Is_Complete__c" ></lightning-input-field>
+                        <lightning-input-field field-name="Summary__c"></lightning-input-field>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning-button
+                            label="Cancel"
+                            variant="neutral"
+                            onclick={closeModalAction}>  
+                        </lightning-button>
+                        <lightning-button 
+                            data-name="save"
+                            label="Save"
+                            variant="brand"
+                            type="submit"
+                            class="slds-p-left_small"
+                        ></lightning-button>
+                    </footer>
+                </lightning-record-edit-form>   
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <!-- Edit Investigation Modal -->
+    <template if:true={isUpdateModalOpen}>
+        <section class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModalAction}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse" size="small" ></lightning-icon>
+                    </button>
+                    <h2 class="slds-text-heading_medium slds-hyphenate">{modalTitle} - {investigationName}</h2>
+                </header>
+                <lightning-record-edit-form record-id={rowId} object-api-name="Action__c" onsubmit={handleSave} onsuccess={handleSuccess}>
+                    <div class="slds-modal__content slds-p-around_medium ">
+                        <lightning-input-field field-name="Investigation_Name__c" required></lightning-input-field>
+                        <lightning-input-field field-name="Investigation_Method__c" ></lightning-input-field>
+                        <lightning-input-field field-name="Start_Date__c"></lightning-input-field>
+                        <lightning-input-field field-name="End_Date__c"></lightning-input-field>
+                        <lightning-input-field field-name="Is_Complete__c" ></lightning-input-field>
+                        <lightning-input-field field-name="Summary__c"></lightning-input-field>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning-button
+                            label="Cancel"
+                            variant="neutral"
+                            onclick={closeModalAction}>  
+                        </lightning-button>
+                        <lightning-button 
+                            data-name="save"
+                            label="Save"
+                            variant="brand"
+                            type="submit"
+                            class="slds-p-left_small"
+                        ></lightning-button>
+                    </footer>
+                </lightning-record-edit-form>   
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>  
+</template>

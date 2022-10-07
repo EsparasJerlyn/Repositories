@@ -5,9 +5,10 @@
     <description>QUT Faculty Capacity is required to move stage from Qualify to Design or Complete.</description>
     <errorConditionFormula>AND(
 RecordType.DeveloperName =&apos;OPE&apos;,
-ISCHANGED(Stage__c),
-ISPICKVAL(PRIORVALUE(Stage__c),&apos;Qualify&apos;),
-OR(ISPICKVAL(Stage__c, &apos;Design&apos;),ISPICKVAL(Stage__c, &apos;Complete&apos;)),
+OR(
+ISPICKVAL(Stage__c,&apos;Design&apos;),
+ISPICKVAL(Stage__c, &apos;Complete&apos;)
+),
 ISPICKVAL(QUT_Faculty_Capacity__c,&apos;&apos;)
 )</errorConditionFormula>
     <errorDisplayField>QUT_Faculty_Capacity__c</errorDisplayField>

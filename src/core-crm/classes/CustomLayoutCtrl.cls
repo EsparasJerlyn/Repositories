@@ -139,11 +139,40 @@ public with sharing class CustomLayoutCtrl {
         Boolean isOpe
     ){
         return [
-            SELECT  MasterLabel, Left_Right_Column_Long__c, Left_Column_Long__c, Right_Column_Long__c, Single_Column_Long__c, Order__c
+            SELECT  MasterLabel, Section_Label__c, Left_Right_Column_Long__c, Left_Column_Long__c, Right_Column_Long__c, Single_Column_Long__c, Order__c
             FROM Field_Layout_Setting__mdt
             WHERE Record_Type_Setting__r.Object_Type__c =: objApiName
             AND Record_Type_Setting__r.DeveloperName =: rtDevName
             AND Record_Type_Setting__r.For_OPE__c =: isOpe
+            ORDER BY Order__c ASC
+        ];
+    }
+
+
+    /**
+    * @description Method for getting the metadata of given object api name set in Field Layout Setting with field dependency
+    * @param objApiName - API name of object passed from component
+    * @param label - record type setting label name
+    * @param objectInfo - object info to be queried
+    * @return list of Field Layout Setting records
+    */
+    @AuraEnabled(cacheable=true)
+    public static List<Field_Layout_Setting__mdt> getLayoutMappingWithField(
+        Map<String,String> objectInfo,
+        String recordId
+    ){
+        sObject tempObj = queryRecordObject(
+            objectInfo.get('fieldApiName'),
+            objectInfo.get('childObject'),
+            objectInfo.get('parentField'),
+            recordId
+        );
+        return [
+            SELECT  MasterLabel, Section_Label__c, Left_Right_Column_Long__c, Left_Column_Long__c, Right_Column_Long__c, Single_Column_Long__c, Order__c
+            FROM Field_Layout_Setting__mdt
+            WHERE Record_Type_Setting__r.Object_Type__c =: objectInfo.get('childObject')
+            AND Record_Type_Setting__r.DeveloperName =: objectInfo.get('recordType')
+            AND Field_Dependency__c =: string.valueOf(tempObj.get(objectInfo.get('fieldApiName')))
             ORDER BY Order__c ASC
         ];
     }

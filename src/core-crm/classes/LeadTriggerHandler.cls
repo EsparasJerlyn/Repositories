@@ -16,6 +16,7 @@
  */
 
 public without sharing class LeadTriggerHandler implements Disableable, BeforeInsert, BeforeUpdate {
+    public static Boolean isRunning = false;
     /**
      * @description performs beforeInsert event for Lead object
      * @param newItems - List of Lead.Trigger.new
@@ -23,6 +24,7 @@ public without sharing class LeadTriggerHandler implements Disableable, BeforeIn
     public void beforeInsert(List<SObject> newItems) {
         LeadDuplicatesHelper.detectDuplicatesInEmails((List<Lead>) newItems, null);
     }
+
     
     /**
      * @description performs beforeUpdate event for Lead object
@@ -35,15 +37,7 @@ public without sharing class LeadTriggerHandler implements Disableable, BeforeIn
     ) {
         LeadDuplicatesHelper.detectDuplicatesInEmails((List<Lead>) newItems.values(), (Map<Id, Lead>) oldItems);
     }
-    
-    /**
-     * @description performs afterinsert event for Lead object
-     * @param newItems - Map of Lead.Trigger.newMap
-     */
-    // removed as per DEPP-3056
-    // public void afterInsert(Map<Id,SObject> newItems) {
-    //     LeadDuplicatesHelper.detectDuplicates((Map<Id,Lead>) newItems);
-    // }
+
     
     /**
      * @description indicates it the trigger is disabled

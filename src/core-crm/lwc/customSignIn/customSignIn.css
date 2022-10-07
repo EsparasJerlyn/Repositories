@@ -160,12 +160,13 @@ input[type="number"] {
     text-align: left;
 }
 
+
 .clickHere {
     color: var(--lwc-brandTextLink, #2574a9) !important;
     text-decoration: none !important;
     transition: color 0.1s linear !important;
   }
-  
+
   .clickHere:hover,
   .clickHere:focus {
     text-decoration: underline !important;

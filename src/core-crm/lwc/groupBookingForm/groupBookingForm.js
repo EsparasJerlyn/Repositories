@@ -13,17 +13,20 @@
       | john.bo.a.pineda          | June 29, 2022         | DEPP-3323            | Modified to add logic to validate     |
       |                           |                       |                      | Upload File Type                      |
       | julie.jane.alegre         | July 28, 2022         | DEPP-3548            | Modified                              |
+      | john.m.tambasen           | September 23, 2022    | DEPP-4367            | birthdate validation                  |
+      | julie.jane.alegre         | September 29, 2022    |  DEPP-4471           | Add validation for available seats    |
 */
 import { LightningElement, track, wire, api } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import userId from "@salesforce/user/Id";
 import getQuestionsForGroupBooking from "@salesforce/apex/ProductDetailsCtrl.getQuestionsForGroupBooking";
-import { getRecord, getFieldValue } from "lightning/uiRecordApi";
+import { getRecord } from "lightning/uiRecordApi";
 import getCartItemsByCart from "@salesforce/apex/CartItemCtrl.getCartItemsByCart";
 import getUserCartDetails from '@salesforce/apex/ProductDetailsCtrl.getUserCartDetails';
 import saveBooking from '@salesforce/apex/GroupBookingFormCtrl.saveBooking';
 import addCartItems from '@salesforce/apex/GroupBookingFormCtrl.addCartItems';
 import removeCartItems from '@salesforce/apex/GroupBookingFormCtrl.removeCartItems';
+import getAvailableSeats from '@salesforce/apex/GroupBookingFormCtrl.getAvailableSeats';
 import LWC_Error_General from "@salesforce/label/c.LWC_Error_General";
 import { loadStyle } from "lightning/platformResourceLoader";
 import customSR from "@salesforce/resourceUrl/QUTInternalCSS";
@@ -31,6 +34,7 @@ import getMobileLocaleOptions from "@salesforce/apex/RegistrationFormCtrl.getMob
 import getUserMobileLocale from "@salesforce/apex/RegistrationFormCtrl.getUserMobileLocale";
 import qutResourceImg from "@salesforce/resourceUrl/QUTImages";
 import validateContactMatching from "@salesforce/apex/RegistrationMatchingHelper.validateContactMatching";
+import { birthdateValidation } from 'c/commonUtils';
 
 //Contact fields
 const CONTACT_FIELDS = [
@@ -56,6 +60,7 @@ export default class GroupBookingForm extends LightningElement {
     courseOffering;
     accountId;
     cartId;
+    availableSeats;
 
     @track templatePicklist = true;
     @track displayAccordion;
@@ -125,7 +130,7 @@ export default class GroupBookingForm extends LightningElement {
     paymentOpt = [];
     @api hasPayNow;
     @api hasInvoice;
-    cartItemsPbeUpdate;
+    cartItemsPbeUpdate = [];
 
     // Set Accepted File Formats
     get acceptedFormats() {
@@ -203,6 +208,7 @@ export default class GroupBookingForm extends LightningElement {
             this.productRequestId = this.productDetails.Program_Plan__r.Product_Request__c;
         }else{
             this.productRequestId = this.productDetails.Course__r.ProductRequestID__c;
+           
         }
         this.productId = this.productDetails.Id;
         this.productCourseName = this.productDetails.Name;
@@ -218,7 +224,7 @@ export default class GroupBookingForm extends LightningElement {
                         this.regHeader = false;
                     }
                     this.responseData2 = results;
-                    this.questions2= this.formatQuestions(results);
+                    this.questions2= results;
                     this.questionsPrimary= this.formatQuestions(results);
 
                 }
@@ -226,6 +232,14 @@ export default class GroupBookingForm extends LightningElement {
         })
         .catch((e) => {
             this.generateToast("Error.", LWC_Error_General, "warning", 'dismissable');
+        });
+        //get availableSeats
+        getAvailableSeats({offeringId: this.selectedOffering, isPrescribed: this.isPrescribed})
+        .then((results) => {
+            this.availableSeats = results;
+        })
+        .catch((e)=> {
+            console.log(e);
         });
 
         getUserCartDetails({
@@ -283,14 +297,19 @@ export default class GroupBookingForm extends LightningElement {
     handleAfterPick(event){
 
         this.numberOfParticipants = event.detail.value;
-        if(this.numberOfParticipants == this.counter){
-            this.disableAddBtn = true;
+        if(this.availableSeats >= this.numberOfParticipants){
+                this.templatePicklist = false;
+        }else{
+            this.generateToast(
+                'Error.',
+                'There are no enough seats available to complete this transaction.',
+                'warning',
+                'dismissable'
+            );
+            this.templatePicklist = true;
+            
         }
-
-        if(this.numberOfParticipants != null){
-            this.templatePicklist = false;
-
-        }
+        
 
     }
     //This handle the change on accordion data
@@ -299,6 +318,7 @@ export default class GroupBookingForm extends LightningElement {
     }
     //This handle added participants
     addParticipant() {
+    
         this.currentIndex = this.currentIndex + 1;
         //Contact list
         this.items = [...this.items,
@@ -313,7 +333,7 @@ export default class GroupBookingForm extends LightningElement {
                 Dietary_Requirement__c: '',
                 Accessibility_Requirement__c: '',
                 label: 'PARTICIPANT ' + this.currentIndex,
-                Questions: this.questions2,
+                Questions: this.formatQuestions(this.questions2,this.items.length),
                 hasError: false,
                 errorMessage:'',
                 fieldsMismatch:[]
@@ -369,12 +389,13 @@ export default class GroupBookingForm extends LightningElement {
         }
    }
 
-    formatQuestions(items){
+    formatQuestions(items, counter){
         let questions2 = items.map(item =>{
             let newItem = {};
             let newOptions = [];
             newItem.Id = item.Id;
             if(item.Question__c){
+                newItem.RowId = item.Question__r.Id + counter;
                 newItem.QuestionId = item.Question__r.Id;
                 newItem.Label = item.Question__r.Label__c;
                 newItem.MandatoryResponse = item.Question__r.Acceptable_Response__c;
@@ -413,6 +434,8 @@ export default class GroupBookingForm extends LightningElement {
 
     get disableSave(){
         let hasUnansweredQuestions = false;
+        let formNotFilledOut = true;
+        let hasNoParticipant = false;
         if(this.questionsPrimary && 
             this.questionsPrimary.filter((item) => item.Answer == '') && 
             this.questionsPrimary.filter((item) => item.Answer == '').length > 0){
@@ -428,12 +451,30 @@ export default class GroupBookingForm extends LightningElement {
                         hasUnansweredQuestions = true;
                     }
             })
+        }else {
+            hasNoParticipant = true;
         }
+        
+        let form = [...this.template.querySelectorAll('lightning-input'),
+        ];
+        
+        if(form.length > 0){
+            const allValid = [
+                ...this.template.querySelectorAll('lightning-input'),
+            ].reduce((validSoFar, inputCmp) => {
+                inputCmp.reportValidity();
+                return validSoFar && inputCmp.checkValidity();
+            }, true);
 
-        return hasUnansweredQuestions || this.processing;
-
+            if(allValid){
+                formNotFilledOut = false;
+            }else{
+                formNotFilledOut = true;
+            }
+        }
+    
+        return hasUnansweredQuestions || this.processing || hasNoParticipant ;
     }
-
 
  submitDetails() {
     const allValid = [
@@ -443,7 +484,7 @@ export default class GroupBookingForm extends LightningElement {
         return validSoFar && inputCmp.checkValidity();
     }, true);
 
-    if (allValid && !this.checkForDuplicateEmails()) {
+    if (allValid && !this.checkForDuplicateEmails() && !this.checkDOB()) {
         if(this.numberOfParticipants == 1){
             this.processing = false;
             this.generateToast('Error.','Minimum participants for group booking is 2.','warning','dismissable');
@@ -560,6 +601,34 @@ checkForDuplicateEmails(){
    
 }
 
+checkDOB(){
+    let hasInvalidDOB = false;
+
+    this.items = this.items.map(item => {
+        let record = item;
+        if(!birthdateValidation(record.Birthdate)){
+            record.hasError = true;
+            record.errorMessage = 'Must be 15 years or older to register.';
+            hasInvalidDOB = true;
+        }else{
+            record.hasError = false;
+            record.errorMessage = '';
+        }
+        return record;
+    });
+
+    if(hasInvalidDOB){
+        this.generateToast(
+            'Error.',
+            'Error(s) found: Please review details provided.',
+            'warning',
+            'dismissable'
+        );
+    }
+
+    return hasInvalidDOB;
+}
+
 setupContactDetailsData(){
 
     this.fieldsPrimary.Id = this.contactId;
@@ -594,7 +663,6 @@ setupContactDetailsData(){
             conData.Id = null;
             conData.FirstName = blankRow[i].FirstName;
             conData.LastName = blankRow[i].LastName;
-            conData.Email = blankRow[i].Email;
             conData.Registered_Email__c = blankRow[i].Email;
             conData.Birthdate = blankRow[i].Birthdate;
             conData.ContactMobile_Locale__c = this.localeOptions.find( opt => opt.label === blankRow[i].ContactMobile_Locale__c).conMobileLocale;
@@ -714,7 +782,6 @@ validateContact(additionalContacts){
        this.generateToast("Error.", LWC_Error_General, "warning", 'dismissable');
     })
 
-    return hasMatchingError;
 }
 
 paymentOptionButtons(){
@@ -780,13 +847,14 @@ createAnswerRecord(){
 
   handleChange(event){
     this.items = this.items.map(item=>{
-        if (event.target.dataset.contactId == item.id){
-
-            item.Questions = item.Questions.map(row=>{
-                if(event.target.dataset.questionId === row.Id && row.IsCheckbox){ //checkbox
-                    row.Answer = event.detail.checked.toString();
-                }else if(event.target.dataset.questionId === row.Id && row.IsFileUpload){  //fileupload
-                    row.Answer = event.detail.value.toString();
+        let tempItem = item;
+            
+            tempItem.Questions = tempItem.Questions.map(row=>{
+                let tempRow = row;
+                if(event.target.dataset.rowId === tempRow.RowId && tempRow.IsCheckbox){ //checkbox
+                    tempRow.Answer = event.detail.checked.toString();
+                }else if(event.target.dataset.rowId === tempRow.RowId && tempRow.IsFileUpload){  //fileupload
+                    tempRow.Answer = event.detail.value.toString();
                     const file = event.target.files[0];
                     let fileNameParts = file.name.split('.');
                     let extension = '.' + fileNameParts[fileNameParts.length - 1].toLowerCase();
@@ -794,7 +862,7 @@ createAnswerRecord(){
                         let reader = new FileReader();
                         reader.onload = () => {
                             let base64 = reader.result.split(',')[1];
-                            row.FileData = {
+                            tempRow.FileData = {
                                 'filename': file.name,
                                 'base64': base64,
                                 'recordId': undefined
@@ -802,21 +870,19 @@ createAnswerRecord(){
                         }
                         reader.readAsDataURL(file);
                     } else {
-                        row.Answer = '';
-                        row.FileData = undefined;
-                        this.generateToast('Error.','Invalid File Format.','error','dismissable');
+                        tempRow.Answer = '';
+                        tempRow.FileData = undefined;
+                        this.generateToast('Error.','Invalid File Format.','warning','dismissable');
                     }
-                }else if(event.target.dataset.questionId === row.Id && row.IsMultiPicklist){  //picklist
-                    row.Answer = event.detail.value?event.detail.value.toString().replace(/,/g, ';'):row.Answer;
-                }else if(event.target.dataset.questionId === row.Id){   //textbox
-                    row.Answer = event.detail.value?event.detail.value.toString():row.Answer;
+                }else if(event.target.dataset.rowId === tempRow.RowId && tempRow.IsMultiPicklist){  //picklist
+                    tempRow.Answer = event.detail.value?event.detail.value.toString().replace(/,/g, ';'):tempRow.Answer;
+                }else if(event.target.dataset.rowId === tempRow.RowId){   //textbox
+                    tempRow.Answer = event.detail.value?event.detail.value.toString():tempRow.Answer;
                 }
-                return row;
+                return tempRow;
             });
-        }
-        return item;
+        return tempItem;    
     });
-
   }
 
   handleBlur(event){
@@ -892,4 +958,5 @@ createAnswerRecord(){
   renderedCallback() {
     Promise.all([loadStyle(this, customSR + "/QUTInternalCSS.css")]);
   }
+ 
 }

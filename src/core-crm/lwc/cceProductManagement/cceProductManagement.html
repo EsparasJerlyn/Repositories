@@ -1,0 +1,40 @@
+<template>
+    <div if:false={hasAccess} class="slds-text-align_center slds-p-around_large">
+        <p><strong>You don't have access to this feature.</strong></p>
+    </div>
+    <div if:true={hasAccess}>
+        <c-related-products
+            record-id={recordId}
+            tab={tab}>
+        </c-related-products>
+        <div class="slds-m-top_small">
+            <c-cce-manage-registration-section
+            record-id={recordId}
+            tab={tab}
+            record-type={recordType}
+            ontablesave={handleTableSave}
+            is-status-completed={isStatusCompleted}>
+            </c-cce-manage-registration-section>
+        </div>
+        <c-custom-section-layout
+            record-id={recordId}
+            object-api-name={objectApiName}
+            child-object-api-name={sectionObject.childObject}
+            parent-object-api-name={sectionObject.parentObject}
+            parent-field-api-name={sectionObject.parentField}
+            parent-section-label='Credit Details'
+            show-edit-button={showEditButton}
+            if:true={isCorporateBundle}
+            data-id="creditDetails"
+        ></c-custom-section-layout>
+        <c-custom-section-layout
+            record-id={recordId}
+            object-api-name={objectApiName}
+            child-object-api-name={sectionObject.childObject}
+            parent-object-api-name={sectionObject.parentObject}
+            parent-field-api-name={sectionObject.parentField}
+            parent-section-label='Decommission'
+            show-edit-button={showEditButton}
+        ></c-custom-section-layout>
+    </div>
+</template>

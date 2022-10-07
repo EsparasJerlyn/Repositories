@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Ready_for_publishing_must_be_Yes</fullName>
+    <active>true</active>
+    <errorConditionFormula>And(
+
+   OR(
+     ISPICKVAL( Ready_for_publishing__c , &apos;No&apos; ) ,
+     ISPICKVAL( Ready_for_publishing__c , &apos;&apos; ) 
+   ),
+   OR(
+     ISCHANGED(Publishing_Start_date__c ),
+     ISCHANGED(Publishing_End_date__c ),
+     NOT ( ISBLANK ( Publishing_Start_date__c ) ),
+     NOT ( ISBLANK ( Publishing_End_date__c ) )
+   )
+)</errorConditionFormula>
+    <errorDisplayField>Ready_for_publishing__c</errorDisplayField>
+    <errorMessage>Ready for publishing must be equal to Yes</errorMessage>
+</ValidationRule>

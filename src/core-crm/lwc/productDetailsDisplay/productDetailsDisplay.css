@@ -3,14 +3,10 @@
   flex-direction: column;
   align-items: stretch;
 }
-/*.header {
-  background: none;
-  font-family: "ProximaNova-Bold";
-  font-style: normal;
-  font-size: 66px;
-  line-height: 69px;
+
+.heading1 {
   color: #0066b9;
-}*/
+}
 
 .subHeader {
   background: none;

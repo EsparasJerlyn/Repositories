@@ -242,13 +242,12 @@
                                          <!-- Questions goes here -->
                                                 <lightning-layout multiple-rows size="12">
                                                     <template for:each={item.Questions} for:item="question" for:index="index">
-                                                        <lightning-layout-item size="6" padding="around-small" key={question.Id}>
+                                                        <lightning-layout-item size="6" padding="around-small" key={question.RowId}>
                                                             <template if:true={question.IsText}>
                                                                 <lightning-textarea
-                                                                name={question.Id}
+                                                                name={question.RowId}
                                                                 label={question.Label}
-                                                                data-contact-id={item.id}
-                                                                data-question-id={question.Id}
+                                                                data-row-id={question.RowId}
                                                                 required
                                                                 onchange={handleChange}
                                                                 onblur={handleBlur}>
@@ -256,10 +255,9 @@
                                                             </template>
                                                             <template if:true={question.IsNumber}>
                                                                 <lightning-input
-                                                                name={question.Id}
+                                                                name={question.RowId}
                                                                 type="number"
-                                                                data-contact-id={item.id}
-                                                                data-question-id={question.Id}
+                                                                data-row-id={question.RowId}
                                                                 label={question.Label}
                                                                 required
                                                                 onchange={handleChange}
@@ -268,10 +266,9 @@
                                                             </template>
                                                             <template if:true={question.IsDate}>
                                                                 <lightning-input
-                                                                name={question.Id}
+                                                                name={question.RowId}
                                                                 type="date"
-                                                                data-contact-id={item.id}
-                                                                data-question-id={question.Id}
+                                                                data-row-id={question.RowId}
                                                                 label={question.Label}
                                                                 required onchange={handleChange}
                                                                 onblur={handleBlur}>
@@ -279,11 +276,10 @@
                                                             </template>
                                                             <template if:true={question.IsPicklist}>
                                                                 <lightning-combobox
-                                                                    name={question.Id}
+                                                                    name={question.RowId}
                                                                     label={question.Label}
                                                                     value={question.Response}
-                                                                    data-contact-id={item.id}
-                                                                    data-question-id={question.Id}
+                                                                    data-row-id={question.RowId}
                                                                     placeholder="Select Option"
                                                                     options={question.Options}
                                                                     onchange={handleChange}
@@ -293,14 +289,13 @@
                                                             </template>
                                                             <template if:true={question.IsMultiPicklist}>
                                                                 <abbr title="required" class="slds-required">*</abbr>
-                                                                <span data-id={question.Id} class="slds-form-element__label" >{question.Label}</span>
+                                                                <span data-id={question.RowId} class="slds-form-element__label" >{question.Label}</span>
                                                                 <lightning-dual-listbox
-                                                                    data-id={question.Id}
+                                                                    data-id={question.RowId}
                                                                     name={question.Id}
                                                                     variant="label-hidden"
                                                                     class="normal-font"
-                                                                    data-contact-id={item.id}
-                                                                    data-question-id={question.Id}
+                                                                    data-row-id={question.RowId}
                                                                     source-label="Available"
                                                                     selected-label="Selected"
                                                                     options={question.Options}
@@ -311,24 +306,22 @@
                                                             </template>
                                                             <template if:true={question.IsCheckbox}>
                                                                 <lightning-input
-                                                                name={question.Id}
+                                                                name={question.RowId}
                                                                 type="checkbox"
                                                                 label={question.Label}
                                                                 onchange={handleChange}
-                                                                data-contact-id={item.id}
-                                                                data-question-id={question.Id}
+                                                                data-row-id={question.RowId}
                                                                 onblur={handleBlur}
                                                                 variant="label-stacked">
                                                             </lightning-input>
                                                             </template>
                                                             <template if:true={question.IsFileUpload}>
                                                                 <lightning-input
-                                                                name ={question.Id}
+                                                                name ={question.RowId}
                                                                 type="file"
                                                                 accept={acceptedFormats}
                                                                 label={question.Label}
-                                                                data-contact-id={item.id}
-                                                                data-question-id={question.Id}
+                                                                data-row-id={question.RowId}
                                                                 required
                                                                 onchange={handleChange}
                                                                 onblur={handleBlur}>

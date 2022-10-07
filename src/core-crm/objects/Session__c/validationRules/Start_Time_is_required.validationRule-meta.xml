@@ -4,7 +4,8 @@
     <active>true</active>
     <errorConditionFormula>AND(
  Is_Managed_Externally__c = false,
- ISBLANK( Start_Time_v2__c ) 
+ ISBLANK( Start_Time_v2__c ),
+ RecordType.DeveloperName = &apos;General_Session&apos;
 )</errorConditionFormula>
     <errorDisplayField>Start_Time_v2__c</errorDisplayField>
     <errorMessage>Start Time is required</errorMessage>

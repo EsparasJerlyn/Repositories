@@ -3,7 +3,7 @@
     <allowInternalUserLogin>false</allowInternalUserLogin>
     <allowMembersToFlag>false</allowMembersToFlag>
     <changePasswordTemplate>unfiled$public/CommunityChangePasswordEmailTemplate</changePasswordTemplate>
-    <communityRoles/>
+    <communityRoles />
     <disableReputationRecordConversations>false</disableReputationRecordConversations>
     <emailFooterLogo>Experiences_Shared_Document_Folder/qut_logo_study.png</emailFooterLogo>
     <emailSenderAddress>qutex@qut.edu.au</emailSenderAddress>
@@ -30,14 +30,15 @@
     <gatherCustomerSentimentData>false</gatherCustomerSentimentData>
     <networkMemberGroups>
         <permissionSet>OPE_Catalogue</permissionSet>
+        <permissionSet>Corporate_Portal_Base</permissionSet>
         <profile>admin</profile>
-        <profile>OPE Catalogue</profile>
+        <profile>OPE catalogue</profile>
     </networkMemberGroups>
     <networkPageOverrides>
         <changePasswordPageOverrideSetting>Standard</changePasswordPageOverrideSetting>
         <forgotPasswordPageOverrideSetting>Standard</forgotPasswordPageOverrideSetting>
         <homePageOverrideSetting>VisualForce</homePageOverrideSetting>
-        <loginPageOverrideSetting>Designer</loginPageOverrideSetting>
+        <loginPageOverrideSetting>Standard</loginPageOverrideSetting>
         <selfRegProfilePageOverrideSetting>Designer</selfRegProfilePageOverrideSetting>
     </networkPageOverrides>
     <picassoSite>Study1</picassoSite>

@@ -94,10 +94,10 @@
 
   }
 
-  .siteforceB2bBody>.body.isPageWidthFixed-true
+  /* .siteforceB2bBody>.body.isPageWidthFixed-true
   {
     width: 1140px !important;
-  }
+  } */
 
   body{
     background: #fff !important;
@@ -1742,4 +1742,52 @@ ul.slds-accordion.searchResult .slds-form-element__label {
 [c-groupbookingform_groupbookingform] .groupRegSelectNbr{
   text-align: center !important;
   padding-bottom: 10px;
+}
+
+
+ /*Employees Registered in this Course Stacked Font-Style*/
+
+ .slds-icon-text-default {
+  --slds-c-icon-color-foreground: #0066b9;
+}
+ @media only screen and (min-width: 200px) and (max-width: 768px){
+ .slds-max-medium-table_stacked th:before, .slds-max-medium-table_stacked td:before, .slds-max-medium-table--stacked th:before, .slds-max-medium-table--stacked td:before {
+	font-size: 18px !important;
+	color: #000000 !important;
+	letter-spacing: .0625rem;
+	display: block;    
+	content: attr(data-label);
+	font-family: 'ProximaNova-Bold' !important;
+  text-transform: capitalize;
+  width: 50%;
+ }
+
+ .siteforceContentArea .comm-layout-column:not(:empty) {
+  padding-left: var(--lwc-layoutVerticalPadding,0.75rem);
+}
+
+ .slds-table_header-fixed tbody tr:first-child td, .slds-table_header-fixed tbody tr:first-child th, .slds-table--header-fixed tbody tr:first-child td, .slds-table--header-fixed tbody tr:first-child th {
+  border-top: var(--lwc-borderWidthThin,1px) solid var(--lwc-colorBorder,#D4D4D4);
+}
+
+th{
+  margin-left: 0px !important;
+  padding-left: 0px !important;
+}
+
+td{
+  margin-left: 0px !important;
+  padding-left: 0px !important;
+}
+
+}
+
+@media only screen and (min-width: 690px) and (max-width: 768px){
+th.slds-m-around_x-small.desc-content.bodyRegular {
+  display: -webkit-inline-box !important;
+}
+
+td.slds-m-around_x-small.desc-content.bodyRegular {
+  display: -webkit-inline-box !important;
+}
 }

@@ -1,0 +1,67 @@
+<html>
+	<head>
+		<title></title>
+	</head>
+	<body style="
+		height: auto; 
+		min-height: auto;
+		font-size:12px;
+		font-family:Arial,Helvetica,sans-serif;">
+		
+		<p>Dear <b>{fullname}</b>,</p>
+
+		<table style="
+			padding: 5px; 
+			border-spacing: 15px;
+			font-size: 12px;
+			font-family:Arial,Helvetica,sans-serif;"
+		>
+				<tr style='vertical-align: top;'>
+					<td><strong>{title}</strong></td>
+					<td>{title_value}</td>
+				</tr>
+				<tr style='vertical-align: top;'>
+					<td><strong>{description}</strong></td>
+					<td>{description_value}</td>
+				</tr>
+				<tr style='vertical-align: top;'>
+					<td><strong>{overview}</strong></td>
+					<td>{overview_value}</td>
+				</tr>
+				<tr style='vertical-align: top;'>
+					<td><strong>{evolve}</strong></td>
+					<td>{evolve_value}</td>
+				</tr>
+				<tr style='vertical-align: top;'>
+					<td><strong>{participate}</strong></td>
+					<td>{participate_value}</td>
+				</tr>
+				<tr style='vertical-align: top;'>
+					<td><strong>{concepts}</strong></td>
+					<td>{concepts_value}</td>
+				</tr>
+				<tr style='vertical-align: top;'>
+					<td><strong>{moredetails}</strong></td>
+					<td>{moredetails_value}</td>
+				</tr>
+			
+		</table>
+
+		<br />
+		
+		<p><a href="{employeeSelfRegistrationEmailLink}">Click to Register</a></p>
+
+		<p>&nbsp;</p>
+
+		<p>Should you have any questions, please feel free to contact the QUTeX team using the details below.<br />
+		<br />
+		<br />
+		Kind regards,<br />
+		<br />
+		<b>The QUTeX Team</b><br />
+		Phone: + 61 7 3138 7733 | Email:&nbsp;qutex@qut.edu.au<br />
+		QUTeX Professional and Executive Education for the Real World | <a href="http://www.qut.edu.au/qutex" rel="noopener noreferrer" target="_blank"><u>QUTeX - Professional and executive education</u></a><br />
+		<br />
+		<a href="https://urldefense.com/v3/__https:/www.linkedin.com/showcase/14561011/admin/__;!!NVzLfOphnbDXSw!S2Oc_0k2Ez2JnxU4z2HSlUyYOm6u1c5Asb4fYEkgLGtrj25mmhLc9oTRrIlXGHeEYPrDdfY$" rel="noopener noreferrer" target="_blank">Follow</a> QUTeX on LinkedIn | <a href="https://alumni-and-friends.qut.edu.au/qutex-connect-subscription" rel="noopener noreferrer" target="_blank">Subscribe</a> to the QUTeX Connect Newsletter</p>
+	</body>
+</html>

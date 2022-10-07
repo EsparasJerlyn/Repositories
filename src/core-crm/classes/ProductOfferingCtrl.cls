@@ -10,6 +10,7 @@
       |---------------------------|-----------------------|--------------|-----------------------------------------------|
       | angelika.j.s.galang       | February 8, 2022      | DEPP-1258    | Created file                                  | 
       | roy.nino.s.regala         | April 20, 2022        | DEPP-2138    | Updated to enable user to search contacts     |
+      | john.m.tambasen           | August, 16 2022       | DEPP-1946    | Single/Group Coaching changes                 |
 */
 public with sharing class ProductOfferingCtrl {
     
@@ -200,7 +201,7 @@ public with sharing class ProductOfferingCtrl {
      *              of a product request
      * @param productRequestId - id of product request
      * @param parentInfo - map containing condition field and object api name of parent
-     * @param childInfo - map contaning fileds, object api name, and condition field of child
+     * @param childInfo - map containing fields, object api name, and condition field of child
      * @return custom ProductOfferingData wrapper
     */
     @AuraEnabled(cacheable=true)
@@ -247,16 +248,35 @@ public with sharing class ProductOfferingCtrl {
                 WHERE hed__Course_Offering__c IN :poIDs AND RecordTypeId =: FACULTY_REC_TYPE
                 ORDER BY IsActive__c DESC,CreatedDate
             ];
-            
+
+            //create a list of course connections
+            List<hed__Course_Enrollment__c> courseConnList = [
+                SELECT 
+                    Id, Name, hed__Contact__c, hed__Course_Offering__c, hed__Status__c
+                FROM 
+                    hed__Course_Enrollment__c
+                WHERE 
+                    hed__Course_Offering__c IN :poIDs AND hed__Status__c != 'Cancelled' AND RecordTypeId !=: FACULTY_REC_TYPE
+            ];
+
+            //create set for contact IDs
+            Set<Id> nonCancelledLearnerIds = new Set<Id>();
+            for(hed__Course_Enrollment__c currentConn: courseConnList){
+                nonCancelledLearnerIds.add(currentConn.hed__Contact__c);
+            }
+
             poData.relatedSessions = [
                 SELECT Id, Name, Session_Type__c,  Course_Connection__c, Course_Connection__r.hed__Contact__c,
                         Course_Connection__r.hed__Contact__r.Name, Course_Offering__c, Facilitator__c,
                         Date__c, Start_Time_v2__c, End_Time_v2__c, Location__c, Location__r.Name, Location_Detail_v2__c,
-                        IsActive__c,CreatedDate
+                        IsActive__c,CreatedDate, Learner__c, Learner__r.Name, Session_Status__c, RecordType.DeveloperName
                 FROM Session__c 
-                WHERE Course_Offering__c IN :poIDs
-                ORDER BY IsActive__c DESC,CreatedDate
+                WHERE Course_Offering__c IN :poIDs AND (Learner__c IN :nonCancelledLearnerIds OR Learner__c = null)
+                ORDER BY IsActive__c DESC,CreatedDate, Name
             ];
+
+            //get the number of sessions for single/group sessions
+            poData.noOfSessions = [SELECT Id, Name, No_Of_Coaching_Sessions__c FROM hed__Course__c WHERE ProductRequestID__c =: productRequestId LIMIT 1].No_Of_Coaching_Sessions__c; 
         }
         if(childInfo.get('objectType') == PROGRAM_OFFERING_API_NAME){
             poData.childCourseOfferings = [
@@ -265,7 +285,26 @@ public with sharing class ProductOfferingCtrl {
                 WHERE Program_Offering__c IN :poIDs
             ];
         }
-        
+
+        List<Product_Request__c> prodReqList = [SELECT RecordType.Id, RecordType.DeveloperName FROM Product_Request__c WHERE Id =: productRequestId LIMIT 1];
+        for(Product_Request__c pr : prodReqList){
+            poData.recordTypeName = pr.RecordType.DeveloperName;
+        }
+
+        List<Product2> productDetails = [SELECT Id, Name, Product_Category__c FROM Product2 WHERE Course__r.ProductRequestID__c  =: productRequestId OR Program_Plan__r.Product_Request__c  =: productRequestId];
+        for(Product2 product : productDetails){
+            poData.productCategory = product.Product_Category__c;
+        }
+
+        List<hed__Course_Offering__c> courseOffers = [SELECT Id, hed__Capacity__c FROM hed__Course_Offering__c WHERE hed__Course__r.ProductRequestID__c  =: productRequestId];
+        for(hed__Course_Offering__c co : courseOffers){
+            poData.capacity = co.hed__Capacity__c;
+        }
+
+        List<Program_Offering__c> progOffers = [SELECT Id, hed_Capacity__c FROM Program_Offering__c WHERE hed_Program_Plan__r.Product_Request__c  =: productRequestId];
+        for(Program_Offering__c po : progOffers){
+            poData.capacity = po.hed_Capacity__c;
+        }
         return poData;
     }
 
@@ -286,5 +325,13 @@ public with sharing class ProductOfferingCtrl {
         public List<hed__Course_Enrollment__c> relatedFacilitators;
         @AuraEnabled 
         public List<Session__c> relatedSessions;
+        @AuraEnabled 
+        public String recordTypeName;
+        @AuraEnabled 
+        public Double noOfSessions = 0;
+        @AuraEnabled 
+        public String productCategory;
+        @AuraEnabled 
+        public Decimal capacity;
     }
 }

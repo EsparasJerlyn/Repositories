@@ -11,6 +11,7 @@
       |---------------------------|-----------------------|----------------------|-----------------------------------------------------------|
       | john.bo.a.pineda          | March 14, 2022        | DEPP-1643            | Created file                                              |
       | roy.nino.s.regala         | June 23,2022          | DEPP-3252            | added logic to create cartitems and construct pay now url |
+      | john.m.tambasen           | September 06, 2022    | DEPP-2928            | create own cartdeliverygroup and use cart_payment__c      |
  */
 public without sharing class QuestionnaireResponseSummaryCtrl {
   /**
@@ -137,50 +138,50 @@ public without sharing class QuestionnaireResponseSummaryCtrl {
         qrs[0].Application_Status__c = qrsStatus;
         qrs[0].Reason_For_Rejection__c = reasonForRejection != null?reasonForRejection:'';
 
-      if(qrsStatus == 'Approved'){
-        User portalUser = [ SELECT Id, Contact.AccountId, ContactId
-        FROM User 
-          WHERE ContactId =: qrs[0].Contact__c 
-        LIMIT 1];
+        if(qrsStatus == 'Approved'){
+          User portalUser = [ SELECT Id, Contact.AccountId, ContactId, AccountId
+          FROM User
+          WHERE ContactId =: qrs[0].Contact__c
+          LIMIT 1];
 
         Id offeringId = qrs[0].Course_Offering__c!=null?qrs[0].Course_Offering__c:qrs[0].Program_Offering__c;
         Boolean isPrescribed = qrs[0].Course_Offering__c!=null?false:true;
 
-        PricebookEntry pbEntry = [SELECT Id, UnitPrice, Product2Id FROM PricebookEntry WHERE Id=: qrs[0].Pricebook_Entry_ID__c LIMIT 1];
+        PricebookEntry pbEntry = [SELECT Id, UnitPrice, Product2Id, Product2.Name FROM PricebookEntry WHERE Id=: qrs[0].Pricebook_Entry_ID__c LIMIT 1];
 
-      WebCart newCart = createWebCart(portalUser.Id);
-      Cart_Payment__c cartPayment = new Cart_Payment__c(Status__c ='Active');
-      insert cartPayment;
-      newCart.Cart_Payment__c = cartPayment.Id;
-      insert newCart;
-      
-      CartDeliveryGroup cartDeliveryGroup = [SELECT Id FROM CartDeliveryGroup WHERE Name ='Default Delivery' AND Cart.OwnerId =: portalUser.Id Limit 1];
+        WebCart newCart = createWebCart(portalUser);
+        insert newCart;
 
-      CartItem newCartItem = createCartItem(offeringId,newCart.Id,pbEntry,isPrescribed,cartDeliveryGroup.Id);
-      newCartItem.Contact__c = portalUser.ContactId;
-      insert newCartItem;
+        CartDeliveryGroup cartDeliveryGroup = new CartDeliveryGroup(
+          CartId = newCart.Id,
+          Name = 'Default Delivery'
+        );
+        insert cartDeliveryGroup;
 
-      Cart_Payment__c updateCartPayment = new Cart_Payment__c(Id = cartPayment.Id, Payment_Status__c ='Invoiced');
+        CartItem newCartItem = createCartItem(offeringId,newCart.Id,pbEntry,isPrescribed,cartDeliveryGroup.Id);
+        newCartItem.Contact__c = portalUser.ContactId;
+        insert newCartItem;
 
-      //update cart payment to invoiced after it has webcart and cartitems
-      update updateCartPayment;
+        //Cart_Payment__c updateCartPayment = new Cart_Payment__c(Id = cartPayment.Id, Payment_Status__c ='Aprroved');
+        //update cart payment to invoiced after it has webcart and cartitems
+        //update updateCartPayment;
 
-      Study_Store_URL_Settings__c storeLinkSettings = Study_Store_URL_Settings__c.getOrgDefaults();
+        Study_Store_URL_Settings__c storeLinkSettings = Study_Store_URL_Settings__c.getOrgDefaults();
 
-      String communityUrl = storeLinkSettings.Study_Store_Link__c != null?String.valueOf(storeLinkSettings.Study_Store_Link__c):'';
+        String communityUrl = storeLinkSettings.Study_Store_Link__c != null?String.valueOf(storeLinkSettings.Study_Store_Link__c):'';
 
 
-        qrs[0].Payment_URL__c = paymentGatewayURLBuilder([Select Id, External_Id__c FROM WebCart WHERE Id =: newCart.Id]?.External_Id__c, 
+        qrs[0].Payment_URL__c = paymentGatewayURLBuilder([Select Id, External_Id__c FROM WebCart WHERE Id =: newCart.Id]?.External_Id__c,
                                                     qrs[0].Contact__r.Registered_Email__c,
                                                     qrs[0].Contact__r.Name,
-                                                  pbEntry.UnitPrice,
+                                                    pbEntry.UnitPrice,
                                                     qrs[0].Course_Name__c
-                                                  );
-      }  
-      
-      update qrs;
-    }
-      
+                                                    );
+        }
+
+        update qrs;
+      }
+
     }
   }
 
@@ -213,17 +214,19 @@ public without sharing class QuestionnaireResponseSummaryCtrl {
      * @param <Id> userId
      * @return WebCart
      */
-    private static WebCart createWebCart(Id userId){
-      Id opeCatalougeAccountId;
-      List<Account> opeCatalougeAccounts = [SELECT Id FROM Account WHERE Name = 'OPE Catalogue' LIMIT 1];
-      for(Account account : opeCatalougeAccounts){ opeCatalougeAccountId = account.Id; }
+    private static WebCart createWebCart(User portalUser){
 
       Id studyWebStoreId;
       List<WebStore> studyWebStoreList = [SELECT Id FROM WebStore WHERE Name = 'Study' LIMIT 1];
       for(WebStore webStore : studyWebStoreList){ studyWebStoreId = webStore.Id; }
 
       // DEPP-3152 close any carts already opened from OPE portal.
-      List<WebCart> existingCart = [Select Id, Status FROM WebCart WHERE Status='Active' and OwnerId = : userId LIMIT 1];
+      List<WebCart> existingCart = [
+        SELECT Id, Status 
+        FROM WebCart 
+        WHERE Status='Active' 
+        AND OwnerId = : portalUser.Id 
+        LIMIT 1];
       if(existingCart.size()>0){
            existingCart[0].Status = 'Closed';
            update existingCart;
@@ -231,9 +234,9 @@ public without sharing class QuestionnaireResponseSummaryCtrl {
 
       WebCart webCart = new WebCart();
       webCart.Name = 'Cart';
-      webCart.AccountId = opeCatalougeAccountId;
+      webCart.AccountId = portalUser.AccountId;
       webCart.Status__c = 'Active';
-      webCart.OwnerId = userId;
+      webCart.OwnerId = portalUser.Id;
       webCart.WebStoreId = studyWebStoreId;
       return webCart;
  }
@@ -252,7 +255,7 @@ public without sharing class QuestionnaireResponseSummaryCtrl {
       
       CartItem cartItem = new CartItem();
       cartItem.CartId = newWebCartId;
-      cartItem.Name = 'Cart Item';
+      cartItem.Name = pbEntry.Product2.Name;
       cartItem.CartDeliveryGroupId = cartDeliveryGroupId;
       if(!prescribedProgram){
            cartItem.Course_Offering__c = offeringId;

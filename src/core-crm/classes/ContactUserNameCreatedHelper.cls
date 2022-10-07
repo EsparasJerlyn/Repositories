@@ -67,7 +67,7 @@ public without sharing class ContactUserNameCreatedHelper {
 							? String.valueOf(storeLinkSettings.Study_Store_Link__c)
 							: ''
 					};
-	
+
 					// Build the Email
 					Messaging.SingleEmailMessage mail = EmailHelper.emailBuilder(
 						c.Registered_Email__c,
@@ -75,17 +75,17 @@ public without sharing class ContactUserNameCreatedHelper {
 						emailTemplate.HtmlValue,
 						emailParams
 					);
-	
+
 					// Set Org Wide Email Address
 					if (!owea.isEmpty()) {
 						mail.setOrgWideEmailAddressId(owea[0].Id);
 					}
-	
+
 					// Add Email to List
 					sendEmailList.add(mail);
 				}
 			}
-			
+
 			// Send Email only when list it's not empty
 			if(!sendEmailList.isEmpty()){
 				Messaging.sendEmail(sendEmailList);

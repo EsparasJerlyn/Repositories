@@ -9,7 +9,7 @@
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | roy.nino.s.regala   	       | July 30, 2022         | DEPP-3557              | Created file                 | 
  */
-@IsTest(SeeAllData=false) 
+@isTest 
 public class SendWelcomeEmailBatchSchedulerTest {
     @testSetup 
     static void setupMethod() {
@@ -17,7 +17,7 @@ public class SendWelcomeEmailBatchSchedulerTest {
     }
 
 
-    @IsTest
+    @isTest
     static void testSendWelcomeEmailBatch(){
         
         System.runAs(TestDataFactory.getPortalSysAdminUser()){              

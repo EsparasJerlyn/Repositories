@@ -1,0 +1,100 @@
+<template>
+    <article class="slds-card">
+        <div class="slds-card__header slds-grid">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                    <lightning-icon 
+                        icon-name="standard:buyer_group" 
+                        size="small" aria-hidden="true">
+                    </lightning-icon>
+                </div>
+                <div class="slds-media__body">
+                    <h2 class="slds-card__header-title">
+                        <span>Buyer Group Members ({listCount})</span>
+                    </h2>
+                </div>
+                <div class="slds-no-flex">
+                    <lightning-button
+                        variant="neutral"
+                        label="Add"
+                        icon-name="utility:add"
+                        onclick={handleOnClickAdd}
+                        disabled={isAddButtonDisabled}>
+                    </lightning-button>
+                </div>
+            </header>
+        </div>
+        <div class="slds-card__body slds-card__body_inner">
+            <template if:true={isLoading}>
+                <lightning-spinner alternative-text="Loading records..." size="medium"></lightning-spinner>
+            </template>
+            <template if:false={isLoading}>
+                <template if:true={error}>
+                    <div class="
+                        slds-text-align_center
+                        slds-text-color_error
+                        slds-m-vertical_medium">
+                        <strong>An error occured while trying to load the records.</strong>
+                    </div>
+                </template>
+                <template if:false={error}>
+                    <template if:true={isEmptyList}>
+                        <div class="slds-text-align_center">
+                            <strong>No records found.</strong>
+                        </div>
+                    </template>
+                    <template if:false={isEmptyList}>
+                        <lightning-datatable
+                            key-field="id"
+                            data={buyerGroupMembersList}
+                            columns={columns}
+                            hide-checkbox-column="true"
+                            hide-table-header="true">
+                        </lightning-datatable>
+                    </template>
+                </template>
+            </template>
+        </div>
+    </article>
+
+    <template if:true={isAddingRecord}>
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <lightning-button-icon
+                    icon-name="utility:close"
+                    variant="bare-inverse"
+                    size="large"
+                    alternative-text="Cancel and close"
+                    title="Cancel and close"
+                    class="slds-modal__close"
+                    onclick={handleModalCancel}>
+                </lightning-button-icon>
+                <div class="slds-modal__header">
+                    <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Add Buyer Group Member</h1>
+                </div>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <c-custom-search
+                        search-label="Buyer Account Name"
+                        search-input-placeholder="Search Accounts..."
+                        search-items={accountSearchItems}
+                        search-item-icon="standard:account"
+                        item-id={selectedAccountId}
+                        search-in-progress={searchAccountInProgress}
+                        empty-message="Enter at least three (3) characters to show results..."
+                        onitemselect={handleAccountSelect}
+                        onitemremove={handleAccountRemove}
+                        onsearch={handleAccountSearch}
+                        custom-lookup
+                        custom-server-search
+                        required
+                    ></c-custom-search>
+                </div>
+                <div class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" aria-label="Cancel and close" onclick={handleModalCancel}>Cancel</button>
+                    <button class="slds-button slds-button_brand" onclick={handleModalSave}>Save</button>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </template>
+</template>

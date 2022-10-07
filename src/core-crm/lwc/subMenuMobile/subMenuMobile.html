@@ -1,0 +1,22 @@
+<template>
+    <div class="accordeon isMobile">
+        <input type="checkbox" name="accordeon-title" class="accordeon-checkbox" id="accordeon-title" />
+        
+        <div class="submenu-container">
+           
+            <label for="accordeon-title" class="accordeon-title-label"><a>Explore QUTeX</a>
+                <div class="arrow"></div>
+            </label>
+        </div>
+
+        <div class="accordeon-content mob-menu">
+            <ul class="secondary-qutex-nav">
+                <li><a href={homeLink} class={subMenuHome}>Home</a></li>
+                <li><a href={tailoredExecEducLink} class={subMenuTailoredExecEduc}>Tailored Executive Education</a></li>
+                <li><a href={corpBundleLink} class={subMenuCorpBundle}>Corporate Bundle</a></li>
+                <li><a href={qutexLearnLink} class={subMenuQUTexLearning}>QUTeX Learning Solutions</a></li>
+                <li><a href={manageRegistrationLink} class={subMenuManageReg}>Manage Registrations</a></li>
+            </ul>
+        </div>
+    </div>
+</template>

@@ -11,7 +11,7 @@
       | angelika.j.s.galang       | January 28, 2022      | DEPP-1407    | Created file                                | 
       |                           |                       |              |                                             | 
 */
-@IsTest(SeeAllData = false)
+@isTest
 private class Create_Product_on_Prog_Plan_InsertTest {
 
     private static final String QUTEX = System.Label.QUTeX;
@@ -20,7 +20,7 @@ private class Create_Product_on_Prog_Plan_InsertTest {
     private static User currentUser = TestDataFactory.createUserRecords(1, QUTEX).iterator().next();
     private static Id opeProgramRequest = Schema.SObjectType.hed__Program_Plan__c.getRecordTypeInfosByDeveloperName().get(PR_PROGRAM).getRecordTypeId();
     
-    @IsTest
+    @isTest
     private static void createProductOnProgramPlanInsertTest(){
         System.runAs(currentUser){
             hed__Program_Plan__c programPlan = TestDataFactory.createTestProgramPlanRecords(1).iterator().next();

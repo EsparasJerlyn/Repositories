@@ -10,7 +10,7 @@
       |---------------------------|-----------------------|----------------------|---------------------------------|
       | angelika.j.s.galang       | April 6, 2022         | DEPP-2229            | Created file                    | 
 */
-@IsTest(SeeAllData = false)
+@isTest
 private class ManageAdhocCommsSectionCtrlTest {
     
     private static final String PROGRAM_OFFERING = 'Program_Offering__c';
@@ -34,7 +34,7 @@ private class ManageAdhocCommsSectionCtrlTest {
         insert adhocCommunication;
     } 
 
-    @IsTest
+    @isTest
     private static void getAdhocCommunicationsTest(){
         System.runAs(currentUser){
             Test.startTest();
@@ -45,7 +45,7 @@ private class ManageAdhocCommsSectionCtrlTest {
         }
     }
 
-    @IsTest
+    @isTest
     private static void getHeaderAndFooterImageUrlsTest(){
         System.runAs(currentUser){
             String imageInfos = JSON.serialize(
@@ -63,7 +63,7 @@ private class ManageAdhocCommsSectionCtrlTest {
         }
     }
 
-    @IsTest
+    @isTest
     private static void sendEmailToRegisteredLearnersTest(){
         System.runAs(currentUser){
             Test.startTest();

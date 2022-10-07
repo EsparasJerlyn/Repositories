@@ -71,7 +71,8 @@ public with sharing class MarketingStagingMatchingHelper{
         'SMS_Opt_In_DateTime__c' => 'SMS_OptIn_DateTime__c', 'SMS_Opt_Out_DateTime__c' => 'SMS_OptOut_DateTime__c',
         'Dont_Market__c' => 'Dont_Market__c', 'Dont_Market_Reason__c' => 'Dont_Market_Reason__c',
         'Dont_Market_DateTime__c' => 'Dont_Market_DateTime__c', 'Dont_Market_DateTime__c' => 'Dont_Market_DateTime__c',
-        'Consent_Source_Category__c' => 'Consent_Source_Category__c','Consent_Source__c' => 'Consent_Source__c'
+        'Consent_Source_Category__c' => 'Consent_Source_Category__c','Consent_Source__c' => 'Consent_Source__c',
+        'Email_Unsub_JobID__c' => 'Email_Unsub_JobID__c', 'Email_Unsub_Reason__c' => 'Email_Unsub_Reason__c'
     };
 
     private static final Map<String,String> LEAD_FIELDS = new Map<String,String>{
@@ -88,7 +89,8 @@ public with sharing class MarketingStagingMatchingHelper{
         'SMS_Opt_Out_DateTime__c' => 'SMS_OptOut_DateTime__c','Dont_Market__c' => 'Dont_Market__c',
         'Dont_Market_Reason__c' => 'Dont_Market_Reason__c', 'Dont_Market_DateTime__c' => 'Dont_Market_DateTime__c',
         'Consent_Source_Category__c' => 'Consent_Source_Category__c',
-        'Consent_Source__c' => 'Consent_Source__c'
+        'Consent_Source__c' => 'Consent_Source__c', 'Email_Unsub_JobID__c' => 'Email_Unsub_JobID__c', 
+        'Email_Unsub_Reason__c' => 'Email_Unsub_Reason__c'
     };
 
     private static final Map<String,String> LEAD_FIELDS_UPDATE = new Map<String,String>{
@@ -97,7 +99,8 @@ public with sharing class MarketingStagingMatchingHelper{
         'SMS_Opt_In_DateTime__c' => 'SMS_OptIn_DateTime__c', 'SMS_Opt_Out_DateTime__c' => 'SMS_OptOut_DateTime__c',
         'Dont_Market__c' => 'Dont_Market__c','Dont_Market_Reason__c' => 'Dont_Market_Reason__c',
         'Dont_Market_DateTime__c' => 'Dont_Market_DateTime__c', 'Consent_Source_Category__c' => 'Consent_Source_Category__c',
-        'Consent_Source__c' => 'Consent_Source__c'
+        'Consent_Source__c' => 'Consent_Source__c','Email_Unsub_JobID__c' => 'Email_Unsub_JobID__c', 
+        'Email_Unsub_Reason__c' => 'Email_Unsub_Reason__c'
     };
 
     private static final Map<String,List<String>> MARKETING_OBJECT_MAP = new Map<String,List<String>>{
@@ -191,34 +194,6 @@ public with sharing class MarketingStagingMatchingHelper{
 
         return obj;
     }
-
-
-    /**
-     * @description create potential duplicate record from marketing staging fields
-     * @param newLeadId - lead id
-     * @param matchingObjects - list matching object contact or lead
-     * @param matchingObject - matchingObject name
-     * @return 
-     */
-    /*public static List<Potential_Duplicate__c> createPotentialDupRecords(Id newLeadId , List<sObject> matchingObjects, String matchingObject){
-        List<Potential_Duplicate__c> potentialDuplToInsertList = new List<Potential_Duplicate__c>();
-        Potential_Duplicate__c dupItem;
-
-        for(sObject obj: matchingObjects){
-            dupItem = new Potential_Duplicate__c();
-            
-            if(matchingObject == CONTACT_API_NAME){
-                dupItem.Contact__c = (Id)obj.get('Id');
-                dupItem.Duplicate_Lead__c = newLeadId;
-            }else if(matchingObject == LEAD_API_NAME){
-                dupItem.Lead__c = newLeadId;
-                dupItem.Duplicate_Lead__c = (Id)obj.get('Id');
-            }
-            potentialDuplToInsertList.add(dupItem);
-        }
-        
-        return potentialDuplToInsertList;
-    }*/
 
 
     /**

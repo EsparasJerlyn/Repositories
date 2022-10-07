@@ -11,7 +11,7 @@
       | kathy.cornejo	          | June 12, 2022         | DEPP-2991    | Created file                                |
       |                           |                       |              |                                             |
 */
-@IsTest(SeeAllData=false)
+@isTest
 public class AccountSyncFlowTest {
 	private static final String STR_QUTEX = 'QUTeX';
     private static User currentUser = TestDataFactory.createUserRecords(1, STR_QUTeX).iterator().next();

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Product Details</label>
+    <protected>false</protected>
+    <values>
+        <field>Field_Dependency__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Left_Column_Long__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Left_Column__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Left_Right_Column_Long__c</field>
+        <value xsi:type="xsd:string">[
+{&quot;field&quot;:&quot;Product_Category__c&quot;,&quot;readOnly&quot;:true},
+{&quot;field&quot;:&quot;Product_Type__c&quot;,&quot;readOnly&quot;:true},
+{&quot;field&quot;:&quot;Delivery__c&quot;},
+{&quot;field&quot;:&quot;Duration__c&quot;},
+{&quot;field&quot;:&quot;Professional_Level__c&quot;},
+{&quot;field&quot;:&quot;Do_not_Show_Start_Date__c&quot;}
+]</value>
+    </values>
+    <values>
+        <field>Order__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Record_Type_Setting__c</field>
+        <value xsi:type="xsd:string">All_Products</value>
+    </values>
+    <values>
+        <field>Right_Column_Long__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Right_Column__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Section_Label__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Single_Column_Long__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Single_Column__c</field>
+        <value xsi:nil="true"/>
+    </values>
+</CustomMetadata>

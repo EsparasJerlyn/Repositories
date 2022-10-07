@@ -10,7 +10,7 @@
       | eccarius.karl.munoz       | April 06, 2022        | DEPP-1560            | Created file                 |
       | roy.nino.s.regala         | May 02, 2022          | DEPP-1478            |                              | 
  */
-@isTest(SeeAllData=false)
+@isTest
 public with sharing class ManageCertificateSectionCtrlTest {
     private static final string STUDENT_RT = System.Label.RT_CourseConnection_Student;
     private static final Id STUDENT_RT_ID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(STUDENT_RT).getRecordTypeId();
@@ -22,9 +22,9 @@ public with sharing class ManageCertificateSectionCtrlTest {
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
     private static Integer numberOfRecords = 100;
     private static final String EMAIL_TEMPLATE = 'Certificate of Participation';
-    private static final String COVER_TEMPLATE = 'Send Certificate';   
+    private static final String COVER_TEMPLATE = 'Send Certificate';
 
-    @TestSetup
+    @testSetup
     static void makeData(){
         Test.startTest();
         TestDataFactory.generateTestUsers();
@@ -37,7 +37,7 @@ public with sharing class ManageCertificateSectionCtrlTest {
         }
     }
 
-    @IsTest
+    @isTest
     static void getRegDetailsForNonProgPlanTest(){
         System.runAs(TestDataFactory.getProgramAdminUser()){
             createRecord(RT_ACTIVITY_ID);
@@ -49,7 +49,7 @@ public with sharing class ManageCertificateSectionCtrlTest {
         }
     }
 
-    @IsTest
+    @isTest
     static void getRegDetailsForProgPlanTest(){
         System.runAs(TestDataFactory.getProgramAdminUser()){
             createRecord(RT_PROG_PLAN_ID);
@@ -61,7 +61,7 @@ public with sharing class ManageCertificateSectionCtrlTest {
         }
     }
 
-    @IsTest
+    @isTest
     static void sendEmailTest(){
         System.runAs(TestDataFactory.getProgramAdminUser()){
             Study_Store_URL_Settings__c studyStore = new Study_Store_URL_Settings__c(Study_Store_Link__c = 'https://studystorelinktest.com/');
@@ -76,7 +76,7 @@ public with sharing class ManageCertificateSectionCtrlTest {
         }
     }
 
-    @IsTest
+    @isTest
     static void previewPDFTest(){
         System.runAs(TestDataFactory.getProgramAdminUser()){
             createRecord(RT_ACTIVITY_ID);
@@ -89,7 +89,7 @@ public with sharing class ManageCertificateSectionCtrlTest {
         }
     }
 
-    @IsTest
+    @isTest
     static void updateCourseConnDetailsTest(){
         System.runAs(TestDataFactory.getProgramAdminUser()){
             createRecord(RT_ACTIVITY_ID);
@@ -131,7 +131,7 @@ public with sharing class ManageCertificateSectionCtrlTest {
             List<Program_Offering__c> programOfferings = new List<Program_Offering__c>();
             if(productRequestRecordType == RT_PROG_PLAN_ID){
                 List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(1);
-                programPlans[0].Certificate_Type__c = EMAIL_TEMPLATE;                
+                programPlans[0].Certificate_Type__c = EMAIL_TEMPLATE;
                 insert programPlans;
     
                 programOfferings = TestDataFactory.createTestProgramOfferingRecords(1, programPlans);
@@ -174,8 +174,8 @@ public with sharing class ManageCertificateSectionCtrlTest {
                 hed__Course_Enrollment__c student = new hed__Course_Enrollment__c();
                 student.hed__Contact__c = contact.Id;
                 student.RecordTypeId = STUDENT_RT_ID;
-                student.Paid_in_Full__c = 'Yes';    
-                student.hed__Status__c = 'Active';            
+                student.Paid_in_Full__c = 'Yes';
+                student.hed__Status__c = 'Active';
                 if(productRequestRecordType == RT_PROG_PLAN_ID){
                     student.Program_Offering__c = programOfferings[0].Id;
                 }else{

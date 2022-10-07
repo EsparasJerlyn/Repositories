@@ -76,14 +76,7 @@
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>For_Client_Decision</name>
-            <conditionLogic>1 AND 2</conditionLogic>
-            <conditions>
-                <leftValueReference>Loop_Opportunity_Contact_Roles.IsPrimary</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
+            <conditionLogic>and</conditionLogic>
             <conditions>
                 <leftValueReference>Loop_Opportunity_Contact_Roles.Role</leftValueReference>
                 <operator>EqualTo</operator>

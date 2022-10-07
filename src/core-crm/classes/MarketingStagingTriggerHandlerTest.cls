@@ -12,7 +12,7 @@
       | roy.nino.s.regala              | June 28, 2022         | DEPP-3070              | updatedtestclass             |
  */
 
-@IsTest(SeeAllData=false)
+@isTest
 public with sharing class MarketingStagingTriggerHandlerTest {
 
     @testSetup 
@@ -110,7 +110,7 @@ public with sharing class MarketingStagingTriggerHandlerTest {
         System.assertEquals([SELECT Id FROM Marketing_Segmentation__c LIMIT 100].size(),100, 'Number of segmentation created did not match');
     }
 
-    @IsTest
+    @isTest
     public static void bulkLeadMatchTest(){
         List<Marketing_Staging__c> stagingList = new List<Marketing_Staging__c>();
         Marketing_Staging__c staging;
@@ -166,5 +166,33 @@ public with sharing class MarketingStagingTriggerHandlerTest {
         System.assertEquals([SELECT Id FROM Marketing_Course_Application__c LIMIT 75].size(),75, 'Number of application created did not match');
         System.assertEquals([SELECT Id FROM Marketing_Interaction__c LIMIT 75].size(),75, 'Number of Interaction created did not match');
         System.assertEquals([SELECT Id FROM Marketing_Segmentation__c LIMIT 75].size(),75, 'Number of segmentation created did not match');
+    }
+
+    @isTest 
+    public static void bulkContactMatchTestNoMatch(){
+        List<Marketing_Staging__c> stagingList = new List<Marketing_Staging__c>();
+        Marketing_Staging__c staging;
+        
+        //no match
+        for(integer i = 75; i<100 ; i++){
+            staging = new Marketing_Staging__c();
+            staging.First_Name__c ='Test FirstName' + i;
+            staging.Last_Name__c =null;
+            staging.Email__c =null;
+            staging.Mobile__c = null;
+            staging.Event_Name__c ='TestEvent' + i;
+            staging.Application_Source__c = 'Studylink';
+            staging.Application_Id__c = '12345' + i;
+            staging.Applicant_Id__c = '12345' + i;
+            staging.Salutation__c = 'Mr';
+            staging.QUT_Student_ID__c =null;
+            stagingList.add(staging);
+        }
+        Test.startTest();
+        insert stagingList;
+        Test.stopTest();
+
+        System.assertEquals([SELECT Id FROM Marketing_Staging__c WHERE Contact__c != null LIMIT 75].size(),0, 'Contact is not linked');
+        System.assertEquals([SELECT Id FROM Marketing_Staging__c WHERE Lead__c != null LIMIT 25].size(),0, 'Lead is not linked');
     }
  }

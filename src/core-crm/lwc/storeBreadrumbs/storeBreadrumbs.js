@@ -12,6 +12,7 @@ import customCSS from "@salesforce/resourceUrl/QUTMainCSS";
 
 import { subscribe, unsubscribe, MessageContext } from 'lightning/messageService';
 import payloadContainerLMS from '@salesforce/messageChannel/Breadcrumbs__c';
+import BasePath from "@salesforce/community/basePath";
 const STOREBREADCRUMBS_PARENTLIST = 'storeBreadrumbs_parentList';
 export default class StoreBreadrumbs extends LightningElement {
 
@@ -24,15 +25,24 @@ export default class StoreBreadrumbs extends LightningElement {
     subscription;
     menuList = [];
     parentProductList = [];
+    categoryList =[];
 
     @wire(MessageContext)
     messageContext;
 
+    get isCCEPortal() {
+        return BasePath.toLowerCase().includes("cce");
+    }
+    
+    get isOPEPortal() {
+        return BasePath.toLowerCase().includes("study");
+    } 
+
     /**
      * fetches product data
      */
-    @wire(getRecord, { recordId:'$recordId', fields: [NAME_FIELD]})
-    product;
+    // @wire(getRecord, { recordId:'$recordId', fields: [NAME_FIELD]})
+    // product;
 
     connectedCallback() {
         this.iconhome = qutResourceImg + "/QUTImages/Icon/icon-home-blue.svg";
@@ -103,7 +113,7 @@ export default class StoreBreadrumbs extends LightningElement {
     }
     @wire(getStudyProducts,{communityId:communityId})
     handleGetStudyProducts(result){    
-        if(result.data){
+        if(result.data && result.data.length > 0){
             this.categoryName = result.data[0].Name;
             this.categoryId = result.data[0].Id;
         } else {
@@ -119,7 +129,7 @@ export default class StoreBreadrumbs extends LightningElement {
     validateValue(val) {
         if (val && val.parameterJson) {
             let newValObj = JSON.parse(val.parameterJson);
-
+  
             //check if the payload contains clearMenuList from searchResult.js then clear the list
             let clearMenuList = newValObj.clearMenuList ? String(newValObj.clearMenuList).toUpperCase() == 'TRUE' : false;
             if(clearMenuList){
@@ -136,6 +146,7 @@ export default class StoreBreadrumbs extends LightningElement {
             newValObj.isProgramFlex = newValObj.isProgramFlex ? String(newValObj.isProgramFlex).toUpperCase() == 'TRUE' : false;
 
             this.addToMenuList(newValObj);
+            console.log('NewValObj2', newValObj);
             this.setProductUrl();
         }
     }
@@ -147,15 +158,21 @@ export default class StoreBreadrumbs extends LightningElement {
         //check for duplicate product name
         if (productArr && productArr[0]) {
             let existingParentArr = this.menuList.filter(e => e.productId == productArr[0].parentId);
-            
+            if(this.isCCEPortal && !!newValObj.fromCategoryName){
+                this.menuList = [...this.menuList, {
+                    productId: newValObj.fromCategoryId,
+                    productName: newValObj.fromCategoryName,
+                    productUrl: this.getCategoryUrl(newValObj.fromCategoryName, newValObj.fromCategoryId),
+                }];
+            }
+
             if (!existingParentArr || (existingParentArr && !existingParentArr[0])) {
                 //build object for parent
                 let parentObj = {
                     productId: productArr[0].parentId,
                     productName: productArr[0].parentName,
-                    productUrl: productArr[0].parentUrl
+                    productUrl: productArr[0].parentUrl,
                 };
-                
                 this.menuList = [...this.menuList, parentObj];
             }
             
@@ -164,7 +181,25 @@ export default class StoreBreadrumbs extends LightningElement {
                 this.menuList = [...this.menuList, newValObj];
             }
         } else {
-            this.menuList = [...this.menuList, newValObj];
+            if(this.isCCEPortal && !!newValObj.fromCategoryName){
+                this.menuList = [...this.menuList, {
+                    productId: newValObj.fromCategoryId,
+                    productName: newValObj.fromCategoryName,
+                    productUrl: this.getCategoryUrl(newValObj.fromCategoryName, newValObj.fromCategoryId),
+                }, newValObj];
+            } else {
+                this.menuList = [...this.menuList, newValObj];
+            }
+        }
+    }
+
+    getCategoryUrl(name, id) {
+        console.log('geturlname'+ name);
+        console.log('geturlid'+ id);
+        if(name && id){
+            return basePath+'/category/'+name.replaceAll(' ','-').toLowerCase()+'/'+id.slice(0, -3);
+        } else {
+            return '#';
         }
     }
 
@@ -173,14 +208,22 @@ export default class StoreBreadrumbs extends LightningElement {
     }
 
     setProductUrl() {
-        let urlRecordId = window.location.pathname ? window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1) : undefined;
-        
+        let urlRecordId = window.location.href ? window.location.href.substring(window.location.href.lastIndexOf('_') + 1) : undefined;
+        console.log('URLRecordId', urlRecordId);
+        if(!urlRecordId){
+            urlRecordId = window.location.href ? window.location.href.substring(window.location.href.lastIndexOf('/') + 1) : undefined;
+        }
+
         let tempList = [];
+    
         if (urlRecordId) {
             this.menuList.forEach(e => {
+                if(e.productId.length > urlRecordId.length){
+                    e.productId = e.productId.slice(0,urlRecordId.length);
+                    console.log('Resultid', e.productId);
+                }
                 if (e.productId == urlRecordId && e.isProgramFlex) {
-                    e.productUrl = window.location.pathname;
-                    
+                    e.productUrl = window.location.href;
                     if(e.children && Array.isArray(e.children) && e.children.length > 0){
                         e.children.forEach(j => {
                             let obj = {
@@ -190,7 +233,6 @@ export default class StoreBreadrumbs extends LightningElement {
                                 parentName: e.productName,
                                 parentUrl: e.productUrl
                             };
-
                             let existingArr = tempList.filter(k => k.productId == obj.productId);
                             if(!existingArr || (existingArr && !existingArr[0])){
                                 tempList = [...tempList, obj];
@@ -200,11 +242,9 @@ export default class StoreBreadrumbs extends LightningElement {
                 }
             });
         }
-        
         if(tempList.length > 0){
             this.setSsItem(JSON.stringify(tempList));
         }
-        
         if (this.menuList.length == 1) {
             this.menuList[0].productUrl = undefined;
         }
@@ -238,5 +278,9 @@ export default class StoreBreadrumbs extends LightningElement {
     
     setSsItem(val){
         sessionStorage.setItem(STOREBREADCRUMBS_PARENTLIST, val);
+    }
+
+    get homeLink(){
+        return basePath;
     }
 }

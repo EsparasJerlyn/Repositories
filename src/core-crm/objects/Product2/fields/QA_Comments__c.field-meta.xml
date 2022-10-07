@@ -4,6 +4,6 @@
     <externalId>false</externalId>
     <label>QA Comments</label>
     <required>false</required>
-    <trackHistory>false</trackHistory>
+    <trackHistory>true</trackHistory>
     <type>TextArea</type>
 </CustomField>

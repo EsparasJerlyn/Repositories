@@ -274,5 +274,5 @@ public with sharing class EmailTriggerOnlineSelfPacedBatch implements Database.B
         public String amount;
         public String storeLink;
         public String userName;
-    }   
+    }
 }

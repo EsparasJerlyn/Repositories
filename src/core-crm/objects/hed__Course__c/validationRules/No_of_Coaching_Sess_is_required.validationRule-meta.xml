@@ -4,7 +4,8 @@
     <active>true</active>
     <errorConditionFormula>AND (
   OR(
-   RecordType.DeveloperName = &apos;Individual_Coaching&apos;
+   RecordType.DeveloperName = &apos;Individual_Coaching&apos;,
+   RecordType.DeveloperName = &apos;Group_Coaching&apos;
   ), 
  ISPICKVAL( ProductRequestID__r.Product_Request_Status__c , &apos;Design&apos;),
  ISBLANK( No_Of_Coaching_Sessions__c ),

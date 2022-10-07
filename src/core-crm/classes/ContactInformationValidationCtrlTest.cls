@@ -11,7 +11,7 @@
       | angelika.j.s.galang       | September 3, 2021     | DEP1-156 | Created file                    | 
       | angelika.j.s.galang       | September 8, 2021     | DEP1-157 | Added test methods for callouts | 
 */
-@IsTest(SeeAllData = false)
+@isTest
 private class ContactInformationValidationCtrlTest {
     
     private static final String ACCOUNT_API_NAME = Account.SObjectType.getDescribe().getLocalName();
@@ -22,7 +22,7 @@ private class ContactInformationValidationCtrlTest {
     private static final String STR_COMPANY_MAPPING = 'Company_Mapping__c';
     private static User currentUser = TestDataFactory.createUserRecords(1, STR_QUTeX).iterator().next();
 
-    @IsTest
+    @isTest
     private static void getMappingSuccessTest(){
         Test.startTest();
         System.runAs(currentUser){
@@ -33,7 +33,7 @@ private class ContactInformationValidationCtrlTest {
         Test.stopTest();
     }
 
-    @IsTest
+    @isTest
     private static void getMappingErrorTest(){
         Test.startTest();
         System.runAs(currentUser){
@@ -46,7 +46,7 @@ private class ContactInformationValidationCtrlTest {
         Test.stopTest();
     }
 
-    @IsTest
+    @isTest
     private static void validatePhoneFieldsTest(){
         Test.startTest();
         System.runAs(currentUser){
@@ -60,7 +60,7 @@ private class ContactInformationValidationCtrlTest {
         Test.stopTest();
     }
 
-    @IsTest
+    @isTest
     private static void validateCompanyFieldsTest(){
         Test.startTest();
         System.runAs(currentUser){
@@ -73,7 +73,7 @@ private class ContactInformationValidationCtrlTest {
         Test.stopTest();
     }
 
-    @IsTest
+    @isTest
     private static void allowDmlWithDuplicatesTest(){
         Test.startTest();
         System.runAs(currentUser){

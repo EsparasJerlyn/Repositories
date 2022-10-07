@@ -11,18 +11,18 @@
       | eccarius.karl.munoz       | December 24, 2021     | DEPP-248 | Created file                    | 
       |                           |                       |          |                                 | 
 */
-@IsTest(SeeAllData=false)
+@isTest
 private class Prod_Spec_Not_Proceeding_Notif_FlowTest{
     
     private static final String STR_PROFILE = 'QUTeX';
     private static User  currentUser = TestDataFactory.createUserRecords(1, STR_PROFILE).iterator().next();
     private static Integer numberOfRecords = 100;
           
-    @IsTest 
+    @isTest 
     private static void insertUpdateLeadRecordTest(){  
         System.runAs(currentUser){
             
-            Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'qutex@qut.edu.au');
+            Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
             insert customEmail;
 
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
@@ -58,7 +58,7 @@ private class Prod_Spec_Not_Proceeding_Notif_FlowTest{
             update productSpecificationList;
                       
             Test.stopTest();
-            System.assertEquals(0, Limits.getEmailInvocations());
+            System.assertEquals(0, Limits.getEmailInvocations(), 'Email Invocations != 0');
         }        
     } 
 }

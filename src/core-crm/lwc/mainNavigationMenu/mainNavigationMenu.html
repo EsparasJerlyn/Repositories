@@ -1,20 +1,104 @@
 <template>
-    <ul if:true={NavigationMenuList} class="slds-list_horizontal slds-has-inline-block-links_space">
-        <template for:each={NavigationMenuList} for:item="item">
-            <template if:true={item}>
-
-                <template if:true={item.isStorefrontCategories} for:each={CategoriesNavigationMenuList} for:item="category">
-                    <li  key={category.Id} class='textMenuItem slds-p-vertical_x-small slds-p-horizontal_small horizontalMenuItemContainer'>
-                        <a href={category.Target} class='horizontalMenuItem'>{category.Label}</a>
-                    </li>                
+    <div class="home-container isDesktop">
+        <!-- Home Header -->
+        <div class="home-header heading1">
+            <h1>
+                {headerHome}
+            </h1>
+        </div>
+        <br>
+        <!-- Home Navigation Menu -->
+        <div class="home-menu slds-tabs_default">
+            <ul if:true={NavigationMenuList} class="slds-tabs_default__nav" role="tablist">
+                <template for:each={NavigationMenuList} for:item="item">
+                    <template if:true={item}>                    
+                        <template if:true={item.isStorefrontCategories} for:each={CategoriesNavigationMenuList} for:item="category"> 
+                            <li key={category.Id} class={category.Class} data-name={category.Label} data-id={category.Id} role="presentation" onclick={handleMenuClick}>
+                                <a class='horizontalMenuItem'>{category.Label}</a>
+                            </li>                
+                        </template>
+                    </template>
                 </template>
+            </ul>
+        </div>
+        <!-- Home Products Display -->
+        <article class="layout-contiainer slds-grid slds-wrap">
+        <section class="main-section slds-size_1-of-1">
+        <div class="product-display">
+            <div class="slds-grid slds-wrap slds-gutters">
+                <template for:each={productInfoList} for:item="product">
+                    <template if:true={product}>
+                        <div class="desktop slds-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-2 slds-p-horizontal_small" key={product.childProdId}>
+                            <span>
+                                <c-product-card
+                                    is-tailored-exec-educ={isTailoredExecEduc}
+                                    product-detail={product}
+                                    from-category-name={navMenuName} 
+                                    from-category-id={navMenuId}
+                                ></c-product-card>
+                            </span>
+                        </div>
+                    </template>    
+                </template>
+            </div>
+        </div>
+     </section>
+     </article>
 
+    </div>  
 
-                <li if:false={item.isStorefrontCategories} key={item.Id} class='textMenuItem slds-p-vertical_x-small slds-p-horizontal_small horizontalMenuItemContainer'>
-                    <a href={item.Target} class='horizontalMenuItem'>{item.Label}</a>
-                </li>                
-            </template>
+   <!-- Start Mobile-->
+    <div class="isMobile">
+      <div class="home-header heading1 pb2">
+          <h1>
+              {headerHome}
+          </h1>
+      </div>
+
+      <lightning-accordion
+          onsectiontoggle={handleSectionToggle}
+          active-section-name={activeSections}
+      >
+        <template for:each={CategoriesNavigationMenuList} for:item="category">
+          <lightning-accordion-section 
+            key={category.Id}
+            name={category.Value} 
+            label={category.Label}
+            value={category.Label}
+            data-id={category.Id}
+            data-name={category.Label}
+            class="mainNav">
+            
+            <article class="layout-contiainer slds-grid slds-wrap">
+              <section class="main-section slds-size_1-of-1">
+                  <div class="slds-grid slds-wrap slds-gutters">
+                    <template for:each={productInfoList} for:item="product">
+                        <template if:true={product}>
+                            <div class="slds-size_1-of-1 slds-p-horizontal_small px2" key={product.childProdId}>
+                                <span>
+                                    <c-product-card
+                                        is-tailored-exec-educ={isTailoredExecEduc}
+                                        product-detail={product}
+                                        from-category-name={navMenuName} 
+                                        from-category-id={navMenuId}
+                                    ></c-product-card>
+                                </span>
+                            </div>
+                        </template>    
+                    </template>
+                </div>
+              </section>
+            </article>
+
+          </lightning-accordion-section>
         </template>
-    </ul>
-        
+      </lightning-accordion>
+    </div>       
+  <!-- End Mobile-->
+
+ <!-- View All Courses Button -->
+ <div class="button-viewall">
+    <a class="slds-button slds-button_brand" href={viewAllCourses}>View all courses</a>
+</div>
+
 </template>

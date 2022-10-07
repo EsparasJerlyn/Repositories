@@ -22,6 +22,18 @@
     overflow: auto;
 }
 
+.combobox-container .slds-dropdown{
+    position: fixed !important;
+    max-height: 120px;
+    z-index: 1000;
+    max-width: fit-content;
+    overflow: auto;
+}
+
+.custom-picklist-input-field .slds-form-element .slds-form-element__icon{
+    display: none !important;
+}
+
 .picklist-container{
     width : 90%;
     margin: 0 auto;

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>General_Session</fullName>
+    <active>true</active>
+    <description>This record type is used by the following products: Module, Unit, Activity, Short Course</description>
+    <label>General_Session</label>
+    <picklistValues>
+        <picklist>Session_Status__c</picklist>
+        <values>
+            <fullName>Cancelled</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Completed</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Session_Type__c</picklist>
+        <values>
+            <fullName>Face to Face Class</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mentoring Session</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Tutoring Session</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Virtual Class</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

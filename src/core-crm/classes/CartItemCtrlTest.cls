@@ -8,14 +8,14 @@
       | john.m.tambasen           | May 11, 2022          | DEPP-2060            | Created file                 |
       | roy.nino.s.regala         | June 30, 2022         | DEPP-3157            | test class for creating questionnaires|
  */
-@isTest(SeeAllData=false)
+@isTest
 public with sharing class CartItemCtrlTest {
 
   private static final String PRODUCT_API_NAME = Product2.SObjectType.getDescribe().getLocalName();
   private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
   private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
 
-  @TestSetup
+  @testSetup
   static void setupMethod() {
     TestDataFactory.generateTestUsers();
     final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
@@ -389,7 +389,7 @@ public with sharing class CartItemCtrlTest {
     Test.stopTest();
   }
 
-  @IsTest
+  @isTest
   static void getCartItemsTest() {
     WebCart cart = [SELECT Id, Name FROM WebCart LIMIT 1];
     User userTest = [
@@ -428,7 +428,7 @@ public with sharing class CartItemCtrlTest {
     System.assert(![SELECT Id FROM hed__Course_Enrollment__c LIMIT 1].isEmpty(),'No course connection created');
   }*/
 
-  @IsTest
+  @isTest
   static void checkCartOwnerShipTest() {
     WebCart cart = [SELECT Id, OwnerId, Name FROM WebCart LIMIT 1];
       
@@ -445,7 +445,7 @@ public with sharing class CartItemCtrlTest {
     );
   }
 
-  @IsTest
+  @isTest
   static void saveCartSummaryQuestionsTest(){
 
 
@@ -503,7 +503,7 @@ public with sharing class CartItemCtrlTest {
   
   }
 
-  @IsTest
+  @isTest
   static void getCartItemDiscountTest() {
     WebCart cart = [SELECT Id, Name FROM WebCart LIMIT 1];
 
@@ -525,7 +525,7 @@ public with sharing class CartItemCtrlTest {
     System.assert(discount2.size() != 0 , 'Incorrect calculation');
   }
 
-  @IsTest
+  @isTest
   static void updateCartStatusTest() {
     WebCart webCart = [SELECT Id, Name FROM WebCart LIMIT 1];
 
@@ -534,7 +534,7 @@ public with sharing class CartItemCtrlTest {
     Test.stopTest();
   }
 
-  @IsTest
+  @isTest
   static void closeCartTest() {
     WebCart webCart = [SELECT Id, Name, Status FROM WebCart LIMIT 1];
 
@@ -548,7 +548,7 @@ public with sharing class CartItemCtrlTest {
   }
 
   
-  @IsTest
+  @isTest
   static void getOPEProductCategTest() {
     Test.startTest();
     ProductCategory prodCategId = CartItemCtrl.getOPEProductCateg();
@@ -557,7 +557,7 @@ public with sharing class CartItemCtrlTest {
     System.assertNotEquals(null, prodCategId, 'Product Category Id Retrieved');
   }
 
-  @IsTest
+  @isTest
   static void updatePaymentMethodTest() {
     WebCart webCart = [SELECT Id, Name FROM WebCart LIMIT 1];
 

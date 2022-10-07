@@ -12,7 +12,7 @@
       | cadalin@qut.edu.au        | June 12, 2022         | DEPP-2485| Renamed refs to OPE record-type |
       |                           |                       |          |                                 |
 */
-@isTest(SeeAllData = false)
+@isTest
 public with sharing class Prod_Specs_Send_EmailTest {
 
     private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
@@ -22,7 +22,7 @@ public with sharing class Prod_Specs_Send_EmailTest {
     private static void updateProdSpecsFromQualifyToDesignInternal()
     {
         System.runAs(currentUser){
-            Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'qutex@qut.edu.au');
+            Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
             insert customEmail;
             
             Account acc = TestDataFactory.createTestAccountRecords(1).iterator().next();
@@ -32,6 +32,8 @@ public with sharing class Prod_Specs_Send_EmailTest {
             for(Integer i =0;i<conList.size();i++){
                 conList[i].Email = 'testIdeaFormUser'+i+'@mailinator.com';
                 conList[i].QUT_Staff_Email__c = 'testIdeaFormUserQUT'+i+'@mailinator.com';
+                conList[i].hed__Preferred_Email__c = 'Alternate Email';
+                conList[i].hed__AlternateEmail__c = 'testIdeaFormUser'+i+'@mailinator.com';
             }
             insert conList;
     
@@ -87,7 +89,7 @@ public with sharing class Prod_Specs_Send_EmailTest {
     private static void updateProdSpecsFromQualifyToDesignExternal()
     {
         System.runAs(currentUser){
-            Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'qutex@qut.edu.au');
+            Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
             insert customEmail;
             
             Account acc = TestDataFactory.createTestAccountRecords(1).iterator().next();
@@ -97,6 +99,8 @@ public with sharing class Prod_Specs_Send_EmailTest {
             for(Integer i =0;i<conList.size();i++){
                 conList[i].Email = 'testIdeaFormUser'+i+'@mailinator.com';
                 conList[i].QUT_Staff_Email__c = 'testIdeaFormUserQUT'+i+'@mailinator.com';
+                conList[i].hed__Preferred_Email__c = 'Alternate Email';
+                conList[i].hed__AlternateEmail__c = 'testIdeaFormUser'+i+'@mailinator.com';
             }
             insert conList;
     

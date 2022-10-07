@@ -33,9 +33,11 @@
       | keno.domienri.dico        | April 11, 2022        | DEPP-1543           | Added method for Creating Communication Schedule                 |
       | kathy.cornejo             | June 3, 2022          | DEPP-2664           | Added method for Creating Pricebook2                             |
       | rhea.b.torres             | June 12, 2022         | DEPP-2734           | Implement proper testing persona                                 |
+      | marlon.vasquez            | July 25, 2022         | DEPP-3538           | Added Required fields for creating Product Specification         |
+      | william.a.cheng           | September 14, 2022    | DEPP-4266, 1977     | Add methodd to configure TDTM and affiliation mappings           |
 */
 
-@IsTest
+@isTest
 public class TestDataFactory {
   private static final String STR_QUALIFY = 'Qualify';
   private static final String STR_IN_PROGRESS = 'In Progress';
@@ -220,6 +222,16 @@ public class TestDataFactory {
       ps.Stage__c = 'Design';
       ps.Client_Review_Required__c = 'N/A';
       ps.Requestor_Name__c =  contacts[i].id;
+      ps.Requires_Director_Endorsement__c = 'Yes';
+      ps.Endorsed_by__c = contacts[i].id;
+      ps.Existing_Product__c = 'Yes';
+      ps.Financial_Viability__c = 'Yes';
+      ps.Market_Need__c = 'Yes';
+      ps.QUTeX_Capacity__c = 'Yes';
+      ps.QUT_Faculty_Capacity__c = 'Yes';
+	  ps.Supporting_Comments__c = 'Test';
+      ps.Not_Proceeding_Comments__c = 'Test';
+      ps.Product_Type__c = 'Short Course';
       productSpecifications.add(ps);
     }
 
@@ -1298,6 +1310,26 @@ public class TestDataFactory {
     }
 
     /**
+     * @description Method for creating Partnership Manager
+     * @param void
+     * @return partnershipManager - Partnership Manager
+     */
+    public static User getPartnershipManager(){
+      User partnershipManager = [SELECT Id FROM User WHERE Username LIKE 'QUT_Partnership_Manager%' LIMIT 1];
+      return partnershipManager;
+    }
+
+    /**
+     * @description Method for creating Learning Designer
+     * @param void
+     * @return learningDesigner - Learning Designer
+     */
+    public static User getLearningDesigner(){
+      User learningDesigner = [SELECT Id FROM User WHERE Username LIKE 'QUT_Learning_Designer%' LIMIT 1];
+      return learningDesigner;
+    }
+
+    /**
      * @description Method for getting integration website user
      * @param void
      * @return integWebSiteUser - Integration Website User
@@ -2000,5 +2032,36 @@ public class TestDataFactory {
             );
             /** END - Creation of Portal Users */
         }
+    }
+
+    /**
+      * @description If you use SeeAllData = false in your test class, in the test execution context, there will be no affiliation mapping configured. You have to insert recors to hed__Affl_Mappings__c according to the actual production config in order to do integration test for affiliation related features
+     */
+    public static void configureAffiliationMapping() {
+      // Configuration setup
+      // As we are setting SeeAllData = false, we have to add the affiliation mapping and table driven trigger management records in order for the test to execute correctly
+      List<hed__Affl_Mappings__c> ams = new List<hed__Affl_Mappings__c>();
+      ams.add(new hed__Affl_Mappings__c(hed__Account_Record_Type__c = 'Business_Organization', hed__Primary_Affl_Field__c = 'hed__Primary_Organization__c', Name = 'Business_Organization'));
+      ams.add(new hed__Affl_Mappings__c(hed__Account_Record_Type__c = 'University_Department', hed__Primary_Affl_Field__c = 'Primary_Department__c', Name = 'University_Department'));
+      insert ams;
+    }
+
+    /**
+     * @description If you use SeeAllData = false in your test class, in the test execution context, there will be no TDTM confgiured. You have to insert recors to hed__Trigger_Handler__c according to the actual production config in order to do integration test for affiliation related features
+     */
+    public static void configureTDTMForCONPrimaryAfflsTDTM() {
+      List<hed__Trigger_Handler__c> ths = new List<hed__Trigger_Handler__c>();
+      ths.add(new hed__Trigger_Handler__c(hed__Class__c = 'CON_PrimaryAffls_TDTM', hed__Object__c = 'Contact', hed__Load_Order__c = 4, hed__Trigger_Action__c = 'AfterInsert;AfterUpdate', hed__Owned_by_Namespace__c = 'hed', hed__Active__c = true));
+      insert ths;
+    }
+
+    /**
+     * @description Method for loading EDA Triggers from static resource
+     * @param void
+     * @return triggerList - list of EDA Trigger that were inserted
+     */
+    public static List<hed__Trigger_Handler__c> loadEDATriggers(){
+      List<hed__Trigger_Handler__c> triggerList = Test.loadData(hed__Trigger_Handler__c.sObjectType, 'edaTriggerHandler');
+      return triggerList;
     }
 }

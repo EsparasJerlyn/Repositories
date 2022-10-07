@@ -13,9 +13,17 @@
       | john.bo.a.pineda          | July 04, 2022         | DEPP-3385            | Changed ?param to &param                     |
       | john.bo.a.pineda          | July 15, 2022         | DEPP-3130            | Modified to include Login when Guest User    |
       | john.m.tambasen           | July 29, 2022         | DEPP-3577            | early bird changes no of days                |
+      | julie.jane.alegre         | July 21, 2022         | DEPP-2608            | Add buttons for CCE store for the            |
+      |                           |                       |                      | (Tailored Executive Program)                 |
       | eugene.andrew.abuan       | July 31, 2022         | DEPP-3534            | Added Do not show start date logic           |
       | eugene.andrew.abuan       | August 08, 2022       | DEPP-3708            | Updated openModal to openRegisterModal       |
-
+      | julie.jane.alegre         | August 10, 2022       | DEPP-3475            | Add buttons for CCE store for the            |                                   |                      | (QUTeX Learning Solution)                    |
+      | julie.jane.alegre         | August 10, 2022       | DEPP-2608            | Add buttons for CCE store (Corporate Bundle) |
+      | eugene.andrew.abuan       | August 11, 2022       | DEPP-3472            | Added employee self reg logic                |
+      | keno.domienri.dico        | August 25, 2022       | DEPP-3765            | Updates for product category                 |
+      | julie.jane.alegre         | September 13, 2022    | DEPP-4247            | Fix bug for all CCE buttons                  |
+      | mary.grace.li             | September 20, 2022    | DEPP-4370            | Fix bug for Self-reg button                  |
+      | John Oliver Esguerra      | September 28, 2022    | DEPP-4465            | Rename bulk registration to Group registration|
 
 */
 import { LightningElement, api, track, wire } from "lwc";
@@ -30,7 +38,12 @@ import LWC_Error_General from "@salesforce/label/c.LWC_Error_General";
 import { getRecord, getFieldValue } from "lightning/uiRecordApi";
 import CONTACT_ID from "@salesforce/schema/User.ContactId";
 import getQuestions from "@salesforce/apex/ProductDetailsCtrl.getQuestions";
-import { CurrentPageReference } from "lightning/navigation";
+import { NavigationMixin,CurrentPageReference } from "lightning/navigation";
+import BasePath from "@salesforce/community/basePath";
+import sendEmployeeRegistrationEmail from "@salesforce/apex/EmployeeSelfRegistrationCtrl.sendEmployeeRegistrationEmail"
+import assetRecordData from "@salesforce/apex/ProductDetailsCtrl.assetRecordData";
+import { publish, MessageContext } from "lightning/messageService";
+import payloadContainerLMS from "@salesforce/messageChannel/SubMenu__c";
 
 const INTEREST_EXISTS_ERROR =
   "You already registered your interest for this product.";
@@ -42,12 +55,20 @@ const REGISTER_INTEREST="REGISTER INTEREST";
 const PRICING="Pricing";
 const PRICING_PLACEHOLDER="Choose pricing";
 const ADD_TO_CART="ADD TO CART";
+const Tailored_Executive_Education = 'Tailored Executive Education';
+const Tailored_Executive_Program = 'Tailored Executive Program';
+const Corporate_Bundle = 'Corporate Bundle';
+const QUTeX_Learning_Solutions = 'QUTeX Learning Solutions';
 
-export default class PrescribedProgram extends LightningElement {
+export default class PrescribedProgram extends NavigationMixin(
+  LightningElement
+) {
   @api product;
   @api recordNameId;
   @api recordId;
   @api isInternalUser;
+  @api productCategory;
+  @api priceReadOnly;
   productDetails;
   programModules;
   priceBookEntries;
@@ -55,6 +76,13 @@ export default class PrescribedProgram extends LightningElement {
   showOverview;
   showProgramModules;
   showProgramModulesList;
+
+  @api productCategoryChild;
+
+  @api ccePricebookEntryId;
+  // group booking bulk registration
+  @track openGroupBookingModalBulkRegistration;
+  qutexLearningSolutionsCategoryBulkReg;
 
   deliveryTypeAndStartDates = {};
   @api availableDeliveryTypes = [];
@@ -88,6 +116,15 @@ export default class PrescribedProgram extends LightningElement {
   @track isPrescribed = true;
   @track displayRegisterInterest;
   @track openAddToCartConfirmModal = false;
+  @track displayPricing = true;
+  @track displayBulkRegistration = false;
+  @track displayEmployeeSelfRegistration = false;
+  @track displayManageRegistration = false;
+  @track disableBulkRegistration = true;
+  @track disableEmployeeSelfRegistration = true;
+  @track disableManageRegistration = false;
+  @track displayCCEbtn = false;
+  @track displayReadOnlyPricing = false;
 
   responseData = [];
   questions;
@@ -102,6 +139,16 @@ export default class PrescribedProgram extends LightningElement {
   @track pricingPlaceholder;
   @track addToCart;
   @track registerInterest;
+
+   //asset available credit
+	assetAvailable;
+  // csv bulk registration
+  displayCsvBulkRegistration = false;
+  //selected course offering
+  programOffering;
+
+    //Bulk Reg name to Group registration 
+    groupBulkName;
 
   label = {
     delivery: DELIVERY,
@@ -121,6 +168,10 @@ export default class PrescribedProgram extends LightningElement {
   @track message2;
   @track isContinueToPayment;
   @track isContinueBrowsing;
+  @track isOkay;
+
+  @wire(MessageContext)
+  messageContext;
 
   @wire(getRecord, { recordId: userId, fields: [CONTACT_ID] })
   user;
@@ -147,6 +198,7 @@ export default class PrescribedProgram extends LightningElement {
   }
 
   connectedCallback() {
+   
     this.productDetails = this.product.productDetails;
     this.programModules = this.product.programModules;
     this.priceBookEntries = this.product.priceBookEntryList;
@@ -157,22 +209,24 @@ export default class PrescribedProgram extends LightningElement {
       this.productDetails.Name +
       " Development Module is mandatory as part of this program.";
     let pricingsLocal = [];
-    let pricingLabel;
-    this.product.priceBookEntryList.forEach(function (priceBookEntry) {
-      pricingsLocal.push({
-        label:
-          priceBookEntry.label === "Standard Price Book"
-            ? priceBookEntry.label.slice(0, 8)
-            : priceBookEntry.label,
-        value: priceBookEntry.value,
-        meta: parseInt(priceBookEntry.meta).toLocaleString("en-US", {
-          style: "currency",
-          currency: "USD",
-          minimumFractionDigits: 0
-        }),
-        noOfDays: priceBookEntry.noOfDays
-      });
-    });
+    if(this.priceBookEntries){
+        this.product.priceBookEntryList.forEach(function (priceBookEntry) {
+          pricingsLocal.push({
+            label:
+              priceBookEntry.label === "Standard Price Book"
+                ? priceBookEntry.label.slice(0, 8)
+                : priceBookEntry.label,
+            value: priceBookEntry.value,
+            meta: parseInt(priceBookEntry.meta).toLocaleString("en-US", {
+              style: "currency",
+              currency: "USD",
+              minimumFractionDigits: 0
+            }),
+            noOfDays: priceBookEntry.noOfDays
+          });
+        });
+    }
+  
     this.availablePricings = pricingsLocal;
     for (let deliveryType in this.product.programDeliveryAndOfferings) {
       this.availableDeliveryTypes.push({
@@ -184,11 +238,66 @@ export default class PrescribedProgram extends LightningElement {
     }
     this.accordionIcon = qutResourceImg + "/QUTImages/Icon/accordionClose.svg";
     this.durationIcon = qutResourceImg + "/QUTImages/Icon/duration.svg";
+    this.dollarIcon = qutResourceImg + "/QUTImages/Icon/dollar_icon.svg";
 
-    this.displayRegisterInterest = false;
-    this.displayGroupRegistration = false;
-    this.displayQuestionnaire = false;
-    this.displayAddToCart = true;
+    if(this.isCCEPortal){
+        if(this.productCategory == Tailored_Executive_Education || this.productCategory == Tailored_Executive_Program){
+            this.groupBulkName ='Bulk Registration';
+            this.displayReadOnlyPricing = false;
+            this.displayBulkRegistration = true;
+            this.displayEmployeeSelfRegistration = true;
+            this.displayManageRegistration = true;
+            this.disableBulkRegistration = true;
+            this.disableEmployeeSelfRegistration = true;
+            this.disableManageRegistration = false;
+            this.qutexLearningSolutionsCategoryBulkReg = false;
+        }
+        else if(this.productCategory == Corporate_Bundle ){
+          this.groupBulkName ='Bulk Registration';
+            this.displayReadOnlyPricing = true;
+            this.displayBulkRegistration = true;
+            this.displayEmployeeSelfRegistration = true;
+            this.displayManageRegistration = true;
+            this.disableBulkRegistration = true;
+            this.disableEmployeeSelfRegistration = true;
+            this.disableManageRegistration = false;
+            this.qutexLearningSolutionsCategoryBulkReg = false;
+            this.displayRegisterInterest = false;
+        }
+        else if(this.productCategory == QUTeX_Learning_Solutions ){
+          this.groupBulkName ='Group Registration';
+          this.qutexLearningSolutionsCategoryBulkReg = true;
+          this.displayReadOnlyPricing = true;
+          this.displayBulkRegistration = true;
+          this.displayEmployeeSelfRegistration = false;
+          this.displayManageRegistration = true;
+          this.disableBulkRegistration = true;
+          this.disableEmployeeSelfRegistration = true;
+          this.disableManageRegistration = false;
+       }
+       else{
+
+          this.displayReadOnlyPricing = false;
+       }
+        this.displayRegisterInterest = false;
+        this.displayGroupRegistration = false;
+        this.displayQuestionnaire = false;
+        this.disableApply = true;
+        this.displayAddToCart = false;
+        this.displayPricing = false;
+    }
+    else{
+      this.displayBulkRegistration = false;
+      this.displayEmployeeSelfRegistration = false;
+      this.displayManageRegistration = false;
+      this.displayRegisterInterest = false;
+      this.displayGroupRegistration = false;
+      this.displayQuestionnaire = false;
+      this.displayAddToCart = true;
+      this.displayPricing = true;
+    }
+
+    this.publishLMS();
 
     if (this.productDetails.Program_Plan__c) {
       getQuestions({
@@ -221,10 +330,20 @@ export default class PrescribedProgram extends LightningElement {
             this.availableDeliveryTypes.length == 0 &&
             this.productDetails.Register_Interest_Available__c == true
           ) {
-            this.disableDelivery = true;
-            this.displayAddToCart = false;
-            this.displayQuestionnaire = false;
-            this.displayRegisterInterest = true;
+            if(this.isCCEPortal ){
+              this.displayQuestionnaire = false;
+              this.displayAddToCart = false;
+              this.disableBulkRegistration = true;
+              this.disableEmployeeSelfRegistration = true;
+              this.disableManageRegistration = false;
+            }
+            else{
+              this.disableDelivery = true;
+              this.displayAddToCart = false;
+              this.displayQuestionnaire = false;
+              this.displayRegisterInterest = false;
+            }
+
           }
         });
     }
@@ -256,7 +375,7 @@ export default class PrescribedProgram extends LightningElement {
     if (sourceId == "pp_programDevelopmentModules") {
       this.showProgramModulesList = value;
     }else {
-      
+
     }
 
     let eventSource = event.currentTarget;
@@ -287,34 +406,97 @@ export default class PrescribedProgram extends LightningElement {
     let programOfferingsLocal = [];
     programOfferingsLocal =
       this.deliveryTypeAndStartDates[this.selectedDeliveryType];
+
     if (programOfferingsLocal) {
-      programOfferingsLocal.forEach(function (programOfferingLocal) {
-        let meta = "";
-        if (
-          programOfferingLocal.availableSeats == 10 &&
-          programOfferingLocal.availableSeats > 1
-        ) {
-          meta =
-            programOfferingLocal.availableSeats + " seat left for this course";
-        } else if (programOfferingLocal.availableSeats <= 10) {
-          meta =
-            programOfferingLocal.availableSeats + " seats left for this course";
-        }
-
-        availableProgramOfferingsLocal.push({
-          label: programOfferingLocal.startDate,
-          value: programOfferingLocal.id,
-          meta: meta
+      if(this.isCCEPortal){
+        programOfferingsLocal.forEach(function (programOfferingLocal) {
+          let meta = "";
+          if ( programOfferingLocal.availableSeats > 0) {
+            meta =
+              programOfferingLocal.availableSeats + " seat left for this course";
+          }
+          availableProgramOfferingsLocal.push({
+            label: programOfferingLocal.startDate,
+            value: programOfferingLocal.id,
+            meta: meta
+          });
         });
-      });
+      }else{
+        programOfferingsLocal.forEach(function (programOfferingLocal) {
+          let meta = "";
+          if (
+            programOfferingLocal.availableSeats == 10 &&
+            programOfferingLocal.availableSeats > 1
+          ) {
+            meta =
+              programOfferingLocal.availableSeats + " seat left for this course";
+          } else if (programOfferingLocal.availableSeats <= 10) {
+            meta =
+              programOfferingLocal.availableSeats + " seats left for this course";
+          }
+          availableProgramOfferingsLocal.push({
+            label: programOfferingLocal.startDate,
+            value: programOfferingLocal.id,
+            meta: meta
+          });
+        });
+      }
 
-      this.availableProgramOfferings = availableProgramOfferingsLocal;
-      this.disableProgramOfferings = false;
-      this.selectedProgramOffering = undefined;
-      this.selectedPricing = undefined;
-      this.disablePricing = true;
-      this.disableAddToCart = true;
-      this.disableApply = true;
+
+      if(this.isCCEPortal){
+        if(this.productCategory == Tailored_Executive_Education || this.productCategory == Tailored_Executive_Program){
+          this.displayReadOnlyPricing = false;
+          this.displayBulkRegistration = true;
+          this.displayEmployeeSelfRegistration = true;
+          this.displayManageRegistration = true;
+          this.disableBulkRegistration = false;
+          this.disableEmployeeSelfRegistration = false;
+          this.disableManageRegistration = false;
+          this.displayRegisterInterest = false;
+        }
+        else if(this.productCategory == Corporate_Bundle ){
+          this.displayReadOnlyPricing = true;
+          this.displayBulkRegistration = true;
+          this.displayEmployeeSelfRegistration = true;
+          this.displayManageRegistration = true;
+          this.disableBulkRegistration = false;
+          this.disableEmployeeSelfRegistration = false;
+          this.disableManageRegistration = false;
+        }
+        else if(this.productCategory == QUTeX_Learning_Solutions ){
+          this.displayReadOnlyPricing = true;
+          this.displayBulkRegistration = true;
+          this.displayEmployeeSelfRegistration = false;
+          this.displayManageRegistration = true;
+          this.disableBulkRegistration = false;
+          this.disableEmployeeSelfRegistration = true;
+          this.disableManageRegistration = false;
+        }
+        else{
+
+          this.displayReadOnlyPricing = false;
+        }
+        this.displayAddToCart = false;
+        this.displayGroupRegistration = false;
+        this.displayQuestionnaire = false;
+        this.displayRegisterInterest = false;
+        this.availableProgramOfferings = availableProgramOfferingsLocal;
+        this.disableProgramOfferings = false;
+        this.selectedProgramOffering = undefined;
+        this.disableApply = true;
+      }
+      //If in OPE
+      else{
+
+        this.availableProgramOfferings = availableProgramOfferingsLocal;
+        this.disableProgramOfferings = false;
+        this.selectedProgramOffering = undefined;
+        this.selectedPricing = undefined;
+        this.disablePricing = true;
+        this.disableAddToCart = true;
+        this.disableApply = true;
+
+      }
 
       if (Object.keys(this.getParamObj).length > 0) {
         this.selectedProgramOffering = this.getParamObj.defCourseOff;
@@ -361,6 +543,8 @@ export default class PrescribedProgram extends LightningElement {
         }
       } else {
         this.selectedProgramOffering = availableProgramOfferingsLocal[0].value;
+        this.programOffering =  programOfferingsLocal[0];
+        this.programOffering =  {...this.programOffering, value: this.programOffering.id}
         this.handleProgramOfferingPreSelected(this.selectedProgramOffering);
       }
     }
@@ -372,63 +556,232 @@ export default class PrescribedProgram extends LightningElement {
     let programOfferingsLocal = [];
     programOfferingsLocal =
       this.deliveryTypeAndStartDates[this.selectedDeliveryType];
-    programOfferingsLocal.forEach(function (programOfferingLocal) {
-      let meta = "";
-      if (
-        programOfferingLocal.availableSeats == 10 &&
-        programOfferingLocal.availableSeats > 1
-      ) {
-        meta =
-          programOfferingLocal.availableSeats + " seat left for this course";
-      } else if (programOfferingLocal.availableSeats <= 10) {
-        meta =
-          programOfferingLocal.availableSeats + " seats left for this course";
+      if(this.isCCEPortal){
+        programOfferingsLocal.forEach(function (programOfferingLocal) {
+          let meta = "";
+          if ( programOfferingLocal.availableSeats > 0) {
+            meta =
+              programOfferingLocal.availableSeats + " seat left for this course";
+          }
+          availableProgramOfferingsLocal.push({
+            label: programOfferingLocal.startDate,
+            value: programOfferingLocal.id,
+            meta: meta
+          });
+        });
+      }else{
+        programOfferingsLocal.forEach(function (programOfferingLocal) {
+          let meta = "";
+          if (
+            programOfferingLocal.availableSeats == 10 &&
+            programOfferingLocal.availableSeats > 1
+          ) {
+            meta =
+              programOfferingLocal.availableSeats + " seat left for this course";
+          } else if (programOfferingLocal.availableSeats <= 10) {
+            meta =
+              programOfferingLocal.availableSeats + " seats left for this course";
+          }
+          availableProgramOfferingsLocal.push({
+            label: programOfferingLocal.startDate,
+            value: programOfferingLocal.id,
+            meta: meta
+          });
+        });
       }
+    this.programOffering = programOfferingsLocal.filter(programOffrng => programOffrng.defDeliv == this.selectedDeliveryType)[0];
+    //add value parameter
+    this.programOffering =  {...this.programOffering, value: this.programOffering.id} 
+    // this.programOffering = programOfferingLocal;
+    if(this.isCCEPortal){
+      if(this.productCategory == Tailored_Executive_Education || this.productCategory == Tailored_Executive_Program){
+        this.displayReadOnlyPricing = false;
+        this.displayBulkRegistration = true;
+        this.displayEmployeeSelfRegistration = true;
+        this.displayManageRegistration = true;
+        this.disableBulkRegistration = true;
+        this.disableEmployeeSelfRegistration = true;
+        this.disableManageRegistration = false;
+      }
+      else if(this.productCategory == Corporate_Bundle ){
+        this.displayReadOnlyPricing = true;
+        this.displayBulkRegistration = true;
+        this.displayEmployeeSelfRegistration = true;
+        this.displayManageRegistration = true;
+        this.disableBulkRegistration = true;
+        this.disableEmployeeSelfRegistration = true;
+        this.disableManageRegistration = false;
+      }
+      else if(this.productCategory == QUTeX_Learning_Solutions ){
+        this.displayReadOnlyPricing = true;
+        this.displayBulkRegistration = true;
+        this.displayEmployeeSelfRegistration = false;
+        this.displayManageRegistration = true;
+        this.disableBulkRegistration = true;
+        this.disableEmployeeSelfRegistration = true;
+        this.disableManageRegistration = false;
+      }
+      else{
 
-      availableProgramOfferingsLocal.push({
-        label: programOfferingLocal.startDate,
-        value: programOfferingLocal.id,
-        meta: meta
-      });
-    });
-
-    this.availableProgramOfferings = availableProgramOfferingsLocal;
-    this.disableProgramOfferings = false;
-    this.selectedProgramOffering = undefined;
-    this.selectedPricing = undefined;
-    this.disablePricing = true;
-    this.displayGroupRegistration = false;
-    this.displayQuestionnaire = false;
-    this.disableApply = true;
-    this.disableAddToCart = true;
-    this.displayAddToCart = true;
-    if (this.hasQuestions) {
-      this.displayQuestionnaire = true;
+        this.displayReadOnlyPricing = false;
+      }
       this.displayAddToCart = false;
+      this.displayGroupRegistration = false;
+      this.displayQuestionnaire = false;
+      this.displayRegisterInterest = false;
+      this.availableProgramOfferings = availableProgramOfferingsLocal;
+      this.disableProgramOfferings = false;
+      this.selectedProgramOffering = undefined;
+      this.disableApply = true;
+      this.displayGroupRegistration = false;
+      this.displayQuestionnaire = false;
+      this.disableApply = true;
+      this.disableAddToCart = true;
+      this.displayAddToCart = false;
+      if (this.hasQuestions) {
+        this.displayQuestionnaire = false;
+        this.displayAddToCart = false;
+      }
     }
+    else{
+      this.availableProgramOfferings = availableProgramOfferingsLocal;
+      this.disableProgramOfferings = false;
+      this.selectedProgramOffering = undefined;
+      this.selectedPricing = undefined;
+      this.disablePricing = true;
+      this.displayGroupRegistration = false;
+      this.displayQuestionnaire = false;
+      this.disableApply = true;
+      this.disableAddToCart = true;
+      this.displayAddToCart = true;
+      if (this.hasQuestions) {
+        this.displayQuestionnaire = true;
+        this.displayAddToCart = false;
+      }
+    }
+
   }
 
   handleProgramOfferingPreSelected(preselected) {
-    this.selectedPricing = undefined;
-    this.disablePricing = false;
-    this.disableAddToCart = true;
-    this.disableApply = true;
+    if(this.isCCEPortal){
+      if(this.productCategory == Tailored_Executive_Education || this.productCategory == Tailored_Executive_Program){
+        this.displayReadOnlyPricing = false;
+        this.displayBulkRegistration = true;
+        this.displayEmployeeSelfRegistration = true;
+        this.displayManageRegistration = true;
+        this.disableBulkRegistration = false;
+        this.disableEmployeeSelfRegistration = false;
+        this.disableManageRegistration = false;
+      }
+      else if(this.productCategory == Corporate_Bundle ){
+        this.displayReadOnlyPricing = true;
+        this.displayBulkRegistration = true;
+        this.displayEmployeeSelfRegistration = true;
+        this.displayManageRegistration = true;
+        this.disableBulkRegistration = false;
+        this.disableEmployeeSelfRegistration = false;
+        this.disableManageRegistration = false;
+      }
+      else if(this.productCategory == QUTeX_Learning_Solutions ){
+        this.displayReadOnlyPricing = true;
+        this.displayBulkRegistration = true;
+        this.displayEmployeeSelfRegistration = false;
+        this.displayManageRegistration = true;
+        this.disableBulkRegistration = false;
+        this.disableEmployeeSelfRegistration = true;
+        this.disableManageRegistration = false;
+      }
+      else{
+
+        this.displayReadOnlyPricing = false;
+      }
+      this.selectedPricing = undefined;
+      this.disablePricing = true;
+      this.disableApply = true;
+      this.displayGroupRegistration = false;
+      this.displayQuestionnaire = false;
+      this.disableApply = true;
+      this.disableAddToCart = true;
+      this.displayAddToCart = false;
+      if (this.hasQuestions) {
+        this.displayQuestionnaire = false;
+        this.displayAddToCart = false;
+      }
+    }
+    else{
+      this.selectedPricing = undefined;
+      this.disablePricing = false;
+      this.disableAddToCart = true;
+      this.disableApply = true;
+    }
+
     this.handleFilterPricing();
   }
 
   handleProgramOfferingSelected(event) {
-    this.selectedProgramOffering = event.detail.value;
-    this.selectedPricing = undefined;
-    this.disablePricing = false;
-    this.displayGroupRegistration = false;
-    this.displayQuestionnaire = false;
-    this.disableApply = true;
-    this.disableAddToCart = true;
-    this.displayAddToCart = true;
-    if (this.hasQuestions) {
-      this.displayQuestionnaire = true;
+    if(this.isCCEPortal){
+      if(this.productCategory == Tailored_Executive_Education || this.productCategory == Tailored_Executive_Program){
+        this.displayReadOnlyPricing = false;
+        this.displayBulkRegistration = true;
+        this.displayEmployeeSelfRegistration = true;
+        this.displayManageRegistration = true;
+        this.disableBulkRegistration = false;
+        this.disableEmployeeSelfRegistration = false;
+        this.disableManageRegistration = false;
+      }
+      else if(this.productCategory == Corporate_Bundle ){
+        this.displayReadOnlyPricing = true;
+        this.displayBulkRegistration = true;
+        this.displayEmployeeSelfRegistration = true;
+        this.displayManageRegistration = true;
+        this.disableBulkRegistration = false;
+        this.disableEmployeeSelfRegistration = false;
+        this.disableManageRegistration = false;
+      }
+      else if(this.productCategory == QUTeX_Learning_Solutions ){
+        this.displayReadOnlyPricing = true;
+        this.displayBulkRegistration = true;
+        this.displayEmployeeSelfRegistration = false;
+        this.displayManageRegistration = true;
+        this.disableBulkRegistration = false;
+        this.disableEmployeeSelfRegistration = true;
+        this.disableManageRegistration = false;
+      }
+      else{
+
+        this.displayReadOnlyPricing = false;
+      }
+      this.selectedProgramOffering = event.detail.value;
+      this.selectedPricing = undefined;
+      this.disablePricing = false;
+      this.displayGroupRegistration = false;
+      this.displayQuestionnaire = false;
+      this.disableApply = true;
+      this.disableAddToCart = true;
       this.displayAddToCart = false;
+      this.displayGroupRegistration = false;
+      this.displayPricing = false;
+      if (this.hasQuestions) {
+        this.displayQuestionnaire = false;
+        this.displayAddToCart = false;
+      }
+
     }
+    else{
+      this.selectedProgramOffering = event.detail.value;
+      this.selectedPricing = undefined;
+      this.disablePricing = false;
+      this.displayGroupRegistration = false;
+      this.displayQuestionnaire = false;
+      this.disableApply = true;
+      this.disableAddToCart = true;
+      this.displayAddToCart = true;
+      if (this.hasQuestions) {
+        this.displayQuestionnaire = true;
+        this.displayAddToCart = false;
+      }
+    }
+
     this.handleFilterPricing();
   }
 
@@ -527,6 +880,7 @@ export default class PrescribedProgram extends LightningElement {
           this.message2 = "We will contact you once this product is available.";
           this.isContinueBrowsing = true;
           this.isContinueToPayment = false;
+          this.isOkay = false;
           // this.generateToast("Success!", "Interest Registered", "success");
         })
         .catch((error) => {
@@ -541,6 +895,34 @@ export default class PrescribedProgram extends LightningElement {
       this.setParamURL("regInt");
       this.openRegisterModal = true;
     }
+  }
+
+  handleEmployeeSelfRegistration(){
+    let pbEId = '';
+    if(this.productCategory != Tailored_Executive_Education){
+      pbEId = this.ccePricebookEntryId ? this.ccePricebookEntryId: '';
+    }
+    sendEmployeeRegistrationEmail({
+      userId: userId,
+      productId: this.productDetails.Id,
+      selectedOffering : this.selectedProgramOffering,
+      pricebookEntryId : pbEId
+    }).then( (result) => {
+      if(result == 'success'){
+        this.isRegModalMessage = true;
+        this.message1 = "The self-registration email has been sent to your email";
+        this.message2 = null;
+        this.isOkay= true;
+        this.isContinueBrowsing = false;
+        this.isContinueToPayment = false;
+      } else {
+        console.error('Error: ' + result);
+        this.generateToast(ERROR_TITLE, LWC_ERROR_GENERAL, ERROR_VARIANT);
+      }
+    }).catch( (e) => {
+      console.error('Error: ' + e);
+      this.generateToast(ERROR_TITLE, LWC_ERROR_GENERAL, ERROR_VARIANT);
+    });
   }
 
   notifyApply() {
@@ -578,6 +960,7 @@ export default class PrescribedProgram extends LightningElement {
     this.message2 = "How would you like to proceed?";
     this.isContinueBrowsing = true;
     this.isContinueToPayment = true;
+    this.isOkay = false;
   }
 
   handleModalClosed() {
@@ -599,6 +982,8 @@ export default class PrescribedProgram extends LightningElement {
   }
   groupRegistrationModalClosed() {
     this.openGroupRegistration = false;
+    this.openGroupBookingModalBulkRegistration = false;
+
   }
   groupRegistration() {
     if (!isGuest) {
@@ -626,6 +1011,33 @@ export default class PrescribedProgram extends LightningElement {
     this.openAddToCartConfirmModal = false;
   }
 
+  bulkRegistration() {
+    if(this.qutexLearningSolutionsCategoryBulkReg == true){
+      this.openGroupBookingModalBulkRegistration = true;
+
+    } else {
+		if(this.productCategory == Corporate_Bundle){
+			assetRecordData({
+				Pricebook2Id: this.productDetails.PricebookEntries[0].Pricebook2.Id
+			})
+			.then((results) => {
+				this.assetAvailable = results.Remaining_Value__c;
+		      this.displayCsvBulkRegistration = true;
+				
+			})
+			.catch((e) => {
+				this.generateToast("Error.", LWC_Error_General, "error");
+				console.log('This error');
+				console.log(e);
+			});
+		}else{
+			this.displayCsvBulkRegistration = true;
+
+		}
+  }
+  }
+
+
   setParamURL(btn) {
     // Set Button to Trigger on Load
     this.setParamObj.triggerBtn = btn;
@@ -644,5 +1056,55 @@ export default class PrescribedProgram extends LightningElement {
       this.setParamObj.defPBEntry = this.selectedPricing;
     }
     this.paramURL = "&param=" + btoa(JSON.stringify(this.setParamObj));
+  }
+  //Check if CCE portal
+  get isCCEPortal() {
+    return BasePath.toLowerCase().includes("cce");
+  }
+
+  //opens bulk registration modal
+  bulkRegistration() {
+    if(this.qutexLearningSolutionsCategoryBulkReg == true){
+      this.openGroupBookingModalBulkRegistration = true;
+    } else if(this.productCategory == Corporate_Bundle){
+			assetRecordData({
+				Pricebook2Id: this.productDetails.PricebookEntries[0].Pricebook2.Id
+			})
+			.then((results) => {
+				this.assetAvailable = results.Remaining_Value__c;
+				this.displayCsvBulkRegistration = true;
+			})
+			.catch((e) => {
+				this.generateToast("Error.", LWC_Error_General, "error");
+				console.log(e);
+			});
+		}else{
+			this.displayCsvBulkRegistration = true;
+		}
+  }
+
+  manageRegistrationLink(){
+    // Navigate to a URL
+    this[NavigationMixin.Navigate]({
+     type: 'standard__webPage',
+     attributes: {
+         url: BasePath + '/manage-registrations'
+     }
+  });
+  }
+  closeRegisterModal() {
+    this.displayCsvBulkRegistration = false;
+  }
+
+  publishLMS() {
+    let paramObj = {
+        categoryName: this.productCategory
+    };
+
+    const message = {
+        parameterJson: JSON.stringify(paramObj)
+    };
+
+    publish(this.messageContext, payloadContainerLMS, message);
   }
 }

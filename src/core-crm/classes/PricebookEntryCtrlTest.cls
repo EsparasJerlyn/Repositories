@@ -11,7 +11,7 @@
       | roy.nino.s.regala         | Febuary 14, 2022      | DEPP-1406,1257,1773   | Created file                                       |
       | john.bo.a.pineda          | May 13, 2022          | DEPP-2591             | Modified to include BuyerGroup PriceBook           |
 */
-@isTest(SeeAllData=false)
+@isTest
 private class PricebookEntryCtrlTest {
     private static String PR_PROGRAM = System.Label.RT_ProductRequest_Program;
     private static String PR_MODULE = System.Label.RT_ProductRequest_MODULE;

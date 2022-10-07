@@ -11,7 +11,7 @@
       | angelika.j.s.galang       | May 4, 2022           | DEPP-2342    | Created file                                  |
       |                           |                       |              |                                               |
 */
-@isTest(SeeAllData=false)
+@isTest
 private class RelatedChildProductsCtrlTest {
 
     private static final String STR_QUTEX = 'QUTeX';
@@ -59,7 +59,7 @@ private class RelatedChildProductsCtrlTest {
         insert relatedProductRequests;
     }
 
-    @IsTest
+    @isTest
     private static void getRelatedChildProductsTest(){
         System.runAs(currentUser){
             Id productRequestId = [SELECT Id FROM Product_Request__c WHERE RecordType.Name = :PR_PROGRAM]?.Id;

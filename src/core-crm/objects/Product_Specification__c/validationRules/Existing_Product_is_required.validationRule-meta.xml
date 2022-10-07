@@ -5,10 +5,11 @@
     <description>Existing Product is required to move stage from Qualify to Design or Complete.</description>
     <errorConditionFormula>AND(
 RecordType.DeveloperName =&apos;OPE&apos;,
-ISCHANGED(Stage__c),
-ISPICKVAL(PRIORVALUE(Stage__c),&apos;Qualify&apos;),
-OR(ISPICKVAL(Stage__c, &apos;Design&apos;),ISPICKVAL(Stage__c, &apos;Complete&apos;)),
-ISPICKVAL(Existing_Product__c,&apos;&apos;)
+OR(
+ISPICKVAL(Stage__c,&apos;Design&apos;),
+ISPICKVAL(Stage__c, &apos;Complete&apos;)
+),
+ISBLANK(TEXT(Existing_Product__c))
 )</errorConditionFormula>
     <errorDisplayField>Existing_Product__c</errorDisplayField>
     <errorMessage>&quot;Existing Product&quot; is required to update the Stage.</errorMessage>

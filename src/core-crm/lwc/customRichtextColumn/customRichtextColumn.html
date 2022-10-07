@@ -1,33 +1,37 @@
 <template>
     <div if:true={showRichtext}>
-        <div class="slds-popover slds-popover_edit slds-popover__body full-width">
-            <lightning-input-rich-text
-                value={richtextValue}
-                onchange={handleRichtextChange}
-            ></lightning-input-rich-text>
-        </div>
-        <div class="slds-float_right">
-            <lightning-button-icon
-                icon-name="utility:check" 
-                size="x-small"
-                variant="border-filled"
-                alternative-text="Confirm"
-                onclick={handleConfirm}>
-            </lightning-button-icon>
-            <lightning-button-icon
-                icon-name="utility:close" 
-                size="x-small"
-                variant="border-filled"
-                alternative-text="Cancel"
-                class="slds-m-left_xx-small"
-                onclick={handleCancel}>
-            </lightning-button-icon>
-        </div>
+        <section role="dialog" tabindex="-1" aria-modal="true" class="slds-modal slds-fade-in-open slds-modal_medium">
+            <div class="slds-modal__container">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse">
+                    <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                        <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#close"></use>
+                    </svg>
+                    <span class="slds-assistive-text">Cancel and close</span>
+                </button>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1" style="overflow:visible">
+                    <lightning-input-rich-text
+                        value={richtextValue}
+                        onchange={handleRichtextChange}
+                    ></lightning-input-rich-text>
+                </div>
+                <div class="slds-modal__footer">
+                <button 
+                    class="slds-button slds-button_neutral" 
+                    aria-label="Cancel and close"
+                    onclick={handleCancel}>
+                Cancel</button>
+                <button 
+                    class="slds-button slds-button_brand"
+                    onclick={handleConfirm}>Save</button>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
     </div>
     <div if:false={showRichtext} class="slds-table_edit_container slds-is-relative">
         <span class="slds-grid slds-grid_align-spread slds-cell-edit slds-align_absolute-center">
-            <lightning-formatted-rich-text value={richtextValue} class="cell-output">
-            </lightning-formatted-rich-text>
+            <lightning-formatted-text value={plaintextValue} class="slds-truncate cell-output">
+            </lightning-formatted-text>
             <button if:true={editable} class="slds-button slds-button_icon slds-cell-edit__button slds-m-left_x-small" tabindex="-1"
                 title="Edit" onclick={handleEdit}>
                 <svg class="slds-button__icon slds-button__icon_hint slds-button__icon_lock slds-button__icon_small slds-button__icon_edit slds-icon slds-icon-text-default slds-icon_xx-small"

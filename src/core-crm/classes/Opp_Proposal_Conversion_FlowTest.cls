@@ -11,7 +11,7 @@
       | adrian.c.habasa           | November 03, 2021     | DEPP-742 | Created file                    | 
       |                           |                       |          |                                 |
 */
-@isTest (SeeAllData = false)
+@isTest 
 private with sharing class Opp_Proposal_Conversion_FlowTest {
 
    private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();

@@ -11,7 +11,7 @@
 | angelika.j.s.galang       | November 3, 2021      | DEPP-733     | Created file                                |
 |                           |                       |              |                                             |
 */
-@IsTest(SeeAllData = false)
+@isTest
 private class Assign_PriceBookTest {
 
     private static final String STR_PB_NAME = 'Custom Corporate Products & Services';
@@ -28,7 +28,7 @@ private class Assign_PriceBookTest {
         insert contacts;
     }
 
-    @IsTest
+    @isTest
     private static void assignPricebookToOpportunityTest(){
 
         Account acc = [SELECT Id From Account LIMIT 1];

@@ -4,6 +4,7 @@
     <externalId>false</externalId>
     <formula>Total_Value__c - Pending_Value__c -  Utilised_Value__c</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>The total remaining credit balance</inlineHelpText>
     <label>Remaining Value</label>
     <precision>18</precision>
     <required>false</required>

@@ -9,24 +9,30 @@
       | john.bo.a.pineda               | April 7, 2022         | DEPP-1479              | Created file                 |
       |                                |                       |                        |                              |
  */
-@isTest(SeeAllData=false)
+@isTest
 public with sharing class PostCourseCompletionEmailCtrlTest {
   private static final Id STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
     .get('Student')
     .getRecordTypeId();
   private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
   private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
+  private static final String POST_COURSE_COMPLETION_EMAIL_TEMPLATE = 'Post Course Completion Email';
 
-  private static User currentUser = TestDataFactory.createUserRecords(
-      1,
-      'QUTeX'
-    )
-    .iterator()
-    .next();
+  @testSetup
+  static void makeData(){
+    TestDataFactory.generateTestUsers();
+    Test.startTest();
+    System.runAs(TestDataFactory.getProgramAdminUser()) {
+      EmailTemplate template = TestDataFactory.createTestEmailTemplateRecords(1,new Map<String,String>{
+        POST_COURSE_COMPLETION_EMAIL_TEMPLATE => 'Test Email Subject'}).iterator().next();
+      insert template;
+    }
+    Test.stopTest();
+  }
 
-  @IsTest
+  @isTest
   public static void testGenerateAndSendEmail() {
-    System.runAs(currentUser) {
+    System.runAs(TestDataFactory.getProgramAdminUser()) {
       Test.startTest();
       List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
       for(Account acc : accounts){
@@ -99,7 +105,7 @@ public with sharing class PostCourseCompletionEmailCtrlTest {
 
       PostCourseCompletionEmailCtrl.generateAndSendEmail(paramList);
       System.assertEquals(
-        2,
+        1,
         Limits.getEmailInvocations(),
         'Emails should be sent'
       );

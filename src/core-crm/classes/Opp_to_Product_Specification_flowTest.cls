@@ -11,7 +11,7 @@
       | adrian.c.habasa           | November 04, 2021     | DEPP-743 | Created file                    | 
       |                           |                       |          |                                 |
 */
-@isTest(SeeAllData = false)
+@isTest
 public with sharing class Opp_to_Product_Specification_flowTest {
 
     private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
@@ -61,7 +61,7 @@ public with sharing class Opp_to_Product_Specification_flowTest {
                 update(opps);
     
             Test.stopTest();
-
+            System.assert(![SELECT Id FROM Product_Specification__c WHERE Opportunity_Name__c IN :opp].isEmpty(),'No Product Specification Record Created');
         }
     }
 

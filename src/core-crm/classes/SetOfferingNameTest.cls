@@ -10,7 +10,7 @@
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | Ana                            | 29/4/22               | DEPP-2361              | Created file                 |
  */
-@isTest(SeeAllData=false)
+@isTest
 public with sharing class SetOfferingNameTest {
     private static final Id RT_UNI_DEPT = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName()
         .get('University_Department')

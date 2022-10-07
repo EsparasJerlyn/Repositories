@@ -11,7 +11,14 @@
       | angelika.j.s.galang       | February 8, 2022      | DEPP-1258    | Created file                                           | 
       | roy.nino.s.regala         | April 20, 2022        | DEPP-2318    | Added option to add new contact/facilitator            |
       | eccarius.munoz            | May 03, 2022          | DEPP-2314    | Added handling for Program Plan - Prescribed           |
-      | arsenio.jr.dayrit         | June 29, 2022         | DEPP-3239    | Added validation End Date toast message                | 
+      | alexander.cadalin         | June 17, 2022         | DEPP-1944    | Added handling for CCE - Coaching Product Requests     |
+      | arsenio.jr.dayrit         | June 29, 2022         | DEPP-3239    | Added validation End Date toast message                |
+      | rhea.b.torres             | July 18, 2022         | DEPP-2002    | Added logic for Diagnostic Tool recordtype             |
+      | kathy.cornejo             | July 8, 2022          | DEPP-1770    | Enabled Print Name Badges for Prescribed Program       |
+      | kathy.cornejo             | July 20, 2022         | DEPP-3521    | Removed Manage App Section for CCE Unit, Act, Module   |
+      | kathy.cornejo             | July 28, 2022         | DEPP-3608    | Added Manage App Section for OPE Activity and Module   |
+      | john.m.tambasen           | August, 16 2022       | DEPP-1946    | Single/Group Coaching changes                          |
+      | kathy.cornejo             | September 13, 2022    | DEPP-4297    | Fixed Creation of Product Offering                     |
 */
 import { LightningElement, api, wire, track } from 'lwc';
 import { 
@@ -29,8 +36,16 @@ import { NavigationMixin } from 'lightning/navigation';
 import customDataTableStyle from '@salesforce/resourceUrl/CustomDataTable';
 import HAS_PERMISSION from "@salesforce/customPermission/EditDesignAndReleaseTabsOfProductRequest";
 import RT_ProductRequest_Program from '@salesforce/label/c.RT_ProductRequest_Program';
+import RT_ProductRequest_Indiv_Coaching from '@salesforce/label/c.RT_ProductRequest_Indiv_Coaching';
+import RT_ProductRequest_Group_Coaching from '@salesforce/label/c.RT_ProductRequest_Group_Coaching';
+import RT_ProductRequest_Diagnostic_Tool from "@salesforce/label/c.RT_ProductRequest_Diagnostic_Tool";
+import RT_ProductRequest_Unit from "@salesforce/label/c.RT_ProductRequest_Unit";
+import RT_ProductRequest_Activity from "@salesforce/label/c.RT_ProductRequest_Activity";
+import RT_ProductRequest_Module from "@salesforce/label/c.RT_ProductRequest_Module";
+import RT_ProductRequest_PWP from "@salesforce/label/c.RT_ProductRequest_Program_Without_Pathway";
 import PL_ProductRequest_Completed from '@salesforce/label/c.PL_ProductRequest_Completed';
 import PL_ProgramPlan_PrescribedProgram from '@salesforce/label/c.PL_ProgramPlan_PrescribedProgram';
+import RT_ProductSpecs_CCE from '@salesforce/label/c.RT_ProductSpecification_CCEProgramSpecification';
 import LWC_Error_General from "@salesforce/label/c.LWC_Error_General";
 import LWC_Error_EndDate from "@salesforce/label/c.LWC_Error_EndDate";
 import COURSE from "@salesforce/schema/hed__Course__c";
@@ -44,9 +59,11 @@ import PROGRAM_PLAN from "@salesforce/schema/hed__Program_Plan__c";
 import C_PRODUCT_REQUEST from '@salesforce/schema/hed__Course__c.ProductRequestID__c';
 import PP_PRODUCT_REQUEST from '@salesforce/schema/hed__Program_Plan__c.Product_Request__c';
 import PR_RT_DEV_NAME from '@salesforce/schema/Product_Request__c.RecordType.DeveloperName';
+import PROD_SPECS_DEV_NAME from '@salesforce/schema/Product_Request__c.Product_Specification__r.RecordType.DeveloperName';
 import PR_STATUS from '@salesforce/schema/Product_Request__c.Product_Request_Status__c';
 import PR_PROGRAM_TYPE from '@salesforce/schema/Product_Request__c.OPE_Program_Plan_Type__c';
 import PRESCRIBED_CHILD from '@salesforce/schema/Product_Request__c.Child_of_Prescribed_Program__c';
+import PROD_REQ_OBJECT from '@salesforce/schema/Product_Request__c';
 import getProductOfferingData from "@salesforce/apex/ProductOfferingCtrl.getProductOfferingData";
 import getTermId from "@salesforce/apex/ProductOfferingCtrl.getTermId";
 import getParentProgram from "@salesforce/apex/ProductOfferingCtrl.getParentProgram";
@@ -72,7 +89,10 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
     @track productOfferings = [];
     isLoading = true;
     newRecord = false;
-    isOpeProgramRequest= false;
+    isCCEProductRequest;
+    isProgramRequest= false;
+    isCoachingOrDiagnosticProductRequest = false;
+    isDiagnosticProductRequest = false;
     objectToCreate = '';
     parentIdToCreate;
     parentId;
@@ -86,11 +106,16 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
     newFacilitatorBio;
     objectLabel;
     parentProgramId;
+    isCoachingProductRequest;
+    noOfCoachingSessions;
+    productCategory;
+    maxParticipants;
 
     //for prescribed program
     isPrescribed = false;
     childCourseList = [];
     prescribedOfferingLayout = [];
+    singleOfferingLayout = [];
     childOfferingLayout = [];
     hasPlanRequirementOnRender;
     newPrescribedOffering = false;
@@ -110,6 +135,9 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
     contactName = '';
     contactEmail = '';
     newlyCreatedOffering;
+    newCourseOffering = false;
+    isCourseOfferingLoading = false;
+    recordType;
     
     //decides if user has access to this feature
     get hasAccess(){
@@ -128,7 +156,7 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
 
     //disables print name badges
     get disablePrintNameBadges(){
-        return this.isStatusCompleted || this.childInfoMap.objectType == PROGRAM_OFFERING.objectApiName;
+        return this.isStatusCompleted;
     }
 
     //decides to show Add Product Offering button
@@ -211,31 +239,51 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
     //stores object info of course connection
     @wire(getObjectInfo, { objectApiName: COURSE_CONNECTION.objectApiName })
     courseConnectionInfo;
+
+    //stores object info of product request    
+    @wire(getObjectInfo, { objectApiName: PROD_REQ_OBJECT })
+    productRequestInfo;
     
     //gets product request details
     //assigns if data is for course or program plan
-    @wire(getRecord, { recordId: '$recordId', fields: [PR_RT_DEV_NAME, PR_STATUS, PRESCRIBED_CHILD, PR_PROGRAM_TYPE] })
+    @wire(getRecord, { recordId: '$recordId', fields: [PR_RT_DEV_NAME, PR_STATUS, PRESCRIBED_CHILD, PR_PROGRAM_TYPE, PROD_SPECS_DEV_NAME] })
     handleProductRequest(result){
         if(result.data){
             this.isStatusCompleted = getFieldValue(result.data,PR_STATUS) == PL_ProductRequest_Completed;
-            this.isOpeProgramRequest = getFieldValue(result.data,PR_RT_DEV_NAME) == RT_ProductRequest_Program;
+            this.isProgramRequest = 
+                getFieldValue(result.data,PR_RT_DEV_NAME) == RT_ProductRequest_Program ||
+                getFieldValue(result.data,PR_RT_DEV_NAME) == RT_ProductRequest_PWP;
+            this.isCoachingProductRequest = (getFieldValue(result.data,PR_RT_DEV_NAME) == RT_ProductRequest_Indiv_Coaching || getFieldValue(result.data,PR_RT_DEV_NAME) == RT_ProductRequest_Group_Coaching);
+            //cce: check if product request is coaching (regardless of indiv or group)
+            this.isCCEProductRequest = (
+                (getFieldValue(result.data,PR_RT_DEV_NAME) == RT_ProductRequest_Indiv_Coaching ||
+                getFieldValue(result.data,PR_RT_DEV_NAME) == RT_ProductRequest_Group_Coaching ||
+                getFieldValue(result.data,PR_RT_DEV_NAME) == RT_ProductRequest_Diagnostic_Tool ||
+                getFieldValue(result.data,PR_RT_DEV_NAME) == RT_ProductRequest_Unit ||
+                getFieldValue(result.data,PR_RT_DEV_NAME) == RT_ProductRequest_Activity ||
+                getFieldValue(result.data,PR_RT_DEV_NAME) == RT_ProductRequest_PWP ||
+                getFieldValue(result.data,PR_RT_DEV_NAME) == RT_ProductRequest_Module) && 
+                getFieldValue(result.data,PROD_SPECS_DEV_NAME) == RT_ProductSpecs_CCE
+            );
+            this.isDiagnosticProductRequest = getFieldValue(result.data,PR_RT_DEV_NAME) === RT_ProductRequest_Diagnostic_Tool;
             this.isPrescribed = getFieldValue(result.data, PR_PROGRAM_TYPE) == PL_ProgramPlan_PrescribedProgram;
             this.childOfPrescribedProgram = getFieldValue(result.data,PRESCRIBED_CHILD);
-            this.displayAccordion = this.isOpeProgramRequest == this.isPrescribed;
+            this.displayAccordion = this.isProgramRequest == this.isPrescribed;
             this.parentInfoMap = {
-                field : this.isOpeProgramRequest ? PP_PRODUCT_REQUEST.fieldApiName : C_PRODUCT_REQUEST.fieldApiName,
-                objectType : this.isOpeProgramRequest ? PROGRAM_PLAN.objectApiName :COURSE.objectApiName
+                field : this.isProgramRequest ? PP_PRODUCT_REQUEST.fieldApiName : C_PRODUCT_REQUEST.fieldApiName,
+                objectType : this.isProgramRequest ? PROGRAM_PLAN.objectApiName :COURSE.objectApiName
             };
             this.childInfoMap = {
-                fields : this.isOpeProgramRequest ? PROGRAM_OFFERING_FIELDS : COURSE_OFFERING_FIELDS,
-                objectType : this.isOpeProgramRequest ? PROGRAM_OFFERING.objectApiName : COURSE_OFFERING.objectApiName,
-                conditionField : this.isOpeProgramRequest ? PO_PROGRAM_PLAN.fieldApiName : CO_COURSE.fieldApiName
+                fields : this.isProgramRequest ? PROGRAM_OFFERING_FIELDS : COURSE_OFFERING_FIELDS,
+                objectType : this.isProgramRequest ? PROGRAM_OFFERING.objectApiName : COURSE_OFFERING.objectApiName,
+                conditionField : this.isProgramRequest ? PO_PROGRAM_PLAN.fieldApiName : CO_COURSE.fieldApiName
             };
         }else if(result.error){
             this.generateToast('Error.',LWC_Error_General,'error');
         }
     }
 
+    recordTypeName;
     //gets all related offerings, facilitators, and sessions of product request
     offeringResult = [];
     @wire(getProductOfferingData, { 
@@ -246,8 +294,12 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
     handleGetProductOfferingData(result){
         if(result.data){
             this.offeringResult = result;
+            this.productCategory = this.offeringResult.data.productCategory;
+            this.maxParticipants = this.offeringResult.data.capacity;
+            this.recordType = this.offeringResult.data.recordTypeName;
             this.parentId = this.offeringResult.data.parentId;
             this.parentRecord = this.offeringResult.data.parentRecord;
+            this.noOfCoachingSessions = this.offeringResult.data.noOfSessions;
             this.productOfferings = this.formatOfferingData(this.offeringResult.data);
             if(!this.layoutItem){
                 this.handleGetOfferingLayout();
@@ -273,7 +325,9 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
                 layout.field !== 'hed__Capacity__c' && layout.field !== 'Registration_End_Date__c'
             );
             this.layoutItem = this.childOfPrescribedProgram ? this.courseOfferingLayoutItem : this.layoutItem;
+
             if(this.childInfoMap.objectType == PROGRAM_OFFERING.objectApiName){
+                
                 for(let i = 0; i < this.layoutItem.leftColumn.length; i++){
                     this.prescribedOfferingLayout.push(this.layoutItem.leftColumn[i]);
                     this.prescribedOfferingLayout.push(this.layoutItem.rightColumn[i]);
@@ -298,6 +352,22 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
                         this.childOfferingLayout.push(this.courseOfferingLayoutItem.rightColumn[i]);
                     }
                 }
+            }else if(this.childInfoMap.objectType == COURSE_OFFERING.objectApiName){
+                for(let i = 0; i < this.layoutItem.leftColumn.length; i++){
+                    this.singleOfferingLayout.push(this.layoutItem.leftColumn[i]);
+                    this.singleOfferingLayout.push(this.layoutItem.rightColumn[i]);
+                }
+
+                this.singleOfferingLayout = this.singleOfferingLayout.map(layout => {
+                    let _layout = {...layout};
+                    if(layout && layout.field == 'Minimum_Participants__c'){
+                        _layout.value = this.parentRecord.Minimum_Participants__c;
+                    }
+                    if(layout && layout.field == 'hed__Capacity__c'){
+                        _layout.value = this.parentRecord.Maximum_Participants__c;
+                    }
+                    return _layout;
+                });
             }
         })
         .catch((error) => {
@@ -327,8 +397,10 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
             let facis = offeringData.relatedFacilitators.filter(faci => faci[this.childInfoMap.objectType] == offering.Id);
             let primaryFaci = facis.find(faci => faci.hed__Primary__c);
             let sesh = offeringData.relatedSessions.filter(sesh => sesh.Course_Offering__c == offering.Id);
+            let seshPerLearner = offeringData.relatedSessions.filter(sesh => sesh.Course_Offering__c == offering.Id && sesh.RecordType.DeveloperName == 'Specialised_Session');
             let relFaci = this.formatFacilitators(facis);
             let relSesh = this.formatSessions(sesh,relFaci);
+            let relSeshPerLearner = this.formatSessions(seshPerLearner,relFaci);
             let startDate = 
                 this.childInfoMap.objectType == COURSE_OFFERING.objectApiName ?
                 this.formatDate(offering.hed__Start_Date__c) :
@@ -350,8 +422,10 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
                     relatedFacilitators : relFaci,
                     primaryFaci: primaryFaci ? primaryFaci.Id : '',
                     relatedSessions : relSesh,
+                    relatedSessionsPerLearner : relSeshPerLearner,
                     showFacilitatorTable : relFaci.length > 0,
                     showSessionTable : relSesh.length > 0,
+                    showSessionTablePerLearner : relSeshPerLearner.length > 0,
                     disableSession : relFaci.length == 0 || this.isStatusCompleted,
                     showHelp : relFaci.length == 0 && this.showEditButton,
                     childCourseOfferings : this.isPrescribed ? 
@@ -411,6 +485,7 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
                         meta:item.Name,
                     }
                 }),
+                learnerName: item.Name,
                 customPicklistClass: 'slds-cell-edit',
                 customSearchClass: 'slds-cell-edit',
                 customStartTimeClass: 'slds-cell-edit',
@@ -432,15 +507,7 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
         if(this.isPrescribed){
             this.newPrescribedOffering = true;
         }else{
-            this.newRecord = true;
-            this.objectToCreate = this.childInfoMap.objectType;
-            this.parentIdToCreate = this.parentId;
-            if(this.objectToCreate == COURSE_OFFERING.objectApiName){
-                this.prePopulatedFields = {
-                    'Minimum_Participants__c':this.parentRecord.Minimum_Participants__c,
-                    'hed__Capacity__c': this.parentRecord.Maximum_Participants__c
-                }
-            }
+            this.newCourseOffering = true;
         }
     }
 
@@ -489,6 +556,8 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
             this.isLoading = false;
             this.newlyCreatedOffering = undefined;
             this.saveInProgress = false;
+            this.isPrescribedLoading = false;
+            this.isCourseOfferingLoading = false;
         });
     }
 
@@ -610,10 +679,6 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
                 this.handleCloseNewBio();
             }
         }else{
-            if(this.objectToCreate == COURSE_OFFERING.objectApiName){
-                fields.hed__Course__c = this.parentIdToCreate;
-                fields.hed__Term__c = this.termId;
-            }
             this.handleCreateRecord(fields,this.objectToCreate);
         }
     }
@@ -629,6 +694,26 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
         }else{
             this.isPrescribedLoading = false;
         }
+    }
+
+    //submits prescribed program offering form
+    handleSaveCourseOffering(){
+        this.isCourseOfferingLoading = true;
+    
+        if(this.validateFields()) {
+            this.template.querySelector(
+                'lightning-record-edit-form[data-id="singleCourseOfferingForm"]'
+            ).submit();
+        }else{
+            this.isCourseOfferingLoading = false;
+        }
+    }
+    
+    handleCourseOfferingSucces(event){
+        this.newlyCreatedOffering = event.detail.id;
+        this.newCourseOffering = false;
+        this.handleRefreshData();
+        this.handleCloseCourseOffering();
     }
 
     validateFields() {
@@ -668,6 +753,7 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
     //stops spinner when an error is encountered
     handleError(event){
         this.isPrescribedLoading = false;
+        this.isCourseOfferingLoading = false;
     }
 
     //creates course connection for facilitator added
@@ -740,6 +826,10 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
         this.newPrescribedOffering = false;
     }
 
+    handleCloseCourseOffering(){
+        this.newCourseOffering = false;
+    }
+
     //opens create modal for facilitator
     handleReopenAddFacilitator(){
         this.objectToCreate = FACILITATOR_BIO.objectApiName;
@@ -789,10 +879,7 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
         .catch(error => {
             if(error.body && error.body.output && error.body.output.errors[0] && error.body.output.errors[0] && error.body.output.errors[0].errorCode == 'DUPLICATES_DETECTED'){
                 this.generateToast('Error.',error.body.output.errors[0].message,'error');
-            }
-            else if (error.body && error.body.output && error.body.output.fieldErrors) {    
-                this.generateToast('Error.',LWC_Error_EndDate,'error');
-            } else {
+            }else {
                 this.generateToast('Error.',LWC_Error_General,'error');
             }
         })

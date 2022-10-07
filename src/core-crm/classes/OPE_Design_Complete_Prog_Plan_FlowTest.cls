@@ -11,7 +11,7 @@
       | eccarius.munoz            | January 24, 2022      | DEPP-1477    | Created File                                |
       |                           |                       |              |                                             |
 */
-@IsTest(SeeAllData = false)
+@isTest
 private class OPE_Design_Complete_Prog_Plan_FlowTest{
 
     private static User currentUser = TestDataFactory.createUserRecords(1, 'QUTeX').iterator().next();
@@ -69,6 +69,7 @@ private class OPE_Design_Complete_Prog_Plan_FlowTest{
 
             Test.stopTest();
 
+            System.assertEquals(numberOfRecords, numberOfCompleted,'Required fields must be completed.');
         }
     }
 
@@ -102,6 +103,7 @@ private class OPE_Design_Complete_Prog_Plan_FlowTest{
 
             Test.stopTest();
 
+            System.assertEquals(0, numberOfCompleted,'Program Plan OPE Design Complete field should not be completed.');
         }
     }
 

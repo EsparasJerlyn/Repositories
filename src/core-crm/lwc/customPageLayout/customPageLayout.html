@@ -13,7 +13,93 @@
 
 			<lightning-layout multiple-rows="true">
 				<lightning-layout-item size="12">
-					<template for:each={uiRecord.sections} for:item="section">
+					<!--Top Custom Layout-->
+					<template for:each={topLayoutList} for:item="topLayout" if:true={hasTopLayout}>
+						<lightning-accordion-section key={topLayout.sectionLabel} name={topLayout.sectionLabel} label={topLayout.sectionLabel} class="accordion-section">
+							<lightning-layout multiple-rows="true">
+								<template for:each={topLayout.leftRightColumn} for:item="leftRightField">
+									<template if:true={leftRightField.blank}>
+										<lightning-layout-item
+										key={leftRightField.field}
+										padding="horizontal-small"
+										size="6"
+										class="slds-align-bottom"
+										></lightning-layout-item>
+									</template>
+									<template if:false={leftRightField.blank}>
+										<lightning-layout-item
+											key={leftRightField.field}
+											padding="horizontal-small"
+											size="6"
+											class="slds-align-bottom"
+											>
+											<lightning-input-field
+												if:true={editMode}
+												field-name={leftRightField.field}
+												disabled={leftRightField.readOnly}
+												required={leftRightField.mandatory}
+											></lightning-input-field>
+											<lightning-layout if:false={editMode} class="slds-m-around_xx-small">
+												<lightning-layout-item flexibility="auto" class="slds-p-horizontal_none slds-border_bottom">
+														<lightning-output-field
+															field-name={leftRightField.field}
+															class="slds-m-bottom_none"
+														></lightning-output-field>
+												</lightning-layout-item>
+												<lightning-layout-item class="slds-p-left_none slds-border_bottom">
+													<lightning-button-icon
+														if:false={disableEditButton}
+														icon-name="utility:edit"
+														alternative-text="Edit"
+														title="Edit Field"
+														variant="bare"
+														size="medium"
+														onclick={handleEdit}
+													></lightning-button-icon>
+												</lightning-layout-item>
+											</lightning-layout>
+										</lightning-layout-item>
+									</template>
+								</template>
+								<template for:each={topLayout.singleColumn} for:item="singleColumnField">
+									<lightning-layout-item
+										key={singleColumnField.field}
+										padding="horizontal-small"
+										size="12"
+										class="slds-align-bottom"
+										>
+										<lightning-input-field
+											if:true={editMode}
+											field-name={singleColumnField.field}
+											disabled={singleColumnField.readOnly}
+											required={singleColumnField.mandatory}
+										></lightning-input-field>
+										<lightning-layout if:false={editMode} class="slds-m-around_xx-small">
+											<lightning-layout-item flexibility="auto" class="slds-p-horizontal_none slds-border_bottom">
+													<lightning-output-field
+														field-name={singleColumnField.field}
+														class="slds-m-bottom_none"
+													></lightning-output-field>
+											</lightning-layout-item>
+											<lightning-layout-item class="slds-p-left_none slds-border_bottom">
+												<lightning-button-icon
+													if:false={disableEditButton}
+													icon-name="utility:edit"
+													alternative-text="Edit"
+													title="Edit Field"
+													variant="bare"
+													size="medium"
+													onclick={handleEdit}
+												></lightning-button-icon>
+											</lightning-layout-item>
+										</lightning-layout>
+									</lightning-layout-item>
+								</template>
+							</lightning-layout>
+						</lightning-accordion-section>
+					</template>
+					<!--Top Custom Layout-->
+					<template if:false={isFullyCustom} for:each={uiRecord.sections} for:item="section">
 						<lightning-accordion-section key={section.id} name={section.id} label={section.heading} class="accordion-section">
 							<lightning-layout multiple-rows="true">
 								<template for:each={section.layoutRows} for:item="layoutRow">
@@ -77,6 +163,114 @@
 							</lightning-layout>
 						</lightning-accordion-section>
 					</template>
+					<!--Bottom Custom Layout-->
+					<template for:each={bottomLayoutList} for:item="bottomLayout" if:true={hasBottomLayout}>
+						<lightning-accordion-section key={bottomLayout.sectionLabel} name={bottomLayout.sectionLabel} label={bottomLayout.sectionLabel} class="accordion-section">
+							<lightning-layout multiple-rows="true">
+								<template for:each={bottomLayout.leftRightColumn} for:item="leftRightField">
+									<template if:true={leftRightField.blank}>
+										<lightning-layout-item
+										key={leftRightField.field}
+										padding="horizontal-small"
+										size="6"
+										class="slds-align-bottom"
+										></lightning-layout-item>
+									</template>
+									<template if:false={leftRightField.blank}>
+										<lightning-layout-item
+											key={leftRightField.field}
+											padding="horizontal-small"
+											size="6"
+											class="slds-align-bottom"
+											>
+											<lightning-input-field
+												if:true={editMode}
+												field-name={leftRightField.field}
+												disabled={leftRightField.readOnly}
+												required={leftRightField.mandatory}
+												class={leftRightField.field}
+											></lightning-input-field>
+											<lightning-layout if:false={editMode} class="slds-m-around_xx-small">
+												<lightning-layout-item flexibility="auto" class="slds-p-horizontal_none slds-border_bottom">
+													<template if:true={leftRightField.isSysInfoData}>
+														<lightning-layout>
+															<lightning-layout-item size="4">
+																<span data-field={leftRightField.field} class="slds-form-element__label">
+																	{leftRightField.label}
+																</span>
+															</lightning-layout-item>
+															<lightning-layout-item size="8">
+																<lightning-output-field
+																	field-name={leftRightField.field}
+																	class="slds-m-bottom_none"
+																	variant="label-hidden"
+																></lightning-output-field>
+															</lightning-layout-item>
+														</lightning-layout>
+													</template>
+													<template if:false={leftRightField.isSysInfoData}>
+														<lightning-output-field
+															field-name={leftRightField.field}
+															class="slds-m-bottom_none"
+														></lightning-output-field>
+													</template>
+												</lightning-layout-item>
+												<lightning-layout-item class="slds-p-left_none slds-border_bottom">
+													<lightning-button-icon
+														if:false={disableEditButton}
+														icon-name="utility:edit"
+														alternative-text="Edit"
+														title="Edit Field"
+														variant="bare"
+														size="medium"
+														onclick={handleEdit}
+														class={leftRightField.field}
+													></lightning-button-icon>
+												</lightning-layout-item>
+											</lightning-layout>
+										</lightning-layout-item>
+									</template>
+								</template>
+								<template for:each={bottomLayout.singleColumn} for:item="singleColumnField">
+									<lightning-layout-item
+										key={singleColumnField.field}
+										padding="horizontal-small"
+										size="6"
+										class="slds-align-bottom"
+										>
+										<lightning-input-field
+											if:true={editMode}
+											field-name={singleColumnField.field}
+											disabled={singleColumnField.readOnly}
+											required={singleColumnField.mandatory}
+										></lightning-input-field>
+										<lightning-layout if:false={editMode} class="slds-m-around_xx-small">
+											<lightning-layout-item flexibility="auto" class="slds-p-horizontal_none slds-border_bottom">
+													<lightning-output-field
+														field-name={singleColumnField.field}
+														class="slds-m-bottom_none"
+													></lightning-output-field>
+											</lightning-layout-item>
+											<lightning-layout-item class="slds-p-left_none slds-border_bottom">
+												<lightning-button-icon
+													if:false={disableEditButton}
+													icon-name="utility:edit"
+													alternative-text="Edit"
+													title="Edit Field"
+													variant="bare"
+													size="medium"
+													onclick={handleEdit}
+													class={singleColumnField.field}
+												></lightning-button-icon>
+											</lightning-layout-item>
+										</lightning-layout>
+									</lightning-layout-item>
+								</template>
+							</lightning-layout>
+						</lightning-accordion-section>
+					</template>
+					
+					<!--Bottom Custom Layout-->
 				</lightning-layout-item>
 			</lightning-layout>
 			<div if:true={editMode} class="slds-m-vertical_x-large"></div>

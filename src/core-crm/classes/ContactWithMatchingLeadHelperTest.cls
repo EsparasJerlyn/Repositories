@@ -11,7 +11,7 @@
       | eccarius.munoz                 | June 1, 2022          | DEPP-2281              | creates test class           |
       | eccarius.munoz                 | June 28, 2022         | DEPP-3235              | Sets test records to 100     |
  */
-@isTest(SeeAllData=false)
+@isTest
 public with sharing class ContactWithMatchingLeadHelperTest {
 
     public static final Integer NUM_RECORDS = 100;
@@ -75,7 +75,7 @@ public with sharing class ContactWithMatchingLeadHelperTest {
         insert contactList;
     }
 
-    @IsTest
+    @isTest
     static void detectLeadDuplicatesAndConvertTest(){
         makeData(NUM_RECORDS);
         List<Lead> leadList = [SELECT Id FROM Lead WHERE Lead_Type__c = 'Learner'];
@@ -130,7 +130,61 @@ public with sharing class ContactWithMatchingLeadHelperTest {
 
     }
 
-    @IsTest
+    @isTest
+    static void detectLeadDuplicatesAndConvertWorkEmailMatchTest(){
+        makeData(NUM_RECORDS);
+        List<Lead> leadList = [SELECT Id, Email, Work_Email__c FROM Lead WHERE Lead_Type__c = 'Learner'];
+
+        Test.startTest();
+        List<Contact> contacts = new List<Contact>();
+        for(Integer i = 0; i < NUM_RECORDS; i++){
+            contacts.add(new Contact(
+                FirstName = 'Test',
+                LastName = 'Record' + i,
+                Email = 'test@record.comw' + i,
+                Company_Name__c = 'TestCompany',
+                RecordTypeId = PERSON,
+                Marketing_Segmentation_Score__c = 80)
+            );
+        }
+        insert contacts;
+
+        Map<Id,Contact> contactsMap = new Map<Id,Contact>();
+        List<Contact> contactList = [SELECT Id, Email, Work_Email__c, AccountId, Parent_Person_Contact__r.Id, Parent_Person_Contact__r.Email, Parent_Person_Contact__r.Work_Email__c, Parent_Person_Contact__r.AccountId FROM Contact WHERE RecordTypeId =: PERSON];
+        for(Contact con : contactList){
+            contactsMap.put(con.Id, con);
+        }
+
+        ContactWithMatchingLeadHelper.detectLeadDuplicates(contactsMap);
+
+        Set<Id> leadIds = new Set<Id>();
+        for(Lead lead : leadList){
+            leadIds.add(lead.Id);
+        }
+
+        List<Marketing_Interaction__c> mktInteractionContacts = [SELECT Contact__r.Id FROM Marketing_Interaction__c WHERE Lead__c IN : leadIds];
+        List<Marketing_Course_Application__c> mktCourseAppContacts = [SELECT Contact__r.Id FROM Marketing_Course_Application__c WHERE Lead__c IN : leadIds];
+        List<Marketing_Segmentation__c> mktSegContacts = [SELECT Contact__r.Id FROM Marketing_Segmentation__c WHERE Contact__c IN : contactsMap.keySet()];
+        List<Contact> mcContacts = [SELECT Parent_Person_Contact__c FROM Contact WHERE Parent_Person_Lead__c IN : leadIds];
+
+        Test.stopTest();
+
+        for(Marketing_Interaction__c mi : mktInteractionContacts){
+            System.assert(contactsMap.containsKey(mi.Contact__r.Id), 'Marketing Interaction was not updated.');
+        }
+        for(Marketing_Course_Application__c mca : mktCourseAppContacts){
+            System.assert(contactsMap.containsKey(mca.Contact__r.Id), 'Marketing Course Application was not updated.');
+        }
+        for(Marketing_Segmentation__c ms : mktSegContacts){
+            System.assert(contactsMap.containsKey(ms.Contact__r.Id), 'Marketing Segmentation was not updated.');
+        }
+        for(Contact c : mcContacts){
+            System.assert(contactsMap.containsKey(c.Parent_Person_Contact__c), 'MC Persona was not updated.');
+        }
+
+    }
+
+    @isTest
     static void updateSingleContactWithMarketingSegTest(){
         Contact contactWithMarketingSeg = new Contact(
             FirstName = 'Test',

@@ -3,7 +3,7 @@
     <fullName>Corporate_Bundle_Request</fullName>
     <active>true</active>
     <compactLayoutAssignment>Corporate_Bundle_Request_Compact_Layout</compactLayoutAssignment>
-    <description>This record type will be used to set up the corporate bundle for the client in the corporate portal. This will include assigning courses to the customer that can be used for Corporate Bundle as well as setting up the product that they can used</description>
+    <description>This record type will be used to set up the Corporate Bundle for the client in the corporate portal. This will include assigning courses to the customer that can be used for Corporate Bundle as well as setting up the product that they can use.</description>
     <label>Corporate Bundle Request</label>
     <picklistValues>
         <picklist>Product_Request_Status__c</picklist>

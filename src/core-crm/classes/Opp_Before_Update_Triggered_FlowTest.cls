@@ -11,7 +11,7 @@
       | arsenio.dayrit@qut.edu.au      | November 03, 2021     | DEPP-745               | Created file                 | 
       |                                |                       |                        |                              | 
  */
-@isTest(SeeAllData = false)
+@isTest
 public class Opp_Before_Update_Triggered_FlowTest {
     
     private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();

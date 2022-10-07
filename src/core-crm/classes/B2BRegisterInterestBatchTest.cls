@@ -11,13 +11,13 @@
       | roy.nino.s.regala              | February 03, 2022     | DEPP-213               | Created file                 |
       |                                |                       |                        |                              |
  */
-@IsTest
+@isTest
 public class B2BRegisterInterestBatchTest {
     private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
 
     @testSetup static void setupMethod() {
-        Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'qutex@qut.edu.au');
+        Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
         insert customEmail;
 
         List<Account> accounts;
@@ -41,6 +41,7 @@ public class B2BRegisterInterestBatchTest {
         insert accounts;
         contacts = TestDataFactory.createTestContactRecords(1);
         contacts[0].email ='testquttestqut@email.com';
+        contacts[0].Registered_Email__c = 'registeredemail@email.com';
         insert Contacts;
         terms = TestDataFactory.createTestTermRecords(25,accounts[0].Id);
         insert terms;
@@ -70,7 +71,7 @@ public class B2BRegisterInterestBatchTest {
     }
 
 
-    @IsTest
+    @isTest
     public static void testRegisterInterest() {
         String htmlValue = 'Contact_FirstName Contact_LastName Product_Name Product_URL';
         Id userId = UserInfo.getUserId();
@@ -82,7 +83,7 @@ public class B2BRegisterInterestBatchTest {
                                             );
         insert e;
         Test.startTest();
-        Id batchJobId = Database.executeBatch(new B2BRegisterInterestBatch(), 200);
+        Database.executeBatch(new B2BRegisterInterestBatch(), 200);
         system.assertEquals(0,
                             Limits.getEmailInvocations(),
                             'Number of email invocations not as expected'

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Group_Dynamics_Tools_is_required</fullName>
+    <active>true</active>
+    <description>“Group Dynamics Tools” is required to update the Product Request Status when Diagnostic Tool Type is Group Diagnostic Tool</description>
+    <errorConditionFormula>AND (
+OR(
+RecordType.DeveloperName = &apos;Diagnostic_Tool&apos;
+),
+ISPICKVAL( Diagnostic_Tool_Type__c , &apos;Group Diagnostic Tool&apos;),
+ISPICKVAL( ProductRequestID__r.Product_Request_Status__c , &apos;Design&apos;),
+ISBLANK( TEXT( Group_Dynamics_Tools__c)),
+Mark_Design_Stage_as_Complete__c = true
+)</errorConditionFormula>
+    <errorDisplayField>Group_Dynamics_Tools__c</errorDisplayField>
+    <errorMessage>“Group Dynamics Tools” is required to update the Product Request Status.</errorMessage>
+</ValidationRule>

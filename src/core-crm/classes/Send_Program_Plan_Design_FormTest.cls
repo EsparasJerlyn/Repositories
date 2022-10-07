@@ -12,7 +12,7 @@
       |                           |                       |              |                                             |
       |                           |                       |              |                                             |
 */
-@IsTest(SeeAllData = false)
+@isTest
 private class Send_Program_Plan_Design_FormTest {
     private static string PR_PROGRAM = System.Label.RT_ProductRequest_Program;
     private static string PP_PROGRAM = System.Label.RT_ProgramPlan_Program;
@@ -31,7 +31,7 @@ private class Send_Program_Plan_Design_FormTest {
     {
         System.runAs(currentUser)
         {
-            Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'qutex@qut.edu.au');
+            Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
             insert customEmail;
             List<Account> acc = TestDataFactory.createTestAccountRecords(1);
             for(Account account : acc){

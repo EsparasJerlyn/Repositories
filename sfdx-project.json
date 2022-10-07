@@ -71,7 +71,7 @@
       }
     },
     "sfdx-plugin-prettier": {
-      "enabled": false
+      "enabled": true
     }
   }
 }

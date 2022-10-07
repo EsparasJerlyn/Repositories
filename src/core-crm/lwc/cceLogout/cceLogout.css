@@ -1,0 +1,90 @@
+.noFloat {
+    display: none !important;
+    float: none !important;
+}
+
+p.bodyBold {
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: pre-wrap;
+    position: relative;
+    height: 25px;
+    text-align: right;
+    width: 450px;
+    color: #FFFFFF;
+    padding: .25rem 0 1rem .25rem;
+}
+
+.logout{
+    color: #373A3C;
+    font-size: 16px;
+}
+
+
+
+/**desktop*/
+@media only screen and (min-width: 768px){
+    .pop-over{
+        position: relative;
+        top: 35px;
+        left: 83%;
+        background: #FFFFFF;
+        font-size: 16px;
+    }
+
+    .prof-name{
+        color: #FFFFFF;
+        font-size: 18px;
+    }
+
+    .btn-logout{
+        height: auto !important;
+    }
+
+    .profile-container{
+        width: 350px;
+        justify-content: flex-end;
+    }
+}
+
+
+/**mobile*/
+@media only screen and (max-width: 767px){
+    .pop-over {
+        position: relative;
+        top: 50px;
+        left: 45%;
+        background: #FFFFFF;
+        font-size: 16px;
+    }
+
+    .prof-name{
+        color: #FFFFFF;
+        font-size: 18px;
+    }
+
+    .btn-logout{
+        height: auto !important;
+    }
+
+    .profile-container{
+        width: 350px;
+        justify-content: flex-end;
+    }
+
+    .prof-align {
+        float: right;
+    }
+}
+
+lightning-icon.slds-icon_container_circle.slds-icon-action-user.slds-icon_container {
+    background-color: #FFFFFF !important;
+}
+
+.icon-color{
+    color:#012A4C;
+    fill:#012A4C;
+}

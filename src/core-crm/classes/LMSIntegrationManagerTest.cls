@@ -5,6 +5,7 @@ public class LMSIntegrationManagerTest {
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
     
     @testSetup static void setup() {
+        Test.startTest();
         List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
         for(Account acc : accounts){
             acc.RecordTypeId = ACCT_UNIV_DEP_ID;
@@ -32,6 +33,7 @@ public class LMSIntegrationManagerTest {
             courseEnrollment.recordTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByName().get('Student').getRecordTypeId();
         }
         insert courseConnections;
+        Test.stopTest();
     }
     
     @isTest

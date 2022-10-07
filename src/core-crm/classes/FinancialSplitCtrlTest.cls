@@ -11,7 +11,7 @@
       | marlon.vasquez            | February 15, 2022     | DEPP1834  | Created file                    |
       |                           |                       |           |                                 |
 */
-@IsTest
+@isTest
 private class FinancialSplitCtrlTest {
 
     private static final String QUTEXPROD = System.Label.QUT_GSB;
@@ -37,7 +37,7 @@ private class FinancialSplitCtrlTest {
         insert financialSplits;
     }
 
-    @IsTest
+    @isTest
     private static void getQutexIdTest(){
         System.runAs(currentUser){
             Account qutexAcc = [SELECT Id FROM Account LIMIT 1];
@@ -48,7 +48,7 @@ private class FinancialSplitCtrlTest {
         }
     }
 
-    @IsTest
+    @isTest
     private static void getParentIdTest(){
         System.runAs(currentUser){
             Product_Request__c pr = [SELECT Id FROM Product_Request__c LIMIT 1];
@@ -60,7 +60,7 @@ private class FinancialSplitCtrlTest {
         }
     }
 
-    @IsTest
+    @isTest
     private static void getFinancialSplitsTest(){
         System.runAs(currentUser){
             hed__Course__c course = [SELECT Id FROM hed__Course__c LIMIT 1];
@@ -71,7 +71,7 @@ private class FinancialSplitCtrlTest {
         }
     }
 
-    @IsTest
+    @isTest
     private static void upsertFinancialSplitsTest(){
         System.runAs(currentUser){
             hed__Course__c course = [SELECT Id FROM hed__Course__c LIMIT 1];

@@ -1,9 +1,9 @@
-@IsTest(SeeAllData=true) 
+@isTest
 public class B2BStoreSearchIndexSchedulerTest {
     private static final String GET_METHOD = 'GET';
     private static final String POST_METHOD = 'POST';
 
-    @IsTest
+    @isTest
     public static void testHandleCCEStoreRequest() {
         String method = GET_METHOD;
         Test.startTest();
@@ -12,7 +12,7 @@ public class B2BStoreSearchIndexSchedulerTest {
         System.assertEquals(method, req.getMethod(), 'Request doesnt match');
     }
     
-    @IsTest
+    @isTest
     public static void testHandleStudyStoreRequest() {
         String method = GET_METHOD;
         Test.startTest();
@@ -21,7 +21,7 @@ public class B2BStoreSearchIndexSchedulerTest {
         System.assertEquals(method, req.getMethod(), 'Request doesnt match');
     }
 
-    @IsTest
+    @isTest
     public static void testGetCCERequest() {
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new SchedulerMockHttpResponse(GET_METHOD, false));
@@ -30,7 +30,7 @@ public class B2BStoreSearchIndexSchedulerTest {
         System.assertEquals(true, true, 'Request doesnt match');
     }
     
-    @IsTest
+    @isTest
     public static void testGetStudyRequest() {
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new SchedulerMockHttpResponse(GET_METHOD, false));
@@ -39,7 +39,7 @@ public class B2BStoreSearchIndexSchedulerTest {
         System.assertEquals(true, true, 'Request doesnt match');
     }
 
-    @IsTest
+    @isTest
     public static void testPostCCERequest() {
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new SchedulerMockHttpResponse(POST_METHOD, false));
@@ -48,7 +48,7 @@ public class B2BStoreSearchIndexSchedulerTest {
         System.assertEquals(true, true, 'Request doesnt match');
     }
     
-    @IsTest
+    @isTest
     public static void testPostStudyRequest() {
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new SchedulerMockHttpResponse(POST_METHOD, false));
@@ -57,7 +57,7 @@ public class B2BStoreSearchIndexSchedulerTest {
         System.assertEquals(true, true, 'Request doesnt match');
     }
 
-    @IsTest
+    @isTest
     public static void testCCEScheduler() {
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new SchedulerMockHttpResponse(GET_METHOD, false));
@@ -73,7 +73,7 @@ public class B2BStoreSearchIndexSchedulerTest {
     }
     
    
-    @IsTest
+    @isTest
     public static void testStudyScheduler() {
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new SchedulerMockHttpResponse(GET_METHOD, false));
@@ -88,7 +88,7 @@ public class B2BStoreSearchIndexSchedulerTest {
         System.assertEquals(true, true, 'Scheduler runs');
     }
 
-    @IsTest
+    @isTest
     public static void testCatchErr() {
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new SchedulerMockHttpResponse(GET_METHOD, true));
@@ -102,7 +102,7 @@ public class B2BStoreSearchIndexSchedulerTest {
         System.assertEquals(true, true, 'Catch error');
     }
     
-    @IsTest
+    @isTest
     public static void testStudyCatchErr() {
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new SchedulerMockHttpResponse(GET_METHOD, true));

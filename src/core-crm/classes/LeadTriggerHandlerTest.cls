@@ -12,7 +12,7 @@
       | alexander.cadalin         | June 22, 2022         | DEPP-3056    | leadDuplicateEmailsTestOnInsert             |
       |                           | June 24, 2022         | DEPP-3056    | removed global dupes handler tests          |
 */
-@IsTest(SeeAllData = false)
+@isTest
 private class LeadTriggerHandlerTest {
     
     private static final String LEAD = 'Lead.';
@@ -31,12 +31,12 @@ private class LeadTriggerHandlerTest {
 
         Lead leadRecord1 = TestDataFactory.createTestLeadRecords(1).iterator().next();
         leadRecord1.FirstName = LEAD + FIRST_NAME;
-        leadRecord1.Email = LEAD + EMAIL;
+        leadRecord1.Email = LEAD + EMAIL + '1';
         leadRecord1.LastName = LEAD + LAST_NAME;
         leadRecords.add(leadRecord1);
 
         Lead leadRecord2 = TestDataFactory.createTestLeadRecords(1).iterator().next();
-        leadRecord2.Email = LEAD + EMAIL;
+        leadRecord2.Email = LEAD + EMAIL + '2';
         leadRecord2.LastName = LEAD + LAST_NAME;
         leadRecords.add(leadRecord2);
 
@@ -46,7 +46,7 @@ private class LeadTriggerHandlerTest {
         update leadRecord2;
     }
     
-    @IsTest
+    @isTest
     private static void leadDuplicateEmailsTestOnInsert() {
         System.runAs(currentUser) {
             Lead halcey = new Lead(
@@ -77,7 +77,7 @@ private class LeadTriggerHandlerTest {
         }
     }
     
-    @IsTest
+    @isTest
     private static void leadDuplicateEmailsTestOnUpdate() {
         System.runAs(currentUser) {
             List<Lead> leads = new List<Lead>();

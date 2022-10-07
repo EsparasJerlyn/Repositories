@@ -11,7 +11,7 @@
       | roy.nino.s.regala         | Janruary 14, 2022     | DEPP-214 | to SeaAllData=false             |
 */
 
-@isTest(SeeAllData=false)
+@isTest
 public class CsvBulkRegistrationCtrlTest {
 	  
     @isTest
@@ -24,10 +24,9 @@ public class CsvBulkRegistrationCtrlTest {
         ContentData= CsvBulkRegistrationCtrl.GetCMSContentDataByName('Fake Name',communityId,'cms_document','en_US');
         if(ContentData!=null){
         String contentKey =  ContentData.contentKey;
-        System.debug(contentKey);
-        System.assertEquals(contentKey,null);            
+        System.assertEquals(contentKey,null, 'contentKey is not equal to NULL');
         }
-        System.assertEquals(ContentData,null);            
+        System.assertEquals(ContentData,null, 'ContentData is not equal to NULL');
         Test.stopTest();
     }
     
@@ -40,16 +39,15 @@ public class CsvBulkRegistrationCtrlTest {
         ContentData= CsvBulkRegistrationCtrl.GetCMSContentDataByName('Fake Name',FakecommunityId,'cms_doc','en_US');
         if(ContentData!=null){
         String contentKey =  ContentData.contentKey;
-        System.debug(contentKey);
-        System.assertEquals(contentKey,null);            
+        System.assertEquals(contentKey,null,'contentKey is not equal to NULL');
         }
-        System.assertEquals(ContentData,null);            
+        System.assertEquals(ContentData,null,'ContentData is not equal to NULL');
         Test.stopTest();
     }
     
-    public static String str = 'Salutation,First Name,Middle Name,Last Name,Suffix,Email,Mobile Phone,Phone,Birthdate \n' +
-    'Mr,Aljohn,P,Motas,jr,aljohn.motas@gmail.com,9350592976,321414,2021 10 10 \n' +
-    'ASD,Aljohn,P,Motas,jr,dasdsada,(935) 959-2321,9350592976,2021 10 10';
+    public static String str = 'First Name,Last Name,Email,Mobile Locale,Mobile Phone,Birthdate,Dietary Requirement,Accessibility Requirement \n' +
+    'Aljohn,Motas,aljohn.motas@gmail.com,Philippines (the) (63),9350592976,2021 10 10,eqeqeq,qweqeq \n' +
+    'Aljohn,Motas,dasdsada@gmail.com,Philippines (the) (63),9350592976,2021 10 10,adadadada,zczxcadad'; 
     
     @isTest
     static void testreadCSVFileSucces(){

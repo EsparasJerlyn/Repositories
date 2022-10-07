@@ -11,16 +11,24 @@
       | roy.nino.s.regala         | June 4, 2022          | DEPP-2753    | Created file                                |
       |                           | June 10, 2022         | DEPP-3003    | Added StoreLink                             |
 */
-@IsTest(SeeAllData = false)
+@isTest
 private class SendQuestionnaireResponseEmailFlowTest{
 
     private static User currentUser = TestDataFactory.createUserRecords(1, 'QUTeX').iterator().next();
     private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
 
-    @IsTest
+    @testSetup
+    static void makeData(){
+        TestDataFactory.generateTestUsers();
+        EmailTemplate template = TestDataFactory.createTestEmailTemplateRecords(1,new Map<String,String>{
+            'Send Application Response Email' => 'Test Email Subject'}).iterator().next();
+        insert template;
+    }
+
+    @isTest
     private static void sendApprovedApplicationStatusEmailTest(){
-        Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'qutex@qut.edu.au');
+        Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
         
         insert customEmail;
 
@@ -55,7 +63,7 @@ private class SendQuestionnaireResponseEmailFlowTest{
                 qRs[i].Course_Offering__c = courseOff[0].Id;
             }
             insert qRs;
-            //System.assertEquals(1, Limits.getEmailInvocations(),'Number of email invocations not as expected');
+            System.assertEquals(1, Limits.getEmailInvocations(),'Number of email invocations not as expected');
 
             Test.stopTest();
 
@@ -64,9 +72,9 @@ private class SendQuestionnaireResponseEmailFlowTest{
     }
 
 
-    @IsTest
+    @isTest
     private static void applyOnProgramTest(){
-        Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'qutex@qut.edu.au');
+        Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
         insert customEmail;
 
         Study_Store_URL_Settings__c studyStore = new Study_Store_URL_Settings__c(Name='QUTeX', Study_Store_Link__c = 'https://studystorelinktest.com/');
@@ -111,7 +119,7 @@ private class SendQuestionnaireResponseEmailFlowTest{
         Questionnaire_Response_Summary__c qrs = new Questionnaire_Response_Summary__c(Application_Status__c ='Pending', Program_Offering__c =  programOffering[0].Id, Contact__c = contacts[0].Id);
         insert qRs;
 
-        //System.assertEquals(1, Limits.getEmailInvocations(),'Number of email invocations not as expected');
+        System.assertEquals(1, Limits.getEmailInvocations(),'Number of email invocations not as expected');
         Test.stopTest();
 
     }

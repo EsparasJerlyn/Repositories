@@ -22,7 +22,7 @@
       |---------------------------|-----------------------|---------------------|--------------------------------------------------------|
       | angelika.j.s.galang       | December 21, 2021     | DEPP-838,1299       | Created file                                           |
       | eccarius.munoz            | January 21, 2022      | DEPP-1344,1303,1222 | Added handling for OPE Design Completion               |
-      |                           |                       |                     |                                                        |
+      | alexander.cadalin         | September 01, 2022    | DEPP-2253           | Safe navigators for formatLayoutToDisplay()            |
 */
 import { LightningElement, api, wire, track} from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
@@ -30,6 +30,7 @@ import { getObjectInfo } from 'lightning/uiObjectInfoApi';
 import LWC_Error_General from '@salesforce/label/c.LWC_Error_General';
 import getLayoutMapping from '@salesforce/apex/CustomLayoutCtrl.getLayoutMapping';
 import getChildRecordId from '@salesforce/apex/CustomLayoutCtrl.getChildRecordId';
+import { updateRecord } from 'lightning/uiRecordApi';
 
 export default class CustomSectionLayout extends LightningElement {
     @api recordId;
@@ -87,7 +88,11 @@ export default class CustomSectionLayout extends LightningElement {
         if(result.data){
             //condition for layouts with no record types
             //metadata is named as All_OPE_<Object_Label>
-            this.childRecordTypeDevName = 'All_OPE_' + result.data.labelPlural.replace(' ','_');
+            if(this.forOpe){
+                this.childRecordTypeDevName = 'All_OPE_' + result.data.labelPlural.replace(' ','_');
+            }else{
+                this.childRecordTypeDevName = 'All_' + result.data.labelPlural.replace(' ','_');
+            }
             this.getRecordLayout();
         }
     }
@@ -130,22 +135,22 @@ export default class CustomSectionLayout extends LightningElement {
         this.layoutMapping = this.parentSectionLabel ? 
             this.layoutMapping.filter(layout => layout.MasterLabel == this.parentSectionLabel) : 
             this.layoutMapping.filter(layout => layout.Order__c);
-
-        this.layoutItem.sectionLabel = this.layoutMapping[0].MasterLabel;
+        this.layoutItem.sectionLabel = this.layoutMapping[0]?.MasterLabel;
         this.layoutItem.leftRightColumn = 
-            this.layoutMapping[0].Left_Right_Column_Long__c ? 
+            this.layoutMapping[0]?.Left_Right_Column_Long__c ? 
             JSON.parse(this.layoutMapping[0].Left_Right_Column_Long__c) : null;
         this.layoutItem.leftColumn = 
-            this.layoutMapping[0].Left_Column_Long__c ? 
+            this.layoutMapping[0]?.Left_Column_Long__c ? 
             JSON.parse(this.layoutMapping[0].Left_Column_Long__c) : null;
         this.layoutItem.rightColumn = 
-            this.layoutMapping[0].Right_Column_Long__c ? 
+            this.layoutMapping[0]?.Right_Column_Long__c ? 
             JSON.parse(this.layoutMapping[0].Right_Column_Long__c) : null;
         this.layoutItem.singleColumn = 
-            this.layoutMapping[0].Single_Column_Long__c ? 
+            this.layoutMapping[0]?.Single_Column_Long__c ? 
             JSON.parse(this.layoutMapping[0].Single_Column_Long__c) : null;
 
-        this.activeSections.push(this.layoutItem.sectionLabel);
+        if(this.layoutItem.sectionLabel)
+            this.activeSections.push(this.layoutItem.sectionLabel);
     }
 
     /**
@@ -158,5 +163,15 @@ export default class CustomSectionLayout extends LightningElement {
             variant: _variant,
         });
         this.dispatchEvent(evt);
+    }
+
+    @api updateSectionRecord(){
+        updateRecord({ fields: { Id: this.childRecordId } })
+        .then(result => {
+            //section is refreshed
+        })
+        .catch(error => {
+            this.generateToast('Error.',LWC_Error_General,'error');
+        })
     }
 }

@@ -1,35 +1,65 @@
 <template>
-  <div class="main-container-bc">
-    <nav role="navigation" aria-label="Breadcrumbs" class="nav-breadcrumb">
-      <div class="breadcrumbs-container breadcrumbs-pad">
-        <ol class="slds_breadcrumbs">
-          <li class="slds_breadcrumb__item breadcrumb__item--home">
-            <a href="http://qut.edu.au"> <img alt="" src={iconhome} /></a>
-          </li> 
-          <li class="slds_breadcrumb__item">
-            <a href="http://qut.edu.au/study" style="text-decoration:underline" onmouseover={changeTextDecorNone} onmouseleave={changeTextDecorUnderline}>Study</a>
-          </li>
-          <li class="slds_breadcrumb__item">
-            <a href="http://qut.edu.au/study/professional-and-executive-education" style="text-decoration:underline" onmouseover={changeTextDecorNone} onmouseleave={changeTextDecorUnderline}>QUTeX</a>
-          </li>
-          <li class="slds_breadcrumb__item">
-            <a href={forYouURL} class="Foryoulink pb1" style="text-decoration:underline; padding: 0px;" onmouseover={changeTextDecorNone} onmouseleave={changeTextDecorUnderline}>For You</a>
-          </li>
-         
-          <template if:true={menuList}>
-            <template for:each={menuList} for:item="item" for:index="i">
-              <li class="slds_breadcrumb__item slds-col desk py1" key={item}>
-                <template if:true={item.productUrl}>
-                  <a href={item.productUrl} class="dynamicList prod-name" style="text-decoration:underline;" data-productid={item.productId} onmouseover={changeTextDecorNone} onmouseleave={changeTextDecorUnderline} onclick={handleMenuClick}>{item.productName}</a>
-                </template>
-                <template if:false={item.productUrl}>
-                  <p class="dynamicList course-child-name">{item.productName}</p>
-                </template>
-              </li>
+  <!-- OPE Portal -->
+  <template if:true={isOPEPortal}>
+    <div class="main-container-bc">
+      <nav role="navigation" aria-label="Breadcrumbs" class="nav-breadcrumb">
+        <div class="breadcrumbs-container breadcrumbs-pad">
+          <ol class="slds_breadcrumbs">
+            <li class="slds_breadcrumb__item breadcrumb__item--home">
+              <a href="http://qut.edu.au"> <img alt="" src={iconhome} /></a>
+            </li> 
+            <li class="slds_breadcrumb__item">
+              <a href="http://qut.edu.au/study" style="text-decoration:underline" onmouseover={changeTextDecorNone} onmouseleave={changeTextDecorUnderline}>Study</a>
+            </li> 
+            <li class="slds_breadcrumb__item">
+              <a href="http://qut.edu.au/study/professional-and-executive-education" style="text-decoration:underline" onmouseover={changeTextDecorNone} onmouseleave={changeTextDecorUnderline}>QUTeX</a>
+            </li>
+            <li class="slds_breadcrumb__item">
+              <a href={forYouURL} class="Foryoulink pb1" style="text-decoration:underline; padding: 0px;" onmouseover={changeTextDecorNone} onmouseleave={changeTextDecorUnderline}>For You</a>
+            </li>
+          
+            <template if:true={menuList}>
+              <template for:each={menuList} for:item="item" for:index="i">
+                <li class="slds_breadcrumb__item slds-col desk py1" key={item}>
+                  <template if:true={item.productUrl}>
+                    <a href={item.productUrl} class="dynamicList prod-name" style="text-decoration:underline;" data-productid={item.productId} onmouseover={changeTextDecorNone} onmouseleave={changeTextDecorUnderline} onclick={handleMenuClick}>{item.productName}</a>
+                  </template>
+                  <template if:false={item.productUrl}>
+                    <p class="dynamicList course-child-name">{item.productName}</p>
+                  </template>
+                </li>
+              </template>
             </template>
-          </template>
-        </ol>
-      </div>
-    </nav>
-  </div>
+          </ol>
+        </div>
+      </nav>
+    </div>
+  </template>
+ 
+  <!-- CCE Portal -->
+  <template if:true={isCCEPortal}>
+    <div class="main-container-bc">
+      <nav role="navigation" aria-label="Breadcrumbs" class="nav-breadcrumb">
+        <div class="breadcrumbs-container breadcrumbs-pad">
+          <ol class="slds_breadcrumbs">
+            <li class="slds_breadcrumb__item breadcrumb__item--home">
+              <a href={homeLink} class=""> <img alt="" src={iconhome} /></a>
+            </li>      
+            <template if:true={menuList}>
+              <template for:each={menuList} for:item="item" for:index="i">
+                <li class="slds_breadcrumb__item slds-col desk py1" key={item}>
+                  <template if:true={item.productUrl}>
+                    <a href={item.productUrl} class="dynamicList prod-name" title={item.productName} style="text-decoration:underline;" data-productid={item.productId} onmouseover={changeTextDecorNone} onmouseleave={changeTextDecorUnderline} onclick={handleMenuClick}>{item.productName}</a>
+                  </template>
+                  <template if:false={item.productUrl}>
+                    <p class="dynamicList course-child-name" title={item.productName}>{item.productName}</p>
+                  </template>
+                </li>
+              </template>
+            </template>
+          </ol>
+        </div>
+      </nav>
+    </div>
+  </template>
 </template>

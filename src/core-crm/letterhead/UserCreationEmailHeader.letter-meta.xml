@@ -9,7 +9,7 @@
     </bottomLine>
     <footer>
         <backgroundColor>#FFFFFF</backgroundColor>
-        <height>100</height>
+        <height>85</height>
         <horizontalAlignment>Left</horizontalAlignment>
         <logo>Experiences_Shared_Document_Folder/email_footer.png</logo>
         <verticalAlignment>Top</verticalAlignment>

@@ -2,6 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Who_Should_Participatev2__c</fullName>
     <externalId>false</externalId>
+    <inlineHelpText>Who should participate? By attending participants will gain new knowledge and skills</inlineHelpText>
     <label>Who Should Participate?</label>
     <length>75000</length>
     <trackTrending>false</trackTrending>

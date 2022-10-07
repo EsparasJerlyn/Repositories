@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <accessMappings>
+        <accessLevel>Read</accessLevel>
+        <object>Account</object>
+        <objectField>Id</objectField>
+        <userField>Contact.RelatedAccount</userField>
+    </accessMappings>
+    <description>Ensures that the Corporate Admin has an access to the business account.</description>
+    <name>Corporate Portal Business Account Sharing Set</name>
+    <profiles>partner community user</profiles>
+</SharingSet>

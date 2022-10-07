@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Custom Welcome Email for Experience Builder</description>
+    <encodingKey>UTF-8</encodingKey>
+    <letterhead>UserCreationEmailHeader</letterhead>
+    <name>CCE User Welcome Email</name>
+    <style>formalLetter</style>
+    <subject>Welcome to QUTeX Corporate Catalogue</subject>
+    <textOnly>Hi {!Receiving_User.FirstName},
+
+
+Welcome to QUTeX Corporate catalogue! As an administrator, you have been provided with portal access to manage the registration of learners to QUTeX corporate education.
+
+
+To log into the portal, go to this {! SUBSTITUTE(LEFT(Community.Url, (FIND("?", Community.Url) - 1)),"cce/login", "cce/s/login") }
+
+Kind Regards,
+
+The QUTeX Team
+Phone: + 61 7 3138 7733 | Email: qutex@qut.edu.au
+QUTeX Professional and Executive Education for the Real World | QUTeX - Professional and executive education
+
+Follow QUTeX on LinkedIn | Subscribe to the QUTeX Connect Newsletter</textOnly>
+    <type>html</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

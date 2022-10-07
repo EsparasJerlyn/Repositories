@@ -19,8 +19,6 @@ public with sharing class SetExternalIdHelper {
   * @param newItems - List of SObjects.Trigger.new
   */
   public static void updateExternalId(List<SObject> newItems) {
-    Schema.SObjectType objectApiName = newItems.getSObjectType();
-    String objectName = String.valueOf(newItems.getSObjectType());
       for (SObject sObjectItem : newItems) {
         if(String.IsBlank(String.valueOf(sObjectItem.get('External_Id__c')))){
           sObjectItem.put('External_Id__c', GenerateUniqueId.getUUID());

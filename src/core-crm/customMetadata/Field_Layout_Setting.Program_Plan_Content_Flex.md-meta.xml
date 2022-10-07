@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Program Plan Content</label>
+    <protected>false</protected>
+    <values>
+        <field>Field_Dependency__c</field>
+        <value xsi:type="xsd:string">Flexible Program</value>
+    </values>
+    <values>
+        <field>Left_Column_Long__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Left_Column__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Left_Right_Column_Long__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Order__c</field>
+        <value xsi:type="xsd:double">3.0</value>
+    </values>
+    <values>
+        <field>Record_Type_Setting__c</field>
+        <value xsi:type="xsd:string">Program_Without_Pathway</value>
+    </values>
+    <values>
+        <field>Right_Column_Long__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Right_Column__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Section_Label__c</field>
+        <value xsi:type="xsd:string">Program Plan Content</value>
+    </values>
+    <values>
+        <field>Single_Column_Long__c</field>
+        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;hed__Description__c&quot;},
+{&quot;field&quot;:&quot;Overviewv2__c&quot;},
+{&quot;field&quot;:&quot;Evolve_with_QUTeXv2__c&quot;},
+{&quot;field&quot;:&quot;Who_Should_Participatev2__c&quot;},
+{&quot;field&quot;:&quot;Core_Conceptsv2__c&quot;},
+{&quot;field&quot;:&quot;Enrolment_Rulesv2__c&quot;},
+{&quot;field&quot;:&quot;More_Detailsv2__c&quot;}
+]</value>
+    </values>
+    <values>
+        <field>Single_Column__c</field>
+        <value xsi:nil="true"/>
+    </values>
+</CustomMetadata>

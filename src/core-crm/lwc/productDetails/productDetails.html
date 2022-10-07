@@ -1,36 +1,45 @@
 <template>
-  <lightning-spinner
-          if:true={loading}
-          class="slds-is-relative slds-align_absolute-center slds-m-around_large"
-          alternative-text="Loading product information..."
-          size="medium"
-          variant="brand"
-  ></lightning-spinner>
+	<lightning-spinner
+		if:true={loading}
+		class="slds-is-relative slds-align_absolute-center slds-m-around_large"
+		alternative-text="Loading product information..."
+		size="medium"
+		variant="brand"
+	></lightning-spinner>
+	
+	<c-product-details-display
+		if:true={showProductDetailsDisplay}
+		product-details={productDetails}
+		price-book-entries={availablePricings}
+		delivery-options={deliveryOptions}
+		c-products={cProducts}
+		is-not-flex-program={showFlexibleProgram}
+		record-id={recordId}
+		record-name-id={recordNameId}
+		onaddtocart={addToCartItem}
+		product-category={productCategory}
+		price-read-only={priceReadOnly}
+		cce-pricebook-entry-id={ccePricebookEntryId}
+	></c-product-details-display>
+	
+	<c-prescribed-program
+		if:true={showPrescribedProgram}
+		product={product}
+		record-id={recordId}
+		record-name-id={recordNameId}
+		onviewproduct={handleviewproduct}
+		onaddtocart={addToCartItem}
+		product-category={productCategory} 
+		price-read-only={priceReadOnly}
+		cce-pricebook-entry-id={ccePricebookEntryId}
 
-  <c-product-details-display
-          if:true={showProductDetailsDisplay}
-          product-details={productDetails}
-          price-book-entries={availablePricings}
-          delivery-options={deliveryOptions}
-          c-products={cProducts}
-          is-not-flex-program={showFlexibleProgram}
-          record-id={recordId}
-          record-name-id={recordNameId}
-          onaddtocart={addToCartItem}
-  ></c-product-details-display>
+	></c-prescribed-program>
+	
+	<c-product-details-single
+		if:true={showProductDetailsSingle}
+		product={product}
+		onbacktoprogram={handlebacktoprogram}
+	></c-product-details-single>
 
-  <c-prescribed-program
-          if:true={showPrescribedProgram}
-          product={product}
-          record-id={recordId}
-          record-name-id={recordNameId}
-          onviewproduct={handleviewproduct}
-          onaddtocart={addToCartItem}
-  ></c-prescribed-program>
-
-  <c-product-details-single
-          if:true={showProductDetailsSingle}
-          product={product}
-          onbacktoprogram={handlebacktoprogram}
-  ></c-product-details-single>
 </template>
+      

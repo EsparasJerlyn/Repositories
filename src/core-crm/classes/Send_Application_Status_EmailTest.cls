@@ -11,22 +11,36 @@
       | arsenio.jr.dayrit         | February 14, 2022     | DEPP-1538    | Created file                                |
       |                           |                       |              |                                             |
 */
-@IsTest(SeeAllData = false)
+@isTest
 private class Send_Application_Status_EmailTest {
 
-    private static User currentUser = TestDataFactory.createUserRecords(1, 'QUTeX').iterator().next();
     private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
+    private static final String EMAIL_TEMPLATE_RESPONSE = 'Send Application Response Email';
+    private static final String EMAIL_TEMPLATE_REJECTED = 'Application Email Rejected';
+    private static final String EMAIL_TEMPLATE_APPROVED = 'Application Email Approved';
 
-    @IsTest
+    @testSetup
+    static void makeData(){
+        TestDataFactory.generateTestUsers();
+        System.runAs(TestDataFactory.getProgramAdminUser()){
+            List<EmailTemplate> templateList = TestDataFactory.createTestEmailTemplateRecords(3,new Map<String,String>{
+                EMAIL_TEMPLATE_RESPONSE => 'Test Email Subject1',
+                EMAIL_TEMPLATE_REJECTED => 'Test Email Subject2',
+                EMAIL_TEMPLATE_APPROVED => 'Test Email Subject3'});
+            insert templateList;
+        }
+    }
+
+    @isTest
     private static void sendApprovedApplicationStatusEmailTest(){
-        Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'qutex@qut.edu.au');
+        Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
         insert customEmail;
 
         Study_Store_URL_Settings__c studyStore = new Study_Store_URL_Settings__c(Name='QUTeX', Study_Store_Link__c = 'https://studystorelinktest.com/');
         insert studyStore;
 
-        System.runAs(currentUser){
+        System.runAs(TestDataFactory.getProgramAdminUser()){
             List<Contact> conList = TestDataFactory.createTestContactRecords(1);
             for(Integer i =0;i<conList.size();i++){
                 conList[i].Registered_Email__c = 'testIdeaFormUser'+i+'@mailinator.com';
@@ -52,6 +66,8 @@ private class Send_Application_Status_EmailTest {
             for(Integer i = 0 ; i < qRs.size() ; i++){
                 qRs[i].Application_Status__c = 'Pending';
                 qRs[i].Course_Offering__c = courseOff[0].Id;
+                qRs[i].Payment_URL__c = 'payment.test';
+                qRs[i].Reason_for_Rejection__c = 'whatever reason';
             }
             insert qRs;
 
@@ -66,21 +82,19 @@ private class Send_Application_Status_EmailTest {
             update qRsUpdateRec;
             Test.stopTest();
 
-            //System.assertEquals(1, Limits.getEmailInvocations(),'Number of email invocations not as expected');
-
-
+            System.assertEquals(1, Limits.getEmailInvocations(),'Number of email invocations not as expected');
         }
     }
 
-    @IsTest
+    @isTest
     private static void sendRejectedApplicationStatusEmailTest(){
 
-        Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'qutex@qut.edu.au');
+        Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
         insert customEmail;
 
         Study_Store_URL_Settings__c studyStore = new Study_Store_URL_Settings__c(Name='QUTeX', Study_Store_Link__c = 'https://studystorelinktest.com/');
         insert studyStore;
-        System.runAs(currentUser){
+        System.runAs(TestDataFactory.getProgramAdminUser()){
             List<Contact> conList = TestDataFactory.createTestContactRecords(1);
             for(Integer i =0;i<conList.size();i++){
                 conList[i].Registered_Email__c = 'testIdeaFormUser'+i+'@mailinator.com';
@@ -121,12 +135,7 @@ private class Send_Application_Status_EmailTest {
             update qRsUpdateRec;
             Test.stopTest();
 
-            //System.assertEquals(1, Limits.getEmailInvocations(),'Number of email invocations not as expected');
-
-
+            System.assertEquals(1, Limits.getEmailInvocations(),'Number of email invocations not as expected');
         }
     }
-
-
-
 }

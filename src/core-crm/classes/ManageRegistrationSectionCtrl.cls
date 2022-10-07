@@ -43,8 +43,21 @@
       | julie.jane.alegre         | July 4, 2022          | DEPP-3389            | Remove Registration Criteria |
       |                           |                       |                      | on getQuestions method       |
       | john.m.tambasen           | July 29, 2022         | DEPP-3577            | PBE early bird               |
+      | Tiffany.Zhang             | Aug 9, 2022           | DEPP-3486            | Manage Registration and      |
+      |                           |                       |                      | Nomination table in          |
+      |                           |                       |                      | CCE portal                   |
+      | rhea.b.torres             | July 30, 2022         | DEPP-3594            | Add logic to not return email|
+      |                           |                       |                      | options if Contact has       |
+      |                           |                       |                      | Registered Email             |
+      | john.m.tambasen           | August, 16 2022       | DEPP-1946            | Single/Group Coaching changes|
+      | eccarius.karl.munoz       | August 29, 2022       | DEPP-3754            | Added dedup validation upon  |
+      |                           |                       |                      | creation of contact          |
+      | john.m.tambasen           | August, 22 2022       | DEPP-3325            | Added discount functionality |
       | kathy.cornejo             | September 08, 2022    | DEPP-4097            | Updated logic for searched   |
       |                           |                       |                      | contacts                     |
+      | eccarius.karl.munoz       | September 13, 2022    | DEPP-3824            | Updated logic to use admin   |
+      |                           |                       |                      | account for cart and user    |
+      | john.m.tambasen           | Septemebr 21, 2022    | DEPP-4390            | Update QUTPay URL for CCE    |
 */
 
 public without sharing class ManageRegistrationSectionCtrl {
@@ -77,6 +90,37 @@ public without sharing class ManageRegistrationSectionCtrl {
      }
 
      /**
+      * @description checks availability of offering for registration
+      * @param offeringId - id of offering to be checked
+      * @return boolean - return true if offerin is available for registration
+      */
+      @AuraEnabled
+      public static boolean checkOfferingAvailability(String offeringId){
+
+           List<Program_Offering__c> programOfferingList = new List<Program_Offering__c>([
+               SELECT Id 
+               FROM Program_Offering__c
+               WHERE Available_Seats__c > 0
+               AND Registration_End_Date__c > TODAY
+               AND Id =: offeringId
+           ]);
+
+           List<hed__Course_Offering__c> courseOfferingList = new List<hed__Course_Offering__c>([
+               SELECT Id 
+               FROM hed__Course_Offering__c
+               WHERE Available_Seats__c > 0
+               AND Registration_End_Date__c > TODAY
+               AND Id =: offeringId
+           ]);
+
+           if(programOfferingList.isEmpty() && courseOfferingList.isEmpty()){
+               return false;
+           }else{
+               return true;
+           }
+      }
+
+     /**
       * @description Retrieves list of Registration details of students for Non Program Plan
       * @param childRecordId - Record ID of course offering
       * @return List of ManageRegistrationDetails
@@ -85,6 +129,7 @@ public without sharing class ManageRegistrationSectionCtrl {
      public static List<ManageRegistrationDetails> getRegistrations(String childRecordId, Boolean prescribedProgram){
           List<ManageRegistrationDetails> response = new List<ManageRegistrationDetails>();
           Map<Id,Questionnaire_Response_Summary__c> contactToQRSummary = new Map<Id,Questionnaire_Response_Summary__c>();
+          PaymentUrlClass urlObj = new PaymentUrlClass();
           //Id courseOfferingId = [SELECT Id FROM hed__Course_Offering__c WHERE Id =: childRecordId]?.Id;
           if(childRecordId == null){
                return new List<ManageRegistrationDetails>();
@@ -154,14 +199,15 @@ public without sharing class ManageRegistrationSectionCtrl {
                }
                if(((student.Paid_in_Full__c == 'No' && student.Payment_Method__c == 'Invoice' && student.Is_Group_Registered__c) || (student.Paid_in_Full__c == 'No' && student.Payment_Method__c == 'Invoice'))
                     && student.hed__Contact__r.Registered_Email__c != null){
-                    regDetails.regenerateInvoiceURL = paymentGatewayURLBuilder(
-                         student.Cart_ID__r.External_Id__c,
-                         student.hed__Contact__r.Registered_Email__c,
-                         student.hed__Contact__r.Name,
-                         student.Cart_ID__r.TotalAmount,
-                         product.Name
-
-                    );
+                         urlObj = new PaymentUrlClass();
+                         urlObj.CartExternalId = student.Cart_ID__r.External_Id__c;
+                         urlObj.Email = student.hed__Contact__r.Registered_Email__c;
+                         urlObj.Name = student.hed__Contact__r.Name;
+                         urlObj.Amount = student.Cart_ID__r.TotalAmount;
+                         urlObj.ProductName = product.Name;
+                         urlObj.IsCCE = regDetails.selectedPricing != null && regDetails.selectedPricing.startsWith('SOA')?true:false;
+                         
+                    regDetails.regenerateInvoiceURL = paymentGatewayURLBuilder(urlObj);
                }
                response.add(regDetails);
           }
@@ -169,27 +215,203 @@ public without sharing class ManageRegistrationSectionCtrl {
           return response;
      }
 
+     /**
+      * @description Retrieves list of Registration details of students for CCE Portal
+      * @param isRegistrations - is registration or nomination
+      * @param courseName - filter by courseName
+      * @param firstName - filter by firstName
+      * @param lastName - filter by lastName
+      * @param email - filter by email
+      * @param mobile - filter by mobile
+      * @param status - filter by status
+      * @param birthday - filter by birthday
+      * @return List of ManageRegistrationorNominationDetails
+      */
+      @AuraEnabled(cacheable=true)
+      public static List<ManageRegistrationorNominationDetails> getRegistrationsAndNominations(Boolean isRegistrations,
+          String courseName, String firstName, String lastName, String email, String mobile, String status, String birthday){
+          String nominationType = 'Nomination';
+
+          List<ManageRegistrationorNominationDetails> response = new List<ManageRegistrationorNominationDetails>();
+          List<Product2> productList = new List<Product2>();
+          Set<Id> courseOfferingIds = new Set<Id>();
+          Set<Id> programOfferingIds = new Set<Id>();
+          Map<Id, String> productNameMap = new Map<Id, String>();
+
+          User currentUser = [SELECT Id, ContactId FROM User WHERE Id = :UserInfo.getUserId()];
+          Contact currentContact = [SELECT Id, AccountId FROM Contact WHERE Id = :currentUser.ContactId];
+          Account acc= [SELECT Id FROM Account WHERE Id = :currentContact.AccountId];        
+          
+          if(acc != null){
+               BuyerGroupMember bgm = [SELECT BuyerGroupId FROM BuyerGroupMember WHERE BuyerId = :acc.Id LIMIT 1];
+               if(bgm != null){
+                    CommerceEntitlementBuyerGroup cebg = [SELECT PolicyId FROM CommerceEntitlementBuyerGroup WHERE BuyerGroupId = :bgm.BuyerGroupId LIMIT 1];
+                    if(cebg != null){
+                         Set<Id> productIds = new Set<Id>();
+                         for(CommerceEntitlementProduct ep : [SELECT ProductId FROM CommerceEntitlementProduct WHERE PolicyId = : cebg.PolicyId]){
+                              productIds.add(ep.ProductId);
+                         }
+                         if(String.isNotBlank(courseName)){
+                              String query = 'SELECT Id, Name, Program_Plan__c, Course__c From Product2 WHERE Id IN :productIds AND' + '(Name LIKE\'' + '%' + String.escapeSingleQuotes(courseName) + '%\')';
+                              productList = Database.query(query);
+                         } else {
+                              productList = [SELECT Id, Name, Program_Plan__c, Course__c From Product2 WHERE Id IN :productIds];
+                         }  
+                    }
+               }
+          }
+
+          for(Product2 p :productList){
+               if(p.Course__c != null){
+                    courseOfferingIds.add(p.Course__c);
+                    productNameMap.put(p.Course__c, p.Name);
+               }
+
+               if(p.Program_Plan__c != null){
+                    programOfferingIds.add(p.Program_Plan__c);
+                    productNameMap.put(p.Program_Plan__c, p.Name);
+               }           
+          }
+  
+          if(isRegistrations){
+               String query;
+               String condition =(String.isNotBlank(firstName)
+                    ? ' hed__Contact__r.FirstName LIKE \'' + '%' + String.escapeSingleQuotes(firstName) + '%\'' : '');
+
+               condition += (String.isNotBlank(lastName)
+                    ? (String.isNotBlank(condition) ? +' AND ' : '') + ' hed__Contact__r.LastName LIKE \'' + '%' + String.escapeSingleQuotes(lastName) + '%\'' : '');
+                    
+               condition += (String.isNotBlank(email)
+                    ? (String.isNotBlank(condition) ? +' AND ' : '') + ' hed__Contact__r.Registered_Email__c LIKE \'' + '%' + String.escapeSingleQuotes(email) + '%\'' : '');
+               
+               condition += (String.isNotBlank(mobile)
+                    ? (String.isNotBlank(condition) ? +' AND ' : '') + ' hed__Contact__r.MobilePhone LIKE \'' + '%' + String.escapeSingleQuotes(mobile) + '%\'' : '');
+                    
+               condition += (String.isNotBlank(status)
+                    ? (String.isNotBlank(condition) ? +' AND ' : '') + String.escapeSingleQuotes(' hed__Status__c = :status') : '');
+
+               condition += (String.isNotBlank(birthday)
+                    ? (String.isNotBlank(condition) ? +' AND ' : '') + ' hed__Contact__r.Birthdate =' + String.escapeSingleQuotes(birthday) : '');
+
+               if (String.isNotBlank(condition)) {
+                    query = 'SELECT Id, Name, hed__Contact__c, hed__Contact__r.Id, hed__Contact__r.Name, hed__Course_Offering__c, Program_Offering__c, hed__Course_Offering__r.Name, hed__Course_Offering__r.hed__Course__c, hed__Contact__r.Birthdate, hed__Course_Offering__r.hed__End_Date__c, hed__Course_Offering__r.hed__Start_Date__c, hed__Status__c, hed__Contact__r.FirstName, hed__Contact__r.LastName, hed__Contact__r.Registered_Email__c, hed__Contact__r.MobilePhone FROM hed__Course_Enrollment__c WHERE RecordTypeId IN (:studentRecTypeId, :studentProgramRecTypeId) AND (hed__Course_Offering__r.hed__Course__c IN :courseOfferingIds OR (Program_Offering__r.hed_Program_Plan__c IN :programOfferingIds AND hed__Course_Offering__c = null )) AND' + condition; 
+               } else {
+                    query = 'SELECT Id, Name, hed__Contact__c, hed__Contact__r.Id, hed__Contact__r.Name, hed__Course_Offering__c, Program_Offering__c, hed__Course_Offering__r.Name, hed__Course_Offering__r.hed__Course__c, hed__Contact__r.Birthdate, hed__Course_Offering__r.hed__End_Date__c, hed__Course_Offering__r.hed__Start_Date__c, hed__Status__c, hed__Contact__r.FirstName, hed__Contact__r.LastName, hed__Contact__r.Registered_Email__c, hed__Contact__r.MobilePhone FROM hed__Course_Enrollment__c WHERE RecordTypeId IN (:studentRecTypeId, :studentProgramRecTypeId) AND (hed__Course_Offering__r.hed__Course__c IN :courseOfferingIds OR (Program_Offering__r.hed_Program_Plan__c IN :programOfferingIds AND hed__Course_Offering__c = null ))';
+               }
+
+               List<hed__Course_Enrollment__c > courseConnections = Database.query(query);
+
+               for(hed__Course_Enrollment__c student : courseConnections){
+                    ManageRegistrationorNominationDetails regDetails = new ManageRegistrationorNominationDetails();
+                    regDetails.id = student.Id;
+                    regDetails.courseName = student.hed__Course_Offering__c != null ? productNameMap.get(student.hed__Course_Offering__r.hed__Course__c) : productNameMap.get(student.Program_Offering__r.hed_Program_Plan__c);
+                    regDetails.contactId = student.hed__Contact__c;
+                    regDetails.contactFullName = student.hed__Contact__r.Name;
+                    regDetails.contactFirstName = student.hed__Contact__r.FirstName;
+                    regDetails.contactLastName = student.hed__Contact__r.LastName;
+                    regDetails.contactEmail = student.hed__Contact__r.Registered_Email__c;
+                    regDetails.contactMobile = student.hed__Contact__r.MobilePhone;
+                    regDetails.status = student.hed__Status__c;
+                    regDetails.offeringStartDate = student.hed__Course_Offering__r.hed__Start_Date__c;
+                    regDetails.offeringEndDate = student.hed__Course_Offering__r.hed__End_Date__c;
+                    regDetails.courseOfferingId = student.hed__Course_Offering__c;
+                    regDetails.programOfferingId = student.Program_Offering__c;
+                    regDetails.contactBirthdate = student.hed__Contact__r.Birthdate;
+
+                    response.add(regDetails);
+               }
+
+               
+          } else {
+               String query;
+               String condition = (String.isNotBlank(firstName)
+                    ? ' Contact__r.FirstName LIKE \'' + '%' + String.escapeSingleQuotes(firstName) + '%\'' : '');
+
+               condition += (String.isNotBlank(lastName)
+                    ? (String.isNotBlank(condition) ? +' AND ' : '') + ' Contact__r.LastName LIKE \'' + '%' + String.escapeSingleQuotes(lastName) + '%\'' : '');
+                    
+               condition += (String.isNotBlank(email)
+                    ? (String.isNotBlank(condition) ? +' AND ' : '') + ' Contact__r.Registered_Email__c LIKE \'' + '%' + String.escapeSingleQuotes(email) + '%\'' : '');
+               
+               condition += (String.isNotBlank(mobile)
+                    ? (String.isNotBlank(condition) ? +' AND ' : '') + ' Contact__r.MobilePhone LIKE \'' + '%' + String.escapeSingleQuotes(mobile) + '%\'' : '');
+                    
+               condition += (String.isNotBlank(status)
+                    ? (String.isNotBlank(condition) ? +' AND ' : '') + String.escapeSingleQuotes(' Status__c = :status') : '');
+
+               condition += (String.isNotBlank(birthday)
+                    ? (String.isNotBlank(condition) ? +' AND ' : '') + ' Contact__r.Birthdate =' + String.escapeSingleQuotes(birthday) : '');
+
+               if (String.isNotBlank(condition)) {
+                    query = 'SELECT Id, Name, Contact__c, Contact__r.Id, Contact__r.Name, Course_Offering__c, Course_Offering__r.Name, Contact__r.Birthdate, Course_Offering__r.hed__End_Date__c, Course_Offering__r.hed__Course__c, Course_Offering__r.hed__Start_Date__c, Status__c, Contact__r.FirstName, Contact__r.LastName, Contact__r.Registered_Email__c, Contact__r.MobilePhone, Program_Offering__c, Program_Offering__r.hed_Program_Plan__c FROM Expression_of_Interest__c WHERE (Type__c = :nominationType) AND ((Course_Offering__r.hed__Course__c IN :courseOfferingIds OR (Program_Offering__r.hed_Program_Plan__c IN :programOfferingIds AND Course_Offering__c = null ))) AND' + condition; 
+               } else { 
+                    query = 'SELECT Id, Name, Contact__c, Contact__r.Id, Contact__r.Name, Course_Offering__c, Course_Offering__r.Name, Contact__r.Birthdate, Course_Offering__r.hed__End_Date__c, Course_Offering__r.hed__Course__c, Course_Offering__r.hed__Start_Date__c, Status__c, Contact__r.FirstName, Contact__r.LastName, Contact__r.Registered_Email__c, Contact__r.MobilePhone, Program_Offering__c, Program_Offering__r.hed_Program_Plan__c FROM Expression_of_Interest__c WHERE (Type__c = :nominationType) AND ((Course_Offering__r.hed__Course__c IN :courseOfferingIds) OR (Program_Offering__r.hed_Program_Plan__c IN :programOfferingIds AND Course_Offering__c = null ))';
+               }
+               List<Expression_of_Interest__c > eois = Database.query(query);
+
+               for(Expression_of_Interest__c student : eois){
+                    ManageRegistrationorNominationDetails regDetails = new ManageRegistrationorNominationDetails();
+                    regDetails.id = student.Id;
+                    regDetails.courseName = student.Course_Offering__c != null ? productNameMap.get(student.Course_Offering__r.hed__Course__c) : productNameMap.get(student.Program_Offering__r.hed_Program_Plan__c);
+                    regDetails.contactId = student.Contact__c;
+                    regDetails.contactFullName = student.Contact__r.Name;
+                    regDetails.contactFirstName = student.Contact__r.FirstName;
+                    regDetails.contactLastName = student.Contact__r.LastName;
+                    regDetails.contactEmail = student.Contact__r.Registered_Email__c;
+                    regDetails.contactMobile = student.Contact__r.MobilePhone;
+                    regDetails.status = student.Status__c;
+                    regDetails.offeringStartDate = student.Course_Offering__r.hed__Start_Date__c;
+                    regDetails.offeringEndDate = student.Course_Offering__r.hed__Start_Date__c;
+                    regDetails.courseOfferingId = student.Course_Offering__c;
+                    regDetails.programOfferingId = student.Program_Offering__c;
+                    regDetails.contactBirthdate = student.Contact__r.Birthdate;
+                    
+                    response.add(regDetails);
+               }
+          }
+
+          return response;
+      }
+
      //must used custom settings for the other hard coded query params
      /**
       * Generates Payment Gateway URL based on the provided parameters
-      * @param <String> cartExternalId
-      * @param <String> email
-      * @param <String> name
-      * @param <Decimal> amount
+      * @param PaymentUrlClass contains paymenturl required details
       * @return String - URL Generated
       */
-     private static String paymentGatewayURLBuilder(String cartExternalId, String email, String name, Decimal amount, String productName){
+     private static String paymentGatewayURLBuilder(PaymentUrlClass urlObj){
 
           Payment_Gateway_Settings__c paymentGatewaySettings = Payment_Gateway_Settings__c.getorgdefaults();
+          CCE_Payment_Gateway_Settings__c paymentGatewaySettingsCCE = CCE_Payment_Gateway_Settings__c.getorgdefaults();
 
-          return paymentGatewaySettings.Payment_URL__c +
-               'tran-type=' + paymentGatewaySettings.TransType_Invoice__c +
-               '&OPETransactionID=' + cartExternalId +
-               '&Email=' + email.replace('@', '%40') +
-               '&GLCode=' + paymentGatewaySettings.GL_Code__c +
-               '&FullName=' + name +
-               '&OPEDescription=' + productName +
-               '&UnitAmountIncTax=' + String.valueOf(amount);
+          String baseURL = '';
+          String transactionId = '';
+          String description = '';
+          String tranType = '';
+          String glCode = '';
+
+          if(urlObj.IsCCE){
+               baseURL = paymentGatewaySettingsCCE.Payment_URL__c;
+               transactionId = '&CCETransactionID=';
+               description = '&CCEDescription=';
+               tranType = paymentGatewaySettingsCCE.TransType_Invoice__c;
+               glCode = paymentGatewaySettingsCCE.GL_Code__c;
+          }else{
+               baseURL = paymentGatewaySettings.Payment_URL__c;
+               transactionId ='&OPETransactionID=';
+               description = '&OPEDescription=';
+               tranType = paymentGatewaySettings.TransType_Invoice__c;
+               glCode = paymentGatewaySettings.GL_Code__c;
+          }
+
+          return baseURL +
+               'tran-type=' + tranType +
+               transactionId + urlObj.CartExternalId +
+               '&Email=' + urlObj.Email.replace('@', '%40') +
+               '&GLCode=' + glCode +
+               '&FullName=' + urlObj.Name +
+               description + urlObj.ProductName +
+               '&UnitAmountIncTax=' + String.valueOf(urlObj.Amount);
      }
 
      /**
@@ -240,6 +462,45 @@ public without sharing class ManageRegistrationSectionCtrl {
      }
 
      /**
+      * @description Updates Registration Or NominationStatus of students
+      * @param id - id of student selected 
+      * @param registrationStatus - registration status of student selected
+      * @param isRegistrations - is registration or nomination
+      * @return String
+      */
+      @AuraEnabled
+      public static String updateRegistrationOrNominationStatus(String id, String registrationStatus, Boolean isRegistrations){
+           
+           if(isRegistrations){
+              
+               hed__Course_Enrollment__c studentToUpdate = new hed__Course_Enrollment__c();
+               studentToUpdate.Id = id;
+               studentToUpdate.hed__Status__c = registrationStatus;
+
+               try {
+                    update studentToUpdate;
+                    return 'Success';
+               }
+               catch (Exception e) {
+                    return 'The following exception has occurred: ' + e.getMessage();
+               }
+           } else {
+               Expression_of_Interest__c studentToUpdate = new Expression_of_Interest__c();
+               studentToUpdate.Id = id;
+               studentToUpdate.Status__c = registrationStatus;
+
+               try {
+                    update studentToUpdate;
+                    return 'Success';
+               }
+               catch (Exception e) {
+                    return 'The following exception has occurred: ' + e.getMessage();
+               }
+           }
+           
+      }
+
+     /**
       *  @description Retrieves list of picklist values for paid in full field
       *  @return List<String>
       */
@@ -280,6 +541,29 @@ public without sharing class ManageRegistrationSectionCtrl {
      }
 
      /**
+      *  @description Retrieves list of picklist values for registration status field
+      *  @return List<String>
+      */
+      @AuraEnabled(cacheable=true)
+      public static List<String> getNominationStatusValues(){
+          List<String> choosedValues = new List<String>{'Approved', 'Pending', 'Declined'};
+          List<String> response = new List<String>();
+          String strObjectName = 'Expression_of_Interest__c';
+          String strPicklistField = 'Status__c';
+          Schema.SObjectType objSobjectType = Schema.getGlobalDescribe().get(strObjectName);
+          Schema.DescribeSObjectResult objDescribeSobject = objSobjectType.getDescribe();
+          Map<String, Schema.SObjectField> mapFields = objDescribeSobject.fields.getMap();
+          List<Schema.PicklistEntry> lstPickListValues = mapFields.get(strPicklistField).getDescribe().getPickListValues();
+          for (Schema.PicklistEntry objPickList : lstPickListValues) {
+               String val = objPickList.getValue();
+               if(choosedValues.contains(val)){
+                    response.add(val);
+               }
+          }
+          return response;
+      }
+
+     /**
       *  @description Retrieves list of picklist values for pricing validation field
       *  @return List<String>
       */
@@ -308,6 +592,9 @@ public without sharing class ManageRegistrationSectionCtrl {
      public static List<Map<String,String>> getPBEntries(String childRecordId, Boolean prescribedProgram){
           Product2 product = getProduct(childRecordId, prescribedProgram);
           List<Map<String,String>> pBEntries = new List<Map<String,String>>();
+          List<Program_Offering__c> programOfferingList = new List<Program_Offering__c>();
+          List<hed__Course_Offering__c> courseOfferingList = new List<hed__Course_Offering__c>();
+          List<String> parentProductRequestIds = new List<String>();
 
           Date startDate;
 
@@ -327,14 +614,38 @@ public without sharing class ManageRegistrationSectionCtrl {
                startDate = [SELECT Id, hed__Start_Date__c, Registration_Start_Date__c  FROM hed__Course_Offering__c WHERE Id =: childRecordId LIMIT 1].hed__Start_Date__c;
           }
 
-          List<PricebookEntry> priceBookEntries = [SELECT 
-                                                       Id, Pricebook2.Name, IsActive, Early_Bird_No_of_Days__c
-                                                  FROM 
-                                                       PricebookEntry 
-                                                  WHERE 
-                                                       Product2Id =: product.Id AND IsActive = true
-                                                  ORDER BY 
-                                                       CreatedDate];
+          List<Associated_Products__c> parentProductRequests = new List<Associated_Products__c>([
+               SELECT Product_Request__c 
+               FROM Associated_Products__c
+               WHERE Product__c =: product.Id
+          ]);
+
+          for(Associated_Products__c assocProd: parentProductRequests){
+               parentProductRequestIds.add(assocProd.Product_Request__c);
+          }
+
+          //only get the corporate pricing that is published
+          List<BuyerGroupPriceBook> buyerGroupPbList = new List<BuyerGroupPriceBook>([
+               SELECT Id, Pricebook2Id, BuyerGroup.Product_Request__r.Product_Request_Status__c
+               FROM BuyerGroupPriceBook
+               WHERE BuyerGroup.Product_Request__c IN: parentProductRequestIds]);
+          
+          Map<String,String> pricebookStatus = new Map<String,String>();
+         
+          for(BuyerGroupPricebook bgPricebook: buyerGroupPbList){
+               pricebookStatus.put(
+                    bgPricebook.Pricebook2Id,
+                    bgPricebook.BuyerGroup.Product_Request__r.Product_Request_Status__c
+               );
+          }
+          
+          List<PricebookEntry> priceBookEntries = [
+               SELECT Id, Pricebook2Id, Pricebook2.Name, 
+               IsActive, Early_Bird_No_of_Days__c
+               FROM PricebookEntry 
+               WHERE Product2Id =: product.Id 
+               AND IsActive = true
+               ORDER BY CreatedDate];
 
           for(PricebookEntry pe : priceBookEntries){
 
@@ -349,11 +660,17 @@ public without sharing class ManageRegistrationSectionCtrl {
                          continue;
                     }
                }
+               //only store the pricebook records if its not a cce pricebook
+               //only the cce pricebook that is published
+               if(  !pricebookStatus.containsKey(pe.Pricebook2Id) ||
+                    (pricebookStatus.containsKey(pe.Pricebook2Id) && pricebookStatus.get(pe.Pricebook2Id) == 'Published')){
 
-               pBEntries.add(new Map<String,String>{
-                    'id' => pe.Id,
-                    'label' => pe.Pricebook2.Name
-               });
+                         pBEntries.add(new Map<String,String>{
+                              'id' => pe.Id,
+                              'label' => pe.Pricebook2.Name
+                         });
+                    }
+               
           }
           return pBEntries;
      }
@@ -370,13 +687,25 @@ public without sharing class ManageRegistrationSectionCtrl {
         
         List<List<Contact>> contacts = [Find :filterString 
                                         In Name Fields 
-                                        Returning Contact (Id, Name, Email, FirstName, LastName, MiddleName, Preferred_Full_Name__c 
+                                        Returning Contact (Id, Name, Email, FirstName, BirthDate, LastName, MiddleName, Preferred_Full_Name__c 
                                         WHERE Recordtype.DeveloperName = 'Person' AND Id NOT IN: filterContacts LIMIT 15)];
         for(Contact con :contacts[0]){
+          String meta = '';
+
+          if(con.Email != null){
+               meta = con.Email;
+          }
+
+          if(con.Email != null && con.BirthDate != null){
+               meta += ' • ' + con.BirthDate.format();
+          }else if(con.BirthDate != null){
+               meta += con.BirthDate.format();
+          }
+
           contactMap.add(new Map<String,String>{
                 'id' => con.Id,
                 'label' => con.Name,
-                'meta' => con.Email
+                'meta' => meta
             });
           }
         return contactMap;
@@ -390,38 +719,57 @@ public without sharing class ManageRegistrationSectionCtrl {
       @AuraEnabled(cacheable=true)
       public static List<Map<String,String>> getEmailOptions(String contactId){
           List<Map<String,String>> emailOptions = new List<Map<String,String>>();
-           List<Contact> con = [SELECT Id, Email, QUT_Staff_Email__c, QUT_Learner_Email__c, Work_Email__c FROM Contact WHERE Id=: contactId];
+           List<Contact> con = [SELECT Id, 
+                                   Registered_Email__c, 
+                                   Email, QUT_Staff_Email__c, 
+                                   QUT_Learner_Email__c, 
+                                   Work_Email__c 
+                              FROM Contact 
+                              WHERE Id=: contactId LIMIT 1];
            
-           if(!con.isEmpty() && con[0].Email != null){
-               emailOptions.add(new Map<String,String>{
-                    'value' => con[0].Email,
-                    'label' => con[0].Email,
-                    'meta' => 'Email'
-               });
-           }
-           if(!con.isEmpty() && con[0].QUT_Learner_Email__c != null){
-               emailOptions.add(new Map<String,String>{
-                    'value' => con[0].QUT_Learner_Email__c,
-                    'label' => con[0].QUT_Learner_Email__c,
-                    'meta' => 'Learner Email'
-               });
-           }
-           if(!con.isEmpty() && con[0].QUT_Staff_Email__c != null){
-               emailOptions.add(new Map<String,String>{
-                    'value' => con[0].QUT_Staff_Email__c,
-                    'label' => con[0].QUT_Staff_Email__c,
-                    'meta' => 'Staff Email'
-               });
-           }
-           if(!con.isEmpty() && con[0].Work_Email__c != null){
-               emailOptions.add(new Map<String,String>{
-                    'value' => con[0].Work_Email__c,
-                    'label' => con[0].Work_Email__c,
-                    'meta' => 'Work Email'
-               });
+          if(!con.isEmpty() && con[0].Registered_Email__c == null){
+               if(con[0].Email != null){
+                    emailOptions.add(new Map<String,String>{
+                         'value' => con[0].Email,
+                         'label' => con[0].Email,
+                         'meta' => 'Email'
+                    });
+               }
+               if(con[0].QUT_Learner_Email__c != null){
+                    emailOptions.add(new Map<String,String>{
+                         'value' => con[0].QUT_Learner_Email__c,
+                         'label' => con[0].QUT_Learner_Email__c,
+                         'meta' => 'Learner Email'
+                    });
+               }
+               if(con[0].QUT_Staff_Email__c != null){
+                    emailOptions.add(new Map<String,String>{
+                         'value' => con[0].QUT_Staff_Email__c,
+                         'label' => con[0].QUT_Staff_Email__c,
+                         'meta' => 'Staff Email'
+                    });
+               }
+               if(con[0].Work_Email__c != null){
+                    emailOptions.add(new Map<String,String>{
+                         'value' => con[0].Work_Email__c,
+                         'label' => con[0].Work_Email__c,
+                         'meta' => 'Work Email'
+                    });
+               }
            }
 
            return emailOptions;
+      }
+
+      /**
+      * @Checks if Contact has Registered Email
+      * @param contactId - Contact Id
+      * @return String - Contact's Registered Email
+      */
+      @AuraEnabled(cacheable=true)
+      public static String getRegisteredEmail(String contactId){
+          Contact contact = [SELECT Id, Registered_Email__c FROM Contact WHERE Id=:contactId LIMIT 1];
+          return contact.Registered_Email__c != null ? contact.Registered_Email__c : null;
       }
     
 
@@ -434,7 +782,10 @@ public without sharing class ManageRegistrationSectionCtrl {
      * @param fileUpload - file to upload
      */
      @AuraEnabled
-     public static String addRegistration(Contact contactRecord, String offeringId, List<Related_Answer__c> relatedAnswerList, List<Answer__c> answerList, String fileUpload, Boolean prescribedProgram, Id priceBookEntryId){
+     public static ManageRegistrationDetails addRegistration(Contact contactRecord, String offeringId, List<Related_Answer__c> relatedAnswerList, List<Answer__c> answerList, String fileUpload, Boolean prescribedProgram, Id priceBookEntryId, Boolean isProceedNoInvoice, Double discountAmount){
+          
+          ManageRegistrationDetails finalReturn = new ManageRegistrationDetails();
+          
           List<FileUpload> parsedFileUpload = new List<FileUpload>();
           if(fileUpload != ''){
                parsedFileUpload = (List<FileUpload>) JSON.deserialize(fileUpload, List<FileUpload>.class);
@@ -456,6 +807,7 @@ public without sharing class ManageRegistrationSectionCtrl {
           String contactRecEmail;
           String contactRecFname;
           String contactRecLname;
+          finalReturn.isContactInputValid = true;
 
           if(contactRecord.Id == NULL){
                contactRecName = contactRecord.FirstName + ' ' + contactRecord.LastName;
@@ -463,7 +815,39 @@ public without sharing class ManageRegistrationSectionCtrl {
                contactRecFname = contactRecord.FirstName;
                contactRecLname = contactRecord.LastName;
                contactRecord.Registered_Email__c = contactRecord.Email;
-               insert contactRecord;
+               List<Contact> contactList = new List<Contact>();
+               contactList.add(contactRecord);
+               List<Contact> contactListToAdd = new List<Contact>();
+               List<Contact> contactListToUpdate = new List<Contact>();
+               List<RegistrationMatchingHelper.ContactMatchingResponse> contactsValidated = RegistrationMatchingHelper.validateContactMatching(JSON.serialize(contactList));
+               for(RegistrationMatchingHelper.ContactMatchingResponse contactValidated: contactsValidated){
+                    if(!contactValidated.isPartialMatch && contactValidated.isEmailMatch){
+                         contactRecord.Id = contactValidated.contactRecord.Id;
+                         Contact con = contactValidated.contactRecord;
+                         con.MobilePhone = contactRecord.MobilePhone;
+                         con.Dietary_Requirement__c = contactRecord.Dietary_Requirement__c;
+                         con.Accessibility_Requirement__c = contactRecord.Accessibility_Requirement__c;
+                         contactListToUpdate.add(con);
+                    }
+                    else if(contactValidated.isPartialMatch && !contactValidated.isEmailMatch){
+                         finalReturn.isContactInputValid = false;
+                         finalReturn.contactValidationResponse =  'The email address doesn’t match the contact details provided. Please check the details.';
+                    }
+                    else if(contactValidated.isPartialMatch && contactValidated.isEmailMatch){
+                         finalReturn.isContactInputValid = false;
+                         finalReturn.contactValidationResponse =  'The personal details do not match with the email provided. Please check the details.';
+                    }else{
+                         contactListToAdd.add(contactRecord);
+                    }
+               }  
+               if(contactListToAdd.size() > 0){
+                    insert contactListToAdd; 
+               }
+               if(contactListToUpdate.size() > 0){
+                    update contactListToUpdate;
+                    
+               }
+                           
           }else{
                Contact con = [SELECT Id, Name, Email, FirstName, LastName FROM Contact WHERE Id =: contactRecord.Id LIMIT 1];
                contactRecName = con.Name;
@@ -472,141 +856,230 @@ public without sharing class ManageRegistrationSectionCtrl {
                contactRecLname = con.LastName;
                update contactRecord;
           }
+          
+          if(finalReturn.isContactInputValid){
+               for(Related_Answer__c relatedA: relatedAnswerList){
+                    questionnaireIds.add(relatedA.Questionnaire__c);
+                    relatedAnswerToQuestionnaireMap.put(relatedA.Id,relatedA.Questionnaire__c);
+               }
+     
+               Questionnaire_Response_Summary__c qResSummary;
+     
+               for(Id qId:questionnaireIds){
+                    qResSummary = new Questionnaire_Response_Summary__c();
+                    qResSummary.Questionnaire__c = qId;
+                    if(!prescribedProgram){
+                         qResSummary.Course_Offering__c = offeringId;
+                    }else{
+                         qResSummary.Program_Offering__c = offeringId;
+                    }
+                    qResSummary.Registration_Status__c = 'Confirmed';
+                    qResSummary.Contact__c = contactRecord.Id;
+                    questionnaireSummaryToInsert.add(qResSummary);
+               }
+     
+               if(!questionnaireSummaryToInsert.isEmpty()){
+                    insert questionnaireSummaryToInsert;
+               }
+     
+               for(Questionnaire_Response_Summary__c questionResSummary: questionnaireSummaryToInsert){
+                    questionnaireToqResSummaryMap.put(questionResSummary.Questionnaire__c,questionResSummary.Id);
+               }
+     
+               if(!answerList.isEmpty()){
+                    for(Answer__c a: answerList){
+                         a.Questionnaire_Response_Summary__c = questionnaireToqResSummaryMap.get(relatedAnswerToQuestionnaireMap.get(a.Related_Answer__c));
+                         answersToInsert.add(a);
+                    }
+                    insert answersToInsert;
+               }
+     
+               for(Answer__c ans :answersToInsert){
+                    relatedAnswerToAnswerMap.put(ans.Related_Answer__c,ans.Id);
+               }
+     
+               for(FileUpload file: parsedFileUpload){
+                    if(relatedAnswerToAnswerMap.containsKey(file.RelatedAnswerId)){
+                         ContentVersion cv = createContentVersion(file.Base64, file.FileName);
+                         cvToRelatedAnswerMap.put(cv.Title,file.RelatedAnswerId);
+                         cvListToInsertList.add(cv);
+                    }
+               }
+     
+               if(!cvListToInsertList.isEmpty()){
+                    insert cvListToInsertList;
+               }
+     
+               List<ContentVersion> newContentVersionList = new List<ContentVersion>(
+                    [
+                         SELECT ContentDocumentId, Title
+                         FROM ContentVersion
+                         WHERE Id IN:cvListToInsertList
+                    ]
+               );
+     
+               if(!newContentVersionList.isEmpty()){
+                    ContentDocumentLink cdl;
+                    Answer__c updateAnswer;
+                    for(ContentVersion cv:newContentVersionList){
+                         cdl = new ContentDocumentLink(
+                              ContentDocumentId = cv.ContentDocumentId,
+                              LinkedEntityId = relatedAnswerToAnswerMap.get(cvToRelatedAnswerMap.get(cv.Title)),
+                              ShareType = 'V'
+                         );
+                         updateAnswer = new Answer__c(
+                              Id = cdl.LinkedEntityId,
+                              Response__c = cv.ContentDocumentId
+                         );
+                         answersToUpdate.put(updateAnswer.Id,updateAnswer);
+                         contentDocLinkListToInsert.add(cdl);
+                    }
+               }
+     
+               if(!contentDocLinkListToInsert.isEmpty()){
+                    insert contentDocLinkListToInsert;
+               }
+     
+               if(!answersToUpdate.keySet().isEmpty()){
+                    update answersToUpdate.values();
+               }
+               
+               if(!String.isBlank(priceBookEntryId)){
+                    Id commerceUser;
+                    Product2 product = getProduct(offeringId, prescribedProgram);
+                    PricebookEntry pbe = new PricebookEntry();
+                    Boolean isCorporateBundlePricing = false;
+                    Boolean isSOAPricing = false;
+                    Decimal amount;
+                    List<PricebookEntry> pbList = [SELECT Id, UnitPrice, Product2Id, PriceBook2Id, PriceBook2.Name FROM PricebookEntry WHERE Id =: priceBookEntryId LIMIT 1];
+                    for(PricebookEntry pb : pbList){
+                         isCorporateBundlePricing = pb.PriceBook2.Name.startsWith('Corporate Bundle');
+                         isSOAPricing = pb.PriceBook2.Name.startsWith('SOA');
+                         pbe = pb;
+                         amount = pb.UnitPrice - discountAmount;
+                    }
 
-          for(Related_Answer__c relatedA: relatedAnswerList){
-               questionnaireIds.add(relatedA.Questionnaire__c);
-               relatedAnswerToQuestionnaireMap.put(relatedA.Id,relatedA.Questionnaire__c);
-          }
+                    List<User> corporateUser = new List<User>();
+                    WebCart newWebCart = new WebCart();
+                    //only try to get corporate user if selected pricing is SOA or Corporate Bundle
+                    if((isCorporateBundlePricing == true || isSOAPricing == true)){
+                         //get corporate user linked to the pricebookentry selected
+                         corporateUser = CorporateBundleAndSOAHelper.getCorporateUser(pbe.PriceBook2Id);
+                    }
 
-          Questionnaire_Response_Summary__c qResSummary;
+                    if(!corporateUser.isEmpty()){
+                         newWebCart = CorporateBundleAndSOAHelper.createCCEWebCart(corporateUser[0]);
+                         commerceUser = corporateUser[0].Id;
+                    }else if(corporateUser.isEmpty() && (isCorporateBundlePricing == true || isSOAPricing == true)){
+                         throw new AuraHandledException('Please make sure to enable the contact as Partner User');
+                    }else{
+                         commerceUser = createUser(contactRecEmail, contactRecLname, contactRecFname, contactRecord.Id);
+                         newWebCart = createWebCart(commerceUser, contactRecord.Id);
+                    }
+                    
+                    insert newWebCart;                    
 
-          for(Id qId:questionnaireIds){
-               qResSummary = new Questionnaire_Response_Summary__c();
-               qResSummary.Questionnaire__c = qId;
-               if(!prescribedProgram){
-                    qResSummary.Course_Offering__c = offeringId;
+                    CartDeliveryGroup cartDeliveryGroup = new CartDeliveryGroup(
+                         CartId = newWebCart.Id,
+                         Name = 'Default Delivery'
+                    );
+                    insert cartDeliveryGroup;
+          
+                    CartItem newCartItem = createCartItem(offeringId, newWebCart.Id, pbe, prescribedProgram, product.Id, cartDeliveryGroup.Id);
+                    newCartItem.Contact__c = contactRecord.Id;
+                    insert newCartItem;
+     
+                    if(!isProceedNoInvoice){
+                         Cart_Payment__c cartPayment = new Cart_Payment__c(Status__c = 'Invoiced', Discount_Applied__c = discountAmount);
+                         insert cartPayment;
+     
+                         String externalId = [SELECT Id, External_Id__c FROM WebCart WHERE OwnerId =: commerceUser AND Status = 'Active' LIMIT 1].External_Id__c; 
+
+                         PaymentUrlClass urlObj = new PaymentUrlClass();
+                         urlObj.CartExternalId = externalId;
+                         urlObj.Email = contactRecEmail;
+                         urlObj.Name = contactRecName;
+                         urlObj.Amount = amount;
+                         urlObj.ProductName = product.Name;
+                         urlObj.IsCCE = isSOAPricing;
+
+                         String paymentURL = paymentGatewayURLBuilder(urlObj);
+               
+                         WebCart webCartToClose = new WebCart(
+                              Id = newWebCart.Id,
+                              Status__c = 'Closed',
+                              Status = 'Closed',
+                              Cart_Payment__c = cartPayment.Id,
+                              Payment_URL__c = paymentURL
+                         );
+                         update webCartToClose;
+     
+                         //update cart payment to invoiced after linking the webcart
+                         //so that the cart payment trigger can check related cartitems
+                         cartPayment.Payment_Status__c = 'Invoiced';
+                         update cartPayment;                   
+     
+                         finalReturn.contactId = contactRecord.Id;
+                         finalReturn.paymentURL = paymentURL;
+                         finalReturn.contactName = contactRecName;
+     
+                    }else{
+                         String externalId;
+                         List<WebCart> carts = [SELECT External_Id__c FROM WebCart WHERE OwnerId =: commerceUser LIMIT 1];
+                         for(WebCart webCart : carts){ externalId = webCart.External_Id__c; }
+                
+                         WebCart webCartToClose = new WebCart(
+                             Id = newWebCart.Id,
+                             Status__c = 'Closed',
+                             Status = 'Closed'
+                         );
+                         update webCartToClose;
+                
+                         List<hed__Course_Enrollment__c> courseConnectionList = createCourseConnectionList(contactRecord.Id, offeringId, amount, newWebCart.Id, newCartItem.Id, prescribedProgram);                               
+                         insert courseConnectionList;
+                         
+                         finalReturn.contactId = contactRecord.Id;
+                         finalReturn.contactName = contactRecName;
+
+                         //if corporate pricing is selected
+                         if(isCorporateBundlePricing == true){
+                              //get asset record related to corporate bundle
+                              List<String> pbEntryIds = new List<String>();
+                              pbEntryIds.add(priceBookEntryId);
+                              Map<String,Asset> assetRecord = CorporateBundleAndSOAHelper.getAsset(pbEntryIds);
+                              if(assetRecord.containsKey(priceBookentryId)){
+                                   CorporateBundleAndSOAHelper.createProductLedgerRecords(assetRecord.get(priceBookentryId).Id, courseConnectionList);
+                              }
+                         }
+                    }   
                }else{
-                    qResSummary.Program_Offering__c = offeringId;
-               }
-               qResSummary.Registration_Status__c = 'Confirmed';
-               qResSummary.Contact__c = contactRecord.Id;
-               questionnaireSummaryToInsert.add(qResSummary);
+                    List<hed__Course_Enrollment__c> courseConnectionList = createCourseConnectionList(contactRecord.Id, offeringId, null, null, null, prescribedProgram);                               
+                    insert courseConnectionList;
+               
+                    finalReturn.contactId = contactRecord.Id;
+                    finalReturn.contactName = contactRecName;
+               }               
           }
+          
+          return finalReturn;
+     } 
 
-          if(!questionnaireSummaryToInsert.isEmpty()){
-               insert questionnaireSummaryToInsert;
-          }
-
-          for(Questionnaire_Response_Summary__c questionResSummary: questionnaireSummaryToInsert){
-               questionnaireToqResSummaryMap.put(questionResSummary.Questionnaire__c,questionResSummary.Id);
-          }
-
-          if(!answerList.isEmpty()){
-               for(Answer__c a: answerList){
-                    a.Questionnaire_Response_Summary__c = questionnaireToqResSummaryMap.get(relatedAnswerToQuestionnaireMap.get(a.Related_Answer__c));
-                    answersToInsert.add(a);
-               }
-               insert answersToInsert;
-          }
-
-          for(Answer__c ans :answersToInsert){
-               relatedAnswerToAnswerMap.put(ans.Related_Answer__c,ans.Id);
-          }
-
-          for(FileUpload file: parsedFileUpload){
-               if(relatedAnswerToAnswerMap.containsKey(file.RelatedAnswerId)){
-                    ContentVersion cv = createContentVersion(file.Base64, file.FileName);
-                    cvToRelatedAnswerMap.put(cv.Title,file.RelatedAnswerId);
-                    cvListToInsertList.add(cv);
-               }
-          }
-
-          if(!cvListToInsertList.isEmpty()){
-               insert cvListToInsertList;
-          }
-
-          List<ContentVersion> newContentVersionList = new List<ContentVersion>(
-               [
-                    SELECT ContentDocumentId, Title
-                    FROM ContentVersion
-                    WHERE Id IN:cvListToInsertList
-               ]
-          );
-
-          if(!newContentVersionList.isEmpty()){
-               ContentDocumentLink cdl;
-               Answer__c updateAnswer;
-               for(ContentVersion cv:newContentVersionList){
-                    cdl = new ContentDocumentLink(
-                         ContentDocumentId = cv.ContentDocumentId,
-                         LinkedEntityId = relatedAnswerToAnswerMap.get(cvToRelatedAnswerMap.get(cv.Title)),
-                         ShareType = 'V'
-                    );
-                    updateAnswer = new Answer__c(
-                         Id = cdl.LinkedEntityId,
-                         Response__c = cv.ContentDocumentId
-                    );
-                    answersToUpdate.put(updateAnswer.Id,updateAnswer);
-                    contentDocLinkListToInsert.add(cdl);
-               }
-          }
-
-          if(!contentDocLinkListToInsert.isEmpty()){
-               insert contentDocLinkListToInsert;
-          }
-
-          if(!answersToUpdate.keySet().isEmpty()){
-               update answersToUpdate.values();
-          }
-
-          Id commerceUser = createUser(contactRecEmail, contactRecLname, contactRecFname, contactRecord.Id);
-          WebCart newWebCart = createWebCart(commerceUser);
-          insert newWebCart;
-
-          Product2 product = getProduct(offeringId, prescribedProgram);
-          PricebookEntry pbe = new PricebookEntry();
-          Decimal amount;
-          List<PricebookEntry> pbList = [SELECT Id, UnitPrice, Product2Id FROM PricebookEntry WHERE Id =: priceBookEntryId LIMIT 1];
-          for(PricebookEntry pb : pbList){
-               pbe = pb;
-               amount = pb.UnitPrice;
-          }
-
-          CartItem newCartItem = createCartItem(offeringId, newWebCart.Id, pbe, prescribedProgram, product.Id);
-          newCartItem.Contact__c = contactRecord.Id;
-          insert newCartItem;
-
-          Cart_Payment__c cartPayment = new Cart_Payment__c(Status__c = 'Invoiced');
-          insert cartPayment;
-
-          String externalId = [SELECT Id, External_Id__c FROM WebCart WHERE OwnerId =: commerceUser AND Status = 'Active' LIMIT 1].External_Id__c; 
-
-          String paymentURL = paymentGatewayURLBuilder(externalId, contactRecEmail, contactRecName, amount, product.Name);
-
-          WebCart webCartToClose = new WebCart(
-               Id = newWebCart.Id,
-               Status__c = 'Closed',
-               Status = 'Closed',
-               Cart_Payment__c = cartPayment.Id,
-               Payment_URL__c = paymentURL
-          );
-          update webCartToClose;
-
-          //update cart payment to invoiced after linking the webcart
-          //so that the cart payment trigger can check related cartitems
-          cartPayment.Payment_Status__c = 'Invoiced';
-          update cartPayment;
-
-          /*
+     private static List<hed__Course_Enrollment__c> createCourseConnectionList(Id contactId, Id offeringId, Decimal amount, Id newWebCartId, Id newCartItemId, Boolean prescribedProgram){
           List<hed__Course_Enrollment__c> courseConnectionList = new List<hed__Course_Enrollment__c>();
           hed__Course_Enrollment__c newCourseConnection = new hed__Course_Enrollment__c();
-          newCourseConnection.hed__Contact__c =  contactRecord.Id;
+          newCourseConnection.hed__Contact__c =  contactId;
           newCourseConnection.hed__Status__c = 'Active';
-          newCourseConnection.Paid_in_Full__c = 'No';
-          newCourseConnection.Payment_Method__c = 'Invoice';
+          newCourseConnection.Paid_in_Full__c = 'Yes';
+ 
+          if(amount == 0){
+               newCourseConnection.Payment_Method__c = 'No Charge';
+          } else {
+               newCourseConnection.Payment_Method__c = 'Admin Added';
+          }
+ 
           newCourseConnection.Amount__c = amount;
-          newCourseConnection.Cart_ID__c = newWebCart.Id;
-          newCourseConnection.Cart_Item__c = newCartItem.Id;
+          newCourseConnection.Cart_ID__c = newWebCartId;
+          newCourseConnection.Cart_Item__c = newCartItemId;
           if(!prescribedProgram){
                newCourseConnection.hed__Course_Offering__c = offeringId;
                newCourseConnection.RecordTypeId = studentRecTypeId;
@@ -618,10 +1091,16 @@ public without sharing class ManageRegistrationSectionCtrl {
                List<hed__Course_Offering__c> childOfferings = [SELECT Id FROM hed__Course_Offering__c WHERE Program_Offering__c =: offeringId];
                for(hed__Course_Offering__c childOffering : childOfferings){
                     hed__Course_Enrollment__c childCourseConnection = new hed__Course_Enrollment__c();
-                    childCourseConnection.hed__Contact__c =  contactRecord.Id;
+                    childCourseConnection.hed__Contact__c =  contactId;
                     childCourseConnection.hed__Status__c = 'Active';
-                    childCourseConnection.Paid_in_Full__c = 'No';
-                    childCourseConnection.Payment_Method__c = 'Invoice';
+                    childCourseConnection.Paid_in_Full__c = 'Yes';
+
+                    if(amount == 0){
+                         childCourseConnection.Payment_Method__c = 'No Charge';
+                    } else {
+                         childCourseConnection.Payment_Method__c = 'Admin Added';
+                    }
+ 
                     childCourseConnection.Amount__c = amount;
                     childCourseConnection.Program_Offering__c = offeringId;
                     childCourseConnection.hed__Course_Offering__c = childOffering.Id;
@@ -629,225 +1108,8 @@ public without sharing class ManageRegistrationSectionCtrl {
                     courseConnectionList.add(childCourseConnection);
                }
           }
-
-          insert courseConnectionList;*/
-
-          return paymentURL;
-
+          return courseConnectionList;
      }
-
-     /**
-     * @description get list of contacts searched if button clicked is Proceed without Invoice from manageRegistrationSection lwc
-     * @param contactRecord - contact to create
-     * @param courseOfferingId - course offering id
-     * @param relatedAnswerList - related answer records
-     * @param answerList - answer records to be inserted
-     * @param fileUpload - file to upload
-     */
-    @AuraEnabled
-    public static void addRegistration2(Contact contactRecord, String offeringId, List<Related_Answer__c> relatedAnswerList, List<Answer__c> answerList, String fileUpload, Boolean prescribedProgram, Id priceBookEntryId, Boolean isProceedNoInvoice){
-         List<FileUpload> parsedFileUpload = new List<FileUpload>();
-         if(fileUpload != ''){
-              parsedFileUpload = (List<FileUpload>) JSON.deserialize(fileUpload, List<FileUpload>.class);
-         }
-
-         List<Questionnaire_Response_Summary__c> questionnaireSummaryToInsert = new List<Questionnaire_Response_Summary__c>();
-         Map<String,String> cvToRelatedAnswerMap = new Map<String,String>();
-         List<ContentDocumentLink> contentDocLinkListToInsert = new List<ContentDocumentLink>();
-         List<ContentVersion> cvListToInsertList = new List<ContentVersion>();
-         Map<Id,Id> relatedAnswerToQuestionnaireMap = new Map<Id,Id>();
-         Map<Id,Id> questionnaireToqResSummaryMap = new Map<Id,Id>();
-         Map<Id,Id> relatedAnswerToAnswerMap = new Map<Id,Id>();
-         Set<Id> questionnaireIds = new Set<Id>();
-
-         List<Answer__c> answersToInsert = new List<Answer__c>();
-         Map<Id,Answer__c> answersToUpdate = new Map<Id,Answer__c>();
-
-         String contactRecName;
-         String contactRecEmail;
-         String contactRecFname;
-         String contactRecLname;
-
-         if(contactRecord.Id == NULL){
-               contactRecName = contactRecord.FirstName + ' ' + contactRecord.LastName;
-               contactRecEmail = contactRecord.Email;
-               contactRecFname = contactRecord.FirstName;
-               contactRecLname = contactRecord.LastName;
-               contactRecord.Registered_Email__c = contactRecord.Email;
-               insert contactRecord;
-          }else{
-               Contact con = [SELECT Id, Name, Email, FirstName, LastName FROM Contact WHERE Id =: contactRecord.Id LIMIT 1];
-               contactRecName = con.Name;
-               contactRecEmail = contactRecord.Registered_Email__c;
-               contactRecFname = con.FirstName;
-               contactRecLname = con.LastName;
-               update contactRecord;
-          }
-
-         for(Related_Answer__c relatedA: relatedAnswerList){
-              questionnaireIds.add(relatedA.Questionnaire__c);
-              relatedAnswerToQuestionnaireMap.put(relatedA.Id,relatedA.Questionnaire__c);
-         }
-
-         Questionnaire_Response_Summary__c qResSummary;
-
-         for(Id qId:questionnaireIds){
-              qResSummary = new Questionnaire_Response_Summary__c();
-              qResSummary.Questionnaire__c = qId;
-              if(!prescribedProgram){
-                   qResSummary.Course_Offering__c = offeringId;
-              }else{
-                   qResSummary.Program_Offering__c = offeringId;
-              }
-              qResSummary.Registration_Status__c = 'Confirmed';
-              qResSummary.Contact__c = contactRecord.Id;
-              questionnaireSummaryToInsert.add(qResSummary);
-         }
-
-         if(!questionnaireSummaryToInsert.isEmpty()){
-              insert questionnaireSummaryToInsert;
-         }
-
-         for(Questionnaire_Response_Summary__c questionResSummary: questionnaireSummaryToInsert){
-              questionnaireToqResSummaryMap.put(questionResSummary.Questionnaire__c,questionResSummary.Id);
-         }
-
-         if(!answerList.isEmpty()){
-              for(Answer__c a: answerList){
-                   a.Questionnaire_Response_Summary__c = questionnaireToqResSummaryMap.get(relatedAnswerToQuestionnaireMap.get(a.Related_Answer__c));
-                   answersToInsert.add(a);
-              }
-              insert answersToInsert;
-         }
-
-         for(Answer__c ans :answersToInsert){
-              relatedAnswerToAnswerMap.put(ans.Related_Answer__c,ans.Id);
-         }
-
-         for(FileUpload file: parsedFileUpload){
-              if(relatedAnswerToAnswerMap.containsKey(file.RelatedAnswerId)){
-                   ContentVersion cv = createContentVersion(file.Base64, file.FileName);
-                   cvToRelatedAnswerMap.put(cv.Title,file.RelatedAnswerId);
-                   cvListToInsertList.add(cv);
-              }
-         }
-
-         if(!cvListToInsertList.isEmpty()){
-              insert cvListToInsertList;
-         }
-
-         List<ContentVersion> newContentVersionList = new List<ContentVersion>(
-              [
-                   SELECT ContentDocumentId, Title
-                   FROM ContentVersion
-                   WHERE Id IN:cvListToInsertList
-              ]
-         );
-
-         if(!newContentVersionList.isEmpty()){
-              ContentDocumentLink cdl;
-              Answer__c updateAnswer;
-              for(ContentVersion cv:newContentVersionList){
-                   cdl = new ContentDocumentLink(
-                        ContentDocumentId = cv.ContentDocumentId,
-                        LinkedEntityId = relatedAnswerToAnswerMap.get(cvToRelatedAnswerMap.get(cv.Title)),
-                        ShareType = 'V'
-                   );
-                   updateAnswer = new Answer__c(
-                        Id = cdl.LinkedEntityId,
-                        Response__c = cv.ContentDocumentId
-                   );
-                   answersToUpdate.put(updateAnswer.Id,updateAnswer);
-                   contentDocLinkListToInsert.add(cdl);
-              }
-         }
-
-         if(!contentDocLinkListToInsert.isEmpty()){
-              insert contentDocLinkListToInsert;
-         }
-
-         if(!answersToUpdate.keySet().isEmpty()){
-              update answersToUpdate.values();
-         }
-
-         Id commerceUser = createUser(contactRecEmail, contactRecLname, contactRecFname, contactRecord.Id);
-         WebCart newWebCart = createWebCart(commerceUser);
-         insert newWebCart;
-
-         Product2 product = getProduct(offeringId, prescribedProgram);
-         PricebookEntry pbe = new PricebookEntry();
-         Decimal amount;
-         List<PricebookEntry> pbList = [SELECT Id, UnitPrice, Product2Id FROM PricebookEntry WHERE Id =: priceBookEntryId LIMIT 1];
-         for(PricebookEntry pb : pbList){
-              pbe = pb;
-              amount = pb.UnitPrice;
-         }
-
-         CartItem newCartItem = createCartItem(offeringId, newWebCart.Id, pbe, prescribedProgram, product.Id);
-         newCartItem.Contact__c = contactRecord.Id;
-         insert newCartItem;
-
-         String externalId;
-         List<WebCart> carts = [SELECT External_Id__c FROM WebCart WHERE OwnerId =: commerceUser LIMIT 1];
-         for(WebCart webCart : carts){ externalId = webCart.External_Id__c; }
-
-         WebCart webCartToClose = new WebCart(
-             Id = newWebCart.Id,
-             Status__c = 'Closed',
-             Status = 'Closed'
-         );
-         update webCartToClose;
-
-         List<hed__Course_Enrollment__c> courseConnectionList = new List<hed__Course_Enrollment__c>();
-         hed__Course_Enrollment__c newCourseConnection = new hed__Course_Enrollment__c();
-         newCourseConnection.hed__Contact__c =  contactRecord.Id;
-         newCourseConnection.hed__Status__c = 'Active';
-
-         if(amount == 0){
-          newCourseConnection.Paid_in_Full__c = 'Yes';
-          newCourseConnection.Payment_Method__c = 'No Charge';
-         } else {
-          newCourseConnection.Paid_in_Full__c = 'Yes';
-          newCourseConnection.Payment_Method__c = 'Admin Added';
-         }
-
-         newCourseConnection.Amount__c = amount;
-         newCourseConnection.Cart_ID__c = newWebCart.Id;
-         newCourseConnection.Cart_Item__c = newCartItem.Id;
-         if(!prescribedProgram){
-              newCourseConnection.hed__Course_Offering__c = offeringId;
-              newCourseConnection.RecordTypeId = studentRecTypeId;
-              courseConnectionList.add(newCourseConnection);
-         }else{
-              newCourseConnection.Program_Offering__c = offeringId;
-              newCourseConnection.RecordTypeId = studentProgramRecTypeId;
-              courseConnectionList.add(newCourseConnection);
-              List<hed__Course_Offering__c> childOfferings = [SELECT Id FROM hed__Course_Offering__c WHERE Program_Offering__c =: offeringId];
-              for(hed__Course_Offering__c childOffering : childOfferings){
-                   hed__Course_Enrollment__c childCourseConnection = new hed__Course_Enrollment__c();
-                   childCourseConnection.hed__Contact__c =  contactRecord.Id;
-                   childCourseConnection.hed__Status__c = 'Active';
-
-                   if(amount == 0){
-                    childCourseConnection.Paid_in_Full__c = 'Yes';
-                    childCourseConnection.Payment_Method__c = 'No Charge';
-                   } else {
-                    childCourseConnection.Paid_in_Full__c = 'Yes';
-                    childCourseConnection.Payment_Method__c = 'Admin Added';
-                   }
-
-
-                   childCourseConnection.Amount__c = amount;
-                   childCourseConnection.Program_Offering__c = offeringId;
-                   childCourseConnection.hed__Course_Offering__c = childOffering.Id;
-                   childCourseConnection.RecordTypeId = studentRecTypeId;
-                   courseConnectionList.add(childCourseConnection);
-              }
-         }
-
-         insert courseConnectionList;
-
-    }
 
      /**
      * Creates commerce user based on contact details
@@ -859,8 +1121,8 @@ public without sharing class ManageRegistrationSectionCtrl {
      */
      private static Id createUser(String contactRecEmail, String contactRecLname, String contactRecFname, Id contactId){
           Id response;
-          String filter = contactRecEmail + '.ope';
-          List<User> users = [SELECT Id FROM User WHERE ContactId  =: contactId OR Username =: filter LIMIT 1];
+
+          List<User> users = [SELECT Id FROM User WHERE ContactId  =: contactId AND IsActive = true LIMIT 1];
 
           if(users.size() > 0){
                for(User u : users){
@@ -893,28 +1155,30 @@ public without sharing class ManageRegistrationSectionCtrl {
      * @param <Id> userId
      * @return WebCart
      */
-     private Static WebCart createWebCart(Id userId){
-          Id opeCatalougeAccountId;
-          List<Account> opeCatalougeAccounts = [SELECT Id FROM Account WHERE Name = 'OPE Catalogue' LIMIT 1];
-          for(Account account : opeCatalougeAccounts){ opeCatalougeAccountId = account.Id; }
-
-          Id studyWebStoreId;
-          List<WebStore> studyWebStoreList = [SELECT Id FROM WebStore WHERE Name = 'Study' LIMIT 1];
-          for(WebStore webStore : studyWebStoreList){ studyWebStoreId = webStore.Id; }
-
-          // DEPP-3152 close any carts already opened from OPE portal.
-          List<WebCart> existingCart = [Select Id, Status FROM WebCart WHERE Status='Active' and OwnerId = : userId LIMIT 1];
-          if(existingCart.size()>0){
-               existingCart[0].Status = 'Closed';
-               update existingCart;
-          }
-
+     private Static WebCart createWebCart(Id userId, Id contactId){
           WebCart webCart = new WebCart();
-          webCart.Name = 'Cart';
-          webCart.AccountId = opeCatalougeAccountId;
-          webCart.Status__c = 'Active';
-          webCart.OwnerId = userId;
-          webCart.WebStoreId = studyWebStoreId;
+          try{
+               Id adminAcctId = [SELECT AccountId FROM Contact WHERE Id =: contactId LIMIT 1].AccountId;
+               Id studyWebStoreId;
+               List<WebStore> studyWebStoreList = [SELECT Id FROM WebStore WHERE Name = 'Study' LIMIT 1];
+               for(WebStore webStore : studyWebStoreList){ studyWebStoreId = webStore.Id; }
+     
+               // DEPP-3152 close any carts already opened from OPE portal.
+               List<WebCart> existingCart = [Select Id, Status FROM WebCart WHERE Status='Active' and OwnerId = : userId LIMIT 1];
+               if(existingCart.size()>0){
+                    existingCart[0].Status = 'Closed';
+                    update existingCart;
+               }
+               
+               webCart.Name = 'Cart';
+               webCart.AccountId = adminAcctId;
+               webCart.Status__c = 'Active';
+               webCart.OwnerId = userId;
+               webCart.WebStoreId = studyWebStoreId;
+          }catch(Exception e){
+               System.debug(e.getMessage());
+          }
+          
           return webCart;
      }
 
@@ -927,16 +1191,16 @@ public without sharing class ManageRegistrationSectionCtrl {
      * @param <Id> prodId - product
      * @return CartItem
      */
-     private Static CartItem createCartItem(Id offeringId, Id newWebCartId, PricebookEntry pbe, Boolean prescribedProgram, Id prodId){
+     private Static CartItem createCartItem(Id offeringId, Id newWebCartId, PricebookEntry pbe, Boolean prescribedProgram, Id prodId, Id cartDeliveryGroupId){
           String prodName = [SELECT Id, Name FROM Product2 WHERE Id =: prodId LIMIT 1].Name;
-          List<CartDeliveryGroup> cartDelGrpList = [SELECT Id FROM CartDeliveryGroup WHERE Name = 'Default Delivery' LIMIT 1];
-          Id cartDelGrpId;
-          for(CartDeliveryGroup cdg : cartDelGrpList) { cartDelGrpId = cdg.Id; }
+          // List<CartDeliveryGroup> cartDelGrpList = [SELECT Id FROM CartDeliveryGroup WHERE Name = 'Default Delivery' LIMIT 1];
+          // Id cartDelGrpId;
+          // for(CartDeliveryGroup cdg : cartDelGrpList) { cartDelGrpId = cdg.Id; }
 
           CartItem cartItem = new CartItem();
           cartItem.CartId = newWebCartId;
           cartItem.Name = prodName;
-          cartItem.CartDeliveryGroupId = cartDelGrpId;
+          cartItem.CartDeliveryGroupId = cartDeliveryGroupId;
           if(!prescribedProgram){
                cartItem.Course_Offering__c = offeringId;
           }else{
@@ -1032,6 +1296,14 @@ public without sharing class ManageRegistrationSectionCtrl {
           public String selectedPricing;
           @AuraEnabled
           public String regenerateInvoiceURL;
+          @AuraEnabled
+          public String paymentURL;
+          @AuraEnabled
+          public String contactName;
+          @AuraEnabled
+          public String contactValidationResponse;
+          @AuraEnabled
+          public Boolean isContactInputValid;
      }
 
       /**
@@ -1045,4 +1317,195 @@ public without sharing class ManageRegistrationSectionCtrl {
           @AuraEnabled
           public String RelatedAnswerId;
       }
+
+      /**
+      * @description Wrapper class that holds the file uploaded by user
+      */
+      public class PaymentUrlClass{
+          @AuraEnabled
+          public String CartExternalId;
+          @AuraEnabled
+          public String Email;
+          @AuraEnabled
+          public String Name;
+          @AuraEnabled
+          public Decimal Amount;
+          @AuraEnabled
+          public String ProductName;
+          @AuraEnabled
+          public Boolean IsCCE;
+      }
+
+      /**
+      * @description Wrapper class that holds data to be displayed
+      */
+     public class ManageRegistrationorNominationDetails{
+          @AuraEnabled
+          public String id;
+          @AuraEnabled
+          public String contactId;
+          @AuraEnabled
+          public String courseName;
+          @AuraEnabled
+          public String contactFullName;
+          @AuraEnabled
+          public String contactFirstName;
+          @AuraEnabled
+          public String contactLastName;
+          @AuraEnabled
+          public String contactEmail;
+          @AuraEnabled
+          public String contactMobile;
+          @AuraEnabled
+          public Date offeringStartDate;
+          @AuraEnabled
+          public Date offeringEndDate;
+          @AuraEnabled
+          public String status;
+          @AuraEnabled
+          public String courseOfferingId;
+          @AuraEnabled
+          public String programOfferingId;
+          @AuraEnabled
+          public Date contactBirthdate;
+     }
+
+      /**
+      * @description fetches the discount data
+      * @param selectedPBId - current selected pricebook
+      * @param standardPBId - standard pricebook of the product
+      * @param offeringId - offering ID
+      * @param prescribedProgram - prescribed program or not
+      * @param couponCode - coupon enetered
+      * @return discount - applicable discount
+      */
+     @AuraEnabled(cacheable=true)
+     public static Double getDiscount(String selectedPBId, String standardPBId, String offeringId, Boolean prescribedProgram, String couponCode) {
+          
+          //get the product to search
+          Product2 product = getProduct(offeringId, prescribedProgram);
+
+          //query the promotion
+          List<Promotion> promotionList = [
+               SELECT 
+                    Id,
+                    Name,
+                    IsActive,
+                    (SELECT Id, Name, CouponCode FROM PromotionCoupons),
+                    (SELECT Id, Name, AdjustmentType, AdjustmentPercent, AdjustmentAmount, TargetType, TargetId FROM PromotionTargets),
+                    (SELECT Id, Name, Promotion__c, IsActive__c, Product__c FROM Promotion_Products__r WHERE IsActive__c = true)
+               FROM
+                    Promotion
+               WHERE
+                    IsActive = TRUE
+                    AND Promotion.Id IN (
+                         SELECT PromotionId
+                         FROM Coupon
+                         WHERE
+                         CouponCode = :couponCode
+                         AND Status = 'Active'
+                         AND StartDateTime < :system.now()
+                         AND EndDateTime > :system.now()
+                    )
+                    AND Promotion.Id IN (
+                         SELECT PromotionId
+                         FROM PromotionTarget
+                         WHERE (TargetType = 'Product' AND TargetId = :product.Id)
+                         OR (TargetType = 'ProductCategory')
+                         OR TargetType = 'Transaction'
+                    )
+          ];
+
+          //retrieve the pricebook selected and standard
+          Map<Id, PricebookEntry> pbEntryMap = new Map<Id, PricebookEntry>(
+               [
+                    SELECT Id, Pricebook2.Name, UnitPrice
+                    FROM PricebookEntry
+                    WHERE Id = :selectedPBId OR Id = :standardPBId
+               ]
+          );
+
+          Double discount = 0;
+          Double discountedPrice;
+          Double standardPrice = pbEntryMap.get(standardPBId).UnitPrice;
+          Double selectedPrice = pbEntryMap.get(selectedPBId).UnitPrice;
+
+          //if no promotion retrieved with the criteria
+          if(promotionList.size() == 0){
+               //set to -1 to identify as invalid coupon
+               discount = -1;
+          }
+
+          //loop on all the options
+          for (Promotion currentPromotion : promotionList) {
+
+               //loop in the PromotionTarget for in case of multiple promotions
+               for (PromotionTarget currentPromotionTarget : currentPromotion.PromotionTargets){
+
+                    //check if targetype is per product or total transaction
+                    if(currentPromotionTarget.TargetType == 'Transaction'){
+
+                         if (currentPromotionTarget.AdjustmentType == 'PercentageDiscount') {
+                              //set the discount amount
+                              discount = ((standardPrice * currentPromotionTarget.AdjustmentPercent) / 100).setScale(2);
+                         }
+               
+                    //else if for product specific
+                    } else if(currentPromotionTarget.TargetType == 'Product'){
+
+                         if (currentPromotionTarget.AdjustmentType == 'FixedAmountOffLineItemTotal' || currentPromotionTarget.AdjustmentType == 'FixedAmountOffUnitPrice'){
+                              //set the discount amount
+                              discount = (currentPromotionTarget.AdjustmentAmount).setScale(2);
+
+                         } else if (currentPromotionTarget.AdjustmentType == 'PercentageDiscount'){
+                              //set the discount amount
+                              discount = ((standardPrice * currentPromotionTarget.AdjustmentPercent) / 100).setScale(2);
+                         } 
+
+                     //else if for product category
+                    } else if(currentPromotionTarget.TargetType == 'ProductCategory'){
+
+                         //create a set of product Ids that are present in the Promotion_Products__r
+                         Set<String> productPromotionIds = new Set<String>();
+                         for (Promotion_Product__c currentPromotionProduct : currentPromotion.Promotion_Products__r) {
+                              productPromotionIds.add(currentPromotionProduct.Product__c);
+                         }
+
+                         //check if the product is found in the Promotion_Products__c
+                         if(productPromotionIds.contains(product.Id)){
+
+                              if (currentPromotionTarget.AdjustmentType == 'FixedAmountOffLineItemTotal' || currentPromotionTarget.AdjustmentType == 'FixedAmountOffUnitPrice'){
+                                   //set the discount amount
+                                   discount = (currentPromotionTarget.AdjustmentAmount).setScale(2);
+     
+                              } else if (currentPromotionTarget.AdjustmentType == 'PercentageDiscount'){
+                                   //set the discount amount
+                                   discount = ((standardPrice * currentPromotionTarget.AdjustmentPercent) / 100).setScale(2);
+                              } 
+
+                         //else not found
+                         }else{
+                              //set to -1 to identify as invalid coupon
+                              discount = -1;
+                         }
+                    }
+               }
+          }
+
+          //set the maximum discount to the standard price only
+          if(discount > standardPrice){
+               discount = standardPrice;
+          }
+
+          //set the discounted price
+          discountedPrice =  standardPrice - discount;
+
+          //check if selected price is still less than standard - discount
+          if(discount != -1 && selectedPrice <= discountedPrice){
+               //-2 to identify that the selected pricebook is still less 
+               discount = -2;
+          }
+
+          return discount;
+     }
 }

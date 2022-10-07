@@ -4,6 +4,14 @@
   "id" : "405505eb-e1d5-4fe3-be8c-f225c077c458",
   "label" : "Category List",
   "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:storeBreadrumbs",
+      "id" : "deec4cc3-53d4-4acc-961a-ecd85d90d3d3",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
     "id" : "a77daa04-5744-45a8-a9af-4f6de8b098fd",
     "regionName" : "header",
     "type" : "region"

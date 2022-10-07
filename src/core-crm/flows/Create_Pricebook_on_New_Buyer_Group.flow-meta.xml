@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>52.0</apiVersion>
+    <decisions>
+        <description>Identify whether the record type is either Standing Offer Arrangement or Corporate Bundle and do stuff, otherwise do nothing.</description>
+        <name>What_Product_Request_Record_Type</name>
+        <label>What Product Request Record Type?</label>
+        <locationX>314</locationX>
+        <locationY>335</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Standing_Offer_Arrangement</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Product_Request__r.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Standing_Offer_Arrangement</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_Price_Book_For_SOA</targetReference>
+            </connector>
+            <label>Standing Offer Arrangement</label>
+        </rules>
+        <rules>
+            <name>Corporate_Bundle</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Product_Request__r.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Corporate_Bundle</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_Price_Book_for_Corporate_Bundle</targetReference>
+            </connector>
+            <label>Corporate Bundle</label>
+        </rules>
+    </decisions>
+    <description>Create pricebook when a buyer group is inserted.</description>
+    <formulas>
+        <description>Pricebook name for corporate bundle.</description>
+        <name>PricebookName_CB</name>
+        <dataType>String</dataType>
+        <expression>&apos;Corporate Bundle - &apos; + {!$Record.Name}</expression>
+    </formulas>
+    <formulas>
+        <description>Pricebook Name for Standing Offer Arrangement</description>
+        <name>PricebookName_SOA</name>
+        <dataType>String</dataType>
+        <expression>&apos;SOA - &apos; + {!$Record.Name}</expression>
+    </formulas>
+    <interviewLabel>Create Buyer Group on New Buyer Group {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Create Pricebook on New Buyer Group</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <description>Create a buyer group price book for the Corporate Bundle</description>
+        <name>Create_BuyerGroupPricebook_for_Corporate_Bundle</name>
+        <label>Create BuyerGroupPricebook for Corporate Bundle</label>
+        <locationX>314</locationX>
+        <locationY>575</locationY>
+        <inputAssignments>
+            <field>BuyerGroupId</field>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>IsActive</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Pricebook2Id</field>
+            <value>
+                <elementReference>Create_Price_Book_for_Corporate_Bundle</elementReference>
+            </value>
+        </inputAssignments>
+        <object>BuyerGroupPricebook</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordCreates>
+        <description>Create a buyer group price book for the Standing Offer Arrangement.</description>
+        <name>Create_BuyerGroupPricebook_for_SOA</name>
+        <label>Create BuyerGroupPricebook for SOA</label>
+        <locationX>50</locationX>
+        <locationY>575</locationY>
+        <inputAssignments>
+            <field>BuyerGroupId</field>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>IsActive</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Pricebook2Id</field>
+            <value>
+                <elementReference>Create_Price_Book_For_SOA</elementReference>
+            </value>
+        </inputAssignments>
+        <object>BuyerGroupPricebook</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordCreates>
+        <description>Create a price book for the Corporate Bundle</description>
+        <name>Create_Price_Book_for_Corporate_Bundle</name>
+        <label>Create Price Book for Corporate Bundle</label>
+        <locationX>314</locationX>
+        <locationY>455</locationY>
+        <connector>
+            <targetReference>Create_BuyerGroupPricebook_for_Corporate_Bundle</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>IsActive</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Name</field>
+            <value>
+                <elementReference>PricebookName_CB</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Pricebook2</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordCreates>
+        <description>Create a price book for the Standing Offer Arrangement.</description>
+        <name>Create_Price_Book_For_SOA</name>
+        <label>Create Price Book For SOA</label>
+        <locationX>50</locationX>
+        <locationY>455</locationY>
+        <connector>
+            <targetReference>Create_BuyerGroupPricebook_for_SOA</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>IsActive</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Name</field>
+            <value>
+                <elementReference>PricebookName_SOA</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Pricebook2</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <start>
+        <locationX>188</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>What_Product_Request_Record_Type</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Product_Request__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <object>BuyerGroup</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Product_Request__c</entityName>
+    <fieldName>Product_Request_Status__c</fieldName>
+    <masterLabel>Corporate Bundle</masterLabel>
+    <pathAssistantSteps>
+        <info>&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;Defining a product request to ensure that you have clearly defined the Overall Product, and specified the team members that will be involved&lt;/span&gt;&lt;/p&gt;</info>
+        <picklistValueName>Define</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>Corporate_Bundle</recordTypeName>
+</PathAssistant>

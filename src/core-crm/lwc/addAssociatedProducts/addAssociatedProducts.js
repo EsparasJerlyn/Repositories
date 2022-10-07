@@ -9,19 +9,20 @@
  *    | Developer                 | Date                  | JIRA                 | Change Summary               |
       |---------------------------|-----------------------|----------------------|------------------------------|
       | eccarius.karl.munoz       | November 09, 2021     | DEPP-671             | Created file                 | 
-      |                           |                       |                      |                              | 
+      | alexander.cadalin         | July 27, 2022         | DEPP-2498            |                              | 
  */
 
 import { LightningElement, api, wire} from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import { refreshApex } from '@salesforce/apex';
+import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
 import HAS_PERMISSION from '@salesforce/customPermission/EditDesignAndReleaseTabsOfProductRequest';
 import LWC_Error_General from '@salesforce/label/c.LWC_Error_General';
 import getProducts from '@salesforce/apex/AddAssociatedProductsCtrl.getProducts';
 import addAssociatedProduct from '@salesforce/apex/AddAssociatedProductsCtrl.addAssociatedProduct';
-import getCourseRecordTypes from '@salesforce/apex/AddAssociatedProductsCtrl.getCourseRecordTypes';
+import PR_STATUS from '@salesforce/schema/Product_Request__c.Product_Request_Status__c';
+// import getCourseRecordTypes from '@salesforce/apex/AddAssociatedProductsCtrl.getCourseRecordTypes';
 
-const ASSOCIATED_PRODUCTS_TITLE = 'Associated Products';
+const ASSOCIATED_PRODUCTS_TITLE = 'Related Products';
 const NO_REC_FOUND = 'No record(s) found.';
 const DISPLAY_TBL_ERROR = 'Unable to display record(s).';
 const SUCCESS_MSG = 'Record(s) successfully saved.';
@@ -39,62 +40,110 @@ export default class AddAssociatedProducts extends LightningElement {
     productName ='';
     recordType = '';
     isLoading = false;
+    isAssociating = false;
     empty = false;
     error;
-    recordTypes; 
+    recordTypes = [];
     productList = [];   
     productListTemp = [];    
-    productsToAssociate = [];  
-    sortBy;
-    sortDirection;   
-
+    productsToAssociate = []; 
+    productsToRemove = []; 
+    sortBy = 'productName';
+    sortDirection = 'asc';
+    productsToRetrieve = 'associated';  
+    addAssocBtnLabel = 'Add OPE Products';
+    addAssocBtnVariant = 'neutral';
+    addAssocBtnIcon = 'utility:add';
+    productRequestStatus;
     columns = [
-        { label: 'Name', fieldName: 'productName', type: 'text' },
-        { label: 'Record Type', fieldName: 'courseRecordType', type: 'text' },
-        { label: 'Start Date', fieldName: 'startDate', type: 'date' },
-        { label: 'End Date', fieldName: 'endDate', type: 'date' },
-        { label: 'Standard Price', fieldName: 'standardPrice', type: 'currency', sortable: "true" }
+        { label: 'Name', fieldName: 'productName', type: 'text', sortable: 'true' },
+        { label: 'Record Type', fieldName: 'courseRecordType', type: 'text', sortable: 'true' },
+        { label: 'Start Date', fieldName: 'startDate', type: 'date', sortable: 'true' },
+        { label: 'End Date', fieldName: 'endDate', type: 'date', sortable: 'true' }
     ];
 
+    connectedCallback() {
+        this.populateTableWithProducts();
+    }
+
+    @wire(getRecord, {recordId : '$recordId', fields : [PR_STATUS]})
+    getProductRequestRecord(result) {
+        if(result.data) {
+            this.productRequestStatus = getFieldValue(result.data, PR_STATUS);
+        } else if(result.error) {
+            this.generateToast('Error.',LWC_Error_General,'error');
+        }
+    }
     //Retrieves list of active OPE products
-    products;
-    @wire(getProducts, {recordId : "$recordId"})
-    wiredProducts(result) {
+    // products;
+    // @wire(getProducts, {recordId : '$recordId'})
+    // wiredProducts(result) {
+    //     this.isLoading = true;
+    //     this.products = result;
+    //     if(result.data){            
+    //         this.productList = result.data;
+    //         this.productListTemp = result.data;
+    //         if(this.productList.length === 0){
+    //             this.empty = true;
+    //         }
+    //         this.error = undefined;
+    //         this.isLoading = false;
+    //     } else if(result.error){
+    //         this.productList = undefined;
+    //         this.productListTemp = undefined;
+    //         this.error = result.error;
+    //         this.isLoading = false;
+    //     }    
+    // }
+    
+    populateTableWithProducts() {
         this.isLoading = true;
-        this.products = result;
-        if(result.data){            
-            this.productList = result.data;
-            this.productListTemp = result.data;
-            if(this.productList.length === 0){
-                this.empty = true;
-            }
-            this.error = undefined;
-            this.isLoading = false;
-        } else if(result.error){
-            this.productList = undefined;
-            this.productListTemp = undefined;
-            this.error = result.error;
-            this.isLoading = false;
-        }    
+        getProducts({ recordId : this.recordId, allOrAssociated : this.productsToRetrieve })
+            .then(result => {
+                this.productList = result;
+                this.productListTemp = result;
+                this.recordTypes = [];
+                if(this.productList.length === 0) { 
+                    this.empty = true; 
+                } else {
+                    this.empty = false;
+                    for(let i in this.productList) {
+                        if(!this.recordTypes.find(element => element.value == this.productList[i].courseRecordType )) {
+                            this.recordTypes.push({ label: this.productList[i].courseRecordType, value: this.productList[i].courseRecordType });
+                        }
+                    }
+                    this.recordTypes.sort();
+                }
+                this.recordTypes.unshift({ label: 'All', value: '' });
+                this.error = undefined;
+            })
+            .catch(error => {
+                this.productList = undefined;
+                this.productListTemp = undefined;
+                this.error = error;
+            })
+            .finally(() => {
+                this.isLoading = false;
+            });
     }
 
     //Retrieves Record Types
-    @wire(getCourseRecordTypes)
-    getCourseRecType(result){
-        if(result.data) {
-            const resp = result.data;
-            this.recordTypes = resp.map(type => {
-                return { label: type,  value: type };
-            });            
-            this.recordTypes.unshift({ label: 'Program Plan', value: 'Program Plan' });
-            this.recordTypes.unshift({ label: 'All', value: '' });
-        }
-    }    
+    // @wire(getCourseRecordTypes)
+    // getCourseRecType(result){
+    //     if(result.data) {
+    //         const resp = result.data;
+    //         this.recordTypes = resp.map(type => {
+    //             return { label: type,  value: type };
+    //         });            
+    //         this.recordTypes.unshift({ label: 'Program Plan', value: 'Program Plan' });
+    //         this.recordTypes.unshift({ label: 'All', value: '' });
+    //     }
+    // }    
 
     //Handles search filters for Product Name and Record Type     
     searchHandler(){
         if(this.productName || this.recordType){
-            this.empty = false;
+            //this.empty = false;
             this.productList = [...this.productListTemp];
             this.productList = this.productList
                 .filter( product => product.productName.toLowerCase().includes(this.productName.toLowerCase()))
@@ -102,6 +151,8 @@ export default class AddAssociatedProducts extends LightningElement {
             );
             if(this.productList.length === 0){
                 this.empty = true;
+            } else {
+                this.empty = false;
             }
         }else{
             this.empty = false;
@@ -122,39 +173,66 @@ export default class AddAssociatedProducts extends LightningElement {
     }
 
     //Row selection function for the datatable
-    handelSelectedRows(event){
-        this.productsToAssociate = event.detail.selectedRows;             
+    handleSelectedRows(event){
+        if(this.isAssociating) {
+            this.productsToAssociate = event.detail.selectedRows;             
+        }
     }
 
     //Handles creation of Associated Product(s) based on the selected rows
     handleAssociateProduct(){
-        this.isLoading = true;
-        let response;
-        let productIds = this.productsToAssociate.map(p => { 
-            return p.id 
-        });
-        if(this.productsToAssociate.length > 0){
-           addAssociatedProduct({ productIds: productIds, productRequestId : this.recordId })
-                .then((result) => {
-                    response = result;
-                })
-                .catch((error) => {                    
-                    response = error;
-                })
-                .finally(() => {
-                    this.isLoading = false;   
-                    if(response === SUCCESS_RESPONSE){
-                        this.generateToast(SUCCESS_TITLE, SUCCESS_MSG, SUCCESS_VARIANT);
-                    }else{
-                        this.generateToast(ERROR_TITLE, LWC_Error_General, ERROR_VARIANT);
-                    }
-                    this.clearFields();
-                    refreshApex(this.products);
-                });
-        }else{
-            this.isLoading = false;
-            this.generateToast(NO_CHANGES_TITLE, '', ERROR_VARIANT);
+        if(!this.isAssociating) {
+            this.toggleMode();
+        } else {
+            let response;
+            let productIds = this.productsToAssociate.map(p => { 
+                return p.id; 
+            });
+            if(this.productsToAssociate.length > 0){
+                this.isLoading = true;
+                addAssociatedProduct({ productIds : productIds, productRequestId : this.recordId })
+                    .then((result) => {
+                        response = result;
+                    })
+                    .catch((error) => {                    
+                        response = error;
+                    })
+                    .finally(() => {  
+                        if(response === SUCCESS_RESPONSE){
+                            this.generateToast(SUCCESS_TITLE, SUCCESS_MSG, SUCCESS_VARIANT);
+                        }else{
+                            this.generateToast(ERROR_TITLE, LWC_Error_General, ERROR_VARIANT);
+                        }
+                        this.isLoading = false;
+                        this.toggleMode();
+                    });
+            }else{
+                this.generateToast(NO_CHANGES_TITLE, '', ERROR_VARIANT);
+            }
         }
+    }
+
+    // Stop associating products and return to associated products view
+    toggleMode() {
+        if(this.isAssociating) {
+            this.addAssocBtnLabel = 'Add OPE Products';
+            this.addAssocBtnVariant = 'neutral';
+            this.addAssocBtnIcon = 'utility:add';
+            this.productsToRetrieve = 'associated';
+        } else {
+            this.addAssocBtnLabel = 'Associate Products';
+            this.addAssocBtnVariant = 'brand';
+            this.addAssocBtnIcon = 'utility:link';
+            this.productsToRetrieve = 'all';
+        }
+        this.isAssociating = !this.isAssociating;
+        this.populateTableWithProducts();
+        this.clearFields();
+    }
+    
+    // Handle cancel button when clicked
+    handleCancel() {
+        this.toggleMode();
     }
 
     //Clears the fields after saving
@@ -164,11 +242,13 @@ export default class AddAssociatedProducts extends LightningElement {
             recordType.value = '';
         }
         this.productName = '';
+        this.template.querySelector('lightning-datatable').selectedRows = [];
         this.productsToAssociate = [];
+        this.productsToRemove = [];
     }
 
     //Function to generate toastmessage
-     generateToast(_title,_message,_variant){
+    generateToast(_title,_message,_variant){
         const evt = new ShowToastEvent({
             title: _title,
             message: _message,
@@ -198,10 +278,11 @@ export default class AddAssociatedProducts extends LightningElement {
         this.productList = parseData;
     }
 
+    get hideCheckbox() { return !this.isAssociating; }
+
     //Getters for constants
     get associatedProductTitle(){ return ASSOCIATED_PRODUCTS_TITLE;}
     get noRecordsFound(){ return NO_REC_FOUND;}
     get displayTableError(){ return DISPLAY_TBL_ERROR;}
-    get disableAssociateProducts(){ return !HAS_PERMISSION;}
-
+    get disableAssociateProducts(){ return !HAS_PERMISSION || this.productRequestStatus != 'Design';}
 }

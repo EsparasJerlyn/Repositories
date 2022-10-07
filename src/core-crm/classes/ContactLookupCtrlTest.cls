@@ -36,7 +36,7 @@ public class ContactLookupCtrlTest {
     }
 
 
-    @IsTest
+    @isTest
     static void getContactRecords(){
        List<Contact> contactList = new List<Contact>();
         User currUsr = [

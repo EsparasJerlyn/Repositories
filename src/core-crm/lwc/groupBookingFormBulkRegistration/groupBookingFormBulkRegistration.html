@@ -1,0 +1,257 @@
+<template>
+    <!-- lightning button for open modal window -->
+    <!--Use template if:true to display/hide popup based on isModalOpen value-->
+    <template if:true={isModalOpen}>
+        <!-- Modal/Popup Box LWC starts here -->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="modal-content text px3 pt2">
+                <!--X button -->
+                <div class="slds-m-top_small slds-large-right_large slds-p-right_large slds-clearfix">
+                    <span class="slds-float_right cursor" onclick={closeModal}>
+                        <img class="close-button" src={xButton}/>
+                    </span>
+                </div>
+                <div class="wrapper" id="modal-content-id-1">
+                 <!-- Choose number of participants in here -->
+                    <template if:true={templateTextField}>
+                        <div class="one">
+                            <div class="heading2 headerColor mob-ui ">Number of Participants</div>
+                                <div class="slds-form-element">
+                                    <label for="bulkInput" class="label-text">Please select the number of people you are looking to register  </label>
+                                    <div class="slds-col slds-size_1-of-1 numfield slds-form-element__control mt1">
+                                    <input 
+                                        type="number"
+                                        class={requiredInputClass.numberOfParticipants}
+                                        placeholder="Number of Participant"
+                                        id="numberOfParticipants"
+                                        value={numberOfParticipants}
+                                        onchange={handleInputParticipant}
+                                        onkeypress={onlyNumericAllowed}
+                                        onpaste={onlyNumericAllowedInPaste}
+                                        required
+                                        />
+                                    </div>  
+                                    <template if:true={hasErrorInput}>
+                                        <c-error-icon></c-error-icon>
+                                    </template>
+                                    <small class={requiredDisplayData.numberOfParticipants}>
+                                        {inputErrorMessage}
+                                    </small> 
+                                </div>
+                        </div>
+                    </template>
+                    <template if:false={templateTextField}>
+                        <div class="two" if:false={isOpenPayment}>
+                            <div class="heading4 headerColor">Selected Product</div>
+                            <div class="heading4">{productCourseName}</div>
+                        </div>
+                        <div class="three" if:false={isOpenPayment}>
+                            <lightning-accordion allow-multiple-sections-open class="participants-accordion slds-is-relative" active-section-name="PARTICIPANT 1">
+                                <lightning-spinner if:true={processing} alternative-text="Loading" size="large" variant="brand"></lightning-spinner>
+                                <div onchange={updateOnAccordionDetails} for:each={items} for:item="item" data-id={item.id}  key={item.id}>
+
+                                    <lightning-accordion-section name={item.label} label={item.label}>
+                                        <div class="grp-error-style " if:true={item.hasError}>
+                                            {item.errorMessage}
+                                        </div>
+                                        <div class="slds-float--right">
+                                            <lightning-button-icon icon-name="utility:delete" name="openConfirmation"  access-key={item.id} id={index}  alternative-text="Delete" class="slds-m-left_xx-small" title="Delete" onclick={handleClick}></lightning-button-icon>
+                                        </div>
+                                        <c-confirmation-dialog
+                                        message='Please confirm that you would like to remove
+                                        this participant from your group registration.'
+                                        confirm-label='Confirm'
+                                        cancel-label='Cancel'
+                                        visible={isDialogVisible}
+                                        original-message={originalMessage}
+                                        name="confirmModal"
+                                        onclick={handleClick}
+                                        access-key={item.id}
+                                        id={index}>
+                                        </c-confirmation-dialog>
+                                        <div class="slds-grid slds-wrap" >
+                                                <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+                                                    <lightning-input class="inputField" required="true" name="FirstName" label="First Name" key={item.id} ></lightning-input>
+                                                </div>
+                                                <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+                                                    <lightning-input class="inputField" required="true" name="LastName" label="Last Name" key={item.id}></lightning-input>
+                                                </div>
+                                                <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+                                                    <lightning-combobox class="inputField mobile-locale px" required="true" placeholder="Select Locale" label="Country Code" options={localeOptions} name="ContactMobile_Locale__c" key={item.id}></lightning-combobox>
+                                                </div>
+                                                <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+                                                    <lightning-input class="inputField" required="true" name="Mobile_No_Locale__c" pattern="([0-9][0-9]*)$" type="phone" label="Mobile" key={item.id}></lightning-input>
+                                                </div>
+                                                <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+                                                    <lightning-input class="inputField" type="email" required="true" name="Email" label="Email" key={item.id}></lightning-input >
+                                                </div>
+                                                <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+                                                    <lightning-input name="Birthdate"  required="true" label="Date of Birth" type="date" key={item.id}></lightning-input>
+                                                </div>
+                                            <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+                                                <lightning-textarea name='Dietary_Requirement__c' label="Dietary Requirement" key={item.id}></lightning-textarea>
+                                            </div>
+                                            <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+
+                                                <lightning-textarea name='Accessibility_Requirement__c' label="Accessibility Requirement" key={item.id}></lightning-textarea>
+
+                                            </div>
+                                        </div>
+
+                                        <h2 if:true={regHeader} style="margin-top: 0.5rem;">Registration Questions</h2>
+                                         <!-- Questions goes here -->
+                                                <lightning-layout multiple-rows size="12">
+                                                    <template for:each={item.Questions} for:item="question" for:index="index">
+                                                        <lightning-layout-item size="6" padding="around-small" key={question.RowId}>
+                                                            <template if:true={question.IsText}>
+                                                                <lightning-textarea
+                                                                name={question.RowId}
+                                                                label={question.Label}
+                                                                data-row-id={question.RowId}
+                                                                required
+                                                                onchange={handleChange}
+                                                                onblur={handleBlur}>
+                                                                </lightning-textarea>
+                                                            </template>
+                                                            <template if:true={question.IsNumber}>
+                                                                <lightning-input
+                                                                name={question.RowId}
+                                                                type="number"
+                                                                data-row-id={question.RowId}
+                                                                label={question.Label}
+                                                                required
+                                                                onchange={handleChange}
+                                                                onblur={handleBlur}>
+                                                                </lightning-input>
+                                                            </template>
+                                                            <template if:true={question.IsDate}>
+                                                                <lightning-input
+                                                                name={question.RowId}
+                                                                type="date"
+                                                                data-row-id={question.RowId}
+                                                                label={question.Label}
+                                                                required onchange={handleChange}
+                                                                onblur={handleBlur}>
+                                                            </lightning-input>
+                                                            </template>
+                                                            <template if:true={question.IsPicklist}>
+                                                                <lightning-combobox
+                                                                    name={question.RowId}
+                                                                    label={question.Label}
+                                                                    value={question.Response}
+                                                                    data-row-id={question.RowId}
+                                                                    placeholder="Select Option"
+                                                                    options={question.Options}
+                                                                    onchange={handleChange}
+                                                                    onblur={handleBlur}
+                                                                    required>
+                                                                </lightning-combobox>
+                                                            </template>
+                                                            <template if:true={question.IsMultiPicklist}>
+                                                                <abbr title="required" class="slds-required">*</abbr>
+                                                                <span data-id={question.RowId} class="slds-form-element__label" >{question.Label}</span>
+                                                                <lightning-dual-listbox
+                                                                    data-id={question.RowId}
+                                                                    name={question.Id}
+                                                                    variant="label-hidden"
+                                                                    class="normal-font"
+                                                                    data-row-id={question.RowId}
+                                                                    source-label="Available"
+                                                                    selected-label="Selected"
+                                                                    options={question.Options}
+                                                                    onchange={handleChange}
+                                                                    onblur={handleBlur}
+                                                                    required>
+                                                                </lightning-dual-listbox>
+                                                            </template>
+                                                            <template if:true={question.IsCheckbox}>
+                                                                <lightning-input
+                                                                name={question.RowId}
+                                                                type="checkbox"
+                                                                label={question.Label}
+                                                                onchange={handleChange}
+                                                                data-row-id={question.RowId}
+                                                                onblur={handleBlur}
+                                                                variant="label-stacked">
+                                                            </lightning-input>
+                                                            </template>
+                                                            <template if:true={question.IsFileUpload}>
+                                                                <lightning-input
+                                                                name ={question.RowId}
+                                                                type="file"
+                                                                accept={acceptedFormats}
+                                                                label={question.Label}
+                                                                data-row-id={question.RowId}
+                                                                required
+                                                                onchange={handleChange}
+                                                                onblur={handleBlur}>
+                                                                </lightning-input>
+                                                                <template if:true={question.FileData}>
+                                                                    <lightning-icon
+                                                                        icon-name="utility:success"
+                                                                        alternative-text="Success!"
+                                                                        variant="success"
+                                                                        title="success variant xx-small"
+                                                                        size="xx-small">
+                                                                    </lightning-icon>
+                                                                    <span class="slds-form-element__label">{question.FileData.filename}</span>
+                                                                </template>
+                                                            </template>
+                                                            <template if:true={question.ErrorMessage}>
+                                                                <p class="slds-form-element__help slds-text-color_destructive">{question.ErrorMessage}</p>
+                                                            </template>
+                                                        </lightning-layout-item>
+                                                    </template>
+                                                </lightning-layout>
+                                    </lightning-accordion-section>
+                                </div>
+                        </lightning-accordion>
+                        </div>
+                        <!-- This is the ADD button -->
+                        <div class="addparticipant" if:false={isOpenPayment}>
+                            <lightning-button if:false={disableAddBtn} variant="brand" label="Add Participant" onclick={addParticipant} title="Add Participant" ></lightning-button>
+                        </div>           
+                    </template>
+                        <c-payment if:true={isOpenPayment}
+                        disable-payment={disablePayment}
+                        from-cart-summary={fromCartSummary}
+                        contact-fname={firstName}
+                        contact-lname={lastName}
+                        contact-email={contactEmail}
+                        cart-external-id={cartExternalId}
+                        cart-items={cartItems}
+                        cart-id={cartId}
+                        total={total}
+                        onpaynow={paymentNow}
+                        has-pay-now={hasPayNow}
+                        has-invoice={hasInvoice}
+                        cart-items-pbe-update={cartItemsPbeUpdate}
+                    ></c-payment>
+                      <!-- Modal/Popup Box LWC footer starts here -->
+                    <div class="groupfooter slds-grid slds-gutters center slds-s-horizontal_x-small pb3 mt2" if:false={isOpenPayment}>
+                        <template if:true={openBulkRegModal}>
+                            <div class="slds-col slds-size_1-of-2 ">
+                                <button class="slds-button slds-button_outline-brand slds-float_right btnCancel" disabled={processing}  onclick={closeModal} title="Cancel">Cancel</button>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2 ">
+                                <button class="slds-button slds-button_brand slds-float_right btnSave" onclick={handleAfterPick}>Submit</button>
+                            </div>
+                        </template>
+                        <template if:true={isOpenGroupBookingForm}>
+                            <div class="slds-col slds-size_1-of-2 ">
+                                <button class="slds-button slds-button_outline-brand slds-float_right btnCancel" disabled={processing}  onclick={closeModal} title="Cancel">Cancel</button>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2 ">
+                                <button class="slds-button slds-button_brand slds-float_right btnSave" disabled={disableSave}  onclick={submitDetails} title="OK">SAVE</button>
+                            </div>
+                        </template>
+
+                    </div>
+                </div>
+            </div>
+
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+ </template>

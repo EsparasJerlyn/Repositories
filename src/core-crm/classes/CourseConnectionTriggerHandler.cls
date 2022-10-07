@@ -16,6 +16,7 @@
 | john.bo.a.pineda               | June 23, 2022         | DEPP-3222              | Added logic to Send Email on Registration for Student / Student - Program     |
 | rhea.b.torres                  | July 22, 2022         | DEPP-3557              | Added logic to use email template setup in Communication Schedule             |
 | rhea.b.torres                  | August 9, 2022        | DEPP-3723              | Added logic to send Welcome Email for learners with QUT Student Username      |
+| rhea.b.torres                  | August 18, 2022       | DEPP-2002              | Added logic for creating Session records for Diagnostic Tool                  |
 
 */
 public without sharing class CourseConnectionTriggerHandler implements Disableable, BeforeInsert, AfterInsert, AfterUpdate, AfterDelete {
@@ -45,12 +46,17 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
       null
     );
 
+    // Create Session records for Diagnostic Tool
+    Map<Id,hed__Course_Enrollment__c> newMap = (Map<Id, hed__Course_Enrollment__c>)newItems;
+    CorporateBundleAndSOAHelper.createAffiliationRecords(newMap.values());
+
     try{
+      createSessionRecordsForDiagnosticTool(newItems.keySet());
       // Trigger Send Email on Registration Confirmation
       sendRegistrationConfirmEmail(newItems.keySet());
       sendWelcomeEmail(newItems.keySet());
-    } catch(Exception e){
-      System.debug('Sending of Registration Email fail, see error: ' + e.getMessage());
+    }catch(Exception e){
+      System.debug('An error has occurred. See error message: ' + e.getMessage());
     }
     
   }
@@ -68,6 +74,21 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
       (List<hed__Course_Enrollment__c>) newItems.values(),
       (List<hed__Course_Enrollment__c>) oldItems.values()
     );
+
+    List<hed__Course_Enrollment__c> courseConNewStatusList = new List<hed__Course_Enrollment__c>();
+
+    Map<Id,hed__Course_Enrollment__c> newMap = (Map<Id, hed__Course_Enrollment__c>)newItems;
+    Map<Id,hed__Course_Enrollment__c> oldMap = (Map<Id, hed__Course_Enrollment__c>)oldItems;
+
+    for(hed__Course_Enrollment__c courseCon: newMap.values()){
+      if(courseCon.hed__Status__c != oldMap.get(courseCon.Id).hed__Status__c){
+        courseConNewStatusList.add(courseCon);
+      }
+    }
+    
+    if(!courseConNewStatusList.isEmpty()){
+      ProductLedgerTriggerHelper.productLedgerRollUpUpdate(courseConNewStatusList);
+    }
   }
 
   /**
@@ -206,6 +227,8 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
 
     Set<Id> programOfferingIdSet = new Set<Id>();
     Set<Id> courseOfferingIdSet = new Set<Id>();
+    List<Program_Offering__c> programOfferings = new List<Program_Offering__c>();
+    List<hed__Course_Offering__c> courseOfferings = new List<hed__Course_Offering__c>();
 
     // Query Course Connection Details based on the Contact Id
     //Id: hed__Course_Offering__c or Program_Offering__c
@@ -245,63 +268,74 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
     Set<Id> courseIdSet = new Set<Id>();
 
     //Query Program Offering to get valid Offerings based on status and Start Date
-    List<Program_Offering__c> programOfferings = [
-      SELECT 
-        Id , 
-        hed_Program_Plan__c
-      FROM Program_Offering__c
-      WHERE Id IN: programOfferingIdSet 
-      AND Start_Date__c < TODAY
-      AND IsActive__c = true
-    ];
+    if(!programOfferingIdSet.isEmpty()){ //added condition to lessen query
+      programOfferings = [
+        SELECT 
+          Id , 
+          hed_Program_Plan__c
+        FROM Program_Offering__c
+        WHERE Id IN: programOfferingIdSet 
+        AND Start_Date__c < TODAY
+        AND IsActive__c = true
+      ];
+    }
+    
 
     //Query Course Offering
-    List<hed__Course_Offering__c> courseOfferings = [
-      SELECT Id,
-      hed__Course__c 
-      FROM hed__Course_Offering__c
-      WHERE Id IN: courseOfferingIdSet
-      AND hed__Start_Date__c < TODAY
-      AND IsActive__c = true
-    ];
+    if(!courseOfferingIdSet.isEmpty()){ //added condition to lessen query
+      courseOfferings = [
+        SELECT Id,
+        hed__Course__c 
+        FROM hed__Course_Offering__c
+        WHERE Id IN: courseOfferingIdSet
+        AND hed__Start_Date__c < TODAY
+        AND IsActive__c = true
+      ];
+    }
+    
 
     // Populate the Course/ProgramPlan Set based on the offering.
-    for(Program_Offering__c programOffering : programOfferings){
-      if(String.isNotBlank(programOffering.hed_Program_Plan__c )){
-        programPlanIdSet.add(programOffering.hed_Program_Plan__c);
+    if(!programOfferings.isEmpty()){
+      for(Program_Offering__c programOffering : programOfferings){
+        if(String.isNotBlank(programOffering.hed_Program_Plan__c )){
+          programPlanIdSet.add(programOffering.hed_Program_Plan__c);
+        }
       }
     }
 
-    for(hed__Course_Offering__c courseOffering : courseOfferings){
-      if(String.isNotBlank(courseOffering.hed__Course__c)){
-        courseIdSet.add(courseOffering.hed__Course__c);
+    if(!courseOfferings.isEmpty()){
+      for(hed__Course_Offering__c courseOffering : courseOfferings){
+        if(String.isNotBlank(courseOffering.hed__Course__c)){
+          courseIdSet.add(courseOffering.hed__Course__c);
+        }
       }
     }
 
     Set<Id> validContactForEmail = new Set<Id>();
     // Query Product based on the ProgramPlan/Course
     //PROGRAM PLAN
-    for(Product2 product : [SELECT Id,
-                                    Program_Plan__c
-                              FROM Product2
-                              WHERE Delivery__c INCLUDES ('Online Self-paced')
-                                AND Program_Plan__c IN: programPlanIdSet]){
-      if(productCourseConnectionMap.containsKey(product.Program_Plan__c)){
-        validContactForEmail.add(productCourseConnectionMap.get(product.Program_Plan__c).hed__Contact__c);
-      }                    
-    }
-    //COURSE
-    for(Product2 product : [SELECT Id,
-                                  Course__c
-                            FROM Product2
-                            WHERE Delivery__c INCLUDES ('Online Self-paced')
-                            AND Course__c IN : courseIdSet]){
-      if(productCourseConnectionMap.containsKey(product.Course__c)){
-        validContactForEmail.add(productCourseConnectionMap.get(product.Course__c).hed__Contact__c);
-      }                    
-    }
+    if(!programPlanIdSet.isEmpty() || !courseIdSet.isEmpty()){
+      for(Product2 product : [  SELECT Id,
+                                Program_Plan__c
+                                FROM Product2
+                                WHERE (Delivery__c INCLUDES ('Online Self-paced')
+                                  OR Primary_Delivery_Platform__c = 'Blackboard')
+                                  AND (Program_Plan__c IN: programPlanIdSet
+                                  OR Course__c IN: courseIdSet)]){
 
-    ContactUserNameCreatedHelper.sendEmailUsernameCreated(validContactForEmail);
+        if(productCourseConnectionMap.containsKey(product.Program_Plan__c)){
+        validContactForEmail.add(productCourseConnectionMap.get(product.Program_Plan__c).hed__Contact__c);
+        }else if(productCourseConnectionMap.containsKey(product.Course__c)){
+        validContactForEmail.add(productCourseConnectionMap.get(product.Course__c).hed__Contact__c);
+        }                    
+      }
+    }
+    
+
+    if(!validContactForEmail.isEmpty()){ //added condition before proceeding to this helper
+      ContactUserNameCreatedHelper.sendEmailUsernameCreated(validContactForEmail);
+    }
+    
   }
 
   /**
@@ -314,6 +348,12 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
     Set<Id> ccProgPlanSet = new Set<Id>();
     Map<Id,String> productEmailTemplateMap = new Map<Id,String>();
     Set<String> emailTemplateIdSet = new Set<String>();
+    // Set Map for Course Send Registration Email
+    Map<Id, Boolean> courseSendRegEmailMap = new Map<Id, Boolean>();
+    // Set Map for Program Send Registration Email
+    Map<Id, Boolean> progPlanSendRegEmailMap = new Map<Id, Boolean>();
+
+    Map<Id,EmailTemplate> emailTemplateMap = new Map<Id,EmailTemplate>();
 
     // Get Org Wide Email Address
     List<OrgWideEmailAddress> owea = [
@@ -347,70 +387,66 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
 
     // Get Course Connection Course / Program Plan
     for (hed__Course_Enrollment__c crsEnroll : crseEnrollListNew) {
-      // Add Course Id to Course Set
-      if (String.isNotBlank(crsEnroll.hed__Course_Offering__r.hed__Course__c)) {
-        ccCourseSet.add(crsEnroll.hed__Course_Offering__r.hed__Course__c);
-      }
+        // Add Course Id to Course Set
+        if (String.isNotBlank(crsEnroll.hed__Course_Offering__r.hed__Course__c)) {
+          ccCourseSet.add(crsEnroll.hed__Course_Offering__r.hed__Course__c);
+        }
 
-      // Add Program Plan Id to Program Plan Set
-      if (
-        String.isNotBlank(crsEnroll.Program_Offering__r.hed_Program_Plan__c)
-      ) {
-        ccProgPlanSet.add(crsEnroll.Program_Offering__r.hed_Program_Plan__c);
-      }
+        // Add Program Plan Id to Program Plan Set
+        if (
+          String.isNotBlank(crsEnroll.Program_Offering__r.hed_Program_Plan__c)
+        ) {
+          ccProgPlanSet.add(crsEnroll.Program_Offering__r.hed_Program_Plan__c);
+        }
     }
 
-    // Set Map for Course Send Registration Email
-    Map<Id, Boolean> courseSendRegEmailMap = new Map<Id, Boolean>();
-    for (Communication_Schedule__c courseCommSched : [
-      SELECT Id, Course__c, Email_on_Registration__c,On_Registration_Template__c
-      FROM Communication_Schedule__c
-      WHERE Course__c IN :ccCourseSet
-    ]) {
-      if (courseCommSched.Email_on_Registration__c == true) {
-        courseSendRegEmailMap.put(
-          courseCommSched.Course__c,
-          courseCommSched.Email_on_Registration__c
-        );
+  
 
-        if(String.isNotBlank(courseCommSched.On_Registration_Template__c)){
-          // use custom email template
-          emailTemplateIdSet.add(String.valueOf(courseCommSched.On_Registration_Template__c));
-          productEmailTemplateMap.put(courseCommSched.Course__c, String.valueOf(courseCommSched.On_Registration_Template__c));
+    if(!ccCourseSet.isEmpty() || !ccProgPlanSet.isEmpty()){
+        for (Communication_Schedule__c courseCommSched : [
+          SELECT Id, Course__c, Email_on_Registration__c,On_Registration_Template__c
+          FROM Communication_Schedule__c
+          WHERE ( Course__c IN :ccCourseSet 
+          OR Program_Plan__c IN :ccProgPlanSet)
+        ]) {
+          if (courseCommSched.Email_on_Registration__c == true && courseCommSched.Course__c != null) {
+              courseSendRegEmailMap.put(
+              courseCommSched.Course__c,
+              courseCommSched.Email_on_Registration__c
+            );
+    
+            if(String.isNotBlank(courseCommSched.On_Registration_Template__c)){
+              // use custom email template
+              emailTemplateIdSet.add(String.valueOf(courseCommSched.On_Registration_Template__c));
+              productEmailTemplateMap.put(courseCommSched.Course__c, String.valueOf(courseCommSched.On_Registration_Template__c));
+            }
+          } else if(courseCommSched.Email_on_Registration__c == true && courseCommSched.Program_Plan__c != null){
+                    progPlanSendRegEmailMap.put(
+                    courseCommSched.Program_Plan__c,
+                    courseCommSched.Email_on_Registration__c
+                  );
+
+                  if(String.isNotBlank(courseCommSched.On_Registration_Template__c)){
+                    // use custom email template
+                    emailTemplateIdSet.add(String.valueOf(courseCommSched.On_Registration_Template__c));
+                    productEmailTemplateMap.put(courseCommSched.Program_Plan__c, courseCommSched.On_Registration_Template__c);
+                  }
+          }
         }
-      }
-    }
-
-    // Get List of Communication Schedule for Program Plan
-    Map<Id, Boolean> progPlanSendRegEmailMap = new Map<Id, Boolean>();
-    for (Communication_Schedule__c courseCommSched : [
-      SELECT Id, Program_Plan__c, Email_on_Registration__c,On_Registration_Template__c
-      FROM Communication_Schedule__c
-      WHERE Program_Plan__c IN :ccProgPlanSet
-    ]) {
-      if (courseCommSched.Email_on_Registration__c == true) {
-        progPlanSendRegEmailMap.put(
-          courseCommSched.Program_Plan__c,
-          courseCommSched.Email_on_Registration__c
-        );
-
-        if(String.isNotBlank(courseCommSched.On_Registration_Template__c)){
-          // use custom email template
-          emailTemplateIdSet.add(String.valueOf(courseCommSched.On_Registration_Template__c));
-          productEmailTemplateMap.put(courseCommSched.Program_Plan__c, courseCommSched.On_Registration_Template__c);
-        }
-      }
     }
 
     // Get all email templates for new learners
-    Map<Id,EmailTemplate> emailTemplateMap = new Map<Id,EmailTemplate>([SELECT Id,
-                                                                              Name,
-                                                                              Subject,
-                                                                              HtmlValue,
-                                                                              Body
-                                                                        FROM EmailTemplate
-                                                                        WHERE Id IN :emailTemplateIdSet]);
-
+    if(!emailTemplateIdSet.isEmpty()){
+        emailTemplateMap = new Map<Id,EmailTemplate>([
+          SELECT Id,
+          Name,
+          Subject,
+          HtmlValue,
+          Body
+          FROM EmailTemplate
+          WHERE Id IN :emailTemplateIdSet
+      ]);
+    }
     // Get Study Store URL Custom Setting
     Study_Store_URL_Settings__c storeLinkSettings = Study_Store_URL_Settings__c.getOrgDefaults();
 
@@ -566,5 +602,100 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
   public Boolean isDisabled() {
     final TriggerBypassStrategy bypass = new TriggerBypassStrategy();
     return bypass.isDisabled();
+  }
+
+  /**
+   * @description Create Session__c records for Diagnostic Tool
+   * @param crseEnrollIdSet - set of hed__Course_Enrollment__c record Ids
+   */
+  private static void createSessionRecordsForDiagnosticTool(Set<Id> crseEnrollIdSet){
+    hed__Course_Enrollment__c courseConnection = new hed__Course_Enrollment__c();
+    Id diagnosticToolRecTypeId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName()
+                                            .get(Label.RT_ProductRequest_Diagnostic_Tool)
+                                            .getRecordTypeId();
+    Id specialisedSessionRecTypeId = Schema.SObjectType.Session__c.getRecordTypeInfosByDeveloperName()
+                                            .get(Label.RT_Session_Specialised_Session)
+                                            .getRecordTypeId();
+    List<Session__c> sessionList = new List<Session__c>();
+    Map<Id, hed__Course_Offering__c> courseOfferingRecTypeMap = new Map<Id, hed__Course_Offering__c>();
+    Map<Id, Program_Offering__c> programOfferingRecTypeMap = new Map<Id, Program_Offering__c>();
+
+    // query course connection records
+    Map<Id, hed__Course_Enrollment__c> courseConnectionMap 
+              = new Map<Id, hed__Course_Enrollment__c>([SELECT Id,
+                                                              hed__Contact__r.Name,
+                                                              hed__Course_Offering__c,
+                                                              Program_Offering__c
+                                                        FROM hed__Course_Enrollment__c
+                                                        WHERE Id IN :crseEnrollIdSet]);
+
+    // get course offering and program offering Ids from course connection records
+    Set<Id> courseOfferingIdSet = new Set<Id>();
+    Set<Id> programOfferingIdSet = new Set<Id>();
+    for(Id key : courseConnectionMap.keySet()){
+      courseConnection = courseConnectionMap.get(key);
+
+      //course offering id
+      if(!String.isBlank(courseConnection.hed__Course_Offering__c)){
+        courseOfferingIdSet.add(courseConnection.hed__Course_Offering__c);
+      }
+
+      //program offering id
+      if(!String.isBlank(courseConnection.Program_Offering__c)){
+        programOfferingIdSet.add(courseConnection.Program_Offering__c);
+      }
+    }
+
+    //course offering records map
+    if(!courseOfferingIdSet.isEmpty()){
+      courseOfferingRecTypeMap = new Map<Id, hed__Course_Offering__c>([
+        SELECT Id, hed__Course__r.ProductRequestID__r.RecordTypeId 
+        FROM hed__Course_Offering__c 
+        WHERE Id IN :courseOfferingIdSet]);
+    }
+    
+                                         
+    //program offering records map
+    if(!programOfferingIdSet.isEmpty()){
+      programOfferingRecTypeMap = new Map<Id, Program_Offering__c>([
+        SELECT Id, hed_Program_Plan__r.Product_Request__r.RecordTypeId 
+        FROM Program_Offering__c 
+        WHERE Id IN :programOfferingIdSet]);
+    }
+    
+    // Loop through each course connection record and check those registered to a Diagnostic Tool product request
+    for(Id learnerId : courseConnectionMap.keySet()){
+      courseConnection = courseConnectionMap.get(learnerId);
+      Id recordTypeId;
+
+      if(!String.isBlank(courseConnection.hed__Course_Offering__c)){
+        if(courseOfferingRecTypeMap.containsKey(courseConnection.hed__Course_Offering__c)){
+          recordTypeId = courseOfferingRecTypeMap.get(courseConnection.hed__Course_Offering__c)
+                                                .hed__Course__r.ProductRequestID__r.RecordTypeId;
+        }
+      }
+
+      if(!String.isBlank(courseConnection.Program_Offering__c)){
+        if(programOfferingRecTypeMap.containsKey(courseConnection.Program_Offering__c)){
+          recordTypeId = programOfferingRecTypeMap.get(courseConnection.Program_Offering__c)
+                                                  .hed_Program_Plan__r.Product_Request__r.RecordTypeId;
+        }
+      }
+
+      if(recordTypeId == diagnosticToolRecTypeId){
+        Session__c session = new Session__c();
+        session.Course_Connection__c = learnerId;
+        session.Name = courseConnectionMap.get(learnerId).hed__Contact__r.Name;
+        session.Session_Status__c = null;
+        session.Completion_Date__c = null;
+        session.Course_Offering__c = courseConnectionMap.get(learnerId).hed__Course_Offering__c;
+        session.RecordTypeId = specialisedSessionRecTypeId;
+        sessionList.add(session);
+      }
+    }//end of for loop
+
+    if(!sessionList.isEmpty()){
+      insert sessionList;
+    }
   }
 }

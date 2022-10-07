@@ -1,0 +1,394 @@
+/**
+ * @description Test Class for AssociatedProductsTriggerHelper
+ * @see ..classes/AssociatedProductsTriggerHelper
+ *
+ * @author Accenture
+ *
+ * @history
+ *
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
+      |--------------------------------|-----------------------|------------------------|------------------------------|
+      | eugene.andrew.abuan            | August 28, 2022       | DEPP-2665              | Created File                 |
+ */
+@isTest
+public without sharing class AssociatedProductsTriggerHelperTest {
+    public static final String CCE_CATALOG = 'CCE Catalog';
+    public static final String CCE_CATEGORY_QLS = 'QUTeX Learning Solutions'; 
+    public static final String CCE_CATEGORY_CB = 'Corporate Bundle';
+    private static final String PRODUCT_SPEC_RT = System.Label.RT_ProductSpecification_OPEProgramSpecification;
+    private static Id opeProdSpecId = Schema.SObjectType.Product_Specification__c.getRecordTypeInfosByDeveloperName().get(PRODUCT_SPEC_RT).getRecordTypeId();
+    private static Id cceProdSpecId = Schema.SObjectType.Product_Specification__c.getRecordTypeInfosByDeveloperName().get('CCE').getRecordTypeId();
+
+
+    private static final Id BUSINESS_ACC_RECTYPEID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName()
+        .get('Business_Organization')
+        .getRecordTypeId();
+
+    private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
+    private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName()
+        .get(ACCT_UNIV_DEP)
+        .getRecordTypeId();
+
+    private static final Id PR_CORPBUNDLE_RECTYPEID = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName()
+        .get('Corporate_Bundle')
+        .getRecordTypeId();
+
+    public static final Id PR_STANDOFFERARRANGE_RECTYPEID = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName()
+        .get('Standing_Offer_Arrangement')
+        .getRecordTypeId(); 
+
+    
+
+    @testSetup
+    static void setupMethod() {
+        Test.startTest();
+        TestDataFactory.generateTestUsers();
+        
+        final User PROGRAM_ADMIN = TestDataFactory.getProgramAdminUser();
+        System.runAs(PROGRAM_ADMIN){
+            WebStore testWebStore = new WebStore(Name='CCE', DefaultLanguage='en_US');
+            insert testWebStore;
+    
+            ProductCatalog prodCatalog = new ProductCatalog(Name = 'CCE Catalog');
+            insert prodCatalog;
+    
+            ProductCategory prodCategCB = new ProductCategory(
+            Name = CCE_CATEGORY_CB,
+            CatalogId = prodCatalog.Id
+            );
+            insert prodCategCB;
+    
+            ProductCategory prodCategQLS = new ProductCategory(
+                Name = CCE_CATEGORY_QLS,
+                CatalogId = prodCatalog.Id
+                );
+            insert prodCategQLS;
+    
+    
+            List<Account> accountList = TestDataFactory.createTestAccountRecords(1);
+            accountList[0].RecordTypeId = BUSINESS_ACC_RECTYPEID;
+            insert accountList;
+            
+            List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
+            for(Account acc : accounts){
+                acc.RecordTypeId = ACCT_UNIV_DEP_ID;
+                acc.Organization_Unit_Level__c = '2';
+            }
+            insert accounts;
+            
+            List<Contact> conList = TestDataFactory.createTestContactRecords(1);
+            insert conList;
+            
+            List<Opportunity> oppList = TestDataFactory.createTestOpportunityRecords(1,accountList[0].Id,conList.iterator().next()?.Id);
+            insert oppList;
+
+            List<Product_Request__c> prodRequest = TestDataFactory.createTestProductRequestRecords(1);
+            insert prodRequest;
+
+            List<hed__Course__c> courses = TestDataFactory.createTestCourseRecords(100,accounts[0].Id,prodRequest[0].Id);
+            insert courses;
+
+            List<Product2> products = TestDataFactory.createTestProductRecords(100,courses);
+            for (Product2 prod : products) {
+              prod.IsActive = true;
+              prod.Ready_for_publishing__c = 'Yes';
+              prod.QA_Review_Completed__c = 'Yes';
+              prod.Available_on_Cart__c = true;
+              prod.QA_Comments__c = 'qa comments';
+              prod.Publishing_Start_date__c = Date.today().AddDays(-1);
+            }
+            insert products;
+
+            Pricebook2 pricebook = new Pricebook2(
+              isActive = true,
+              id = Test.getStandardPricebookId()
+            );
+            update pricebook;
+      
+            List<PricebookEntry> priceBookEntryList = new List<PricebookEntry>();
+            for (Product2 prodPBEntry : products) {
+              PricebookEntry priceBookEntry = new PricebookEntry();
+              priceBookEntry.pricebook2id = pricebook.Id;
+              priceBookEntry.UnitPrice = 12;
+              priceBookEntry.product2Id = prodPBEntry.Id;
+              priceBookEntry.isActive = true;
+              priceBookEntryList.add(priceBookEntry);
+            }
+            insert priceBookEntryList;
+        }
+        Test.stopTest();
+
+    }
+
+    @isTest
+    public static void insertQUTeXLearningSolutionTest() {
+        final User PROGRAM_ADMIN = TestDataFactory.getProgramAdminUser();
+        Test.startTest();
+        System.runAs(PROGRAM_ADMIN){
+            List<Account> accountBG = [SELECT Id 
+                                        FROM Account 
+                                        WHERE CreatedById =: PROGRAM_ADMIN.Id
+                                        AND RecordTypeId =: BUSINESS_ACC_RECTYPEID
+                                        LIMIT 1];
+                
+            List<Account> accountUniv = [SELECT Id 
+                                         FROM Account 
+                                         WHERE CreatedById =: PROGRAM_ADMIN.Id
+                                         AND RecordTypeId =: BUSINESS_ACC_RECTYPEID
+                                         LIMIT 1];
+
+            List<Contact> contact = [SELECT Id
+                                     FROM Contact 
+                                     WHERE CreatedById =: PROGRAM_ADMIN.Id
+                                     LIMIT 1];
+
+            List<Opportunity> opp = [SELECT Id
+                                     FROM Opportunity
+                                     WHERE CreatedById =: PROGRAM_ADMIN.Id
+                                     LIMIT 1];
+
+            List<Product2> products = [SELECT Id
+                                       FROM Product2
+                                       WHERE Available_on_Cart__c = TRUE
+                                       AND IsActive = TRUE
+                                       AND CreatedById =: PROGRAM_ADMIN.Id
+                                       LIMIT 100];
+            
+            List<ProductCategory> categoryQLS = [SELECT Id 
+                                                 FROM ProductCategory 
+                                                 WHERE Name =: CCE_CATEGORY_QLS
+                                                 LIMIT 1];
+
+            List<Product_Specification__c> prodSpecList = TestDataFactory.createTestProductSpecsRecords(1,contact,opp);
+            for(Integer i = 0 ; i < prodSpecList.size() ; i++){
+                prodSpecList[i].RecordTypeId = cceProdSpecId;
+            }
+            insert prodSpecList;
+
+            List<Product_Request__c> productRequestList = TestDataFactory.createTestProductRequestRecords(1,prodSpecList[0].Id);
+            for(Product_Request__c productRequest : productRequestList){
+                productRequest.RecordTypeId = PR_STANDOFFERARRANGE_RECTYPEID;
+            }
+            insert productRequestList;
+
+            BuyerGroup bgToInsertList = new BuyerGroup(
+                Product_Request__c = productRequestList[0].Id, 
+                Name = 'SOA BG');
+            insert bgToInsertList;
+
+            CommerceEntitlementPolicy soaEnt = new CommerceEntitlementPolicy(
+                Name = 'SOA Entitlement'
+            );
+            insert soaEnt;
+
+            CommerceEntitlementBuyerGroup soaEntBG = new CommerceEntitlementBuyerGroup(
+                BuyerGroupId = bgToInsertList.Id,
+                PolicyId = soaEnt.Id
+            );
+            insert soaEntBG;
+
+            List<Associated_Products__c> assocProductsListToAdd = new List<Associated_Products__c>();
+            for(Integer i = 0; i < 25; i++) {
+                Associated_Products__c assocProduct = new Associated_Products__c();
+                assocProduct.Product__c = products[i].Id;
+                assocProduct.Product_Request__c = productRequestList[0].Id;
+                assocProductsListToAdd.add(assocProduct);
+            }
+            insert assocProductsListToAdd;
+
+            List<ProductCategoryProduct> prodCategProd = [SELECT Id 
+                                                          FROM ProductCategoryProduct 
+                                                          WHERE ProductCategoryId =: categoryQLS[0].Id];
+
+            System.assert(!prodCategProd.IsEmpty(), 'No Products were inserted in the QUTeX Learning Solutions Category');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    public static void insertCorporateBundleTest() {
+        final User PROGRAM_ADMIN = TestDataFactory.getProgramAdminUser();
+        Test.startTest();
+        System.runAs(PROGRAM_ADMIN){
+            List<Account> accountBG = [SELECT Id 
+                                        FROM Account 
+                                        WHERE CreatedById =: PROGRAM_ADMIN.Id
+                                        AND RecordTypeId =: BUSINESS_ACC_RECTYPEID
+                                        LIMIT 1];
+                
+            List<Account> accountUniv = [SELECT Id 
+                                         FROM Account 
+                                         WHERE CreatedById =: PROGRAM_ADMIN.Id
+                                         AND RecordTypeId =: BUSINESS_ACC_RECTYPEID
+                                         LIMIT 1];
+
+            List<Contact> contact = [SELECT Id
+                                     FROM Contact 
+                                     WHERE CreatedById =: PROGRAM_ADMIN.Id
+                                     LIMIT 1];
+
+            List<Opportunity> opp = [SELECT Id
+                                     FROM Opportunity
+                                     WHERE CreatedById =: PROGRAM_ADMIN.Id
+                                     LIMIT 1];
+
+            List<Product2> products = [SELECT Id
+                                       FROM Product2
+                                       WHERE Available_on_Cart__c = TRUE
+                                       AND IsActive = TRUE
+                                       AND CreatedById =: PROGRAM_ADMIN.Id
+                                       LIMIT 100];
+            
+            List<ProductCategory> categoryCB = [SELECT Id 
+                                                 FROM ProductCategory 
+                                                 WHERE Name =: CCE_CATEGORY_CB
+                                                 LIMIT 1];
+
+            List<Product_Specification__c> prodSpecList = TestDataFactory.createTestProductSpecsRecords(1,contact,opp);
+            for(Integer i = 0 ; i < prodSpecList.size() ; i++){
+                prodSpecList[i].RecordTypeId = cceProdSpecId;
+            }
+            insert prodSpecList;
+
+            List<Product_Request__c> productRequestList = TestDataFactory.createTestProductRequestRecords(1,prodSpecList[0].Id);
+            for(Product_Request__c productRequest : productRequestList){
+                productRequest.RecordTypeId = PR_CORPBUNDLE_RECTYPEID;
+            }
+            insert productRequestList;
+
+            BuyerGroup bgToInsertList = new BuyerGroup(
+                Product_Request__c = productRequestList[0].Id, 
+                Name = 'Corporate Bundle BG');
+            insert bgToInsertList;
+
+            CommerceEntitlementPolicy cbEnt = new CommerceEntitlementPolicy(
+                Name = 'Corporate Bundle Entitlement'
+            );
+            insert cbEnt;
+
+            CommerceEntitlementBuyerGroup cbEntBG = new CommerceEntitlementBuyerGroup(
+                BuyerGroupId = bgToInsertList.Id,
+                PolicyId = cbEnt.Id
+            );
+            insert cbEntBG;
+
+            List<Associated_Products__c> assocProductsListToAdd = new List<Associated_Products__c>();
+            for(Integer i = 0; i < 25; i++) {
+                Associated_Products__c assocProduct = new Associated_Products__c();
+                assocProduct.Product__c = products[i].Id;
+                assocProduct.Product_Request__c = productRequestList[0].Id;
+                assocProductsListToAdd.add(assocProduct);
+            }
+            insert assocProductsListToAdd;
+
+            List<ProductCategoryProduct> prodCategProd = [SELECT Id 
+                                                          FROM ProductCategoryProduct 
+                                                          WHERE ProductCategoryId =: categoryCB[0].Id];
+
+            System.assert(!prodCategProd.IsEmpty(), 'No Products were inserted in the Corporate Bundle Category');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    public static void insertCBwithProductsTest() {
+        final User PROGRAM_ADMIN = TestDataFactory.getProgramAdminUser();
+        Test.startTest();
+        System.runAs(PROGRAM_ADMIN){
+            List<Account> accountBG = [SELECT Id 
+                                        FROM Account 
+                                        WHERE CreatedById =: PROGRAM_ADMIN.Id
+                                        AND RecordTypeId =: BUSINESS_ACC_RECTYPEID
+                                        LIMIT 1];
+                
+            List<Account> accountUniv = [SELECT Id 
+                                         FROM Account 
+                                         WHERE CreatedById =: PROGRAM_ADMIN.Id
+                                         AND RecordTypeId =: BUSINESS_ACC_RECTYPEID
+                                         LIMIT 1];
+
+            List<Contact> contact = [SELECT Id
+                                     FROM Contact 
+                                     WHERE CreatedById =: PROGRAM_ADMIN.Id
+                                     LIMIT 1];
+
+            List<Opportunity> opp = [SELECT Id
+                                     FROM Opportunity
+                                     WHERE CreatedById =: PROGRAM_ADMIN.Id
+                                     LIMIT 1];
+
+            List<Product2> products = [SELECT Id
+                                       FROM Product2
+                                       WHERE Available_on_Cart__c = TRUE
+                                       AND IsActive = TRUE
+                                       AND CreatedById =: PROGRAM_ADMIN.Id
+                                       LIMIT 100];
+            
+            List<ProductCategory> categoryCB = [SELECT Id 
+                                                 FROM ProductCategory 
+                                                 WHERE Name =: CCE_CATEGORY_CB
+                                                 LIMIT 1];
+            
+
+            List<Product_Specification__c> prodSpecList = TestDataFactory.createTestProductSpecsRecords(1,contact,opp);
+            for(Integer i = 0 ; i < prodSpecList.size() ; i++){
+                prodSpecList[i].RecordTypeId = cceProdSpecId;
+            }
+            insert prodSpecList;
+
+            List<Product_Request__c> productRequestList = TestDataFactory.createTestProductRequestRecords(1,prodSpecList[0].Id);
+            for(Product_Request__c productRequest : productRequestList){
+                productRequest.RecordTypeId = PR_CORPBUNDLE_RECTYPEID;
+            }
+            insert productRequestList;
+
+            BuyerGroup bgToInsertList = new BuyerGroup(
+                Product_Request__c = productRequestList[0].Id, 
+                Name = 'Corporate Bundle BG');
+            insert bgToInsertList;
+
+            CommerceEntitlementPolicy cbEnt = new CommerceEntitlementPolicy(
+                Name = 'Corporate Bundle Entitlement'
+            );
+            insert cbEnt;
+
+            CommerceEntitlementBuyerGroup cbEntBG = new CommerceEntitlementBuyerGroup(
+                BuyerGroupId = bgToInsertList.Id,
+                PolicyId = cbEnt.Id
+            );
+            insert cbEntBG;
+
+            List<ProductCategoryProduct> prodCategProd = new List<ProductCategoryProduct>();
+            for(Integer i=0; i< 15; i++){
+                ProductCategoryProduct prodCP = new ProductCategoryProduct();
+                prodCP.ProductCategoryId = categoryCB[0].Id;
+                prodCP.ProductId = products[i].Id;
+                prodCategProd.add(prodCP);
+            }
+            insert prodCategProd;
+
+            List<CommerceEntitlementProduct> entProdExisting = new List<CommerceEntitlementProduct>();
+            for(Integer i=0; i<15; i++){
+                CommerceEntitlementProduct eProd = new CommerceEntitlementProduct();
+                eProd.PolicyId = cbEnt.Id;
+                eProd.ProductId = products[i].Id;
+                entProdExisting.add(eProd);
+            }
+            insert entProdExisting;
+
+            List<Associated_Products__c> assocProductsListToAdd = new List<Associated_Products__c>();
+            for(Integer i = 0; i < 25; i++) {
+                Associated_Products__c assocProduct = new Associated_Products__c();
+                assocProduct.Product__c = products[i].Id;
+                assocProduct.Product_Request__c = productRequestList[0].Id;
+                assocProductsListToAdd.add(assocProduct);
+            }
+            insert assocProductsListToAdd;
+
+            List<CommerceEntitlementProduct> entProdCB = [SELECT Id FROM CommerceEntitlementProduct WHERE ProductId IN : products];
+
+            System.assert(!entProdCb.IsEmpty(), 'No Products has been inserted in the Entilement Policy');
+        }
+        Test.stopTest();
+    }
+}

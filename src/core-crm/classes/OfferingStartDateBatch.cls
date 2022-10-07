@@ -11,7 +11,7 @@
       | angelika.j.s.galang		       | March 15, 2022        | DEPP-1890              | Created file                 | 
       |                                |                       |                        |                              | 
  */
-global class OfferingStartDateBatch implements Database.Batchable<sObject>{
+public class OfferingStartDateBatch implements Database.Batchable<sObject>{
 
     private static final String COURSE_OFFERING_API_NAME = hed__Course_Offering__c.SObjectType.getDescribe().getLocalName();
     private static final String PROGRAM_OFFERING_API_NAME = Program_Offering__c.SObjectType.getDescribe().getLocalName();
@@ -52,7 +52,7 @@ global class OfferingStartDateBatch implements Database.Batchable<sObject>{
     * @param bc - BatchableContext
     * @return query - filtered query of product offering records
     */
-    global Database.QueryLocator start(Database.BatchableContext bc){
+    public Database.QueryLocator start(Database.BatchableContext bc){
         String query = 
             'SELECT ' + queryMapping.get('fields') +
             ' FROM ' + offeringType +
@@ -67,7 +67,7 @@ global class OfferingStartDateBatch implements Database.Batchable<sObject>{
     * @param offeringList - List of product offerings
     * @return query - filtered query of product offering records
     */
-    global void execute(Database.BatchableContext bc, List<sObject> offeringList){
+    public void execute(Database.BatchableContext bc, List<sObject> offeringList){
         try{ 
             Set<Id> productRequestIDs = new Set<Id>();
             for(SObject offering : offeringList){
@@ -95,9 +95,9 @@ global class OfferingStartDateBatch implements Database.Batchable<sObject>{
                 update(productRequestList);
             }
         }catch(Exception e){
-           System.debug('OfferingStartDateBatch Error: ' + e.getMessage());
+           System.debug(LoggingLevel.DEBUG, 'OfferingStartDateBatch Error: ' + e.getMessage());//NOPMD
         }
     }
 
-    global void finish(Database.BatchableContext bc) {}
+    public void finish(Database.BatchableContext bc) {}//NOPMD
 }

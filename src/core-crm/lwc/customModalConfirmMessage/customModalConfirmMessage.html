@@ -16,6 +16,15 @@
 						</div>                 
 					</div>
 					<footer class="slds-modal__footer slds-grid slds-grid_align-center">
+						<template if:true ={isOkay}>
+							<lightning-button 
+							variant="brand"
+							name="ok"
+							label="Ok"
+							class="buttonClassOkay"
+							onclick={closeModalMessage}
+							></lightning-button>
+						</template>
 						<template if:true={isContinueToPayment}>
 							<lightning-button 
 								variant="brand"

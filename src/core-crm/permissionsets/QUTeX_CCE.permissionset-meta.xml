@@ -110,11 +110,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Contact.Personal_Email__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Contact.Personal_Mobile__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -246,11 +241,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Lead.MobilePhone</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Lead.Personal_Email__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

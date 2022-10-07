@@ -11,7 +11,7 @@
       | roy.nino.s.regala         | November 03, 2021     | DEPP-735 | Created file                    | 
       |                           |                       |          |                                 |
 */
-@IsTest(SeeAllData = false)
+@isTest
 private class Contact_Update_Triggered_FlowTest {
     
     private static final String STR_QUTEX = 'QUTeX';
@@ -46,9 +46,9 @@ private class Contact_Update_Triggered_FlowTest {
             update(contactsToUpdate);
             Test.stopTest();
 
-            //System.assert(![SELECT Id FROM Contact Where ContactPhone_Validation__c = 'Unvalidated'].isEmpty(), 'ContactPhone Validation Status should be Unvalidated');
-            //System.assert(![SELECT Id FROM Contact Where ContactMobile_Validation__c = 'Unvalidated'].isEmpty(), 'ContactMobile Validation Status should be Unvalidated');
-            //System.assert(![SELECT Id FROM Contact Where ContactWorkPhone_Validation__c = 'Unvalidated'].isEmpty(), 'ContactWorkPhone Validation Status should be Unvalidated');
+            System.assert(![SELECT Id FROM Contact Where ContactPhone_Validation__c = 'Unvalidated'].isEmpty(), 'ContactPhone Validation Status should be Unvalidated');
+            System.assert(![SELECT Id FROM Contact Where ContactMobile_Validation__c = 'Unvalidated'].isEmpty(), 'ContactMobile Validation Status should be Unvalidated');
+            System.assert(![SELECT Id FROM Contact Where ContactWorkPhone_Validation__c = 'Unvalidated'].isEmpty(), 'ContactWorkPhone Validation Status should be Unvalidated');
         }
     }
     

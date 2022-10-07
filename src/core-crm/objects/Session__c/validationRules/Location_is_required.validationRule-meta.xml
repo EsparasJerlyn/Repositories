@@ -5,7 +5,8 @@
     <errorConditionFormula>AND(
  Is_Managed_Externally__c = false,
  NOT(ISPICKVAL(Session_Type__c, &apos;Virtual Class&apos;)),
- ISBLANK( Location__c ) 
+ ISBLANK( Location__c ),
+ RecordType.DeveloperName = &apos;General_Session&apos;
 )</errorConditionFormula>
     <errorDisplayField>Location__c</errorDisplayField>
     <errorMessage>Location is required</errorMessage>

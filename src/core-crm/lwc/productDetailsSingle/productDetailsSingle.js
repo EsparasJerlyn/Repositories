@@ -35,8 +35,9 @@ export default class ProductDetailsSingle extends LightningElement {
         for (let i = 0; i < productSectionComponents.length; i++) {
             console.log(eventSource != productSectionComponents[i]);
             if (eventSource != productSectionComponents[i]) {
-                productSectionComponents[i].expand = "false";
-                productSectionComponents[i].showvalue = false;
+                //Ticket: DEPP-3574 | Removed line below (signle expand and collpased)
+                //productSectionComponents[i].expand = "false";
+                //productSectionComponents[i].showvalue = false;
             }
         }
     }

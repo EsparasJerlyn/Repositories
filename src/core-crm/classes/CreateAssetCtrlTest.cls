@@ -11,7 +11,7 @@
       | adrian.c.habasa           | November 11, 2021     | DEPP-664 | Created file                    | 
       |                           |                       |          |                                 |
 */
-@IsTest(SeeAllData = false)
+@isTest
 public class CreateAssetCtrlTest {
     private static final String COURSE_API_NAME = Asset.SObjectType.getDescribe().getLocalName();
     private static final String STR_QUTEX = 'QUTEX';
@@ -58,8 +58,8 @@ public class CreateAssetCtrlTest {
             Id prodSpecId = [SELECT Id FROM Product_Specification__c LIMIT 1]?.Id;
             Map<String,Id> hasId = CreateAssetCtrl.getRelatedRecords(prodReqId,prodSpecId);
 
-            System.assert(hasId.containsKey('assetId'));
-            System.assert(hasId.containsKey('accountId'));
+            System.assert(hasId.containsKey('assetId'), 'assetId found');
+            System.assert(hasId.containsKey('accountId'), 'accountId found');
         }
         Test.stopTest();
     }

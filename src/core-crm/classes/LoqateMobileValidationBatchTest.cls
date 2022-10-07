@@ -10,7 +10,7 @@
       |---------------------------|-----------------------|----------|---------------------------------|
       | roy.nino.s.regala         | May 31, 2022          | DEPP-2105| Created file                    | 
 */
-@IsTest(SeeAllData = false)
+@isTest
 private class LoqateMobileValidationBatchTest {
     
     private static final String LEAD_API_NAME = Lead.SObjectType.getDescribe().getLocalName();
@@ -59,7 +59,7 @@ private class LoqateMobileValidationBatchTest {
 
     }
 
-    @IsTest
+    @isTest
     private static void validateContactPhoneFieldsTest(){
         Test.startTest();
 
@@ -70,7 +70,7 @@ private class LoqateMobileValidationBatchTest {
         Test.stopTest();
         System.assert(![SELECT Id FROM AsyncApexJob WHERE ApexClass.Name = 'LoqateMobileValidationBatch'].isEmpty() , 'LoqateMobileValidationBatch Job was not executed');
     }
-    @IsTest
+    @isTest
     private static void validateLeadPhoneFieldsTest(){
         Test.startTest();
 

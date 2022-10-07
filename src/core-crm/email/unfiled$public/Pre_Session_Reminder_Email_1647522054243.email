@@ -3,7 +3,7 @@
 	<title></title>
 </head>
 <body style="height: auto; min-height: auto;">
-<p><span style="font-size: 14px;">Dear {fullname},</span></p>
+<p><span style="font-size: 14px;">Dear {firstname},</span></p>
 <br />
 <span style="font-size:14px;">We look forward to welcoming you to the upcoming session of <b>{name}</b> course.<br />
 <br />

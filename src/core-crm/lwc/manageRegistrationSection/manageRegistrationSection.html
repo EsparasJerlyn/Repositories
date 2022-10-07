@@ -112,7 +112,7 @@
                                     onchange={handleEmailChange}>
                                 </lightning-combobox>
                             </div>
-                            <div class="slds-form-element slds-m-around_x-small">
+                            <div class="slds-form-element slds-m-around_x-small" if:false={isTailoredProductCategory}>
                                 <lightning-combobox
                                     label="Pricing"
                                     value={pbEntryRecord}
@@ -120,22 +120,70 @@
                                     onchange={handleSelectedPricing}>
                                 </lightning-combobox>
                             </div>
+
+                            <div class="slds-form-element slds-m-around_x-small" if:true={hasAsset}>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-size_1-of-1">Total Value: {relatedAsset.Total_Value__c} </div>
+                                    <div class="slds-size_1-of-1">Remaining Value : {relatedAsset.Remaining_Value__c}</div>
+                                </div>
+                            </div>
+                            <template if:true={showDiscountSection}>
+                                <div class="slds-grid slds-wrap slds-form-element slds-m-around_x-small">
+                                    <div class="slds-size_4-of-12">
+                                        <div>
+                                            <div style="display: flex">
+                                                <p class="bodyBold slds-p-right_xx-small">Discount code</p>
+                                                <lightning-helptext content="Coupon code will apply a discount on the Standard Price only"></lightning-helptext>
+                                            </div>
+                                            <lightning-input data-id="discountField" name={productIndex} type="text" variant="label-hidden"></lightning-input>
+                                        </div>
+                    
+                                    </div>
+                                    <div class="slds-size_4-of-12">
+                                        <p class="slds-p-top_xx-small">&nbsp;</p>
+                                        <lightning-button class="slds-m-left_x-small" variant="brand" label="Apply" title="Apply code" onclick={applyCoupon}></lightning-button>
+                                    </div>
+                                </div>
+
+                                <p class={discountMessageClass}>{discountMessage}</p>
+                            </template>
+
                         </div>
                         <footer class="slds-modal__footer">
-                            <div class="slds-var-top_medium">
+                            <template if:false={isCorporateBundlePricebook}>
+                                <div class="slds-var-top_medium" if:false={isTailoredProductCategory}>
+                                    <lightning-button
+                                        label="Proceed without Invoice"
+                                        variant="brand"
+                                        onclick={handleExistingContactPWI}
+                                        disabled={disableSaveExisting}
+                                    ></lightning-button> &nbsp;&nbsp;&nbsp;
+                                    <lightning-button
+                                        label="Redirect to Invoice"
+                                        variant="brand"
+                                        onclick={handleExistingContact}
+                                        disabled={disableInvoiceBtn}
+                                    ></lightning-button>
+                                </div>
+                                <div class="slds-var-top_medium" if:true={isTailoredProductCategory}>
+                                    <lightning-button
+                                        label="Confirm Registration"
+                                        variant="brand"
+                                        type="submit"
+                                        onclick={handleExistingContactPWI}
+                                        disabled={disableSaveExisting}
+                                    ></lightning-button> &nbsp;&nbsp;&nbsp;
+                                </div>
+                            </template>
+                            <template if:true={isCorporateBundlePricebook}>
                                 <lightning-button
-                                    label="Proceed without Invoice"
-                                    variant="brand"
-                                    onclick={handleExistingContactPWI}
-                                    disabled={disableSaveExisting}
-                                ></lightning-button> &nbsp;&nbsp;&nbsp;
-                                <lightning-button
-                                    label="Redirect to Invoice"
-                                    variant="brand"
-                                    onclick={handleExistingContact}
-                                    disabled={disableInvoiceBtn}
-                                ></lightning-button>
-                            </div>
+                                label="Confirm Registration"
+                                variant="brand"
+                                type="submit"
+                                onclick={handleCorporateBundleRegistration}
+                                disabled={disableSaveExisting}
+                            ></lightning-button> &nbsp;&nbsp;&nbsp;
+                            </template>
                         </footer>
                     </div>
                 </template>
@@ -146,7 +194,7 @@
                         </button>
                         <h2 class="slds-text-heading_medium slds-hyphenate">Create Contact</h2>
                     </header>
-                    <div class="slds-is-relative">
+                    <div class="slds-is-relative">                        
                         <lightning-spinner if:true={saveInProgress} alternative-text="Loading" size="small"></lightning-spinner>
                         <lightning-record-edit-form
                             object-api-name={objectToBeCreated}
@@ -158,14 +206,17 @@
                                 <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
                             </template>
                             <template if:false={formLoading}>
+                                <template if:true={showContactErrorMessage}>
+                                    <div class="slds-text-color_error slds-p-bottom_medium">{contactErrorMessage}</div>
+                                </template>
                                 <div class="slds-grid">
                                     <div class="slds-col slds-size_1-of-2">
-                                        <lightning-input-field field-name="FirstName" required></lightning-input-field>
+                                        <lightning-input-field field-name="FirstName" required onchange={handleNameChange}></lightning-input-field>
                                         <lightning-input-field id="fieldid" field-name="Preferred_Given_Name__c"></lightning-input-field>
                                         <lightning-input-field field-name="MobilePhone" required></lightning-input-field>
                                     </div>
                                     <div class="slds-col slds-size_1-of-2">
-                                        <lightning-input-field field-name="LastName" required></lightning-input-field>
+                                        <lightning-input-field field-name="LastName" required onchange={handleNameChange}></lightning-input-field>
                                         <lightning-input-field field-name="Birthdate" required></lightning-input-field>
                                         <lightning-input-field field-name="Email" required></lightning-input-field>
                                     </div>
@@ -175,22 +226,42 @@
                             </template>
                         </div>
                         <footer class="slds-modal__footer">
-                            <div class="slds-var-top_medium">
+                            <template if:false={isCorporateBundlePricebook}>
+                                <div class="slds-var-top_medium" if:false={isTailoredProductCategory}>
+                                    <lightning-button
+                                        label="Proceed without Invoice"
+                                        variant="brand"
+                                        type="submit"
+                                        onclick={handleProceedNoInvoiceClick}
+                                        disabled={saveInProgress}
+                                    ></lightning-button> &nbsp;&nbsp;&nbsp;
+                                    <lightning-button
+                                        label="Redirect to Invoice"
+                                        variant="brand"
+                                        type="submit"
+                                        onclick={handleRedirectToInvoiceClick}
+                                        disabled={disableInvoiceBtnOncreate}
+                                    ></lightning-button>
+                                </div>
+                                <div class="slds-var-top_medium" if:true={isTailoredProductCategory}>
+                                    <lightning-button
+                                        label="Confirm Registration"
+                                        variant="brand"
+                                        type="submit"
+                                        onclick={handleProceedNoInvoiceClick}
+                                        disabled={saveInProgress}
+                                    ></lightning-button> &nbsp;&nbsp;&nbsp;
+                                </div>
+                            </template>
+                            <template if:true={isCorporateBundlePricebook}>
                                 <lightning-button
-                                    label="Proceed without Invoice"
-                                    variant="brand"
-                                    type="submit"
-                                    onclick={handleProceedNoInvoiceClick}
-                                    disabled={saveInProgress}
-                                ></lightning-button> &nbsp;&nbsp;&nbsp;
-                                <lightning-button
-                                    label="Redirect to Invoice"
-                                    variant="brand"
-                                    type="submit"
-                                    onclick={handleRedirectToInvoiceClick}
-                                    disabled={disableInvoiceBtnOncreate}
-                                ></lightning-button>
-                            </div>
+                                label="Confirm Registration"
+                                variant="brand"
+                                type="submit"
+                                onclick={handleProceedNoInvoiceClick}
+                                disabled={saveInProgress}
+                            ></lightning-button> &nbsp;&nbsp;&nbsp;
+                            </template>
                         </footer>
                         </lightning-record-edit-form>
                     </div>

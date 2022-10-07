@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Volume_Of_Learning_Hours_is_required</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND (
+RecordType.DeveloperName = &apos;Program_Without_Pathway&apos;,
+ISPICKVAL( Product_Request__r.Product_Request_Status__c , &apos;Design&apos;),
+ISBLANK( Volume_of_Learning_Hours__c),
+Mark_Design_Stage_as_Complete__c = true
+)</errorConditionFormula>
+    <errorDisplayField>Volume_of_Learning_Hours__c</errorDisplayField>
+    <errorMessage>“Volume of Learning (Hours)” is required to update the Product Request Status.</errorMessage>
+</ValidationRule>

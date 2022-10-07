@@ -1,0 +1,130 @@
+<template>
+    <div class="comp-body">
+    <div class="heading-37 manage-reg-btn blue slds-p-bottom_x-small slds-border_bottom mt2">
+       <h1 class="heading1"> Manage Registrations</h1>
+        <div class="slds-col  slds-p-right_small slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12">   
+            <lightning-button variant="brand" icon-name="utility:download" label="Export Learners List" title="Search" onclick={handleExportLearnersList} class="buttonSearch"></lightning-button>
+        </div>
+    </div>
+    <div class="slds-grid slds-wrap slds-p-bottom_medium my1">
+        <lightning-input type="text" label="Course Name" value={searchCourseName} name="searchCourseName" class="searchRegCourseName label-black slds-col slds-p-right_small slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12"></lightning-input>
+        <lightning-input type="text" label="First Name" value={searchFirstName} name="searchFirstName" class="searchRegFirstName label-black slds-col slds-p-right_small slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12"></lightning-input>
+        <lightning-input type="text" label="Last Name" value={searchLastName} name="searchLastName" class="searchRegLastName label-black slds-col slds-p-right_small slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12"></lightning-input>
+        <lightning-input type="date" label="Date of Birth" value={searchBirthday} name="searchBirthday" datetyle="short" class="searchRegBirthday label-black slds-col slds-p-right_small calenderIcon slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12"></lightning-input>
+        <lightning-input type="text" label="Email" value={searchEmail} name="searchEmail" class="searchRegEmail label-black slds-col slds-p-right_small slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12"></lightning-input>
+        <lightning-input type="text" label="Mobile" value={searchMobile} name="searchMobile" class="searchRegMobile label-black slds-col slds-p-right_small slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12"></lightning-input>
+        <lightning-combobox
+            data-name="searchStatus"
+            name="searchStatus"
+            label="Status"
+            value={searchStatus}
+            options={searchRegistrationStatus}
+            class="searchRegStatus label-black slds-col slds-p-right_small slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12"
+        >
+        </lightning-combobox>
+        <lightning-button variant="brand" label="Search" title="Search" onclick={handleSearchRegistration} class="buttonSearch slds-col  slds-p-right_small buttonSearch slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12"></lightning-button>
+    </div>
+    <template if:true={registrationList}>
+        <div class="custom-table slds-max-medium-table_stacked">
+            <lightning-datatable
+                    key-field="id"
+                    data={registrationList}
+                    columns={columns}
+                    onrowaction={handleRowAction}
+                    default-sort-direction={defaultSortDirection}
+                    sorted-direction={sortRegistrationDirection}
+                    sorted-by={sortedRegistrationBy}
+                    onsort={onHandleRegistrationSort}
+                    hide-checkbox-column = true
+                    >
+            </lightning-datatable>
+        </div>
+    </template>
+    
+    <div class="heading-37 blue slds-p-bottom_x-small slds-p-top_medium slds-border_bottom my2">
+        <h1 class="heading">Manage Nominations</h1>
+    </div>
+    <div class="slds-grid slds-wrap slds-p-bottom_medium my1">
+        <lightning-input type="text" label="Course Name" value={searchNomiCourseName} name="searchNomiCourseName" class="searchNomCourseName label-black slds-col slds-p-right_small slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12"></lightning-input>
+        <lightning-input type="text" label="First Name" value={searchNomiFirstName} name="searchNomiFirstName" class="searchNomFirstName label-black slds-col slds-p-right_small slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12"></lightning-input>
+        <lightning-input type="text" label="Last Name" value={searchNomiLastName} name="searchNomiLastName" class="searchNomLastName label-black slds-col slds-p-right_small slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12"></lightning-input>
+        <lightning-input type="date" label="Date of Birth" value={searchNomiBirthday} name="searchNomiBirthday" datetyle="short" class="searchNomBday label-black slds-col slds-p-right_small calenderIcon slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12"></lightning-input>
+        <lightning-input type="text" label="Email" value={searchNomiEmail} name="searchNomiEmail" class="searchNomEmail label-black slds-col slds-p-right_small slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12"></lightning-input>
+        <lightning-input type="text" label="Mobile" value={searchNomiMobile} name="searchNomiMobile" class="searchNomMobile label-black slds-col slds-p-right_small slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12"></lightning-input>
+        <lightning-combobox
+            data-name="searchNomiStatus"
+            name="searchNomiStatus"
+            label="Status"
+            value={searchNomiStatus}
+            options={searchNominationStatus}
+            class="searchNomStatus label-black slds-col slds-p-right_small slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12"
+        >
+        </lightning-combobox>
+        <lightning-button variant="brand" label="Search" title="Search" onclick={handleNomiSearch} class="buttonSearch slds-col  slds-p-right_small buttonSearch slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12"></lightning-button>
+    </div>
+
+    <template if:true={nominationList}>
+        <div class="custom-table slds-max-medium-table_stacked">
+            <lightning-datatable
+                key-field="id"
+                data={nominationList}
+                columns={columns}
+                onrowaction={handleRowAction}
+                default-sort-direction={defaultSortDirection}
+                sorted-direction={sortNominationDirection}
+                sorted-by={sortedNominationBy}
+                onsort={onHandleNominationSort}
+                hide-checkbox-column=true
+                >
+            </lightning-datatable>
+        </div>    
+    </template>
+    <template if:true={selectedStudent}>     
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="modal slds-fade-in-open">
+            <div class="modal-content px3 pt2">
+                <!--X button -->
+                <div class="slds-m-top_small slds-large-right_large slds-p-right_large slds-clearfix">
+                    <span class="slds-float_right cursor" onclick={closeModal} style="cursor:pointer">
+                        <img class="close-button" src={xButton}/>
+                    </span>
+                </div>
+                <div class="wrapper" id="modal-content-id-1">
+                    <div class="heading2 blue center ">Update Status</div>
+                    <div class="slds-is-relative slds-p-top_large">
+                        <div class="slds-p-around_medium ">
+                            <lightning-combobox
+                                name="choosedStatus"
+                                label="Status"
+                                value={choosedStatus}
+                                onchange={handleOnValueChange}
+                                options={statusOptions}
+                                class="label-black"
+                                >
+                            </lightning-combobox>
+                        </div>
+                    </div>
+                    <footer class="modal-footer">
+                        <div class="slds-var-top_medium center">
+                            <lightning-button
+                                label="Submit"
+                                type="Submit"
+                                variant="brand"
+                                onclick={updateStatus}
+                            ></lightning-button>
+                        </div>
+                    </footer>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <lightning-spinner
+            if:true={isLoading}
+            class="slds-is-fixed"
+            alternative-text="Loading students..."
+            size="medium"
+            variant="brand"
+        >
+    </lightning-spinner>   
+</div>
+</template>

@@ -11,10 +11,10 @@
       | marygrace.li@qut.edu.au        | November 16, 2021     | DEPP-131               | Created file                 | 
       |                                |                       |                        |                              | 
  */
-@IsTest
+@isTest
 public with sharing class B2BUtilsTest {
    
-  	@IsTest(SeeAllData=false)
+  	@isTest
     public static void resolveCommunityIdToWebstoreId() {
         String exceptionMessage;
         Test.startTest();
@@ -29,7 +29,7 @@ public with sharing class B2BUtilsTest {
         System.assertEquals(true, true, 'Network Id doesnt match');
     }
     
-    @IsTest
+    @isTest
     static void getAPIVersionTest() {
         Test.startTest();
         B2BUtils.getAPIVersion('B2BUtilsTest');
@@ -38,7 +38,7 @@ public with sharing class B2BUtilsTest {
         System.assertEquals(true, true, 'API version doesnt match');
     }
     
-    @IsTest
+    @isTest
     static void getCommunityIdByNameTest() {
         Test.startTest();
         B2BUtils.getCommunityIdByName('Test');

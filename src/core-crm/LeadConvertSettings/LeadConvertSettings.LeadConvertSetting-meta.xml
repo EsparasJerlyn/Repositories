@@ -24,6 +24,30 @@
     <objectMapping>
         <inputObject>Lead</inputObject>
         <mappingFields>
+            <inputField>Dont_Market__c</inputField>
+            <outputField>Dont_Market__c</outputField>
+        </mappingFields>
+        <mappingFields>
+            <inputField>Dont_Market_DateTime__c</inputField>
+            <outputField>Dont_Market_DateTime__c</outputField>
+        </mappingFields>
+        <mappingFields>
+            <inputField>Dont_Market_Reason__c</inputField>
+            <outputField>Dont_Market_Reason__c</outputField>
+        </mappingFields>
+        <mappingFields>
+            <inputField>Email_Opt_In_DateTime__c</inputField>
+            <outputField>Email_Opt_In_DateTime__c</outputField>
+        </mappingFields>
+        <mappingFields>
+            <inputField>Email_Opt_Out_DateTime__c</inputField>
+            <outputField>Email_Opt_Out_DateTime__c</outputField>
+        </mappingFields>
+        <mappingFields>
+            <inputField>hed__Gender__c</inputField>
+            <outputField>hed__Gender__c</outputField>
+        </mappingFields>
+        <mappingFields>
             <inputField>LeadMobile_Locale__c</inputField>
             <outputField>ContactMobile_Locale__c</outputField>
         </mappingFields>
@@ -48,12 +72,28 @@
             <outputField>ContactPhone_Validation__c</outputField>
         </mappingFields>
         <mappingFields>
-            <inputField>Personal_Email__c</inputField>
-            <outputField>Personal_Email__c</outputField>
+            <inputField>Marketing_Mobile_Locale__c</inputField>
+            <outputField>Marketing_Mobile_Locale__c</outputField>
+        </mappingFields>
+        <mappingFields>
+            <inputField>Mobile_No_Locale__c</inputField>
+            <outputField>Mobile_No_Locale__c</outputField>
+        </mappingFields>
+        <mappingFields>
+            <inputField>et4ae5__Mobile_Country_Code__c</inputField>
+            <outputField>et4ae5__Mobile_Country_Code__c</outputField>
+        </mappingFields>
+        <mappingFields>
+            <inputField>et4ae5__HasOptedOutOfMobile__c</inputField>
+            <outputField>et4ae5__HasOptedOutOfMobile__c</outputField>
         </mappingFields>
         <mappingFields>
             <inputField>Personal_Mobile__c</inputField>
             <outputField>Personal_Mobile__c</outputField>
+        </mappingFields>
+        <mappingFields>
+            <inputField>Phone_No_Locale__c</inputField>
+            <outputField>Phone_No_Locale__c</outputField>
         </mappingFields>
         <mappingFields>
             <inputField>Preferred_Given_Name__c</inputField>
@@ -64,8 +104,36 @@
             <outputField>Work_Email__c</outputField>
         </mappingFields>
         <mappingFields>
+            <inputField>Work_Email_Opt_In_DateTime__c</inputField>
+            <outputField>Work_Email_Opt_In_DateTime__c</outputField>
+        </mappingFields>
+        <mappingFields>
+            <inputField>Work_Email_Opt_Out__c</inputField>
+            <outputField>Work_Email_Opt_Out__c</outputField>
+        </mappingFields>
+        <mappingFields>
+            <inputField>Work_Email_Opt_Out_DateTime__c</inputField>
+            <outputField>Work_Email_Opt_Out_DateTime__c</outputField>
+        </mappingFields>
+        <mappingFields>
             <inputField>Work_Phone__c</inputField>
             <outputField>hed__WorkPhone__c</outputField>
+        </mappingFields>
+        <mappingFields>
+            <inputField>Work_Phone_No_Locale__c</inputField>
+            <outputField>Work_Phone_No_Locale__c</outputField>
+        </mappingFields>
+        <mappingFields>
+            <inputField>Work_SMS_Opt_In_DateTime__c</inputField>
+            <outputField>Work_SMS_Opt_In_DateTime__c</outputField>
+        </mappingFields>
+        <mappingFields>
+            <inputField>Work_SMS_Opt_Out__c</inputField>
+            <outputField>Work_SMS_Opt_Out__c</outputField>
+        </mappingFields>
+        <mappingFields>
+            <inputField>Work_SMS_Opt_Out_DateTime__c</inputField>
+            <outputField>Work_SMS_Opt_Out_DateTime__c</outputField>
         </mappingFields>
         <mappingFields>
             <inputField>WorkPhone_Locale__c</inputField>

@@ -11,7 +11,7 @@
       | eccarius.karl.munoz       | November 05, 2021     | DEPP-740 | Created file                    | 
       |                           |                       |          |                                 | 
 */
-@IsTest(SeeAllData=false)
+@isTest
 private class Lead_to_Opp_Conversion_std_MappingTest{
     
     private static final String STR_PROFILE = 'QUTeX';
@@ -21,7 +21,7 @@ private class Lead_to_Opp_Conversion_std_MappingTest{
     private static String leadTypeStr = 'CCE Corporate Partner';
     private static Integer numberOfRecords = 100;
     
-    @TestSetup
+    @testSetup
     static void setupMethod(){        
         List<Account> accounts = TestDataFactory.createTestAccountRecords(numberOfRecords);          
         List<Lead> leads = TestDataFactory.createTestLeadRecords(numberOfRecords);
@@ -34,7 +34,7 @@ private class Lead_to_Opp_Conversion_std_MappingTest{
         insert leads;
     }
            
-    @IsTest 
+    @isTest 
     private static void convertLeadToOppTest(){ 
         List<Lead> leads = [SELECT Id, Lead_Type__c FROM Lead LIMIT 100];
         

@@ -1,19 +1,34 @@
 <template>
-    <div if:true={showPicklist} class="lookup-container">
+    <div if:true={showPicklist} class="combobox-container" >
         <lightning-record-edit-form object-api-name={tableObjectType}>
             <div class="slds-popover slds-popover_edit slds-popover__body">
-                <lightning-input-field
+                <div class="slds-grid slds-wrap">
+                    <lightning-input-field
+                    class="slds-col slds-size_11-of-12 custom-picklist-input-field"
                     field-name={picklistFieldName}
                     value={picklistValue}
                     onchange={handlePicklistChange}
                     variant="label-hidden"
-                ></lightning-input-field>
+                    required
+                    tabindex="-1"
+                    ></lightning-input-field>
+                    <div class="slds-col slds-size_1-of-12 slds-p-top_xx-small">
+                        <button class="slds-button slds-button_icon slds-cell-close__button slds-m-left_x-small" tabindex="-1"
+                        title="Close" onclick={handleClose}>
+                        <svg class="slds-button__icon slds-button__icon_hint slds-button__icon_lock slds-button__icon_small slds-button__icon_close slds-icon slds-icon-text-default slds-icon_xx-small"
+                            aria-hidden="true">
+                            <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg?cache=9.37.1#close"></use>
+                        </svg>
+                        <span class="slds-assistive-text">Close</span>
+                        </button>
+                    </div>
+                </div>
             </div>
         </lightning-record-edit-form>
     </div>
     <div if:false={showPicklist} class="slds-table_edit_container slds-is-relative">
-        <span class="slds-grid slds-grid_align-spread slds-cell-edit slds-align_absolute-center">
-            <span>
+        <span class="slds-grid slds-grid_align-spread slds-cell-edit">
+            <span class="slds-p-left_xx-small">
                 {picklistValue}
             </span>
             <button if:true={editable} class="slds-button slds-button_icon slds-cell-edit__button slds-m-left_x-small" tabindex="-1"

@@ -1,0 +1,82 @@
+/**
+ * @description Tests Controller Class for CCECorporateUserCtrl
+ * @see CCECorporateUserCtrl
+ *
+ * @author Accenture
+ *
+ * @history
+ *
+ *    | Developer                      | Date                  | JIRA                   | Change Summary               |
+      |--------------------------------|-----------------------|------------------------|------------------------------|
+      | eccarius.karl.munoz            | August 12, 2022       | DEPP-3488              | Created file                 | 
+      | eccarius.karl.munoz            | September 13, 2022    | DEPP-4096              | Added test methods           | 
+      |                                |                       |                        |                              | 
+ */
+@isTest
+public with sharing class CCECorporateUserCtrlTest {
+
+    @testSetup
+    static void makeData(){
+        TestDataFactory.generateTestUsers();
+        System.runAs(TestDataFactory.getProgramAdminUser()){
+            Account account = new Account();
+            account.Name = 'Test Account';
+            account.RecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Business Organization').getRecordTypeId();
+            insert account;
+
+            Contact contact = new Contact();
+            contact.FirstName = 'Test Fname';
+            contact.LastName = 'Test Lname';
+            contact.email = 'test@email.com';
+            contact.Work_Email__c = 'test@workemail.com';
+            contact.hed__Preferred_Email__c = 'Alternate Email';
+            contact.hed__AlternateEmail__c = 'test@email.com';
+            contact.Registered_Email__c = 'test@email.com';
+            contact.AccountId = account.Id;
+            insert contact;
+        }
+    }
+
+    @isTest
+    static void enableAndDisableCCECorporateUserTest(){
+        System.runAs(TestDataFactory.getProgramAdminUser()){
+            Contact contact = [SELECT Id FROM Contact LIMIT 1];
+            Test.startTest();
+            CCECorporateUserCtrl.CorporateUserDetails enableResponse = CCECorporateUserCtrl.enableCCECorporateUser(contact.Id);
+            String response;
+            if(enableResponse.userId != null){
+                response = CCECorporateUserCtrl.disableCCECorporateUser(contact.Id);
+            }
+            Test.stopTest();
+            System.assertEquals('Success', response, 'Enable and disable user failed.');
+        }
+     }
+
+    @isTest
+    static void enableCCECorporateUserForOPETest(){
+        System.runAs(TestDataFactory.getProgramAdminUser()){
+            Contact contact = [SELECT Id, FirstName, LastName, Registered_Email__c FROM Contact LIMIT 1];
+            Test.startTest();
+            Id enableResponse = CCECorporateUserCtrl.enableCCECorporateUserForOPE(contact.Id, contact.FirstName, contact.LastName, contact.Registered_Email__c);
+            String response;
+            if(enableResponse != null){
+                response = CCECorporateUserCtrl.disableCCECorporateUser(contact.Id);
+            }
+            Test.stopTest();
+            System.assertEquals('Success', response, 'Enable and disable user failed.');
+        }
+     }
+
+    @isTest
+    static void createExtManagedAcctTest(){ 
+        System.runAs(TestDataFactory.getProgramAdminUser()){
+            Contact contact = [SELECT Id, FirstName, LastName, Registered_Email__c, AccountId, hed__Primary_Organization__c, hed__Primary_Organization__r.Name FROM Contact LIMIT 1];
+            Test.startTest();
+            Id enableResponse = CCECorporateUserCtrl.enableCCECorporateUserForOPE(contact.Id, contact.FirstName, contact.LastName, contact.Registered_Email__c);
+            String extManageAcct = CCECorporateUserCtrl.createExtManagedAcct(contact.AccountId, contact.hed__Primary_Organization__c, contact.hed__Primary_Organization__r.Name, enableResponse);
+            Test.stopTest();
+            System.assertEquals('Success', extManageAcct, 'Enable and disable user failed.');
+        }
+     }
+
+}

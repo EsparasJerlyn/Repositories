@@ -597,6 +597,21 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <field>Detail_URL__c</field>
+            <table>Product_Request__c.Courses__r.Products__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Course__c</field>
+            <table>Product_Request__c.Courses__r.Products__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Child_of_Prescribed_Program__c</field>
+            <table>Product_Request__c.Courses__r.Products__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
             <field>Description</field>
             <table>Product_Request__c.Courses__r.Products__r</table>
         </columns>
@@ -873,6 +888,11 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Product_Category__c</field>
+            <table>Product_Request__c.Courses__r.Products__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Detail_Full_URL__c</field>
             <table>Product_Request__c.Courses__r.Products__r</table>
         </columns>
         <masterLabel>Products</masterLabel>

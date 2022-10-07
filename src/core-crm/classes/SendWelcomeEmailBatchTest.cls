@@ -5,24 +5,27 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | roy.nino.s.regala   	       | July 30, 2022         | DEPP-3557              | Created file                 | 
+ *    | Developer Email           | Date                  | JIRA                 | Change Summary               |
+      |---------------------------|-----------------------|----------------------|------------------------------|
+      | roy.nino.s.regala   	    | July 30, 2022         | DEPP-3557            | Created file                 | 
+      | alexander.cadalin         | September 07, 2022    |                      | Test Error Fixes             |
  */
-@IsTest(SeeAllData = false)
+@isTest
 public with sharing class SendWelcomeEmailBatchTest {
 
     private static final Id STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
-    .get('Student')
-    .getRecordTypeId();
+    	.get('Student')
+    	.getRecordTypeId();
     private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName()
-      .get(ACCT_UNIV_DEP)
-      .getRecordTypeId();
+        .get(ACCT_UNIV_DEP)
+        .getRecordTypeId();
 
     @testSetup 
     static void setupMethod() {
+        Test.startTest();
         TestDataFactory.generateTestUsers();
+        Test.stopTest();
     }
         
     @isTest
@@ -49,7 +52,7 @@ public with sharing class SendWelcomeEmailBatchTest {
             insert accounts;
 
             List<hed__Term__c> terms = TestDataFactory.createTestTermRecords(1,accounts[0].Id);
-              insert terms;
+            insert terms;
         
             List<Product_Request__c> prodRequest = TestDataFactory.createTestProductRequestRecords(1);
             insert prodRequest;
@@ -67,12 +70,11 @@ public with sharing class SendWelcomeEmailBatchTest {
             courseConnection.RecordTypeId = STUDENT_RECTYPEID;
             courseConnection.hed__Status__c = 'Active';
             }
-            insert courseConnections;
-        
             
             Test.startTest();
+            insert courseConnections;
 
-            SendWelcomeEmailBatch batch = new SendWelcomeEmailBatch();
+			      SendWelcomeEmailBatch batch = new SendWelcomeEmailBatch();
             Id batchId = Database.executeBatch(batch);
 
             Test.stopTest();

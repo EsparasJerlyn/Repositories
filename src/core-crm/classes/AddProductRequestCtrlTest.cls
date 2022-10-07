@@ -11,13 +11,12 @@
       | roy.nino.s.regala         | October 01, 2021      | DEPP40,42 | Created file                    |
       | adrian.c.habasa           | January 20, 2022      | DEPP-1471 | Added Test Class Method         |
 */
-@isTest(SeeAllData=false)
+@isTest
 private class AddProductRequestCtrlTest {
 
     private static final String PRODUCT_REQ_API_NAME = Product_Request__c.SObjectType.getDescribe().getLocalName();
     private static final String ACTIVITY = System.Label.RT_ProductRequest_Activity;
     private static final Id ACTIVITY_ID = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(ACTIVITY).getRecordTypeId();
-    private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
     private static string PR_PROGRAM = System.Label.RT_ProductRequest_Program;
     private static Id opeProgProdReqId =  Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_PROGRAM).getRecordTypeId();
     private static final String PRODUCT_SPEC_RT = System.Label.RT_ProductSpecification_OPEProgramSpecification;
@@ -25,59 +24,14 @@ private class AddProductRequestCtrlTest {
     private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
     private static final String QUTEX = System.Label.QUTeX;
+    private static final Id BUSINESS_ACC_RECTYPEID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get('Business_Organization').getRecordTypeId();
   
-
-    @isTest
-    private static void testGetQUTeXAccountId(){
+    @testSetup
+    static void makeData(){
         Test.startTest();
-        System.runAs(currentUser){
-           List<Account> acc= TestDataFactory.createTestAccountRecords(1);
-           Account a = new Account(Name = 'QUTeX Products');
-           acc.add(a);
-           insert acc;
-           String accId=AddProductRequestCtrl.getAccountId();
-           system.assert(!String.isBlank(accId),'No QUTeX Products Account Found');
-        }
+        TestDataFactory.generateTestUsers();
         Test.stopTest();
-    }
 
-    @isTest
-    private static void getUsers(){
-        Test.startTest();
-        Profile p = [SELECT Id FROM Profile WHERE Name='QUTeX']; 
-        User u = new User();
-            u.LastName = 'Test 2';
-            u.UserName = 'TestPr1'+'@mailinator.com';
-            u.Email = 'testuser1@mailinator.com';
-            u.ProfileId = p.id;
-            String alias = 'test';
-            u.alias = alias;
-            u.LanguageLocaleKey = 'en_US';
-            u.localesidkey = UserInfo.getLocale();
-            u.emailEncodingKey = 'UTF-8';
-            u.timeZoneSidKey = 'Australia/Brisbane';
-           insert u;
-        System.runAs(currentUser){
-           List<Map<String,String>> us =AddProductRequestCtrl.getSearchedUsers('Test 2');
-           Test.stopTest();
-           System.assert(!us.isEmpty(), 'user did not match as expected');
-        }
-        
-    
-    }
-
-    @isTest
-    private static void testGetRecordTypes(){
-        System.runAs(currentUser){
-            Test.startTest();
-            List<Map<String,String>> recordTypeMap = AddProductRequestCtrl.getRecordTypes(PRODUCT_REQ_API_NAME);
-            Test.stopTest();
-            System.assertEquals(ACTIVITY, recordTypeMap[0].get('label'), 'Record type did not match as expected');
-        }
-    }
-
-    @isTest
-    private static void testGetSearchedCourseProductRequests(){
         List<Account> accounts;
         accounts = TestDataFactory.createTestAccountRecords(1);
         for(Account acc : accounts){
@@ -120,12 +74,92 @@ private class AddProductRequestCtrlTest {
         List<hed__Course__c> courses;
         courses = TestDataFactory.createTestCourseRecords(1,accounts[0].Id,prodRequest[0].Id);
         insert courses;
+    }
 
-        System.runAs(currentUser){
+    @isTest
+    private static void testGetQUTeXAccountId(){
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()){
+           List<Account> acc= TestDataFactory.createTestAccountRecords(1);
+           Account a = new Account(Name = 'QUTeX Products');
+           acc.add(a);
+           insert acc;
+           String accId=AddProductRequestCtrl.getAccountId();
+           system.assert(!String.isBlank(accId),'No QUTeX Products Account Found');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    private static void getUsers(){
+        Test.startTest();
+        Profile p = [SELECT Id FROM Profile WHERE Name='QUTeX']; 
+        User u = new User();
+            u.LastName = 'Test 2';
+            u.UserName = 'TestPr1'+'@mailinator.com';
+            u.Email = 'testuser1@mailinator.com';
+            u.ProfileId = p.id;
+            String alias = 'test';
+            u.alias = alias;
+            u.LanguageLocaleKey = 'en_US';
+            u.localesidkey = UserInfo.getLocale();
+            u.emailEncodingKey = 'UTF-8';
+            u.timeZoneSidKey = 'Australia/Brisbane';
+           insert u;
+        System.runAs(TestDataFactory.getProgramAdminUser()){
+           List<Map<String,String>> us =AddProductRequestCtrl.getSearchedUsers('Test 2');
+           Test.stopTest();
+           System.assert(!us.isEmpty(), 'user did not match as expected');
+        }
+        
+    
+    }
+
+    @isTest
+    private static void testGetRecordTypes(){
+        System.runAs(TestDataFactory.getProgramAdminUser()){
             Test.startTest();
-            List<Product_Request__c> searchProduct = AddProductRequestCtrl.getSearchedCourseProductRequests('Course',new List<Product_Request__c>(),PRODUCT_SPEC_RT);
+            List<Map<String,String>> recordTypeMap = AddProductRequestCtrl.getRecordTypes(PRODUCT_REQ_API_NAME);
+            Test.stopTest();
+            System.assertEquals(ACTIVITY, recordTypeMap[0].get('label'), 'Record type did not match as expected');
+        }
+    }
+
+    @isTest
+    private static void testGetSearchedCourseProductRequests(){
+
+        System.runAs(TestDataFactory.getProgramAdminUser()){
+            Test.startTest();
+            List<Product_Request__c> searchProduct = AddProductRequestCtrl.getSearchedProductRequests('Course',new List<Product_Request__c>(),PRODUCT_SPEC_RT,false);
             Test.stopTest();
             System.assert(!searchProduct.isEmpty(),'Could not find search product');
+        }
+    }
+
+    @isTest
+    private static void testGetSearchedCourseProductRequestsSOA(){
+
+        System.runAs(TestDataFactory.getProgramAdminUser()){
+            Test.startTest();
+            List<Product_Request__c> searchProduct = AddProductRequestCtrl.getSearchedProductRequests('Course',new List<Product_Request__c>(),PRODUCT_SPEC_RT,true);
+            Test.stopTest();
+            System.assert(!searchProduct.isEmpty(),'Could not find search product');
+        }
+    }
+
+    @isTest
+    private static void testCreateBuyerGroupAndEntitlement(){
+
+        Account acc = TestDataFactory.createTestAccountRecords(1).iterator().next();
+        acc.RecordTypeId = BUSINESS_ACC_RECTYPEID;
+        insert acc;
+        WebStore testWebStore = new WebStore(Name='CCE', DefaultLanguage='en_US');
+        insert testWebStore;
+
+        System.runAs(TestDataFactory.getPortalSysAdminUser()){
+            Test.startTest();
+            AddProductRequestCtrl.createBuyerGroupAndEntitlement([SELECT Id FROM Product_Request__c LIMIT 1].Id,acc.Id,acc.Name,true,false);
+            Test.stopTest();
         }
     }
 }

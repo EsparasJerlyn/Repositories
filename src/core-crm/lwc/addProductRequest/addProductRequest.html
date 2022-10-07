@@ -32,7 +32,7 @@
                         <div class="slds-is-relative">
                             <lightning-spinner if:true={savingExistingPR} alternative-text="Loading" size="small"></lightning-spinner>
                             <c-custom-search
-                                search-label="Course Product Request"
+                                search-label={searchLabel}
                                 search-input-placeholder="Search Product Request..."
                                 search-items={lookupItemsFormatted}
                                 search-item-icon="custom:custom62"
@@ -114,8 +114,15 @@
                                 required
                             ></lightning-input-field>
                             <lightning-input-field
+                                if:true={isDiagnosticTool}
+                                field-name='Diagnostic_Tool_Type__c'
+                                required
+                            ></lightning-input-field>
+                            <lightning-input-field
                                 if:true={isProgramSelected}
                                 field-name='Program_Delivery_Structure__c'
+                                value='Prescribed Program'
+                                disabled={disableProgramStructure}
                                 required
                             ></lightning-input-field>
                             <c-custom-search

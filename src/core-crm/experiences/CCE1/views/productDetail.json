@@ -4,17 +4,6 @@
   "id" : "e21e6c76-b04c-437a-9f11-afa1e54d86ee",
   "label" : "Product Detail",
   "regions" : [ {
-    "components" : [ {
-      "componentAttributes" : {
-        "breadcrumbsColor" : "",
-        "breadcrumbsFontSize" : "small"
-      },
-      "componentName" : "b2b_buyer_builder:productDetailsBreadcrumbs",
-      "id" : "cba4c3df-d7df-4edb-ac43-0203e76bdb8a",
-      "renderPriority" : "NEUTRAL",
-      "renditionMap" : { },
-      "type" : "component"
-    } ],
     "id" : "8bc0a8bc-0430-4f95-ae6e-6ea9d4950238",
     "regionName" : "header",
     "type" : "region"

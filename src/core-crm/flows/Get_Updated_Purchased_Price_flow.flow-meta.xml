@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata"> 
     <apiVersion>53.0</apiVersion>
     <interviewLabel>Get Updated Purchased Price flow {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Get Updated Purchased Price flow</label>
@@ -38,7 +38,7 @@
         <inputAssignments>
             <field>Purchased_Price_v2__c</field>
             <value>
-                <elementReference>$Record.Purchased_Price__c</elementReference>
+                <elementReference>$Record.Amount__c</elementReference>
             </value>
         </inputAssignments>
         <object>Product_Ledger__c</object>
@@ -51,14 +51,14 @@
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
-            <field>Purchased_Price__c</field>
+            <field>Amount__c</field>
             <operator>IsNull</operator>
             <value>
                 <booleanValue>false</booleanValue>
             </value>
         </filters>
         <filters>
-            <field>Purchased_Price__c</field>
+            <field>Amount__c</field>
             <operator>IsChanged</operator>
             <value>
                 <booleanValue>true</booleanValue>

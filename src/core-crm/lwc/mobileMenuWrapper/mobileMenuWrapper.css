@@ -1,0 +1,34 @@
+/*Customized*/
+div.subnav-custom .submenu{
+    display: flex;
+    position: absolute;
+    flex-shrink: 0;
+    width: 100%;
+    left: 0;
+    top: 90px;
+  }
+  /*end of customization*/
+
+
+  .breadcrumb{
+    margin-top:70px;
+    display: block;
+  }
+
+  @media only screen and (min-width: 768px) and (max-width: 1155px){
+    .breadcrumb{
+      margin-top: 135px;
+      display: block;
+    }
+  }
+
+
+  @media only screen and (max-width: 767px){
+    div.subnav-custom{
+      display: none;
+    }
+    .breadcrumb{
+      margin-top: 0px;
+      display: block;
+    }
+  }

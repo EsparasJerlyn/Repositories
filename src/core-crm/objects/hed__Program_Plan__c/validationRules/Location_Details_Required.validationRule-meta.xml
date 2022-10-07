@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Location_Details_Required</fullName>
+    <active>true</active>
+    <description>Require Location Details for Program Without Pathway Product Requests when marking the Design stage as complete.</description>
+    <errorConditionFormula>AND(
+   RecordType.DeveloperName = &apos;Program_Without_Pathway&apos;,
+    Product_Request__r.Product_Specification__r.RecordType.DeveloperName = &apos;OPE&apos;,
+   ISBLANK( Location_Details__c  ),
+    Mark_Design_Stage_as_Complete__c = true
+)</errorConditionFormula>
+    <errorDisplayField>Location_Details__c</errorDisplayField>
+    <errorMessage>Location Details is required.</errorMessage>
+</ValidationRule>

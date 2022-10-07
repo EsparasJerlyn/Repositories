@@ -12,7 +12,7 @@
       |                           |                       |              |                                             |
       |                           |                       |              |                                             |
 */
-@IsTest(SeeAllData = false)
+@isTest
 private class UpdateProductCodeFlowTest{
     private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
     private static Integer numberOfRecords = 10;

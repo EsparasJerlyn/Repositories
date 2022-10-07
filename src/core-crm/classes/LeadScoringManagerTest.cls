@@ -11,10 +11,10 @@
 | w.li                     | June 15, 2022         | DEPP-1058              | Created file                 |
 */
 
-@IsTest(SeeAllData=false)
+@isTest
 public without sharing class LeadScoringManagerTest {
     
-    @IsTest
+    @isTest
     public static void testOneContactMatch() {
         Contact contact = new Contact(FirstName = 'Test1',
                                      QUT_Student_ID__c='123456',
@@ -80,7 +80,7 @@ public without sharing class LeadScoringManagerTest {
         Test.stopTest();
     }
 
-    @IsTest
+    @isTest
     public static void testOneLeadMatch() {
 
         Lead lead = new Lead(FirstName = 'Test1', LastName = 'Test1 LastName', Email = 'Test1@email.com', Company ='Test Company');
@@ -136,7 +136,7 @@ public without sharing class LeadScoringManagerTest {
         Test.stopTest();
     }
 
-    @IsTest
+    @isTest
     public static void testNoMatch() {
 
         Test.startTest();

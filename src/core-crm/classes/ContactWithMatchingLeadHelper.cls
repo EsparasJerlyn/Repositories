@@ -53,6 +53,13 @@ public without sharing class ContactWithMatchingLeadHelper {
     public static void detectLeadDuplicates(Map<Id,Contact> newItems){
         Map<String, Contact> contactsMap = new Map<String, Contact>();
         Set<Id> contactIdSet = new Set<Id>();
+        List<Lead> leads = new List<Lead>();
+        List<Contact> contactList = new List<Contact>();
+        List<Marketing_Interaction__c> marketingInteractions = new List<Marketing_Interaction__c>();
+        List<Marketing_Course_Application__c> marketingCourseApps = new List<Marketing_Course_Application__c>();
+        List<Marketing_Segmentation__c> contactMarketingSegmentations = new List<Marketing_Segmentation__c>();
+        List<Marketing_Segmentation__c> marketingSegmentations = new List<Marketing_Segmentation__c>();
+
         for(Contact con : newItems.values()){
             if(!String.isBlank(con.Email)){
                 contactsMap.put(con.Email, con);
@@ -66,17 +73,24 @@ public without sharing class ContactWithMatchingLeadHelper {
             contactIdSet.add(con.Id);
         }
         }
-
-        List<Lead> leads = [SELECT Id, Email, Work_Email__c 
-                              FROM Lead 
-                             WHERE (Email IN : contactsMap.keySet() OR Work_Email__c IN : contactsMap.keySet()) 
-                               AND Lead_Type__c = 'Learner'];
+        if(!contactsMap.keySet().isEmpty()){
+            leads = [
+                SELECT Id, Email, Work_Email__c 
+                FROM Lead 
+                WHERE (Email IN : contactsMap.keySet() OR Work_Email__c IN : contactsMap.keySet()) 
+                AND Lead_Type__c = 'Learner'];
+        }
+        
 
         Set<Id> leadIdSet = new Set<Id>();
         for(Lead lead : leads){ leadIdSet.add(lead.Id); }
 
         Map<Id, List<Contact>> contactsLeadMap = new Map<Id, List<Contact>>();
-        List<Contact> contactList = [SELECT Id, Parent_Person_Contact__c, Parent_Person_Lead__c FROM Contact WHERE Parent_Person_Lead__c IN : leadIdSet];
+
+        if(!leadIdSet.isEmpty()){
+            contactList = [SELECT Id, Parent_Person_Contact__c, Parent_Person_Lead__c FROM Contact WHERE Parent_Person_Lead__c IN : leadIdSet];
+        }
+
         for(Contact c : contactList){
             if(contactsLeadMap.containsKey(c.Parent_Person_Lead__c)){
                 contactsLeadMap.get(c.Parent_Person_Lead__c).add(c);
@@ -88,7 +102,10 @@ public without sharing class ContactWithMatchingLeadHelper {
         }
 
         Map<Id, List<Marketing_Interaction__c>> marketingInteractionsMap = new Map<Id, List<Marketing_Interaction__c>>();
-        List<Marketing_Interaction__c> marketingInteractions = [SELECT Id, Lead__c, Contact__c FROM Marketing_Interaction__c WHERE Lead__c IN : leadIdSet];
+        if(!leadIdSet.isEmpty()){
+            marketingInteractions = [SELECT Id, Lead__c, Contact__c FROM Marketing_Interaction__c WHERE Lead__c IN : leadIdSet];
+        }
+        
         for(Marketing_Interaction__c mi : marketingInteractions){
             if(marketingInteractionsMap.containsKey(mi.Lead__c)){
                 marketingInteractionsMap.get(mi.Lead__c).add(mi);
@@ -100,7 +117,10 @@ public without sharing class ContactWithMatchingLeadHelper {
         }
 
         Map<Id, List<Marketing_Course_Application__c>> marketingCourseAppsMap = new Map<Id, List<Marketing_Course_Application__c>>();
-        List<Marketing_Course_Application__c> marketingCourseApps = [SELECT Id, Lead__c, Contact__c FROM Marketing_Course_Application__c WHERE Lead__c IN : leadIdSet];
+        if(!leadIdSet.isEmpty()){
+            marketingCourseApps = [SELECT Id, Lead__c, Contact__c FROM Marketing_Course_Application__c WHERE Lead__c IN : leadIdSet];
+        }
+        
         for(Marketing_Course_Application__c mca : marketingCourseApps){
             if(marketingCourseAppsMap.containsKey(mca.Lead__c)){
                 marketingCourseAppsMap.get(mca.Lead__c).add(mca);
@@ -111,8 +131,13 @@ public without sharing class ContactWithMatchingLeadHelper {
             }
         }
 
-        List<Marketing_Segmentation__c> contactMarketingSegmentations = getLinkedMarketingSegFromContact(contactIdSet);   
-        List<Marketing_Segmentation__c> marketingSegmentations = getLinkedMarketingSegFromLead(leadIdSet);
+        if(!contactIdSet.isEmpty()){
+            contactMarketingSegmentations = getLinkedMarketingSegFromContact(contactIdSet);  
+        }
+         
+        if(!leadIdSet.isEmpty()){
+            marketingSegmentations = getLinkedMarketingSegFromLead(leadIdSet);
+        }
 
         Map<Id, Marketing_Segmentation__c> leadMarketingSegmentationsMap = new Map<Id, Marketing_Segmentation__c>();
         Map<Id, List<Marketing_Segmentation__c>> marketingSegmentationsMap = new Map<Id, List<Marketing_Segmentation__c>>();
@@ -226,13 +251,12 @@ public without sharing class ContactWithMatchingLeadHelper {
             if(!String.isBlank(c.Work_Email__c)){
                 initContactWorkEmailMap.put(c.Work_Email__c, c);
             }
-            
         }
         List<Lead> initLeads = new List<Lead>();
         initLeads = [SELECT Id, Email, Work_Email__c, Name FROM Lead 
-                      WHERE (Email IN : initContactEmailMap.keySet() OR Work_Email__c IN : initContactWorkEmailMap.keySet()) 
+                      WHERE ((Email IN : initContactEmailMap.keySet() OR Email IN : initContactWorkEmailMap.keySet())
+                        OR (Work_Email__c IN : initContactWorkEmailMap.keySet() OR Work_Email__c IN : initContactEmailMap.keySet()))
                         AND Lead_Type__c = 'Learner'];
-       
         LeadStatus convertStatus = [SELECT Id, MasterLabel FROM LeadStatus WHERE IsConverted = true LIMIT 1];
         Map<Id, Database.LeadConvert> leadsToConvertMap = new Map<Id, Database.LeadConvert>();     
         if(initLeads != null && !initLeads.isEmpty()){
@@ -244,11 +268,16 @@ public without sharing class ContactWithMatchingLeadHelper {
                 if(initContactEmailMap.containsKey(lead.Email)){
                     leadToConvert.setContactId(initContactEmailMap.get(lead.Email)?.Id);
                     leadToConvert.setAccountId(initContactEmailMap.get(lead.Email)?.AccountId);      
-                }
-                if(initContactWorkEmailMap.containsKey(lead.Work_Email__c)){                       
+                }else if(initContactEmailMap.containsKey(lead.Work_Email__c)){
+                    leadToConvert.setContactId(initContactEmailMap.get(lead.Work_Email__c)?.Id);
+                    leadToConvert.setAccountId(initContactEmailMap.get(lead.Work_Email__c)?.AccountId);
+                }else if(initContactWorkEmailMap.containsKey(lead.Work_Email__c)){
                     leadToConvert.setContactId(initContactWorkEmailMap.get(lead.Work_Email__c)?.Id);
                     leadToConvert.setAccountId(initContactWorkEmailMap.get(lead.Work_Email__c)?.AccountId);      
-                }                
+                }else if(initContactWorkEmailMap.containsKey(lead.Email)){
+                    leadToConvert.setContactId(initContactWorkEmailMap.get(lead.Email)?.Id);
+                    leadToConvert.setAccountId(initContactWorkEmailMap.get(lead.Email)?.AccountId);
+                }
                 leadsToConvertMap.put(lead.Id, leadToConvert); 
             }
         }else{
@@ -265,7 +294,8 @@ public without sharing class ContactWithMatchingLeadHelper {
             }
             List<Lead> leads = new List<Lead>();
             leads = [SELECT Id, Email, Work_Email__c, Name FROM Lead 
-                      WHERE (Email IN : contactEmailMap.keySet() OR Work_Email__c IN : contactWorkEmailMap.keySet()) 
+                      WHERE ((Email IN : contactEmailMap.keySet() OR Email IN : contactWorkEmailMap.keySet())
+                        OR (Work_Email__c IN : contactWorkEmailMap.keySet() OR Work_Email__c IN : contactEmailMap.keySet()))
                         AND Lead_Type__c = 'Learner'];
 
             for(Lead lead : leads){
@@ -276,10 +306,15 @@ public without sharing class ContactWithMatchingLeadHelper {
                 if(contactEmailMap.containsKey(lead.Email)){
                     leadToConvert.setContactId(contactEmailMap.get(lead.Email)?.Parent_Person_Contact__r.Id);
                     leadToConvert.setAccountId(contactEmailMap.get(lead.Email)?.Parent_Person_Contact__r.AccountId);      
-                }
-                if(contactWorkEmailMap.containsKey(lead.Work_Email__c)){                       
+                }else if(contactEmailMap.containsKey(lead.Work_Email__c)){
+                    leadToConvert.setContactId(contactEmailMap.get(lead.Work_Email__c)?.Parent_Person_Contact__r.Id);
+                    leadToConvert.setAccountId(contactEmailMap.get(lead.Work_Email__c)?.Parent_Person_Contact__r.AccountId);
+                }else if(contactWorkEmailMap.containsKey(lead.Work_Email__c)){
                     leadToConvert.setContactId(contactWorkEmailMap.get(lead.Work_Email__c)?.Parent_Person_Contact__r.Id);
-                    leadToConvert.setAccountId(contactWorkEmailMap.get(lead.Work_Email__c)?.Parent_Person_Contact__r.AccountId);      
+                    leadToConvert.setAccountId(contactWorkEmailMap.get(lead.Work_Email__c)?.Parent_Person_Contact__r.AccountId);
+                }else if(contactWorkEmailMap.containsKey(lead.Email)){
+                    leadToConvert.setContactId(contactWorkEmailMap.get(lead.Email)?.Parent_Person_Contact__r.Id);
+                    leadToConvert.setAccountId(contactWorkEmailMap.get(lead.Email)?.Parent_Person_Contact__r.AccountId);
                 }                
                 leadsToConvertMap.put(lead.Id, leadToConvert); 
             }

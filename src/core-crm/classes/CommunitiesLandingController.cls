@@ -6,6 +6,8 @@
  *    | Developer                 | Date                  | JIRA                 | Change Summary               |
       |---------------------------|-----------------------|----------------------|------------------------------|
       | marygrace.li@qut.edu.au   | May 26, 2022          | DEPP-2757            | Created file                 |
+      | marygrace.li@qut.edu.au   | August 3, 2022        | DEPP-1386            | Redirection to CCE landing   |
+      | marygrace.li@qut.edu.au   | August 23, 2022       | DEPP-3676            | Removed CCE redirection      |
       |                           |                       |                      |                              | 
  */
 
@@ -17,12 +19,11 @@ public with sharing class CommunitiesLandingController {
     public PageReference forwardToStartPage() {
         String cId = null;
         String landingUrl;
-        String categoryName=null;
-        
-        Site site = [SELECT Id FROM Site WHERE UrlPathPrefix = 'study' LIMIT 1];
+
+        Site site = [SELECT Id FROM Site WHERE UrlPathPrefix = 'study' WITH SECURITY_ENFORCED LIMIT 1];
         String communityUrl = [SELECT SecureURL FROM SiteDetail WHERE DurableId =: site.Id].SecureUrl;
 
-       	ProductCategory categoryId = [SELECT Id, Name FROM ProductCategory WHERE Name = 'Products' AND Catalog.Name = 'Study Catalog'];
+        ProductCategory categoryId = [SELECT Id, Name FROM ProductCategory WHERE Name = 'Products' AND Catalog.Name = 'Study Catalog' WITH SECURITY_ENFORCED];
         cId = categoryId.Id;
 
         if(cId !=null ){
@@ -30,8 +31,9 @@ public with sharing class CommunitiesLandingController {
         }else{
             landingUrl = communityUrl + '/s/';
         }
-        System.Debug(landingUrl);
     
-        return new PageReference (landingUrl);
-    } 
+        // Code we will invoke on page load
+     	return new PageReference (landingUrl);
+    }
+         
 }

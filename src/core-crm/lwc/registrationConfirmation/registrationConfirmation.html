@@ -1,0 +1,124 @@
+<template>
+    <div class="slds-container_x-large">
+        <lightning-layout multiple-rows="true">
+
+            <!-- <div if:true={paymentApproved}>
+                Registration Confirmation Title
+                <lightning-layout-item flexibility="auto" size="12">
+                    <h1 class="main-color-blue500 heading">
+                        Registration Confirmation
+                    </h1>
+                </lightning-layout-item>
+                <lightning-layout-item flexibility="auto" size="12">
+                    <h2 class="subHeader mt2">
+                        We have sent an email to your selected employees with their
+                        registration and modules details.
+                    </h2>
+                </lightning-layout-item>
+            </div> -->
+
+            <div if:true={paymentApproved}>
+                <div class="heading1 slds-m-bottom_medium main-color-blue500">Registration confirmation</div>
+            </div>
+            
+            <div class="header-container slds-m-bottom_medium pb2">
+                <h2 class={subHeaderClass}>{subHeader}</h2>
+    
+                <div if:true={paymentApproved}>
+                    <h5 class="bodyRegular">We have sent an email to your selected employees with their registration and modules details.</h5>    
+                </div>
+            </div>
+
+            <lightning-layout-item flexibility="auto" size="12" class="slds-max-medium-table_stacked">
+               
+                <table
+                    class="slds-table slds-table_cell-buffer slds-table_bordered slds-no-row-hover"
+                    aria-labelledby="element-with-table-label other-element-with-table-label"
+                >
+                    <thead>
+                        <tr class="slds-line-height_reset">
+                            <template for:each={columns} for:item="column">
+                                <th
+                                    class="table-header"
+                                    scope="col"
+                                    key={column}
+                                >
+                                    <div
+                                        class="slds-truncate table-header"
+                                        title={column.label}
+                                    >
+                                        {column.label}
+                                    </div>
+                                </th>
+                            </template>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="slds-hint-parent">
+                            <th
+                               
+                                data-label="Course Name"
+                                scope="row"
+                            >
+                                <div
+                                    class="slds-truncate desc-content bodyRegular"
+                                >
+                                    {courseName}
+                                </div>
+                            </th>
+                            <td data-label="Date">
+                                <div
+                                    class="slds-truncate desc-content bodyRegular"
+                                >
+                                    {courseDate}
+                                </div>
+                            </td>
+                            <td data-label="Delivery">
+                                <div
+                                    class="slds-truncate desc-content bodyRegular"
+                                >
+                                    {deliveryType}
+                                </div>
+                            </td>
+                            <td data-label="Number of Employees Registered">
+                                <div
+                                    class="slds-truncate desc-content bodyRegular no-of-learners"
+                                >
+                                    {totalNumberOfLearnersRegistered}
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </lightning-layout-item>
+
+            <lightning-layout-item flexibility="auto" size="12">
+                <h1
+                    class="main-color-blue500 heading4 slds-m-top_xx-large slds-m-bottom_xx-large"
+                >
+                    Employees Registered in this Course
+                </h1>
+            </lightning-layout-item>
+                    <div class="tableWrapper">
+                    <lightning-datatable
+                    key-field="id"
+                    data={employeesRegistered}
+                    columns={registeredEmployeesColumns}
+                    hide-checkbox-column
+                    resize-column-disabled
+                    min-column-width="100"
+                    class="slds-max-medium-table_stacked"
+                    >
+                    </lightning-datatable>
+                    </div>  
+            <lightning-layout-item flexibility="auto" size="12">
+            </lightning-layout-item>
+            <div class="browse-more">
+                <a class="slds-button slds-button_brand slds-m-top_x-large"
+                onclick={navigateToHome}
+                    >Browse more courses</a
+                >
+            </div>
+        </lightning-layout>
+    </div>
+</template>

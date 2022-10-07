@@ -12,10 +12,10 @@
       |                           |                       |              |                                             |
       |                           |                       |              |                                             |
 */
-@IsTest(SeeAllData = false)
+@isTest
 private class ContactPotentialDuplicateCtrlTest {
     
-    private @TestSetup
+    private @testSetup
     static void makeData(){
         List<Contact> contacts = TestDataFactory.createTestContactRecords(3);        
         insert contacts;
@@ -26,7 +26,7 @@ private class ContactPotentialDuplicateCtrlTest {
         insert potentialDuplicates;
     }
 
-    @IsTest
+    @isTest
     static void getSelectedContactTest(){
         List<Contact> contacts = [SELECT Id FROM Contact];
         Id recordId = contacts[0].Id;
@@ -36,7 +36,7 @@ private class ContactPotentialDuplicateCtrlTest {
         System.assertEquals(true, contactList.size()>0, 'No contact record retrieved.');
     }
 
-    @IsTest
+    @isTest
     static void getPotentialDuplicateTest(){
         List<Contact> contacts = [SELECT Id FROM Contact];
         Id recordId = contacts[0].Id;
@@ -46,7 +46,7 @@ private class ContactPotentialDuplicateCtrlTest {
         System.assertEquals(true, contactList.size() > 0, 'No dupllicate record(s) retrieved.');
     }
 
-    @IsTest
+    @isTest
     static void mergeContactsTest(){
         List<Contact> contacts = [SELECT Id, FirstName, LastName FROM Contact];
         Id recordId = contacts[1].Id;

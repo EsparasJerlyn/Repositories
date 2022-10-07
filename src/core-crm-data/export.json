@@ -17,9 +17,9 @@
             "importCSVFilesAsIs": true
         },
         {
-            "query": "SELECT IsActive, Pricebook2Id, UnitPrice, Product2Id FROM PricebookEntry",
+            "query": "SELECT IsActive, Pricebook2Id, UnitPrice, Product2Id, Pricebook2.Name,Product2.Name FROM PricebookEntry",
             "operation": "Upsert",
-            "externalId": "__Product Name",
+            "externalId": "Pricebook2.Name;Product2.Name",
             "useCSVValuesMapping": true,
             "targetObject": "PricebookEntry",
             "importCSVFilesAsIs": true
@@ -65,7 +65,8 @@
             "importCSVFilesAsIs": true
         },
         {
-            "query": "SELECT Id, Name, New_Idea_To_Email_Address__c FROM Flow_Automation_Settings__c",
+            "query": "SELECT Name, New_Idea_To_Email_Address__c FROM Flow_Automation_Settings__c",
+            "deleteOldData": true,
             "operation": "Upsert",
             "externalId": "Name",
             "useCSVValuesMapping": true,
@@ -73,9 +74,10 @@
             "importCSVFilesAsIs": true
         },
         {
-            "query": "SELECT Name,Internal_Url__c,External_Url__c FROM Idea_Form_Url_Setting__c",
+            "query": "SELECT Internal_Url__c,External_Url__c FROM Idea_Form_Url_Setting__c",
+            "deleteOldData": true,
             "operation": "Upsert",
-            "externalId": "Name",
+            "externalId": "Internal_Url__c",
             "useCSVValuesMapping": true,
             "targetObject": "Idea_Form_Url_Setting__c",
             "importCSVFilesAsIs": true
@@ -89,115 +91,11 @@
             "importCSVFilesAsIs": true
         },
         {
-            "query": "SELECT Id,Name, IsPartner,IsCustomerPortal,AccountSource,IsBuyer, RecordTypeId, Organization_Unit_Level__c, OwnerId, Owner.Name from Account",
+            "query": "SELECT Id,Name, IsPartner,IsCustomerPortal,AccountSource,IsBuyer, RecordTypeId, Organization_Unit_Level__c, OwnerId, Owner.Name from Account WHERE RecordType.DeveloperName='Business_Organization' OR RecordType.DeveloperName='University_Department'",
             "operation": "Upsert",
             "externalId": "Name",
             "useCSVValuesMapping": true,
             "targetObject": "Account",
-            "importCSVFilesAsIs": true
-        },
-        {
-            "query": "SELECT Id, Name, AccountId, LastName, FirstName, hed__Chosen_Full_Name__c, Salutation, Email, QUT_Staff_Email__c, QUT_Employee_ID__c, QUT_Identity_ID__c, QUT_Student_ID__c, Birthdate, Migration_Key__c, Description, Company_Name__c, hed__Primary_Organization__c FROM Contact",
-            "operation": "Upsert",
-            "externalId": "Name;QUT_Staff_Email__c",
-            "useCSVValuesMapping": true,
-            "targetObject": "Contact",
-            "importCSVFilesAsIs": true
-        },
-        {
-            "query": "SELECT Id, Name, BuyerId, BuyerStatus, IsActive, CommerceType, Buyer.Name from BuyerAccount",
-            "operation": "Upsert",
-            "externalId": "Name",
-            "useCSVValuesMapping": true,
-            "targetObject": "BuyerAccount",
-            "importCSVFilesAsIs": true
-        },
-        {
-            "query": "SELECT Id, RecordTypeId, Name, Client_Review_Required__c, IsExternal_Requestor__c, Requestor_Internal_External__c, Requestor_Name__c, Stage__c, Status__c FROM Product_Specification__c",
-            "operation": "Upsert",
-            "externalId": "Name",
-            "useCSVValuesMapping": true,
-            "targetObject": "Product_Specification__c",
-            "importCSVFilesAsIs": true
-        },
-        {
-            "query": "SELECT Id, RecordTypeId, Name, Create_Offering_Complete__c, Create_Product_Complete__c, Product_Request_Status__c, Product_Specification__c, Program_Structure_Complete__c, OPE_Program_Plan_Type__c FROM Product_Request__c",
-            "operation": "Upsert",
-            "externalId": "Name",
-            "useCSVValuesMapping": true,
-            "targetObject": "Product_Request__c",
-            "importCSVFilesAsIs": true
-        },
-        {
-            "query": "SELECT Id, Name, hed__Account__c FROM hed__Term__c",
-            "operation": "Upsert",
-            "externalId": "Name",
-            "useCSVValuesMapping": true,
-            "targetObject": "hed__Term__c",
-            "importCSVFilesAsIs": true
-        },
-        {
-            "query": "SELECT Id, Name, RecordTypeId, Recordtype_Name__c, IsComplete__c, Is_Curriculum_Approved__c, Mark_Content_as_Complete__c, Mark_Design_Stage_as_Complete__c, OPE_Design_Complete__c, ProductRequestID__c, hed__Account__c FROM hed__Course__c",
-            "operation": "Upsert",
-            "externalId": "Name",
-            "useCSVValuesMapping": true,
-            "targetObject": "hed__Course__c",
-            "importCSVFilesAsIs": true
-        },
-        {
-            "query": "SELECT Id, Name, Delivery_Type__c, IsActive__c, Registration_End_Date__c, Registration_Start_Date__c, Total_Number_of_Registered_Learners__c, Visible_on_Website__c, hed__Course__c, hed__End_Date__c, hed__Start_Date__c, hed__Term__c FROM hed__Course_Offering__c",
-            "operation": "Upsert",
-            "externalId": "Name",
-            "useCSVValuesMapping": true,
-            "targetObject": "hed__Course_Offering__c",
-            "importCSVFilesAsIs": true
-        },
-        {
-            "query": "SELECT Id, RecordTypeId, Recordtype_Name__c, Name, Amount__c, IsActive__c, LMS_Integration_Status__c, Paid_in_Full__c, Payment_Method__c, Transaction_ID__c, hed__Contact__c, hed__Course_Offering__c, hed__Primary__c, hed__Status__c, Is_Group_Registered__c FROM hed__Course_Enrollment__c",
-            "operation": "Upsert",
-            "externalId": "Name",
-            "useCSVValuesMapping": true,
-            "targetObject": "hed__Course_Enrollment__c",
-            "importCSVFilesAsIs": true
-        },
-        {
-            "query": "SELECT Id, Name, Object_Type__c, Parent_Record_ID__c, Questionnaire_Type__c FROM Questionnaire__c",
-            "operation": "Upsert",
-            "externalId": "Name",
-            "useCSVValuesMapping": true,
-            "targetObject": "Questionnaire__c",
-            "importCSVFilesAsIs": true
-        },
-        {
-            "query": "SELECT Id, Name, Label__c, Type__c FROM Question__c",
-            "operation": "Upsert",
-            "externalId": "Name",
-            "useCSVValuesMapping": true,
-            "targetObject": "Question__c",
-            "importCSVFilesAsIs": true
-        },
-        {
-            "query": "SELECT Id, Name, Application_Status__c, Contact__c, Course_Offering__c, Questionnaire__c, Registration_Status__c FROM Questionnaire_Response_Summary__c",
-            "operation": "Upsert",
-            "externalId": "Name",
-            "useCSVValuesMapping": true,
-            "targetObject": "Questionnaire_Response_Summary__c",
-            "importCSVFilesAsIs": true
-        },
-        {
-            "query": "SELECT Id, Name, Question__c, Questionnaire__c, Sequence__c FROM Related_Answer__c",
-            "operation": "Upsert",
-            "externalId": "Name",
-            "useCSVValuesMapping": true,
-            "targetObject": "Related_Answer__c",
-            "importCSVFilesAsIs": true
-        },
-        {
-            "query": "SELECT Id, Name, Questionnaire_Response_Summary__c, Related_Answer__c, Response__c, Sequence__c FROM Answer__c",
-            "operation": "Upsert",
-            "externalId": "Name",
-            "useCSVValuesMapping": true,
-            "targetObject": "Answer__c",
             "importCSVFilesAsIs": true
         },
         {
@@ -241,15 +139,8 @@
             "importCSVFilesAsIs": true
         },
         {
-            "query": "SELECT Id, Name from hed__Facility__c",
-            "operation": "Upsert",
-            "externalId": "Name",
-            "useCSVValuesMapping": true,
-            "targetObject": "hed__Facility__c",
-            "importCSVFilesAsIs": true
-        },
-        {
             "query": "SELECT Name, Study_Store_Link__c FROM Study_Store_URL_Settings__c",
+            "deleteOldData": true,
             "operation": "Upsert",
             "externalId": "Name",
             "useCSVValuesMapping": true,
@@ -257,43 +148,30 @@
             "importCSVFilesAsIs": true
         },
         {
-            "query": "SELECT Id, FirstName, LastName, Email, Status, Lead_Type__c, Company, LeadSource FROM Lead",
+            "query": "SELECT Payment_URL__c,GL_Code__c,TransType_Invoice__c,TransType_PayNow__c FROM Payment_Gateway_Settings__c",
+            "deleteOldData": true,
             "operation": "Upsert",
-            "externalId": "Name",
-            "useCSVValuesMapping": true,
-            "targetObject": "Lead",
-            "importCSVFilesAsIs": true
-        },
-        {
-            "query": "SELECT Id,Name,Lead__c,Application_Source__c,Application_Status__c FROM Marketing_Course_Application__c",
-            "operation": "Upsert",
-            "externalId": "Name",
-            "useCSVValuesMapping": true,
-            "targetObject": "Marketing_Course_Application__c",
-            "importCSVFilesAsIs": true
-        },
-        {
-            "query": "SELECT Id,Name,Lead__c,SPAD__c FROM Marketing_Interaction__c",
-            "operation": "Upsert",
-            "externalId": "Name",
-            "useCSVValuesMapping": true,
-            "targetObject": "Marketing_Interaction__c",
-            "importCSVFilesAsIs": true
-        },
-        {
-            "query": "SELECT Id,Name,Lead__c,My_Primary_BSA__c,My_Primary_Study_Level__c,My_Primary_NSA__c,My_Country_Of_Citizenship__c FROM Marketing_Segmentation__c",
-            "operation": "Upsert",
-            "externalId": "Name",
-            "useCSVValuesMapping": true,
-            "targetObject": "Marketing_Segmentation__c",
-            "importCSVFilesAsIs": true
-        },
-        {
-            "query": "SELECT Name, Payment_URL__c,GL_Code__c,TransType_Invoice__c,TransType_PayNow__c FROM Payment_Gateway_Settings__c",
-            "operation": "Upsert",
-            "externalId": "Name",
+            "externalId": "GL_Code__c",
             "useCSVValuesMapping": true,
             "targetObject": "Payment_Gateway_Settings__c",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Activity_External__c,Activity__c,Group_Coaching__c,Individual_Coaching__c,Module_External__c,Module__c,Program_External__c,Program__c,Short_Course_External__c,Short_Course__c,Unit__c,Program_Without_Pathway__c,Program_Without_Pathway_External__c FROM Form_Assembly_Link_Settings__c",
+            "deleteOldData": true,
+            "operation": "Upsert",
+            "externalId": "Activity_External__c",
+            "useCSVValuesMapping": true,
+            "targetObject": "Form_Assembly_Link_Settings__c",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Name,EmployeeSelfRegistrationLink__c FROM EmployeeSelfRegistrationForm__c ",
+            "deleteOldData": true,
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "EmployeeSelfRegistrationForm__c",
             "importCSVFilesAsIs": true
         }
     ]

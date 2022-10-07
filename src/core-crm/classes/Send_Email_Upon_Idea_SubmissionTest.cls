@@ -11,7 +11,7 @@
       | angelika.j.s.galang       | December 14, 2021     | DEPP-1363    | Created file                                | 
       |                           |                       |              |                                             | 
 */
-@IsTest(SeeAllData = false)
+@isTest
 private class Send_Email_Upon_Idea_SubmissionTest {
     private static string PS_PROGRAM_SPEC = System.Label.RT_ProductSpecification_OPEProgramSpecification;
     private static User currentUser = TestDataFactory.createUserRecords(1, 'QUTeX').iterator().next();
@@ -20,7 +20,7 @@ private class Send_Email_Upon_Idea_SubmissionTest {
     @isTest
     private static void emailUponSubmissionTest(){
         System.runAs(currentUser){
-            Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'qutex@qut.edu.au');
+            Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
             insert customEmail;
             
             Account acc = TestDataFactory.createTestAccountRecords(1).iterator().next();

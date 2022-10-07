@@ -1,0 +1,116 @@
+@media only screen and (min-width: 768px){
+    .isMobile{
+        display: none;
+    }
+}
+
+/**sub menu mobile*/
+@media only screen and (max-width: 767px){
+    .isMobile{
+        display: block;
+    }
+    .accordeon-checkbox {
+        display: none;
+    }
+    .accordeon-title-label {
+        cursor: pointer;
+        display: block;
+        width: 100%;
+        text-align: left;
+        /*padding: 0.5rem 1rem;*/
+        background-color: #0066B9;
+        font-size: 1rem;
+        position: relative;
+        padding: 0.5rem;
+        border: 2px solid #FFFFFF;
+    }
+
+    .accordeon-title-label a {
+        color: white;
+        font-size: 1.5rem;
+        font-family: 'ProximaNova';
+        padding: 0rem;
+    }
+    .accordeon-content {
+        height: 0;
+        overflow:hidden;
+        padding: 0;
+        background-color: white;
+        
+        -webkit-transition: height 1s ease;
+        -moz-transition: height 1s ease;
+        -ms-transition: height 1s ease;
+        -o-transition: height 1s ease;
+        transition: height 1s ease;
+    }
+
+    ul li {
+        display: block;
+        border-bottom: 1px solid #ccc;
+    } 
+
+    ul li:last-child {
+        border-bottom: 0;
+    }
+
+    ul.secondary-qutex-nav li a{
+        display: block;
+        padding: 1rem;
+        font-family: 'ProximaNova-Bold';
+        font-size: 1.2rem;
+    }
+
+    ul.secondary-qutex-nav li a:active,
+    ul.secondary-qutex-nav li a:visited
+    {
+        background-color: #e8eef2;
+        text-decoration: none;
+        font-family: 'ProximaNova-Bold';
+        font-size: 1.2rem;
+    }
+
+    .accordeon{
+        background-color: #00467f;
+        padding: 1rem;
+        margin: -1rem;
+    }
+
+    /*Click functionaliteit*/
+    .accordion-content:checked + label {
+        background: #e4e4e4;
+    }
+
+    .accordeon-checkbox:checked ~ .accordeon-content {
+        height: 300px;
+        font-size: 1rem;
+        font-family: 'ProximaNova-Bold';
+        border-left: 2px solid #FFFFFF;
+        border-right:2px solid #FFFFFF;
+        border-bottom:0;
+
+        /*adding: 1rem;*/
+    }
+
+    .arrow{
+        border: solid #fff;
+        border-width: 0 4px 4px 0;
+        display: inline-block;
+        padding: 5px;
+        position: absolute;
+        top:16px;
+        right:20px;
+        transform: rotate(45deg);
+        -webkit-transform: rotate(45deg);
+    }
+
+    input[type='checkbox']:checked + div.submenu-container label.accordeon-title-label div.arrow{
+        transform: rotate(-135deg);
+        -webkit-transform: rotate(-135deg);
+        top: 22px;
+    }
+}
+
+.arrow-link.active{
+    background-color:#e8eef3;
+}
+

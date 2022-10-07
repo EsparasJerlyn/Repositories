@@ -41,6 +41,11 @@
                 <default>false</default>
                 <label>Program Administrator</label>
             </value>
+            <value>
+                <fullName>Faculty Lead</fullName>
+                <default>false</default>
+                <label>Faculty Lead</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

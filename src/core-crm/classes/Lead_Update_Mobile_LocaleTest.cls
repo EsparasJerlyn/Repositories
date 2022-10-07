@@ -11,7 +11,7 @@
       | roy.nino.s.regala         | May 31, 2022          | DEPP-2105| Created file                    | 
       |                           |                       |          |                                 |
 */
-@IsTest(SeeAllData = false)
+@isTest
 private class Lead_Update_Mobile_LocaleTest {
     
     private static final String STR_QUTEX = 'QUTeX';
@@ -42,7 +42,7 @@ private class Lead_Update_Mobile_LocaleTest {
         Test.stopTest();
 
         }
-        //system.assert(![SELECT Id FROM Lead Where Marketing_Mobile_Locale__c = 'en-AU'].isEmpty(), 'Lead mobile locale should be en-au');
+        system.assert(![SELECT Id FROM Lead Where Marketing_Mobile_Locale__c = 'en-AU'].isEmpty(), 'Lead mobile locale should be en-au');
     } 
 
 }

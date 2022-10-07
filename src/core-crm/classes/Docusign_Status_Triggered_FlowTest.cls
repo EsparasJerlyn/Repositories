@@ -12,7 +12,7 @@
       |                           |                       |          |                                 |
 */
 
-@IsTest(SeeAllData = false)
+@isTest
 private class Docusign_Status_Triggered_FlowTest {
     
     private static final String STR_QUTEX = 'QUTeX';

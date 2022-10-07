@@ -5,10 +5,11 @@
     <description>Market Need is required to move stage from Qualify to Design or Complete.</description>
     <errorConditionFormula>AND(
 RecordType.DeveloperName =&apos;OPE&apos;,
-ISCHANGED(Stage__c),
-ISPICKVAL(PRIORVALUE(Stage__c),&apos;Qualify&apos;),
-OR(ISPICKVAL(Stage__c, &apos;Design&apos;),ISPICKVAL(Stage__c, &apos;Complete&apos;)),
-ISPICKVAL(Market_Need__c,&apos;&apos;)
+OR(
+ISPICKVAL(Stage__c,&apos;Design&apos;),
+ISPICKVAL(Stage__c, &apos;Complete&apos;)
+),
+ISBLANK(TEXT(Market_Need__c))
 )</errorConditionFormula>
     <errorDisplayField>Market_Need__c</errorDisplayField>
     <errorMessage>“Market Need” is required to update the Stage.</errorMessage>

@@ -12,7 +12,7 @@
       | justine.javier@qut.edu.au | February 25, 2022     | DEPP-1819| Removed Program_Offering logic  |
  	  |                           |                       |          |                                 |
 */
-@isTest(SeeAllData = false)
+@isTest
 public with sharing class GetUpdatePurchasedPriceFlowTest {
 
     private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
@@ -62,7 +62,7 @@ public with sharing class GetUpdatePurchasedPriceFlowTest {
 
             List<hed__Course_Enrollment__c> courseConnection = TestDataFactory.createTestCourseConnectionRecord(10, conList[0].Id,courseOfferings);
             for(hed__Course_Enrollment__c courseCon : courseConnection){
-                courseCon.Purchased_Price__c = 100;
+                courseCon.Amount__c = 100;
             }
             insert courseConnection;
 
@@ -72,7 +72,7 @@ public with sharing class GetUpdatePurchasedPriceFlowTest {
             Test.startTest();
 
             for(hed__Course_Enrollment__c courseRec : courseConnection){
-                courseRec.Purchased_Price__c = 1000;
+                courseRec.Amount__c = 1000;
             }
             update courseConnection;
 
@@ -80,6 +80,7 @@ public with sharing class GetUpdatePurchasedPriceFlowTest {
 
             List<Product_Ledger__c> updateProdLedger = [SELECT id, Purchased_Price_v2__c FROM Product_Ledger__c LIMIT 100];
             for(Product_Ledger__c checkProdLedger : updateProdLedger){
+                System.assertEquals(1000, checkProdLedger.Purchased_Price_v2__c, 'not equal value');
             }
 
         }

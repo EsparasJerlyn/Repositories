@@ -64,12 +64,12 @@ export default class CustomCombobox extends LightningElement {
     return null;
   }
 
-// Method to open listbox dropdown
-/*openDropDown(event) {
+  // Method to open listbox dropdown
+  /*openDropDown(event) {
   this.toggleOpenDropDown(true);
 }*/
 
-// Method to close listbox dropdown
+  // Method to close listbox dropdown
   closeDropdown(event) {
     if (this.openDropDown) {
       window.setTimeout(() => {

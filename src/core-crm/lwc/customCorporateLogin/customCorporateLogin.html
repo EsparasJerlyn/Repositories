@@ -1,0 +1,82 @@
+<template>
+    <div class="login-container mt3">
+        <!--Login Form-->
+        <template if:true={displayLogin}>
+            <div class="slds-text-align_center heading1 headerColor" data-aura-rendered-by="143:0">
+                Log in
+            </div>
+            <p class="bodyRegular mt2 mb3 slds-text-align_center iflex">Login to get access to our full course
+                catalogue.</p>
+            <br />
+            <!--Email-->
+            <div class="slds-form-element mb2">
+                <label for="fname" class="label-text">Email Address</label>
+                <span class="required-text">*</span><br />
+                <div class="inputContainer">
+                    <input type="text" id="emailaddress" class={requiredInputClass.email} onchange={handleEmailInput}
+                        placeholder="Email Address" />
+                </div>
+                <template if:true={hasErrorEmail}>
+                    <c-error-icon></c-error-icon>
+                    <small class={requiredDisplayData.email}> {emailErrorMessage} </small>
+                </template>
+            </div>
+            <!--Mobile-->
+            <div class="slds-form-element mb2">
+                <label for="fname" class="label-text">Mobile</label>
+                <span class="required-text">*</span><br />
+                <div class="inputContainer">
+                    <p class="helpText">Please enter your mobile number in the following format 614XXXXXXXX</p>
+                    <input type="number" id="mobile" class={requiredInputClass.mobile} onchange={handleMobileInput} onkeypress={onlyNumericAllowed} onpaste={onlyNumericAllowedInPaste}
+                        placeholder="Mobile" />
+                </div>
+                <template if:true={hasErrorMobile}>
+                    <c-error-icon></c-error-icon>
+                    <small class={requiredDisplayData.mobile}> {requriedErrorMessage} </small>
+                </template>
+            </div>
+            <div class="errormessage">
+                <template if:true={noResults}>
+                    <c-error-icon></c-error-icon>
+                    <small class={requiredDisplayData.noContact}> Please contact QUTeX team <a href="tel:+61731387733"
+                            class="link">+61 7 3138 7733</a> or <a href="mailto:qutex@qut.edu.au"
+                            class="link">qutex@qut.edu.au </a> </small>
+                </template>
+            </div>
+            <!--Login Button-->
+            <div class="my3 slds-grid slds-size-1-of-1">
+                <button class="slds-button slds-button_brand" onclick={handleLogin}>Log in</button>
+            </div>
+        </template>
+        <!--Email OTP Verification-->
+        <template if:true={displayVerification}>
+            <div class="slds-text-align_center heading1 headerColor">Verification</div>
+            <p class=" bodyRegular mt2 mb3 slds-text-align_center iflex ">
+                You have been sent a verification code to
+                {email}. Please enter now.
+            </p><br />
+            <!--Verification-->
+            <div class="slds-size_2-of-2 slds-text-align_center pb2">
+                <lightning-input type="text" name="verifCode" pattern="[0-9]+" max-length="6" label="Verification Code"
+                    class="verify" placeholder="Enter Code Here..." onchange={handleVerifInput}>
+                </lightning-input>
+            </div>
+            <!--Buttons-->
+            <div class="slds-align_absolute-center slds-grid slds-wrap">
+                <div class="slds-col m1 slds-size_12-of-12 slds-medium-size_6-of-12">
+                    <button class="slds-button slds-button_brand slds-button_outline-brand slds-float_right btnCancel"
+                        onclick={handleResendCode}>
+                        Didn’t receive code?
+                    </button>
+                </div>
+                <div class="slds-col m1 slds-size_12-of-12 slds-medium-size_6-of-12">
+                    <button type="submit" class="slds-button slds-button_brand footer-button btnContinue"
+                        onclick={handleVerify}>
+                        Submit
+                    </button>
+                </div>
+            </div>
+            <c-custom-toast auto-close-time="8000"></c-custom-toast>
+        </template>
+    </div>
+</template>

@@ -11,12 +11,12 @@
       | eugene.andrew.abuan            | March 22, 2022        | DEPP-1991              | Created file                               |
       | arsenio.jr.dayrit              | April 07, 2022        | DEPP-2057              | Adding test method for  counting Cart Item |
  */
-@isTest(SeeAllData=false)
+@isTest
 public with sharing class CartItemTriggerHandlerTest {
     private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
     private static User currentUser = TestDataFactory.createUserRecords(1, 'QUTeX').iterator().next();
-    @IsTest
+    @isTest
     static void insertCartItemTest() {
         System.runAs(currentUser) {
             Test.startTest();

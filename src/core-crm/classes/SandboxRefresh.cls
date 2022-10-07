@@ -1,4 +1,4 @@
-public class SandboxRefresh implements SandboxPostCopy{
+public with sharing class SandboxRefresh implements SandboxPostCopy{
     
     public static final String ADMIN_PROFILE_NAME = 'System Administrator';
     public static final String MANAGE_SANDBOX_NAME = 'Manage_Sandboxes';

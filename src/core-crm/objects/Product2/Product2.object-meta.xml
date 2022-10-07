@@ -128,7 +128,7 @@
     </actionOverrides>
     <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
     <enableFeeds>false</enableFeeds>
-    <externalSharingModel>Private</externalSharingModel>
+    <externalSharingModel>Read</externalSharingModel>
     <profileSearchLayouts>
         <fields>PRODUCT2.NAME</fields>
         <fields>PRODUCT2.FAMILY</fields>

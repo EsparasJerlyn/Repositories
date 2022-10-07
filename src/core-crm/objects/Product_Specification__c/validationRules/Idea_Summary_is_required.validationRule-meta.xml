@@ -6,7 +6,10 @@
     <errorConditionFormula>AND(
 RecordType.DeveloperName =&apos;OPE&apos;,
 ISCHANGED(Stage__c),
-ISPICKVAL(PRIORVALUE(Stage__c),&apos;Qualify&apos;),
+ OR(
+  ISPICKVAL(PRIORVALUE(Stage__c),&apos;Qualify&apos;),
+  ISPICKVAL(PRIORVALUE(Stage__c),&apos;Idea&apos;)
+ ),
 OR(ISPICKVAL(Stage__c, &apos;Design&apos;),ISPICKVAL(Stage__c, &apos;Complete&apos;)),
 ISBlANK(Idea_Summary__c)
 )</errorConditionFormula>

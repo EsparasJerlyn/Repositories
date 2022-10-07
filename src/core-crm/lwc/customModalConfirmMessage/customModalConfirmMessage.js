@@ -8,14 +8,17 @@
  *    | Developer                 | Date                  | JIRA                 | Change Summary                               |
 	  |---------------------------|-----------------------|----------------------|----------------------------------------------|
 	  | keno.domienri.dico        | June 28, 2022         | DEPP-3302            | Create lwc                                   |
+      | eugene.andrew.abuan       | July 29, 2022         | DEPP-2730            | Added OK button for Employee self-reg        |
+
 */
    
-import { LightningElement, api, track, wire } from "lwc";
+import { LightningElement, api, wire } from "lwc";
 import getOPEProductCateg from "@salesforce/apex/PaymentConfirmationCtrl.getOPEProductCateg";
 import BasePath from "@salesforce/community/basePath";
 import userId from "@salesforce/user/Id";
 import qutResourceImg from "@salesforce/resourceUrl/QUTImages";
 import getUserCartDetails from '@salesforce/apex/ProductDetailsCtrl.getUserCartDetails';
+import LWC_Error_General from '@salesforce/label/c.LWC_Error_General';
 
 export default class CustomModalConfirmMessage extends LightningElement {
 
@@ -25,6 +28,7 @@ export default class CustomModalConfirmMessage extends LightningElement {
 	@api message2;
 	@api isContinueToPayment;
 	@api isContinueBrowsing;
+	@api isOkay;
 
 	//close button
 	xButton;

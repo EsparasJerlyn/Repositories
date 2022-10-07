@@ -6,7 +6,7 @@
  *    | Developer                 | Date                  | JIRA                 | Change Summary               |
       |---------------------------|-----------------------|----------------------|------------------------------|
       | roy.nino.s.regala         | June 20, 2022         | DEPP-3141            | Created file                 |
-      |                           |                       |                      |                              |
+      | john.m.tambasen           | September 23, 2022    | DEPP-4367            | birthdate validation         |
  */
 @isTest
 public with sharing class GroupBookingFormCtrlTest {
@@ -15,7 +15,7 @@ public with sharing class GroupBookingFormCtrlTest {
   private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
   private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
 
-  @TestSetup
+  @testSetup
   static void setupMethod() {
     //create account
     
@@ -314,6 +314,7 @@ public with sharing class GroupBookingFormCtrlTest {
       CatalogId = prodCatalog.Id
     );
     insert prodCateg;
+    
     Test.stopTest();
   }
 
@@ -328,7 +329,7 @@ public with sharing class GroupBookingFormCtrlTest {
       Email ='testemail12@email.com', 
       FirstName ='tetfirstnam2e', 
       lastname ='lastnametes2tda', 
-      Birthdate = Date.Today(),
+      Birthdate = Date.Today().addYears(-15),
       hed__AlternateEmail__c = 'testemail12@email.com',
       hed__Preferred_Email__c = 'Alternate Email'
     );
@@ -338,7 +339,7 @@ public with sharing class GroupBookingFormCtrlTest {
       Registered_Email__c ='testemail@email1.com', 
       FirstName ='tetfirstname', 
       lastname ='lastnametestda', 
-      Birthdate = Date.Today(),
+      Birthdate = Date.Today().addYears(-15),
       hed__AlternateEmail__c = 'testemail@email1.com',
       hed__Preferred_Email__c = 'Alternate Email'
     );
@@ -408,5 +409,14 @@ public with sharing class GroupBookingFormCtrlTest {
     Test.stopTest();
     List<CartItem> deletedCartItems = [SELECT Id, Cart.OwnerId FROM CartItem WHERE Id=: cartItemId];
     System.assert(deletedCartItems.isEmpty(),'no cartitems deleted');
+  }
+
+  @isTest
+  static void getAvailableSeatsTest(){
+    String courseOfferingId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;
+    Test.startTest();
+    Decimal availableSeats = GroupBookingFormCtrl.getAvailableSeats(courseOfferingId, false);
+    Test.stopTest();
+    System.assert(availableSeats > 0,'No available seats');
   }
 }

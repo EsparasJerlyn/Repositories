@@ -25,6 +25,23 @@ public without sharing class MainNavigationMenuCtrl {
         }
         return opportunities;
     }
+    @AuraEnabled(cacheable=true)
+    public static String getAccountName(String userId){
+		List<AccountContactRelation> getAccount = [
+			SELECT Id, AccountId, ContactId,Account.Name
+			FROM AccountContactRelation 
+			WHERE Account.RecordType.Name = 'Business Organization' 
+			AND ContactId IN (
+				SELECT ContactId 
+				FROM User 
+				WHERE Id = :userId)
+		];
+        if(!getAccount.isEmpty()){
+            return getAccount[0].Account.Name;
+        }else{
+            return '';
+        }
+    }
 
     
     @AuraEnabled(cacheable=true)
@@ -51,7 +68,7 @@ public without sharing class MainNavigationMenuCtrl {
         List<WebStoreCatalog> Catalogues = [SELECT SalesStoreId,ProductCatalogId FROM WebStoreCatalog WHERE SalesStoreId=:StoreId];
         if(Catalogues.size()!=0){
             Id Catalog_Id = Catalogues.get(0).ProductCatalogId;
-            ProductCategories = [SELECT Name,Id FROM ProductCategory WHERE CatalogId=:Catalog_Id];
+            ProductCategories = [SELECT Name, Id, SortOrder FROM ProductCategory WHERE CatalogId=:Catalog_Id AND IsNavigational = true ORDER By SortOrder ASC];
             }
         return ProductCategories;
     }

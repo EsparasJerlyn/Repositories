@@ -9,9 +9,9 @@
  *    | Developer                 | Date                  | JIRA      | Change Summary                  |
       |---------------------------|-----------------------|-----------|---------------------------------|
       | roy.nino.s.regala         | March 10, 2022        | DEPP1747  | Created file                    |
-      |                           |                       |           |                                 |
+      | alexander.cadalin         | July 26, 2022         | DEPP-2500 | Added test for checkParentIsSOA |
 */
-@isTest(SeeAllData=false)
+@isTest
 private class ProductManagementCtrlTest {
     private static string PR_PROGRAM = System.Label.RT_ProductRequest_Program;
     private static string PR_ACTIVITY = System.Label.RT_ProductRequest_Activity;
@@ -68,7 +68,6 @@ private class ProductManagementCtrlTest {
         List<Related_Product_Request__c> relatedProductRequests;
         relatedProductRequests = TestDataFactory.createTestRelatedPRRecords(1,prodRequest,prodRequestOPEProgramRequest);
         insert relatedProductRequests;
-
     }
 
     @isTest
@@ -108,4 +107,14 @@ private class ProductManagementCtrlTest {
         Test.stopTest();
     }
 
+    @isTest
+    static void testCheckParentIsSOA() {
+        Test.startTest();
+        System.runAs(currentUser){
+            Boolean parentIsSOA;
+            parentIsSOA = ProductManagementCtrl.checkParentIsSOA([SELECT Id FROM Product_Request__c LIMIT 1].Id);
+            system.assert( !parentIsSOA, 'is ParentSOA');
+        }
+        Test.stopTest();
+    }
 }

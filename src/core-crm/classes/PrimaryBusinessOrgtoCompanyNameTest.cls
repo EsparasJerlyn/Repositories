@@ -12,7 +12,7 @@
       |                           |                       |              |                                             | 
       |                           |                       |              |                                             | 
 */
-@isTest(SeeAllData = false)
+@isTest
 public with sharing class PrimaryBusinessOrgtoCompanyNameTest {
     private static User currentUser = TestDataFactory.createUserRecords(1, 'QUTeX').iterator().next();
 
@@ -33,6 +33,7 @@ public with sharing class PrimaryBusinessOrgtoCompanyNameTest {
         }
         
         List<Contact> contactList = [SELECT Id FROM Contact WHERE Company_Name__c != Null];
+        System.assert(contactList.size() == 100,'Company Name is not Populated');
     }
    
 }

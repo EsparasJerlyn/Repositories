@@ -13,6 +13,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>BuyerGroupMemberRelatedListCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CceManageRegistrationSectionCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CreateAssetCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -133,6 +141,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>RelatedProductsCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>SetupRegistrationCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -235,6 +247,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Asset.Decommission__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Asset.Decommission_Reason__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Asset.Description</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -261,6 +283,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Asset.IsCompetitorProduct</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Asset.Mark_Design_Stage_as_Complete__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -354,7 +381,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Asset.Total_Value__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -376,6 +403,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Associated_Products__c.Buyer_Group__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Associated_Products__c.IsActive__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1010,6 +1042,21 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Product_Ledger__c.Offering_Ended__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Product_Ledger__c.Offering_End_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Product_Ledger__c.Registration_Cancelled__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Product_Request__c.Create_Offering_Complete__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1531,6 +1578,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Session__c.Is_Managed_Externally__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Session__c.Learner__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2131,6 +2183,11 @@
 
     <fieldPermissions>
         <editable>true</editable>
+        <field>hed__Course__c.Diagnostic_Tool_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>hed__Course__c.End_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2160,6 +2217,11 @@
         <readable>true</readable>
     </fieldPermissions>
 
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Course__c.Group_Dynamics_Tools__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course__c.Implementation_Year__c</field>
@@ -2243,6 +2305,26 @@
    
     <fieldPermissions>
         <editable>true</editable>
+        <field>hed__Course__c.Multi_Rater_Tools__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Course__c.No_Hours_Per_Session__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Course__c.No_Of_Coaching_Sessions__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Course__c.No_of_Groups__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>hed__Course__c.Number_Of_Groups__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2307,6 +2389,11 @@
         <readable>true</readable>
     </fieldPermissions>
 
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Course__c.Self_Rater_Tools__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course__c.Start_Date__c</field>
@@ -2543,6 +2630,11 @@
         <readable>true</readable>
     </fieldPermissions>
 
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Program_Plan__c.LogoUrl__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Program_Plan__c.Mark_Design_Stage_as_Complete__c</field>
@@ -3259,6 +3351,10 @@
     <userPermissions>
         <enabled>true</enabled>
         <name>AccessContentBuilder</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>CommerceEntitlementIntegrator</name>
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>

@@ -1,0 +1,62 @@
+.header {
+  font-weight: bold;
+  background-color: #fff;
+  height: auto;
+  padding: 20px 0px;
+}
+
+p.headingText {
+  font-size: 37pt;
+  line-height: 1.1;
+  text-align: inherit;
+}
+
+.typeHeader {
+  font-size: 31px;
+  font-weight: bold;
+}
+
+.padd-right-left{
+  padding: 0px 5px;
+}
+
+.slds-col.searchCol{
+  width: 100%;
+  margin-right: 5px;
+}
+
+.searchCol {
+  display: flex;
+  align-items: baseline;
+}
+
+.searchLabel {
+  width: 75%; 
+  text-align: right;
+}
+
+.searchText {
+  flex-direction: column-reverse; 
+  width: 80%;
+  display: contents;
+}
+
+@media only screen and (max-width: 768px){
+  .searchLabel {
+    width: 68%; 
+    text-align: right;
+  }
+}
+
+@media only screen and (max-width: 764px) {
+  p.headingText {
+    font-size: 33pt;
+  }
+}
+
+@media only screen and (max-width: 320px){
+  .searchLabel {
+    width: 75%; 
+    text-align: right;
+  }
+}

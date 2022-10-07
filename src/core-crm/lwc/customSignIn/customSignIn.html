@@ -45,8 +45,8 @@
                                         <c-error-icon></c-error-icon>
                                     </template>
                                     <small class={requiredDisplayData.email}>
-                                        {emailErrorMessage} 
-                                            <span if:true={isExistingEmail}>
+                                        {emailErrorMessage}
+                                        <span if:true={isExistingEmail}>
                                                 &nbsp;
                                                 <a onclick={handleOpenRegister} class="clickHere">click here</a>
                                                 &nbsp;to sign up

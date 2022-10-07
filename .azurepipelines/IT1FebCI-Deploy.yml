@@ -10,6 +10,9 @@ resources:
       #ref: feature/DEPP-2855-navmenufix ## DEV pipeline branch
       trigger: none
 
+
+
+
 # Build pull requests so we can test them
 pr:
   autoCancel: true
@@ -51,7 +54,7 @@ stages:
     displayName: "Validate"
     lockBehavior: runLatest
     jobs:
-      - deployment: ValidateIT1Feb
+      - deployment: Validate
         timeoutInMinutes: 600
         pool:
           vmImage: "ubuntu-latest"
@@ -77,6 +80,7 @@ stages:
                     TARGET_BRANCH: "${{ parameters.TARGET_BRANCH }}"
                 - template: yml/templates/sfdx-scan-code.yml@SFDX-PIPELINES
                 - template: yml/templates/sfdx-pre-deploy-steps.yml@SFDX-PIPELINES
+                - template: yml/templates/check-build-queue.yml@SFDX-PIPELINES
                 - template: yml/templates/sfdx-deploy-and-post-deploy.yml@SFDX-PIPELINES
                   parameters:
                     validateOrDeploy: "Deploy"

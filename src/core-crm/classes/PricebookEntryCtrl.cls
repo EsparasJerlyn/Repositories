@@ -8,8 +8,11 @@
       | arsenio.jr.dayrit         | February 07, 2022     | DEPP-1406            | Created file                               |
       | roy.nino.s.regala         | February 11, 2022     | DEPP-1406,1773,1257  | Added return for products and pricebook    |
       | john.bo.a.pineda          | May 13, 2022          | DEPP-2591            | Added logic for BuyerGroup PriceBook       |
+      | roy.nino.s.regala         | Aug 5, 2022           | DEPP-2498            | Added logic for BuyerGroup PriceBook       |
+      | kathy.cornejo             | September 22, 2022    | DEPP-4394            | Fixed Pricing for Program w/o Pathway      |
  */
 public with sharing class PricebookEntryCtrl {
+    public static List<String> priceBookIdsOPE = new List<String>();
     /**
      * @description fetches List Price  and pricebooks related to the product request
      * @param prodReqId - id of product request
@@ -19,6 +22,7 @@ public with sharing class PricebookEntryCtrl {
     public static ResponseWrapper getPricebookEntries(String prodReqId){
 
         String PR_PROGRAM = System.Label.RT_ProductRequest_Program;
+        String PR_PWP = System.Label.RT_ProductRequest_Program_Without_Pathway;
         ResponseWrapper response = new ResponseWrapper();
         List<PriceBook2> priceBookList = new List<PriceBook2>();
         List<BuyerGroupPricebook> priceBookListOPE = new List<BuyerGroupPricebook>();
@@ -27,11 +31,10 @@ public with sharing class PricebookEntryCtrl {
         List<hed__Program_Plan__c> program = new List<hed__Program_Plan__c>();
         List<hed__Course__c> course = new List<hed__Course__c>();
         Set<String> priceBookIdsSet = new Set<String>();
-        Set<String> priceBookIdsOPE = new Set<String>();
 
-        Product_Request__c prodRecList1 = [SELECT Id, Name,RecordTypeId, RecordType.developerName FROM Product_Request__c WHERE Id = : prodReqId];
+        Product_Request__c prodRecList1 = [SELECT Id, Name, RecordTypeId, RecordType.developerName, Product_Specification__r.RecordType.DeveloperName FROM Product_Request__c WHERE Id = : prodReqId];
 
-        if(prodRecList1.RecordType.developerName == PR_PROGRAM){
+        if(prodRecList1.RecordType.developerName == PR_PROGRAM || prodRecList1.RecordType.developerName == PR_PWP){
             program = [SELECT Id, Name, Product_Request__c, (SELECT Id, Name FROM Products__r) FROM hed__Program_Plan__c WHERE Product_Request__c =: prodReqId];
             if(!program.isEmpty() && !program[0].Products__r.isEmpty()){
                 product = program[0].Products__r[0];
@@ -43,6 +46,13 @@ public with sharing class PricebookEntryCtrl {
             }
         }
 
+        priceBookListOPE = [Select Id, BuyerGroup.Name, Pricebook2Id from BuyerGroupPricebook WHERE BuyerGroup.Name = 'OPE BuyerGroup' AND Pricebook2.IsActive = true];
+        if(!priceBookListOPE.isEmpty()){
+            for(BuyerGroupPricebook pb: priceBookListOPE){
+                priceBookIdsOPE.add(pb.Pricebook2Id);
+            }
+        } 
+
         if(product != null){
             priceBookEntries = getPBEntries(product);
         }
@@ -52,13 +62,6 @@ public with sharing class PricebookEntryCtrl {
                 priceBookIdsSet.add(pbWrapper.Pricebook2Id);
             }
         }
-
-        priceBookListOPE = [Select Id, BuyerGroup.Name, Pricebook2Id from BuyerGroupPricebook WHERE BuyerGroup.Name = 'OPE BuyerGroup' AND Pricebook2.IsActive = true];
-        if(!priceBookListOPE.isEmpty()){
-            for(BuyerGroupPricebook pb: priceBookListOPE){
-                priceBookIdsOPE.add(pb.Pricebook2Id);
-            }
-        }   
         
         priceBookList = [SELECT Id, Name, IsStandard FROM PriceBook2 WHERE IsActive = true AND ID NOT IN: priceBookIdsSet AND (IsStandard = true OR ID IN:priceBookIdsOPE) ORDER BY Name,IsStandard DESC];
        
@@ -77,7 +80,7 @@ public with sharing class PricebookEntryCtrl {
     @AuraEnabled (cacheable=true)
     public static List<PriceBookEntry> getPBEntries(Product2 prod){
         List<PriceBookEntry> response = new List<PriceBookEntry>([SELECT Id, UnitPrice, Product2Id, Pricebook2Id, Pricebook2.Name,Pricebook2.IsStandard, Discount__c, Early_Bird_No_of_Days__c, IsActive
-                                                                  FROM PricebookEntry WHERE Product2Id =: prod.Id ORDER BY CreatedDate]);
+                                                                  FROM PricebookEntry WHERE Product2Id =: prod.Id AND (Pricebook2.IsStandard = true OR Pricebook2Id IN :priceBookIdsOPE) ORDER BY CreatedDate]);
         return response;
     }
 

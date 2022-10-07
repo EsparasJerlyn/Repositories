@@ -14,7 +14,7 @@
 
  */
 
-@IsTest(SeeAllData=false)
+@isTest
 public with sharing class MarketingStagingMatchingHelperTest{
 
     @testSetup
@@ -219,7 +219,7 @@ public with sharing class MarketingStagingMatchingHelperTest{
     }
 
 
-    @IsTest
+    @isTest
     public static void bulkLeadExistingMarketingRecordsTest(){
         List<Marketing_Staging__c> stagingList = new List<Marketing_Staging__c>();
         List<Marketing_Staging__c> stagingList2 = new List<Marketing_Staging__c>();
@@ -297,7 +297,7 @@ public with sharing class MarketingStagingMatchingHelperTest{
         System.assertEquals([SELECT Id FROM Marketing_Segmentation__c LIMIT 50].size(),50, 'Number of segmentation created did not match');
     }
 
-    @IsTest
+    @isTest
     public static void bulkLeadMatchTest(){
         List<Marketing_Staging__c> stagingList = new List<Marketing_Staging__c>();
         Marketing_Staging__c staging;

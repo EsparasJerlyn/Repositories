@@ -11,7 +11,7 @@
       | eccarius.karl.munoz       | November 04, 2021     | DEPP-738 | Created file                    | 
       |                           |                       |          |                                 | 
 */
-@IsTest(SeeAllData=false)
+@isTest
 private class Lead_Before_Ins_Upd_Triggered_FlowTest {
     
     private static final String STR_PROFILE = 'QUTeX';
@@ -24,7 +24,7 @@ private class Lead_Before_Ins_Upd_Triggered_FlowTest {
     private static String companyCategoryStr = 'Corporate';
     private static Integer numberOfRecords = 100;
       
-    @IsTest 
+    @isTest 
     private static void insertUpdateLeadRecordTest(){  
         System.runAs(currentUser){
             Test.startTest(); 

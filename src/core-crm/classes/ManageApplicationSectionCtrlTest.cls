@@ -13,10 +13,9 @@
       |                           |                       |                      | id removal.                  |
       |                           |                       |                      |                              |
  */
-@isTest(SeeAllData=false)
+@isTest
 public with sharing class ManageApplicationSectionCtrlTest {
 
-     private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
      private static string studentRT = System.Label.RT_CourseConnection_Student;
      private static String rtProdRequestActivity = System.Label.RT_ProductRequest_Activity;
      private static Id studentRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(studentRT).getRecordTypeId();
@@ -24,20 +23,32 @@ public with sharing class ManageApplicationSectionCtrlTest {
      private static Integer numberOfRecords = 2;
      private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
      private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
+     private static final String SEND_APPLICATION_RESPONSE_TEMPLATE = 'Send Application Response Email';
+     private static final String APPLICATION_APPROVED_TEMPLATE = 'Application Email Approved';
+     private static final String APPLICATION_REJECTED_TEMPLATE = 'Application Email Rejected';
 
-    @TestSetup
-
+    @testSetup
      static void setupMethod(){
-         Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'qutex@qut.edu.au');
-         insert customEmail;
-    
-         Study_Store_URL_Settings__c studyStore = new Study_Store_URL_Settings__c(Name='QUTeX', Study_Store_Link__c = 'https://studystorelinktest.com/');
-         insert studyStore;
+          TestDataFactory.generateTestUsers();
+          System.runAs(TestDataFactory.getProgramAdminUser()){
+               List<EmailTemplate> emailTemplateList = TestDataFactory.createTestEmailTemplateRecords(3,new Map<String,String>{
+                    SEND_APPLICATION_RESPONSE_TEMPLATE => 'Test Email Subject1',
+                    APPLICATION_APPROVED_TEMPLATE => 'Test Email Subject2',
+                    APPLICATION_REJECTED_TEMPLATE => 'Test Email Subject3'
+               });
+               insert emailTemplateList;
+          }
+
+          Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
+          insert customEmail;
+
+          Study_Store_URL_Settings__c studyStore = new Study_Store_URL_Settings__c(Name='QUTeX',Study_Store_Link__c = 'https://studystorelinktest.com/');
+          insert studyStore;
      }
     
-     @IsTest
+     @isTest
      static void getApplicationStatusValuesTest(){
-          System.runAs(currentUser){
+          System.runAs(TestDataFactory.getProgramAdminUser()){
                Test.startTest();
                List<String> appStatusValues = ManageApplicationSectionCtrl.getApplicationStatusValues();
                Test.stopTest();
@@ -45,9 +56,9 @@ public with sharing class ManageApplicationSectionCtrlTest {
           }
      }
 
-     @IsTest
+     @isTest
      static void getStudentApplicationsTest(){
-          System.runAs(currentUser){
+          System.runAs(TestDataFactory.getProgramAdminUser()){
                createRecord(opeActProdReqRecType);
                String offeringId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;
                Test.startTest();
@@ -57,9 +68,9 @@ public with sharing class ManageApplicationSectionCtrlTest {
           }
      }
 
-     @IsTest
+     @isTest
      static void updateStudentApplicationTest(){
-          System.runAs(currentUser){
+          System.runAs(TestDataFactory.getProgramAdminUser()){
                createRecord(opeActProdReqRecType);
                String questionId = [SELECT Id FROM Questionnaire_Response_Summary__c LIMIT 1].Id;
                String applicationStatus= 'Rejected';
@@ -72,7 +83,7 @@ public with sharing class ManageApplicationSectionCtrlTest {
      }
 
      private static void createRecord(String productRequestRecordType){
-          System.runAs(currentUser){
+          System.runAs(TestDataFactory.getProgramAdminUser()){
                 Id offeringId = null;
 
                 List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
@@ -102,6 +113,7 @@ public with sharing class ManageApplicationSectionCtrlTest {
                 List<Contact> contacts = TestDataFactory.createTestContactRecords(numberOfRecords);
                 for(Integer i =0;i<contacts.size();i++){
                     contacts[i].Email = 'testIdeaFormUser'+i+'@mailinator.com';
+                    contacts[i].Registered_Email__c = 'registeredEmail'+i+'@mailinator.com';
                 }
                 insert contacts;
                 

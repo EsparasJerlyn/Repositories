@@ -13,6 +13,10 @@
       | angelika.j.s.galang       | December  17, 2021    | DEPP-1088,1096       | Modified to handle OPE records                                            |
       | adrian.c.habasa           | January   20, 2022    | DEPP-1471            | Added a pop up to input course/program plan name                          |
       | john.bo.a.pineda          | February  22, 2022    | DEPP-1791            | Modified logic to create Product Request after saving Related Object Name |
+      | john.m.tambasen           | July 05, 2022         | DEPP-2590            | SOA product request                                                       | 
+      | eccarius.munoz            | July 11, 2022         | DEPP-2035            | Added handling for Educational Consultancy                                | 
+      | john.m.tambasen           | July 28, 2022         | DEPP-3480            | Corporate Bundle product request                                          |
+      | alexander.cadalin         | August 04, 2022       | DEPP-2498            | SOA PR Buyer Group and Entitlement                                        |
 */
 
 import { LightningElement, api, wire } from 'lwc';
@@ -25,16 +29,30 @@ import USER_NAME from '@salesforce/schema/User.Name';
 import USER_DIVISION from '@salesforce/schema/User.Division';
 import LWC_Error_General from '@salesforce/label/c.LWC_Error_General';
 import RT_ProductRequest_Program from '@salesforce/label/c.RT_ProductRequest_Program';
+import RT_PR_DIAGNOSTIC_TOOL from '@salesforce/label/c.RT_ProductRequest_Diagnostic_Tool';
+import RT_ProductRequest_SOA from '@salesforce/label/c.RT_ProductRequest_SOA';
+import RT_ProductRequest_Educ_Consultancy from '@salesforce/label/c.RT_ProductRequest_Educ_Consultancy';
+import RT_ProductRequest_Corporate_Bundle from '@salesforce/label/c.RT_ProductRequest_Corporate_Bundle';
 import PRODUCT_REQUEST_OBJECT from '@salesforce/schema/Product_Request__c';
 import RELATED_PRODUCT_REQUEST_OBJECT from '@salesforce/schema/Related_Product_Request__c';
 import COURSE_OBJECT from '@salesforce/schema/hed__Course__c';
 import PROGRAM_PLAN_OBJECT from '@salesforce/schema/hed__Program_Plan__c';
+import BUYER_GROUP_OBJECT from '@salesforce/schema/BuyerGroup';
+import EDUC_CONSULTANCY_OBJ from '@salesforce/schema/Consultancy__c';
+import ASSET_OBJ from '@salesforce/schema/Asset';
 import PR_OPE_TYPE from '@salesforce/schema/Product_Request__c.OPE_Program_Plan_Type__c';
 import PROD_SPEC_APINAME from '@salesforce/schema/Product_Request__c.Product_Specification__c';
 import getAccountId from '@salesforce/apex/AddProductRequestCtrl.getAccountId';
-import getSearchedCourseProductRequests from '@salesforce/apex/AddProductRequestCtrl.getSearchedCourseProductRequests';
+import getSearchedProductRequests from '@salesforce/apex/AddProductRequestCtrl.getSearchedProductRequests';
 import getSearchedUsers from '@salesforce/apex/AddProductRequestCtrl.getSearchedUsers';
-import SystemModstamp from '@salesforce/schema/Account.SystemModstamp';
+import RT_ProductRequest_Program_Without_Pathway from '@salesforce/label/c.RT_ProductRequest_Program_Without_Pathway';
+import PRIMARY_ACC_ID_FIELD from '@salesforce/schema/Product_Specification__c.Opportunity_Name__r.AccountId';
+import PRIMARY_ACC_NAME_FIELD from '@salesforce/schema/Product_Specification__c.Opportunity_Name__r.Account.Name';
+import createBuyerGroupAndEntitlement from '@salesforce/apex/AddProductRequestCtrl.createBuyerGroupAndEntitlement';
+// import BG_MEMBER_OBJECT from '@salesforce/schema/BuyerGroupMember';
+// import WEB_STORE_BG_OBJECT from '@salesforce/schema/WebStoreBuyerGroup';
+// import COMMERCE_ENTITLEMENT_OBJECT from '@salesforce/schema/CommerceEntitlementPolicy';
+// import COMMERCE_ENTITLEMENT_BG_OBJECT from '@salesforce/schema/CommerceEntitlementBuyerGroup';
 
 const PROD_REQUESTS = "Product Requests";
 const CHILD_PROD_REQUEST = "Child Product Requests";
@@ -43,12 +61,17 @@ const SUCCESS_VARIANT = "success";
 const ERROR_TITLE = "Error!";
 const ERROR_VARIANT = "error";
 const PROG_PLAN_REQUEST= RT_ProductRequest_Program;
+const PROG_PLAN_WITHOUT_PATHWAY = RT_ProductRequest_Program_Without_Pathway;
+const SOA_REQUEST = RT_ProductRequest_SOA;
+const EDUC_CONSULTANCY_REQ = RT_ProductRequest_Educ_Consultancy;
+const CORPORATE_BUNDLE_REQ = RT_ProductRequest_Corporate_Bundle;
 
 export default class AddProductRequest extends NavigationMixin(LightningElement) {
     @api productRequestForOpe;
     @api recordTypeMap;
     @api fieldLayoutMap;
     @api recordId;
+    @api productSpecId;
 
     recordTypeMap = [];
     isLoading = true;
@@ -71,6 +94,8 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
     objectLabelName = 'Product Request';
     prodReqId;
     programDeliveryStructure;
+    primaryAccountId;
+    primaryAccountName;
 
     recordTypeLabel = RECORD_TYPE_LABEL;
 
@@ -99,21 +124,101 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
     
     //checks if user selected Program 
     get isProgramSelected(){
-        return this.selectedRecordTypeName == PROG_PLAN_REQUEST;
+        return this.selectedRecordTypeName == PROG_PLAN_REQUEST || this.selectedRecordTypeName.replace(/ /g,'_') == PROG_PLAN_WITHOUT_PATHWAY; 
+    }
+
+    //checks if user selected Standing Offer Arrangement 
+    get isSOASelected(){
+        return this.selectedRecordTypeName.replace(/ /g,'_') == SOA_REQUEST;
+    }
+
+    //checks if user selected Educational Consultancy 
+    get isEducConsultancy(){
+        return this.selectedRecordTypeName.replace(/ /g,'_') == EDUC_CONSULTANCY_REQ;
+    }
+
+    //checks if user selected Corporate Bundle
+    get isCorporateBundleSelected(){
+        return this.selectedRecordTypeName.replace(/ /g,'_') == CORPORATE_BUNDLE_REQ;
     }
 
     //sets the Object to be Created
     get objectToBeCreated(){
-        return this.isProgramSelected ? PROGRAM_PLAN_OBJECT.objectApiName: COURSE_OBJECT.objectApiName;
+        if(this.isProgramSelected){
+
+            return PROGRAM_PLAN_OBJECT.objectApiName;
+        }else if (this.isSOASelected){
+
+            return BUYER_GROUP_OBJECT.objectApiName;
+        }else if (this.isEducConsultancy){
+
+            return EDUC_CONSULTANCY_OBJ.objectApiName;
+        }else if (this.isCorporateBundleSelected){
+
+            return ASSET_OBJ.objectApiName;
+        }else{
+
+            return COURSE_OBJECT.objectApiName;
+        }
+    }
+
+    get isDiagnosticTool(){
+        return this.selectedRecordTypeName.replace(/ /g,'_') == RT_PR_DIAGNOSTIC_TOOL;
     }
 
     //gets the Object Name
     get objectLabel(){
-        return this.isProgramSelected ? this.programPlanObjectInfo.data.label : this.courseObjectInfo.data.label;
+    
+        if(this.isProgramSelected){
+
+            return this.programPlanObjectInfo.data.label;
+            
+
+        } else if(this.isSOASelected){
+
+            return this.buyerGroupObjectInfo.data.label;
+
+        } else if(this.isEducConsultancy){
+
+            return this.educConsultancyObjectInfo.data.label;
+        } else if(this.isCorporateBundleSelected){
+
+            return this.assetObjectInfo.data.label;
+        }else{
+
+            return this.courseObjectInfo.data.label;
+        }
     }
 
     get disableAddExistingButton(){
         return this.existingProdReqId == '' || this.savingExistingPR?true:false; 
+    }
+
+    get disableProgramStructure(){
+        if(this.parentRecord.isSOA){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    get searchLabel(){
+
+        //if parent is SOA add the lalbel with program
+        if(this.parentRecord.isSOA){
+            return "Course/Program Product Request";
+        } else{
+            return "Course Product Request";
+        }
+    }
+
+    get isParentSOA(){
+        
+        if(this.parentRecord.isSOA){
+            return true;
+        } else{
+            return false;
+        }
     }
 
     //gets object info of product request object
@@ -131,6 +236,21 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
     @wire(getObjectInfo, { objectApiName: PROGRAM_PLAN_OBJECT})
     programPlanObjectInfo;
 
+    //get object info of buyer group object
+    //used to get recordtyeps
+    @wire(getObjectInfo, { objectApiName: BUYER_GROUP_OBJECT})
+    buyerGroupObjectInfo;
+
+    //get object info of consultancy object
+    //used to get recordtyeps
+    @wire(getObjectInfo, { objectApiName: EDUC_CONSULTANCY_OBJ})
+    educConsultancyObjectInfo;
+
+    //get object info Asset object
+    //used to get recordtyeps
+    @wire(getObjectInfo, { objectApiName: ASSET_OBJ})
+    assetObjectInfo;
+
     //opens selection modal
     //sort,filter and show recordtypes for seletion
     @api openSelectionModal(newRecord,row,filter,currentChildren,isChild,prodSpec) {
@@ -142,6 +262,18 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
         this.recordTypeFilter = filter;
         this.isAddExistingModal = !newRecord;
         this.setRecordTypeSelection(filter);
+    }
+
+    @wire(getRecord, { recordId: '$productSpecId', fields: [PRIMARY_ACC_ID_FIELD,PRIMARY_ACC_NAME_FIELD] })
+    prodSpecData({error, data}) {
+        if (data) {
+            this.primaryAccountId = data.fields.Opportunity_Name__r.value.fields.AccountId.value;
+            this.primaryAccountName = data.fields.Opportunity_Name__r.value.fields.Account.value.fields.Name.value;
+
+        } else if (error) {
+            console.log(error);
+            this.generateToast(ERROR_TOAST_TITLE, LWC_Error_General, ERROR_TOAST_VARIANT);
+        }
     }
 
     setRecordTypeSelection(filter){
@@ -173,10 +305,11 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
     
     handleSearch(event){
         this.searchInProgress = true;
-        getSearchedCourseProductRequests({
+        getSearchedProductRequests({
             filterString: event.detail.filterString,
             filterPRList:this.currentChildren,
-            prodSpecRecordType:this.prodSpecData.recordType
+            prodSpecRecordType:this.prodSpecData.recordType,
+            isSOA: this.isParentSOA
         })
         .then(result =>{
             if(result){
@@ -203,7 +336,9 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
         searchItem.id = item.Id;
         if(item.Courses__r && item.Courses__r[0] && item.Courses__r[0].Name){
             searchItem.label = item.Courses__r[0].Name;
-        }else{
+        } else if(item.Program_Plans__r && item.Program_Plans__r[0] && item.Program_Plans__r[0].Name){
+            searchItem.label = item.Program_Plans__r[0].Name;
+        } else{
             searchItem.label = '';
         }
         searchItem.meta = item.Name + ' • ' + item.RecordType.Name;
@@ -377,14 +512,30 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
         let fields = event.detail.fields;
         let today = new Date();
         let todayDate=today.toISOString();
+        let buyerGroupDate = todayDate.substring(0,19).replace('T',' ');
        
-        if(!this.isProgramSelected){
+        //if Standing Offer Arrangement record is selected
+        if(this.isSOASelected){
+            fields.Name = fields.Name + ' ' + buyerGroupDate;
+            fields.Product_Request__c = this.prodReqId;
+            fields.Start_Date__c = todayDate;
+            fields.Primary_Account__c = this.primaryAccountId;
+
+        } else if (this.isEducConsultancy) {
+            fields.Product_Request__c = this.prodReqId;
+            fields.Start_Date__c = todayDate;
+            
+        } else if (this.isCorporateBundleSelected) {
+            fields.Product_Request__c = this.prodReqId;
+            fields.AccountId = this.primaryAccountId;
+            
+        } else if(!this.isProgramSelected){
             fields.ProductRequestID__c = this.prodReqId;
             fields.RecordTypeId=Object.keys(courseRtis).find(rti => courseRtis[rti].name == this.selectedRecordTypeName);
             fields.hed__Account__c=this.accountId;
             fields.Start_Date__c = todayDate;
-        }
-        else{
+
+        } else{
             fields.Product_Request__c = this.prodReqId;
             fields.RecordTypeId=Object.keys(programPlanRtis).find(rti => programPlanRtis[rti].name == this.selectedRecordTypeName);
             this.programDeliveryStructure = fields.Program_Delivery_Structure__c;
@@ -396,6 +547,92 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
     //updates product request status after course/program plan insert to avoid hitting validation rules
     //navigates to updated product request after
     updateProductRequestStatusAndRedirect(event){
+
+        //if corporate bundle need to create these records
+        if (this.isCorporateBundleSelected || this.isSOASelected) {
+            // Get Product Category Id
+            createBuyerGroupAndEntitlement({
+                productRequestId: this.prodReqId,
+                accountId: this.primaryAccountId, 
+                accountName: this.primaryAccountName,
+                isCorporateBundle: this.isCorporateBundleSelected,
+                isSoa: this.isSOASelected
+            })
+            .then((result) => {
+                //code
+            })
+            .catch((error) => {
+                this.showToast(ERROR_TITLE,LWC_Error_General,ERROR_VARIANT);
+                console.log("error createBuyerGroupEntitlement");
+                console.log(error);
+            });
+            
+            // //create BuyerGroup
+            // let bgFields = {};
+            // bgFields.Name = this.primaryAccountName;
+            // const fields = {...bgFields};
+            // const recordInput = { apiName: BUYER_GROUP_OBJECT.objectApiName, fields};
+            // createRecord(recordInput)
+            // .then(bgRecord => {
+
+            //     //create BuyerGroupMember
+            //     let bgMemberFields = {};
+            //     bgMemberFields.BuyerGroupId = bgRecord.Id;
+            //     bgMemberFields.BuyerId = this.primaryAccountId;
+            //     const fields = {...bgMemberFields};
+            //     const recordInput = { apiName: BG_MEMBER_OBJECT.objectApiName, fields};
+            //     createRecord(recordInput)
+            //     .then(bgMemberRecord => {
+            //         //code
+            //     })
+            //     .catch(error => {
+            //         this.showToast(ERROR_TITLE,LWC_Error_General,ERROR_VARIANT);
+            //         console.log("error BuyerGroupMember");
+            //         console.log(error);
+            //     });
+
+            //     //create CommerceEntitlementPolicy
+            //     let commerceEntitlementFields = {};
+            //     commerceEntitlementFields.CanViewPrice = true;
+            //     commerceEntitlementFields.CanViewProduct = true;
+            //     commerceEntitlementFields.IsActive = true;
+            //     commerceEntitlementFields.Name = this.primaryAccountName;
+            //     const fieldsEnt = {...commerceEntitlementFields};
+            //     const recordInputEnt = { apiName: COMMERCE_ENTITLEMENT_OBJECT.objectApiName, fieldsEnt};
+            //     createRecord(recordInputEnt)
+            //     .then(commerceEntitlementRecord => {
+
+            //         //create CommerceEntitlementBuyerGroup
+            //         let commerceEntitlementBGFields = {};
+            //         commerceEntitlementBGFields.BuyerGroupId = bgRecord.Id;
+            //         commerceEntitlementBGFields.PolicyId = commerceEntitlementRecord.Id;
+            //         const fieldsEnt = {...commerceEntitlementFields};
+            //         const recordInputEnt = { apiName: COMMERCE_ENTITLEMENT_BG_OBJECT.objectApiName, fieldsEnt};
+            //         createRecord(recordInputEnt)
+            //         .then(record => {
+            //             //code
+            //         })
+            //         .catch(error => {
+            //             this.showToast(ERROR_TITLE,LWC_Error_General,ERROR_VARIANT);
+            //             console.log("error CommerceEntitlementBuyerGroup");
+            //             console.log(error);
+            //         });
+
+            //     })
+            //     .catch(error => {
+            //         this.showToast(ERROR_TITLE,LWC_Error_General,ERROR_VARIANT);
+            //         console.log("error CommerceEntitlementPolicy");
+            //         console.log(error);
+            //     });   
+            // })
+            // .catch(error => {
+            //     this.showToast(ERROR_TITLE,LWC_Error_General,ERROR_VARIANT);
+            //     console.log("error BuyerGroup");
+            //     console.log(error);
+            // });
+            
+        }
+
         let productReqfields = {};
         if(this.isChild){
             this.createRelatedProdRequest(this.prodReqId);

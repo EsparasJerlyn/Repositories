@@ -4,7 +4,7 @@ resources:
   repositories:
     - repository: SFDX-PIPELINES
       type: bitbucket
-      endpoint: Bitbucket_QUT2
+      endpoint: Bitbucket_QUT
       name: qutdev/sfdx-pipelines
       ref: main ## PRODUCTION pipeline branch
       #ref: feature/DEPP-2855-navmenufix ## DEV pipeline branch sdf

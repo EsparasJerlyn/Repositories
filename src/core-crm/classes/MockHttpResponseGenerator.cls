@@ -11,7 +11,7 @@
       | angelika.j.s.galang       | September 16, 2021    | DEP1-22      | Added mock response for CLMS                        | 
       |                           |                       |              |                                                     | 
  */
-@IsTest
+@isTest
 public class MockHttpResponseGenerator implements HttpCalloutMock {
 
     private static final String ENDPOINT_ADDRESS_LOOKUP = 'callout:LOQATE/harmony/rest/address/lookup';

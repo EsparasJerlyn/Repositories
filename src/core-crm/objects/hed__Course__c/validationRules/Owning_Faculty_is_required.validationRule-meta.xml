@@ -9,7 +9,8 @@
         RecordType.DeveloperName = &apos;Short_Course&apos;,
         RecordType.DeveloperName = &apos;Unit&apos;,
         RecordType.DeveloperName = &apos;Module&apos;,
-        RecordType.DeveloperName = &apos;Individual_Coaching&apos;
+        RecordType.DeveloperName = &apos;Individual_Coaching&apos;,
+        RecordType.DeveloperName = &apos;Group_Coaching&apos;
   ),
 
  ISPICKVAL( ProductRequestID__r.Product_Request_Status__c , &apos;Design&apos;),

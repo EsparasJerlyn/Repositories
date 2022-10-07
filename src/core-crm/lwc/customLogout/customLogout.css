@@ -1,3 +1,4 @@
 .noFloat {
+    display: none !important;
     float: none !important;
 }

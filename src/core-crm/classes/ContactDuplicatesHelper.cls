@@ -6,10 +6,10 @@
  * @author Accenture
  * 
  * @history
- *    | Developer                 | Date                  | JIRA                 | Change Summary                      |
+ *    | Developer                 | Date                  | JIRA                 | Change Summary                           |
  *    |---------------------------|-----------------------|----------------------|------------------------------------------|
- *    | angelika.j.s.galang       | May 17, 2022          | DEPP-1455            | Created File                        | 
- *    | alexander.cadalin         | June 22, 2022         | DEPP-3056            | Appended detectDuplicateInEmails    |
+ *    | angelika.j.s.galang       | May 17, 2022          | DEPP-1455            | Created File                             |
+ *    | alexander.cadalin         | June 22, 2022         | DEPP-3056            | Appended detectDuplicateInEmails         |
  *    | alexander.cadalin         | July 30, 2022         | DEPP-3623            | Included within batch duplicate checking |
  */
 public without sharing class ContactDuplicatesHelper {

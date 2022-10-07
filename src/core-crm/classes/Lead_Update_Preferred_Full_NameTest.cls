@@ -11,7 +11,7 @@
       | angelika.j.s.galang       | January 7, 2021       | DEPP-1435    | Created file                                | 
       |                           |                       |              |                                             | 
 */
-@IsTest(SeeAllData = false)
+@isTest
 private class Lead_Update_Preferred_Full_NameTest {
 
     private static final String TEST_FIRST_NAME = 'TestCustomFirstName';
@@ -19,7 +19,7 @@ private class Lead_Update_Preferred_Full_NameTest {
     private static final String STR_QUTEX = 'QUTeX';
     private static User currentUser = TestDataFactory.createUserRecords(1, STR_QUTEX).iterator().next();
 
-    @IsTest
+    @isTest
     private static void insertLeadAssignFirstNameTest(){
         System.runAs(currentUser){
             Account acc = TestDataFactory.createTestAccountRecords(1).iterator().next(); 
@@ -42,7 +42,7 @@ private class Lead_Update_Preferred_Full_NameTest {
         }
     }
 
-    @IsTest
+    @isTest
     private static void updateLeadPreferredGivenNameTest(){
         System.runAs(currentUser){
             Account acc = TestDataFactory.createTestAccountRecords(1).iterator().next(); 

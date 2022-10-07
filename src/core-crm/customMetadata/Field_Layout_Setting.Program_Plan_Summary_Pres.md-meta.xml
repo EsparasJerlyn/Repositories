@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Program Plan Summary</label>
+    <protected>false</protected>
+    <values>
+        <field>Field_Dependency__c</field>
+        <value xsi:type="xsd:string">Prescribed Program</value>
+    </values>
+    <values>
+        <field>Left_Column_Long__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Left_Column__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Left_Right_Column_Long__c</field>
+        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Name&quot;},
+{&quot;field&quot;:&quot;Code__c&quot;},
+{&quot;field&quot;:&quot;hed__Start_Date__c&quot;},
+{&quot;field&quot;:&quot;hed__End_Date__c&quot;},
+{&quot;field&quot;:&quot;Program_Delivery_Structure__c&quot;},
+{&quot;field&quot;:&quot;Type__c&quot;},
+{&quot;field&quot;:&quot;Delivery_Type__c&quot;},
+{&quot;field&quot;:&quot;Collaboration_with_External_Organisation__c&quot;},
+{&quot;field&quot;:&quot;Owning_Faculty__c&quot;},
+{&quot;field&quot;:&quot;External_Organisation_Details__c&quot;},
+{&quot;field&quot;:&quot;Implementation_Year__c&quot;},
+{&quot;field&quot;:&quot;Suggested_Delivery_Dates__c&quot;}
+]</value>
+    </values>
+    <values>
+        <field>Order__c</field>
+        <value xsi:type="xsd:double">1.0</value>
+    </values>
+    <values>
+        <field>Record_Type_Setting__c</field>
+        <value xsi:type="xsd:string">Program_Without_Pathway</value>
+    </values>
+    <values>
+        <field>Right_Column_Long__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Right_Column__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Section_Label__c</field>
+        <value xsi:type="xsd:string">Program Plan Summary</value>
+    </values>
+    <values>
+        <field>Single_Column_Long__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Single_Column__c</field>
+        <value xsi:nil="true"/>
+    </values>
+</CustomMetadata>

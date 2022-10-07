@@ -4,7 +4,11 @@ public class LMSCourseEnrollmentBatchHandlerTest {
     private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
 
-    @testSetup static void setup() {
+    @testSetup 
+    static void setup() {
+        Test.startTest();
+        BypassTriggers__c bypass = new BypassTriggers__c(Bypass__c = true, SetupOwnerId = UserInfo.getOrganizationId());
+      insert bypass;
         List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
         for(Account acc : accounts){
             acc.RecordTypeId = ACCT_UNIV_DEP_ID;
@@ -32,12 +36,14 @@ public class LMSCourseEnrollmentBatchHandlerTest {
             courseEnrollment.recordTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByName().get('Student').getRecordTypeId();
         }
         insert courseConnections;
+        Test.stopTest();
     }
 
 
     @isTest
     static void testCourseEnrollmentLMSUpdate() 
     {
+        Test.startTest();
         Contact contact = [SELECT Id, QUT_Identity_ID__c, QUT_Employee_ID__c, QUT_Student_ID__c  FROM Contact LIMIT 1];
         contact.QUT_Identity_ID__c = 'test';
         contact.QUT_Employee_ID__c = 'test';
@@ -55,7 +61,6 @@ public class LMSCourseEnrollmentBatchHandlerTest {
         courseOffering.hed__Start_Date__c = System.today();
         update courseOffering;
         
-        Test.startTest();
         LMSCourseEnrollmentBatchHandler job = new LMSCourseEnrollmentBatchHandler();
         DataBase.executeBatch(job, 200); 
         Test.stopTest();

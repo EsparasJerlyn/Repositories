@@ -11,15 +11,19 @@
       | angelika.j.s.galang       | November 2, 2021      | DEPP-732     | Created file                                | 
       |                           |                       |              |                                             | 
 */
-@IsTest(SeeAllData = false)
+@isTest
 private class Account_Update_Triggered_FlowTest {
 
     private static final String STR_QUTEX = 'QUTeX';
-    private static User currentUser = TestDataFactory.createUserRecords(1, STR_QUTEX).iterator().next();
     
-    @IsTest
+    @testSetup
+    static void makeData(){
+        TestDataFactory.generateTestUsers();
+    }
+
+    @isTest
     private static void updateAbnTest(){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactory.getProgramAdminUser()){
             List<Account> accList = TestDataFactory.createTestAccountRecords(100);
             for(Account acc : accList){
                 acc.AccountABNEntity_Validation__c = 'Valid';

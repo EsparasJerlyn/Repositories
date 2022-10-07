@@ -7,9 +7,10 @@
  * @history
  *    | Developer                 | Date                  | JIRA                 | Change Summary               |
       |---------------------------|-----------------------|----------------------|------------------------------|
-      | roy.nino.s.regala         | May 02, 2022          | DEPP-1478            | CreatedFile                  | 
+      | roy.nino.s.regala         | May 02, 2022          | DEPP-1478            | CreatedFile                  |
+      | alexander.cadalin         | September 07, 2022    |                      | Test Error Fixes             | 
  */
-@isTest(SeeAllData=false)
+@isTest
 public with sharing class SetupCertificateVFPageCtrlTest {
     private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
     private static string studentRT = System.Label.RT_CourseConnection_Student;
@@ -18,12 +19,27 @@ public with sharing class SetupCertificateVFPageCtrlTest {
     private static String rtProdRequestActivity = System.Label.RT_ProductRequest_Activity;
     private static Id studentRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(studentRT).getRecordTypeId();
     private static Id studentProgramRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(studentProgramRT).getRecordTypeId();
+    private static Id facultyRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(facultyRT).getRecordTypeId();
     private static Id opeActProdReqRecType = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(rtProdRequestActivity).getRecordTypeId();
     private static Integer numberOfRecords = 100;
     private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
+    private static final String FACULTY_CONTACT_FNAME = 'test firstname faculty';
+    private static final String FACULTY_CONTACT_LNAME = 'test lastname';
+    @testSetup
+    static void setup(){
+        Test.startTest();
+        Contact facultyContact = new Contact(FirstName = FACULTY_CONTACT_FNAME, LastName = FACULTY_CONTACT_LNAME);
+        insert facultyContact;
 
-    @IsTest
+        hed__Course_Enrollment__c faculty = new hed__Course_Enrollment__c();
+        faculty.hed__Contact__c = facultyContact.Id;
+        faculty.RecordTypeId = facultyRecTypeId;
+        insert faculty;
+        Test.stopTest();
+    }
+
+    @isTest
     static void testSetupCertificateCourse(){
         System.runAs(currentUser){
             Test.startTest();
@@ -45,7 +61,7 @@ public with sharing class SetupCertificateVFPageCtrlTest {
     }
 
 
-    @IsTest
+    @isTest
     static void testSetupCertificateProgram(){
         System.runAs(currentUser){
             Test.startTest();
@@ -112,6 +128,7 @@ public with sharing class SetupCertificateVFPageCtrlTest {
                 studentProgram.Paid_in_Full__c = 'Yes';
                 studentProgram.Program_Offering__c = offeringId;
                 studentProgram.Marks__c = 80;
+                studentProgram.hed__Status__c = 'Active';
                 studentPrograms.add(studentProgram);
             }
             insert studentPrograms;
@@ -134,13 +151,7 @@ public with sharing class SetupCertificateVFPageCtrlTest {
                 productRequest.RecordTypeId = productRequestRecordType;
             }
             insert productRequests;
-            Contact facultyContact = new Contact(FirstName = 'test firstname faculty', LastName = 'test lastname'); 
-            insert facultyContact;
-            hed__Course_Enrollment__c faculty = new hed__Course_Enrollment__c();
-            faculty.hed__Contact__c = facultyContact.Id;
-            faculty.RecordTypeId = studentRecTypeId;
-            insert faculty;
-            
+                        
             List<hed__Course__c> courses = TestDataFactory.createTestCourseRecords(1, accounts[0].Id, productRequests[0].Id);
             courses[0].Left_Signature__c = '<p><img src="https://www.w3schools.com/w3css/img_lights.jpg" alt="test.jpg"></img></p>';
             courses[0].Right_Signature__c = '<p><img src="https://www.w3schools.com/w3css/img_lights.jpg" alt="test.jpg"></img></p>';
@@ -162,11 +173,11 @@ public with sharing class SetupCertificateVFPageCtrlTest {
                 contacts[i].Email = 'testIdeaFormUser'+i+'@mailinator.com';
             }
             insert contacts;
-
+                        
             List<hed__Course_Offering__c> courseOfferings = TestDataFactory.createTestCourseOfferingRecord(1, courses, terms);
             courseOfferings[0].hed__Start_Date__c = date.today() + 1;
             courseOfferings[0].hed__End_Date__c = date.today() + 2;
-            courseOfferings[0].Primary_Facilitator__c = faculty.Id;
+            courseOfferings[0].Primary_Facilitator__c = [SELECT Id FROM hed__Course_Enrollment__c WHERE hed__Contact__r.FirstName =: FACULTY_CONTACT_FNAME].Id;
             
             insert courseOfferings;
 
@@ -174,19 +185,21 @@ public with sharing class SetupCertificateVFPageCtrlTest {
 
             List<hed__Course_Enrollment__c> students = new List<hed__Course_Enrollment__c>();
             for(Contact contact : contacts){
+                if(contact.FirstName == FACULTY_CONTACT_FNAME) { continue; }
                 hed__Course_Enrollment__c student = new hed__Course_Enrollment__c();
                 student.hed__Contact__c = contact.Id;
                 student.RecordTypeId = studentRecTypeId;
                 student.Paid_in_Full__c = 'Yes';
                 student.hed__Course_Offering__c = offeringId;
                 student.Marks__c = 80;
+                student.hed__Status__c = 'Active';
                 students.add(student);
             }
             insert students;
         }
     }
     
-     @IsTest
+     @isTest
      private static void getFontSizeXSmallTest(){
          Integer prodNameLength;
          Test.startTest();
@@ -197,7 +210,7 @@ public with sharing class SetupCertificateVFPageCtrlTest {
 		 System.assert(TRUE, 'x-small-font'); 
     }
     
-     @IsTest
+     @isTest
      private static void getFontSizeSmallTest(){
          Integer prodNameLength;
          Test.startTest();
@@ -208,7 +221,7 @@ public with sharing class SetupCertificateVFPageCtrlTest {
 		 System.assert(TRUE, 'small-font'); 
     }
     
-    @IsTest
+    @isTest
      private static void getFontSizeMediumTest(){
          Integer prodNameLength;
          Test.startTest();
@@ -219,7 +232,7 @@ public with sharing class SetupCertificateVFPageCtrlTest {
 		 System.assert(TRUE, 'medium-font'); 
     }
     
-     @IsTest
+     @isTest
      private static void getFontSizeLargeTest(){
          Integer prodNameLength;
          Test.startTest();

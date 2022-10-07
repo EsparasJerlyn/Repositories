@@ -25,7 +25,7 @@
       | roy.nino.s.regala              | July 30, 2022         | DEPP-3577              | removed send welcome email logic|
       | eugene.andrew.abuan            | August 04, 2022       | DEPP-3677              | Added logic for send welcome    |
       |                                |                       |                        | for Online Self-paced           |
-
+      | john.m.tambasen                | September 23, 2022    | DEPP-4367              | birthdate validation            |
 
 
  */
@@ -45,12 +45,14 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
    * @param newItems - List of Contact.Trigger.new
    */
   public void beforeInsert(List<SObject> newItems) {
+
+    setContactOwner((List<Contact>) newItems);
+    ContactTriggerHelper.reparentAccount((List<Contact>)newItems);
     ContactImageHelper.validateContactImageFile((List<Contact>) newItems);
-    ContactTriggerHelper.setPrimaryBusinessOrgFromParent((List<Contact>) newItems);
-      
     // Call method to detect if emails used in contacts creation is already being used
     // anywhere on the organization.
     ContactDuplicatesHelper.detectDuplicatesInEmails((List<Contact>) newItems, null);
+    ContactTriggerHelper.birthdateValidation((List<Contact>) newItems);
   }
 
   /**
@@ -68,6 +70,8 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
     // Call method to detect if emails used in contacts update is already being used
     // anywhere on the organization.
     ContactDuplicatesHelper.detectDuplicatesInEmails((List<Contact>) newItems.values(), (Map<Id, Contact>) oldItems);
+    ContactTriggerHelper.createAccountContactRelationRecords((List<Contact>) newItems.values(),(Map<Id, Contact>) oldItems);
+    ContactTriggerHelper.birthdateValidation((List<Contact>) newItems.values());
   }
 
   /**
@@ -79,13 +83,10 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
       (List<Contact>) newItems.values(),
       null
     );
-    createChildMCPersona((List<Contact>) newItems.values());
-    // removed (commented out) as per DEPP-3056
-    // ContactDuplicatesHelper.detectDuplicates((Map<Id,Contact>) newItems);
 
     if(!isRunning){
       isRunning = true;
-      ContactTriggerHelper.setPrimaryBusinessOrgAsParent((List<Contact>) newItems.values());
+      ContactTriggerHelper.createAccountContactRelationRecords((List<Contact>) newItems.values(), null);
       ContactWithMatchingLeadHelper.detectLeadDuplicates((Map<Id,Contact>) newItems);
       List<Id> contactIds = new List<Id>();
       for(Contact contact : (List<Contact>) newItems.values()){
@@ -93,6 +94,7 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
       }
       ContactWithMatchingLeadHelper.convertLeadOnInsert(contactIds);
     }
+    createChildMCPersona((List<Contact>) newItems.values());
   }
 
   /**
@@ -205,6 +207,8 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
   public void sendWelcomeEmailOnlineSelfPaced( Map<Id, Contact> newContactItems, Map<Id, Contact> oldContact){
     Set<Id> programOfferingIdSet = new Set<Id>();
     Set<Id> courseOfferingIdSet = new Set<Id>();
+    List<Program_Offering__c> programOfferings = new List<Program_Offering__c>();
+    List<hed__Course_Offering__c> courseOfferings = new List<hed__Course_Offering__c>();
 
     // Query Course Connection Details based on the Contact Id
     //Id: hed__Course_Offering__c or Program_Offering__c
@@ -242,27 +246,32 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
 
     Set<Id> programPlanIdSet = new Set<Id>();
     Set<Id> courseIdSet = new Set<Id>();
-
+    
     //Query Program Offering to get valid Offerings based on status and Start Date
-    List<Program_Offering__c> programOfferings = [
-      SELECT 
-        Id , 
-        hed_Program_Plan__c
-      FROM Program_Offering__c
-      WHERE Id IN: programOfferingIdSet 
-      AND Start_Date__c < today
-      AND IsActive__c = true
-    ];
-
+    if(!programOfferingIdSet.isEmpty()){
+      programOfferings = [
+        SELECT 
+          Id , 
+          hed_Program_Plan__c 
+        FROM Program_Offering__c
+        WHERE Id IN: programOfferingIdSet 
+        AND Start_Date__c < today
+        AND IsActive__c = true
+      ];
+    }
+    
     //Query Course Offering
-    List<hed__Course_Offering__c> courseOfferings = [
-      SELECT Id,
-      hed__Course__c 
-      FROM hed__Course_Offering__c
-      WHERE Id IN: courseOfferingIdSet
-      AND hed__Start_Date__c < today
-      AND IsActive__c = true
-    ];
+    if(!courseOfferingIdSet.isEmpty()){
+      courseOfferings = [
+        SELECT Id,
+        hed__Course__c 
+        FROM hed__Course_Offering__c
+        WHERE Id IN: courseOfferingIdSet
+        AND hed__Start_Date__c < today
+        AND IsActive__c = true
+      ];
+    }
+    
 
     // Populate the Course/ProgramPlan Set based on the offering.
     for(Program_Offering__c programOffering : programOfferings){
@@ -279,25 +288,20 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
 
     Set<Id> validContactForEmail = new Set<Id>();
     // Query Product based on the ProgramPlan/Course
-    //PROGRAM PLAN
-    for(Product2 product : [SELECT Id,
-                                    Program_Plan__c
-                              FROM Product2
-                              WHERE Delivery__c INCLUDES ('Online Self-paced')
-                              AND Program_Plan__c IN: programPlanIdSet]){
-      if(productCourseConnectionMap.containsKey(product.Program_Plan__c)){
-        validContactForEmail.add(productCourseConnectionMap.get(product.Program_Plan__c).hed__Contact__c);
-      }                    
-    }
-    //COURSE
-    for(Product2 product : [SELECT Id,
-                                  Course__c
-                            FROM Product2
-                            WHERE Delivery__c INCLUDES ('Online Self-paced')
-                            AND Course__c IN : courseIdSet]){
-      if(productCourseConnectionMap.containsKey(product.Course__c)){
-        validContactForEmail.add(productCourseConnectionMap.get(product.Course__c).hed__Contact__c);
-      }                    
+    //course/program plan
+    if(!programPlanIdSet.isEmpty() || !courseIdSet.isEmpty()){
+        for(Product2 product : [SELECT Id,
+                                Program_Plan__c
+                                FROM Product2
+                                WHERE Delivery__c INCLUDES ('Online Self-paced')
+                                AND (Program_Plan__c IN: programPlanIdSet
+                                OR Course__c IN: courseIdSet)]){
+        if(productCourseConnectionMap.containsKey(product.Program_Plan__c)){
+          validContactForEmail.add(productCourseConnectionMap.get(product.Program_Plan__c).hed__Contact__c);
+        }else if(productCourseConnectionMap.containsKey(product.Course__c)){
+          validContactForEmail.add(productCourseConnectionMap.get(product.Course__c).hed__Contact__c);
+        }                    
+      }
     }
 
     // Process
@@ -314,8 +318,9 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
         }
       }
     }
-
-    ContactUserNameCreatedHelper.sendEmailUsernameCreated(toSendEmail);
+    if(!toSendEmail.isEmpty()){
+      ContactUserNameCreatedHelper.sendEmailUsernameCreated(toSendEmail);
+    }
   } 
 
   /**
@@ -327,970 +332,18 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
     return bypass.isDisabled();
   }
 
-  public static void increaseTestCoverage(){
-    Integer i = 0;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
-    i++;
-    i--;
+  /**
+   * @description set the contact owner to the owner of the account associated with the current login user's contact if the current user is having UserType of PowerPartner
+   * @param contacts the list of contacts to set owner for
+   */
+  private void setContactOwner(List<Contact> contacts) {
+    if (UserInfo.getUserType() == 'PowerPartner') {
+
+      User u = [Select Id, Contact.hed__Primary_Organization__r.ownerId from User where id = :UserInfo.getUserId()];
+
+      for (Contact c : contacts) {
+        c.ownerId = u.Contact.hed__Primary_Organization__r.ownerId;
+      }
+    }
   }
 }

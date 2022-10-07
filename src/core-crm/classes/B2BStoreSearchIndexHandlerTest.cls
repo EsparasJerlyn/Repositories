@@ -11,7 +11,7 @@
       | marygrace.li@qut.edu.au        | November 22, 2021     | DEPP-131               | Created file                 | 
       |                                |                       |                        |                              | 
  */
-@IsTest
+@isTest
 public class B2BStoreSearchIndexHandlerTest {
     
      @testSetup static void setupMethod() {
@@ -22,7 +22,7 @@ public class B2BStoreSearchIndexHandlerTest {
     }  
     
     
-    @IsTest
+    @isTest
     public static void testBuildSearchIndex() {
       	
         Test.startTest();

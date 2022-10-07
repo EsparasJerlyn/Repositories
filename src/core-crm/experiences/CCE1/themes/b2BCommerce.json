@@ -1,6 +1,6 @@
 {
   "activeBrandingSetId" : "e03c84bd-6c13-4346-af1c-a9409ab2d594",
-  "customCSS" : "",
+  "customCSS" : ".forceCommunityThemeProfileMenu .profile-name{\n     font-size: 18px !important;     \n\t font-family: 'ProximaNova-Bold' !important; \n\t}\n\t \n   body .forceCommunityThemeHeaderB2B .centerContainer,\n   .forceCommunityThemeHeaderB2B .centerContainer{     \n\tposition: relative;     \n\tbackground: #012A4C;     \n    /*height: auto !important;*/\n\theight: 6.55rem !important;\t   \n\tmargin: 0rem 0rem !important;     \n\tpadding: 1rem 0px; \n\t}  \n\t\n\tbody .forceCommunityThemeHeaderB2B .centerContainer .centerRegion{     \n\t\twidth: 0% !important; \n\t}\n\n\tbody .forceCommunityThemeHeaderB2B .leftRegion{\n                width: auto !important;\n    }\n        \n     body .forceCommunityThemeHeaderB2B .rightRegion{\n                width: 100% !important;\n     }\t\n\t\n\t.forceCommunityThemeProfileMenu .profile-icon {     \n\t\theight: 50px;     \n\t\twidth: 50px; \n\t}  \n\t\n\t.profileMenu .profile-name{     \n\t\tfont-weight: 700;     \n\t\tfont-size: 18px;     \n\t\tline-height: 21px;     \n\t\ttext-align: right;     \n\t\tcolor:#fff !important;     \n\t\tmax-width: 100% !important; \n\t}  \n\t.forceCommunityThemeProfileMenu.b2bHomeHero.profile-loginButton {\n\t\tcolor: #fff;     \n\t\tfont-family: 'ProximaNova' !important;     \n\t\tfont-size: 18px; \n\t} \n\t\n\t.comm-user-profile-menu__trigger{     \n\t\tmax-width: 100% !important; \n\t}   \n\n\t.comm-user-profile-menu .slds-button[community_user-userprofilemenu_userprofilemenu]{  \n\t\t\theight: auto !important; \n\t\t}   \n\t.comm-user-profile-menu__trigger-p[community_user-userProfileMenu_userProfileMenu]{     \n\t\tline-height: 28px !important;     \n\t\tfont-size: 18px !important;     \n\t\tmargin-top: 1px;     \n\t\tcolor:#fff !important; \n        /*text-indent: -9999px;*/\n\t}  \n    p.comm-user-profile-menu__trigger-p {\n        display: none;\n    }\n\tc-store-header{     position: relative; }  \n   .comm-user-profile-menu__trigger-ctn[community_user-userProfileMenu_userProfileMenu] \n    .comm-user-profile-menu__trigger-p[community_user-userProfileMenu_userProfileMenu] {\n    text-align: left;\n    padding: .25rem 0;\n  }\n\n    .forceCommunityThemeHeaderB2B .profileMenu {\n        width:100% !important;\n        margin: 0 !important;\n    }\n\n/* PageBanner css */\n.navBar{\n    max-width: 100% !important;\n    width: 100%;\n}\n/* End of PageBanner css */\n\t\n\t@media only screen and (min-width: 765px) and (max-width: 767px){\n\t.forceCommunityThemeHeaderB2B .rightRegion {         \n\t\tjustify-content: flex-end !important;         \n\t\theight: 50px !important;     \n\t\t} \n\t}  \n\t\n\t@media only screen and (max-width: 767px){ \n\t\t.forceCommunityThemeHeaderB2B .centerContainer .leftRegion div[data-region-name=nav]{\n\t\t\tdisplay: none !important;     \n\t\t}     \n\t\t.forceCommunityThemeLogo .logoImage {\n\t\t\tmargin-left: 0.5rem !important;\n\t\t\tmax-height: 48px !important;     \n\t\t\t} \n\t\t\n\n        .themeLogo .logoImage {\n            height: 45px !important;\n            width: 45px !important;\n            object-fit: cover;\n            object-position: 0;\n            background-size: cover !important;\n    \t\tbackground-position: 0px !important;\n        }\n\n        body .forceCommunityThemeHeaderB2B .centerContainer,\n        .forceCommunityThemeHeaderB2B .centerContainer{     \n            height: 5rem !important;\t   \n        } \n        \n      }  \n\n\t\t@media only screen and (max-width: 764px){          \n\t\t.forceCommunityThemeProfileMenu .profile-icon {      \n\t\t\theight: 50px;      \n\t\t\twidth: 50px;  \n\t\t}          \n\t\tbody .b2bHeader.profileMenu {\n\t\t\tdisplay: block !important;     \n\t\t}   \n\n\t\t body  .forceCommunityThemeHeaderB2B .centerContainer .centerRegion {      \n\t\t\twidth: auto !important;  \n\t\t}          \n\t\tbody .forceCommunityThemeHeaderB2B .rightRegion {         \n\t\t\tjustify-content: flex-end !important;         \n\t\t\twidth: auto !important;         \n\t\t\ttext-align: left !important;         \n\t\t\tpadding-left: 15px !important;\n\t\t\tflex: auto;\n\t\t}          \n\t\t body .forceCommunityThemeHeaderB2B .leftRegion {      \n\t\t    width: 2% !important; \n\t\t\tdisplay: block !important;\n            padding:0px !important;\n\t\t}      \n\t}\n\n[c-prescribedprogram_prescribedprogram].btnCCE button[title]:hover::after,\n[c-productdetailsdisplay_productdetailsdisplay].btnCCE button[title]:hover::after{\n  content: attr(title);\n  position: absolute;\n  top: -100%;\n  left: 0;\n  Background: #032d60;\n  Color: #fff;\n  font-weight: normal; \n  Font-size: 11px;\n  border-radius: 4px;\n  font-family: sans-serif;\n  padding: 0.5rem 1rem;\n}\n\n[c-prescribedprogram_prescribedprogram].btnCCE button[title]:hover::before,\n[c-productdetailsdisplay_productdetailsdisplay].btnCCE button[title]:hover::before\n{\n  content: '';\n  width: 0;\n  height: 0;\n  border-left: 20px solid transparent;\n  border-right: 20px solid transparent;\n  border-top: 20px solid #032d60;\n  position: absolute;\n  left: 6px;\n  top: -14px;\n}\n\n/**hides the location section on user settings*/\n.dropdownvisibility.locationSection {\n    display: none;\n}\n\n/**hides the email*/\n.sectionbox:nth-child(2) {\n  display: none;\n}\n\n/**hides the cancel/save button */\n.forceCommunityUserSettingsCustomizable .paddingcancelsave {\n    display: none;\n}\n\n/**hides the border-bottom*/\n.forceCommunityUserSettingsCustomizable div.row {\n    border-bottom: 0px !important;\n}\n\n/**hides last row */\n.forceCommunityUserSettingsCustomizable .lastRow{\n   display: none; \n}\n\n/*Login Form*/\n.salesforceIdentityLoginForm2 .inverseTextColor {\n    color: #0066B9 !important;\n    text-align: center;\n    display: block;\n    font-family: 'ProximaNova';\n    font-style: normal;\n    font-weight: 400;\n    font-size: 18px;\n    line-height: 21px;\n}\n\n.salesforceIdentityLoginForm2 .inputContainer,\n.salesforceIdentityForgotPassword2 .inputContainer{\n    margin-bottom: 25px !important;\n    padding: 12px;\n    background-color: #ffffff;\n    border: 1px solid #0066B9 !important;\n    border-radius: 0px !important;\n}\n\ndiv#sfdc_username_container lightning-icon,\ndiv#sfdc_password_container lightning-icon {\n    display: none;\n}\n\n#LoginNew .cCenterPanel{\n    width: auto;\n    max-width: 500px;\n    margin:150px 0px;\n}\n\n\n#LoginNew .cCenterPanel::before{\n    position:relative !important;\n}\n\n#LoginNew .cHeaderPanel,\n#LoginNew .cFooterPanel{\n    position: absolute !important;\n}\n\n.iflex{display: inline-block; width: 100%;}\n\n#sfdc_password_container{\n    position:relative;\n    margin-top: 3rem;\n}\n\n#sfdc_password_container::before {\n    content: 'Password';\n    position: absolute;\n    top: -25px;\n    left: 0px;\n    font-family: \"ProximaNova-Bold\";\n    font-size: var(--text-size-18);\n    line-height: 1.3125rem;\n    font-style: var(--text-normal);\n    font-weight: var(--text-weight-700);\n}\n\n.salesforceIdentityLoginBody2{\n    display: block !important;\n}\n.salesforceIdentityLoginForm2 .error {\n    margin-top: -80px !important;\n    margin-bottom: 30px !important;\n    text-align: center;\n    color: #C7026F !important;\n   font-family: \"ProximaNova-Bold\";\n    font-size: 16px;\n    line-height: 1.3125rem;\n    height: 50px;\n    display: flex;\n    justify-content: center;\n    align-content: center;\n    align-items: center;\n    margin: auto;\n}\n\n.salesforceIdentityForgotPassword2 .error {\n   color: #C7026F !important;\n   font-family: \"ProximaNova-Bold\"; \n}\n.salesforceIdentityForgotPassword2 .inputBox {\n    font-family: 'ProximaNova';\n    font-size: 16px;\n}\n\n#sfdc_password_container::after {\n    content: \"*\";\n    position: absolute;\n    top: -28px;\n    left: 79px;\n    color: #B90015;\n    font-family: \"ProximaNova-Bold\";\n}\n\n.error-msg {\n    text-align:center\n}\n\n.salesforceIdentityLoginForm2 .uiButton .label,\n.salesforceIdentityForgotPassword2 .uiButton .label{\n    font-family: 'ProximaNova-Bold' !important; \n}\n\n.salesforceIdentityLoginForm2 .uiButton {\n    margin-bottom: 30px !important;\n}\n\n.salesforceIdentityLoginBody2 .ui-widget {\n    padding-top: 0 !important;\n    padding-bottom: 0 !important;\n}\n\n.salesforceIdentityForgotPassword2 .inputIcon {\n    display: none;\n}\n\n\n@media only screen and (min-width: 320px) and (max-width: 767px){\n    #LoginNew .cCenterPanel .slds-col--padded{\n        margin: 0px 1rem !important;\n    }\n}\n\n\n/*end of loginForm*/\n\n\n/******Main Nav Mobile ********/\n\n/**Plus Sign**/\n.mainNav section.slds-accordion__section button.slds-accordion__summary-action::before {\n    content: '\\2715' !important;\n    font-size: 24px;\n    transform: rotate(45deg);\n    color: #0066B9;\n}\n\n/**X Sign**/\n.mainNav section.slds-accordion__section.slds-is-open button.slds-accordion__summary-action::before {\n    content: '\\2715' !important;\n    font-size: 24px;\n    color: #FFFFFF; \n    transform: rotate(0deg);\n}\n.mainNav span.slds-accordion__summary-content {\n\tfloat:left;\n    width: 100%;\n    font-family: \"ProximaNova-Bold\";\n    font-size:  1.4375rem;\n    line-height: 1.75rem;\n    font-style: normal;\n    font-weight: 700;\n    color:#0066B9;\n}\n\n.mainNav section.slds-accordion__section.slds-is-open span.slds-accordion__summary-content {\n    color:#FFFFFF;\n}\n\n.mainNav button.section-control.slds-button.slds-button_reset.slds-accordion__summary-action {\n    width: 100%;\n    flex-direction: row-reverse;\n}\n\n.mainNav button lightning-primitive-icon {\n    display: none;\n}\n\n.mainNav.slds-accordion__list-item {\n    border-top: 2px solid #0066b9;\n}\n\n.mainNav section.slds-accordion__section {\n    padding: 1.5rem 0;\n}\n\n.mainNav .slds-accordion__section.slds-is-open .slds-accordion__summary {\n    padding: 1.5rem 1rem;\n}\n/******End Main Nav Mobile ********/\n\n/*Subnav customized*/\nbody.comm-page-home div.subnav-custom[c-mobileMenuWrapper_mobileMenuWrapper] .submenu[c-mobileMenuWrapper_mobileMenuWrapper],\nbody.comm-page-home div.subnav-custom[c-homeMenuWrapper_homeMenuWrapper] .submenu[c-homeMenuWrapper_homeMenuWrapper]{\n    top: 462px !important;\n}\n\n@media only screen and (min-width: 768px) and (max-width: 991px){\n    body.comm-page-home div.subnav-custom[c-mobileMenuWrapper_mobileMenuWrapper] .submenu[c-mobileMenuWrapper_mobileMenuWrapper],\n    body.comm-page-home div.subnav-custom[c-homeMenuWrapper_homeMenuWrapper] .submenu[c-homeMenuWrapper_homeMenuWrapper]{\n     top:400px !important;   \n    }\n}\n\nbody.comm-page-custom-manage-registrations .navBarContainer .navBar,\nbody.comm-page-detail-0ZG .navBarContainer .navBar,\nbody.comm-page-custom-detail .navBarContainer .navBar\n{\n    display:none;\n}\n/*end subnav*/\n\n@media only screen and (min-width: 768px){\n    body .forceCommunityThemeHeaderB2B .rightRegion{\n\t\tplace-self: flex-end !important;\n\t}\n    \n    .themeLogo .logoImage{\n        width: 210px !important;\n        height: 55px !important;\n        max-height: none !important;\n    }\n}\n\n.availStartDates span.slds-listbox__option-meta_entity{\n    color:#C7026F !important;\n}",
   "developerName" : "b2b",
   "id" : "56dec416-1e8d-45e1-ad8c-bd03594c48ba",
   "label" : "B2B Commerce",
@@ -18,6 +18,13 @@
     "id" : "88b8d8e1-4267-4476-8d55-e99b1b3f2727",
     "label" : "Login",
     "regions" : [ {
+      "components" : [ {
+        "componentAttributes" : { },
+        "componentName" : "c:storeStaticHeader",
+        "id" : "619372c3-ce66-423f-8d26-e74f73c244f5",
+        "renditionMap" : { },
+        "type" : "component"
+      } ],
       "id" : "3df26003-5f84-4f0f-9953-16ed50080923",
       "regionName" : "header",
       "type" : "region"
@@ -26,6 +33,13 @@
       "regionName" : "content",
       "type" : "region"
     }, {
+      "components" : [ {
+        "componentAttributes" : { },
+        "componentName" : "c:storeFooterStatic",
+        "id" : "f182c4e1-cebf-4b53-824a-a3b59da5b72d",
+        "renditionMap" : { },
+        "type" : "component"
+      } ],
       "id" : "f999763c-8801-43e9-918a-a4a88b62e8e9",
       "regionName" : "footer",
       "type" : "region"
@@ -39,7 +53,7 @@
       "isHeroUnderHeader" : false,
       "isPageWidthFixed" : true,
       "showHeader" : true,
-      "showHero" : true
+      "showHero" : false
     },
     "componentName" : "siteforce:b2bBody",
     "id" : "f486b556-d04e-4f94-9431-46f78593c725",
@@ -56,19 +70,9 @@
         "id" : "fec3779c-ce26-42ee-802c-32d70279d97c",
         "regions" : [ {
           "components" : [ {
-            "componentAttributes" : {
-              "buttonBackgroundColor" : "",
-              "buttonBackgroundHoverColor" : "",
-              "buttonBorderColor" : "rgba(0, 0, 0, 0)",
-              "buttonBorderRadius" : 0,
-              "buttonText" : "Log in",
-              "buttonTextColor" : "",
-              "buttonTextHoverColor" : "",
-              "customizableUserProfileMenuEditor" : "Default_User_Profile_Menu1",
-              "menuStyleSettings" : "{\"selectedMenuStyleSetting\":\"iconAndName\",\"selectedIconSetting\":\"companyLogo\",\"includeCompanyName\":true,\"selectedTextOrientationSetting\":\"left\"}"
-            },
-            "componentName" : "forceCommunity:customizableUserProfileMenu",
-            "id" : "71522fcb-704e-4ca3-a4e9-c318bcca53ff",
+            "componentAttributes" : { },
+            "componentName" : "c:cceLogout",
+            "id" : "2f360489-bfd9-4e98-b7d4-dbdd9f7fb1de",
             "renditionMap" : { },
             "type" : "component"
           } ],
@@ -76,30 +80,6 @@
           "regionName" : "themeHeaderProfileMenu",
           "type" : "region"
         }, {
-          "components" : [ {
-            "componentAttributes" : {
-              "backgroundColor" : "",
-              "borderColor" : "",
-              "borderRadius" : "0",
-              "buttonBackgroundColor" : "",
-              "buttonBackgroundHoverColor" : "",
-              "iconColor" : "",
-              "placeholderText" : "Enter keyword or SKU number",
-              "placeholderTextColor" : "#4a4a4a",
-              "showSearchButton" : true,
-              "showSearchSuggestionsSetup" : true,
-              "suggestionsBackgroundColor" : "rgb(255, 255, 255)",
-              "suggestionsBackgroundHoverColor" : "rgb(249, 249, 250)",
-              "suggestionsDividerColor" : "rgb(217, 219, 221)",
-              "suggestionsTextColor" : "",
-              "suggestionsTextHoverColor" : "",
-              "textColor" : ""
-            },
-            "componentName" : "b2b_search_builder:searchInput",
-            "id" : "fa39f0d9-ae86-4088-8c17-2a59463b843b",
-            "renditionMap" : { },
-            "type" : "component"
-          } ],
           "id" : "9d35073d-0fe9-4854-8f9f-c840d575dfc4",
           "regionName" : "search",
           "type" : "region"
@@ -108,15 +88,6 @@
           "regionName" : "nav",
           "type" : "region"
         }, {
-          "components" : [ {
-            "componentAttributes" : {
-              "cartCountType" : "TotalProductCount"
-            },
-            "componentName" : "b2b_buyer_builder:cartBadge",
-            "id" : "d5dbc574-1385-488d-8919-e891bf3259db",
-            "renditionMap" : { },
-            "type" : "component"
-          } ],
           "id" : "7a4a4be4-bb72-4f7d-aea8-0f97e17de289",
           "regionName" : "cart",
           "type" : "region"
@@ -128,6 +99,19 @@
       "regionName" : "themeHeader",
       "type" : "region"
     }, {
+      "components" : [ {
+        "componentAttributes" : { },
+        "componentName" : "c:moreInfo",
+        "id" : "9c6ff5d1-df07-45a5-a22c-c970e206a112",
+        "renditionMap" : { },
+        "type" : "component"
+      }, {
+        "componentAttributes" : { },
+        "componentName" : "c:storeFooterStatic",
+        "id" : "726687f5-2899-4151-9ee7-041253478bd0",
+        "renditionMap" : { },
+        "type" : "component"
+      } ],
       "id" : "f5839cd0-586a-4a7e-8c44-eceba6df659b",
       "regionName" : "themeFooter",
       "type" : "region"
@@ -171,7 +155,7 @@
       "isHeroUnderHeader" : false,
       "isPageWidthFixed" : true,
       "showHeader" : true,
-      "showHero" : true
+      "showHero" : false
     },
     "componentName" : "siteforce:b2bBody",
     "id" : "dd814bbf-71c2-474c-9465-9fba5f4810cd",
@@ -179,7 +163,7 @@
     "regions" : [ {
       "components" : [ {
         "componentAttributes" : {
-          "backgroundColor" : "#ffffff",
+          "backgroundColor" : "rgb(1, 42, 76)",
           "borderBottomColor" : "rgba(255, 255, 255, 0)",
           "headerWidth" : 1170,
           "showNotifications" : true
@@ -188,19 +172,9 @@
         "id" : "b0e82aba-03ed-4f97-8053-8e1abf32f8e4",
         "regions" : [ {
           "components" : [ {
-            "componentAttributes" : {
-              "buttonBackgroundColor" : "",
-              "buttonBackgroundHoverColor" : "",
-              "buttonBorderColor" : "rgba(0, 0, 0, 0)",
-              "buttonBorderRadius" : 0,
-              "buttonText" : "Log in",
-              "buttonTextColor" : "",
-              "buttonTextHoverColor" : "",
-              "customizableUserProfileMenuEditor" : "Default_User_Profile_Menu1",
-              "menuStyleSettings" : "{\"selectedMenuStyleSetting\":\"iconAndName\",\"selectedIconSetting\":\"companyLogo\",\"includeCompanyName\":true,\"selectedTextOrientationSetting\":\"left\"}"
-            },
-            "componentName" : "forceCommunity:customizableUserProfileMenu",
-            "id" : "29d20fbd-5e65-408c-ab59-85e38a078676",
+            "componentAttributes" : { },
+            "componentName" : "c:cceLogout",
+            "id" : "30e4d684-fd18-4a89-9b45-458f00d87c4b",
             "renditionMap" : { },
             "type" : "component"
           } ],
@@ -208,47 +182,21 @@
           "regionName" : "themeHeaderProfileMenu",
           "type" : "region"
         }, {
-          "components" : [ {
-            "componentAttributes" : {
-              "backgroundColor" : "",
-              "borderColor" : "",
-              "borderRadius" : "0",
-              "buttonBackgroundColor" : "",
-              "buttonBackgroundHoverColor" : "",
-              "iconColor" : "",
-              "placeholderText" : "Enter keyword or SKU number",
-              "placeholderTextColor" : "#4a4a4a",
-              "showSearchButton" : true,
-              "showSearchSuggestionsSetup" : true,
-              "suggestionsBackgroundColor" : "rgb(255, 255, 255)",
-              "suggestionsBackgroundHoverColor" : "rgb(249, 249, 250)",
-              "suggestionsDividerColor" : "rgb(217, 219, 221)",
-              "suggestionsTextColor" : "",
-              "suggestionsTextHoverColor" : "",
-              "textColor" : ""
-            },
-            "componentName" : "b2b_search_builder:searchInput",
-            "id" : "16fda681-941a-4d01-9ff8-4c6c028f1bd9",
-            "renditionMap" : { },
-            "type" : "component"
-          } ],
           "id" : "461b1f4b-f5a6-4fcb-9d6d-80dc16550651",
           "regionName" : "search",
           "type" : "region"
         }, {
+          "components" : [ {
+            "componentAttributes" : { },
+            "componentName" : "c:pageBanner",
+            "id" : "ed26d77d-d574-429c-bc6e-206b8528bb32",
+            "renditionMap" : { },
+            "type" : "component"
+          } ],
           "id" : "7b202782-0ddf-49d2-a79c-26bf6c5a5d50",
           "regionName" : "nav",
           "type" : "region"
         }, {
-          "components" : [ {
-            "componentAttributes" : {
-              "cartCountType" : "TotalProductCount"
-            },
-            "componentName" : "b2b_buyer_builder:cartBadge",
-            "id" : "2712b6c1-a2fe-45d0-b9cb-e4be97f5f7cf",
-            "renditionMap" : { },
-            "type" : "component"
-          } ],
           "id" : "25c0e318-bc8d-401e-8425-c9ee043ef494",
           "regionName" : "cart",
           "type" : "region"
@@ -340,6 +288,19 @@
       "regionName" : "themeHero",
       "type" : "region"
     }, {
+      "components" : [ {
+        "componentAttributes" : { },
+        "componentName" : "c:moreInfo",
+        "id" : "5c59fe61-d669-4df4-a23d-f22713004fd4",
+        "renditionMap" : { },
+        "type" : "component"
+      }, {
+        "componentAttributes" : { },
+        "componentName" : "c:storeFooterStatic",
+        "id" : "5c18f6d4-116e-442b-91fb-6211e2e6650d",
+        "renditionMap" : { },
+        "type" : "component"
+      } ],
       "id" : "32fdee13-9067-4be1-9471-32a06f67a217",
       "regionName" : "themeFooter",
       "type" : "region"

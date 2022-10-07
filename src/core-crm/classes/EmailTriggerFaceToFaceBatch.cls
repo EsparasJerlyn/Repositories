@@ -324,5 +324,5 @@ public with sharing class EmailTriggerFaceToFaceBatch implements Database.Batcha
         public String amount;
         public String storeLink;
         public String userName;
-    }   
+    }
 }

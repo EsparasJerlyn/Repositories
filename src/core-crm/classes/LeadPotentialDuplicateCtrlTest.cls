@@ -12,9 +12,9 @@
       |                           |                       |              |                                             |
       |                           |                       |              |                                             |
 */
-@IsTest(SeeAllData = false)
+@isTest
 private class LeadPotentialDuplicateCtrlTest {
-    private @TestSetup
+    private @testSetup
     static void makeData(){
         List<Account> accounts = TestDataFactory.createTestAccountRecords(2);          
         List<Lead> leads = TestDataFactory.createTestLeadRecords(2);
@@ -34,7 +34,7 @@ private class LeadPotentialDuplicateCtrlTest {
         insert potentialDuplicates;
     }
 
-    @IsTest
+    @isTest
     static void getSelectedLeadTest(){
         List<Lead> leads = [SELECT Id FROM Lead];
         Id recordId = leads[0].Id;
@@ -44,7 +44,7 @@ private class LeadPotentialDuplicateCtrlTest {
         System.assertEquals(true, leadList.size()>0, 'No lead record retrieved.');
     }
 
-    @IsTest
+    @isTest
     static void getLeadPotentialDuplicateTest(){
         List<Lead> leads = [SELECT Id FROM Lead];
         Id recordId = leads[0].Id;
@@ -54,7 +54,7 @@ private class LeadPotentialDuplicateCtrlTest {
         System.assertEquals(true, leadList.size() > 0, 'No dupllicate record(s) retrieved.');
     }
 
-    @IsTest
+    @isTest
     static void mergeLeadsTest(){
         List<Lead> leads = [SELECT Id FROM Lead];
         Id recordId = leads[0].Id;

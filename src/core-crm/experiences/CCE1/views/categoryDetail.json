@@ -6,8 +6,8 @@
   "regions" : [ {
     "components" : [ {
       "componentAttributes" : { },
-      "componentName" : "c:pageBanner",
-      "id" : "c1c8991f-ac5d-4548-9db1-fcff723f0015",
+      "componentName" : "c:mobileMenuWrapper",
+      "id" : "93db08b3-8f18-4580-8901-223551f6ba64",
       "renderPriority" : "NEUTRAL",
       "renditionMap" : { },
       "type" : "component"
@@ -24,7 +24,7 @@
         "showProductImage" : true,
         "term" : "{!term}"
       },
-      "componentName" : "c:searchResults",
+      "componentName" : "c:portalListingPage",
       "id" : "f4d93520-91c9-4f5a-956c-3a5243a50b61",
       "renderPriority" : "NEUTRAL",
       "renditionMap" : { },

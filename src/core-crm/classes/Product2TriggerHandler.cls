@@ -12,12 +12,62 @@
       | john.bo.a.pineda               | May 13, 2022          | DEPP-2591              | Updated to load to Store     |
       | kathy.cornejo                  | July 1, 2022          | DEPP-3303,3367         | Updated decommission logic   |
       | eugene.andrew.abuan            | July 29, 2022         | DEPP-3534              | Added Do no show start date logic   |
-      
+      | eugene.andrew.abuan            | August 15, 2022       | DEPP-2665              | Updated IncludeProductToStore       |
+      | eugene.andrew.abuan            | September 2, 2022     | DEPP-3762              | Updated validateDoNotShowStartDate  |
+      | eugene.andrew.abuan            | September 5, 2022     | DEPP-4102              | Added Program without Pathway       |
+      |                                |                       |                        |                                     |
+
  */
 public without sharing class Product2TriggerHandler implements Disableable, BeforeUpdate, AfterUpdate {
   public static final Id FACULTY_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
     .get('Faculty')
     .getRecordTypeId();
+  public static final Id OPE_RECTYPEID = Schema.SObjectType.Product_Specification__c.getRecordTypeInfosByDeveloperName()
+			.get('OPE')
+			.getRecordTypeId();
+	public static final Id CCE_RECTYPEID = Schema.SObjectType.Product_Specification__c.getRecordTypeInfosByDeveloperName()
+			.get('CCE')
+			.getRecordTypeId();
+	public static final String OPE_ENTITLEMENT_POLICY = 'OPE Entitlement';
+	public static final String OPE_CATALOG = 'Study Catalog';
+	public static final String CCE_CATALOG = 'CCE Catalog';
+	public static final String OPE_CATEGORY_PRODUCTS = 'Products';
+	public static final String CCE_CATEGORY_TEE = 'Tailored Executive Education';
+	//public static final String CCE_CATEGORY_CB = 'Corporate Bundle'; // on diff object trigger?
+	public static final String CCE_CATEGORY_QLS = 'QUTeX Learning Solutions'; // on diff object trigger?
+	public static final List<String> PROD2_CATALOGS = new List<String>{
+			OPE_CATALOG,
+			CCE_CATALOG
+	};
+	public static final List<String> PROD2_CATEGORIES = new List<String>{
+			OPE_CATEGORY_PRODUCTS,
+			CCE_CATEGORY_TEE,
+			CCE_CATEGORY_QLS
+	};
+	public static final Id PR_PROGRAM_RECTYPEID = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName()
+			.get('Program')
+			.getRecordTypeId();
+	public static final Id PR_ACTIVITY_RECTYPEID = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName()
+			.get('Activity')
+			.getRecordTypeId();
+	public static final Id PR_MODULE_RECTYPEID = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName()
+			.get('Module')
+			.getRecordTypeId();
+	public static final Id PR_UNIT_RECTYPEID = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName()
+			.get('Unit')
+			.getRecordTypeId();
+	public static final Id PR_DIAGTOOL_RECTYPEID = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName()
+			.get('Diagnostic_Tool')
+			.getRecordTypeId();
+	public static final Id PR_INDIVCOACHING_RECTYPEID = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName()
+			.get('Individual_Coaching')
+			.getRecordTypeId();
+	public static final Id PR_GROUPCOACHING_RECTYPEID = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName()
+			.get('Group_Coaching')
+			.getRecordTypeId();
+	public static final Id PR_PROGRAMWITHOUTPATHWAY_RECTYPEID = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName()
+			.get('Program_Without_Pathway')
+			.getRecordTypeId();
 
   /**
    * @description call method to validate related Facilitator Contacts if Image is uploaded on Contact Image
@@ -46,7 +96,7 @@ public without sharing class Product2TriggerHandler implements Disableable, Befo
     Map<Id, SObject> oldItems
   ) {
     includeProductToStore(
-      (List<Product2>) newItems.values(),
+      (Map<Id, Product2>) newItems,
       (Map<Id, Product2>) oldItems
     );
     updateCourseFields(
@@ -85,11 +135,11 @@ public without sharing class Product2TriggerHandler implements Disableable, Befo
 
   /**
    * @description method to include Product to Store
-   * @param prod2New - List of Product2.Trigger.new
-   * @param prodOld - List of Product2.Trigger.old
+   * @param prod2New - Map of Product2.Trigger.new
+   * @param prodOld - Map of Product2.Trigger.old
    */
   public void includeProductToStore(
-    List<Product2> prod2New,
+    Map<Id, Product2> prod2New,
     Map<Id, Product2> prodOld
   ) {
     // Get Products with Available to Cart updated to true
@@ -98,7 +148,98 @@ public without sharing class Product2TriggerHandler implements Disableable, Befo
     Map<Id,Product_Request__c> prodRequestToUpdateMap = new Map<Id,Product_Request__c>();
     List<Product2> productsWithPR = new List<Product2>();
     Product_Request__c newPr;
-    for (Product2 prod : prod2New) {
+
+    List<Product2> prodRecTypeList = [
+      SELECT
+          Id,
+          Course__c,
+          Course__r.ProductRequestId__r.Product_Specification__r.RecordTypeId,
+          Course__r.ProductRequestId__r.Product_Specification__r.Opportunity_Name__r.AccountId,
+          Course__r.ProductRequestId__r.RecordTypeId,
+          Program_Plan__c,
+          Program_Plan__r.Product_Request__r.Product_Specification__r.RecordTypeId,
+          Program_Plan__r.Product_Request__r.Product_Specification__r.Opportunity_Name__r.AccountId,
+          Program_Plan__r.Product_Request__r.RecordTypeId,
+          Product_Category__c
+      FROM Product2
+      WHERE Id IN :prod2New.keySet()
+  ];
+
+
+  // Convert Product List to Map
+  Map<Id, Product2> prodRecTypeMap = new Map<Id, Product2>(prodRecTypeList);
+
+  // Get Account Id Set
+  Set<Id> prodAccIdSet = new Set<Id>();
+  Map<Id, Id> productAccMap = new Map<Id,Id>();
+  for (Product2 prodAcc : prodRecTypeList) {
+      // If product is CCE
+      if (
+          prodAcc.Course__r.ProductRequestId__r.Product_Specification__r.RecordTypeId ==
+          CCE_RECTYPEID ||
+          prodAcc.Program_Plan__r.Product_Request__r.Product_Specification__r.RecordTypeId ==
+          CCE_RECTYPEID
+      ){
+        // Add Course Account to Set and Map
+        if (String.isNotBlank(prodAcc.Course__r.ProductRequestId__r.Product_Specification__r.Opportunity_Name__r.AccountId)){
+            prodAccIdSet.add(prodAcc.Course__r.ProductRequestId__r.Product_Specification__r.Opportunity_Name__r.AccountId);
+            productAccMap.put(prodAcc.Id, prodAcc.Course__r.ProductRequestId__r.Product_Specification__r.Opportunity_Name__r.AccountId);
+        }
+
+        // Add Program Plan Account to Set and Map
+        if (String.isNotBlank(prodAcc.Program_Plan__r.Product_Request__r.Product_Specification__r.Opportunity_Name__r.AccountId)){
+            prodAccIdSet.add(prodAcc.Program_Plan__r.Product_Request__r.Product_Specification__r.Opportunity_Name__r.AccountId);
+            productAccMap.put(prodAcc.Id, prodAcc.Program_Plan__r.Product_Request__r.Product_Specification__r.Opportunity_Name__r.AccountId);
+        }
+    }
+  }
+
+  // Get Account Buyer Group Id Set
+  Map<Id, Id> prodAccBGIdMap = new Map<Id, Id>();
+  Map<Id, Set<Id>> accToBGMap = new Map<Id, Set<Id>>();
+  Map<String, Set<Id>> buyerGroupDevNameMap = new Map <String, Set<Id>>();
+  for (BuyerGroupMember prodAccBGM : [
+                                        SELECT 
+                                          BuyerGroupId, 
+                                          BuyerId,
+                                          BuyerGroup.Product_Request__r.RecordType.DeveloperName
+                                        FROM BuyerGroupMember
+                                        WHERE BuyerId IN :prodAccIdSet
+  ]){
+      prodAccBGIdMap.put(prodAccBGM.BuyerGroupId, prodAccBGM.BuyerId);
+
+      //Populate Buyer Group based on the developer name
+      if(String.isNotBlank(prodAccBGM.BuyerGroup.Product_Request__c)){
+        if(!buyerGroupDevNameMap.containsKey(prodAccBGM.BuyerGroup.Product_Request__r.RecordType.DeveloperName)){
+          buyerGroupDevNameMap.put(prodAccBGM.BuyerGroup.Product_Request__r.RecordType.DeveloperName , new Set<Id>());
+        }
+        buyerGroupDevNameMap.get(prodAccBGM.BuyerGroup.Product_Request__r.RecordType.DeveloperName).add(prodAccBGM.BuyerGroupId);
+      }else{
+        if(!buyerGroupDevNameMap.containsKey('Tailored')){
+          buyerGroupDevNameMap.put('Tailored' , new Set<Id>());
+        }
+        buyerGroupDevNameMap.get('Tailored').add(prodAccBGM.BuyerGroupId);
+      }
+
+      //Populate Account to Buyer group 
+      if(String.isNotBlank(prodAccBGM.BuyerId)){
+        if(!accToBGMap.containsKey(prodAccBGM.BuyerId)){
+          accToBGMap.put(prodAccBGM.BuyerId, new Set<Id>());
+        }
+        accToBGMap.get(prodAccBGM.BuyerId).add(prodAccBGM.BuyerGroupId);
+      }
+  }
+
+  // Get List of Product2.Trigger.new
+  List<Product2> prod2NewList = prod2New.values();
+
+  for (Product2 prod : prod2NewList) {
+      // Get Products with Available to Cart updated to true
+    if(
+      prod.Ready_for_publishing__c != prodOld.get(prod.Id).Ready_for_publishing__c ||
+      prod.Publishing_Start_date__c != prodOld.get(prod.Id).Publishing_Start_date__c ||
+      prod.Publishing_End_date__c != prodOld.get(prod.Id).Publishing_End_date__c
+    ) {
       if (
         prod.Ready_for_publishing__c == 'Yes' &&
         prod.IsActive == true &&
@@ -106,133 +247,363 @@ public without sharing class Product2TriggerHandler implements Disableable, Befo
         (prod.Publishing_End_date__c == null || 
         prod.Publishing_End_date__c > date.today())
       ) {
-        prodIdSet.add(prod.Id);
+          prodIdSet.add(prod.Id);
       }
-
-      if( 
+    }
+    
+    if (
         //make sure decomission product or publishing enddate is updated  DEPP-2820
         (prodOld.get(prod.Id).Decommission_Product__c !=
-        prod.Decommission_Product__c || 
+        prod.Decommission_Product__c ||
         prodOld.get(prod.Id).Publishing_End_date__c !=
-        prod.Publishing_End_date__c) && 
-        prod.Decommission_Product__c == true && 
+        prod.Publishing_End_date__c) &&
+        prod.Decommission_Product__c == true &&
         prod.Publishing_End_date__c <= date.today()
-      ){
+    ) {
         prodIdPublishingEnded.add(prod.Id);
-      }
+    }
+  }
 
-      
+  if (!prodIdPublishingEnded.isEmpty() || !prodIdSet.isEmpty()) 
+  {
+      productsWithPR = [
+                        SELECT
+                            Id,
+                            Course__r.ProductRequestID__c,
+                            Course__r.ProductRequestID__r.Product_Request_Status__c,
+                            Program_Plan__r.Product_Request__r.Product_Request_Status__c,
+                            Program_Plan__r.Product_Request__c
+                        FROM Product2
+                        WHERE Id IN :prodIdPublishingEnded OR Id IN :prodIdSet];
+  }
+
+  for (Product2 prod : productsWithPR) {
+    if (
+        prod.Course__c != null &&
+        prod.Course__r.ProductRequestID__c != null &&
+        prodIdPublishingEnded.contains(prod.Id)
+    ) {
+        newPr = new Product_Request__c(
+            Id = prod.Course__r.ProductRequestID__c,
+            Product_Request_Status__c = 'Completed'
+        );
+        prodRequestToUpdateMap.put(
+            prod.Course__r.ProductRequestID__c,
+            newPr
+        );
+    }
+    if (
+        prod.Program_Plan__c != null &&
+        prod.Program_Plan__r.Product_Request__c != null &&
+        prodIdPublishingEnded.contains(prod.Id)
+    ) {
+        newPr = new Product_Request__c(
+            Id = prod.Program_Plan__r.Product_Request__c,
+            Product_Request_Status__c = 'Completed'
+        );
+        prodRequestToUpdateMap.put(
+            prod.Course__r.ProductRequestID__c,
+            newPr
+        );
     }
 
-    if(!prodIdPublishingEnded.isEmpty() || !prodIdSet.isEmpty()){
-      productsWithPR = [SELECT Id, Course__r.ProductRequestID__c,  Course__r.ProductRequestID__r.Product_Request_Status__c, Program_Plan__r.Product_Request__r.Product_Request_Status__c , Program_Plan__r.Product_Request__c FROM Product2 WHERE Id IN:prodIdPublishingEnded OR Id IN:prodIdSet];
+    if (
+        prod.Course__c != null &&
+        prod.Course__r.ProductRequestID__c != null &&
+        prodIdSet.contains(prod.Id) &&
+        prod.Course__r.ProductRequestID__r.Product_Request_Status__c ==
+        'Release'
+    ) {
+        newPr = new Product_Request__c(
+            Id = prod.Course__r.ProductRequestID__c,
+            Product_Request_Status__c = 'Published'
+        );
+        prodRequestToUpdateMap.put(
+            prod.Course__r.ProductRequestID__c,
+            newPr
+        );
     }
 
-    for(Product2 prod: productsWithPR){
-      
-      if(prod.Course__c != null &&  prod.Course__r.ProductRequestID__c != null && prodIdPublishingEnded.contains(prod.Id)){
-        newPr = new Product_Request__c(Id = prod.Course__r.ProductRequestID__c, Product_Request_Status__c = 'Completed');
-        prodRequestToUpdateMap.put(prod.Course__r.ProductRequestID__c,newPr);
-      }
-      if(prod.Program_Plan__c != null && prod.Program_Plan__r.Product_Request__c != null && prodIdPublishingEnded.contains(prod.Id)){
-        newPr = new Product_Request__c(Id = prod.Program_Plan__r.Product_Request__c, Product_Request_Status__c = 'Completed');
-        prodRequestToUpdateMap.put(prod.Course__r.ProductRequestID__c,newPr);
-      }
+    if (
+        prod.Program_Plan__c != null &&
+        prod.Program_Plan__r.Product_Request__c != null &&
+        prodIdSet.contains(prod.Id) &&
+        prod.Program_Plan__r.Product_Request__r.Product_Request_Status__c ==
+        'Release'
+    ) {
+        newPr = new Product_Request__c(
+            Id = prod.Program_Plan__r.Product_Request__c,
+            Product_Request_Status__c = 'Published'
+        );
+        prodRequestToUpdateMap.put(
+            prod.Program_Plan__r.Product_Request__c,
+            newPr
+        );
+    }
+  }
 
-      if(prod.Course__c != null &&  prod.Course__r.ProductRequestID__c != null && prodIdSet.contains(prod.Id) &&  prod.Course__r.ProductRequestID__r.Product_Request_Status__c == 'Release'){
-        newPr = new Product_Request__c(Id = prod.Course__r.ProductRequestID__c, Product_Request_Status__c = 'Published');
-        prodRequestToUpdateMap.put(prod.Course__r.ProductRequestID__c,newPr);
-      }
-
-      if(prod.Program_Plan__c != null && prod.Program_Plan__r.Product_Request__c != null && prodIdSet.contains(prod.Id) && prod.Program_Plan__r.Product_Request__r.Product_Request_Status__c == 'Release'){
-        newPr = new Product_Request__c(Id = prod.Program_Plan__r.Product_Request__c, Product_Request_Status__c = 'Published');
-        prodRequestToUpdateMap.put(prod.Program_Plan__r.Product_Request__c,newPr);
-      }
-    }       
-   
-    if(!prodRequestToUpdateMap.keySet().isEmpty()){
+  if (!prodRequestToUpdateMap.keySet().isEmpty()) {
       update prodRequestToUpdateMap.values();
-      
-    }
+  }
 
-    if (prodIdSet.size() > 0) {
-      // Get Catalog & Product Catalog Id
-      ProductCategory prodCategory = [
-        SELECT Id, CatalogId
-        FROM ProductCategory
-        WHERE Name = 'Products' AND Catalog.Name = 'Study Catalog'
-        LIMIT 1
-      ];
+  if (prodIdSet.size() > 0) {
+      // Get Product Categories & Catalogs
+      Map<String, ProductCategory> prodCategoryMap = new Map<String, ProductCategory>();
+      Set<Id> prodCategIdSet = new Set<Id>();
+      Set<Id> prodCatalogIdSet = new Set<Id>();
+      for (ProductCategory prodCategory : [
+          SELECT Id, Name, CatalogId
+          FROM ProductCategory
+          WHERE
+              Name IN :PROD2_CATEGORIES
+              AND Catalog.Name IN :PROD2_CATALOGS
+      ]) {
+          prodCategoryMap.put(prodCategory.Name, prodCategory);
+          prodCategIdSet.add(prodCategory.Id);
+          prodCatalogIdSet.add(prodCategory.CatalogId);
+      }
 
-      // Get Entitlement Policy
-      Id entPolicyId = [
-        SELECT Id
-        FROM CommerceEntitlementPolicy
-        WHERE Name = 'OPE Entitlement'
-        LIMIT 1
+      // Get OPE Entitlement Policy
+      Id entPolicyOPE = [
+          SELECT Id
+          FROM CommerceEntitlementPolicy
+          WHERE Name = :OPE_ENTITLEMENT_POLICY
+          LIMIT 1
       ]
       .Id;
 
-      // Get Existing Products on Product Catalog Products
-      Set<Id> prodCategProdIdSet = new Set<Id>();
-      List<ProductCategoryProduct> prodCategProdList = [
-        SELECT ProductId
-        FROM ProductCategoryProduct
-        WHERE
-          CatalogId = :prodCategory.CatalogId
-          AND ProductCategoryId = :prodCategory.Id
-          AND ProductId IN :prodIdSet
-      ];
-      for (ProductCategoryProduct prodCategProd : prodCategProdList) {
-        prodCategProdIdSet.add(prodCategProd.ProductId);
+      // Get CCE Entitlement Policy Map
+      Map<Id, Id> entPolicyCCEMap = new Map<Id, Id>();
+      for (CommerceEntitlementBuyerGroup commEntBG : [
+                                                      SELECT BuyerGroupId, PolicyId
+                                                      FROM CommerceEntitlementBuyerGroup
+                                                      WHERE BuyerGroupId IN :prodAccBGIdMap.keySet()
+                                                      AND PolicyId != NULL
+      ]) {
+          // Assign BuyerGroup Id as Key and Policy Id as value on CCE Entitlment Policy Map
+          entPolicyCCEMap.put(commEntBG.BuyerGroupId, commEntBG.PolicyId);
       }
 
       // Get Existing Products on Product Catalog Products
-      Set<Id> prodEntPolicyIdSet = new Set<Id>();
-      List<CommerceEntitlementProduct> prodEntPolicyList = [
-        SELECT ProductId
-        FROM CommerceEntitlementProduct
-        WHERE PolicyId = :entPolicyId AND ProductId IN :prodIdSet
-      ];
-      for (CommerceEntitlementProduct prodEntPolicy : prodEntPolicyList) {
-        prodEntPolicyIdSet.add(prodEntPolicy.ProductId);
+      Map<String, Set<Id>> prodCategProdIdMap = new Map<String, Set<Id>>();
+      for (ProductCategoryProduct prodCategProd : [
+                                                    SELECT ProductCategory.Name, ProductId
+                                                    FROM ProductCategoryProduct
+                                                    WHERE
+                                                        CatalogId IN :prodCatalogIdSet
+                                                        AND ProductCategoryId IN :prodCategIdSet
+                                                        AND ProductId IN :prodIdSet]) 
+      {
+          if (prodCategProdIdMap.containsKey(prodCategProd.ProductCategory.Name)){
+              // If Category Name Exists in Map, Get Set of Product Ids and Add new Product Id to Set
+              Set<Id> prodCategProdIdSet = prodCategProdIdMap.get(
+                  prodCategProd.ProductCategory.Name
+              );
+              prodCategProdIdSet.add(prodCategProd.ProductId);
+              prodCategProdIdMap.put(
+                  prodCategProd.ProductCategory.Name,
+                  prodCategProdIdSet
+              );
+          } else {
+              // If Category Name does not Exists in Map, Create Entry in Map
+              prodCategProdIdMap.put(
+                  prodCategProd.ProductCategory.Name,
+                  new Set<Id>{ prodCategProd.ProductId }
+              );
+          }
       }
 
+      // Get Existing Products on OPE Product Catalog Products
+      Set<Id> prodEntPolicyOPESet = new Set<Id>();
+      for (CommerceEntitlementProduct prodEntOPEPolicy : [
+          SELECT ProductId
+          FROM CommerceEntitlementProduct
+          WHERE PolicyId = :entPolicyOPE AND ProductId IN :prodIdSet
+      ]) {
+          prodEntPolicyOPESet.add(prodEntOPEPolicy.ProductId);
+      }
+
+      // Get Existing Products on CCE Product Catalog Products
+      Map<Id, Set<Id>> prodEntPolicyCCEMap = new Map<Id, Set<Id>>();
+      for (CommerceEntitlementProduct prodEntCCEPolicy : [
+          SELECT PolicyId, ProductId
+          FROM CommerceEntitlementProduct
+          WHERE
+              PolicyId IN :entPolicyCCEMap.values()
+              AND ProductId IN :prodIdSet
+      ]) {
+          if (prodEntPolicyCCEMap.containsKey(prodEntCCEPolicy.PolicyId)){
+              // If Policy Exists in Map, Get Set of Product Ids and Add new Product Id to Set
+              Set<Id> prodEntProdIdSet = prodEntPolicyCCEMap.get(prodEntCCEPolicy.PolicyId);
+              prodEntProdIdSet.add(prodEntCCEPolicy.ProductId);
+              prodEntPolicyCCEMap.put(
+                  prodEntCCEPolicy.PolicyId,
+                  prodEntProdIdSet
+              );
+          } else {
+              // If Policy Name does not Exists in Map, Create Entry in Map
+              prodEntPolicyCCEMap.put(
+                  prodEntCCEPolicy.PolicyId,
+                  new Set<Id>{ prodEntCCEPolicy.ProductId }
+              );
+          }
+      }
+
+      // Process
       List<ProductCategoryProduct> insertProdCategProdList = new List<ProductCategoryProduct>();
       List<CommerceEntitlementProduct> insertProdEntPolicyList = new List<CommerceEntitlementProduct>();
       for (Id prodId : prodIdSet) {
-        // Check if Product Id is not yet configured on Product Category Product
-        if (!prodCategProdIdSet.contains(prodId)) {
-          ProductCategoryProduct prodCategProd = new ProductCategoryProduct();
-          prodCategProd.ProductCategoryId = prodCategory.Id;
-          prodCategProd.ProductId = prodId;
-          insertProdCategProdList.add(prodCategProd);
-        }
+          // Get Product Rec Type Map
+          Id prod2PSRecType;
+          Id prod2PRRecType;
+          // Get Product Account Id
+          Id prod2AccId;
 
-        // Check if Product Id is not yet configured on Product Entitlement Policy
-        if (!prodEntPolicyIdSet.contains(prodId)) {
-          CommerceEntitlementProduct prodEntPolicy = new CommerceEntitlementProduct();
-          prodEntPolicy.PolicyId = entPolicyId;
-          prodEntPolicy.ProductId = prodId;
-          insertProdEntPolicyList.add(prodEntPolicy);
-        }
+          Product2 prodRecType = (Product2) prodRecTypeMap.get(prodId);
+
+          if (String.isNotBlank(prodRecType.Course__c)) {
+              prod2PSRecType = prodRecType.Course__r.ProductRequestId__r.Product_Specification__r.RecordTypeId;
+              prod2PRRecType = prodRecType.Course__r.ProductRequestId__r.RecordTypeId;
+              prod2AccId = prodRecType.Course__r.ProductRequestId__r.Product_Specification__r.Opportunity_Name__r.AccountId;
+          } else if (String.isNotBlank(prodRecType.Program_Plan__c)) {
+              prod2PSRecType = prodRecType.Program_Plan__r.Product_Request__r.Product_Specification__r.RecordTypeId;
+              prod2PRRecType = prodRecType.Program_Plan__r.Product_Request__r.RecordTypeId;
+              prod2AccId = prodRecType.Program_Plan__r.Product_Request__r.Product_Specification__r.Opportunity_Name__r.AccountId;
+          }
+
+          if (prod2PSRecType == OPE_RECTYPEID) {
+              // Insert to OPE Product Store
+              // Get Set of Ids that Exists in OPE Product Category Products
+              Set<Id> prodCategProdOPESet = new Set<Id>();
+              if (prodCategProdIdMap.containsKey(OPE_CATEGORY_PRODUCTS)) {
+                  prodCategProdOPESet = prodCategProdIdMap.get(OPE_CATEGORY_PRODUCTS);
+              }
+
+              // Get OPE Catalog & Category Id
+              ProductCategory prodCategOPE = (ProductCategory) prodCategoryMap.get(OPE_CATEGORY_PRODUCTS);
+
+              // Check if Product Id is not yet configured on OPE Product Category Product
+              if (!prodCategProdOPESet.contains(prodId)) {
+                  ProductCategoryProduct prodCategProdOPE = new ProductCategoryProduct();
+                  prodCategProdOPE.ProductCategoryId = prodCategOPE.Id;
+                  prodCategProdOPE.ProductId = prodId;
+                  insertProdCategProdList.add(prodCategProdOPE);
+              }
+
+              // Check if Product Id is not yet configured on OPE Product Entitlement Policy
+              if (!prodEntPolicyOPESet.contains(prodId)) {
+                  CommerceEntitlementProduct prodEntPolicyOPE = new CommerceEntitlementProduct();
+                  prodEntPolicyOPE.PolicyId = entPolicyOPE;
+                  prodEntPolicyOPE.ProductId = prodId;
+                  insertProdEntPolicyList.add(prodEntPolicyOPE);
+              }
+          } else if (prod2PSRecType == CCE_RECTYPEID) {
+              // Get Policy Id from Policy Map
+              Id entPolicyCCE; 
+              if(accToBGMap.containsKey(prod2AccId)){
+                for(Id bg : accToBGMap.get(prod2AccId)){
+                  if(prodRecType.Product_Category__c == 'QUTeX Learning Solutions' &&  
+                  buyerGroupDevNameMap.containsKey('Standing_Offer_Arrangement') &&
+                  buyerGroupDevNameMap.get('Standing_Offer_Arrangement').contains(bg))
+                  {
+                    entPolicyCCE = (Id) entPolicyCCEMap.get(bg);
+                  }else if(prodRecType.Product_Category__c == 'Tailored Executive Program' &&
+                  buyerGroupDevNameMap.containsKey('Tailored') &&
+                  buyerGroupDevNameMap.get('Tailored').contains(bg)
+                  ){
+                    entPolicyCCE = (Id) entPolicyCCEMap.get(bg);
+                  }
+                }
+              }
+
+              // Get Set of Ids that Exists in CCE Product Category Products
+              Set<Id> prodCategProdCCESet = new Set<Id>();
+              if (prodEntPolicyCCEMap.containsKey(entPolicyCCE)) {
+                  prodCategProdCCESet = prodEntPolicyCCEMap.get(entPolicyCCE);
+              }
+
+              // Insert to CCE Product Store
+              if (
+                  prod2PRRecType == PR_PROGRAM_RECTYPEID ||
+                  prod2PRRecType == PR_PROGRAMWITHOUTPATHWAY_RECTYPEID ||
+                  prod2PRRecType == PR_MODULE_RECTYPEID ||
+                  prod2PRRecType == PR_UNIT_RECTYPEID ||
+                  prod2PRRecType == PR_INDIVCOACHING_RECTYPEID ||
+                  prod2PRRecType == PR_GROUPCOACHING_RECTYPEID ||
+                  prod2PRRecType == PR_DIAGTOOL_RECTYPEID ||
+                  prod2PRRecType == PR_ACTIVITY_RECTYPEID
+              ) {
+                  // Insert to Tailored Executive Education Category
+                  if (prodRecType.Product_Category__c == 'Tailored Executive Program' && 
+                      prodCategoryMap.containsKey(CCE_CATEGORY_TEE)  
+                    ) {
+                      // Get Set of Ids that Exists in CCE Product Category Products for Tailored Executive Education Category
+                      Set<Id> prodCategProdCCETEESet = new Set<Id>();
+                      if (prodCategProdIdMap.containsKey(CCE_CATEGORY_TEE)){
+                          prodCategProdCCETEESet = prodCategProdIdMap.get(
+                              CCE_CATEGORY_TEE
+                          );
+                      }
+
+                      // Get CCE Catalog & Tailored Executive Education Category
+                      ProductCategory prodCategCCETEE = (ProductCategory) prodCategoryMap.get(CCE_CATEGORY_TEE);
+
+                      // Check if Product Id is not yet configured on Tailored Executive Education Category Product Category Product
+                      if (!prodCategProdCCETEESet.contains(prodId)) {
+                          ProductCategoryProduct prodCategProdCCE = new ProductCategoryProduct();
+                          prodCategProdCCE.ProductCategoryId = prodCategCCETEE.Id;
+                          prodCategProdCCE.ProductId = prodId;
+                          insertProdCategProdList.add(prodCategProdCCE);
+                      }
+                  }
+
+                  // Insert to Standing Offer Arrangement Category
+                  if (prodRecType.Product_Category__c == 'QUTeX Learning Solutions' &&
+                      prodCategoryMap.containsKey(CCE_CATEGORY_QLS)  
+                  ) {
+                      // Get Set of Ids that Exists in CCE Product Category Products for Standing Offer Arrangement Category
+
+                      Set<Id> prodCategProdCCEQLSSet = new Set<Id>();
+                      if (prodCategProdIdMap.containsKey(CCE_CATEGORY_QLS)){
+                          prodCategProdCCEQLSSet = prodCategProdIdMap.get(CCE_CATEGORY_QLS);
+                      }
+
+                      // Get CCE Catalog & Standing Offer Arrangement Category
+                      ProductCategory prodCategCCEQLS = (ProductCategory) prodCategoryMap.get(CCE_CATEGORY_QLS);
+
+                      // Check if Product Id is not yet configured on Standing Offer Arrangement Category Product Category Product
+                      if (!prodCategProdCCEQLSSet.contains(prodId)) {
+                          ProductCategoryProduct prodCategProdCCE = new ProductCategoryProduct();
+                          prodCategProdCCE.ProductCategoryId = prodCategCCEQLS.Id;
+                          prodCategProdCCE.ProductId = prodId;
+                          insertProdCategProdList.add(prodCategProdCCE);
+                      }
+                  }
+
+                  // Check if Product Id is not yet configured on CCE Product Entitlement Policy
+                  if (!prodCategProdCCESet.contains(prodId) && entPolicyCCE != null ) {
+                      CommerceEntitlementProduct prodEntPolicyCCE = new CommerceEntitlementProduct();
+                      prodEntPolicyCCE.PolicyId = entPolicyCCE;
+                      prodEntPolicyCCE.ProductId = prodId;
+                      insertProdEntPolicyList.add(prodEntPolicyCCE);
+                  }
+              }
+          }
       }
-
-      // Insert Product Category Produc
+      // Insert Product Category Product
       if (insertProdCategProdList.size() > 0) {
-        insert insertProdCategProdList;
+          insert insertProdCategProdList;
       }
-
       // Insert Product Entitlement Policy
       if (insertProdEntPolicyList.size() > 0) {
-        insert insertProdEntPolicyList;
+          insert insertProdEntPolicyList;
       }
-    }
 
     // Run Build Index
     B2BStoreSearchIndexHandler handler = new B2BStoreSearchIndexHandler();
     handler.buildSearchIndex();
-  }
+    }
+  }  
 
   /**
    * @description validate related Facilitator Contacts if Image is uploaded on Contact Image
@@ -426,34 +797,31 @@ public without sharing class Product2TriggerHandler implements Disableable, Befo
 
       // Process
       for(Product2 p : prod2New){
-        for (hed__Course_Offering__c cOffVal : cOfferList) {
-          Integer cOffCount = (Integer) cCounterMap.get(cOffVal.hed__Course__c);
-          if(
-              p.Do_not_Show_Start_Date__c == true
-            )
-          {
-            //Scenario 1 : Delivery is not Online Self Paced
-            if( String.isEmpty(p.Delivery__c) ||
-                p.Delivery__c.contains('Brisbane Classroom') || 
-                p.Delivery__c.contains('Canberra Classroom') || 
-                p.Delivery__c.contains('Sydney Classroom') ||             
-                p.Delivery__c.contains('Melbourne Classroom') || 
-                p.Delivery__c.contains('Online Classroom')||
-                !p.Delivery__c.contains('Online Self-paced')
-                ){
-                  p.Do_not_Show_Start_Date__c.addError(
-                    'Please ensure you have one product offering active and the delivery is online self-paced'
-                );
-            }
-            //Scenario 2: Delivery Online Self Paced but offering is greater than 1
-            else if( cOffCount > 1 ){
+        if(p.Do_not_Show_Start_Date__c == true){
+          //Scenario 1 : Delivery is not Online Self Paced
+          if(String.isEmpty(p.Delivery__c) ||
+            p.Delivery__c.contains('Brisbane Classroom') || 
+            p.Delivery__c.contains('Canberra Classroom') || 
+            p.Delivery__c.contains('Sydney Classroom') ||             
+            p.Delivery__c.contains('Melbourne Classroom') || 
+            p.Delivery__c.contains('Online Classroom')||
+            !p.Delivery__c.contains('Online Self-paced')
+          ){
+            p.Do_not_Show_Start_Date__c.addError(
+              'Please ensure you have one product offering active and the delivery is online self-paced'
+            );
+          }
+          //Scenario 2: Delivery Online Self Paced but offering is greater than 1
+          for (hed__Course_Offering__c cOffVal : cOfferList) {
+            Integer cOffCount = (Integer) cCounterMap.get(cOffVal.hed__Course__c);
+            if( cOffCount > 1){
               p.Do_not_Show_Start_Date__c.addError(
                 'Please ensure you have one product offering active and the delivery is online self-paced'
               );
             }
           }
         }
-      }
+      }  
     }
 
     //Program 
@@ -483,35 +851,31 @@ public without sharing class Product2TriggerHandler implements Disableable, Befo
         ];
 
         // Process
-        for(Product2 p : prod2New){
+      for(Product2 p : prod2New){
+        if(p.Do_not_Show_Start_Date__c == true){
+          //Scenario 1 : Delivery is not Online Self Paced
+          if(String.isEmpty(p.Delivery__c) ||
+            p.Delivery__c.contains('Brisbane Classroom') || 
+            p.Delivery__c.contains('Canberra Classroom') || 
+            p.Delivery__c.contains('Sydney Classroom') ||             
+            p.Delivery__c.contains('Melbourne Classroom') || 
+            p.Delivery__c.contains('Online Classroom')||
+            !p.Delivery__c.contains('Online Self-paced')
+          ){
+            p.Do_not_Show_Start_Date__c.addError(
+              'Please ensure you have one product offering active and the delivery is online self-paced'
+            );
+          }
           for (Program_Offering__c pOffVal : pOfferList) {
             Integer pOffCount = (Integer) pCounterMap.get(pOffVal.hed_Program_Plan__c);
-            if(
-                p.Do_not_Show_Start_Date__c == true
-              )
-            {
-              //Scenario 1 : Delivery is not Online Self Paced
-              if( p.Delivery__c.contains('Brisbane Classroom') || 
-                  p.Delivery__c.contains('Canberra Classroom') || 
-                  p.Delivery__c.contains('Sydney Classroom') ||             
-                  p.Delivery__c.contains('Melbourne Classroom') || 
-                  p.Delivery__c.contains('Online Classroom')||
-                  !p.Delivery__c.contains('Online Self-paced')
-                  ){
-                    p.Do_not_Show_Start_Date__c.addError(
-                      'Please ensure you have one product offering active and the delivery is online self-paced'
-                  );
-              }
-              //Scenario 2: Delivery Online Self Paced but offering is greater than 1
-              else if(pOffCount > 1 ){
-                p.Do_not_Show_Start_Date__c.addError(
-                  'Please ensure you have one product offering active and the delivery is online self-paced'
-                );
-              }
+            if(pOffCount > 1 ){
+              p.Do_not_Show_Start_Date__c.addError(
+               'Please ensure you have one product offering active and the delivery is online self-paced'
+              );
             }
-          }
+          } 
         }
-
+      }
     }
   }
 
@@ -523,1070 +887,4 @@ public without sharing class Product2TriggerHandler implements Disableable, Befo
     final TriggerBypassStrategy bypass = new TriggerBypassStrategy();
     return bypass.isDisabled();
   }
-
-    public static void increaseTestCoverage(){
-        Integer i = 0;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-        i++;
-        i--;
-    }
-
 }

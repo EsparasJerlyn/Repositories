@@ -2,25 +2,54 @@
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>52.0</apiVersion>
     <decisions>
-        <name>Check_is_Partner</name>
-        <label>Check is Partner</label>
-        <locationX>576</locationX>
-        <locationY>570</locationY>
+        <name>Check_is_Business_Org</name>
+        <label>Check is Business Org</label>
+        <locationX>380</locationX>
+        <locationY>455</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
-            <name>Check_Partner</name>
+            <name>Is_Account_Business_Organization</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Get_Accounts.IsPartner</leftValueReference>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <booleanValue>true</booleanValue>
+                    <stringValue>Business_Organization</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.IsPartner</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Buyer_Group_creation</targetReference>
+                <targetReference>Update_Is_Partner</targetReference>
             </connector>
-            <label>Check Partner</label>
+            <label>Is Account Business Organization?</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Check_WebStore</name>
+        <label>Check WebStore</label>
+        <locationX>182</locationX>
+        <locationY>1175</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Is_WebStore</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_CCE_Store</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>CCE_storefront_assignment</targetReference>
+            </connector>
+            <label>Is WebStore</label>
         </rules>
     </decisions>
     <description>When Corporate Account is enabled as a partner and buyer, then Buyer Groups and Entitlements should be created.</description>
@@ -28,7 +57,7 @@
         <description>Randomizer Name for the Buyer Account and Entilement</description>
         <name>RandomName</name>
         <dataType>String</dataType>
-        <expression>{!Get_Accounts.Name} +&quot; &quot; &amp; TEXT( NOW() )</expression>
+        <expression>{!$Record.Name} +&quot; &quot; &amp; TEXT( NOW() )</expression>
     </formulas>
     <interviewLabel>CCE Buyer Groups and Entitlements Creation {!$Flow.CurrentDateTime}</interviewLabel>
     <label>CCE Buyer Groups and Entitlements Creation</label>
@@ -41,7 +70,7 @@
     <processMetadataValues>
         <name>CanvasMode</name>
         <value>
-            <stringValue>FREE_FORM_CANVAS</stringValue>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
         </value>
     </processMetadataValues>
     <processMetadataValues>
@@ -54,8 +83,8 @@
     <recordCreates>
         <name>Buyer_Group_account_assignment</name>
         <label>Buyer Group account assignment</label>
-        <locationX>584</locationX>
-        <locationY>839</locationY>
+        <locationX>182</locationX>
+        <locationY>935</locationY>
         <connector>
             <targetReference>Get_CCE_Store</targetReference>
         </connector>
@@ -68,7 +97,7 @@
         <inputAssignments>
             <field>BuyerId</field>
             <value>
-                <elementReference>Get_Accounts.Id</elementReference>
+                <elementReference>$Record.Id</elementReference>
             </value>
         </inputAssignments>
         <object>BuyerGroupMember</object>
@@ -77,8 +106,8 @@
     <recordCreates>
         <name>Buyer_Group_creation</name>
         <label>Buyer Group creation</label>
-        <locationX>584</locationX>
-        <locationY>719</locationY>
+        <locationX>182</locationX>
+        <locationY>815</locationY>
         <connector>
             <targetReference>Buyer_Group_account_assignment</targetReference>
         </connector>
@@ -94,8 +123,8 @@
     <recordCreates>
         <name>CCE_storefront_assignment</name>
         <label>CCE storefront assignment</label>
-        <locationX>584</locationX>
-        <locationY>1080</locationY>
+        <locationX>50</locationX>
+        <locationY>1295</locationY>
         <connector>
             <targetReference>Entitlement_creation</targetReference>
         </connector>
@@ -115,10 +144,45 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordCreates>
     <recordCreates>
+        <name>Create_Buyer_Account</name>
+        <label>Create Buyer Account</label>
+        <locationX>182</locationX>
+        <locationY>695</locationY>
+        <connector>
+            <targetReference>Buyer_Group_creation</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>BuyerId</field>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>BuyerStatus</field>
+            <value>
+                <stringValue>Active</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>IsActive</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Name</field>
+            <value>
+                <elementReference>$Record.Name</elementReference>
+            </value>
+        </inputAssignments>
+        <object>BuyerAccount</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordCreates>
         <name>Entitlement_assignment</name>
         <label>Entitlement assignment</label>
-        <locationX>584</locationX>
-        <locationY>1319</locationY>
+        <locationX>50</locationX>
+        <locationY>1535</locationY>
         <inputAssignments>
             <field>BuyerGroupId</field>
             <value>
@@ -137,8 +201,8 @@
     <recordCreates>
         <name>Entitlement_creation</name>
         <label>Entitlement creation</label>
-        <locationX>584</locationX>
-        <locationY>1199</locationY>
+        <locationX>50</locationX>
+        <locationY>1415</locationY>
         <connector>
             <targetReference>Entitlement_assignment</targetReference>
         </connector>
@@ -170,34 +234,34 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordCreates>
     <recordLookups>
-        <name>Get_Accounts</name>
-        <label>Get Accounts</label>
-        <locationX>584</locationX>
-        <locationY>392</locationY>
+        <name>Get_Business_Record_Type</name>
+        <label>Get Business Record Type</label>
+        <locationX>380</locationX>
+        <locationY>335</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Check_is_Partner</targetReference>
+            <targetReference>Check_is_Business_Org</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
-            <field>Id</field>
+            <field>DeveloperName</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>$Record.BuyerId</elementReference>
+                <stringValue>Business_Organization</stringValue>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>Account</object>
+        <object>RecordType</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
         <name>Get_CCE_Store</name>
         <label>Get CCE Store</label>
-        <locationX>584</locationX>
-        <locationY>959</locationY>
+        <locationX>182</locationX>
+        <locationY>1055</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>CCE_storefront_assignment</targetReference>
+            <targetReference>Check_WebStore</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -211,22 +275,30 @@
         <object>WebStore</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
-    <start>
-        <locationX>458</locationX>
-        <locationY>49</locationY>
+    <recordUpdates>
+        <name>Update_Is_Partner</name>
+        <label>Update Is Partner</label>
+        <locationX>182</locationX>
+        <locationY>575</locationY>
         <connector>
-            <targetReference>Get_Accounts</targetReference>
+            <targetReference>Create_Buyer_Account</targetReference>
         </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>CommerceType</field>
-            <operator>EqualTo</operator>
+        <inputAssignments>
+            <field>IsPartner</field>
             <value>
-                <stringValue>Buyer</stringValue>
+                <booleanValue>true</booleanValue>
             </value>
-        </filters>
-        <object>BuyerAccount</object>
-        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>254</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_Business_Record_Type</targetReference>
+        </connector>
+        <object>Account</object>
+        <recordTriggerType>Create</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
     </start>
     <status>Active</status>

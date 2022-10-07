@@ -5,12 +5,12 @@
     <description>Endorsed by to proceed the stage from Qualify to Design or Complete.</description>
     <errorConditionFormula>AND(
 RecordType.DeveloperName =&apos;OPE&apos;,
-ISCHANGED(Stage__c),
-OR(ISPICKVAL(PRIORVALUE(Stage__c),&apos;Qualify&apos;),
-ISPICKVAL(PRIORVALUE(Stage__c),&apos;Design&apos;)),
-OR(ISPICKVAL(Stage__c, &apos;Design&apos;),ISPICKVAL(Stage__c, &apos;Complete&apos;)),
-ISPICKVAL(Requires_Director_Endorsement__c,&apos;Yes&apos;),
-ISBLANK(Endorsed_by__c)
+OR(
+ISPICKVAL(Stage__c,&apos;Design&apos;),
+ISPICKVAL(Stage__c, &apos;Complete&apos;)
+),
+ISBLANK(Endorsed_by__c),
+ISPICKVAL( Requires_Director_Endorsement__c, &apos;Yes&apos; )
 )</errorConditionFormula>
     <errorDisplayField>Endorsed_by__c</errorDisplayField>
     <errorMessage>Endorsed by is required to proceed to Design.</errorMessage>

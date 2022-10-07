@@ -21,7 +21,7 @@
      | alexander.cadalin              | July 30, 2022         | DEPP-3623              | Commented out old dupe checker
 
 */
-@isTest(SeeAllData=false)
+@isTest
 public with sharing class ContactTriggerHandlerTest {
     private static final Id BUSINESS_ACC_RECTYPEID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get('Business_Organization').getRecordTypeId();
     public static final Id PERSON = Schema.SObjectType.Contact.getRecordTypeInfosByDeveloperName()
@@ -30,13 +30,6 @@ public with sharing class ContactTriggerHandlerTest {
     public static final Id MC_PERSONA = Schema.SObjectType.Contact.getRecordTypeInfosByDeveloperName()
         .get('MC_Persona')
         .getRecordTypeId();
-    
-    private static User currentUser = TestDataFactory.createUserRecords(
-        1,
-        'QUTeX'
-    )
-        .iterator()
-        .next();
     private static final Id STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
     .get('Student')
     .getRecordTypeId();
@@ -45,10 +38,10 @@ public with sharing class ContactTriggerHandlerTest {
       .get(ACCT_UNIV_DEP)
       .getRecordTypeId();
 
-    @TestSetup
+    @testSetup
     static void testSetup() {
         TestDataFactory.generateTestUsers();
-        System.runAs(currentUser) {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
             Test.startTest();
             List<Contact> contacts = TestDataFactory.createTestContactRecords(1);
             contacts[0]
@@ -62,14 +55,9 @@ public with sharing class ContactTriggerHandlerTest {
         }
     }
     
-    @IsTest
+    @isTest
     private static void insertContactImageSuccessTest() {
-        User currUsr = [
-            SELECT Id
-            FROM User
-            WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
-            LIMIT 1
-        ];
+        User currUsr = TestDataFactory.getProgramAdminUser();
         
         System.runAs(currUsr) {
             Test.startTest();
@@ -94,15 +82,9 @@ public with sharing class ContactTriggerHandlerTest {
         }
     }
     
-    @IsTest
+    @isTest
     private static void insertContactImageErrorTest() {
-        User currUsr = [
-            SELECT Id
-            FROM User
-            WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
-            LIMIT 1
-        ];
-        
+        User currUsr = TestDataFactory.getProgramAdminUser();
         DmlException expectedException;
         System.runAs(currUsr) {
             Test.startTest();
@@ -128,15 +110,9 @@ public with sharing class ContactTriggerHandlerTest {
         }
     }
     
-    @IsTest
+    @isTest
     private static void updateContactImageSuccessTest() {
-        User currUsr = [
-            SELECT Id
-            FROM User
-            WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
-            LIMIT 1
-        ];
-        
+        User currUsr =TestDataFactory.getProgramAdminUser();
         System.runAs(currUsr) {
             Contact con = [
                 SELECT Id, Contact_Image__c
@@ -162,15 +138,10 @@ public with sharing class ContactTriggerHandlerTest {
         }
     }
     
-    @IsTest
+    @isTest
     private static void updateContactImageErrorTest() {
-        User currUsr = [
-            SELECT Id
-            FROM User
-            WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
-            LIMIT 1
-        ];
-        
+        User currUsr = TestDataFactory.getProgramAdminUser();
+
         DmlException expectedException;
         System.runAs(currUsr) {
             Contact con = [
@@ -201,12 +172,7 @@ public with sharing class ContactTriggerHandlerTest {
     
     @isTest
     private static void insertContact() {
-        User currUsr = [
-            SELECT Id
-            FROM User
-            WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
-            LIMIT 1
-        ];
+        User currUsr = TestDataFactory.getProgramAdminUser();
         
         List<Contact> cons = TestDataFactory.createTestContactRecords(1);
         
@@ -231,14 +197,9 @@ public with sharing class ContactTriggerHandlerTest {
         );
     }
     
-    @IsTest
+    @isTest
     private static void insertContactTest(){
-        User currUsr = [
-            SELECT Id
-            FROM User
-            WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
-            LIMIT 1
-        ];
+        User currUsr = TestDataFactory.getProgramAdminUser();
         System.runAs(currUsr){
             Account acc = [SELECT Id From Account WHERE RecordTypeId =: BUSINESS_ACC_RECTYPEID  LIMIT 1];
             
@@ -256,14 +217,9 @@ public with sharing class ContactTriggerHandlerTest {
         }
     }
     
-    @IsTest
+    @isTest
     private static void insertContactWithPrimaryBusinesssOrgTest(){
-        User currUsr = [
-            SELECT Id
-            FROM User
-            WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
-            LIMIT 1
-        ];
+        User currUsr = TestDataFactory.getProgramAdminUser();
         
         System.runAs(currUsr){
             Account acc = [SELECT Id From Account WHERE RecordTypeId =: BUSINESS_ACC_RECTYPEID  LIMIT 1];
@@ -281,14 +237,121 @@ public with sharing class ContactTriggerHandlerTest {
             System.assert(insertedACRList.size() == 100,'Account Contact Relation records created did not match expected');
         }
     }
-    
+
+     @isTest
+        private static void sendEmailOnContact() {
+            User currUsr = TestDataFactory.getProgramAdminUser();
+            System.runAs(currUsr) {
+                Set<Id> contactIdSet = new Set<Id>();
+                List<Contact> contacts = new List<Contact>();
+                contacts.add(new Contact(
+                    FirstName = 'Alexa',
+                    LastName = 'Ortiga',
+                    Email = 'al.ortiga@email.test',
+                    Registered_Email__c = 'al.ortiga@email.test',
+                    QUT_Identity_ID__c = '12345',
+                    QUT_Student_Username__c ='aortiga'
+                ));
+                insert contacts;
+
+                Study_Store_URL_Settings__c studyStore = new Study_Store_URL_Settings__c(Study_Store_Link__c = 'https://studystorelinktest.com/');
+                insert studyStore;
+                List<Account> accounts = TestDataFactory.createTestAccountRecords(100);
+                for (Account acc : accounts) {
+                  acc.RecordTypeId = ACCT_UNIV_DEP_ID;
+                  acc.Organization_Unit_Level__c = '2';
+                }
+                insert accounts;
+
+                List<hed__Term__c> terms = TestDataFactory.createTestTermRecords(100,accounts[0].Id);
+                  insert terms;
+
+                List<Product_Request__c> prodRequest = TestDataFactory.createTestProductRequestRecords(100);
+                insert prodRequest;
+
+                List<hed__Course__c> courses = TestDataFactory.createTestCourseRecords(100,accounts[0].Id,prodRequest[0].Id);
+                insert courses;
+
+                List<hed__Course_Offering__c> courseOfferings = TestDataFactory.createTestCourseOfferingRecord(100,courses, terms);
+                insert courseOfferings;
+
+                Test.startTest();
+                List<hed__Course_Enrollment__c> courseConnections = TestDataFactory.createTestCourseConnectionRecord(100,contacts[0].Id,courseOfferings);
+                for (hed__Course_Enrollment__c courseConnection : courseConnections) {
+                courseConnection.RecordTypeId = STUDENT_RECTYPEID;
+                courseConnection.IsActive__c = TRUE;
+                }
+                insert courseConnections;
+
+
+                List<Contact> cont = [SELECT Id, QUT_Student_Username__c FROM Contact WHERE QUT_Student_Username__c ='aortiga'];
+                for(Contact c : cont){
+                    contactIdSet.add(c.Id);
+                }
+
+                String message = ContactUserNameCreatedHelper.sendEmailUsernameCreated(contactIdSet);
+                Test.stopTest();
+
+                System.assert(message !=null, 'Email is not Sent to the user');
+            }
+        }
+
+    /**
+     * @Description Should set the contact owner when the current user is having UserType of PowerPartner
+     */
     @IsTest
-    static void checkEmailDetailTest(){
+    private static void shouldSetContactOwner() {
+        final Contact contact = new Contact();
 
-        Test.startTest();
-        ContactTriggerHandler.increaseTestCoverage();
-        Test.stopTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()){
+            Account account = new Account();
+            account.Name = 'Test Account';
+            account.RecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Business Organization').getRecordTypeId();
+            insert account;
 
+            contact.FirstName = 'Test Fname';
+            contact.LastName = 'Test Lname';
+            contact.email = 'test@email.com';
+            contact.Work_Email__c = 'test@workemail.com';
+            contact.hed__Preferred_Email__c = 'Alternate Email';
+            contact.hed__AlternateEmail__c = 'test@email.com';
+            contact.Registered_Email__c = 'test@email.com';
+            contact.AccountId = account.Id;
+            insert contact;
+
+            CCECorporateUserCtrl.CorporateUserDetails enableResponse = CCECorporateUserCtrl.enableCCECorporateUser(contact.Id);
+        }
+
+        Contact c = new Contact(LastName = 'UnitTest');
+
+        // Test
+        User u = [Select id, Contact.hed__Primary_Organization__r.OwnerId from User where ContactId = :contact.id limit 1];
+        System.runAs(u) {
+            Test.StartTest();
+            insert c;
+            Test.StopTest();
+        }
+
+        // Verify
+        Contact actualContact = [Select id, OwnerId from Contact where id = :c.id];
+        System.assertEquals(u.Contact.hed__Primary_Organization__r.OwnerId, actualContact.OwnerId);
     }
 
+    /**
+     * @Description Should not set the contact owner when the current user is not having UserType of PowerPartner
+     */
+    @IsTest
+    private static void shouldNotSetContactOwner() {
+        Contact c = new Contact(LastName = 'UnitTest');
+
+        // Test
+        User testUser = [Select Id from User where id = :UserInfo.getUserId()];
+        Test.StartTest();
+        insert c;
+        Test.StopTest();
+
+        // Verify
+        Contact actualContact = [Select id, OwnerId from Contact where id = :c.id];
+        System.assertEquals(testUser.Id, actualContact.OwnerId);
+    }
 }

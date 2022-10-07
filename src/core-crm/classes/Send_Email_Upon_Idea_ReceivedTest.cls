@@ -11,7 +11,7 @@
       | adrian.c.habasa           | Febuary 16, 2022      | DEPP-250     | Created file                                | 
       |                           |                       |              |                                             | 
 */
-@IsTest(SeeAllData = false)
+@isTest
 private with sharing class Send_Email_Upon_Idea_ReceivedTest {
     private static string PS_PROGRAM_SPEC = System.Label.RT_ProductSpecification_OPEProgramSpecification;
     private static User currentUser = TestDataFactory.createUserRecords(1, 'QUTeX').iterator().next();
@@ -20,7 +20,7 @@ private with sharing class Send_Email_Upon_Idea_ReceivedTest {
     @isTest
     private static void emailUponIdeaReceived(){
         System.runAs(currentUser){
-            Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'qutex@qut.edu.au');
+            Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
             insert customEmail;
             
             Account acc = TestDataFactory.createTestAccountRecords(1).iterator().next();

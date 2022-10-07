@@ -11,17 +11,17 @@
       | eugene.andrew.abuan            | March 22, 2022        | DEPP-1991              | Created file                 |
       |                                |                       |                        |                              |
  */
-@isTest(SeeAllData=false)
+@isTest
 public with sharing class CartTriggerHandlerTest {
 
 
-    @TestSetup
+    @testSetup
     static void setupMethod() {
 
         TestDataFactory.generateTestUsers();
     }
 
-    @IsTest
+    @isTest
     static void insertCartTest(){
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             Test.startTest();
@@ -42,7 +42,7 @@ public with sharing class CartTriggerHandlerTest {
 
     }
 
-    @IsTest
+    @isTest
     static void insertCartWithCartPaymentTest(){
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             Test.startTest();

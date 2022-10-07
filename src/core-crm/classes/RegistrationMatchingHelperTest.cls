@@ -24,7 +24,7 @@ public with sharing class RegistrationMatchingHelperTest {
             FirstName = 'FirstName Test',
             LastName = 'LastName Test',
             Email = 'personalEmail@email.com',
-            Birthdate = Date.Today(),
+            Birthdate = Date.Today().addYears(-15),
             Registered_Email__c = 'personalEmail@email.com',
             QUT_Learner_Email__c = 'learnerEmail@email.com',
             QUT_Staff_Email__c = 'staffEmail@email.com',
@@ -49,7 +49,7 @@ public with sharing class RegistrationMatchingHelperTest {
         FirstName = 'Mistmatch',
         LastName = 'Mistmatch',
         Registered_Email__c = 'misMatch@email.com',
-        Birthdate = Date.Today() 
+        Birthdate = Date.Today().addYears(-15) 
     );
     contactToValidateList.add(contactToValidate);
     String contactString = JSON.serialize(contactToValidateList);
@@ -72,7 +72,7 @@ public with sharing class RegistrationMatchingHelperTest {
         FirstName = 'Mistmatch',
         LastName = 'Mistmatch',
         Registered_Email__c = 'personalEmail@email.com',
-        Birthdate = Date.Today() - 1
+        Birthdate = Date.Today().addYears(-15) - 1
     );
     contactToValidateList.add(contactToValidate);
     String contactString = JSON.serialize(contactToValidateList);
@@ -95,7 +95,7 @@ public with sharing class RegistrationMatchingHelperTest {
         FirstName = 'Mistmatch',
         LastName = 'Mistmatch',
         Registered_Email__c = 'learnerEmail@email.com',
-        Birthdate = Date.Today() - 1
+        Birthdate = Date.Today().addYears(-15) - 1
     );
     contactToValidateList.add(contactToValidate);
     String contactString = JSON.serialize(contactToValidateList);
@@ -118,7 +118,7 @@ public with sharing class RegistrationMatchingHelperTest {
         FirstName = 'Mistmatch',
         LastName = 'Mistmatch',
         Registered_Email__c = 'staffEmail@email.com',
-        Birthdate = Date.Today() - 1
+        Birthdate = Date.Today().addYears(-15) - 1
     );
     contactToValidateList.add(contactToValidate);
     String contactString = JSON.serialize(contactToValidateList);
@@ -141,7 +141,7 @@ public with sharing class RegistrationMatchingHelperTest {
         FirstName = 'Mistmatch',
         LastName = 'Mistmatch',
         Registered_Email__c = 'workEmail@email.com',
-        Birthdate = Date.Today() - 1
+        Birthdate = Date.Today().addYears(-15) - 1
     );
     contactToValidateList.add(contactToValidate);
     String contactString = JSON.serialize(contactToValidateList);
@@ -164,7 +164,7 @@ public with sharing class RegistrationMatchingHelperTest {
         FirstName = 'FirstName Test',
         LastName = 'LastName Test',
         Registered_Email__c = 'mismatchEmail@email.com',
-        Birthdate = Date.Today()
+        Birthdate = Date.Today().addYears(-15)
     );
     contactToValidateList.add(contactToValidate);
     String contactString = JSON.serialize(contactToValidateList);
@@ -187,7 +187,7 @@ public with sharing class RegistrationMatchingHelperTest {
         FirstName = 'FirstName Test',
         LastName = 'LastName Test',
         Registered_Email__c = 'learnerEmail@email.com',
-        Birthdate = Date.Today()
+        Birthdate = Date.Today().addYears(-15)
     );
     contactToValidateList.add(contactToValidate);
     String contactString = JSON.serialize(contactToValidateList);

@@ -11,7 +11,7 @@
       | arsenio.jr.dayrit         | March 29, 2022        | DEPP-2136 | Created file                    |
       |                           |                       |           |                                 |
 */
-@isTest(SeeAllData=false)
+@isTest
 private class UpdateProductNameFlowTest {
     private static string PR_PROGRAM = System.Label.RT_ProductRequest_Program;
     private static string PR_ACTIVITY = System.Label.RT_ProductRequest_Activity;
@@ -79,7 +79,7 @@ private class UpdateProductNameFlowTest {
 
             List<Related_Product_Request__c> rPr = [SELECT Id, Course__c, Product_Name__c FROM  Related_Product_Request__c LIMIT 100];
             for(Related_Product_Request__c checkProdName : rPr){
-
+                System.assertEquals('test', checkProdName.Product_Name__c,'Name must be the same.');
             }
 
         }

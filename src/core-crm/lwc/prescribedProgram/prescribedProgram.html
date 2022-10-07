@@ -78,6 +78,29 @@
               </div>
             </div>
           </lightning-layout-item>
+          <!-- QUTeX Learning Solution Pricing -->
+          <lightning-layout-item
+            if:true={displayReadOnlyPricing}
+            flexibility="auto"
+            size="12"
+            class="slds-m-bottom_small"
+          >
+            <div class="slds-media slds-has-flexi-truncate">
+              <div class="slds-media__figure">
+                <span class="slds-icon_container">
+                  <img alt="" src={dollarIcon} />
+                </span>
+              </div>
+              <div class="slds-media__body">
+                <div class="slds-card__header-title">
+                  <span class="durationTitle">Pricing</span>
+                </div>
+                <div class="slds-m-top_x-small durationValue">
+                  {priceReadOnly}
+                </div>
+              </div>
+            </div>
+          </lightning-layout-item>
           <!-- Delivery -->
           <lightning-layout-item
             flexibility="auto"
@@ -117,6 +140,7 @@
             </template>
           </lightning-layout-item>
           <lightning-layout-item
+            if:true={displayPricing}
             flexibility="auto"
             size="12"
             class="slds-m-bottom_small"
@@ -134,80 +158,135 @@
             >
             </c-custom-combobox>
           </lightning-layout-item>
-          <lightning-layout-item
-            if:true={displayAddToCart}
-            flexibility="auto"
-            size="12"
-          >
-            <lightning-button
-              label={label.addToCart}
-              disabled={disableAddToCart}
-              onclick={notifyAddToCart}
-              variant="brand"
-              class="addToCartBtn"
-            ></lightning-button>
-          </lightning-layout-item>
-          <!-- Apply-->
-          <lightning-layout-item
-            if:true={displayQuestionnaire}
-            flexibility="auto"
-            size="12"
-          >
-            <lightning-button
-              label="APPLY"
-              disabled={disableApply}
-              onclick={notifyApply}
-              variant="brand"
-              class="addToCartBtn"
-            ></lightning-button>
-          </lightning-layout-item>
-          <!-- Register Interest -->
-          <lightning-layout-item
-            if:true={displayRegisterInterest}
-            flexibility="auto"
-            size="12"
-          >
-            <lightning-button
-              label={label.registerInterest}
-              onclick={handleRegisterInterest}
-              variant="brand"
-              class="registerInterest"
-            ></lightning-button>
-          </lightning-layout-item>
+          
+          <template if:false={isCCEPortal}>
+            <!--Add to Cart-->
+            <lightning-layout-item if:true={displayAddToCart} 
+              flexibility="auto" 
+              size="12">
+              <lightning-button
+                label={label.addToCart}
+                disabled={disableAddToCart}
+                onclick={notifyAddToCart}
+                variant="brand"
+                class="addToCartBtn"
+              ></lightning-button>
+            </lightning-layout-item>
+            
+            <!-- Apply-->
+            <lightning-layout-item if:true={displayQuestionnaire} 
+              flexibility="auto" 
+              size="12">
+              <lightning-button
+                label="APPLY"
+                disabled={disableApply}
+                onclick={notifyApply}
+                variant="brand"
+                class="addToCartBtn"
+              ></lightning-button>
+            </lightning-layout-item>
 
-          <!-- Modal Confirmation Message -->
-          <template if:true={isRegModalMessage}>
-            <c-custom-modal-confirm-message
-              is-modal-message={isRegModalMessage}
-              message1={message1}
-              message2={message2}
-              is-continue-to-payment={isContinueToPayment}
-              is-continue-browsing={isContinueBrowsing}
-              handle-continue-browsing={handleContinueBrowsing}
-              handle-continue-to-payment={handleContinueToPayment}
-              close-modal-message={closeModalMessage}
-            ></c-custom-modal-confirm-message>
+            <!-- Register Interest -->
+            <lightning-layout-item if:true={displayRegisterInterest} 
+              flexibility="auto" 
+              size="12">
+              <lightning-button
+                label={label.registerInterest}
+                onclick={handleRegisterInterest}
+                variant="brand"
+                class="registerInterest"
+              ></lightning-button>
+            </lightning-layout-item>
+
+            <!-- Group Booking -->
+            <lightning-layout-item if:true={displayGroupRegistration} 
+              flexibility="auto" 
+              size="12" 
+              style="margin-top: 10px">
+              <lightning-button
+                label="GROUP REGISTRATION"
+                onclick={groupRegistration}
+                variant="brand"
+                class="addToCartBtn"
+              >
+              </lightning-button>
+            </lightning-layout-item>
           </template>
 
-          <!-- Group Booking -->
-          <lightning-layout-item
-            if:true={displayGroupRegistration}
-            flexibility="auto"
-            size="12"
-            style="margin-top: 10px"
-          >
-            <lightning-button
-              label="GROUP REGISTRATION"
-              onclick={groupRegistration}
-              variant="brand"
-              class="addToCartBtn"
+          <template if:true={isCCEPortal}>
+            <!-- Bulk Registration -->
+            <lightning-layout-item if:true={displayBulkRegistration} 
+              flexibility="auto" 
+              size="12" 
+              class="slds-m-bottom_small tooltipWrapper "> 
+              <lightning-button
+                label={groupBulkName}
+                onclick={bulkRegistration}
+                disabled={disableBulkRegistration}  
+                variant="brand"
+                class="addToCartBtn btnCCE"  
+                title="Assign your employees to this product">
+              </lightning-button>
+              <!-- <lightning-helptext content="Assign your employees to this product" class="tooltip"></lightning-helptext>   -->
+              <!-- <span class="tooltiptext">Assign your employees to this product</span> -->          
+            </lightning-layout-item>
+
+            <!-- Employee Self-Registration -->
+            <lightning-layout-item if:true={displayEmployeeSelfRegistration} 
+              flexibility="auto" 
+              size="12" 
+              class="slds-m-bottom_small tooltipWrapper"
+              >  
+              <lightning-button
+                label="Employee Self-Registration"
+                onclick={handleEmployeeSelfRegistration}
+                disabled={disableEmployeeSelfRegistration}
+                variant="brand"
+                class="addToCartBtn btnCCE"
+                title="Receive an email to send on to your employees so they can self register into this product"
+              >
+              </lightning-button>
+              <!-- <lightning-helptext content="Receive an email to send on to your employees so they can self register into this product" class="tooltip"></lightning-helptext>                    -->
+            </lightning-layout-item>    
+
+            <!-- Manage Registration -->
+            <lightning-layout-item
+              if:true={displayManageRegistration}
+              flexibility="auto"
+              size="12"
+              class="slds-m-bottom_small tooltipWrapper"
             >
-            </lightning-button>
-          </lightning-layout-item>
+              <lightning-button
+                label="Manage Registration"
+                onclick={manageRegistrationLink}
+                disabled={disableManageRegistration}
+                variant="brand"
+                class="addToCartBtn btnCCE"
+                title="Review, add or update the employees registered against a product"
+              >
+              </lightning-button>
+              <!-- <lightning-helptext content="Review, add or update the employees registered against a product" class="tooltip"></lightning-helptext>                               -->
+            </lightning-layout-item>   
+          </template>
+
         </lightning-layout>
       </lightning-layout-item>
     </lightning-layout>
   </div>
+  <!-- Modal Confirmation Message -->
+  <template if:true={isRegModalMessage}>
+    <c-custom-modal-confirm-message
+      is-modal-message={isRegModalMessage}
+      message1={message1}
+      message2={message2}
+      is-continue-to-payment={isContinueToPayment}
+      is-continue-browsing={isContinueBrowsing}
+      is-okay={isOkay}
+      handle-continue-browsing={handleContinueBrowsing}
+      handle-continue-to-payment={handleContinueToPayment}
+      close-modal-message={closeModalMessage}
+    ></c-custom-modal-confirm-message>
+            </template>
   <template if:true={openApplicationQuestionnaire}>
     <c-application-questionnaire
       contact-id={contactId}
@@ -259,5 +338,25 @@
         onopenregister={handleRegisterModalOpen}
         start-u-r-l={startURL}
     ></c-custom-sign-in>
+</template>
+<template if:true={openGroupBookingModalBulkRegistration}>
+  <c-group-booking-form-bulk-registration
+    product-details={productDetails}
+    selected-offering={selectedProgramOffering}
+    price-book-entry={selectedPriceBookEntry}
+    is-prescribed={isPrescribed}
+    onclose={groupRegistrationModalClosed}
+	  cce-pricebook-entry-id={ccePricebookEntryId}
+	  price-read-only={priceReadOnly}
+  ></c-group-booking-form-bulk-registration>
+</template>
+<template if:true={displayCsvBulkRegistration}>
+  <c-csv-bulk-registration
+      onclosecsvmodal={closeRegisterModal}
+      course-offering={programOffering}
+      product-details={productDetails}
+      is-prescribed={isPrescribed}
+      credit-available={assetAvailable}
+  ></c-csv-bulk-registration>
 </template>
 </template>

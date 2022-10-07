@@ -11,6 +11,8 @@
       |---------------------------|-----------------------|----------------------|----------------------------------------------|
       | marygrace.j.li            | April 18, 2022        | DEPP-1269            | Created File                                 |
       | eugene.andrew.abuan       | May 12, 2022          | DEPP-1979            | Added logic to make price editable           |
+      | eugene.andrew.abuan       | July 13, 2022         | DEPP-3376            |Changed onmouse events to ondrag              |
+
  */
 import { LightningElement, api,track } from 'lwc';
 

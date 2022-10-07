@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Available_Seats__c</fullName>
     <externalId>false</externalId>
-    <formula>hed__Capacity__c -  Total_Number_of_Registered_Learners__c -  Checkout_Cart_Items_Count__c</formula>
+    <formula>hed__Capacity__c -  Total_Number_of_Registered_Learners__c</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Available Seats</label>
     <precision>18</precision>

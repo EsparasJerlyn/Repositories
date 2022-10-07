@@ -31,6 +31,7 @@ export default class CustomLogout extends LightningElement {
     categoryId;
     recordPageUrl;
     startURL;
+    startURL;
 
 
     @wire(MessageContext)

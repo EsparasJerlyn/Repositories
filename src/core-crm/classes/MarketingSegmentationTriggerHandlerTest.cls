@@ -11,10 +11,10 @@
       | w.li                     | June 15, 2022         | DEPP-1058              | Created file                 |
  */
 
-@IsTest(SeeAllData=false)
+@isTest
 public without sharing class MarketingSegmentationTriggerHandlerTest {
 
-    @IsTest
+    @isTest
     public static void testInsertMarketingSegmentation() {
         Test.startTest();
         Marketing_Segmentation__c marketingSegmentation = new Marketing_Segmentation__c();
@@ -22,7 +22,7 @@ public without sharing class MarketingSegmentationTriggerHandlerTest {
         Test.stopTest();
     }
 
-    @IsTest
+    @isTest
     public static void testUpdateMarketingSegmentation() {
         Marketing_Segmentation__c marketingSegmentation = new Marketing_Segmentation__c();
         insert marketingSegmentation;

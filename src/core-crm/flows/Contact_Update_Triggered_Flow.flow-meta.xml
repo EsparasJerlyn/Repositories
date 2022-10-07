@@ -59,6 +59,26 @@
         </assignmentItems>
     </assignments>
     <assignments>
+        <name>ContactMobile_Phone_Assignment</name>
+        <label>ContactMobile Phone Assignment</label>
+        <locationX>578</locationX>
+        <locationY>767</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.ContactMobile_Validation__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Unvalidated</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.MobilePhone</assignToReference>
+            <operator>Assign</operator>
+        </assignmentItems>
+        <connector>
+            <targetReference>Work_Phone_Is_Changed</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>ContactMobile_Unvalidated</name>
         <label>ContactMobile Unvalidated</label>
         <locationX>50</locationX>
@@ -72,6 +92,26 @@
         </assignmentItems>
         <connector>
             <targetReference>Work_Phone_Is_Changed</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>ContactPhone_Assignment</name>
+        <label>ContactPhone Assignment</label>
+        <locationX>578</locationX>
+        <locationY>431</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.ContactPhone_Validation__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Unvalidated</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.Phone</assignToReference>
+            <operator>Assign</operator>
+        </assignmentItems>
+        <connector>
+            <targetReference>Mobile_Is_Changed</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -91,6 +131,23 @@
         </connector>
     </assignments>
     <assignments>
+        <name>ContactWork_Phone_Assignment</name>
+        <label>ContactWork Phone Assignment</label>
+        <locationX>578</locationX>
+        <locationY>1103</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.ContactWorkPhone_Validation__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Unvalidated</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.hed__WorkPhone__c</assignToReference>
+            <operator>Assign</operator>
+        </assignmentItems>
+    </assignments>
+    <assignments>
         <name>ContactWorkPhone_Unvalidated</name>
         <label>ContactWorkPhone Unvalidated</label>
         <locationX>50</locationX>
@@ -106,7 +163,7 @@
     <decisions>
         <name>Mobile_Is_Changed</name>
         <label>Mobile Is Changed</label>
-        <locationX>314</locationX>
+        <locationX>446</locationX>
         <locationY>647</locationY>
         <defaultConnector>
             <targetReference>Work_Phone_Is_Changed</targetReference>
@@ -184,11 +241,47 @@
             </connector>
             <label>Yes Mobile Is Changed</label>
         </rules>
+        <rules>
+            <name>ContactMobile_Locale_Remove</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Mobile_No_Locale__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Mobile_No_Locale__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.ContactMobile_Locale__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Australia (+61)</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.ContactMobile_Locale__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>New Zealand (+64)</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>ContactMobile_Phone_Assignment</targetReference>
+            </connector>
+            <label>ContactMobile Locale Remove</label>
+        </rules>
     </decisions>
     <decisions>
         <name>Phone_Is_Changed</name>
         <label>Phone Is Changed</label>
-        <locationX>314</locationX>
+        <locationX>446</locationX>
         <locationY>311</locationY>
         <defaultConnector>
             <targetReference>Mobile_Is_Changed</targetReference>
@@ -266,11 +359,47 @@
             </connector>
             <label>Yes Phone Is Changed</label>
         </rules>
+        <rules>
+            <name>ContactPhone_Locale_Remove</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Phone_No_Locale__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Phone_No_Locale__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.ContactPhone_Locale__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Australia (+61)</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.ContactPhone_Locale__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>New Zealand (+64)</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>ContactPhone_Assignment</targetReference>
+            </connector>
+            <label>ContactPhone Locale Remove</label>
+        </rules>
     </decisions>
     <decisions>
         <name>Work_Phone_Is_Changed</name>
         <label>Work Phone Is Changed</label>
-        <locationX>314</locationX>
+        <locationX>446</locationX>
         <locationY>983</locationY>
         <defaultConnectorLabel>No Work Phone Is Not Changed</defaultConnectorLabel>
         <rules>
@@ -345,6 +474,42 @@
             </connector>
             <label>Yes Work Phone Is Changed</label>
         </rules>
+        <rules>
+            <name>ContactWorkPhone_Locale_Remove</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Work_Phone_No_Locale__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Work_Phone_No_Locale__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.ContactWorkPhone_Locale__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Australia (+61)</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.ContactWorkPhone_Locale__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>New Zealand (+64)</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>ContactWork_Phone_Assignment</targetReference>
+            </connector>
+            <label>ContactWorkPhone Locale Remove</label>
+        </rules>
     </decisions>
     <description>Contact record before update triggered flow</description>
     <interviewLabel>Contact Update Triggered Flow {!$Flow.CurrentDateTime}</interviewLabel>
@@ -369,7 +534,7 @@
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <start>
-        <locationX>188</locationX>
+        <locationX>320</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Phone_Is_Changed</targetReference>

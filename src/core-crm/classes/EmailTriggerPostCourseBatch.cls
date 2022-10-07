@@ -263,5 +263,5 @@ public with sharing class EmailTriggerPostCourseBatch implements Database.Batcha
         public String amount;
         public String storeLink;
         public String userName;
-    }   
+    }
 }

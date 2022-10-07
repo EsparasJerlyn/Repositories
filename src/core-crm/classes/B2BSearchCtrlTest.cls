@@ -17,10 +17,10 @@ public class B2BSearchCtrlTest {
     private static final String COMMUNITY_NAME = 'CCE';
     
     @testSetup static void setupMethod() {
-        Account acc = TestDataFactory.createTestAccount(true);
+        TestDataFactory.createTestAccount(true);
     }
 	
-    @IsTest
+    @isTest
     private static void productSearchTest() {
         String communityId = B2BUtils.getCommunityIdByName(COMMUNITY_NAME);
         Account account = TestDataFactory.createTestAccount(false);
@@ -37,7 +37,7 @@ public class B2BSearchCtrlTest {
         System.assertEquals(true, result == null, 'result is not null');
     }
 	
-	@IsTest
+	@isTest
     private static void getSortRulesTest() {
         String communityId = B2BUtils.getCommunityIdByName(COMMUNITY_NAME);
 

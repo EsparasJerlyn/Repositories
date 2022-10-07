@@ -11,11 +11,11 @@
       | roy.nino.s.regala         | May 31, 2022          | DEPP-2105    | Created file                                | 
       |                           |                       |              |                                             | 
 */
-@IsTest(SeeAllData=false) 
+@isTest 
 public class LoqateMobileValidationSchedulerTest {
     private static User currentUser = TestDataFactory.createUserRecords(1, 'QUTeX').iterator().next();
 
-    @IsTest
+    @isTest
     static void testLoqateScheduler(){
         
         System.runAs(currentUser){              

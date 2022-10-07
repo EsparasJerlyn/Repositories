@@ -9,6 +9,73 @@
             record-for-ope
         ></c-custom-create-edit-record>
     </template>
+    <!--Create New Single Course Offering-->
+    <template if:true={newCourseOffering}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-03" aria-modal="true" aria-describedby="modal-content-id-3" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={handleCloseCourseOffering}>
+                        <lightning-icon icon-name="utility:close"
+                            alternative-text="close"
+                            variant="inverse"
+                            size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-3">
+                    <div class="slds-is-relative">
+                        <lightning-spinner if:true={isCourseOfferingLoading} alternative-text="Loading" size="small"></lightning-spinner>
+                        <!--Program Offering Form-->
+                        <div class="slds-box slds-box_x-small slds-text-heading_small slds-theme_shade">
+                            <strong>Course Offering Creation</strong>
+                        </div>
+                        <div class="slds-m-around_small">
+                            <p class="slds-m-bottom_small">
+                                <strong>{parentRecord.Name}</strong>
+                            </p>
+                            <lightning-record-edit-form
+                                object-api-name="hed__Course_Offering__c"
+                                onsuccess={handleCourseOfferingSucces}
+                                onerror={handleError}
+                                data-id="singleCourseOfferingForm">
+                                <lightning-layout multiple-rows="true">
+                                    <template for:each={singleOfferingLayout} for:item="courseOfferingLayout">
+                                        <lightning-layout-item key={courseOfferingLayout.field} size="6">
+                                            <lightning-input-field
+                                                field-name={courseOfferingLayout.field}
+                                                required={courseOfferingLayout.mandatory}
+                                                value={courseOfferingLayout.value}
+                                                data-id="toValidate"
+                                            ></lightning-input-field>
+                                        </lightning-layout-item>
+                                    </template>
+                                    <div class="slds-hide">
+                                        <lightning-input-field
+                                            field-name="hed__Course__c"
+                                            value={parentId}
+                                        ></lightning-input-field>
+                                        <lightning-input-field
+                                            field-name="hed__Term__c"
+                                            value={termId}
+                                        ></lightning-input-field>
+                                    </div>
+                                </lightning-layout>
+                            </lightning-record-edit-form>
+                        </div>
+                    </div>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button
+                        icon-position="right"
+                        label="Save"
+                        variant="brand"
+                        onclick={handleSaveCourseOffering}
+                    ></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
     <!--Create New Prescribed Program Offering Modal-->
     <template if:true={newPrescribedOffering}>
         <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
@@ -136,7 +203,7 @@
                             onerror={handleRecordError}
                             onsubmit={handleSubmitFacilitator}>
                                 <c-custom-search
-                                search-label="Facilitor"
+                                search-label="Facilitator"
                                 search-input-placeholder="Search Facilitators..."
                                 search-items={contactSearchItems}
                                 search-item-icon="standard:contact"
@@ -207,7 +274,6 @@
                         {offering.badgeLabel}
                     </span>
                     <lightning-button
-                        if:false={isOpeProgramRequest}
                         variant="brand-outline"
                         label="PRINT NAME BADGES"
                         title="Print Name Badges"
@@ -264,6 +330,7 @@
                                 course-offering-id={offering.Id}
                                 custom-lookup-items={offering.relatedFacilitators}
                                 course-connection-id={offering.primaryFaci}
+                                record-type={recordType}
                                 onsessionsuccess={handleSuccessSession}
                                 onsessionclose={handleCloseSession}
                             ></c-add-new-session >
@@ -285,30 +352,43 @@
                                 </lightning-accordion-section>
                                 <!--Sessions Section-->  
                                 <lightning-accordion-section name="sessionDetails" label="Session Details" class="nested-accordion-section">
-                                    <c-session-detail-section
-                                        show-session-table={offering.showSessionTable}
-                                        offering-id={offering.Id}
-                                        disable-session={offering.disableSession}
-                                        show-help={offering.showHelp}
-                                        related-sessions={offering.relatedSessions}
-                                        ontablesave={handleRefreshData}
-                                        onaddsession={handleAddSession}
-                                    ></c-session-detail-section>
+                                    <!--Sessions Section for Diagnostic Tool--> 
+                                    <template if:true={isDiagnosticProductRequest}>
+                                        <c-diagnostic-session-detail-section
+                                            child-record-id={offering.Id}
+                                        ></c-diagnostic-session-detail-section>
+                                    </template> 
+                                    <template if:false={isDiagnosticProductRequest}>
+                                        <c-session-detail-section
+                                            show-session-table={offering.showSessionTable}
+                                            show-session-table-per-learner={offering.showSessionTablePerLearner}
+                                            offering-id={offering.Id}
+                                            disable-session={offering.disableSession}
+                                            show-help={offering.showHelp}
+                                            related-sessions={offering.relatedSessions}
+                                            ontablesave={handleRefreshData}
+                                            onaddsession={handleAddSession}
+                                            is-coaching-product-request={isCoachingProductRequest}
+                                            related-sessions-per-learner={offering.relatedSessionsPerLearner}
+                                        ></c-session-detail-section>
+                                    </template>
                                 </lightning-accordion-section>
                             </template>               
                             <template if:false={childOfPrescribedProgram}>
-                                <!--Manage Applications Section-->
-                                <lightning-accordion-section name="manageApplications" label="Manage Application" class="nested-accordion-section">
-                                    <div class="slds-scrollable slds-p-bottom_medium slds-m-top_small">
-                                        <c-manage-application-section
-                                            prod-req-id={recordId}
-                                            offering-id={offering.Id}
-                                            enable-edit={showEditButton}
-                                        ></c-manage-application-section>                    
-                                    </div>               
-                                </lightning-accordion-section>
+                                <template if:false={isCCEProductRequest}>
+                                    <!--Manage Applications Section-->
+                                    <lightning-accordion-section name="manageApplications" label="Manage Application" class="nested-accordion-section">
+                                        <div class="slds-scrollable slds-p-bottom_medium slds-m-top_small">
+                                            <c-manage-application-section
+                                                prod-req-id={recordId}
+                                                offering-id={offering.Id}
+                                                enable-edit={showEditButton}
+                                            ></c-manage-application-section>                    
+                                        </div>               
+                                    </lightning-accordion-section>
+                                </template>
                                 <!--Manage Registrations Section-->
-                                <lightning-accordion-section name="manageRegistrations" label="Manage Registration" class="nested-accordion-section">
+                                <lightning-accordion-section name="manageRegistrations" label="Manage Registrations" class="nested-accordion-section">
                                     <div class="slds-scrollable slds-p-bottom_medium slds-m-top_small">
                                         <c-manage-registration-section
                                             child-record-id={offering.Id}
@@ -317,11 +397,16 @@
                                             disabled={isStatusCompleted}
                                             onsetemails={setLearnerEmails}
                                             prescribed-program={isPrescribed}
+                                            is-coaching-product-request={isCoachingProductRequest}
+                                            no-of-coaching-sessions={noOfCoachingSessions}
+                                            onaddedregistrant={handleRefreshData}
+                                            product-category={productCategory}
+                                            max-participants={maxParticipants}
                                         ></c-manage-registration-section>                    
                                     </div> 
                                 </lightning-accordion-section>
                                 <!--Manage Certificates Section-->
-                                <lightning-accordion-section name="manageCertificate" label="Manage Certificate" class="nested-accordion-section">
+                                <lightning-accordion-section name="manageCertificate" label="Manage Certificates" class="nested-accordion-section">
                                     <div class="slds-scrollable slds-p-bottom_medium slds-m-top_small">
                                         <c-manage-certificates
                                             offering-id={offering.Id}
@@ -331,13 +416,13 @@
                                     </div> 
                                 </lightning-accordion-section>
                                 <!--Manage Ad-hoc Communication Section-->
-                                <lightning-accordion-section name="manageAdhocCommunication" label="Manage Ad-hoc Communication" class="nested-accordion-section">
+                                <lightning-accordion-section name="manageAdhocCommunication" label="Manage Ad-hoc Communications" class="nested-accordion-section">
                                     <c-manage-adhoc-comms-section
                                         record-id={recordId}
                                         object-api-name={objectApiName}
                                         offering-id={offering.Id}
                                         is-status-completed={isStatusCompleted}
-                                        is-program={isOpeProgramRequest}
+                                        is-program={isProgramRequest}
                                         registered-learner-emails={offering.registeredLearnerEmails}
                                     ></c-manage-adhoc-comms-section>
                                 </lightning-accordion-section>

@@ -3,7 +3,7 @@
     <fullName>Who_Should_Participatev2__c</fullName>
     <description>From Courseloop - can&apos;t be overwritten for Curriculum record types</description>
     <externalId>false</externalId>
-    <inlineHelpText>Who should participate? By attending participants will gain what new knowledge and skills</inlineHelpText>
+    <inlineHelpText>Who should participate? By attending participants will gain new knowledge and skills</inlineHelpText>
     <label>Who Should Participate?</label>
     <length>1000</length>
     <trackTrending>false</trackTrending>

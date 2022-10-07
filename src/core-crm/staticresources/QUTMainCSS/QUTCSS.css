@@ -328,7 +328,6 @@ a.reversed:hover{
 /*cartdetails */
 [c-cartdetails_cartdetails] input.slds-input[disabled],[c-cartdetails_cartdetails] textarea.slds-textarea[disabled]{
   color: #000000 !important;
-  webkit-text-fill-color: #000000;
   opacity: 1; /* required on iOS */
 }
 
@@ -684,8 +683,8 @@ c-store-header{
 }
 
 .header_logo {
-    width: 190px;
-    height: 50px;    
+    width: 120px;
+    height: 36px;    
 }
 
 /*end of StoreHeader*/
@@ -1391,7 +1390,17 @@ div[c-customcombobox_customcombobox].slds-is-open span[c-customcombobox_customco
 	background: var(--greys-color-tableborder);
 }
 
-
+span[c-customcomboboxmulti_customcomboboxmulti].multi-select-combobox__icon, span[c-customcombobox_customcombobox].slds-input__icon {
+  margin-top: -22px;
+  height: 91%;
+  right: 2px;
+  width: 40px;
+  text-align: center;
+  margin-right: 0px;
+  padding-right: 0px;
+  border-radius: 0px;
+  background: var(--main-color-blue100);
+}
 
 [c-customcomboboxmulti_customcomboboxmulti].slds-icon-utility-chevrondown,
 [c-customcomboboxmulti_customcomboboxmulti].slds-icon-utility-chevronup,
@@ -1517,7 +1526,7 @@ span[c-customcombobox_customcombobox].slds-listbox__option-meta_entity {
 /*end of search result */
 
 /*GroupBooking*/
-[groupbookingform_groupbookingform] .slds-combobox__input .slds-truncate {
+[c-groupbookingform_groupbookingform] .slds-combobox__input .slds-truncate {
   margin-top: 0rem !important;
 }
 
@@ -1965,9 +1974,6 @@ span[c-customcombobox_customcombobox].slds-listbox__option-meta_entity {
       font-weight: var(--text-weight-700);
       width: 50%;
     }
-
-    div.main-container-bc [role=navigation] ol.slds-breadcrumb li:last-child{
-    }
     
     div.main-container-bc [role=navigation] ol.slds-breadcrumb li:nth-child(5) {
       width: 50%;
@@ -1995,7 +2001,7 @@ span[c-customcombobox_customcombobox].slds-listbox__option-meta_entity {
       font-stretch: revert;
       font-weight: normal;
       color: #DBDBDB !important;
-    }   
+    }
   }
 c-custom-sign-in.regModal.noFloat .wrapper {
   width: 100%;
@@ -2062,4 +2068,72 @@ form[c-registrationform_registrationform]  span.label-text{
 
 div[c-registrationform_registrationform].slds-form-element__control label[c-registrationform_registrationform].slds-checkbox__label{
   float:left;
+}
+
+/*remove SpinEdit on firefox*/
+input[type=number] {
+  -moz-appearance: textfield;
+ }
+
+ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button {
+     -webkit-appearance: none;
+     appearance: none;
+ }
+ 
+/* file upload */
+[interop-primitivefiledroppablezone_primitivefiledroppablezone-host] .slds-file-selector__button {
+  background: #F5F5F5 !important;
+  height: 70px !important;
+  width: 100%;
+  flex-flow: column;
+  cursor: pointer;
+  border: 1px solid #000000 dotted;
+  border-radius: 0px;
+  }
+  
+  [interop-primitivefiledroppablezone_primitivefiledroppablezone-host] .slds-file-selector__button:hover{
+  background:#0066b9 !important;
+  color:#fff;
+  }
+  
+  [interop-primitivefiledroppablezone_primitivefiledroppablezone-host] .slds-file-selector__text, [interop-primitivefiledroppablezone_primitivefiledroppablezone] .slds-file-selector__text 
+  {
+  display: none !important;
+  }
+  
+  [interop-primitivefiledroppablezone_primitivefiledroppablezone-host].slds-file-selector__dropzone{
+  border: 0px solid #fff !important;
+  }
+  
+  [interop-primitivefiledroppablezone_primitivefiledroppablezone-host] .slds-file-selector__button:hover{
+  background:#0066b9 !important;
+  color:#fff;
+  }
+
+  /*Center truncate*/
+span.slds-truncate  {
+    align-self: center;
+}
+
+
+.slds-input {
+  font-size: 18px !important;
+}
+
+.slds-input::placeholder {
+  font-size: 16px !important;
+  font-family: 'ProximaNova' !important;
+}
+
+#LoginNew .cCenterPanel {
+  width: 100%;
+  margin: 150px 0px;
+}
+
+[c-registrationconfirmation_registrationconfirmation] .slds-hyphenate,
+[c-manageregistrationandnomination_manageregistrationandnomination] .slds-hyphenate {
+  overflow-wrap: break-word;
+  word-break: break-word;
+  white-space: pre-line;
+  font-size: 16px;
 }

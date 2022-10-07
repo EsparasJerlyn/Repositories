@@ -11,11 +11,11 @@
       | eugene.andrew.abuan       | March 02, 2022        | DEPP-1256    | Created file                                | 
       |                           |                       |              |                                             | 
 */
-@IsTest(SeeAllData=false) 
+@isTest 
 public class PublishingEndDateBatchSchedulerTest {
     private static User currentUser = TestDataFactory.createUserRecords(1, 'QUTeX').iterator().next();
 
-    @IsTest
+    @isTest
     static void testPublishingEndDateScheduler(){
         
         System.runAs(currentUser){              

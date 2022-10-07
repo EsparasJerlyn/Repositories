@@ -10,7 +10,7 @@
       |---------------------------|-----------------------|----------------------|--------------------------------------------------------|
       | angelika.j.s.galang       | January 26, 2022      | DEPP-838,1299,1407   | Created file                                           |                           |
 */
-@IsTest(SeeAllData = false)
+@isTest
 private class CustomLayoutCtrlTest {
 
     private static final String COURSE_API_NAME = hed__Course__c.SObjectType.getDescribe().getLocalName();
@@ -31,14 +31,16 @@ private class CustomLayoutCtrlTest {
         Product_Request__c pr = TestDataFactory.createTestProductRequestRecords(1).iterator().next();
         insert pr;
         hed__Course__c course = TestDataFactory.createTestCourseRecords(1,acc?.Id,pr?.Id).iterator().next();
+        course.Diagnostic_Tool_Type__c = 'Group Diagnostic Tool';
         insert course;
         Product2 product = TestDataFactory.createTestProductRecords(1, new List<hed__Course__c>{course}).iterator().next();
         insert product;
+        TestDataFactory.generateTestUsers();
     }
 
-    @IsTest
+    @isTest
     private static void getChildRecordIdTest(){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactory.getProgramAdminUser()){
             Product_Request__c pr = [SELECT Id FROM Product_Request__c LIMIT 1];
             hed__Course__c course = [SELECT Id FROM hed__Course__c LIMIT 1];
             Test.startTest();
@@ -48,9 +50,9 @@ private class CustomLayoutCtrlTest {
         }
     }
 
-    @IsTest
+    @isTest
     private static void getParentRecordTest(){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactory.getProgramAdminUser()){
             Product_Request__c pr = [SELECT Id FROM Product_Request__c LIMIT 1];
             hed__Course__c course = [SELECT Id FROM hed__Course__c LIMIT 1];
             Test.startTest();
@@ -61,9 +63,9 @@ private class CustomLayoutCtrlTest {
         }
     }
 
-    @IsTest
+    @isTest
     private static void getGrandChildRecordIdTest(){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactory.getProgramAdminUser()){
             Product_Request__c pr = [SELECT Id FROM Product_Request__c LIMIT 1];
             Product2 product = [SELECT Id FROM Product2 LIMIT 1];
             Map<String,String> grandChild = new Map<String,String>();
@@ -76,9 +78,9 @@ private class CustomLayoutCtrlTest {
         }
     }
 
-    @IsTest
+    @isTest
     private static void getGrandParentRecordTest(){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactory.getProgramAdminUser()){
             Product_Request__c pr = [SELECT Id FROM Product_Request__c LIMIT 1];
             Product2 product = [SELECT Id FROM Product2 LIMIT 1];
             Map<String,String> grandChild = new Map<String,String>();
@@ -91,13 +93,31 @@ private class CustomLayoutCtrlTest {
         }
     }
 
-    @IsTest
+    @isTest
     private static void getLayoutMappingTest(){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactory.getProgramAdminUser()){
             Test.startTest();
             List<Field_Layout_Setting__mdt> fieldLayoutList = CustomLayoutCtrl.getLayoutMapping(COMMUNICATION_SCHEDULE_API_NAME,MDT_COMMUNICATION_SCHEDULE,true);
             Test.stopTest();
             System.assert(fieldLayoutList.size() == 1, 'Field Layout Setting list did not match expected.');
+        }
+    }
+
+    @isTest
+    private static void getLayoutMappingWithFieldTest(){
+
+
+        System.runAs(TestDataFactory.getProgramAdminUser()){
+            Test.startTest();
+            Product_Request__c pr = [SELECT Id FROM Product_Request__c LIMIT 1];
+            Map<String,String> objectMap = new Map<String,String>();
+            objectMap.put('recordType','Diagnostic_Tool');
+            objectMap.put('childObject','hed__Course__c');
+            objectMap.put('fieldApiName','Diagnostic_Tool_Type__c');
+            objectMap.put('parentField','ProductRequestID__c');
+            List<Field_Layout_Setting__mdt> fieldLayoutList = CustomLayoutCtrl.getLayoutMappingWithField(objectMap,pr.Id);
+            Test.stopTest();
+            System.assert(!fieldLayoutList.isEmpty(), 'Field Layout Setting list did not match expected.');
         }
     }
 

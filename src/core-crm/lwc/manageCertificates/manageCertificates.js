@@ -168,7 +168,15 @@ export default class ManageCertificates extends NavigationMixin(LightningElement
         if(this.selectedRecords.length == 0){
             this.generateToast(ERROR_TITLE, 'Please select learners!', ERROR_VARIANT);
             this.isLoading = false;  
-        }else{            
+        }else{      
+            this.selectedRecords.forEach(rec=>{
+                if(rec.certificateType == 'Certificate of Achievement'){
+                    if(!rec.marks){
+                        this.generateToast(ERROR_TITLE, 'Please add mark(s)', ERROR_VARIANT);   
+                        this.isLoading = false;
+                    }
+                }
+            })  
             this.handleSendCertificate(this.selectedRecords); 
         }             
     }

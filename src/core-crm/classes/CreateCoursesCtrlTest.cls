@@ -11,7 +11,7 @@
       | angelika.j.s.galang       | October 25, 2021      | DEPP-383 | Created file                    |
       |                           |                       |          |                                 |
 */
-@IsTest(SeeAllData = false)
+@isTest
 private class CreateCoursesCtrlTest {
 
     private static final String STR_QUTEX = 'QUTeX';
@@ -46,7 +46,7 @@ private class CreateCoursesCtrlTest {
         Test.stopTest();
     }
 
-    @IsTest
+    @isTest
     private static void getCoursesTest(){
         Test.startTest();
         System.runAs(currentUser){

@@ -10,7 +10,7 @@
       |---------------------------|-----------------------|----------------------|---------------------------------|
       | angelika.j.s.galang       | March 24, 2022        | DEPP-1502            | Created file                    | 
 */
-@IsTest(SeeAllData = false)
+@isTest
 private class EvaluationSectionCtrlTest {
     
     private static final String QUTEX = System.Label.QUTeX;
@@ -30,7 +30,7 @@ private class EvaluationSectionCtrlTest {
         insert programOffering;
     } 
 
-    @IsTest
+    @isTest
     private static void getEvaluationFieldsTest(){
         System.runAs(currentUser){
             Test.startTest();
@@ -40,7 +40,7 @@ private class EvaluationSectionCtrlTest {
         }
     }
 
-    @IsTest
+    @isTest
     private static void getRelatedProgramOfferingsTest(){
         System.runAs(currentUser){
             Id productRequestId = [SELECT Id FROM Product_Request__c LIMIT 1]?.Id;

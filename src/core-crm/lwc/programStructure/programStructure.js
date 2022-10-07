@@ -51,7 +51,7 @@ export default class ProgramStructure extends LightningElement {
     editable = false;
     hasSavedSequence = false;
     programDeliveryStructureValue;
-    
+    isProcessing = false;
 
     /*
     *gets object info of program plan
@@ -96,8 +96,10 @@ export default class ProgramStructure extends LightningElement {
         return (!this.sequenceEdited && this.hasPlanRequirementOnRender) || 
             this.sequenceHasRepeatsEmptyAndZeroes ||
             this.markedAsComplete ||
+            this.tableData.length < 0 ||
             !HAS_PERMISSION ||
-            this.isStatusNotDesign;
+            this.isStatusNotDesign ||
+            this.isProcessing;
     }
 
     /*
@@ -148,13 +150,18 @@ export default class ProgramStructure extends LightningElement {
     *upserts the program plan and plan requirement
     */
      handleSave(){
+        this.isProcessing = true;
          upsertProgramPlanAndPlanRequirement({recordsToUpsert:this.createObjectRecord().planRequirement})
         .then(()=>{
             this.generateToast('Success!','Plan Requirement records saved','success');
             const programStructureSaved = new CustomEvent('programstrucuresaved');
             this.dispatchEvent(programStructureSaved);
         })
+        .finally(()=>{
+            this.isProcessing = false;
+        })
         .catch((error)=>{
+            console.error(JSON.stringify(error));
             this.generateToast('Error.',LWC_Error_General,'error');
         });
      }

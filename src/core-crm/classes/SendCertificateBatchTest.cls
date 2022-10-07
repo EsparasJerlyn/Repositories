@@ -7,9 +7,10 @@
  * @history
  *    | Developer                 | Date                  | JIRA                 | Change Summary               |
       |---------------------------|-----------------------|----------------------|------------------------------|
-      | roy.nino.s.regala         | May 02, 2022          | DEPP-1478            | CreatedFile                  | 
+      | roy.nino.s.regala         | May 02, 2022          | DEPP-1478            | CreatedFile                  |
+      | alexander.cadalin         | September 07, 2022    |                      | Test Error Fixes             |
  */
-@isTest(SeeAllData=false)
+@isTest
 public with sharing class SendCertificateBatchTest {
     private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
     private static string studentRT = System.Label.RT_CourseConnection_Student;
@@ -22,8 +23,23 @@ public with sharing class SendCertificateBatchTest {
     private static Integer numberOfRecords = 100;
     private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
+	private static final String EMAIL_TEMPLATE = 'Certificate of Participation';
+    private static final String COVER_TEMPLATE = 'Send Certificate';
 
-    @IsTest
+    @testSetup
+    static void makeData(){
+        Test.startTest();
+        TestDataFactory.generateTestUsers();
+        Test.stopTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()){
+            List<EmailTemplate> templates = TestDataFactory.createTestEmailTemplateRecords(2,new Map<String,String>{
+                EMAIL_TEMPLATE => 'Test Email Subject',
+                COVER_TEMPLATE => 'Send Certificate'});
+            insert templates;
+        }
+    }
+    
+    @isTest
     static void sendEmailCourseTest(){
         System.runAs(currentUser){
             Test.startTest();
@@ -38,7 +54,7 @@ public with sharing class SendCertificateBatchTest {
         }
     }
 
-    @IsTest
+    @isTest
     static void sendEmailProgramTest(){
         System.runAs(currentUser){
             Test.startTest();
@@ -98,6 +114,7 @@ public with sharing class SendCertificateBatchTest {
                 studentProgram.Paid_in_Full__c = 'Yes';
                 studentProgram.Program_Offering__c = offeringId;
                 studentProgram.Marks__c = 80;
+                studentProgram.hed__Status__c = 'Active';
                 studentPrograms.add(studentProgram);
             }
             insert studentPrograms;
@@ -147,6 +164,7 @@ public with sharing class SendCertificateBatchTest {
                 student.Paid_in_Full__c = 'Yes';
                 student.hed__Course_Offering__c = offeringId;
                 student.Marks__c = 80;
+                student.hed__Status__c = 'Active';
                 students.add(student);
             }
             insert students;

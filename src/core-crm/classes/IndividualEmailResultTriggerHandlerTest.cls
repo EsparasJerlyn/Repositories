@@ -11,10 +11,10 @@
       | w.li                     | June 15, 2022         | DEPP-1058              | Created file                 |
  */
 
-@IsTest(SeeAllData=false)
+@isTest
 public without sharing class IndividualEmailResultTriggerHandlerTest {
 
-    @IsTest
+    @isTest
     public static void testInsertIER() {
         Test.startTest();
         et4ae5__SendDefinition__c sendDefinition = new et4ae5__SendDefinition__c();
@@ -27,7 +27,7 @@ public without sharing class IndividualEmailResultTriggerHandlerTest {
         Test.stopTest();
     }
 
-    @IsTest
+    @isTest
     public static void testUpdateIER() {
         et4ae5__SendDefinition__c sendDefinition = new et4ae5__SendDefinition__c();
         insert sendDefinition;

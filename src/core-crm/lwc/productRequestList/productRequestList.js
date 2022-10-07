@@ -13,7 +13,10 @@
       | angelika.j.s.galang       | December 17, 2021     | DEPP-1088,1096       | Modified to handle OPE records        | 
       | roy.nino.s.regala         | March 05, 2022        | DEPP-1747            | Updated Parent to child relationship  |
       | eccarius.karl.munoz       | March 21, 2022        | DEPP-1888            | Modified to handle Not Proceeding     |
- */
+      | john.m.tambasen           | July 05, 2022         | DEPP-2590            | SOA product request                   | 
+      | eccarius.karl.munoz       | July 11, 2022         | DEPP-2035            | Added Educational Consultancy handling| 
+      | john.m.tambasen           | July 26, 2022         | DEPP-3480            | Corporate Bundle product request      | 
+*/
 import { LightningElement, wire,api } from 'lwc';
 import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
 import { refreshApex } from '@salesforce/apex';
@@ -23,8 +26,11 @@ import LWC_List_CCEParentFilter from '@salesforce/label/c.LWC_List_CCEParentFilt
 import LWC_List_CCEChildFilter from '@salesforce/label/c.LWC_List_CCEChildFilter';
 import LWC_List_OPEParentFilter from '@salesforce/label/c.LWC_List_OPEParentFilter';
 import LWC_List_OPEChildFilter from '@salesforce/label/c.LWC_List_OPEChildFilter';
+import LWC_List_SOA_ChildFilter from '@salesforce/label/c.LWC_List_SOA_ChildFilter';
 import RT_ProductSpecification_OPEProgramSpecification from '@salesforce/label/c.RT_ProductSpecification_OPEProgramSpecification';
 import RT_ProductRequest_Program from '@salesforce/label/c.RT_ProductRequest_Program';
+import RT_ProductRequest_SOA from '@salesforce/label/c.RT_ProductRequest_SOA';
+import RT_ProductRequest_PWP from '@salesforce/label/c.RT_ProductRequest_Program_Without_Pathway';;
 import getProductRequests from '@salesforce/apex/ProductRequestListCtrl.getProductRequests';
 import updateProdReqToNotProceeding from '@salesforce/apex/ProductRequestListCtrl.updateProdReqToNotProceeding';
 import PS_RECORD_TYPE from '@salesforce/schema/Product_Specification__c.RecordType.DeveloperName';
@@ -36,6 +42,7 @@ const PS_FILTER = LWC_List_CCEParentFilter.split(COMMA);
 const PR_FILTER = LWC_List_CCEChildFilter.split(COMMA);
 const PS_OPE_FILTER = LWC_List_OPEParentFilter.split(COMMA);
 const PR_OPE_FILTER = LWC_List_OPEChildFilter.split(COMMA);
+const PR_SOA_FILTER = LWC_List_SOA_ChildFilter.split(COMMA);
 const ACCORDION_SECTION = 'Product Requests';
 const OPE_ACCORDION_SECTION = 'Add Products';
 const NOT_PROCEEDING_BUTTON_NAME = 'Not Proceeding';
@@ -140,21 +147,12 @@ export default class ProductRequestList extends LightningElement {
     getProductRequests(result){
         if(result.data){
             this.productRequests = result;
-            let parentProductRequests = this.formatData(this.productRequests.data.parentList); //all product requests that has a child
-            if(this.productRequests.data.parentList.length != 0){
-                this.productSpecStage = result.data.parentList[0].Product_Specification__r.Stage__c;
-            }           
-            let parentChildProductRequests = this.productRequests.data.parentChildMap; // map of product request to its children
-            parentProductRequests.forEach(parentProdReq =>{
-                let childProdReqs = 
-                    parentChildProductRequests[parentProdReq.recordId] ?
-                    this.formatData(parentChildProductRequests[parentProdReq.recordId]) : [];
-                
-                if(childProdReqs.length > 0){
-                    parentProdReq._children = [...childProdReqs];
-                }
-                this.gridData = [parentProdReq, ...this.gridData];
-            });
+
+            let stringData = JSON.stringify(result.data).replace(/{"children":/g,'{"_children":');
+            let jsonData = JSON.parse(stringData);
+            this.gridData = jsonData.productRequestData;
+            this.productSpecStage = this.productRequests.data.productSpecStage;
+
         }else if(result.error){
             this.generateToast(ERROR_TOAST_TITLE, LWC_Error_General, ERROR_TOAST_VARIANT);
         }
@@ -194,39 +192,6 @@ export default class ProductRequestList extends LightningElement {
     }
 
     /**
-     * formats the data from apex for the data grid
-     */
-     formatData(listToFormat){
-        return listToFormat.map(item =>{
-            let newItem = {};
-            newItem.recordId = item.Id;
-            newItem.id = item.Name;
-            newItem.idUrl = '/' + item.Id;
-            newItem.recordType = item.RecordType.Name;
-            newItem.owner = item.Owner.Name;
-            newItem.ownerUrl = '/' + item.OwnerId;
-            newItem.stage = item.Product_Request_Status__c;
-            newItem.notProceedingComments = item.Not_Proceeding_Comments__c;
-            newItem.productName = 
-                item.Courses__r && item.Courses__r[0] ? 
-                item.Courses__r[0].Name : 
-                item.Program_Plans__r && item.Program_Plans__r[0] ?
-                item.Program_Plans__r[0].Name : 
-                item.Product_Request_Name__c; 
-            if(item.Program_Plans__r && item.Program_Plans__r[0] && item.Program_Plans__r[0].Program_Delivery_Structure__c === 'Flexible Program'){
-                newItem.isFlexibleProgram = true;
-            }
-            if(item.Program_Plans__r && item.Program_Plans__r[0] && item.Program_Plans__r[0].Program_Delivery_Structure__c === 'Prescribed Program'){
-                newItem.isPrescribedProgram = true;
-            }
-            if(item.Courses__r && item.Courses__r[0] && item.Courses__r[0].Name){
-                newItem.courseName = item.Courses__r[0].Name;
-            }           
-            return newItem;
-        });
-    }
-
-    /**
      * handles action and data when ADD CHILD/NOT PROCEEDING button is clicked 
      */
     handleRowAction(event){
@@ -249,9 +214,39 @@ export default class ProductRequestList extends LightningElement {
                 this.template.querySelector("c-add-not-proceeding-comments").openSelectionModal(row.notProceedingComments);                
             }            
         }else if(buttonName === ADD_CHILD_BUTTON_NAME){  
-            let filter = this.isProdSpecOPE ? PR_OPE_FILTER : PR_FILTER;
-            let currentChildren = this.productRequests.data.parentChildMap[row.recordId]?this.productRequests.data.parentChildMap[row.recordId]:[];
-            let newRecord = row.isFlexibleProgram?false:true;
+            let filter;
+            let newRecord;
+            let currentChildren= []; 
+
+            //check the parent-child map
+            if(this.productRequests.data.parentChildPRMap[row.recordId]){
+                currentChildren = this.productRequests.data.parentChildPRMap[row.recordId];
+
+            //also check for child-grandchild map
+            } else if(this.productRequests.data.childGrandchildPRMap[row.recordId]){
+                currentChildren = this.productRequests.data.childGrandchildPRMap[row.recordId];
+            }
+        
+            //if OPE, use OPE PR filter
+            if(this.isProdSpecOPE){   
+                filter = PR_OPE_FILTER;
+            //else CCE
+            } else{
+
+                //check if parent is SOA, then we use the filter that we allow to add program as child
+                if(row.isSOA){
+                    filter = PR_SOA_FILTER;
+                } else{
+                    filter = PR_FILTER;
+                }
+            }
+
+            //dont show the new record modal if record rtype is flexible or standing offer arrangement
+            if(row.isFlexibleProgram){
+                newRecord = false;
+            } else{
+                newRecord = true;
+            }
             this.template.querySelector("c-add-product-request").openSelectionModal(newRecord,row,filter,currentChildren,true,this.prodSpecData());
         }
     }
@@ -316,17 +311,30 @@ export default class ProductRequestList extends LightningElement {
      * sets the actions availability per row
      */
      getRowActions(row, doneCallback) {
-        const actions = [{ 
+        let actions = [];
+       
+        actions = [{ 
             label: NOT_PROCEEDING_BUTTON_NAME, 
             name: NOT_PROCEEDING_BUTTON_NAME,
             title: NOT_PROCEEDING_BUTTON_NAME
         }];
 
-        if(row.recordType === RT_ProductRequest_Program){
+        if(
+            row.recordType === RT_ProductRequest_Program || 
+            row.recordType.replace(/ /g,'_') === RT_ProductRequest_SOA ||
+            row.recordType.replace(/ /g,'_') === RT_ProductRequest_PWP
+        ){
             actions.push({ 
                 label: ADD_CHILD_BUTTON_NAME, 
                 name: ADD_CHILD_BUTTON_NAME,
                 title: ADD_CHILD_BUTTON_NAME
+            });
+        }else{
+            actions.push({ 
+                label: ADD_CHILD_BUTTON_NAME, 
+                name: ADD_CHILD_BUTTON_NAME,
+                title: ADD_CHILD_BUTTON_NAME,
+                disabled:true
             });
         }
         doneCallback(actions);

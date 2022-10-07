@@ -1,6 +1,6 @@
-@IsTest
+@isTest
  public with sharing class MicrobatchSelfRegControllerTest {
-      @IsTest(SeeAllData=true)
+      @isTest(SeeAllData=true)
      public static void testMicrobatchSelfRegController() {
          MicrobatchSelfRegController controller = new MicrobatchSelfRegController();
          controller.firstName = 'FirstName';

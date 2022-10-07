@@ -9,24 +9,28 @@
       | john.bo.a.pineda               | April 7, 2022         | DEPP-1479              | Created file                 |
       |                                |                       |                        |                              |
  */
-@isTest(SeeAllData=false)
+@isTest
 public with sharing class OnlineSelfPacedConfirmationEmailCtrlTest {
   private static final Id STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
     .get('Student')
     .getRecordTypeId();
   private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
   private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
+  private static final String ONLINE_SELF_PACED_CONFIRMATION_EMAIL_TEMPLATE = 'Online Self-paced Final Confirmation Email';
 
-  private static User currentUser = TestDataFactory.createUserRecords(
-      1,
-      'QUTeX'
-    )
-    .iterator()
-    .next();
+  @testSetup
+  static void makeData(){
+    TestDataFactory.generateTestUsers();
+    System.runAs(TestDataFactory.getProgramAdminUser()) {
+      EmailTemplate template = TestDataFactory.createTestEmailTemplateRecords(1,new Map<String,String>{
+        ONLINE_SELF_PACED_CONFIRMATION_EMAIL_TEMPLATE => 'Test Email Subject'}).iterator().next();
+      insert template;
+    }
+  }
 
-  @IsTest
+  @isTest
   public static void testGenerateAndSendEmail() {
-    System.runAs(currentUser) {
+    System.runAs(TestDataFactory.getProgramAdminUser()) {
       Test.startTest();
       List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
       for(Account acc : accounts){
@@ -115,9 +119,9 @@ public with sharing class OnlineSelfPacedConfirmationEmailCtrlTest {
     }
   }
 
-  @IsTest
+  @isTest
   public static void testPreSessionReminderEmailCtrl() {
-    System.runAs(currentUser) {
+    System.runAs(TestDataFactory.getProgramAdminUser()) {
       Test.startTest();
       List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
       for(Account acc : accounts){

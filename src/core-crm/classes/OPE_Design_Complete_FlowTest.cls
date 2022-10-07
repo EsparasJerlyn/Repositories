@@ -12,7 +12,7 @@
       | eccarius.munoz            | March 14, 2022        | DEPP-2066    | Updated Required fields                     |
       |                           |                       |              |                                             |
 */
-@IsTest(SeeAllData = false)
+@isTest
 private class OPE_Design_Complete_FlowTest{
 
     private static User currentUser = TestDataFactory.createUserRecords(1, 'QUTeX').iterator().next();

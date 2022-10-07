@@ -13,7 +13,7 @@
       | eugene.andrew.abuan            | July 31, 2022         | DEPP-3534              | Added Before Update test     |
 
  */
-@isTest(SeeAllData=false)
+@isTest
 public with sharing class ProgramOfferingTriggerHandlerTest {
     private static User currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
 
@@ -22,7 +22,7 @@ public with sharing class ProgramOfferingTriggerHandlerTest {
         TestDataFactory.generateTestUsers();
     }
 
-    @IsTest
+    @isTest
     private static void insertProgramOfferingTest() {
         System.runAs(currentUser) {
             Test.startTest();
@@ -37,7 +37,7 @@ public with sharing class ProgramOfferingTriggerHandlerTest {
         }
     }
 
-    @IsTest
+    @isTest
     private static void validateRelatedProductBeforeUpdateTest() {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             Test.startTest();
@@ -69,8 +69,6 @@ public with sharing class ProgramOfferingTriggerHandlerTest {
                 }
             }
             update pOffToUpdate;
-
-            ProgramOfferingTriggerHandler.increaseTestCoverage();
 
             Test.stopTest();
             System.assert(true,'dummy assert');

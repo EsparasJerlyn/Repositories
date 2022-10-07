@@ -10,12 +10,14 @@
       |                           |                       |                     |                                                        |
 */
 import { LightningElement, api } from 'lwc';
+import { getRecordNotifyChange} from "lightning/uiRecordApi";
 
 export default class CustomLightningFields extends LightningElement {
     @api childObjectApiName;
     @api childRecordId;
     @api layoutItem;
     @api showEditButton;
+    @api recordId;
 
     editMode = false;
     isLoading = true;
@@ -54,6 +56,7 @@ export default class CustomLightningFields extends LightningElement {
         this.isLoading = false;
         this.editMode = false;
         this.resetPopover();
+        getRecordNotifyChange([{recordId: this.recordId}]);
         this.dispatchEvent(new CustomEvent('recordupdate', {
             detail : event.detail
         }));
@@ -64,7 +67,6 @@ export default class CustomLightningFields extends LightningElement {
      */
     handleError(event){
         this.isLoading = false;
-
         //for error messages not visible on shown fields
         this.popoverErrorMessages = [];
         let fieldErrors = event.detail.output.fieldErrors;
@@ -73,6 +75,11 @@ export default class CustomLightningFields extends LightningElement {
                 this.popoverErrorMessages.unshift(fieldErrors[fieldError][0].message);
             }
         });
+
+        if( event.detail && event.detail.output && event.detail.output.errors[0]){
+            this.popoverErrorMessages.unshift(event.detail.output.errors[0].message);
+        }
+
         if(this.popoverErrorMessages.length > 0){  
             this.showPopoverIcon = true;
             this.showPopoverDialog = true;

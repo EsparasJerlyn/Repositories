@@ -1,92 +1,123 @@
 <template>
-    <div class="slds-modal slds-fade-in-open slds-backdrop">  
-        <div class="slds-modal__container">  
-            <!--Header Section-->  
-            <div class="slds-modal__header ">  
-                <lightning-button-icon
-                    icon-name="utility:close"
-                    alternative-text="Close this window"
-                    size="x-large"  
-                    variant="bare-inverse"
-                    onclick={closeRegistrationModal}
-                    class="slds-modal__close">  
-                </lightning-button-icon>  
-                <h1 class="modal-heading slds-text-heading_medium">Register</h1>  
-            </div>  
-            <!--Body Section-->            
-            <div class="slds-modal__content slds-p-around_medium slds-scrollable_y custom-height">
-                 <!--Spinner:shows when processing registration and uploading of csv -->
-                <lightning-spinner
-                    if:true={processing}
-                    class="slds-is-relative slds-align_absolute-center slds-m-around_large"
-                    alternative-text="Loading registration..."
-                    size="medium"
-                    variant="brand">
-                </lightning-spinner>
-                <!--  -->
-                <!-- Upload -->
-                <template if:true={csvUrl}>
-                    <span class='action-button-container'>
-                        <a href={csvUrl} class="download-button" target='_blank'>
-                        <lightning-button 
-                        variant="brand" 
-                        label="Download CSV Template" 
-                        title="Primary action" 
-                        icon-name="utility:download" icon-position="left"
-                        class="slds-m-left_x-small"></lightning-button>
-                        </a>
-                        <lightning-file-upload
-                        name="fileUploader"
-                        accept={acceptedFormats}
-                        record-id={myRecordId}
-                        onuploadfinished={handleUploadFinished}>
-                    </lightning-file-upload></span> 
-                </template>
-                <template if:false={csvUrl}>
-                    <h3>{errorForTemplate}</h3>
-                </template>
-                <!--  -->
-                <div if:true={contacts}>
-                    <!-- data table -->
-                    <lightning-datatable 
-                    key-field="id" 
-                    columns={columns} 
-                    data={contacts}
-                    hide-checkbox-column=true 
-                    show-row-number-column=false
-                    errors={errors}
-                    onrowaction={handleRowAction}
-                    ></lightning-datatable>
-                    <!--  -->
-                    <!-- Proceed and Add buttons-->
+   
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="modal slds-fade-in-open">
+        <div class="modal-content px3 pt2">
+            <!--X button -->
+            <div class="slds-m-top_small slds-large-right_large slds-p-right_large slds-clearfix">
+                <span class="slds-float_right cursor" onclick={closeRegistrationModal} style="cursor:pointer">
+                    <img class="close-button" src={xButton}/>
+                </span>
+            </div>
+            <div class="slds-text-align_center slds-m-vertical_medium">
+                <h1 class="heading slds-text-heading_medium">Register</h1>  
+            </div>
+            
+            <lightning-layout-item flexibility="auto" size="12">
+                <p class="item-label slds-m-top_x-small bodyRegular">
+                    To register multiple employees into this course,
+                    download csv template, fully complete and upload the
+                    below file.
+                </p>
+
+                <p class="item-label bodyRegular">
+                     <br/>
+                     <b>Please note:</b> Firstname, Lastname, Birthdate, and Email are mandatory for registration.
+                </p>
+
+                <p class="item-label slds-m-top_medium slds-m-bottom_large bodyRegular">
+                    Total number of places: <strong>{courseOffering.availableSeats}</strong>
+                </p>
+                
+                <p class="item-label slds-m-top_medium slds-m-bottom_large bodyRegular" if:true={productCategoryCheck}>
+                    Total Available Credit: <strong>{creditAvailable}</strong>
+                </p>
+                <p class="item-label slds-m-top_medium slds-m-bottom_large bodyRegular" if:true={productCategoryCheck}>
+                    Total Amount: <strong>{totalAmount}</strong>
+                </p>
+            </lightning-layout-item>
+             <!--Spinner:shows when processing registration and uploading of csv -->
+            <lightning-spinner
+                if:true={processing}
+                class="slds-is-fixed"
+                alternative-text="Loading registration..."
+                size="medium"
+                variant="brand">
+            </lightning-spinner>
+            <!--  -->
+            <!-- Upload -->
+            <template if:true={csvUrl}>
+                <span class='action-button-container'>
+                    <a href={csvUrl} class="download-button" target='_self'>
                     <lightning-button 
-                        variant="brand" 
-                        label="Add" 
-                        title="Primary action" 
-                        onclick={addNewRow} 
-                        class="slds-m-left_x-small slds-float_right slds-m-top_medium"
-                    ></lightning-button>
-                    <!---->
-                </div>
-            </div>  
-            <footer class="slds-modal__footer">
+                    variant="brand" 
+                    label="Download CSV Template" 
+                    title="Primary action" 
+                    icon-name="utility:download" icon-position="left"
+                    class="slds-m-left_x-small"></lightning-button>
+                    </a>
+                    <lightning-file-upload
+                    name="fileUploader"
+                    accept={acceptedFormats}
+                    record-id={myRecordId}
+                    onuploadfinished={handleUploadFinished}>
+                </lightning-file-upload></span> 
+            </template>
+            <template if:false={csvUrl}>
+                <h3>{errorForTemplate}</h3>
+            </template>
+            <!--  -->
+            <div if:true={contacts}>
+                <!-- data table -->
+                <lightning-datatable 
+                key-field="id" 
+                columns={columns} 
+                data={contacts}
+                hide-checkbox-column=true 
+                show-row-number-column=false
+                errors={errors}
+                onrowaction={handleRowAction}
+                class="custom-table slds-max-medium-table_stacked"
+                ></lightning-datatable>
+                <lightning-button 
+                    variant="brand" 
+                    label="Add" 
+                    title="Primary action" 
+                    onclick={addNewRow} 
+                    class="slds-m-left_x-small slds-float_right slds-m-top_medium mobileButton"
+                ></lightning-button>
+            </div>
+            <div style="clear:both"></div>
+
+                      <!--Modal Footer Buttons-->
+          <div class="modal-footer slds-grid slds-gutters center  pb3">
+            <div class="slds-col slds-size_1-of-2">
+                <lightning-button 
+                variant="neutral" 
+                label="Cancel" 
+                title="Cancel" 
+                onclick={closeRegistrationModal} 
+                class="slds-m-right_x-small button-footer"
+            ></lightning-button>
+            </div>
+            <div class="slds-col slds-size_1-of-2">
                 <c-save-learner-info
                 course-offering={courseOffering}
                 contact-records={contacts}
                 disable-proceed={disableProceedButton}
                 onprocessing={handleProcessing}
+                course-id={courseId}
+                class="button-footer"
+                product-details={productDetails}
+                is-prescribed={isPrescribed}
+                available-credit={creditAvailable}
+                onshowduplicateerrors={showDuplicateErrors}
                 ></c-save-learner-info>
-                <lightning-button 
-                    variant="neutral" 
-                    label="Cancel" 
-                    title="Cancel" 
-                    onclick={closeRegistrationModal} 
-                    class="slds-m-right_x-small slds-float_right"
-                ></lightning-button>
-           </footer>
-        </div>  
-      </div> 
-    <!-- Edit record modal -->
+            </div>
+        </div>
+        </div>
+    </section>
+
+
     <template if:true={isEditRecord}>
         <c-custom-create-edit-record 
             object-api-name={objApiName}
@@ -107,4 +138,5 @@
         ></c-custom-create-edit-record>
     </template>
     <!--  -->
+
 </template>

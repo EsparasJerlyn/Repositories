@@ -52,6 +52,10 @@
   align-items: center;
 }
 
+.buttonClassOkay {
+  align-items: center;
+}
+
 .firstBodyRegular {
   font-style: normal;
   font-family: "ProximaNova-Bold";

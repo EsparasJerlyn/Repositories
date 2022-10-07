@@ -1,0 +1,30 @@
+svg.slds-icon.slds-icon-text-success.slds-icon_small {
+    fill: #124D01 !important;
+}
+
+button.slds-button.slds-button_icon.slds-button_icon-border {
+    border: 0 !important;
+}
+
+[c-customtoast_customtoast]svg.slds-icon.slds-icon-text-success.slds-icon_small,
+[c-customtoast_customtoast]lightning-icon.slds-icon-utility-success.slds-icon_container svg {
+    fill: #124D01 !important;
+}
+
+
+@media only screen and (max-width: 425px){
+.slds-notify_toast, .slds-notify--toast {
+    min-width: auto !important;
+    text-align: left;
+    justify-content: flex-start;
+}
+}
+
+@media only screen and (max-width: 320px){
+h2.slds-text-heading_small.bodyBold {
+    font-size: 14px;
+}
+svg.slds-icon.slds-icon_small {
+    width: 80% !important;
+}
+}

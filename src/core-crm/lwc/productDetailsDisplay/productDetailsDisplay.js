@@ -36,11 +36,17 @@
       | mary.grace.li             | July 02, 2022         | DEPP-3124            | Modified to add recordNameId                 |
       | mary.grace.li             | July 04, 2022         | DEPP-3184            | Replaced custom labels with constant         |
       | john.bo.a.pineda          | July 04, 2022         | DEPP-3385            | Changed ?param to &param                     |
+      | eugene.andrew.abuan       | July 22, 2022         | DEPP-2730            | Added employee self registration logic       |
       | john.m.tambasen           | July 29, 2022         | DEPP-3577            | early bird changes no of days                |
       | eugene.andrew.abuan       | June 30, 2022         | DEPP-3534            | Added Do not Show Start Date                 |
+      | jessel.bajao              | August 2, 2022        | DEPP-3476            | Added code to get current product category   |
+      | keno.domienri.dico        | August 03, 2022       | DEPP-3474            | CCE QUTeX Learning added product category    |
       | eugene.andrew.abuan       | August 08, 2022       | DEPP-3708            | Updated openModal to openRegisterModal       |
-
-
+      | keno.domienri.dico        | August 25, 2022       | DEPP-3765            | Updated for CCE Product categories           |
+      | eugene.john.basilan       | September 01, 2022    | DEPP-3479            | Added data to pass to child and bulk changes |
+      | mary.grace.li             | September 20, 2022    | DEPP-4370            | Fix bug for Self-reg button                  |
+      | dodge.j.palattao          | September 26, 2022    | DEPP-2699            | Added messageChannel for SubMenu active category|
+      | John Oliver Esguerra      | September 28, 2022    | DEPP-4465            | Rename bulk registration to Group registration|
 */
 
 import { LightningElement, wire, api, track } from "lwc";
@@ -54,17 +60,18 @@ import customSR from "@salesforce/resourceUrl/QUTCustomLwcCss";
 import qutResourceImg from "@salesforce/resourceUrl/QUTImages";
 import insertExpressionOfInterest from "@salesforce/apex/ProductDetailsCtrl.insertExpressionOfInterest";
 import getRelatedCourseOffering from "@salesforce/apex/ProductDetailsCtrl.getCourseOfferingRelatedRecords";
+import sendEmployeeRegistrationEmail from "@salesforce/apex/EmployeeSelfRegistrationCtrl.sendEmployeeRegistrationEmail"
 import { getRecord, getFieldValue } from "lightning/uiRecordApi";
 import CONTACT_ID from "@salesforce/schema/User.ContactId";
 import getQuestions from "@salesforce/apex/ProductDetailsCtrl.getQuestions";
-const SUCCESS_TITLE = "Success!";
+import assetRecordData from "@salesforce/apex/ProductDetailsCtrl.assetRecordData";
+import { publish, MessageContext } from "lightning/messageService";
+import payloadContainerLMSsubMenuName from "@salesforce/messageChannel/SubMenu__c";
 const ERROR_TITLE = "Error!";
-const SUCCESS_VARIANT = "success";
 const ERROR_VARIANT = "error";
 const NO_REC_FOUND = "No record(s) found.";
 const MODAL_TITLE = "Registration Details";
-const INTEREST_EXISTS_ERROR =
-  "You already registered your interest for this product.";
+const INTEREST_EXISTS_ERROR = "You already registered your interest for this product.";
 const LWC_ERROR_GENERAL ="An error has been encountered. Please contact your administrator.";
 const DELIVERY= "Delivery";
 const DELIVERY_PLACEHOLDER= "Choose delivery method";
@@ -82,7 +89,12 @@ const FACILITATOR="Facilitator";
 const DETAILS="Details";
 const DURATION="Duration";
 const PROF_DEV_MODULES ="Professional Development Modules";
-
+const Tailored_Executive_Education = 'Tailored Executive Education';
+const Tailored_Executive_Program = 'Tailored Executive Program';
+const Corporate_Bundle = 'Corporate Bundle';
+const QUTeX_Learning_Solutions = 'QUTeX Learning Solutions';
+const STOREPRODUCTCATEGORY = "product_category";
+const CURRENTPRODUCTCATEGORY = "current_product_category";
 export default class ProductDetailsDisplay extends NavigationMixin(
   LightningElement
 ) {
@@ -92,7 +104,6 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   get contactId() {
     return getFieldValue(this.user.data, CONTACT_ID);
   }
-
   // Init Variables
   @api recordId;
   @api objectApiName;
@@ -103,8 +114,13 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   @api isNotFlexProgram;
   @api isInternalUser;
   @api unitPrice;
+  @api productCategory;
+  @api productCategoryChild;
+  @api priceReadOnly;
+  @api ccePricebookEntryId;
 
   @track courseOfferings = [];
+  courseOffering;
   @track selectedCourseOffering;
   @track selectedCourseOfferingFacilitator = [];
   @track selectedPriceBookEntry;
@@ -119,7 +135,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   @track facilitatorIndex = 0;
   @track openRegisterModal;
   @track openLoginModal;
-  @track startURL;  
+  @track startURL;
   @track displayGroupRegistration = false;
   @track openGroupBookingModal;
   @track selectedDelivery;
@@ -130,7 +146,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   @track displayManageRegistration = false;
   @track disableBulkRegistration = true;
   @track disableEmployeeSelfRegistration = true;
-  @track disableManageRegistration = false; 
+  @track disableManageRegistration = false;
   displayQuestionnaire = false;
   openApplicationQuestionnaire = false;
   priceBookEntriesCopy = [];
@@ -159,6 +175,10 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   @track addToCart;
   @track registerInterest;
   @track professionalDevelopmentModules;
+  displayCsvBulkRegistration = false;
+
+  @wire(MessageContext)
+  messageContext;
 
   label = {
     overview:OVERVIEW,
@@ -207,6 +227,14 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   paidInFullValues;
   records = [];
   recordsTemp = [];
+  displayPricingReadOnly = false;
+  // Product Category Booleans
+  isTailoredExecEduc = false;
+  isCorpBundle = false;
+  isQUTexLearnSol = false;
+  // Product Category Name
+  fromCategoryId;
+  fromCategoryName;
 
   //addcontact variables
   contactSearchItems = [];
@@ -240,6 +268,18 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   @track message2;
   @track isContinueToPayment;
   @track isContinueBrowsing;
+  @track isOkay;
+
+  //asset available credit
+	assetAvailable;
+
+  //Bulk Reg name to Group registration 
+  groupBulkName;
+
+
+  // group booking bulk registration
+  @track openGroupBookingModalBulkRegistration;
+  qutexLearningSolutionsCategoryBulkReg;
 
   // A bit of coordination logic so that we can resolve product URLs after the component is connected to the DOM,
   // which the NavigationMixin implicitly requires to function properly.
@@ -263,6 +303,21 @@ export default class ProductDetailsDisplay extends NavigationMixin(
 
   connectedCallback() {
     this._resolveConnected();
+
+    if(this.isCCEPortal){
+      //get current product category
+      let currentProductCategory = JSON.parse(
+        sessionStorage.getItem(STOREPRODUCTCATEGORY)
+      );
+      if(!!currentProductCategory){
+        this.isTailoredExecEduc = currentProductCategory.isTailoredExecEduc;
+        this.fromCategoryName = currentProductCategory.fromCategoryName;
+        this.fromCategoryId = currentProductCategory.fromCategoryId;
+        this.publishLMS();
+      }
+      
+    }
+      
     // Load Default Icons
     this.accordionIcon = qutResourceImg + "/QUTImages/Icon/accordionClose.svg";
     this.comboBoxUp = qutResourceImg + "/QUTImages/Icon/comboBoxUp.svg";
@@ -284,6 +339,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
       qutResourceImg + "/QUTImages/Icon/icon-circle-plus.svg";
     this.icondeleteimg = qutResourceImg + "/QUTImages/Icon/icon-delete.svg";
     this.icondollor = qutResourceImg + "/QUTImages/Icon/icon-dollor.svg";
+    this.dollarIcon = qutResourceImg + "/QUTImages/Icon/dollar_icon.svg";
     this.icondownload = qutResourceImg + "/QUTImages/Icon/icon-download.svg";
     this.iconexclamationfilled =
       qutResourceImg + "/QUTImages/Icon/icon-exclamation-filled.svg";
@@ -346,16 +402,49 @@ export default class ProductDetailsDisplay extends NavigationMixin(
           this.facilitatorIndex = 0;
           this.selectedPriceBookEntry = undefined;
           this.disableAvailStartDate = true;
-          if (this.isCCEPortal) {
-            this.displayPricing = false;
-            this.displayBulkRegistration = true;
-            this.displayEmployeeSelfRegistration = true;
-            this.displayManageRegistration = true;            
+          if(this.isCCEPortal){
+            if (this.productCategory == Tailored_Executive_Education || this.productCategory == Tailored_Executive_Program) {
+              this.groupBulkName ='Bulk Registration';
+              this.isTailoredExecEduc = true;
+              this.isCorpBundle = false;
+              this.isQUTexLearnSol = false;
+              this.displayPricingReadOnly = false;
+              this.displayPricing = false;
+              this.displayBulkRegistration = true;
+              this.displayEmployeeSelfRegistration = true;
+              this.displayManageRegistration = true;
+              this.qutexLearningSolutionsCategoryBulkReg = false;
+            }
+            else if (this.productCategory == Corporate_Bundle){
+              this.groupBulkName ='Bulk Registration';
+              this.isTailoredExecEduc = false;
+              this.isCorpBundle = true;
+              this.isQUTexLearnSol = false;
+              this.displayPricingReadOnly = true;
+              this.displayPricing = false;
+              this.displayBulkRegistration = true;
+              this.displayEmployeeSelfRegistration = true;
+              this.displayManageRegistration = true;
+              this.qutexLearningSolutionsCategoryBulkReg = false;
+              this.displayRegisterInterest = false;
+            }
+            else if (this.productCategory == QUTeX_Learning_Solutions){
+              this.groupBulkName ='Group Registration';
+              this.qutexLearningSolutionsCategoryBulkReg = true;
+              this.isTailoredExecEduc = false;
+              this.isCorpBundle = false;
+              this.isQUTexLearnSol = true;
+              this.displayPricingReadOnly = true;
+              this.displayPricing = false;
+              this.displayBulkRegistration = true;
+              this.displayEmployeeSelfRegistration = false;
+              this.displayManageRegistration = true;
+            }
           }
           else
           {
             this.displayPricing = true;
-          }         
+          }
 
           this.disablePriceBookEntry = true;
           this.disableAddToCart = true;
@@ -380,6 +469,13 @@ export default class ProductDetailsDisplay extends NavigationMixin(
             } else {
               this.selectedDelivery = this.courseOfferings[0].defDeliv;
               this.selectedCourseOffering = this.courseOfferings[0].value;
+              this.disableAddToCart = true;
+              this.disableApply = true;
+              this.courseOfferings[0].defDeliv;
+              this.selectedCourseOffering =
+              this.courseOfferings[0].value;
+              this.courseOffering = this.courseOfferings[0];
+
               this.disableAddToCart = true;
               this.disableApply = true;
             }
@@ -472,7 +568,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   get isOPEPortal() {
     return BasePath.toLowerCase().includes("study");
   }
-  
+
   /* Comment out temporarily old logic used for bulk register*/
   /* openRegisterModal() {
     if (this.isCCEPortal) {
@@ -497,6 +593,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     let event = new CustomEvent("refreshproduct");
     this.dispatchEvent(event);
   } */
+
   get isCCEPortal() {
     return BasePath.toLowerCase().includes("cce");
   }
@@ -542,6 +639,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     this.message2 = "How would you like to proceed?";
     this.isContinueBrowsing = true;
     this.isContinueToPayment = true;
+    this.isOkay = false;
   }
 
   // Disable Delivery when No Options retrieved
@@ -563,6 +661,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
           this.message2 = "We will contact you once this product is available.";
           this.isContinueBrowsing = true;
           this.isContinueToPayment = false;
+          this.isOkay = false;
           // this.generateToast(
           //   SUCCESS_TITLE,
           //   "Interest Registered",
@@ -659,12 +758,45 @@ export default class ProductDetailsDisplay extends NavigationMixin(
         this.disableAddToCart = true;
         this.disableApply = true;
         this.displayGroupRegistration = false; 
-        if (this.isCCEPortal) {
-          this.displayAddToCart = false;
+        if(this.isCCEPortal){
+          if (this.productCategory == Tailored_Executive_Education || this.productCategory == Tailored_Executive_Program) {
+            this.isTailoredExecEduc = true;
+            this.isCorpBundle = false;
+            this.isQUTexLearnSol = false;
+            this.displayPricingReadOnly = false;
+            this.displayPricing = false;
+            this.displayBulkRegistration = true;
+            this.displayEmployeeSelfRegistration = true;
+            this.displayManageRegistration = true;
+          }
+          else if (this.productCategory == Corporate_Bundle){
+           this.isTailoredExecEduc = false;
+            this.isCorpBundle = true;
+            this.isQUTexLearnSol = false;
+            this.displayPricingReadOnly = true;
+
+            this.displayPricing = false;
+            this.displayBulkRegistration = true;
+            this.displayEmployeeSelfRegistration = true;
+            this.displayManageRegistration = true;
+          }
+          else if (this.productCategory == QUTeX_Learning_Solutions){
+            this.isTailoredExecEduc = false;
+            this.isCorpBundle = false;
+            this.isQUTexLearnSol = true;
+            this.displayPricingReadOnly = true;
+
+            this.displayPricing = false;
+            this.displayBulkRegistration = true;
+            this.displayEmployeeSelfRegistration = false;
+            this.displayManageRegistration = true;
+          }
           this.disableBulkRegistration = true;
-          this.disableEmployeeSelfRegistration = true;          
+          this.disableEmployeeSelfRegistration = true;
+          this.disableManageRegistration = false;
         }  
-        else{
+        else
+        {
           this.displayAddToCart = true; 
         }
         this.displayQuestionnaire = false;
@@ -685,8 +817,9 @@ export default class ProductDetailsDisplay extends NavigationMixin(
 
   // Set Selected Course Offering value
   handleStartDateSelected(event) {
-
-    //check if the same value was clicked 
+ //get selected course offering
+ this.courseOffering = this.courseOfferings.filter(crs => crs.value === event.detail.value )[0];
+    //check if the same value was clicked
     if(this.selectedCourseOffering != event.detail.value){
       //reset the price dropdown and buttos
       this.selectedPriceBookEntry = undefined;
@@ -709,6 +842,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
         if (this.isCCEPortal) {
           this.disableBulkRegistration = false;
           this.disableEmployeeSelfRegistration = false;
+          this.disableManageRegistration = false;
         }
 
         this.selectedCourseOfferingFacilitator = cOffer.facilitator;
@@ -852,6 +986,36 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     this.paramURL = "&param=" + btoa(JSON.stringify(this.setParamObj));
   }
 
+  // Triggers an email when employee self registration button is clicked
+  // CCE Button functionality
+  handleEmployeeSelfRegistration(){
+    let pbEId = '';
+    if(this.productCategory != Tailored_Executive_Education){
+      pbEId = this.ccePricebookEntryId ? this.ccePricebookEntryId: '';
+    }
+    sendEmployeeRegistrationEmail({
+      userId: userId,
+      productId: this.productDetails.Id,
+      selectedOffering : this.selectedCourseOffering,
+      pricebookEntryId : pbEId
+    }).then( (result) => {
+      if(result == 'success'){
+        this.isRegModalMessage = true;
+        this.message1 = "The self-registration email has been sent to your email";
+        this.message2 = null;
+        this.isOkay= true;
+        this.isContinueBrowsing = false;
+        this.isContinueToPayment = false;
+      } else {
+        console.error('Error: ' + result);
+        this.generateToast(ERROR_TITLE, LWC_ERROR_GENERAL, ERROR_VARIANT);
+      }
+    }).catch( (e) => {
+      console.error('Error: ' + e);
+      this.generateToast(ERROR_TITLE, LWC_ERROR_GENERAL, ERROR_VARIANT);
+    });
+  }
+
   // Creates toast notification
   generateToast(_title, _message, _variant) {
     const evt = new ShowToastEvent({
@@ -902,6 +1066,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
 
   groupRegistrationModalClosed() {
     this.openGroupBookingModal = false;
+    this.openGroupBookingModalBulkRegistration = false;
   }
   groupRegistration() {
     if (!isGuest) {
@@ -914,5 +1079,55 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   }
   addToCartModalClosed() {
     this.isModalMessage = false;
+  }
+	bulkRegistration() {
+    if(this.qutexLearningSolutionsCategoryBulkReg == true){
+      this.openGroupBookingModalBulkRegistration = true;
+    } else {
+		if(this.productCategory == 'Corporate Bundle'){
+			assetRecordData({
+				Pricebook2Id: this.productDetails.PricebookEntries[0].Pricebook2.Id
+			})
+			.then((results) => {
+				this.assetAvailable = results.Remaining_Value__c;
+		      this.displayCsvBulkRegistration = true;
+				
+			})
+			.catch((e) => {
+				this.generateToast("Error.", LWC_Error_General, "error");
+				console.log('This error');
+				console.log(e);
+			});
+		}else{
+			this.displayCsvBulkRegistration = true;
+
+		}
+  }
+  }
+  closeRegisterModal() {
+          this.displayCsvBulkRegistration = false;
+  }
+
+    manageRegistrationLink(){
+      // Navigate to a URL
+      this[NavigationMixin.Navigate]({
+       type: 'standard__webPage',
+       attributes: {
+           url: BasePath + '/manage-registrations'
+       }
+    });
+    }
+
+
+  publishLMS() {
+    let paramObj = {
+        categoryName: this.fromCategoryName
+    };
+
+    const message = {
+        parameterJson: JSON.stringify(paramObj)
+    };
+
+    publish(this.messageContext, payloadContainerLMSsubMenuName, message);
   }
 }

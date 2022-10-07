@@ -1,7 +1,7 @@
 {
   "cmsSettings" : { },
   "currentThemeId" : "56dec416-1e8d-45e1-ad8c-bd03594c48ba",
-  "headMarkup" : null,
+  "headMarkup" : "<link rel=\"shortcut icon\" href=\"/cce/resource/Favicon\" type=\"image/x-icon\" />\n<link rel=\"stylesheet\" type=\"text/css\" href=\"/cce/resource/QUTMainCSS/QUTCSS.css\" />\n\n\n<style>\n@font-face {\nfont-family:\"ProximaNova\";      \nsrc: url(\"/sfsites/c/resource/QUTCustomFont/ProximaNova/ProximaNova-Regular.ttf\") format(\"TrueType\");    \n}\n\n@font-face {\nfont-family:\"ProximaNova-Bold\";      \nsrc: url(\"/sfsites/c/resource/QUTCustomFont/ProximaNova/ProximaNova-Bold.ttf\") format(\"TrueType\");  \n}\n</style>",
   "id" : "e7a3f4f7-241b-44d0-9ebd-8a08684e8126",
   "isRelaxedCSPLevel" : false,
   "label" : "main",

@@ -1,7 +1,7 @@
-@IsTest
+@isTest
 private class CustomMetadataHandlerConfigProviderTest {
 
-    @IsTest
+    @isTest
     private static void should_throw_an_exception_for_unknown_handler() {
         final HandlerConfigProvider configProvider = new CustomMetadataHandlerConfigProvider();
 
@@ -12,7 +12,7 @@ private class CustomMetadataHandlerConfigProviderTest {
         }
     }
 
-    @IsTest
+    @isTest
     private static void build_should_return_trigger_handler_config() {
         CustomMetadataHandlerConfigProvider configProvider = new CustomMetadataHandlerConfigProvider();
 

@@ -4,7 +4,7 @@
  * @see ../flows/Individual_Copies_to_Contact_Lead
  *                      |                       |              |                                                           |
 */
-@IsTest(SeeAllData = false)
+@isTest
 private class Individual_Copies_to_Contact_LeadTest {
    
     @testSetup static void setupMethod() {
@@ -23,7 +23,7 @@ private class Individual_Copies_to_Contact_LeadTest {
         update contact;
     } 
 
-    @IsTest
+    @isTest
     private static void updateIndividualRecord(){
 
         DateTime currentTime = System.now();
@@ -42,6 +42,12 @@ private class Individual_Copies_to_Contact_LeadTest {
         Lead lead = [SELECT Id, IndividualId, Dont_Market__c, Dont_Market_DateTime__c, Dont_Market_Reason__c FROM Lead];
         Contact contact = [SELECT Id, IndividualId, Dont_Market__c, Dont_Market_DateTime__c, Dont_Market_Reason__c FROM Contact];
 
+        System.assertEquals(true, lead.Dont_Market__c, 'Dont_Market__c should be updated');
+        System.assertEquals(currentTime, lead.Dont_Market_DateTime__c, 'Dont_Market_DateTime__c should be updated');
+        System.assertEquals('Dont_Market_Reason', lead.Dont_Market_Reason__c, 'Dont_Market_Reason__c should be updated');
+        System.assertEquals(true, contact.Dont_Market__c, 'Dont_Market__c should be updated');
+        System.assertEquals(currentTime, contact.Dont_Market_DateTime__c, 'Dont_Market_DateTime__c should be updated');
+        System.assertEquals('Dont_Market_Reason', contact.Dont_Market_Reason__c, 'Dont_Market_Reason__c should be updated');
     }
 
 }

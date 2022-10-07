@@ -11,7 +11,7 @@
       | angelika.j.s.galang       | September 14, 2021    | DEP1-22      | Created file                                | 
       |                           |                       |              |                                             | 
 */
-@IsTest(SeeAllData = false)
+@isTest
 private class CLMSGenerateContractTest {
 
     private static final String STR_QUTeX = 'QUTeX';
@@ -31,7 +31,7 @@ private class CLMSGenerateContractTest {
         Test.stopTest();
     }   
 
-    @IsTest
+    @isTest
     private static void generateContractTest(){
         Test.startTest();
         System.runAs(currentUser){

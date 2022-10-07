@@ -8,15 +8,19 @@
       | john.m.tambasen           | Jun 4 , 2022          | DEPP-787             | Created file                 |
       |                           |                       |                      |                              |
  */
-@isTest(SeeAllData=false)
+@isTest
 public with sharing class PaymentConfirmationCtrlTest {
 
   private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
   private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
-  private static final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
 
-  @TestSetup
+  @testSetup
   static void setupMethod() {
+    BypassTriggers__c bypass = new BypassTriggers__c(Bypass__c = true, SetupOwnerId = UserInfo.getOrganizationId());
+    insert bypass;
+    TestDataFactory.generateTestUsers();
+    Test.startTest();
+    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
     //create account
     List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
     accounts[0].RecordTypeId = ACCT_UNIV_DEP_ID;
@@ -229,9 +233,10 @@ public with sharing class PaymentConfirmationCtrlTest {
       CatalogId = prodCatalog.Id
     );
     insert prodCateg;
+    Test.stopTest();
   }
 
-  @IsTest
+  @isTest
   static void getCartDataTest() {
 
     WebCart webC = [
@@ -256,7 +261,7 @@ public with sharing class PaymentConfirmationCtrlTest {
     );
   }
 
-  @IsTest
+  @isTest
   static void checkCartOwnerShipTest() {
     WebCart cart = [SELECT Id, OwnerId, Name, External_Id__c FROM WebCart LIMIT 1];
       
@@ -273,7 +278,7 @@ public with sharing class PaymentConfirmationCtrlTest {
     );
   }
 
-  /*@IsTest
+  /*@isTest
   static void createCourseConnectionTest() {
 
     WebCart webCart = [
@@ -301,7 +306,7 @@ public with sharing class PaymentConfirmationCtrlTest {
 
   }*/
 
-  @IsTest
+  @isTest
   static void updateWebCartTest() {
 
     WebCart webCart = [

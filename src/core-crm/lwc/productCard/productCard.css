@@ -9,6 +9,10 @@
     --fontFamilyBold: 'ProximaNova-Bold';
 }
 
+h1, h2, h3, h4, h5, h6{
+    font-family: 'ProximaNova-Bold';
+}
+
 .card-title{
     position:relative;
 }
@@ -18,7 +22,7 @@
 .card-desc-container,
 .card-details {
     border: var(--borderCheck);
-    font-family: var(--fontFamily);
+    font-family: 'ProximaNova';
 }
 
 .card-container {
@@ -66,7 +70,7 @@
 
 .card-desc-container {
     /* width: 60%;*/
-    font-family: var(--fontFamily);
+    font-family: 'ProximaNova';
 }
 
 .card-description {
@@ -98,6 +102,7 @@
 .card-detail-list {
     padding: 1em;
     border: var(--borderCheck);
+    color: #373A3C;
 }
 
 path {
@@ -114,11 +119,13 @@ path {
 .item-container {
     align-items: flex-start;
     display: inline-flex;
+    width:100%;
+
 }
 
 .item-label {
     text-indent: 1em;
-    margin: auto;
+    margin: auto 0px;
 }
 
 .item-del {
@@ -131,8 +138,68 @@ path {
     text-overflow: ellipsis;
 }
 
+.desc-content.bodyRegular {
+    text-align: left;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    -webkit-line-clamp: 7;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
+/*for CCE*/
+.delivery-blocks{
+    margin: 3px auto auto auto;
+    text-align: left;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
+
+
+.item-label-cce{
+    margin: 3px 0px auto 0px;
+    text-indent: 0.5em !important;
+}
+
+.no-padding{
+    padding: 0.5rem 5px !important
+}
+
+.slds-col.card-details.slds-size_1-of-1.slds-medium-size_1-of-2.slds-large-size_6-of-12 {
+    padding: 5px;
+}
+
+.desc-contentc.bodyRegular {
+    text-align: left;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    -webkit-line-clamp: 7;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 250px;
+}
+
+.card-contents-parent .desc-contentc {
+    width: 100% !important;
+}
+
+.slds-p-right_small.slds-col.slds-size_1-of-1.slds-grid.slds-wrap {
+    padding: 20px 0px;
+}
+/*end of CCE*/
+
 /* Mobile CSS */
-@media screen and (max-width: 764px) {}
+@media screen and (max-width: 764px) {
+    .no-padding{
+        padding: 0.5rem 1rem !important
+    }
+}
 
 .text-overflow {
     -webkit-box-orient: vertical;
@@ -144,22 +211,7 @@ path {
     position: relative;
 }
 
-.pills-content {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-}
-
 .card-contents-parent {
-    height: 200px;
+    height: 208px;
     position: relative;
-}
-
-.desc-content {
-    text-align: left;
-    -webkit-box-orient: vertical;
-    display: -webkit-box;
-    -webkit-line-clamp: 6;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }

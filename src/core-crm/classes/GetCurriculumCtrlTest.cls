@@ -14,7 +14,7 @@
       |                           |                       |           | method update.                  |
       |                           |                       |           |                                 |
 */
-@isTest(SeeAllData=false)
+@isTest
 public class GetCurriculumCtrlTest {
     private static final String STR_QUTEX = 'QUTeX';
     private static User currentUser = TestDataFactory.createUserRecords(1, STR_QUTEX).iterator().next();
@@ -49,7 +49,7 @@ public class GetCurriculumCtrlTest {
         Test.stopTest();
     }
 
-    @IsTest
+    @isTest
     private static void getCoursesTest(){
         Test.startTest();
         Integer expectedResult = 100;

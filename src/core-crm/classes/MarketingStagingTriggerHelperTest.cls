@@ -11,7 +11,7 @@
       | roy.nino.s.regala              | May 23, 2022          | DEPP-2103              | Created file                 |
  */
 
-@IsTest(SeeAllData=false)
+@isTest
 public with sharing class MarketingStagingTriggerHelperTest {
 
     @testSetup 
@@ -109,7 +109,7 @@ public with sharing class MarketingStagingTriggerHelperTest {
         System.assertEquals([SELECT Id FROM Marketing_Segmentation__c LIMIT 100].size(),100, 'Number of segmentation created did not match');
     }
 
-    @IsTest
+    @isTest
     public static void bulkLeadMatchTest(){
         List<Marketing_Staging__c> stagingList = new List<Marketing_Staging__c>();
         Marketing_Staging__c staging;

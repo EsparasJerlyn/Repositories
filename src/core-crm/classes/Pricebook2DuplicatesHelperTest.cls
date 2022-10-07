@@ -10,17 +10,17 @@
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | kathy.cornejo                  | June 03, 2022         | DEPP-2664              | Created file                 |
  */
-@IsTest(SeeAllData = false)
+@isTest
 public with sharing class Pricebook2DuplicatesHelperTest {
 	private static User currentUser = TestDataFactory.createUserRecords(1, 'QUTeX').iterator().next();
         
-    @TestSetUp
+    @testSetup
     static void setUpMethod(){
     	Pricebook2 pb = new Pricebook2();
         pb.Name = 'TestPb';
         insert pb;
     }
-    @IsTest
+    @isTest
     static void checkPbName(){
         System.runAs(currentUser) {
             Test.startTest();

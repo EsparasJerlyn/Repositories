@@ -26,17 +26,18 @@
     <enableTopicAssignmentRules>true</enableTopicAssignmentRules>
     <enableTopicSuggestions>false</enableTopicSuggestions>
     <enableUpDownVote>false</enableUpDownVote>
-    <forgotPasswordTemplate>unfiled$public/CommunityForgotPasswordEmailTemplate</forgotPasswordTemplate>
+    <forgotPasswordTemplate>unfiled$public/Forgot_Password_Email</forgotPasswordTemplate>
     <gatherCustomerSentimentData>false</gatherCustomerSentimentData>
     <networkMemberGroups>
         <permissionSet>Corporate_Portal_Base</permissionSet>
-        <profile>Admin</profile>
+        <profile>admin</profile>
+        <profile>corporate partner user</profile>
     </networkMemberGroups>
     <networkPageOverrides>
         <changePasswordPageOverrideSetting>Standard</changePasswordPageOverrideSetting>
-        <forgotPasswordPageOverrideSetting>Standard</forgotPasswordPageOverrideSetting>
-        <homePageOverrideSetting>Designer</homePageOverrideSetting>
-        <loginPageOverrideSetting>Standard</loginPageOverrideSetting>
+        <forgotPasswordPageOverrideSetting>Designer</forgotPasswordPageOverrideSetting>
+        <homePageOverrideSetting>VisualForce</homePageOverrideSetting>
+        <loginPageOverrideSetting>Designer</loginPageOverrideSetting>
         <selfRegProfilePageOverrideSetting>Designer</selfRegProfilePageOverrideSetting>
     </networkPageOverrides>
     <picassoSite>CCE1</picassoSite>
@@ -49,5 +50,5 @@
         <standardTab>Chatter</standardTab>
     </tabs>
     <urlPathPrefix>cce</urlPathPrefix>
-    <welcomeTemplate>unfiled$public/User_Creation_Welcome_Email</welcomeTemplate>
+    <welcomeTemplate>unfiled$public/CCE_User_Welcome_Email</welcomeTemplate>
 </Network>

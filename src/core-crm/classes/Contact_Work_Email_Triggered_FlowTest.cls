@@ -10,7 +10,7 @@
       | Adam Best                      | June 15, 2022         | DEPP-3067              | Created file                 |
 
  */
-@isTest(SeeAllData=false)
+@isTest
 public with sharing class Contact_Work_Email_Triggered_FlowTest {
     
     private static User currentUser = TestDataFactory.createUserRecords(
@@ -20,7 +20,7 @@ public with sharing class Contact_Work_Email_Triggered_FlowTest {
       .iterator()
       .next(); 
 
-    @TestSetup
+    @testSetup
     static void testSetup() {
         System.runAs(currentUser) {
             Test.startTest();
@@ -50,8 +50,8 @@ public with sharing class Contact_Work_Email_Triggered_FlowTest {
             cons[0].Work_Email__c = 'test_work@email.com';
             cons[0].QUT_Staff_Email__c = 'test_staff@email.com';
             cons[0].QUT_Learner_Email__c = 'test_learner@email.com';
-            cons[0].hed__Preferred_Email__c = 'Work Email';
-            cons[0].hed__WorkEmail__c = 'test_work@email.com';
+            cons[0].hed__Preferred_Email__c = 'Alternate Email';
+            cons[0].hed__AlternateEmail__c = 'test@email.com';
             insert cons;
             Test.stopTest();
         }

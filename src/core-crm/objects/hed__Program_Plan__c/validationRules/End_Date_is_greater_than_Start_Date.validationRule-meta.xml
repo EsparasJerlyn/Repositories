@@ -3,7 +3,9 @@
     <fullName>End_Date_is_greater_than_Start_Date</fullName>
     <active>true</active>
     <errorConditionFormula>AND (
+OR(
 RecordType.DeveloperName = &apos;Program&apos;,
+RecordType.DeveloperName = &apos;Program_Without_Pathway&apos;),
 ISPICKVAL( Product_Request__r.Product_Request_Status__c , &apos;Design&apos;),
 hed__Start_Date__c &gt;  hed__End_Date__c
 )</errorConditionFormula>

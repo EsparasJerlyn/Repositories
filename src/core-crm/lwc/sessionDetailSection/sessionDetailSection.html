@@ -1,43 +1,66 @@
 <template>
     <lightning-spinner if:true={isLoading} alternative-text="Loading..." size="small"></lightning-spinner> 
-    <div class="slds-grid slds-gutters slds-m-vertical_x-small">
-        <div class="slds-col slds-size_1-of-1">
-            <lightning-helptext 
-                if:true={showHelp}
-                content="Please add at least one (1) facilitator to add a session."
-                class="slds-float_right">
-            </lightning-helptext>
-            <lightning-button
-                variant="brand"
-                label="Add New Session"
-                title="Add New Session"
-                icon-name="utility:add"
-                onclick={handleAddSession}
-                class="slds-float_right"
-                disabled={disableSession}>
-            </lightning-button>
+    <template if:true={isCoachingProductRequest}>
+        <div class="slds-m-vertical_medium slds-scrollable max-height" onitemregister={handleItemRegister}>
+            <c-custom-datatable-columned
+                key-field="id"
+                data={relatedSessionsPerLearnerCopy}
+                columns={sessionColumnsPerLearner}
+                onsave={handleSavePerLearner}
+                oncancel={handleCancelPerLearner}
+                oncellchange={handleCellChangePerLearner}
+                onpicklistselect={handlePicklistSelectPerLearner}
+                onitemselect={handleItemSelectPerLearner}
+                draft-values={draftValuesPerLearner}
+                errors={datatableErrorsPerLearner}
+                hide-checkbox-column
+                show-row-number-column
+            ></c-custom-datatable-columned>
+            <span if:false={showSessionTablePerLearner}>
+                No session record(s) found.
+            </span>
         </div>
-    </div>
-    <div class="slds-m-vertical_medium slds-scrollable max-height" onitemregister={handleItemRegister}>
-        <c-custom-datatable-columned
-            key-field="id"
-            data={relatedSessionsCopy}
-            columns={sessionColumns}
-            onsave={handleSave}
-            oncancel={handleCancel}
-            oncellchange={handleCellChange}
-            onpicklistselect={handlePicklistSelect}
-            onitemselect={handleItemSelect}
-            ondatetimeedit={handleDatetimeEdit}
-            onlookupselect={handleLookupSelect}
-            onrichtextedit={handleRichtextEdit}
-            draft-values={draftValues}
-            errors={datatableErrors}
-            hide-checkbox-column
-            show-row-number-column
-        ></c-custom-datatable-columned>
-        <span if:false={showSessionTable}>
-            No record(s) found.
-        </span>
-    </div>
+    </template>
+    <template if:false={isCoachingProductRequest}>
+        <div class="slds-grid slds-gutters slds-m-vertical_x-small">
+            <div class="slds-col slds-size_1-of-1">
+                <lightning-helptext 
+                    if:true={showHelp}
+                    content="Please add at least one (1) facilitator to add a session."
+                    class="slds-float_right">
+                </lightning-helptext>
+                <lightning-button
+                    variant="brand"
+                    label="Add New Session"
+                    title="Add New Session"
+                    icon-name="utility:add"
+                    onclick={handleAddSession}
+                    class="slds-float_right"
+                    disabled={disableSession}>
+                </lightning-button>
+            </div>
+        </div>
+        <div class="slds-m-vertical_medium slds-scrollable max-height" onitemregister={handleItemRegister}>
+            <c-custom-datatable-columned
+                key-field="id"
+                data={relatedSessionsCopy}
+                columns={sessionColumns}
+                onsave={handleSave}
+                oncancel={handleCancel}
+                oncellchange={handleCellChange}
+                onpicklistselect={handlePicklistSelect}
+                onitemselect={handleItemSelect}
+                ondatetimeedit={handleDatetimeEdit}
+                onlookupselect={handleLookupSelect}
+                onrichtextedit={handleRichtextEdit}
+                draft-values={draftValues}
+                errors={datatableErrors}
+                hide-checkbox-column
+                show-row-number-column
+            ></c-custom-datatable-columned>
+            <span if:false={showSessionTable}>
+                No record(s) found.
+            </span>
+        </div>
+    </template>
 </template>

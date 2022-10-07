@@ -12,7 +12,7 @@
       | arsenio.jr.dayrit         | June 24, 2022         | DEPP-3246 | Added test method for update course and program |
 */
 
-@isTest(SeeAllData=false)
+@isTest
 private class ProductRequestTriggerHandlerTest {
     private static final String PR_ACTIVITY = System.Label.RT_ProductRequest_Activity;
     private static final String PR_PROGRAM = System.Label.RT_ProductRequest_Program;

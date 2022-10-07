@@ -11,7 +11,7 @@
       |                           |                       |                      |                              | 
  */
 
-@IsTest(SeeAllData = false)
+@isTest
 private with sharing class RegisteredLearnersCtrlTest {
     
     private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
@@ -25,7 +25,7 @@ private with sharing class RegisteredLearnersCtrlTest {
     private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
     
-    @TestSetup
+    @testSetup
     private static void setupMethod(){
         List<Contact> contacts;
         contacts = TestDataFactory.createTestContactRecords(1);

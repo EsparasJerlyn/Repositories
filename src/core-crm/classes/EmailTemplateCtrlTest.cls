@@ -1,4 +1,4 @@
-@isTest(SeeAllData=false)
+@isTest
 public with sharing class EmailTemplateCtrlTest {
     private static final String PR_PROGRAM = System.Label.RT_ProductRequest_Program;
     private static final String PR_MODULE = System.Label.RT_ProductRequest_MODULE;
@@ -46,7 +46,7 @@ public with sharing class EmailTemplateCtrlTest {
 
      }
 
-    @IsTest
+    @isTest
     static void getEmailTemplateTest(){
 
         EmailTemplate e = new EmailTemplate (developerName = 'testEmail', TemplateType= 'Text', Name = 'testEmail');
@@ -58,7 +58,7 @@ public with sharing class EmailTemplateCtrlTest {
         Test.stopTest();
     }
 
-    @IsTest
+    @isTest
     static void getCommunicationDataModuleTest(){
         Id programId;
 		Id moduleId;
@@ -97,7 +97,7 @@ public with sharing class EmailTemplateCtrlTest {
 
     }
 
-    @IsTest
+    @isTest
     static void getCommunicationDataProgramTest(){
         Id programId;
 		Id moduleId;

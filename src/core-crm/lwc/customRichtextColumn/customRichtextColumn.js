@@ -7,7 +7,7 @@
  *    | Developer                 | Date                  | JIRA                | Change Summary                                         |
       |---------------------------|-----------------------|---------------------|--------------------------------------------------------|
       | angelika.j.s.galang       | March 3, 2022         | DEPP-1831           | Created file                                           |
-      |                           |                       |                     |                                                        |
+      | alexander.cadalin         | Aug. 18, 2022         | DEPP-3335           | Inline editing to modal, and other adjustments         |
 */
 import { LightningElement, api, track } from 'lwc';
 
@@ -24,7 +24,10 @@ export default class CustomRichtextColumn extends LightningElement {
         this._richtextValue = value;
         this.richtextValueCopy = value;
     }
-
+    get plaintextValue() {
+        return this._richtextValue?.replace(/(<([^>]+)>)/ig, '');
+    }
+    
     @track _richtextValue;
     @track richtextValueCopy;
     showRichtext = false;

@@ -1,0 +1,122 @@
+<template> 
+    <div if:false={hasAccess} class="slds-text-align_center slds-p-around_large">
+        <p><strong>You don't have access to this feature.</strong></p>
+    </div>
+    <div if:true={hasAccess}>
+        <lightning-accordion allow-multiple-sections-open active-section-name={activeSections}>
+            <lightning-button if:true={showAddProductsButton} label="Add OPE Products" title="Add/Remove Products" data-name="addPRoducts" disabled={editing} icon-name="utility:add"
+                onclick={handleAddOPEProducts} variant="brand" class="add-ope-button">
+            </lightning-button>
+            <lightning-accordion-section name='Related Products' label="Related Products" class="accordion-section">
+                <lightning-spinner if:true={isLoading} alternative-text="Loading" size="medium"></lightning-spinner> 
+                <template if:true={showProductPricing}>
+                    <div class="slds-grid slds-gutters slds-grid_vertical-align-center">
+                        <div class="slds-col slds-size_1-of-5 slds-p-right_none slds-p-bottom_medium">
+                            <lightning-input 
+                                type="number"
+                                placeholder="Enter (%) discount here..." 
+                                onchange={handleEnterDiscount}
+                                value={enteredDiscount}
+                                disabled={isStatusCompleted}>
+                            </lightning-input>
+                        </div>
+                        <div class="slds-col slds-size_1-of-5 slds-p-left_none">
+                            <!--Apply Selected-->
+                            <lightning-button 
+                                class="slds-m-left_x-small"
+                                variant="Brand"
+                                label="Apply Selected"
+                                onclick={handleApplyDiscount}
+                                disabled={applyDiscountDisable}>
+                            </lightning-button>
+                        </div>
+                    </div>
+                    <div if:true={hasNoStandardPrice} class="slds-text-color_destructive slds-p-bottom_medium">
+                        Please select a product with a standard price.
+                    </div>
+                </template>
+                <c-related-products-table
+                    entered-discount={enteredDiscount}
+                    record-id={recordId}
+                    is-status-completed={isStatusCompleted}
+                    table-name={opeTableName}
+                    record-type-filter={opeFilter}
+                    columns={opeColumns}
+                    onrowselect={handleChildRowSelect}
+                    show-pricing-table={showProductPricing}
+                    onresetdiscount={resetDiscount}>
+                </c-related-products-table>
+                <c-related-products-table
+                    entered-discount={enteredDiscount}
+                    record-id={recordId}
+                    is-status-completed={isStatusCompleted}
+                    table-name={cceTableName}
+                    record-type-filter={cceFilter}
+                    columns={cceColumns}
+                    onrowselect={handleChildRowSelect}
+                    show-pricing-table={showProductPricing}
+                    onresetdiscount={resetDiscount}
+                    if:true={isSoa}>
+                </c-related-products-table>
+                <template if:true={showAssociateProducts}>
+                    <div class="slds-grid slds-gutters slds-grid_vertical-align-center">
+                        <div class="slds-col slds-size_2-of-5">
+                            <!--Add/Associate Button-->
+                            <lightning-button 
+                                variant="Brand"
+                                label="Associate Products"
+                                icon-name="utility:link"
+                                onclick={handleAssociateProduct}
+                                disabled={hasNoSelectedProducts}>
+                            </lightning-button>
+                            <!--Cancel Associating Button-->
+                            <lightning-button 
+                                class="slds-m-left_x-small"
+                                variant="neutral"
+                                label="Cancel"
+                                icon-name="utility:close"
+                                onclick={handleCancel}>
+                            </lightning-button>
+                        </div>
+                        <div class="slds-col slds-size_2-of-5 slds-grid_vertical-align-center slds-p-right_none slds-p-bottom_medium">
+                            <lightning-input 
+                                type="search" 
+                                placeholder="Search Products" 
+                                onchange={handleProductNameSearch} 
+                                value={productName}>
+                            </lightning-input>
+                        </div>
+                        <div class="slds-col slds-size_1-of-5 slds-grid_vertical-align-center slds-p-bottom_medium">
+                            <lightning-combobox
+                                value={recordType}                    
+                                options={recordTypes}
+                                onchange={handleRecordTypeSearch} 
+                            ></lightning-combobox>
+                        </div>
+                    </div>   
+                    <div class="slds-scrollable slds-p-bottom_medium">
+                        <lightning-datatable 
+                            data={searchedProductList} 
+                            columns={searchColumns} 
+                            key-field="id" 
+                            sorted-by={sortBy}
+                            sorted-direction={sortDirection}
+                            onsort={handleSort}
+                            onrowselection={handelSelectedRowsOnSearch}
+                            errors={errors}>
+                        </lightning-datatable>
+                    </div> 
+                    <template if:true={noUnRelatedProducts}>
+                        <div class="
+                            slds-text-align_center">
+                            <strong>{noRecordsFound}</strong>
+                        </div>
+                    </template>
+                </template>     
+                <template if:true={error}>
+                    {displayTableError}
+                </template>
+            </lightning-accordion-section>
+        </lightning-accordion>
+    </div>
+</template>

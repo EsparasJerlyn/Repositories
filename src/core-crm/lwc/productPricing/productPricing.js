@@ -258,7 +258,7 @@ export default class ProductPricing extends NavigationMixin(LightningElement) {
             newItem.IsEarlyBird = item.Pricebook2.Name === 'Early Bird' && !this.isStatusCompleted?true:false;
             newItem.DisableButton = true;
             newItem.HasNoDiscount = item.Discount__c || this.isStatusCompleted?false:true;
-            newItem.editable = this.isStatusCompleted?false:true;
+            newItem.editable = this.isStatusCompleted || item.Pricebook2.Name === 'Standard Price Book'?false:true;
             return newItem;
         });
     }

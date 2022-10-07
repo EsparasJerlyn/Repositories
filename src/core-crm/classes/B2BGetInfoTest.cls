@@ -21,7 +21,7 @@ private class B2BGetInfoTest {
         TestDataFactory.createTestProduct2(true);  
     }
     
-    @IsTest
+    @isTest
     private static void getProductAndPriceTest() {
         Product2 prd = TestDataFactory.createTestProduct2(false);
         Account account = TestDataFactory.createTestAccount(false);
@@ -37,7 +37,7 @@ private class B2BGetInfoTest {
         System.assertEquals(true, result2 == null, 'result is not null');
     }
 
-    @IsTest
+    @isTest
     private static void addToCartAndGetCartSummaryTest() {
         Account account = TestDataFactory.createTestAccount(false);
         String communityId = B2BUtils.getCommunityIdByName(COMMUNITY_NAME);
@@ -51,7 +51,7 @@ private class B2BGetInfoTest {
         System.assertEquals(true, result == null, 'result is not null');
     }
 
-    @IsTest
+    @isTest
     private static void createAndAddToListTest() {
         Product2 prd = TestDataFactory.createTestProduct2(false);
         Account account = TestDataFactory.createTestAccount(false);
@@ -61,6 +61,20 @@ private class B2BGetInfoTest {
         ConnectApi.Wishlist result = B2BGetInfo.createAndAddToList(communityId,prd.Id,'Wishlist Test',account.Id);
         Test.stopTest();
         
+        System.assertEquals(true, result == null, 'result is not null');
+    }
+
+    @isTest
+    private static void getOrCreateActiveCartSummaryTest() { 
+        Account account = TestDataFactory.createTestAccount(false);
+        String communityId = B2BUtils.getCommunityIdByName(COMMUNITY_NAME);
+        
+        Test.startTest();
+        ConnectApi.CartItem result = B2BGetInfo.addToCart(communityId, '', '1', account.Id);
+        ConnectApi.CartSummary resultSummary = B2BGetInfo.getOrCreateActiveCartSummary(communityId,account.Id);
+        Test.stopTest();
+        
+        System.assertEquals(true, resultSummary == null, 'result is not null');
         System.assertEquals(true, result == null, 'result is not null');
     }
     

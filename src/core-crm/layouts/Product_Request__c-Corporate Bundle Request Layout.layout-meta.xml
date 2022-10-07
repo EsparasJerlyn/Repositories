@@ -84,6 +84,8 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
+        <fields>Contact__c</fields>
+        <fields>Role__c</fields>
         <relatedList>Product_Request_Contact_Role__c.Product_Request__c</relatedList>
     </relatedLists>
     <relatedLists>

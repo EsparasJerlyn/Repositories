@@ -11,16 +11,16 @@
       | roy.nino.s.regala              | July 15, 2022         | DEPP-3485              | Created file                 |
       |                                |                       |                        |                              |
  */
-@isTest(SeeAllData=false)
+@isTest
 public with sharing class CartTriggerHelperTest {
 
-    @TestSetup
+    @testSetup
     static void setupMethod() {
 
         TestDataFactory.generateTestUsers();
     }
 
-    @IsTest
+    @isTest
     static void insertCartWithCartPaymentTest(){
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             Test.startTest();

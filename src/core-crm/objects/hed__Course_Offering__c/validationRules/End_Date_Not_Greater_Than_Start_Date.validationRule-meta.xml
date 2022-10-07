@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>End_Date_Not_Greater_Than_Start_Date</fullName>
-    <active>false</active>
-    <description>End Date should not be Greater than the Start Date</description>
+    <active>true</active>
+    <description>End Date should be equal to or greater than Start Date</description>
     <errorConditionFormula>hed__End_Date__c  &lt;  hed__Start_Date__c</errorConditionFormula>
     <errorDisplayField>hed__End_Date__c</errorDisplayField>
-    <errorMessage>End Date should not be greater than Start Date</errorMessage>
+    <errorMessage>End Date should be equal to or greater than Start Date</errorMessage>
 </ValidationRule>

@@ -11,7 +11,7 @@
       | angelika.j.s.galang       | September 20, 2021    | DEP1-518 | Created file                    | 
       |                           |                       |          |                                 | 
 */
-@IsTest(SeeAllData = false)
+@isTest
 private class CompanyInformationValidationCtrlTest {
 
     private static final String ACCOUNT_API_NAME = Account.SObjectType.getDescribe().getLocalName();
@@ -20,7 +20,7 @@ private class CompanyInformationValidationCtrlTest {
     private static final String STR_COMPANY_MAPPING = 'Company_Mapping__c';
     private static User currentUser = TestDataFactory.createUserRecords(1, STR_QUTEX).iterator().next();
 
-    @IsTest
+    @isTest
     private static void getCompanyMappingTest(){
         Test.startTest();
         System.runAs(currentUser){
@@ -31,7 +31,7 @@ private class CompanyInformationValidationCtrlTest {
         Test.stopTest();
     }
 
-    @IsTest
+    @isTest
     private static void validateCompanyTest(){
         Test.startTest();
         System.runAs(currentUser){

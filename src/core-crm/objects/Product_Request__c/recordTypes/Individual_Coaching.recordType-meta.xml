@@ -3,6 +3,7 @@
     <fullName>Individual_Coaching</fullName>
     <active>true</active>
     <compactLayoutAssignment>Individual_Coaching_Compact_Layout</compactLayoutAssignment>
+    <description>This record type will be used to request individual Coaching which can be delivered in isolation or as part of a program.</description>
     <label>Individual Coaching</label>
     <picklistValues>
         <picklist>Product_Request_Status__c</picklist>

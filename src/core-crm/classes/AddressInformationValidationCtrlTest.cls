@@ -1,4 +1,4 @@
-@isTest(SeeAllData=false)
+@isTest
 private class AddressInformationValidationCtrlTest {
     private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
 
@@ -25,7 +25,9 @@ private class AddressInformationValidationCtrlTest {
         Test.stopTest();
         
     }   
-    static testMethod void testGetLoqateMetaData() {
+
+    @isTest
+    static void testGetLoqateMetaData() {
         Test.startTest();
         System.runAs(currentUser){
             AddressInformationValidationCtrl.AddressMetadata addMetadata  = new AddressInformationValidationCtrl.AddressMetadata();
@@ -35,7 +37,8 @@ private class AddressInformationValidationCtrlTest {
         Test.stopTest();
     }
     
-    static testMethod void testGetLoqateMetaDataError() {
+    @isTest
+    static void testGetLoqateMetaDataError() {
         Test.startTest();
         System.runAs(currentUser){
             AddressInformationValidationCtrl.AddressMetadata addMetadata  = new AddressInformationValidationCtrl.AddressMetadata();
@@ -48,7 +51,8 @@ private class AddressInformationValidationCtrlTest {
         Test.stopTest();
     }
 
-    static testMethod void testUpserHedAddress() {
+    @isTest
+    static void testUpserHedAddress() {
         Test.startTest();
         System.runAs(currentUser){
             List<hed__Address__c> hedAddress = new List<hed__Address__c>([SELECT Id, hed__Address_Type__c FROM hed__Address__c WHERE hed__Address_Type__c = 'Billing']);
@@ -59,7 +63,8 @@ private class AddressInformationValidationCtrlTest {
         Test.stopTest();
     }
     
-    static testMethod void testUpserHedAddressError() {
+    @isTest
+    static void testUpserHedAddressError() {
         Test.startTest();
         System.runAs(currentUser){
             hed__Address__c hedAddressToUpdate = new hed__Address__c();
@@ -74,7 +79,8 @@ private class AddressInformationValidationCtrlTest {
         Test.stopTest();
     }
 
-    static testMethod void testGetHedAddress() {
+    @isTest
+    static void testGetHedAddress() {
         Test.startTest();
         System.runAs(currentUser){
             List<hed__Address__c> hedAddress = new List<hed__Address__c>([SELECT Id, hed__Address_Type__c, Parent_Lead__c FROM hed__Address__c WHERE hed__Address_Type__c = 'Lead']);
@@ -83,7 +89,8 @@ private class AddressInformationValidationCtrlTest {
         Test.stopTest();
     }
 
-	static testMethod void testGetHedAddressError() {
+    @isTest
+	static void testGetHedAddressError() {
         Test.startTest();
         System.runAs(currentUser){
             try{
@@ -95,7 +102,8 @@ private class AddressInformationValidationCtrlTest {
         Test.stopTest();
     }
     
-    static testMethod void testSearchAddress() {
+    @isTest
+    static void testSearchAddress() {
         Test.startTest();
         System.runAs(currentUser){
             // Set mock callout class 
@@ -108,7 +116,8 @@ private class AddressInformationValidationCtrlTest {
         Test.stopTest();
     }
 
-    static testMethod void testGetDetails() {
+    @isTest
+    static void testGetDetails() {
         Test.startTest();
         System.runAs(currentUser){
             // Set mock callout class 

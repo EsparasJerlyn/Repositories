@@ -23,6 +23,7 @@
       |                           |                       |                      | equivalents for startURL              |
       | john.bo.a.pineda          | July 15, 2022         | DEPP-3130            | Set startURL param as API             |
       | julie.jane.alegre         | August 15, 2022       | DEPP-3568            | Added Contact Duplication Handling    |
+      | keno.domienri.dico        | September 23, 2022    | DEPP-4367            | birthdate validation                  |
 */
 import { LightningElement, track, api, wire } from "lwc";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
@@ -39,6 +40,7 @@ import validateContactMatching from "@salesforce/apex/RegistrationMatchingHelper
 import loginExistingUser from "@salesforce/apex/RegistrationFormCtrl.loginExistingUser";
 import isUserExist from "@salesforce/apex/RegistrationFormCtrl.isUserExist";
 import updateContact from "@salesforce/apex/RegistrationFormCtrl.updateContact";
+import { birthdateValidation } from 'c/commonUtils';
 
 //Add text fields in Label from HTML
 const SSO = "/services/auth/sso/";
@@ -133,7 +135,7 @@ export default class RegistrationForm extends LightningElement {
   @track requiredField;
   @track privacyPolicy;
   @track acknowledge;
-  
+
 
 
   label = {
@@ -360,84 +362,114 @@ export default class RegistrationForm extends LightningElement {
         this.requiredDisplayData.year = SHOW_ERROR_MESSAGE_ATTRIBUTE;
         this.requiredInputClass.year = SHOW_ERROR_BOARDER_ATTRIBUTE;
         return;
-      } else if (this.year < 1950 || this.year > new Date().getFullYear()) {
+      } else if (this.year < 1900 || this.year > new Date().getFullYear()) {
         this.yearErrorMessage = BIRTHDATE_INVALID;
         this.requiredDisplayData.year = SHOW_ERROR_MESSAGE_ATTRIBUTE;
         this.requiredInputClass.year = SHOW_ERROR_BOARDER_ATTRIBUTE;
         return;
       }
 
-      let contactList = [];
-      let contact = {};
-      contact.FirstName = this.firstName;
-      contact.LastName = this.lastName;
-      contact.Birthdate = this.year + '-'+ this.month + '-' + this.date;
-      contact.Registered_Email__c = this.email;
-      contactList.push(contact);
-      
-        this.fieldsMismatch = [];
-        validateContactMatching({newContactList:JSON.stringify(contactList)})
-        .then((res) => {
-          let validationResult = res[0];
-          if( validationResult.isPartialMatch == false && 
-              validationResult.isEmailMatch == false){ //email and contact details did not match
-                  //Proceed to creating new record
-                  this.userExists = false;
-                  this.displayForm = false;
-                  this.displayVerification = true;
-                  this.displayResendVerification = false;
-                  this.sendSMSOTP();
+      // Check Date of Birth 
+      if(!this.checkDOB()){
+        let contactList = [];
+        let contact = {};
+        contact.FirstName = this.firstName;
+        contact.LastName = this.lastName;
+        contact.Birthdate = this.year + '-'+ this.month + '-' + this.date;
+        contact.Registered_Email__c = this.email;
+        contactList.push(contact);
 
-          }else if( validationResult.isPartialMatch == false && 
-                    validationResult.isEmailMatch == true){ //email and contact details matched
-                      //Proceed to log in, existing record
-                      this.contactId = validationResult.contactRecord.Id;
-                      isUserExist({contactId: this.contactId})
-                      .then((res) => {
-                          if(res.length > 0){
-                              this.userExists = true;
-                              this.loginUser = res[0];
-                              this.handleExistingUser();
-                          }
-                          else{
-                              //'User does not exist'
-                              //Proceed to creating new record
-                              this.userExists = false;
-                              this.displayForm = false;
-                              this.displayVerification = true;
-                              this.displayResendVerification = false;
-                              this.isEmail = true;
-                              this.sendEmailOTP();
-                          }
-                      })
+          this.fieldsMismatch = [];
+          validateContactMatching({newContactList:JSON.stringify(contactList)})
+          .then((res) => {
+            let validationResult = res[0];
+            if( validationResult.isPartialMatch == false &&
+                validationResult.isEmailMatch == false){ //email and contact details did not match
+                    //Proceed to creating new record
+                    this.userExists = false;
+                    this.displayForm = false;
+                    this.displayVerification = true;
+                    this.displayResendVerification = false;
+                    this.sendSMSOTP();
 
-          }else if( validationResult.isPartialMatch == true &&
-                    validationResult.isEmailMatch == false){ //email did not match and contact details matched
-                      //Request user to enter email
-                      //Tell Me More About You screen is display
-                      this.displayForm = false;
-                      this.displayEmailValidation = true;
+            }else if( validationResult.isPartialMatch == false &&
+                      validationResult.isEmailMatch == true){ //email and contact details matched
+                        //Proceed to log in, existing record
+                        this.contactId = validationResult.contactRecord.Id;
+                        isUserExist({contactId: this.contactId})
+                        .then((res) => {
+                            if(res.length > 0){
+                                this.userExists = true;
+                                this.loginUser = res[0];
+                                this.handleExistingUser();
+                            }
+                            else{
+                                //'User does not exist'
+                                //Proceed to creating new record
+                                this.userExists = false;
+                                this.displayForm = false;
+                                this.displayVerification = true;
+                                this.displayResendVerification = false;
+                                this.isEmail = true;
+                                this.sendEmailOTP();
+                            }
+                        })
 
-          }else if( validationResult.isPartialMatch == true && 
-                    validationResult.isEmailMatch == true){  //email match and contact details did not match
-                    //Request update contact details
-                    //Display Error on the form
-                    this.noRecordforEmail = true;
-                    this.fieldsMismatch = validationResult.fieldsMismatch && validationResult.fieldsMismatch.length > 0?validationResult.fieldsMismatch:[];
-                    if(validationResult.fieldsMismatch.includes('First Name')){
-                        this.requiredInputClass.firstName = SHOW_ERROR_BOARDER_ATTRIBUTE;
-                    }
-                    if(validationResult.fieldsMismatch.includes('Last Name')){
-                        this.requiredInputClass.lastName = SHOW_ERROR_BOARDER_ATTRIBUTE;
-                    }
-                    if(validationResult.fieldsMismatch.includes('Date of Birth')){
-                        this.requiredInputClass.year = SHOW_ERROR_BOARDER_ATTRIBUTE;
-                        this.requiredInputClass.month = SHOW_ERROR_BOARDER_ATTRIBUTE;
-                        this.requiredInputClass.date = SHOW_ERROR_BOARDER_ATTRIBUTE;
-                    }                                      
-          } 
-        })
+            }else if( validationResult.isPartialMatch == true &&
+                      validationResult.isEmailMatch == false){ //email did not match and contact details matched
+                        //Request user to enter email
+                        //Tell Me More About You screen is display
+                        this.displayForm = false;
+                        this.displayEmailValidation = true;
+
+            }else if( validationResult.isPartialMatch == true &&
+                      validationResult.isEmailMatch == true){  //email match and contact details did not match
+                      //Request update contact details
+                      //Display Error on the form
+                      this.noRecordforEmail = true;
+                      this.fieldsMismatch = validationResult.fieldsMismatch && validationResult.fieldsMismatch.length > 0?validationResult.fieldsMismatch:[];
+                      if(validationResult.fieldsMismatch.includes('First Name')){
+                          this.requiredInputClass.firstName = SHOW_ERROR_BOARDER_ATTRIBUTE;
+                      }
+                      if(validationResult.fieldsMismatch.includes('Last Name')){
+                          this.requiredInputClass.lastName = SHOW_ERROR_BOARDER_ATTRIBUTE;
+                      }
+                      if(validationResult.fieldsMismatch.includes('Date of Birth')){
+                          this.requiredInputClass.year = SHOW_ERROR_BOARDER_ATTRIBUTE;
+                          this.requiredInputClass.month = SHOW_ERROR_BOARDER_ATTRIBUTE;
+                          this.requiredInputClass.date = SHOW_ERROR_BOARDER_ATTRIBUTE;
+                      }
+            }
+          })
+      }
     }
+  }
+
+  // Handle Date of Birth
+  checkDOB(){
+    let hasInvalidDOB = false;
+    let dateOfBirth = this.year + '-'+ this.month + '-' + this.date;
+    let dobHasError;
+    let dobErrorMessage;
+    if(!birthdateValidation(dateOfBirth)){
+        dobHasError = true;
+        dobErrorMessage = 'Must be 15 years or older to register.';
+        hasInvalidDOB = true;
+    }else{
+      dobHasError = false;
+      dobErrorMessage = '';
+    }
+
+    if(hasInvalidDOB){
+        this.generateToast(
+            'Error.',
+            dobErrorMessage,
+            'warning',
+            'dismissable'
+        );
+    }
+
+    return hasInvalidDOB;
   }
 
   // Handle Existing User with mobile default
@@ -664,7 +696,7 @@ export default class RegistrationForm extends LightningElement {
       validateContactMatching({newContactList:JSON.stringify(contactList)})
       .then((res) => {
         let validationResult = res[0];
-          if(validationResult.isPartialMatch == false && 
+          if(validationResult.isPartialMatch == false &&
              validationResult.isEmailMatch == true){ //email and contact details matched
                 this.contactId = validationResult.contactRecord.Id;
                 //Check if the user exist
@@ -692,7 +724,7 @@ export default class RegistrationForm extends LightningElement {
                     }
                 })
 
-          }else if(validationResult.isPartialMatch == true && 
+          }else if(validationResult.isPartialMatch == true &&
                    validationResult.isEmailMatch == false){
                    //Show error message
                    this.otherEmailError = true;
@@ -801,12 +833,11 @@ export default class RegistrationForm extends LightningElement {
         this.errorMessage = LWC_ERROR_GENERAL + this.generateErrorMessage(error);
       });
   }
-  // Update the existing user contact details 
-  updateContactOfExistingUser(){ 
+  // Update the existing user contact details
+  updateContactOfExistingUser(){
       updateContact({
             contactId: this.contactId,
             email: this.email,
-            mobile: this.mobileFull,
             mobileNoLocale: this.mobile,
             mobileConLocale: this.localeConMobile,
             dietaryReq: this.dietaryReq,
@@ -840,7 +871,7 @@ export default class RegistrationForm extends LightningElement {
     });
     this.dispatchEvent(evt);
   }
-  
+
   handleOpenLogin() {
     this.dispatchEvent(
         new CustomEvent("openlogin", {

@@ -9,16 +9,16 @@
       | kenodomienri.dico@qut.edu.au   | April 7, 2022         | DEPP-1479              | Created file                 |
       |                                |                       |                        |                              |
  */
-@isTest(SeeAllData=false)
+@isTest
 public with sharing class EmailTemplateSelectorTest {
 
-    @IsTest
+    @isTest
      static void checkEmailSelectorEmpty(){
     
         Test.startTest();
         EmailTemplate coverTemplate = EmailTemplateSelector.getEmailTemplate('Send Certificate'); 
         Test.stopTest();
-        System.assertNotEquals(null, coverTemplate);
+        System.assertNotEquals(null, coverTemplate, 'coverTemplate is null');
 
      }  
 

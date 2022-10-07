@@ -37,6 +37,5 @@
 }
 
 .slds-modal__content {
-    overflow: visible;
-    overflow-y: visible;
+    max-height: 500px;
 }

@@ -1,28 +1,13 @@
 {
   "appPageId" : "e7a3f4f7-241b-44d0-9ebd-8a08684e8126",
-  "componentName" : "siteforce:sldsTwoCol84Layout",
+  "componentName" : "siteforce:sldsOneColLayout",
   "id" : "2cb8bb30-2712-4f07-8e4e-da001a3ad2e0",
   "label" : "Home",
   "regions" : [ {
     "components" : [ {
-      "componentAttributes" : {
-        "bannerBackgroundColor" : "",
-        "bannerPosition" : "top",
-        "bannerSizePercent" : 35,
-        "borderRadius" : 20,
-        "boxShadow" : true,
-        "haveBanner" : false,
-        "iconBackgroundColor" : "rgb(255,255,255)",
-        "iconSize" : "medium",
-        "noImageColor" : "rgb(212, 212, 212)",
-        "overlay" : "rgba(0,0,0,0.01)",
-        "templateType" : "default",
-        "titleColor" : "",
-        "titleFontSize" : "medium",
-        "titleHorizontalAlign" : "center"
-      },
-      "componentName" : "community_navigation:tileMenu",
-      "id" : "560b6fd7-9e26-4f19-b664-04c3344ec8dd",
+      "componentAttributes" : { },
+      "componentName" : "c:homeMenuWrapper",
+      "id" : "0966698c-414b-4ea0-8002-a8d46d02e645",
       "renderPriority" : "NEUTRAL",
       "renditionMap" : { },
       "type" : "component"
@@ -32,25 +17,9 @@
     "type" : "region"
   }, {
     "components" : [ {
-      "componentAttributes" : {
-        "accountId" : "",
-        "noOrderMessageText" : "After you place an order, you’ll find it here.",
-        "noResultsText" : "To view orders, adjust your filters.",
-        "numberOfMonthsForFilter" : 12,
-        "orderSummaryFieldMapping" : "",
-        "ordersListCount" : 3,
-        "ordersListFilter" : false,
-        "ordersListSortBy" : false,
-        "ordersListTitle" : "Recent Orders",
-        "reOrder" : true,
-        "reOrderLabel" : "START REORDER",
-        "showMoreLabel" : "Go to Order List",
-        "viewDetails" : false,
-        "viewDetailsLabel" : "View Details",
-        "viewMoreOrderBehaviour" : "GO_TO_LIST_UI"
-      },
-      "componentName" : "b2b_buyer_builder:ordersList",
-      "id" : "40ccd776-95ad-4d23-a1d0-4a0f7747d92a",
+      "componentAttributes" : { },
+      "componentName" : "c:mainNavigationMenu",
+      "id" : "8106234c-102f-4668-8969-49891d1b9a66",
       "renderPriority" : "NEUTRAL",
       "renditionMap" : { },
       "type" : "component"
@@ -59,31 +28,6 @@
     "regionName" : "content",
     "type" : "region"
   }, {
-    "components" : [ {
-      "componentAttributes" : {
-        "addEntryText" : "Add Line",
-        "addToCartButtonBackgroundColor" : "",
-        "addToCartButtonBackgroundHoverColor" : "",
-        "addToCartButtonBorderColor" : "",
-        "addToCartButtonBorderRadius" : "0",
-        "addToCartButtonDisabledBackgroundColor" : "rgb(201, 199, 197)",
-        "addToCartButtonText" : "Add To Cart",
-        "addToCartButtonTextColor" : "",
-        "addToCartButtonTextHoverColor" : "",
-        "numberOfLineItemsToAddEachTime" : 1,
-        "numberOfLineItemsToStart" : 5,
-        "productPlaceholderText" : "Item SKU",
-        "productText" : "Product",
-        "quantityText" : "Quantity",
-        "showAddEntryIcon" : true,
-        "title" : "Quick Order"
-      },
-      "componentName" : "b2b_buyer_builder:quickOrderPage",
-      "id" : "c3750b28-9b11-4270-84f4-832027ec4a8e",
-      "renderPriority" : "NEUTRAL",
-      "renditionMap" : { },
-      "type" : "component"
-    } ],
     "id" : "657bbc3b-4145-4533-ac94-0d150664d1af",
     "regionName" : "sidebar",
     "type" : "region"

@@ -13,7 +13,7 @@
       | eugene.andrew.abuan            | July 31 , 2022        | DEPP-3534              | Added Before Update          |
 
  */
-@isTest(SeeAllData=false)
+@isTest
 public with sharing class CourseOfferingTriggerHandlerTest {
     private static User currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
     private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
@@ -24,7 +24,7 @@ public with sharing class CourseOfferingTriggerHandlerTest {
         TestDataFactory.generateTestUsers();
     }
 
-    @IsTest
+    @isTest
     private static void insertCourseConnectionTest() {
         System.runAs(currentUser) {
             Test.startTest();
@@ -49,21 +49,21 @@ public with sharing class CourseOfferingTriggerHandlerTest {
             insert courses;
     
             List<hed__Course_Offering__c> courseOfferings = TestDataFactory.createTestCourseOfferingRecord(10,courses,terms);
+            for(hed__Course_Offering__c cc : courseOfferings){
+                cc.Registration_Start_Date__c = Date.today();
+                cc.Registration_End_Date__c = Date.today()+2;
+            }
             insert courseOfferings;
 
             Test.stopTest();
-            Set<Id> ccId = new Set<Id>();
-            for(hed__Course_Offering__c cc : courseOfferings){
-                ccId.add(cc.Id);
-            }
             List<hed__Course_Offering__c> courseOfferingsList = new List<hed__Course_Offering__c>();
-            courseOfferingsList = [SELECT ID, External_Id__c FROM hed__Course_Offering__c WHERE ID IN : ccId];
+            courseOfferingsList = [SELECT ID, External_Id__c FROM hed__Course_Offering__c];
 
             System.assert(courseOfferingsList[0].External_Id__c != null, 'External Id is not populated');
         }
     }
 
-    @IsTest
+    @isTest
     private static void validateRelatedProductBeforeUpdateTest() {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             Test.startTest();
@@ -87,11 +87,15 @@ public with sharing class CourseOfferingTriggerHandlerTest {
       
             List<hed__Course__c> courses = TestDataFactory.createTestCourseRecords(100,accounts[0].Id,prodRequest[0].Id);
             insert courses;
+            
+            List<Product2> products = TestDataFactory.createTestProductRecords(100,courses);
+            insert products;
 
             List<hed__Course_Offering__c> courseOfferings = TestDataFactory.createTestCourseOfferingRecord(100,courses,terms);
             for(hed__Course_Offering__c courseOffering : courseOfferings){
-            courseOffering.hed__Start_Date__c = Date.today()+1;
-            courseOffering.hed__End_Date__c = Date.today()+2;
+                courseOffering.hed__Start_Date__c = Date.today()+1;
+                courseOffering.hed__End_Date__c = Date.today()+2;
+                
             }
             insert courseOfferings;
             
@@ -107,13 +111,13 @@ public with sharing class CourseOfferingTriggerHandlerTest {
                     cOff1.Registration_End_Date__c = null;
                     cOff1.IsActive__c = false;
                 }
+                cOff1.hed__Capacity__c = 100;
+                cOff1.Total_Number_of_Registered_Learners__c = 50;
             }
             update cOffToUpdate;
 
-            CourseOfferingTriggerHandler.increaseTestCoverage();
-
             Test.stopTest();
-            System.assert(true,'dummy assert');
+            System.assert(cOffToUpdate.size() > 0,'Course Offering records wer');
         }
     }
 

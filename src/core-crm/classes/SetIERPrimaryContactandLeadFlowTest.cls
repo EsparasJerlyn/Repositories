@@ -12,7 +12,7 @@
       |                           |                       |              |                                             | 
       |                           |                       |              |                                             | 
 */
-@IsTest(SeeAllData = false)
+@isTest
 private class SetIERPrimaryContactandLeadFlowTest{
 
     public static final Id PERSON = Schema.SObjectType.Contact.getRecordTypeInfosByDeveloperName()
@@ -25,7 +25,7 @@ private class SetIERPrimaryContactandLeadFlowTest{
     .iterator()
     .next();
 
-    @TestSetup
+    @testSetup
   static void testSetup() {
     System.runAs(currentUser) {
         List<Contact> cons = TestDataFactory.createTestContactRecords(1);
@@ -36,8 +36,8 @@ private class SetIERPrimaryContactandLeadFlowTest{
             cons[0].Work_Email__c = 'test_work@email.com';
             cons[0].QUT_Staff_Email__c = 'test_staff@email.com';
             cons[0].QUT_Learner_Email__c = 'test_learner@email.com';
-            cons[0].hed__Preferred_Email__c = 'Work Email';
-            cons[0].hed__WorkEmail__c = 'test_work@email.com';
+            cons[0].hed__Preferred_Email__c = 'Alternate Email';
+            cons[0].hed__AlternateEmail__c = 'test@email.com';
         insert cons;
 
         et4ae5__Automated_Send__c triggerSend = new et4ae5__Automated_Send__c(Name = 'et4ae5__Automated_Send__c');
@@ -46,7 +46,7 @@ private class SetIERPrimaryContactandLeadFlowTest{
     }
   }
 
-  @IsTest
+  @isTest
   static void parentPersonContactAsPrimaryTest(){
     test.startTest();
     List<Contact> contacts = new List<Contact>([SELECT Id,Parent_Person_Contact__c FROM Contact WHERE Parent_Person_Contact__c != null limit 1]);
@@ -54,11 +54,11 @@ private class SetIERPrimaryContactandLeadFlowTest{
     et4ae5__IndividualEmailResult__c  IER = new et4ae5__IndividualEmailResult__c(Name = 'test email name', et4ae5__Contact__c= contacts[0].id,et4ae5__TriggeredSendDefinition__c = triggerSend[0].Id);
     insert IER;
 
-    //system.assert(![SELECT Id FROM et4ae5__IndividualEmailResult__c WHERE Primary_Contact__c =: contacts[0].Parent_Person_Contact__c].isEmpty(), 'parent personal contact was not copied');
+    system.assert(![SELECT Id FROM et4ae5__IndividualEmailResult__c WHERE Primary_Contact__c =: contacts[0].Parent_Person_Contact__c].isEmpty(), 'parent personal contact was not copied');
     test.stopTest();
   }
 
-  @IsTest
+  @isTest
   static void parentContactAsPrimaryTest(){
     test.startTest();
     List<Contact> contacts = new List<Contact>([SELECT Id,Parent_Person_Contact__c FROM Contact WHERE Parent_Person_Contact__c = NULL AND RecordTypeId =:PERSON limit 1]);
@@ -66,12 +66,12 @@ private class SetIERPrimaryContactandLeadFlowTest{
     et4ae5__IndividualEmailResult__c  IER = new et4ae5__IndividualEmailResult__c(Name = 'test email name', et4ae5__Contact__c= contacts[0].id,et4ae5__TriggeredSendDefinition__c = triggerSend[0].Id);
     insert IER;
 
-    //system.assert(![SELECT Id FROM et4ae5__IndividualEmailResult__c WHERE Primary_Contact__c =: contacts[0].Id].isEmpty(), 'parent personal contact was not copied');
+    system.assert(![SELECT Id FROM et4ae5__IndividualEmailResult__c WHERE Primary_Contact__c =: contacts[0].Id].isEmpty(), 'parent personal contact was not copied');
     test.stopTest();
   }
 
 
-  @IsTest
+  @isTest
   static void parentPersonLeadAsPrimaryTest(){
     test.startTest();
     List<Account> accs = TestDataFactory.createTestAccountRecords(1);
@@ -85,11 +85,11 @@ private class SetIERPrimaryContactandLeadFlowTest{
     et4ae5__IndividualEmailResult__c  IER = new et4ae5__IndividualEmailResult__c(Name = 'test email name', et4ae5__Contact__c= contacts[0].id,et4ae5__TriggeredSendDefinition__c = triggerSend[0].Id);
     insert IER;
 
-    //system.assert(![SELECT Id FROM et4ae5__IndividualEmailResult__c WHERE Primary_Lead__c =: contacts[0].Parent_Person_Lead__c].isEmpty(), 'parent personal lead was not copied');
+    system.assert(![SELECT Id FROM et4ae5__IndividualEmailResult__c WHERE Primary_Lead__c =: contacts[0].Parent_Person_Lead__c].isEmpty(), 'parent personal lead was not copied');
     test.stopTest();
   }
 
-  @IsTest
+  @isTest
   static void parentLeadAsPrimaryTest(){
     test.startTest();
     List<Account> accs = TestDataFactory.createTestAccountRecords(1);
@@ -100,7 +100,7 @@ private class SetIERPrimaryContactandLeadFlowTest{
     et4ae5__IndividualEmailResult__c  IER = new et4ae5__IndividualEmailResult__c(Name = 'test email name', et4ae5__Lead__c= leads[0].id,et4ae5__TriggeredSendDefinition__c = triggerSend[0].Id);
     insert IER;
 
-    //system.assert(![SELECT Id FROM et4ae5__IndividualEmailResult__c WHERE Primary_Lead__c =: leads[0].Id].isEmpty(), 'parent  lead was not copied');
+    system.assert(![SELECT Id FROM et4ae5__IndividualEmailResult__c WHERE Primary_Lead__c =: leads[0].Id].isEmpty(), 'parent  lead was not copied');
     test.stopTest();
   }
 

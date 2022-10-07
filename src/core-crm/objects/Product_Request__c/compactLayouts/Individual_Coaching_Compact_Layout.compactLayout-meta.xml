@@ -2,8 +2,6 @@
 <CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Individual_Coaching_Compact_Layout</fullName>
     <fields>OwnerId</fields>
-    <fields>Product_Request_Name__c</fields>
-    <fields>Product_Request_Status__c</fields>
     <fields>RecordTypeId</fields>
     <fields>Product_Specification__c</fields>
     <label>Individual Coaching Compact Layout</label>

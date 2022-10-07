@@ -46,6 +46,19 @@
         <members>PreSessionReminderEmailFlowTest</members>
         <members>VirtualConfirmationEmailFlowTest</members>
         <!--DEPP-3222-->
+        <members>Create_Pricebook_for_SOATest</members>
+        <!--DEPP-3482-->
+        <members>Course_Offering_End_Dt_Filter_FlowTest</members>
+        <members>UpdateProductLedgerPurchasedPriceTest</members>
+        <!--DEPP-3482-->
+		<!--(Start) DEPP 2665 -->
+        <members>Enable_Partner_and_Buyer_FlowTest</members>
+        <members>ProductEntitlement_FlowTest</members>
+        <!--(End) DEPP 2665 -->
+        <!--(Start) DEPP-3747-->
+        <members>ExpressionOfInterestIsApprovedFlowTest</members>
+        <!--(End) DEPP-3747-->
+        <members>Primary_Business_Org_Update_FlowTest</members>
         <name>ApexClass</name>
     </types>
     <types>
@@ -146,6 +159,9 @@
         <members>Product_Specification__c.Product_Sub_Type__c</members>
         <members>Product_Request__c.Professional_Advantage_Value__c</members>
         <members>Marketing_Staging__c.Country_Of_Residence__c</members>
+        <!-- DEPP 3605-->
+        <members>BuyerGroup.Decommission_Product__c</members>
+         <!-- DEPP 3605-->
         <name>CustomField</name>
     </types>
     <types>
@@ -160,6 +176,40 @@
         <members>MCTransactionalAPI_SendSMSOTP_MsgTemplate</members>
         <members>MCTransactionalAPI_SendSMSOTPURL</members>
         <!-- (End) DEPP 2861 -->
+
+        <!-- (Start) DEPP 3184 -->
+        <members>QUT_ProductDetail_AddToCart</members>
+        <members>QUT_ProductDetail_AvailableStartDates</members>
+        <members>QUT_ProductDetail_AvailableStartDates_Placeholder</members>
+        <members>QUT_ProductDetail_CoreConcepts</members>
+        <members>QUT_ProductDetail_Delivery</members>
+        <members>QUT_ProductDetail_Delivery_Placeholder</members>
+        <members>QUT_ProductDetail_Details</members>
+        <members>QUT_ProductDetail_Duration</members>
+        <members>QUT_ProductDetail_EvolveWithQUTeX</members>
+        <members>QUT_ProductDetail_Facilitator</members>
+        <members>QUT_ProductDetail_Overview</members>
+        <members>QUT_ProductDetail_Pricing</members>
+        <members>QUT_ProductDetail_Pricing_Placeholder</members>
+        <members>QUT_ProductDetail_Professional_Development_Modules</members>
+        <members>QUT_ProductDetail_RegisterInterest</members>
+        <members>QUT_ProductDetail_WhoShouldParticipate</members>
+        <!-- (End) DEPP 3184 -->
+
+        <!-- (Start) DEPP 3411 -->
+        <members>QUT_RegistrationForm_Header</members>
+        <members>QUT_RegistrationForm_IndicatesRequiredField</members>
+        <members>QUT_RegistrationForm_PrivacyPolicy</members>
+        <members>QUT_RegistrationForm_RegisterWithLinkedIn</members>
+        <members>QUT_RegistrationForm_SSO</members>
+        <members>QUT_RegistrationForm_subHeader</members>
+        <!-- (End) DEPP 3411 -->
+
+        <!--DEPP-3036-->
+        <members>Lead.Personal_Email__c</members>
+        <members>Contact.Personal_Email__c</members>
+        <!--DEPP-3036-->
+
         <name>CustomLabel</name>
     </types>
     <types>
@@ -213,6 +263,7 @@
         <members>Invoice__c</members>
         <members>Program_Specification__c</members>
         <members>Pending_Registration__c</members><!-- DEPP 1910 -->
+        <members>Individual_Coaching_Form_Link__c</members><!-- DEPP 1823 -->
         <name>CustomObject</name>
     </types>
     <types>
@@ -466,16 +517,19 @@
         <members>Opportunity.Qualification_Summary_is_Required</members>
         <members>Opportunity.Revenue_Potential_is_Required</members>
         <members>Opportunity.Technical_Capability_is_Required</members>
+        <!-- (Start) DEPP-3680 -->
+        <members>hed__Course__c.Outcomes_is_required</members>
+        <!-- (End) DEPP-3680 -->
         <name>ValidationRule</name>
     </types>
 
     <types>
-    <!--DEPP-2869-->
+        <!--DEPP-2869-->
         <members>Contact_Create_Triggered_Flow</members>
-    <!--DEPP-2523-->
+        <!--DEPP-2523-->
         <members>Update_Course_or_Program_Start_Date</members>
         <members>Update_Product_End_Date</members>
-    <!--DEPP-3032-->
+        <!--DEPP-3032-->
         <members>Face_Face_Final_Confirmation_Email</members>
         <members>Virtual_Confirmation_Email</members>
         <members>Post_Course_Completion_Email</members>
@@ -490,7 +544,23 @@
         <!--DEPP-3222-->
         <members>Send_Email_on_Regis_Confirmation_Flow</members>
         <!--DEPP-3222-->
-    <name>Flow</name>
+        <!--DEPP-1823-->
+        <!-- <members>Send_Design_Form</members> -->
+        <!--DEPP-3481-->
+        <members>Create_Pricebook_for_SOA</members>
+        <members>Create_Pricebook_for_SOA_and_Corporate_Bundle</members>
+        <!--DEPP-3482-->
+        <members>Course_Offering_End_Date_Filter_Flow</members>
+        <members>Update_Product_Ledger_Purchased_Price</members>
+		<!--(Start) DEPP-2665-->
+        <members>CCE_Products_Entitlement_Assignment</members>
+        <members>Enable_Partner_and_Buyer_Flow</members>
+        <!--(End) DEPP-2665-->
+        <!--(Start) DEPP-3747-->
+        <members>Expression_of_Interest_is_Approved</members>
+        <!--(End) DEPP-3747-->
+        <members>Primary_Business_Org_Update</members>
+        <name>Flow</name>
     </types>
     <types>
         <members>CommunitiesSelfReg</members> <!-- DEPP-3095 -->

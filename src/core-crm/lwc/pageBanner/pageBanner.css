@@ -28,14 +28,14 @@
 
 @media (min-width: 1200px) {
   .container {
-    width: 1024px;
+    width: 1170px;
     max-width: 100%;
   }
 }
 .full-panel {
     width: 100%;
     padding-top: 3.33rem;
-    padding-bottom: 5.33rem;
+    /* padding-bottom: 5.33rem; */
     background-size: cover;
     background-position: center;
 }
@@ -80,7 +80,7 @@
 .qutex-banner .single-image-content-panel .qutex-content-outer-wrap {
     flex-direction: column;
     align-items: flex-start;
-    margin: 50px 0 20px;
+    /* margin: 50px 0 20px; */
 }
 .qutex-banner .single-image-content-panel .qutex-content-outer-wrap .hero-header__logo {
     margin-bottom: 20px;
@@ -89,13 +89,14 @@
     padding-bottom: 0 !important;
 }
 .qutex-banner .single-image-content-panel .qutex-content-outer-wrap .qutex-top-banner-blurb {
-    color: #fff;
-    background-color: #00467f;
+    color: #ffffff;
+    /* background-color: #00467f; */
     font-weight: normal;
-    padding: 1.5rem;
-    font-size: 1em;
+    font-family: 'ProximaNova';
+    padding: 1.4rem;
+    font-size: 18px;
     width: auto;
-    max-width: 50%;
+    max-width: 100%;
 }
 
 @media (max-width: 991px) {
@@ -131,6 +132,7 @@
     }
     .qutex-banner .single-image-content-panel .container:not(.qutex-x-banner) {
         width: 100%;
+        overflow: hidden;
     }
     .qutex-banner .single-image-content-panel .qutex-content-outer-wrap {
         margin-bottom: 0;
@@ -145,7 +147,7 @@
         margin-bottom: 0;
     }
     .qutex-banner .single-image-content-panel .qutex-content-outer-wrap .qutex-top-banner-wrap {
-        margin: 0 auto;
+        margin: 0;
     }
     .qutex-banner .single-image-content-panel .qutex-content-outer-wrap .qutex-top-banner-blurb {
         padding: 1.5rem 1rem;
@@ -181,6 +183,7 @@
 .no-gutters {
     margin-right: 0;
     margin-left: 0;
+    padding-top: 1rem;
 }
 .row {
     display: -webkit-box;
@@ -264,4 +267,23 @@
     .single-image-content-panel .no-gutters, .high-impact-panel .no-gutters {
       padding-bottom: 2rem;
     }
+    .marginHeader {
+      margin-left: 1rem;
+    }
+  }
+
+  .headerColor{
+    font-family: 'ProximaNova';
+    color: #ffffff;
+    font-style: normal;
+    /* font-family: "ProximaNova-Bold"; */
+    font-weight: 700;
+    font-size: 66px;
+    padding-top: 1rem;
+    line-height: 55px;
+    padding-left: 0.2rem;
+  }
+
+  .marginHeader{
+    padding: 0px 1rem;
   }

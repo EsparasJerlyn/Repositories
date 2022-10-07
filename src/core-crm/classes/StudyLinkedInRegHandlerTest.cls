@@ -14,10 +14,15 @@
 
 @isTest
 public without sharing class StudyLinkedInRegHandlerTest {
-    private static final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+
+    @testSetup
+    static void makeData(){
+        TestDataFactory.generateTestUsers();
+    }
 
     @isTest
     static void createUserTest(){
+        final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
         StudyLinkedInRegHandler handler = new StudyLinkedInRegHandler();
         Auth.UserData data = TestDataFactory.createCommunityUser('testdata@test.com', 'Data', 'Test', 'tUser');
 

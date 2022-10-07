@@ -1,0 +1,47 @@
+<template>
+    <template if:true={showPricingTable}>
+        <div class="slds-scrollable slds-p-bottom_medium">
+            <lightning-spinner if:true={isLoading} alternative-text="Loading" size="medium"></lightning-spinner> 
+            <div class="slds-card__header slds-grid">
+                <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                    <div class="slds-media__figure">
+                        <lightning-icon 
+                            icon-name="standard:product" 
+                            size="small" aria-hidden="true">
+                        </lightning-icon>
+                    </div>
+                    <div class="slds-media__body">
+                        <div class="slds-text-heading_small">
+                            <span>{tableName} ({listSize})</span>
+                        </div>
+                    </div>
+                </header>
+            </div>
+            <template if:false={noRelatedProducts}>
+                <div class="slds-m-top_small">
+                    <lightning-datatable 
+                    data={productList} 
+                    columns={columns} 
+                    draft-values={draftValues}
+                    key-field="id" 
+                    sorted-by={sortBy}
+                    onsave={handleSave}
+                    sorted-direction={sortDirection}
+                    onsort={handleSort}
+                    oncancel={handleCancel}
+                    onrowselection={handelSelectedRows}
+                    oncellchange={handleCellChange}
+                    hide-checkbox-column={hideCheckBoxCol}
+                    errors={errors}>
+                    </lightning-datatable>
+                </div>
+            </template>
+            <template if:true={noRelatedProducts}>
+                <div class="
+                    slds-text-align_center">
+                    <strong>{noRecordsFound}</strong>
+                </div>
+            </template>
+        </div>
+    </template>
+</template>

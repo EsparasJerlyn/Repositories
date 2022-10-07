@@ -1,0 +1,24 @@
+<table border="0" cellpadding="5" width="600" cellspacing="5" height="400" >
+<tr valign="top" height="50" >
+<td tEditID="c1r1" style=" background-color:#FFFFFF; color:#000000; bEditID:r3st1; bLabel:main; font-size:12pt; font-family:arial;" aEditID="c1r1" locked="0" >
+<![CDATA[]]></td>
+</tr>
+<tr valign="top" height="300" >
+<td tEditID="c1r2" style=" background-color:#FFFFFF; color:#000000; bEditID:r3st1; bLabel:main; font-size:12pt; font-family:arial;" aEditID="c1r2" locked="0" >
+<![CDATA[<div style="font-size: 12pt; text-align: left;">
+    <font face="arial" style="" size="2">Hi {!Receiving_User.FirstName},</font></div><div style="font-size: 12pt; text-align: left;">
+    <font face="arial" size="2"><br></font></div>
+    <div style="font-size: 12pt; text-align: left;"><font face="arial" size="2"><br></font></div>
+    <div style="text-align: left;"><font size="2">Welcome to QUTeX Corporate catalogue! As an administrator, you have been provided with portal access to manage the registration of learners to QUTeX corporate education.</font></div>
+    <div style="font-size: 12pt; text-align: left;"><font face="arial" size="2"><br></font></div>
+    <div style="font-size: 12pt; text-align: left;"><font face="arial" size="2"><br></font></div>
+    <div style="font-size: 12pt; text-align: left;"><font face="arial" size="2">To log into the portal, go to this <a href="{! SUBSTITUTE(LEFT(Community.Url, (FIND("?", Community.Url) - 1)),"cce/login", "cce/s/login") }">link.</a></font></div>
+    <div style="font-size: 12pt; text-align: left;"><br></div><div style="font-size: 12pt; text-align: left;"><font face="arial" size="2">Kind Regards,</font></div><div style="font-size: 12pt; text-align: left;"><font face="arial" size="2"><br></font></div><div style="font-size: 12pt; text-align: left;"><font face="arial" size="2"><b>The QUTeX Team</b></font></div>
+    <div style="font-size: 12pt; text-align: left;"><font face="arial" size="2">Phone: + 61 7 3138 7733 | Email: <a href="mailto:qutex@qut.edu.au">qutex@qut.edu.au&nbsp;</a></font></div><div style="font-size: 12pt; text-align: left;"><font face="arial" size="2">QUTeX Professional and Executive Education for the Real World | <a href="https://www.qut.edu.au/study/professional-and-executive-education">QUTeX - Professional and executive education</a></font></div><div style="font-size: 12pt; text-align: left;"><br></div>
+    <div style="font-size: 12pt; text-align: left;"><font face="arial" style="" size="2"><a href="https://www.linkedin.com/showcase/qutex/" style="">Follow </a>QUTeX on LinkedIn | <a href="https://alumni-and-friends.qut.edu.au/qutex-connect-subscription" style="">Subscribe </a>to the QUTeX Connect Newsletter</font></div>]]></td>
+</tr>
+<tr valign="top" height="50" >
+<td tEditID="c1r3" style=" background-color:#FFFFFF; color:#000000; bEditID:r3st1; bLabel:main; font-size:12pt; font-family:arial;" aEditID="c1r3" locked="0" >
+<![CDATA[]]></td>
+</tr>
+</table>

@@ -1,0 +1,308 @@
+/*==================Author: JPE | Manage Registration and nomination | Bulk Registration |  ============*/
+.custom-table [lightning-primitiveresizehandler_primitiveresizehandler].slds-resizable__divider{display: none !important;}
+.custom-table {font-family: 'ProximaNova'; height: 300px;}
+.custom-table .slds-th__action span.slds-truncate{color:#000; font-size: 18px; font-weight: 700; font-family: 'ProximaNova-Bold';}
+.custom-table tr.slds-hint-parent .slds-truncate{color:#000; font-size: 18px; font-weight: normal !important;}
+.custom-table .slds-table_header-fixed_container[lightning-datatable_table] > .slds-scrollable_y[lightning-datatable_table]::before{border-bottom: 2px solid var(--lwc-colorGray5, #dddbda);}
+.calenderIcon .slds-input-has-icon .slds-input__icon {top: 15% !important }
+
+[lightning-basecombobox_basecombobox].slds-combobox__input-value [lightning-basecombobox_basecombobox].slds-truncate{line-height: 45px}
+
+.buttonSearch button.slds-button.slds-button_brand{width: 100%;}
+.custom-table tr.slds-hint-parent .slds-dropdown-trigger.slds-dropdown-trigger_click{width:40px !important; background: var(--main-color-blue500);}
+.custom-table tr.slds-hint-parent .slds-dropdown-trigger.slds-dropdown-trigger_click button.slds-button{width: 100%;}
+.custom-table tr.slds-hint-parent .slds-dropdown-trigger.slds-dropdown-trigger_click button.slds-button .slds-button__icon{fill: white !important;}
+.comp-body .slds-input_faux {display:inline-block !important; flex-wrap: wrap;}
+.slds-listbox__option_plain  .slds-media__body>:last-child{font-size: 18px; font-weight: nornal;}
+.comp-body .label-black .slds-form-element__label{color: black;}
+
+.slds-table_bordered tbody td, .slds-table_bordered tbody th, .slds-table--bordered tbody td, .slds-table--bordered tbody th {
+    border-top: var(--lwc-borderWidthThin,1px) solid var(--lwc-colorBorder,#D4D4D4);
+    padding-right: 40px;
+}
+
+
+.custom-table .slds-cell-wrap{
+    overflow-wrap: break-word;
+    word-break: break-word;
+    white-space: pre-line;
+}
+
+@media only screen and (max-width:1070px){
+   .comp-body [lightning-basecombobox_basecombobox] .slds-truncate{font-size:18px!important;}
+   .slds-form-element__control.slds-input-has-icon.slds-input-has-icon_right {
+    width: 100%;
+}
+
+.slds-input {
+font-size: 18px !important;
+}
+}
+@media only screen and (max-width:768px){
+    .slds-max-medium-table_stacked div.slds-table_header-fixed_container table.slds-table tbody tr th::before,
+    .slds-max-medium-table_stacked div.slds-table_header-fixed_container table.slds-table tbody tr td::before
+    { 
+        text-align:left;
+        font-size: 18px;
+        color: #000;
+        font-weight: 700;
+        font-family: 'ProximaNova-Bold';
+        text-transform: capitalize;
+    }
+    .slds-max-medium-table_stacked div.slds-table_header-fixed_container table.slds-table tbody  .slds-truncate
+    {
+        font-size: 18px;
+    }
+    .slds-max-medium-table_stacked  div.slds-table_header-fixed_container table.slds-table tbody tr td:last-child .slds-align_absolute-center{
+        width:100%;
+        display: grid;
+        background: #0066b9;
+        border: 0px;
+    }
+    .slds-max-medium-table_stacked  div.slds-table_header-fixed_container table.slds-table tbody tr td:last-child .slds-align_absolute-center .slds-dropdown-trigger_click button.slds-button{
+        border: 0px solid #0066b9;
+    }
+
+    .slds-max-medium-table_stacked .slds-scrollable_y, .slds-max-medium-table_stacked .slds-scrollable_y .slds-table_header-fixed {
+        width: 100% !important;
+    }
+
+}
+
+
+@media only screen and (max-width: 768px){
+
+[interop-primitivefiledroppablezone_primitivefiledroppablezone-host] .slds-file-selector__button {
+
+    width: 300px !important;
+
+}
+
+[c-csvBulkRegistration_csvBulkRegistration] button.slds-button {
+    width: auto !important;
+}
+
+[c-csvBulkRegistration_csvBulkRegistration] button.slds-button[title="Primary action"]{
+    width: 300px !important;
+}
+
+[c-csvBulkRegistration_csvBulkRegistration].mobileButton button.slds-button.slds-button_brand{
+    width: auto !important;
+}
+
+}
+
+@media only screen and (max-width: 425px){
+
+    [interop-primitivefiledroppablezone_primitivefiledroppablezone-host] .slds-file-selector__button {
+    
+        width: 261px !important;
+        margin-left: -2px !important;
+    }
+
+    [c-csvBulkRegistration_csvBulkRegistration] button.slds-button[title="Primary action"] {
+        width: 261px !important;
+    }
+    
+    [c-csvBulkRegistration_csvBulkRegistration] button.slds-button {
+        display: block;
+        min-width: 100% !important;
+        width: auto !important;
+        margin: 0px auto;
+    }
+    
+    }
+    @media only screen and (max-width: 320px){
+    .download-button[c-csvBulkRegistration_csvBulkRegistration] {
+        margin-left: -7px;
+    }
+}
+    
+    .slds-input {
+    font-size: 18px !important;
+    align-self: center;
+    }
+/*================== End of MR and N ===============================*/
+
+/*================== Author: Dodge | BulkRegistration =============*/
+[groupBookingFormBulkRegistration_groupBookingFormBulkRegistration] .slds-combobox__input .slds-truncate {
+    margin-top: 10px; }
+      
+    .slds-modal__close[c-groupBookingFormBulkRegistration_groupBookingFormBulkRegistration] svg {
+        fill: var(--main-color-blue500) !important;}
+      
+    .three[c-groupBookingFormBulkRegistration_groupBookingFormBulkRegistration] .slds-is-open .slds-accordion__summary{
+    background-color: var(--main-color-blue500);
+    border: 2px solid var(--main-color-blue500);}
+    
+    .three[c-groupBookingFormBulkRegistration_groupBookingFormBulkRegistration] .slds-is-open .slds-accordion__summary .slds-accordion__summary-heading
+    {color: var(--greys-color-white);}
+    
+    .three[c-groupBookingFormBulkRegistration_groupBookingFormBulkRegistration] .slds-accordion__summary .slds-accordion__summary-heading{
+        font-family: "ProximaNova-Bold";
+        font-size: var(--dt-size-heading4);
+        line-height: var(--dt-line-height-h4);
+        font-style: var(--text-normal);
+        font-weight: var(--text-weight-700);
+        color: var(--main-color-blue500);
+    }
+    .three[c-groupBookingFormBulkRegistration_groupBookingFormBulkRegistration] .slds-is-open .slds-accordion__summary .slds-accordion__summary-heading svg{
+    fill: var(--greys-color-white);}
+    
+    .three[c-groupBookingFormBulkRegistration_groupBookingFormBulkRegistration] .slds-is-open .slds-accordion__summary  .slds-button,
+    .three[c-groupBookingFormBulkRegistration_groupBookingFormBulkRegistration] .slds-is-open .slds-accordion__summary  .slds-button:hover, 
+    .three[c-groupBookingFormBulkRegistration_groupBookingFormBulkRegistration] .slds-is-open .slds-accordion__summary  .slds-button:hover .slds-button:focus{
+    color: var(--greys-color-white);
+    }
+    
+    .three[c-groupBookingFormBulkRegistration_groupBookingFormBulkRegistration] .slds-input-has-icon .slds-input__icon{
+    top:0px;
+    margin: 0px;
+    }
+    
+    .three[c-groupBookingFormBulkRegistration_groupBookingFormBulkRegistration] .slds-accordion__summary-action {
+    flex-direction: row-reverse;
+    }
+    
+    .three[c-groupBookingFormBulkRegistration_groupBookingFormBulkRegistration] span.slds-accordion__summary-content{
+        display: flex !important;
+        flex-grow: 1 !important;;
+    }
+    [c-groupBookingFormBulkRegistration_groupBookingFormBulkRegistration] button.slds-button[title="Delete"]{
+    border-color: #ffffff !important;
+    border:1px solid #fff;
+    }
+    [c-groupBookingFormBulkRegistration_groupBookingFormBulkRegistration].mobile-locale.p1.slds-form-element {
+        margin-top: -7px;
+    }
+    
+    [c-groupBookingFormBulkRegistration_groupBookingFormBulkRegistration] .slds-form-element__label,
+    .label-text {
+        font-family: "ProximaNova-Bold";
+        font-size: var(--text-size-18) !important;
+        font-style: var(--text-normal);
+        font-weight: var(--text-weight-700);
+        line-height: 1.3125rem;
+        color: var(--greys-color-bodytext);
+    }
+    
+    [interop-primitivefiledroppablezone_primitivefiledroppablezone-host] .slds-file-selector__button {
+        background: #0066b9 !important;
+        width: 261px;
+        flex-flow: inherit;
+        cursor: pointer;
+        border: none !important;
+        border-radius: 0px;
+        color: #ffffff;
+        font-family: 'ProximaNova-Bold';
+        font-size: 18px;
+        font-weight: 700 !important;
+        height: 3rem !important;
+        margin-left: 5px;
+    }
+    
+    [interop-primitivefiledroppablezone_primitivefiledroppablezone-host] .slds-file-selector__button:hover{
+    background: #124C7B !important;
+    color:#ffffff;
+    }
+    
+    [interop-primitivefiledroppablezone_primitivefiledroppablezone-host] .slds-file-selector__text, [interop-primitivefiledroppablezone_primitivefiledroppablezone] .slds-file-selector__text 
+    {
+    display: none !important;
+    }
+    
+    [interop-primitivefiledroppablezone_primitivefiledroppablezone-host].slds-file-selector__dropzone{
+    border: 0px solid #fff !important;
+    }
+
+    [c-csvbulkregistration_csvbulkregistration].custom-table table.slds-table tr td:first-child span.slds-grid_align-spread {
+        width: 18px !important ;
+    }
+
+    .custom-table table.slds-table tr td:first-child  span.slds-grid_align-spread span.slds-row-number{
+        padding-left: 0px !important;
+        font-size: 18px;
+        color: #000;
+    }
+    
+    /*================== end of Bulk registration ======================*/
+
+/*footer*/
+
+.modal-footer  .button-footer button.slds-button{
+    width: 100% !important;
+  }
+
+  .modal-footer  .button-footer button.slds-button[title="Cancel"]{
+    background-color: var(--greys-color-white);
+    border: 2px solid var(--main-color-blue500);
+    color: var(--main-color-blue500);
+  }
+
+  .modal-footer  .button-footer  .slds-float_right{
+    float: none !important;
+  }
+/*end of footer*/
+
+div[lightning-basecombobox_basecombobox] .slds-combobox__input, div[c-customcomboboxmulti_customcomboboxmulti] .slds-picklist input[readonly], div[c-customcombobox_customcombobox] .slds-combobox input[readonly] {
+padding-top: 0px !important;
+}
+
+input[type="date"]
+{
+    display:block;
+     -webkit-appearance: textfield;
+    -moz-appearance: textfield;
+    min-width: 95%;
+}
+
+
+input::-webkit-date-and-time-value { 
+    text-align: left !important;
+    align-self: center !important;
+    padding-top: 10px;
+}
+
+input::-webkit-datetime-edit {
+    display: inline-block;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    padding-top: 5px;
+    align-self: center !important;
+    }
+
+.cancelButton button.slds-button.slds-button_neutral{
+    border: 2px solid var(--main-color-blue500);
+}
+
+
+.accordionModal button.slds-accordion__summary-action{
+	flex-direction: row-reverse;
+}
+.accordionModal span.slds-accordion__summary-content{
+	flex: auto;
+    color: #fff !important;
+}
+
+.accordionModal  .slds-accordion__summary-action-icon 
+{
+    fill: #fff !important;
+}
+
+.accordionModal  .slds-accordion__summary{
+    background: var(--main-color-blue500);
+}
+
+@media only screen and (max-width: 384px){
+
+    lightning-primitive-datatable-tooltip-bubble.slds-popover.slds-popover_error.slds-nubbin_bottom-left.slds-rise-from-ground{
+     right: 25px !important;  
+    }
+}
+    
+    @media only screen and (max-width: 325px){
+    
+    lightning-primitive-datatable-tooltip-bubble.slds-popover.slds-popover_error.slds-nubbin_bottom-left.slds-rise-from-ground{
+     right: 0px !important; 
+    }
+}

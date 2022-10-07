@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Self_or_Multi_Rater_Tool_is_required</fullName>
+    <active>true</active>
+    <description>User should be able to select either self Rater Tool or Multi-Rater tool i.e. only one option</description>
+    <errorConditionFormula>OR(AND (
+OR(
+RecordType.DeveloperName = &apos;Diagnostic_Tool&apos;
+),
+OR(
+AND(
+ISBLANK(TEXT( Multi_Rater_Tools__c )),
+ISBLANK(TEXT( Self_Rater_Tools__c))
+),
+AND(
+NOT (ISBLANK(TEXT( Multi_Rater_Tools__c ))),
+NOT (ISBLANK(TEXT( Self_Rater_Tools__c)))
+)
+),
+ISPICKVAL(Diagnostic_Tool_Type__c,&apos;Individual Diagnostic Tool&apos;),
+ISPICKVAL( ProductRequestID__r.Product_Request_Status__c , &apos;Design&apos;),
+Mark_Design_Stage_as_Complete__c = true
+),
+
+AND (
+OR(
+RecordType.DeveloperName = &apos;Diagnostic_Tool&apos;
+),
+NOT (ISBLANK(TEXT( Multi_Rater_Tools__c ))),
+NOT (ISBLANK(TEXT( Self_Rater_Tools__c))),
+ISPICKVAL(Diagnostic_Tool_Type__c,&apos;Individual Diagnostic Tool&apos;),
+ISPICKVAL( ProductRequestID__r.Product_Request_Status__c , &apos;Design&apos;)
+))</errorConditionFormula>
+    <errorMessage>Either &quot;Multi Rater Tools&quot; or &quot;Self Rater Tools&quot; must have a value.</errorMessage>
+</ValidationRule>

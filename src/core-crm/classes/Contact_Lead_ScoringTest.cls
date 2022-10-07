@@ -11,13 +11,13 @@
       | w.li                     | June 15, 2022         | DEPP-1489              | Created file                 |
  */
 
-@IsTest(SeeAllData=false)
+@isTest
 public without sharing class Contact_Lead_ScoringTest {
 
     private static final String STR_QUTEX = 'QUTeX';
     private static User currentUser = TestDataFactory.createUserRecords(1, STR_QUTeX).iterator().next();
 
-    @IsTest
+    @isTest
     public static void testInternationalLeadAlert() {
         List<Contact> contacts = new List<Contact>();
         System.runAs(currentUser){

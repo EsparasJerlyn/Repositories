@@ -7,8 +7,9 @@
  * @history
  *    | Developer                 | Date                  | JIRA                 | Change Summary               |
       |---------------------------|-----------------------|----------------------|------------------------------|
-      | adrian.c.habasa           | March 24, 2022        | DEPP-1481            | Created file                 |          | 
-      |                           |                       |                      |                              | 
+      | adrian.c.habasa           | March 24, 2022        | DEPP-1481            | Created file                 |          
+      | kathy.cornejo             | July 8, 2022          | DEPP-1770            | Added logic for Program      | 
+      |                           |                       |                      |                              |
  */
 public with sharing class RegisteredLearnersCtrl {
     private static Map <String,Schema.RecordTypeInfo> courseConnectionRecordTypes = hed__Course_Enrollment__c.sObjectType.getDescribe().getRecordTypeInfosByName();
@@ -24,8 +25,10 @@ public with sharing class RegisteredLearnersCtrl {
                                                             hed__Contact__r.Company_Name__c, 
                                                             hed__Contact__r.Position__c
                                                             FROM hed__Course_Enrollment__c
-                                                            WHERE hed__Course_Offering__c =: offeringId 
-                                                            AND RecordTypeId =: studentRTId
+                                                            WHERE ((hed__Course_Offering__c =: offeringId 
+                                                            AND RecordTypeId =: studentRTId) 
+                                                            OR (Program_Offering__c =: offeringId
+                                                            AND RecordType.DeveloperName = 'Student_Program'))
                                                             AND hed__Status__c != 'Cancelled'
                                                             AND hed__Status__c != null];
 

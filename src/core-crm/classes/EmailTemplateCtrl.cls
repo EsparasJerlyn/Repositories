@@ -6,10 +6,11 @@
  *    | Developer                 | Date                  | JIRA                 | Change Summary               |
       |---------------------------|-----------------------|----------------------|------------------------------|
       | eugene.andrew.abuan       | April 12, 2022        | DEPP-2247            | Created file                 |
-      |                           |                       |                      |                              | 
+      | alexander.cadalin         | September 01, 2022    | DEPP-2253            | Included OPE PWP             | 
  */
 public with sharing class EmailTemplateCtrl {
-    private static string PR_PROGRAM = System.Label.RT_ProductRequest_Program;
+    private static final string PR_PROGRAM = System.Label.RT_ProductRequest_Program;
+    private static final string PR_PWP = System.Label.RT_ProductRequest_Program_Without_Pathway;
 
     /**
      * @description gets Email Template when searching 
@@ -38,14 +39,14 @@ public with sharing class EmailTemplateCtrl {
      * @description gets the Setup Communication Data on Load
      * @param emailNames - List of Email Templates to be loaded
      * @param prodReqId - Product Request Id Record
-     * @param isProgram - Program RecordType
+     * @param recordType - Program RecordType
      * @return comSchedData - wrapped response
      */    
     @AuraEnabled(cacheable=true)
-    public static CommunicationSchedData getCommunicationData(List<String> emailNames , String prodReqId, String isProgram ){
+    public static CommunicationSchedData getCommunicationData(List<String> emailNames , String prodReqId, String recordType ){
         CommunicationSchedData comSchedData = new CommunicationSchedData();
 
-        if(isProgram == PR_PROGRAM ){
+        if(recordType == PR_PROGRAM || recordType == PR_PWP){
             comSchedData.communicationRecord = [SELECT Id,On_Registration_Template__c,
             Notification_Before_Session_Template__c,
             On_Completion_Template__c,

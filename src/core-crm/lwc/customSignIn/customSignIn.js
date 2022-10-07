@@ -230,7 +230,7 @@ export default class CustomSignIn extends LightningElement {
             this.selectionOption = null;
             this.isEmail = false;
         } else if (this.selectionOption == null) {
-            this.generateToast("Error.", "Please Select Option", "error");
+            this.generateToast("Error.", "Please Select Option", "warning");
         }
     }
 
@@ -255,13 +255,13 @@ export default class CustomSignIn extends LightningElement {
                 this.loading = true;
                 this.handleLogin();
             } else {
-                this.generateToast("Error.", "Invalid OTP", "error");
+                this.generateToast("Error.", "Invalid OTP", "warning");
             }
         } else {
             this.generateToast(
                 "Error.",
                 "Please enter verification code",
-                "error"
+                "warning"
             );
         }
     }

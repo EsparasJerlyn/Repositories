@@ -12,7 +12,7 @@
       | john.bo.a.pineda          | February 03, 2022     | DEPP-1532 | Update Answer to Related Answer |
       |                           |                       |           |                                 |
 */
-@IsTest(SeeAllData=false)
+@isTest
 private class SetupRegistrationCtrlTest {
   private static final String PRODUCT_API_NAME = Product2.SObjectType.getDescribe()
     .getLocalName();
@@ -54,7 +54,7 @@ private class SetupRegistrationCtrlTest {
     insert answers;
   }
 
-  @IsTest
+  @isTest
   private static void getRegistrationDataTest() {
     System.runAs(currentUser) {
       Product_Request__c prodReq = [SELECT Id FROM Product_Request__c LIMIT 1];
@@ -76,7 +76,7 @@ private class SetupRegistrationCtrlTest {
     }
   }
 
-  @IsTest
+  @isTest
   private static void getQuestionLayoutTest() {
     System.runAs(currentUser) {
       Test.startTest();
@@ -93,7 +93,7 @@ private class SetupRegistrationCtrlTest {
     }
   }
 
-  @IsTest
+  @isTest
   private static void updateAnswerSequencesTest() {
     System.runAs(currentUser) {
       List<Related_Answer__c> answers = [

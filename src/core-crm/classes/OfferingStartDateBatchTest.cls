@@ -11,7 +11,7 @@
       | angelika.j.s.galang		  | March 15, 2022        | DEPP-1890            | Created file                 |
       |                           |                       |                      |                              |
  */
-@IsTest(SeeAllData=false)
+@isTest
 public with sharing class OfferingStartDateBatchTest {
 
     private static final String QUTEX = System.Label.QUTeX;
@@ -25,7 +25,7 @@ public with sharing class OfferingStartDateBatchTest {
     private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
 
-    @TestSetup
+    @testSetup
     static void setupMethod(){
         Account acc = TestDataFactory.createTestAccountRecords(1).iterator().next();
         acc.RecordTypeId = ACCT_UNIV_DEP_ID;
@@ -56,17 +56,17 @@ public with sharing class OfferingStartDateBatchTest {
         insert courseOfferings;
     }
 
-    @IsTest
+    @isTest
     public static void testOfferingStartDateBatch() {
         System.runAs(currentUser){
             try{
                 Test.startTest();
                 OfferingStartDateBatch batch = new OfferingStartDateBatch(COURSE_OFFERING_API_NAME);
-                Id batchId = Database.executeBatch(batch);
+                Database.executeBatch(batch);
                 Test.stopTest();
                 System.assert(![SELECT Id FROM AsyncApexJob WHERE ApexClass.Name = 'OfferingStartDateBatch'].isEmpty() , 'OfferingStartDateBatch Job was not executed');
             }catch(Exception e){
-               System.debug('ERROR: ' + e.getMessage());
+               System.debug(LoggingLevel.WARN, 'ERROR: ' + e.getMessage());//NOPMD
             }
         }
     }

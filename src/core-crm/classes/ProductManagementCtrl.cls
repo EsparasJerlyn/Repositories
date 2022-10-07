@@ -7,6 +7,7 @@
       |---------------------------|-----------------------|----------------------|------------------------------------------------------|
       | roy.nino.s.regala         | March 10, 2022        | DEPP-1747            | Created file                                         |
       | roy.nino.s.regala         | May 23, 2022          | DEPP-2663            | Added checking of Availabl on Cart field of Product  |
+      | alexander.cadalin         | July 26, 2022         | DEPP-2500            | Added checking if parent PR is Standing Offer Arr.   |
  */
 public with sharing class ProductManagementCtrl {
     /**
@@ -51,6 +52,28 @@ public with sharing class ProductManagementCtrl {
         ){
             return true;
         } else{
+            return false;
+        }
+    }
+
+    /**
+     * @description do callout to loqate
+     * @param productRequestId - id of product request
+     * @return boolean that tells whether a parent is SOA or not
+     */
+    @AuraEnabled(cacheable=true)    
+    public static boolean checkParentIsSOA(Id productRequestId){
+        if(
+            ![
+            SELECT Id
+            FROM Related_Product_Request__c 
+            WHERE Course__c =: productRequestId 
+            AND Program__r.RecordType.DeveloperName = 'Standing_Offer_Arrangement'
+            LIMIT 1
+            ].isEmpty()
+        ){
+            return true;
+        } else {
             return false;
         }
     }

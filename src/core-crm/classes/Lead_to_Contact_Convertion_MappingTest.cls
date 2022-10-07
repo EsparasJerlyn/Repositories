@@ -11,7 +11,7 @@
       | eccarius.karl.munoz       | November 04, 2021     | DEPP-739 | Created file                    | 
       |                           |                       |          |                                 | 
 */
-@IsTest(SeeAllData=false)
+@isTest
 private class Lead_to_Contact_Convertion_MappingTest{
     
     private static final String STR_PROFILE = 'QUTeX';
@@ -20,7 +20,7 @@ private class Lead_to_Contact_Convertion_MappingTest{
     private static String linkedInProfileUrlStr = 'test@test.com';
     private static Integer numberOfRecords = 100;
     
-    @TestSetup
+    @testSetup
     static void setupMethod(){        
         List<Account> accounts = TestDataFactory.createTestAccountRecords(numberOfRecords);          
         List<Lead> leads = TestDataFactory.createTestLeadRecords(numberOfRecords);
@@ -32,7 +32,7 @@ private class Lead_to_Contact_Convertion_MappingTest{
         insert leads;
     }
            
-    @IsTest 
+    @isTest 
     private static void convertLeadToContactTest(){ 
         List<Lead> leads = [SELECT Id FROM Lead LIMIT 100];
         
@@ -43,7 +43,7 @@ private class Lead_to_Contact_Convertion_MappingTest{
             
             List<Contact> contacts = [SELECT Id, LinkedIn_Profile_URL__c FROM Contact LIMIT 100];           
             for(Contact contact : contacts){                
-                System.assertEquals(linkedInProfileUrlStr, contact.LinkedIn_Profile_URL__c);    
+                System.assertEquals(linkedInProfileUrlStr, contact.LinkedIn_Profile_URL__c,'Not equal');
             }  
         }     
     }

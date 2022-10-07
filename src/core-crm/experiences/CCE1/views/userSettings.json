@@ -17,14 +17,14 @@
         "emailSectionDescText" : "When email notifications are enabled, email me when someone:",
         "hideChatterNotificationSettings" : true,
         "hideConnectedSources" : true,
-        "hideEmailNotificationSettings" : false,
+        "hideEmailNotificationSettings" : true,
         "hideProfileVisibilitySettings" : true,
         "id" : "{!recordId}",
         "locationTitle" : "Location",
         "profileSectionDescText" : "Customize who is able to see what on your profile page",
         "profileSectionToolTipText" : "Restricted: Visible to the employees of the company that created the site. Members: Visible to logged-in members. Public: Visible to anyone viewing pages that don't require login.",
         "profileVisibilityTitle" : "Profile Visibility",
-        "settingsPageTitle" : "Settings"
+        "settingsPageTitle" : "Change Password"
       },
       "componentName" : "forceCommunity:userSettingsCustomizable",
       "id" : "8fa9c6db-3b4c-491e-ba72-59cc90eaafe7",

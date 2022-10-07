@@ -5,7 +5,7 @@
  * @history
  *    | Developer                 | Date                  | JIRA                 | Change Summary                    |
       |---------------------------|-----------------------|----------------------|-----------------------------------|
-      | roy.nino.s.regala         | August 11, 2022       | DEPP-3568            | Created file                      |
+      | roy.nino.s.regala         | August 11, 2022       | DEPP-3568            | Created file                      | 
  */
 public without sharing class RegistrationMatchingHelper {
     private static final String RT_CONTACT_PERSON = System.Label.RT_Contact_Person;

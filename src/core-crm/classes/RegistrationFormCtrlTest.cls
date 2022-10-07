@@ -13,12 +13,19 @@
       | john.bo.a.pineda          | June 20, 2022         | DEPP-3191            | Added Logic for Login User   |
       | julie.jane.alegre         | August 02, 2022       | DEPP-3568            | Added test method for update |
       |                           |                       |                      | contact & check if user exist|
+      | eugene.andrew.abuan       | September 12, 2022    | DEPP-4225            | Added method for cce login   |
+      | eugene.andrew.abuan       | Septmeber 16, 2022    | DEPP-3506            | Removed OPE Catalouge Account|
+      |                           |                       |                      | & added OPE BuyerGroup       |
+      | julie.jane.alegre         | September 24, 2022    | DEPP-3568            | Update method  isEmailExist  |
+
  */
-@isTest(SeeAllData=false)
+@isTest
 public with sharing class RegistrationFormCtrlTest {
   public static final Id PERSON = Schema.SObjectType.Contact.getRecordTypeInfosByDeveloperName()
     .get('Person')
     .getRecordTypeId();
+
+  private static final Id ADMINISTRATIVE_ACC_RECTYPEID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get('Administrative').getRecordTypeId();
 
   @testSetup
   public static void setUp() {
@@ -26,6 +33,10 @@ public with sharing class RegistrationFormCtrlTest {
     // Create Custom Setting
     MC_Messaging_OTP_Setting__c setting = TestDataFactory.createOTPCustomSetting();
     insert setting;
+    BuyerGroup opeBuyerGroup = new BuyerGroup(
+      Name = 'OPE BuyerGroup'
+    );
+    insert opeBuyerGroup;
   }
 
   @isTest
@@ -33,9 +44,6 @@ public with sharing class RegistrationFormCtrlTest {
     final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
     Test.startTest();
     System.runAs(PORTAL_SYS_ADMIN) {
-      Account testAccount = new Account();
-      testAccount.Name = 'OPE Catalogue';
-      insert testAccount;
 
       String uniqueID = GenerateUniqueId.getUUID();
       String emailTest = 'testUser' + uniqueID + '@test.com';
@@ -65,9 +73,6 @@ public with sharing class RegistrationFormCtrlTest {
     final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
     Test.startTest();
     System.runAs(PORTAL_SYS_ADMIN) {
-      Account testAccount = new Account();
-      testAccount.Name = 'OPE Catalogue';
-      insert testAccount;
 
       String uniqueID = GenerateUniqueId.getUUID();
       String emailTest = 'testUser' + uniqueID + '@test.com';
@@ -104,9 +109,6 @@ public with sharing class RegistrationFormCtrlTest {
     final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
     Test.startTest();
     System.runAs(PORTAL_SYS_ADMIN) {
-      Account testAccount = new Account();
-      testAccount.Name = 'OPE Catalogue';
-      insert testAccount;
 
       String uniqueID = GenerateUniqueId.getUUID();
       String emailTest = 'testUser1' + uniqueID + '@test.com';
@@ -188,7 +190,6 @@ public with sharing class RegistrationFormCtrlTest {
                               LastName = 'Testing01', 
                               FirstName ='Testing01',
                               Email = 'test12345@sample.com',
-                              MobilePhone = '1234567890',
                               RecordTypeId = PERSON
                               );
       insert c;
@@ -197,7 +198,6 @@ public with sharing class RegistrationFormCtrlTest {
                                           c.Id, 
                                           'test12345@sample.com', 
                                           '0987654321', 
-                                          '+630987654321', 
                                           'Australia (+61)', 
                                           'testing', 
                                           'testing');
@@ -214,26 +214,44 @@ public with sharing class RegistrationFormCtrlTest {
     final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
     Test.startTest();
     System.runAs(PORTAL_SYS_ADMIN) {
-      Profile p = [SELECT Id FROM Profile WHERE Name = 'OPE Catalogue'];
-      Contact c = new Contact(LastName = 'Testing');
-      insert c;
-      User u = new User(
+      
+      Profile pCEE = [SELECT Id FROM Profile WHERE Name = 'Partner Community User'];
+      List<Account> accounts;
+      accounts = TestDataFactory.createTestAccountRecords(1);
+      for(Account acc : accounts){
+          acc.RecordTypeId = ADMINISTRATIVE_ACC_RECTYPEID;
+      }
+      insert accounts;
+
+      Contact contact = new Contact();
+      contact.FirstName = 'User fname';
+      contact.LastName = 'Testing 001';
+      contact.AccountId = accounts[0].Id;
+      contact.Email = 'testemailcce@test.com';
+      contact.Work_Email__c = 'testworkemailcce@test.com';
+      contact.hed__Preferred_Email__c = 'Alternate Email';
+      contact.hed__AlternateEmail__c = 'testemailcce@test.com';
+      contact.Registered_Email__c = 'testemailcce@test.com';
+      insert contact;
+
+      User uCCE = new User(
         Alias = 'standt',
-        Email = 'testUser1234@test.com',
+        Email = contact.Work_Email__c,
         EmailEncodingKey = 'UTF-8',
         lastName = 'Testing',
         LanguageLocaleKey = 'en_US',
         LocaleSidKey = 'en_US',
-        ProfileId = p.Id,
-        ContactId = c.Id,
-        Username = 'testUser1234@test.com.org',
+        ProfileId = pCEE.Id,
+        ContactId = contact.Id,
+        Username = contact.Work_Email__c + '.cce',
         TimeZoneSidKey = 'Australia/Brisbane'
       );
-      insert u;
+      insert uCCE;
+
       List<User> isExist = RegistrationFormCtrl.isEmailExist(
-        'testUser1234@test.com'
+        'testworkemailcce@test.com'
       );
-      System.assert(isExist.size() > 0, 'Email is match');
+      System.assert(isExist.size() > 0, 'Email is not match');
     }
     Test.stopTest();
   }
@@ -245,6 +263,12 @@ public with sharing class RegistrationFormCtrlTest {
       DefaultLanguage = 'en_US'
     );
     insert testWebStore;
+
+    WebStore testWebStoreCCE = new WebStore(
+      Name = 'cce',
+      DefaultLanguage = 'en_US'
+    );
+    insert testWebStoreCCE;
 
     Test.startTest();
     RegistrationFormCtrl.CommunityWrapper comData = RegistrationFormCtrl.getCommunityUrl();
@@ -343,6 +367,12 @@ public with sharing class RegistrationFormCtrlTest {
         TimeZoneSidKey = 'Australia/Brisbane'
       );
       insert u;
+      
+      //Set user password
+      String key = EncodingUtil.convertToHex(crypto.generateAesKey(128));
+      String pwd = key.substring(0, 10) + 'AbC123';
+      system.setPassword(u.id, pwd);
+      update u;
 
       String page;
       page = RegistrationFormCtrl.loginExistingUser(
@@ -354,4 +384,65 @@ public with sharing class RegistrationFormCtrlTest {
     }
     Test.stopTest();
   }
+
+  @isTest
+  static void loginCorporateUserTest() {
+    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    Test.startTest();
+    System.runAs(PORTAL_SYS_ADMIN) {
+      Profile p = [SELECT Id FROM Profile WHERE Name = 'Partner Community User'];
+      Contact c = new Contact(LastName = 'Testing');
+
+      String uniqueID = GenerateUniqueId.getUUID();
+      String emailTest = 'uniqueEmail1' + uniqueID + '@test.com';
+      
+      insert c;
+
+      User u = new User(
+        Alias = 'test12',
+        Email = emailTest,
+        EmailEncodingKey = 'UTF-8',
+        lastName = 'Testing',
+        LanguageLocaleKey = 'en_US',
+        LocaleSidKey = 'en_US',
+        ProfileId = p.Id,
+        ContactId = c.Id,
+        Username = 'testUser1234@test.com.org',
+        TimeZoneSidKey = 'Australia/Brisbane'
+      );
+      insert u;
+
+      List<User> isExist = RegistrationFormCtrl.loginCorporateUser(
+        'testUserWorkEmail@test.com' , '123456'
+      );
+      System.assert(isExist == null , 'No user has been found');
+    }
+    Test.stopTest();
+  }
+  
+  @isTest
+  static void createAdministrativeAccountTest() {
+    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    Test.startTest();
+    System.runAs(PORTAL_SYS_ADMIN) {
+      Profile p = [SELECT Id FROM Profile WHERE Name = 'Partner Community User' LIMIT 1];
+      Id buyerGroup = [SELECT Id FROM BuyerGroup WHERE Name = 'OPE BuyerGroup' LIMIT 1].Id;
+
+      List<Account> accounts;
+      accounts = TestDataFactory.createTestAccountRecords(1);
+      for(Account acc : accounts){
+          acc.RecordTypeId = ADMINISTRATIVE_ACC_RECTYPEID;
+      }
+      insert accounts;
+
+      Id withAdministrativeAccount = RegistrationFormCtrl.createAdministrativeAccount(buyerGroup, accounts[0].Id, 'lastName', 'firstName');
+      System.assert(withAdministrativeAccount != null , 'No administrative records, buyer accouunt, and buyer group member records was created');
+
+      Id withoutAdministrativeAccount = RegistrationFormCtrl.createAdministrativeAccount(buyerGroup, null, 'lastName', 'firstName');
+      System.assert(withoutAdministrativeAccount != null , 'No administrative records, buyer accouunt, and buyer group member records was created');
+    }
+    Test.stopTest();
+  }
+
+
 }

@@ -20,7 +20,15 @@
       |                           |                       |                      | logic for Proceed w/o Invoice|
       | john.bo.a.pineda          | June 29, 2022         | DEPP-3323            | Modified to add logic to     |
       |                           |                       |                      | validate Upload File Type    |
+      | rhea.b.torres             | July 30, 2022         | DEPP-3594            | Modified to hide 'Registered |
+      |                           |                       |                      | Email if Contact selected has|
+      |                           |                       |                      | Registered_Email__c          |
       | john.m.tambasen           | August 03, 2022       | DEPP-3614            | show free pb ony if available|
+      | john.m.tambasen           | August, 16 2022       | DEPP-1946            | Single/Group Coaching changes|
+      | eccarius.karl.munoz       | August 29, 2022       | DEPP-3754            | Added dedup validation upon  |
+      |                           |                       |                      | creation of contact          |
+      | john.m.tambasen           | August, 22 2022       | DEPP-3325            | Added discount functionality |
+      | kathy.cornejo             | September 12, 2022    | DEPP-4273            | Fixed error message          |
 */
 
 import { api, LightningElement, wire } from 'lwc';
@@ -36,10 +44,18 @@ import getSearchedContacts from '@salesforce/apex/ManageRegistrationSectionCtrl.
 import getQuestions from "@salesforce/apex/ManageRegistrationSectionCtrl.getQuestions";
 import getEmailOptions from "@salesforce/apex/ManageRegistrationSectionCtrl.getEmailOptions";
 import addRegistration from '@salesforce/apex/ManageRegistrationSectionCtrl.addRegistration';
-import addRegistration2 from '@salesforce/apex/ManageRegistrationSectionCtrl.addRegistration2';
 import getPBEntries from '@salesforce/apex/ManageRegistrationSectionCtrl.getPBEntries';
+import checkOfferingAvailability from '@salesforce/apex/ManageRegistrationSectionCtrl.checkOfferingAvailability';
+import getAsset from '@salesforce/apex/CorporateBundleAndSOAHelper.getAsset';
+import checkCreditAvailability from '@salesforce/apex/CorporateBundleAndSOAHelper.checkCreditAvailability';
+import getRegisteredEmail from '@salesforce/apex/ManageRegistrationSectionCtrl.getRegisteredEmail';
+import getDiscount from '@salesforce/apex/ManageRegistrationSectionCtrl.getDiscount';
 import LWC_Error_General from '@salesforce/label/c.LWC_Error_General';
 import LWC_List_ConfirmedLearnerStatus	 from '@salesforce/label/c.LWC_List_ConfirmedLearnerStatus';
+import { createRecord } from 'lightning/uiRecordApi';
+import { getObjectInfo } from 'lightning/uiObjectInfoApi';
+import SESSION_OBJECT from '@salesforce/schema/Session__c';
+import RT_Specialised_Session from '@salesforce/label/c.RT_Session_Specialised_Session';
 
 const COMMA = ',';
 const CONFIRMED_STATUS = LWC_List_ConfirmedLearnerStatus.split(COMMA);
@@ -49,9 +65,11 @@ const ERROR_TITLE = 'Error!';
 const SUCCESS_VARIANT = 'success';
 const ERROR_VARIANT = 'error';
 const NO_REC_FOUND = 'No record(s) found.';
-const MODAL_TITLE = 'Registration Details'
+const MODAL_TITLE = 'Registration Details';
 const SECTION_HEADER = 'Manage Registrations Overview';
-const COLUMN_HEADER = 'First Name,Last Name,Contact Email,Birthdate,Registration Status,LMS Integration Status'
+const COLUMN_HEADER = 'First Name,Last Name,Contact Email,Birthdate,Registration Status,LMS Integration Status';
+const PROD_CATEG_TAILORED = 'Tailored Executive Program';
+const PROD_CATEG_SOA = 'QUTeX Learning Solutions';
 
 export default class ManageRegistrationSection extends NavigationMixin(LightningElement) {
 
@@ -60,6 +78,10 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
     @api childRecordId;
     @api disabled;
     @api prescribedProgram;
+    @api isCoachingProductRequest;
+    @api noOfCoachingSessions;
+    @api productCategory;
+    @api maxParticipants;
 
     searchField = '';
     picklistValue = '';
@@ -82,6 +104,7 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
     paidInFullValues;
     records = [];
     recordsTemp = [];
+    activeLearners = [];
 
     //addcontact variables
     contactSearchItems = [];
@@ -98,6 +121,8 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
     contactFields;
     emailOptions = [];
     registeredEmail;
+    showContactErrorMessage = false;
+    conErrorMessage;
 
     //proceed without Invoice
     isProceedNoInvoice = false;
@@ -111,6 +136,12 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
     pbEntryRecords;
     pbEntryRecord;
     pbEntryFreeRecord;
+    pbEntryStandardRecord;
+    discountMessage = '';
+    discountMessageClass = '';
+    discountAmount = 0;
+
+    pbEntriesToAssetMap = {};
 
     columns = [
         { label: 'Full Name', fieldName: 'contactFullName', type: 'text', sortable: true },
@@ -128,6 +159,9 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
     get acceptedFormats() {
         return ['.pdf', '.png', '.jpg', 'jpeg'];
     }
+
+    @wire(getObjectInfo, { objectApiName: SESSION_OBJECT})
+    sessionInfo;
 
     //Retrieves questionnaire data related to the product request
     tableData;
@@ -160,6 +194,7 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
             }));
             this.registeredEmail = undefined;
             this.emailOptions = [];
+            this.activeLearners = this.records.filter(rec=> rec.registrationStatus.includes('Active'));
         } else if(result.error){
             this.records = undefined;
             this.recordsTemp = undefined;
@@ -226,28 +261,47 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
         this.pbEntries = result;
         if (result.data) {
             let tempRecords = [];
+            let pbEntryIds = [];
             const resp = result.data;
             const hasEarlyBird = resp.find(element => element.label === ('Early Bird'));
             const hasStandardPricing = resp.find(element => element.label === ('Standard Price Book'));
             this.pbEntryFreeRecord = resp.find(element => element.label === ('Free'));
-
+            this.pbEntryStandardRecord = resp.find(element => element.label === ('Standard Price Book'));
             //check if free is available first
             if(this.pbEntryFreeRecord){
-                tempRecords = resp.filter(rec=> rec.label.includes('Free'));
+                tempRecords = resp.filter(rec=> 
+                    rec.label.includes('Free') || 
+                    rec.label.startsWith('SOA') || 
+                    rec.label.startsWith('Corporate Bundle')); 
                 this.pbEntryRecords = [...tempRecords];
                 this.pbEntryRecords = tempRecords.map(type => {
+                    pbEntryIds.push(type.id);
                     return { label: type.label, value: type.id };
                 });
             } else if(hasEarlyBird && hasStandardPricing){
                 tempRecords = resp.filter(rec=> !rec.label.includes('Standard Price Book'));
                 this.pbEntryRecords = [...tempRecords];
                 this.pbEntryRecords = tempRecords.map(type => {
+                    pbEntryIds.push(type.id);
                     return { label: type.label, value: type.id };
                 });
             }else{
-            this.pbEntryRecords = resp.map(type => {
-                return { label: type.label, value: type.id };
-            });
+                this.pbEntryRecords = resp.map(type => {
+                    pbEntryIds.push(type.id);
+                    return { label: type.label, value: type.id };
+                });
+            }
+
+            //if child of SOA only show SOA pricing
+            if(this.isQUTexLearningCategory){
+                tempRecords = resp.filter(rec=> rec.label.startsWith('SOA'));
+                if(tempRecords.length > 0){
+                    pbEntryIds = [];
+                    this.pbEntryRecords = tempRecords.map(type => {
+                        pbEntryIds.push(type.id);
+                        return { label: type.label, value: type.id };
+                    });
+                }
             }
         }
     }
@@ -256,6 +310,36 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
     handleSelectedPricing(event){
         this.isDisabled = false;
         this.pbEntryRecord = event.detail.value;
+
+        //show discount field if selected pricing is not for free
+        if( !this.pbEntryFreeRecord){
+
+            //reset discount variables
+            this.discountMessageClass = '';
+            this.discountMessage = '';
+            this.discountAmount = 0;
+            const dicountField = this.template.querySelector("lightning-input[data-id='discountField']");
+
+            if(dicountField){
+                dicountField.value = null;
+            }
+        }
+
+        if(this.isCorporateBundlePricebook){
+            let pbEntries = [];
+            pbEntries.push(this.pbEntryRecord);
+            getAsset({pbEntryIds:pbEntries})
+                .then((res) => {
+                    if(res){
+                        this.pbEntriesToAssetMap = res;
+                    }else{
+                        this.pbEntriesToAssetMap = [];
+                    } 
+                })
+                .catch((error)=>{
+                    console.log(error);
+                })
+        }
     }
 
     handleEmailChange(event){
@@ -281,16 +365,23 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
 
     //handles opening of modal
     handleAddContact(){
-        if(!this.pbEntryRecords.length > 0){
-            this.generateToast('Error.','Please setup pricing to proceed with registration.','error');
-        }else{
-            this.isModalOpen = true;
-            this.isEditContact = false;
-            this.isAddContact = true;
-            this.isCreateContact = false;
-            this.isRespondQuestions = false;
-            this.pbEntryRecord = '';
-        }
+        checkOfferingAvailability({offeringId:this.childRecordId})
+        .then((res)=>{
+            if(res){
+                if(!this.pbEntryRecords.length > 0 && !this.isTailoredProductCategory){
+                    this.generateToast('Error.','Please setup pricing to proceed with registration.','error');
+                }else{
+                    this.isModalOpen = true;
+                    this.isEditContact = false;
+                    this.isAddContact = true;
+                    this.isCreateContact = false;
+                    this.isRespondQuestions = false;
+                    this.pbEntryRecord = '';
+                }
+            }else{
+                this.generateToast('Warning.','Unable to register the learner due to capacity limit or registration has expired.','error');
+            }
+        })
     }
 
     handleRespondQuestions(){
@@ -302,7 +393,7 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
     }
 
     handleCreateNewRecord(){
-        if(!this.pbEntryRecord){
+        if(!this.pbEntryRecord && !this.isTailoredProductCategory){
             this.generateToast('Error.','Please select pricing.','error');
         }else{
             this.formLoading = true;
@@ -419,16 +510,39 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
         });
     }
 
-    handleProceedNoInvoiceClick(event){
+    handleProceedNoInvoiceClick(){
         this.isProceedNoInvoice = true;
     }
 
-    handleRedirectToInvoiceClick(event){
+    handleRedirectToInvoiceClick(){
         this.isProceedNoInvoice = false;
     }
 
     handleCreateContact(event){
         event.preventDefault();
+
+        if(this.isCorporateBundlePricebook){
+            //check if asset credit is still available
+            //check price book entry unit price against the asset remaining value
+            checkCreditAvailability({pbEntryId:this.pbEntryRecord,assetId:this.pbEntriesToAssetMap[this.pbEntryRecord].Id})
+            .then((res) => {
+                if(res){
+                    this.handleOnCreateContactFinal(event);
+                }else{
+                    this.generateToast(ERROR_TITLE, 'Not enough credit to register the learner', ERROR_VARIANT);
+                } 
+            })
+            .catch((error)=>{
+                console.log(error);
+            })
+        }else{
+            this.handleOnCreateContactFinal(event);
+        }
+ 
+    }
+
+    handleOnCreateContactFinal(event){
+        
         let fields = event.detail.fields;
         this.contactFields = fields;
         if(this.hasQuestions){
@@ -436,15 +550,28 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
         }else{
             this.isLoading = true;
             this.saveInProgress = true;
-            if(this.isProceedNoInvoice == true){
-                this.saveRegistration2(fields,this.childRecordId,[],[],'',this.prescribedProgram,this.isProceedNoInvoice);
-            } else {
-                this.saveRegistration(fields,this.childRecordId,[],[],'',this.prescribedProgram);
-            }
+            this.saveRegistration(fields,this.childRecordId,[],[],'',this.prescribedProgram);
         }
     }
 
+    handleCorporateBundleRegistration(){
+        //check if asset credit is still available
+        //check price book entry unit price against the asset remaining value
+        checkCreditAvailability({pbEntryId:this.pbEntryRecord,assetId:this.pbEntriesToAssetMap[this.pbEntryRecord].Id})
+        .then((res) => {
+            if(res){
+                this.handleExistingContactPWI();
+            }else{
+                this.generateToast(ERROR_TITLE, 'Not enough credit to register the learner', ERROR_VARIANT);
+            } 
+        })
+        .catch((error)=>{
+            console.log(error);
+        })
+    }
+
     handleExistingContactPWI(){
+        
         let fields = {};
         fields.Id = this.contactId;
         fields.Registered_Email__c = this.registeredEmail;
@@ -455,14 +582,16 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
         }else{
             this.isLoading = true;
             this.saveInProgress = true;
-            this.saveRegistration2(fields,this.childRecordId,[],[],'',this.prescribedProgram,this.isProceedNoInvoice);
+            this.saveRegistration(fields,this.childRecordId,[],[],'',this.prescribedProgram);
         }
     }
-
+    
+    
     handleExistingContact(){
         let fields = {};
         fields.Id = this.contactId;
         fields.Registered_Email__c = this.registeredEmail;
+        this.isProceedNoInvoice = false;
         this.contactFields = fields;
         if(this.hasQuestions){
             this.handleRespondQuestions();
@@ -476,12 +605,7 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
     handleSaveResponse(){
         this.isLoading = true;
         this.saveInProgress = true;
-        if(this.isProceedNoInvoice == true){
-            this.saveRegistration2(this.contactFields,this.childRecordId,this.responseData.data,this.createAnswerRecord(),JSON.stringify(this.createFileUploadMap()),this.prescribedProgram,this.isProceedNoInvoice);
-        } else {
-            this.saveRegistration(this.contactFields,this.childRecordId,this.responseData.data,this.createAnswerRecord(),JSON.stringify(this.createFileUploadMap()),this.prescribedProgram);
-        }
-
+        this.saveRegistration(this.contactFields,this.childRecordId,this.responseData.data,this.createAnswerRecord(),JSON.stringify(this.createFileUploadMap()),this.prescribedProgram);
         this.resetResponses();
     }
 
@@ -520,59 +644,22 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
         });
         return answerRecords;
     }
+    
+    saveRegistration(contact, offeringId, relatedAnswer, answer, fileUpload, prescribedProgram){
+        this.showContactErrorMessage = false; 
 
-    saveRegistration2(contact,offeringId,relatedAnswer,answer,fileUpload,prescribedProgram,isProceedNoInvoice){
-        addRegistration2({
-            contactRecord:contact,
-            offeringId:offeringId,
-            relatedAnswerList:relatedAnswer,
-            answerList:answer,
-            fileUpload:fileUpload,
-            prescribedProgram:prescribedProgram,
-            priceBookEntryId : this.pbEntryRecord,
-            isProceedNoInvoice : this.isProceedNoInvoice
-        })
-        .then(res =>{
-                this.generateToast(SUCCESS_TITLE, 'Registration Successful', SUCCESS_VARIANT);
-                refreshApex(this.tableData);
-                // const config = {
-                //     type: 'standard__webPage',
-                //     attributes: {
-                //         url: res
-                //     }
-                // };
-                // this[NavigationMixin.Navigate](config);
-        })
-        .finally(()=>{
-            this.saveInProgress = false;
-            this.isModalOpen = false;
-            this.isEditContact = false;
-            this.isAddContact = false;
-            this.isCreateContact = false;
-            this.isLoading = false;
-            this.saveInProgress = false;
-            this.contactId = '';
-            this.contactSearchItems = [];
-            this.registeredEmail = undefined;
-            this.emailOptions = [];
-        })
-        .catch(error =>{
-            let errMsg = LWC_Error_General;
-            if(error.body.pageErrors){
-                error.body.pageErrors.forEach(err => {
-                    errMsg = err.message;
-                });
-            }
-            if(error.body.fieldErrors.Username){
-                error.body.fieldErrors.Username.forEach(err => {
-                    errMsg = err.message;
-                });
-            }
-            this.generateToast('Error.', errMsg ,'error');
-        });
-    }
+        let pbEntry;
 
-    saveRegistration(contact,offeringId,relatedAnswer,answer,fileUpload,prescribedProgram){
+        //if there's a discount set the variable to the standard pb entry record
+        if(this.pbEntryRecord && this.discountAmount > 0 ){
+            pbEntry = this.pbEntryStandardRecord.id;
+        //else just use the selected pricing
+        } else if(this.pbEntryRecord){
+            pbEntry = this.pbEntryRecord;
+        } else {
+            pbEntry = null;
+        }
+
         addRegistration({
             contactRecord:contact,
             offeringId:offeringId,
@@ -580,47 +667,98 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
             answerList:answer,
             fileUpload:fileUpload,
             prescribedProgram:prescribedProgram,
-            priceBookEntryId : this.pbEntryRecord
+            priceBookEntryId:pbEntry,
+            isProceedNoInvoice : this.isProceedNoInvoice,
+            discountAmount:this.discountAmount
         })
         .then(res =>{
-                this.generateToast(SUCCESS_TITLE, 'Registration Successful', SUCCESS_VARIANT);
-                refreshApex(this.tableData);
-                const config = {
-                    type: 'standard__webPage',
-                    attributes: {
-                        url: res
+            if(!res.isContactInputValid){
+                this.isModalOpen = true;
+                this.isCreateContact = true;
+                this.showContactErrorMessage = true;
+                this.isRespondQuestions = false;
+                this.conErrorMessage = res.contactValidationResponse;
+            }else{
+                //if single/group coaching and has number of sessions selected
+                if(this.isCoachingProductRequest && (this.noOfCoachingSessions > 0 || this.noOfCoachingSessions != undefined)){
+                    this.handleCreateSession(res);
+                } else{
+                    this.generateToast(SUCCESS_TITLE, 'Registration Successful', SUCCESS_VARIANT);
+                    refreshApex(this.tableData);
+                    if(!this.isProceedNoInvoice){
+                        const config = {
+                            type: 'standard__webPage',
+                            attributes: {
+                                url: res.paymentURL
+                            }
+                        };
+                        this[NavigationMixin.Navigate](config);
                     }
-                };
-                this[NavigationMixin.Navigate](config);
+                }
+                this.isModalOpen = false;
+                this.isCreateContact = false;
+            }
         })
         .finally(()=>{
-            this.saveInProgress = false;
-            this.isModalOpen = false;
-            this.isEditContact = false;
-            this.isAddContact = false;
-            this.isCreateContact = false;
-            this.isLoading = false;
-            this.saveInProgress = false;
-            this.contactId = '';
-            this.contactSearchItems = [];
-            this.registeredEmail = undefined;
-            this.emailOptions = [];
+            this.handleClearAfterSave();
         })
         .catch(error =>{
-            let errMsg = LWC_Error_General;
-            if(error.body.pageErrors){
-                error.body.pageErrors.forEach(err => {
-                    errMsg = err.message;
-                });
+            if( error && 
+                error.body && 
+                error.body.message == 'Please make sure to enable the contact as Partner User'){
+                    this.generateToast('Error.', error.body.message ,'error');
+            }else{
+                this.generateToast('Error.', LWC_Error_General ,'error');
             }
-            if(error.body.fieldErrors.Username){
-                error.body.fieldErrors.Username.forEach(err => {
-                    errMsg = err.message;
-                });
-            }
-            this.generateToast('Error.', errMsg ,'error');
-            console.log('ERROR:', error);
+            console.error('ERROR: ' + JSON.stringify(error));
         });
+    }
+    
+    handleClearAfterSave(){
+        this.saveInProgress = false;
+        this.isEditContact = false;
+        this.isAddContact = false;            
+        this.isLoading = false;
+        this.contactId = '';
+        this.contactSearchItems = [];
+        this.registeredEmail = undefined;
+        this.emailOptions = [];
+    }
+
+    handleNameChange(){
+        this.showContactErrorMessage = false;
+    }
+
+    handleCreateSession(res){
+        const recTypes = this.sessionInfo.data.recordTypeInfos;
+
+        //loop through the current registered learners
+        for (let i = 1; i <= this.noOfCoachingSessions; i++) {
+
+            // Creating mapping of fields of Account with values
+            var fields = {
+                'Name' : res.contactName + ' Session ' + i.toString(),
+                'Learner__c' : res.contactId,
+                'RecordTypeId' : Object.keys(recTypes).find(rti => recTypes[rti].name == RT_Specialised_Session),
+                'Course_Offering__c' : this.childRecordId
+            };
+            //variable to create the record with the Object and fields as parameter
+            var objRecordInput = {'apiName' : 'Session__c', fields};
+            //create record.
+            createRecord(objRecordInput)
+            .then(() => {
+                
+                //if in the last iteration
+                if(i == this.noOfCoachingSessions){
+                    this.dispatchEvent(new CustomEvent('addedregistrant'));
+                    this.generateToast(SUCCESS_TITLE, 'Registration Successful', SUCCESS_VARIANT);
+                    refreshApex(this.tableData);
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        }
     }
 
     handleLookupSelect(event){
@@ -631,6 +769,11 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
             this.emailOptions = res.map(type => {
                 return { label: type.label, value: type.value};
             });
+        })
+
+        getRegisteredEmail({contactId:event.detail.value})
+        .then((res) => {
+            this.registeredEmail = res;
         })
     }
 
@@ -801,6 +944,57 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
         downloadElement.click();
     }
 
+    applyCoupon(){
+
+        //get the discount code entered by the user and index from the array
+        let couponCode = this.template.querySelector("lightning-input[data-id='discountField']").value;
+
+        //if coupon code field is empty, reset values and return
+        if (couponCode == "") {
+
+            this.discountMessageClass = '';
+            this.discountMessage = '';
+            this.discountAmount = 0;
+
+            return;
+        }
+
+
+        //function to get the discount of the product
+        getDiscount({
+            selectedPBId: this.pbEntryRecord,
+            standardPBId: this.pbEntryStandardRecord.id,
+            offeringId: this.childRecordId,
+            prescribedProgram: this.prescribedProgram,
+            couponCode: couponCode
+        })
+        .then((data) => {
+
+            //check returned value and show message accordingly
+            //-1 means coupon entered is not valid
+            if(data == -1){
+                this.discountMessageClass = 'warning-label slds-m-left_x-small';
+                this.discountMessage = 'Invalid coupon.';
+                this.discountAmount = 0;
+
+            //-2 means the selected price is still less than the discounted
+            }else if(data == -2){
+                this.discountMessageClass = 'warning-label slds-m-left_x-small';
+                this.discountMessage = 'Selected price is less than the discounted standard price.';
+                this.discountAmount = 0;
+
+            } else{
+                this.discountMessageClass = 'coupon-applied-label slds-m-left_x-small';    
+                this.discountMessage = 'Valid coupon.';
+                this.discountAmount = data;
+            }
+        })
+        .catch((error) => {
+            this.generateToast('Error.',LWC_Error_General,'error');
+        });
+
+    }
+
     //Function to generate toastmessage
     generateToast(_title, _message, _variant){
         const evt = new ShowToastEvent({
@@ -817,7 +1011,10 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
     get sectionHeader(){ return SECTION_HEADER; }
 
     get disableSaveExisting(){
-        return this.saveInProgress || !this.contactId || !this.pbEntryRecord || !this.registeredEmail;
+        if(this.productCategory != PROD_CATEG_TAILORED){
+            return this.saveInProgress || !this.contactId || !this.pbEntryRecord || !this.registeredEmail;
+        }
+        return this.saveInProgress || !this.contactId || !this.registeredEmail;
     }
 
     get hasEmailOptions(){
@@ -847,5 +1044,61 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
         }else{
             return false;
         }
+    }
+
+    get contactErrorMessage(){ return this.conErrorMessage; }
+
+    get isTailoredProductCategory() {
+        return this.productCategory === PROD_CATEG_TAILORED;
+    }
+
+    get isQUTexLearningCategory() {
+        return this.productCategory === PROD_CATEG_SOA;
+    }
+
+    get isCorporateBundlePricebook() {
+        if( this.pbEntryRecord && 
+            this.pbEntryRecords && 
+            this.pbEntryRecords.find(item => item.value === this.pbEntryRecord).label.startsWith('Corporate Bundle')){
+                return true;
+        }else{
+            return false;
+        }
+    }
+
+    get isSOAPricebook() {
+        if( this.pbEntryRecord && 
+            this.pbEntryRecords && 
+            this.pbEntryRecords.find(item => item.value === this.pbEntryRecord).label.startsWith('SOA')){
+                return true;
+        }else{
+            return false;
+        }
+    }
+
+    get hasAsset(){
+        return this.isCorporateBundlePricebook && this.relatedAsset;
+    }
+
+    get relatedAsset(){
+        if( this.pbEntryRecord &&
+            this.isCorporateBundlePricebook &&
+            this.pbEntriesToAssetMap){
+                return this.pbEntriesToAssetMap[this.pbEntryRecord];
+        }else{
+            return {};
+        }
+    }
+
+    get showDiscountSection(){
+        if( !this.pbEntryFreeRecord && 
+            !this.isCorporateBundlePricebook && 
+            !this.isSOAPricebook &&
+            this.pbEntryRecord){
+                return true;
+        }else{
+            return false;
+        }
+
     }
 }

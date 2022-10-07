@@ -1,0 +1,53 @@
+{
+  "appPageId" : "e7a3f4f7-241b-44d0-9ebd-8a08684e8126",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "id" : "7e14d542-e452-4ccb-9d9b-efc109f5934b",
+  "label" : "Manage Registrations",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:mobileMenuWrapper",
+      "id" : "70bb4377-7f83-41cd-a31b-deaf2ec74f2b",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "631dbaa0-69f0-4969-827b-2700b7bb3985",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:manageRegistrationAndNomination",
+      "id" : "6bc573df-be25-4222-8ace-222e67cffa97",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "d1a71e3f-7535-436b-9375-6a06fdfc8328",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "c06ebc72-a518-4122-b33c-fb8e6823d707",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "customHeadTags" : "",
+        "description" : "",
+        "title" : "Manage Registrations"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "2990abd0-f1e8-4f39-b7d2-99d7dd7e52f1",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "c55548a6-e41d-442d-bebc-6f56b328a2e3",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-manage-registrations"
+}

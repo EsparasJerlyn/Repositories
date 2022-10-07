@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Supporting_Comments_Required</fullName>
+    <active>true</active>
+    <description>Supporting Comments Required</description>
+    <errorConditionFormula>AND(
+RecordType.DeveloperName =&apos;OPE&apos;,
+OR(
+ISPICKVAL(Stage__c,&apos;Design&apos;),
+ISPICKVAL(Stage__c, &apos;Complete&apos;)
+),
+ ISBLANK(Supporting_Comments__c)
+)</errorConditionFormula>
+    <errorDisplayField>Supporting_Comments__c</errorDisplayField>
+    <errorMessage>Please enter your supporting comments</errorMessage>
+</ValidationRule>

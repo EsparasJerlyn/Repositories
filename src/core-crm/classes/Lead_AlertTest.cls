@@ -11,10 +11,10 @@
       | w.li                     | June 15, 2022         | DEPP-1489              | Created file                 |
  */
 
-@IsTest(SeeAllData=false)
+@isTest
 public without sharing class Lead_AlertTest {
 
-    @IsTest
+    @isTest
     public static void testInternationalLeadAlert() {
         Test.startTest();
         Marketing_Staging__c marketingStaging = new Marketing_Staging__c();
@@ -39,7 +39,7 @@ public without sharing class Lead_AlertTest {
         Test.stopTest();
     }
 
-    @IsTest
+    @isTest
     public static void testDomesticLeadAlert() {
         Test.startTest();
         Marketing_Staging__c marketingStaging = new Marketing_Staging__c();
@@ -64,7 +64,7 @@ public without sharing class Lead_AlertTest {
         Test.stopTest();
     }
 
-    @IsTest
+    @isTest
     public static void testResearchLeadAlert() {
         Test.startTest();
         Marketing_Staging__c marketingStaging = new Marketing_Staging__c();
@@ -89,7 +89,7 @@ public without sharing class Lead_AlertTest {
         Test.stopTest();
     }
 
-    @IsTest
+    @isTest
     public static void testQTACLeadAlert() {
         Test.startTest();
         Marketing_Staging__c marketingStaging = new Marketing_Staging__c();
@@ -115,7 +115,7 @@ public without sharing class Lead_AlertTest {
         Test.stopTest();
     }
 
-    @IsTest
+    @isTest
     public static void testExchangeLeadAlert() {
         Test.startTest();
         Marketing_Staging__c marketingStaging = new Marketing_Staging__c();

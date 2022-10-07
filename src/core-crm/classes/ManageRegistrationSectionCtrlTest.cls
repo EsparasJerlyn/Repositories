@@ -11,9 +11,13 @@
       | eccarius.karl.munoz       | February 28, 2022     | DEPP-1819            | Removed handling for Program | 
       |                           |                       |                      | Plan due to program offering | 
       |                           |                       |                      | id removal.                  | 
-      |                           |                       |                      |                              |
+      | rhea.b.torres             | August 1, 2022        | DEPP-3594            | testing for registered email |
+      | john.m.tambasen           | August, 16 2022       | DEPP-1946            | Single/Group Coaching changes|
+      | Tiffany.Zhang             | Aug 22, 2022          | DEPP-3486            | Add test cladd for manage    |
+      |                           |                       |                      | registration                 |
+      | eccarius.karl.munoz       | August 31, 2022       | DEPP-3754            | Updated add registration test| 
  */
-@isTest(SeeAllData=false)
+@isTest
 public with sharing class ManageRegistrationSectionCtrlTest{
 
      private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
@@ -24,7 +28,7 @@ public with sharing class ManageRegistrationSectionCtrlTest{
      private static final Id RT_ACTIVITY_ID = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(RT_ACTIVITY).getRecordTypeId();
      private static final Integer NUMBER_OF_RECORDS = 100;
 
-     @TestSetup
+     @testSetup
      static void makeData(){
           BypassTriggers__c bypass = new BypassTriggers__c(Bypass__c = true, SetupOwnerId = UserInfo.getOrganizationId());
           insert bypass;
@@ -34,9 +38,80 @@ public with sharing class ManageRegistrationSectionCtrlTest{
           Test.stopTest();
      }
 
-     @IsTest
-     static void getPaidInFullValuesTest(){
+     @isTest
+     static void getRegisteredEmailTest(){        
           System.runAs(TestDataFactory.getProgramAdminUser()){
+               Test.startTest();
+               Contact con1 = [SELECT Id, Registered_Email__c FROM Contact WHERE Registered_Email__c != null LIMIT 1];
+               Contact con2 = [SELECT Id, Registered_Email__c FROM Contact WHERE Registered_Email__c = null LIMIT 1];
+
+               String registeredEmail1 = ManageRegistrationSectionCtrl.getRegisteredEmail(con1.Id);
+               String registeredEmail2 = ManageRegistrationSectionCtrl.getRegisteredEmail(con2.Id);
+
+               System.assert(String.isNotBlank(registeredEmail1), 'Registered Email is empty');
+               System.assert(registeredEmail2==null, 'Registered Email is NOT empty'); 
+               Test.stopTest();
+          }      
+     }
+
+     @isTest
+     static void getEmailOptionsTest(){
+          User programUser = TestDataFactory.getProgramAdminUser();
+          System.runAs(programUser){
+               List<Contact> conList = new List<Contact>();
+               Test.startTest();
+               
+               //Get Contact with no registered email
+               List<Contact> conWithRegisteredEmail = [SELECT Id,
+                                                  Registered_Email__c,
+                                                  Email, 
+                                                  QUT_Learner_Email__c, 
+                                                  QUT_Staff_Email__c,
+                                                  Work_Email__c 
+                                             FROM Contact WHERE Registered_Email__c != null LIMIT 1];
+
+               //Get Contact with no registered email
+               List<Contact> conWithoutRegEmailList = [SELECT Id,
+                                             Registered_Email__c,
+                                             Email, 
+                                             QUT_Learner_Email__c, 
+                                             QUT_Staff_Email__c,
+                                             Work_Email__c 
+                                        FROM Contact WHERE Registered_Email__c = null 
+                                        AND CreatedById =:programUser.Id LIMIT 1];
+               conWithoutRegEmailList[0].QUT_Learner_Email__c = 'qutLearnerEmail@emailtest.com';
+               conWithoutRegEmailList[0].QUT_Staff_Email__c = 'qutstaff@emailtest.com';
+               conWithoutRegEmailList[0].Work_Email__c = 'work@emailtest.com';
+               conWithoutRegEmailList[0].hed__Preferred_Email__c = 'Alternate Email';
+               conWithoutRegEmailList[0].hed__AlternateEmail__c = 'test@email.com';
+               update conWithoutRegEmailList;
+
+               List<Map<String,String>> mapList1 = ManageRegistrationSectionCtrl.getEmailOptions(conWithoutRegEmailList[0].Id);
+               List<Map<String,String>> mapList2 = ManageRegistrationSectionCtrl.getEmailOptions(conWithRegisteredEmail[0].Id);
+               System.assert(!mapList1.isEmpty(), 'map is empty');
+               System.assert(mapList2.isEmpty(), 'map is not empty');
+               Test.stopTest();
+          }
+     }
+
+     @isTest
+     static void checkOfferingAvailabilityTest(){
+          System.runAs(TestDataFactory.getProgramAdminUser()){               
+               Test.startTest();
+               Boolean isAvailable = ManageRegistrationSectionCtrl.checkOfferingAvailability([
+                    SELECT Id 
+                    FROM hed__Course_Offering__c 
+                    WHERE Registration_End_Date__c = NULL 
+                    OR Registration_End_Date__c < TODAY
+                    LIMIT 1 ].Id);
+               Test.stopTest();
+               System.assert(!isAvailable,'Offering is available');
+          }
+     }
+
+     @isTest
+     static void getPaidInFullValuesTest(){        
+          System.runAs(TestDataFactory.getProgramAdminUser()){               
                Test.startTest();
                List<String> paidInFullValues = ManageRegistrationSectionCtrl.getPaidInFullValues();
                Test.stopTest();
@@ -44,7 +119,7 @@ public with sharing class ManageRegistrationSectionCtrlTest{
           }
      }
 
-     @IsTest
+     @isTest
      static void getRegistrationStatusValuesTest(){
           System.runAs(TestDataFactory.getProgramAdminUser()){
                Test.startTest();
@@ -54,7 +129,17 @@ public with sharing class ManageRegistrationSectionCtrlTest{
           }
      }
 
-     @IsTest
+     @isTest
+     static void getNominationStatusValuesTest(){
+          System.runAs(TestDataFactory.getProgramAdminUser()){
+               Test.startTest();
+               List<String> nominationStatusValues = ManageRegistrationSectionCtrl.getNominationStatusValues();
+               Test.stopTest();
+               System.assert(!nominationStatusValues.isEmpty(), 'Nomination Status Values must not be empty.');
+          }
+     }
+
+     @isTest
      static void getPricingValidationValuesTest(){
           System.runAs(TestDataFactory.getProgramAdminUser()){
                Test.startTest();
@@ -64,18 +149,109 @@ public with sharing class ManageRegistrationSectionCtrlTest{
           }
      }
 
-     @IsTest
+     @isTest
      static void getRegDetailsForNonProgPlanTest(){
           System.runAs(TestDataFactory.getProgramAdminUser()){
                String childRecordId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;
                Test.startTest();
                List<ManageRegistrationSectionCtrl.ManageRegistrationDetails> registrationDetails = ManageRegistrationSectionCtrl.getRegistrations(childRecordId, false);
                Test.stopTest();
-              System.assertEquals(NUMBER_OF_RECORDS, registrationDetails.size(), 'Incorrect number of records retrieved.');
+              System.assertEquals(NUMBER_OF_RECORDS*2, registrationDetails.size(), 'Incorrect number of records retrieved.');
           }
      }
 
-     @IsTest
+     @isTest
+     static void getRegistrationsAndNominationsTest(){
+          User portalUser;
+          Account portalAccount;
+          final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+          Test.startTest();
+          System.runAs(PORTAL_SYS_ADMIN){
+               
+               portalAccount = new Account(Name='PortalAccount', OwnerId = PORTAL_SYS_ADMIN.Id, RecordTypeId = ACCT_UNIV_DEP_ID, Organization_Unit_Level__c = '2');
+               Database.insert(portalAccount);
+
+               BuyerAccount testBuyerAccount = new BuyerAccount(Name = portalAccount.Name, BuyerId = portalAccount.Id, IsActive = true, CommerceType = 'Buyer');
+               Database.insert(testBuyerAccount);
+     
+               Contact newContact = new Contact(FirstName = 'testqtest', LastName = 'testqtest', AccountId = portalAccount.Id, Email = 'testqtest@emailemail.com', Registered_Email__c ='email@email.com', Birthdate = Date.newInstance(1990, 2, 17), MobilePhone ='012345');
+               insert newContact;
+     
+               portalUser = TestDataFactory.createPortalUserRecords(1, 'Corporate Partner User', newContact.Id).iterator().next();
+               Database.insert(portalUser);   
+               
+               BuyerGroup bg = TestDataFactory.createTestBuyerGroup(true);
+               TestDataFactory.createTestBuyerGroupMember(true, portalAccount.Id, bg.Id);
+               CommerceEntitlementPolicy commerceEntl = new CommerceEntitlementPolicy(Name = 'Test Entitlement', CanViewProduct = true, CanViewPrice = true, IsActive = true);
+               insert commerceEntl;
+               CommerceEntitlementBuyerGroup commerceEntbg = new CommerceEntitlementBuyerGroup(BuyerGroupId = bg.Id, PolicyId =commerceEntl.Id);
+               insert commerceEntbg;
+
+               List<Product_Request__c> productRequests = TestDataFactory.createTestProductRequestRecords(1);
+               for(Product_Request__c productRequest : productRequests){
+                   productRequest.RecordTypeId = RT_ACTIVITY_ID;
+               }
+               insert productRequests;
+               
+               List<hed__Course__c> courses = TestDataFactory.createTestCourseRecords(1, portalAccount.Id, productRequests[0].Id);
+               insert courses;
+              
+               Product2 product = new Product2(Name = courses[0].Name, Course__c = courses[0].Id);
+               insert product;
+
+               CommerceEntitlementProduct commerceProduct = new CommerceEntitlementProduct(PolicyId = commerceEntl.Id, ProductId = product.Id);
+               insert commerceProduct;
+
+               List<hed__Term__c> terms = TestDataFactory.createTestTermRecords(1, portalAccount.Id);
+               insert terms;
+               
+               List<hed__Course_Offering__c> courseOfferings = TestDataFactory.createTestCourseOfferingRecord(1, courses, terms);
+               insert courseOfferings;
+
+               List<Contact> contacts = TestDataFactory.createTestContactRecords(1);
+               for(Integer i =0;i<contacts.size();i++){
+                    contacts[i].Registered_Email__c = 'testIdeaFormUser'+i+'@maildrop.cc';
+               }
+               insert contacts;
+               
+               List<hed__Course_Enrollment__c> students = new List<hed__Course_Enrollment__c>();
+               for(Contact contact : contacts){
+                    hed__Course_Enrollment__c student = new hed__Course_Enrollment__c();
+                    student.hed__Contact__c = contact.Id;
+                    student.RecordTypeId = STUDENT_RT_ID;
+                    student.Paid_in_Full__c = 'No';
+                    student.Payment_Method__c = 'Invoice';
+                    student.hed__Course_Offering__c = courseOfferings[0].Id;
+                    students.add(student);
+               }
+               insert students;
+
+               Expression_of_Interest__c eoi =  new Expression_of_Interest__c(
+                    Contact__c = contacts[0].Id,
+                    Course_Offering__c = courseOfferings[0].Id,
+                    Type__c = 'Nomination',
+                    Status__c = 'Active'
+               );
+
+               insert eoi;
+          }
+
+          System.runAs(portalUser){            
+               List<ManageRegistrationSectionCtrl.ManageRegistrationorNominationDetails> registrations = ManageRegistrationSectionCtrl.getRegistrationsAndNominations(true, '', '', '', '', '', '', ''); 
+               System.assertEquals(1, registrations.size(), 'Incorrect number of records retrieved.');
+               Id courseEnId = registrations[0].id;
+               String updateReponse = ManageRegistrationSectionCtrl.updateRegistrationOrNominationStatus(courseEnId, 'Active', true);
+               System.assertEquals('Success', updateReponse, 'Update of record failed.');  
+               List<ManageRegistrationSectionCtrl.ManageRegistrationorNominationDetails> nominations = ManageRegistrationSectionCtrl.getRegistrationsAndNominations(false, '', '', '', '', '', '', ''); 
+               System.assertEquals(1, nominations.size(), 'Incorrect number of records retrieved.');
+               Id eoiId = nominations[0].id;
+               ManageRegistrationSectionCtrl.updateRegistrationOrNominationStatus(eoiId, 'Pending', false);
+               System.assertEquals('Success', updateReponse, 'Update of record failed.'); 
+          }
+          Test.stopTest();
+     }
+
+     @isTest
      static void updateRegistrationTest(){
           System.runAs(TestDataFactory.getProgramAdminUser()){
                String studentId = [SELECT Id FROM hed__Course_Enrollment__c LIMIT 1].Id;
@@ -90,7 +266,7 @@ public with sharing class ManageRegistrationSectionCtrlTest{
           }
      }
 
-     @IsTest
+     @isTest
      static void getQuestionsTest(){
           System.runAs(TestDataFactory.getProgramAdminUser()){
                String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;
@@ -101,7 +277,7 @@ public with sharing class ManageRegistrationSectionCtrlTest{
           }
      }
 
-     @IsTest
+     @isTest
      static void getSearchedContactsTest(){
           System.runAs(TestDataFactory.getProgramAdminUser()){
                Test.startTest();
@@ -114,7 +290,7 @@ public with sharing class ManageRegistrationSectionCtrlTest{
           }
      }
 
-     @IsTest
+     @isTest
      static void getPBEntriesTest(){
           System.runAs(TestDataFactory.getProgramAdminUser()){
                List<hed__Course_Offering__c> courseOfferings = [SELECT Id FROM hed__Course_Offering__c LIMIT 1];
@@ -125,14 +301,14 @@ public with sharing class ManageRegistrationSectionCtrlTest{
           }
      }
 
-     @IsTest
+     @isTest
      static void addRegistrationTest(){
           final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
           System.runAs(PORTAL_SYS_ADMIN){
-               Test.startTest();
                Account portalAccount = new Account(Name='TestAccount', OwnerId = PORTAL_SYS_ADMIN.Id);
                Database.insert(portalAccount);
 
+               Contact learnerContact = new Contact(FirstName = 'learner', LastName = 'test', AccountId = portalAccount.Id, Email = 'testqtest@emailemail.com', Registered_Email__c ='learner@email.com', Birthdate = Date.newInstance(1991, 2, 17), MobilePhone ='012345');
                Contact newContact = new Contact(FirstName = 'testqtest', LastName = 'testqtest', AccountId = portalAccount.Id, Email = 'testqtest@emailemail.com', Registered_Email__c ='email@email.com', Birthdate = Date.newInstance(1990, 2, 17), MobilePhone ='012345');
                insert newContact;
 
@@ -191,23 +367,25 @@ public with sharing class ManageRegistrationSectionCtrlTest{
                List<PricebookEntry> pbeList = [SELECT Id FROM PricebookEntry LIMIT 1];
                for(PricebookEntry pbe : pbeList){ pbeId = pbe.Id; }
 
-               String resp = ManageRegistrationSectionCtrl.addRegistration(newContact,cOfferingId,relatedAnswers,answerList,JSON.serialize(fileLoadList),false,pbeId);
+               Test.startTest();
+               ManageRegistrationSectionCtrl.ManageRegistrationDetails wrapper = new ManageRegistrationSectionCtrl.ManageRegistrationDetails();
+               wrapper = ManageRegistrationSectionCtrl.addRegistration(learnerContact,cOfferingId,relatedAnswers,answerList,JSON.serialize(fileLoadList),false,pbeId, false, 10);
 
                Test.stopTest();
                system.assert(![SELECT Id FROM ContentVersion].isEmpty(), 'Document not created');
                system.assert(![SELECT Id FROM Answer__c].isEmpty(), 'Answer not created');
-               system.assert(String.isNotBlank(resp), 'Response is invalid');
+               system.assert(String.isNotBlank(wrapper.paymentURL), 'Response is invalid');
           }
      }
 
-     @IsTest
+     @isTest
      static void addRegistrationProceedNoInvoiceTest(){
           final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
           System.runAs(PORTAL_SYS_ADMIN){
-               Test.startTest();
                Account portalAccount = new Account(Name='TestAccount', OwnerId = PORTAL_SYS_ADMIN.Id);
                Database.insert(portalAccount);
 
+               Contact learnerContact = new Contact(FirstName = 'learner', LastName = 'test', AccountId = portalAccount.Id, Email = 'testqtest@emailemail.com', Registered_Email__c ='learner@email.com', Birthdate = Date.newInstance(1991, 2, 17), MobilePhone ='012345');
                Contact newContact = new Contact(FirstName = 'testqtest', LastName = 'testqtest', AccountId = portalAccount.Id, Email = 'testqtest@emailemail.com',Registered_Email__c ='email@email.com', Birthdate = Date.newInstance(1990, 2, 17), MobilePhone ='012345');
                insert newContact;
 
@@ -266,12 +444,31 @@ public with sharing class ManageRegistrationSectionCtrlTest{
                List<PricebookEntry> pbeList = [SELECT Id FROM PricebookEntry LIMIT 1];
                for(PricebookEntry pbe : pbeList){ pbeId = pbe.Id; }
 
-               ManageRegistrationSectionCtrl.addRegistration2(newContact,cOfferingId,relatedAnswers,answerList,JSON.serialize(fileLoadList),false,pbeId,true);
-
+               Test.startTest();
+               ManageRegistrationSectionCtrl.addRegistration(learnerContact,cOfferingId,relatedAnswers,answerList,JSON.serialize(fileLoadList),false,pbeId,true,0);
                Test.stopTest();
                system.assert(![SELECT Id FROM ContentVersion].isEmpty(), 'Document not created');
                system.assert(![SELECT Id FROM Answer__c].isEmpty(), 'Answer not created');
                system.assert(![SELECT Id FROM Contact].isEmpty(), 'Contact not created');
+          }
+     }
+
+     @isTest
+     static void getDiscountTest(){
+          System.runAs(TestDataFactory.getProgramAdminUser()){
+
+               //getDiscount(String selectedPBId, String standardPBId, String offeringId, Boolean prescribedProgram, String couponCode) {
+
+               //get sample data
+               List<Product2> sampleProduct = [SELECT Id, Name FROM Product2 ORDER BY NAME LIMIT 1];
+               List<hed__Course_Offering__c> sampleOffering = [SELECT Id FROM hed__Course_Offering__c LIMIT 1];
+               List<PricebookEntry> samplePbe = [SELECT Id, Product2Id FROM PricebookEntry WHERE Product2Id = :sampleProduct[0].Id LIMIT 1];
+
+               Test.startTest();
+               Double discount = ManageRegistrationSectionCtrl.getDiscount(samplePbe[0].Id, samplePbe[0].Id, sampleOffering[0].Id, false, 'test123');
+               Test.stopTest();
+
+               system.assertNotEquals(discount, Double.valueOf(0), 'Discount should not be 0');
           }
      }
 
@@ -316,10 +513,11 @@ public with sharing class ManageRegistrationSectionCtrlTest{
 
                offeringId = courseOfferings[0].Id;
 
-               List<Contact> contacts = TestDataFactory.createTestContactRecords(NUMBER_OF_RECORDS);
-               for(Integer i =0;i<contacts.size();i++){
+               // insert 100 Contact with Registered Email and 100 without Registered Email
+               List<Contact> contacts = TestDataFactory.createTestContactRecords(NUMBER_OF_RECORDS*2);
+               for(Integer i =0;i<NUMBER_OF_RECORDS;i++){
                     contacts[i].Registered_Email__c = 'testIdeaFormUser'+i+'@mailinator.com';
-                }
+               }
                insert contacts;
 
                List<hed__Course_Enrollment__c> students = new List<hed__Course_Enrollment__c>();
@@ -352,6 +550,31 @@ public with sharing class ManageRegistrationSectionCtrlTest{
 
                Related_Answer__c mewRelatedAnswer = new Related_Answer__c(Questionnaire__c = questionnaire.Id);
                insert mewRelatedAnswer;
+
+               //create promotion
+               Promotion promotionTest = new Promotion(
+                    Name = 'Test Promotion',
+                    IsActive = true
+               );
+               insert promotionTest;
+
+               Coupon couponTest = new Coupon(
+                    CouponCode = 'test123',
+                    Status = 'Active',
+                    StartDateTime = System.now() - 1,
+                    EndDateTime = System.now() + 1,
+                    PromotionId = promotionTest.Id
+               );
+               insert couponTest;
+
+               PromotionTarget promotionTargetTest = new PromotionTarget(
+                    TargetType ='Transaction',
+                    AdjustmentType = 'PercentageDiscount',  
+                    AdjustmentPercent = 50,
+                    PromotionId = promotionTest.Id
+               );
+               insert promotionTargetTest;
+               
           }
      } 
 }

@@ -1,0 +1,19 @@
+.accordion-section{
+    --sds-c-accordion-summary-color-background : #f3f2f2;
+    --sds-c-accordion-color-border : white;
+    --sds-c-accordion-heading-font-size : medium;
+    --sds-c-accordion-sizing-border : 5px;
+}
+
+.slds-scrollable{
+    max-height: 500px;
+    min-height: 100px;
+}
+
+.add-ope-button{
+    position: absolute;
+    right: 30px;
+    top: 10px;
+    z-index: 2;
+    float: right;
+}

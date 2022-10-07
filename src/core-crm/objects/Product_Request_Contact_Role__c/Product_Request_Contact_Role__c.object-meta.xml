@@ -155,11 +155,12 @@
     <externalSharingModel>Private</externalSharingModel>
     <label>Product Request Contact Role</label>
     <nameField>
+        <displayFormat>PRCR-{0000}</displayFormat>
         <label>Product Request Contact Role Name</label>
-        <type>Text</type>
+        <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Product Request Contact Roles</pluralLabel>
-    <searchLayouts/>
+    <searchLayouts></searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>

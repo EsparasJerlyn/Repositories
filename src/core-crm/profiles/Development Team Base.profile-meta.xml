@@ -400,6 +400,11 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Session__c-Session Layout</layout>
+        <recordType>Session__c.General_Session</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Session__c-Specialised Layout</layout>
+        <recordType>Session__c.Specialised_Session</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Shipment-Shipment Layout</layout>

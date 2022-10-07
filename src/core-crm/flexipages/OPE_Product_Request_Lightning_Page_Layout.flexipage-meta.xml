@@ -9,10 +9,16 @@
                         <valueListItems>
                             <value>Product_Request__c.Send_Design_Form</value>
                             <visibilityRule>
+                                <booleanFilter>1 AND 2</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.Product_Request_Status__c}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>Design</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>Diagnostic_Tool</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>

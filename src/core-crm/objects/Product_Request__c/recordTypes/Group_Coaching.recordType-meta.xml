@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Group_Coaching</fullName>
+    <active>true</active>
+    <compactLayoutAssignment>Group_Coaching_Compact_Layout</compactLayoutAssignment>
+    <description>This record type will be used to request group Coaching which can be delivered in isolation or as part of a program.</description>
+    <label>Group Coaching</label>
+    <picklistValues>
+        <picklist>Product_Request_Status__c</picklist>
+        <values>
+            <fullName>Completed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Define</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Design</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not Proceeding</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Published</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Release</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

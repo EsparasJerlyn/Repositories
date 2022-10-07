@@ -3,7 +3,10 @@
     <fullName>Program_Plan_Code_is_required</fullName>
     <active>true</active>
     <errorConditionFormula>AND (
+OR (
 RecordType.DeveloperName = &apos;Program&apos;,
+RecordType.DeveloperName = &apos;Program_Without_Pathway&apos;
+),
 ISPICKVAL( Product_Request__r.Product_Request_Status__c , &apos;Design&apos;),
 ISBLANK( Code__c ),
 Mark_Design_Stage_as_Complete__c = true

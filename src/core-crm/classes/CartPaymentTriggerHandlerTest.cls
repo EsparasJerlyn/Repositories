@@ -10,13 +10,13 @@
       |--------------------------------|-----------------------|------------------------|--------------------------------------------|
       | roy.nino.s.regala              | June 27, 2022         | DEPP-3252              | Created file                               |
  */
-@isTest(SeeAllData=false)
+@isTest
 public with sharing class CartPaymentTriggerHandlerTest {
     private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
     private static User currentUser = TestDataFactory.createUserRecords(1, 'QUTeX').iterator().next();
 
-    @TestSetup
+    @testSetup
     static void setupMethod() {
         TestDataFactory.generateTestUsers();
         final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
@@ -121,14 +121,14 @@ public with sharing class CartPaymentTriggerHandlerTest {
         }
     }
 
-    @IsTest
+    @isTest
     static void testBlankToInvoice() {
         final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
         System.runAs(PORTAL_SYS_ADMIN) {
-            User portalUser = [     SELECT Id FROM User
-                                    WHERE Profile.Name = 'OPE Catalogue'
-                                    AND Email = 'testPortaluser@mailinator.com'
-                                    AND IsActive = TRUE
+            User portalUser = [     SELECT Id FROM User 
+                                    WHERE Profile.Name = 'OPE Catalogue' 
+                                    AND Email = 'testPortaluser@mailinator.com' 
+                                    AND IsActive = TRUE 
                                     LIMIT 1];
             Account portalAccount1 = [SELECT Id FROM Account WHERE Name = 'TestAccount' LIMIT 1];
             WebStore testWebStore = [SELECT Id FROM WebStore LIMIT 1];
@@ -166,14 +166,14 @@ public with sharing class CartPaymentTriggerHandlerTest {
         }
     }
 
-    @IsTest
+    @isTest
     static void testProgramOfferingWithChild() {
         final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
         System.runAs(PORTAL_SYS_ADMIN) {
-            User portalUser = [     SELECT Id FROM User
-                                    WHERE Profile.Name = 'OPE Catalogue'
-                                    AND Email = 'testPortaluser@mailinator.com'
-                                    AND IsActive = TRUE
+            User portalUser = [     SELECT Id FROM User 
+                                    WHERE Profile.Name = 'OPE Catalogue' 
+                                    AND Email = 'testPortaluser@mailinator.com' 
+                                    AND IsActive = TRUE 
                                     LIMIT 1];
 
             Account portalAccount1 = [SELECT Id FROM Account WHERE Name = 'TestAccount' LIMIT 1];
@@ -211,14 +211,14 @@ public with sharing class CartPaymentTriggerHandlerTest {
         }
     }
 
-    @IsTest
+    @isTest
     static void testBlankToPayNow() {
         final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
         System.runAs(PORTAL_SYS_ADMIN) {
-            User portalUser = [     SELECT Id FROM User
-                                    WHERE Profile.Name = 'OPE Catalogue'
-                                    AND Email = 'testPortaluser@mailinator.com'
-                                    AND IsActive = TRUE
+            User portalUser = [     SELECT Id FROM User 
+                                    WHERE Profile.Name = 'OPE Catalogue' 
+                                    AND Email = 'testPortaluser@mailinator.com' 
+                                    AND IsActive = TRUE 
                                     LIMIT 1];
             Account portalAccount1 = [SELECT Id FROM Account WHERE Name = 'TestAccount' LIMIT 1];
             WebStore testWebStore = [SELECT Id FROM WebStore LIMIT 1];
@@ -257,14 +257,14 @@ public with sharing class CartPaymentTriggerHandlerTest {
     }
 
 
-    @IsTest
+    @isTest
     static void testInvoiceToPayNow() {
         final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
         System.runAs(PORTAL_SYS_ADMIN) {
-            User portalUser = [     SELECT Id FROM User
-                                    WHERE Profile.Name = 'OPE Catalogue'
-                                    AND Email = 'testPortaluser@mailinator.com'
-                                    AND IsActive = TRUE
+            User portalUser = [     SELECT Id FROM User 
+                                    WHERE Profile.Name = 'OPE Catalogue' 
+                                    AND Email = 'testPortaluser@mailinator.com' 
+                                    AND IsActive = TRUE 
                                     LIMIT 1];
             Account portalAccount1 = [SELECT Id FROM Account WHERE Name = 'TestAccount' LIMIT 1];
             WebStore testWebStore = [SELECT Id FROM WebStore LIMIT 1];

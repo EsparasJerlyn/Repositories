@@ -11,7 +11,7 @@
       | angelika.j.s.galang       | January 28, 2022      | DEPP-1407    | Created file                                |
       |                           |                       |              |                                             |
 */
-@IsTest(SeeAllData = false)
+@isTest
 private class Create_Product_on_Course_InsertTest {
 
     private static final String QUTEX = System.Label.QUTeX;
@@ -23,7 +23,7 @@ private class Create_Product_on_Course_InsertTest {
     private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
 
-    @IsTest
+    @isTest
     private static void createProductOnCourseInsertTest(){
         System.runAs(currentUser){
             Account acc = TestDataFactory.createTestAccountRecords(1).iterator().next();

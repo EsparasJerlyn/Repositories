@@ -1,4 +1,4 @@
-@IsTest(SeeAllData=false) 
+@isTest 
 public class MainNavigationMenuCtrlTest {
 
     @isTest
@@ -93,6 +93,13 @@ public class MainNavigationMenuCtrlTest {
         Test.startTest();     
         List<ProductCategory> categories = MainNavigationMenuCtrl.getStudyProducts(communityId);
 		System.assert(cate != null, 'Pass');
+        Test.stopTest();
+    }
+    @isTest
+    public static void getAccountNameTest(){
+        Test.startTest();     
+        String accountName = MainNavigationMenuCtrl.getAccountName('');
+		System.assert(String.isBlank(accountName), 'Has account name');
         Test.stopTest();
     }
 }

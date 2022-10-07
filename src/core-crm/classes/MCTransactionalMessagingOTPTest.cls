@@ -8,12 +8,13 @@
       | rhea.b.torres             | June 06, 2022         | DEPP-2861            | Created File                      |
       |                           |                       |                      |                                   |
  */
-@IsTest(SeeAllData=false)
+@isTest
 public with sharing class MCTransactionalMessagingOTPTest {
-    private static final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
-
+    
     @testSetup
     public static void setUp(){
+        TestDataFactory.generateTestUsers();
+        final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
         System.runAs(PORTAL_SYS_ADMIN){
             // Create Custom Setting
             MC_Messaging_OTP_Setting__c setting = TestDataFactory.createOTPCustomSetting();
@@ -23,6 +24,7 @@ public with sharing class MCTransactionalMessagingOTPTest {
     
     @isTest
     public static void sendSMSOTPTest(){
+        final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
         System.runAs(PORTAL_SYS_ADMIN){
             Test.setMock(HttpCalloutMock.class, new ReqMockHttpResponse());
             Test.startTest();

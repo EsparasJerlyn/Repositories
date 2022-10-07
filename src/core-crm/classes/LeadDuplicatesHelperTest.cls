@@ -14,7 +14,7 @@
       |                           |                       |              | Copy from LeadTriggerHandlerTest            |
       |                           | July 30, 2022         | DEPP-3623    | Complete rework                             |
 */
-@IsTest(SeeAllData = false)
+@isTest
 private class LeadDuplicatesHelperTest {    
     private static final String LASTNAME = 'Testlastname';
     private static final String EMAIL = 'testmail@mail.test';

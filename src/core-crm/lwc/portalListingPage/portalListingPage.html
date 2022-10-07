@@ -1,0 +1,52 @@
+<template>
+    <lightning-spinner
+        if:true={isLoading}
+        class="slds-is-absolute slds-align_absolute-center"
+        alternative-text="Loading products..."
+        size="medium"
+        variant="brand"
+    >
+    </lightning-spinner>
+ 
+    <div class="header">
+        <p class="main-color-blue500 headingText slds-border_bottom slds-p-bottom_xx-large">
+            {productCategory}
+        </p> 
+    </div>  
+
+    <div class="slds-grid slds-wrap searchContainer"> 
+        <div class="slds-col searchCol"></div>
+        <div class="slds-col searchCol">
+            <label for="searchField" class="slds-var-m-bottom_medium searchTitle searchLabel">Filter by keyword</label>
+            <lightning-input
+                id="searchField"
+                type="text"
+                value={stringValue}
+                class="slds-var-m-bottom_medium searchTitle searchText"
+                placeholder="e.g name of course or topic"
+                onchange={handleSearchKeyword}
+            ></lightning-input>
+        </div>
+    </div>
+
+    <article class="layout-contiainer slds-grid slds-wrap">
+        <section class="main-section slds-col slds-size_12-of-12 slds-medium-size_12-of-12">
+            <template if:true={productInfoList}>
+                <template for:each={productInfoList} for:item="product">
+                    <div key={product.type} class="slds-col slds-size_1-of-1 slds-grid slds-wrap">
+                        <p class="main-color-blue500 typeHeader slds-col slds-size_1-of-1">{product.type}</p>
+                        <template for:each={product.products} for:item="p">
+                            <div key={p.childProdId} class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 padd-right-left">
+                                <c-product-card product-detail = {p} is-tailored-exec-educ={isTailoredExecEduc} from-category-name={productCategory} from-category-id={categoryId}></c-product-card>
+                            </div>
+                        </template>
+                        
+                    </div>
+                </template> 
+            </template>
+            <div class="slds-col slds-size_1-of-1 slds-grid  slds-grid_align-end">
+                <div class="slds-col"><lightning-button variant="base" label="Back to Top" title="Back to Top" onclick={backToTop}></lightning-button></div>
+            </div>
+        </section>
+    </article>
+</template>

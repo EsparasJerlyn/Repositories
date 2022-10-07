@@ -8,7 +8,8 @@
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
-      | roy.nino.s.regala              | June 24, 2022         | DEPP-3252              | Created file                 |
+      || roy.nino.s.regala             | June 24, 2022         | DEPP-3252              | Created file                 |
+      | julie.jane.alegre              | July 12, 2022         | DEPP-3458              | Add logic on discounted item |
       | john.m.tambasenb               | August 11, 2022       | DEPP-3738              | negative amount showing      |
  */
 
@@ -176,6 +177,7 @@ public without sharing class CartPaymentTriggerHelper{
 
         //update existing course connections
         //create new course connection records
+
         tempCourseEnrollment = new hed__Course_Enrollment__c();
         tempCourseEnrollment.hed__Contact__c = cItem.Contact__c;
         tempCourseEnrollment.hed__Status__c = 'Active';
@@ -208,11 +210,15 @@ public without sharing class CartPaymentTriggerHelper{
                     tempCourseEnrollmentChild.Cart_Item__c = cItem.Id;
                     tempCourseEnrollmentChild.Cart_ID__c = cItem.CartId;
                     //check if current pricebook is for group booking
-                    if(pbEntryMap.get(cItem.Pricebook_Entry_ID__c).Pricebook2.Name == 'Group Booking'){
-                        tempCourseEnrollmentChild.Is_Group_Registered__c = true;
-                    } else{
-                        tempCourseEnrollmentChild.Is_Group_Registered__c = false;
+                   
+                    if(cItem.Pricebook_Entry_ID__c != null){
+                        if(pbEntryMap.get(cItem.Pricebook_Entry_ID__c).Pricebook2.Name == 'Group Booking'){
+                            tempCourseEnrollmentChild.Is_Group_Registered__c = true;
+                        } else{
+                            tempCourseEnrollmentChild.Is_Group_Registered__c = false;
+                        }
                     }
+                    
                     tempCourseEnrollmentChild.RecordTypeId = STUDENT_RECTYPEID;
                     tempCourseEnrollmentChild.hed__Course_Offering__c = offering;
                     finalCourseConMap.put(string.valueOf(cItem.Id) + offering, tempCourseEnrollmentChild);

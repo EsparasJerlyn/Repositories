@@ -7,3 +7,13 @@
     overflow: visible;
     overflow-y: visible;
 }
+
+.warning-label {
+    font-style: italic;
+    color: red;
+}
+
+.coupon-applied-label {
+    font-style: italic;
+    color: green;
+}

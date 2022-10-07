@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Program_Without_Pathway</fullName>
+    <active>true</active>
+    <description>This record type will be used to create a Program without Pathway that does not require CourseLoop approval. This can be a combination of a Module, a Short Course, or an Activity.</description>
+    <label>Program Without Pathway</label>
+    <picklistValues>
+        <picklist>Certificate_Type__c</picklist>
+        <values>
+            <fullName>Certificate of Achievement</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Certificate of Participation</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Collaboration_with_External_Organisation__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Delivery_Type__c</picklist>
+        <values>
+            <fullName>Blended</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Face To Face</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Online</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Virtual Classroom</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>PP_Design_Form_Status__c</picklist>
+        <values>
+            <fullName>Design Form Received</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Design Form Sent</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Program_Delivery_Structure__c</picklist>
+        <values>
+            <fullName>Flexible Program</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Prescribed Program</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Program_Type__c</picklist>
+        <values>
+            <fullName>Award Course</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Custom Award Course %28Based on existing%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Custom Award Course %28Not Base on existing%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Double Degree</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Open or Custom Program</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Type__c</picklist>
+        <values>
+            <fullName>Associate Degree</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bachelor Honours - Graduate Entry</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bachelor Honours Degree</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bachelor Honours%2FPass Double Degree</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bachelor Pass Degree - Graduate Entry</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bachelor Pass Double Degree</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bachelor Pass Single Degree</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Certificate and University Certificate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Diploma and University Diploma</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Doctorate by Coursework</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Doctorate by Research</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Graduate Certificate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Graduate Diploma - Exsiting Area</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Graduate Diploma - New Area</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Masters by Coursework - Double Degree</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Masters by Coursework - Single</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Masters by Research</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Non Award Course - Foundation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Undergraduate Certificate</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>hed__Status__c</picklist>
+        <values>
+            <fullName>Archived</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Current</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+</RecordType>

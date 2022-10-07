@@ -1,4 +1,7 @@
 <template>
+  <!-- For OPE -->
+  <!-- <template if:true={isOPEPortal}> -->
+  <template if:true={productDetails}>
     <template for:each={productDetails} for:item="product">
       <div key={product.childProdId} class="card-container">
           <div class="slds-grid slds-wrap card-main" 
@@ -48,7 +51,7 @@
                         </span>                    
                       </span>            
                     </div>
-                    <div class="slds-p-bottom_small">
+                    <div class="slds-p-bottom_small" if:true={isOPEPortal}>
                       <span class="item-container">  
                         <img class="item-icon" src={dollar_icon} />
                         <p class="item-label bodyRegular">
@@ -79,4 +82,100 @@
           </div>
       </div>
     </template>
+  </template>
+ <!-- For CCE -->
+  <!-- <template if:true={isCCEPortal}> -->
+    <template if:true={productDetail}>
+      <div class="card-container">
+          <div class="slds-grid slds-wrap card-main" 
+              data-id={productDetail.childProdId} 
+              data-name={productDetail.childProdName} 
+              data-url={productDetail.detailURL}
+              onclick={navigateToProductPage}>
+            <div class="slds-col slds-size_1-of-1 fields-area card-title">
+                <a class="heading4 main-color-white text-overflow">{productDetail.childProdName}</a>
+                <lightning-helptext content={productDetail.childProdName} class="tooltip"></lightning-helptext>
+              </div>
+            <span class="slds-grid slds-wrap card-body">
+              <template if:true={productDetail.isProgramFlex}>
+                <div class="slds-col card-desc-container slds-p-around_medium slds-size_1-of-1">
+                    <div class="card-contents-parent">
+                      <div class="desc-contentc bodyRegular">{productDetail.childProdDescription}</div>
+                    </div>
+                </div>   
+              </template>
+              <template if:false={productDetail.isProgramFlex}>
+                <div class="slds-col card-desc-container slds-p-around_medium slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_6-of-12">
+                  <div class="card-contents-parent">
+                    <div class="desc-contentc bodyRegular">
+                      {productDetail.childProdDescription}
+                    </div>
+                    <div if:true={productDetail.childProdProfLevel}>
+                      <div class="pills bodyRegular slds-m-top_small pills-content">{productDetail.childProdProfLevel}</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="slds-col card-details slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_6-of-12">
+                  <div class="card-detail-list no-padding">
+                    <div class="slds-p-vertical_small">
+                      <span class="item-container">
+                        <img class="item-icon" src={clipboard_icon} />
+                        <p class="item-label-cce bodyRegular"><strong class="bodyBold">Start Date:&nbsp;</strong>{productDetail.childProdOfferingDate}</p>              
+                    </span>
+                    </div>
+                    <div class="slds-p-bottom_small">
+                      <span class="item-container">          
+                        <img class="item-icon" src={location_icon} />
+                        <span>
+                          <p class="item-label-cce bodyRegular"><strong class="bodyBold">Delivery:&nbsp;</strong></p>  
+                        </span>
+                        <span class="delivery-blocks">
+                          <p class="item-del-cce bodyRegular">{productDetail.childProdDelivery}</p>
+                        </span>                    
+                      </span>            
+                    </div>
+                    <!-- If Category is Tailored Executive Education -->
+                    <template if:true={isTailoredExecEduc}>
+                    <div class="slds-p-bottom_small">
+                      <span class="item-container">  
+                        <img class="item-icon" src={total_course_icon} />
+                        <p class="item-label-cce bodyRegular"><strong class="bodyBold">Total Places:&nbsp;</strong>{productDetail.seatsAvailable}</p>
+                      </span>
+                    </div>
+                    </template>
+                    <!-- If Category is NOT Tailored Executive Education -->
+                    <!-- no price range for CCE removed "From"  -->
+                    <template if:false={isTailoredExecEduc}>
+                      <div class="slds-p-bottom_small">
+                        <span class="item-container">
+                          <img class="item-icon" src={dollar_icon} />
+                          <p class="item-label-cce  bodyRegular">
+                            <strong class="bodyBold">Price:&nbsp;</strong>
+                              <lightning-formatted-number
+                                class="slds-p-left_xx-small"
+                                value={productDetail.childProdPrice}
+                                currency-code={currency}
+                                format-style="currency"
+                                minimum-fraction-digits="0" 
+                                maximum-fraction-digits="0"
+                            >
+                            </lightning-formatted-number>
+                          </p>
+                        </span>                
+                      </div>
+                    </template>
+                    <div class="slds-p-bottom_small">
+                      <span class="item-container">
+                        <img class="item-icon" src={time_icon} />
+                        <p class="item-label-cce bodyRegular"><strong class="bodyBold">Duration:&nbsp;</strong>{productDetail.childProdDuration}</p>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </template>
+            </span>
+          </div>
+      </div>
+    </template>
+  <!-- </template> -->
 </template>

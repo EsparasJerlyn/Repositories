@@ -11,7 +11,7 @@
       | arsenio.dayrit@qut.edu.au      | November 04, 2021     | DEPP-746               | Created file                 | 
       |                                |                       |                        |                              | 
  */
-@isTest(SeeAllData = false)
+@isTest
 public class Opp_Create_Opportunity_Contact_RoleTest {
     
     private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();

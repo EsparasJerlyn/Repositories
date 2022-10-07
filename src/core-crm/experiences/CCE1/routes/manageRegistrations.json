@@ -1,0 +1,11 @@
+{
+  "activeViewId" : "7e14d542-e452-4ccb-9d9b-efc109f5934b",
+  "appPageId" : "e7a3f4f7-241b-44d0-9ebd-8a08684e8126",
+  "configurationTags" : [ ],
+  "id" : "f999c8b7-771f-47f9-abc7-ecc81b8d882e",
+  "label" : "Manage Registrations",
+  "pageAccess" : "UseParent",
+  "routeType" : "custom-manage-registrations",
+  "type" : "route",
+  "urlPrefix" : "manage-registrations"
+}

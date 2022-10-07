@@ -6,10 +6,12 @@
  * @author Accenture
  *
  * @history
- *    | Developer                 | Date                  | JIRA      | Change Summary                         |
-      |---------------------------|-----------------------|-----------|----------------------------------------|
-      | adrian.c.habasa           | Febuary 11, 2022      | DEPP-1247 | Created file                           | 
-      | arsenio.jr.dayrit         | Auguts 04, 2022       | DEPP-3684 | Add Active Status on Course Enrollment | 
+ *    | Developer                 | Date                  | JIRA      | Change Summary                  |
+      |---------------------------|-----------------------|-----------|---------------------------------|
+      | adrian.c.habasa           | Febuary 11, 2022      | DEPP-1247 | Created file                    |
+      | kathy.cornejo             | July 27, 2022         | DEPP-1771     | Only show Registrations having Active Status    |
+      | arsenio.jr.dayrit         | Auguts 04, 2022       | DEPP-3684 | Add Active Status on Course Enrollment |
+      |                           |                       |           |                                 | 
 */
 
 public with sharing class TrackAttendanceAndEvaluationCtrl {

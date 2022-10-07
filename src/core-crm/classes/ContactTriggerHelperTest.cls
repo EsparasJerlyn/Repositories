@@ -12,56 +12,51 @@
       | roy.nino.s.regala         | January  18,2022      | DEPP-1178    | Updated for logic when primary bussiness org is populated | 
       |                           |                       |              |                                                           |
 */
-@IsTest(SeeAllData = false)
+@isTest
 private class ContactTriggerHelperTest {
     
     private static final Id BUSINESS_ACC_RECTYPEID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get('Business_Organization').getRecordTypeId();
-    private static final String STR_QUTEX = 'QUTeX';
-    private static User currentUser = TestDataFactory.createUserRecords(1, STR_QUTEX).iterator().next();  
+    private static final Id ADMINISTRATIVE = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get('Administrative').getRecordTypeId();
 
-    @testSetup static void setupMethod() {
+    @testSetup 
+    static void setupMethod() {
+        Test.startTest();
+        TestDataFactory.generateTestUsers();
+        Test.stopTest();
+
+        List<Account> accountList = new List<Account>();
         Account acc = TestDataFactory.createTestAccountRecords(1).iterator().next();
         acc.RecordTypeId = BUSINESS_ACC_RECTYPEID;
-        insert acc;
+        accountList.add(acc);
+        insert accountList;
+        
     } 
 
-    @IsTest
+    @isTest
     private static void insertContactTest(){
-        System.runAs(currentUser){
-            Account acc = [SELECT Id From Account WHERE RecordTypeId =: BUSINESS_ACC_RECTYPEID  LIMIT 1];
+        System.runAs(TestDataFactory.getProgramAdminUser()){
+            List<Account> accList = [SELECT Id, RecordTypeId From Account WHERE RecordTypeId =: BUSINESS_ACC_RECTYPEID OR RecordTypeId =: ADMINISTRATIVE];
+            Id adminAccount;
+            Id businessAccount;
+            for(Account acc: accList){
+                if(acc.RecordTypeId == BUSINESS_ACC_RECTYPEID){
+                    businessAccount = acc.Id;
+                }else if(acc.RecordTypeId == ADMINISTRATIVE){
+                    adminAccount = acc.Id;
+                }
+            }            
             
             List<Contact> conList = TestDataFactory.createTestContactRecords(100);
-            for(Contact con : conList){
-                con.AccountId = acc?.Id;
+            for(Integer i = 0;i<conList.size(); i++){
+                conList[i].hed__Primary_Organization__c = businessAccount;
             }
-
+            
             Test.startTest();
             insert(conList);
             Test.stopTest();
-
-            List<Contact> updatedContactList = new List<Contact>([SELECT Id FROM Contact WHERE hed__Primary_Organization__c != null]);
-            System.assert(updatedContactList.size() == 100,'Contacts where not updated');
-        }
-    }
-
-    @IsTest
-    private static void insertContactWithPrimaryBusinesssOrgTest(){
-        System.runAs(currentUser){
-            Account acc = [SELECT Id From Account WHERE RecordTypeId =: BUSINESS_ACC_RECTYPEID  LIMIT 1];
             
-            List<Contact> conList = TestDataFactory.createTestContactRecords(100);
-            for(Contact con : conList){
-                con.hed__Primary_Organization__c = acc?.Id;
-            }
-
-            Test.startTest();
-            insert(conList);
-            Test.stopTest();
-			
-            List<AccountContactRelation> insertedACRList = [SELECT Id FROM AccountContactRelation WHERE ContactId IN :conList AND AccountId =: acc.Id];
-            System.assert(insertedACRList.size() == 100,'Account Contact Relation records created did not match expected');
-            List<Account> finalAccountsList = [SELECT Id FROM Account];
-            System.assert(finalAccountsList.size() == 1,'Administrative accounts were not deleted');
+            List<AccountContactRelation> acrt = new List<AccountContactRelation>([SELECT Id FROM AccountContactRelation WHERE Account.RecordTypeId =: BUSINESS_ACC_RECTYPEID]);
+            System.assert(acrt.size() == 100,'Contacts where not updated');
         }
     }
 }

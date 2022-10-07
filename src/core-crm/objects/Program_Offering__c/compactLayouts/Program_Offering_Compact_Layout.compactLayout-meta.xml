@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Program_Offering_Compact_Layout</fullName>
+    <fields>Name</fields>
+    <fields>hed_Program_Plan__c</fields>
+    <fields>Start_Date__c</fields>
+    <fields>hed_Capacity__c</fields>
+    <label>Program Offering Compact Layout</label>
+</CompactLayout>

@@ -6,11 +6,21 @@
       |---------------------------|-----------------------|---------------------------------|-----------------------------------------------------------|
       | aljohn.motas              | Dec 18, 2021          | DEPP-214 DEPP-1051              | Created                                                   |
       | roy.nino.s.regala         | Dec 27, 2021          | DEPP-214 DEPP-1028              | modified to call and handle saveLearnerInfo LWC           |
- */
+      | jessel.bajao              | August 11, 2022       | DEPP-3483                       | Changed table rows, added validations and functions for   |
+      |                           |                       |                                 | csv bulk registration                                     |
+      | jessel.bajao              | September 12, 2022    | DEPP-4248                       | Fix Mobile Locale issues                                  |
+      | john.m.tambasen			  | September 12, 2022    | DEPP-3743                       | validate duplicate contacts		    			    	|
+      | eugene.andrew.abuan   	  | September 20, 2022    | DEPP-4341                       | validate invalid date of birth		    			  	|
+      | jessel.bajao              | September 29, 2022    | DEPP-4314                       | Changed code for browsers compatibility of Date of Birth  |
+      | eugene.andrew.abuan   	  | October 03, 2022      | DEPP-4494                       | Added leading zeroes in convertDate function		    	|
+      | eugene.andrew.abuan   	  | October 04, 2022      | DEPP-4503                       | Added validation for firstname and lastname               |
+
+      */
 
 
 import { LightningElement,wire,api,track} from 'lwc';
 import getResourceURL from '@salesforce/apex/CsvBulkRegistrationCtrl.GetCMSContentDataByName';
+import getMobileLocaleOptions from "@salesforce/apex/RegistrationFormCtrl.getMobileLocaleOptions";
 import COM_ID from '@salesforce/community/Id';
 import { getPicklistValues } from 'lightning/uiObjectInfoApi';
 import { getObjectInfo } from 'lightning/uiObjectInfoApi';
@@ -20,29 +30,44 @@ import readCSV from '@salesforce/apex/CsvBulkRegistrationCtrl.readCSVFile';
 import { NavigationMixin } from 'lightning/navigation';
 import SALUTATION_FIELD from '@salesforce/schema/Contact.Salutation';
 
-const CSV_NAME = 'Bulk Registration CSV Template';
+import qutResourceImg from "@salesforce/resourceUrl/QUTImages";
+import {loadStyle} from "lightning/platformResourceLoader";
+import BasePath from "@salesforce/community/basePath";
+import customCCECSS from "@salesforce/resourceUrl/QUTMainCSS";
+
+const CURRENTPRODUCTCATEGORY = "current_product_category";
+const CSV_NAME = 'BulkRegistrationCSVTemplate';
 const CONTENT_TYPE = 'cms_document';
 const ERROR_FOR_TEMPLATE = 'Template does not exist, Please contact your admin';
 const ERROR_MSG = 'An error has been encountered. Please contact your administrator.';
+const Tailored_Executive_Education = 'Tailored Executive Education';
+const Corporate_Bundle = 'Corporate Bundle';
 const LANG = 'en_US';
 const actions = [
     { label: 'Delete', name: 'delete' },
     { label: 'Edit', name: 'edit' },
 ];
 const COLUMNS = [
-    { label: 'Salutation', fieldName: 'Salutation', type: 'text' }, 
     { label: 'First Name', fieldName: 'FirstName', type: 'text' },
-    { label: 'Middle Name', fieldName: 'MiddleName', type: 'text'}, 
-    { label: 'Last Name', fieldName: 'LastName', type: 'text'}, 
-    { label: 'Suffix', fieldName: 'Suffix', type: 'text'}, 
-    { label: 'Email', fieldName: 'Email', type: 'email'}, 
-    { label: 'Mobile Phone', fieldName: 'MobilePhone', type: 'phone'}, 
-    { label: 'Phone', fieldName: 'Phone', type: 'phone'}, 
-    { label: 'Birthdate', fieldName: 'Birthdate',  type: 'date'},
+    { label: 'Last Name', fieldName: 'LastName', type: 'text' },
+    { label: 'Email', fieldName: 'Email', type: 'email' },
+    { label: "Mobile Locale", fieldName: "MobileLocale", type: "text" },
+    { label: "Mobile", fieldName: "MobilePhone", type: "phone" },
+    { label:'Date of Birth', fieldName: 'Birthdate', type: 'date' },
     {
-        type: 'action',
-        typeAttributes: { rowActions: actions },
-    } 
+        label: "Dietary Requirement",
+        fieldName: "DietaryRequirement",
+        type: "text"
+    },
+    {
+        label: "Accessibility Requirement",
+        fieldName: "AccessibilityRequirement",
+        type: "text"
+    },
+    {
+        type: "action",
+        typeAttributes: { rowActions: actions }
+    }
 ];
 
 export default class ProductBulkRegistration extends NavigationMixin(
@@ -60,9 +85,16 @@ export default class ProductBulkRegistration extends NavigationMixin(
     errorForTemplate= ERROR_FOR_TEMPLATE;
     processing = false;
     pickList;
+    productCategoryCheck;
     @api courseOffering = {}; //the course offering selected on the product details page
-
-
+    @api productDetails; //the product details data on the product details page
+    @api isPrescribed; //the isPrescribed data on the product details page
+    @api creditAvailable; //this is the available remaining credit
+    @track totalAmount;
+    mobileLocaleList = [];
+   
+    filteredFieldNames = [];
+    filteredMobileLocale = [];
     get acceptedFormats() {
         return ['.csv'];
     }
@@ -85,23 +117,71 @@ export default class ProductBulkRegistration extends NavigationMixin(
         this.isCreateRecord = false;
         this.isEditRecord = false;
     }
+    connectedCallback(){
+        if(this.isCCEPortal){
+            //get current product category
+            let currentProductCategory = JSON.parse(
+             sessionStorage.getItem(CURRENTPRODUCTCATEGORY)
+             );
+             if(currentProductCategory.category == Corporate_Bundle){
+                this.productCategoryCheck = true;
+             }
+       }
+        this.xButton = qutResourceImg + "/QUTImages/Icon/xMark.svg";
+
+        //fetch mobile locales
+        getMobileLocaleOptions()
+        .then((result) => {
+            this.mobileLocaleList = result;
+        })
+        .catch((error) => {
+            this.generateToast("Error.", LWC_Error_General, "warning");
+        });
+    }
 
     closeRegistrationModal(){
         let event = new CustomEvent('closecsvmodal');
         this.dispatchEvent(event);
     }
 
+
+
     handleRowAction( event ) {
     this.recordId=event.detail.row.id
     this.objApiName = CONTACT_SCHEMA.objectApiName;
         if(event.detail.action.name == "edit"){
-            this.prefields = this.contacts.filter(contact => contact.id==this.recordId)[0];
-            this.isEditRecord =true;
+            //filter contact
+            let selectedContact = this.contacts.filter(
+                (contact) => contact.id == this.recordId
+            )[0];
+              //format date
+              let bdayFormat = selectedContact.Birthdate;
+          
+              //setup edit form prefields
+            this.prefields = {
+                FirstName: selectedContact.FirstName,
+                LastName: selectedContact.LastName,
+                Email: selectedContact.Email,
+                ContactMobile_Locale__c: selectedContact.MobileLocale,
+                MobilePhone: selectedContact.MobilePhone,
+                Birthdate:bdayFormat,
+                Accessibility_Requirement__c:
+                    selectedContact.AccessibilityRequirement,
+                Dietary_Requirement__c: selectedContact.DietaryRequirement,
+                id: selectedContact.id
+            };        
+           
+            this.isEditRecord = true;
             this.isCreateRecord = false;
         }else if(event.detail.action.name == "delete"){
                 let tempHolder = this.contacts;
                 this.contacts = tempHolder.filter(contact=> {
                     return contact.id != this.recordId;
+                });
+
+                //after deletion, reset the id to it's index
+                this.contacts.forEach((element, index) => {
+                    element.id = index + 1;
                 });
         }else{
             alert("action not available");
@@ -127,20 +207,32 @@ export default class ProductBulkRegistration extends NavigationMixin(
     };
 
     addNewRow(event){
-        this.objApiName = CONTACT_SCHEMA.objectApiName;
-        this.prefields={
-            Salutation:"",
-            FirstName:"",
-            MiddleName:"",
-            LastName:"",
-            Suffix:"",
-            Email:"",
-            MobilePhone:"",
-            Phone:"",
-            Birthdate:""
+        if (this.contacts.length === this.courseOffering.availableSeats) {
+            this.dispatchEvent(
+                new ShowToastEvent({
+                    title: "Reminder",
+                    message:
+                        "There are not enough seats available to complete this transaction.",
+                    variant: "warning"
+                })
+            );
+        } 
+        else 
+        if(this.contacts.length < this.courseOffering.availableSeats){
+            this.objApiName = CONTACT_SCHEMA.objectApiName;
+            this.prefields = {
+                FirstName: "",
+                LastName: "",
+                Email: "",
+                MobileLocale: "",
+                MobilePhone: "",
+                Birthdate: "",
+                DietaryRequirement: "",
+                AccessibilityRequirement: ""
+            };
+            this.isEditRecord = false;
+            this.isCreateRecord = true;
         }
-        this.isEditRecord =false;
-        this.isCreateRecord = true;
     }
 
 
@@ -148,20 +240,19 @@ export default class ProductBulkRegistration extends NavigationMixin(
         let tempHolder= this.contacts;
         let details = event.detail;
         this.contacts = tempHolder.map((contact,index)=>{
-            let id=index+"";
-            if(this.recordId == id){
+            let id = index + 1;
+            if (this.recordId == contact.id) {
                 return {
-                    Salutation:details.Salutation,
-                    FirstName:details.FirstName,
-                    MiddleName:details.MiddleName,
-                    LastName:details.LastName,
-                    Suffix:details.Suffix,
-                    Email:details.Email,
-                    MobilePhone:details.MobilePhone,
-                    Phone:details.Phone,
-                    Birthdate:details.Birthdate,
+                    FirstName: details.FirstName,
+                    LastName: details.LastName,
+                    Email: details.Email,
+                    MobileLocale: details.ContactMobile_Locale__c,
+                    MobilePhone: details.MobilePhone,
+                    Birthdate: details.Birthdate,
+                    DietaryRequirement: details.Dietary_Requirement__c,
+                    AccessibilityRequirement: details.Accessibility_Requirement__c,
                     id
-                }
+                };
             }else{
                 return {
                     ...contact,
@@ -179,15 +270,14 @@ export default class ProductBulkRegistration extends NavigationMixin(
         let id = (maxId+1)+"";
         this.contacts = [...tempHolder,
             {
-                Salutation:details.Salutation,
-                FirstName:details.FirstName,
-                MiddleName:details.MiddleName,
-                LastName:details.LastName,
-                Suffix:details.Suffix,
-                Email:details.Email,
-                MobilePhone:details.MobilePhone,
-                Phone:details.Phone,
-                Birthdate:details.Birthdate,
+                FirstName: details.FirstName,
+                LastName: details.LastName,
+                Email: details.Email,
+                MobileLocale: details.ContactMobile_Locale__c,
+                MobilePhone: details.MobilePhone,
+                Birthdate: details.Birthdate,
+                AccessibilityRequirement: details.Accessibility_Requirement__c,
+                DietaryRequirement: details.Dietary_Requirement__c,
                 id
             }
         ];
@@ -195,37 +285,100 @@ export default class ProductBulkRegistration extends NavigationMixin(
     }
 
     validateEmail(email){
-        const emailRegex=/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return email.match(emailRegex)?true:false;
+        const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return email.match(emailRegex) ? true : false;
     }
     validatePhone(phone){
         const phoneRegex=/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
-        return phone.match(phoneRegex)?true:false;
+        const mobileNumber= phone.replace(/[^0-9\.]/g, '');
+        return mobileNumber.match(phoneRegex) ? true : false;
     }
-    validateSalutation(Salutation){
-        return this.pickList.includes(Salutation)?true:false;
-    }
+
+     
     validateDate(Birthdate){
-        return Birthdate === 'Invalid Date'?false:true;
+        return Birthdate === '' ? false : true;
     }
     parseDate(date){
         if(date.replace('\r','') === ''){
             return '';
         }else{
-            return date?new Date(date.replace('\r','')).toLocaleDateString('en-US'):'';
+            return date?new Date(date.replace('\r','')).toLocaleDateString('en-AU'):'';
         }
         
     }
     rowvalidation(){
         let rowsValidation={};
 
-        this.contacts.map(contact=>{
-            let fieldNames = [];
-            if(!this.validateEmail(contact.Email))fieldNames.push('Email');
-            if(!this.validatePhone(contact.MobilePhone))fieldNames.push('MobilePhone');
-            if(!this.validatePhone(contact.Phone))fieldNames.push('Phone');
-            if(!this.validateSalutation(contact.Salutation))fieldNames.push('Salutation');
-            if(!this.validateDate(contact.Birthdate))fieldNames.push('Birthdate');
+       this.contacts =  this.contacts.map(contact=>{
+        let fieldNames = [];
+		let mobileLocaleExists = [];					
+		mobileLocaleExists = this.mobileLocaleList.filter(lcl =>  //filters if contact mobile locale exist in mobile locale list
+		   lcl.value == contact.MobileLocale        
+		);
+          let contactLocale;
+            if(contact.Email) {
+                if (!this.validateEmail(contact.Email))
+                    fieldNames.push("Email");
+            }                 
+            if (contact.MobileLocale.length == 0){
+                fieldNames.push("Mobile Locale");
+            }
+			else if(mobileLocaleExists.length > 0){
+				contactLocale = contact.MobileLocale
+				  fieldNames = fieldNames.filter(field => field != 'Mobile Locale')
+			  } 
+			 else if(isNaN(contact.MobileLocale)){
+                fieldNames.push("Mobile Locale"); 
+                contactLocale = contact.MobileLocale;  
+            }else{
+                this.filteredMobileLocale = this.mobileLocaleList.filter(lcl => 
+                
+                    lcl.countryCode == contact.MobileLocale        
+                 );
+                 if(this.filteredMobileLocale.length == 0 || this.filteredMobileLocale === undefined){
+                    this.filteredFieldNames = fieldNames.filter(fld => fld == 'Mobile Locale')
+                    if(this.filteredFieldNames.length == 0 || this.filteredFieldNames === undefined){
+                        fieldNames.push('Mobile Locale');                   
+                    }
+                    contactLocale  = contact.MobileLocale;           
+                 }else{
+                          contactLocale = this.filteredMobileLocale[0].value;
+						  fieldNames = fieldNames.filter(field => field != 'Mobile Locale')
+                 }           
+            }    
+            if(contact.MobilePhone.length == 0) {
+                fieldNames.push("MobilePhone");                     
+            }else if(isNaN(contact.MobilePhone)){
+                fieldNames.push("MobilePhone");     
+            }
+            else{
+                if (
+                    !this.validatePhone(
+                        contact.MobileLocale +
+                            contact.MobilePhone
+                    )
+                ) {
+                    fieldNames.push("MobilePhone");
+                }
+            }
+
+            if(contact.Birthdate) {
+                if (!this.validateDate(contact.Birthdate)){
+                    fieldNames.push("Date of Birth");
+                }
+            } else{
+                fieldNames.push("Date of Birth");
+            }
+
+            if(!contact.FirstName){
+                fieldNames.push("First Name");
+
+            }
+
+            if(!contact.LastName){
+                fieldNames.push("Last Name");
+            }
+         
             if(fieldNames.length>0){
                 rowsValidation[contact.id]={
                     title: 'We found an error/s.',
@@ -233,14 +386,19 @@ export default class ProductBulkRegistration extends NavigationMixin(
                         'Please enter valid value for the ff. fields',
                         ...fieldNames
                     ],
-                    fieldNames
+                    fieldNames : fieldNames
                 };
             }
+
+            return{
+                ...contact,
+                MobileLocale: contactLocale
+            }
+            
         });
         this.errors = {
             rows:rowsValidation
         };
-        
     }
 
     handleUploadFinished(event) {
@@ -248,35 +406,56 @@ export default class ProductBulkRegistration extends NavigationMixin(
         const uploadedFiles = event.detail.files;
         readCSV({idContentDocument : uploadedFiles[0].documentId})
         .then(result => {
-            this.contacts = result.map((contact,index)=>{
-                let id=index+"";
+       
+
+            this.contacts = result.map((contact,index)=> {
+                let id=index+1+"";
                     return {
                     ...contact,
-                    Birthdate:contact.Birthdate?this.parseDate(contact.Birthdate):'',
+                    Birthdate :  contact.Birthdate ?  this.convertDate(contact.Birthdate) : '',
                     id
                     }
             });
-            this.dispatchEvent(
-                new ShowToastEvent({
-                    title: 'Success!',
-                    message: 'Contacts are created based CSV file.',
-                    variant: 'success',
-                }),
-            );
+           
+            if (this.contacts.length > this.courseOffering.availableSeats) {
+                this.contacts = [];
+                this.dispatchEvent(
+                    new ShowToastEvent({
+                        title: "Reminder",
+                        message:
+                            "There are not enough seats available to complete this transaction.",
+                        variant: "warning"
+                    })
+                );
+            } else {
+                if(this.productCategoryCheck){
+                    this.totalAmount = this.contacts.length * this.productDetails.PricebookEntries[0].UnitPrice; 
+                }
+                this.dispatchEvent(
+                    new ShowToastEvent({
+                        title: "Success!",
+                        message: "Contacts are created based on CSV file.",
+                        variant: "success"
+                    })
+                );
+            }
         })
         .catch(error => {
             this.error = error;
+            console.log('error', error);
             this.dispatchEvent(
                 new ShowToastEvent({
                     title: 'Error!!',
-                    message: JSON.stringify(error),
-                    variant: 'error',
+                    message: ERROR_MSG,
+                    variant: 'warning',
                 }),
-            );     
+            );   
         })
         .finally(() => {
             this.processing = false;
             this.rowvalidation();
+          
+        
         });
     }
 
@@ -285,8 +464,56 @@ export default class ProductBulkRegistration extends NavigationMixin(
         if(data){
             this.csvUrl = "/cce/sfsites/c/cms/delivery/media/"+data.contentKey;
         }else if(error){
-            this.generateToast('Error.',ERROR_MSG,'error');
+            this.generateToast('Error.',ERROR_MSG,'warning');
         }
     }
 
+    
+    get isCCEPortal() {
+        return BasePath.toLowerCase().includes("cce");
+      }
+    
+      get isOPEPortal() {
+        return BasePath.toLowerCase().includes("study");
+    } 
+
+    renderedCallback() {
+        if (this.isCCEPortal == true){
+            Promise.all([loadStyle(this, customCCECSS + "/QUTCCEComponent.css")]);
+        }else{
+        }
+    
+    }
+
+    showDuplicateErrors(event){
+        let errorsTemp = JSON.parse(JSON.stringify(event.detail));
+        this.errors = errorsTemp;
+    }
+
+    convertDate(date, separator = '-'){
+        if(date.includes('/')){
+            let d;
+            let [day, month, year] = date.split('/');
+
+            if (month.length == 1){
+                month = "0" + month;
+            }
+
+            if (day.length == 1){
+                day = '0' + day;
+            }
+
+            d = year + separator + month + separator + day;
+            var newDay  = new Date(d)
+
+            if(d.includes('undefined')){
+                d = '';
+            }else if(newDay == 'Invalid Date'){
+                d = '';
+            }
+            return d;
+        }else{
+            return '';
+        }
+      };
 }

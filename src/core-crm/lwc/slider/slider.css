@@ -21,6 +21,8 @@
     width: var( --slider-width );
     height: var( --slider-height );
     margin: var( --slider-top-position );
+    -webkit-appearance: none;
+    -moz-appearance: none;
   }
 
   .range {
@@ -30,6 +32,8 @@
     left: calc( var( --range-left-position ) + var( --thumb-width )/2 );
     background: rgb(201 199 197);
     cursor: pointer;
+    -webkit-appearance: none;
+    -moz-appearance: none;
   }
 
   .thumb {
@@ -40,6 +44,8 @@
     background: var( --thumb-active-color );
     cursor: pointer;
     left: var( --thumb-left-position );
+    -webkit-appearance: none;
+    -moz-appearance: none;
   }
 
   .start {
@@ -48,6 +54,35 @@
   .end {
     top: calc( ( var( --slider-height ) + var( --slider-top-position ) + var( --thumb-height )*1) * -1);
   }
+
+/*For Safari, Chrome, and Opera*/
+.thumb::-webkit-slider-thumb{
+  height: 20px !important;
+  width: 20px;
+  border-radius: 50%;
+  background: #0066b9;
+  pointer-events: auto;
+  -webkit-appearance: none;
+}
+
+/*For Firefox*/
+.thumb::-moz-range-thumb{
+  height: 20px;
+  width: 20px;
+  border: none;
+  border-radius: 50%;
+  background: #0066b9;
+  pointer-events: auto;
+  -moz-appearance: none;
+}
+/*For MS-Edge*/
+.thumb::-ms-thumb{
+  height: 20px !important;
+  width: 20px;
+  border-radius: 50%;
+  background: #0066b9;
+  pointer-events: auto;
+}
 
   .input-button{
     padding: 0px;

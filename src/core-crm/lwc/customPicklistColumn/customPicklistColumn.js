@@ -24,6 +24,10 @@ export default class CustomPicklistColumn extends LightningElement {
         this.showPicklist = true;
     }
 
+    handleClose(){
+        this.showPicklist = false;
+    }
+
     handlePicklistChange(event){
         this.showPicklist = false;
         this.dispatchEvent(new CustomEvent('picklistselect', {

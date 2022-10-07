@@ -61,7 +61,7 @@
             <div class="slds-grid slds-grid_vertical pb2">
               <div if:true={noRecordforEmail}>
                 <div class="bodyRegular reg-error-style">
-                  The following details do not match QUT records for the specified email address: 
+                  The following details do not match QUT records for the specified email address:
                   <ul class="error-list">
                       <template for:each={fieldsMismatch} for:item="field">
                         <li key={field}>{field}</li>
@@ -184,11 +184,13 @@
                     <span class="required-text">*</span>
                     <div class="slds-form-element__control">
                       <input
-                        type="text"
+                        type="number"
                         id="mobile"
                         value={mobile}
+                        pattern="([0-9][0-9]*)$"
                         onchange={handleMobileChange}
                         class={requiredInputClass.mobile}
+
                       />
                     </div>
                     <template if:true={hasErrorMob}>
@@ -540,7 +542,7 @@
                   </lightning-input>
                   <div class="bodyRegular reg-error-style-email" if:true={otherEmailError}>
                     <p>
-                      The email that you have provided does not match out records. 
+                      The email that you have provided does not match out records.
                       Please check the spelling and try again.
                       If you are still unable to log in, please contact QUTeX on {label.contactDetail}.
                     </p>

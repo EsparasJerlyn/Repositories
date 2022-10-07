@@ -9,26 +9,30 @@
       | john.bo.a.pineda               | April 7, 2022         | DEPP-1479              | Created file                 |
       |                                |                       |                        |                              |
  */
-@isTest(SeeAllData=false)
+@isTest
 public with sharing class VirtualFinalConfirmationEmailCtrlTest {
   private static final Id STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
     .get('Student')
     .getRecordTypeId();
-
-  private static User currentUser = TestDataFactory.createUserRecords(
-      1,
-      'QUTeX'
-    )
-    .iterator()
-    .next();
-
+  private static final String VIRTUAL_CONFIRMATION_EMAIL_TEMPLATE = 'Virtual Final Confirmation Email';
   private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
   private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
 
-  @IsTest
+  @testSetup
+  static void makeData(){
+    TestDataFactory.generateTestUsers();
+    Test.startTest();
+    System.runAs(TestDataFactory.getProgramAdminUser()) {
+      EmailTemplate template = TestDataFactory.createTestEmailTemplateRecords(1,new Map<String,String>{
+        VIRTUAL_CONFIRMATION_EMAIL_TEMPLATE => 'Test Email Subject'}).iterator().next();
+      insert template;
+    }
+    Test.stopTest();
+  }
+
+  @isTest
   public static void testGeneratePDFandSendEmail() {
-    System.runAs(currentUser) {
-      Test.startTest();
+    System.runAs(TestDataFactory.getProgramAdminUser()) {
       List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
       for(Account acc : accounts){
         acc.RecordTypeId = ACCT_UNIV_DEP_ID;
@@ -76,6 +80,7 @@ public with sharing class VirtualFinalConfirmationEmailCtrlTest {
         courseOfferings
       );
 
+      Test.startTest();
       for (hed__Course_Enrollment__c courseConnection : courseConnections) {
         courseConnection.RecordTypeId = STUDENT_RECTYPEID;
       }
@@ -127,7 +132,7 @@ public with sharing class VirtualFinalConfirmationEmailCtrlTest {
       paramList.add(param);
 
       VirtualFinalConfirmationEmailCtrl.generatePDFandSendEmail(paramList);
-      System.assertEquals(2,Limits.getEmailInvocations(),'Emails should be sent');
+      System.assertEquals(1,Limits.getEmailInvocations(),'Emails should be sent');
       Test.stopTest();
     }
   }

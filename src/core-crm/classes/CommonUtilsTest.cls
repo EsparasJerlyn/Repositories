@@ -1,7 +1,7 @@
-@isTest(SeeAllData=false)
+@isTest
 public with sharing class CommonUtilsTest {
 
-    @IsTest
+    @isTest
     static void addTestClass(){
 
         Test.startTest();

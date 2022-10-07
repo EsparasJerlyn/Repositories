@@ -11,10 +11,10 @@
       | w.li                     | June 15, 2022         | DEPP-1058              | Created file                 |
  */
 
-@IsTest(SeeAllData=false)
+@isTest
 public without sharing class MarketingCourseApplicationTHTest {
 
-    @IsTest
+    @isTest
     public static void testInsertMarketingCourseApplication() {
         Test.startTest();
         Marketing_Course_Application__c marketingCourseApplication = new Marketing_Course_Application__c();
@@ -22,7 +22,7 @@ public without sharing class MarketingCourseApplicationTHTest {
         Test.stopTest();
     }
 
-    @IsTest
+    @isTest
     public static void testUpdateMarketingCourseApplication() {
         Marketing_Course_Application__c marketingCourseApplication = new Marketing_Course_Application__c();
         insert marketingCourseApplication;

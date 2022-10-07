@@ -4,7 +4,8 @@
     <active>true</active>
     <errorConditionFormula>AND(
  Is_Managed_Externally__c = false,
- ISBLANK( Facilitator__c ) 
+ ISBLANK( Facilitator__c),
+ RecordType.DeveloperName = &apos;General_Session&apos;
 )</errorConditionFormula>
     <errorDisplayField>Facilitator__c</errorDisplayField>
     <errorMessage>Facilitator is required</errorMessage>

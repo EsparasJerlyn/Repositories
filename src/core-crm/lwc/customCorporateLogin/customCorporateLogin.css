@@ -1,0 +1,149 @@
+.mt3 {
+  margin-top: 4rem;
+}
+
+.my3 {
+  margin-top: 1rem;
+  margin-bottom: var(--space-3);
+}
+
+.required-text {
+  color: #b90015;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.required-color {
+  color: #b90015;
+  font-size: 16px;
+  font-family: 'ProximaNova-Bold';
+}
+
+.error-message {
+  color: #b90015;
+  visibility: hidden;
+}
+
+.border-error {
+  border-color: #b90015 !important;
+}
+
+.error-message-hide {
+  visibility: hidden;
+  display: none;
+}
+
+.error-message-show {
+  display: block;
+  visibility: visible !important;
+}
+
+.errormessage {
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+.heading1 {
+  font-family: "ProximaNova-Bold";
+  font-size: var(--dt-size-heading1) !important;
+  line-height: var(--dt-line-height-h1) !important;
+  font-style: var(--text-normal);
+  font-weight: var(--text-weight-700);
+}
+.headerColor {
+  color: var(--main-color-blue500);
+}
+
+.word-wrap {
+  overflow-wrap: break-word;
+  text-align: center;
+}
+
+.link {
+  color: var(--lwc-brandTextLink, #2574a9) !important;
+  text-decoration: none !important;
+  transition: color 0.1s linear !important;
+}
+
+.cceLogin {
+  border: 1px solid #0066B9;
+  height: 3rem;
+  border-radius: 0;
+  width: 100%;
+}
+
+input.cceLogin:focus {
+  border: 4px solid #0066B9;
+}
+
+button.slds-button.slds-button_brand {
+  width: 100%;
+}
+
+.slds-theme_warning button, .slds-theme--warning button {
+  color: var(--status-color-error);
+  text-decoration: underline;
+  display: contents !important;
+}
+
+.slds-input {
+  font-size: 18px !important;
+}
+
+.slds-input::placeholder {
+  font-size: 16px !important;
+  font-family: 'ProximaNova' !important;
+}
+
+.slds-align_absolute-center, .slds-align--absolute-center {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+.slds-wrap {
+  flex-wrap: nowrap;
+  margin: 0px 25px;
+}
+
+.helpText{
+  text-align: left;
+  font-size: 14px;
+}
+
+@media only screen and (max-width: 767px){
+.slds-align_absolute-center, .slds-align--absolute-center {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  margin: auto;
+  width: 100%;
+}
+
+.slds-text-align_center.heading1.headerColor {
+  font-size: 50px !important;
+}
+
+.slds-wrap {
+  flex-wrap: wrap;
+  margin: 0px 0px !important; 
+}
+
+button.slds-button.slds-button_outline-brand.slds-float_right.btnCancel {
+  width: inherit;
+}
+
+button.slds-button.slds-button_brand {
+  width: 100%;
+}
+
+}
+
+@media only screen and (max-width: 375px){
+.slds-col--padded.contentRegion.comm-layout-column {
+  margin: 0px !important;
+}
+
+}

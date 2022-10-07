@@ -8,7 +8,7 @@
  * @history
  *    | Developer                 | Date                  | JIRA                 | Change Summary                      |
       |---------------------------|-----------------------|------------|-------------------------------------|
-      | angelika.j.s.galang       | May 17, 2022          | DEPP-1455            | Created File                        | 
+      | angelika.j.s.galang       | May 17, 2022          | DEPP-1455            | Created File                        |
 	  | alexander.cadalin         | June 22, 2022         | DEPP-3056            | Appended detectDuplicatesInEmails   |
 	  | alexander.cadalin         | July 29, 2022         | DEPP-3623  | Fixed issues with batch operations  |
  */

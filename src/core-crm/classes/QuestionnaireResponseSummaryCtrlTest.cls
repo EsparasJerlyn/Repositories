@@ -10,14 +10,8 @@
       | john.bo.a.pineda          | March 15, 2022        | DEPP-1643            | Created file                                              |
       | roy.nino.s.regala         | June 23,2022          | DEPP-3252            | added logic to create cartitems and construct pay now url |
  */
-@isTest(SeeAllData=false)
+@isTest
 public with sharing class QuestionnaireResponseSummaryCtrlTest {
-  private static User currentUser = TestDataFactory.createUserRecords(
-      1,
-      'QUTeX'
-    )
-    .iterator()
-    .next();
   private static final Id STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
     .get('Student')
     .getRecordTypeId();
@@ -27,22 +21,34 @@ public with sharing class QuestionnaireResponseSummaryCtrlTest {
   private static Integer numberOfRecords = 30;
   private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
   private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
-  private static final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+  private static final String EMAIL_TEMPLATE1 = 'Application Email Approved';
+  private static final String EMAIL_TEMPLATE2 = 'Send Application Response Email';
 
-
-  @TestSetup
+  @testSetup
   static void setupMethod(){
-    Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'qutex@qut.edu.au');
+    BypassTriggers__c bypass = new BypassTriggers__c(Bypass__c = true, SetupOwnerId = UserInfo.getOrganizationId());
+    insert bypass;
+    TestDataFactory.generateTestUsers();
+    Test.startTest();
+    System.runAs(TestDataFactory.getProgramAdminUser()) {
+      List<EmailTemplate> templateList = TestDataFactory.createTestEmailTemplateRecords(2,new Map<String,String>{
+        EMAIL_TEMPLATE1 => 'Test Email Subject',
+        EMAIL_TEMPLATE2 => 'Test Email Subject'});
+      insert templateList;
+    }
+
+    Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
     insert customEmail;
 
     Study_Store_URL_Settings__c studyStore = new Study_Store_URL_Settings__c(Name='QUTeX', Study_Store_Link__c = 'https://studystorelinktest.com/');
     insert studyStore;
+    createRecord(ACTIVITY_RECTYPEID);
+    Test.stopTest();
   }
 
-  @IsTest
+  @isTest
   static void getAppQuestionsQRSDetailsTest() {
-    System.runAs(currentUser) {
-      createRecord(ACTIVITY_RECTYPEID);
+    System.runAs(TestDataFactory.getProgramAdminUser()) {
       String qrsId = [
         SELECT Id
         FROM Questionnaire_Response_Summary__c
@@ -61,10 +67,9 @@ public with sharing class QuestionnaireResponseSummaryCtrlTest {
     }
   }
 
-  @IsTest
+  @isTest
   static void getRegQuestionsQRSDetailsTest() {
-    System.runAs(currentUser) {
-      createRecord(ACTIVITY_RECTYPEID);
+    System.runAs(TestDataFactory.getProgramAdminUser()) {
       String qrsId = [
         SELECT Id
         FROM Questionnaire_Response_Summary__c
@@ -83,10 +88,9 @@ public with sharing class QuestionnaireResponseSummaryCtrlTest {
     }
   }
 
-  @IsTest
+  @isTest
   static void getRegCriteriaQRSDetailsTest() {
-    System.runAs(currentUser) {
-      createRecord(ACTIVITY_RECTYPEID);
+    System.runAs(TestDataFactory.getProgramAdminUser()) {
       String qrsId = [
         SELECT Id
         FROM Questionnaire_Response_Summary__c
@@ -105,11 +109,11 @@ public with sharing class QuestionnaireResponseSummaryCtrlTest {
     }
   }
 
-  @IsTest
+  @isTest
   static void updateApplicationStatusTest() {
-
+    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
     System.runAs(PORTAL_SYS_ADMIN){
-
+      Test.startTest();
       //Create account
       Account portalAccount1 = new Account(
           Name = 'OPE Catalogue',
@@ -137,8 +141,6 @@ public with sharing class QuestionnaireResponseSummaryCtrlTest {
         .iterator()
         .next();
       Database.insert(portalUser);
-
-      createRecord(ACTIVITY_RECTYPEID);
 
       WebStore testWebStore = new WebStore(
       Name = 'Study',
@@ -179,7 +181,6 @@ public with sharing class QuestionnaireResponseSummaryCtrlTest {
       qrsId.Pricebook_Entry_ID__c = pbe.Id;
       update qrsId;
 
-      Test.startTest();
       QuestionnaireResponseSummaryCtrl.updateApplicationStatus(
         qrsId.Id,
         'Approved',
@@ -202,7 +203,7 @@ public with sharing class QuestionnaireResponseSummaryCtrlTest {
   }
 
   private static void createRecord(String productRequestRecordType) {
-    System.runAs(currentUser) {
+    System.runAs(TestDataFactory.getProgramAdminUser()) {
       Id offeringId = null;
 
       List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
@@ -250,7 +251,7 @@ public with sharing class QuestionnaireResponseSummaryCtrlTest {
       );
       for (Integer i = 0; i < contacts.size(); i++) {
         contacts[i].Registered_Email__c = 'testIdeaFormUser' + i + '@mailinator.com';
-        
+
       }
       insert contacts;
 

@@ -12,18 +12,26 @@
       | justine.javier@qut.edu.au | February 25, 2022     | DEPP-1819    | Removed Program_Offering__c logic           |                                             |
       |                           |                       |              |                                             |
 */
-@IsTest(SeeAllData = false)
+@isTest
 private class Expression_of_Interest_Inactive_FlowTest{
     private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
-    private static final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+
+    @testSetup
+    static void makeData(){
+        TestDataFactory.generateTestUsers();
+        EmailTemplate template = TestDataFactory.createTestEmailTemplateRecords(1,new Map<String,String>{
+            'Send Register Interest Email' => 'Test Email Subject'}).iterator().next();
+        insert template;
+    }
 
     @isTest
     private static void setToInactiveTest()
     {
+        final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
         System.runAs ( PORTAL_SYS_ADMIN ) {
 
-            Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'qutex@qut.edu.au');
+            Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
             insert customEmail;
 
             //Create account
@@ -38,7 +46,7 @@ private class Expression_of_Interest_Inactive_FlowTest{
             FirstName = 'Test',
             Lastname = 'McTesty',
             AccountId = portalAccount1.Id,
-            Email = System.now().millisecond() + 'test@test.com'
+            Registered_Email__c = System.now().millisecond() + 'test@test.com'
             );
             Database.insert(contact1);
 
@@ -91,9 +99,10 @@ private class Expression_of_Interest_Inactive_FlowTest{
     @isTest
     private static void updateToInactiveTest()
     {
+        final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
         System.runAs ( PORTAL_SYS_ADMIN ) {
 
-            Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'qutex@qut.edu.au');
+            Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
             insert customEmail;
 
             //Create account
@@ -108,7 +117,7 @@ private class Expression_of_Interest_Inactive_FlowTest{
             FirstName = 'Test',
             Lastname = 'McTesty',
             AccountId = portalAccount1.Id,
-            Email = System.now().millisecond() + 'test@test.com'
+            Registered_Email__c = System.now().millisecond() + 'test@test.com'
             );
             Database.insert(contact1);
 
@@ -151,7 +160,7 @@ private class Expression_of_Interest_Inactive_FlowTest{
                 cc.hed__Status__c = 'Active';
             }
             insert courseConnections;
-            //System.assertEquals(true,![SELECT Id from Expression_of_interest__c WHERE Status__c = 'Inactive'].isEmpty(),'Expression of interest status was not set to inactive');
+            System.assertEquals(true,![SELECT Id from Expression_of_interest__c WHERE Status__c = 'Inactive'].isEmpty(),'Expression of interest status was not set to inactive');
             Test.stopTest();
         }
     }

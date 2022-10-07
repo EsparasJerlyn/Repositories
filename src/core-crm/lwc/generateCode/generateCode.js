@@ -23,6 +23,7 @@ import updateCodeGenerator from '@salesforce/apex/GenerateCodeCtrl.updateCodeGen
 import generateCode from '@salesforce/apex/GenerateCodeCtrl.generateCode';
 import getDuplicateDetails from '@salesforce/apex/GenerateCodeCtrl.getDuplicateDetails';
 import PROGRAM_RT from '@salesforce/label/c.RT_ProductRequest_Program';
+import PWP_RT from '@salesforce/label/c.RT_ProductRequest_Program_Without_Pathway';
 
 const SUCCESS_MSG = 'Code successfully generated!';     
 const SUCCESS_TITLE = 'Success!';
@@ -57,31 +58,34 @@ export default class GenerateCode extends LightningElement {
         }        
     }
     
-    handleGenerateCode(){  
+    handleGenerateCode(){ 
         this.isLoading = true;       
-        generateCode({'recordType' : this.courseAndProgDtls.recordType}).then(result => { 
+        generateCode({'recordType' : this.courseAndProgDtls.recordType, 'prodSpecsRecordType' : this.courseAndProgDtls.productSpecsRT}).then(result => {
             this.isDisable = true;                  
             let fields = {};   
-            if(this.courseAndProgDtls.recordType == PROGRAM_RT){
+            if(this.courseAndProgDtls.recordType == PROGRAM_RT ||
+                this.courseAndProgDtls.recordType == PWP_RT
+            ){
                 fields = {
                     Id : this.courseAndProgDtls.recordId,
                     Code__c : result.recordCode
                 };
             }else{
+         
                 fields = {
                     Id : this.courseAndProgDtls.recordId,
                     Course_Code__c : result.recordCode
                 };
             }
-            const recordInput = { fields };               
-                   
+            const recordInput = { fields };
             updateRecord(recordInput)
             .then(() => {  
                 updateCodeGenerator({
                     'recordType'    : this.courseAndProgDtls.recordType,
                     'recordId'      : result.recordId,
                     'recordNumber'  : result.recordNumber,
-                    'recordCode'  : result.recordCode
+                    'recordCode'  : result.recordCode,
+                    'prodSpecsRecordType' : this.courseAndProgDtls.productSpecsRT
                 }).then(result => {
                     if(result === 'Success'){
                         this.displayDuplicateError = false;

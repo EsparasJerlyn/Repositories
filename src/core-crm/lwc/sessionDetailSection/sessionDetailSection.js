@@ -125,11 +125,66 @@ const SESSION_COLUMNS = [
         initialWidth: 100
     }
 ];
+
+const SESSION_COLUMNS_PER_LEARNER = [
+    { 
+        label: 'Learner Name',
+        fieldName: 'learnerName',
+        editable: false
+    },
+    {
+        label: "Date",
+        fieldName: "Date__c",
+        type: "date-local",
+        typeAttributes:{
+            month: "2-digit",
+            day: "2-digit"
+        },
+        editable: { fieldName: 'editable' },
+        wrapText: true  
+    },
+	{
+        label: 'Coach', 
+        fieldName: 'Course_Connection__c', 
+        type: 'customSearch', 
+        wrapText: true,
+        typeAttributes: {
+            icon: "standard:orchestrator",
+            parentId: { fieldName:'rowId' },
+            placeholder: "Search Facilitators...",
+            lookupItems: { fieldName:'relatedFacilitators' },
+            itemServerName:{ fieldName:'contactName' },
+            itemId:{ fieldName:'Course_Connection__c' },
+            editable: { fieldName: 'editable' } 
+        },
+        cellAttributes:{
+            class: { fieldName:'customSearchClass' }
+        }
+    },
+	{ 
+        label: 'Session Status',
+        type: 'customPicklistColumn',
+        typeAttributes: {
+            tableObjectType: 'Session__c',
+            rowDraftId: { fieldName: 'rowId' },
+            picklistValue: { fieldName: 'Session_Status__c' },
+            picklistFieldName: 'Session_Status__c',
+            editable: { fieldName: 'editable' } 
+        },
+        cellAttributes: {
+            class: { fieldName: 'customPicklistClass' }
+        },
+        wrapText: true
+    },
+];
+
 export default class SessionDetailSection extends LightningElement {
     @api showSessionTable;
+    @api showSessionTablePerLearner;
     @api offeringId;
     @api disableSession;
     @api showHelp;
+    @api isCoachingProductRequest;
 
     @api
     get relatedSessions() {
@@ -141,11 +196,27 @@ export default class SessionDetailSection extends LightningElement {
         this.relatedSessionsCopy = value;
     }
 
+    @api
+    get relatedSessionsPerLearner() {
+        return this._relatedSessionsPerLearner;
+    }
+    set relatedSessionsPerLearner(value) {
+        this.setAttribute('relatedSessionsPerLearner', value);
+        this._relatedSessionsPerLearner = value;
+        this.relatedSessionsPerLearnerCopy = value;
+    }
+
     @track _relatedSessions;
     @track relatedSessionsCopy;
+    @track _relatedSessionsPerLearner;
+    @track relatedSessionsPerLearnerCopy;
+
     sessionColumns = SESSION_COLUMNS;
+    sessionColumnsPerLearner = SESSION_COLUMNS_PER_LEARNER;
     draftValues = [];
+    draftValuesPerLearner = [];
     datatableErrors = {};
+    datatableErrorsPerLearner = {};
     privateChildren = {}; //used to get the customLookupColumn as private childern 
 
     //add click event listener on load
@@ -203,6 +274,13 @@ export default class SessionDetailSection extends LightningElement {
         this.updateDraftValues(event.detail.draftValues[0]);
     }
 
+    //updates draft values if table cell is changed
+    handleCellChangePerLearner(event){
+        console.log("handleCellChange 2");
+        console.log(event);
+        this.updateDraftValuesPerLearner(event.detail.draftValues[0]);
+    }
+
     //updates data and drafts to edited values 
     //if custom picklist is changed
     handlePicklistSelect(event){
@@ -215,9 +293,31 @@ export default class SessionDetailSection extends LightningElement {
     }
 
     //updates data and drafts to edited values 
+    //if custom picklist is changed
+    handlePicklistSelectPerLearner(event){
+        this.handleCustomColumnEditPerLearner(
+            event.detail.draftId,
+            'Session_Status__c',
+            event.detail.value,
+            'customPicklistClass'
+        );
+    }
+
+    //updates data and drafts to edited values 
     //if custom search is changed
     handleItemSelect(event){
         this.handleCustomColumnEdit(
+            event.detail.parent,
+            'Course_Connection__c',
+            event.detail.value ? event.detail.value : '',
+            'customSearchClass'
+        );
+    }
+
+    //updates data and drafts to edited values 
+    //if custom search is changed
+    handleItemSelectPerLearner(event){
+        this.handleCustomColumnEditPerLearner(
             event.detail.parent,
             'Course_Connection__c',
             event.detail.value ? event.detail.value : '',
@@ -275,6 +375,22 @@ export default class SessionDetailSection extends LightningElement {
         });
     }
 
+    //updates data and drafts to edited values
+    handleCustomColumnEditPerLearner(rowId,prop,value,classProp){
+        this.relatedSessionsPerLearnerCopy = this.relatedSessionsPerLearnerCopy.map(data => {
+            let updatedItem = {...data};
+            if(data.rowId == rowId){
+                updatedItem[prop] = value;
+                updatedItem[classProp] = 'slds-cell-edit slds-is-edited';
+            }
+            return updatedItem;
+        });
+        this.updateDraftValuesPerLearner({
+            id:rowId,
+            [prop]:value
+        });
+    }
+
     //updates draftValues list
     updateDraftValues(updateItem) {
         let draftValueChanged = false;
@@ -291,6 +407,25 @@ export default class SessionDetailSection extends LightningElement {
             this.draftValues = [...copyDraftValues];
         } else {
             this.draftValues = [...copyDraftValues, updateItem];
+        }
+    }
+
+    //updates draftValues list
+    updateDraftValuesPerLearner(updateItem) {
+        let draftValueChanged = false;
+        let copyDraftValues = JSON.parse(JSON.stringify(this.draftValuesPerLearner));
+        copyDraftValues.forEach((item) => {
+            if (item.id === updateItem.id) {
+                for (let field in updateItem) {
+                    item[field] = updateItem[field];
+                }
+                draftValueChanged = true;
+            }
+        });
+        if (draftValueChanged) {
+            this.draftValuesPerLearner = [...copyDraftValues];
+        } else {
+            this.draftValuesPerLearner = [...copyDraftValues, updateItem];
         }
     }
 
@@ -345,6 +480,43 @@ export default class SessionDetailSection extends LightningElement {
         }
     }
 
+    //saves datatable
+    handleSavePerLearner(){
+        this.handleWindowOnclick('reset');
+        let recordsToValidate = this.draftValuesPerLearner.map(draft => {
+            let unsavedItem = this.relatedSessionsPerLearnerCopy.find(val => val.rowId == draft.id);
+            return {
+                rowId: draft.id,
+                Date__c:
+                    draft.Date__c === undefined ?
+                    unsavedItem.Date__c :
+                    draft.Date__c
+            };
+        });
+        this.datatableErrorsPerLearner = this.validateRecordsToUpsertPerLearner(recordsToValidate);
+        if(Object.keys(this.datatableErrorsPerLearner).length == 0){
+            if(this.draftValuesPerLearner.length > 0){
+                this.isLoading = true;
+                updateSessionData({ sessionData:this.draftValuesPerLearner.map(draft =>{
+                        draft.Id = this.relatedSessionsPerLearnerCopy.find(sesh => sesh.rowId == draft.id).Id;
+                        delete draft.id;
+                        return draft;
+                    })
+                })
+                .then(() =>{
+                    this.dispatchEvent(new CustomEvent('tablesave'));
+                })
+                .catch(error =>{
+                })
+                .finally(() =>{
+                    this.draftValuesPerLearner = [];
+                    this.datatableErrorsPerLearner = {};
+                    this.isLoading = false;
+                });
+            }
+        }
+    }
+
     //validates datatable
     validateRecordsToUpsert(records){
         let rowsValidation={};
@@ -385,6 +557,33 @@ export default class SessionDetailSection extends LightningElement {
         return errors;
     }
 
+    //validates datatable
+    validateRecordsToUpsertPerLearner(records){
+        let rowsValidation={};
+        let errors = {};
+        records.map(record => {
+            let fieldNames = [];
+            let messages = [];
+            //date validation
+            if(!record.Date__c){
+                fieldNames.push('Date__c');
+                messages.push('Date is required');
+            }
+            if(fieldNames.length > 0){
+                rowsValidation[record.rowId] =
+                {
+                    title: 'We found an error/s.',
+                    messages,
+                    fieldNames
+                };
+            }
+        });
+        if(Object.keys(rowsValidation).length !== 0){
+            errors = { rows:rowsValidation };
+        }
+        return errors;
+    }
+
     //adds error outline to custom column
     addErrorOutline(rowId,prop){
         for (const obj of this.relatedSessionsCopy){
@@ -402,6 +601,16 @@ export default class SessionDetailSection extends LightningElement {
         });
         this.datatableErrors = {};
         this.draftValues = [];
+        this.handleWindowOnclick('reset');
+    }
+
+    //cancels datatabel edits
+    handleCancelPerLearner(){
+        this.relatedSessionsPerLearnerCopy = this.relatedSessionsPerLearnerCopy.map(data =>{
+            return this.relatedSessionsPerLearner.find(orig => orig.rowId == data.rowId);
+        });
+        this.datatableErrors = {};
+        this.draftValuesPerLearner = [];
         this.handleWindowOnclick('reset');
     }
 }

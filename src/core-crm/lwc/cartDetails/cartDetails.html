@@ -97,6 +97,7 @@
                     </div>
                     <div class="slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12" >
                         <div class="slds-grid slds-wrap slds-p-bottom_small slds-p-right_small">
+                           <!-- Commentout mobile | DEPP-4125
                             <div class="edit-textbox slds-form-element__control slds-input-has-icon slds-input-has-icon_right slds-p-right_medium" >
                                 <p class="bodyBold slds-m-around_none">Mobile</p>
 
@@ -107,19 +108,13 @@
                                 <div if:false={editModeMob}>
                                     <div class="slds-grid slds-grid_vertical-align-center">
                                         <lightning-input-field field-name="MobilePhone" variant="label-hidden" class="slds-p-right_small" value={contactMobile} disabled></lightning-input-field>
-                                        <!-- <lightning-button-icon
-                                            icon-name="utility:edit"
-                                            alternative-text="Edit"
-                                            title="Edit Field"
-                                            variant="bare"
-                                            size="medium"
-                                            onclick={handleEditMobile}
-                                        ></lightning-button-icon> -->
                                         <div class="spacer"></div>
                                     </div>
                                 </div>
                             </div>
+                              -->
                         </div>
+                        
                     </div>
                    <!--/lightning-layout-->
                 </div>
@@ -404,14 +399,7 @@
                         <div>
                             <lightning-button data-id={currentItem.cartItemId} variant="base" label="Remove Item" title="Remove item" onclick={removeCartItem} class="removedItem-button slds-m-top_small"></lightning-button>
                         </div>
-
                     </div>
-                                                            <!-- loop on each questions - start -->
-
-                                        <!-- <div class="slds-size_2-of-4">
-                                            <div class="slds-grid slds-wrap"> -->
-                                                <!--  <p class="bodyBold pt2 pb1">Questions</p> -->
-
                                          <!-- Questions goes here -->
                                     <div class="slds-size_4-of-4 slds-medium-size_2-of-4 slds-large-size_2-of-4 mt1">
                                          <lightning-layout multiple-rows size="12">

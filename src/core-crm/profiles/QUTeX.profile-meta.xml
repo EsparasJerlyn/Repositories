@@ -133,6 +133,9 @@
         <layout>Communication_Schedule__c-Communication Schedule Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Consultancy__c-Consultancy Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Contact-Contact Page Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -385,8 +388,8 @@
         <recordType>Product_Request__c.Coaching_Request</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Product_Request__c-Corporate Bundle Request Layout</layout>
-        <recordType>Product_Request__c.Corporate_Bundle_Request</recordType>
+        <layout>Product_Request__c-Corporate Bundle Layout</layout>
+        <recordType>Product_Request__c.Corporate_Bundle</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Product_Request__c-Diagnostic Tool Request Layout</layout>
@@ -422,6 +425,10 @@
     <layoutAssignments>
         <layout>Product_Request__c-Product Request Layout</layout>
         <recordType>Product_Request__c.Program</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Product_Request__c-Product Request Layout</layout>
+        <recordType>Product_Request__c.Program_Without_Pathway</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Product_Request__c-Product Request Layout</layout>
@@ -527,6 +534,11 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Session__c-Session Layout</layout>
+        <recordType>Session__c.General_Session</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Session__c-Specialised Layout</layout>
+        <recordType>Session__c.Specialised_Session</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Shipment-Shipment Layout</layout>
@@ -611,6 +623,14 @@
         <recordType>hed__Course__c.Activity</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>hed__Course__c-CCE Group Coaching Layout</layout>
+        <recordType>hed__Course__c.Group_Coaching</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course__c-CCE Individual Coaching Layout</layout>
+        <recordType>hed__Course__c.Individual_Coaching</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>hed__Course__c-OPE Activity Page Layout</layout>
         <recordType>hed__Course__c.OPE_Activity</recordType>
     </layoutAssignments>
@@ -628,6 +648,11 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>hed__Program_Plan__c-Program Page Layout</layout>
+        <recordType>hed__Program_Plan__c.Program</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Program_Plan__c-Program Without Pathway Layout</layout>
+        <recordType>hed__Program_Plan__c.Program_Without_Pathway</recordType>
     </layoutAssignments>
     <recordTypeVisibilities>
         <default>false</default>

@@ -5,10 +5,11 @@
     <description>Financial Viability is required to move stage from Qualify to Design or Complete.</description>
     <errorConditionFormula>AND(
 RecordType.DeveloperName =&apos;OPE&apos;,
-ISCHANGED(Stage__c),
-ISPICKVAL(PRIORVALUE(Stage__c),&apos;Qualify&apos;),
-OR(ISPICKVAL(Stage__c, &apos;Design&apos;),ISPICKVAL(Stage__c, &apos;Complete&apos;)),
-ISPICKVAL(Financial_Viability__c,&apos;&apos;)
+ OR(
+  ISPICKVAL(Stage__c,&apos;Design&apos;),
+  ISPICKVAL(Stage__c, &apos;Complete&apos;)
+ ),
+ISBLANK(TEXT(Financial_Viability__c))
 )</errorConditionFormula>
     <errorDisplayField>Financial_Viability__c</errorDisplayField>
     <errorMessage>“Financial Viability” is required to update the Stage.</errorMessage>

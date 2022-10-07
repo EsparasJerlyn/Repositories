@@ -1,0 +1,71 @@
+<template>
+    <lightning-card title={getSectionTitle}>
+        <lightning-button 
+            slot="actions" 
+            label={activityButtonName}
+            title={activityButtonName}
+            onclick={handleAddActivity} 
+            variant="brand" 
+            class="slds-float_right slds-button_neutral"
+            disabled={disableEditing}>
+        </lightning-button>
+    </lightning-card> 
+    <section class="slds-box slds-theme_default">
+        <div class="slds-scrollable slds-p-bottom_medium slds-box">
+            <template if:true={activitySectionData}>
+                <lightning-datatable 
+                    data={activitySectionData}
+                    columns={columns} 
+                    key-field="id" 
+                    sorted-by={sortBy}
+                    sorted-direction={sortDirection}
+                    onsort={handleSort}
+                    hide-checkbox-column="true">
+                </lightning-datatable>
+            </template>
+            <template if:true={isEmpty}>
+                <div class="slds-float_center">
+                    {noRecordsFound}
+                </div>
+            </template>
+        </div>
+    </section>
+    <div class="slds-box slds-theme_default">
+        <template if:true={isModalOpen}>
+            <section class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModalAction}>
+                            <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse" size="small" ></lightning-icon>
+                        </button>
+                        <h2 class="slds-text-heading_medium slds-hyphenate">{activityButtonName}</h2>
+                    </header>
+                    <lightning-record-edit-form object-api-name="Action__c" onsuccess={handleSuccess} onsubmit={handleSubmit}>
+                        <div class="slds-modal__content slds-p-around_medium ">
+                            <lightning-input-field field-name="Activity_Name__c" value={activityName} required></lightning-input-field>
+                            <lightning-input-field field-name="Activity_Method__c" value={activityType}></lightning-input-field>
+                            <lightning-input-field field-name="Start_Date__c" value={activityStartDate}></lightning-input-field>
+                            <lightning-input-field field-name="End_Date__c" value={activityEndDate}></lightning-input-field>
+                        </div>
+                        <footer class="slds-modal__footer">
+                            <lightning-button
+                                label="Cancel"
+                                variant="neutral"
+                                onclick={closeModalAction}>  
+                            </lightning-button>
+                            <lightning-button 
+                                data-name="save"
+                                label="Save"
+                                variant="brand"
+                                type="submit"
+                                class="slds-p-left_small"
+                                disabled={isButtonDisabled}
+                            ></lightning-button>
+                        </footer>
+                    </lightning-record-edit-form>   
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+    </div>
+</template>

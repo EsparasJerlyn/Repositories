@@ -64,6 +64,7 @@ let i=0;
  * 'B2B Custom Search Results'
  */
 export default class SearchResults extends NavigationMixin(LightningElement) {
+  linkQueryValue;
   searchQuery;
   searchFilter;
   errorMessage;
@@ -1052,6 +1053,16 @@ handleNextPage(evt) {
 	}
    tempArray = [];
    connectedCallback() {
+
+      let url_string = window.location.href;
+      let url = new URL(url_string);
+      let area = url.searchParams.get("query");
+      this.linkQueryValue = area;
+
+      if (this.linkQueryValue){
+      this.stringValue = this.linkQueryValue;
+      this.parameterObject.searchKey = this.stringValue;
+      }
 
      this.vectorIcon = qutResourceImg + "/QUTImages/Icon/icon-Vector.png";
      this.accordionClose = qutResourceImg + "/QUTImages/Icon/accordionClose.svg";

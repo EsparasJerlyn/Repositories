@@ -124,8 +124,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>LWC_List_CCEChildFilter</shortDescription>
-        <!-- <value>Coaching Request,Diagnostic Tool Request,Educational Consultancy,Activity,Unit,Module,Individual Coaching, Group Coaching</value> -->
-        <value>Individual Coaching,Group Coaching,Educational Consultancy,Diagnostic Tool,Unit,Module,Activity,Standing Offer Arrangement</value>
+        <value>Individual Coaching,Group Coaching,Educational Consultancy,Diagnostic Tool,Unit,Module,Activity</value>
     </labels>
     <labels>
         <fullName>LWC_List_CCEParentFilter</fullName>
@@ -133,8 +132,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>LWC_List_CCEParentFilter</shortDescription>
-        <!-- <value>Coaching Request,Diagnostic Tool Request,Educational Consultancy,Activity,Unit,Module,Individual Coaching, Group Coaching</value> -->
-        <value>Program,Individual Coaching,Group Coaching,Educational Consultancy,Diagnostic Tool,Unit,Module,Activity,Standing Offer Arrangement</value>
+        <value>Program,Individual Coaching,Group Coaching,Educational Consultancy,Diagnostic Tool,Unit,Module,Activity,Standing Offer Arrangement,Program Without Pathway,Corporate Bundle</value>
     </labels>
     <labels>
         <fullName>LWC_List_SOA_ChildFilter</fullName>
@@ -142,7 +140,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>LWC_List_SOA_ChildFilter</shortDescription>
-        <value>Program,Diagnostic Tool,Educational Consultancy,Activity,Unit,Module,Individual Coaching, Group Coaching</value>
+        <value>Program,Diagnostic Tool,Activity,Unit,Module,Individual Coaching,Group Coaching,Program Without Pathway</value>
     </labels>
     <labels>
         <fullName>LWC_List_ConfirmedLearnerStatus</fullName>
@@ -166,7 +164,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>LWC_List_OPEParentFilter</shortDescription>
-        <value>Program,Module,Short Course,Activity</value>
+        <value>Program,Module,Short Course,Activity,Program Without Pathway</value>
     </labels>
     <labels>
         <fullName>LWC_Note_CourseCompletion</fullName>
@@ -271,6 +269,27 @@
         <value>0 0 0 ? * MON-FRI</value>
     </labels>
     <labels>
+        <fullName>Product_Ledger_Ended_Cron_Expression</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Product Ledger Ended Expression</shortDescription>
+        <value>0 0 0 ? * MON-SUN</value>
+    </labels>
+    <labels>
+        <fullName>Buyer_Group_Cron_Expression</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Buyer Group Cron Expression</shortDescription>
+        <value>0 0 0 ? * MON-SUN</value>
+    </labels>
+    <labels>
+        <fullName>Asset_Cron_Expression</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Asset Cron Expression</shortDescription>
+        <value>0 0 0 ? * MON-SUN</value>
+    </labels>
+    <labels>
         <fullName>Send_Welcome_Email_Cron_Expression</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -371,12 +390,36 @@
         <value>Educational_Consultancy</value>
     </labels>
     <labels>
+        <fullName>RT_Session_General_Session</fullName>
+        <categories>RecordType,Session</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RT_Session_General_Session</shortDescription>
+        <value>General_Session</value>
+    </labels>
+    <labels>
+        <fullName>RT_Session_Specialised_Session</fullName>
+        <categories>RecordType,Session</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RT_Session_Specialised_Session</shortDescription>
+        <value>Specialised_Session</value>
+    </labels>
+    <labels>
         <fullName>DesignToPublishObjects</fullName>
         <categories>LWC,List</categories>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>DesignToPublishObjects</shortDescription>
         <value>Consultancy__c</value>
+    </labels>
+    <labels>
+        <fullName>RT_ProductRequest_Corporate_Bundle</fullName>
+        <categories>RecordType,ProductRequest</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RT_ProductRequest_Corporate_Bundle</shortDescription>
+        <value>Corporate_Bundle</value>
     </labels>
     <labels>
         <fullName>RT_ProductRequest_SOA</fullName>
@@ -556,6 +599,14 @@
         <value>Multiple Image file found. Please limit Image file to only 1 Image.</value>
     </labels>
     <labels>
+        <fullName>RT_Account_Business_Org</fullName>
+        <categories>RecordType,Account</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RT_Account_Business_Org</shortDescription>
+        <value>Business_Organization</value>
+    </labels>
+    <labels>
         <fullName>RT_Account_University_Department</fullName>
         <categories>RecordType,Account</categories>
         <language>en_US</language>
@@ -640,5 +691,21 @@
         <protected>false</protected>
         <shortDescription>QUTeX_Contact_Detail</shortDescription>
         <value>+61 7 3138 7733</value>
+    </labels>
+    <labels>
+        <fullName>RT_ProductRequest_Program_Without_Pathway</fullName>
+        <categories>RecordType,ProductRequest</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RT_ProductRequest_Program_Without_Pathway</shortDescription>
+        <value>Program_Without_Pathway</value>
+    </labels>
+    <labels>
+        <fullName>RT_ProgramPlan_Program_Without_Pathway</fullName>
+        <categories>RecordType,ProgramPlan</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RT_ProgramPlan_Program_Without_Pathway</shortDescription>
+        <value>Program_Without_Pathway</value>
     </labels>
 </CustomLabels>

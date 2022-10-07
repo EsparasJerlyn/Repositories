@@ -11,7 +11,7 @@
       | eccarius.munoz            | January 28, 2022      | DEPP-1472    | Created File                                |
       | justine.javier            | March 22, 2022        | DEPP-2086    | Added MMark_Design_Stage_as_Complete__c     |
 */
-@IsTest(SeeAllData = false)
+@isTest
 private class Update_Product_from_CourseTest{
 
     private static User currentUser = TestDataFactory.createUserRecords(1, 'QUTeX').iterator().next();
@@ -97,6 +97,9 @@ private class Update_Product_from_CourseTest{
                                                                     Name, Overviewv2__c, hed__Start_Date__c, Who_Should_Participatev2__c,
                                                                     Evolve_with_QUTeXv2__c
                                                                     FROM hed__Program_Plan__c LIMIT 100];
+            hed__Facility__c facility = new hed__Facility__c();
+            facility.Name = 'Externals';
+            insert facility;
 
             for(Integer i = 0 ; i < programPlansToUpdate.size() ; i++){
                 programPlansToUpdate[i].Name = 'test' + i;
@@ -111,6 +114,9 @@ private class Update_Product_from_CourseTest{
                 programPlansToUpdate[i].Courseloop_Full_URL__c  = 'test' + i;
                 programPlansToUpdate[i].PP_Is_curriculum_approved__c  = true;
                 programPlansToUpdate[i].Mark_Design_Stage_as_Complete__c=true;
+                programPlansToUpdate[i].hed__Description__c='sdfdsfsdfsd';
+                programPlansToUpdate[i].Implementation_Year__c='2040';
+                programPlansToUpdate[i].Location__c=facility.Id;
             }
             update programPlansToUpdate;
 

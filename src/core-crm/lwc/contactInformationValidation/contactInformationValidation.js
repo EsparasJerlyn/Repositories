@@ -54,8 +54,8 @@ export default class ContactInformationValidation extends LightningElement {
     }
 
     get invalidConvert(){
-        return this.fieldsMapping.filter(field => field.label == 'Phone' && field.statusValue == STR_NONE ).length > 0 &&
-            this.fieldsMapping.filter(field => field.label == 'Mobile' && field.statusValue == STR_NONE ).length > 0 &&
+        return this.fieldsToValidate.filter(field => field.apiName == 'Phone').length > 0  &&
+            this.fieldsToValidate.filter(field => field.apiName == 'MobilePhone').length > 0 &&
             this.objectApiName == LEAD_SCHEMA.objectApiName;
     }
 

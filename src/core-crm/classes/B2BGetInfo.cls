@@ -47,7 +47,11 @@
   ) {
     // Lookup the webstore ID associated with the community
     String webstoreId = B2BUtils.resolveCommunityIdToWebstoreId(communityId);
+    List<User> currentUserDetails = getUserContactDetails(effectiveAccountID);
 
+    if(!currentUserDetails.isEmpty() && currentUserDetails[0].Contact.hed__Primary_Organization__c != null){
+      effectiveAccountId = currentUserDetails[0].Contact.hed__Primary_Organization__c;
+    }
     //'current' is available in version 50.0 and later and indicates a cart with a status that isn’t Closed or PendingDelete
     //This is important for the product detail page since we are using the cart summary to check if the status is "Processing" or "Checkout"
     String activeCartOrId = 'current';
@@ -57,6 +61,34 @@
     }else{ 
       //https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_CommerceCart_static_methods.htm
       return ConnectApi.CommerceCart.getCartSummary(webstoreId, effectiveAccountId, activeCartOrId);}
+  }
+  /**
+  * @description method to call ConnectApi.CommerceCart.getOrCreateActiveCartSummary
+  * @param communityId
+  * @param effectiveAccountId
+  */    
+
+  @AuraEnabled
+  public static ConnectApi.CartSummary getOrCreateActiveCartSummary(
+    String communityId,
+    String effectiveAccountId
+  ) {
+    // Lookup the webstore ID associated with the community
+    String webstoreId = B2BUtils.resolveCommunityIdToWebstoreId(communityId);
+    List<User> currentUserDetails = getUserContactDetails(effectiveAccountID);
+
+    if(!currentUserDetails.isEmpty() && currentUserDetails[0].Contact.hed__Primary_Organization__c != null){
+      effectiveAccountId = currentUserDetails[0].Contact.hed__Primary_Organization__c;
+    }
+    //'current' is available in version 50.0 and later and indicates a cart with a status that isn’t Closed or PendingDelete
+    //This is important for the product detail page since we are using the cart summary to check if the status is "Processing" or "Checkout"
+    String activeCartOrId = 'current';
+    if(Test.isRunningTest()){
+      return null;
+    }else{
+      //https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_CommerceCart_static_methods.htm
+      return ConnectApi.CommerceCart.getOrCreateActiveCartSummary(webstoreId, effectiveAccountId, activeCartOrId);
+    }
   }
 
   /**
@@ -143,5 +175,24 @@
     }else{ 
       //https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_CommerceStorePricing_static_methods.htm#apex_ConnectAPI_CommerceStorePricing_static_methods
       return ConnectApi.CommerceStorePricing.getProductPrice( webstoreId, productId, effectiveAccountId);}
+  }
+
+  /**
+  * @description method to get current user details using the effective id
+  * @param @param effectiveAccountId ID of the account for which the request is made. If null, defaults to the account ID for the context user.
+  */  
+  @AuraEnabled(cacheable=true)
+  public static List<User> getUserContactDetails(
+    String effectiveAccountId
+  ) {
+
+    List<User> currentUser =  [
+        SELECT Contact.hed__Primary_Organization__c 
+        FROM User 
+        WHERE AccountId =: effectiveAccountID
+        AND Profile.Name = 'Partner Community User'
+        Limit 1];
+
+    return currentUser;
   }
 }

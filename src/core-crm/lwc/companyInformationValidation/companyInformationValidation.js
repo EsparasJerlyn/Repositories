@@ -44,7 +44,7 @@ const ABN_CLASS = 'slds-border_bottom sf-blue-text';
 const MARGIN_TOPXLARGE_CLASS = ' slds-m-top_x-large';
 const MSG_CONVERT_ERROR = 'You can\'t convert this lead if below contact information has not attempted validation.';
 const MSG_VAL_ERROR = ' The following fields need to be populated: ';
-const PHONE_OR_MOBILE = ['Phone','MobilePhone'];
+const PHONE_OR_MOBILE = ['Phone_No_Locale__c','Mobile_No_Locale__c'];
 const ADDRESS_FIELDS = ['Street','City','State','PostalCode','Country'];
 
 export default class CompanyInformationValidation extends LightningElement {

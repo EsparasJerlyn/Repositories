@@ -13,19 +13,22 @@
  */
 @isTest
 public class AccountCtrlTest {
-    
-    private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
+
+    @testSetup
+    static void makeData(){
+        TestDataFactory.generateTestUsers();
+    }
 
     @isTest
     static void getAccountName(){
          String result;
-         System.runAs(currentUser) {
+         System.runAs(TestDataFactory.getProgramAdminUser()) {
            	Test.startTest();
             String acctId = TestDataFactory.getAccountId();
             result = AccountCtrl.getAccountName(acctId);
             Test.stopTest();
         }
-        System.assertEquals(result, 'TestAccount1');
+        System.assertEquals(result, 'TestAccount1', 'Not equal to TestAccount1.');
         
     }
 
