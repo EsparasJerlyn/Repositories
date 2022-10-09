@@ -16,6 +16,7 @@ import { refreshApex } from '@salesforce/apex';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import LWC_Error_General from '@salesforce/label/c.LWC_Error_General';
 import RT_ProductRequest_Program from '@salesforce/label/c.RT_ProductRequest_Program';
+import RT_ProductRequest_Program_Without_Pathway from '@salesforce/label/c.RT_ProductRequest_Program_Without_Pathway';
 import QUTeX from '@salesforce/label/c.QUT_GSB';
 import COURSE_OBJ from '@salesforce/schema/hed__Course__c';
 import C_PRODUCT_REQUEST from '@salesforce/schema/hed__Course__c.ProductRequestID__c';
@@ -101,10 +102,13 @@ export default class FinancialSplit extends LightningElement {
 
     //decides if product request RT is Program
     get isOpeProgramRequest(){
-        if(this.productRequest){
-            return getFieldValue(this.productRequest.data,PR_RT_DEV_NAME) == RT_ProductRequest_Program;
+        if( this.productRequest && 
+            (   getFieldValue(this.productRequest.data,PR_RT_DEV_NAME) == RT_ProductRequest_Program ||
+                getFieldValue(this.productRequest.data,PR_RT_DEV_NAME) == RT_ProductRequest_Program_Without_Pathway)){
+                    return true;
+        }else{
+            return false;
         }
-        return false;
     }
 
     //decides whether to show/hide the financial split table

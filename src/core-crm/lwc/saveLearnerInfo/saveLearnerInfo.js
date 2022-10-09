@@ -13,6 +13,7 @@
       | eugene.john.basilan       | September 05, 2022    | DEPP-3479            | Corporate Bundle Bulk Registration Changes   |                                      |
       | john.m.tambasen						| September 12, 2022    | DEPP-3743            | validate duplicate contacts		    			  	|
       | john.m.tambasen           | September 23, 2022    | DEPP-4367            | birthdate validation                         |
+      | julie.jane.alegre         | October 08, 2022      | DEPP-4551            | Update pass parameter to the sessionStorage  |
       
  */
 import { LightningElement, api } from "lwc";
@@ -22,7 +23,7 @@ import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import { NavigationMixin } from "lightning/navigation";
 import BasePath from "@salesforce/community/basePath";
 const MSG_ERROR = LWC_Error_General;
-const CURRENTPRODUCTCATEGORY = "current_product_category";
+const CURRENTPRODUCTCATEGORY = "product_category";
 const Corporate_Bundle = 'Corporate Bundle';
 import getUserCartDetails from '@salesforce/apex/ProductDetailsCtrl.getUserCartDetails';
 import validateContactMatching from "@salesforce/apex/RegistrationMatchingHelper.validateContactMatching";

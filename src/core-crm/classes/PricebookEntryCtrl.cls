@@ -86,8 +86,9 @@ public with sharing class PricebookEntryCtrl {
 
     @AuraEnabled
     public static void upsertPricebookEntries(List<PricebookEntry> pbToUpsert){
+        
+        Boolean newPBEntry = pbToUpsert[0].Id == null;
         upsert pbToUpsert;
-
         // Get OPE Buyer Group Id
         Id opeBuyerGroupId = [SELECT Id FROM BuyerGroup WHERE Name = 'OPE BuyerGroup' LIMIT 1].Id;
 
@@ -123,6 +124,71 @@ public with sharing class PricebookEntryCtrl {
         if(insertBGPriceBookList.size() > 0){
             insert insertBGPriceBookList;
         }
+
+        //only proceed if new standard price is created
+        if(pbToUpsert.size() == 1 && newPBEntry == true && pbIdNonStandardSet.isEmpty()){
+            createSOAPricing(pbToUpsert[0]);
+        }
+
+    }
+
+    @AuraEnabled
+    public static void createSOAPricing(PricebookEntry priceBookEntry){
+
+        List<BuyerGroupPriceBook> buyerGroupPriceBookList = new List<BuyerGroupPriceBook>();
+        List<PriceBookEntry> priceBookEntryToInsert = new List<PriceBookEntry>();
+        Set<Id> pricebook2Id = new Set<Id>();
+
+        //get product request linked to the product
+        List<Product2> relatedProduct = [
+            SELECT Id, Course__r.ProductRequestId__c, Program_Plan__r.Product_Request__c 
+            FROM Product2 
+            WHERE Id =: priceBookEntry.Product2Id
+            AND (Course__r.ProductRequestId__r.Product_Specification__r.RecordType.DeveloperName = 'CCE' 
+            OR Program_Plan__r.Product_Request__r.Product_Specification__r.RecordType.DeveloperName = 'CCE')
+        ];
+
+        String productRequestId = '';
+
+        if(!relatedProduct.isEmpty()){
+            productRequestId = relatedProduct[0].Course__c != null?relatedProduct[0].Course__r.ProductRequestID__c:relatedProduct[0].Program_Plan__r.Product_Request__c;
+        }
+
+        //get parent product request(SOA)
+        List<Related_Product_Request__c> getRelatedProductRequest = [
+            SELECT Id, Program__c, Course__c
+            FROM Related_Product_Request__c
+            WHERE Course__c =: productRequestId
+        ];
+
+        Set<Id> parentProductRequest = new Set<Id>();
+        for(Related_Product_Request__c rpr: getRelatedProductRequest){
+            parentProductRequest.add(rpr.Program__c);
+        }
+
+        if(!parentProductRequest.isEmpty()){
+            //get buyergroup pricebook related to SOA
+             buyerGroupPriceBookList = [
+                SELECT Id,Pricebook2Id FROM BuyerGroupPriceBook 
+                WHERE BuyerGroup.Product_Request__c IN: parentProductRequest
+            ];
+        }
+
+        if(!buyerGroupPriceBookList.isEmpty()){
+            for(BuyerGroupPriceBook bgp: buyerGroupPriceBookList){
+                priceBookEntryToInsert.add(new PriceBookEntry(  
+                    Pricebook2Id = bgp.Pricebook2Id, 
+                    Product2Id = priceBookEntry.Product2Id,
+                    IsActive = true,
+                    UnitPrice = priceBookEntry.UnitPrice));
+            }
+        }
+
+        //insert SOA pricebook entry
+        if(!priceBookEntryToInsert.isEmpty()){
+            insert priceBookEntryToInsert;
+        }
+
     }
 
     public class ResponseWrapper {

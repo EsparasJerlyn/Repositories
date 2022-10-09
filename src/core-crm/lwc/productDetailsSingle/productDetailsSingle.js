@@ -1,3 +1,15 @@
+/**
+ * @description A LWC component for single product details
+ * 
+ * @author Accenture
+ *
+ * @history
+ *    | Developer                 | Date                  | JIRA                 | Change Summary                               |
+      |---------------------------|-----------------------|----------------------|----------------------------------------------|
+      | marygrace.li              | October 07, 2022      | DEPP-4550            | Modified to handle hide/show of content      |
+      |                           |                       |                      |                                              |
+ */
+
 import { LightningElement, api, wire } from "lwc";
 import { loadStyle } from "lightning/platformResourceLoader";
 import qutResourceImg from "@salesforce/resourceUrl/QUTImages";
@@ -17,12 +29,11 @@ export default class ProductDetailsSingle extends LightningElement {
     }
 
     connectedCallback() {
-        console.log("this.product" + this.product);
-        this.showOverview = true;
-        this.showEvolveWithQUTeX = true;
-        this.showWhoShouldParticipate = true;
-        this.showCoreConcepts = true;
-        this.showMoreDetails = true;
+        this.showOverview = this.product.productDetails.overview ? true : false;
+        this.showEvolveWithQUTeX = this.product.productDetails.evolveWithQUTeX ? true : false;
+        this.showWhoShouldParticipate = this.product.productDetails.whoShouldParticipate ? true : false;
+        this.showCoreConcepts = this.product.productDetails.coreConcepts ? true : false;
+        this.showMoreDetails = this.product.productDetails.moreDetails ? true : false;
         this.durationIcon = qutResourceImg + "/QUTImages/Icon/duration.svg";
     }
 

@@ -5,7 +5,7 @@
         <name>Assign_Product_Category_as_Learning_Solution</name>
         <label>Assign Product Category as Learning Solution</label>
         <locationX>50</locationX>
-        <locationY>575</locationY>
+        <locationY>911</locationY>
         <assignmentItems>
             <assignToReference>Product_Category</assignToReference>
             <operator>Assign</operator>
@@ -21,7 +21,7 @@
         <name>Assign_Product_Category_As_Tailored_0</name>
         <label>Assign Product Category As Tailored</label>
         <locationX>314</locationX>
-        <locationY>575</locationY>
+        <locationY>911</locationY>
         <assignmentItems>
             <assignToReference>Product_Category</assignToReference>
             <operator>Assign</operator>
@@ -37,14 +37,14 @@
         <name>Check_Parent_Record_Type</name>
         <label>Check Parent Record Type</label>
         <locationX>314</locationX>
-        <locationY>455</locationY>
+        <locationY>791</locationY>
         <defaultConnector>
             <targetReference>Check_Record_Type</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Is_Standing_Offer_Arrangement</name>
-            <conditionLogic>and</conditionLogic>
+            <conditionLogic>1 AND 3 AND ( 2 OR 4)</conditionLogic>
             <conditions>
                 <leftValueReference>Get_Related_Product_Requests.Id</leftValueReference>
                 <operator>IsNull</operator>
@@ -66,6 +66,13 @@
                     <stringValue>CCE</stringValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>Get_Grand_Parent_Product_Request.Program__r.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Standing_Offer_Arrangement</stringValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>Assign_Product_Category_as_Learning_Solution</targetReference>
             </connector>
@@ -81,13 +88,6 @@
                     <stringValue>CCE</stringValue>
                 </rightValue>
             </conditions>
-            <conditions>
-                <leftValueReference>Get_Related_Product_Requests.Id</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
             <connector>
                 <targetReference>Assign_Product_Category_As_Tailored_0</targetReference>
             </connector>
@@ -98,7 +98,7 @@
         <name>Check_Record_Type</name>
         <label>Check Record Type</label>
         <locationX>314</locationX>
-        <locationY>791</locationY>
+        <locationY>1127</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Activity_Short_Course_Unit_Module</name>
@@ -180,6 +180,31 @@
             <label>Program Plan</label>
         </rules>
     </decisions>
+    <decisions>
+        <name>Has_Parent</name>
+        <label>Has Parent</label>
+        <locationX>314</locationX>
+        <locationY>455</locationY>
+        <defaultConnector>
+            <targetReference>Check_Parent_Record_Type</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>yes</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Related_Product_Requests.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Grand_Parent_Product_Request</targetReference>
+            </connector>
+            <label>yes</label>
+        </rules>
+    </decisions>
     <interviewLabel>Update Product from Course {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Update Product from Course</label>
     <processMetadataValues>
@@ -205,7 +230,7 @@
         <name>Get_Course</name>
         <label>Get Course</label>
         <locationX>50</locationX>
-        <locationY>911</locationY>
+        <locationY>1247</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Update_Course_Product</targetReference>
@@ -230,10 +255,31 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <name>Get_Grand_Parent_Product_Request</name>
+        <label>Get Grand Parent Product Request</label>
+        <locationX>182</locationX>
+        <locationY>575</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Check_Parent_Record_Type</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Course__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_Related_Product_Requests.Program__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Related_Product_Request__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>Get_Program_Plan</name>
         <label>Get Program Plan</label>
         <locationX>314</locationX>
-        <locationY>911</locationY>
+        <locationY>1247</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Update_Program_Product</targetReference>
@@ -264,7 +310,7 @@
         <locationY>335</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Check_Parent_Record_Type</targetReference>
+            <targetReference>Has_Parent</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -282,7 +328,7 @@
         <name>Update_Course_Product</name>
         <label>Update Course Product</label>
         <locationX>50</locationX>
-        <locationY>1031</locationY>
+        <locationY>1367</locationY>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Course__c</field>
@@ -357,7 +403,7 @@
         <name>Update_Program_Product</name>
         <label>Update Program Product</label>
         <locationX>314</locationX>
-        <locationY>1031</locationY>
+        <locationY>1367</locationY>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Program_Plan__c</field>

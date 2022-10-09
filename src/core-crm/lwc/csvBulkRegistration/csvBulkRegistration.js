@@ -14,6 +14,7 @@
       | jessel.bajao              | September 29, 2022    | DEPP-4314                       | Changed code for browsers compatibility of Date of Birth  |
       | eugene.andrew.abuan   	  | October 03, 2022      | DEPP-4494                       | Added leading zeroes in convertDate function		    	|
       | eugene.andrew.abuan   	  | October 04, 2022      | DEPP-4503                       | Added validation for firstname and lastname               |
+      | julie.jane.alegre         | October 08, 2022      | DEPP-4551                       | Update pass parameter to the sessionStorage  |
 
       */
 
@@ -35,7 +36,7 @@ import {loadStyle} from "lightning/platformResourceLoader";
 import BasePath from "@salesforce/community/basePath";
 import customCCECSS from "@salesforce/resourceUrl/QUTMainCSS";
 
-const CURRENTPRODUCTCATEGORY = "current_product_category";
+const CURRENTPRODUCTCATEGORY = "product_category";
 const CSV_NAME = 'BulkRegistrationCSVTemplate';
 const CONTENT_TYPE = 'cms_document';
 const ERROR_FOR_TEMPLATE = 'Template does not exist, Please contact your admin';

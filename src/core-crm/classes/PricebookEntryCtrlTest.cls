@@ -20,6 +20,10 @@ private class PricebookEntryCtrlTest {
     private static Id opeModuleReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_MODULE).getRecordTypeId();
     private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
+    private static Id cceProdSpecId = Schema.SObjectType.Product_Specification__c.getRecordTypeInfosByDeveloperName().get('CCE').getRecordTypeId();
+    private static final Id SOA_ID = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get('Standing_Offer_Arrangement').getRecordTypeId();
+    private static final Id ACTIVITY_ID = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get('Activity').getRecordTypeId();
+    private static final Id ACTIVITY_COURSE_ID = Schema.SObjectType.hed__Course__c.getRecordTypeInfosByDeveloperName().get('Activity').getRecordTypeId();
 
     @testSetup static void setupMethod() {
         List<Account> accounts;
@@ -139,6 +143,83 @@ private class PricebookEntryCtrlTest {
         }
         Test.stopTest();
 
+    }
+
+    @isTest
+    private static void createSOAPricingTest(){
+        Test.startTest();
+
+            BuyerGroup buyerGroup = new BuyerGroup(Name='OPE BuyerGroup');
+            insert buyerGroup;
+
+            List<Contact> conList;
+            conList = TestDataFactory.createTestContactRecords(1);
+            insert conList;
+    
+            List<Account> accounts = [SELECT Id FROM Account WHERE Organization_Unit_Level__c = '2' LIMIT 1];
+    
+            List<Opportunity> oppList = TestDataFactory.createTestOpportunityRecords(1,accounts[0].Id,conList.iterator().next()?.Id);
+            insert oppList;
+    
+            List<Product_Specification__c> prodSpecList = TestDataFactory.createTestProductSpecsRecords(1,conList,oppList);
+            prodSpecList[0].RecordTypeId = cceProdSpecId;
+            insert prodSpecList;
+    
+            List<Product_Request__c> soaRequest = TestDataFactory.createTestProductRequestRecords(1,prodSpecList[0].Id);
+    
+            Pricebook2 priceBook;
+            pricebook = new Pricebook2(isActive = true, id = Test.getStandardPricebookId());
+            update pricebook;
+    
+            for(Product_Request__c pr : soaRequest){
+                pr.RecordTypeId = SOA_ID;        
+            }
+    
+            insert soaRequest;
+    
+            List<BuyerGroup> bgToInsertList = new List<BuyerGroup>();
+            List<PriceBook2> soaPBList = new List<PriceBook2>();
+                for(Integer i = 0; i<soaRequest.size();i++){
+                bgToInsertList.add(new BuyerGroup(Name ='SOA' + i, Product_Request__c = soaRequest[i].Id));
+                }
+            
+            insert bgToInsertList;
+    
+            List<Product_Request__c> courseRequest = TestDataFactory.createTestProductRequestRecords(1,prodSpecList[0].Id);
+                for(Product_Request__c pr : courseRequest){
+                    pr.RecordTypeId = ACTIVITY_ID;        
+                }
+            insert courseRequest;
+    
+            List<hed__Course__c> courses = new List<hed__Course__c>();
+            for(Product_Request__c prC: courseRequest){
+            courses.addAll(TestDataFactory.createTestCourseRecords(1,accounts[0].Id,prC.Id));
+            }
+    
+            for(hed__Course__c c: courses){
+            c.RecordTypeId = ACTIVITY_COURSE_ID;
+            }
+            insert courses;
+    
+            List<Related_Product_Request__c> relatedPRInsert = new List<Related_Product_Request__c>();
+            for(Integer i = 0; i < soaRequest.size(); i ++){
+            relatedPRInsert.add(new Related_Product_Request__c(Program__c = soaRequest[i].Id, Course__c = courseRequest[i].Id));
+            }
+            insert relatedPRInsert;
+    
+            List<Product2> products = new List<Product2>([SELECT Id FROM Product2 WHERE Course__c IN:courses]);
+    
+            List<PriceBookEntry> newPriceBookEntry = new List<PriceBookEntry>();
+            newPriceBookEntry.add(new PriceBookEntry(Product2Id = products[0].Id, PriceBook2Id = priceBook.Id, IsActive = true, UnitPrice = 300));
+            
+            System.runAs(currentUser){
+                PricebookEntryCtrl.upsertPricebookEntries(newPriceBookEntry);
+            }
+            
+            
+        Test.stopTest();
+
+        System.assert(![SELECT Id FROM PriceBookEntry Where UnitPrice = 300].isEmpty(), 'No pricebook entry created');
     }
 
 }
