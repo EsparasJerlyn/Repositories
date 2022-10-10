@@ -23,10 +23,18 @@ variables:
   - group: SF_CICD
 
 parameters:
+- name: INCLUDE_SANDBOX_REFRESH_STEP_LoadUsers
+  displayName: Include Add/Update Test Users
+  type: string
+  default: "No"
+  values:
+    - "Yes"
+    - "No"
+
 - name: PACKAGE_DEPLOYMENT_DELTA_TYPE
   displayName: Package Deployment Delta Type
   type: string
-  default: "Diff from target branch"
+  default: "Diff from main"
   values:
   - "Diff from main"
   - "Diff from target branch"
