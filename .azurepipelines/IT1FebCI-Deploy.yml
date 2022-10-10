@@ -19,7 +19,7 @@ pr:
   drafts: false
   branches:
     include:
-      - release/IT1Feb
+      - release/IT2
 
 #Custom Variables
 variables:
@@ -47,7 +47,7 @@ parameters:
 - name: TARGET_BRANCH
   displayName: Target Branch
   type: string
-  default: release/IT1Feb
+  default: release/IT2
 
 stages:
   - stage: PiplineJob
