@@ -16,7 +16,7 @@ pr:
   drafts: false
   branches:
     include:
-      - hotfix/main
+      - hotfix/*
 
 #Custom Variables
 variables:
