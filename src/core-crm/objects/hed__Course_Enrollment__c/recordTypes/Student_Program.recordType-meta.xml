@@ -26,6 +26,10 @@
     <picklistValues>
         <picklist>Paid_in_Full__c</picklist>
         <values>
+            <fullName>Contract</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>No</fullName>
             <default>false</default>
         </values>
@@ -50,6 +54,10 @@
         </values>
         <values>
             <fullName>Pay Now</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Contract</fullName>
             <default>false</default>
         </values>
     </picklistValues>

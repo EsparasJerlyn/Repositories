@@ -13,6 +13,7 @@
  */
 public with sharing class PricebookEntryCtrl {
     public static List<String> priceBookIdsOPE = new List<String>();
+    private static final String PR_SOA = System.Label.RT_ProductRequest_SOA;
     /**
      * @description fetches List Price  and pricebooks related to the product request
      * @param prodReqId - id of product request
@@ -138,6 +139,8 @@ public with sharing class PricebookEntryCtrl {
         List<BuyerGroupPriceBook> buyerGroupPriceBookList = new List<BuyerGroupPriceBook>();
         List<PriceBookEntry> priceBookEntryToInsert = new List<PriceBookEntry>();
         Set<Id> pricebook2Id = new Set<Id>();
+        List<Related_Product_Request__c> getRelatedProductRequest = new List<Related_Product_Request__c>();
+        Set<Id> parentProductRequest = new Set<Id>();
 
         //get product request linked to the product
         List<Product2> relatedProduct = [
@@ -148,25 +151,34 @@ public with sharing class PricebookEntryCtrl {
             OR Program_Plan__r.Product_Request__r.Product_Specification__r.RecordType.DeveloperName = 'CCE')
         ];
 
-        String productRequestId = '';
-
+        //get parent product request(SOA)
         if(!relatedProduct.isEmpty()){
-            productRequestId = relatedProduct[0].Course__c != null?relatedProduct[0].Course__r.ProductRequestID__c:relatedProduct[0].Program_Plan__r.Product_Request__c;
+            getRelatedProductRequest = [
+                SELECT Id, Program__c, Course__c
+                FROM Related_Product_Request__c
+                WHERE (Course__c =: relatedProduct[0].Course__r.ProductRequestID__c
+                OR Course__c =: relatedProduct[0].Program_Plan__r.Product_Request__c)
+                AND Program__c != null AND Program__r.RecordType.DeveloperName =: PR_SOA
+            ];
         }
 
-        //get parent product request(SOA)
-        List<Related_Product_Request__c> getRelatedProductRequest = [
-            SELECT Id, Program__c, Course__c
-            FROM Related_Product_Request__c
-            WHERE Course__c =: productRequestId
-        ];
-
-        Set<Id> parentProductRequest = new Set<Id>();
         for(Related_Product_Request__c rpr: getRelatedProductRequest){
             parentProductRequest.add(rpr.Program__c);
         }
 
+
         if(!parentProductRequest.isEmpty()){
+
+            //check for grand parent SOA
+            for(Related_Product_Request__c rpr: [
+                SELECT Id, Program__c, Course__c
+                FROM Related_Product_Request__c
+                WHERE Course__c IN: parentProductRequest
+                AND Program__c != null
+                AND Program__r.RecordType.DeveloperName =: PR_SOA]){
+                parentProductRequest.add(rpr.Program__c);
+            }
+
             //get buyergroup pricebook related to SOA
              buyerGroupPriceBookList = [
                 SELECT Id,Pricebook2Id FROM BuyerGroupPriceBook 

@@ -20,6 +20,11 @@
                 <default>false</default>
                 <label>No</label>
             </value>
+            <value>
+                <fullName>Contract</fullName>
+                <default>false</default>
+                <label>Contract</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

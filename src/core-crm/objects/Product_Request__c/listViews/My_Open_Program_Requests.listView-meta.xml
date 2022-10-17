@@ -2,7 +2,6 @@
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>My_Open_Program_Requests</fullName>
     <columns>NAME</columns>
-    <columns>Product_Request_Name__c</columns>
     <columns>Product_Request_Status__c</columns>
     <columns>OWNER.ALIAS</columns>
     <filterScope>Mine</filterScope>
