@@ -296,6 +296,8 @@
     <types>
         <members>Product_Request__c.Open_Professional_Advantage_Requests</members>
         <members>Product_Request__c.My_Open_Professional_Advantage_Requests</members>
+        <members>Product_Request__c.My_Open_StandAlone_Unit_Module_Requests</members>
+        <members>Product_Request__c.Open_StandAlone_Unit_Module_Requests</members>
         <name>ListView</name>
     </types>
     <types>

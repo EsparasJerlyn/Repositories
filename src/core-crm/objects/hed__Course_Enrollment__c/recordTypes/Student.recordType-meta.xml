@@ -33,6 +33,10 @@
             <fullName>Yes</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>Contract</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Payment_Method__c</picklist>
@@ -50,6 +54,10 @@
         </values>
         <values>
             <fullName>Pay Now</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Contract</fullName>
             <default>false</default>
         </values>
     </picklistValues>

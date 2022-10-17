@@ -123,10 +123,10 @@ export default class ProductBulkRegistration extends NavigationMixin(
             //get current product category
             let currentProductCategory = JSON.parse(
              sessionStorage.getItem(CURRENTPRODUCTCATEGORY)
-             );
-             if(currentProductCategory.category == Corporate_Bundle){
+            );
+            if(currentProductCategory && currentProductCategory.fromCategoryName == Corporate_Bundle){
                 this.productCategoryCheck = true;
-             }
+            }
        }
         this.xButton = qutResourceImg + "/QUTImages/Icon/xMark.svg";
 

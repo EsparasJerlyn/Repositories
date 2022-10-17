@@ -19,8 +19,9 @@
  | jessel.bajao              | August 12, 2022       | DEPP-3482 | Changed running user and added test data and       |
  |                           |                       |           | methods                                            |
  | keno.domienri.dico        | August 25, 2022       | DEPP-3765 | Added methods for CCE product categories           |
-| jessel.bajao              | September 09, 2022    | DEPP-4071 | Remove testInsertLearnerInfo and added test class  |
+ | jessel.bajao              | September 09, 2022    | DEPP-4071 | Remove testInsertLearnerInfo and added test class  |
  |                           |                       |           | for Registration Confirmation Data                 |
+ | keno.domienri.dico        | October 13, 2022      | DEPP-4283 | Added methods and raise coverage                   |
  */
 @isTest
 public class ProductDetailsCtrlTest{
@@ -47,12 +48,6 @@ public class ProductDetailsCtrlTest{
     TestDataFactory.generateTestUsers();
     EmailTemplate template = TestDataFactory.createTestEmailTemplateRecords(1, new Map<String, String>{ 'Send Register Interest Email' => 'Test Email Subject' }).iterator().next();
     insert template;
-
-    // Study_Store_URL_Settings__c studyStore = new Study_Store_URL_Settings__c(
-    //   Name = 'QUTeX',
-    //   Study_Store_Link__c = 'https://studystorelinktest.com/'
-    // );
-    // insert studyStore;
 
     System.runAs(TestDataFactory.getProgramAdminUser()){
       BypassTriggers__c bypass = new BypassTriggers__c(Bypass__c = true, SetupOwnerId = UserInfo.getOrganizationId());
@@ -109,17 +104,8 @@ public class ProductDetailsCtrlTest{
       }
       insert flexProgProducts;
 
-
       List<Related_Product_Request__c> relatedProdRquests = new List<Related_Product_Request__c>();
       relatedProdRquests.add(new Related_Product_Request__c(Program__c = '01t9p000000O16XXXX'));
-
-
-      // List<Product2> childProducts = TestDataFactory.createTestProductRecords(100, courses);
-      // for (Product2 sProd : childProducts) {
-      //   sProd.Delivery__c = 'Online Classroom;Online Self-paced;Brisbane Classroom';
-      //   sProd.Course__c =   'a0C9p000007IOqEEAW';
-      // }
-      // insert childProducts;
 
       Pricebook2 pricebook = new Pricebook2(isActive = true, id = Test.getStandardPricebookId());
       update pricebook;
@@ -166,11 +152,6 @@ public class ProductDetailsCtrlTest{
         courseConnection.RecordTypeId = FACULTY_RECTYPEID;
       }
       insert courseConnections;
-      /* List<Program_Offering__c> programOffs = TestDataFactory.createTestProgramOfferingRecords(
-       10,
-       programPlans
-       );
-       insert programOffs; */
 
       WebStore testWebStore = new WebStore(Name = 'CCE', DefaultLanguage = 'en_US');
       insert testWebStore;
@@ -274,8 +255,6 @@ public class ProductDetailsCtrlTest{
         insert acr;
       }
 
-			// CCECorporateUserCtrl.CorporateUserDetails enableResponse = CCECorporateUserCtrl.enableCCECorporateUser(cceContact.Id);
-
       CCECorporateUserCtrl.CorporateUserDetails enableResponse = new CCECorporateUserCtrl.CorporateUserDetails();
       enableResponse = CCECorporateUserCtrl.enableCCECorporateUser(cceContact.Id);
 
@@ -320,7 +299,7 @@ public class ProductDetailsCtrlTest{
 			
 			// Create Products
 			List<Product_Request__c> prodRequestCCE = TestDataFactory.createTestProductRequestRecords(
-				1
+				10
 			);
 			prodRequestCCE[0].RecordTypeId = RT_ACTIVITY_ID;
 			insert prodRequestCCE;
@@ -361,6 +340,17 @@ public class ProductDetailsCtrlTest{
 			}
 			insert setTEEList;
 
+      List<hed__Term__c> terms = TestDataFactory.createTestTermRecords(10, accounts[0].Id);
+      insert terms;
+
+      List<hed__Course_Offering__c> courseOfferings = TestDataFactory.createTestCourseOfferingRecord(10, courses, terms);
+      for (hed__Course_Offering__c cOffering : courseOfferings){
+        cOffering.Registration_Start_Date__c = system.today() - 2;
+        cOffering.IsActive__c = true;
+        cOffering.Delivery_Type__c = 'Online Classroom';
+      }
+      insert courseOfferings;
+
 			List<CommerceEntitlementProduct> ceProd = [
 				SELECT Id, ProductId, PolicyId FROM CommerceEntitlementProduct 
 			];
@@ -374,7 +364,7 @@ public class ProductDetailsCtrlTest{
 
 			// Prescribe Program
 			List<Product_Request__c> prodRequestPrescribedProgram = TestDataFactory.createTestProductRequestRecords(
-				1
+				10
 			);
 			prodRequestPrescribedProgram[0].RecordTypeId = opeProgProdReqId;
 			prodRequestPrescribedProgram[0]
@@ -382,13 +372,13 @@ public class ProductDetailsCtrlTest{
 			insert prodRequestPrescribedProgram;
 
 			List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(
-				1
+				10
 			);
 			programPlans[0].Product_Request__c = prodRequestPrescribedProgram[0].Id;
 			insert programPlans;
 
 			List<Product2> prodProgProductsCCE = TestDataFactory.createTestProductRecords(
-				50
+				10
 			);
 			Integer pProdCount = 0;
 			for (Product2 presProd : prodProgProductsCCE) {
@@ -412,6 +402,81 @@ public class ProductDetailsCtrlTest{
 				setTEEProgList.add(setTEEProg);
 			}
 			insert setTEEProgList;
+
+      //Create Child Products
+      List<Product_Request__c> prodRequestChild = TestDataFactory.createTestProductRequestRecords(
+				10
+			);
+			prodRequestChild[0].RecordTypeId = RT_ACTIVITY_ID;
+      prodRequestChild[0].Product_Request_Status__c  = 'Published';
+			insert prodRequestChild;
+
+      // Update CCE BuyerGroup
+      BuyerGroup bgUpdateChild = [
+        SELECT Id, Name, Product_Request__c, Primary_Account__c
+        FROM BuyerGroup
+        WHERE Id = :bGroup[0].Id
+      ];
+      bgUpdateChild.Product_Request__c = prodRequestChild[0].Id;
+      update bgUpdateChild;
+
+			// Single Products
+			List<hed__Course__c> coursesChild = TestDataFactory.createTestCourseRecords(
+				10,
+				accUniv[0].Id,
+				prodRequestChild[0].Id
+			);
+			insert coursesChild;
+
+			List<Product2> singleProductsChild = TestDataFactory.createTestProductRecords(
+				10,
+				coursesChild
+			);
+			Integer sProdCountChild = 0;
+			for (Product2 sProdChild : singleProductsChild) {
+				sProdChild.Delivery__c = 'Online Classroom;Online Self-paced;Brisbane Classroom';
+				sProdChild.Study_Area__c = 'Engineering';
+				sProdChild.Product_Type__c = 'Short Course';
+				sProdChild.Course__c = coursesChild[0].Id;
+				sProdChild.Available_on_Cart__c = true;
+				sProdCountChild++;
+			}
+			insert singleProductsChild;
+
+			List<Product2> getSingleProdChild = [
+				SELECT Id, Course__c FROM Product2 WHERE Course__c != null
+			];
+			List<ProductCategoryProduct> setTEEListChild = new List<ProductCategoryProduct>();
+			for(Integer x = 0; x <= sProdCountChild; x++){
+				ProductCategoryProduct setTEEChild = new ProductCategoryProduct();
+				setTEEChild.ProductCategoryId = prodCateg1.Id;
+				setTEEChild.ProductId = getSingleProdChild[x].Id;
+				setTEEList.add(setTEEChild);
+			}
+			insert setTEEListChild;
+
+      List<hed__Course_Offering__c> courseOfferingsChild = TestDataFactory.createTestCourseOfferingRecord(10, coursesChild, terms);
+      for (hed__Course_Offering__c cOfferingChild : courseOfferingsChild){
+        cOfferingChild.Registration_Start_Date__c = system.today() - 2;
+        cOfferingChild.IsActive__c = true;
+        cOfferingChild.Delivery_Type__c = 'Online Classroom';
+      }
+      insert courseOfferingsChild;
+
+			List<CommerceEntitlementProduct> ceProdChild = [
+				SELECT Id, ProductId, PolicyId FROM CommerceEntitlementProduct 
+			];
+			Integer commChildCount = 0;
+			for(CommerceEntitlementProduct setCEProdChild : ceProdChild){
+				setCEProdChild.ProductId = getSingleProdChild[commChildCount].Id;
+				setCEProdChild.PolicyId = ceBuyerGroup[0].PolicyId;
+				a++;
+			}
+			insert ceProdChild;
+
+      List<Related_Product_Request__c> childProdRelatedRequest = TestDataFactory.createTestRelatedPRRecords(10, prodRequestChild, prodRequestPrescribedProgram);
+      insert childProdRelatedRequest;
+      // End Child Products
 
 			List<CommerceEntitlementProduct> ceProdPres = [
 				SELECT Id, ProductId, PolicyId FROM CommerceEntitlementProduct 
@@ -526,8 +591,6 @@ public class ProductDetailsCtrlTest{
         insert acr;
       }
 
-			// CCECorporateUserCtrl.CorporateUserDetails enableResponse = CCECorporateUserCtrl.enableCCECorporateUser(cceContact.Id);
-
       CCECorporateUserCtrl.CorporateUserDetails enableResponse = new CCECorporateUserCtrl.CorporateUserDetails();
       enableResponse = CCECorporateUserCtrl.enableCCECorporateUser(cceContact.Id);
 
@@ -565,7 +628,7 @@ public class ProductDetailsCtrlTest{
 			
 			// Create Products
 			List<Product_Request__c> prodRequestCCE = TestDataFactory.createTestProductRequestRecords(
-				1
+				10
 			);
 			prodRequestCCE[0].RecordTypeId = RT_ACTIVITY_ID;
       prodRequestCCE[0].Product_Request_Status__c  = 'Published';
@@ -615,6 +678,17 @@ public class ProductDetailsCtrlTest{
 			}
 			insert setTEEList;
 
+      List<hed__Term__c> terms = TestDataFactory.createTestTermRecords(10, accounts[0].Id);
+      insert terms;
+
+      List<hed__Course_Offering__c> courseOfferings = TestDataFactory.createTestCourseOfferingRecord(10, courses, terms);
+      for (hed__Course_Offering__c cOffering : courseOfferings){
+        cOffering.Registration_Start_Date__c = system.today() - 2;
+        cOffering.IsActive__c = true;
+        cOffering.Delivery_Type__c = 'Online Classroom';
+      }
+      insert courseOfferings;
+
 			List<CommerceEntitlementProduct> ceProd = [
 				SELECT Id, ProductId, PolicyId FROM CommerceEntitlementProduct 
 			];
@@ -628,7 +702,7 @@ public class ProductDetailsCtrlTest{
 
 			// Prescribe Program
 			List<Product_Request__c> prodRequestPrescribedProgram = TestDataFactory.createTestProductRequestRecords(
-				1
+				10
 			);
 			prodRequestPrescribedProgram[0].RecordTypeId = opeProgProdReqId;
 			prodRequestPrescribedProgram[0].OPE_Program_Plan_Type__c = 'Prescribed Program';
@@ -642,13 +716,13 @@ public class ProductDetailsCtrlTest{
       update bgUpdateProg;
 
 			List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(
-				1
+				10
 			);
 			programPlans[0].Product_Request__c = prodRequestPrescribedProgram[0].Id;
 			insert programPlans;
 
 			List<Product2> prodProgProductsCCE = TestDataFactory.createTestProductRecords(
-				50
+				10
 			);
 			Integer pProdCount = 0;
 			for (Product2 presProd : prodProgProductsCCE) {
@@ -671,6 +745,110 @@ public class ProductDetailsCtrlTest{
 				setTEEProgList.add(setTEEProg);
 			}
 			insert setTEEProgList;
+
+      //Create Child Products
+      List<Product_Request__c> prodRequestChild = TestDataFactory.createTestProductRequestRecords(
+				10
+			);
+			prodRequestChild[0].RecordTypeId = RT_ACTIVITY_ID;
+      prodRequestChild[0].Product_Request_Status__c  = 'Published';
+			insert prodRequestChild;
+
+      // Update CCE BuyerGroup
+      BuyerGroup bgUpdateChild = [
+        SELECT Id, Name, Product_Request__c, Primary_Account__c
+        FROM BuyerGroup
+        WHERE Id = :bGroup[0].Id
+      ];
+      bgUpdateChild.Product_Request__c = prodRequestChild[0].Id;
+      update bgUpdateChild;
+
+			// Single Products
+			List<hed__Course__c> coursesChild = TestDataFactory.createTestCourseRecords(
+				10,
+				accUniv[0].Id,
+				prodRequestChild[0].Id
+			);
+			insert coursesChild;
+
+			List<Product2> singleProductsChild = TestDataFactory.createTestProductRecords(
+				10,
+				coursesChild
+			);
+			Integer sProdCountChild = 0;
+			for (Product2 sProdChild : singleProductsChild) {
+				sProdChild.Delivery__c = 'Online Classroom;Online Self-paced;Brisbane Classroom';
+				sProdChild.Study_Area__c = 'Engineering';
+				sProdChild.Product_Type__c = 'Short Course';
+				sProdChild.Course__c = coursesChild[0].Id;
+				sProdChild.Available_on_Cart__c = true;
+				sProdCountChild++;
+			}
+			insert singleProductsChild;
+
+      Pricebook2 pricebookChild = new Pricebook2(
+				isActive = true, 
+				id = Test.getStandardPricebookId()
+			);
+      update pricebookChild;
+
+			Pricebook2 pbCBChild = new Pricebook2();
+			pbCBChild.Name = 'Corporate Bundle - Test Child';
+			pbCBChild.IsActive = true;
+			insert pbCBChild;
+
+      // Create BuyerGroupPriceBook
+			BuyerGroupPriceBook bgPriceBookChild = new BuyerGroupPriceBook();
+      bgPriceBookChild.PriceBook2Id = pbCBChild.Id;
+      bgPriceBookChild.BuyerGroupId = bGroupMember[0].BuyerGroupId;
+			insert bgPriceBookChild;
+
+			// Create PricebookEntry Standard
+			List<PricebookEntry> priceBookEntryListChild = new List<PricebookEntry>();
+			for (Product2 singleProdPBEntryChild : singleProductsChild) {
+			  PricebookEntry priceBookEntry = new PricebookEntry();
+			  priceBookEntry.pricebook2id = pricebookChild.Id;
+			  priceBookEntry.UnitPrice = 10;
+			  priceBookEntry.product2Id = singleProdPBEntryChild.Id;
+			  priceBookEntry.isActive = true;
+			  priceBookEntryListChild.add(priceBookEntry);
+			}
+			insert priceBookEntryListChild;
+
+			List<Product2> getSingleProdChild = [
+				SELECT Id, Course__c FROM Product2 WHERE Course__c != null
+			];
+			List<ProductCategoryProduct> setTEEListChild = new List<ProductCategoryProduct>();
+			for(Integer x = 0; x <= sProdCountChild; x++){
+				ProductCategoryProduct setTEEChild = new ProductCategoryProduct();
+				setTEEChild.ProductCategoryId = prodCateg1.Id;
+				setTEEChild.ProductId = getSingleProdChild[x].Id;
+				setTEEList.add(setTEEChild);
+			}
+			insert setTEEListChild;
+
+      List<hed__Course_Offering__c> courseOfferingsChild = TestDataFactory.createTestCourseOfferingRecord(10, coursesChild, terms);
+      for (hed__Course_Offering__c cOfferingChild : courseOfferingsChild){
+        cOfferingChild.Registration_Start_Date__c = system.today() - 2;
+        cOfferingChild.IsActive__c = true;
+        cOfferingChild.Delivery_Type__c = 'Online Classroom';
+      }
+      insert courseOfferingsChild;
+
+			List<CommerceEntitlementProduct> ceProdChild = [
+				SELECT Id, ProductId, PolicyId FROM CommerceEntitlementProduct 
+			];
+			Integer commChildCount = 0;
+			for(CommerceEntitlementProduct setCEProdChild : ceProdChild){
+				setCEProdChild.ProductId = getSingleProdChild[commChildCount].Id;
+				setCEProdChild.PolicyId = ceBuyerGroup[0].PolicyId;
+				a++;
+			}
+			insert ceProdChild;
+
+      List<Related_Product_Request__c> childProdRelatedRequest = TestDataFactory.createTestRelatedPRRecords(10, prodRequestChild, prodRequestPrescribedProgram);
+      insert childProdRelatedRequest;
+      // End Child Products
 
       // Create Pricebook
 			Pricebook2 pricebook = new Pricebook2(
@@ -836,8 +1014,6 @@ public class ProductDetailsCtrlTest{
         insert acr;
       }
 
-			// CCECorporateUserCtrl.CorporateUserDetails enableResponse = CCECorporateUserCtrl.enableCCECorporateUser(cceContact.Id);
-
       CCECorporateUserCtrl.CorporateUserDetails enableResponse = new CCECorporateUserCtrl.CorporateUserDetails();
       enableResponse = CCECorporateUserCtrl.enableCCECorporateUser(cceContact.Id);
       system.debug(JSON.serializePretty(enableResponse));
@@ -925,6 +1101,17 @@ public class ProductDetailsCtrlTest{
 			}
 			insert setTEEList;
 
+      List<hed__Term__c> terms = TestDataFactory.createTestTermRecords(10, accounts[0].Id);
+      insert terms;
+
+      List<hed__Course_Offering__c> courseOfferings = TestDataFactory.createTestCourseOfferingRecord(10, courses, terms);
+      for (hed__Course_Offering__c cOffering : courseOfferings){
+        cOffering.Registration_Start_Date__c = system.today() - 2;
+        cOffering.IsActive__c = true;
+        cOffering.Delivery_Type__c = 'Online Classroom';
+      }
+      insert courseOfferings;
+
 			List<CommerceEntitlementProduct> ceProd = [
 				SELECT Id, ProductId, PolicyId FROM CommerceEntitlementProduct 
 			];
@@ -938,7 +1125,7 @@ public class ProductDetailsCtrlTest{
 
 			// Prescribe Program
 			List<Product_Request__c> prodRequestPrescribedProgram = TestDataFactory.createTestProductRequestRecords(
-				1
+				10
 			);
 			prodRequestPrescribedProgram[0].RecordTypeId = opeProgProdReqId;
 			prodRequestPrescribedProgram[0].OPE_Program_Plan_Type__c = 'Prescribed Program';
@@ -952,13 +1139,13 @@ public class ProductDetailsCtrlTest{
       update bgUpdateProg;
 
 			List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(
-				1
+				10
 			);
 			programPlans[0].Product_Request__c = prodRequestPrescribedProgram[0].Id;
 			insert programPlans;
 
 			List<Product2> prodProgProductsCCE = TestDataFactory.createTestProductRecords(
-				50
+				10
 			);
 			Integer pProdCount = 0;
 			for (Product2 presProd : prodProgProductsCCE) {
@@ -981,6 +1168,110 @@ public class ProductDetailsCtrlTest{
 				setTEEProgList.add(setTEEProg);
 			}
 			insert setTEEProgList;
+
+      //Create Child Products
+      List<Product_Request__c> prodRequestChild = TestDataFactory.createTestProductRequestRecords(
+				10
+			);
+			prodRequestChild[0].RecordTypeId = RT_ACTIVITY_ID;
+      prodRequestChild[0].Product_Request_Status__c  = 'Published';
+			insert prodRequestChild;
+
+      // Update CCE BuyerGroup
+      BuyerGroup bgUpdateChild = [
+        SELECT Id, Name, Product_Request__c, Primary_Account__c
+        FROM BuyerGroup
+        WHERE Id = :bGroup[0].Id
+      ];
+      bgUpdateChild.Product_Request__c = prodRequestChild[0].Id;
+      update bgUpdateChild;
+
+			// Single Products
+			List<hed__Course__c> coursesChild = TestDataFactory.createTestCourseRecords(
+				10,
+				accUniv[0].Id,
+				prodRequestChild[0].Id
+			);
+			insert coursesChild;
+
+			List<Product2> singleProductsChild = TestDataFactory.createTestProductRecords(
+				10,
+				coursesChild
+			);
+			Integer sProdCountChild = 0;
+			for (Product2 sProdChild : singleProductsChild) {
+				sProdChild.Delivery__c = 'Online Classroom;Online Self-paced;Brisbane Classroom';
+				sProdChild.Study_Area__c = 'Engineering';
+				sProdChild.Product_Type__c = 'Short Course';
+				sProdChild.Course__c = coursesChild[0].Id;
+				sProdChild.Available_on_Cart__c = true;
+				sProdCountChild++;
+			}
+			insert singleProductsChild;
+
+      Pricebook2 pricebookChild = new Pricebook2(
+				isActive = true, 
+				id = Test.getStandardPricebookId()
+			);
+      update pricebookChild;
+
+			Pricebook2 pbCBChild = new Pricebook2();
+			pbCBChild.Name = 'Corporate Bundle - Test Child';
+			pbCBChild.IsActive = true;
+			insert pbCBChild;
+
+      // Create BuyerGroupPriceBook
+			BuyerGroupPriceBook bgPriceBookChild = new BuyerGroupPriceBook();
+      bgPriceBookChild.PriceBook2Id = pbCBChild.Id;
+      bgPriceBookChild.BuyerGroupId = bGroupMember[0].BuyerGroupId;
+			insert bgPriceBookChild;
+
+			// Create PricebookEntry Standard
+			List<PricebookEntry> priceBookEntryListChild = new List<PricebookEntry>();
+			for (Product2 singleProdPBEntryChild : singleProductsChild) {
+			  PricebookEntry priceBookEntry = new PricebookEntry();
+			  priceBookEntry.pricebook2id = pricebookChild.Id;
+			  priceBookEntry.UnitPrice = 10;
+			  priceBookEntry.product2Id = singleProdPBEntryChild.Id;
+			  priceBookEntry.isActive = true;
+			  priceBookEntryListChild.add(priceBookEntry);
+			}
+			insert priceBookEntryListChild;
+
+			List<Product2> getSingleProdChild = [
+				SELECT Id, Course__c FROM Product2 WHERE Course__c != null
+			];
+			List<ProductCategoryProduct> setTEEListChild = new List<ProductCategoryProduct>();
+			for(Integer x = 0; x <= sProdCountChild; x++){
+				ProductCategoryProduct setTEEChild = new ProductCategoryProduct();
+				setTEEChild.ProductCategoryId = prodCateg1.Id;
+				setTEEChild.ProductId = getSingleProdChild[x].Id;
+				setTEEList.add(setTEEChild);
+			}
+			insert setTEEListChild;
+
+      List<hed__Course_Offering__c> courseOfferingsChild = TestDataFactory.createTestCourseOfferingRecord(10, coursesChild, terms);
+      for (hed__Course_Offering__c cOfferingChild : courseOfferingsChild){
+        cOfferingChild.Registration_Start_Date__c = system.today() - 2;
+        cOfferingChild.IsActive__c = true;
+        cOfferingChild.Delivery_Type__c = 'Online Classroom';
+      }
+      insert courseOfferingsChild;
+
+			List<CommerceEntitlementProduct> ceProdChild = [
+				SELECT Id, ProductId, PolicyId FROM CommerceEntitlementProduct 
+			];
+			Integer commChildCount = 0;
+			for(CommerceEntitlementProduct setCEProdChild : ceProdChild){
+				setCEProdChild.ProductId = getSingleProdChild[commChildCount].Id;
+				setCEProdChild.PolicyId = ceBuyerGroup[0].PolicyId;
+				a++;
+			}
+			insert ceProdChild;
+
+      List<Related_Product_Request__c> childProdRelatedRequest = TestDataFactory.createTestRelatedPRRecords(10, prodRequestChild, prodRequestPrescribedProgram);
+      insert childProdRelatedRequest;
+      // End Child Products
 
       // Create Pricebook
 			Pricebook2 pricebook = new Pricebook2(
@@ -1088,9 +1379,21 @@ public class ProductDetailsCtrlTest{
   @isTest
   static void testGetProductRelatedRecordsForPrescribedProgram(){
 
-    Product_Request__c productRequest = [SELECT Id, Name
-                                     FROM Product_Request__c
-                                     LIMIT 1];
+    List<Account> accounts = [
+      SELECT Id, Name 
+      FROM Account 
+      WHERE RecordTypeId = :ACCT_UNIV_DEP_ID
+      AND Organization_Unit_Level__c = '2'
+    ];
+
+     Product_Request__c productRequest = [SELECT Id, Name
+                                      FROM Product_Request__c
+                                      LIMIT 1];
+
+    List<Product_Request__c> progProdReq = TestDataFactory.createTestProductRequestRecords(10);
+    progProdReq[0].RecordTypeId = opeProgProdReqId;
+    progProdReq[0].OPE_Program_Plan_Type__c = 'Prescribed Program';
+    insert progProdReq;
 
     hed__Program_Plan__c programPlan = [SELECT Id, Name, Program_Delivery_Structure__c, Product_Request__c
                                     FROM hed__Program_Plan__c
@@ -1098,7 +1401,7 @@ public class ProductDetailsCtrlTest{
     if (programPlan.Program_Delivery_Structure__c != 'Prescribed Program'){
       programPlan.Program_Delivery_Structure__c = 'Prescribed Program';
     }
-    programPlan.Product_Request__c = productRequest.Id;
+    programPlan.Product_Request__c = progProdReq[0].Id;
     update programPlan;
 
     Product2 product = [SELECT Id, Name, Program_Plan__c
@@ -1107,16 +1410,93 @@ public class ProductDetailsCtrlTest{
     product.Program_Plan__c = programPlan.Id;
     update product;
 
-    hed__Course__c course = [SELECT Id, ProductRequestID__c, hed__Account__c
-                         FROM hed__Course__c
-                         WHERE ProductRequestID__c = :productRequest.Id
-                         LIMIT 1];
+    List<Product_Request__c> childProdRequest = TestDataFactory.createTestProductRequestRecords(10);
+    childProdRequest[0].RecordTypeId = opeActProdReqRecType;
+    insert childProdRequest;
 
-    hed__Plan_Requirement__c planRequirement = new hed__Plan_Requirement__c(hed__Course__c = course.Id, hed__Program_Plan__c = programPlan.Id, hed__Sequence__c = 1);
+    List<hed__Course__c> childProdCourses = TestDataFactory.createTestCourseRecords(10, accounts[0].Id, childProdRequest[0].Id);
+    insert childProdCourses;
+
+    hed__Plan_Requirement__c planRequirement = new hed__Plan_Requirement__c(hed__Course__c = childProdCourses[0].Id, hed__Program_Plan__c = programPlan.Id, hed__Sequence__c = 1);
     insert planRequirement;
 
     Program_Offering__c programOffering = new Program_Offering__c(Name = 'Program Offering_Test 1', hed_Program_Plan__c = programPlan.Id, Delivery_Type__c = 'Online Classroom', hed_Capacity__c = 30, Start_Date__c = system.today() + 1, Registration_Start_Date__c = system.today() - 1, IsActive__c = true);
     insert programOffering;
+
+    List<Product2> singleProducts = TestDataFactory.createTestProductRecords(10, childProdCourses);
+      for (Product2 sProd : singleProducts){
+        sProd.Delivery__c = 'Online Classroom;Online Self-paced;Brisbane Classroom';
+        sProd.Available_on_Cart__c = true;
+      }
+      insert singleProducts;
+
+    List<Related_Product_Request__c> childProdRelatedRequest = TestDataFactory.createTestRelatedPRRecords(10, childProdRequest, progProdReq);
+    insert childProdRelatedRequest;
+
+    System.runAs(TestDataFactory.getProgramAdminUser()){
+      Test.startTest();
+      ProductDetailsCtrl.ProductDetailsData getProductDetails = new ProductDetailsCtrl.ProductDetailsData();
+      getProductDetails = ProductDetailsCtrl.getProductRelatedRecords(product.Id);
+      System.assert(getProductDetails != null, 'Successfully retrieved Single Product Related Records');
+    }
+  }
+
+  @isTest
+  static void testGetProductRelatedRecordsForFlexibleProgram(){
+
+    List<Account> accounts = [
+      SELECT Id, Name 
+      FROM Account 
+      WHERE RecordTypeId = :ACCT_UNIV_DEP_ID
+      AND Organization_Unit_Level__c = '2'
+    ];
+
+     Product_Request__c productRequest = [SELECT Id, Name
+                                      FROM Product_Request__c
+                                      LIMIT 1];
+
+    List<Product_Request__c> progProdReq = TestDataFactory.createTestProductRequestRecords(10);
+    progProdReq[0].RecordTypeId = opeProgProdReqId;
+    progProdReq[0].OPE_Program_Plan_Type__c = 'Flexible Program';
+    insert progProdReq;
+
+    hed__Program_Plan__c programPlan = [SELECT Id, Name, Program_Delivery_Structure__c, Product_Request__c
+                                    FROM hed__Program_Plan__c
+                                    LIMIT 1];
+    if (programPlan.Program_Delivery_Structure__c != 'Flexible Program'){
+      programPlan.Program_Delivery_Structure__c = 'Flexible Program';
+    }
+    programPlan.Product_Request__c = progProdReq[0].Id;
+    update programPlan;
+
+    Product2 product = [SELECT Id, Name, Program_Plan__c
+                    FROM Product2
+                    LIMIT 1];
+    product.Program_Plan__c = programPlan.Id;
+    update product;
+
+    List<Product_Request__c> childProdRequest = TestDataFactory.createTestProductRequestRecords(10);
+    childProdRequest[0].RecordTypeId = opeActProdReqRecType;
+    insert childProdRequest;
+
+    List<hed__Course__c> childProdCourses = TestDataFactory.createTestCourseRecords(10, accounts[0].Id, childProdRequest[0].Id);
+    insert childProdCourses;
+
+    hed__Plan_Requirement__c planRequirement = new hed__Plan_Requirement__c(hed__Course__c = childProdCourses[0].Id, hed__Program_Plan__c = programPlan.Id, hed__Sequence__c = 1);
+    insert planRequirement;
+
+    Program_Offering__c programOffering = new Program_Offering__c(Name = 'Program Offering_Test 1', hed_Program_Plan__c = programPlan.Id, Delivery_Type__c = 'Online Classroom', hed_Capacity__c = 30, Start_Date__c = system.today() + 1, Registration_Start_Date__c = system.today() - 1, IsActive__c = true);
+    insert programOffering;
+
+    List<Product2> singleProducts = TestDataFactory.createTestProductRecords(10, childProdCourses);
+    for (Product2 sProd : singleProducts){
+      sProd.Delivery__c = 'Online Classroom;Online Self-paced;Brisbane Classroom';
+      sProd.Available_on_Cart__c = true;
+    }
+    insert singleProducts;
+
+    List<Related_Product_Request__c> childProdRelatedRequest = TestDataFactory.createTestRelatedPRRecords(10, childProdRequest, progProdReq);
+    insert childProdRelatedRequest;
 
     System.runAs(TestDataFactory.getProgramAdminUser()){
       Test.startTest();
@@ -1563,7 +1943,6 @@ public class ProductDetailsCtrlTest{
       insert con;
       List<Contact> contact = ProductDetailsCtrl.getUserContactDetails(con[0].Id);
       Test.stopTest();
-      // system.debug('hello' + contact);
 
       system.assert(!contact.isEmpty(), 'contacts were not found!');
     }
@@ -1716,6 +2095,19 @@ public class ProductDetailsCtrlTest{
       wrappedData.pricebookEntryId =pricebookEntryId;        
       wrappedData.pricebookUnitPrice = pricebookUnitPrice;
       wrappedData.Pricebook2Id = priceBooknew.Id;
+      wrappedData.category = 'Corporate Bundle';
+
+      List<hed__Course_Enrollment__c> courseEnrol = TestDataFactory.createTestCourseConnectionRecord(
+        1,
+        contacts[0].Id,
+        courseOffering
+      );
+
+      List<Product_Ledger__c> prodLegder = TestDataFactory.createTestProductLedgerRecords(
+        1,
+        courseEnrol[0].Id,
+        assetRecord.Id
+      );
         
       ProductDetailsCtrl.categoryBulkRegistration(contacts, wrappedData);
  
@@ -1865,10 +2257,6 @@ public class ProductDetailsCtrlTest{
         
       Test.stopTest();
       system.assert(!String.isBlank(cartWrapper.externalId), 'Transaction failed! ');
-    }
-      
+    }    
   }
-  
-  
-    
 }

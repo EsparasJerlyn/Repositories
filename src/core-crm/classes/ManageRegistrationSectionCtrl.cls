@@ -66,6 +66,7 @@ public without sharing class ManageRegistrationSectionCtrl {
      private static Id studentRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(studentRT).getRecordTypeId();
      private static string studentProgramRT = System.Label.RT_CourseConnection_Student_Program;
      private static Id studentProgramRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(studentProgramRT).getRecordTypeId();
+     public static final String TAILORED_EXECUTIVE_PROGRAM = 'Tailored Executive Program';
 
      /**
       * @description Retrieves list of related answers
@@ -944,9 +945,13 @@ public without sharing class ManageRegistrationSectionCtrl {
                     update answersToUpdate.values();
                }
                
+               Product2 product = getProduct(offeringId, prescribedProgram);
+
+               Boolean isTailored = product != null && product.Product_Category__c == TAILORED_EXECUTIVE_PROGRAM?true:false;
+
                if(!String.isBlank(priceBookEntryId)){
                     Id commerceUser;
-                    Product2 product = getProduct(offeringId, prescribedProgram);
+                    
                     PricebookEntry pbe = new PricebookEntry();
                     Boolean isCorporateBundlePricing = false;
                     Boolean isSOAPricing = false;
@@ -1035,7 +1040,7 @@ public without sharing class ManageRegistrationSectionCtrl {
                          );
                          update webCartToClose;
                 
-                         List<hed__Course_Enrollment__c> courseConnectionList = createCourseConnectionList(contactRecord.Id, offeringId, amount, newWebCart.Id, newCartItem.Id, prescribedProgram);                               
+                         List<hed__Course_Enrollment__c> courseConnectionList = createCourseConnectionList(contactRecord.Id, offeringId, amount, newWebCart.Id, newCartItem.Id, prescribedProgram,isTailored);                               
                          insert courseConnectionList;
                          
                          finalReturn.contactId = contactRecord.Id;
@@ -1053,7 +1058,7 @@ public without sharing class ManageRegistrationSectionCtrl {
                          }
                     }   
                }else{
-                    List<hed__Course_Enrollment__c> courseConnectionList = createCourseConnectionList(contactRecord.Id, offeringId, null, null, null, prescribedProgram);                               
+                    List<hed__Course_Enrollment__c> courseConnectionList = createCourseConnectionList(contactRecord.Id, offeringId, null, null, null, prescribedProgram,isTailored);                               
                     insert courseConnectionList;
                
                     finalReturn.contactId = contactRecord.Id;
@@ -1064,14 +1069,14 @@ public without sharing class ManageRegistrationSectionCtrl {
           return finalReturn;
      } 
 
-     private static List<hed__Course_Enrollment__c> createCourseConnectionList(Id contactId, Id offeringId, Decimal amount, Id newWebCartId, Id newCartItemId, Boolean prescribedProgram){
+     private static List<hed__Course_Enrollment__c> createCourseConnectionList(Id contactId, Id offeringId, Decimal amount, Id newWebCartId, Id newCartItemId, Boolean prescribedProgram, Boolean isTailored){
           List<hed__Course_Enrollment__c> courseConnectionList = new List<hed__Course_Enrollment__c>();
           hed__Course_Enrollment__c newCourseConnection = new hed__Course_Enrollment__c();
           newCourseConnection.hed__Contact__c =  contactId;
           newCourseConnection.hed__Status__c = 'Active';
-          newCourseConnection.Paid_in_Full__c = 'Yes';
+          newCourseConnection.Paid_in_Full__c = isTailored?'Contract':'Yes';
  
-          if(amount == 0){
+          if(amount == 0 && !isTailored){
                newCourseConnection.Payment_Method__c = 'No Charge';
           } else {
                newCourseConnection.Payment_Method__c = 'Admin Added';
@@ -1093,14 +1098,8 @@ public without sharing class ManageRegistrationSectionCtrl {
                     hed__Course_Enrollment__c childCourseConnection = new hed__Course_Enrollment__c();
                     childCourseConnection.hed__Contact__c =  contactId;
                     childCourseConnection.hed__Status__c = 'Active';
-                    childCourseConnection.Paid_in_Full__c = 'Yes';
-
-                    if(amount == 0){
-                         childCourseConnection.Payment_Method__c = 'No Charge';
-                    } else {
-                         childCourseConnection.Payment_Method__c = 'Admin Added';
-                    }
- 
+                    childCourseConnection.Paid_in_Full__c = newCourseConnection.Paid_in_Full__c;
+                    childCourseConnection.Payment_Method__c =  newCourseConnection.Payment_Method__c;
                     childCourseConnection.Amount__c = amount;
                     childCourseConnection.Program_Offering__c = offeringId;
                     childCourseConnection.hed__Course_Offering__c = childOffering.Id;
@@ -1232,13 +1231,13 @@ public without sharing class ManageRegistrationSectionCtrl {
                for(hed__Course_Offering__c courseOffering : courseOfferingList){
                     filter = courseOffering.hed__Course__c;
                }
-               productList = [SELECT Id, Name FROM Product2 WHERE Course__c =: filter];
+               productList = [SELECT Id, Name, Product_Category__c FROM Product2 WHERE Course__c =: filter];
           }else{
                List<Program_Offering__c> programOfferingList = [SELECT Id, hed_Program_Plan__c  FROM Program_Offering__c WHERE Id =: offeringId LIMIT 1];
                for(Program_Offering__c programOffering : programOfferingList){
                     filter = programOffering.hed_Program_Plan__c;
                }
-               productList = [SELECT Id, Name FROM Product2 WHERE Program_Plan__c  =: filter];
+               productList = [SELECT Id, Name, Product_Category__c FROM Product2 WHERE Program_Plan__c  =: filter];
           }
 
           for(Product2 prod : productList){

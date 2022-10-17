@@ -713,6 +713,7 @@
     <tabs>standard-home</tabs>
     <tabs>Product_Specification__c</tabs>
     <tabs>Product_Request__c</tabs>
+    <tabs>hed__Program_Plan__c</tabs>
     <tabs>hed__Course_Offering_Schedule__c</tabs>
     <tabs>hed__Facility__c</tabs>
     <tabs>hed__Plan_Requirement__c</tabs>
@@ -738,6 +739,9 @@
         </mappings>
         <mappings>
             <tab>hed__Plan_Requirement__c</tab>
+        </mappings>
+        <mappings>
+            <tab>hed__Program_Plan__c</tab>
         </mappings>
         <mappings>
             <tab>standard-Dashboard</tab>

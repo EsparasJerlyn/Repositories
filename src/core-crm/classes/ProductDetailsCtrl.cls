@@ -32,7 +32,9 @@
 			| eugene.john.basilan       | September 01,2022     | DEPP-3479            | Added new method for CB Bulk Register      |
 			| jessel.bajao		        | September 10, 2022    | DEPP-4071            | Removed inserlearnerInfo method, reuse cv  |
 			| 							| 					    |                      | Close webcart manually					    |
-			| john.m.tambasen						| September 12, 2022    | DEPP-3743            | validate duplicate contacts		    				|
+			| john.m.tambasen			| September 12, 2022    | DEPP-3743            | validate duplicate contacts	  				|
+			| john.m.tambasen			| October 11, 2022   	  | DEPP-4535            | added payment method Contract 				|
+			| keno.domienri.dico		| October 12, 2022  	  | DEPP-4283            | added condition for Prescribed Program child |
 */
 public without sharing class ProductDetailsCtrl {
 	public static final Id STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
@@ -124,12 +126,8 @@ public without sharing class ProductDetailsCtrl {
 			productOnPage.Program_Plan__r.Program_Delivery_Structure__c ==
 			'Prescribed Program'
 		) {
-			prodDetailsData.moduleWrapperList = getProgramModules(
-				productOnPage.Program_Plan__c
-			);
-			prodDetailsData.programDeliveryAndOfferingMap = getProgramOfferings(
-				productOnPage.Program_Plan__c
-			);
+			prodDetailsData.moduleWrapperList = getProgramModules(productOnPage.Program_Plan__c);
+			prodDetailsData.programDeliveryAndOfferingMap = getProgramOfferings(productOnPage.Program_Plan__c);
 		}
 
 		// Pricebook Entries
@@ -145,15 +143,6 @@ public without sharing class ProductDetailsCtrl {
 					'Free' => (PricebookEntry) pbEntryMap.get('Free')
 				};
 			} 
-			// else {
-			//   // Remove Standard Price Book if Early Bird Price exists
-			//   if (
-			//     pbEntryMap.containsKey('Early Bird') &&
-			//     pbEntryMap.containsKey('Standard Price Book')
-			//   ) {
-			//     pbEntryMap.remove('Standard Price Book');
-			//   }
-			// }
 
 			// Process PriceBookEntry Wrapper
 			for (String pbEntryString : pbEntryMap.keySet()) {
@@ -189,10 +178,7 @@ public without sharing class ProductDetailsCtrl {
 					GROUP BY Delivery_Type__c
 				];
 				for (AggregateResult count : countList) {
-					deliveryCountMap.put(
-						(String) count.get('Delivery_Type__c'),
-						(Integer) count.get('counter')
-					);
+					deliveryCountMap.put( (String) count.get('Delivery_Type__c'), (Integer) count.get('counter') );
 				}
 
 				// Display Delivery Options w/ Course Offerings
@@ -266,10 +252,7 @@ public without sharing class ProductDetailsCtrl {
 					GROUP BY hed__Course__c
 				];
 				for (AggregateResult startDate : startDateList) {
-					cProdDateMap.put(
-						(Id) startDate.get('hed__Course__c'),
-						(Date) startDate.get('startDate')
-					);
+					cProdDateMap.put( (Id) startDate.get('hed__Course__c'), (Date) startDate.get('startDate') );
 				}
 			}
 
@@ -289,41 +272,25 @@ public without sharing class ProductDetailsCtrl {
 					// Child Product Pricebook Entries
 					Map<String, String> cProdPBEntryMap = new Map<String, String>();
 					if (!childProd.PricebookEntries.isEmpty()) {
-						for (
-							PricebookEntry cProductPBookEntry : childProd.PricebookEntries
-						) {
-							cProdPBEntryMap.put(
-								cProductPBookEntry.Pricebook2.Name,
-								String.valueOf(cProductPBookEntry.UnitPrice)
-							);
+						for (PricebookEntry cProductPBookEntry : childProd.PricebookEntries) {
+							cProdPBEntryMap.put( cProductPBookEntry.Pricebook2.Name, String.valueOf(cProductPBookEntry.UnitPrice));
 						}
 					}
 
 					if (childProd.Delivery__c != null) {
-						childProductWrapper.childProdDelivery = childProd.Delivery__c.replace(
-							';',
-							', '
-						);
+						childProductWrapper.childProdDelivery = childProd.Delivery__c.replace(';', ', ');
 					}
 
 					if (cProdDateMap.containsKey(childProd.Course__c)) {
-						childProductWrapper.childProdOfferingDate = Datetime.newInstance(
-								cProdDateMap.get(childProd.Course__c),
-								Time.newInstance(0, 0, 0, 0)
-							)
-							.format('dd MMM yyyy');
+						childProductWrapper.childProdOfferingDate = Datetime.newInstance(cProdDateMap.get(childProd.Course__c), Time.newInstance(0, 0, 0, 0)).format('dd MMM yyyy');
 					}
 
 					if (cProdPBEntryMap.containsKey('Free')) {
 						childProductWrapper.childProdPrice = cProdPBEntryMap.get('Free');
 					} else {
-						childProductWrapper.childProdPrice = cProdPBEntryMap.get(
-							'Standard Price Book'
-						);
+						childProductWrapper.childProdPrice = cProdPBEntryMap.get('Standard Price Book');
 						if (cProdPBEntryMap.containsKey('Early Bird')) {
-							childProductWrapper.childProdPrice = cProdPBEntryMap.get(
-								'Early Bird'
-							);
+							childProductWrapper.childProdPrice = cProdPBEntryMap.get('Early Bird');
 						}
 					}
 					childProductWrapper.detailURL = childProd.Detail_URL__c;
@@ -355,12 +322,6 @@ public without sharing class ProductDetailsCtrl {
 		List<childProduct> childProdWrapperList = new List<childProduct>();
 		Set<Id> priceBookIdsOPE = new Set<Id>();
 
-		// Get the Account from userId
-		// User getAccount = [
-		// 	SELECT Id, Name, Contact.AccountId
-		// 	FROM User
-		// 	WHERE Id = :userId
-		// ];
 		AccountContactRelation getAccount = [
 			SELECT Id, AccountId, ContactId 
 			FROM AccountContactRelation 
@@ -533,12 +494,8 @@ public without sharing class ProductDetailsCtrl {
 			productOnPage.Program_Plan__r.Program_Delivery_Structure__c ==
 			'Prescribed Program'
 		) {
-			prodDetailsData.moduleWrapperList = getProgramModules(
-				productOnPage.Program_Plan__c
-			);
-			prodDetailsData.programDeliveryAndOfferingMap = getProgramOfferings(
-				productOnPage.Program_Plan__c
-			);
+			prodDetailsData.moduleWrapperList = getProgramModules(productOnPage.Program_Plan__c);
+			prodDetailsData.programDeliveryAndOfferingMap = getProgramOfferings(productOnPage.Program_Plan__c);
 		}
 
 		// Set isNotFlexProgram to True
@@ -563,10 +520,7 @@ public without sharing class ProductDetailsCtrl {
 					GROUP BY Delivery_Type__c
 				];
 				for (AggregateResult count : countList) {
-					deliveryCountMap.put(
-						(String) count.get('Delivery_Type__c'),
-						(Integer) count.get('counter')
-					);
+					deliveryCountMap.put( (String) count.get('Delivery_Type__c'), (Integer) count.get('counter') );
 				}
 
 				// Display Delivery Options w/ Course Offerings
@@ -618,10 +572,7 @@ public without sharing class ProductDetailsCtrl {
 
 			// Flexible-Program
 			Map<Id, Date> cProdDateMap = new Map<Id, Date>();
-			if (
-				productOnPage.Program_Plan__r.Program_Delivery_Structure__c ==
-				'Flexible Program'
-			) {
+			if (productOnPage.Program_Plan__r.Program_Delivery_Structure__c == 'Flexible Program'){
 				// Set isNotFlexProgram to False
 				prodDetailsData.isNotFlexProgram = false;
 
@@ -640,10 +591,7 @@ public without sharing class ProductDetailsCtrl {
 					GROUP BY hed__Course__c
 				];
 				for (AggregateResult startDate : startDateList) {
-					cProdDateMap.put(
-						(Id) startDate.get('hed__Course__c'),
-						(Date) startDate.get('startDate')
-					);
+					cProdDateMap.put( (Id) startDate.get('hed__Course__c'), (Date) startDate.get('startDate') );
 				}
 			}
 
@@ -656,28 +604,17 @@ public without sharing class ProductDetailsCtrl {
 				childProductWrapper.childProdDuration = childProd.Duration__c;
 				childProductWrapper.childProdDescription = childProd.Description;
 				childProductWrapper.isProgramFlex = false;
-				if (
-					productOnPage.Program_Plan__r.Program_Delivery_Structure__c ==
-					'Flexible Program'
-				) {
+				if (productOnPage.Program_Plan__r.Program_Delivery_Structure__c == 'Flexible Program') {
 					// Child Product Pricebook Entries
 					Map<String, String> cProdPBEntryMap = new Map<String, String>();
 					if (!childProd.PricebookEntries.isEmpty()) {
-						for (
-							PricebookEntry cProductPBookEntry : childProd.PricebookEntries
-						) {
-							cProdPBEntryMap.put(
-								cProductPBookEntry.Pricebook2.Name,
-								String.valueOf(cProductPBookEntry.UnitPrice)
-							);
+						for (PricebookEntry cProductPBookEntry : childProd.PricebookEntries) {
+							cProdPBEntryMap.put(cProductPBookEntry.Pricebook2.Name, String.valueOf(cProductPBookEntry.UnitPrice));
 						}
 					}
 
 					if (childProd.Delivery__c != null) {
-						childProductWrapper.childProdDelivery = childProd.Delivery__c.replace(
-							';',
-							', '
-						);
+						childProductWrapper.childProdDelivery = childProd.Delivery__c.replace(';', ', ');
 					}
 
 					if (cProdDateMap.containsKey(childProd.Course__c)) {
@@ -1132,7 +1069,17 @@ public without sharing class ProductDetailsCtrl {
 				update carpaymentstatus;
 
 				//end
-			if(wrappedData.category == CORPORATE_BUNDLE){
+				List <hed__Course_Enrollment__c> courseConnectionList = [
+					SELECT Id, Name, Cart_ID__c, Cart_Item__c, Cart_Item__r.TotalPrice 
+					FROM hed__Course_Enrollment__c 
+					WHERE Cart_ID__c =:newUserCart.Id 
+					AND ((RecordType.DeveloperName = 'Student' 
+					AND Program_Offering__c = null) 
+					OR (RecordType.DeveloperName = 'Student_Program' 
+					AND hed__Course_Offering__c = null)) 
+				];
+
+				if(wrappedData.category == CORPORATE_BUNDLE){
 
         		// hed__Course_Enrollment__c pupdateCoursepayment = new hed__Course_Enrollment__c(Cart_ID__c = newUserCart.Id, Payment_Method__c  = '');
 				// update pupdateCoursepayment;
@@ -1140,18 +1087,7 @@ public without sharing class ProductDetailsCtrl {
 				//update course enrollment object payment method empty(null) and pain in full should be 'Yes'
 
 				// create product ledger per course connection
-					List <hed__Course_Enrollment__c> courseConnectionList = [
-						SELECT Id, Name, Cart_ID__c, Cart_Item__c, Cart_Item__r.TotalPrice 
-						FROM hed__Course_Enrollment__c 
-						WHERE Cart_ID__c =:newUserCart.Id 
-						AND ((RecordType.DeveloperName = 'Student' 
-						AND Program_Offering__c = null) 
-						OR (RecordType.DeveloperName = 'Student_Program' 
-						AND hed__Course_Offering__c = null)) 
-					];
 					List<Product_Ledger__c> prodLedgerList = new List<Product_Ledger__c>();
-        			Map<Id, hed__Course_Enrollment__c> courseToUpdate = new Map<Id, hed__Course_Enrollment__c>();
-
 					for(hed__Course_Enrollment__c course : courseConnectionList){
 						Product_Ledger__c prodLedge = new Product_Ledger__c ();
 						prodLedge.Asset__c = assetId;
@@ -1159,19 +1095,23 @@ public without sharing class ProductDetailsCtrl {
 						prodLedge.Purchased_Price_v2__c = course.Cart_Item__r.TotalPrice;
 						prodLedgerList.add(prodLedge);
 
-          				hed__Course_Enrollment__c updateEnroll;
-          				updateEnroll = new hed__Course_Enrollment__c(
-							Id = course.Id,
-							Payment_Method__c = '',
-							Paid_in_Full__c = ''
-          				);
-          				courseToUpdate.put(updateEnroll.Id, updateEnroll);
 					}
 					insert(prodLedgerList);
-					update courseToUpdate.values();
 				}
 
 				//end of if block
+
+				List<hed__Course_Enrollment__c> courseList = new List<hed__Course_Enrollment__c>();
+
+				for(hed__Course_Enrollment__c currentCourse : courseConnectionList){
+				
+					hed__Course_Enrollment__c courseTemp = new hed__Course_Enrollment__c();
+					courseTemp = currentCourse;
+					courseTemp.Payment_Method__c = 'Contract';
+					courseTemp.Paid_in_Full__c = wrappedData.category == CORPORATE_BUNDLE?'Yes':'Contract';
+					courseList.add(courseTemp);
+				}
+				update courseList;
 				
 			}
 			String externalId = [SELECT Id, Name, External_Id__c FROM WebCart WHERE Id = :newUserCart.Id LIMIT 1].External_Id__c;  
@@ -1703,6 +1643,7 @@ public without sharing class ProductDetailsCtrl {
 				SELECT Id, hed__Course__c, hed__Sequence__c
 				FROM hed__Plan_Requirement__c
 				WHERE hed__Program_Plan__c = :programPlanId
+				AND hed__Course__c IN ( SELECT Id FROM hed__Course__c WHERE ProductRequestID__r.Product_Request_Status__c = 'Published' )
 				ORDER BY hed__Sequence__c
 			];
 			Map<Decimal, Id> coursesInPlanRequirements = new Map<Decimal, Id>();
