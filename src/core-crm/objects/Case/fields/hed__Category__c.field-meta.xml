@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>hed__Category__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The type of Case being tracked.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Category for reporting dependent on student LifeCycle Status.</inlineHelpText>
+    <label>Category</label>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Acceptance process</fullName>
+                <default>false</default>
+                <label>Acceptance process</label>
+            </value>
+            <value>
+                <fullName>Agent matters</fullName>
+                <default>false</default>
+                <label>Agent matters</label>
+            </value>
+            <value>
+                <fullName>Application process</fullName>
+                <default>false</default>
+                <label>Application process</label>
+            </value>
+            <value>
+                <fullName>Application status</fullName>
+                <default>false</default>
+                <label>Application status</label>
+            </value>
+            <value>
+                <fullName>Change application</fullName>
+                <default>false</default>
+                <label>Change application</label>
+            </value>
+            <value>
+                <fullName>Compliance documentation</fullName>
+                <default>false</default>
+                <label>Compliance documentation</label>
+            </value>
+            <value>
+                <fullName>Course information</fullName>
+                <default>false</default>
+                <label>Course information</label>
+            </value>
+            <value>
+                <fullName>Enrolment</fullName>
+                <default>false</default>
+                <label>Enrolment</label>
+            </value>
+            <value>
+                <fullName>Events</fullName>
+                <default>false</default>
+                <label>Events</label>
+            </value>
+            <value>
+                <fullName>Orientation and onboarding</fullName>
+                <default>false</default>
+                <label>Orientation and onboarding</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>Progression</fullName>
+                <default>false</default>
+                <label>Progression</label>
+            </value>
+            <value>
+                <fullName>Scholarships</fullName>
+                <default>false</default>
+                <label>Scholarships</label>
+            </value>
+            <value>
+                <fullName>Student life</fullName>
+                <default>false</default>
+                <label>Student life</label>
+            </value>
+            <value>
+                <fullName>Technical issues</fullName>
+                <default>false</default>
+                <label>Technical issues</label>
+            </value>
+            <value>
+                <fullName>Why QUT</fullName>
+                <default>false</default>
+                <label>Why QUT</label>
+            </value>
+            <value>
+                <fullName>School Code of Conduct</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>School Code of Conduct</label>
+            </value>
+            <value>
+                <fullName>School Violation</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>School Violation</label>
+            </value>
+            <value>
+                <fullName>State Offense</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>State Offense</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
