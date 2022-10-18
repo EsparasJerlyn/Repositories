@@ -142,6 +142,10 @@
                 <behavior>Required</behavior>
                 <field>GrossAdjustmentAmount</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Required</behavior>
+                <field>TotalPriceTaxAmount</field>
+            </layoutItems>
         </layoutColumns>
         <style>OneColumn</style>
     </layoutSections>
@@ -149,6 +153,8 @@
         <customLabel>false</customLabel>
         <detailHeading>false</detailHeading>
         <editHeading>false</editHeading>
+        <layoutColumns/>
+        <layoutColumns/>
         <layoutColumns/>
         <style>CustomLinks</style>
     </layoutSections>
@@ -159,6 +165,7 @@
         <fields>GrossUnitPrice</fields>
         <fields>NetAdjustmentAmount</fields>
         <fields>GrossAdjustmentAmount</fields>
+        <fields>TotalPriceTaxAmount</fields>
     </miniLayout>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
