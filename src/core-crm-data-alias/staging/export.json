@@ -1,0 +1,187 @@
+{
+    "objects": [
+        {
+            "query": "SELECT Id, Name, Description, Family, IsActive FROM Product2",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "Product2",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id, Name, Description, IsActive FROM Pricebook2",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "Pricebook2",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT IsActive, Pricebook2Id, UnitPrice, Product2Id, Pricebook2.Name,Product2.Name FROM PricebookEntry",
+            "operation": "Upsert",
+            "externalId": "Pricebook2.Name;Product2.Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "PricebookEntry",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Name,hed__Active__c,hed__Asynchronous__c,hed__Class__c,hed__Filter_Field__c,hed__Filter_Value__c,hed__Load_Order__c,hed__Object__c,hed__Owned_by_Namespace__c,hed__Trigger_Action__c,hed__User_Managed__c,hed__Usernames_to_Exclude__c FROM hed__Trigger_Handler__c",
+            "operation": "Upsert",
+            "externalId": "hed__Class__c",
+            "useCSVValuesMapping": true,
+            "targetObject": "hed__Trigger_Handler__c",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT BuyerGroupId,WebStoreId FROM WebStoreBuyerGroup",
+            "operation": "Upsert",
+            "externalId": "BuyerGroupId",
+            "useCSVValuesMapping": true,
+            "targetObject": "WebStoreBuyerGroup",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Name,Id FROM WebStore",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "WebStore",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id, Name from ProductCatalog",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "ProductCatalog",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id, CatalogId, Description, Name, ParentCategoryId, IsNavigational, SortOrder from ProductCategory",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "ProductCategory",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Name, New_Idea_To_Email_Address__c FROM Flow_Automation_Settings__c",
+            "deleteOldData": true,
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "Flow_Automation_Settings__c",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Internal_Url__c,External_Url__c FROM Idea_Form_Url_Setting__c",
+            "deleteOldData": true,
+            "operation": "Upsert",
+            "externalId": "Internal_Url__c",
+            "useCSVValuesMapping": true,
+            "targetObject": "Idea_Form_Url_Setting__c",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "Select Id, DeveloperName, SobjectType, Name From RecordType Where SobjectType IN ('Account','hed__Course__c','hed__Course_Enrollment__c','Product_Request__c','Product_Specification__c')",
+            "operation": "Upsert",
+            "externalId": "DeveloperName;SobjectType",
+            "useCSVValuesMapping": true,
+            "targetObject": "RecordType",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id,Name, IsPartner,IsCustomerPortal,AccountSource,IsBuyer, RecordTypeId, Organization_Unit_Level__c, OwnerId, Owner.Name from Account WHERE RecordType.DeveloperName='Business_Organization' OR RecordType.DeveloperName='University_Department'",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "Account",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "Select Id, Name, Description, CanViewProduct, CanViewPrice, IsActive from CommerceEntitlementPolicy",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "CommerceEntitlementPolicy",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Name,Id,Description FROM BuyerGroup",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "BuyerGroup",
+            "importCSVFilesAsIs": true
+        },
+		{
+            "query": "SELECT Id, BuyerId, BuyerGroupId from BuyerGroupMember",
+            "operation": "Upsert",
+            "externalId": "BuyerGroupId",
+            "useCSVValuesMapping": true,
+            "targetObject": "BuyerGroupMember",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id,BuyerGroupId,Name,IsActive,Pricebook2Id,Priority,BuyerGroup.Id,Pricebook2.Name from BuyerGroupPricebook",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "BuyerGroupPricebook",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id,BuyerGroupId,PolicyId,BuyerGroup.Id,Policy.Name from CommerceEntitlementBuyerGroup",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "CommerceEntitlementBuyerGroup",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Name, Study_Store_Link__c FROM Study_Store_URL_Settings__c",
+            "deleteOldData": true,
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "Study_Store_URL_Settings__c",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Payment_URL__c,GL_Code__c,TransType_Invoice__c,TransType_PayNow__c FROM Payment_Gateway_Settings__c",
+            "deleteOldData": true,
+            "operation": "Upsert",
+            "externalId": "GL_Code__c",
+            "useCSVValuesMapping": true,
+            "targetObject": "Payment_Gateway_Settings__c",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Payment_URL__c,GL_Code__c,TransType_Invoice__c,TransType_PayNow__c FROM CCE_Payment_Gateway_Settings__c",
+            "deleteOldData": true,
+            "operation": "Upsert",
+            "externalId": "GL_Code__c",
+            "useCSVValuesMapping": true,
+            "targetObject": "CCE_Payment_Gateway_Settings__c",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Activity_External__c,Activity__c,Group_Coaching__c,Individual_Coaching__c,Module_External__c,Module__c,Program_External__c,Program__c,Short_Course_External__c,Short_Course__c,Unit__c,Program_Without_Pathway__c,Program_Without_Pathway_External__c FROM Form_Assembly_Link_Settings__c",
+            "deleteOldData": true,
+            "operation": "Upsert",
+            "externalId": "Activity_External__c",
+            "useCSVValuesMapping": true,
+            "targetObject": "Form_Assembly_Link_Settings__c",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Name,EmployeeSelfRegistrationLink__c FROM EmployeeSelfRegistrationForm__c ",
+            "deleteOldData": true,
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "EmployeeSelfRegistrationForm__c",
+            "importCSVFilesAsIs": true
+        }
+    ]
+}
