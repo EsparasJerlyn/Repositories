@@ -19,3 +19,4 @@ profilePasswordPolicies
 Default_Navigation.navigationMenu-meta.xml
 Default_Navigation1.navigationMenu-meta.xml
 **/installedPackages/**
+**/customindex/**
