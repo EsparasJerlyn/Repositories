@@ -7,6 +7,10 @@
         <label>Information</label>
         <layoutColumns>
             <layoutItems>
+                <behavior>Edit</behavior>
+                <field>ProductSellingModelId</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Required</behavior>
                 <field>Product2Id</field>
             </layoutItems>
@@ -65,7 +69,11 @@
         <layoutColumns/>
         <style>CustomLinks</style>
     </layoutSections>
+    <miniLayout>
+        <fields>ProductSellingModelId</fields>
+    </miniLayout>
     <multilineLayoutFields>Product2Id</multilineLayoutFields>
+    <multilineLayoutFields>ProductSellingModelId</multilineLayoutFields>
     <multilineLayoutFields>UnitPrice</multilineLayoutFields>
     <multilineLayoutFields>Pricebook2Id</multilineLayoutFields>
     <showEmailCheckbox>false</showEmailCheckbox>
