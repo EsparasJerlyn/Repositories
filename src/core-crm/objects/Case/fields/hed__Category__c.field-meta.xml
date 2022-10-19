@@ -4,7 +4,6 @@
     <deprecated>false</deprecated>
     <description>The type of Case being tracked.</description>
     <externalId>false</externalId>
-    <inlineHelpText>Category for reporting dependent on student LifeCycle Status.</inlineHelpText>
     <label>Category</label>
     <required>false</required>
     <securityClassification>Official</securityClassification>

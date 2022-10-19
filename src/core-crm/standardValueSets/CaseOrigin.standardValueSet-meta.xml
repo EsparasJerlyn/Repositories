@@ -47,8 +47,8 @@
         <label>LiveChat</label>
     </standardValue>
     <standardValue>
-        <fullName>LiveChat after Hours</fullName>
+        <fullName>LiveChat After Hours</fullName>
         <default>false</default>
-        <label>LiveChat after Hours</label>
+        <label>LiveChat After Hours</label>
     </standardValue>
 </StandardValueSet>
