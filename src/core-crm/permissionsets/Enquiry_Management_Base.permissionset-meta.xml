@@ -2527,7 +2527,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Marketing_Segmentation__c.Lead__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2547,12 +2547,12 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Marketing_Segmentation__c.My_Country_Of_Citizenship__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Marketing_Segmentation__c.My_Country_Of_Residency__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2647,12 +2647,12 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Marketing_Segmentation__c.My_Primary_BSA__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Marketing_Segmentation__c.My_Primary_NSA__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5656,6 +5656,10 @@
         <field>hed__Time_Block__c.hed__Start_Time__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <flowAccesses>
+        <enabled>true</enabled>
+        <flow>Create_Lead</flow>
+    </flowAccesses>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Enquiry Management Base</label>
     <license>Salesforce</license>
@@ -5768,7 +5772,7 @@
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
-        <allowCreate>false</allowCreate>
+        <allowCreate>true</allowCreate>
         <allowDelete>false</allowDelete>
         <allowEdit>false</allowEdit>
         <allowRead>true</allowRead>
@@ -6004,6 +6008,10 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <recordType>Case.Incident</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Case.International_Enquiry</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
@@ -6258,4 +6266,8 @@
         <tab>standard-report</tab>
         <visibility>Visible</visibility>
     </tabSettings>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>RunFlow</name>
+    </userPermissions>
 </PermissionSet>
