@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Closure_Details_is_required</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+  ISPICKVAL( Closure_Code__c , &apos;Redirected&apos;) ||
+  ISPICKVAL( Closure_Code__c , &apos;Response Given&apos;),
+  LEN( Closure_Details__c ) &lt;= 20
+)</errorConditionFormula>
+    <errorDisplayField>Closure_Details__c</errorDisplayField>
+    <errorMessage>Must be more than 20 characters</errorMessage>
+</ValidationRule>
