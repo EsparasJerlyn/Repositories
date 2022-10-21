@@ -753,7 +753,7 @@ public without sharing class ProductCtrl{
 	/**
 	 * Get products by menu category
 	 */
-	@AuraEnabled(cacheable = true)
+	@AuraEnabled
 	public static ProductData getProductsByCategory(String categoryId, String userId, String keyword){
 		ProductData prodData = new ProductData();
 		List<ProductWrapper> prodWrapperList = new List<ProductWrapper>();
