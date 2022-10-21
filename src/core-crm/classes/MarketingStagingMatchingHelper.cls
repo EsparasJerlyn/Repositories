@@ -11,7 +11,7 @@
       | roy.nino.s.regala              | June 28, 2022         | DEPP-3070              | Created file                                   |
       | roy.nino.s.regala              | July 20, 2022         | DEPP-3535              | Updated logic to update mobile and birthdate   |
  */
-public with sharing class MarketingStagingMatchingHelper{
+public without sharing class MarketingStagingMatchingHelper{
 
     private static final String CONTACT_API_NAME = Contact.SObjectType.getDescribe().getLocalName();
     private static final String LEAD_API_NAME = Lead.SObjectType.getDescribe().getLocalName();
@@ -330,9 +330,7 @@ public with sharing class MarketingStagingMatchingHelper{
         LeadContactMatchingClass matchingClass = new LeadContactMatchingClass();
         matchingClass.contactEmailMap = new Map<String,List<Contact>>();
         matchingClass.contactIdMap = new Map<String,List<Contact>>();
-        matchingClass.contactMobileMap = new Map<String,List<Contact>>();
         matchingClass.leadEmailMap = new Map<String,List<Lead>>();
-        matchingClass.leadMobileMap = new Map<String,List<Lead>>();
 
         for(Contact con: contactMatches){
 
@@ -356,16 +354,6 @@ public with sharing class MarketingStagingMatchingHelper{
                 }
                 matchingClass.contactEmailMap.get(con.Email).add(con);
             }
-            
-            if(con.Mobile_No_Locale__c != null){
-                if(!matchingClass.contactMobileMap.containsKey(con.Mobile_No_Locale__c)){
-                    matchingClass.contactMobileMap.put(
-                        con.Mobile_No_Locale__c,
-                        new List<Contact>()
-                    );
-                }
-                matchingClass.contactMobileMap.get(con.Mobile_No_Locale__c).add(con);
-            }
         }
 
         for(Lead lead: leadMatches){
@@ -378,16 +366,6 @@ public with sharing class MarketingStagingMatchingHelper{
                     );
                 }
                 matchingClass.leadEmailMap.get(lead.Email).add(lead);
-            }
-            
-            if(lead.Mobile_No_Locale__c != null){
-                if(!matchingClass.leadMobileMap.containsKey(lead.Mobile_No_Locale__c)){
-                    matchingClass.leadMobileMap.put(
-                        lead.Mobile_No_Locale__c,
-                        new List<Lead>()
-                    );
-                }
-                matchingClass.leadMobileMap.get(lead.Mobile_No_Locale__c).add(lead);
             }
         }
 
@@ -534,9 +512,7 @@ public with sharing class MarketingStagingMatchingHelper{
     public class LeadContactMatchingClass{
         public Map<String,List<Contact>> contactEmailMap;
         public Map<String,List<Contact>> contactIdMap;
-        public Map<String,List<Contact>> contactMobileMap;
         public Map<String,List<Lead>> leadEmailMap;
-        public Map<String,List<Lead>> leadMobileMap;
     }
 
     public class RecordsToUpsertClass{
