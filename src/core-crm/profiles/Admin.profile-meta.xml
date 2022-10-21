@@ -5714,6 +5714,10 @@
         <layout>Cart_Payment__c-Cart Payment Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Case-International Enquiry Layout</layout>
+        <recordType>Case.International_Enquiry</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>CaseClose-Close Case Layout</layout>
     </layoutAssignments>
     <layoutAssignments>

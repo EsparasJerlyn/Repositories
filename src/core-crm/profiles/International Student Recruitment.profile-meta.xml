@@ -3,4 +3,8 @@
     <custom>true</custom>
     <description>This profile covers all roles within the International Student Recruitment Group</description>
     <userLicense>Salesforce</userLicense>
+    <layoutAssignments>
+        <layout>Case-International Enquiry Layout</layout>
+        <recordType>Case.International_Enquiry</recordType>
+    </layoutAssignments>
 </Profile>
