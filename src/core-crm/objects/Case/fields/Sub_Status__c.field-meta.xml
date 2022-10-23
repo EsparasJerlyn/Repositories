@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Sub_Status__c</fullName>
-    <description>The department which the case is awaiting information.</description>
+    <description>Used to track the progress within the status</description>
     <externalId>false</externalId>
     <label>Sub Status</label>
     <required>false</required>
