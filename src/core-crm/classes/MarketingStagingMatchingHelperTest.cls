@@ -74,23 +74,9 @@ public with sharing class MarketingStagingMatchingHelperTest{
             staging.Salutation__c = 'Mr';
             stagingList.add(staging);
         }
-        //matching mobile
-        for(integer i = 50; i<75 ; i++){
-            staging = new Marketing_Staging__c();
-            staging.First_Name__c ='Test FirstName' + i;
-            staging.Last_Name__c ='Test LastName' + i;
-            staging.Email__c ='test@email.com' + i;
-            staging.Mobile__c = '12345' + i;
-            staging.Event_Name__c ='TestEvent' + i;
-            staging.Application_Source__c = 'Studylink';
-            staging.Application_Id__c = '12345' + i;
-            staging.Applicant_Id__c = '12345' + i;
-            staging.Salutation__c = 'Mr';
-            stagingList.add(staging);
-        }
 
         //no match
-        for(integer i = 75; i<100 ; i++){
+        for(integer i = 50; i<75 ; i++){
             staging = new Marketing_Staging__c();
             staging.First_Name__c ='Test FirstName' + i;
             staging.Last_Name__c ='Test LastName' + i;
@@ -107,11 +93,11 @@ public with sharing class MarketingStagingMatchingHelperTest{
         insert stagingList;
         Test.stopTest();
 
-        System.assertEquals([SELECT Id FROM Marketing_Staging__c WHERE Contact__c != null LIMIT 75].size(),75, 'Contact is not linked');
+        System.assertEquals([SELECT Id FROM Marketing_Staging__c WHERE Contact__c != null LIMIT 50].size(),50, 'Contact is not linked');
         System.assertEquals([SELECT Id FROM Marketing_Staging__c WHERE Lead__c != null LIMIT 25].size(),25, 'Lead is not linked');
-        System.assertEquals([SELECT Id FROM Marketing_Course_Application__c LIMIT 100].size(),100, 'Number of application created did not match');
-        System.assertEquals([SELECT Id FROM Marketing_Interaction__c LIMIT 100].size(),100, 'Number of interaction created did not match');
-        System.assertEquals([SELECT Id FROM Marketing_Segmentation__c LIMIT 100].size(),100, 'Number of segmentation created did not match');
+        System.assertEquals([SELECT Id FROM Marketing_Course_Application__c LIMIT 75].size(),75, 'Number of application created did not match');
+        System.assertEquals([SELECT Id FROM Marketing_Interaction__c LIMIT 75].size(),75, 'Number of interaction created did not match');
+        System.assertEquals([SELECT Id FROM Marketing_Segmentation__c LIMIT 75].size(),75, 'Number of segmentation created did not match');
     }
 
     @isTest
@@ -148,20 +134,6 @@ public with sharing class MarketingStagingMatchingHelperTest{
             staging.Salutation__c = 'Mr';
             stagingList.add(staging);
         }
-        //matching mobile
-        for(integer i = 40; i < 60 ; i++){
-            staging = new Marketing_Staging__c();
-            staging.First_Name__c ='Test FirstName' + i;
-            staging.Last_Name__c ='Test LastName' + i;
-            staging.Email__c ='test@email.com' + i;
-            staging.Mobile__c = '12345' + i;
-            staging.Event_Name__c ='TestEvent' + i;
-            staging.Application_Source__c = 'Studylink';
-            staging.Application_Id__c = '12345' + i;
-            staging.Applicant_Id__c = '12345' + i;
-            staging.Salutation__c = 'Mr';
-            stagingList.add(staging);
-        }
 
         //matching student id
         for(integer i = 0; i< 20; i++){
@@ -192,30 +164,16 @@ public with sharing class MarketingStagingMatchingHelperTest{
             staging.Salutation__c = 'Mr';
             stagingList2.add(staging);
         }
-        //matching mobile
-        for(integer i = 40; i < 60 ; i++){
-            staging = new Marketing_Staging__c();
-            staging.First_Name__c ='Test FirstName' + i;
-            staging.Last_Name__c ='Test LastName' + i;
-            staging.Email__c ='test@email.com' + i;
-            staging.Mobile__c = '12345' + i;
-            staging.Event_Name__c ='TestEvent' + i;
-            staging.Application_Source__c = 'Studylink';
-            staging.Application_Id__c = '12345' + i;
-            staging.Applicant_Id__c = '12345' + i;
-            staging.Salutation__c = 'Mr';
-            stagingList2.add(staging);
-        }
 
         Test.startTest();
         insert stagingList;
         insert stagingList2;
         Test.stopTest();
 
-        System.assertEquals([SELECT Id FROM Marketing_Staging__c WHERE Contact__c != null LIMIT 60].size(),60, 'Contact is not linked');
-        System.assertEquals([SELECT Id FROM Marketing_Course_Application__c LIMIT 60].size(),60, 'Number of application created did not match');
-        System.assertEquals([SELECT Id FROM Marketing_Interaction__c LIMIT 60].size(),60, 'Number of interaction created did not match');
-        System.assertEquals([SELECT Id FROM Marketing_Segmentation__c LIMIT 60].size(),60, 'Number of segmentation created did not match');
+        System.assertEquals([SELECT Id FROM Marketing_Staging__c WHERE Contact__c != null LIMIT 40].size(),40, 'Contact is not linked');
+        System.assertEquals([SELECT Id FROM Marketing_Course_Application__c LIMIT 40].size(),40, 'Number of application created did not match');
+        System.assertEquals([SELECT Id FROM Marketing_Interaction__c LIMIT 40].size(),40, 'Number of interaction created did not match');
+        System.assertEquals([SELECT Id FROM Marketing_Segmentation__c LIMIT 40].size(),40, 'Number of segmentation created did not match');
     }
 
 
@@ -240,21 +198,6 @@ public with sharing class MarketingStagingMatchingHelperTest{
             stagingList.add(staging);
         }
 
-        //matching mobile
-        for(integer i = 25; i<50 ; i++){
-            staging = new Marketing_Staging__c();
-            staging.First_Name__c ='Test FirstName' + i;
-            staging.Last_Name__c ='Test LastName' + i;
-            staging.Email__c ='testLead@emailunique.com' + i;
-            staging.Event_Name__c ='TestEvent' + i;
-            staging.Applicant_Id__c = '12345' + i;
-            staging.Preference_Number__c = 1;
-            staging.Application_Source__c = 'QTAC';
-            staging.Salutation__c = 'Mr';
-            staging.Mobile__c = '1234' + i;
-            stagingList.add(staging);
-        }
-
         //matching email
         for(integer i = 0; i < 25; i++){
             staging = new Marketing_Staging__c();
@@ -271,30 +214,15 @@ public with sharing class MarketingStagingMatchingHelperTest{
             stagingList2.add(staging);
         }
 
-        //matching mobile
-        for(integer i = 25; i < 50; i++){
-            staging = new Marketing_Staging__c();
-            staging.First_Name__c ='Test FirstName' + i;
-            staging.Last_Name__c ='Test LastName' + i;
-            staging.Email__c ='testLead@emailunique.com' + i;
-            staging.Event_Name__c ='TestEvent' + i;
-            staging.Applicant_Id__c = '12345' + i;
-            staging.Preference_Number__c = 1;
-            staging.Application_Source__c = 'QTAC';
-            staging.Salutation__c = 'Mr';
-            staging.Mobile__c = '1234' + i;
-            stagingList2.add(staging);
-        }
-
         Test.startTest();
         insert stagingList;
         insert stagingList2;
         Test.stopTest();
 
-        System.assertEquals([SELECT Id FROM Marketing_Staging__c WHERE Lead__c != null LIMIT 50].size(),50, 'Lead is not linked');
-        System.assertEquals([SELECT Id FROM Marketing_Course_Application__c LIMIT 50].size(),50, 'Number of application created did not match');
-        System.assertEquals([SELECT Id FROM Marketing_Interaction__c LIMIT 50].size(),50, 'Number of Interaction created did not match');
-        System.assertEquals([SELECT Id FROM Marketing_Segmentation__c LIMIT 50].size(),50, 'Number of segmentation created did not match');
+        System.assertEquals([SELECT Id FROM Marketing_Staging__c WHERE Lead__c != null LIMIT 25].size(),25, 'Lead is not linked');
+        System.assertEquals([SELECT Id FROM Marketing_Course_Application__c LIMIT 25].size(),25, 'Number of application created did not match');
+        System.assertEquals([SELECT Id FROM Marketing_Interaction__c LIMIT 25].size(),25, 'Number of Interaction created did not match');
+        System.assertEquals([SELECT Id FROM Marketing_Segmentation__c LIMIT 25].size(),25, 'Number of segmentation created did not match');
     }
 
     @isTest
@@ -316,23 +244,8 @@ public with sharing class MarketingStagingMatchingHelperTest{
             staging.Salutation__c = 'Mr';
             stagingList.add(staging);
         }
-
-        //matching mobile
-        for(integer i = 25; i<50 ; i++){
-            staging = new Marketing_Staging__c();
-            staging.First_Name__c ='Test FirstName' + i;
-            staging.Last_Name__c ='Test LastName' + i;
-            staging.Email__c ='testLead@emailunique.com' + i;
-            staging.Event_Name__c ='TestEvent' + i;
-            staging.Applicant_Id__c = '12345' + i;
-            staging.Preference_Number__c = 1;
-            staging.Application_Source__c = 'QTAC';
-            staging.Salutation__c = 'Mr';
-            staging.Mobile__c = '1234' + i;
-            stagingList.add(staging);
-        }
         //no match
-        for(integer i = 50; i<75 ; i++){
+        for(integer i = 25; i<50 ; i++){
             staging = new Marketing_Staging__c();
             staging.First_Name__c ='Test FirstName' + i;
             staging.Last_Name__c ='Test LastName' + i;
@@ -349,9 +262,9 @@ public with sharing class MarketingStagingMatchingHelperTest{
         insert stagingList;
         Test.stopTest();
 
-        System.assertEquals([SELECT Id FROM Marketing_Staging__c WHERE Lead__c != null LIMIT 75].size(),75, 'Lead is not linked');
-        System.assertEquals([SELECT Id FROM Marketing_Course_Application__c LIMIT 75].size(),75, 'Number of application created did not match');
-        System.assertEquals([SELECT Id FROM Marketing_Interaction__c LIMIT 75].size(),75, 'Number of Interaction created did not match');
-        System.assertEquals([SELECT Id FROM Marketing_Segmentation__c LIMIT 75].size(),75, 'Number of segmentation created did not match');
+        System.assertEquals([SELECT Id FROM Marketing_Staging__c WHERE Lead__c != null LIMIT 50].size(),50, 'Lead is not linked');
+        System.assertEquals([SELECT Id FROM Marketing_Course_Application__c LIMIT 50].size(),50, 'Number of application created did not match');
+        System.assertEquals([SELECT Id FROM Marketing_Interaction__c LIMIT 50].size(),50, 'Number of Interaction created did not match');
+        System.assertEquals([SELECT Id FROM Marketing_Segmentation__c LIMIT 50].size(),50, 'Number of segmentation created did not match');
     }
  }

@@ -12,9 +12,10 @@
       | cadalin@qut.edu.au             | June 15, 2022         | DEPP-3088              | Included new fields                            |
       | roy.nino.s.regala              | June 28, 2022         | DEPP-3070              | updated matching logic                         |
       | roy.nino.s.regala              | July 20, 2022         | DEPP-3535              | Updated logic to update mobile and birthdate   |
+      | roy.nino.s.regala              | Oct 20, 2022          | DEPP-4672              | Removed mobile number criteria for matching    |
  */
 
-public with sharing class MarketingStagingTriggerHelper{
+public without sharing class MarketingStagingTriggerHelper{
 
 
 
@@ -32,7 +33,6 @@ public with sharing class MarketingStagingTriggerHelper{
         Map<String,String> samsMatchingMap = new Map<String,String>();
         Map<String,String> studylinkMatchingMap = new Map<String,String>();
         Map<String,List<Marketing_Staging__c>> emailMap = new Map<String,List<Marketing_Staging__c>>();
-        Map<String,sObject> mobileMap = new Map<String,sObject>();
         Map<String,sObject> studentIdMap = new Map<String, sObject>();
         MarketingStagingMatchingHelper.RelatedMarketingRecordsClass marketingClass = new MarketingStagingMatchingHelper.RelatedMarketingRecordsClass();
         MarketingStagingMatchingHelper.LeadContactMatchingClass matchingClass = new MarketingStagingMatchingHelper.LeadContactMatchingClass();
@@ -61,10 +61,6 @@ public with sharing class MarketingStagingTriggerHelper{
                 //collects student ids from inserted marketing stagings
                 if(mStaging.get('QUT_Student_ID__c') != null){
                     studentIdMap.put((String)mStaging.get('QUT_Student_ID__c'),mStaging);
-                }
-                //collect marketing staging mobile
-                if(mStaging.get('Mobile__c') !=null){
-                    mobileMap.put((String)mStaging.get('Mobile__c'),mStaging);
                 }
 
                 //create Application Source criteria map against the marketing staging records
@@ -97,16 +93,13 @@ public with sharing class MarketingStagingTriggerHelper{
                             Mobile_No_Locale__c, BirthDate, ContactMobile_Locale__c
                             FROM Contact
                             WHERE (Email IN: emailMap.keySet()
-                            OR Mobile_No_Locale__c IN: mobileMap.keySet()
-                            OR QUT_Student_ID__c IN:studentIdMap.keySet())
-                            ]);
+                            OR QUT_Student_ID__c IN:studentIdMap.keySet())]);
 
         leadMatches = new Map<Id,Lead>([
                         SELECT Id, Email, Mobile_No_Locale__c,
                         hed__Birth_Date__c, LeadMobile_Locale__c
                         FROM Lead
-                        WHERE (Email IN:emailMap.keySet()
-                        OR Mobile_No_Locale__c IN: mobileMap.keySet())]);
+                        WHERE (Email IN:emailMap.keySet())]);
 
         //get existing marketingrecords
         marketingClass = MarketingStagingMatchingHelper.getRelatedMarketingRecords(
@@ -238,80 +231,6 @@ public with sharing class MarketingStagingTriggerHelper{
                     continue;
                 }
             }
-            if(mStaging.get('Mobile__c') != null){
-                key = (String)mStaging.get('Mobile__c');
-                if( matchingClass.contactMobileMap.containsKey(key)  && 
-                    matchingClass.contactMobileMap.get(key).size() == 1
-                ){
-                    contactsToUpsertMap.put(
-                        matchingClass.contactMobileMap.get(key)[0].Id,
-                        (Contact)MarketingStagingMatchingHelper.createContactRecord(
-                            mStaging,
-                            matchingClass.contactMobileMap.get(key)[0].Id,
-                            salutaionValues
-                        )
-                    );
-    
-                    recordsClass = MarketingStagingMatchingHelper.processMarketingMatching(
-                        null,(String)matchingClass.contactMobileMap.get(key)[0].Id,(Marketing_Staging__c)mStaging, 
-                        marketingClass.contactSegMap,marketingClass.contactAppMap,
-                        qtacMatchingMap, samsMatchingMap, studylinkMatchingMap
-                    );
-    
-                    if(!recordsClass.segmentationToUpsertMap.keySet().isEmpty()){
-                        marSegmentationToUpsertMap.putAll(recordsClass.segmentationToUpsertMap);
-                    }
-                    if(!recordsClass.applicationToUpsertMap.keySet().isEmpty()){
-                        marCourseAppToUpsertMap.putAll(recordsClass.applicationToUpsertMap);
-                    }
-                    if(!recordsClass.interactionToUpsertMap.keySet().isEmpty()){
-                        marInteractionToInsertMap.putAll(recordsClass.interactionToUpsertMap);
-                    }
-
-                    marStageToUpdateMap.put((Id)mStaging.get('Id'), new Marketing_Staging__c(
-                        Id = (Id)mStaging.get('Id'),
-                        Contact__c = matchingClass.contactMobileMap.get(key)[0].Id 
-                        )
-                    );
-                    continue;
-                }
-                if( matchingClass.leadMobileMap.containsKey(key) &&
-                    matchingClass.leadMobileMap.get(key).size() == 1
-                ){
-                    leadsToUpsertMap.put(
-                        matchingClass.leadMobileMap.get(key)[0].Id,
-                        (Lead)MarketingStagingMatchingHelper.createLeadRecord(
-                            mStaging,
-                            matchingClass.leadMobileMap.get(key)[0].Id,
-                            salutaionValues
-                        )
-                    );
-    
-                    recordsClass = MarketingStagingMatchingHelper.processMarketingMatching(
-                        (String)matchingClass.leadMobileMap.get(key)[0].Id,null, (Marketing_Staging__c)mStaging, 
-                        marketingClass.leadSegMap,marketingClass.leadAppMap,
-                        qtacMatchingMap, samsMatchingMap, studylinkMatchingMap
-                    );
-    
-                    if(!recordsClass.segmentationToUpsertMap.keySet().isEmpty()){
-                        marSegmentationToUpsertMap.putAll(recordsClass.segmentationToUpsertMap);
-                    }
-                    if(!recordsClass.applicationToUpsertMap.keySet().isEmpty()){
-                        marCourseAppToUpsertMap.putAll(recordsClass.applicationToUpsertMap);
-                    }
-                    if(!recordsClass.interactionToUpsertMap.keySet().isEmpty()){
-                        marInteractionToInsertMap.putAll(recordsClass.interactionToUpsertMap);
-                    }
-                    
-                    marStageToUpdateMap.put((Id)mStaging.get('Id'), new Marketing_Staging__c(
-                        Id = (Id)mStaging.get('Id'),
-                        Lead__c = matchingClass.leadMobileMap.get(key)[0].Id 
-                        )
-                    );
-                    continue;
-                }
-            }
-
             if(mStaging.get('Last_Name__c') != null){
                 String newLeadKey = '';
                 if(mStaging.get('Email__c') != null){
