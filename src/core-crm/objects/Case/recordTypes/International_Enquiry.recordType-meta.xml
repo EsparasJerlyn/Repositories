@@ -209,7 +209,7 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>hed__Category__c</picklist>
+        <picklist>Category__c</picklist>
         <values>
             <fullName>Acceptance process</fullName>
             <default>false</default>

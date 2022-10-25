@@ -1048,7 +1048,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Case.hed__Category__c</field>
+        <field>Case.Category__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
