@@ -3,6 +3,7 @@
     <fullName>International_Enquiry</fullName>
     <active>true</active>
     <businessProcess>International Enquiry</businessProcess>
+    <compactLayoutAssignment>International_Enquiry_Compact_Layout</compactLayoutAssignment>
     <description>International Enquiry is used for the International Student Recruitment Team</description>
     <label>International Enquiry</label>
     <picklistValues>
