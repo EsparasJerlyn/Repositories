@@ -116,6 +116,12 @@
             <targetReference>Error_Message</targetReference>
         </faultConnector>
         <inputAssignments>
+            <field>Company</field>
+            <value>
+                <stringValue>Learner</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>Email</field>
             <value>
                 <elementReference>Email.value</elementReference>
@@ -143,6 +149,12 @@
             <field>LeadPhone_Locale__c</field>
             <value>
                 <elementReference>Phone_Locale</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Lead_Type__c</field>
+            <value>
+                <stringValue>Learner</stringValue>
             </value>
         </inputAssignments>
         <inputAssignments>
