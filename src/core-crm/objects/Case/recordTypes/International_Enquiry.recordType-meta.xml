@@ -7,6 +7,29 @@
     <description>International Enquiry is used for the International Student Recruitment Team</description>
     <label>International Enquiry</label>
     <picklistValues>
+        <picklist>Awaiting_Response_From__c</picklist>
+        <values>
+            <fullName>Agent</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Faculty</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>International Admissions</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>International Office</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other QUT Department</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Closure_Code__c</picklist>
         <values>
             <fullName>No response given</fullName>
