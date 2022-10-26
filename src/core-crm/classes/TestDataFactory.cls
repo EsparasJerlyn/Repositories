@@ -102,6 +102,28 @@ public class TestDataFactory {
     return leads;
   }
 
+  /**
+   * @description Method for creating test case records
+   * @param numCases - number of case to be created
+   * @param relatedLeads - related lead to case
+   * @param relatedContacts - related contact to case
+   * @return case - list of case created
+   */
+  public static List<Case> createTestCaseRecords(Integer numCases, List<Lead> relatedLeads, List<Contact> relatedContacts) {
+    List<Case> cases = new List<Case>();
+
+    for (Integer i = 0; i < numCases; i++) {
+      cases.add(
+        new case(
+          Lead__c = relatedLeads != null && !relatedLeads.isEmpty()?relatedLeads[i].Id:null,
+          ContactId = relatedContacts != null && !relatedContacts.isEmpty()?relatedContacts[i].Id:null
+        )
+      );
+    }
+
+    return cases;
+  }
+
     /**
    * @description Method for creating test Individual records
    * @param numIndividuals - number of Individuals to be created
