@@ -116,7 +116,6 @@
         </valueSetDefinition>
         <valueSettings>
             <controllingFieldValue>Prospect</controllingFieldValue>
-            <controllingFieldValue>Applicant</controllingFieldValue>
             <valueName>Application process</valueName>
         </valueSettings>
         <valueSettings>
@@ -156,6 +155,11 @@
             <controllingFieldValue>Offered</controllingFieldValue>
             <controllingFieldValue>Acceptance</controllingFieldValue>
             <valueName>Agent matters</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Applicant</controllingFieldValue>
+            <controllingFieldValue>Offered</controllingFieldValue>
+            <valueName>Application status</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Applicant</controllingFieldValue>
