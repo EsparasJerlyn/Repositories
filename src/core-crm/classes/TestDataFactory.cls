@@ -1359,7 +1359,37 @@ public class TestDataFactory {
     public static User getIntegrationWebsiteUser(){
       User integWebSiteUser = [SELECT Id FROM User WHERE Username LIKE 'QUT_Website_Integration_User%' LIMIT 1];
       return integWebSiteUser;
-  }
+    }
+
+    /**
+     * @description Method for ISR Communications Manager
+     * @param void
+     * @return ISR Communications Manager
+     */
+    public static User getISRCommunicationsManager(){
+      User communicationMgr = [SELECT Id FROM User WHERE Username LIKE 'QUT_ISR_Communications_Manager%' LIMIT 1];
+      return communicationMgr;
+    }
+
+    /**
+     * @description Method for ISR Student Enquiries Communications Officer
+     * @param void
+     * @return ISR Student Enquiries Communications Officer
+     */
+    public static User getISRStudentEnquiriesCommunicationOfficer(){
+      User secoUser = [SELECT Id FROM User WHERE Username LIKE 'QUT_ISR_Student_Enquiries_Communications_Officer%' LIMIT 1];
+      return secoUser;
+    }
+
+    /**
+     * @description Method for ISR Student Adviser
+     * @param void
+     * @return ISR Student Adviser
+     */
+    public static User getISRStudentAdviser(){
+      User studentAdviser = [SELECT Id FROM User WHERE Username LIKE 'QUT_ISR_Student_Adviser%' LIMIT 1];
+      return studentAdviser;
+    }
 
     class TestUserGenerator{
         public Map<String,Id> groupMap;
@@ -1965,6 +1995,61 @@ public class TestDataFactory {
                     ,null
                     ,1
                 );
+
+                /**Start of Creation of ISR - International Student Recruitment Users */
+                //Create Digital Communication Officer
+                generateUsers(
+                    'QUT_ISR_Communications_Manager'
+                    ,'International Student Recruitment'
+                    ,'International Super User'
+                    ,'Enquiry_Management_Base,Email_Template_Management,Manage_Reports_and_Dashboards,Live_Chat_Supervisor' //TODO: Add "Direct Nurture Base" once available
+                    ,'' // International
+                    ,true
+                    ,true
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,null
+                    ,1
+                );
+
+                generateUsers(
+                    'QUT_ISR_Student_Enquiries_Communications_Officer'
+                    ,'International Student Recruitment'
+                    ,'International Super User'
+                    ,'Enquiry_Management_Base,Email_Template_Management,Run_Reports_and_Dashboards,Live_Chat_Agent' //TODO: Add "Direct Nurture Base" when permset is available
+                    ,'' // TODO: Add "International" when public group is available
+                    ,true
+                    ,true
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,null
+                    ,1
+                );
+
+                generateUsers(
+                    'QUT_ISR_Student_Adviser'
+                    ,'International Student Recruitment'
+                    ,'International User'
+                    ,'Enquiry_Management_Base,Run_Reports_and_Dashboards,Live_Chat_Agent' //TODO: Add "Direct Nurture Base" when permset is available
+                    ,'' // TODO: Add "International" when public group is available
+                    ,true
+                    ,true
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,null
+                    ,1
+                );
+                /**End of ISR - International Student Recruitment User creation */
+
                 /** END - Creation of Marketing Users */
                 generatePortalUsers(PORTAL_SYS_ADMIN.Id);
                 insert addUsers;
