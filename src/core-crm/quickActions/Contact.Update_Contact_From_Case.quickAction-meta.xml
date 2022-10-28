@@ -17,7 +17,7 @@
             <quickActionLayoutItems>
                 <emptySpace>false</emptySpace>
                 <field>QUT_Staff_Email__c</field>
-                <uiBehavior>Edit</uiBehavior>
+                <uiBehavior>Readonly</uiBehavior>
             </quickActionLayoutItems>
             <quickActionLayoutItems>
                 <emptySpace>false</emptySpace>
@@ -43,7 +43,7 @@
             <quickActionLayoutItems>
                 <emptySpace>false</emptySpace>
                 <field>QUT_Learner_Email__c</field>
-                <uiBehavior>Edit</uiBehavior>
+                <uiBehavior>Readonly</uiBehavior>
             </quickActionLayoutItems>
             <quickActionLayoutItems>
                 <emptySpace>false</emptySpace>
@@ -53,7 +53,7 @@
             <quickActionLayoutItems>
                 <emptySpace>false</emptySpace>
                 <field>QUT_Student_ID__c</field>
-                <uiBehavior>Edit</uiBehavior>
+                <uiBehavior>Readonly</uiBehavior>
             </quickActionLayoutItems>
         </quickActionLayoutColumns>
     </quickActionLayout>
