@@ -6785,6 +6785,10 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <tabVisibilities>
+        <tab>Events</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
         <tab>standard-CmsAuthorHome</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>

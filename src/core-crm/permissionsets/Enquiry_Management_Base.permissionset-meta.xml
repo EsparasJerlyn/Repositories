@@ -6278,6 +6278,10 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <tabSettings>
+        <tab>Events</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
         <tab>Knowledge__kav</tab>
         <visibility>Visible</visibility>
     </tabSettings>
