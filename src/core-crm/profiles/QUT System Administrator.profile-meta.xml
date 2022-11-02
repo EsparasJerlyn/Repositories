@@ -1044,10 +1044,10 @@
         <tab>standard-Contact</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
-    <tabVisibilities>
+    <!--<tabVisibilities>
         <tab>standard-LiveAgent</tab>
         <visibility>DefaultOn</visibility>
-    </tabVisibilities>
+    </tabVisibilities>-->
     <userLicense>Salesforce</userLicense>
     <userPermissions>
         <enabled>true</enabled>
