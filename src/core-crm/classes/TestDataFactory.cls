@@ -1532,17 +1532,17 @@ public class TestDataFactory {
                 SELECT Id FROM User WHERE IsActive = true
                                         AND FirstName = 'Sys Admin'
                                         AND LastName = 'Integration User'
-                                        AND Profile.Name = 'System Administrator' LIMIT 1];
+                                        AND Profile.Name = 'QUT System Administrator' LIMIT 1];
             //add UserRole
             PORTAL_SYS_ADMIN.UserRoleId = [SELECT Id FROM UserRole WHERE Name = 'System Administrator' LIMIT 1]?.Id;
             update PORTAL_SYS_ADMIN;
             System.runAs(PORTAL_SYS_ADMIN){
                 // users below match personas on the following page https://wiki.qut.edu.au/display/DEP/User+Onboarding+Guide
                 /** START - Creation of  Development Users */
-                //Create System Administrator
+                //Create QUT System Administrator
                 generateUsers(
                     'QUT_System_Administrator'
-                    ,'System Administrator'
+                    ,'QUT System Administrator'
                     ,''
                     ,'DocuSign_Administrator,DocuSign_Generator,DocuSign_Negotiator,DocuSign_User'
                     ,''
@@ -1596,7 +1596,7 @@ public class TestDataFactory {
                 //Create Sys Admin
                 generateUsers(
                     'QUT_Sys_Admin'
-                    ,'System Administrator'
+                    ,'QUT System Administrator'
                     ,'System Administrator'
                     ,''
                     ,''
