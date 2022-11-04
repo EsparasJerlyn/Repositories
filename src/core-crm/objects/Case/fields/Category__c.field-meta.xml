@@ -179,10 +179,6 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Offered</controllingFieldValue>
-            <valueName>Application status</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Offered</controllingFieldValue>
             <valueName>Compliance documentation</valueName>
         </valueSettings>
         <valueSettings>
