@@ -482,7 +482,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Case.Latest_Queue_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>

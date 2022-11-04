@@ -24,6 +24,10 @@
                 <behavior>Edit</behavior>
                 <field>Lead__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Latest_Queue_Name__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

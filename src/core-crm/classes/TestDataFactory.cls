@@ -1302,6 +1302,19 @@ public class TestDataFactory {
     return webStoreCatalog;
   }
 
+  public static List<Case> createTestCaseRecords(Id recordTypeId, String subject, Integer numOfRecords) {
+    List<Case> caseList = new List<Case>();
+
+    for(Integer i=0; i<numOfRecords; i++){
+      Case caseRecord = new Case();
+      caseRecord.RecordTypeId = recordTypeId;
+      caseRecord.Subject = subject + i;
+      caseList.add(caseRecord);
+    }
+
+    return caseList;
+  }
+
     /**
      * @description Method for generating test users
      * @param void
