@@ -1502,7 +1502,7 @@ public class TestDataFactory {
                         List<String> res = permSets.split(',');
                         for(String r:res){
                             String permset = r.trim();
-                            addPermSets.add(u.userName+'%%'+permset);
+                            addPermSets.add(u.userName+'%%'+permset); 
                         }
 
                     }else{
