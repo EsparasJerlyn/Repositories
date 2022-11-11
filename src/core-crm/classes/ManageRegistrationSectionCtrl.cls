@@ -58,6 +58,7 @@
       | eccarius.karl.munoz       | September 13, 2022    | DEPP-3824            | Updated logic to use admin   |
       |                           |                       |                      | account for cart and user    |
       | john.m.tambasen           | Septemebr 21, 2022    | DEPP-4390            | Update QUTPay URL for CCE    |
+      | roy.nino.s.regala         | November 11, 2022     | DEPP-4637            | Updated invoice url          |
 */
 
 public without sharing class ManageRegistrationSectionCtrl {
@@ -124,6 +125,7 @@ public without sharing class ManageRegistrationSectionCtrl {
      /**
       * @description Retrieves list of Registration details of students for Non Program Plan
       * @param childRecordId - Record ID of course offering
+      * @param prescribedProgram - checks if offering is a prescribed program
       * @return List of ManageRegistrationDetails
       */
      @AuraEnabled(cacheable=true)
@@ -131,6 +133,8 @@ public without sharing class ManageRegistrationSectionCtrl {
           List<ManageRegistrationDetails> response = new List<ManageRegistrationDetails>();
           Map<Id,Questionnaire_Response_Summary__c> contactToQRSummary = new Map<Id,Questionnaire_Response_Summary__c>();
           PaymentUrlClass urlObj = new PaymentUrlClass();
+          Map<Id,List<hed__Course_Enrollment__c>> relatedEnrollments = new Map<Id,List<hed__Course_Enrollment__c>>();
+
           //Id courseOfferingId = [SELECT Id FROM hed__Course_Offering__c WHERE Id =: childRecordId]?.Id;
           if(childRecordId == null){
                return new List<ManageRegistrationDetails>();
@@ -146,7 +150,7 @@ public without sharing class ManageRegistrationSectionCtrl {
           }
 
           List<hed__Course_Enrollment__c > courseConnections = [
-               SELECT Id, Name, hed__Contact__c, hed__Contact__r.Id, hed__Contact__r.Name, Pricing_Validation__c, hed__Course_Offering__c, Cart_ID__r.External_Id__c, Cart_ID__r.Amount_Paid__c,
+               SELECT Id, Name, hed__Contact__c, hed__Contact__r.Id, hed__Contact__r.Name, Pricing_Validation__c, hed__Course_Offering__c, Cart_ID__r.External_Id__c,
                     Cart_ID__r.TotalAmount, Paid_in_Full__c, hed__Status__c, LMS_Integration_Status__c, hed__Contact__r.FirstName, hed__Contact__r.LastName,
                     hed__Contact__r.Birthdate, Payment_Method__c, Cart_Item__r.Pricebook_Entry_ID__c, Is_Group_Registered__c, hed__Contact__r.Registered_Email__c
                  FROM hed__Course_Enrollment__c
@@ -159,7 +163,13 @@ public without sharing class ManageRegistrationSectionCtrl {
 
           Product2 product = getProduct(childRecordId, prescribedProgram);
           List<Map<String,String>> pBEntries = new List<Map<String,String>>();
-          List<PricebookEntry> priceBookEntries = [SELECT Id, UnitPrice, Pricebook2.Name FROM PricebookEntry WHERE Product2Id =: product.Id ORDER BY CreatedDate];
+          List<PricebookEntry> priceBookEntries = [
+               SELECT Id, UnitPrice, Pricebook2.Name 
+               FROM PricebookEntry 
+               WHERE Product2Id =: product.Id 
+               ORDER BY CreatedDate
+          ];
+          
           for(PricebookEntry p : priceBookEntries){
                pbeList.put(p.Id, p);
           }
@@ -167,11 +177,41 @@ public without sharing class ManageRegistrationSectionCtrl {
           Map<Id, PricebookEntry> studentWithPricingMap = new Map<Id, PricebookEntry>();
           for(hed__Course_Enrollment__c student : courseConnections){
                if(pbeList.containsKey(student.Cart_Item__r.Pricebook_Entry_ID__c)){
-                    studentWithPricingMap.put(student.hed__Contact__r.Id, pbeList.get(student.Cart_Item__r.Pricebook_Entry_ID__c));
+                    studentWithPricingMap.put(student.Id, pbeList.get(student.Cart_Item__r.Pricebook_Entry_ID__c));
+               }
+               
+               //store all cart ids of the course enrollments as key of the map
+               if(  !relatedEnrollments.containsKey(student.Cart_ID__c) && 
+                    student.Cart_ID__c != null && 
+                    student.hed__Status__c != 'Cancelled'){
+
+                    relatedEnrollments.put(student.Cart_ID__c,new List<hed__Course_Enrollment__c>());
                }
           }
 
-          Decimal amount;
+          //get all active related enrollments under the same cart of thecurrent offering's enrollments
+          if(!relatedEnrollments.keySet().isEmpty()){
+               for(hed__Course_Enrollment__c relatedStudent: [
+                    SELECT Id, Name, 
+                    hed__Contact__r.Name, 
+                    hed__Contact__r.Registered_Email__c,
+                    Cart_Item__r.Promotion_Price__c, 
+                    Cart_Item__r.TotalPrice,
+                    Cart_ID__r.External_Id__c, 
+                    Cart_Item__r.Product2.Name,
+                    Cart_Item__r.Contact__r.Name
+                    FROM hed__Course_Enrollment__c
+                    WHERE Cart_ID__c IN: relatedEnrollments.keySet()
+                    AND hed__Status__c != 'Cancelled'
+               ]){
+                    //group all active enrollments by cart
+                    relatedEnrollments.get(relatedStudent.Cart_ID__c).add(relatedStudent);
+               }
+          }
+
+          Decimal amount = 0;
+          Boolean isCCE = false;
+
           for(hed__Course_Enrollment__c student : courseConnections){
                ManageRegistrationDetails regDetails = new ManageRegistrationDetails();
                regDetails.id = student.Id;
@@ -186,9 +226,9 @@ public without sharing class ManageRegistrationSectionCtrl {
                regDetails.paymentMethod = student.Payment_Method__c;
                regDetails.isGroupRegistered = student.Is_Group_Registered__c;
                regDetails.registrationStatus = student.hed__Status__c;
-               if(studentWithPricingMap.containsKey(student.hed__Contact__c)){
-                    regDetails.selectedPricing = studentWithPricingMap.get(student.hed__Contact__c).Pricebook2.Name;
-                    amount = studentWithPricingMap.get(student.hed__Contact__c).UnitPrice;
+               if(studentWithPricingMap.containsKey(student.Id)){
+                    regDetails.selectedPricing = studentWithPricingMap.get(student.Id).Pricebook2.Name;
+                    amount = studentWithPricingMap.get(student.Id).UnitPrice;
                }
                regDetails.pricingValidation = student.Pricing_Validation__c;
                if(contactToQRSummary.containsKey(student.hed__Contact__c)){
@@ -198,17 +238,22 @@ public without sharing class ManageRegistrationSectionCtrl {
                          regDetails.applicationName =  contactToQRSummary.get(student.hed__Contact__c).Name;
                     }
                }
-               if(((student.Paid_in_Full__c == 'No' && student.Payment_Method__c == 'Invoice' && student.Is_Group_Registered__c) || (student.Paid_in_Full__c == 'No' && student.Payment_Method__c == 'Invoice'))
-                    && student.hed__Contact__r.Registered_Email__c != null){
-                         urlObj = new PaymentUrlClass();
-                         urlObj.CartExternalId = student.Cart_ID__r.External_Id__c;
-                         urlObj.Email = student.hed__Contact__r.Registered_Email__c;
-                         urlObj.Name = student.hed__Contact__r.Name;
-                         urlObj.Amount = student.Cart_ID__r.TotalAmount;
-                         urlObj.ProductName = product.Name;
-                         urlObj.IsCCE = regDetails.selectedPricing != null && regDetails.selectedPricing.startsWith('SOA')?true:false;
+
+               //checker if enrollment is CCE
+               isCCE = regDetails.selectedPricing != null && regDetails.selectedPricing.startsWith('SOA')?true:false;
+
+               //condition to 
+               if(  student.Cart_ID__c != null && 
+                    student.Paid_in_Full__c == 'No' && 
+                    student.Payment_Method__c == 'Invoice' && 
+                    student.hed__Contact__r.Registered_Email__c != null && 
+                    student.hed__Status__c != 'Cancelled'){
                          
-                    regDetails.regenerateInvoiceURL = paymentGatewayURLBuilder(urlObj);
+                    regDetails.regenerateInvoiceURL = paymentGatewayURLBuilder(
+                         relatedEnrollments.get(student.Cart_Id__c), 
+                         isCCE, 
+                         student.hed__Contact__r.Registered_Email__c
+                    );
                }
                response.add(regDetails);
           }
@@ -216,163 +261,61 @@ public without sharing class ManageRegistrationSectionCtrl {
           return response;
      }
 
+     //must used custom settings for the other hard coded query params
      /**
-      * @description Retrieves list of Registration details of students for CCE Portal
-      * @param isRegistrations - is registration or nomination
-      * @param courseName - filter by courseName
-      * @param firstName - filter by firstName
-      * @param lastName - filter by lastName
-      * @param email - filter by email
-      * @param mobile - filter by mobile
-      * @param status - filter by status
-      * @param birthday - filter by birthday
-      * @return List of ManageRegistrationorNominationDetails
+      * Generates Payment Gateway URL based on the provided parameters
+      * @param list of course connections
+      * @param boolean - tells the method if enrollment is CCE or OPE
+      * @param string - student email where invoice is sent
+      * @return String - URL Generated
       */
-      @AuraEnabled(cacheable=true)
-      public static List<ManageRegistrationorNominationDetails> getRegistrationsAndNominations(Boolean isRegistrations,
-          String courseName, String firstName, String lastName, String email, String mobile, String status, String birthday){
-          String nominationType = 'Nomination';
+      private static String paymentGatewayURLBuilder(List<hed__Course_Enrollment__c> enrollmentList, Boolean isCCE, String studentEmail){
 
-          List<ManageRegistrationorNominationDetails> response = new List<ManageRegistrationorNominationDetails>();
-          List<Product2> productList = new List<Product2>();
-          Set<Id> courseOfferingIds = new Set<Id>();
-          Set<Id> programOfferingIds = new Set<Id>();
-          Map<Id, String> productNameMap = new Map<Id, String>();
+          Payment_Gateway_Settings__c paymentGatewaySettings = Payment_Gateway_Settings__c.getorgdefaults();
+          CCE_Payment_Gateway_Settings__c paymentGatewaySettingsCCE = CCE_Payment_Gateway_Settings__c.getorgdefaults();
 
-          User currentUser = [SELECT Id, ContactId FROM User WHERE Id = :UserInfo.getUserId()];
-          Contact currentContact = [SELECT Id, AccountId FROM Contact WHERE Id = :currentUser.ContactId];
-          Account acc= [SELECT Id FROM Account WHERE Id = :currentContact.AccountId];        
+          String baseURL = '';
+          String transactionId = '';
+          String descriptionLabel = '';
+          String tranType = '';
+          String glCode = '';
+
+          if(isCCE){
+               baseURL = paymentGatewaySettingsCCE.Payment_URL__c;
+               transactionId = '&CCETransactionID=';
+               descriptionLabel = '&CCEDescription=';
+               tranType = paymentGatewaySettingsCCE.TransType_Invoice__c;
+               glCode = paymentGatewaySettingsCCE.GL_Code__c;
+          }else{
+               baseURL = paymentGatewaySettings.Payment_URL__c;
+               transactionId ='&OPETransactionID=';
+               descriptionLabel = '&OPEDescription=';
+               tranType = paymentGatewaySettings.TransType_Invoice__c;
+               glCode = paymentGatewaySettings.GL_Code__c;
+          }
+
+          String formURL =    'tran-type=' + tranType + 
+                              transactionId + enrollmentList[0].Cart_ID__r.External_Id__c + '&' + 
+                              'Email=' + studentEmail.replace('@','%40') + '&' + 
+                              'GLCode=' + glCode + '&';
+
+          String description = '';
+          String unitPriceTemp = '';
+
+          //construct the invoice URL
+          //contact name, product name, price is looped
+          for(hed__Course_Enrollment__c student: enrollmentList){
+               description = description + 'FullName=' + student.Cart_Item__r.Contact__r.Name.replace(' ','%20');
+               description = description + descriptionLabel + student.Cart_Item__r.Product2.Name.replace(' ','%20') + '&' + 'UnitAmountIncTax=';
+               Decimal totalPrice = student.Cart_Item__r.TotalPrice != null?student.Cart_Item__r.TotalPrice:0;
+               Decimal promotionPrice = student.Cart_Item__r.Promotion_Price__c != null?student.Cart_Item__r.Promotion_Price__c:0;
+               Decimal tempPrice = totalPrice - promotionPrice;
+               description = description + tempPrice + '&';
+               
+          }
           
-          if(acc != null){
-               BuyerGroupMember bgm = [SELECT BuyerGroupId FROM BuyerGroupMember WHERE BuyerId = :acc.Id LIMIT 1];
-               if(bgm != null){
-                    CommerceEntitlementBuyerGroup cebg = [SELECT PolicyId FROM CommerceEntitlementBuyerGroup WHERE BuyerGroupId = :bgm.BuyerGroupId LIMIT 1];
-                    if(cebg != null){
-                         Set<Id> productIds = new Set<Id>();
-                         for(CommerceEntitlementProduct ep : [SELECT ProductId FROM CommerceEntitlementProduct WHERE PolicyId = : cebg.PolicyId]){
-                              productIds.add(ep.ProductId);
-                         }
-                         if(String.isNotBlank(courseName)){
-                              String query = 'SELECT Id, Name, Program_Plan__c, Course__c From Product2 WHERE Id IN :productIds AND' + '(Name LIKE\'' + '%' + String.escapeSingleQuotes(courseName) + '%\')';
-                              productList = Database.query(query);
-                         } else {
-                              productList = [SELECT Id, Name, Program_Plan__c, Course__c From Product2 WHERE Id IN :productIds];
-                         }  
-                    }
-               }
-          }
-
-          for(Product2 p :productList){
-               if(p.Course__c != null){
-                    courseOfferingIds.add(p.Course__c);
-                    productNameMap.put(p.Course__c, p.Name);
-               }
-
-               if(p.Program_Plan__c != null){
-                    programOfferingIds.add(p.Program_Plan__c);
-                    productNameMap.put(p.Program_Plan__c, p.Name);
-               }           
-          }
-  
-          if(isRegistrations){
-               String query;
-               String condition =(String.isNotBlank(firstName)
-                    ? ' hed__Contact__r.FirstName LIKE \'' + '%' + String.escapeSingleQuotes(firstName) + '%\'' : '');
-
-               condition += (String.isNotBlank(lastName)
-                    ? (String.isNotBlank(condition) ? +' AND ' : '') + ' hed__Contact__r.LastName LIKE \'' + '%' + String.escapeSingleQuotes(lastName) + '%\'' : '');
-                    
-               condition += (String.isNotBlank(email)
-                    ? (String.isNotBlank(condition) ? +' AND ' : '') + ' hed__Contact__r.Registered_Email__c LIKE \'' + '%' + String.escapeSingleQuotes(email) + '%\'' : '');
-               
-               condition += (String.isNotBlank(mobile)
-                    ? (String.isNotBlank(condition) ? +' AND ' : '') + ' hed__Contact__r.MobilePhone LIKE \'' + '%' + String.escapeSingleQuotes(mobile) + '%\'' : '');
-                    
-               condition += (String.isNotBlank(status)
-                    ? (String.isNotBlank(condition) ? +' AND ' : '') + String.escapeSingleQuotes(' hed__Status__c = :status') : '');
-
-               condition += (String.isNotBlank(birthday)
-                    ? (String.isNotBlank(condition) ? +' AND ' : '') + ' hed__Contact__r.Birthdate =' + String.escapeSingleQuotes(birthday) : '');
-
-               if (String.isNotBlank(condition)) {
-                    query = 'SELECT Id, Name, hed__Contact__c, hed__Contact__r.Id, hed__Contact__r.Name, hed__Course_Offering__c, Program_Offering__c, hed__Course_Offering__r.Name, hed__Course_Offering__r.hed__Course__c, hed__Contact__r.Birthdate, hed__Course_Offering__r.hed__End_Date__c, hed__Course_Offering__r.hed__Start_Date__c, hed__Status__c, hed__Contact__r.FirstName, hed__Contact__r.LastName, hed__Contact__r.Registered_Email__c, hed__Contact__r.MobilePhone FROM hed__Course_Enrollment__c WHERE RecordTypeId IN (:studentRecTypeId, :studentProgramRecTypeId) AND (hed__Course_Offering__r.hed__Course__c IN :courseOfferingIds OR (Program_Offering__r.hed_Program_Plan__c IN :programOfferingIds AND hed__Course_Offering__c = null )) AND' + condition; 
-               } else {
-                    query = 'SELECT Id, Name, hed__Contact__c, hed__Contact__r.Id, hed__Contact__r.Name, hed__Course_Offering__c, Program_Offering__c, hed__Course_Offering__r.Name, hed__Course_Offering__r.hed__Course__c, hed__Contact__r.Birthdate, hed__Course_Offering__r.hed__End_Date__c, hed__Course_Offering__r.hed__Start_Date__c, hed__Status__c, hed__Contact__r.FirstName, hed__Contact__r.LastName, hed__Contact__r.Registered_Email__c, hed__Contact__r.MobilePhone FROM hed__Course_Enrollment__c WHERE RecordTypeId IN (:studentRecTypeId, :studentProgramRecTypeId) AND (hed__Course_Offering__r.hed__Course__c IN :courseOfferingIds OR (Program_Offering__r.hed_Program_Plan__c IN :programOfferingIds AND hed__Course_Offering__c = null ))';
-               }
-
-               List<hed__Course_Enrollment__c > courseConnections = Database.query(query);
-
-               for(hed__Course_Enrollment__c student : courseConnections){
-                    ManageRegistrationorNominationDetails regDetails = new ManageRegistrationorNominationDetails();
-                    regDetails.id = student.Id;
-                    regDetails.courseName = student.hed__Course_Offering__c != null ? productNameMap.get(student.hed__Course_Offering__r.hed__Course__c) : productNameMap.get(student.Program_Offering__r.hed_Program_Plan__c);
-                    regDetails.contactId = student.hed__Contact__c;
-                    regDetails.contactFullName = student.hed__Contact__r.Name;
-                    regDetails.contactFirstName = student.hed__Contact__r.FirstName;
-                    regDetails.contactLastName = student.hed__Contact__r.LastName;
-                    regDetails.contactEmail = student.hed__Contact__r.Registered_Email__c;
-                    regDetails.contactMobile = student.hed__Contact__r.MobilePhone;
-                    regDetails.status = student.hed__Status__c;
-                    regDetails.offeringStartDate = student.hed__Course_Offering__r.hed__Start_Date__c;
-                    regDetails.offeringEndDate = student.hed__Course_Offering__r.hed__End_Date__c;
-                    regDetails.courseOfferingId = student.hed__Course_Offering__c;
-                    regDetails.programOfferingId = student.Program_Offering__c;
-                    regDetails.contactBirthdate = student.hed__Contact__r.Birthdate;
-
-                    response.add(regDetails);
-               }
-
-               
-          } else {
-               String query;
-               String condition = (String.isNotBlank(firstName)
-                    ? ' Contact__r.FirstName LIKE \'' + '%' + String.escapeSingleQuotes(firstName) + '%\'' : '');
-
-               condition += (String.isNotBlank(lastName)
-                    ? (String.isNotBlank(condition) ? +' AND ' : '') + ' Contact__r.LastName LIKE \'' + '%' + String.escapeSingleQuotes(lastName) + '%\'' : '');
-                    
-               condition += (String.isNotBlank(email)
-                    ? (String.isNotBlank(condition) ? +' AND ' : '') + ' Contact__r.Registered_Email__c LIKE \'' + '%' + String.escapeSingleQuotes(email) + '%\'' : '');
-               
-               condition += (String.isNotBlank(mobile)
-                    ? (String.isNotBlank(condition) ? +' AND ' : '') + ' Contact__r.MobilePhone LIKE \'' + '%' + String.escapeSingleQuotes(mobile) + '%\'' : '');
-                    
-               condition += (String.isNotBlank(status)
-                    ? (String.isNotBlank(condition) ? +' AND ' : '') + String.escapeSingleQuotes(' Status__c = :status') : '');
-
-               condition += (String.isNotBlank(birthday)
-                    ? (String.isNotBlank(condition) ? +' AND ' : '') + ' Contact__r.Birthdate =' + String.escapeSingleQuotes(birthday) : '');
-
-               if (String.isNotBlank(condition)) {
-                    query = 'SELECT Id, Name, Contact__c, Contact__r.Id, Contact__r.Name, Course_Offering__c, Course_Offering__r.Name, Contact__r.Birthdate, Course_Offering__r.hed__End_Date__c, Course_Offering__r.hed__Course__c, Course_Offering__r.hed__Start_Date__c, Status__c, Contact__r.FirstName, Contact__r.LastName, Contact__r.Registered_Email__c, Contact__r.MobilePhone, Program_Offering__c, Program_Offering__r.hed_Program_Plan__c FROM Expression_of_Interest__c WHERE (Type__c = :nominationType) AND ((Course_Offering__r.hed__Course__c IN :courseOfferingIds OR (Program_Offering__r.hed_Program_Plan__c IN :programOfferingIds AND Course_Offering__c = null ))) AND' + condition; 
-               } else { 
-                    query = 'SELECT Id, Name, Contact__c, Contact__r.Id, Contact__r.Name, Course_Offering__c, Course_Offering__r.Name, Contact__r.Birthdate, Course_Offering__r.hed__End_Date__c, Course_Offering__r.hed__Course__c, Course_Offering__r.hed__Start_Date__c, Status__c, Contact__r.FirstName, Contact__r.LastName, Contact__r.Registered_Email__c, Contact__r.MobilePhone, Program_Offering__c, Program_Offering__r.hed_Program_Plan__c FROM Expression_of_Interest__c WHERE (Type__c = :nominationType) AND ((Course_Offering__r.hed__Course__c IN :courseOfferingIds) OR (Program_Offering__r.hed_Program_Plan__c IN :programOfferingIds AND Course_Offering__c = null ))';
-               }
-               List<Expression_of_Interest__c > eois = Database.query(query);
-
-               for(Expression_of_Interest__c student : eois){
-                    ManageRegistrationorNominationDetails regDetails = new ManageRegistrationorNominationDetails();
-                    regDetails.id = student.Id;
-                    regDetails.courseName = student.Course_Offering__c != null ? productNameMap.get(student.Course_Offering__r.hed__Course__c) : productNameMap.get(student.Program_Offering__r.hed_Program_Plan__c);
-                    regDetails.contactId = student.Contact__c;
-                    regDetails.contactFullName = student.Contact__r.Name;
-                    regDetails.contactFirstName = student.Contact__r.FirstName;
-                    regDetails.contactLastName = student.Contact__r.LastName;
-                    regDetails.contactEmail = student.Contact__r.Registered_Email__c;
-                    regDetails.contactMobile = student.Contact__r.MobilePhone;
-                    regDetails.status = student.Status__c;
-                    regDetails.offeringStartDate = student.Course_Offering__r.hed__Start_Date__c;
-                    regDetails.offeringEndDate = student.Course_Offering__r.hed__Start_Date__c;
-                    regDetails.courseOfferingId = student.Course_Offering__c;
-                    regDetails.programOfferingId = student.Program_Offering__c;
-                    regDetails.contactBirthdate = student.Contact__r.Birthdate;
-                    
-                    response.add(regDetails);
-               }
-          }
-
-          return response;
-      }
+          return baseURL + formURL + description.removeEnd('&');
+     }
 
      //must used custom settings for the other hard coded query params
      /**
@@ -463,45 +406,6 @@ public without sharing class ManageRegistrationSectionCtrl {
      }
 
      /**
-      * @description Updates Registration Or NominationStatus of students
-      * @param id - id of student selected 
-      * @param registrationStatus - registration status of student selected
-      * @param isRegistrations - is registration or nomination
-      * @return String
-      */
-      @AuraEnabled
-      public static String updateRegistrationOrNominationStatus(String id, String registrationStatus, Boolean isRegistrations){
-           
-           if(isRegistrations){
-              
-               hed__Course_Enrollment__c studentToUpdate = new hed__Course_Enrollment__c();
-               studentToUpdate.Id = id;
-               studentToUpdate.hed__Status__c = registrationStatus;
-
-               try {
-                    update studentToUpdate;
-                    return 'Success';
-               }
-               catch (Exception e) {
-                    return 'The following exception has occurred: ' + e.getMessage();
-               }
-           } else {
-               Expression_of_Interest__c studentToUpdate = new Expression_of_Interest__c();
-               studentToUpdate.Id = id;
-               studentToUpdate.Status__c = registrationStatus;
-
-               try {
-                    update studentToUpdate;
-                    return 'Success';
-               }
-               catch (Exception e) {
-                    return 'The following exception has occurred: ' + e.getMessage();
-               }
-           }
-           
-      }
-
-     /**
       *  @description Retrieves list of picklist values for paid in full field
       *  @return List<String>
       */
@@ -540,29 +444,6 @@ public without sharing class ManageRegistrationSectionCtrl {
           }
           return response;
      }
-
-     /**
-      *  @description Retrieves list of picklist values for registration status field
-      *  @return List<String>
-      */
-      @AuraEnabled(cacheable=true)
-      public static List<String> getNominationStatusValues(){
-          List<String> choosedValues = new List<String>{'Approved', 'Pending', 'Declined'};
-          List<String> response = new List<String>();
-          String strObjectName = 'Expression_of_Interest__c';
-          String strPicklistField = 'Status__c';
-          Schema.SObjectType objSobjectType = Schema.getGlobalDescribe().get(strObjectName);
-          Schema.DescribeSObjectResult objDescribeSobject = objSobjectType.getDescribe();
-          Map<String, Schema.SObjectField> mapFields = objDescribeSobject.fields.getMap();
-          List<Schema.PicklistEntry> lstPickListValues = mapFields.get(strPicklistField).getDescribe().getPickListValues();
-          for (Schema.PicklistEntry objPickList : lstPickListValues) {
-               String val = objPickList.getValue();
-               if(choosedValues.contains(val)){
-                    response.add(val);
-               }
-          }
-          return response;
-      }
 
      /**
       *  @description Retrieves list of picklist values for pricing validation field
@@ -783,7 +664,7 @@ public without sharing class ManageRegistrationSectionCtrl {
      * @param fileUpload - file to upload
      */
      @AuraEnabled
-     public static ManageRegistrationDetails addRegistration(Contact contactRecord, String offeringId, List<Related_Answer__c> relatedAnswerList, List<Answer__c> answerList, String fileUpload, Boolean prescribedProgram, Id priceBookEntryId, Boolean isProceedNoInvoice, Double discountAmount){
+     public static ManageRegistrationDetails addRegistration(Contact contactRecord, String offeringId, List<Related_Answer__c> relatedAnswerList, List<Answer__c> answerList, String fileUpload, Boolean prescribedProgram, Id priceBookEntryId, Boolean isProceedNoInvoice, Double discountAmount, Id promotionId){
           
           ManageRegistrationDetails finalReturn = new ManageRegistrationDetails();
           
@@ -992,13 +873,23 @@ public without sharing class ManageRegistrationSectionCtrl {
           
                     CartItem newCartItem = createCartItem(offeringId, newWebCart.Id, pbe, prescribedProgram, product.Id, cartDeliveryGroup.Id);
                     newCartItem.Contact__c = contactRecord.Id;
+                    newCartItem.Promotion__c = promotionId;
+                    newCartItem.Promotion_Price__c = discountAmount;
                     insert newCartItem;
      
                     if(!isProceedNoInvoice){
-                         Cart_Payment__c cartPayment = new Cart_Payment__c(Status__c = 'Invoiced', Discount_Applied__c = discountAmount);
+                         Cart_Payment__c cartPayment = new Cart_Payment__c(
+                              Status__c = 'Invoiced', 
+                              Discount_Applied__c = discountAmount
+                         );
                          insert cartPayment;
      
-                         String externalId = [SELECT Id, External_Id__c FROM WebCart WHERE OwnerId =: commerceUser AND Status = 'Active' LIMIT 1].External_Id__c; 
+                         String externalId = [
+                              SELECT Id, External_Id__c 
+                              FROM WebCart 
+                              WHERE OwnerId =: commerceUser 
+                              AND Status = 'Active' 
+                              LIMIT 1].External_Id__c; 
 
                          PaymentUrlClass urlObj = new PaymentUrlClass();
                          urlObj.CartExternalId = externalId;
@@ -1040,7 +931,15 @@ public without sharing class ManageRegistrationSectionCtrl {
                          );
                          update webCartToClose;
                 
-                         List<hed__Course_Enrollment__c> courseConnectionList = createCourseConnectionList(contactRecord.Id, offeringId, amount, newWebCart.Id, newCartItem.Id, prescribedProgram,isTailored);                               
+                         List<hed__Course_Enrollment__c> courseConnectionList = createCourseConnectionList(
+                              contactRecord.Id, 
+                              offeringId, 
+                              amount, 
+                              newWebCart.Id, 
+                              newCartItem.Id, 
+                              prescribedProgram,
+                              isTailored
+                         );                               
                          insert courseConnectionList;
                          
                          finalReturn.contactId = contactRecord.Id;
@@ -1336,40 +1235,6 @@ public without sharing class ManageRegistrationSectionCtrl {
       }
 
       /**
-      * @description Wrapper class that holds data to be displayed
-      */
-     public class ManageRegistrationorNominationDetails{
-          @AuraEnabled
-          public String id;
-          @AuraEnabled
-          public String contactId;
-          @AuraEnabled
-          public String courseName;
-          @AuraEnabled
-          public String contactFullName;
-          @AuraEnabled
-          public String contactFirstName;
-          @AuraEnabled
-          public String contactLastName;
-          @AuraEnabled
-          public String contactEmail;
-          @AuraEnabled
-          public String contactMobile;
-          @AuraEnabled
-          public Date offeringStartDate;
-          @AuraEnabled
-          public Date offeringEndDate;
-          @AuraEnabled
-          public String status;
-          @AuraEnabled
-          public String courseOfferingId;
-          @AuraEnabled
-          public String programOfferingId;
-          @AuraEnabled
-          public Date contactBirthdate;
-     }
-
-      /**
       * @description fetches the discount data
       * @param selectedPBId - current selected pricebook
       * @param standardPBId - standard pricebook of the product
@@ -1379,8 +1244,11 @@ public without sharing class ManageRegistrationSectionCtrl {
       * @return discount - applicable discount
       */
      @AuraEnabled(cacheable=true)
-     public static Double getDiscount(String selectedPBId, String standardPBId, String offeringId, Boolean prescribedProgram, String couponCode) {
+     public static DiscountData getDiscount(String selectedPBId, String standardPBId, String offeringId, Boolean prescribedProgram, String couponCode) {
           
+          DiscountData discountData = new DiscountData();
+          discountData.promotionId = '';
+          discountData.discount = 0;
           //get the product to search
           Product2 product = getProduct(offeringId, prescribedProgram);
 
@@ -1437,6 +1305,7 @@ public without sharing class ManageRegistrationSectionCtrl {
 
           //loop on all the options
           for (Promotion currentPromotion : promotionList) {
+               discountData.promotionId = currentPromotion.Id;
 
                //loop in the PromotionTarget for in case of multiple promotions
                for (PromotionTarget currentPromotionTarget : currentPromotion.PromotionTargets){
@@ -1505,6 +1374,12 @@ public without sharing class ManageRegistrationSectionCtrl {
                discount = -2;
           }
 
-          return discount;
+          discountData.discount = discount;
+          return discountData;
+     }
+
+     public class DiscountData {
+          @AuraEnabled public Double discount;
+          @AuraEnabled public String promotionId;
      }
 }
