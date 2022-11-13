@@ -1337,11 +1337,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Consultancy__c.Publish_to_the_Portal__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Consultancy__c.Product_Request__c</field>
         <readable>true</readable>
     </fieldPermissions>

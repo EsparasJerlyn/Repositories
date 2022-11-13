@@ -55,13 +55,12 @@ public with sharing class ActionCtrl {
     @AuraEnabled(cacheable=true)
     public static ActivitySectionDetails getActivitySectionDetails(String recordId){
         ActivitySectionDetails response = new ActivitySectionDetails();
-        List<Consultancy__c> consultancies = [SELECT Id, Mark_Activity_as_Complete__c, (SELECT Id FROM Actions__r), Investigation_Summary__c, Publish_to_the_Portal__c, Mark_Investigation_as_Complete__c, Product_Request__r.Product_Request_Status__c FROM Consultancy__c WHERE Product_Request__c =: recordId];
+        List<Consultancy__c> consultancies = [SELECT Id, Mark_Activity_as_Complete__c, (SELECT Id FROM Actions__r), Investigation_Summary__c, Mark_Investigation_as_Complete__c, Product_Request__r.Product_Request_Status__c FROM Consultancy__c WHERE Product_Request__c =: recordId];
         for(Consultancy__c c : consultancies){
             response.id = c.Id;
             response.markActivityAsComplete = c.Mark_Activity_as_Complete__c;
             response.markInvestigationAsComplete = c.Mark_Investigation_as_Complete__c;
             response.investigationSummary = c.Investigation_Summary__c;
-            response.publishToPortal = c.Publish_to_the_Portal__c;     
             response.prodReqStatus = c.Product_Request__r.Product_Request_Status__c;       
             if(c.Actions__r.size() > 0){
                 response.hasActivity = true;
@@ -99,8 +98,6 @@ public with sharing class ActionCtrl {
         public Boolean markInvestigationAsComplete;
         @AuraEnabled
         public String investigationSummary;
-        @AuraEnabled
-        public Boolean publishToPortal;
         @AuraEnabled
         public String prodReqStatus;
     }
