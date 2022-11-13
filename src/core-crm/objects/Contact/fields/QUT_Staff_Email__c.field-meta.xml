@@ -3,6 +3,7 @@
     <fullName>QUT_Staff_Email__c</fullName>
     <caseSensitive>true</caseSensitive>
     <externalId>false</externalId>
+    <inlineHelpText>This field captures Official staff email sourced from HR system and cannot be updated in DEP.</inlineHelpText>
     <label>QUT Staff Email</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>

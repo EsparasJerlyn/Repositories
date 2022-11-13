@@ -3,6 +3,7 @@
     <fullName>Registered_Email__c</fullName>
     <description>All automated email communications will be sent to this email address.</description>
     <externalId>false</externalId>
+    <inlineHelpText>This field captures email used by learner when registering for a QUTeX product, all communications will be sent to this email.</inlineHelpText>
     <label>Registered Email</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>

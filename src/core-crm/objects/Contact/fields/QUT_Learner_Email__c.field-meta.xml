@@ -3,6 +3,7 @@
     <fullName>QUT_Learner_Email__c</fullName>
     <caseSensitive>true</caseSensitive>
     <externalId>false</externalId>
+    <inlineHelpText>This field captures the Official learner email sourced from SAMS and cannot be updated in DEP.</inlineHelpText>
     <label>QUT Learner Email</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
