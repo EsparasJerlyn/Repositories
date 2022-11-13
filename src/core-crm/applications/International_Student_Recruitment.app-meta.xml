@@ -59,10 +59,14 @@
     <tabs>standard-EmailTemplate</tabs>
     <tabs>Events</tabs>
     <tabs>Knowledge__kav</tabs>
+    <tabs>International_Tier__c</tabs>
     <uiType>Lightning</uiType>
     <workspaceConfig>
         <mappings>
             <tab>Events</tab>
+        </mappings>
+        <mappings>
+            <tab>International_Tier__c</tab>
         </mappings>
         <mappings>
             <tab>Knowledge__kav</tab>

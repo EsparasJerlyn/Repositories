@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Tier_Category__c</fullName>
+    <description>Grouping of Countries</description>
+    <externalId>false</externalId>
+    <label>Tier Category</label>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Tier_Priority__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Tier 1</fullName>
+                <default>false</default>
+                <label>Tier 1</label>
+            </value>
+            <value>
+                <fullName>Developed Nations</fullName>
+                <default>false</default>
+                <label>Developed Nations</label>
+            </value>
+            <value>
+                <fullName>Tier 2</fullName>
+                <default>false</default>
+                <label>Tier 2</label>
+            </value>
+            <value>
+                <fullName>Tier 3</fullName>
+                <default>false</default>
+                <label>Tier 3</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>High</controllingFieldValue>
+            <valueName>Tier 1</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>High</controllingFieldValue>
+            <valueName>Developed Nations</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Medium</controllingFieldValue>
+            <valueName>Tier 2</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Low</controllingFieldValue>
+            <valueName>Tier 3</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

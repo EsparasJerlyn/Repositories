@@ -977,10 +977,6 @@
         <readable>false</readable>
     </fieldPermissions>
     <layoutAssignments>
-        <layout>Case-International Enquiry Layout</layout>
-        <recordType>Case.International_Enquiry</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
         <layout>Contact-Contact Page Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -993,6 +989,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Lead-QUTeX Leads</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>International_Tier__c-International Tier Layout</layout>
     </layoutAssignments>
     <objectPermissions>
         <allowCreate>true</allowCreate>
@@ -1044,10 +1043,6 @@
         <tab>standard-Contact</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
-    <!--<tabVisibilities>
-        <tab>standard-LiveAgent</tab>
-        <visibility>DefaultOn</visibility>
-    </tabVisibilities>-->
     <userLicense>Salesforce</userLicense>
     <userPermissions>
         <enabled>true</enabled>

@@ -2116,6 +2116,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>International_Tier__c.IsActive__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Lead.ABN__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5724,10 +5729,6 @@
         <layout>Cart_Payment__c-Cart Payment Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Case-International Enquiry Layout</layout>
-        <recordType>Case.International_Enquiry</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
         <layout>CaseClose-Close Case Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -5846,6 +5847,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Individual-Individual Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>International_Tier__c-International Tier Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Knowledge__kav-Knowledge Layout</layout>
@@ -6496,6 +6500,15 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
+        <object>International_Tier__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
         <object>Session__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
@@ -6784,6 +6797,10 @@
         <recordType>Session__c.Specialised_Session</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
+    <tabVisibilities>
+        <tab>International_Tier__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
     <tabVisibilities>
         <tab>Events</tab>
         <visibility>DefaultOn</visibility>
