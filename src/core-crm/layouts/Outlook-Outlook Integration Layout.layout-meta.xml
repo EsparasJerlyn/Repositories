@@ -7,6 +7,9 @@
         <quickActionListItems>
             <quickActionName>Create_Event</quickActionName>
         </quickActionListItems>
+        <quickActionListItems>
+            <quickActionName>NewLead</quickActionName>
+        </quickActionListItems>
     </quickActionList>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
