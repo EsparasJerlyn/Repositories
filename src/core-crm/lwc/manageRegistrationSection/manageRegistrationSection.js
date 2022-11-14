@@ -67,7 +67,7 @@ const ERROR_VARIANT = 'error';
 const NO_REC_FOUND = 'No record(s) found.';
 const MODAL_TITLE = 'Registration Details';
 const SECTION_HEADER = 'Manage Registrations Overview';
-const COLUMN_HEADER = 'First Name,Last Name,Contact Email,Birthdate,Registration Status,LMS Integration Status';
+const COLUMN_HEADER = 'First Name,Last Name,Contact Email,Birthdate,Registration Status,LMS Integration Status,Registration Date, Paid Amount, Student ID, Postition, Organisation, Dietary Requirement, Accessibility Requirement';
 const PROD_CATEG_TAILORED = 'Tailored Executive Program';
 const PROD_CATEG_SOA = 'QUTeX Learning Solutions';
 
@@ -146,8 +146,9 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
 
     columns = [
         { label: 'Full Name', fieldName: 'contactFullName', type: 'text', sortable: true },
-        { label: 'Selected Pricing', fieldName: 'selectedPricing', type: 'text', sortable: true, wrapText: true },
-        { label: 'Pricing Validation', fieldName: 'pricingValidation', type: 'text', sortable: true },
+        { label: "Registration Date",fieldName: "registrationDate",type: "date-local",typeAttributes:{ month: "2-digit",day: "2-digit"}},
+        { label: 'Paid Amount', fieldName: 'paidAmount', type: 'currency', typeAttributes: {currencyCode:'AUD', step: '0.001'}},
+        { label: 'Student Id', fieldName: 'studentId', type: 'text', sortable: true },
         { label: 'Payment Method', fieldName: 'paymentMethod', type: 'text', sortable: true },
         { label: 'Paid in Full', fieldName: 'paidInFull', type: 'text', sortable: true },
         { label: 'Registration Status', fieldName: 'registrationStatus', type: 'text', sortable: true },
@@ -907,7 +908,21 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
 
         let rowEnd = '\n';
         let csvString = '';
-        let arrangedKeys = ['contactFirstName', 'contactLastName', 'contactEmail', 'contactBirthdate', 'registrationStatus', 'lmsIntegrationStatus'];
+        let arrangedKeys = [
+            'contactFirstName', 
+            'contactLastName', 
+            'contactEmail', 
+            'contactBirthdate', 
+            'registrationStatus', 
+            'lmsIntegrationStatus',
+            'registrationDate',
+            'paidAmount',
+            'studentId',
+            'position',
+            'organisation',
+            'dietaryRequirement',
+            'accessibilityRequirement'
+        ];
 
         // this set elminates the duplicates if have any duplicate keys
         let rowData = new Set();
