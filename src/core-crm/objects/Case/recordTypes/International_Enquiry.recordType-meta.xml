@@ -13,6 +13,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Enquirer</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Faculty</fullName>
             <default>false</default>
         </values>
