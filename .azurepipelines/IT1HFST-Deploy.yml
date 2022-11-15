@@ -48,7 +48,7 @@ stages:
         timeoutInMinutes: 600
         pool:
           vmImage: "ubuntu-latest"
-        container: adammbest/sfdx:latest
+        container: adammbest/sfdx:1.2
         environment: "IT1HFST"
         variables:
           - group: IT1HFST
