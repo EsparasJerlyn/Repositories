@@ -15198,6 +15198,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Product_Specification__c.Product_Specification_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Product_Specification__c.Product_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>

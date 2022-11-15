@@ -83,6 +83,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>Product_Specification_Name__c</field>
+            <value>
+                <elementReference>$Record.Program_Name__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>Program_Lead__c</field>
             <value>
                 <elementReference>Program_Lead.ContactId</elementReference>
@@ -214,6 +220,12 @@
             <field>OwnerId</field>
             <value>
                 <elementReference>$User.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Product_Specification_Name__c</field>
+            <value>
+                <elementReference>$Record.Program_Name__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
