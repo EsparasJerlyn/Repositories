@@ -43,7 +43,7 @@
             <casePriority>Low</casePriority>
             <createTask>false</createTask>
             <emailAddress>futurestudentadvisors-test@qut.edu.au</emailAddress>
-            <routingName>Direct Email New Student Advisor Enquiry</routingName>
+            <routingName>QUT International Future Student Advisors</routingName>
             <saveEmailHeaders>false</saveEmailHeaders>
         </routingAddresses>
         <unauthorizedSenderAction>Discard</unauthorizedSenderAction>
