@@ -751,7 +751,7 @@ public without sharing class ManageRegistrationSectionCtrl {
      } 
 
      private static ManageRegistrationDetails validatedContacts(List<Contact> contactList){
-          ManageRegistrationDetails finalReturn = new ManageRegistrationDetails();
+          ManageRegistrationDetails validationReturn = new ManageRegistrationDetails();
           List<Contact> contactListToUpsert = new List<Contact>();
           List<RegistrationMatchingHelper.ContactMatchingResponse> contactsValidated = RegistrationMatchingHelper.validateContactMatching(JSON.serialize(contactList));
                for(RegistrationMatchingHelper.ContactMatchingResponse contactValidated: contactsValidated){
@@ -763,12 +763,12 @@ public without sharing class ManageRegistrationSectionCtrl {
                          contactListToUpsert.add(con);
                     }
                     else if(contactValidated.isPartialMatch && !contactValidated.isEmailMatch){
-                         finalReturn.isContactInputValid = false;
-                         finalReturn.contactValidationResponse =  'The email address doesn’t match the contact details provided. Please check the details.';
+                         validationReturn.isContactInputValid = false;
+                         validationReturn.contactValidationResponse =  'The email address doesn’t match the contact details provided. Please check the details.';
                     }
                     else if(contactValidated.isPartialMatch && contactValidated.isEmailMatch){
-                         finalReturn.isContactInputValid = false;
-                         finalReturn.contactValidationResponse =  'The personal details do not match with the email provided. Please check the details.';
+                         validationReturn.isContactInputValid = false;
+                         validationReturn.contactValidationResponse =  'The personal details do not match with the email provided. Please check the details.';
                     }else{
                          contactListToUpsert.addAll(contactList);
                     }
@@ -777,7 +777,7 @@ public without sharing class ManageRegistrationSectionCtrl {
                     upsert contactListToUpsert; 
                }
           
-          return finalReturn;
+          return validationReturn;
      }
 
      private static ManageRegistrationDetails processEnrollmentWithPricing(RegistrationData parsedRegistrationData, Contact finalContactRecord, String contactRecName, Product2 product){
@@ -1285,7 +1285,7 @@ public without sharing class ManageRegistrationSectionCtrl {
           public String accessibilityRequirement;
      }
 
-     public class RegistrationData{
+     private class RegistrationData{
           @AuraEnabled
           public Contact contactRecord;
           @AuraEnabled
@@ -1310,31 +1310,31 @@ public without sharing class ManageRegistrationSectionCtrl {
       /**
       * @description Wrapper class that holds the file uploaded by user
       */
-      public class FileUpload{
+      private class FileUpload{
           @AuraEnabled
-          public String Base64;
+          public String base64;
           @AuraEnabled
-          public String FileName;
+          public String fileName;
           @AuraEnabled
-          public String RelatedAnswerId;
+          public String relatedAnswerId;
       }
 
       /**
       * @description Wrapper class that holds the file uploaded by user
       */
-      public class PaymentUrlClass{
+      private class PaymentUrlClass{
           @AuraEnabled
-          public String CartExternalId;
+          public String cartExternalId;
           @AuraEnabled
-          public String Email;
+          public String email;
           @AuraEnabled
-          public String Name;
+          public String name;
           @AuraEnabled
-          public Decimal Amount;
+          public Decimal amount;
           @AuraEnabled
-          public String ProductName;
+          public String productName;
           @AuraEnabled
-          public Boolean IsCCE;
+          public Boolean isCCE;
       }
 
       /**

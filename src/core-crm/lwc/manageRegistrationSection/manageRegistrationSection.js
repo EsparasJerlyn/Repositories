@@ -625,9 +625,9 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
         fileUpload = this.questions.map(item =>{
             if(item.IsFileUpload){
                 let record = {};
-                record.RelatedAnswerId = item.Id;
-                record.Base64 = item.FileData.base64;
-                record.FileName = item.FileData.filename;
+                record.relatedAnswerId = item.Id;
+                record.base64 = item.FileData.base64;
+                record.fileName = item.FileData.filename;
                 return record;
             }
         });
