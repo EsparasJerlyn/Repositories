@@ -977,6 +977,10 @@
         <readable>false</readable>
     </fieldPermissions>
     <layoutAssignments>
+        <layout>Case-International Enquiry Layout2</layout>
+        <recordType>Case.International_Enquiry</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Contact-Contact Page Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
