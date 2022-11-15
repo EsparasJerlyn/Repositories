@@ -1,4 +1,4 @@
-/**
+/** 
  * @description Controller Class for Activity Section LWC
  * @see activitySection
  *
