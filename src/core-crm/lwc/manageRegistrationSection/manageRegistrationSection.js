@@ -890,7 +890,7 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
         studentRecord.hed__Status__c = this.rowRegStatus;
         studentRecord.Paid_in_Full__c = this.rowPaidInFull;
         studentRecord.Pricing_Validation__c = this.pricingValidation;
-        studentRecord.Program_Offering__c = programOfferingId;
+        studentRecord.Program_Offering__c = programOfferingId != ''?programOfferingId:null;
         studentRecord.hed__Contact__c = this.rowContactId;
 
         updateRegistration({

@@ -10,7 +10,7 @@
       | roy.nino.s.regala         | November 15, 2022     | DEPP-4721            | Created file                 |
 */
 
-public without sharing class ManageRegistrationLearnersListHelper extends ManageRegistrationEnrolmentHelper{
+public without sharing class ManageRegistrationLearnersListHelper extends ManageRegistrationWrapper{
 
      private static string studentRT = System.Label.RT_CourseConnection_Student;
      private static Id studentRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(studentRT).getRecordTypeId();
@@ -154,7 +154,7 @@ public without sharing class ManageRegistrationLearnersListHelper extends Manage
                      student.hed__Contact__r.Registered_Email__c != null && 
                      student.hed__Status__c != 'Cancelled'){
                           
-                          regDetails.regenerateInvoiceURL = paymentGatewayURLBuilder(
+                          regDetails.regenerateInvoiceURL = ManageRegistrationEnrolmentHelper.paymentGatewayURLBuilder(
                           relatedEnrollments.get(student.Cart_Id__c), 
                           isCCE, 
                           student.hed__Contact__r.Registered_Email__c
@@ -184,7 +184,7 @@ public without sharing class ManageRegistrationLearnersListHelper extends Manage
                 List<hed__Course_Enrollment__c> studentsToUpdate = new List<hed__Course_Enrollment__c>();
                 studentsToUpdate.add(studentRecord);
  
-                if(studentRecord.Program_Offering__c != ''){
+                if(studentRecord.Program_Offering__c != null){
  
                      List<hed__Course_Enrollment__c> students = [
                           SELECT Id, Paid_in_Full__c, Pricing_Validation__c 
@@ -205,8 +205,14 @@ public without sharing class ManageRegistrationLearnersListHelper extends Manage
                      }
                 }
            
-                if(studentsToUpdate.size() > 0){
-                     update studentsToUpdate;
+                if( studentsToUpdate.size() > 0 && 
+                    Schema.sObjectType.hed__Course_Enrollment__c.fields.Paid_in_Full__c.isUpdateable() && 
+                    Schema.sObjectType.hed__Course_Enrollment__c.fields.Pricing_Validation__c.isUpdateable() &&
+                    Schema.sObjectType.hed__Course_Enrollment__c.fields.hed__Status__c.isUpdateable()){
+                         
+                    update studentsToUpdate;
+                }else{
+                    return 'The following exception has occurred: You have no right to update the record';
                 }
 
                 return 'Success';

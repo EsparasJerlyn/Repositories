@@ -421,6 +421,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>CartItem.Contact__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>CartItem.Course_Offering__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -442,6 +447,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>CartItem.TotalPrice</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>CartItem.Product2</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2240,7 +2250,6 @@
         <field>hed__Course__c.Field_of_Education__c</field>
         <readable>true</readable>
     </fieldPermissions>
-
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course__c.Group_Dynamics_Tools__c</field>

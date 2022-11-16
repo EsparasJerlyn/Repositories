@@ -61,8 +61,7 @@
       | roy.nino.s.regala         | November 11, 2022     | DEPP-4637            | Updated invoice url          |
 */
 
-public without sharing class ManageRegistrationSectionCtrl extends ManageRegistrationEnrolmentHelper{
-     private static final String TAILORED_EXECUTIVE_PROGRAM = 'Tailored Executive Program';
+public without sharing class ManageRegistrationSectionCtrl extends ManageRegistrationWrapper{
      private static string studentRT = System.Label.RT_CourseConnection_Student;
      private static Id studentRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(studentRT).getRecordTypeId();
      private static string studentProgramRT = System.Label.RT_CourseConnection_Student_Program;
@@ -373,107 +372,6 @@ public without sharing class ManageRegistrationSectionCtrl extends ManageRegistr
           Contact contact = [SELECT Id, Registered_Email__c FROM Contact WHERE Id=:contactId LIMIT 1];
           return contact.Registered_Email__c != null ? contact.Registered_Email__c : null;
       }
-    
-
-     /**
-     * @description get list of contacts searched
-     * @param contactRecord - contact to create
-     * @param courseOfferingId - course offering id
-     * @param relatedAnswerList - related answer records
-     * @param answerList - answer records to be inserted
-     * @param fileUpload - file to upload
-     */
-     @AuraEnabled
-     public static EnrolmentResultClass addRegistration(String registrationData, String fileUpload){
-          
-          EnrolmentResultClass enrolmentResult = new EnrolmentResultClass();
-          EnrolmentResultClass validationReturn = new EnrolmentResultClass();
-          EnrolmentResultClass enrollmentProcessingReturn = new EnrolmentResultClass();
-          String contactRecName;
-          Contact finalContactRecord = new Contact();
-          enrolmentResult.isContactInputValid = true;
-          
-          //deserialize registration data in JSON format from lwc
-          RegistrationData parsedRegistrationData = new RegistrationData();
-          if(registrationData != ''){
-               parsedRegistrationData = (RegistrationData) JSON.deserialize(registrationData, RegistrationData.class);
-          }
-
-          //set registration data into separate readable variables
-          Contact contactRecord = parsedRegistrationData.contactRecord; 
-          String offeringId = parsedRegistrationData.offeringId;
-          Boolean prescribedProgram = parsedRegistrationData.prescribedProgram;
-          Id priceBookEntryId = parsedRegistrationData.priceBookEntryId;
-          Boolean isProceedNoInvoice = parsedRegistrationData.isProceedNoInvoice;
-          Id promotionId = parsedRegistrationData.promotionId;
-
-          //if user is trying to create a new contact
-          //validate new contact
-          if(contactRecord.Id == NULL){
-               contactRecName = contactRecord.FirstName + ' ' + contactRecord.LastName;
-               finalContactRecord.Email = contactRecord.Email;
-               finalContactRecord.FirstName = contactRecord.FirstName;
-               finalContactRecord.LastName = contactRecord.LastName;
-               contactRecord.Registered_Email__c = contactRecord.Email;
-
-               List<Contact> contactList = new List<Contact>();
-               contactList.add(contactRecord);
-               //validate the contact records
-               //contact is converted into a list because the reusable validation class is in bulk
-               validationReturn = validatedContacts(contactList);
-
-               enrolmentResult.isContactInputValid = validationReturn.isContactInputValid;
-               enrolmentResult.contactValidationResponse = validationReturn.contactValidationResponse;
-               
-          }else{
-               //get the contact's full name, first name, and lastname
-               //store the contact details to string variable
-               Contact con = [SELECT Id, Name, Email, FirstName, LastName FROM Contact WHERE Id =: contactRecord.Id LIMIT 1];
-               contactRecName = con.Name;
-               finalContactRecord.Email = contactRecord.Registered_Email__c;
-               finalContactRecord.FirstName = con.FirstName;
-               finalContactRecord.LastName = con.LastName;
-               update contactRecord;
-          }
-          //process contact after validation
-          if(enrolmentResult.isContactInputValid){
-               //process questionnaire insertion
-               ManageRegistrationSectionHelper.processQuestionnaireData(parsedRegistrationData, fileUpload);
-
-               //get product related to the offering
-               Product2 product = ManageRegistrationSectionHelper.getProduct(offeringId, prescribedProgram);
-
-               Boolean isTailored = product != null && product.Product_Category__c == TAILORED_EXECUTIVE_PROGRAM?true:false;
-
-               enrolmentResult.contactId = enrollmentProcessingReturn.contactId;
-
-               if(!String.isBlank(priceBookEntryId)){
-
-                    enrollmentProcessingReturn = ManageRegistrationSectionHelper.processEnrollmentWithPricing(parsedRegistrationData, finalContactRecord, contactRecName, product);
-                    
-                    enrolmentResult.paymentURL = enrollmentProcessingReturn.paymentURL;
-                    enrolmentResult.contactName = enrollmentProcessingReturn.contactName;
-
-               }else{
-                    EnrolmentCreationParamClass enrolmentParam = new EnrolmentCreationParamClass();
-
-                    enrolmentParam.contactId = contactRecord.Id;
-                    enrolmentParam.offeringId = offeringId;
-                    enrolmentParam.prescribedProgram = prescribedProgram;
-                    enrolmentParam.isTailored = isTailored;
-                    enrolmentParam.amount = null;
-                    enrolmentParam.newWebCartId = null;
-                    enrolmentParam.newCartItemId = null;
-
-                    List<hed__Course_Enrollment__c> courseConnectionList = createCourseConnectionList(enrolmentParam);                               
-                    insert courseConnectionList;
-                    enrolmentResult.contactName = contactRecName;
-               }  
-                            
-          }
-          return enrolmentResult;
-     } 
-     
 
       /**
       * @description fetches the discount data

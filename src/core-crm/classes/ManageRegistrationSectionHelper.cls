@@ -10,14 +10,13 @@
       | roy.nino.s.regala         | November 15, 2022     | DEPP-4721            | Created file                 |
 */
 
-public with sharing class ManageRegistrationSectionHelper extends ManageRegistrationEnrolmentHelper{
+public with sharing class ManageRegistrationSectionHelper extends ManageRegistrationWrapper{
 
      private static final String TAILORED_EXECUTIVE_PROGRAM = 'Tailored Executive Program';
-
      public static EnrolmentResultClass processEnrollmentWithPricing(RegistrationData parsedRegistrationData, Contact finalContactRecord, String contactRecName, Product2 product){
           
           EnrolmentResultClass enrollmentProcessingReturn = new EnrolmentResultClass();
-          EnrolmentCreationParamClass enrolmentParam;
+          ManageRegistrationEnrolmentHelper.EnrolmentCreationParamClass enrolmentParam;
           Map<String,Asset> assetRecord = new Map<String,Asset>();
 
           Boolean isTailored = product != null && product.Product_Category__c == TAILORED_EXECUTIVE_PROGRAM?true:false;
@@ -79,7 +78,7 @@ public with sharing class ManageRegistrationSectionHelper extends ManageRegistra
           );
           insert cartDeliveryGroup;
 
-          enrolmentParam = new EnrolmentCreationParamClass();
+          enrolmentParam = new ManageRegistrationEnrolmentHelper.EnrolmentCreationParamClass();
                     
           enrolmentParam.offeringId = offeringId;
           enrolmentParam.prescribedProgram = prescribedProgram;
@@ -348,5 +347,5 @@ public with sharing class ManageRegistrationSectionHelper extends ManageRegistra
           @AuraEnabled
           public String relatedAnswerId;
       }
-     
+
 }
