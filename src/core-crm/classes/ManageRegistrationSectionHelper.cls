@@ -10,7 +10,7 @@
       | roy.nino.s.regala         | November 15, 2022     | DEPP-4721            | Created file                 |
 */
 
-public class ManageRegistrationSectionHelper extends ManageRegistrationEnrolmentHelper{
+public with sharing class ManageRegistrationSectionHelper extends ManageRegistrationEnrolmentHelper{
 
      private static final String TAILORED_EXECUTIVE_PROGRAM = 'Tailored Executive Program';
 

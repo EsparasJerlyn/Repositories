@@ -176,27 +176,28 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
             console.log(JSON.parse(JSON.stringify(result.data)));
             this.records = result.data.map(item => {
                 let record = {};
-                record.contactFullName = item.contactDetails.contactFullName;
-                record.contactId = item.contactDetails.contactId;
-                record.contactFullName = item.contactDetails.contactFullName;
-                record.contactFirtName = item.contactDetails.contactFirstName;
-                record.contactBirthdate = item.contactDetails.contactBirthdate;
-                record.contactEmail = item.contactDetails.contactEmail;
-                record.studentId = item.contactDetails.studentId;
-                record.position = item.contactDetails.position;
-                record.organisation = item.contactDetails.organisation;
-                record.dietaryRequirement = item.contactDetails.dietaryRequirement;
-                record.accessibilityRequirement = item.contactDetails.accessibilityRequirement;
+                record.contactFullName = item.enrolmentDetails.hed__Contact__r.Name;
+                record.contactId = item.enrolmentDetails.hed__Contact__c;
+                record.contactLastName = item.enrolmentDetails.hed__Contact__r.LastName;
+                record.contactFirstName = item.enrolmentDetails.hed__Contact__r.FirstName;
+                record.contactBirthdate = item.enrolmentDetails.hed__Contact__r.Birthdate;
+                record.contactEmail = item.enrolmentDetails.hed__Contact__r.Email;
+                
+                record.studentId = item.enrolmentDetails.hed__Contact__r.QUT_Student_Id__c;
+                record.position = item.enrolmentDetails.hed__Contact__r.Postion__c;
+                record.organisation = item.enrolmentDetails.hed__Contact__r.hed__Primary_Organization__c?item.enrolmentDetails.hed__Contact__r.hed__Primary_Organization__r.Name:'';
+                record.dietaryRequirement = item.enrolmentDetails.hed__Contact__r.Dietary_Requirement__c;
+                record.accessibilityRequirement = item.enrolmentDetails.hed__Contact__r.Accessibility_Requirement__c;
 
-                record.paidInFull = item.enrolmentDetails.paidInFull;
-                record.registrationStatus = item.enrolmentDetails.registrationStatus;
-                record.lmsIntegrationStatus = item.enrolmentDetails.lmsIntegrationStatus;
-                record.paymentMethod = item.enrolmentDetails.paymentMethod;
+                record.paidInFull = item.enrolmentDetails.Paid_in_Full__c;
+                record.registrationStatus = item.enrolmentDetails.hed__Status__c;
+                record.lmsIntegrationStatus = item.enrolmentDetails.LMS_Integration_Status__c;
+                record.paymentMethod = item.enrolmentDetails.Payment_Method__c;
                 record.regenerateInvoiceURL = item.enrolmentDetails.regenerateInvoiceURL;
-                record.paidAmount = item.enrolmentDetails.paidAmount;
-                record.registrationDate = item.enrolmentDetails.registrationDate;
-                record.pricingValidation = item.enrolmentDetails.pricingValidation;
-                record.id = item.enrolmentDetails.id;
+                record.paidAmount = item.enrolmentDetails.Paid_Amount__c;
+                record.registrationDate = item.enrolmentDetails.CreatedDate;
+                record.pricingValidation = item.enrolmentDetails.Pricing_Validation__c;
+                record.id = item.enrolmentDetails.Id;
 
                 if(item.applicationDetails){
                     record.questionId = item.applicationDetails.questionId;
@@ -206,8 +207,8 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
                 return record;
             });
             this.contactList = result.data.map(item => {
-                if(item.enrolmentDetails.registrationStatus !== 'Cancelled'){
-                    return item.contactDetails.contactId;
+                if(item.enrolmentDetails.hed__Status__c !== 'Cancelled'){
+                    return item.enrolmentDetails.hed__Contact__c;
                 }
             });
             this.recordsTemp = result.data;

@@ -62,7 +62,7 @@
 */
 
 public without sharing class ManageRegistrationSectionCtrl extends ManageRegistrationEnrolmentHelper{
-     public static final String TAILORED_EXECUTIVE_PROGRAM = 'Tailored Executive Program';
+     private static final String TAILORED_EXECUTIVE_PROGRAM = 'Tailored Executive Program';
      private static string studentRT = System.Label.RT_CourseConnection_Student;
      private static Id studentRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(studentRT).getRecordTypeId();
      private static string studentProgramRT = System.Label.RT_CourseConnection_Student_Program;
@@ -220,8 +220,6 @@ public without sharing class ManageRegistrationSectionCtrl extends ManageRegistr
 
           List<ManageRegistrationDetails> regDetailsList = new List<ManageRegistrationDetails>();
           ManageRegistrationDetails regDetails;
-          ContactDetailsClass contactDetails;
-          EnrolmentDetailsClass enrolmentDetails;
           ApplicationDetailsClass applicationDetails;
                
           Decimal amount = 0;
@@ -231,33 +229,13 @@ public without sharing class ManageRegistrationSectionCtrl extends ManageRegistr
           for(hed__Course_Enrollment__c student : courseConnections){
 
                regDetails = new ManageRegistrationDetails();
-               contactDetails = new ContactDetailsClass();
-               enrolmentDetails = new EnrolmentDetailsClass();
                applicationDetails = new ApplicationDetailsClass();
 
                amount = 0;
                selectedPricing = '';
 
-               contactDetails.contactId = student.hed__Contact__c;
-               contactDetails.contactFullName = student.hed__Contact__r.Name;
-               contactDetails.contactFirstName = student.hed__Contact__r.FirstName;
-               contactDetails.contactLastName = student.hed__Contact__r.LastName;
-               contactDetails.contactBirthdate = student.hed__Contact__r.Birthdate;
-               contactDetails.contactEmail = student.hed__Contact__r.Registered_Email__c;
-               contactDetails.position = student.hed__Contact__r.Position__c;
-               contactDetails.organisation = student.hed__Contact__r.hed__Primary_Organization__c != null?student.hed__Contact__r.hed__Primary_Organization__r.Name:'';
-               contactDetails.dietaryRequirement = student.hed__Contact__r.Dietary_Requirement__c;
-               contactDetails.accessibilityRequirement = student.hed__Contact__r.Accessibility_Requirement__c;
-               contactDetails.studentId = student.hed__Contact__r.QUT_Student_Id__c;
-
-               enrolmentDetails.id = student.Id;
-               enrolmentDetails.paidAmount = student.Paid_Amount__c;
-               enrolmentDetails.registrationDate = student.CreatedDate;
-               enrolmentDetails.paidInFull = student.Paid_in_Full__c;
-               enrolmentDetails.lmsIntegrationStatus = student.LMS_Integration_Status__c;
-               enrolmentDetails.paymentMethod = student.Payment_Method__c;
-               enrolmentDetails.registrationStatus = student.hed__Status__c;
-               enrolmentDetails.pricingValidation = student.Pricing_Validation__c;
+               regDetails.enrolmentDetails = student;
+               regDetails.regenerateInvoiceURL = '';
                
                if(studentWithPricingMap.containsKey(student.Id)){
 
@@ -283,15 +261,13 @@ public without sharing class ManageRegistrationSectionCtrl extends ManageRegistr
                     student.hed__Contact__r.Registered_Email__c != null && 
                     student.hed__Status__c != 'Cancelled'){
                          
-                    enrolmentDetails.regenerateInvoiceURL = paymentGatewayURLBuilder(
+                         regDetails.regenerateInvoiceURL = paymentGatewayURLBuilder(
                          relatedEnrollments.get(student.Cart_Id__c), 
                          isCCE, 
                          student.hed__Contact__r.Registered_Email__c
                     );
                }
-               
-               regDetails.contactDetails = contactDetails;
-               regDetails.enrolmentDetails = enrolmentDetails;
+
                regDetails.applicationDetails = applicationDetails;
                regDetailsList.add(regDetails);
           }
@@ -899,58 +875,12 @@ public without sharing class ManageRegistrationSectionCtrl extends ManageRegistr
       */
      private class ManageRegistrationDetails{
           @AuraEnabled
-          public ContactDetailsClass contactDetails;
-          @AuraEnabled
-          public EnrolmentDetailsClass enrolmentDetails;
+          public hed__Course_Enrollment__c enrolmentDetails;
           @AuraEnabled
           public ApplicationDetailsClass applicationDetails;
-
-     }
-
-     private class ContactDetailsClass{
-          @AuraEnabled
-          public String contactId;
-          @AuraEnabled
-          public String contactFullName;
-          @AuraEnabled
-          public String contactFirstName;
-          @AuraEnabled
-          public String contactLastName;
-          @AuraEnabled
-          public Date contactBirthdate;
-          @AuraEnabled
-          public String contactEmail;
-          @AuraEnabled
-          public String studentId;
-          @AuraEnabled
-          public String position;
-          @AuraEnabled
-          public String organisation;
-          @AuraEnabled
-          public String dietaryRequirement;
-          @AuraEnabled
-          public String accessibilityRequirement;
-     }
-
-     private class EnrolmentDetailsClass{
-          @AuraEnabled
-          public String id;
-          @AuraEnabled
-          public String paidInFull;
-          @AuraEnabled
-          public String registrationStatus;
-          @AuraEnabled
-          public String lmsIntegrationStatus;
-          @AuraEnabled
-          public String paymentMethod;
           @AuraEnabled
           public String regenerateInvoiceURL;
-          @AuraEnabled
-          public Decimal paidAmount;
-          @AuraEnabled
-          public Datetime registrationDate;
-          @AuraEnabled
-          public String pricingValidation;
+
      }
 
      private class ApplicationDetailsClass{
