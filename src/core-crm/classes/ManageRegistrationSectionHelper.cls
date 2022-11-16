@@ -288,6 +288,40 @@ public with sharing class ManageRegistrationSectionHelper extends ManageRegistra
           }
      }
 
+     /**
+     * Retrieves Product based on offering id
+     * @param <Id> offeringId
+     * @return Id
+     */
+     public static Product2 getProduct(Id offeringId, Boolean isPrescribedProgram){
+          Product2 response = new Product2();
+
+          Id filter;
+          Id prodId;
+
+          List<Product2> productList = new List<Product2>();
+
+          if(!isPrescribedProgram){
+               List<hed__Course_Offering__c> courseOfferingList = [SELECT Id, hed__Course__c FROM hed__Course_Offering__c WHERE Id =: offeringId LIMIT 1];
+               for(hed__Course_Offering__c courseOffering : courseOfferingList){
+                    filter = courseOffering.hed__Course__c;
+               }
+               productList = [SELECT Id, Name, Product_Category__c FROM Product2 WHERE Course__c =: filter];
+          }else{
+               List<Program_Offering__c> programOfferingList = [SELECT Id, hed_Program_Plan__c  FROM Program_Offering__c WHERE Id =: offeringId LIMIT 1];
+               for(Program_Offering__c programOffering : programOfferingList){
+                    filter = programOffering.hed_Program_Plan__c;
+               }
+               productList = [SELECT Id, Name, Product_Category__c FROM Product2 WHERE Program_Plan__c  =: filter];
+          }
+
+          for(Product2 prod : productList){
+               response = prod;
+          }
+
+          return response;
+     }
+
      private static ContentVersion createContentVersion(String base64, String filename) {
           ContentVersion cv = new ContentVersion();
           cv.VersionData = EncodingUtil.base64Decode(base64);

@@ -181,7 +181,7 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
                 record.contactLastName = item.enrolmentDetails.hed__Contact__r.LastName;
                 record.contactFirstName = item.enrolmentDetails.hed__Contact__r.FirstName;
                 record.contactBirthdate = item.enrolmentDetails.hed__Contact__r.Birthdate;
-                record.contactEmail = item.enrolmentDetails.hed__Contact__r.Email;
+                record.contactEmail = item.enrolmentDetails.hed__Contact__r.Registered_Email__c;
                 
                 record.studentId = item.enrolmentDetails.hed__Contact__r.QUT_Student_Id__c;
                 record.position = item.enrolmentDetails.hed__Contact__r.Postion__c;
@@ -200,9 +200,9 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
                 record.id = item.enrolmentDetails.Id;
 
                 if(item.applicationDetails){
-                    record.questionId = item.applicationDetails.questionId;
-                    record.applicationName = item.applicationDetails.applicationName;
-                    record.applicationURL = item.applicationDetails.applicationURL;
+                    record.questionId = item.applicationDetails.Id;
+                    record.applicationName = item.applicationDetails.Name;
+                    record.applicationURL = '/' + item.applicationDetails.Id;
                 }
                 return record;
             });

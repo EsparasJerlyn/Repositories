@@ -67,6 +67,10 @@ public without sharing class ManageRegistrationSectionCtrl extends ManageRegistr
      private static Id studentRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(studentRT).getRecordTypeId();
      private static string studentProgramRT = System.Label.RT_CourseConnection_Student_Program;
      private static Id studentProgramRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(studentProgramRT).getRecordTypeId();
+     private static List<hed__Course_Enrollment__c> registeredLearners;
+     private static Map<Id,List<hed__Course_Enrollment__c>> relatedEnrollments;
+     private static Map<Id, PricebookEntry> studentWithPricingMap;
+     private static Map<Id,Questionnaire_Response_Summary__c> contactToQRSummary;
 
      /**
       * @description Retrieves list of related answers
@@ -131,10 +135,10 @@ public without sharing class ManageRegistrationSectionCtrl extends ManageRegistr
      public static List<ManageRegistrationDetails> getRegistrations(String childRecordId, Boolean prescribedProgram){
 
           List<ManageRegistrationDetails> response = new List<ManageRegistrationDetails>();
-
-          Map<Id,Questionnaire_Response_Summary__c> contactToQRSummary = new Map<Id,Questionnaire_Response_Summary__c>();
+          contactToQRSummary = new Map<Id,Questionnaire_Response_Summary__c>();
+          registeredLearners = new List<hed__Course_Enrollment__c>();
           PaymentUrlClass urlObj = new PaymentUrlClass();
-          Map<Id,List<hed__Course_Enrollment__c>> relatedEnrollments = new Map<Id,List<hed__Course_Enrollment__c>>();
+          relatedEnrollments = new Map<Id,List<hed__Course_Enrollment__c>>();
           Map<String, PricebookEntry> pbeList = new Map<String, PricebookEntry>();
 
           List<Questionnaire_Response_Summary__c> questionnaireResponseList = [
@@ -148,7 +152,7 @@ public without sharing class ManageRegistrationSectionCtrl extends ManageRegistr
                contactToQRSummary.put(qResSummary.Contact__c, qResSummary);
           }
 
-          List<hed__Course_Enrollment__c > courseConnections = [
+          registeredLearners = [
                SELECT Id, Name, hed__Contact__c, hed__Contact__r.Id, hed__Contact__r.Name, hed__Contact__r.Position__c, hed__Contact__r.hed__Primary_Organization__r.Name, 
                     hed__Contact__r.Dietary_Requirement__c, hed__Contact__r.Accessibility_Requirement__c, Pricing_Validation__c, hed__Course_Offering__c, Cart_ID__r.External_Id__c,
                     Cart_ID__r.TotalAmount, Paid_in_Full__c, hed__Status__c, LMS_Integration_Status__c, hed__Contact__r.FirstName, hed__Contact__r.LastName,
@@ -160,7 +164,7 @@ public without sharing class ManageRegistrationSectionCtrl extends ManageRegistr
                     AND (hed__Course_Offering__c =: childRecordId OR (Program_Offering__c  =: childRecordId AND hed__Course_Offering__c = null ))
           ];      
 
-          Product2 product = getProduct(childRecordId, prescribedProgram);
+          Product2 product = ManageRegistrationSectionHelper.getProduct(childRecordId, prescribedProgram);
 
           List<PricebookEntry> priceBookEntries = [
                SELECT Id, UnitPrice, Pricebook2.Name 
@@ -173,8 +177,8 @@ public without sharing class ManageRegistrationSectionCtrl extends ManageRegistr
                pbeList.put(p.Id, p);
           }
 
-          Map<Id, PricebookEntry> studentWithPricingMap = new Map<Id, PricebookEntry>();
-          for(hed__Course_Enrollment__c student : courseConnections){
+          studentWithPricingMap = new Map<Id, PricebookEntry>();
+          for(hed__Course_Enrollment__c student : registeredLearners){
                if(pbeList.containsKey(student.Cart_Item__r.Pricebook_Entry_ID__c)){
                     studentWithPricingMap.put(student.Id, pbeList.get(student.Cart_Item__r.Pricebook_Entry_ID__c));
                }
@@ -206,36 +210,30 @@ public without sharing class ManageRegistrationSectionCtrl extends ManageRegistr
                relatedEnrollments.get(relatedStudent.Cart_ID__c).add(relatedStudent);
           }
 
-          response = buildRegistrationDetails(courseConnections,relatedEnrollments,studentWithPricingMap,contactToQRSummary);
+          response = buildRegistrationDetails();
 
           return response;
      }
 
-     private static List<ManageRegistrationDetails> buildRegistrationDetails(
-          List<hed__Course_Enrollment__c> courseConnections, 
-          Map<Id,List<hed__Course_Enrollment__c>> relatedEnrollments,
-          Map<Id, PricebookEntry> studentWithPricingMap,
-          Map<Id,Questionnaire_Response_Summary__c> contactToQRSummary
-          ){
+     private static List<ManageRegistrationDetails> buildRegistrationDetails(){
 
           List<ManageRegistrationDetails> regDetailsList = new List<ManageRegistrationDetails>();
           ManageRegistrationDetails regDetails;
-          ApplicationDetailsClass applicationDetails;
                
           Decimal amount = 0;
           Boolean isCCE = false;
           String selectedPricing = '';
 
-          for(hed__Course_Enrollment__c student : courseConnections){
+          for(hed__Course_Enrollment__c student : registeredLearners){
 
                regDetails = new ManageRegistrationDetails();
-               applicationDetails = new ApplicationDetailsClass();
 
                amount = 0;
                selectedPricing = '';
 
                regDetails.enrolmentDetails = student;
                regDetails.regenerateInvoiceURL = '';
+               regDetails.applicationDetails = null;
                
                if(studentWithPricingMap.containsKey(student.Id)){
 
@@ -244,11 +242,7 @@ public without sharing class ManageRegistrationSectionCtrl extends ManageRegistr
                }
                
                if(contactToQRSummary.containsKey(student.hed__Contact__c)){
-                    
-                    applicationDetails.questionId = contactToQRSummary.get(student.hed__Contact__c).Id;
-                    applicationDetails.applicationURL = '/' +  contactToQRSummary.get(student.hed__Contact__c).Id;
-                    applicationDetails.applicationName =  contactToQRSummary.get(student.hed__Contact__c).Name;
-
+                    regDetails.applicationDetails = contactToQRSummary.get(student.hed__Contact__c);
                }
 
                //checker if enrollment is CCE
@@ -267,8 +261,6 @@ public without sharing class ManageRegistrationSectionCtrl extends ManageRegistr
                          student.hed__Contact__r.Registered_Email__c
                     );
                }
-
-               regDetails.applicationDetails = applicationDetails;
                regDetailsList.add(regDetails);
           }
 
@@ -401,7 +393,7 @@ public without sharing class ManageRegistrationSectionCtrl extends ManageRegistr
       */
      @AuraEnabled(cacheable=true)
      public static List<Map<String,String>> getPBEntries(String childRecordId, Boolean prescribedProgram){
-          Product2 product = getProduct(childRecordId, prescribedProgram);
+          Product2 product = ManageRegistrationSectionHelper.getProduct(childRecordId, prescribedProgram);
           List<Map<String,String>> pBEntries = new List<Map<String,String>>();
           List<Program_Offering__c> programOfferingList = new List<Program_Offering__c>();
           List<hed__Course_Offering__c> courseOfferingList = new List<hed__Course_Offering__c>();
@@ -650,7 +642,7 @@ public without sharing class ManageRegistrationSectionCtrl extends ManageRegistr
                ManageRegistrationSectionHelper.processQuestionnaireData(parsedRegistrationData, fileUpload);
 
                //get product related to the offering
-               Product2 product = getProduct(offeringId, prescribedProgram);
+               Product2 product = ManageRegistrationSectionHelper.getProduct(offeringId, prescribedProgram);
 
                Boolean isTailored = product != null && product.Product_Category__c == TAILORED_EXECUTIVE_PROGRAM?true:false;
 
@@ -682,41 +674,6 @@ public without sharing class ManageRegistrationSectionCtrl extends ManageRegistr
           }
           return enrolmentResult;
      } 
-
-     /**
-     * Retrieves Product based on offering id
-     * @param <Id> offeringId
-     * @return Id
-     */
-     private static Product2 getProduct(Id offeringId, Boolean isPrescribedProgram){
-          Product2 response = new Product2();
-
-          Id filter;
-          Id prodId;
-
-          List<Product2> productList = new List<Product2>();
-
-          if(!isPrescribedProgram){
-               List<hed__Course_Offering__c> courseOfferingList = [SELECT Id, hed__Course__c FROM hed__Course_Offering__c WHERE Id =: offeringId LIMIT 1];
-               for(hed__Course_Offering__c courseOffering : courseOfferingList){
-                    filter = courseOffering.hed__Course__c;
-               }
-               productList = [SELECT Id, Name, Product_Category__c FROM Product2 WHERE Course__c =: filter];
-          }else{
-               List<Program_Offering__c> programOfferingList = [SELECT Id, hed_Program_Plan__c  FROM Program_Offering__c WHERE Id =: offeringId LIMIT 1];
-               for(Program_Offering__c programOffering : programOfferingList){
-                    filter = programOffering.hed_Program_Plan__c;
-               }
-               productList = [SELECT Id, Name, Product_Category__c FROM Product2 WHERE Program_Plan__c  =: filter];
-          }
-
-          for(Product2 prod : productList){
-               response = prod;
-          }
-
-          return response;
-     }
-
      
 
       /**
@@ -735,7 +692,7 @@ public without sharing class ManageRegistrationSectionCtrl extends ManageRegistr
           discountData.promotionId = '';
           discountData.discount = 0;
           //get the product to search
-          Product2 product = getProduct(offeringId, prescribedProgram);
+          Product2 product = ManageRegistrationSectionHelper.getProduct(offeringId, prescribedProgram);
 
           //query the promotion
           List<Promotion> promotionList = [
@@ -877,18 +834,8 @@ public without sharing class ManageRegistrationSectionCtrl extends ManageRegistr
           @AuraEnabled
           public hed__Course_Enrollment__c enrolmentDetails;
           @AuraEnabled
-          public ApplicationDetailsClass applicationDetails;
+          public Questionnaire_Response_Summary__c applicationDetails;
           @AuraEnabled
           public String regenerateInvoiceURL;
-
-     }
-
-     private class ApplicationDetailsClass{
-          @AuraEnabled
-          public String questionId;
-          @AuraEnabled
-          public String applicationName;
-          @AuraEnabled
-          public String applicationURL;
      }
 }
