@@ -165,6 +165,7 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
     @wire(getObjectInfo, { objectApiName: SESSION_OBJECT})
     sessionInfo;
 
+
     //Retrieves questionnaire data related to the product request
     tableData;
     @wire(getRegistrations, {childRecordId : '$childRecordId', prescribedProgram: '$prescribedProgram'})
@@ -172,10 +173,41 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
         this.isLoading = true;
         this.tableData = result;
         if(result.data){
-            this.records = result.data;
+            console.log(JSON.parse(JSON.stringify(result.data)));
+            this.records = result.data.map(item => {
+                let record = {};
+                record.contactFullName = item.contactDetails.contactFullName;
+                record.contactId = item.contactDetails.contactId;
+                record.contactFullName = item.contactDetails.contactFullName;
+                record.contactFirtName = item.contactDetails.contactFirstName;
+                record.contactBirthdate = item.contactDetails.contactBirthdate;
+                record.contactEmail = item.contactDetails.contactEmail;
+                record.studentId = item.contactDetails.studentId;
+                record.position = item.contactDetails.position;
+                record.organisation = item.contactDetails.organisation;
+                record.dietaryRequirement = item.contactDetails.dietaryRequirement;
+                record.accessibilityRequirement = item.contactDetails.accessibilityRequirement;
+
+                record.paidInFull = item.enrolmentDetails.paidInFull;
+                record.registrationStatus = item.enrolmentDetails.registrationStatus;
+                record.lmsIntegrationStatus = item.enrolmentDetails.lmsIntegrationStatus;
+                record.paymentMethod = item.enrolmentDetails.paymentMethod;
+                record.regenerateInvoiceURL = item.enrolmentDetails.regenerateInvoiceURL;
+                record.paidAmount = item.enrolmentDetails.paidAmount;
+                record.registrationDate = item.enrolmentDetails.registrationDate;
+                record.pricingValidation = item.enrolmentDetails.pricingValidation;
+                record.id = item.enrolmentDetails.id;
+
+                if(item.applicationDetails){
+                    record.questionId = item.applicationDetails.questionId;
+                    record.applicationName = item.applicationDetails.applicationName;
+                    record.applicationURL = item.applicationDetails.applicationURL;
+                }
+                return record;
+            });
             this.contactList = result.data.map(item => {
-                if(item.registrationStatus !== 'Cancelled'){
-                    return item.contactId;
+                if(item.enrolmentDetails.registrationStatus !== 'Cancelled'){
+                    return item.contactDetails.contactId;
                 }
             });
             this.recordsTemp = result.data;
@@ -341,6 +373,7 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
                 .catch((error)=>{
                     console.log(error);
                 })
+            console.log(JSON.parse(JSON.stringify(this.pbEntriesToAssetMap )));
         }
     }
 
@@ -523,12 +556,18 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
     handleCreateContact(event){
         event.preventDefault();
 
+        console.log('handleCreateContact');
+
         if(this.isCorporateBundlePricebook){
+            console.log('this.isCorporateBundlePriceboo');
             //check if asset credit is still available
             //check price book entry unit price against the asset remaining value
+            console.log('pbEntryRecord',this.pbEntryRecord);
+            console.log('pbEntriesToAssetMap',this.pbEntriesToAssetMap);
             checkCreditAvailability({pbEntryId:this.pbEntryRecord,assetId:this.pbEntriesToAssetMap[this.pbEntryRecord].Id})
             .then((res) => {
                 if(res){
+                    console.log('checkCreditAvailability');
                     this.handleOnCreateContactFinal(event);
                 }else{
                     this.generateToast(ERROR_TITLE, 'Not enough credit to register the learner', ERROR_VARIANT);
@@ -538,6 +577,7 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
                 console.log(error);
             })
         }else{
+            console.log('handleOnCreateContactFinal');
             this.handleOnCreateContactFinal(event);
         }
  
@@ -559,9 +599,11 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
     handleCorporateBundleRegistration(){
         //check if asset credit is still available
         //check price book entry unit price against the asset remaining value
+        console.log('here');
         checkCreditAvailability({pbEntryId:this.pbEntryRecord,assetId:this.pbEntriesToAssetMap[this.pbEntryRecord].Id})
         .then((res) => {
             if(res){
+                console.log('here2');
                 this.handleExistingContactPWI();
             }else{
                 this.generateToast(ERROR_TITLE, 'Not enough credit to register the learner', ERROR_VARIANT);
@@ -662,17 +704,21 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
             pbEntry = null;
         }
 
+        let registrationData = {};
+        registrationData.contactRecord = contact;
+        registrationData.offeringId = offeringId;
+        registrationData.relatedAnswerList = relatedAnswer;
+        registrationData.answerList = answer;
+        registrationData.prescribedProgram = prescribedProgram;
+        registrationData.priceBookEntryId = pbEntry;
+        registrationData.isProceedNoInvoice = this.isProceedNoInvoice;
+        registrationData.discountAmount = this.discountAmount;
+        registrationData.promotionId = this.promotionId; 
+        
+        
         addRegistration({
-            contactRecord:contact,
-            offeringId:offeringId,
-            relatedAnswerList:relatedAnswer,
-            answerList:answer,
-            fileUpload:fileUpload,
-            prescribedProgram:prescribedProgram,
-            priceBookEntryId:pbEntry,
-            isProceedNoInvoice : this.isProceedNoInvoice,
-            discountAmount:this.discountAmount,
-            promotionId:this.promotionId
+            registrationData:JSON.stringify(registrationData),
+            fileUpload:fileUpload
         })
         .then(res =>{
             if(!res.isContactInputValid){
@@ -836,6 +882,7 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
         if(this.prescribedProgram){
             programOfferingId = this.childRecordId;
         }
+        console.log('rowId',this.rowId);
         updateRegistration({
             id: this.rowId,
             questionId: this.rowQuestId,
@@ -847,9 +894,12 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
         })
             .then((result) => {
                 response = result;
+                console.log(response);
             })
             .catch((error) => {
                 response = error;
+                console.log(error);
+                console.log(response);
             })
             .finally(() => {
                 this.picklistValue = '';
