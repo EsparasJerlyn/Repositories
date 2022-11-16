@@ -126,64 +126,6 @@ public without sharing class ManageRegistrationSectionCtrl extends ManageRegistr
       }
 
      /**
-      * @description Updates Registration details of students
-      * @param id - id of student selected
-      * @param questionId - question id of student selected
-      * @param registrationStatus - registration status of student selected
-      * @param paidInFull - paid in full field of student selected
-      * @param pricingValidation - pricing validation field of student selected
-      * @return String
-      */
-     @AuraEnabled
-     public static String updateRegistration(String id, String questionId, String registrationStatus, String paidInFull, String pricingValidation, String programOfferingId, String contactId){
-
-          try {
-
-               List<hed__Course_Enrollment__c> studentsToUpdate = new List<hed__Course_Enrollment__c>();
-               hed__Course_Enrollment__c studentFromParentOffering = new hed__Course_Enrollment__c();
-               studentFromParentOffering.Id = id;
-               studentFromParentOffering.Paid_in_Full__c = paidInFull;
-               studentFromParentOffering.Pricing_Validation__c = pricingValidation;
-               studentFromParentOffering.hed__Status__c = registrationStatus;
-               studentsToUpdate.add(studentFromParentOffering);
-
-               if(programOfferingId != ''){
-
-                    List<hed__Course_Enrollment__c> students = [
-                         SELECT Id, Paid_in_Full__c, Pricing_Validation__c 
-                         FROM hed__Course_Enrollment__c 
-                         WHERE hed__Course_Offering__c != NULL 
-                         AND Program_Offering__c =: programOfferingId
-                         AND hed__Contact__c =: contactId
-                    ];
-
-                    for(hed__Course_Enrollment__c student : students){
-                         hed__Course_Enrollment__c learner = new hed__Course_Enrollment__c();
-                         learner.Id = student.id;
-                         learner.Paid_in_Full__c = paidInFull;
-                         learner.Pricing_Validation__c = pricingValidation;
-                         learner.hed__Status__c = registrationStatus;
-                         studentsToUpdate.add(learner);
-                    }
-               }
-
-               Questionnaire_Response_Summary__c questionnaire = new Questionnaire_Response_Summary__c();
-               questionnaire.Id = questionId;
-          
-               if(studentsToUpdate.size() > 0){
-                    update studentsToUpdate;
-               }
-               if(questionnaire.Id !=null){
-                    update questionnaire;
-               }
-               return 'Success';
-          }
-          catch (Exception e) {
-               return 'The following exception has occurred: ' + e.getMessage();
-          }
-     }
-
-     /**
       *  @description Retrieves list of picklist values for paid in full field
       *  @return List<String>
       */

@@ -54,10 +54,9 @@ public without sharing class ManageRegistrationLearnersListHelper extends Manage
                     hed__Contact__r.Dietary_Requirement__c, hed__Contact__r.Accessibility_Requirement__c, Pricing_Validation__c, hed__Course_Offering__c, Cart_ID__r.External_Id__c,
                     Cart_ID__r.TotalAmount, Paid_in_Full__c, hed__Status__c, LMS_Integration_Status__c, hed__Contact__r.FirstName, hed__Contact__r.LastName,
                     hed__Contact__r.Birthdate, Payment_Method__c, Cart_Item__r.Pricebook_Entry_ID__c, Is_Group_Registered__c, hed__Contact__r.Registered_Email__c,
-                     CreatedDate, Paid_Amount__c, hed__Contact__r.QUT_Student_Id__c
+                    CreatedDate, Paid_Amount__c, hed__Contact__r.QUT_Student_Id__c
                     FROM hed__Course_Enrollment__c
-                    WHERE
-                    RecordTypeId IN (:studentRecTypeId, :studentProgramRecTypeId)
+                    WHERE RecordTypeId IN (:studentRecTypeId, :studentProgramRecTypeId)
                     AND (hed__Course_Offering__c =: childRecordId OR (Program_Offering__c  =: childRecordId AND hed__Course_Offering__c = null ))
                     WITH SECURITY_ENFORCED
            ];      
@@ -166,6 +165,55 @@ public without sharing class ManageRegistrationLearnersListHelper extends Manage
  
            return regDetailsList;
  
+     }
+
+     /**
+      * @description Updates Registration details of students
+      * @param id - id of student selected
+      * @param questionId - question id of student selected
+      * @param registrationStatus - registration status of student selected
+      * @param paidInFull - paid in full field of student selected
+      * @param pricingValidation - pricing validation field of student selected
+      * @return String
+      */
+      @AuraEnabled
+      public static String updateRegistration(hed__Course_Enrollment__c studentRecord){
+ 
+           try {
+ 
+                List<hed__Course_Enrollment__c> studentsToUpdate = new List<hed__Course_Enrollment__c>();
+                studentsToUpdate.add(studentRecord);
+ 
+                if(studentRecord.Program_Offering__c != ''){
+ 
+                     List<hed__Course_Enrollment__c> students = [
+                          SELECT Id, Paid_in_Full__c, Pricing_Validation__c 
+                          FROM hed__Course_Enrollment__c 
+                          WHERE hed__Course_Offering__c != NULL 
+                          AND Program_Offering__c =: studentRecord.Program_Offering__c
+                          AND hed__Contact__c =: studentRecord.hed__Contact__c
+                          WITH SECURITY_ENFORCED
+                     ];
+ 
+                     for(hed__Course_Enrollment__c student : students){
+                          hed__Course_Enrollment__c learner = new hed__Course_Enrollment__c();
+                          learner.Id = studentRecord.Id;
+                          learner.Paid_in_Full__c = studentRecord.Paid_in_Full__c;
+                          learner.Pricing_Validation__c = studentRecord.Pricing_Validation__c;
+                          learner.hed__Status__c = studentRecord.hed__Status__c;
+                          studentsToUpdate.add(learner);
+                     }
+                }
+           
+                if(studentsToUpdate.size() > 0){
+                     update studentsToUpdate;
+                }
+
+                return 'Success';
+           }
+           catch (Exception e) {
+                return 'The following exception has occurred: ' + e.getMessage();
+           }
       }
 
      /**

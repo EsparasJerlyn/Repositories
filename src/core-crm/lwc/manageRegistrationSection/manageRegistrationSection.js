@@ -36,7 +36,7 @@ import { refreshApex } from '@salesforce/apex';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { NavigationMixin } from "lightning/navigation";
 import getRegistrations from '@salesforce/apex/ManageRegistrationLearnersListHelper.getRegistrations';
-import updateRegistration from '@salesforce/apex/ManageRegistrationSectionCtrl.updateRegistration';
+import updateRegistration from '@salesforce/apex/ManageRegistrationLearnersListHelper.updateRegistration';
 import getRegistrationStatusValues from '@salesforce/apex/ManageRegistrationSectionCtrl.getRegistrationStatusValues';
 import getPaidInFullValues from '@salesforce/apex/ManageRegistrationSectionCtrl.getPaidInFullValues';
 import getPricingValidationValues from '@salesforce/apex/ManageRegistrationSectionCtrl.getPricingValidationValues';
@@ -237,6 +237,7 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
             this.isLoading = false;
             this.registeredEmail = undefined;
             this.emailOptions = [];
+            console.error(result.error);
         }
     }
 
@@ -884,14 +885,16 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
             programOfferingId = this.childRecordId;
         }
         console.log('rowId',this.rowId);
+        let studentRecord = {};
+        studentRecord.Id = this.rowId;
+        studentRecord.hed__Status__c = this.rowRegStatus;
+        studentRecord.Paid_in_Full__c = this.rowPaidInFull;
+        studentRecord.Pricing_Validation__c = this.pricingValidation;
+        studentRecord.Program_Offering__c = programOfferingId;
+        studentRecord.hed__Contact__c = this.rowContactId;
+
         updateRegistration({
-            id: this.rowId,
-            questionId: this.rowQuestId,
-            registrationStatus: this.rowRegStatus,
-            paidInFull: this.rowPaidInFull,
-            pricingValidation: this.pricingValidation,
-            programOfferingId: programOfferingId,
-            contactId : this.rowContactId
+            studentRecord: studentRecord
         })
             .then((result) => {
                 response = result;
