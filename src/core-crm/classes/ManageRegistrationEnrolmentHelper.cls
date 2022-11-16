@@ -120,10 +120,10 @@ public with sharing abstract class ManageRegistrationEnrolmentHelper {
      * @param <Id> contactId
      * @return User
      */
-     public static Id createUser(String contactRecEmail, String contactRecLname, String contactRecFname, Id contactId){
+     public static Id createUser(Contact newContact){
           Id response;
 
-          List<User> users = [SELECT Id FROM User WHERE ContactId  =: contactId AND IsActive = true LIMIT 1];
+          List<User> users = [SELECT Id FROM User WHERE ContactId  =: newContact.Id AND IsActive = true LIMIT 1];
 
           if(users.size() > 0){
                for(User u : users){
@@ -132,12 +132,12 @@ public with sharing abstract class ManageRegistrationEnrolmentHelper {
           }else{
                Profile profile = [SELECT Id FROM Profile WHERE Name = 'OPE Catalogue' LIMIT 1];
                User commerceUser = new User();
-               commerceUser.Username = contactRecEmail;
-               commerceUser.Email = contactRecEmail;
-               commerceUser.LastName = contactRecLname;
-               commerceUser.FirstName = contactRecFname;
-               commerceUser.ContactId = contactId;
-               commerceUser.alias = contactRecFname.substring(0, 1) + contactRecLname.substring(0, 2);
+               commerceUser.Username = newContact.Email;
+               commerceUser.Email = newContact.Email;
+               commerceUser.LastName = newContact.LastName;
+               commerceUser.FirstName = newContact.FirstName;
+               commerceUser.ContactId = newContact.Id;
+               commerceUser.alias = newContact.FirstName.substring(0, 1) + newContact.LastName.substring(0, 2);
                commerceUser.LanguageLocaleKey = 'en_US';
                commerceUser.localesidkey = 'en_AU';
                commerceUser.emailEncodingKey = 'UTF-8';

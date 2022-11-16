@@ -97,6 +97,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ManageRegistrationLearnersListHelper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>OnlineSelfPacedConfirmationEmailCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>

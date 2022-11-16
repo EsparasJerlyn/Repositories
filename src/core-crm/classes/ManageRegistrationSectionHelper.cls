@@ -60,7 +60,14 @@ public with sharing class ManageRegistrationSectionHelper extends ManageRegistra
           }else if(corporateUser.isEmpty() && (isCorporateBundlePricing == true || isSOAPricing == true)){
                throw new AuraHandledException('Please make sure to enable the contact as Partner User');
           }else{
-               commerceUser = ManageRegistrationEnrolmentHelper.createUser(finalContactRecord.Email, finalContactRecord.LastName, finalContactRecord.FirstName, contactRecord.Id);
+               Contact newContact = new Contact(
+                    Email = finalContactRecord.Email,
+                    LastName = finalContactRecord.LastName,
+                    FirstName = finalContactRecord.FirstName,
+                    Id = contactRecord.Id
+               );
+
+               commerceUser = ManageRegistrationEnrolmentHelper.createUser(newContact);
                newWebCart = ManageRegistrationEnrolmentHelper.createWebCart(commerceUser, contactRecord.Id);
           }
           

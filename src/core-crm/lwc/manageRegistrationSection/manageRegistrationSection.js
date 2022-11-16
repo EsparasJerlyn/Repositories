@@ -35,7 +35,7 @@ import { api, LightningElement, wire } from 'lwc';
 import { refreshApex } from '@salesforce/apex';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { NavigationMixin } from "lightning/navigation";
-import getRegistrations from '@salesforce/apex/ManageRegistrationSectionCtrl.getRegistrations';
+import getRegistrations from '@salesforce/apex/ManageRegistrationLearnersListHelper.getRegistrations';
 import updateRegistration from '@salesforce/apex/ManageRegistrationSectionCtrl.updateRegistration';
 import getRegistrationStatusValues from '@salesforce/apex/ManageRegistrationSectionCtrl.getRegistrationStatusValues';
 import getPaidInFullValues from '@salesforce/apex/ManageRegistrationSectionCtrl.getPaidInFullValues';
