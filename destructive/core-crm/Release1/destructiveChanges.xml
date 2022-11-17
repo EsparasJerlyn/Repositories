@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
+        <!--(Start) DEPP-4720 -->
+        <members>OnlineSelfPacedConfirmationEmailCtrl</members>
+        <members>OnlineSelfPacedConfirmationEmailCtrlTest</members>
+        <members>PostCourseCompletionEmailCtrl</members>
+        <members>PostCourseCompletionEmailCtrlTest</members>
+        <!--(End) DEPP-4720 -->
+        <name>ApexClass</name>
+    </types>
+    <types>
         <!--DEPP-4144-->
         <members>Consultancy__c.Publish_to_the_Portal__c</members>
         <!--DEPP-4144 end-->

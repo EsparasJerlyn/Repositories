@@ -414,22 +414,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>OnlineSelfPacedConfirmationEmailCtrl</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>OnlineSelfPacedConfirmationEmailCtrlTest</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>PostCourseCompletionEmailCtrl</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>PostCourseCompletionEmailCtrlTest</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>PreSessionReminderEmailCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>
