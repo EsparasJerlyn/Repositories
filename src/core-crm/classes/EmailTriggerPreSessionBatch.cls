@@ -11,6 +11,7 @@
       | rhea.b.torres                  | June 22,2022          | DEPP-3188              | Updated logic to send email to the Student                     |
       | rhea.b.torres                  | July 23,2022          | DEPP-3557              | Add logic to use email template set in Communication Schedule  |
       | rhea.b.torres                  | July 27,2022          | DEPP-3590              | Add logic to include merge fields from other email template    |
+      | rhea.b.torres                  | November 11,2022      | DEPP-4759              | Refactor logic for sending pre-session emails to learners      |
  */
 public with sharing class EmailTriggerPreSessionBatch implements Database.Batchable<EmailWrapper>{
 
@@ -22,8 +23,18 @@ public with sharing class EmailTriggerPreSessionBatch implements Database.Batcha
         Map<Id,String> productEmailTemplateMap = new Map<Id,String>();
 
         try{
-            //Query all students
-            Map<Id, hed__Course_Enrollment__c>  courseEnrollmentMap = new Map<Id, hed__Course_Enrollment__c>([SELECT Id,
+            // Get all Sessions which will start tomorrow
+            List<Session__c> sessionsTomorrow = [SELECT Id, Date__c, Course_Offering__c FROM Session__c WHERE Date__c =:Date.TODAY()+1];
+            
+            // Get the related Course Offerings of the fetched sessions
+            Set<Id> offeringsWithSessionTomorrow = new Set<Id>();
+            for(Session__c session : sessionsTomorrow){
+                offeringsWithSessionTomorrow.add(session.Course_Offering__c);
+            }
+
+            // Get all Course Connection records with Course Offerings having session which will start tomorrow
+            List<hed__Course_Enrollment__c>  courseConnections = new List<hed__Course_Enrollment__c>(
+                                                                    [SELECT Id,
                                                                             hed__Contact__r.FirstName,
                                                                             hed__Contact__r.LastName,
                                                                             hed__Contact__r.Registered_Email__c,
@@ -37,21 +48,21 @@ public with sharing class EmailTriggerPreSessionBatch implements Database.Batcha
                                                                             Amount__c,
                                                                             hed__Contact__r.QUT_Student_Username__c
                                                                     FROM hed__Course_Enrollment__c
-                                                                    WHERE RecordTypeId =:STUDENT_REC_TYPE
-                                                                        AND Id != Null
-                                                                        AND hed__Status__c = 'Active']);
+                                                                    WHERE Id != NULL
+                                                                        AND RecordTypeId =:STUDENT_REC_TYPE
+                                                                        AND hed__Status__c = 'Active'
+                                                                        AND hed__Course_Offering__c IN :offeringsWithSessionTomorrow]);
 
+            // Get the Course or Program Plan info from the Course Connection records
             Set<Id> courseIdSet= new Set<Id>();
             Set<Id> progPlanIdSet = new Set<Id>();
-            for(Id courseConnectionId : courseEnrollmentMap.keySet()){
-                hed__Course_Enrollment__c courseConnection = courseEnrollmentMap.get(courseConnectionId);
-                // Get all Course IDs
-                if(String.isNotBlank(courseConnection.hed__Course_Offering__r.hed__Course__c)){
-                    courseIdSet.add(courseConnection.hed__Course_Offering__r.hed__Course__c);
-                }
-                // Get all ProgramPlan IDs
-                if(String.isNotBlank(courseConnection.Program_Offering__r.hed_Program_Plan__c)){
+            for(hed__Course_Enrollment__c courseConnection : courseConnections){
+                // When a Course Connection is registered to a Program
+                if(String.IsNotBlank(courseConnection.Program_Offering__r.hed_Program_Plan__c)){
                     progPlanIdSet.add(courseConnection.Program_Offering__r.hed_Program_Plan__c);
+                } else {
+                    // When a Course Connection is registered to a single course
+                    courseIdSet.add(courseConnection.hed__Course_Offering__r.hed__Course__c);
                 }
             }
 
@@ -67,16 +78,15 @@ public with sharing class EmailTriggerPreSessionBatch implements Database.Batcha
                                                                 AND (Course__c IN :courseIdSet OR Program_Plan__c IN :progPlanIdSet)]){
                     if(String.isNotBlank(commSched.Course__c)){
                         courseAllowedEmailMap.put(commSched.Course__c, commSched.Send_email_before_session__c);
-
                         // Get email template for Course
                         if(String.isNotBlank(commSched.Notification_Before_Session_Template__c)){
                             productEmailTemplateMap.put(commSched.Course__c,
                                                         String.valueOf(commSched.Notification_Before_Session_Template__c));
                         }
                     }
+                    
                     if(String.isNotBlank(commSched.Program_Plan__c)){
                         courseAllowedEmailMap.put(commSched.Program_Plan__c, commSched.Send_email_before_session__c);
-
                         // Get email template for Program
                         if(String.isNotBlank(commSched.Notification_Before_Session_Template__c)){
                             productEmailTemplateMap.put(commSched.Program_Plan__c,
@@ -86,76 +96,61 @@ public with sharing class EmailTriggerPreSessionBatch implements Database.Batcha
                 }
             }
 
-            if (!courseAllowedEmailMap.isEmpty()){
-                //Get all sessions which will starts tomorrow
-                Set<Id> offeringWithSessionTomorrow = new Set<Id>();
-                for(Session__c session : [SELECT Id,
-                                            Date__c,
-                                            Course_Offering__c,
-                                            Course_Offering__r.hed__Course__c
-                                            FROM Session__c
-                                            WHERE Date__c =:Date.today()+1
-                                                AND Course_Offering__r.hed__Course__c IN :courseIdSet]){
-                    offeringWithSessionTomorrow.add(session.Course_Offering__r.hed__Course__c);
+            // Loop through all Course Connection records and verify if Course/Program Plan allows communication to be sent
+            for(hed__Course_Enrollment__c courseConnection : courseConnections){
+                Boolean isAllowedReminder = false;
+                String emailTemplateIdStr = '';
+
+                // Check first if Course Connection records has related Program Offering. This means that the course connection is registered to a Program
+                if(String.IsNotBlank(courseConnection.Program_Offering__c)){
+                    // Program
+                    if(courseAllowedEmailMap.containsKey(courseConnection.Program_Offering__r.hed_Program_Plan__c)){
+                        isAllowedReminder = true;
+                        // get email template
+                        emailTemplateIdStr = productEmailTemplateMap.get(courseConnection.Program_Offering__r.hed_Program_Plan__c);
+                    }
+                }else{
+                    // Single
+                    if(courseAllowedEmailMap.containsKey(courseConnection.hed__Course_Offering__r.hed__Course__c)){
+                        isAllowedReminder = true;
+                        // get email template
+                        emailTemplateIdStr = productEmailTemplateMap.get(courseConnection.hed__Course_Offering__r.hed__Course__c);
+                    }
                 }
 
-                //Loop through all course connections and check if associated CourseOffering has sessions tomorrow
-                //and email reminder is allowed
-                for(Id courseConnectionId : courseEnrollmentMap.keySet()){
-                    hed__Course_Enrollment__c courseConnection = courseEnrollmentMap.get(courseConnectionId);
-                    Boolean allowedEmailReminder = false;
-                    String emailTemplateIdStr = '';
+                String paidInFull = 'No';
+                if (String.isNotBlank(courseConnection.Paid_in_Full__c)) {
+                    paidInFull = courseConnection.Paid_in_Full__c;
+                }
+                String amount = '0.00';
+                if (String.isNotBlank(String.valueof(courseConnection.Amount__c))) {
+                    amount = String.valueof(courseConnection.Amount__c);
+                }
 
-                    //Do not send email if Course has no related Sessions
-                    if(offeringWithSessionTomorrow.contains(courseConnection.hed__Course_Offering__r.hed__Course__c)){
-                        if(courseAllowedEmailMap.containsKey(courseConnection.hed__Course_Offering__r.hed__Course__c)){
-                            allowedEmailReminder = true;
-                            // get email template
-                            emailTemplateIdStr = productEmailTemplateMap.get(courseConnection.hed__Course_Offering__r.hed__Course__c);
-                        } else {
-                            // Course is for a Program
-                            if(courseAllowedEmailMap.containsKey(courseConnection.Program_Offering__r.hed_Program_Plan__c)){
-                                allowedEmailReminder = true;
-                                // get email template
-                                emailTemplateIdStr = productEmailTemplateMap.get(courseConnection.Program_Offering__r.hed_Program_Plan__c);
-                            }
-                        }
-                    }
+                // Get Study Store URL Custom Setting
+                Study_Store_URL_Settings__c storeLinkSettings = Study_Store_URL_Settings__c.getOrgDefaults();
 
-                    String paidInFull = 'No';
-                    if (String.isNotBlank(courseConnection.Paid_in_Full__c)) {
-                        paidInFull = courseConnection.Paid_in_Full__c;
-                    }
-                    String amount = '0.00';
-                    if (String.isNotBlank(String.valueof(courseConnection.Amount__c))) {
-                        amount = String.valueof(courseConnection.Amount__c);
-                    }
-
-                    // Get Study Store URL Custom Setting
-                    Study_Store_URL_Settings__c storeLinkSettings = Study_Store_URL_Settings__c.getOrgDefaults();
-
-                    if(allowedEmailReminder && String.isNotBlank(emailTemplateIdStr)){
-                        //Send email to this student
-                        EmailWrapper wrapper;
-                        wrapper = new EmailWrapper();
-                        wrapper.recordId = courseConnection.Id;
-                        wrapper.name = courseConnection.hed__Course_Offering__r.hed__Course__r.Name;
-                        wrapper.firstName = courseConnection.hed__Contact__r.FirstName;
-                        wrapper.lastName = courseConnection.hed__Contact__r.LastName;
-                        wrapper.toAddress = courseConnection.hed__Contact__r.Registered_Email__c;
-                        wrapper.emailTemplateIdStr = emailTemplateIdStr;
-                        wrapper.startDate = courseConnection.Course_Offering_Start_Date__c;
-                            wrapper.endDate = courseConnection.Offering_End_Date__c;
-                        wrapper.amount = amount;
-                        wrapper.paidInFull = paidInFull;
-                        wrapper.storeLink = storeLinkSettings.Study_Store_Link__c != null
-                                                            ? String.valueOf(storeLinkSettings.Study_Store_Link__c)
-                                                            : '';
-                        wrapper.userName = courseConnection.hed__Contact__r.QUT_Student_Username__c!=null
-                                                            ? courseConnection.hed__Contact__r.QUT_Student_Username__c
-                                                            : '';
-                        wrapperList.add(wrapper);
-                    }
+                if(isAllowedReminder && String.isNotBlank(emailTemplateIdStr)){
+                    //Send email to this student
+                    EmailWrapper wrapper;
+                    wrapper = new EmailWrapper();
+                    wrapper.recordId = courseConnection.Id;
+                    wrapper.name = courseConnection.hed__Course_Offering__r.hed__Course__r.Name;
+                    wrapper.firstName = courseConnection.hed__Contact__r.FirstName;
+                    wrapper.lastName = courseConnection.hed__Contact__r.LastName;
+                    wrapper.toAddress = courseConnection.hed__Contact__r.Registered_Email__c;
+                    wrapper.emailTemplateIdStr = emailTemplateIdStr;
+                    wrapper.startDate = courseConnection.Course_Offering_Start_Date__c;
+                        wrapper.endDate = courseConnection.Offering_End_Date__c;
+                    wrapper.amount = amount;
+                    wrapper.paidInFull = paidInFull;
+                    wrapper.storeLink = storeLinkSettings.Study_Store_Link__c != null
+                                                        ? String.valueOf(storeLinkSettings.Study_Store_Link__c)
+                                                        : '';
+                    wrapper.userName = courseConnection.hed__Contact__r.QUT_Student_Username__c!=null
+                                                        ? courseConnection.hed__Contact__r.QUT_Student_Username__c
+                                                        : '';
+                    wrapperList.add(wrapper);
                 }
             }
         }catch(Exception e){
@@ -163,7 +158,6 @@ public with sharing class EmailTriggerPreSessionBatch implements Database.Batcha
         }
 
         return wrapperList;
-
     }
 
     public void execute(Database.BatchableContext bc, List<Object> records) {

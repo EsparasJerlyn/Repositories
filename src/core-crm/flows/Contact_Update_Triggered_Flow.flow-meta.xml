@@ -4,7 +4,7 @@
     <assignments>
         <name>Assign_Mobile_Validation_Status</name>
         <label>Assign Mobile Validation Status</label>
-        <locationX>314</locationX>
+        <locationX>446</locationX>
         <locationY>767</locationY>
         <assignmentItems>
             <assignToReference>$Record.ContactMobile_Validation__c</assignToReference>
@@ -24,7 +24,7 @@
     <assignments>
         <name>Assign_Phone_Validation_Status</name>
         <label>Assign Phone Validation Status</label>
-        <locationX>314</locationX>
+        <locationX>578</locationX>
         <locationY>431</locationY>
         <assignmentItems>
             <assignToReference>$Record.ContactPhone_Validation__c</assignToReference>
@@ -44,7 +44,7 @@
     <assignments>
         <name>Assign_Work_Phone_Validation_Status</name>
         <label>Assign Work Phone Validation Status</label>
-        <locationX>314</locationX>
+        <locationX>578</locationX>
         <locationY>1103</locationY>
         <assignmentItems>
             <assignToReference>$Record.ContactWorkPhone_Validation__c</assignToReference>
@@ -61,7 +61,7 @@
     <assignments>
         <name>ContactMobile_Phone_Assignment</name>
         <label>ContactMobile Phone Assignment</label>
-        <locationX>578</locationX>
+        <locationX>710</locationX>
         <locationY>767</locationY>
         <assignmentItems>
             <assignToReference>$Record.ContactMobile_Validation__c</assignToReference>
@@ -81,7 +81,7 @@
     <assignments>
         <name>ContactMobile_Unvalidated</name>
         <label>ContactMobile Unvalidated</label>
-        <locationX>50</locationX>
+        <locationX>182</locationX>
         <locationY>767</locationY>
         <assignmentItems>
             <assignToReference>$Record.ContactMobile_Validation__c</assignToReference>
@@ -97,7 +97,7 @@
     <assignments>
         <name>ContactPhone_Assignment</name>
         <label>ContactPhone Assignment</label>
-        <locationX>578</locationX>
+        <locationX>842</locationX>
         <locationY>431</locationY>
         <assignmentItems>
             <assignToReference>$Record.ContactPhone_Validation__c</assignToReference>
@@ -117,6 +117,22 @@
     <assignments>
         <name>ContactPhone_Unvalidated</name>
         <label>ContactPhone Unvalidated</label>
+        <locationX>314</locationX>
+        <locationY>431</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.ContactPhone_Validation__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Unvalidated</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Mobile_Is_Changed</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>ContactPhone_Unvalidated_0</name>
+        <label>ContactPhone Unvalidated</label>
         <locationX>50</locationX>
         <locationY>431</locationY>
         <assignmentItems>
@@ -133,7 +149,7 @@
     <assignments>
         <name>ContactWork_Phone_Assignment</name>
         <label>ContactWork Phone Assignment</label>
-        <locationX>578</locationX>
+        <locationX>842</locationX>
         <locationY>1103</locationY>
         <assignmentItems>
             <assignToReference>$Record.ContactWorkPhone_Validation__c</assignToReference>
@@ -150,6 +166,19 @@
     <assignments>
         <name>ContactWorkPhone_Unvalidated</name>
         <label>ContactWorkPhone Unvalidated</label>
+        <locationX>314</locationX>
+        <locationY>1103</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.ContactWorkPhone_Validation__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Unvalidated</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <name>ContactWorkPhone_Unvalidated_0</name>
+        <label>ContactWorkPhone Unvalidated</label>
         <locationX>50</locationX>
         <locationY>1103</locationY>
         <assignmentItems>
@@ -163,7 +192,7 @@
     <decisions>
         <name>Mobile_Is_Changed</name>
         <label>Mobile Is Changed</label>
-        <locationX>446</locationX>
+        <locationX>578</locationX>
         <locationY>647</locationY>
         <defaultConnector>
             <targetReference>Work_Phone_Is_Changed</targetReference>
@@ -281,12 +310,41 @@
     <decisions>
         <name>Phone_Is_Changed</name>
         <label>Phone Is Changed</label>
-        <locationX>446</locationX>
+        <locationX>578</locationX>
         <locationY>311</locationY>
         <defaultConnector>
             <targetReference>Mobile_Is_Changed</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>No Phone Is Not Changed</defaultConnectorLabel>
+        <rules>
+            <name>ContactPhone_Is_Not_Changed</name>
+            <conditionLogic>(1 OR 2) AND 3</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.ContactPhone_Locale__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Australia (+61)</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.ContactPhone_Locale__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>New Zealand (+64)</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Phone_No_Locale__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>ContactPhone_Unvalidated_0</targetReference>
+            </connector>
+            <label>ContactPhone Is Not Changed</label>
+        </rules>
         <rules>
             <name>ContactPhone_Is_Changed</name>
             <conditionLogic>and</conditionLogic>
@@ -399,9 +457,38 @@
     <decisions>
         <name>Work_Phone_Is_Changed</name>
         <label>Work Phone Is Changed</label>
-        <locationX>446</locationX>
+        <locationX>578</locationX>
         <locationY>983</locationY>
         <defaultConnectorLabel>No Work Phone Is Not Changed</defaultConnectorLabel>
+        <rules>
+            <name>ContactWorkPhone_Is_Not_Changed</name>
+            <conditionLogic>(1 OR 2) AND 3</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.ContactWorkPhone_Locale__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Australia (+61)</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.ContactWorkPhone_Locale__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>New Zealand (+64)</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Work_Phone_No_Locale__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>ContactWorkPhone_Unvalidated_0</targetReference>
+            </connector>
+            <label>ContactWorkPhone Is Not Changed</label>
+        </rules>
         <rules>
             <name>ContactWorkPhone_Is_Changed</name>
             <conditionLogic>and</conditionLogic>
@@ -534,7 +621,7 @@
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <start>
-        <locationX>320</locationX>
+        <locationX>452</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Phone_Is_Changed</targetReference>

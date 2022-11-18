@@ -21,7 +21,7 @@
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>$Record.Work_Email__c</leftValueReference>
+                <leftValueReference>$Record.QUT_Learner_Email__c</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
