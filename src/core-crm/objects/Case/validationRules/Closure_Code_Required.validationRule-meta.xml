@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Closure_Code_Required</fullName>
+    <active>true</active>
+    <description>When the Status of the case is &quot;Pending Closure&quot; or &quot;Closed&quot;, the Closure Code is required.</description>
+    <errorConditionFormula>AND (
+  OR(
+    ISPICKVAL ( Status, &quot;Pending Closure&quot; ),
+    ISPICKVAL ( Status, &quot;Closed&quot;)
+  ),
+  ISPICKVAL (  Closure_Code__c, &quot;&quot; )
+)</errorConditionFormula>
+    <errorDisplayField>Closure_Code__c</errorDisplayField>
+    <errorMessage>Closure Code is required when Status is &quot;Pending Closure&quot; or &quot;Closed&quot;.</errorMessage>
+</ValidationRule>

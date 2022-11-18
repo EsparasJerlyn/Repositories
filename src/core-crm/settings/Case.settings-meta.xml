@@ -8,7 +8,7 @@
     </caseFeedItemSettings>
     <caseFeedReadUnreadLtng>false</caseFeedReadUnreadLtng>
     <caseMergeInLightning>false</caseMergeInLightning>
-    <closeCaseThroughStatusChange>false</closeCaseThroughStatusChange>
+    <closeCaseThroughStatusChange>true</closeCaseThroughStatusChange>
     <defaultCaseFeedLayoutOn>false</defaultCaseFeedLayoutOn>
     <defaultCaseOwner>j.rail@qut.edu.au.dep</defaultCaseOwner>
     <defaultCaseOwnerType>User</defaultCaseOwnerType>
@@ -73,6 +73,7 @@
     <notifyOwnerOnCaseComment>false</notifyOwnerOnCaseComment>
     <notifyOwnerOnCaseOwnerChange>false</notifyOwnerOnCaseOwnerChange>
     <showEmailAttachmentsInCaseAttachmentsRL>true</showEmailAttachmentsInCaseAttachmentsRL>
+    <showFewerCloseActions>false</showFewerCloseActions>
     <systemUserEmail>automatedcase@00d5g000001fdgjeao.ext</systemUserEmail>
     <useSystemEmailAddress>true</useSystemEmailAddress>
     <useSystemUserAsDefaultCaseUser>false</useSystemUserAsDefaultCaseUser>
