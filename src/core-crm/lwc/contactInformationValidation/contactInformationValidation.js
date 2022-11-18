@@ -161,9 +161,16 @@ export default class ContactInformationValidation extends LightningElement {
 
         this.fieldsMapping.forEach(field => {
             if(
+                (
                 fields[field.apiNameNoLocale] &&
                 fields[field.localeField] !== STR_AU &&
-                fields[field.localeField] !== STR_NZ
+                fields[field.localeField] !== STR_NZ 
+                )
+                ||
+                (
+                    fields[field.apiNameNoLocale] &&
+                    (field.apiName == 'Phone' || field.apiName == 'hed__WorkPhone__c' || field.apiName == 'Work_Phone__c')
+                )
             ){
                 fields[field.apiName] = this.combineLocaleAndNumber(fields[field.localeField],fields[field.apiNameNoLocale]);
             }
