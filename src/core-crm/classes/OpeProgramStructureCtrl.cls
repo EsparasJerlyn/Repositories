@@ -30,7 +30,7 @@ public with sharing class OpeProgramStructureCtrl {
                 OpeProductRequestAndCourse prodReqAndCourseData = new OpeProductRequestAndCourse();
                 Set<Id> courseProdRequestIds = new Set<Id>();
 
-                List<hed__Program_Plan__c> relatedProgramPlanList = new List<hed__Program_Plan__c>([SELECT Id, Name, Program_Delivery_Structure__c, hed__Start_Date__c, hed__End_Date__c 
+                List<hed__Program_Plan__c> relatedProgramPlanList = new List<hed__Program_Plan__c>([SELECT Id, Name, Program_Delivery_Structure__c, hed__Start_Date__c, hed__End_Date__c, Mark_Design_Stage_as_Complete__c 
                                                                                                         FROM hed__Program_Plan__c WHERE Product_Request__c =: productRequestId]);
 
                 List<Related_Product_Request__c> relatedProductRequests = new List<Related_Product_Request__c>([SELECT Id, Program__c, Course__c 

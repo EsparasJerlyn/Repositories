@@ -12,7 +12,9 @@
                         program-plan={programPlan}
                         onprogramstrucuresaved={saveProgramStructureRecord}
                         has-plan-requirement-on-render={hasPlanRequirementOnRender}
-                        is-status-not-design={isStatusNotDesign}
+                        program-delivery-structure={programDeliveryStructure}
+                        prod-req-status={prodReqStatus}
+                        is-design-complete={markDesignStageAsComplete}
                         ></c-program-structure> 
                     </template>
                     <template if:false={hasCourse}>

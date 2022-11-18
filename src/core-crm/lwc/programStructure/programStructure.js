@@ -13,6 +13,8 @@ import LWC_Error_General from "@salesforce/label/c.LWC_Error_General";
 import PROGRAM_PLAN_OBJECT from '@salesforce/schema/hed__Program_Plan__c';
 import HAS_PERMISSION from '@salesforce/customPermission/EditDesignAndReleaseTabsOfProductRequest';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import PL_ProductRequest_Complete from '@salesforce/label/c.PL_ProductRequest_Completed';
+import PL_ProductRequest_Not_Proceeding from '@salesforce/label/c.PL_ProductRequest_Not_Proceeding';
 import upsertProgramPlanAndPlanRequirement from '@salesforce/apex/OpeProgramStructureCtrl.upsertProgramPlanAndPlanRequirement'; 
 
 const COLUMNS = [
@@ -37,12 +39,17 @@ const COLUMNS = [
     }
 ];
 
+const FLEXIBLE_TYPE = 'Flexible Program';
+const PRESCRIBED_TYPE = 'Prescribed Program';
+
 export default class ProgramStructure extends LightningElement {
     @api tableData = []; //plan requirement data from parent
     @api programPlan = {}; //program plan from parent
-    @api markedAsComplete; //indicates that program structure is marked as complete
     @api hasPlanRequirementOnRender; //indicates that plan requirement records is already created
-    @api isStatusNotDesign; //indicates if product request is not on Design stage
+    @api programDeliveryStructure; // indicates the program delivery structure if Flexible program or prescribed program
+    @api prodReqStatus; // indicates the status of the product request
+    @api isDesignComplete; // indicates the mark design stage as complete
+    
 
     draftTableData = [];//draft plan requirement data
     columns = COLUMNS;
@@ -78,14 +85,18 @@ export default class ProgramStructure extends LightningElement {
     *decides if edit button is clickable
     */
     get canEdit(){
-        return this.editable || this.markedAsComplete || !HAS_PERMISSION || this.isStatusNotDesign;
+        if(this.programDeliveryStructure === FLEXIBLE_TYPE){
+            return this.editable || (this.prodReqStatus === PL_ProductRequest_Complete || this.prodReqStatus === PL_ProductRequest_Not_Proceeding) || !HAS_PERMISSION;
+        }else if(this.programDeliveryStructure === PRESCRIBED_TYPE){
+            return this.editable || this.isDesignComplete || !HAS_PERMISSION;
+        }
     }
 
     /*
     *decides if cancel button is disabled and sequence input field is read only
     */
     get cantEdit(){
-        return !this.editable || this.markedAsComplete || !HAS_PERMISSION;
+        return !this.editable || !HAS_PERMISSION;
     }
 
     /*
@@ -95,10 +106,10 @@ export default class ProgramStructure extends LightningElement {
     get cantSave(){
         return (!this.sequenceEdited && this.hasPlanRequirementOnRender) || 
             this.sequenceHasRepeatsEmptyAndZeroes ||
-            this.markedAsComplete ||
+            (this.prodReqStatus === PL_ProductRequest_Complete || this.prodReqStatus === PL_ProductRequest_Not_Proceeding) ||
             this.tableData.length < 0 ||
             !HAS_PERMISSION ||
-            this.isStatusNotDesign ||
+            this.isStatusNotDesign||
             this.isProcessing;
     }
 
