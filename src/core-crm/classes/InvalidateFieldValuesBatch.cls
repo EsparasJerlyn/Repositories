@@ -11,16 +11,15 @@ public with sharing class InvalidateFieldValuesBatch implements Database.Batchab
     public static final String PHONE_NUMBER = '\'61491571266\'';
     private String query = '';
     private AnObject aObject = new AnObject();
-    public InvalidateFieldValuesBatch(){
-    }
-
+    private Boolean shouldInvalidateMCSync;
+    
     /**
      * @description invalidateFieldsForObject
      * @param anObject - sObject API Name
      * @param allFields - Set with api name of all the fields that will be invalidated.
      */
-    public void invalidateFieldsForObject(String anObject, Set<String> allFields){
-
+    public void invalidateFieldsForObject(String anObject, Set<String> allFields, Boolean shouldInvalidateMC){
+        this.shouldInvalidateMCSync = shouldInvalidateMC;
         Schema.DescribeSObjectResult aObjectDescribe;
         try{
             aObjectDescribe = Schema.describeSObjects(new List<String>{ AnObject }, SObjectDescribeOptions.DEFERRED)[0];
@@ -38,7 +37,6 @@ public with sharing class InvalidateFieldValuesBatch implements Database.Batchab
         }
         AnField anF = aObject.fields[0];
         this.generateQuery();
-        System.debug(this.query);
         Database.executeBatch(this);
     }
 
@@ -80,6 +78,10 @@ public with sharing class InvalidateFieldValuesBatch implements Database.Batchab
     }
 
     public void finish(Database.BatchableContext context){
+        if (this.shouldInvalidateMCSync == true){
+            RemoveMarketingCloudFlag remover = new RemoveMarketingCloudFlag();
+            remover.invalidateFieldsForObject(aObject.name);
+        }
     }
 
     /**
@@ -105,8 +107,8 @@ public with sharing class InvalidateFieldValuesBatch implements Database.Batchab
         String aname;
         String filter;
         public AnField(Schema.SObjectField field){
-            this.atype = field.getDescribe().getType().name();
-            this.aname = field.getDescribe().getName();
+            this.atype = field.getDescribe(FieldDescribeOptions.DEFAULT).getType().name();
+            this.aname = field.getDescribe(FieldDescribeOptions.DEFAULT).getName();
             validateField(this.atype);
         }
 
@@ -131,6 +133,7 @@ public with sharing class InvalidateFieldValuesBatch implements Database.Batchab
     }
 
     Class InvalidateException extends Exception{
+       
     }
 
 }
