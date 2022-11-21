@@ -396,6 +396,10 @@
         <apexClass>Buyer_Group_Product_CategoryTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+     <classAccesses>
+        <apexClass>Case_Clear_Closure_FieldsFlowTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <classAccesses>
         <apexClass>CCECorporateUserCtrl</apexClass>
         <enabled>true</enabled>
