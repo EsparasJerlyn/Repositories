@@ -1317,6 +1317,7 @@ public class TestDataFactory {
                                                               Tier_Category__c=category);
       records.add(tier);
     }
+    
     return records;
   }
 
