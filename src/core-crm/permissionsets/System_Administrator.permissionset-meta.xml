@@ -7912,6 +7912,10 @@
         <apexClass>trailheadapp__UserTrailmixUpsertBatch_Test</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+     <classAccesses>
+         <apexClass>Update_Opp_CloseDate_FlowTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses> 
     <customMetadataTypeAccesses>
         <enabled>true</enabled>
         <name>Country_Locale_Metadata__mdt</name>
