@@ -118,8 +118,7 @@ public with sharing class ManageRegistrationEnrolmentHelper extends ManageRegist
                    enrolmentParam.newWebCartId = null;
                    enrolmentParam.newCartItemId = null;
 
-                   List<hed__Course_Enrollment__c> courseConnectionList = createCourseConnectionList(enrolmentParam);                               
-                   insert courseConnectionList;
+                   List<hed__Course_Enrollment__c> courseConnectionList = createCourseConnectionList(enrolmentParam);  
                    enrolmentResult.contactName = contactRecName;
               }  
                            
@@ -302,6 +301,21 @@ public with sharing class ManageRegistrationEnrolmentHelper extends ManageRegist
                     courseConnectionList.add(childCourseConnection);
                }
           }
+
+          if(  Schema.sObjectType.hed__Course_Enrollment__c.fields.hed__Contact__c.isCreateable() &&
+               Schema.sObjectType.hed__Course_Enrollment__c.fields.hed__Status__c.isCreateable() &&
+               Schema.sObjectType.hed__Course_Enrollment__c.fields.Paid_in_Full__c.isCreateable() &&
+               Schema.sObjectType.hed__Course_Enrollment__c.fields.Payment_Method__c.isCreateable() &&
+               Schema.sObjectType.hed__Course_Enrollment__c.fields.Amount__c.isCreateable() &&
+               Schema.sObjectType.hed__Course_Enrollment__c.fields.Cart_ID__c.isCreateable() &&
+               Schema.sObjectType.hed__Course_Enrollment__c.fields.Cart_Item__c.isCreateable() &&
+               Schema.sObjectType.hed__Course_Enrollment__c.fields.hed__Course_Offering__c.isCreateable() &&
+               Schema.sObjectType.hed__Course_Enrollment__c.fields.Program_Offering__c.isCreateable()){
+
+                    insert courseConnectionList;
+          }
+          
+
           return courseConnectionList;
      }
 

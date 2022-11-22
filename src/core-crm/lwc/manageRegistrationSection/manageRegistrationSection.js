@@ -43,7 +43,7 @@ import getPricingValidationValues from '@salesforce/apex/ManageRegistrationSecti
 import getSearchedContacts from '@salesforce/apex/ManageRegistrationSectionCtrl.getSearchedContacts';
 import getQuestions from "@salesforce/apex/ManageRegistrationSectionCtrl.getQuestions";
 import getEmailOptions from "@salesforce/apex/ManageRegistrationSectionCtrl.getEmailOptions";
-import addRegistration from '@salesforce/apex/ManageRegistrationSectionCtrl.addRegistration';
+import addRegistration from '@salesforce/apex/ManageRegistrationEnrolmentHelper.addRegistration';
 import getPBEntries from '@salesforce/apex/ManageRegistrationSectionCtrl.getPBEntries';
 import checkOfferingAvailability from '@salesforce/apex/ManageRegistrationSectionCtrl.checkOfferingAvailability';
 import getAsset from '@salesforce/apex/CorporateBundleAndSOAHelper.getAsset';
@@ -146,7 +146,7 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
 
     columns = [
         { label: 'Full Name', fieldName: 'contactFullName', type: 'text', sortable: true },
-        { label: "Registration Date",fieldName: "registrationDate",type: "date-local",typeAttributes:{ month: "2-digit",day: "2-digit"}},
+        { label: "Registration Date",fieldName: "registrationDate",type: "date-local",typeAttributes:{ month: "2-digit",day: "2-digit"}},    
         { label: 'Paid Amount', fieldName: 'paidAmount', type: 'currency', typeAttributes: {currencyCode:'AUD', step: '0.001'}},
         { label: 'Student Id', fieldName: 'studentId', type: 'text', sortable: true },
         { label: 'Payment Method', fieldName: 'paymentMethod', type: 'text', sortable: true },
@@ -183,8 +183,8 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
                 record.contactBirthdate = item.enrolmentDetails.hed__Contact__r.Birthdate;
                 record.contactEmail = item.enrolmentDetails.hed__Contact__r.Registered_Email__c;
                 
-                record.studentId = item.enrolmentDetails.hed__Contact__r.QUT_Student_Id__c;
-                record.position = item.enrolmentDetails.hed__Contact__r.Postion__c;
+                record.studentId = item.enrolmentDetails.hed__Contact__r.QUT_Student_ID__c;
+                record.position = item.enrolmentDetails.hed__Contact__r.Position__c;
                 record.organisation = item.enrolmentDetails.hed__Contact__r.hed__Primary_Organization__c?item.enrolmentDetails.hed__Contact__r.hed__Primary_Organization__r.Name:'';
                 record.dietaryRequirement = item.enrolmentDetails.hed__Contact__r.Dietary_Requirement__c;
                 record.accessibilityRequirement = item.enrolmentDetails.hed__Contact__r.Accessibility_Requirement__c;

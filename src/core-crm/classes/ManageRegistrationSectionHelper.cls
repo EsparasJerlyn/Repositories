@@ -102,12 +102,29 @@ public with sharing class ManageRegistrationSectionHelper extends ManageRegistra
           enrolmentParam.priceBookEntry = pbe;
           enrolmentParam.product = product;
           enrolmentParam.cartDeliveryGroupId = cartDeliveryGroup.Id;
-          
+
           CartItem newCartItem = ManageRegistrationEnrolmentHelper.createCartItem(enrolmentParam);
           newCartItem.Contact__c = contactRecord.Id;
           newCartItem.Promotion__c = promotionId;
           newCartItem.Promotion_Price__c = discountAmount;
-          insert newCartItem;
+
+          if(  Schema.sObjectType.CartItem.fields.CartId.isCreateable() &&
+               Schema.sObjectType.CartItem.fields.Name.isCreateable() && 
+               Schema.sObjectType.CartItem.fields.CartDeliveryGroupId.isCreateable() && 
+               Schema.sObjectType.CartItem.fields.Course_Offering__c.isCreateable() && 
+               Schema.sObjectType.CartItem.fields.Program_Offering__c.isCreateable() && 
+               Schema.sObjectType.CartItem.fields.Product2Id.isCreateable() && 
+               Schema.sObjectType.CartItem.fields.Pricebook_Entry_ID__c.isCreateable() &&
+               Schema.sObjectType.CartItem.fields.Quantity.isCreateable() &&
+               Schema.sObjectType.CartItem.fields.TotalPrice.isCreateable() &&
+               Schema.sObjectType.CartItem.fields.Type.isCreateable() &&
+               Schema.sObjectType.CartItem.fields.Contact__c.isCreateable() &&
+               Schema.sObjectType.CartItem.fields.Promotion__c.isCreateable() &&
+               Schema.sObjectType.CartItem.fields.Promotion_Price__c.isCreateable()
+               ){
+                    
+               insert newCartItem;
+          }
 
           if(!isProceedNoInvoice){
                Cart_Payment__c cartPayment = new Cart_Payment__c(
@@ -140,11 +157,23 @@ public with sharing class ManageRegistrationSectionHelper extends ManageRegistra
                     Cart_Payment__c = cartPayment.Id,
                     Payment_URL__c = paymentURL
                );
-               update webCartToClose;
+
+               if(  Schema.sObjectType.WebCart.fields.Status__c.isUpdateable() &&
+                    Schema.sObjectType.WebCart.fields.Status.isUpdateable() && 
+                    Schema.sObjectType.WebCart.fields.Status__c.isUpdateable() &&
+                    Schema.sObjectType.WebCart.fields.Cart_Payment__c.isUpdateable() &&
+                    Schema.sObjectType.WebCart.fields.Payment_URL__c.isUpdateable()){
+                    
+                    update webCartToClose;
+               } 
+               
 
                //update cart payment to invoiced after linking the webcart
                //so that the cart payment trigger can check related cartitems
                cartPayment.Payment_Status__c = 'Invoiced';
+               if(  Schema.sObjectType.Cart_Payment__c.fields.Payment_Status__c.isUpdateable()){
+                    update webCartToClose;
+               } 
                update cartPayment;                   
 
                enrollmentProcessingReturn.contactId = contactRecord.Id;
@@ -166,8 +195,13 @@ public with sharing class ManageRegistrationSectionHelper extends ManageRegistra
                    Status__c = 'Closed',
                    Status = 'Closed'
                );
-               update webCartToClose;
 
+               if(  Schema.sObjectType.WebCart.fields.Status__c.isUpdateable() &&
+                    Schema.sObjectType.WebCart.fields.Status.isUpdateable() ){
+
+                    update webCartToClose;
+               }
+               
                enrolmentParam = new ManageRegistrationEnrolmentHelper.EnrolmentCreationParamClass();
                     
                enrolmentParam.contactId = contactRecord.Id;
@@ -178,8 +212,7 @@ public with sharing class ManageRegistrationSectionHelper extends ManageRegistra
                enrolmentParam.newWebCartId = newWebCart.Id;
                enrolmentParam.newCartItemId = newCartItem.Id;
                
-               List<hed__Course_Enrollment__c> courseConnectionList = ManageRegistrationEnrolmentHelper.createCourseConnectionList(enrolmentParam);                               
-               insert courseConnectionList;
+               List<hed__Course_Enrollment__c> courseConnectionList = ManageRegistrationEnrolmentHelper.createCourseConnectionList(enrolmentParam);  
                
                enrollmentProcessingReturn.contactId = contactRecord.Id;
                enrollmentProcessingReturn.contactName = contactRecName;
