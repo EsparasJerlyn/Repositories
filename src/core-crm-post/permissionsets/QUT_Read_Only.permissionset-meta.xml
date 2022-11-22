@@ -3904,6 +3904,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Product_Request_Contact_Role__c.IsActive__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Product_Request__c.Create_Offering_Complete__c</field>
         <readable>true</readable>
     </fieldPermissions>
