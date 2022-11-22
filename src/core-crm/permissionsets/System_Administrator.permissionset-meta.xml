@@ -125,6 +125,14 @@
         <visible>true</visible>
     </applicationVisibilities>
     <classAccesses>
+        <apexClass>InternationalTierTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>InternationalTierTriggerHandlerTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>AccountCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -386,6 +394,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Buyer_Group_Product_CategoryTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+     <classAccesses>
+        <apexClass>Case_Clear_Closure_FieldsFlowTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -7900,6 +7912,10 @@
         <apexClass>trailheadapp__UserTrailmixUpsertBatch_Test</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+     <classAccesses>
+         <apexClass>Update_Opp_CloseDate_FlowTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses> 
     <customMetadataTypeAccesses>
         <enabled>true</enabled>
         <name>Country_Locale_Metadata__mdt</name>

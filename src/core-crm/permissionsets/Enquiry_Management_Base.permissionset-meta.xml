@@ -16,6 +16,14 @@
         <apexClass>ContactInformationValidationCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+        <classAccesses>
+        <apexClass>InternationalTierTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>InternationalTierTriggerHandlerTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <fieldPermissions>
         <editable>true</editable>
         <field>Account.ABN__c</field>
@@ -5981,7 +5989,7 @@
     <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>false</allowDelete>
-        <allowEdit>false</allowEdit>
+        <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
         <object>Marketing_Segmentation__c</object>
