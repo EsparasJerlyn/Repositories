@@ -56,7 +56,6 @@ export default class ProductDetails extends LightningElement {
   cProducts;
   isProgramFlex = false;
   availablePricings = [];
-  recordNameId;
   fromCategoryName;
   fromCategoryId;
   ccePricebookEntryId;
@@ -90,11 +89,8 @@ export default class ProductDetails extends LightningElement {
 	// Get param from URL
 	@wire(CurrentPageReference)
 	getpageRef(pageRef) {
-		if (pageRef && pageRef.state && pageRef.state.p) {
-			this.recordId = pageRef.state.p.substring(
-				pageRef.state.p.lastIndexOf("_") + 1
-			);
-			this.recordNameId = pageRef.state.p;
+		if (pageRef && pageRef.state &&  pageRef.attributes) {
+			this.recordId = pageRef.attributes.recordId;
 		}
 	}
 	// The connectedCallback() lifecycle hook fires when a component is inserted into the DOM.

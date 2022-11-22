@@ -64,7 +64,6 @@ export default class PrescribedProgram extends NavigationMixin(
   LightningElement
 ) {
   @api product;
-  @api recordNameId;
   @api recordId;
   @api isInternalUser;
   @api productCategory;
