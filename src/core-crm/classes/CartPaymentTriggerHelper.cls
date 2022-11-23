@@ -219,7 +219,8 @@ public without sharing class CartPaymentTriggerHelper{
         tempCourseEnrollment.Paid_in_Full__c = cItem.CartId != null && (cItem.Cart.TotalAmount - discount) <= payment.Amount_Paid__c?'Yes':'No';
         tempCourseEnrollment.Cart_Item__c = cItem.Id;
         tempCourseEnrollment.Cart_ID__c = cItem.CartId;
-        if( pbEntryMap.containsKey(cItem.Pricebook_Entry_ID__c) && 
+        if( cItem.Pricebook_Entry_ID__c != null && 
+            pbEntryMap.containsKey(cItem.Pricebook_Entry_ID__c) && 
             pbEntryMap.get(cItem.Pricebook_Entry_ID__c).Pricebook2.Name == 'Group Booking'){
             tempCourseEnrollment.Is_Group_Registered__c = true;
         } else{
@@ -243,12 +244,11 @@ public without sharing class CartPaymentTriggerHelper{
                     tempCourseEnrollmentChild.Cart_ID__c = cItem.CartId;
                     //check if current pricebook is for group booking
                    
-                    if(cItem.Pricebook_Entry_ID__c != null){
-                        if(pbEntryMap.get(cItem.Pricebook_Entry_ID__c).Pricebook2.Name == 'Group Booking'){
-                            tempCourseEnrollmentChild.Is_Group_Registered__c = true;
-                        } else{
-                            tempCourseEnrollmentChild.Is_Group_Registered__c = false;
-                        }
+                    if( cItem.Pricebook_Entry_ID__c != null && 
+                        pbEntryMap.get(cItem.Pricebook_Entry_ID__c).Pricebook2.Name == 'Group Booking'){
+                        tempCourseEnrollmentChild.Is_Group_Registered__c = true;
+                    } else{
+                        tempCourseEnrollmentChild.Is_Group_Registered__c = false;
                     }
                     
                     tempCourseEnrollmentChild.RecordTypeId = STUDENT_RECTYPEID;
