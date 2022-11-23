@@ -21,6 +21,11 @@
       |                           |                       |                      | tion record was approved.    |
       |                           |                       |                      |                              |
       | roy.nino.s.regala         | September 28. 2022    | DEPP-4449            | soa/corporate learners only  |
+      |                           |                       |                      |                              |
+      | eccarius.karl.munoz       | November 07. 2022     | DEPP-4486            | Added validation for the     |
+      |                           |                       |                      | offering's capacity and      |
+      |                           |                       |                      | registration end date.       |
+      |                           |                       |                      |                              |
 */
 public without sharing class ManageRegAndNomCtrl {
     private static string studentRT = System.Label.RT_CourseConnection_Student;
@@ -329,7 +334,20 @@ public without sharing class ManageRegAndNomCtrl {
             List<Contact> contactListToAdd = new List<Contact>();
             List<Contact> contactListToUpdate = new List<Contact>();
             List<Contact> contactListParam = new List<Contact>();            
-            if(registrationStatus == 'Approved'){                
+            if(registrationStatus == 'Approved'){      
+
+                if(!validateOfferingCapacity(contactInfo.Course_Offering__c, contactInfo.Program_Offering__c)){
+                    response.isSuccess = false;
+                    response.errorMessage = 'Registration is full. Please contact QUTeX for any further assistance.';
+                    return response;
+                }
+
+                if(!validateOfferingRegistration(contactInfo.Course_Offering__c, contactInfo.Program_Offering__c)){
+                    response.isSuccess = false;
+                    response.errorMessage = 'Registration is closed. Please contact QUTeX for any further assistance.';
+                    return response;
+                }
+
                 Contact contact = new Contact();
                 contact.FirstName = contactInfo.First_Name__c;
                 contact.LastName = contactInfo.Last_Name__c;
@@ -635,6 +653,61 @@ public without sharing class ManageRegAndNomCtrl {
         }
     }
 
+    /*
+     * @description - validates the registration end date of the offering
+     * @param courseOfferingId - course offering Id
+     * @param programOfferingId - program offering Id
+     * @return Boolean
+     */
+    @AuraEnabled
+    public static Boolean validateOfferingRegistration(Id courseOfferingId, Id programOfferingId){
+        List<Program_Offering__c> programOfferingList = new List<Program_Offering__c>([
+            SELECT Id 
+            FROM Program_Offering__c
+            WHERE Registration_End_Date__c > TODAY
+            AND Id =: programOfferingId
+        ]);
+
+        List<hed__Course_Offering__c> courseOfferingList = new List<hed__Course_Offering__c>([
+            SELECT Id 
+            FROM hed__Course_Offering__c
+            WHERE Registration_End_Date__c > TODAY
+            AND Id =: courseOfferingId
+        ]);
+        if(programOfferingList.isEmpty() && courseOfferingList.isEmpty()){
+            return false;
+        }
+        return true;
+    }
+
+    /*
+     * @description - validates the capacity of the offering
+     * @param courseOfferingId - course offering Id
+     * @param programOfferingId - program offering Id
+     * @return Boolean
+     */
+    @AuraEnabled
+    public static Boolean validateOfferingCapacity(Id courseOfferingId, Id programOfferingId){
+        List<Program_Offering__c> programOfferingList = new List<Program_Offering__c>([
+            SELECT Id 
+            FROM Program_Offering__c
+            WHERE Available_Seats__c > 0
+            AND Id =: programOfferingId
+        ]);
+
+        List<hed__Course_Offering__c> courseOfferingList = new List<hed__Course_Offering__c>([
+            SELECT Id 
+            FROM hed__Course_Offering__c
+            WHERE Available_Seats__c > 0
+            AND Id =: courseOfferingId
+        ]);
+
+        if(programOfferingList.isEmpty() && courseOfferingList.isEmpty()){
+            return false;
+        }
+        return true;
+    }
+
      /**
      * @description Format Dates to dd/mm/yyyy
      * @param mydate - Date
@@ -710,5 +783,15 @@ public without sharing class ManageRegAndNomCtrl {
         public Boolean isSuccess;
         @AuraEnabled
         public String errorMessage;
+    }
+
+    /**
+     * @description Wrapper class for Product Offering Validation
+     */
+    public class ProductOfferingValidationResponse{
+        @AuraEnabled
+        public Boolean isFullCapacity;
+        @AuraEnabled
+        public Boolean isExpired;
     }
 }

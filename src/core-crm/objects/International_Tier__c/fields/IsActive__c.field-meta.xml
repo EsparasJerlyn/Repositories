@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Publish_to_the_Portal__c</fullName>
+    <fullName>IsActive__c</fullName>
     <defaultValue>false</defaultValue>
+    <description>Flag for active Country configuration in Country Tier table</description>
     <externalId>false</externalId>
-    <inlineHelpText>Select to automatically publish the report on the Corporate Portal which will be visible to the Customer Admin User.</inlineHelpText>
-    <label>Publish to the Portal</label>
+    <label>IsActive</label>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

@@ -694,10 +694,16 @@
                 <componentName>opeProgramStructure</componentName>
                 <identifier>opeProgramStructure4</identifier>
                 <visibilityRule>
+                    <booleanFilter>1 OR 2</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>Program</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Program_Without_Pathway</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>
@@ -1003,10 +1009,16 @@
                 <componentName>opeProgramStructure</componentName>
                 <identifier>opeProgramStructure5</identifier>
                 <visibilityRule>
+                    <booleanFilter>1 OR 2</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>Program</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Program_Without_Pathway</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>
@@ -1336,10 +1348,16 @@
                 <componentName>opeProgramStructure</componentName>
                 <identifier>opeProgramStructure7</identifier>
                 <visibilityRule>
+                    <booleanFilter>1 OR 2</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>Program</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Program_Without_Pathway</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>
@@ -1645,10 +1663,16 @@
                 <componentName>opeProgramStructure</componentName>
                 <identifier>opeProgramStructure8</identifier>
                 <visibilityRule>
+                    <booleanFilter>1 OR 2</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>Program</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Program_Without_Pathway</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>
@@ -2006,10 +2030,16 @@
                 <componentName>opeProgramStructure</componentName>
                 <identifier>opeProgramStructure11</identifier>
                 <visibilityRule>
+                    <booleanFilter>1 OR 2</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>Program</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Program_Without_Pathway</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>
@@ -2366,6 +2396,25 @@
                 <identifier>c_customLayoutHandler</identifier>
             </componentInstance>
         </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>opeProgramStructure</componentName>
+                <identifier>c_opeProgramStructure</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 OR 2</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Program</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Program_Without_Pathway</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
         <name>Facet-e9cb174f-31ad-4d40-9bb0-35a3f045cfee</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -2646,6 +2695,25 @@
                 </componentInstanceProperties>
                 <componentName>customLayoutHandler</componentName>
                 <identifier>customLayoutHandler22</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>opeProgramStructure</componentName>
+                <identifier>c_opeProgramStructure2</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 OR 2</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Program</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Program_Without_Pathway</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <name>Facet-f250c819-ebe6-4f15-bf7a-f743377dcaa3</name>

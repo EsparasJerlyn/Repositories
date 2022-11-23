@@ -39,6 +39,11 @@
                 <default>false</default>
                 <label>Other QUT Department</label>
             </value>
+            <value>
+                <fullName>Enquirer</fullName>
+                <default>false</default>
+                <label>Enquirer</label>
+            </value>
         </valueSetDefinition>
         <valueSettings>
             <controllingFieldValue>Awaiting Response</controllingFieldValue>
@@ -59,6 +64,10 @@
         <valueSettings>
             <controllingFieldValue>Awaiting Response</controllingFieldValue>
             <valueName>Other QUT Department</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Awaiting Response</controllingFieldValue>
+            <valueName>Enquirer</valueName>
         </valueSettings>
     </valueSet>
 </CustomField>

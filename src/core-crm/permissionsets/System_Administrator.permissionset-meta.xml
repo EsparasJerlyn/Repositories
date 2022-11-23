@@ -125,6 +125,14 @@
         <visible>true</visible>
     </applicationVisibilities>
     <classAccesses>
+        <apexClass>InternationalTierTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>InternationalTierTriggerHandlerTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>AccountCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -385,7 +393,19 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>BuyerGroupPublishingHelper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>BuyerGroupPublishingHelperTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Buyer_Group_Product_CategoryTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+     <classAccesses>
+        <apexClass>Case_Clear_Closure_FieldsFlowTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1225,14 +1245,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>OnlineSelfPacedConfirmationEmailCtrl</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>OnlineSelfPacedConfirmationEmailCtrlTest</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>OpeProgramStructureCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1274,14 +1286,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Populate_affiliation_role_FlowTest</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>PostCourseCompletionEmailCtrl</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>PostCourseCompletionEmailCtrlTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -7916,6 +7920,10 @@
         <apexClass>trailheadapp__UserTrailmixUpsertBatch_Test</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+     <classAccesses>
+         <apexClass>Update_Opp_CloseDate_FlowTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses> 
     <customMetadataTypeAccesses>
         <enabled>true</enabled>
         <name>Country_Locale_Metadata__mdt</name>
@@ -9053,6 +9061,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>CartItem.Promotion_Price__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>CartItem.Promotion__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Cart_Payment__c.Amount_Paid__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9094,6 +9112,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.Add_to_Campaign__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.Awaiting_Response_From__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -9419,11 +9442,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Consultancy__c.Product_Request__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Consultancy__c.Publish_to_the_Portal__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -10939,6 +10957,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Individual.Website</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>International_Tier__c.IsActive__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -15033,6 +15056,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Product_Request_Contact_Role__c.IsActive__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Product_Request_Contact_Role__c.Migration_Key__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -15194,6 +15222,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Product_Specification__c.Primary_Faculty__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Product_Specification__c.Product_Specification_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -20077,6 +20110,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>hed__Course_Enrollment__c.Paid_Amount__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course_Enrollment__c.Paid_in_Full__c</field>
         <readable>true</readable>
@@ -22721,6 +22759,15 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
+        <object>International_Tier__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
         <object>GtwyProvPaymentMethodType</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
@@ -25196,6 +25243,10 @@
     </tabSettings>
     <tabSettings>
         <tab>hed__Trigger_Handler__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>International_Tier__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Product_Spec_Name_Cannot_Be_Blank</fullName>
+    <active>true</active>
+    <description>The field &quot;Product Specification Name&quot; cannot be blank when updating the product specification record.</description>
+    <errorConditionFormula>AND(
+   ISBLANK( Product_Specification_Name__c  ), 
+   ISCHANGED( Product_Specification_Name__c ),
+   NOT( ISNEW() )
+)</errorConditionFormula>
+    <errorDisplayField>Product_Specification_Name__c</errorDisplayField>
+    <errorMessage>The &quot;Product Specification Name&quot; field cannot be blank.</errorMessage>
+</ValidationRule>

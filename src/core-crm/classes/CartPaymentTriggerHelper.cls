@@ -37,6 +37,7 @@ public without sharing class CartPaymentTriggerHelper{
         Map<Id,List<hed__Course_Enrollment__c>> cartItemToCourseconMap = new Map<Id,List<hed__Course_Enrollment__c>>();
         List<hed__Course_Enrollment__c> courseConList = new List<hed__Course_Enrollment__c>();
         Map<String,hed__Course_Enrollment__c> courseConnectionToUpsert = new Map<String,hed__Course_Enrollment__c>();
+        Map<String,Decimal> notCancelledEnrollmentAmount = new Map<String,Decimal>();
         List<hed__Course_Offering__c> getChildCourseOffering = new List<hed__Course_Offering__c>();
         Map<Id,WebCart> webCartMap;
         Map<String,Set<String>> programToChild = new Map<String,Set<String>>();
@@ -62,13 +63,36 @@ public without sharing class CartPaymentTriggerHelper{
         }
 
         //get all existing courseconnections related to the cartitems
-        courseConList = [   
-            SELECT Id, Cart_Item__c, Cart_ID__c,
-            Cart_ID__r.TotalAmount, Cart_Id__r.Cart_Payment__c,
-            Paid_in_Full__c, hed__Course_Offering__c, Program_Offering__c 
-            FROM hed__Course_Enrollment__c 
-            WHERE Cart_Item__c IN: cartItemList
-        ];
+        if(!cartItemList.isEmpty()){
+            courseConList = [   
+                SELECT Id, Cart_Item__c, Cart_ID__c,
+                Cart_ID__r.TotalAmount, Cart_Id__r.Cart_Payment__c,
+                Paid_in_Full__c, hed__Course_Offering__c, Program_Offering__c,
+                Paid_Amount__c, Cart_Item__r.TotalPrice, Cart_Item__r.Promotion_Price__c,
+                hed__Status__c
+                FROM hed__Course_Enrollment__c 
+                WHERE Cart_Item__c IN: cartItemList
+            ];
+        }
+        
+        Decimal promotionPrice = 0;
+        Decimal totalPrice = 0;
+        
+        for(hed__Course_Enrollment__c courseCon: courseConList){
+            //only process enrollment that are active
+            if(courseCon.hed__Status__c != 'Cancelled'){
+                promotionPrice = courseCon.Cart_Item__r.Promotion_Price__c != null?courseCon.Cart_Item__r.Promotion_Price__c:0;
+                totalPrice = courseCon.Cart_Item__r.TotalPrice != null?courseCon.Cart_Item__r.TotalPrice:0;
+    
+                //group all enrollments by cart id
+                //values should be the total discounted price of the active enrollments
+                if(!notCancelledEnrollmentAmount.containsKey(courseCon.Cart_ID__c)){
+                    notCancelledEnrollmentAmount.put(courseCon.Cart_ID__c,totalPrice - promotionPrice);
+                }else{
+                    notCancelledEnrollmentAmount.put(courseCon.Cart_ID__c,notCancelledEnrollmentAmount.get(courseCon.Cart_ID__c) + (totalPrice - promotionPrice));
+                }
+            } 
+        }
 
         for(CartItem cItem: cartItemList){
             if(cItem.Pricebook_Entry_ID__c != null){
@@ -80,22 +104,28 @@ public without sharing class CartPaymentTriggerHelper{
         }
 
         //get pricebook entry details
-        pricebookEntryMap = new Map<Id,PricebookEntry>([
-            SELECT 
-            Id, 
-            Pricebook2.Name, 
-            UnitPrice
-            FROM PricebookEntry
-            WHERE Id IN :pricebookEntryIds
-        ]);
+        if(!pricebookEntryIds.isEmpty()){
+            pricebookEntryMap = new Map<Id,PricebookEntry>([
+                SELECT 
+                Id, 
+                Pricebook2.Name, 
+                UnitPrice
+                FROM PricebookEntry
+                WHERE Id IN :pricebookEntryIds
+            ]);
+        }
+        
 
         //get child course offering related to the program offerings
-        getChildCourseOffering = [  
-            SELECT Id, 
-            Program_Offering__c 
-            FROM hed__Course_Offering__c 
-            WHERE Program_Offering__c IN: programOfferingIds
-        ];
+        if(!programOfferingIds.isEmpty()){
+            getChildCourseOffering = [  
+                SELECT Id, 
+                Program_Offering__c 
+                FROM hed__Course_Offering__c 
+                WHERE Program_Offering__c IN: programOfferingIds
+            ];
+        }
+        
 
         for(hed__Course_Offering__c co: getChildCourseOffering){
             if(!programToChild.containsKey(co.Program_Offering__c)){
@@ -112,15 +142,17 @@ public without sharing class CartPaymentTriggerHelper{
         //update existing course connection
         for(hed__Course_Enrollment__c courseCon : courseConList){
             String offeringId;
+            if(courseCon.hed__Status__c != 'Cancelled'){
+                //update paid in full of course connection
+                //amount paid thru qut pay is compared to the total discounted price of all active enrollment under the cart
+                if(courseCon.Cart_ID__c != null && cartPaymentMap.containsKey(courseCon.Cart_Id__r.Cart_Payment__c)){
+                    courseCon.Paid_in_Full__c = notCancelledEnrollmentAmount.get(courseCon.Cart_ID__c) <= cartPaymentMap.get(courseCon.Cart_Id__r.Cart_Payment__c).Amount_Paid__c?'Yes':'No';
+                }
 
-            //update paid in full of course connection
-            if(courseCon.Cart_ID__c != null && cartPaymentMap.containsKey(courseCon.Cart_Id__r.Cart_Payment__c)){
-                courseCon.Paid_in_Full__c = courseCon.Cart_ID__r.TotalAmount <= cartPaymentMap.get(courseCon.Cart_Id__r.Cart_Payment__c).Amount_Paid__c?'Yes':'No';
+                offeringId = courseCon.Program_Offering__c != null?courseCon.Program_Offering__c:courseCon.hed__Course_Offering__c;
+                courseConnectionToUpsert.put(string.valueOf(courseCon.Cart_Item__c) + offeringId, courseCon);
             }
             
-            offeringId = courseCon.Program_Offering__c != null?courseCon.Program_Offering__c:courseCon.hed__Course_Offering__c;
-            courseConnectionToUpsert.put(string.valueOf(courseCon.Cart_Item__c) + offeringId, courseCon);
-
             if(!cartItemToCourseconMap.containsKey(courseCon.Id)){
 
                 cartItemToCourseconMap.put(

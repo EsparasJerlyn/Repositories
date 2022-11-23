@@ -455,17 +455,24 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+<<<<<<< HEAD
         <field>CartItem.Product2</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+=======
+>>>>>>> 8c68561b0b187a79e3a3e775d3c52acb552d3361
         <field>CartItem.Promotion_Price__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+<<<<<<< HEAD
         <field>Cart_Payment__c.Amount_Paid__c</field>
+=======
+        <field>Cart_Payment__c.Amount_Paid__c</field> 
+>>>>>>> 8c68561b0b187a79e3a3e775d3c52acb552d3361
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

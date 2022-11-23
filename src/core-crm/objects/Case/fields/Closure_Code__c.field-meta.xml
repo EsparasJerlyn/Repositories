@@ -11,6 +11,7 @@
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
+        <controllingField>Status</controllingField>
         <restricted>true</restricted>
         <valueSetDefinition>
             <sorted>false</sorted>
@@ -30,5 +31,20 @@
                 <label>Redirected</label>
             </value>
         </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Closed</controllingFieldValue>
+            <controllingFieldValue>Pending Closure</controllingFieldValue>
+            <valueName>Response Given</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed</controllingFieldValue>
+            <controllingFieldValue>Pending Closure</controllingFieldValue>
+            <valueName>No response given</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed</controllingFieldValue>
+            <controllingFieldValue>Pending Closure</controllingFieldValue>
+            <valueName>Redirected</valueName>
+        </valueSettings>
     </valueSet>
 </CustomField>

@@ -157,8 +157,6 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   onLoadTriggerBtn;
   onLoadTriggerRegInterest = false;
   urlDefaultAddToCart = false;
-  @api recordNameId;
-
   @track overview;
   @track evolveWithQUTeX;
   @track whoShouldParticipate;

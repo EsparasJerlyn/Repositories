@@ -11,7 +11,6 @@ import { LightningElement,wire,api} from 'lwc';
 import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
 import { refreshApex } from '@salesforce/apex';
 import HAS_PERMISSION from '@salesforce/customPermission/EditDesignAndReleaseTabsOfProductRequest';
-import PL_ProductRequest_Design from '@salesforce/label/c.PL_ProductRequest_Design';
 import PRODUCT_REQUEST_STATUS from '@salesforce/schema/Product_Request__c.Product_Request_Status__c';
 import getProdReqAndCourse from '@salesforce/apex/OpeProgramStructureCtrl.getProdReqAndCourse';
 
@@ -28,15 +27,15 @@ export default class OpeProgramStructure extends LightningElement {
     tableData=[];
     hasPlanRequirementOnRender=false;
     isLoading= true;
-    isStatusNotDesign;
-
+    prodReqStatus;
+  
     /**
      * gets product request status
     */
     @wire(getRecord, { recordId: '$recordId', fields: [PRODUCT_REQUEST_STATUS] })
     handleParentRecord(result){
         if(result.data){
-            this.isStatusNotDesign = getFieldValue(result.data,PRODUCT_REQUEST_STATUS) !== PL_ProductRequest_Design;
+            this.prodReqStatus = getFieldValue(result.data,PRODUCT_REQUEST_STATUS);
         }
     }
 
@@ -51,7 +50,7 @@ export default class OpeProgramStructure extends LightningElement {
             //check if atleast one course has a plan requirement already
             this.hasPlanRequirementOnRender = coursesList.find(filterKey => filterKey.hed__Plan_Requirements__r)?true:false; 
             this.programPlan = programPlanTemp;
-
+    
             this.formatCourseData(coursesList);
             this.isLoading = false;
         }
@@ -68,6 +67,14 @@ export default class OpeProgramStructure extends LightningElement {
      */
     get planRequirementCategory(){
         return this.programPlan?(this.programPlan.Program_Delivery_Structure__c === FLEXIBLE_TYPE?OPTIONAL:this.programPlan.Program_Delivery_Structure__c === PRESCRIBED_TYPE?REQUIRED:OPTIONAL):'';
+    }
+
+    get programDeliveryStructure(){
+        return this.programPlan.Program_Delivery_Structure__c;
+    }
+
+    get markDesignStageAsComplete(){
+        return this.programPlan.Mark_Design_Stage_as_Complete__c;
     }
 
     /*
@@ -147,4 +154,7 @@ export default class OpeProgramStructure extends LightningElement {
         });
         
     }
+
+
+
 }

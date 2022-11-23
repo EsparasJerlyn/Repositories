@@ -126,7 +126,6 @@ export default class RegistrationForm extends LightningElement {
 
   @api startURL;
   @api recordId;
-  @api recordNameId;
 
   @track header;
   @track subHeader;
@@ -173,11 +172,11 @@ export default class RegistrationForm extends LightningElement {
   getpageRef(pageRef) {
     if (pageRef && pageRef.state && pageRef.state.startURL) {
       this.startURL = pageRef.state.startURL;
-    } else if (pageRef && pageRef.attributes && this.recordId) {
+    } else if (pageRef && pageRef.attributes && this.paramURLDefaults) {
       this.startURL =
         BasePath +
-        "/products/detail?p=" +
-        this.recordNameId +
+        "/product/" +
+        pageRef.attributes.recordId +
         this.paramURLDefaults;
     }
 

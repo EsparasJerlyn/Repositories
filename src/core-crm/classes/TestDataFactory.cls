@@ -35,6 +35,7 @@
       | rhea.b.torres             | June 12, 2022         | DEPP-2734           | Implement proper testing persona                                 |
       | marlon.vasquez            | July 25, 2022         | DEPP-3538           | Added Required fields for creating Product Specification         |
       | william.a.cheng           | September 14, 2022    | DEPP-4266, 1977     | Add methodd to configure TDTM and affiliation mappings           |
+      | rhea.b.torres             | November 10, 2022     | DEPP-4448           | Add methodd to create International_Tier__c records              |
 */
 
 @isTest
@@ -1302,6 +1303,24 @@ public class TestDataFactory {
     return webStoreCatalog;
   }
 
+  /**
+   * @description Method for creating WebStoreCatalog
+   * @return records - list of International_Tier__c records
+   */
+  public static List<International_Tier__c> createInternationalTierRecords(List<String> countryNames, String priority, String category, Boolean isActive){
+    List<International_Tier__c> records = new List<International_Tier__c>();
+
+    for(String country : countryNames){
+      International_Tier__c tier = new International_Tier__c(IsActive__c=isActive, 
+                                                              Country_Name__c=country,
+                                                              Tier_Priority__c=priority,
+                                                              Tier_Category__c=category);
+      records.add(tier);
+    }
+    
+    return records;
+  }
+
   public static List<Case> createTestCaseRecords(Id recordTypeId, String subject, Integer numOfRecords) {
     List<Case> caseList = new List<Case>();
 
@@ -1556,7 +1575,7 @@ public class TestDataFactory {
                 generateUsers(
                     'QUT_System_Administrator'
                     ,'QUT System Administrator'
-                    ,''
+                    ,'System Administrator'
                     ,'DocuSign_Administrator,DocuSign_Generator,DocuSign_Negotiator,DocuSign_User'
                     ,''
                     ,true
@@ -1611,7 +1630,7 @@ public class TestDataFactory {
                     'QUT_Sys_Admin'
                     ,'QUT System Administrator'
                     ,'System Administrator'
-                    ,''
+                    ,'System_Administrator'
                     ,''
                     ,true
                     ,true

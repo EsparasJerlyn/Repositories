@@ -205,7 +205,7 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
                 }
                 
                 record.regenerateInvoiceURL = item.regenerateInvoiceURL;
-                
+
                 return record;
             });
             this.contactList = result.data.map(item => {

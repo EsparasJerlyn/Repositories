@@ -644,7 +644,7 @@ public without sharing class CartItemCtrl {
               discountDataTemp.discount = calculatedDiscount;
               discountDataTemp.standardPbe = cartItemPbeMap.get(currentCart.Id).Id;
               discountDataTemp.standardPbePrice = cartItemPbeMap.get(currentCart.Id).UnitPrice;
-
+              discountDataTemp.promotionId = currentPromotion.Id;
               discountData.add(discountDataTemp);
             }
           }
@@ -663,7 +663,7 @@ public without sharing class CartItemCtrl {
 
               discountDataTemp.cartItemId = currentCart.Id;
               discountDataTemp.discount = discountPerLine;
-
+              discountDataTemp.promotionId = currentPromotion.Id;
               discountData.add(discountDataTemp);
             }
   
@@ -732,6 +732,7 @@ public without sharing class CartItemCtrl {
 
                 //populate and add discount
                 discountDataTemp.discount = unitDiscount;
+                discountDataTemp.promotionId = currentPromotion.Id;
                 discountData.add(discountDataTemp);
               }
             }
@@ -769,7 +770,7 @@ public without sharing class CartItemCtrl {
 
                 discountDataTemp.cartItemId = currentCart.Id;
                 discountDataTemp.discount = unitDiscount;
-
+                discountDataTemp.promotionId = currentPromotion.Id;
                 discountData.add(discountDataTemp);
               }
             }
@@ -840,6 +841,7 @@ public without sharing class CartItemCtrl {
 
                 //populate and add discount
                 discountDataTemp.discount = unitDiscount;
+                discountDataTemp.promotionId = currentPromotion.Id;
                 discountData.add(discountDataTemp);
               }
             }  
@@ -856,6 +858,7 @@ public without sharing class CartItemCtrl {
     @AuraEnabled public Double discount;
     @AuraEnabled public String standardPbe;
     @AuraEnabled public Double standardPbePrice;
+    @AuraEnabled public String promotionId;
   }
 
   public class QuestionnaireResponseData{
@@ -1074,92 +1077,6 @@ public without sharing class CartItemCtrl {
     List<WebCart> ownedCart = [SELECT Id FROM WebCart WHERE Id = :cartId AND OwnerId =: userId LIMIT 1];
     return !ownedCart.isEmpty();
   }
-
-  /**
-   * @description create course conection records
-   * @param cartitemids 
-   * @param contactId
-   * @param paidInFull
-   * @param paymentMethod
-   */
-  /*@AuraEnabled
-  public static void createCourseConnection(List<String> cartItemIds, String contactId, String paidInFull, String paymentMethod){
-    List<CartItem> cartList = [SELECT Id, CartId, Program_Offering__c, Course_Offering__c, Pricebook_Entry_ID__c, Contact__c FROM CartItem WHERE Id IN: cartItemIds];
-    List<hed__Course_Enrollment__c> connectionToInsert = new List<hed__Course_Enrollment__c>();
-    hed__Course_Enrollment__c tempConnection;
-    
-    Map<String,List<String>> productOfferingMap = new Map<String,List<String>>();
-    Set<String> programOfferings = new Set<String>();
-    Set<String> priceBookEntries = new Set<String>();
-    for(CartItem ci: cartList){
-      if(ci.Program_Offering__c != null){
-        programOfferings.add(ci.Program_Offering__c);
-      }
-      if(ci.Pricebook_Entry_ID__c != null){
-        priceBookEntries.add(ci.Pricebook_Entry_ID__c);
-      } 
-    }
-
-    Map<Id,PricebookEntry> priceBookEntriesMap =  new Map<Id,PricebookEntry>([SELECT Id, UnitPrice, Pricebook2.Name FROM PricebookEntry WHERE Id IN: priceBookEntries]);
-    List<hed__Course_Offering__c> courseOfferings = [SELECT Id, Program_Offering__c FROM hed__Course_Offering__c WHERE Program_Offering__c IN: programOfferings];
-
-    if(!courseOfferings.isEmpty()){
-      for(hed__Course_Offering__c courseOffering: courseOfferings){
-        if(!productOfferingMap.containsKey(courseOffering.Program_Offering__c)){
-          productOfferingMap.put(courseOffering.Program_Offering__c, new List<String>());
-        }
-        productOfferingMap.get(courseOffering.Program_Offering__c).add(courseOffering.Id);
-      }
-    }
-
-    for(CartItem ci: cartList){
-      tempConnection = new hed__Course_Enrollment__c();
-      tempConnection.hed__Contact__c = ci.Contact__c != null?ci.Contact__c:contactId;
-      tempConnection.hed__Course_Offering__c = ci.Course_Offering__c;
-      tempConnection.Program_Offering__c = ci.Program_Offering__c;
-      tempConnection.hed__Status__c = 'Active';
-      tempConnection.Cart_ID__c = ci.CartId;
-      tempConnection.Cart_Item__c = ci.Id;
-      if(priceBookEntriesMap.containsKey(ci.Pricebook_Entry_ID__c) && priceBookEntriesMap.get(ci.Pricebook_Entry_ID__c).Pricebook2.Name == 'Group Booking'){
-        tempConnection.Is_Group_Registered__c = true;
-      }else{
-        tempConnection.Is_Group_Registered__c = false;
-      }
-      tempConnection.Amount__c = priceBookEntriesMap.containsKey(ci.Pricebook_Entry_ID__c)?priceBookEntriesMap.get(ci.Pricebook_Entry_ID__c).UnitPrice:0;
-      tempConnection.Payment_Method__c = paymentMethod;
-      tempConnection.Paid_in_Full__c = paidInFull;
-      tempConnection.RecordTypeId = ci.Program_Offering__c != null?PROG_STUDENT_RECTYPEID:STUDENT_RECTYPEID;
-      //tempConnection.PricebookEntryID__c = ci.Pricebook_Entry_ID__c;
-      connectionToInsert.add(tempConnection);
-
-      if(ci.Program_Offering__c != null && productOfferingMap.containsKey(ci.Program_Offering__c)){
-        for(String childOffering: productOfferingMap.get(ci.Program_Offering__c)){
-          tempConnection = new hed__Course_Enrollment__c();
-          tempConnection.hed__Contact__c = ci.Contact__c != null?ci.Contact__c:contactId;
-          tempConnection.hed__Course_Offering__c = childOffering;
-          tempConnection.hed__Status__c = 'Active';
-          tempConnection.Cart_ID__c = ci.CartId;
-          tempConnection.Cart_Item__c = ci.Id;
-          if(priceBookEntriesMap.containsKey(ci.Pricebook_Entry_ID__c) && priceBookEntriesMap.get(ci.Pricebook_Entry_ID__c).Pricebook2.Name == 'Group Booking'){
-            tempConnection.Is_Group_Registered__c = true;
-          }else{
-            tempConnection.Is_Group_Registered__c = false;
-          }
-          tempConnection.Amount__c = priceBookEntriesMap.containsKey(ci.Pricebook_Entry_ID__c)?priceBookEntriesMap.get(ci.Pricebook_Entry_ID__c).UnitPrice:0;
-          tempConnection.Payment_Method__c = paymentMethod;
-          tempConnection.Paid_in_Full__c = paidInFull;
-          tempConnection.RecordTypeId = STUDENT_RECTYPEID;
-          connectionToInsert.add(tempConnection);
-        }
-      }
-      
-    }
-    
-    if(!connectionToInsert.isEmpty()){
-      insert connectionToInsert;
-    }
-
-  }*/
 
   /**
    * @description get OPE Product Category Id

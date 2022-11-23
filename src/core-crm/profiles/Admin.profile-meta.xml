@@ -414,22 +414,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>OnlineSelfPacedConfirmationEmailCtrl</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>OnlineSelfPacedConfirmationEmailCtrlTest</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>PostCourseCompletionEmailCtrl</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>PostCourseCompletionEmailCtrlTest</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>PreSessionReminderEmailCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1337,11 +1321,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Consultancy__c.Publish_to_the_Portal__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Consultancy__c.Product_Request__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2112,6 +2091,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course__c.Type_of_Individual_Coaching__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>International_Tier__c.IsActive__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5724,7 +5708,7 @@
         <layout>Cart_Payment__c-Cart Payment Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Case-International Enquiry Layout</layout>
+        <layout>Case-International Enquiry Layout2</layout>
         <recordType>Case.International_Enquiry</recordType>
     </layoutAssignments>
     <layoutAssignments>
@@ -5846,6 +5830,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Individual-Individual Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>International_Tier__c-International Tier Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Knowledge__kav-Knowledge Layout</layout>
@@ -6496,6 +6483,15 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
+        <object>International_Tier__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
         <object>Session__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
@@ -6784,6 +6780,10 @@
         <recordType>Session__c.Specialised_Session</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
+    <tabVisibilities>
+        <tab>International_Tier__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
     <tabVisibilities>
         <tab>Events</tab>
         <visibility>DefaultOn</visibility>
