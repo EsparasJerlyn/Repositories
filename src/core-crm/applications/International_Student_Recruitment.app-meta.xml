@@ -61,6 +61,7 @@
     <tabs>Knowledge__kav</tabs>
     <tabs>International_Tier__c</tabs>
     <uiType>Lightning</uiType>
+    <utilityBar>International_Student_Recruitment_UtilityBar</utilityBar>
     <workspaceConfig>
         <mappings>
             <tab>Events</tab>
