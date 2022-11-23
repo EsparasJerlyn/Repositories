@@ -9,38 +9,14 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                                                     |
       |--------------------------------|-----------------------|------------------------|--------------------------------------------------------------------|
       | john.m.tambasen                | August 10, 2022       | DEPP-3480              | Created file                                                       |
+      | eccarius.karl.munoz            | November 15, 2022     | DEPP-4014              | 1.) Removed validateAsset method.                                  |
+      |                                |                       |                        | 2.) Added validateExistingPublishedAsset method to check           | 
+      |                                |                       |                        |     existing Asset record with Published status.                   |
+      |                                |                       |                        |                                                                    |
  */
 public with sharing class AssetTriggerHelper{
   private static final String PR_PUBLISHED = System.Label.PL_ProductRequest_Published;
   private static final String PR_COMPLETED = System.Label.PL_ProductRequest_Completed;
-
-	public static void validateAsset(Set<Id> assetIds, Map<Id,Asset> assetMap, Set<Id> assetAccounts){
-    Set<Id> matchedAccountIds = new Set<Id>();
-
-    //get all assets with matching accounts and are already in release or published stage
-    List<Asset> existingAssets = new List<Asset>([
-      SELECT Id, AccountId
-      FROM Asset
-      WHERE AccountId IN: assetAccounts
-      AND (Product_Request__r.Product_Request_Status__c = 'Release'
-      OR Product_Request__r.Product_Request_Status__c = 'Published')
-    ]);
-
-    //store all existing account ids
-    for(Asset a: existingAssets){
-      matchedAccountIds.add(a.AccountId);
-    }
-
-    for(Id assetId: assetIds){
-      if( assetMap.containsKey(assetId) && 
-          matchedAccountIds.contains(assetMap.get(assetId).AccountId)){
-            
-            assetMap.get(assetId).addError('Mark_Design_Stage_as_Complete__c', 'There shouldn’t be multiple assets that are Active.');
-            
-          }
-    }
-
-  }
 
   /**
    * @description validate before publishing assets
@@ -67,7 +43,7 @@ public with sharing class AssetTriggerHelper{
         WHERE Product_Request__c 
         IN: productRequestMap.keySet() 
         AND Product__r.Available_On_Cart__c = false
-        AND IsActive__c = true
+        AND IsActive__c = true WITH SECURITY_ENFORCED
       ]){
         associatedProductsMap.put(productRequestMap.get(aProd.Product_Request__c),aProd);
       }
@@ -94,7 +70,8 @@ public with sharing class AssetTriggerHelper{
       productReqToPublish.add(prTemp);
     }
 
-    if(!productReqToPublish.isEmpty()){
+    if(!productReqToPublish.isEmpty() && 
+      Schema.sObjectType.Product_Request__c.fields.Product_Request_Status__c.isUpdateable()){
       update productReqToPublish;
     }
   }
@@ -119,7 +96,7 @@ public with sharing class AssetTriggerHelper{
         SELECT Id, IsActive__c
         FROM Associated_Products__c
         WHERE Product_Request__c IN: prodReqToAssetMap.keySet()
-        AND IsActive__c = true
+        AND IsActive__c = true WITH SECURITY_ENFORCED
       ]){
         ascProd.IsActive__c = false;
         ascProductsToDecomission.put(ascProd.Id,ascProd);
@@ -130,4 +107,38 @@ public with sharing class AssetTriggerHelper{
       }
     }
   }
+
+  /**
+   * @description displays validation if there is existing published asset
+   * @param List<Id> - list of asset Ids
+   * @param Map<Id,Asset> - new items
+   */
+  public static void validateExistingPublishedAsset(List<Id> assetIds, Map<Id,Asset> newAssets){
+
+    List<Asset> assetProdSpecList = new List<Asset>([
+      SELECT Id, Product_Request__r.Product_Specification__c, Product_Request__c
+        FROM Asset
+       WHERE Id IN : assetIds WITH SECURITY_ENFORCED
+    ]);
+
+    Set<Id> prodSpecIds = new Set<Id>();
+    for(Asset asset : assetProdSpecList){
+      prodSpecIds.add(asset.Product_Request__r.Product_Specification__c);
+    }
+
+    List<Asset> existingAssets = new List<Asset>([
+      SELECT Id, Product_Request__r.Product_Specification__c
+        FROM Asset
+       WHERE Product_Request__r.Product_Request_Status__c = 'Published' 
+         AND Ready_for_Publishing__c = 'Yes'
+         AND Product_Request__r.Product_Specification__c IN : prodSpecIds WITH SECURITY_ENFORCED
+    ]);
+
+    for(Id assetId: assetIds){
+      if(!existingAssets.isEmpty()){
+        newAssets.get(assetId).addError('Ready_for_publishing__c', 'There should not be more than 1 active Corporate Bundle per Product Specification');
+      }
+    }
+  }
+
 }
