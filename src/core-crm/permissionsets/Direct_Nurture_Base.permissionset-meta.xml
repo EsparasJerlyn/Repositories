@@ -465,11 +465,11 @@
     </tabSettings>
     <tabSettings>
         <tab>standard-LiveChatTranscript</tab>
-        <visibility>Available</visibility>
+        <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
         <tab>standard-LiveChatVisitor</tab>
-        <visibility>Available</visibility>
+        <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
         <tab>standard-Macro</tab>
