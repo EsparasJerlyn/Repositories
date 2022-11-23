@@ -10,7 +10,7 @@
       | roy.nino.s.regala         | November 15, 2022     | DEPP-4721            | Created file                 |
 */
 
-public with sharing class ManageRegistrationLearnersListHelper{
+public without sharing class ManageRegistrationLearnersListHelper{
 
      private static string studentRT = System.Label.RT_CourseConnection_Student;
      private static Id studentRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(studentRT).getRecordTypeId();
