@@ -429,7 +429,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Cart_Payment__c.Amount_Paid__c</field>
+        <field>CartItem.TotalPrice</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>CartItem.Promotion_Price__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Cart_Payment__c.Amount_Paid__c</field> 
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1770,6 +1780,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>hed__Course_Enrollment__c.Offering_Start_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>hed__Course_Enrollment__c.Paid_Amount__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

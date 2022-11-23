@@ -29,6 +29,8 @@ import CARTPAYMENT_ID_FIELD from '@salesforce/schema/Cart_Payment__c.Id';
 import CARTITEM_ID_FIELD from '@salesforce/schema/CartItem.Id';
 import CARTITEM_PBE_FIELD from '@salesforce/schema/CartItem.Pricebook_Entry_ID__c';
 import CARTITEM_TOTAL_PRICE_FIELD from '@salesforce/schema/CartItem.TotalPrice';
+import CARTITEM_PROMOTION_ID from '@salesforce/schema/CartItem.Promotion__c';
+import CARTITEM_PROMOTION_PRICE_FIELD from '@salesforce/schema/CartItem.Promotion_Price__c';
 import getOPEProductCateg from "@salesforce/apex/PaymentConfirmationCtrl.getOPEProductCateg";
 import getStoreFrontCategories from "@salesforce/apex/MainNavigationMenuCtrl.getStoreFrontCategories";
 import saveCartSummaryQuestions from "@salesforce/apex/CartItemCtrl.saveCartSummaryQuestions";
@@ -489,7 +491,6 @@ export default class Payment extends LightningElement {
             let cartItemList = [];
             //if cartitem's pb needs to be updated
             if(this.cartItemsPbeUpdate && this.cartItemsPbeUpdate.length > 0){
-            // if(this.cartItemsPbeUpdate != null){
                 //loop through the pass object of cartitem records to be updated
                 
                 for (let i = 0; i < this.cartItemsPbeUpdate.length; i++) {
@@ -498,6 +499,8 @@ export default class Payment extends LightningElement {
                     fields[CARTITEM_ID_FIELD.fieldApiName] = this.cartItemsPbeUpdate[i].cartItemId;
                     fields[CARTITEM_PBE_FIELD.fieldApiName] = this.cartItemsPbeUpdate[i].standardPbe;
                     fields[CARTITEM_TOTAL_PRICE_FIELD.fieldApiName] = this.cartItemsPbeUpdate[i].standardPbePrice;
+                    fields[CARTITEM_PROMOTION_ID.fieldApiName] = this.cartItemsPbeUpdate[i].promotionId;
+                    fields[CARTITEM_PROMOTION_PRICE_FIELD.fieldApiName] = this.cartItemsPbeUpdate[i].discount;
                     cartItemList.push(fields);
                 }
             } else{
@@ -568,7 +571,29 @@ export default class Payment extends LightningElement {
         //create cart payment records
         let fields = {'Status__c' : 'Invoiced', 'Discount_Applied__c' : this.discountApplied};
         let objRecordInput = {'apiName':'Cart_Payment__c',fields};
-        createRecord(objRecordInput)
+
+        //if cartitem's pb needs to be updated
+        // if(this.cartItemsPbeUpdate.length > 0){
+        let cartItemList = [];
+        if(this.cartItemsPbeUpdate && this.cartItemsPbeUpdate.length > 0){
+            
+            //loop through the pass object of cartitem records to be updated
+            for (let i = 0; i < this.cartItemsPbeUpdate.length; i++) {
+                //update CartItem with the standard pricebook
+                let fields = {};
+                fields[CARTITEM_ID_FIELD.fieldApiName] = this.cartItemsPbeUpdate[i].cartItemId;
+                fields[CARTITEM_PBE_FIELD.fieldApiName] = this.cartItemsPbeUpdate[i].standardPbe;
+                fields[CARTITEM_TOTAL_PRICE_FIELD.fieldApiName] = this.cartItemsPbeUpdate[i].standardPbePrice;
+                fields[CARTITEM_PROMOTION_ID.fieldApiName] = this.cartItemsPbeUpdate[i].promotionId;
+                fields[CARTITEM_PROMOTION_PRICE_FIELD.fieldApiName] = this.cartItemsPbeUpdate[i].discount;
+                cartItemList.push(fields);
+            }
+        } 
+
+        updateCartItem({cartItems:cartItemList})
+        .then(()=>{
+           return createRecord(objRecordInput); 
+        })
         .then((res) => {
             //update webcart and link the created cart payment record
             this.cartPaymentId = res.id;
@@ -603,34 +628,7 @@ export default class Payment extends LightningElement {
                     composed: true
                 })
             );
-            //if cartitem's pb needs to be updated
-            // if(this.cartItemsPbeUpdate.length > 0){
-            let cartItemList = [];
-            if(this.cartItemsPbeUpdate && this.cartItemsPbeUpdate.length > 0){
-                
-                //loop through the pass object of cartitem records to be updated
-                for (let i = 0; i < this.cartItemsPbeUpdate.length; i++) {
-                    //update CartItem with the standard pricebook
-                    let fields = {};
-                    fields[CARTITEM_ID_FIELD.fieldApiName] = this.cartItemsPbeUpdate[i].cartItemId;
-                    fields[CARTITEM_PBE_FIELD.fieldApiName] = this.cartItemsPbeUpdate[i].standardPbe;
-                    fields[CARTITEM_TOTAL_PRICE_FIELD.fieldApiName] = this.cartItemsPbeUpdate[i].standardPbePrice;
-                    cartItemList.push(fields);
-                }
-            } else{
-                //redirect to for you page and open the xetta page in new tab
-                this.redirectToListingPage();
-            }
-
-            return cartItemList;
-        })
-        .then((res)=>{
-            if(res && res.length > 0){
-                updateCartItem({cartItems:res})
-                .then(()=>{
-                    this.redirectToListingPage();
-                })
-            }
+            this.redirectToListingPage();
         })
         .catch((error) => {
             this.processing = false;

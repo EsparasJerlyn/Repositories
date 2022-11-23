@@ -140,6 +140,7 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
     discountMessage = '';
     discountMessageClass = '';
     discountAmount = 0;
+    promotionId = '';
 
     pbEntriesToAssetMap = {};
 
@@ -669,7 +670,8 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
             prescribedProgram:prescribedProgram,
             priceBookEntryId:pbEntry,
             isProceedNoInvoice : this.isProceedNoInvoice,
-            discountAmount:this.discountAmount
+            discountAmount:this.discountAmount,
+            promotionId:this.promotionId
         })
         .then(res =>{
             if(!res.isContactInputValid){
@@ -955,6 +957,7 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
             this.discountMessageClass = '';
             this.discountMessage = '';
             this.discountAmount = 0;
+            this.promotionId = '';
 
             return;
         }
@@ -972,13 +975,13 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
 
             //check returned value and show message accordingly
             //-1 means coupon entered is not valid
-            if(data == -1){
+            if(data.discount == -1){
                 this.discountMessageClass = 'warning-label slds-m-left_x-small';
                 this.discountMessage = 'Invalid coupon.';
                 this.discountAmount = 0;
 
             //-2 means the selected price is still less than the discounted
-            }else if(data == -2){
+            }else if(data.discount == -2){
                 this.discountMessageClass = 'warning-label slds-m-left_x-small';
                 this.discountMessage = 'Selected price is less than the discounted standard price.';
                 this.discountAmount = 0;
@@ -986,8 +989,10 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
             } else{
                 this.discountMessageClass = 'coupon-applied-label slds-m-left_x-small';    
                 this.discountMessage = 'Valid coupon.';
-                this.discountAmount = data;
+                this.discountAmount = data.discount;
+                this.promotionId = data.promotionId;
             }
+            
         })
         .catch((error) => {
             this.generateToast('Error.',LWC_Error_General,'error');
