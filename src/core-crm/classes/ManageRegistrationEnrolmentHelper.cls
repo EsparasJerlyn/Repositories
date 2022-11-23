@@ -10,7 +10,7 @@
       | roy.nino.s.regala         | November 15, 2022     | DEPP-4721            | Created file                 |
 */
 
-public with sharing class ManageRegistrationEnrolmentHelper extends ManageRegistrationWrapper{
+public with sharing class ManageRegistrationEnrolmentHelper{
 
      
      private static final String TAILORED_EXECUTIVE_PROGRAM = 'Tailored Executive Program';
@@ -31,19 +31,19 @@ public with sharing class ManageRegistrationEnrolmentHelper extends ManageRegist
      * @param fileUpload - file to upload
      */
     @AuraEnabled
-    public static EnrolmentResultClass addRegistration(String registrationData, String fileUpload){
+    public static ManageRegistrationWrapper.EnrolmentResultClass addRegistration(String registrationData, String fileUpload){
          
-         EnrolmentResultClass enrolmentResult = new EnrolmentResultClass();
-         EnrolmentResultClass validationReturn = new EnrolmentResultClass();
-         EnrolmentResultClass enrollmentProcessingReturn = new EnrolmentResultClass();
+         ManageRegistrationWrapper.EnrolmentResultClass enrolmentResult = new ManageRegistrationWrapper.EnrolmentResultClass();
+         ManageRegistrationWrapper.EnrolmentResultClass validationReturn = new ManageRegistrationWrapper.EnrolmentResultClass();
+         ManageRegistrationWrapper.EnrolmentResultClass enrollmentProcessingReturn = new ManageRegistrationWrapper.EnrolmentResultClass();
          String contactRecName;
          Contact finalContactRecord = new Contact();
          enrolmentResult.isContactInputValid = true;
          
          //deserialize registration data in JSON format from lwc
-         RegistrationData parsedRegistrationData = new RegistrationData();
+         ManageRegistrationWrapper.RegistrationData parsedRegistrationData = new ManageRegistrationWrapper.RegistrationData();
          if(registrationData != ''){
-              parsedRegistrationData = (RegistrationData) JSON.deserialize(registrationData, RegistrationData.class);
+              parsedRegistrationData = (ManageRegistrationWrapper.RegistrationData) JSON.deserialize(registrationData, ManageRegistrationWrapper.RegistrationData.class);
          }
 
          //set registration data into separate readable variables
@@ -102,7 +102,7 @@ public with sharing class ManageRegistrationEnrolmentHelper extends ManageRegist
                
               if(!String.isBlank(priceBookEntryId)){
 
-                   enrollmentProcessingReturn = ManageRegistrationSectionHelper.processEnrollmentWithPricing(parsedRegistrationData, finalContactRecord, contactRecName, product);
+                   enrollmentProcessingReturn = ManageRegistrationSectionHelper.processEnrollmentWithPricing(parsedRegistrationData, finalContactRecord, product);
                    
                    enrolmentResult.paymentURL = enrollmentProcessingReturn.paymentURL;
                    enrolmentResult.contactName = enrollmentProcessingReturn.contactName;
@@ -127,8 +127,8 @@ public with sharing class ManageRegistrationEnrolmentHelper extends ManageRegist
     }
 
 
-     public static EnrolmentResultClass validatedContacts(List<Contact> contactList){
-          EnrolmentResultClass validationReturn = new EnrolmentResultClass();
+     public static ManageRegistrationWrapper.EnrolmentResultClass validatedContacts(List<Contact> contactList){
+          ManageRegistrationWrapper.EnrolmentResultClass validationReturn = new ManageRegistrationWrapper.EnrolmentResultClass();
           List<Contact> contactListToUpsert = new List<Contact>();
           List<RegistrationMatchingHelper.ContactMatchingResponse> contactsValidated = RegistrationMatchingHelper.validateContactMatching(JSON.serialize(contactList));
                for(RegistrationMatchingHelper.ContactMatchingResponse contactValidated: contactsValidated){
@@ -203,7 +203,13 @@ public with sharing class ManageRegistrationEnrolmentHelper extends ManageRegist
                for(WebStore webStore : studyWebStoreList){ studyWebStoreId = webStore.Id; }
 
                // DEPP-3152 close any carts already opened from OPE portal.
-               List<WebCart> existingCart = [Select Id, Status FROM WebCart WHERE Status='Active' and OwnerId = : userId LIMIT 1];
+               List<WebCart> existingCart = [
+                    SELECT Id, Status 
+                    FROM WebCart 
+                    WHERE Status='Active' 
+                    AND OwnerId = : userId 
+                    LIMIT 1];
+
                if(existingCart.size()>0){
                     existingCart[0].Status = 'Closed';
                     update existingCart;
@@ -302,20 +308,8 @@ public with sharing class ManageRegistrationEnrolmentHelper extends ManageRegist
                }
           }
 
-          if(  Schema.sObjectType.hed__Course_Enrollment__c.fields.hed__Contact__c.isCreateable() &&
-               Schema.sObjectType.hed__Course_Enrollment__c.fields.hed__Status__c.isCreateable() &&
-               Schema.sObjectType.hed__Course_Enrollment__c.fields.Paid_in_Full__c.isCreateable() &&
-               Schema.sObjectType.hed__Course_Enrollment__c.fields.Payment_Method__c.isCreateable() &&
-               Schema.sObjectType.hed__Course_Enrollment__c.fields.Amount__c.isCreateable() &&
-               Schema.sObjectType.hed__Course_Enrollment__c.fields.Cart_ID__c.isCreateable() &&
-               Schema.sObjectType.hed__Course_Enrollment__c.fields.Cart_Item__c.isCreateable() &&
-               Schema.sObjectType.hed__Course_Enrollment__c.fields.hed__Course_Offering__c.isCreateable() &&
-               Schema.sObjectType.hed__Course_Enrollment__c.fields.Program_Offering__c.isCreateable()){
-
-                    insert courseConnectionList;
-          }
+          insert courseConnectionList;
           
-
           return courseConnectionList;
      }
 
@@ -324,7 +318,7 @@ public with sharing class ManageRegistrationEnrolmentHelper extends ManageRegist
       * @param PaymentUrlClass contains paymenturl required details
       * @return String - URL Generated
       */
-      public static String paymentGatewayURLBuilder(PaymentUrlClass urlObj){
+      public static String paymentGatewayURLBuilder(ManageRegistrationWrapper.PaymentUrlClass urlObj){
 
           Payment_Gateway_Settings__c paymentGatewaySettings = Payment_Gateway_Settings__c.getorgdefaults();
           CCE_Payment_Gateway_Settings__c paymentGatewaySettingsCCE = CCE_Payment_Gateway_Settings__c.getorgdefaults();

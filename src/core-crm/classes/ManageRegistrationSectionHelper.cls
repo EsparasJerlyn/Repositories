@@ -10,59 +10,55 @@
       | roy.nino.s.regala         | November 15, 2022     | DEPP-4721            | Created file                 |
 */
 
-public with sharing class ManageRegistrationSectionHelper extends ManageRegistrationWrapper{
+public with sharing class ManageRegistrationSectionHelper{
 
      private static final String TAILORED_EXECUTIVE_PROGRAM = 'Tailored Executive Program';
-     public static EnrolmentResultClass processEnrollmentWithPricing(RegistrationData parsedRegistrationData, Contact finalContactRecord, String contactRecName, Product2 product){
-          
-          EnrolmentResultClass enrollmentProcessingReturn = new EnrolmentResultClass();
-          ManageRegistrationEnrolmentHelper.EnrolmentCreationParamClass enrolmentParam;
-          Map<String,Asset> assetRecord = new Map<String,Asset>();
+     private static Boolean isCorporateBundlePricing = false;
+     private static Boolean isSOAPricing = false;
+     private static Decimal amount;
+     private static List<User> corporateUser;
+     private static WebCart newWebCart;
+     private static Id commerceUser;
+     private static CartDeliveryGroup cartDeliveryGroup;
+     private static Decimal discountAmount;
+     private static PricebookEntry priceBookEntry;
+     private static Contact contactRecord;
 
-          Boolean isTailored = product != null && product.Product_Category__c == TAILORED_EXECUTIVE_PROGRAM?true:false;
-          Id commerceUser;
-                    
-          Id priceBookEntryId = parsedRegistrationData.priceBookEntryId;
-          Decimal discountAmount = parsedRegistrationData.discountAmount;
-          Contact contactRecord = parsedRegistrationData.contactRecord;
-          String offeringId = parsedRegistrationData.offeringId;
-          Boolean prescribedProgram = parsedRegistrationData.prescribedProgram;
-          Id promotionId = parsedRegistrationData.promotionId;
-          Boolean isProceedNoInvoice = parsedRegistrationData.isProceedNoInvoice;
-          
+     private static void setupUserAndCart(Contact finalContactRecord, Id priceBookEntryId){
 
+          corporateUser = new List<User>();
+          newWebCart = new WebCart();
 
-          PricebookEntry pbe = new PricebookEntry();
-          Boolean isCorporateBundlePricing = false;
-          Boolean isSOAPricing = false;
-          Decimal amount;
-          List<PricebookEntry> pbList = [    SELECT Id, UnitPrice, Product2Id, PriceBook2Id, PriceBook2.Name 
-                                             FROM PricebookEntry 
-                                             WHERE Id =: priceBookEntryId 
-                                             WITH SECURITY_ENFORCED
-                                             LIMIT 1];
+          //get the pricebookentry details of the selected pricebook entry of the user
+          List<PricebookEntry> pbList = [    
+               SELECT Id, UnitPrice, Product2Id, PriceBook2Id, PriceBook2.Name 
+               FROM PricebookEntry 
+               WHERE Id =: priceBookEntryId 
+               WITH SECURITY_ENFORCED
+               LIMIT 1];
 
+          //checks if pricebook selected is Corporate Bundle or Standing Offer Arrangement
           for(PricebookEntry pb : pbList){
                isCorporateBundlePricing = pb.PriceBook2.Name.startsWith('Corporate Bundle');
                isSOAPricing = pb.PriceBook2.Name.startsWith('SOA');
-               pbe = pb;
+               priceBookEntry = pb;
                amount = pb.UnitPrice - discountAmount;
           }
 
-          List<User> corporateUser = new List<User>();
-          WebCart newWebCart = new WebCart();
           //only try to get corporate user if selected pricing is SOA or Corporate Bundle
-          if((isCorporateBundlePricing == true || isSOAPricing == true)){
+          if(isCorporateBundlePricing == true || isSOAPricing == true){
                //get corporate user linked to the pricebookentry selected
-               corporateUser = CorporateBundleAndSOAHelper.getCorporateUser(pbe.PriceBook2Id);
-          }
-
-          if(!corporateUser.isEmpty()){
-               newWebCart = CorporateBundleAndSOAHelper.createCCEWebCart(corporateUser[0]);
-               commerceUser = corporateUser[0].Id;
-          }else if(corporateUser.isEmpty() && (isCorporateBundlePricing == true || isSOAPricing == true)){
-               throw new AuraHandledException('Please make sure to enable the contact as Partner User');
+               //cart is linked to the corporate user
+               corporateUser = CorporateBundleAndSOAHelper.getCorporateUser(priceBookEntry.PriceBook2Id);
+               if(!corporateUser.isEmpty()){
+                    //create a new webcart for the enrolled user
+                    newWebCart = CorporateBundleAndSOAHelper.createCCEWebCart(corporateUser[0]);
+                    commerceUser = corporateUser[0].Id;
+               }else{
+                    throw new AuraHandledException('Please make sure to enable the contact as Partner User');
+               }
           }else{
+               //try to create new contact
                Contact newContact = new Contact(
                     Email = finalContactRecord.Email,
                     LastName = finalContactRecord.LastName,
@@ -70,36 +66,52 @@ public with sharing class ManageRegistrationSectionHelper extends ManageRegistra
                     Id = contactRecord.Id
                );
 
+               //create new user to be enrolled to ope portal
                commerceUser = ManageRegistrationEnrolmentHelper.createUser(newContact);
                newWebCart = ManageRegistrationEnrolmentHelper.createWebCart(commerceUser, contactRecord.Id);
           }
-          
-          if(  Schema.sObjectType.WebCart.fields.Name.isCreateable() &&
-               Schema.sObjectType.WebCart.fields.AccountId.isCreateable() && 
-               Schema.sObjectType.WebCart.fields.Status__c.isCreateable() &&
-               Schema.sObjectType.WebCart.fields.OwnerId.isCreateable() &&
-               Schema.sObjectType.WebCart.fields.WebStoreId.isCreateable()){
-               insert newWebCart; 
-          } 
-                             
 
-          CartDeliveryGroup cartDeliveryGroup = new CartDeliveryGroup(
+          insert newWebCart; 
+
+          cartDeliveryGroup = new CartDeliveryGroup(
                CartId = newWebCart.Id,
                Name = 'Default Delivery'
           );
 
-          if(  Schema.sObjectType.CartDeliveryGroup.fields.CartId.isCreateable() &&
-               Schema.sObjectType.CartDeliveryGroup.fields.Name.isCreateable()){
-               insert cartDeliveryGroup;
-          } 
-          
+          insert cartDeliveryGroup;
+     }
 
+
+     public static ManageRegistrationWrapper.EnrolmentResultClass processEnrollmentWithPricing(
+          ManageRegistrationWrapper.RegistrationData parsedRegistrationData, 
+          Contact finalContactRecord, 
+          Product2 product){
+          
+          ManageRegistrationWrapper.EnrolmentResultClass enrollmentProcessingReturn = new ManageRegistrationWrapper.EnrolmentResultClass();
+          ManageRegistrationEnrolmentHelper.EnrolmentCreationParamClass enrolmentParam;
+          Map<String,Asset> assetRecord = new Map<String,Asset>();
+
+          Boolean isTailored = product.Product_Category__c == TAILORED_EXECUTIVE_PROGRAM?true:false;
+          
+                    
+          Id priceBookEntryId = parsedRegistrationData.priceBookEntryId;
+          discountAmount = parsedRegistrationData.discountAmount;
+          
+          String offeringId = parsedRegistrationData.offeringId;
+          Boolean prescribedProgram = parsedRegistrationData.prescribedProgram;
+          Id promotionId = parsedRegistrationData.promotionId;
+          Boolean isProceedNoInvoice = parsedRegistrationData.isProceedNoInvoice;
+
+          priceBookEntry = new PricebookEntry();
+          contactRecord = parsedRegistrationData.contactRecord;
           enrolmentParam = new ManageRegistrationEnrolmentHelper.EnrolmentCreationParamClass();
                     
+          setupUserAndCart(finalContactRecord,priceBookEntryId);
+
           enrolmentParam.offeringId = offeringId;
           enrolmentParam.prescribedProgram = prescribedProgram;
           enrolmentParam.newWebCartId = newWebCart.Id;
-          enrolmentParam.priceBookEntry = pbe;
+          enrolmentParam.priceBookEntry = priceBookEntry;
           enrolmentParam.product = product;
           enrolmentParam.cartDeliveryGroupId = cartDeliveryGroup.Id;
 
@@ -107,24 +119,8 @@ public with sharing class ManageRegistrationSectionHelper extends ManageRegistra
           newCartItem.Contact__c = contactRecord.Id;
           newCartItem.Promotion__c = promotionId;
           newCartItem.Promotion_Price__c = discountAmount;
-
-          if(  Schema.sObjectType.CartItem.fields.CartId.isCreateable() &&
-               Schema.sObjectType.CartItem.fields.Name.isCreateable() && 
-               Schema.sObjectType.CartItem.fields.CartDeliveryGroupId.isCreateable() && 
-               Schema.sObjectType.CartItem.fields.Course_Offering__c.isCreateable() && 
-               Schema.sObjectType.CartItem.fields.Program_Offering__c.isCreateable() && 
-               Schema.sObjectType.CartItem.fields.Product2Id.isCreateable() && 
-               Schema.sObjectType.CartItem.fields.Pricebook_Entry_ID__c.isCreateable() &&
-               Schema.sObjectType.CartItem.fields.Quantity.isCreateable() &&
-               Schema.sObjectType.CartItem.fields.TotalPrice.isCreateable() &&
-               Schema.sObjectType.CartItem.fields.Type.isCreateable() &&
-               Schema.sObjectType.CartItem.fields.Contact__c.isCreateable() &&
-               Schema.sObjectType.CartItem.fields.Promotion__c.isCreateable() &&
-               Schema.sObjectType.CartItem.fields.Promotion_Price__c.isCreateable()
-               ){
-                    
-               insert newCartItem;
-          }
+   
+          insert newCartItem;
 
           if(!isProceedNoInvoice){
                Cart_Payment__c cartPayment = new Cart_Payment__c(
@@ -139,11 +135,11 @@ public with sharing class ManageRegistrationSectionHelper extends ManageRegistra
                                         AND Status = 'Active' 
                                         LIMIT 1].External_Id__c; 
 
-               PaymentUrlClass urlObj = new PaymentUrlClass();
+               ManageRegistrationWrapper.PaymentUrlClass urlObj = new ManageRegistrationWrapper.PaymentUrlClass();
 
                urlObj.CartExternalId = externalId;
                urlObj.Email = finalContactRecord.Email;
-               urlObj.Name = contactRecName;
+               urlObj.Name = finalContactRecord.FirstName + finalContactRecord.LastName;
                urlObj.Amount = amount;
                urlObj.ProductName = product.Name;
                urlObj.IsCCE = isSOAPricing;
@@ -158,27 +154,18 @@ public with sharing class ManageRegistrationSectionHelper extends ManageRegistra
                     Payment_URL__c = paymentURL
                );
 
-               if(  Schema.sObjectType.WebCart.fields.Status__c.isUpdateable() &&
-                    Schema.sObjectType.WebCart.fields.Status.isUpdateable() && 
-                    Schema.sObjectType.WebCart.fields.Status__c.isUpdateable() &&
-                    Schema.sObjectType.WebCart.fields.Cart_Payment__c.isUpdateable() &&
-                    Schema.sObjectType.WebCart.fields.Payment_URL__c.isUpdateable()){
-                    
-                    update webCartToClose;
-               } 
-               
 
+               update webCartToClose;
+          
                //update cart payment to invoiced after linking the webcart
                //so that the cart payment trigger can check related cartitems
                cartPayment.Payment_Status__c = 'Invoiced';
-               if(  Schema.sObjectType.Cart_Payment__c.fields.Payment_Status__c.isUpdateable()){
-                    update webCartToClose;
-               } 
+
                update cartPayment;                   
 
                enrollmentProcessingReturn.contactId = contactRecord.Id;
                enrollmentProcessingReturn.paymentURL = paymentURL;
-               enrollmentProcessingReturn.contactName = contactRecName;
+               enrollmentProcessingReturn.contactName = finalContactRecord.FirstName + finalContactRecord.LastName;
 
           }else{
                String externalId;
@@ -195,12 +182,8 @@ public with sharing class ManageRegistrationSectionHelper extends ManageRegistra
                    Status__c = 'Closed',
                    Status = 'Closed'
                );
-
-               if(  Schema.sObjectType.WebCart.fields.Status__c.isUpdateable() &&
-                    Schema.sObjectType.WebCart.fields.Status.isUpdateable() ){
-
-                    update webCartToClose;
-               }
+               
+               update webCartToClose;
                
                enrolmentParam = new ManageRegistrationEnrolmentHelper.EnrolmentCreationParamClass();
                     
@@ -215,7 +198,7 @@ public with sharing class ManageRegistrationSectionHelper extends ManageRegistra
                List<hed__Course_Enrollment__c> courseConnectionList = ManageRegistrationEnrolmentHelper.createCourseConnectionList(enrolmentParam);  
                
                enrollmentProcessingReturn.contactId = contactRecord.Id;
-               enrollmentProcessingReturn.contactName = contactRecName;
+               enrollmentProcessingReturn.contactName = finalContactRecord.FirstName + finalContactRecord.LastName;
 
                //if corporate pricing is selected
                if(isCorporateBundlePricing == true){
@@ -234,7 +217,7 @@ public with sharing class ManageRegistrationSectionHelper extends ManageRegistra
           return enrollmentProcessingReturn;
      }
 
-     public static void processQuestionnaireData(RegistrationData parsedRegistrationData, String fileUpload){
+     public static void processQuestionnaireData(ManageRegistrationWrapper.RegistrationData parsedRegistrationData, String fileUpload){
 
           //set registration data into separate readable variables
           List<Related_Answer__c> relatedAnswerList = parsedRegistrationData.relatedAnswerList;
@@ -344,6 +327,7 @@ public with sharing class ManageRegistrationSectionHelper extends ManageRegistra
                }
 
                insert contentDocLinkListToInsert;
+
                update answersToUpdate.values();
           }
      }
@@ -413,13 +397,10 @@ public with sharing class ManageRegistrationSectionHelper extends ManageRegistra
      /**
       * @description Wrapper class that holds the file uploaded by user
       */
-      public class FileUpload{
-          @AuraEnabled
-          public String base64;
-          @AuraEnabled
-          public String fileName;
-          @AuraEnabled
-          public String relatedAnswerId;
+      private class FileUpload{
+          private String base64;
+          private String fileName;
+          private String relatedAnswerId;
       }
 
 }

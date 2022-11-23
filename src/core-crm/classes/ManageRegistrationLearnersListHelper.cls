@@ -10,7 +10,7 @@
       | roy.nino.s.regala         | November 15, 2022     | DEPP-4721            | Created file                 |
 */
 
-public without sharing class ManageRegistrationLearnersListHelper extends ManageRegistrationWrapper{
+public with sharing class ManageRegistrationLearnersListHelper{
 
      private static string studentRT = System.Label.RT_CourseConnection_Student;
      private static Id studentRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(studentRT).getRecordTypeId();
@@ -33,7 +33,7 @@ public without sharing class ManageRegistrationLearnersListHelper extends Manage
            List<ManageRegistrationDetails> response = new List<ManageRegistrationDetails>();
            contactToQRSummary = new Map<Id,Questionnaire_Response_Summary__c>();
            registeredLearners = new List<hed__Course_Enrollment__c>();
-           PaymentUrlClass urlObj = new PaymentUrlClass();
+           ManageRegistrationWrapper.PaymentUrlClass urlObj = new ManageRegistrationWrapper.PaymentUrlClass();
            relatedEnrollments = new Map<Id,List<hed__Course_Enrollment__c>>();
            Map<String, PricebookEntry> pbeList = new Map<String, PricebookEntry>();
  

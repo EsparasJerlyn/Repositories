@@ -10,7 +10,7 @@
       | roy.nino.s.regala         | November 15, 2022     | DEPP-4721            | Created file                 |
 */
 
-public abstract class ManageRegistrationWrapper {
+public class ManageRegistrationWrapper {
 
 
      public class RegistrationData{

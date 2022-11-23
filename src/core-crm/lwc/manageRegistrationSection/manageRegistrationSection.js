@@ -49,7 +49,7 @@ import checkOfferingAvailability from '@salesforce/apex/ManageRegistrationSectio
 import getAsset from '@salesforce/apex/CorporateBundleAndSOAHelper.getAsset';
 import checkCreditAvailability from '@salesforce/apex/CorporateBundleAndSOAHelper.checkCreditAvailability';
 import getRegisteredEmail from '@salesforce/apex/ManageRegistrationSectionCtrl.getRegisteredEmail';
-import getDiscount from '@salesforce/apex/ManageRegistrationSectionCtrl.getDiscount';
+import getDiscount from '@salesforce/apex/PromotionDiscountCtrl.getDiscount';
 import LWC_Error_General from '@salesforce/label/c.LWC_Error_General';
 import LWC_List_ConfirmedLearnerStatus	 from '@salesforce/label/c.LWC_List_ConfirmedLearnerStatus';
 import { createRecord } from 'lightning/uiRecordApi';
@@ -193,7 +193,6 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
                 record.registrationStatus = item.enrolmentDetails.hed__Status__c;
                 record.lmsIntegrationStatus = item.enrolmentDetails.LMS_Integration_Status__c;
                 record.paymentMethod = item.enrolmentDetails.Payment_Method__c;
-                record.regenerateInvoiceURL = item.enrolmentDetails.regenerateInvoiceURL;
                 record.paidAmount = item.enrolmentDetails.Paid_Amount__c;
                 record.registrationDate = item.enrolmentDetails.CreatedDate;
                 record.pricingValidation = item.enrolmentDetails.Pricing_Validation__c;
@@ -204,6 +203,9 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
                     record.applicationName = item.applicationDetails.Name;
                     record.applicationURL = '/' + item.applicationDetails.Id;
                 }
+                
+                record.regenerateInvoiceURL = item.regenerateInvoiceURL;
+                
                 return record;
             });
             this.contactList = result.data.map(item => {
@@ -1065,6 +1067,7 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
         })
         .catch((error) => {
             this.generateToast('Error.',LWC_Error_General,'error');
+            console.log(error);
         });
 
     }
