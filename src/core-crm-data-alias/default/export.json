@@ -325,6 +325,22 @@
             "useCSVValuesMapping": true,
             "targetObject": "International_Tier__c",
             "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Name,Channel,FolderId,Message,IsInsertable FROM QuickText",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "QuickText",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id,Name,DeveloperName,AccessType, Type FROM Folder",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "Folder",
+            "importCSVFilesAsIs": true
         }
     ]
 }

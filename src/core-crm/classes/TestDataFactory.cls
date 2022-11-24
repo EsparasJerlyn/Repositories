@@ -1564,7 +1564,8 @@ public class TestDataFactory {
                 SELECT Id FROM User WHERE IsActive = true
                                         AND FirstName = 'Sys Admin'
                                         AND LastName = 'Integration User'
-                                        AND Profile.Name = 'QUT System Administrator' LIMIT 1];
+                                        AND (Profile.Name = 'QUT System Administrator' 
+                                            OR Profile.Name = 'System Administrator') LIMIT 1];
             //add UserRole
             PORTAL_SYS_ADMIN.UserRoleId = [SELECT Id FROM UserRole WHERE Name = 'System Administrator' LIMIT 1]?.Id;
             update PORTAL_SYS_ADMIN;

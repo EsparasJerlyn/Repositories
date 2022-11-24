@@ -9,12 +9,17 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                                                     |
       |--------------------------------|-----------------------|------------------------|--------------------------------------------------------------------|
       | roy.nino.s.regala              | July 29, 2022         | DEPP-2498              | Created file                                                       |
+      | eccarius.karl.munoz            | November 15, 2022     | DEPP-4014              | 1.) Removed validateAsset method.                                  |
+      |                                |                       |                        | 2.) Added validateExistingPublishedBuyerGroup method to check      | 
+      |                                |                       |                        |     existing Buyer Group record with Published status.             |
+      | eccarius.karl.munoz            | November 22, 2022     | DEPP-4014              | Added BuyerGroupPublishingHelper call to fix PMD violations        |
  */
-public with sharing class BuyerGroupTriggerHelper{
+public with sharing class BuyerGroupTriggerHelper{  
 
   private static final String PR_PUBLISHED = System.Label.PL_ProductRequest_Published;
   private static final String PR_COMPLETED = System.Label.PL_ProductRequest_Completed;
   private static final String PR_NOT_PROCEEDING = System.Label.PL_ProductRequest_Not_Proceeding;
+
   /**
    * @description validate before publishing buyerGroup
    * @param buyerGroupIds - List of buyergroups to be published
@@ -30,72 +35,26 @@ public with sharing class BuyerGroupTriggerHelper{
     Map<Id,Id> childParentRequestMap = new Map<Id,Id>();
     Map<Id,Id> buyerGroupToProductMap = new Map<Id,Id>();
 
-    for(Id item: buyerGroupIds){
-      if(newBuyerGroup.containsKey(item) && newBuyerGroup.get(item).Product_Request__c != null){
-        productRequestMap.put(newBuyerGroup.get(item).Product_Request__c,item);
-      }
-    }
+    productRequestMap = BuyerGroupPublishingHelper.getProductRequestMap(newBuyerGroup, buyerGroupIds);
 
     if(!productRequestMap.keySet().isEmpty()){
-      for(Associated_Products__c aProd: [ 
-        SELECT Id, Product__r.Available_On_Cart__c, Product_Request__c 
-        FROM Associated_Products__c 
-        WHERE Product_Request__c 
-        IN: productRequestMap.keySet() 
-        AND Product__r.Available_On_Cart__c = false
-        AND IsActive__c = true
-      ]){
-      associatedProductsMap.put(productRequestMap.get(aProd.Product_Request__c),aProd);
-      }
-    }
-
-    if(!productRequestMap.keySet().isEmpty()){
-      for(Related_Product_Request__c rProdReq: [
-        SELECT Id, Course__c, Program__c
-        FROM Related_Product_Request__c
-        WHERE Program__c IN: productRequestMap.keySet()
-        AND Course__c != null
-      ]){
-        childParentRequestMap.put(rProdReq.Course__c,rProdReq.Program__c);
-      }
+      associatedProductsMap = BuyerGroupPublishingHelper.getAssociatedProductsMap(productRequestMap);
+      childParentRequestMap = BuyerGroupPublishingHelper.getChildParentRequestMap(productRequestMap);
     }
 
     if(!childParentRequestMap.keySet().isEmpty()){
-      for(Product2 prod: [
-        SELECT Id, Available_On_Cart__c,
-        Course__r.ProductRequestID__c,
-        Program_Plan__r.Product_Request__c
-        FROM Product2
-        WHERE (Course__r.ProductRequestID__c IN: childParentRequestMap.keySet() 
-        OR Program_Plan__r.Product_Request__c IN: childParentRequestMap.keySet())
-        AND Available_On_Cart__c = false
-      ]){
-        if( prod.Course__c != null &&
-            prod.Course__r.ProductRequestID__c != null &&
-            childParentRequestMap.containsKey(prod.Course__r.ProductRequestID__c) &&
-            productRequestMap.containsKey(childParentRequestMap.get(prod.Course__r.ProductRequestID__c))){
-
-            buyerGroupToProductMap.put(productRequestMap.get(childParentRequestMap.get(prod.Course__r.ProductRequestID__c)), prod.Id);
-
-        }else if( prod.Program_Plan__c != null &&
-                  prod.Program_Plan__r.Product_Request__c != null &&
-                  childParentRequestMap.containsKey(prod.Program_Plan__r.Product_Request__c) &&
-                  productRequestMap.containsKey(childParentRequestMap.get(prod.Program_Plan__r.Product_Request__c))){
-                  
-                  buyerGroupToProductMap.put(productRequestMap.get(childParentRequestMap.get(prod.Program_Plan__r.Product_Request__c)), prod.Id);  
-        } 
-      }
+      buyerGroupToProductMap = BuyerGroupPublishingHelper.getBuyerGroupToProductMap(childParentRequestMap, productRequestMap);
     }
     
-    for(Id item: buyerGroupIds){
-      if( associatedProductsMap.containsKey(item) || 
-          buyerGroupToProductMap.containsKey(item)){
-          
-          newBuyerGroup.get(item).addError('Ready_for_publishing__c', 'All products should be ready for publishing to publish this Product');
-      }
-    }
+    BuyerGroupValidationWrapper buyerGroupValidationWrapper = new BuyerGroupValidationWrapper();
+    buyerGroupValidationWrapper.buyerGroupIds = buyerGroupIds;
+    buyerGroupValidationWrapper.associatedProductsMap = associatedProductsMap;
+    buyerGroupValidationWrapper.buyerGroupToProductMap = buyerGroupToProductMap;
+    buyerGroupValidationWrapper.newBuyerGroup = newBuyerGroup;
 
-  }
+    validateReadyForPublishing(buyerGroupValidationWrapper);
+
+  }  
 
   /**
    * @description publishes parent product request
@@ -106,16 +65,19 @@ public with sharing class BuyerGroupTriggerHelper{
     Product_Request__c prTemp;
 
     for(Id prodReqId: productRequestIds){
-      prTemp = new Product_Request__c(Id = prodReqId, Product_Request_Status__c = PR_PUBLISHED);
+      prTemp = new Product_Request__c(
+        Id = prodReqId, 
+        Product_Request_Status__c = PR_PUBLISHED
+      );
 
       productReqToPublish.add(prTemp);
     }
 
-    if(!productReqToPublish.isEmpty()){
+    if(!productReqToPublish.isEmpty() && 
+      Schema.sObjectType.Product_Request__c.fields.Product_Request_Status__c.isUpdateable()){
       update productReqToPublish;
     }
-  }
-
+  }  
 
   /**
    * @description completes parent product request
@@ -123,60 +85,85 @@ public with sharing class BuyerGroupTriggerHelper{
    */
   public static void completeParentProductRequest(Map<Id,BuyerGroup> prodReqToBgMap) {
     List<Product_Request__c> productReqToComplete = new List<Product_Request__c>();
-    Map<Id,BuyerGroup> childProdReqToBgMap = new Map<Id,BuyerGroup>();
-    Map<Id,Product2> productsToDecomission = new Map<Id,Product2>();
-    Map<Id,Associated_Products__c> ascProductsToDecomission = new Map<Id,Associated_Products__c>();
-    Set<Id> childCCEProductRequest = new Set<Id>();
-    List<Id> childCCEProduct = new List<Id>();
     Product_Request__c prTemp;
 
-    for(Id prodReqId: prodReqToBgMap.keySet()){
-      prTemp = new Product_Request__c(  Id = prodReqId, Product_Request_Status__c = PR_COMPLETED);
+    for(Id prodReqId : prodReqToBgMap.keySet()){
+      prTemp = new Product_Request__c( 
+        Id = prodReqId, 
+        Product_Request_Status__c = PR_COMPLETED
+      );
       productReqToComplete.add(prTemp);
     }
 
+    processCompletionOfProdReq(productReqToComplete, prodReqToBgMap);    
+
+  }
+
+  /**
+   * @description displays validation if there is existing published buyer group
+   * @param List<Id> - list of buyer group Ids
+   * @param Map<Id,BuyerGroup> - new items
+   */
+  public static void validateExistingPublishedBuyerGroup(List<Id> buyerGroupIds, Map<Id, BuyerGroup> newBuyerGroup){
+    List<BuyerGroup> buyerGroupProdSpecList = new List<BuyerGroup>([
+      SELECT Id, Product_Request__r.Product_Specification__c
+        FROM BuyerGroup
+       WHERE Id IN : buyerGroupIds WITH SECURITY_ENFORCED
+    ]);
+
+    Set<Id> prodSpecIds = new Set<Id>();
+    for(BuyerGroup buyerGroup : buyerGroupProdSpecList){
+      prodSpecIds.add(buyerGroup.Product_Request__r.Product_Specification__c);
+    }
+
+    List<BuyerGroup> existingBuyerGroups = new List<BuyerGroup>([
+      SELECT Id
+        FROM BuyerGroup
+       WHERE Product_Request__r.Product_Request_Status__c = 'Published' 
+         AND Ready_for_Publishing__c = 'Yes'
+         AND Product_Request__r.Product_Specification__c IN : prodSpecIds WITH SECURITY_ENFORCED
+    ]);
+    
+    for(Id buyerGroupId: buyerGroupIds){
+      if(!existingBuyerGroups.isEmpty()){
+        newBuyerGroup.get(buyerGroupId).addError('Ready_for_publishing__c', 'There should not be more than 1 active Standing offer Arrangement per Product Specification');
+      }
+    }
+  }
+
+  private static void validateReadyForPublishing(BuyerGroupValidationWrapper buyerGroupValidationWrapper){
+    for(Id item: buyerGroupValidationWrapper.buyerGroupIds){
+      if( buyerGroupValidationWrapper.associatedProductsMap.containsKey(item) || 
+          buyerGroupValidationWrapper.buyerGroupToProductMap.containsKey(item)){
+          buyerGroupValidationWrapper.newBuyerGroup.get(item).addError('Ready_for_publishing__c', 'All products should be ready for publishing to publish this Product');
+      }
+    }
+  }
+
+  private static void processCompletionOfProdReq(List<Product_Request__c> productReqToComplete, Map<Id,BuyerGroup> prodReqToBgMap){
     if(!productReqToComplete.isEmpty()){
+      Map<Id,BuyerGroup> childProdReqToBgMap = new Map<Id,BuyerGroup>();
+      Map<Id,Product2> productsToDecomission = new Map<Id,Product2>();
+      Set<Id> childCCEProductRequest = new Set<Id>();
+      Map<Id,Associated_Products__c> ascProductsToDecomission = new Map<Id,Associated_Products__c>();
+
       update productReqToComplete;
 
-      //after decommissioning parent product request
-      //get child cce product request
-      for(Related_Product_Request__c rpr: [ 
-        SELECT Id, Program__c, Course__c
-        FROM Related_Product_Request__c 
-        WHERE Program__c IN: prodReqToBgMap.keySet()]){
-          if(rpr.Course__c != null){
-            childCCEProductRequest.add(rpr.Course__c);
-            childProdReqToBgMap.put(rpr.Course__c,prodReqToBgMap.get(rpr.Program__c));
-          }
-      }
-
-      for(Associated_Products__c ascProd: [
-        SELECT Id, IsActive__c
-        FROM Associated_Products__c
-        WHERE Product_Request__c IN: prodReqToBgMap.keySet()
-        AND IsActive__c = true
-      ]){
-        ascProd.IsActive__c = false;
-        ascProductsToDecomission.put(ascProd.Id,ascProd);
-      }
-
+      ChildProductRequestWrapper childProductRequestWrapper = getChildCCEProductRequest(prodReqToBgMap);
+      childCCEProductRequest = childProductRequestWrapper.childCCEProductRequest;
+      childProdReqToBgMap = childProductRequestWrapper.childProdReqToBgMap;
+      
+      ascProductsToDecomission = getAssocProductsToDecom(prodReqToBgMap);
+      
       //decommission child products
-      for(Product2 prod:[
-        SELECT Id, Decommission_Product__c, 
-        Decommission_Reason__c, End_Date__c,
-        Course__r.ProductRequestID__c,
-        Program_Plan__r.Product_Request__c
-        FROM Product2 
-        WHERE Decommission_Product__c = false 
-        AND (Course__r.ProductRequestID__c IN:childCCEProductRequest 
-        OR Program_Plan__r.Product_Request__c IN:childCCEProductRequest)]){
-          String productReqId = '';
-
-          if(prod.Course__c != null && prod.Course__r.ProductRequestID__c != null){
-            productReqId = prod.Course__r.ProductRequestID__c;
-          }else{
-            productReqId = prod.Program_Plan__r.Product_Request__c;
-          }
+      List<Product2> prodList = [SELECT Id, Decommission_Product__c, Decommission_Reason__c, End_Date__c,
+                                        Course__r.ProductRequestID__c, Program_Plan__r.Product_Request__c
+                                   FROM Product2 
+                                  WHERE Decommission_Product__c = false 
+                                    AND (Course__r.ProductRequestID__c IN:childCCEProductRequest 
+                                     OR Program_Plan__r.Product_Request__c IN:childCCEProductRequest) WITH SECURITY_ENFORCED];
+      for(Product2 prod : prodList){
+          String productReqId = getProdReqId(prod);
           
           prod.End_Date__c = Date.Today();
 
@@ -191,17 +178,83 @@ public with sharing class BuyerGroupTriggerHelper{
 
           productsToDecomission.put(prod.Id,prod);
       }
-      if(!productsToDecomission.keySet().isEmpty()){
-        update productsToDecomission.values();
+
+      updateProductsToDecom(productsToDecomission);
+      updateAssocProductsToDecom(ascProductsToDecomission);
+    }
+
+  }
+
+  private static ChildProductRequestWrapper getChildCCEProductRequest(Map<Id,BuyerGroup> prodReqToBgMap){
+    ChildProductRequestWrapper childProductRequestWrapper = new ChildProductRequestWrapper();
+    Set<Id> childCCEProductRequest = new Set<Id>();
+    Map<Id,BuyerGroup> childProdReqToBgMap = new Map<Id,BuyerGroup>();
+
+    //after decommissioning parent product request
+    //get child cce product request
+    List<Related_Product_Request__c> relatedProdReqList = [SELECT Id, Program__c, Course__c
+                                                             FROM Related_Product_Request__c 
+                                                            WHERE Program__c IN: prodReqToBgMap.keySet() WITH SECURITY_ENFORCED];
+    
+    for(Related_Product_Request__c rpr : relatedProdReqList){
+        if(rpr.Course__c != null){
+          childCCEProductRequest.add(rpr.Course__c);
+          childProdReqToBgMap.put(rpr.Course__c,prodReqToBgMap.get(rpr.Program__c));
+        }
+    }
+    childProductRequestWrapper.childCCEProductRequest = childCCEProductRequest;
+    childProductRequestWrapper.childProdReqToBgMap = childProdReqToBgMap;
+
+    return childProductRequestWrapper;    
+  }
+
+  private static Map<Id,Associated_Products__c> getAssocProductsToDecom(Map<Id,BuyerGroup> prodReqToBgMap){
+    Map<Id,Associated_Products__c> ascProductsToDecomission = new Map<Id,Associated_Products__c>();
+    List<Associated_Products__c> assocProdList = [SELECT Id, IsActive__c
+                                                    FROM Associated_Products__c
+                                                   WHERE Product_Request__c IN: prodReqToBgMap.keySet()
+                                                     AND IsActive__c = true WITH SECURITY_ENFORCED];
+    
+    for(Associated_Products__c ascProd : assocProdList){
+        ascProd.IsActive__c = false;
+        ascProductsToDecomission.put(ascProd.Id,ascProd);
       }
-      if(!ascProductsToDecomission.keySet().isEmpty()){
-        update ascProductsToDecomission.values();
-      }
+
+    return ascProductsToDecomission;
+  }
+
+  private static String getProdReqId(Product2 prod){
+    String productReqId;
+    if(prod.Course__c != null && prod.Course__r.ProductRequestID__c != null){
+      productReqId = prod.Course__r.ProductRequestID__c;
+    }else{
+      productReqId = prod.Program_Plan__r.Product_Request__c;
+    }
+    return productReqId;
+  }
+
+  private static void updateProductsToDecom(Map<Id,Product2> productsToDecomission){
+    if(!productsToDecomission.keySet().isEmpty()){
+      update productsToDecomission.values();
     }
   }
 
+  private static void updateAssocProductsToDecom(Map<Id,Associated_Products__c> ascProductsToDecomission){
+    if(!ascProductsToDecomission.keySet().isEmpty()){
+      update ascProductsToDecomission.values();
+    }
+  }
   
+  public class BuyerGroupValidationWrapper{
+    public List<Id> buyerGroupIds;
+    public Map<Id,Associated_Products__c> associatedProductsMap;
+    public Map<Id,Id> buyerGroupToProductMap;
+    public Map<Id, BuyerGroup> newBuyerGroup;
+  }
 
-
-
+  public class ChildProductRequestWrapper{
+    public Set<Id> childCCEProductRequest;
+    public Map<Id,BuyerGroup> childProdReqToBgMap;
+  }
+  
 }
