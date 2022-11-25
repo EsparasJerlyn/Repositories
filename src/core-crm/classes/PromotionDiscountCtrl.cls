@@ -20,24 +20,33 @@ public without sharing class PromotionDiscountCtrl{
       * @param couponCode - coupon enetered
       * @return discount - applicable discount
       */
+
+     private static DiscountData discountData;
+     private static Product2 product;
+
      @AuraEnabled(cacheable=true)
-     public static DiscountData getDiscount(String selectedPBId, String standardPBId, String offeringId, Boolean prescribedProgram, String couponCode) {
+     public static DiscountData getDiscount(String discountWrapper) {
+
+          DiscountWrapper parsedDiscountWrapper = new DiscountWrapper();
+          Map<Id,Set<Id>> promotionToProductMap = new Map<Id,Set<Id>>();
           
-          DiscountData discountData = new DiscountData();
+
+          if(discountWrapper != ''){
+               parsedDiscountWrapper = (DiscountWrapper) JSON.deserialize(discountWrapper, DiscountWrapper.class);
+          }
+
+          discountData = new DiscountData();
           discountData.promotionId = '';
           discountData.discount = 0;
           //get the product to search
-          Product2 product = getProduct(offeringId, prescribedProgram);
+          product = ManageRegistrationSectionHelper.getProduct(parsedDiscountWrapper.offeringId, parsedDiscountWrapper.prescribedProgram);
 
           //query the promotion
-          List<Promotion> promotionList = [
+          List<Promotion> promotionList = new  List<Promotion>([
                SELECT 
                     Id,
                     Name,
-                    IsActive,
-                    (SELECT Id, Name, CouponCode FROM PromotionCoupons),
-                    (SELECT Id, Name, AdjustmentType, AdjustmentPercent, AdjustmentAmount, TargetType, TargetId FROM PromotionTargets),
-                    (SELECT Id, Name, Promotion__c, IsActive__c, Product__c FROM Promotion_Products__r WHERE IsActive__c = true)
+                    IsActive
                FROM
                     Promotion
                WHERE
@@ -46,7 +55,7 @@ public without sharing class PromotionDiscountCtrl{
                          SELECT PromotionId
                          FROM Coupon
                          WHERE
-                         CouponCode = :couponCode
+                         CouponCode = :parsedDiscountWrapper.couponCode
                          AND Status = 'Active'
                          AND StartDateTime < :system.now()
                          AND EndDateTime > :system.now()
@@ -55,87 +64,52 @@ public without sharing class PromotionDiscountCtrl{
                          SELECT PromotionId
                          FROM PromotionTarget
                          WHERE (TargetType = 'Product' AND TargetId = :product.Id)
-                         OR (TargetType = 'ProductCategory')
+                         OR TargetType = 'ProductCategory'
                          OR TargetType = 'Transaction'
                     )
+          ]);
+
+          List<Promotion_Product__c> promotionProductsList = [
+               SELECT Id, Name, Promotion__c, IsActive__c, Product__c 
+               FROM Promotion_Product__c
+               WHERE Promotion__c IN: promotionList
           ];
+
+          List<PromotionTarget> promotionTargetList = [
+               SELECT Id, Promotion__c, Name, AdjustmentType, AdjustmentPercent, AdjustmentAmount, TargetType, TargetId 
+               FROM PromotionTarget
+               WHERE PromotionId IN: promotionList
+          ];
+
+          for(Promotion_Product__c promProd: promotionProductsList){
+               if(!promotionToProductMap.containsKey(promProd.Promotion__c)){
+                    promotionToProductMap.put(promProd.Promotion__c, new Set<Id>());
+               }
+               promotionToProductMap.get(promProd.Promotion__c).add(promProd.Product__c);
+          }
 
           //retrieve the pricebook selected and standard
           Map<Id, PricebookEntry> pbEntryMap = new Map<Id, PricebookEntry>(
                [
                     SELECT Id, Pricebook2.Name, UnitPrice
                     FROM PricebookEntry
-                    WHERE Id = :selectedPBId OR Id = :standardPBId
+                    WHERE Id = :parsedDiscountWrapper.selectedPBId OR Id = :parsedDiscountWrapper.standardPBId
                ]
           );
 
           Double discount = 0;
           Double discountedPrice;
-          Double standardPrice = pbEntryMap.get(standardPBId).UnitPrice;
-          Double selectedPrice = pbEntryMap.get(selectedPBId).UnitPrice;
+          Double standardPrice = pbEntryMap.get(parsedDiscountWrapper.standardPBId).UnitPrice;
+          Double selectedPrice = pbEntryMap.get(parsedDiscountWrapper.selectedPBId).UnitPrice;
 
           //if no promotion retrieved with the criteria
-          if(promotionList.size() == 0){
+          if(promotionList.isEmpty()){
                //set to -1 to identify as invalid coupon
                discount = -1;
           }
 
-          //loop on all the options
-          for (Promotion currentPromotion : promotionList) {
-               discountData.promotionId = currentPromotion.Id;
+          discount = calculateDiscount(promotionTargetList,promotionToProductMap,standardPrice);
 
-               //loop in the PromotionTarget for in case of multiple promotions
-               for (PromotionTarget currentPromotionTarget : currentPromotion.PromotionTargets){
-
-                    //check if targetype is per product or total transaction
-                    if(currentPromotionTarget.TargetType == 'Transaction'){
-
-                         if (currentPromotionTarget.AdjustmentType == 'PercentageDiscount') {
-                              //set the discount amount
-                              discount = ((standardPrice * currentPromotionTarget.AdjustmentPercent) / 100).setScale(2);
-                         }
-               
-                    //else if for product specific
-                    } else if(currentPromotionTarget.TargetType == 'Product'){
-
-                         if (currentPromotionTarget.AdjustmentType == 'FixedAmountOffLineItemTotal' || currentPromotionTarget.AdjustmentType == 'FixedAmountOffUnitPrice'){
-                              //set the discount amount
-                              discount = (currentPromotionTarget.AdjustmentAmount).setScale(2);
-
-                         } else if (currentPromotionTarget.AdjustmentType == 'PercentageDiscount'){
-                              //set the discount amount
-                              discount = ((standardPrice * currentPromotionTarget.AdjustmentPercent) / 100).setScale(2);
-                         } 
-
-                     //else if for product category
-                    } else if(currentPromotionTarget.TargetType == 'ProductCategory'){
-
-                         //create a set of product Ids that are present in the Promotion_Products__r
-                         Set<String> productPromotionIds = new Set<String>();
-                         for (Promotion_Product__c currentPromotionProduct : currentPromotion.Promotion_Products__r) {
-                              productPromotionIds.add(currentPromotionProduct.Product__c);
-                         }
-
-                         //check if the product is found in the Promotion_Products__c
-                         if(productPromotionIds.contains(product.Id)){
-
-                              if (currentPromotionTarget.AdjustmentType == 'FixedAmountOffLineItemTotal' || currentPromotionTarget.AdjustmentType == 'FixedAmountOffUnitPrice'){
-                                   //set the discount amount
-                                   discount = (currentPromotionTarget.AdjustmentAmount).setScale(2);
-     
-                              } else if (currentPromotionTarget.AdjustmentType == 'PercentageDiscount'){
-                                   //set the discount amount
-                                   discount = ((standardPrice * currentPromotionTarget.AdjustmentPercent) / 100).setScale(2);
-                              } 
-
-                         //else not found
-                         }else{
-                              //set to -1 to identify as invalid coupon
-                              discount = -1;
-                         }
-                    }
-               }
-          }
 
           //set the maximum discount to the standard price only
           if(discount > standardPrice){
@@ -155,64 +129,75 @@ public without sharing class PromotionDiscountCtrl{
           return discountData;
      }
 
-     /**
-     * Retrieves Product based on offering id
-     * @param <Id> offeringId
-     * @return Id
-     */
-    public static Product2 getProduct(Id offeringId, Boolean isPrescribedProgram){
-     Product2 response = new Product2();
+     public static Decimal calculateDiscount(List<PromotionTarget> promotionTargetList, Map<Id,Set<Id>> promotionToProductMap, Double standardPrice){
 
-     Id filter;
-     Id prodId;
+          Decimal discount = 0;
+          
+          for(PromotionTarget currentPromotionTarget: promotionTargetList){
 
-     List<Product2> productList = new List<Product2>();
+               discountData.promotionId = currentPromotionTarget.Promotion__c;
 
-     if(!isPrescribedProgram){
+               //check if targetype is per product or total transaction
+               if(  currentPromotionTarget.TargetType == 'Transaction' &&
+                    currentPromotionTarget.AdjustmentType == 'PercentageDiscount'){
+                         //set the discount amount
+                         discount = ((standardPrice * currentPromotionTarget.AdjustmentPercent) / 100).setScale(2);
 
-          List<hed__Course_Offering__c> courseOfferingList = [
-               SELECT Id, hed__Course__c 
-               FROM hed__Course_Offering__c 
-               WHERE Id =: offeringId 
-               WITH SECURITY_ENFORCED
-               LIMIT 1];
+               //else if for product specific
+               }else if(currentPromotionTarget.TargetType == 'Product'){
 
-          for(hed__Course_Offering__c courseOffering : courseOfferingList){
-               filter = courseOffering.hed__Course__c;
+                    if (currentPromotionTarget.AdjustmentType == 'FixedAmountOffLineItemTotal' || currentPromotionTarget.AdjustmentType == 'FixedAmountOffUnitPrice'){
+                         //set the discount amount
+                         discount = (currentPromotionTarget.AdjustmentAmount).setScale(2);
+
+                    } else if (currentPromotionTarget.AdjustmentType == 'PercentageDiscount'){
+                         //set the discount amount
+                         discount = ((standardPrice * currentPromotionTarget.AdjustmentPercent) / 100).setScale(2);
+                    } 
+
+                //else if for product category
+               }else if(currentPromotionTarget.TargetType == 'ProductCategory'){
+
+                    //check if the product is found in the Promotion_Products__c
+                    if(promotionToProductMap.containsKey(currentPromotionTarget.Promotion__c) && promotionToProductMap.get(currentPromotionTarget.Promotion__c).contains(product.Id)){
+
+                         if (currentPromotionTarget.AdjustmentType == 'FixedAmountOffLineItemTotal' || currentPromotionTarget.AdjustmentType == 'FixedAmountOffUnitPrice'){
+                              //set the discount amount
+                              discount = (currentPromotionTarget.AdjustmentAmount).setScale(2);
+
+                         } else if (currentPromotionTarget.AdjustmentType == 'PercentageDiscount'){
+                              //set the discount amount
+                              discount = ((standardPrice * currentPromotionTarget.AdjustmentPercent) / 100).setScale(2);
+                         } 
+
+                    //else not found
+                    }else{
+                         //set to -1 to identify as invalid coupon
+                         discount = -1;
+                    }
+               }
           }
-          productList = [
-               SELECT Id, Name, Product_Category__c 
-               FROM Product2
-               WHERE Course__c =: filter
-               WITH SECURITY_ENFORCED];
-     }else{
-          List<Program_Offering__c> programOfferingList = [
-               SELECT Id, hed_Program_Plan__c 
-               FROM Program_Offering__c 
-               WHERE Id =: offeringId
-               WITH SECURITY_ENFORCED
-               LIMIT 1];
-          for(Program_Offering__c programOffering : programOfferingList){
-               filter = programOffering.hed_Program_Plan__c;
-          }
-          productList = [
-               SELECT Id, Name, Product_Category__c 
-               FROM Product2 
-               WHERE Program_Plan__c  =: filter
-               WITH SECURITY_ENFORCED];
+
+          return discount;
      }
 
-     for(Product2 prod : productList){
-          response = prod;
-     }
-
-     return response;
-}
-
-     private class DiscountData {
+     public class DiscountData {
           @AuraEnabled 
           public Double discount;
           @AuraEnabled 
           public String promotionId;
+     }
+
+     public class DiscountWrapper {
+          @AuraEnabled 
+          public String standardPBId;
+          @AuraEnabled 
+          public String selectedPBId;
+          @AuraEnabled 
+          public String offeringId;
+          @AuraEnabled 
+          public Boolean prescribedProgram;
+          @AuraEnabled 
+          public String couponCode;
      }
 }

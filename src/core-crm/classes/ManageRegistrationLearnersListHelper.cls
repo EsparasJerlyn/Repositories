@@ -187,7 +187,7 @@ public without sharing class ManageRegistrationLearnersListHelper{
                 if(studentRecord.Program_Offering__c != null){
  
                      List<hed__Course_Enrollment__c> students = [
-                          SELECT Id, Paid_in_Full__c, Pricing_Validation__c 
+                          SELECT Id, Paid_in_Full__c, Pricing_Validation__c, hed__Status__c
                           FROM hed__Course_Enrollment__c 
                           WHERE hed__Course_Offering__c != NULL 
                           AND Program_Offering__c =: studentRecord.Program_Offering__c
@@ -225,7 +225,7 @@ public without sharing class ManageRegistrationLearnersListHelper{
      /**
       * @description Wrapper class that holds data to be displayed
       */
-     private class ManageRegistrationDetails{
+     public class ManageRegistrationDetails{
           @AuraEnabled
           public hed__Course_Enrollment__c enrolmentDetails;
           @AuraEnabled

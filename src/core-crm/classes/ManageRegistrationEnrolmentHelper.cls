@@ -20,14 +20,9 @@ public with sharing class ManageRegistrationEnrolmentHelper{
      private static string studentProgramRT = System.Label.RT_CourseConnection_Student_Program;
      private static Id studentProgramRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(studentProgramRT).getRecordTypeId();
 
-
-
      /**
-     * @description get list of contacts searched
-     * @param contactRecord - contact to create
-     * @param courseOfferingId - course offering id
-     * @param relatedAnswerList - related answer records
-     * @param answerList - answer records to be inserted
+     * @description enroll the contact
+     * @param contactRecord - registrationData
      * @param fileUpload - file to upload
      */
     @AuraEnabled
@@ -96,6 +91,7 @@ public with sharing class ManageRegistrationEnrolmentHelper{
               //get product related to the offering
               Product2 product = ManageRegistrationSectionHelper.getProduct(offeringId, prescribedProgram);
 
+              //check product category
               Boolean isTailored = product != null && product.Product_Category__c == TAILORED_EXECUTIVE_PROGRAM?true:false;
 
               enrolmentResult.contactId = enrollmentProcessingReturn.contactId;

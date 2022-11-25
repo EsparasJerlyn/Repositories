@@ -1033,14 +1033,16 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
             return;
         }
 
+        let discountWrapper = {};
+        discountWrapper.standardPBId = this.pbEntryStandardRecord.id;
+        discountWrapper.selectedPBId = this.pbEntryRecord;
+        discountWrapper.offeringId = this.childRecordId;
+        discountWrapper.prescribedProgram = this.prescribedProgram;
+        discountWrapper.couponCode = this.couponCode;
 
         //function to get the discount of the product
         getDiscount({
-            selectedPBId: this.pbEntryRecord,
-            standardPBId: this.pbEntryStandardRecord.id,
-            offeringId: this.childRecordId,
-            prescribedProgram: this.prescribedProgram,
-            couponCode: couponCode
+            discountWrapper:JSON.stringify(discountWrapper)
         })
         .then((data) => {
 
