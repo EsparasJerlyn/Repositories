@@ -269,7 +269,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   @track isOkay;
 
   //asset available credit
-	assetAvailable;
+  assetAvailable;
 
   //Bulk Reg name to Group registration 
   groupBulkName;
@@ -382,7 +382,11 @@ export default class ProductDetailsDisplay extends NavigationMixin(
       } else {
         this.deliveryOpt = this.productDetails.Delivery__c.replaceAll(";", ",");
         this.deliverySplit = this.deliveryOpt.split(",");
-        this.selectedDelivery = this.deliverySplit;
+        if(this.deliveryOptions.length > 0){
+          this.selectedDelivery = this.deliveryOptions[0].value;
+        }else{
+          this.selectedDelivery = this.deliverySplit;
+        }
       }
 
       getRelatedCourseOffering({
@@ -1078,28 +1082,28 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   addToCartModalClosed() {
     this.isModalMessage = false;
   }
-	bulkRegistration() {
+  bulkRegistration() {
     if(this.qutexLearningSolutionsCategoryBulkReg == true){
       this.openGroupBookingModalBulkRegistration = true;
     } else {
-		if(this.productCategory == 'Corporate Bundle'){
-			assetRecordData({
-				Pricebook2Id: this.productDetails.PricebookEntries[0].Pricebook2.Id
-			})
-			.then((results) => {
-				this.assetAvailable = results.Remaining_Value__c;
-		      this.displayCsvBulkRegistration = true;
-				
-			})
-			.catch((e) => {
-				this.generateToast("Error.", LWC_Error_General, "error");
-				console.log('This error');
-				console.log(e);
-			});
-		}else{
-			this.displayCsvBulkRegistration = true;
+    if(this.productCategory == 'Corporate Bundle'){
+      assetRecordData({
+        Pricebook2Id: this.productDetails.PricebookEntries[0].Pricebook2.Id
+      })
+      .then((results) => {
+        this.assetAvailable = results.Remaining_Value__c;
+          this.displayCsvBulkRegistration = true;
+        
+      })
+      .catch((e) => {
+        this.generateToast("Error.", LWC_Error_General, "error");
+        console.log('This error');
+        console.log(e);
+      });
+    }else{
+      this.displayCsvBulkRegistration = true;
 
-		}
+    }
   }
   }
   closeRegisterModal() {
