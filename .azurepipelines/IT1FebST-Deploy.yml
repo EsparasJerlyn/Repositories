@@ -3,6 +3,8 @@ name: "IT1FebST Deploy (Triggered)"
 #Getting ENV Variables.
 variables:
   - group: IT1FebST
+  - group: SF_CICD
+
 resources:
   repositories:
     - repository: SFDX-PIPELINES
@@ -19,10 +21,6 @@ trigger:
   branches:
     include:
       - $(BRANCH_LISTENED)
-
-#Custom Variables
-variables:
-  - group: SF_CICD
 
 parameters:
 - name: INCLUDE_SANDBOX_REFRESH_STEP_LoadUsers

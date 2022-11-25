@@ -2,6 +2,7 @@ name: "IT1FebCI Deploy (Triggered on creation of PR)"
 #Getting ENV Variables.
 variables:
   - group: IT1FebCI
+   - group: SF_CICD
 
 resources:
   repositories:
@@ -24,9 +25,6 @@ pr:
     include:
       - $(BRANCH_LISTENED)
 
-#Custom Variables
-variables:
-  - group: SF_CICD
 
 parameters:
 - name: INCLUDE_SANDBOX_REFRESH_STEP_LoadUsers
