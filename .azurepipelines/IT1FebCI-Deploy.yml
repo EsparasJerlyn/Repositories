@@ -1,4 +1,7 @@
 name: "IT1FebCI Deploy (Triggered on creation of PR)"
+#Getting ENV Variables.
+variables:
+  - group: IT1FebCI
 
 resources:
   repositories:
@@ -19,7 +22,7 @@ pr:
   drafts: false
   branches:
     include:
-      - release/IT2
+      - $(BRANCH_LISTENED)
 
 #Custom Variables
 variables:

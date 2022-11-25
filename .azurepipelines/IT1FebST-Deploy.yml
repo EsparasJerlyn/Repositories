@@ -1,5 +1,8 @@
 name: "IT1FebST Deploy (Triggered)"
 
+#Getting ENV Variables.
+variables:
+  - group: IT1FebST
 resources:
   repositories:
     - repository: SFDX-PIPELINES
@@ -15,7 +18,7 @@ trigger:
   batch: true
   branches:
     include:
-      - release/IT2
+      - $(BRANCH_LISTENED)
 
 #Custom Variables
 variables:
