@@ -1,5 +1,10 @@
 name: "IT1FebST Deploy (Triggered)"
 
+#Getting ENV Variables.
+variables:
+  - group: IT1FebST
+  - group: SF_CICD
+
 resources:
   repositories:
     - repository: SFDX-PIPELINES
@@ -15,11 +20,7 @@ trigger:
   batch: true
   branches:
     include:
-      - release/IT2
-
-#Custom Variables
-variables:
-  - group: SF_CICD
+      - $(BRANCH_LISTENED)
 
 parameters:
 - name: INCLUDE_SANDBOX_REFRESH_STEP_LoadUsers
@@ -48,7 +49,7 @@ stages:
         timeoutInMinutes: 600
         pool:
           vmImage: "ubuntu-latest"
-        container: adammbest/sfdx:latest
+        container: adammbest/sfdx:1.2
         environment: "IT1FebST"
         variables:
           - group: IT1FebST
