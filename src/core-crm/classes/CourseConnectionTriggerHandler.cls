@@ -316,7 +316,8 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
     //PROGRAM PLAN
     if(!programPlanIdSet.isEmpty() || !courseIdSet.isEmpty()){
       for(Product2 product : [  SELECT Id,
-                                Program_Plan__c
+                                Program_Plan__c,
+                                Course__c
                                 FROM Product2
                                 WHERE (Delivery__c INCLUDES ('Online Self-paced')
                                   OR Primary_Delivery_Platform__c = 'Blackboard')
@@ -324,9 +325,9 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
                                   OR Course__c IN: courseIdSet)]){
 
         if(productCourseConnectionMap.containsKey(product.Program_Plan__c)){
-        validContactForEmail.add(productCourseConnectionMap.get(product.Program_Plan__c).hed__Contact__c);
+          validContactForEmail.add(productCourseConnectionMap.get(product.Program_Plan__c).hed__Contact__c);
         }else if(productCourseConnectionMap.containsKey(product.Course__c)){
-        validContactForEmail.add(productCourseConnectionMap.get(product.Course__c).hed__Contact__c);
+          validContactForEmail.add(productCourseConnectionMap.get(product.Course__c).hed__Contact__c);
         }                    
       }
     }

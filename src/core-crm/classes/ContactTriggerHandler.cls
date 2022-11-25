@@ -291,7 +291,8 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
     //course/program plan
     if(!programPlanIdSet.isEmpty() || !courseIdSet.isEmpty()){
         for(Product2 product : [SELECT Id,
-                                Program_Plan__c
+                                Program_Plan__c,
+                                Course__c
                                 FROM Product2
                                 WHERE Delivery__c INCLUDES ('Online Self-paced')
                                 AND (Program_Plan__c IN: programPlanIdSet
