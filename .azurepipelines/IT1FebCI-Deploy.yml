@@ -2,7 +2,7 @@ name: "IT1FebCI Deploy (Triggered on creation of PR)"
 #Getting ENV Variables.
 variables:
   - group: IT1FebCI
-   - group: SF_CICD
+  - group: SF_CICD
 
 resources:
   repositories:
