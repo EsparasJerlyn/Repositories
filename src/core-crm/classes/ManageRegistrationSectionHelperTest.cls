@@ -93,8 +93,8 @@ public class ManageRegistrationSectionHelperTest {
                for(PricebookEntry pbe : pbeList){ pbeId = pbe.Id; }
 
                Test.startTest();
-               ManageRegistrationWrapper.EnrolmentResultClass enrolmentResult = new ManageRegistrationWrapper.EnrolmentResultClass();
-               ManageRegistrationWrapper.RegistrationData registrationData = new ManageRegistrationWrapper.RegistrationData();
+               ManageRegistrationEnrolmentHelper.EnrolmentResultClass enrolmentResult = new ManageRegistrationEnrolmentHelper.EnrolmentResultClass();
+               ManageRegistrationSectionHelper.RegistrationData registrationData = new ManageRegistrationSectionHelper.RegistrationData();
 
                registrationData.contactRecord = learnerContact;
                registrationData.offeringId = cOfferingId;
@@ -174,8 +174,8 @@ public class ManageRegistrationSectionHelperTest {
                for(PricebookEntry pbe : pbeList){ pbeId = pbe.Id; }
 
                Test.startTest();
-               ManageRegistrationWrapper.EnrolmentResultClass enrolmentResult = new ManageRegistrationWrapper.EnrolmentResultClass();
-               ManageRegistrationWrapper.RegistrationData registrationData = new ManageRegistrationWrapper.RegistrationData();
+               ManageRegistrationEnrolmentHelper.EnrolmentResultClass enrolmentResult = new ManageRegistrationEnrolmentHelper.EnrolmentResultClass();
+               ManageRegistrationSectionHelper.RegistrationData registrationData = new ManageRegistrationSectionHelper.RegistrationData();
 
                registrationData.contactRecord = learnerContact;
                registrationData.offeringId = cOfferingId;

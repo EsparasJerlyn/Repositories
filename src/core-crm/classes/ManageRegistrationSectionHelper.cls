@@ -82,12 +82,12 @@ public with sharing class ManageRegistrationSectionHelper{
      }
 
 
-     public static ManageRegistrationWrapper.EnrolmentResultClass processEnrollmentWithPricing(
-          ManageRegistrationWrapper.RegistrationData parsedRegistrationData, 
+     public static ManageRegistrationEnrolmentHelper.EnrolmentResultClass processEnrollmentWithPricing(
+          RegistrationData parsedRegistrationData, 
           Contact finalContactRecord, 
           Product2 product){
           
-          ManageRegistrationWrapper.EnrolmentResultClass enrollmentProcessingReturn = new ManageRegistrationWrapper.EnrolmentResultClass();
+          ManageRegistrationEnrolmentHelper.EnrolmentResultClass enrollmentProcessingReturn = new ManageRegistrationEnrolmentHelper.EnrolmentResultClass();
           ManageRegistrationEnrolmentHelper.EnrolmentCreationParamClass enrolmentParam;
           Map<String,Asset> assetRecord = new Map<String,Asset>();
 
@@ -135,7 +135,7 @@ public with sharing class ManageRegistrationSectionHelper{
                                         AND Status = 'Active' 
                                         LIMIT 1].External_Id__c; 
 
-               ManageRegistrationWrapper.PaymentUrlClass urlObj = new ManageRegistrationWrapper.PaymentUrlClass();
+               PaymentUrlClass urlObj = new PaymentUrlClass();
 
                urlObj.CartExternalId = externalId;
                urlObj.Email = finalContactRecord.Email;
@@ -144,7 +144,7 @@ public with sharing class ManageRegistrationSectionHelper{
                urlObj.ProductName = product.Name;
                urlObj.IsCCE = isSOAPricing;
 
-               String paymentURL = ManageRegistrationEnrolmentHelper.paymentGatewayURLBuilder(urlObj);
+               String paymentURL = paymentGatewayURLBuilder(urlObj);
      
                WebCart webCartToClose = new WebCart(
                     Id = newWebCart.Id,
@@ -217,7 +217,49 @@ public with sharing class ManageRegistrationSectionHelper{
           return enrollmentProcessingReturn;
      }
 
-     public static void processQuestionnaireData(ManageRegistrationWrapper.RegistrationData parsedRegistrationData, String fileUpload){
+     
+
+     /**
+      * Generates Payment Gateway URL based on the provided parameters
+      * @param PaymentUrlClass contains paymenturl required details
+      * @return String - URL Generated
+      */
+      public static String paymentGatewayURLBuilder(PaymentUrlClass urlObj){
+
+          Payment_Gateway_Settings__c paymentGatewaySettings = Payment_Gateway_Settings__c.getorgdefaults();
+          CCE_Payment_Gateway_Settings__c paymentGatewaySettingsCCE = CCE_Payment_Gateway_Settings__c.getorgdefaults();
+
+          String baseURL = '';
+          String transactionId = '';
+          String description = '';
+          String tranType = '';
+          String glCode = '';
+
+          if(urlObj.IsCCE){
+               baseURL = paymentGatewaySettingsCCE.Payment_URL__c;
+               transactionId = '&CCETransactionID=';
+               description = '&CCEDescription=';
+               tranType = paymentGatewaySettingsCCE.TransType_Invoice__c;
+               glCode = paymentGatewaySettingsCCE.GL_Code__c;
+          }else{
+               baseURL = paymentGatewaySettings.Payment_URL__c;
+               transactionId ='&OPETransactionID=';
+               description = '&OPEDescription=';
+               tranType = paymentGatewaySettings.TransType_Invoice__c;
+               glCode = paymentGatewaySettings.GL_Code__c;
+          }
+
+          return baseURL +
+               'tran-type=' + tranType +
+               transactionId + urlObj.CartExternalId +
+               '&Email=' + urlObj.Email.replace('@', '%40') +
+               '&GLCode=' + glCode +
+               '&FullName=' + urlObj.Name +
+               description + urlObj.ProductName +
+               '&UnitAmountIncTax=' + String.valueOf(urlObj.Amount);
+     }
+
+     public static void processQuestionnaireData(RegistrationData parsedRegistrationData, String fileUpload){
 
           //set registration data into separate readable variables
           List<Related_Answer__c> relatedAnswerList = parsedRegistrationData.relatedAnswerList;
@@ -402,5 +444,41 @@ public with sharing class ManageRegistrationSectionHelper{
           private String fileName;
           private String relatedAnswerId;
       }
+
+      public class PaymentUrlClass{
+          @AuraEnabled
+          public String cartExternalId;
+          @AuraEnabled
+          public String email;
+          @AuraEnabled
+          public String name;
+          @AuraEnabled
+          public Decimal amount;
+          @AuraEnabled
+          public String productName;
+          @AuraEnabled
+          public Boolean isCCE;
+     }
+
+     public class RegistrationData{
+          @AuraEnabled
+          public Contact contactRecord;
+          @AuraEnabled
+          public String offeringId;
+          @AuraEnabled
+          public List<Related_Answer__c> relatedAnswerList;
+          @AuraEnabled
+          public List<Answer__c> answerList;
+          @AuraEnabled
+          public Boolean prescribedProgram;
+          @AuraEnabled
+          public Id priceBookEntryId;
+          @AuraEnabled
+          public Boolean isProceedNoInvoice;
+          @AuraEnabled
+          public Decimal discountAmount;
+          @AuraEnabled
+          public Id promotionId;
+     }
 
 }

@@ -26,19 +26,20 @@ public with sharing class ManageRegistrationEnrolmentHelper{
      * @param fileUpload - file to upload
      */
     @AuraEnabled
-    public static ManageRegistrationWrapper.EnrolmentResultClass addRegistration(String registrationData, String fileUpload){
+    public static EnrolmentResultClass addRegistration(String registrationData, String fileUpload){
          
-         ManageRegistrationWrapper.EnrolmentResultClass enrolmentResult = new ManageRegistrationWrapper.EnrolmentResultClass();
-         ManageRegistrationWrapper.EnrolmentResultClass validationReturn = new ManageRegistrationWrapper.EnrolmentResultClass();
-         ManageRegistrationWrapper.EnrolmentResultClass enrollmentProcessingReturn = new ManageRegistrationWrapper.EnrolmentResultClass();
+         EnrolmentResultClass enrolmentResult = new EnrolmentResultClass();
+         EnrolmentResultClass validationReturn = new EnrolmentResultClass();
+         EnrolmentResultClass enrollmentProcessingReturn = new EnrolmentResultClass();
+
          String contactRecName;
          Contact finalContactRecord = new Contact();
          enrolmentResult.isContactInputValid = true;
          
          //deserialize registration data in JSON format from lwc
-         ManageRegistrationWrapper.RegistrationData parsedRegistrationData = new ManageRegistrationWrapper.RegistrationData();
+         ManageRegistrationSectionHelper.RegistrationData parsedRegistrationData = new ManageRegistrationSectionHelper.RegistrationData();
          if(registrationData != ''){
-              parsedRegistrationData = (ManageRegistrationWrapper.RegistrationData) JSON.deserialize(registrationData, ManageRegistrationWrapper.RegistrationData.class);
+              parsedRegistrationData = (ManageRegistrationSectionHelper.RegistrationData) JSON.deserialize(registrationData, ManageRegistrationSectionHelper.RegistrationData.class);
          }
 
          //set registration data into separate readable variables
@@ -123,8 +124,8 @@ public with sharing class ManageRegistrationEnrolmentHelper{
     }
 
 
-     public static ManageRegistrationWrapper.EnrolmentResultClass validatedContacts(List<Contact> contactList){
-          ManageRegistrationWrapper.EnrolmentResultClass validationReturn = new ManageRegistrationWrapper.EnrolmentResultClass();
+     public static EnrolmentResultClass validatedContacts(List<Contact> contactList){
+          EnrolmentResultClass validationReturn = new EnrolmentResultClass();
           List<Contact> contactListToUpsert = new List<Contact>();
           List<RegistrationMatchingHelper.ContactMatchingResponse> contactsValidated = RegistrationMatchingHelper.validateContactMatching(JSON.serialize(contactList));
                for(RegistrationMatchingHelper.ContactMatchingResponse contactValidated: contactsValidated){
@@ -309,101 +310,6 @@ public with sharing class ManageRegistrationEnrolmentHelper{
           return courseConnectionList;
      }
 
-     /**
-      * Generates Payment Gateway URL based on the provided parameters
-      * @param PaymentUrlClass contains paymenturl required details
-      * @return String - URL Generated
-      */
-      public static String paymentGatewayURLBuilder(ManageRegistrationWrapper.PaymentUrlClass urlObj){
-
-          Payment_Gateway_Settings__c paymentGatewaySettings = Payment_Gateway_Settings__c.getorgdefaults();
-          CCE_Payment_Gateway_Settings__c paymentGatewaySettingsCCE = CCE_Payment_Gateway_Settings__c.getorgdefaults();
-
-          String baseURL = '';
-          String transactionId = '';
-          String description = '';
-          String tranType = '';
-          String glCode = '';
-
-          if(urlObj.IsCCE){
-               baseURL = paymentGatewaySettingsCCE.Payment_URL__c;
-               transactionId = '&CCETransactionID=';
-               description = '&CCEDescription=';
-               tranType = paymentGatewaySettingsCCE.TransType_Invoice__c;
-               glCode = paymentGatewaySettingsCCE.GL_Code__c;
-          }else{
-               baseURL = paymentGatewaySettings.Payment_URL__c;
-               transactionId ='&OPETransactionID=';
-               description = '&OPEDescription=';
-               tranType = paymentGatewaySettings.TransType_Invoice__c;
-               glCode = paymentGatewaySettings.GL_Code__c;
-          }
-
-          return baseURL +
-               'tran-type=' + tranType +
-               transactionId + urlObj.CartExternalId +
-               '&Email=' + urlObj.Email.replace('@', '%40') +
-               '&GLCode=' + glCode +
-               '&FullName=' + urlObj.Name +
-               description + urlObj.ProductName +
-               '&UnitAmountIncTax=' + String.valueOf(urlObj.Amount);
-     }
-
-
-     /**
-      * Generates Payment Gateway URL based on the provided parameters
-      * @param list of course connections
-      * @param boolean - tells the method if enrollment is CCE or OPE
-      * @param string - student email where invoice is sent
-      * @return String - URL Generated
-      */
-      public static String paymentGatewayURLBuilder(List<hed__Course_Enrollment__c> enrollmentList, Boolean isCCE, String studentEmail){
-
-          Payment_Gateway_Settings__c paymentGatewaySettings = Payment_Gateway_Settings__c.getorgdefaults();
-          CCE_Payment_Gateway_Settings__c paymentGatewaySettingsCCE = CCE_Payment_Gateway_Settings__c.getorgdefaults();
-
-          String baseURL = '';
-          String transactionId = '';
-          String descriptionLabel = '';
-          String tranType = '';
-          String glCode = '';
-
-          if(isCCE){
-               baseURL = paymentGatewaySettingsCCE.Payment_URL__c;
-               transactionId = '&CCETransactionID=';
-               descriptionLabel = '&CCEDescription=';
-               tranType = paymentGatewaySettingsCCE.TransType_Invoice__c;
-               glCode = paymentGatewaySettingsCCE.GL_Code__c;
-          }else{
-               baseURL = paymentGatewaySettings.Payment_URL__c;
-               transactionId ='&OPETransactionID=';
-               descriptionLabel = '&OPEDescription=';
-               tranType = paymentGatewaySettings.TransType_Invoice__c;
-               glCode = paymentGatewaySettings.GL_Code__c;
-          }
-
-          String formURL =    'tran-type=' + tranType + 
-                              transactionId + enrollmentList[0].Cart_ID__r.External_Id__c + '&' + 
-                              'Email=' + studentEmail.replace('@','%40') + '&' + 
-                              'GLCode=' + glCode + '&';
-
-          String description = '';
-
-          //construct the invoice URL
-          //contact name, product name, price is looped
-          for(hed__Course_Enrollment__c student: enrollmentList){
-               description = description + 'FullName=' + student.Cart_Item__r.Contact__r.Name.replace(' ','%20');
-               description = description + descriptionLabel + student.Cart_Item__r.Product2.Name.replace(' ','%20') + '&' + 'UnitAmountIncTax=';
-               Decimal totalPrice = student.Cart_Item__r.TotalPrice != null?student.Cart_Item__r.TotalPrice:0;
-               Decimal promotionPrice = student.Cart_Item__r.Promotion_Price__c != null?student.Cart_Item__r.Promotion_Price__c:0;
-               Decimal tempPrice = totalPrice - promotionPrice;
-               description = description + tempPrice + '&';
-               
-          }
-          
-          return baseURL + formURL + description.removeEnd('&');
-     }
-
      public class EnrolmentCreationParamClass{
           @AuraEnabled
           public Id contactId;
@@ -426,4 +332,18 @@ public with sharing class ManageRegistrationEnrolmentHelper{
           @AuraEnabled
           public PricebookEntry priceBookEntry;
      }
+
+     public class EnrolmentResultClass{
+          @AuraEnabled
+          public Boolean isContactInputValid;
+          @AuraEnabled
+          public String contactId;
+          @AuraEnabled
+          public String paymentURL;
+          @AuraEnabled
+          public String contactName;
+          @AuraEnabled
+          public String contactValidationResponse;
+     }
+
 }

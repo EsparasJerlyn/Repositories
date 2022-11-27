@@ -1,6 +1,6 @@
 /**
- * @description ProgramOfferingTriggerHandler Test Class
- * @see ProgramOfferingTriggerHandler
+ * @description PromotionDiscountCtrl Test Class
+ * @see PromotionDiscountCtrl
  *
  * @author Accenture
  *
@@ -8,9 +8,7 @@
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
-      | roy.nino.s.regala              | April 26, 2022        | DEPP-1687              | Created file                 |
-      | roy.nino.s.regala              | June 04, 2022         | DEPP-2876              | Created file                 |
-      | eugene.andrew.abuan            | July 31, 2022         | DEPP-3534              | Added Before Update test     |
+      | roy.nino.s.regala              | Nov 27, 2022          | DEPP-4721              | Created file                 |
 
  */
 @isTest

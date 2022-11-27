@@ -96,8 +96,8 @@ public class ManageRegistrationEnrolmentHelperTest {
                for(PricebookEntry pbe : pbeList){ pbeId = pbe.Id; }
 
                Test.startTest();
-               ManageRegistrationWrapper.EnrolmentResultClass enrolmentResult = new ManageRegistrationWrapper.EnrolmentResultClass();
-               ManageRegistrationWrapper.RegistrationData registrationData = new ManageRegistrationWrapper.RegistrationData();
+               ManageRegistrationEnrolmentHelper.EnrolmentResultClass enrolmentResult = new ManageRegistrationEnrolmentHelper.EnrolmentResultClass();
+               ManageRegistrationSectionHelper.RegistrationData registrationData = new ManageRegistrationSectionHelper.RegistrationData();
 
                registrationData.contactRecord = learnerContact;
                registrationData.offeringId = cOfferingId;
@@ -117,94 +117,12 @@ public class ManageRegistrationEnrolmentHelperTest {
      }
 
      @isTest
-     static void addRegistrationExistingContactTest(){
-          final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
-          System.runAs(PORTAL_SYS_ADMIN){
-               Account portalAccount = new Account(Name='TestAccount', OwnerId = PORTAL_SYS_ADMIN.Id);
-               Database.insert(portalAccount);
-
-               Contact learnerContact = new Contact(FirstName = 'learner', LastName = 'test', AccountId = portalAccount.Id, Email = 'testqtest@emailemail.com', Registered_Email__c ='learner@email.com', Birthdate = Date.newInstance(1991, 2, 17), MobilePhone ='012345');
-               Contact newContact = new Contact(RecordTypeId = RT_CONTACT_PERSON_ID, FirstName = 'testqtest', LastName = 'testqtest', AccountId = portalAccount.Id, Email = 'testqtest2@emailemail.com', Registered_Email__c ='testqtest2@emailemail.com', Birthdate = Date.newInstance(1990, 2, 17), MobilePhone ='012345');
-               insert newContact;
-
-               User portalUser = TestDataFactory.createPortalUserRecords(1, 'Corporate Partner User', newContact.Id).iterator().next();
-               Database.insert(portalUser);
-
-               WebStore testWebStore = new WebStore(
-                    Name = 'Study',
-                    DefaultLanguage = 'en_US'
-               );
-               insert testWebStore;
-
-               WebCart cart = new WebCart(
-                    Name = 'Cart',
-                    AccountId = portalAccount.Id,
-                    Status = 'Closed',
-                    Status__c = 'Active',
-                    WebStoreId = testWebStore.Id,
-                    OwnerId = portalUser.Id
-               );
-               insert cart;
-
-               String cOfferingId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;
-               Id relatedQuestionnaireId = [SELECT Id FROM Questionnaire__c  LIMIT 1].Id;
-
-               List<Question__c> questionList = TestDataFactory.createTestQuestionRecords(5);
-               insert questionList;
-
-               List<Related_Answer__c> relatedAnswers = TestDataFactory.createTestRelatedAnswerRecords(5,relatedQuestionnaireId,questionList);
-               insert relatedAnswers;
-               List<FileUpload> fileLoadList = new List<FileUpload>();
-               List<Answer__c> answerList = new List<Answer__c>();
-               Answer__c newAnswer;
-               FileUpload fileLoad = new FileUpload();
-               for(Related_Answer__c relatedA: relatedAnswers){
-                    newAnswer = new Answer__c(
-                         Response__c = relatedA.Id,
-                         Related_Answer__c = relatedA.Id
-                    );
-                    answerList.add(newAnswer);
-
-                    fileLoad.base64 = 'Test Content';
-                    fileLoad.fileName = relatedA.Id;
-                    fileLoad.relatedAnswerId = relatedA.Id;
-
-                    fileLoadList.add(fileLoad);
-               }
-
-               Id pbeId;
-               List<PricebookEntry> pbeList = [SELECT Id FROM PricebookEntry LIMIT 1];
-               for(PricebookEntry pbe : pbeList){ pbeId = pbe.Id; }
-
-               Test.startTest();
-               ManageRegistrationWrapper.EnrolmentResultClass enrolmentResult = new ManageRegistrationWrapper.EnrolmentResultClass();
-               ManageRegistrationWrapper.RegistrationData registrationData = new ManageRegistrationWrapper.RegistrationData();
-
-               
-               newContact.Id = null;
-               registrationData.contactRecord = newContact;
-               registrationData.offeringId = cOfferingId;
-               registrationData.relatedAnswerList = relatedAnswers;
-               registrationData.answerList = answerList;
-               registrationData.prescribedProgram = false;
-               registrationData.priceBookEntryId = pbeId;
-               registrationData.isProceedNoInvoice = false;
-               registrationData.discountAmount = 0;
-               registrationData.promotionId = null;
-
-               enrolmentResult = ManageRegistrationEnrolmentHelper.addRegistration(JSON.serialize(registrationData),JSON.serialize(fileLoadList));
-               Test.stopTest();
-          }
-     }
-
-     @isTest
      static void addRegistrationOldContactTest(){
           final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
           System.runAs(PORTAL_SYS_ADMIN){
                Account portalAccount = new Account(Name='TestAccount', OwnerId = PORTAL_SYS_ADMIN.Id);
                Database.insert(portalAccount);
 
-               Contact learnerContact = new Contact(FirstName = 'learner', LastName = 'test', AccountId = portalAccount.Id, Email = 'testqtest@emailemail.com', Registered_Email__c ='learner@email.com', Birthdate = Date.newInstance(1991, 2, 17), MobilePhone ='012345');
                Contact newContact = new Contact(FirstName = 'testqtest', LastName = 'testqtest', AccountId = portalAccount.Id, Email = 'testqtest@emailemail.com', Registered_Email__c ='email@email.com', Birthdate = Date.newInstance(1990, 2, 17), MobilePhone ='012345');
                insert newContact;
 
@@ -258,8 +176,8 @@ public class ManageRegistrationEnrolmentHelperTest {
                for(PricebookEntry pbe : pbeList){ pbeId = pbe.Id; }
 
                Test.startTest();
-               ManageRegistrationWrapper.EnrolmentResultClass enrolmentResult = new ManageRegistrationWrapper.EnrolmentResultClass();
-               ManageRegistrationWrapper.RegistrationData registrationData = new ManageRegistrationWrapper.RegistrationData();
+               ManageRegistrationEnrolmentHelper.EnrolmentResultClass enrolmentResult = new ManageRegistrationEnrolmentHelper.EnrolmentResultClass();
+               ManageRegistrationSectionHelper.RegistrationData registrationData = new ManageRegistrationSectionHelper.RegistrationData();
 
                registrationData.contactRecord = newContact;
                registrationData.offeringId = cOfferingId;
@@ -273,14 +191,6 @@ public class ManageRegistrationEnrolmentHelperTest {
 
                enrolmentResult = ManageRegistrationEnrolmentHelper.addRegistration(JSON.serialize(registrationData),JSON.serialize(fileLoadList));
 
-               List<hed__Course_Enrollment__c> courseEnrolments = new List<hed__Course_Enrollment__c>([
-                    SELECT Id, Cart_Item__r.Contact__r.Name, Cart_Item__r.Product2.Name, Cart_Item__r.TotalPrice,
-                    Cart_Item__r.Promotion_Price__c, Cart_ID__r.External_Id__c
-                    FROM hed__Course_Enrollment__c
-               ]);
-
-               String testURLOPE = ManageRegistrationEnrolmentHelper.paymentGatewayURLBuilder(courseEnrolments, false, 'test@email.com');
-               String testURLCCE = ManageRegistrationEnrolmentHelper.paymentGatewayURLBuilder(courseEnrolments, true, 'test@email.com');
                Test.stopTest();
                system.assert(![SELECT Id FROM ContentVersion].isEmpty(), 'Document not created');
                system.assert(![SELECT Id FROM Answer__c].isEmpty(), 'Answer not created');
@@ -294,7 +204,6 @@ public class ManageRegistrationEnrolmentHelperTest {
                Account portalAccount = new Account(Name='TestAccount', OwnerId = PORTAL_SYS_ADMIN.Id);
                Database.insert(portalAccount);
 
-               Contact learnerContact = new Contact(FirstName = 'learner', LastName = 'test', AccountId = portalAccount.Id, Email = 'testqtest@emailemail.com', Registered_Email__c ='learner@email.com', Birthdate = Date.newInstance(1991, 2, 17), MobilePhone ='012345');
                Contact newContact = new Contact(FirstName = 'testqtest', LastName = 'testqtest', AccountId = portalAccount.Id, Email = 'testqtest@emailemail.com', Registered_Email__c ='email@email.com', Birthdate = Date.newInstance(1990, 2, 17), MobilePhone ='012345');
                insert newContact;
 
@@ -348,8 +257,8 @@ public class ManageRegistrationEnrolmentHelperTest {
                for(PricebookEntry pbe : pbeList){ pbeId = pbe.Id; }
 
                Test.startTest();
-               ManageRegistrationWrapper.EnrolmentResultClass enrolmentResult = new ManageRegistrationWrapper.EnrolmentResultClass();
-               ManageRegistrationWrapper.RegistrationData registrationData = new ManageRegistrationWrapper.RegistrationData();
+               ManageRegistrationEnrolmentHelper.EnrolmentResultClass enrolmentResult = new ManageRegistrationEnrolmentHelper.EnrolmentResultClass();
+               ManageRegistrationSectionHelper.RegistrationData registrationData = new ManageRegistrationSectionHelper.RegistrationData();
 
                registrationData.contactRecord = newContact;
                registrationData.offeringId = cOfferingId;

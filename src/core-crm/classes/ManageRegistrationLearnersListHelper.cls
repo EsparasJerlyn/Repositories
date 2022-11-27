@@ -33,7 +33,7 @@ public without sharing class ManageRegistrationLearnersListHelper{
            List<ManageRegistrationDetails> response = new List<ManageRegistrationDetails>();
            contactToQRSummary = new Map<Id,Questionnaire_Response_Summary__c>();
            registeredLearners = new List<hed__Course_Enrollment__c>();
-           ManageRegistrationWrapper.PaymentUrlClass urlObj = new ManageRegistrationWrapper.PaymentUrlClass();
+           ManageRegistrationSectionHelper.PaymentUrlClass urlObj = new ManageRegistrationSectionHelper.PaymentUrlClass();
            relatedEnrollments = new Map<Id,List<hed__Course_Enrollment__c>>();
            Map<String, PricebookEntry> pbeList = new Map<String, PricebookEntry>();
  
@@ -54,7 +54,7 @@ public without sharing class ManageRegistrationLearnersListHelper{
                     hed__Contact__r.Dietary_Requirement__c, hed__Contact__r.Accessibility_Requirement__c, Pricing_Validation__c, hed__Course_Offering__c, Cart_ID__r.External_Id__c,
                     Cart_ID__r.TotalAmount, Paid_in_Full__c, hed__Status__c, LMS_Integration_Status__c, hed__Contact__r.FirstName, hed__Contact__r.LastName,
                     hed__Contact__r.Birthdate, Payment_Method__c, Cart_Item__r.Pricebook_Entry_ID__c, Is_Group_Registered__c, hed__Contact__r.Registered_Email__c,
-                    CreatedDate, Paid_Amount__c, hed__Contact__r.QUT_Student_Id__c
+                    Cart_Item__r.Product2.Name, CreatedDate, Paid_Amount__c, hed__Contact__r.QUT_Student_Id__c
                     FROM hed__Course_Enrollment__c
                     WHERE RecordTypeId IN (:studentRecTypeId, :studentProgramRecTypeId)
                     AND (hed__Course_Offering__c =: childRecordId OR (Program_Offering__c  =: childRecordId AND hed__Course_Offering__c = null ))
@@ -154,7 +154,7 @@ public without sharing class ManageRegistrationLearnersListHelper{
                      student.hed__Contact__r.Registered_Email__c != null && 
                      student.hed__Status__c != 'Cancelled'){
                           
-                          regDetails.regenerateInvoiceURL = ManageRegistrationEnrolmentHelper.paymentGatewayURLBuilder(
+                          regDetails.regenerateInvoiceURL = paymentGatewayURLBuilder(
                           relatedEnrollments.get(student.Cart_Id__c), 
                           isCCE, 
                           student.hed__Contact__r.Registered_Email__c
@@ -165,6 +165,61 @@ public without sharing class ManageRegistrationLearnersListHelper{
  
            return regDetailsList;
  
+     }
+
+     /**
+      * Generates Payment Gateway URL based on the provided parameters
+      * @param list of course connections
+      * @param boolean - tells the method if enrollment is CCE or OPE
+      * @param string - student email where invoice is sent
+      * @return String - URL Generated
+      */
+      public static String paymentGatewayURLBuilder(List<hed__Course_Enrollment__c> enrollmentList, Boolean isCCE, String studentEmail){
+
+          Payment_Gateway_Settings__c paymentGatewaySettings = Payment_Gateway_Settings__c.getorgdefaults();
+          CCE_Payment_Gateway_Settings__c paymentGatewaySettingsCCE = CCE_Payment_Gateway_Settings__c.getorgdefaults();
+
+          String baseURL = '';
+          String transactionId = '';
+          String descriptionLabel = '';
+          String tranType = '';
+          String glCode = '';
+
+          if(isCCE){
+               baseURL = paymentGatewaySettingsCCE.Payment_URL__c;
+               transactionId = '&CCETransactionID=';
+               descriptionLabel = '&CCEDescription=';
+               tranType = paymentGatewaySettingsCCE.TransType_Invoice__c;
+               glCode = paymentGatewaySettingsCCE.GL_Code__c;
+          }else{
+               baseURL = paymentGatewaySettings.Payment_URL__c;
+               transactionId ='&OPETransactionID=';
+               descriptionLabel = '&OPEDescription=';
+               tranType = paymentGatewaySettings.TransType_Invoice__c;
+               glCode = paymentGatewaySettings.GL_Code__c;
+          }
+
+          String formURL =    'tran-type=' + tranType + 
+                              transactionId + enrollmentList[0].Cart_ID__r.External_Id__c + '&' + 
+                              'Email=' + studentEmail.replace('@','%40') + '&' + 
+                              'GLCode=' + glCode + '&';
+
+          String description = '';
+
+          //construct the invoice URL
+          //contact name, product name, price is looped
+          for(hed__Course_Enrollment__c student: enrollmentList){
+               if( student.Cart_Item__c != null){
+                         description = description + 'FullName=' + student.hed__Contact__r.Name.replace(' ','%20');
+                         description = description + descriptionLabel + student.Cart_Item__r.Product2.Name.replace(' ','%20') + '&' + 'UnitAmountIncTax=';
+                         Decimal totalPrice = student.Cart_Item__r.TotalPrice != null?student.Cart_Item__r.TotalPrice:0;
+                         Decimal promotionPrice = student.Cart_Item__r.Promotion_Price__c != null?student.Cart_Item__r.Promotion_Price__c:0;
+                         Decimal tempPrice = totalPrice - promotionPrice;
+                         description = description + tempPrice + '&';
+               }
+          }
+          
+          return baseURL + formURL + description.removeEnd('&');
      }
 
      /**

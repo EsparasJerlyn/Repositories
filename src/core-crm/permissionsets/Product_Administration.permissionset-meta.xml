@@ -109,10 +109,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ManageRegistrationWrapper</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>PromotionDiscountCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>

@@ -131,50 +131,47 @@ public without sharing class PromotionDiscountCtrl{
 
      public static Decimal calculateDiscount(List<PromotionTarget> promotionTargetList, Map<Id,Set<Id>> promotionToProductMap, Double standardPrice){
 
-          Decimal discount = 0;
+          Decimal discount = -1;
           
           for(PromotionTarget currentPromotionTarget: promotionTargetList){
-
                discountData.promotionId = currentPromotionTarget.Promotion__c;
-
                //check if targetype is per product or total transaction
                if(  currentPromotionTarget.TargetType == 'Transaction' &&
                     currentPromotionTarget.AdjustmentType == 'PercentageDiscount'){
+                         
                          //set the discount amount
                          discount = ((standardPrice * currentPromotionTarget.AdjustmentPercent) / 100).setScale(2);
-
                //else if for product specific
-               }else if(currentPromotionTarget.TargetType == 'Product'){
+               }else if( currentPromotionTarget.TargetType == 'Product' && 
+                         (currentPromotionTarget.AdjustmentType == 'FixedAmountOffLineItemTotal' || 
+                         currentPromotionTarget.AdjustmentType == 'FixedAmountOffUnitPrice')){
 
-                    if (currentPromotionTarget.AdjustmentType == 'FixedAmountOffLineItemTotal' || currentPromotionTarget.AdjustmentType == 'FixedAmountOffUnitPrice'){
                          //set the discount amount
                          discount = (currentPromotionTarget.AdjustmentAmount).setScale(2);
 
-                    } else if (currentPromotionTarget.AdjustmentType == 'PercentageDiscount'){
+                //else if for product category
+               }else if( currentPromotionTarget.TargetType == 'Product' &&  
+                         currentPromotionTarget.AdjustmentType == 'PercentageDiscount'){
+
                          //set the discount amount
                          discount = ((standardPrice * currentPromotionTarget.AdjustmentPercent) / 100).setScale(2);
-                    } 
 
-                //else if for product category
-               }else if(currentPromotionTarget.TargetType == 'ProductCategory'){
+               }else if( currentPromotionTarget.TargetType == 'ProductCategory' && 
+                         promotionToProductMap.containsKey(currentPromotionTarget.Promotion__c) && 
+                         promotionToProductMap.get(currentPromotionTarget.Promotion__c).contains(product.Id) &&
+                         (    currentPromotionTarget.AdjustmentType == 'FixedAmountOffLineItemTotal' || 
+                              currentPromotionTarget.AdjustmentType == 'FixedAmountOffUnitPrice')){
 
-                    //check if the product is found in the Promotion_Products__c
-                    if(promotionToProductMap.containsKey(currentPromotionTarget.Promotion__c) && promotionToProductMap.get(currentPromotionTarget.Promotion__c).contains(product.Id)){
+                         //set the discount amount
+                         discount = (currentPromotionTarget.AdjustmentAmount).setScale(2);
 
-                         if (currentPromotionTarget.AdjustmentType == 'FixedAmountOffLineItemTotal' || currentPromotionTarget.AdjustmentType == 'FixedAmountOffUnitPrice'){
-                              //set the discount amount
-                              discount = (currentPromotionTarget.AdjustmentAmount).setScale(2);
+               }else if( currentPromotionTarget.TargetType == 'ProductCategory' && 
+                         promotionToProductMap.containsKey(currentPromotionTarget.Promotion__c) && 
+                         promotionToProductMap.get(currentPromotionTarget.Promotion__c).contains(product.Id) &&
+                         currentPromotionTarget.AdjustmentType == 'PercentageDiscount'){
 
-                         } else if (currentPromotionTarget.AdjustmentType == 'PercentageDiscount'){
-                              //set the discount amount
-                              discount = ((standardPrice * currentPromotionTarget.AdjustmentPercent) / 100).setScale(2);
-                         } 
-
-                    //else not found
-                    }else{
-                         //set to -1 to identify as invalid coupon
-                         discount = -1;
-                    }
+                         //set the discount amount
+                         discount = ((standardPrice * currentPromotionTarget.AdjustmentPercent) / 100).setScale(2);
                }
           }
 
