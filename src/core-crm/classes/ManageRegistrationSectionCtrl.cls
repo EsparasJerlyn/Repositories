@@ -59,6 +59,7 @@
       |                           |                       |                      | account for cart and user    |
       | john.m.tambasen           | Septemebr 21, 2022    | DEPP-4390            | Update QUTPay URL for CCE    |
       | roy.nino.s.regala         | November 11, 2022     | DEPP-4637            | Updated invoice url          |
+      | roy.nino.s.regala         | November 15, 2022     | DEPP-4721            | Fixed cyclomatic issues      |
 */
 
 public with sharing class ManageRegistrationSectionCtrl{

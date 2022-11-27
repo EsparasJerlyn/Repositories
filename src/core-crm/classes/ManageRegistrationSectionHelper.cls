@@ -24,6 +24,11 @@ public with sharing class ManageRegistrationSectionHelper{
      private static PricebookEntry priceBookEntry;
      private static Contact contactRecord;
 
+     /**
+      * @description setup user, pricing, cart of enrolment
+      * @param finalContactRecord - contactRecord used for registration
+      * @param priceBookEntryId - pricebookentry used 
+      */
      private static void setupUserAndCart(Contact finalContactRecord, Id priceBookEntryId){
 
           corporateUser = new List<User>();
@@ -82,6 +87,13 @@ public with sharing class ManageRegistrationSectionHelper{
      }
 
 
+     /**
+      * @description process enrolment with price
+      * @param parsedRegistrationData - registration data wrapped
+      * @param finalContactRecord - contact record used for enrolment
+      * @param product - product user enroled
+      * @return ManageRegistrationEnrolmentHelper.EnrolmentResultClass - result of enrolment(validation and record created)
+      */
      public static ManageRegistrationEnrolmentHelper.EnrolmentResultClass processEnrollmentWithPricing(
           RegistrationData parsedRegistrationData, 
           Contact finalContactRecord, 
@@ -168,6 +180,7 @@ public with sharing class ManageRegistrationSectionHelper{
                enrollmentProcessingReturn.contactName = finalContactRecord.FirstName + finalContactRecord.LastName;
 
           }else{
+               //get cart owned by the commerce user to be enroled
                String externalId;
                List<WebCart> carts = [
                     SELECT External_Id__c 
@@ -183,6 +196,8 @@ public with sharing class ManageRegistrationSectionHelper{
                    Status = 'Closed'
                );
                
+               //close active webcart
+               //to create new one
                update webCartToClose;
                
                enrolmentParam = new ManageRegistrationEnrolmentHelper.EnrolmentCreationParamClass();
@@ -195,6 +210,7 @@ public with sharing class ManageRegistrationSectionHelper{
                enrolmentParam.newWebCartId = newWebCart.Id;
                enrolmentParam.newCartItemId = newCartItem.Id;
                
+               //directly create course connection records
                List<hed__Course_Enrollment__c> courseConnectionList = ManageRegistrationEnrolmentHelper.createCourseConnectionList(enrolmentParam);  
                
                enrollmentProcessingReturn.contactId = contactRecord.Id;
@@ -209,6 +225,7 @@ public with sharing class ManageRegistrationSectionHelper{
                     
                }
 
+               //create product ledger records to record the asset used for enrolment
                if(assetRecord.containsKey(priceBookentryId)){
                     CorporateBundleAndSOAHelper.createProductLedgerRecords(assetRecord.get(priceBookentryId).Id, courseConnectionList);
                }
@@ -259,6 +276,12 @@ public with sharing class ManageRegistrationSectionHelper{
                '&UnitAmountIncTax=' + String.valueOf(urlObj.Amount);
      }
 
+     
+     /**
+      * @description process the questionnaire answered by user
+      * @param parsedRegistrationData - stringified registrationData
+      * @param fileUpload - file uploaded by user
+      */
      public static void processQuestionnaireData(RegistrationData parsedRegistrationData, String fileUpload){
 
           //set registration data into separate readable variables
@@ -277,10 +300,12 @@ public with sharing class ManageRegistrationSectionHelper{
 
           List<FileUpload> parsedFileUpload = new List<FileUpload>();
 
+          //convert fileupload string to file upload wrapper class
           if(fileUpload != ''){
                parsedFileUpload = (List<FileUpload>) JSON.deserialize(fileUpload, List<FileUpload>.class);
           }
           
+          //collect all questionnaire ids and create a map the groups all questionnare against the related answer
           for(Related_Answer__c relatedA: relatedAnswerList){
                questionnaireIds.add(relatedA.Questionnaire__c);
                relatedAnswerToQuestionnaireMap.put(relatedA.Id,relatedA.Questionnaire__c);
@@ -288,6 +313,7 @@ public with sharing class ManageRegistrationSectionHelper{
 
           Questionnaire_Response_Summary__c qResSummary;
 
+          //
           for(Id qId:questionnaireIds){
                qResSummary = new Questionnaire_Response_Summary__c();
                qResSummary.Questionnaire__c = qId;
@@ -322,6 +348,11 @@ public with sharing class ManageRegistrationSectionHelper{
           
      }
 
+     /**
+      * @description process the file uploaded by user
+      * @param answersToInsert - answser records linked to the file upload
+      * @param parsedFileUpload - file uploaded by user
+      */
      private static void processFileUpload(List<Answer__c> answersToInsert, List<FileUpload> parsedFileUpload){
 
           Map<Id,Id> relatedAnswerToAnswerMap = new Map<Id,Id>();

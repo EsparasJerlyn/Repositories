@@ -70,6 +70,7 @@ const SECTION_HEADER = 'Manage Registrations Overview';
 const COLUMN_HEADER = 'First Name,Last Name,Contact Email,Birthdate,Registration Status,LMS Integration Status,Registration Date, Paid Amount, Student ID, Postition, Organisation, Dietary Requirement, Accessibility Requirement';
 const PROD_CATEG_TAILORED = 'Tailored Executive Program';
 const PROD_CATEG_SOA = 'QUTeX Learning Solutions';
+const DATE_OPTIONS = { year: 'numeric', month: '2-digit', day: '2-digit' };
 
 export default class ManageRegistrationSection extends NavigationMixin(LightningElement) {
 
@@ -146,7 +147,7 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
 
     columns = [
         { label: 'Full Name', fieldName: 'contactFullName', type: 'text', sortable: true },
-        { label: "Registration Date",fieldName: "registrationDate",type: "date-local",typeAttributes:{ month: "2-digit",day: "2-digit"}},    
+        { label: "Registration Date",fieldName: "registrationDate",type: 'text'},    
         { label: 'Paid Amount', fieldName: 'paidAmount', type: 'currency', typeAttributes: {currencyCode:'AUD', step: '0.001'}},
         { label: 'Student Id', fieldName: 'studentId', type: 'text', sortable: true },
         { label: 'Payment Method', fieldName: 'paymentMethod', type: 'text', sortable: true },
@@ -173,14 +174,13 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
         this.isLoading = true;
         this.tableData = result;
         if(result.data){
-            console.log(JSON.parse(JSON.stringify(result.data)));
             this.records = result.data.map(item => {
                 let record = {};
                 record.contactFullName = item.enrolmentDetails.hed__Contact__r.Name;
                 record.contactId = item.enrolmentDetails.hed__Contact__c;
                 record.contactLastName = item.enrolmentDetails.hed__Contact__r.LastName;
                 record.contactFirstName = item.enrolmentDetails.hed__Contact__r.FirstName;
-                record.contactBirthdate = item.enrolmentDetails.hed__Contact__r.Birthdate;
+                record.contactBirthdate = item.enrolmentDetails.hed__Contact__r.Birthdate?this.formatDate(item.enrolmentDetails.hed__Contact__r.Birthdate):'';
                 record.contactEmail = item.enrolmentDetails.hed__Contact__r.Registered_Email__c;
                 
                 record.studentId = item.enrolmentDetails.hed__Contact__r.QUT_Student_ID__c;
@@ -194,7 +194,7 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
                 record.lmsIntegrationStatus = item.enrolmentDetails.LMS_Integration_Status__c;
                 record.paymentMethod = item.enrolmentDetails.Payment_Method__c;
                 record.paidAmount = item.enrolmentDetails.Paid_Amount__c;
-                record.registrationDate = item.enrolmentDetails.CreatedDate;
+                record.registrationDate = item.enrolmentDetails.CreatedDate?this.formatDate(item.enrolmentDetails.CreatedDate):'';
                 record.pricingValidation = item.enrolmentDetails.Pricing_Validation__c;
                 record.id = item.enrolmentDetails.Id;
 
@@ -377,7 +377,6 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
                 .catch((error)=>{
                     console.log(error);
                 })
-            console.log(JSON.parse(JSON.stringify(this.pbEntriesToAssetMap )));
         }
     }
 
@@ -559,19 +558,12 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
 
     handleCreateContact(event){
         event.preventDefault();
-
-        console.log('handleCreateContact');
-
         if(this.isCorporateBundlePricebook){
-            console.log('this.isCorporateBundlePriceboo');
             //check if asset credit is still available
             //check price book entry unit price against the asset remaining value
-            console.log('pbEntryRecord',this.pbEntryRecord);
-            console.log('pbEntriesToAssetMap',this.pbEntriesToAssetMap);
             checkCreditAvailability({pbEntryId:this.pbEntryRecord,assetId:this.pbEntriesToAssetMap[this.pbEntryRecord].Id})
             .then((res) => {
                 if(res){
-                    console.log('checkCreditAvailability');
                     this.handleOnCreateContactFinal(event);
                 }else{
                     this.generateToast(ERROR_TITLE, 'Not enough credit to register the learner', ERROR_VARIANT);
@@ -581,7 +573,6 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
                 console.log(error);
             })
         }else{
-            console.log('handleOnCreateContactFinal');
             this.handleOnCreateContactFinal(event);
         }
  
@@ -603,11 +594,9 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
     handleCorporateBundleRegistration(){
         //check if asset credit is still available
         //check price book entry unit price against the asset remaining value
-        console.log('here');
         checkCreditAvailability({pbEntryId:this.pbEntryRecord,assetId:this.pbEntriesToAssetMap[this.pbEntryRecord].Id})
         .then((res) => {
             if(res){
-                console.log('here2');
                 this.handleExistingContactPWI();
             }else{
                 this.generateToast(ERROR_TITLE, 'Not enough credit to register the learner', ERROR_VARIANT);
@@ -768,6 +757,8 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
     }
     
     handleClearAfterSave(){
+        this.isModalOpen = false;
+        this.isCreateContact = false;
         this.saveInProgress = false;
         this.isEditContact = false;
         this.isAddContact = false;            
@@ -886,7 +877,6 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
         if(this.prescribedProgram){
             programOfferingId = this.childRecordId;
         }
-        console.log('rowId',this.rowId);
         let studentRecord = {};
         studentRecord.Id = this.rowId;
         studentRecord.hed__Status__c = this.rowRegStatus;
@@ -900,12 +890,10 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
         })
             .then((result) => {
                 response = result;
-                console.log(response);
             })
             .catch((error) => {
                 response = error;
                 console.log(error);
-                console.log(response);
             })
             .finally(() => {
                 this.picklistValue = '';
@@ -1038,7 +1026,7 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
         discountWrapper.selectedPBId = this.pbEntryRecord;
         discountWrapper.offeringId = this.childRecordId;
         discountWrapper.prescribedProgram = this.prescribedProgram;
-        discountWrapper.couponCode = this.couponCode;
+        discountWrapper.couponCode = couponCode;
 
         //function to get the discount of the product
         getDiscount({
@@ -1072,6 +1060,11 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
             console.log(error);
         });
 
+    }
+
+    //formats date to AU format
+    formatDate(date){
+        return new Date(date).toLocaleDateString('en-AU',DATE_OPTIONS);
     }
 
     //Function to generate toastmessage

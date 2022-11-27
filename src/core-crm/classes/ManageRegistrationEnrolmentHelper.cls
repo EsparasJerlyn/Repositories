@@ -124,7 +124,12 @@ public with sharing class ManageRegistrationEnrolmentHelper{
     }
 
 
-     public static EnrolmentResultClass validatedContacts(List<Contact> contactList){
+    /**
+     * @description validate the contact records
+     * @param contactList - list of contacts need to be validated
+     * @return EnrolmentResultClass - contains validation result and linked contact if match is found
+     */
+     private static EnrolmentResultClass validatedContacts(List<Contact> contactList){
           EnrolmentResultClass validationReturn = new EnrolmentResultClass();
           List<Contact> contactListToUpsert = new List<Contact>();
           List<RegistrationMatchingHelper.ContactMatchingResponse> contactsValidated = RegistrationMatchingHelper.validateContactMatching(JSON.serialize(contactList));
@@ -160,11 +165,7 @@ public with sharing class ManageRegistrationEnrolmentHelper{
      
      /**
      * Creates cartitem based on parameters passed
-     * @param <Id> offeringId - course/program offering
-     * @param <Id> newWebCartId - new cart created
-     * @param <Id> pbeId - price book entry
-     * @param <Boolean> prescribedProgram
-     * @param <Id> prodId - product
+     * @param enrolmentParam - wrapper class that contains needed data
      * @return CartItem
      */
      public static CartItem createCartItem(EnrolmentCreationParamClass enrolmentParam){
@@ -264,6 +265,11 @@ public with sharing class ManageRegistrationEnrolmentHelper{
      }
 
 
+     /**
+     * Creates commerce user based on contact details
+     * @param enrolmentParam - wrapper class that contains the needed data for enrolment
+     * @return hed__Course_Enrollment__c - newly created course connections
+     */
      public static List<hed__Course_Enrollment__c> createCourseConnectionList(EnrolmentCreationParamClass enrolmentParam){
 
           

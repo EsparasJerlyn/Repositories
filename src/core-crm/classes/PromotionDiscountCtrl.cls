@@ -9,7 +9,7 @@
       | roy.nino.s.regala         | November 23, 2022     | DEPP-4721            | Created file                 |
 */
 
-public without sharing class PromotionDiscountCtrl{
+public with sharing class PromotionDiscountCtrl{
 
       /**
       * @description fetches the discount data
@@ -76,7 +76,7 @@ public without sharing class PromotionDiscountCtrl{
           ];
 
           List<PromotionTarget> promotionTargetList = [
-               SELECT Id, Promotion__c, Name, AdjustmentType, AdjustmentPercent, AdjustmentAmount, TargetType, TargetId 
+               SELECT Id, PromotionId, Name, AdjustmentType, AdjustmentPercent, AdjustmentAmount, TargetType, TargetId 
                FROM PromotionTarget
                WHERE PromotionId IN: promotionList
           ];
@@ -134,7 +134,7 @@ public without sharing class PromotionDiscountCtrl{
           Decimal discount = -1;
           
           for(PromotionTarget currentPromotionTarget: promotionTargetList){
-               discountData.promotionId = currentPromotionTarget.Promotion__c;
+               discountData.promotionId = currentPromotionTarget.PromotionId;
                //check if targetype is per product or total transaction
                if(  currentPromotionTarget.TargetType == 'Transaction' &&
                     currentPromotionTarget.AdjustmentType == 'PercentageDiscount'){
@@ -157,8 +157,8 @@ public without sharing class PromotionDiscountCtrl{
                          discount = ((standardPrice * currentPromotionTarget.AdjustmentPercent) / 100).setScale(2);
 
                }else if( currentPromotionTarget.TargetType == 'ProductCategory' && 
-                         promotionToProductMap.containsKey(currentPromotionTarget.Promotion__c) && 
-                         promotionToProductMap.get(currentPromotionTarget.Promotion__c).contains(product.Id) &&
+                         promotionToProductMap.containsKey(currentPromotionTarget.PromotionId) && 
+                         promotionToProductMap.get(currentPromotionTarget.PromotionId).contains(product.Id) &&
                          (    currentPromotionTarget.AdjustmentType == 'FixedAmountOffLineItemTotal' || 
                               currentPromotionTarget.AdjustmentType == 'FixedAmountOffUnitPrice')){
 
@@ -166,8 +166,8 @@ public without sharing class PromotionDiscountCtrl{
                          discount = (currentPromotionTarget.AdjustmentAmount).setScale(2);
 
                }else if( currentPromotionTarget.TargetType == 'ProductCategory' && 
-                         promotionToProductMap.containsKey(currentPromotionTarget.Promotion__c) && 
-                         promotionToProductMap.get(currentPromotionTarget.Promotion__c).contains(product.Id) &&
+                         promotionToProductMap.containsKey(currentPromotionTarget.PromotionId) && 
+                         promotionToProductMap.get(currentPromotionTarget.PromotionId).contains(product.Id) &&
                          currentPromotionTarget.AdjustmentType == 'PercentageDiscount'){
 
                          //set the discount amount

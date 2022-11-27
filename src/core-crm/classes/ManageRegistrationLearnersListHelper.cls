@@ -1,6 +1,6 @@
 /**
- * @description helper class for manageregistrationsectionctrl
- * @see ../manageregistrationsectionctrl
+ * @description helper class for manageregistrationsection.js
+ * @see ../manageregistrationsection.js
  *
  * @author Accenture
  *
@@ -114,6 +114,9 @@ public without sharing class ManageRegistrationLearnersListHelper{
            return response;
       }
  
+      /**
+      * @description builds the manage registration table
+      */
       private static List<ManageRegistrationDetails> buildRegistrationDetails(){
  
            List<ManageRegistrationDetails> regDetailsList = new List<ManageRegistrationDetails>();
