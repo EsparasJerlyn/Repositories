@@ -239,7 +239,6 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
             this.isLoading = false;
             this.registeredEmail = undefined;
             this.emailOptions = [];
-            console.error(result.error);
         }
     }
 
@@ -893,7 +892,6 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
             })
             .catch((error) => {
                 response = error;
-                console.log(error);
             })
             .finally(() => {
                 this.picklistValue = '';
@@ -1057,7 +1055,6 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
         })
         .catch((error) => {
             this.generateToast('Error.',LWC_Error_General,'error');
-            console.log(error);
         });
 
     }
