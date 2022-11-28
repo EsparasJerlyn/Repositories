@@ -39,7 +39,10 @@ public with sharing class ManageRegistrationEnrolmentHelper{
          //deserialize registration data in JSON format from lwc
          ManageRegistrationSectionHelper.RegistrationData parsedRegistrationData = new ManageRegistrationSectionHelper.RegistrationData();
          if(registrationData != ''){
-              parsedRegistrationData = (ManageRegistrationSectionHelper.RegistrationData) JSON.deserialize(registrationData, ManageRegistrationSectionHelper.RegistrationData.class);
+              parsedRegistrationData = (ManageRegistrationSectionHelper.RegistrationData) JSON.deserialize(
+                    registrationData, 
+                    ManageRegistrationSectionHelper.RegistrationData.class
+               );
          }
 
          //set registration data into separate readable variables
@@ -71,7 +74,11 @@ public with sharing class ManageRegistrationEnrolmentHelper{
          }else{
               //get the contact's full name, first name, and lastname
               //store the contact details to string variable
-              Contact con = [ SELECT Id, Name, Email, FirstName, LastName 
+              Contact con = [ SELECT Id, 
+                              Name, 
+                              Email, 
+                              FirstName, 
+                              LastName 
                               FROM Contact 
                               WHERE Id =: contactRecord.Id 
                               WITH SECURITY_ENFORCED 
@@ -87,10 +94,16 @@ public with sharing class ManageRegistrationEnrolmentHelper{
          //process contact after validation
          if(enrolmentResult.isContactInputValid){
               //process questionnaire insertion
-              ManageRegistrationSectionHelper.processQuestionnaireData(parsedRegistrationData, fileUpload);
+              ManageRegistrationSectionHelper.processQuestionnaireData(
+                    parsedRegistrationData, 
+                    fileUpload
+               );
 
               //get product related to the offering
-              Product2 product = ManageRegistrationSectionHelper.getProduct(offeringId, prescribedProgram);
+              Product2 product = ManageRegistrationSectionHelper.getProduct(
+                    offeringId, 
+                    prescribedProgram
+               );
 
               //check product category
               Boolean isTailored = product != null && product.Product_Category__c == TAILORED_EXECUTIVE_PROGRAM?true:false;
@@ -99,7 +112,11 @@ public with sharing class ManageRegistrationEnrolmentHelper{
                
               if(!String.isBlank(priceBookEntryId)){
 
-                   enrollmentProcessingReturn = ManageRegistrationSectionHelper.processEnrollmentWithPricing(parsedRegistrationData, finalContactRecord, product);
+                   enrollmentProcessingReturn = ManageRegistrationSectionHelper.processEnrollmentWithPricing(
+                         parsedRegistrationData, 
+                         finalContactRecord, 
+                         product
+                    );
                    
                    enrolmentResult.paymentURL = enrollmentProcessingReturn.paymentURL;
                    enrolmentResult.contactName = enrollmentProcessingReturn.contactName;
@@ -195,10 +212,25 @@ public with sharing class ManageRegistrationEnrolmentHelper{
      public static WebCart createWebCart(Id userId, Id contactId){
           WebCart webCart = new WebCart();
           try{
-               Id adminAcctId = [SELECT AccountId FROM Contact WHERE Id =: contactId LIMIT 1].AccountId;
+               
+               Id adminAcctId = [
+                    SELECT AccountId 
+                    FROM Contact 
+                    WHERE Id =: contactId 
+                    LIMIT 1].AccountId;
+
                Id studyWebStoreId;
-               List<WebStore> studyWebStoreList = [SELECT Id FROM WebStore WHERE Name = 'Study' LIMIT 1];
-               for(WebStore webStore : studyWebStoreList){ studyWebStoreId = webStore.Id; }
+
+               List<WebStore> studyWebStoreList = [
+                    SELECT Id 
+                    FROM WebStore 
+                    WHERE Name = 'Study' 
+                    WITH SECURITY_ENFORCED 
+                    LIMIT 1];
+
+               for(WebStore webStore : studyWebStoreList){ 
+                    studyWebStoreId = webStore.Id; 
+               }
 
                // DEPP-3152 close any carts already opened from OPE portal.
                List<WebCart> existingCart = [
@@ -206,6 +238,7 @@ public with sharing class ManageRegistrationEnrolmentHelper{
                     FROM WebCart 
                     WHERE Status='Active' 
                     AND OwnerId = : userId 
+                    WITH SECURITY_ENFORCED
                     LIMIT 1];
 
                if(existingCart.size()>0){
@@ -236,14 +269,25 @@ public with sharing class ManageRegistrationEnrolmentHelper{
      public static Id createUser(Contact newContact){
           Id response;
 
-          List<User> users = [SELECT Id FROM User WHERE ContactId  =: newContact.Id AND IsActive = true LIMIT 1];
+          List<User> users = [
+               SELECT Id 
+               FROM User 
+               WHERE ContactId  =: newContact.Id 
+               AND IsActive = true 
+               LIMIT 1];
 
           if(users.size() > 0){
                for(User u : users){
                     response = u.Id;
                }
           }else{
-               Profile profile = [SELECT Id FROM Profile WHERE Name = 'OPE Catalogue' LIMIT 1];
+
+               Profile profile = [
+                    SELECT Id 
+                    FROM Profile 
+                    WHERE Name = 'OPE Catalogue' 
+                    LIMIT 1];
+
                User commerceUser = new User();
                commerceUser.Username = newContact.Email;
                commerceUser.Email = newContact.Email;
@@ -296,8 +340,8 @@ public with sharing class ManageRegistrationEnrolmentHelper{
                newCourseConnection.Program_Offering__c = enrolmentParam.offeringId;
                newCourseConnection.RecordTypeId = studentProgramRecTypeId;
                courseConnectionList.add(newCourseConnection);
-               List<hed__Course_Offering__c> childOfferings = [SELECT Id FROM hed__Course_Offering__c WHERE Program_Offering__c =: enrolmentParam.offeringId];
-               for(hed__Course_Offering__c childOffering : childOfferings){
+
+               for(hed__Course_Offering__c childOffering : [SELECT Id FROM hed__Course_Offering__c WHERE Program_Offering__c =: enrolmentParam.offeringId WITH SECURITY_ENFORCED]){
                     hed__Course_Enrollment__c childCourseConnection = new hed__Course_Enrollment__c();
                     childCourseConnection.hed__Contact__c =  enrolmentParam.contactId;
                     childCourseConnection.hed__Status__c = 'Active';

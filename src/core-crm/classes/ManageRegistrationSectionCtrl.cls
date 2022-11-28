@@ -247,6 +247,7 @@ public with sharing class ManageRegistrationSectionCtrl{
                FROM PricebookEntry 
                WHERE Product2Id =: product.Id 
                AND IsActive = true
+               WITH SECURITY_ENFORCED
                ORDER BY CreatedDate];
 
           for(PricebookEntry pe : priceBookEntries){
@@ -327,7 +328,9 @@ public with sharing class ManageRegistrationSectionCtrl{
                                    QUT_Learner_Email__c, 
                                    Work_Email__c 
                               FROM Contact 
-                              WHERE Id=: contactId LIMIT 1];
+                              WHERE Id=: contactId 
+                              WITH SECURITY_ENFORCED
+                              LIMIT 1];
            
           if(!con.isEmpty() && con[0].Registered_Email__c == null){
                if(con[0].Email != null){
@@ -370,7 +373,12 @@ public with sharing class ManageRegistrationSectionCtrl{
       */
       @AuraEnabled(cacheable=true)
       public static String getRegisteredEmail(String contactId){
-          Contact contact = [SELECT Id, Registered_Email__c FROM Contact WHERE Id=:contactId LIMIT 1];
+          Contact contact = [
+               SELECT Id, Registered_Email__c 
+               FROM Contact 
+               WHERE Id=:contactId 
+               WITH SECURITY_ENFORCED
+               LIMIT 1];
           return contact.Registered_Email__c != null ? contact.Registered_Email__c : null;
       }
 

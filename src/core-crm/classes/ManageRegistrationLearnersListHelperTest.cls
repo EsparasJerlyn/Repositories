@@ -114,8 +114,9 @@ public class ManageRegistrationLearnersListHelperTest {
                manageRegDets = ManageRegistrationLearnersListHelper.getRegistrations(cOfferingId,false);
 
                Test.stopTest();
-               system.assert(![SELECT Id FROM ContentVersion].isEmpty(), 'Document not created');
-               system.assert(![SELECT Id FROM Answer__c].isEmpty(), 'Answer not created');
+               System.assert(enrolmentResult.contactName != null, 'No enrolment created');
+               System.assert(!manageRegDets.isEmpty(), 'No enrolment created');
+
           }
      }
 

@@ -73,12 +73,14 @@ public with sharing class PromotionDiscountCtrl{
                SELECT Id, Name, Promotion__c, IsActive__c, Product__c 
                FROM Promotion_Product__c
                WHERE Promotion__c IN: promotionList
+               WITH SECURITY_ENFORCED
           ];
 
           List<PromotionTarget> promotionTargetList = [
                SELECT Id, PromotionId, Name, AdjustmentType, AdjustmentPercent, AdjustmentAmount, TargetType, TargetId 
                FROM PromotionTarget
                WHERE PromotionId IN: promotionList
+               WITH SECURITY_ENFORCED
           ];
 
           for(Promotion_Product__c promProd: promotionProductsList){

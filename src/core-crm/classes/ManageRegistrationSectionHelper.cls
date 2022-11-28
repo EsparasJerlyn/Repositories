@@ -141,11 +141,12 @@ public with sharing class ManageRegistrationSectionHelper{
                );
                insert cartPayment;
 
-               String externalId = [    SELECT Id, External_Id__c 
-                                        FROM WebCart 
-                                        WHERE OwnerId =: commerceUser 
-                                        AND Status = 'Active' 
-                                        LIMIT 1].External_Id__c; 
+               String externalId = [    
+                    SELECT Id, External_Id__c 
+                    FROM WebCart 
+                    WHERE OwnerId =: commerceUser 
+                    AND Status = 'Active' 
+                    LIMIT 1].External_Id__c; 
 
                PaymentUrlClass urlObj = new PaymentUrlClass();
 
@@ -190,11 +191,7 @@ public with sharing class ManageRegistrationSectionHelper{
                     LIMIT 1];
                for(WebCart webCart : carts){ externalId = webCart.External_Id__c; }
       
-               WebCart webCartToClose = new WebCart(
-                   Id = newWebCart.Id,
-                   Status__c = 'Closed',
-                   Status = 'Closed'
-               );
+               WebCart webCartToClose = new WebCart( Id = newWebCart.Id, Status__c = 'Closed', Status = 'Closed');
                
                //close active webcart
                //to create new one
@@ -370,8 +367,16 @@ public with sharing class ManageRegistrationSectionHelper{
 
           for(FileUpload file: parsedFileUpload){
                if(relatedAnswerToAnswerMap.containsKey(file.RelatedAnswerId)){
-                    ContentVersion cv = createContentVersion(file.Base64, file.FileName);
-                    cvToRelatedAnswerMap.put(cv.Title,file.RelatedAnswerId);
+                    ContentVersion cv = createContentVersion(
+                         file.Base64, 
+                         file.FileName
+                    );
+
+                    cvToRelatedAnswerMap.put(
+                         cv.Title,
+                         file.RelatedAnswerId
+                    );
+
                     cvListToInsertList.add(cv);
                }
           }
@@ -391,11 +396,17 @@ public with sharing class ManageRegistrationSectionHelper{
                          LinkedEntityId = relatedAnswerToAnswerMap.get(cvToRelatedAnswerMap.get(cv.Title)),
                          ShareType = 'V'
                     );
+
                     updateAnswer = new Answer__c(
                          Id = cdl.LinkedEntityId,
                          Response__c = cv.ContentDocumentId
                     );
-                    answersToUpdate.put(updateAnswer.Id,updateAnswer);
+
+                    answersToUpdate.put(
+                         updateAnswer.Id,
+                         updateAnswer
+                    );
+
                     contentDocLinkListToInsert.add(cdl);
                }
 
