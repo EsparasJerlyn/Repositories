@@ -34,6 +34,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Refunded</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Yes</fullName>
             <default>false</default>
         </values>
@@ -42,6 +46,10 @@
         <picklist>Payment_Method__c</picklist>
         <values>
             <fullName>Admin Added</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Contract</fullName>
             <default>false</default>
         </values>
         <values>
@@ -54,10 +62,6 @@
         </values>
         <values>
             <fullName>Pay Now</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Contract</fullName>
             <default>false</default>
         </values>
     </picklistValues>

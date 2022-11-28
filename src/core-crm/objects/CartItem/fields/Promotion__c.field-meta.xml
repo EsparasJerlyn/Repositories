@@ -9,5 +9,6 @@
     <relationshipLabel>Cart Items</relationshipLabel>
     <relationshipName>Cart_Items</relationshipName>
     <required>false</required>
+    <securityClassification>Official</securityClassification>
     <type>Lookup</type>
 </CustomField>
