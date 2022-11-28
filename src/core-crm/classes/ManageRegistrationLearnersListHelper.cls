@@ -33,7 +33,6 @@ public without sharing class ManageRegistrationLearnersListHelper{
            List<ManageRegistrationDetails> response = new List<ManageRegistrationDetails>();
            contactToQRSummary = new Map<Id,Questionnaire_Response_Summary__c>();
            registeredLearners = new List<hed__Course_Enrollment__c>();
-           ManageRegistrationSectionHelper.PaymentUrlClass urlObj = new ManageRegistrationSectionHelper.PaymentUrlClass();
            relatedEnrollments = new Map<Id,List<hed__Course_Enrollment__c>>();
            Map<String, PricebookEntry> pbeList = new Map<String, PricebookEntry>();
  

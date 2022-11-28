@@ -194,8 +194,6 @@ public with sharing class ManageRegistrationSectionCtrl{
      public static List<Map<String,String>> getPBEntries(String childRecordId, Boolean prescribedProgram){
           Product2 product = ManageRegistrationSectionHelper.getProduct(childRecordId, prescribedProgram);
           List<Map<String,String>> pBEntries = new List<Map<String,String>>();
-          List<Program_Offering__c> programOfferingList = new List<Program_Offering__c>();
-          List<hed__Course_Offering__c> courseOfferingList = new List<hed__Course_Offering__c>();
           List<String> parentProductRequestIds = new List<String>();
 
           Date startDate;

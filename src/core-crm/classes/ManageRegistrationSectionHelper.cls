@@ -425,7 +425,6 @@ public with sharing class ManageRegistrationSectionHelper{
           Product2 response = new Product2();
 
           Id filter;
-          Id prodId;
 
           List<Product2> productList = new List<Product2>();
 

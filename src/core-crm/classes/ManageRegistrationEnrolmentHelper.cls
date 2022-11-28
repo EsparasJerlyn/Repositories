@@ -50,8 +50,6 @@ public with sharing class ManageRegistrationEnrolmentHelper{
          String offeringId = parsedRegistrationData.offeringId;
          Boolean prescribedProgram = parsedRegistrationData.prescribedProgram;
          Id priceBookEntryId = parsedRegistrationData.priceBookEntryId;
-         Boolean isProceedNoInvoice = parsedRegistrationData.isProceedNoInvoice;
-         Id promotionId = parsedRegistrationData.promotionId;
 
          //if user is trying to create a new contact
          //validate new contact
@@ -132,7 +130,7 @@ public with sharing class ManageRegistrationEnrolmentHelper{
                    enrolmentParam.newWebCartId = null;
                    enrolmentParam.newCartItemId = null;
 
-                   List<hed__Course_Enrollment__c> courseConnectionList = createCourseConnectionList(enrolmentParam);  
+                   createCourseConnectionList(enrolmentParam);  
                    enrolmentResult.contactName = contactRecName;
               }  
                            
