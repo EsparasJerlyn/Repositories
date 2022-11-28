@@ -127,7 +127,6 @@ private class Update_Latest_Queue_Name_Field_FlowTest {
     @isTest
     static void createCaseFromNonActiveAssignmentRule(){
         Test.startTest();
-        Group internationalEnqQueue = [Select Id, Name FROM Group Where Type='Queue' AND DeveloperName='International_Enquiries' LIMIT 1];
         Id recordTypeId = Schema.SObjectType.Case.getRecordTypeInfosByDeveloperName().get('International_Enquiry').getRecordTypeId();
         User secoUser = TestDataFactory.getISRStudentEnquiriesCommunicationOfficer();
         System.runAs(secoUser){
@@ -142,7 +141,7 @@ private class Update_Latest_Queue_Name_Field_FlowTest {
 
         List<Case> resultList = [SELECT Id, Subject, Owner.Name, Latest_Queue_Name__c FROM Case];
         for(Case resultCase : resultList){
-            System.assertEquals(internationalEnqQueue.Name, resultCase.Latest_Queue_Name__c, 'Latest_Queue_Name__c was updated.');
+            System.assertEquals(null, resultCase.Latest_Queue_Name__c, 'Latest_Queue_Name__c should not be populated.');
         }
         Test.stopTest();
     }
