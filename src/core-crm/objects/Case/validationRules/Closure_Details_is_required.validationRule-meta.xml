@@ -4,14 +4,14 @@
     <active>true</active>
     <errorConditionFormula>AND (
  RecordType.DeveloperName = &apos;International_Enquiry&apos;,
- OR(
-  ISPICKVAL( Status , &apos;Pending Closure&apos;),
-  AND(
-   ISPICKVAL( Status , &apos;Closed&apos;),
-   OR(
-    ISPICKVAL( Closure_Code__c, &apos;Response Given&apos;),
-    ISPICKVAL( Closure_Code__c, &apos;Redirected&apos;)
-   )
+ AND(
+  OR(
+   ISPICKVAL( Status , &apos;Pending Closure&apos;),
+   ISPICKVAL( Status , &apos;Closed&apos;)
+  ),   
+  OR(
+   ISPICKVAL( Closure_Code__c, &apos;Response Given&apos;),
+   ISPICKVAL( Closure_Code__c, &apos;Redirected&apos;)
   )
  ),
  LEN ( Closure_Details__c ) = 0
