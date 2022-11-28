@@ -97,11 +97,23 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>OpeProgramStructureCtrl</apexClass>
+        <apexClass>ManageRegistrationLearnersListHelper</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>PreSessionReminderEmailCtrl</apexClass>
+        <apexClass>ManageRegistrationSectionHelper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ManageRegistrationEnrolmentHelper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PromotionDiscountCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>OpeProgramStructureCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -409,6 +421,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>CartItem.Contact__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>CartItem.Course_Offering__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -430,6 +447,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>CartItem.TotalPrice</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>CartItem.Product2</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -680,6 +702,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.Work_SMS_Opt_Out__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.hed__Primary_Organization__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2223,7 +2250,6 @@
         <field>hed__Course__c.Field_of_Education__c</field>
         <readable>true</readable>
     </fieldPermissions>
-
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course__c.Group_Dynamics_Tools__c</field>
