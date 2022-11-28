@@ -1,6 +1,6 @@
 /**
- * @description helper class for manageregistrationsectionctrl
- * @see ../manageregistrationsectionctrl
+ * @description helper class for manageregistrationsectionhelper
+ * @see ../manageregistrationsectionhelper
  *
  * @author Accenture
  *
