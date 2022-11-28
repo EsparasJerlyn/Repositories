@@ -23,11 +23,6 @@ public with sharing class ManageRegistrationSectionHelper{
      private static Decimal discountAmount;
      private static PricebookEntry priceBookEntry;
      private static Contact contactRecord;
-
-     private static string studentRT = System.Label.RT_CourseConnection_Student;
-     private static Id studentRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(studentRT).getRecordTypeId();
-     private static string studentProgramRT = System.Label.RT_CourseConnection_Student_Program;
-     private static Id studentProgramRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(studentProgramRT).getRecordTypeId();
      /**
       * @description setup user, pricing, cart of enrolment
       * @param finalContactRecord - contactRecord used for registration
@@ -187,13 +182,15 @@ public with sharing class ManageRegistrationSectionHelper{
           }else{
                //get cart owned by the commerce user to be enroled
                String externalId;
+               
                List<WebCart> carts = [
                     SELECT External_Id__c 
                     FROM WebCart 
                     WHERE OwnerId =: commerceUser 
                     WITH SECURITY_ENFORCED
                     LIMIT 1];
-               for(WebCart webCart : carts){ externalId = webCart.External_Id__c; }
+                    
+               externalId = carts[0].External_Id__c;
       
                WebCart webCartToClose = new WebCart( Id = newWebCart.Id, Status__c = 'Closed', Status = 'Closed');
                
@@ -212,7 +209,7 @@ public with sharing class ManageRegistrationSectionHelper{
                enrolmentParam.newCartItemId = newCartItem.Id;
                
                //directly create course connection records
-               List<hed__Course_Enrollment__c> courseConnectionList = createCourseConnectionList(enrolmentParam);  
+               List<hed__Course_Enrollment__c> courseConnectionList = ManageRegistrationEnrolmentHelper.createCourseConnectionList(enrolmentParam);  
                
                enrollmentProcessingReturn.contactId = contactRecord.Id;
                enrollmentProcessingReturn.contactName = finalContactRecord.FirstName + finalContactRecord.LastName;
@@ -578,9 +575,7 @@ public with sharing class ManageRegistrationSectionHelper{
                LIMIT 1];
 
           if(users.size() > 0){
-               for(User u : users){
-                    response = u.Id;
-               }
+               response = users[0].Id;
           }else{
 
                Profile profile = [
@@ -607,58 +602,6 @@ public with sharing class ManageRegistrationSectionHelper{
           }
 
           return response;
-     }
-
-
-     /**
-     * Creates commerce user based on contact details
-     * @param enrolmentParam - wrapper class that contains the needed data for enrolment
-     * @return hed__Course_Enrollment__c - newly created course connections
-     */
-     public static List<hed__Course_Enrollment__c> createCourseConnectionList(ManageRegistrationEnrolmentHelper.EnrolmentCreationParamClass enrolmentParam){
-
-          
-          List<hed__Course_Enrollment__c> courseConnectionList = new List<hed__Course_Enrollment__c>();
-          hed__Course_Enrollment__c newCourseConnection = new hed__Course_Enrollment__c();
-          newCourseConnection.hed__Contact__c =  enrolmentParam.contactId;
-          newCourseConnection.hed__Status__c = 'Active';
-          newCourseConnection.Paid_in_Full__c = enrolmentParam.isTailored?'Contract':'Yes';
-
-          if(enrolmentParam.amount == 0 && !enrolmentParam.isTailored){
-               newCourseConnection.Payment_Method__c = 'No Charge';
-          } else {
-               newCourseConnection.Payment_Method__c = 'Admin Added';
-          }
-
-          newCourseConnection.Amount__c = enrolmentParam.amount;
-          newCourseConnection.Cart_ID__c = enrolmentParam.newWebCartId;
-          newCourseConnection.Cart_Item__c = enrolmentParam.newCartItemId;
-          if(!enrolmentParam.prescribedProgram){
-               newCourseConnection.hed__Course_Offering__c = enrolmentParam.offeringId;
-               newCourseConnection.RecordTypeId = studentRecTypeId;
-               courseConnectionList.add(newCourseConnection);
-          }else{
-               newCourseConnection.Program_Offering__c = enrolmentParam.offeringId;
-               newCourseConnection.RecordTypeId = studentProgramRecTypeId;
-               courseConnectionList.add(newCourseConnection);
-
-               for(hed__Course_Offering__c childOffering : [SELECT Id FROM hed__Course_Offering__c WHERE Program_Offering__c =: enrolmentParam.offeringId WITH SECURITY_ENFORCED]){
-                    hed__Course_Enrollment__c childCourseConnection = new hed__Course_Enrollment__c();
-                    childCourseConnection.hed__Contact__c =  enrolmentParam.contactId;
-                    childCourseConnection.hed__Status__c = 'Active';
-                    childCourseConnection.Paid_in_Full__c = newCourseConnection.Paid_in_Full__c;
-                    childCourseConnection.Payment_Method__c =  newCourseConnection.Payment_Method__c;
-                    childCourseConnection.Amount__c = enrolmentParam.amount;
-                    childCourseConnection.Program_Offering__c = enrolmentParam.offeringId;
-                    childCourseConnection.hed__Course_Offering__c = childOffering.Id;
-                    childCourseConnection.RecordTypeId = studentRecTypeId;
-                    courseConnectionList.add(childCourseConnection);
-               }
-          }
-
-          insert courseConnectionList;
-          
-          return courseConnectionList;
      }
 
      /**

@@ -11,6 +11,11 @@
 */
 
 public with sharing class ManageRegistrationEnrolmentHelper{
+     
+     private static string studentRT = System.Label.RT_CourseConnection_Student;
+     private static Id studentRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(studentRT).getRecordTypeId();
+     private static string studentProgramRT = System.Label.RT_CourseConnection_Student_Program;
+     private static Id studentProgramRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(studentProgramRT).getRecordTypeId();
 
      
      private static final String TAILORED_EXECUTIVE_PROGRAM = 'Tailored Executive Program';
@@ -125,7 +130,7 @@ public with sharing class ManageRegistrationEnrolmentHelper{
                    enrolmentParam.newWebCartId = null;
                    enrolmentParam.newCartItemId = null;
 
-                   ManageRegistrationSectionHelper.createCourseConnectionList(enrolmentParam);  
+                   createCourseConnectionList(enrolmentParam);  
                    enrolmentResult.contactName = contactRecName;
               }  
                            
@@ -172,6 +177,57 @@ public with sharing class ManageRegistrationEnrolmentHelper{
           
           return validationReturn;
      }
+
+     /**
+     * Creates commerce user based on contact details
+     * @param enrolmentParam - wrapper class that contains the needed data for enrolment
+     * @return hed__Course_Enrollment__c - newly created course connections
+     */
+    public static List<hed__Course_Enrollment__c> createCourseConnectionList(EnrolmentCreationParamClass enrolmentParam){
+
+          
+     List<hed__Course_Enrollment__c> courseConnectionList = new List<hed__Course_Enrollment__c>();
+     hed__Course_Enrollment__c newCourseConnection = new hed__Course_Enrollment__c();
+     newCourseConnection.hed__Contact__c =  enrolmentParam.contactId;
+     newCourseConnection.hed__Status__c = 'Active';
+     newCourseConnection.Paid_in_Full__c = enrolmentParam.isTailored?'Contract':'Yes';
+
+     if(enrolmentParam.amount == 0 && !enrolmentParam.isTailored){
+          newCourseConnection.Payment_Method__c = 'No Charge';
+     } else {
+          newCourseConnection.Payment_Method__c = 'Admin Added';
+     }
+
+     newCourseConnection.Amount__c = enrolmentParam.amount;
+     newCourseConnection.Cart_ID__c = enrolmentParam.newWebCartId;
+     newCourseConnection.Cart_Item__c = enrolmentParam.newCartItemId;
+     if(!enrolmentParam.prescribedProgram){
+          newCourseConnection.hed__Course_Offering__c = enrolmentParam.offeringId;
+          newCourseConnection.RecordTypeId = studentRecTypeId;
+          courseConnectionList.add(newCourseConnection);
+     }else{
+          newCourseConnection.Program_Offering__c = enrolmentParam.offeringId;
+          newCourseConnection.RecordTypeId = studentProgramRecTypeId;
+          courseConnectionList.add(newCourseConnection);
+
+          for(hed__Course_Offering__c childOffering : [SELECT Id FROM hed__Course_Offering__c WHERE Program_Offering__c =: enrolmentParam.offeringId WITH SECURITY_ENFORCED]){
+               hed__Course_Enrollment__c childCourseConnection = new hed__Course_Enrollment__c();
+               childCourseConnection.hed__Contact__c =  enrolmentParam.contactId;
+               childCourseConnection.hed__Status__c = 'Active';
+               childCourseConnection.Paid_in_Full__c = newCourseConnection.Paid_in_Full__c;
+               childCourseConnection.Payment_Method__c =  newCourseConnection.Payment_Method__c;
+               childCourseConnection.Amount__c = enrolmentParam.amount;
+               childCourseConnection.Program_Offering__c = enrolmentParam.offeringId;
+               childCourseConnection.hed__Course_Offering__c = childOffering.Id;
+               childCourseConnection.RecordTypeId = studentRecTypeId;
+               courseConnectionList.add(childCourseConnection);
+          }
+     }
+
+     insert courseConnectionList;
+     
+     return courseConnectionList;
+}
 
      public class EnrolmentCreationParamClass{
           @AuraEnabled
