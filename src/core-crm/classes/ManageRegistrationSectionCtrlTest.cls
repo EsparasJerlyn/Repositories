@@ -58,7 +58,6 @@ public with sharing class ManageRegistrationSectionCtrlTest{
      static void getEmailOptionsTest(){
           User programUser = TestDataFactory.getProgramAdminUser();
           System.runAs(programUser){
-               List<Contact> conList = new List<Contact>();
                Test.startTest();
                
                //Get Contact with no registered email

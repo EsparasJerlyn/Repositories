@@ -250,7 +250,7 @@ public with sharing class ManageRegistrationEnrolmentHelper{
                webCart.OwnerId = userId;
                webCart.WebStoreId = studyWebStoreId;
           }catch(Exception e){
-               System.debug(e.getMessage());
+               System.debug(LoggingLevel.WARN, 'ManageRegistrationEnrolmentHelper.createWebCart Error: ' + e.getMessage());//NOPMD
           }
      
           return webCart;
