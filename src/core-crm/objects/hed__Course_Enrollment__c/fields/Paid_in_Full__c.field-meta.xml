@@ -25,6 +25,11 @@
                 <default>false</default>
                 <label>Contract</label>
             </value>
+            <value>
+                <fullName>Refunded</fullName>
+                <default>false</default>
+                <label>Refunded</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
