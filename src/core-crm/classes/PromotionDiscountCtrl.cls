@@ -151,13 +151,13 @@ public with sharing class PromotionDiscountCtrl{
                          //set the discount amount
                          discount = (currentPromotionTarget.AdjustmentAmount).setScale(2);
 
-                //else if for product category
+               //else if for product specific
                }else if( currentPromotionTarget.TargetType == 'Product' &&  
                          currentPromotionTarget.AdjustmentType == 'PercentageDiscount'){
 
                          //set the discount amount
                          discount = ((standardPrice * currentPromotionTarget.AdjustmentPercent) / 100).setScale(2);
-
+               //else if for product category
                }else if( currentPromotionTarget.TargetType == 'ProductCategory' && 
                          promotionToProductMap.containsKey(currentPromotionTarget.PromotionId) && 
                          promotionToProductMap.get(currentPromotionTarget.PromotionId).contains(product.Id) &&
@@ -166,7 +166,7 @@ public with sharing class PromotionDiscountCtrl{
 
                          //set the discount amount
                          discount = (currentPromotionTarget.AdjustmentAmount).setScale(2);
-
+               //else if for product category                         
                }else if( currentPromotionTarget.TargetType == 'ProductCategory' && 
                          promotionToProductMap.containsKey(currentPromotionTarget.PromotionId) && 
                          promotionToProductMap.get(currentPromotionTarget.PromotionId).contains(product.Id) &&
