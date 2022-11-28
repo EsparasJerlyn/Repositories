@@ -11,7 +11,7 @@
       | marygrace.li@qut.edu.au        | September 27, 2021    | DEP1-158, DEP1-623     | Created file                 | 
       |                                |                       |                        |                              | 
  */
-public with sharing class AccountCtrl {
+public with  sharing class AccountCtrl {
 
    /**
    * @description retrieve account name from Account
