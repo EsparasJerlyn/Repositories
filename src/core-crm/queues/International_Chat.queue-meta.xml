@@ -3,6 +3,9 @@
     <doesSendEmailToMembers>false</doesSendEmailToMembers>
     <name>International_Chat</name>
     <queueMembers>
+        <publicGroups>
+            <publicGroup>International_Recruitment</publicGroup>
+        </publicGroups>
     </queueMembers>
     <queueRoutingConfig>International_Inquiry_Team</queueRoutingConfig>
     <queueSobject>
