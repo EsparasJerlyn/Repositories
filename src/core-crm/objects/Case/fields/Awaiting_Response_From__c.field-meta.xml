@@ -35,14 +35,14 @@
                 <label>Agent</label>
             </value>
             <value>
-                <fullName>Other QUT Department</fullName>
-                <default>false</default>
-                <label>Other QUT Department</label>
-            </value>
-            <value>
                 <fullName>Enquirer</fullName>
                 <default>false</default>
                 <label>Enquirer</label>
+            </value>
+            <value>
+                <fullName>Other QUT Department</fullName>
+                <default>false</default>
+                <label>Other QUT Department</label>
             </value>
         </valueSetDefinition>
         <valueSettings>
@@ -63,11 +63,12 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Awaiting Response</controllingFieldValue>
-            <valueName>Other QUT Department</valueName>
+            <valueName>Enquirer</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Awaiting Response</controllingFieldValue>
-            <valueName>Enquirer</valueName>
+            <valueName>Other QUT Department</valueName>
         </valueSettings>
+       
     </valueSet>
 </CustomField>
