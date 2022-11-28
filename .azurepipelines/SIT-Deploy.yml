@@ -18,7 +18,7 @@ schedules:
     always: true
     branches:
       include:
-        - release/IT2
+        - develop
 
 #Custom Variables
 variables:
