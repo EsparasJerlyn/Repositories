@@ -85,8 +85,8 @@
                 <targetReference>Validate_Record_Type</targetReference>
             </connector>
             <label>Run 7 Days After Status is Pending Closure</label>
-            <offsetNumber>1</offsetNumber>
-            <offsetUnit>Minutes</offsetUnit>
+            <offsetNumber>7</offsetNumber>
+            <offsetUnit>Days</offsetUnit>
             <timeSource>RecordTriggerEvent</timeSource>
         </scheduledPaths>
         <triggerType>RecordAfterSave</triggerType>
