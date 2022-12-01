@@ -26,6 +26,7 @@
       | eugene.andrew.abuan            | August 04, 2022       | DEPP-3677              | Added logic for send welcome    |
       |                                |                       |                        | for Online Self-paced           |
       | john.m.tambasen                | September 23, 2022    | DEPP-4367              | birthdate validation            |
+      | rhea.b.torres                  | November 24, 2022     | DEPP-4628              | Welcome Email implementation    |
 
 
  */
@@ -79,22 +80,10 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
    * @param newItems - List of Contact.Trigger.new
    */
   public void afterInsert(Map<Id, SObject> newItems) {
-    ContactImageHelper.generateContactImageFile(
-      (List<Contact>) newItems.values(),
-      null
-    );
-
-    if(!isRunning){
-      isRunning = true;
-      ContactTriggerHelper.createAccountContactRelationRecords((List<Contact>) newItems.values(), null);
-      ContactWithMatchingLeadHelper.detectLeadDuplicates((Map<Id,Contact>) newItems);
-      List<Id> contactIds = new List<Id>();
-      for(Contact contact : (List<Contact>) newItems.values()){
-        contactIds.add(contact.Id);
-      }
-      ContactWithMatchingLeadHelper.convertLeadOnInsert(contactIds);
-    }
-    createChildMCPersona((List<Contact>) newItems.values());
+    Map<Id, Contact> newMap = (Map<Id,Contact>) newItems;
+    ContactImageHelper.generateContactImageFile(newMap.values(),null);
+    processLeadOnInsert(newMap);
+    createChildMCPersona(newMap.values());
   }
 
   /**
@@ -106,48 +95,101 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
     Map<Id, SObject> newItems,
     Map<Id, SObject> oldItems
   ) {
-    ContactImageHelper.generateContactImageFile(
-      (List<Contact>) newItems.values(),
-      (Map<Id, Contact>) oldItems
-    );
+    Map<Id, Contact> newMap = (Map<Id,Contact>) newItems;
+    Map<Id, Contact> oldMap = (Map<Id,Contact>) oldItems;
+    ContactImageHelper.generateContactImageFile(newMap.values(), oldMap);
+    processLeadOnUpdate(newMap, oldMap);
+    processWelcomeEmail(newMap, oldMap);
+  }
 
+  /**
+   * @description Process Lead on insert
+   * @param newMap - List of Contact.Trigger.new
+   */
+  private void processLeadOnInsert(Map<Id, Contact> newMap){
+    if(!isRunning){
+      isRunning = true;
+      ContactTriggerHelper.createAccountContactRelationRecords(newMap.values(), null);
+      ContactWithMatchingLeadHelper.detectLeadDuplicates(newMap);
+
+      List<Id> contactIdList = new List<Id>();
+      contactIdList.addAll(newMap.keySet());
+      ContactWithMatchingLeadHelper.convertLeadOnInsert(contactIdList);
+    }
+  }
+
+  /**
+   * @description Process Lead duplicates and convert lead
+   * @param newMap - List of Contact.Trigger.new
+   * @param oldMap - List of Contact.Trigger.old
+   */
+  private void processLeadOnUpdate(Map<Id, Contact> newMap, Map<Id, Contact> oldMap){
     Boolean hasChanges = false;
-    List<Contact> contactNewList = (List<Contact>) newItems.values();
-    Map<Id, Contact> oldContactMap = (Map<Id, Contact>) oldItems;
-    
-    for(Contact c : contactNewList){
-      if(oldContactMap!=null){
-        Contact oldContact = oldContactMap.get(c.Id);
-        if((c.Email != oldContact.Email) || (c.Work_Email__c != oldContact.Work_Email__c)){
-          hasChanges = true;
-        }
+    for(Id key : newMap.keySet()){
+      if(oldMap.get(key).Email != newMap.get(key).Email || oldMap.get(key).Work_Email__c != newMap.get(key).Work_Email__c){
+        hasChanges = true;
+        break;
       }
     }
-    List<Contact> contactOldList = (List<Contact>) oldItems.values();
+    if(!isRunning && hasChanges){
+      isRunning = true;
+      ContactWithMatchingLeadHelper.detectLeadDuplicates(newMap);
 
-    if(!isRunning){
-      if(hasChanges){
-        isRunning = true;
-        ContactWithMatchingLeadHelper.detectLeadDuplicates((Map<Id,Contact>) newItems);
-        List<Id> contactIds = new List<Id>();
-        for(Contact contact : (List<Contact>) newItems.values()){
-          contactIds.add(contact.Id);
-        }
-        ContactWithMatchingLeadHelper.convertLeadonUpdate(contactIds);
+      List<Id> contactIdList = new List<Id>();
+      contactIdList.addAll(newMap.keySet());
+      ContactWithMatchingLeadHelper.convertLeadonUpdate(contactIdList);
+    }
+  }
+
+  /**
+   * @description Processes welcome email sending when QUT Student Username is available for the Contact
+   * @param newMap - List of Contact.Trigger.new
+   * @param oldMap - List of Contact.Trigger.old
+   */
+  private void processWelcomeEmail(Map<Id, Contact> newMap, Map<Id, Contact> oldMap){
+    Set<Id> contactSet = new Set<Id>();
+    // process only contacts with QUT Student Username being updated from empty
+    for(Id key : newMap.keySet()){
+      String oldUsername = oldMap.get(key).QUT_Student_Username__c;
+      String newUsername = newMap.get(key).QUT_Student_Username__c;
+      if(String.isBlank(oldUsername) && String.isNotBlank(newUsername)){
+        contactSet.add(newMap.get(key).Id);
       }
+    } 
+    sendWelcomeEmail(contactSet);
+  }
+
+  /**
+   * @description Sends Welcome email to the list of contacts which is enrolled to a blackboard
+   * @param contactSet - List of Contact.Trigger.new
+   */
+  private void sendWelcomeEmail(Set<Id> contactSet){
+    Set<Id> contactsToSendWelcomeEmailSet = new Set<Id>();
+    for(hed__Course_Enrollment__c courseConnection : [
+                                                      SELECT Id, hed__Contact__c,hed__Course_Offering__r.hed__Start_Date__c
+                                                      FROM hed__Course_Enrollment__c
+                                                      WHERE hed__Contact__r.Id IN: contactSet
+                                                        AND hed__Course_Offering__r.Primary_Delivery_Platform__c = 'Blackboard'
+                                                        AND hed__Contact__r.Registered_Email__c != null
+                                                        AND hed__Status__c = 'Active'
+                                                        AND RecordType.DeveloperName =:STUDENT]){
+      Integer dayBeforeStart = Date.today().daysBetween(courseConnection.hed__Course_Offering__r.hed__Start_Date__c);
+      if(dayBeforeStart <= 7){
+        contactsToSendWelcomeEmailSet.add(courseConnection.hed__Contact__c); //set of contacts who will receive welcome email
+      }                                            
     }
 
     try{
-      // Send welcome email
-      sendWelcomeEmailOnlineSelfPaced((Map<Id,Contact>) newItems , (Map<Id, Contact>) oldItems);
-    } catch(Exception e){
-      System.debug('Sending of Welcome email failed, see error: ' + e.getMessage());
+      if(!contactsToSendWelcomeEmailSet.isEmpty()){
+        ContactUserNameCreatedHelper.sendEmailUsernameCreated(contactsToSendWelcomeEmailSet);
+      }
+    }catch(Exception e){
+      System.debug(LoggingLevel.WARN, 'ContactTriggerHandler Welcome email failed, Error: ' + e.getMessage());//NOPMD
     }
-    
 
   }
 
-  public void createChildMCPersona(List<Contact> newContacts){
+  private void createChildMCPersona(List<Contact> newContacts){
         List<Contact> childContacts = new List<Contact>();
         Id sysAdUserId = [Select Id from User Where Name = 'Sys Admin Integration User' limit 1].Id;
 
@@ -198,131 +240,6 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
 
         insert childContacts;
   }
-
-  /**
- * @description Sends Welcome email to the contact when Product is Online Self-paced
- * @param newContact - List of Contact.Trigger.new
- * @param oldContact - List of Contact.Trigger.old
- */
-  public void sendWelcomeEmailOnlineSelfPaced( Map<Id, Contact> newContactItems, Map<Id, Contact> oldContact){
-    Set<Id> programOfferingIdSet = new Set<Id>();
-    Set<Id> courseOfferingIdSet = new Set<Id>();
-    List<Program_Offering__c> programOfferings = new List<Program_Offering__c>();
-    List<hed__Course_Offering__c> courseOfferings = new List<hed__Course_Offering__c>();
-
-    // Query Course Connection Details based on the Contact Id
-    //Id: hed__Course_Offering__c or Program_Offering__c
-    Map<Id, hed__Course_Enrollment__c> productCourseConnectionMap = new Map<Id, hed__Course_Enrollment__c>();
-    for(hed__Course_Enrollment__c courseConnection : [
-                                                      SELECT
-                                                        Id,
-                                                        hed__Course_Offering__c,
-                                                        Program_Offering__c,
-                                                        hed__Contact__c,
-                                                        Program_Offering__r.hed_Program_Plan__r.Id,
-                                                        Program_Offering__r.hed_Program_Plan__c,
-                                                        hed__Course_Offering__r.hed__Course__r.Id,
-                                                        hed__Course_Offering__r.hed__Course__c
-                                                      FROM hed__Course_Enrollment__c
-                                                      WHERE hed__Contact__r.Id IN: newContactItems.keySet()
-                                                      AND hed__Status__c = 'Active'
-                                                      AND hed__Contact__r.QUT_Student_Username__c !=null
-                                                      AND Recordtype_Name__c =: STUDENT]){                                                   
-      if(String.isNotBlank(courseConnection.Program_Offering__r.hed_Program_Plan__c)){
-        productCourseConnectionMap.put(courseConnection.Program_Offering__r.hed_Program_Plan__r.Id, courseConnection);
-      }
-
-      if(String.isNotBlank(courseConnection.hed__Course_Offering__r.hed__Course__c)){
-        productCourseConnectionMap.put(courseConnection.hed__Course_Offering__r.hed__Course__r.Id, courseConnection);
-      }
-
-      //Populate the Offering Sets based on the course connection
-      if(String.isNotBlank(courseConnection.Program_Offering__c)){
-        programOfferingIdSet.add(courseConnection.Program_Offering__c);
-      }else if(String.isNotBlank(courseConnection.hed__Course_Offering__c)){
-        courseOfferingIdSet.add(courseConnection.hed__Course_Offering__c);
-      }
-    }
-
-    Set<Id> programPlanIdSet = new Set<Id>();
-    Set<Id> courseIdSet = new Set<Id>();
-    
-    //Query Program Offering to get valid Offerings based on status and Start Date
-    if(!programOfferingIdSet.isEmpty()){
-      programOfferings = [
-        SELECT 
-          Id , 
-          hed_Program_Plan__c 
-        FROM Program_Offering__c
-        WHERE Id IN: programOfferingIdSet 
-        AND Start_Date__c < today
-        AND IsActive__c = true
-      ];
-    }
-    
-    //Query Course Offering
-    if(!courseOfferingIdSet.isEmpty()){
-      courseOfferings = [
-        SELECT Id,
-        hed__Course__c 
-        FROM hed__Course_Offering__c
-        WHERE Id IN: courseOfferingIdSet
-        AND hed__Start_Date__c < today
-        AND IsActive__c = true
-      ];
-    }
-    
-
-    // Populate the Course/ProgramPlan Set based on the offering.
-    for(Program_Offering__c programOffering : programOfferings){
-      if(String.isNotBlank(programOffering.hed_Program_Plan__c )){
-        programPlanIdSet.add(programOffering.hed_Program_Plan__c);
-      }
-    }
-
-    for(hed__Course_Offering__c courseOffering : courseOfferings){
-      if(String.isNotBlank(courseOffering.hed__Course__c)){
-        courseIdSet.add(courseOffering.hed__Course__c);
-      }
-    }
-
-    Set<Id> validContactForEmail = new Set<Id>();
-    // Query Product based on the ProgramPlan/Course
-    //course/program plan
-    if(!programPlanIdSet.isEmpty() || !courseIdSet.isEmpty()){
-        for(Product2 product : [SELECT Id,
-                                Program_Plan__c,
-                                Course__c
-                                FROM Product2
-                                WHERE Delivery__c INCLUDES ('Online Self-paced')
-                                AND (Program_Plan__c IN: programPlanIdSet
-                                OR Course__c IN: courseIdSet)]){
-        if(productCourseConnectionMap.containsKey(product.Program_Plan__c)){
-          validContactForEmail.add(productCourseConnectionMap.get(product.Program_Plan__c).hed__Contact__c);
-        }else if(productCourseConnectionMap.containsKey(product.Course__c)){
-          validContactForEmail.add(productCourseConnectionMap.get(product.Course__c).hed__Contact__c);
-        }                    
-      }
-    }
-
-    // Process
-    Set<Id> toSendEmail = new Set<Id>();
-    for(Contact contact : newContactItems.values()){
-      //after update - as soon as a QUT User Name is assigned to the learner
-      if(oldContact != null){
-        if(contact.QUT_Student_Username__c != oldContact.get(contact.Id).QUT_Student_Username__c 
-          && String.isNotBlank(contact.QUT_Student_Username__c) 
-          && String.IsNotBlank(contact.Registered_Email__c)
-          && validContactForEmail.contains(contact.Id)){
-            // Add this contact to list of contacts to receive welcome email
-            toSendEmail.add(contact.Id);
-        }
-      }
-    }
-    if(!toSendEmail.isEmpty()){
-      ContactUserNameCreatedHelper.sendEmailUsernameCreated(toSendEmail);
-    }
-  } 
 
   /**
    * @description indicates it the trigger is disabled

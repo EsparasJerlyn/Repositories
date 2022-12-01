@@ -7,7 +7,8 @@
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
-      | roy.nino.s.regala   	       | July 30, 2022         | DEPP-3557              | Created file                 | 
+      | roy.nino.s.regala              | July 30, 2022         | DEPP-3557              | Created file                 |
+      | rhea.b.torres                  | November 25, 2022     | DEPP-4628              | 7-day window logic update    | 
  */
 public class SendWelcomeEmailBatch implements Database.Batchable<sObject>
 {
@@ -19,15 +20,17 @@ public class SendWelcomeEmailBatch implements Database.Batchable<sObject>
     */
     public Database.QueryLocator start(Database.BatchableContext bc)
     {
-        //where course offering start date is 7 days from today
-        //and primary delivery platform is blackboard
-        //and active enrollment
-        //is student
+        /**
+         * startdate of offering starts 7 days from today
+         * primary delivery platform is blackboard
+         * Student Username is available
+         * and active enrollment
+         * is student
+         */ 
         String query = 
         'SELECT Id, hed__Contact__c ' + 
         'FROM hed__Course_Enrollment__c ' + 
-    	'WHERE hed__Course_Offering__r.hed__Start_Date__c = NEXT_N_DAYS:7 ' + 
-        'AND hed__Course_Offering__r.hed__Start_Date__c != NEXT_N_DAYS:6 ' +
+    	'WHERE hed__Course_Offering__r.hed__Start_Date__c = NEXT_N_DAYS:7 ' +
         'AND hed__Course_Offering__r.Primary_Delivery_Platform__c = \'Blackboard\' ' + 
         'AND hed__Contact__r.QUT_Student_Username__c != null ' + 
         'AND hed__Contact__r.Registered_Email__c != null ' +
@@ -43,18 +46,18 @@ public class SendWelcomeEmailBatch implements Database.Batchable<sObject>
     */
     public void execute(Database.BatchableContext bc, List<hed__Course_Enrollment__c> enrollmentList)
     {
-        try{ 
-            Set<Id> contactIds = new Set<Id>();
-            for(hed__Course_Enrollment__c cE: enrollmentList){
-                contactIds.add(cE.hed__Contact__c);
+        Set<Id> contactIds = new Set<Id>();
+        try{
+            //Loop through all courseconnections to get valid contacts to receive welcome email
+            for(hed__Course_Enrollment__c courseEnrollnment: enrollmentList){
+                contactIds.add(courseEnrollnment.hed__Contact__c);
             }
             if(!contactIds.isEmpty()){
                 ContactUserNameCreatedHelper.sendEmailUsernameCreated(contactIds);
             }
         }catch(Exception e){
-           System.debug(LoggingLevel.WARN, 'SendWelcomeEmailBatch Error: ' + e.getMessage());//NOPMD
+            System.debug(LoggingLevel.WARN, 'SendWelcomeEmailBatch Error: ' + e.getMessage());//NOPMD
         }
-       
     }  
     public void finish(Database.BatchableContext bc) {
     }

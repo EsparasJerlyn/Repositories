@@ -2126,6 +2126,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>hed__Course_Offering__c.Primary_Delivery_Platform__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>hed__Course__c.Certificate_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>

@@ -294,7 +294,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Send Welcome Email Cron Expression</shortDescription>
-        <value>0 0 7 ? * MON-SUN</value>
+        <value>0 0 0 ? * MON-SUN</value>
     </labels>
     <labels>
         <fullName>Loqate_Mobile_Validation_Cron_Expression</fullName>
