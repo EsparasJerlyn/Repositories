@@ -3314,7 +3314,7 @@
             <field>Address</field>
             <operator>EqualTo</operator>
             <value>
-                <stringValue>test-qutex-no-reply@yopmail.com</stringValue>
+                <stringValue>no-reply@qut.edu.au</stringValue>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
@@ -3335,7 +3335,7 @@
             <field>Address</field>
             <operator>EqualTo</operator>
             <value>
-                <stringValue>test-qutex-no-reply@yopmail.com</stringValue>
+                <stringValue>no-reply@qut.edu.au</stringValue>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
@@ -3356,7 +3356,7 @@
             <field>Address</field>
             <operator>EqualTo</operator>
             <value>
-                <stringValue>test-qutex-no-reply@yopmail.com</stringValue>
+                <stringValue>no-reply@qut.edu.au</stringValue>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
@@ -3377,7 +3377,7 @@
             <field>Address</field>
             <operator>EqualTo</operator>
             <value>
-                <stringValue>test-qutex-no-reply@yopmail.com</stringValue>
+                <stringValue>no-reply@qut.edu.au</stringValue>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
