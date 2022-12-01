@@ -18,6 +18,7 @@ E: {email}<br />
 M: {mobile}<br />
 Citizenship:&nbsp;{citizenship}<br />
 Living in: {residency}<br />
+Australian Curriculum: {australianCurriculum}<br />
 <br />
 *** Study plans ***<br />
 Intake year: {admissionYear}<br />

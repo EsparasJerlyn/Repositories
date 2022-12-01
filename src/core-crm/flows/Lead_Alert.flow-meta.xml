@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
-        <name>Send_Exchange_Email</name>
-        <label>Send Exchange Email</label>
-        <locationX>1722</locationX>
-        <locationY>888</locationY>
+        <name>Send_Domestic_Email</name>
+        <label>Send Domestic Email</label>
+        <locationX>754</locationX>
+        <locationY>1008</locationY>
         <actionName>FlowEmailHelperNoBanner</actionName>
         <actionType>apex</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -21,6 +21,45 @@
             </value>
         </inputParameters>
         <inputParameters>
+            <name>orgWideEmailAddressId</name>
+            <value>
+                <elementReference>Get_Org_Wide_Email_Id_0_0.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>recipientEmailAddresses</name>
+            <value>
+                <elementReference>ReceiptEmailAddress</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <actionCalls>
+        <name>Send_Exchange_Email</name>
+        <label>Send Exchange Email</label>
+        <locationX>1722</locationX>
+        <locationY>1008</locationY>
+        <actionName>FlowEmailHelperNoBanner</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailTemplateName</name>
+            <value>
+                <elementReference>EmailTemplateName</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mergeFields</name>
+            <value>
+                <elementReference>MergeFields</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>orgWideEmailAddressId</name>
+            <value>
+                <elementReference>Get_Org_Wide_Email_Id_0_0_0.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
             <name>recipientEmailAddresses</name>
             <value>
                 <elementReference>ReceiptEmailAddress</elementReference>
@@ -31,7 +70,7 @@
         <name>Send_International_Email</name>
         <label>Send International Email</label>
         <locationX>314</locationX>
-        <locationY>1704</locationY>
+        <locationY>1824</locationY>
         <actionName>FlowEmailHelperNoBanner</actionName>
         <actionType>apex</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -54,30 +93,9 @@
             </value>
         </inputParameters>
         <inputParameters>
-            <name>recipientEmailAddresses</name>
+            <name>orgWideEmailAddressId</name>
             <value>
-                <elementReference>ReceiptEmailAddress</elementReference>
-            </value>
-        </inputParameters>
-    </actionCalls>
-    <actionCalls>
-        <name>Send_QTAC_Email</name>
-        <label>Send QTAC Email</label>
-        <locationX>1458</locationX>
-        <locationY>888</locationY>
-        <actionName>FlowEmailHelperNoBanner</actionName>
-        <actionType>apex</actionType>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
-        <inputParameters>
-            <name>emailTemplateName</name>
-            <value>
-                <elementReference>EmailTemplateName</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>mergeFields</name>
-            <value>
-                <elementReference>MergeFields</elementReference>
+                <elementReference>Get_Org_Wide_Email_Id_0.Id</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -90,8 +108,8 @@
     <actionCalls>
         <name>Send_Research_Email</name>
         <label>Send Research Email</label>
-        <locationX>1018</locationX>
-        <locationY>1584</locationY>
+        <locationX>1282</locationX>
+        <locationY>1704</locationY>
         <actionName>FlowEmailHelperNoBanner</actionName>
         <actionType>apex</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -111,6 +129,12 @@
             <name>mergeFields</name>
             <value>
                 <elementReference>MergeFields</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>orgWideEmailAddressId</name>
+            <value>
+                <elementReference>Get_Org_Wide_Email_Id.Id</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -211,7 +235,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Assign_Receipt_Email_Address_and_Email_Template_0_0_0_0</targetReference>
+            <targetReference>Get_Org_Wide_Email_Id_0</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -304,41 +328,11 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Assign_Receipt_Email_Address_and_Email_Template_0_0_0_0</targetReference>
+            <targetReference>Get_Org_Wide_Email_Id_0</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Add_MCA_Merge_FIelds_0_0</name>
-        <label>Add MCA Merge FIelds</label>
-        <locationX>754</locationX>
-        <locationY>1008</locationY>
-        <assignmentItems>
-            <assignToReference>MergeFields</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>applicationStatus</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>MergeFields</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>isAgentAssisted</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>MergeFields</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>QUTStudentId</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Assign_Receipt_Email_Address_and_Email_Template_0_0_0</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>Add_MCA_Merge_FIelds_0_0_0</name>
         <label>Add MCA Merge FIelds</label>
         <locationX>1018</locationX>
         <locationY>1008</locationY>
@@ -364,14 +358,172 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Assign_Receipt_Email_Address_and_Email_Template_0_0_0</targetReference>
+            <targetReference>Get_Org_Wide_Email_Id</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Add_MCA_Merge_FIelds_0_0_0</name>
+        <label>Add MCA Merge FIelds</label>
+        <locationX>1282</locationX>
+        <locationY>1008</locationY>
+        <assignmentItems>
+            <assignToReference>MergeFields</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>applicationStatus</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MergeFields</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>isAgentAssisted</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MergeFields</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>QUTStudentId</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Get_Org_Wide_Email_Id</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Add_Merge_Fields</name>
+        <label>Add Merge Fields</label>
+        <locationX>754</locationX>
+        <locationY>888</locationY>
+        <assignmentItems>
+            <assignToReference>MergeFields</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>lastname</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MergeFields</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>firstname</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MergeFields</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>birthDate</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MergeFields</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>email</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MergeFields</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>mobile</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MergeFields</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>citizenship</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MergeFields</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>residency</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MergeFields</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>admissionYear</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MergeFields</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>studyLevel</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MergeFields</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>BSA</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MergeFields</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>NSA</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MergeFields</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>enquiryType</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MergeFields</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>enquiryDescription</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MergeFields</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>createdDate</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MergeFields</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>emailOptInDate</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MergeFields</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>leadSource</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MergeFields</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>leadSourceCategory</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Send_Domestic_Email</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Add_Merge_Fields_0</name>
         <label>Add Merge Fields</label>
         <locationX>1722</locationX>
-        <locationY>768</locationY>
+        <locationY>888</locationY>
         <assignmentItems>
             <assignToReference>MergeFields</assignToReference>
             <operator>Add</operator>
@@ -475,89 +627,10 @@
         </connector>
     </assignments>
     <assignments>
-        <name>Add_Merge_Fields_0_0</name>
-        <label>Add Merge Fields</label>
-        <locationX>1458</locationX>
-        <locationY>768</locationY>
-        <assignmentItems>
-            <assignToReference>MergeFields</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>firstname</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>MergeFields</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>lastname</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>MergeFields</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>email</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>MergeFields</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>citizenship</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>MergeFields</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>residency</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>MergeFields</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>BSA</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>MergeFields</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>enquiryType</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>MergeFields</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>enquiryDescription</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>MergeFields</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>doubleDegree</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>MergeFields</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>pathway</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Send_QTAC_Email</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
         <name>Add_Merge_Fields_0_0_0_0</name>
         <label>Add Merge Fields</label>
-        <locationX>1018</locationX>
-        <locationY>1464</locationY>
+        <locationX>1282</locationX>
+        <locationY>1584</locationY>
         <assignmentItems>
             <assignToReference>MergeFields</assignToReference>
             <operator>Add</operator>
@@ -678,7 +751,7 @@
         <name>Add_Merge_Fields_0_0_0_0_0</name>
         <label>Add Merge Fields</label>
         <locationX>314</locationX>
-        <locationY>1584</locationY>
+        <locationY>1704</locationY>
         <assignmentItems>
             <assignToReference>MergeFields</assignToReference>
             <operator>Add</operator>
@@ -810,6 +883,13 @@
             <operator>Add</operator>
             <value>
                 <elementReference>pathway</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MergeFields</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>australianCurriculum</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -1115,7 +1195,7 @@
             <assignToReference>applicationStatusDate.mergeField</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue>{applicationStatusDate}</stringValue>
+                <stringValue>{applicationStatusDate} </stringValue>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -1258,7 +1338,7 @@
     <assignments>
         <name>Assign_MCA_Merge_Fields_0_0</name>
         <label>Assign MCA Merge Fields</label>
-        <locationX>754</locationX>
+        <locationX>1018</locationX>
         <locationY>888</locationY>
         <assignmentItems>
             <assignToReference>applicationStatus.mergeField</assignToReference>
@@ -1306,7 +1386,7 @@
     <assignments>
         <name>Assign_MCA_Merge_Fields_0_0_0</name>
         <label>Assign MCA Merge Fields</label>
-        <locationX>1018</locationX>
+        <locationX>1282</locationX>
         <locationY>888</locationY>
         <assignmentItems>
             <assignToReference>applicationStatus.mergeField</assignToReference>
@@ -1358,7 +1438,7 @@
         <name>Assign_Merge_Fields</name>
         <label>Assign Merge Fields</label>
         <locationX>1722</locationX>
-        <locationY>648</locationY>
+        <locationY>768</locationY>
         <assignmentItems>
             <assignToReference>firstname.mergeField</assignToReference>
             <operator>Assign</operator>
@@ -1560,24 +1640,10 @@
         </connector>
     </assignments>
     <assignments>
-        <name>Assign_Merge_Fields_0</name>
+        <name>Assign_Merge_Fields_0_0</name>
         <label>Assign Merge Fields</label>
-        <locationX>1458</locationX>
-        <locationY>648</locationY>
-        <assignmentItems>
-            <assignToReference>firstname.mergeField</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>{firstname}</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>firstname.mergeFieldValue</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>$Record.First_Name__c</elementReference>
-            </value>
-        </assignmentItems>
+        <locationX>754</locationX>
+        <locationY>768</locationY>
         <assignmentItems>
             <assignToReference>lastname.mergeField</assignToReference>
             <operator>Assign</operator>
@@ -1593,6 +1659,34 @@
             </value>
         </assignmentItems>
         <assignmentItems>
+            <assignToReference>firstname.mergeField</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>{firstname}</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>firstname.mergeFieldValue</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.First_Name__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>birthDate.mergeField</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>{birthDate}</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>birthDate.mergeFieldValue</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Birthdate__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
             <assignToReference>email.mergeField</assignToReference>
             <operator>Assign</operator>
             <value>
@@ -1604,6 +1698,20 @@
             <operator>Assign</operator>
             <value>
                 <elementReference>$Record.Email__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>mobile.mergeField</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>{mobile}</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>mobile.mergeFieldValue</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Mobile__c</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -1635,6 +1743,34 @@
             </value>
         </assignmentItems>
         <assignmentItems>
+            <assignToReference>admissionYear.mergeField</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>{admissionYear}</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>admissionYear.mergeFieldValue</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Admission_Year__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>studyLevel.mergeField</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>{studyLevel}</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>studyLevel.mergeFieldValue</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.My_Primary_Study_Level__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
             <assignToReference>BSA.mergeField</assignToReference>
             <operator>Assign</operator>
             <value>
@@ -1646,6 +1782,20 @@
             <operator>Assign</operator>
             <value>
                 <elementReference>$Record.My_Primary_BSA__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>NSA.mergeField</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>{NSA}</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>NSA.mergeFieldValue</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.My_Primary_NSA__c</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -1677,42 +1827,70 @@
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>doubleDegree.mergeField</assignToReference>
+            <assignToReference>createdDate.mergeField</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue>{doubleDegree}</stringValue>
+                <stringValue>{createdDate}</stringValue>
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>doubleDegree.mergeFieldValue</assignToReference>
+            <assignToReference>createdDate.mergeFieldValue</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>$Record.My_Double_Degree__c</elementReference>
+                <elementReference>$Record.CreatedDate</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>pathway.mergeField</assignToReference>
+            <assignToReference>emailOptInDate.mergeField</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue>{pathway}</stringValue>
+                <stringValue>{emailOptInDate}</stringValue>
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>pathway.mergeFieldValue</assignToReference>
+            <assignToReference>emailOptInDate.mergeFieldValue</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>$Record.My_Interested_English_Pathways__c</elementReference>
+                <elementReference>$Record.Email_OptIn_DateTime__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>leadSource.mergeField</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>{leadSource}</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>leadSource.mergeFieldValue</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Lead_Source__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>leadSourceCategory.mergeField</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>{leadSourceCategory}</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>leadSourceCategory.mergeFieldValue</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Lead_Source_Category__c</elementReference>
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Add_Merge_Fields_0_0</targetReference>
+            <targetReference>Add_Merge_Fields</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_Merge_Fields_0_0_0</name>
         <label>Assign Merge Fields</label>
-        <locationX>1018</locationX>
-        <locationY>1344</locationY>
+        <locationX>1282</locationX>
+        <locationY>1464</locationY>
         <assignmentItems>
             <assignToReference>firstname.mergeField</assignToReference>
             <operator>Assign</operator>
@@ -1952,7 +2130,7 @@
         <name>Assign_Merge_Fields_0_0_0_0</name>
         <label>Assign Merge Fields</label>
         <locationX>314</locationX>
-        <locationY>1464</locationY>
+        <locationY>1584</locationY>
         <assignmentItems>
             <assignToReference>firstname.mergeField</assignToReference>
             <operator>Assign</operator>
@@ -2125,7 +2303,7 @@
             <assignToReference>emailOptInDate.mergeField</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue>{emailOptInDate}</stringValue>
+                <stringValue>{emailOptInDate} </stringValue>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -2219,6 +2397,20 @@
                 <elementReference>$Record.My_Funding_Source__c</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>australianCurriculum.mergeField</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>{australianCurriculum}</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>australianCurriculum.mergeFieldValue</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.My_Studying_Australian_Curriculum__c</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Add_Merge_Fields_0_0_0_0_0</targetReference>
         </connector>
@@ -2227,7 +2419,7 @@
         <name>Assign_Receipt_Email_Address_and_Email_Template</name>
         <label>Assign Receipt Email Address and Email Template</label>
         <locationX>1722</locationX>
-        <locationY>528</locationY>
+        <locationY>648</locationY>
         <assignmentItems>
             <assignToReference>ReceiptEmailAddress</assignToReference>
             <operator>Add</operator>
@@ -2247,33 +2439,33 @@
         </connector>
     </assignments>
     <assignments>
-        <name>Assign_Receipt_Email_Address_and_Email_Template_0</name>
+        <name>Assign_Receipt_Email_Address_and_Email_Template_0_0</name>
         <label>Assign Receipt Email Address and Email Template</label>
-        <locationX>1458</locationX>
-        <locationY>528</locationY>
+        <locationX>754</locationX>
+        <locationY>648</locationY>
         <assignmentItems>
             <assignToReference>ReceiptEmailAddress</assignToReference>
             <operator>Add</operator>
             <value>
-                <elementReference>Get_QTAC_Recipient.Email__c</elementReference>
+                <elementReference>Get_Domestic_Recipient.Email__c</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>EmailTemplateName</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue>Lead Alert - QTAC</stringValue>
+                <stringValue>Lead Alert - Domestic</stringValue>
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Assign_Merge_Fields_0</targetReference>
+            <targetReference>Assign_Merge_Fields_0_0</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_Receipt_Email_Address_and_Email_Template_0_0_0</name>
         <label>Assign Receipt Email Address and Email Template</label>
-        <locationX>1018</locationX>
-        <locationY>1224</locationY>
+        <locationX>1282</locationX>
+        <locationY>1344</locationY>
         <assignmentItems>
             <assignToReference>ReceiptEmailAddress</assignToReference>
             <operator>Add</operator>
@@ -2296,7 +2488,7 @@
         <name>Assign_Receipt_Email_Address_and_Email_Template_0_0_0_0</name>
         <label>Assign Receipt Email Address and Email Template</label>
         <locationX>314</locationX>
-        <locationY>1344</locationY>
+        <locationY>1464</locationY>
         <assignmentItems>
             <assignToReference>ReceiptEmailAddress</assignToReference>
             <operator>Add</operator>
@@ -2321,7 +2513,7 @@
         <locationX>314</locationX>
         <locationY>528</locationY>
         <defaultConnector>
-            <targetReference>Assign_Receipt_Email_Address_and_Email_Template_0_0_0_0</targetReference>
+            <targetReference>Get_Org_Wide_Email_Id_0</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -2365,10 +2557,10 @@
     <decisions>
         <name>Get_MCA</name>
         <label>Get MCA</label>
-        <locationX>1018</locationX>
+        <locationX>1282</locationX>
         <locationY>528</locationY>
         <defaultConnector>
-            <targetReference>Assign_Receipt_Email_Address_and_Email_Template_0_0_0</targetReference>
+            <targetReference>Get_Org_Wide_Email_Id</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -2746,6 +2938,35 @@
             <label>International Enquiry</label>
         </rules>
         <rules>
+            <name>Domestic</name>
+            <conditionLogic>(1 OR 2) AND 3</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.My_Country_Of_Citizenship__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Australia</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.My_Country_Of_Citizenship__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>New Zealand</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Enquiry_Description__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Domestic_Recipient</targetReference>
+            </connector>
+            <label>Domestic</label>
+        </rules>
+        <rules>
             <name>Research</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
@@ -2766,28 +2987,6 @@
                 <targetReference>Get_Research_Recipient</targetReference>
             </connector>
             <label>Research</label>
-        </rules>
-        <rules>
-            <name>QTAC</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>$Record.My_Studying_Australian_Curriculum__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.Enquiry_Description__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Get_QTAC_Recipient</targetReference>
-            </connector>
-            <label>QTAC</label>
         </rules>
         <rules>
             <name>Exchange_and_study_abroad</name>
@@ -2812,6 +3011,7 @@
             <label>Exchange and study abroad</label>
         </rules>
     </decisions>
+    <environments>Default</environments>
     <interviewLabel>Lead Alert {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Lead Alert</label>
     <processMetadataValues>
@@ -2857,7 +3057,7 @@
     <recordLookups>
         <name>Get_Contact_0</name>
         <label>Get Contact</label>
-        <locationX>1018</locationX>
+        <locationX>1282</locationX>
         <locationY>648</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -2876,13 +3076,34 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <name>Get_Domestic_Recipient</name>
+        <label>Get Domestic Recipient</label>
+        <locationX>754</locationX>
+        <locationY>408</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_Org_Wide_Email_Id_0_0</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Name</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Domestic</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Lead_Alert_Recipient__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>Get_Exchange_Recipient</name>
         <label>Get Exchange Recipient</label>
         <locationX>1722</locationX>
         <locationY>408</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Assign_Receipt_Email_Address_and_Email_Template</targetReference>
+            <targetReference>Get_Org_Wide_Email_Id_0_0_0</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -2941,7 +3162,7 @@
     <recordLookups>
         <name>Get_Lead_0</name>
         <label>Get Lead</label>
-        <locationX>754</locationX>
+        <locationX>1018</locationX>
         <locationY>648</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -2992,7 +3213,7 @@
     <recordLookups>
         <name>Get_MCA_from_Contact_0</name>
         <label>Get MCA from Contact</label>
-        <locationX>1018</locationX>
+        <locationX>1282</locationX>
         <locationY>768</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -3052,7 +3273,7 @@
     <recordLookups>
         <name>Get_MCA_from_Lead_0</name>
         <label>Get MCA from Lead</label>
-        <locationX>754</locationX>
+        <locationX>1018</locationX>
         <locationY>768</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -3080,30 +3301,93 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
-        <name>Get_QTAC_Recipient</name>
-        <label>Get QTAC Recipient</label>
-        <locationX>1458</locationX>
-        <locationY>408</locationY>
+        <name>Get_Org_Wide_Email_Id</name>
+        <label>Get Org Wide Email Id</label>
+        <locationX>1282</locationX>
+        <locationY>1224</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Assign_Receipt_Email_Address_and_Email_Template_0</targetReference>
+            <targetReference>Assign_Receipt_Email_Address_and_Email_Template_0_0_0</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
-            <field>Name</field>
+            <field>Address</field>
             <operator>EqualTo</operator>
             <value>
-                <stringValue>QTAC</stringValue>
+                <stringValue>test-qutex-no-reply@yopmail.com</stringValue>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>Lead_Alert_Recipient__c</object>
+        <object>OrgWideEmailAddress</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Org_Wide_Email_Id_0</name>
+        <label>Get Org Wide Email Id</label>
+        <locationX>314</locationX>
+        <locationY>1344</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Assign_Receipt_Email_Address_and_Email_Template_0_0_0_0</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Address</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>test-qutex-no-reply@yopmail.com</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>OrgWideEmailAddress</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Org_Wide_Email_Id_0_0</name>
+        <label>Get Org Wide Email Id</label>
+        <locationX>754</locationX>
+        <locationY>528</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Assign_Receipt_Email_Address_and_Email_Template_0_0</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Address</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>test-qutex-no-reply@yopmail.com</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>OrgWideEmailAddress</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Org_Wide_Email_Id_0_0_0</name>
+        <label>Get Org Wide Email Id</label>
+        <locationX>1722</locationX>
+        <locationY>528</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Assign_Receipt_Email_Address_and_Email_Template</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Address</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>test-qutex-no-reply@yopmail.com</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>OrgWideEmailAddress</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
         <name>Get_Research_Recipient</name>
         <label>Get Research Recipient</label>
-        <locationX>1018</locationX>
+        <locationX>1282</locationX>
         <locationY>408</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -3174,6 +3458,14 @@
     </variables>
     <variables>
         <name>applicationStatusDate</name>
+        <apexClass>FlowEmailMergeField</apexClass>
+        <dataType>Apex</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>australianCurriculum</name>
         <apexClass>FlowEmailMergeField</apexClass>
         <dataType>Apex</dataType>
         <isCollection>false</isCollection>
