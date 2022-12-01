@@ -20,17 +20,15 @@ public with sharing class EmailTriggerOnlineSelfPacedBatchTest {
     private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
 
-    private static User currentUser = TestDataFactory.createUserRecords(
-        1,
-        'QUTeX'
-    )
-    .iterator()
-    .next();
+    @TestSetup
+    static void makeData(){
+      TestDataFactory.generateTestUsers();
+    }
 
-	@isTest
+	  @isTest
     public static void testEmailOnlineSeldPacedBatch() {
         final String STR_EMAIL_TEMPLATE = 'Test Email Template';
-        System.runAs(currentUser) {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
             Test.startTest();
             /** ACCOUNT CREATION */
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
@@ -141,6 +139,8 @@ public with sharing class EmailTriggerOnlineSelfPacedBatchTest {
             EmailTriggerOnlineSelfPacedBatch emailBatch = new EmailTriggerOnlineSelfPacedBatch();
             Database.executebatch(emailBatch);
             System.assert(![SELECT Id FROM AsyncApexJob WHERE ApexClass.Name = 'EmailTriggerOnlineSelfPacedBatch'].isEmpty() , 'EmailTriggerOnlineSelfPacedBatch Job was not executed');
+            // Assertion for checking email deliverability tracking
+            System.assert(TestDataFactory.queryEmailMessageRecords()!=null, 'EmailMessage was not tracked in course connection.');
             Test.stopTest();
         }
     }

@@ -73,7 +73,10 @@ public without sharing class ContactUserNameCreatedHelper {
 						c.Registered_Email__c,
 						subject,
 						emailTemplate.HtmlValue,
-						emailParams
+						emailParams,
+						null,
+						c.Id,
+						true
 					);
 
 					// Set Org Wide Email Address

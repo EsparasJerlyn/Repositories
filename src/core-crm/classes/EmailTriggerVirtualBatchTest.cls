@@ -17,17 +17,15 @@ public with sharing class EmailTriggerVirtualBatchTest {
     private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
 
-    private static User currentUser = TestDataFactory.createUserRecords(
-        1,
-        'QUTeX'
-    )
-    .iterator()
-    .next();
+    @TestSetup
+    static void makeData(){
+      TestDataFactory.generateTestUsers();
+    }
 
-	@isTest
+	  @isTest
     public static void testEmailTriggerVirtualBatch() {
       final String STR_EMAIL_TEMPLATE = 'Test Email Template';
-        System.runAs(currentUser) {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
             for(Account acc : accounts){
               acc.RecordTypeId = ACCT_UNIV_DEP_ID;
@@ -133,7 +131,12 @@ public with sharing class EmailTriggerVirtualBatchTest {
 
             EmailTriggerVirtualBatch emailBatch = new EmailTriggerVirtualBatch ();
             Database.executebatch(emailBatch);
-            System.assert(![SELECT Id FROM AsyncApexJob WHERE ApexClass.Name = 'EmailTriggerVirtualBatch'].isEmpty() , 'EmailTriggerVirtualBatch Job was not executed');
+            System.assert(![SELECT Id FROM AsyncApexJob WHERE ApexClass.Name = 'EmailTriggerVirtualBatch'].isEmpty() ,
+                                                                      'EmailTriggerVirtualBatch Job was not executed');
+            // Assertion for checking email deliverability tracking
+            Id courseConnectionId = [SELECT Id FROM hed__Course_Enrollment__c LIMIT 1]?.Id;
+            List<EmailMessage> emailMessageList = [SELECT Id, RelatedToId FROM EmailMessage WHERE RelatedToId=:courseConnections[0].Id];
+            System.assert(emailMessageList!=null, 'EmailMessage was not tracked.');
             Test.stopTest();
         }
     }

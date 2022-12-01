@@ -1,34 +1,34 @@
 /**
- * @description Test class for EmailTriggerPostCourseBatch
- * @EmailTriggerPostCourseBatch
+ * @description Helper class all Email Trigger Batch classes
  *
- * @history
+ * @author Accenture
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                                                 |
-      |--------------------------------|-----------------------|------------------------|----------------------------------------------------------------|
-      | rhea.b.torres                  | June 22,2022          | DEPP-3188              | Created file                                                   |
-      | rhea.b.torres                  | July 23,2022          | DEPP-3557              | Setup email template for Comms Schedule                        |
- */
+* @history
+*     | Developer                 | Date                  | JIRA                | Change Summary                                                   |
+      |---------------------------|-----------------------|---------------------|------------------------------------------------------------------|
+      | rhea.b.torres             | November 29, 2022     | DEPP-4199           | Created file                                                     |
+*/
 @isTest
-public with sharing class EmailTriggerPostCourseBatchTest {
-    private static final Id STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
-        .get('Student')
-        .getRecordTypeId();
-    private static final Id STUDENT_PROGRAM_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
-        .get('Student_Program')
-        .getRecordTypeId();
-    private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
-    private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
+public with sharing class EmailTriggerBatchHelperTest {
 
     @TestSetup
     static void makeData(){
-      TestDataFactory.generateTestUsers();
+        TestDataFactory.generateTestUsers();
     }
 
-	  @isTest
-    public static void testEmailTriggerPostCourseBatch() {
-        final String STR_EMAIL_TEMPLATE = 'Test Email Template';
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+    @isTest
+    public static void triggerBatchEmailWithAttachmentTest(){
+        final Id STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
+                .get('Student')
+                .getRecordTypeId();
+        final Id STUDENT_PROGRAM_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
+                .get('Student_Program')
+                .getRecordTypeId();
+        final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
+        final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
+
+        System.runAs(TestDataFactory.getprogramadminUser()){
+            final String STR_EMAIL_TEMPLATE = 'Test Email Template';
             Test.startTest();
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
             for(Account acc : accounts){
@@ -87,6 +87,7 @@ public with sharing class EmailTriggerPostCourseBatchTest {
             EmailTemplate template = TestDataFactory.createTestEmailTemplateRecords(1,new Map<String,String>{
               STR_EMAIL_TEMPLATE => 'Test Email Subject'
             }).iterator().next();
+            template.HtmlValue = '<html>test</html>';
             insert template;
 
             List<Communication_Schedule__c> commSchedules = TestDataFactory.createTestCommunicationScheduleRecords(
@@ -126,15 +127,9 @@ public with sharing class EmailTriggerPostCourseBatchTest {
               courseConnection.hed__Status__c = 'Active';
             }
             insert ccForProgramOffering;
-
-            EmailTriggerPostCourseBatch emailBatch = new EmailTriggerPostCourseBatch ();
-            Database.executebatch(emailBatch);
-            System.assert(![SELECT Id FROM AsyncApexJob WHERE ApexClass.Name = 'EmailTriggerPostCourseBatch'].isEmpty() , 'EmailTriggerPostCourseBatch Job was not executed');
-            // Assertion for checking email deliverability tracking
-            Id courseConnectionId = [SELECT Id FROM hed__Course_Enrollment__c LIMIT 1]?.Id;
-            List<EmailMessage> emailMessageList = [SELECT Id, RelatedToId FROM EmailMessage WHERE RelatedToId=:courseConnectionId];
-            System.assert(emailMessageList!=null, 'EmailMessage was not tracked.');
             Test.stopTest();
+            List<EmailMessage> emailMsg = [SELECT Id FROM EmailMessage];
+            System.assert(emailMsg!=null, 'An email should be sent.');
         }
     }
 }

@@ -1334,6 +1334,15 @@ public class TestDataFactory {
     return caseList;
   }
 
+  public static List<EmailMessage> queryEmailMessageRecords(){
+    Id courseConnectionId = [SELECT Id FROM hed__Course_Enrollment__c LIMIT 1]?.Id;
+    List<EmailMessage> emailMessageList = [SELECT Id, RelatedToId 
+                                            FROM EmailMessage
+                                            WHERE RelatedToId=:courseConnectionId
+                                            WITH SECURITY_ENFORCED];
+    return emailMessageList;
+  }
+
     /**
      * @description Method for generating test users
      * @param void

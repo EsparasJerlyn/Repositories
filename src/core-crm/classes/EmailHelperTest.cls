@@ -46,7 +46,7 @@ public with sharing class EmailHelperTest {
         String emailHtml = '<body>Please see attachment.</body>';
         Map<String,String> emailContent = new Map<String, String>{'LastName' => 'Loreen','FirstName' => 'Red'};
         Test.startTest();
-        mail = EmailHelper.emailBuilder(email,subject,emailHtml,emailContent);
+        mail = EmailHelper.emailBuilder(email,subject,emailHtml,emailContent,null,null,true);
         Test.stopTest();
         System.assert(mail != null, 'no mail is created');
     }

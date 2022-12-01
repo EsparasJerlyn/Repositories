@@ -124,7 +124,10 @@ public without sharing class EmployeeSelfRegistrationCtrl {
 				u.Contact.Work_Email__c,
 				subject,
 				emailTemplate.HtmlValue,
-				emailParams
+				emailParams,
+				null,
+				null,
+				true
 			);
 
 			// Set Org Wide Email Address

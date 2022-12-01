@@ -100,7 +100,10 @@ public class EmailHelper {
         String email,
         String subject,
         String emailHtml,
-        Map<String,String> emailContent
+        Map<String,String> emailContent,
+        Id whatId,
+        Id targetObjectId,
+        Boolean isSetAsActivity
     ){
         Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
         mail.setUseSignature(false);
@@ -109,6 +112,10 @@ public class EmailHelper {
         String body=emailHtml;
         body=setBodyValues(body,emailContent,true);
         mail.setHtmlBody(body);
+        mail.setWhatId(whatId);
+        mail.setTargetObjectId(targetObjectId);
+        mail.setSaveAsActivity(isSetAsActivity);
+
         return mail;
     }
 
