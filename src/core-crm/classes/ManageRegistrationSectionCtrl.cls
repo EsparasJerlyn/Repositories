@@ -106,7 +106,6 @@ public with sharing class ManageRegistrationSectionCtrl{
                SELECT Id 
                FROM Program_Offering__c
                WHERE Available_Seats__c > 0
-               AND Registration_End_Date__c > TODAY
                AND Id =: offeringId
            ]);
 
@@ -114,7 +113,6 @@ public with sharing class ManageRegistrationSectionCtrl{
                SELECT Id 
                FROM hed__Course_Offering__c
                WHERE Available_Seats__c > 0
-               AND Registration_End_Date__c > TODAY
                AND Id =: offeringId
            ]);
 

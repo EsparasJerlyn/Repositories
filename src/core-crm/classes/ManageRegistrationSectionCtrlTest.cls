@@ -104,7 +104,7 @@ public with sharing class ManageRegistrationSectionCtrlTest{
                     OR Registration_End_Date__c < TODAY
                     LIMIT 1 ].Id);
                Test.stopTest();
-               System.assert(!isAvailable,'Offering is available');
+               System.assert(isAvailable,'Offering is not available');
           }
      }
 
