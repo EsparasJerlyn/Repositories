@@ -756,8 +756,6 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
     }
     
     handleClearAfterSave(){
-        this.isModalOpen = false;
-        this.isCreateContact = false;
         this.saveInProgress = false;
         this.isEditContact = false;
         this.isAddContact = false;            

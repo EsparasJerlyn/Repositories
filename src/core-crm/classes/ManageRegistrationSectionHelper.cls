@@ -10,7 +10,7 @@
       | roy.nino.s.regala         | November 15, 2022     | DEPP-4721            | Created file                 |
 */
 
-public with sharing class ManageRegistrationSectionHelper{
+public without sharing class ManageRegistrationSectionHelper{
 
      private static final String TAILORED_EXECUTIVE_PROGRAM = 'Tailored Executive Program';
      private static Boolean isCorporateBundlePricing = false;
