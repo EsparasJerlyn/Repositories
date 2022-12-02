@@ -15,9 +15,9 @@
     <optionsIsAutoAccept>false</optionsIsAutoAccept>
     <optionsIsInviteAutoRemove>false</optionsIsInviteAutoRemove>
     <perAgentQueueLength>3</perAgentQueueLength>
-    <routingType>Choice</routingType>
+    <!-- <routingType>Choice</routingType>
     <skills>
         <skill>Chat</skill>
-    </skills>
+    </skills> -->
     <type>Standard</type>
 </LiveChatButton>
