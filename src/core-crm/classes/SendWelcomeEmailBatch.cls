@@ -26,11 +26,12 @@ public class SendWelcomeEmailBatch implements Database.Batchable<sObject>
          * Student Username is available
          * and active enrollment
          * is student
-         */ 
+         */
+        Date sevenDaysBefore = Date.today() + 7; 
         String query = 
         'SELECT Id, hed__Contact__c ' + 
         'FROM hed__Course_Enrollment__c ' + 
-    	'WHERE hed__Course_Offering__r.hed__Start_Date__c = NEXT_N_DAYS:7 ' +
+    	'WHERE hed__Course_Offering__r.hed__Start_Date__c =:sevenDaysBefore ' +
         'AND hed__Course_Offering__r.Primary_Delivery_Platform__c = \'Blackboard\' ' + 
         'AND hed__Contact__r.QUT_Student_Username__c != null ' + 
         'AND hed__Contact__r.Registered_Email__c != null ' +
