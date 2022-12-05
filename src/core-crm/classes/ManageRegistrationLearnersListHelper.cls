@@ -254,7 +254,7 @@ public without sharing class ManageRegistrationLearnersListHelper{
  
                      for(hed__Course_Enrollment__c student : students){
                           hed__Course_Enrollment__c learner = new hed__Course_Enrollment__c();
-                          learner.Id = studentRecord.Id;
+                          learner.Id = student.Id;
                           learner.Paid_in_Full__c = studentRecord.Paid_in_Full__c;
                           learner.Pricing_Validation__c = studentRecord.Pricing_Validation__c;
                           learner.hed__Status__c = studentRecord.hed__Status__c;
