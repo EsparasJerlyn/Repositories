@@ -115,6 +115,7 @@ public class EmailHelper {
         mail.setWhatId(whatId);
         mail.setTargetObjectId(targetObjectId);
         mail.setSaveAsActivity(isSetAsActivity);
+        mail.setTreatTargetObjectAsRecipient(false);
 
         return mail;
     }
