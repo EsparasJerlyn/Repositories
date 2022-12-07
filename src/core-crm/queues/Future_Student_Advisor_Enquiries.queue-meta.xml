@@ -3,6 +3,11 @@
     <doesSendEmailToMembers>false</doesSendEmailToMembers>
     <email>futurestudentadvisors-test@qut.edu.au</email>
     <name>Future Student Advisor Enquiries</name>
+    <queueMembers>
+        <roles>
+            <role>International_User</role>
+        </roles>
+    </queueMembers>
     <queueSobject>
         <sobjectType>Case</sobjectType>
     </queueSobject>
