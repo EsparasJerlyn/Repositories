@@ -6,7 +6,7 @@ String ClassName='SendWelcomeEmailBatchScheduler';
 list<AsyncApexJob> aJob= [
     SELECT Id, Status, ApexClassID
     FROM AsyncApexJob
-    WHERE ApexClass.Name = :ClassName
+    WHERE ApexClass.Name = :ClassName AND Status = 'Queued'
 ];
  
 if(aJob.size()>0){
