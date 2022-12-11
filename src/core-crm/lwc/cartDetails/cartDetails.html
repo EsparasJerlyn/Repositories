@@ -75,11 +75,11 @@
                                 <p class="bodyBold slds-m-around_none">Email</p>
 
                                 <div if:true={editModeEmail}>
-                                    <lightning-input-field field-name="Registered_Email__c" variant="label-hidden" onmouseout={enableReadMode} onchange={contactFieldChanged} value={contactEmail}></lightning-input-field>
+                                    <lightning-input-field field-name="Registered_Email__c" class="infomail" variant="label-hidden" onmouseout={enableReadMode} onchange={contactFieldChanged} value={contactEmail}></lightning-input-field>
                                 </div>
 
                                 <div if:false={editModeEmail}>
-                                    <div class="slds-grid slds-grid_vertical-align-center">
+                                    <div class="slds-grid slds-grid_vertical-align-center infomail">
                                         <lightning-input-field field-name="Registered_Email__c" variant="label-hidden" class="slds-p-right_small" value={contactEmail} disabled></lightning-input-field>
                                         <!-- <lightning-button-icon
                                             icon-name="utility:edit"
