@@ -202,7 +202,7 @@ export default class ProductRequestList extends LightningElement {
             this.rowIsFlexibleProgram = row.isFlexibleProgram;
             this.rowRecordType = row.recordType;
             this.rowProdReqStatus = row.stage;
-            if(this.productSpecStage!='Design'){
+            if(this.productSpecStage=='Design' || this.productSpecStage=='Completed'){
                 this.generateToast(ERROR_TOAST_TITLE, 'Update after Product Specification Design stage is not allowed.', ERROR_TOAST_VARIANT);
             }else if(this.rowProdReqStatus!='Design' && this.rowProdReqStatus!='Release'){
                 if(this.rowProdReqStatus == 'Not Proceeding'){
