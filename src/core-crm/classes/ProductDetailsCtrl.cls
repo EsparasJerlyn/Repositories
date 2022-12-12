@@ -260,7 +260,10 @@ public without sharing class ProductDetailsCtrl {
 				}
 
 				for (hed__Plan_Requirement__c programPlanRequirement : programPlanRequirementList) {
-					childProductList.add(childProductMap.get(programPlanRequirement.hed__Course__c));
+					
+					if(childProductMap.containsKey(programPlanRequirement.hed__Course__c)){
+						childProductList.add(childProductMap.get(programPlanRequirement.hed__Course__c));
+					}
 				}
 			}
 			else{
@@ -641,7 +644,9 @@ public without sharing class ProductDetailsCtrl {
 				}
 
 				for (hed__Plan_Requirement__c programPlanRequirement : programPlanRequirementList) {
-					childProductList.add(childProductMap.get(programPlanRequirement.hed__Course__c));
+					if(childProductMap.containsKey(programPlanRequirement.hed__Course__c)){
+						childProductList.add(childProductMap.get(programPlanRequirement.hed__Course__c));
+					}
 				}
 			}
 			else{
