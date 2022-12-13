@@ -15,6 +15,7 @@
       |                           |                       |                      | discounted items             |
       | john.m.tambasen           | August 09, 2022       | DEPP-3721            | consider as free for 0 total |
       | julie.jane.alegre         | September 07, 2022    | DEPP-3613            | add validation for early bird|
+      | julie.jane.alegre         | December 09, 2022     | DEPP-3613            | fix alignment for email textbox|
 */
 
 import { LightningElement, wire, api, track } from "lwc";

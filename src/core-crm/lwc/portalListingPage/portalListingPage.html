@@ -9,10 +9,38 @@
     </lightning-spinner>
  
     <div class="header">
-        <p class="main-color-blue500 headingText slds-border_bottom slds-p-bottom_xx-large">
+        <p class="main-color-blue500 headingText">
             {productCategory}
         </p> 
     </div>  
+    <template if:true={isCorporateBundle}>
+        <div class="infoheader">
+            <table>
+                <thead>
+                    <tr>
+                        <th scope="col">Corporate Bundle Name</th>
+                        <th scope="col">Start Date</th>
+                        <th scope="col">End Date</th>
+                        <th scope="col">Total Credit</th>
+                        <th scope="col">Credit Used</th>
+                        <th scope="col">Pending Balance</th>
+                        <th scope="col">Remaining Balance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{assetList.Name}</td>
+                        <td>{assetList.Start_Date__c}</td>
+                        <td>{assetList.End_Date__c}</td>
+                        <td>{assetList.Total_Value__c}</td>
+                        <td>{assetList.Utilised_Value__c}</td>
+                        <td>{assetList.Pending_Value__c}</td>
+                        <td>{assetList.Remaining_Value__c}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>  
+    </template>
 
     <div class="slds-grid slds-wrap searchContainer"> 
         <div class="slds-col searchCol"></div>

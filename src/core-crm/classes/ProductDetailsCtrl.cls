@@ -228,6 +228,48 @@ public without sharing class ProductDetailsCtrl {
 					AND Available_on_Cart__c = TRUE
 			];
 
+			// Get sequence on Program Plan
+			List<hed__Plan_Requirement__c> programPlanRequirementList = [
+				SELECT Id, hed__Course__c, hed__Sequence__c
+				FROM hed__Plan_Requirement__c
+				WHERE hed__Program_Plan__c = :productOnPage.Program_Plan__c
+				ORDER BY hed__Sequence__c 
+				];
+	
+			// Child Products set to childProductList
+			List<Product2> childProductList = new List<Product2>();
+
+			if(programPlanRequirementList.size() > 0){
+				Set<Id> courseIdWithPlanSet = new Set<Id>();
+				List<hed__Plan_Requirement__c> childProdWithPlanList = new List<hed__Plan_Requirement__c>();
+				Map<String, Product2> childProductMap = new Map<String, Product2>();
+
+				for (hed__Plan_Requirement__c programPlanRequirement : programPlanRequirementList) {
+					courseIdWithPlanSet.add(programPlanRequirement.hed__Course__c);
+
+					childProdWithPlanList.add(programPlanRequirement);
+				}
+
+				for (Product2 childProd : childProdList) {
+
+					if(courseIdWithPlanSet.contains(childProd.Course__c)){
+						childProductMap.put(childProd.Course__c, childProd);
+					}else{
+						childProductList.add(childProd);
+					}
+				}
+
+				for (hed__Plan_Requirement__c programPlanRequirement : programPlanRequirementList) {
+					
+					if(childProductMap.containsKey(programPlanRequirement.hed__Course__c)){
+						childProductList.add(childProductMap.get(programPlanRequirement.hed__Course__c));
+					}
+				}
+			}
+			else{
+				childProductList = childProdList;
+			}
+
 			// Flexible-Program
 			Map<Id, Date> cProdDateMap = new Map<Id, Date>();
 			if (
@@ -257,7 +299,7 @@ public without sharing class ProductDetailsCtrl {
 			}
 
 			// Process Child Products
-			for (Product2 childProd : childProdList) {
+			for (Product2 childProd : childProductList) {
 				childProduct childProductWrapper = new childProduct();
 				childProductWrapper.childProdId = childProd.Id;
 				childProductWrapper.childProdName = childProd.Name;
@@ -570,6 +612,47 @@ public without sharing class ProductDetailsCtrl {
 					AND Available_on_Cart__c = TRUE
 			];
 
+			// Get sequence on Program Plan
+			List<hed__Plan_Requirement__c> programPlanRequirementList = [
+				SELECT Id, hed__Course__c, hed__Sequence__c
+				FROM hed__Plan_Requirement__c
+				WHERE hed__Program_Plan__c = :productOnPage.Program_Plan__c
+				ORDER BY hed__Sequence__c 
+				];
+	
+			// Child Products set to childProductList
+			List<Product2> childProductList = new List<Product2>();
+
+			if(programPlanRequirementList.size() > 0){
+				Set<Id> courseIdWithPlanSet = new Set<Id>();
+				List<hed__Plan_Requirement__c> childProdWithPlanList = new List<hed__Plan_Requirement__c>();
+				Map<String, Product2> childProductMap = new Map<String, Product2>();
+
+				for (hed__Plan_Requirement__c programPlanRequirement : programPlanRequirementList) {
+					courseIdWithPlanSet.add(programPlanRequirement.hed__Course__c);
+
+					childProdWithPlanList.add(programPlanRequirement);
+				}
+
+				for (Product2 childProd : childProdList) {
+
+					if(courseIdWithPlanSet.contains(childProd.Course__c)){
+						childProductMap.put(childProd.Course__c, childProd);
+					}else{
+						childProductList.add(childProd);
+					}
+				}
+
+				for (hed__Plan_Requirement__c programPlanRequirement : programPlanRequirementList) {
+					if(childProductMap.containsKey(programPlanRequirement.hed__Course__c)){
+						childProductList.add(childProductMap.get(programPlanRequirement.hed__Course__c));
+					}
+				}
+			}
+			else{
+				childProductList = childProdList;
+			}
+
 			// Flexible-Program
 			Map<Id, Date> cProdDateMap = new Map<Id, Date>();
 			if (productOnPage.Program_Plan__r.Program_Delivery_Structure__c == 'Flexible Program'){
@@ -596,7 +679,7 @@ public without sharing class ProductDetailsCtrl {
 			}
 
 			// Process Child Products
-			for (Product2 childProd : childProdList) {
+			for (Product2 childProd : childProductList) {
 				childProduct childProductWrapper = new childProduct();
 				childProductWrapper.childProdId = childProd.Id;
 				childProductWrapper.childProdName = childProd.Name;

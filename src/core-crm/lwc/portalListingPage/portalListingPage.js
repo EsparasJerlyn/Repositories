@@ -12,6 +12,7 @@
 	  | keno.domienri.dico        | August 25, 2022       | DEPP-3765            | Added product category per user                        |
 	  | dodge.j.palattao          | September 26, 2022    | DEPP-2699            | Added messageChannel for SubMenu active category       |
 	  | keno.domienri.dico		  | September 28, 2022	  | DEPP-4459 & 4461	 | Remove Product Type Grouping and added search filter	  |
+	  | julie.jane.alegre         | December  12, 2022    | DEPP-4667            | Add Corporate Bundle info in product listing page      |
  */
 
 	  import { LightningElement ,wire, track, api} from 'lwc';
@@ -38,6 +39,8 @@
 		  _isLoading = true;
 		  _recordId;
 		  @track productInfoList = [];
+		  isCorporateBundle;
+		  assetList;
 	  
 		  get isLoading() {
 			  return this._isLoading;
@@ -122,6 +125,13 @@
 			  }).then((result) => {
 				  this.productInfoList = [];
 				  let productsGroup = [];
+				  if(this.productCategory == 'Corporate Bundle'){
+					this.isCorporateBundle = true;
+					this.assetList = result.assetList[0];
+				  }
+				  else{
+					this.isCorporateBundle = false;
+				  }
 				  result.productList.forEach((p) => {
 					//   var type = p.childProdType;
 					  var type = '';

@@ -1054,7 +1054,7 @@ export default class PrescribedProgram extends NavigationMixin(
     if (this.selectedPricing) {
       this.setParamObj.defPBEntry = this.selectedPricing;
     }
-    this.paramURL = "&param=" + btoa(JSON.stringify(this.setParamObj));
+    this.paramURL = "?param=" + btoa(JSON.stringify(this.setParamObj));
   }
   //Check if CCE portal
   get isCCEPortal() {
