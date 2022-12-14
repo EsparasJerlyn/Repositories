@@ -341,6 +341,22 @@
                       >
                     </div>
                   </div>
+
+                  <div class="slds-checkbox">
+                    <input
+                      type="checkbox"
+                      name="mkt-consent-checkbox"
+                      id="mkt-consent-checkbox"
+                      value="Agree"
+                      onchange={handleMarketingConsentCheckBox}
+                      checked
+                    />
+                    <label class="slds-checkbox__label" for="mkt-consent-checkbox">
+                      <span class="slds-checkbox_faux check-box cursor"></span>
+                      <span class="text privacyPolicy">{label.marketingConsent} &nbsp;</span>
+                    </label>
+                    <div style="clear:both"></div>
+                  </div>
                 </div>
               </div>
             </div>

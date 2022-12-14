@@ -20,6 +20,7 @@
       | eugene.andrew.abuan       | September 16, 2022    | DEPP-3506            | Update OPE Catalouge to           |
       |                           |                       |                      | Administrative account            |
       | marygrace.li              | September 24, 2022    | DEPP-4411            | Updated isEmailExist method       |
+      | rhea.torres               | December 14, 2022     | DEPP-4866            | Added processEmailConsent method  |
 
  */
 public without sharing class RegistrationFormCtrl {
@@ -89,7 +90,8 @@ public without sharing class RegistrationFormCtrl {
     String mobileNoLocale,
     String mobileConLocale,
     String dietaryReq,
-    String accessibilityReq
+    String accessibilityReq,
+    Boolean emailConsent
   ) {
 
       List<Contact> currentContacts = new List<Contact>(
@@ -104,7 +106,15 @@ public without sharing class RegistrationFormCtrl {
             Email,
             Work_Email__c,
             QUT_Learner_Email__c,
-            QUT_Staff_Email__c
+            QUT_Staff_Email__c,
+            HasOptedOutOfEmail,
+            Email_Opt_In_DateTime__c,
+            Work_Email_Opt_Out__c,
+            Work_Email_Opt_In_DateTime__c,
+            Staff_Email_Opt_Out__c,
+            Staff_Email_Opt_In_DateTime__c,
+            Learner_Email_Opt_Out__c,
+            Learner_Email_Opt_In_DateTime__c
           FROM Contact
           WHERE
             RecordTypeId = :RT_CONTACT_PERSON_ID
@@ -125,10 +135,71 @@ public without sharing class RegistrationFormCtrl {
         existingContact.Registered_Email__c = email;
         existingContact.Dietary_Requirement__c = dietaryReq;
         existingContact.Accessibility_Requirement__c = accessibilityReq;
+        if(emailConsent){
+          updateEmailConsent(existingContact, email);
+          updateWorkEmailConsent(existingContact, email);
+          updateStaffEmailConsent(existingContact, email);
+          updateLearnerEmailConsent(existingContact, email);
+        }
         update existingContact;
-
       }
    
+  }
+
+  /**
+   * @description Updates contacts with Email which matches the email input from the
+   * registration screen/page
+   * @param contact - Contact record
+   * @param registeredEmail - Email input from learner
+   * 
+   */
+  private static void updateEmailConsent(Contact contact, String registeredEmail){
+    if(String.isNotBlank(contact.Email) && registeredEmail == contact.Email && contact.HasOptedOutOfEmail){
+      contact.HasOptedOutOfEmail = false;
+      contact.Email_Opt_In_DateTime__c = Date.today();
+    }
+  }
+
+  /**
+   * @description Updates contact with Work_Email which matches the email input from the
+   * registration screen/page
+   * @param contact - Contact record
+   * @param registeredEmail - Email input from learner
+   * 
+   */
+  private static void updateWorkEmailConsent(Contact contact, String registeredEmail){
+    if(String.isNotBlank(contact.Work_Email__c) && registeredEmail == contact.Work_Email__c && contact.Work_Email_Opt_Out__c){
+      contact.Work_Email_Opt_Out__c = false;
+      contact.Work_Email_Opt_In_DateTime__c = Date.today();
+    }
+  }
+
+  /**
+   * @description Updates contact with either Staff Email which matches the email input from the
+   * registration screen/page
+   * @param contact - Contact record
+   * @param registeredEmail - Email input from learner
+   * 
+   */
+  private static void updateStaffEmailConsent(Contact contact, String registeredEmail){
+    if(String.isNotBlank(contact.QUT_Staff_Email__c) && registeredEmail == contact.QUT_Staff_Email__c && contact.Staff_Email_Opt_Out__c){
+      contact.Staff_Email_Opt_Out__c = false;
+      contact.Staff_Email_Opt_In_DateTime__c = Date.today();
+    }
+  }
+
+  /**
+   * @description Updates contact with Learner Email which matches the email input from the
+   * registration screen/page
+   * @param contact - Contact record
+   * @param registeredEmail - Email input from learner
+   * 
+   */
+  private static void updateLearnerEmailConsent(Contact contact, String registeredEmail){
+    if(String.isNotBlank(contact.QUT_Learner_Email__c) && registeredEmail == contact.QUT_Learner_Email__c && contact.Learner_Email_Opt_Out__c){
+      contact.Learner_Email_Opt_Out__c = false;
+      contact.Learner_Email_Opt_In_DateTime__c = Date.today();
+    }
   }
 
   /**

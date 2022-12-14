@@ -27,7 +27,7 @@
 */
 import { LightningElement, track, api, wire } from "lwc";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
-import { NavigationMixin, CurrentPageReference } from "lightning/navigation";
+import { CurrentPageReference } from "lightning/navigation";
 import QUTeX_Contact_Detail from '@salesforce/label/c.QUTeX_Contact_Detail';
 import registerUser from "@salesforce/apex/RegistrationFormCtrl.registerUser";
 import getCommunityUrl from "@salesforce/apex/RegistrationFormCtrl.getCommunityUrl";
@@ -47,7 +47,6 @@ const SSO = "/services/auth/sso/";
 const REQUIRED_ERROR_MESSAGE =
   "Please complete the mandatory fields(*) before proceeding.";
 const EMAIL_NOT_VALID = "Please enter a valid email.";
-const EMAIL_EXIST = "Your email already exists.";
 const BIRTHDATE_FORMAT = "Please check the format";
 const BIRTHDATE_INVALID = "Invalid Input";
 const SHOW_ERROR_MESSAGE_ATTRIBUTE = "error-message error-message-show";
@@ -62,6 +61,7 @@ const QUT_SSO_TEXT ="Previously/Currently studied with QUTeX or QUT? Login Inste
 const QUT_LOGIN_TEXT = "Previously told us about you? Continue here.";
 const REQ_FIELD = "Indicates a required field";
 const ACKNOWLDGE = "I acknowledge and accept the";
+const MKT_CONSENT = "Yes, I would like to receive information from QUT about courses, events and important dates.";
 const QUT_PRIVACY_POLICY ="QUT Privacy Policy.";
 const LWC_ERROR_GENERAL = "An error has been encountered. Please contact your administrator.";
 export default class RegistrationForm extends LightningElement {
@@ -75,6 +75,7 @@ export default class RegistrationForm extends LightningElement {
   dietaryReq = null;
   accessReq = null;
   checkbox;
+  marketingConsentCheckbox = true;
   linkedInSSOUrl;
   experienceSSOUrl;
   linkedInLogo;
@@ -136,8 +137,6 @@ export default class RegistrationForm extends LightningElement {
   @track privacyPolicy;
   @track acknowledge;
 
-
-
   label = {
     header: HEADER,
     subHeader: SUBHEADER,
@@ -147,7 +146,8 @@ export default class RegistrationForm extends LightningElement {
     qutLoginText: QUT_LOGIN_TEXT,
     privacyPolicy: QUT_PRIVACY_POLICY,
     acknowledge: ACKNOWLDGE,
-    contactDetail: QUTeX_Contact_Detail
+    contactDetail: QUTeX_Contact_Detail,
+    marketingConsent : MKT_CONSENT
   };
 
   /*
@@ -765,6 +765,10 @@ export default class RegistrationForm extends LightningElement {
     this.checkbox = event.target.checked;
   }
 
+  handleMarketingConsentCheckBox(event) {
+    this.marketingConsentCheckbox = event.target.checked;
+  }
+
   handleSelectedOption(event) {
     this.selectionOption = event.target.value;
   }
@@ -799,7 +803,7 @@ export default class RegistrationForm extends LightningElement {
     this.userOTP = event.target.value;
   }
 
-  handleVerify(event) {
+  handleVerify() {
     if (this.userOTP) {
       if (this.verifyOTP == this.userOTP) {
         this.generateToast("Success!", "Successfully Submitted", "success");
@@ -841,12 +845,14 @@ export default class RegistrationForm extends LightningElement {
             mobileNoLocale: this.mobile,
             mobileConLocale: this.localeConMobile,
             dietaryReq: this.dietaryReq,
-            accessibilityReq: this.accessReq
+            accessibilityReq: this.accessReq,
+            emailConsent : this.marketingConsentCheckbox
           })
           .then(()=>{
             //Updated contact...
           })
   }
+
   /**
    * concatenates error name and message
    */
