@@ -521,7 +521,8 @@ export default class RegistrationForm extends LightningElement {
       startURL: this.startURL,
       mobileNoLocale: this.mobile,
       mobileConLocale: this.localeConMobile,
-      contactId: this.contactId
+      contactId: this.contactId,
+      emailConsent : this.marketingConsentCheckbox
     })
     .then((res) => {
       if (res == "CloseModal") {

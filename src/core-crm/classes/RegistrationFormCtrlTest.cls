@@ -17,6 +17,7 @@
       | eugene.andrew.abuan       | Septmeber 16, 2022    | DEPP-3506            | Removed OPE Catalouge Account|
       |                           |                       |                      | & added OPE BuyerGroup       |
       | julie.jane.alegre         | September 24, 2022    | DEPP-3568            | Update method  isEmailExist  |
+      | rhea.b.torres             | December 15, 2022     | DEPP-5002            | Updated registerUser paramter|
 
  */
 @isTest
@@ -61,7 +62,8 @@ public with sharing class RegistrationFormCtrlTest {
         '/study/s/',
         '1234567890',
         'Australia (+61)',
-         null
+         null,
+         true
       );
       System.assert(page == null, 'Page must not be null');
     }
@@ -97,7 +99,8 @@ public with sharing class RegistrationFormCtrlTest {
         '/study/s/',
         '1234567890',
         'Australia (+61)',
-        null
+        null,
+        true
       );
       System.assert(page == null, 'Page must not be null');
     }
@@ -145,7 +148,8 @@ public with sharing class RegistrationFormCtrlTest {
         '/study/s/',
         '1234567890',
         'Australia (+61)',
-        null
+        null,
+        true
       );
       System.assert(page == null, 'Page must not be null');
     }

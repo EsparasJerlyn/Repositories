@@ -352,7 +352,8 @@ public without sharing class RegistrationFormCtrl {
     String startURL,
     String mobileNoLocale,
     String mobileConLocale,
-    Id contactId
+    Id contactId,
+    Boolean emailConsent
   ) {
     try {
       String confirmPageName = 'CheckPasswordResetEmail';
@@ -431,7 +432,8 @@ public without sharing class RegistrationFormCtrl {
           accessReq,
           administrativAccount,
           mobileNoLocale,
-          mobileConLocale
+          mobileConLocale,
+          emailConsent
         );
         confirmPageName = createNewUser(
           firstName,
@@ -521,6 +523,7 @@ public without sharing class RegistrationFormCtrl {
    * @param birthdate - date of the Birthdate of the User
    * @param dietraryReq - Dietary Requirement of the User
    * @param accountId - account of the User
+   * @param emailConsent - marketing email consent
    * @return Returns api name of the confirmation page
    */
   public static Id createNewContact(
@@ -532,7 +535,8 @@ public without sharing class RegistrationFormCtrl {
     String accessReq,
     Id accountId,
     String mobileNoLocale,
-    String mobileConLocale
+    String mobileConLocale,
+    Boolean emailConsent
   ) {
     //Set fields from the form to the Contact Object
     Contact c = new Contact();
@@ -547,6 +551,10 @@ public without sharing class RegistrationFormCtrl {
     c.Dietary_Requirement__c = dietaryReq;
     c.Accessibility_Requirement__c = accessReq;
     c.RecordTypeId = RT_CONTACT_PERSON_ID;
+    if(emailConsent){
+      
+      c.Email_Opt_In_DateTime__c = Date.today();
+    }
     insert (c);
 
     return c.Id;
