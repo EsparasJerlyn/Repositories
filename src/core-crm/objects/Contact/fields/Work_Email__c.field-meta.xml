@@ -3,6 +3,7 @@
     <fullName>Work_Email__c</fullName>
     <description>The work email for this person</description>
     <externalId>true</externalId>
+    <inlineHelpText>This field captures the work email of the contact.</inlineHelpText>
     <label>Work Email</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>

@@ -173,3 +173,7 @@ header.header.slds-grid.slds-gutters {
         margin-top:1rem;
     }
 }
+
+a.qut-link{
+    cursor: pointer;
+}

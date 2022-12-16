@@ -17,6 +17,7 @@
 | rhea.b.torres                  | July 22, 2022         | DEPP-3557              | Added logic to use email template setup in Communication Schedule             |
 | rhea.b.torres                  | August 9, 2022        | DEPP-3723              | Added logic to send Welcome Email for learners with QUT Student Username      |
 | rhea.b.torres                  | August 18, 2022       | DEPP-2002              | Added logic for creating Session records for Diagnostic Tool                  |
+| rhea.b.torres                  | November 25, 2022     | DEPP-4628              | Welcome Email implementation                                                  |
 
 */
 public without sharing class CourseConnectionTriggerHandler implements Disableable, BeforeInsert, AfterInsert, AfterUpdate, AfterDelete {
@@ -221,122 +222,32 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
 
   /**
    * @description Sends Welcome Email on New Course Connections with QUT Student Username
-   * @param crseEnrollListNew - List of hed__Course_Enrollment__c.Trigger.new
+   * @param courseConnectionIdSet - List of hed__Course_Enrollment__c.Trigger.new
    */
-  public void sendWelcomeEmail(Set<Id> crseEnrollIdSet){
-
-    Set<Id> programOfferingIdSet = new Set<Id>();
-    Set<Id> courseOfferingIdSet = new Set<Id>();
-    List<Program_Offering__c> programOfferings = new List<Program_Offering__c>();
-    List<hed__Course_Offering__c> courseOfferings = new List<hed__Course_Offering__c>();
-
-    // Query Course Connection Details based on the Contact Id
-    //Id: hed__Course_Offering__c or Program_Offering__c
-    Map<Id, hed__Course_Enrollment__c> productCourseConnectionMap = new Map<Id, hed__Course_Enrollment__c>();
-    for(hed__Course_Enrollment__c courseConnection : [ SELECT
-                                                        Id,
-                                                        hed__Course_Offering__c,
-                                                        Program_Offering__c,
-                                                        hed__Contact__c,
-                                                        Program_Offering__r.hed_Program_Plan__r.Id,
-                                                        Program_Offering__r.hed_Program_Plan__c,
-                                                        hed__Course_Offering__r.hed__Course__r.Id,
-                                                        hed__Course_Offering__r.hed__Course__c
+  private void sendWelcomeEmail(Set<Id> courseConnectionIdSet){
+    Set<Id> contactsToSendWelcomeEmailSet = new Set<Id>();
+    for(hed__Course_Enrollment__c courseConnection : [
+                                                      SELECT Id, hed__Contact__c,hed__Course_Offering__r.hed__Start_Date__c
                                                       FROM hed__Course_Enrollment__c
-                                                      WHERE Id IN :crseEnrollIdSet
-                                                      AND RecordTypeId = :STUDENT_RECTYPEID
-                                                      AND hed__Contact__r.Registered_Email__c != null
-                                                      AND hed__Contact__r.QUT_Student_Username__c != null]){
+                                                      WHERE Id IN: courseConnectionIdSet
+                                                        AND hed__Course_Offering__r.Primary_Delivery_Platform__c = 'Blackboard'
+                                                        AND hed__Contact__r.QUT_Student_Username__c != null
+                                                        AND hed__Contact__r.Registered_Email__c != null
+                                                        AND hed__Status__c = 'Active'
+                                                        AND RecordTypeId =:STUDENT_RECTYPEID WITH SECURITY_ENFORCED]){
+      Integer dayBeforeStart = Date.today().daysBetween(courseConnection.hed__Course_Offering__r.hed__Start_Date__c);
+      if(dayBeforeStart <= 7){
+        contactsToSendWelcomeEmailSet.add(courseConnection.hed__Contact__c); //set of contacts who will receive welcome email
+      }                                            
+    }
 
-      if(String.isNotBlank(courseConnection.Program_Offering__r.hed_Program_Plan__c)){
-        productCourseConnectionMap.put(courseConnection.Program_Offering__r.hed_Program_Plan__r.Id, courseConnection);
+    try{
+      if(!contactsToSendWelcomeEmailSet.isEmpty()){
+        ContactUserNameCreatedHelper.sendEmailUsernameCreated(contactsToSendWelcomeEmailSet);
       }
-
-      if(String.isNotBlank(courseConnection.hed__Course_Offering__r.hed__Course__c)){
-        productCourseConnectionMap.put(courseConnection.hed__Course_Offering__r.hed__Course__r.Id, courseConnection);
-      }
-
-      //Populate the Offering Sets based on the course connection
-      if(String.isNotBlank(courseConnection.Program_Offering__c)){
-        programOfferingIdSet.add(courseConnection.Program_Offering__c);
-      }else if(String.isNotBlank(courseConnection.hed__Course_Offering__c)){
-        courseOfferingIdSet.add(courseConnection.hed__Course_Offering__c);
-      }
+    }catch(Exception e){
+      System.debug('Sending of Welcome email failed, see error: ' + e.getMessage());
     }
-
-    Set<Id> programPlanIdSet = new Set<Id>();
-    Set<Id> courseIdSet = new Set<Id>();
-
-    //Query Program Offering to get valid Offerings based on status and Start Date
-    if(!programOfferingIdSet.isEmpty()){ //added condition to lessen query
-      programOfferings = [
-        SELECT 
-          Id , 
-          hed_Program_Plan__c
-        FROM Program_Offering__c
-        WHERE Id IN: programOfferingIdSet 
-        AND Start_Date__c < TODAY
-        AND IsActive__c = true
-      ];
-    }
-    
-
-    //Query Course Offering
-    if(!courseOfferingIdSet.isEmpty()){ //added condition to lessen query
-      courseOfferings = [
-        SELECT Id,
-        hed__Course__c 
-        FROM hed__Course_Offering__c
-        WHERE Id IN: courseOfferingIdSet
-        AND hed__Start_Date__c < TODAY
-        AND IsActive__c = true
-      ];
-    }
-    
-
-    // Populate the Course/ProgramPlan Set based on the offering.
-    if(!programOfferings.isEmpty()){
-      for(Program_Offering__c programOffering : programOfferings){
-        if(String.isNotBlank(programOffering.hed_Program_Plan__c )){
-          programPlanIdSet.add(programOffering.hed_Program_Plan__c);
-        }
-      }
-    }
-
-    if(!courseOfferings.isEmpty()){
-      for(hed__Course_Offering__c courseOffering : courseOfferings){
-        if(String.isNotBlank(courseOffering.hed__Course__c)){
-          courseIdSet.add(courseOffering.hed__Course__c);
-        }
-      }
-    }
-
-    Set<Id> validContactForEmail = new Set<Id>();
-    // Query Product based on the ProgramPlan/Course
-    //PROGRAM PLAN
-    if(!programPlanIdSet.isEmpty() || !courseIdSet.isEmpty()){
-      for(Product2 product : [  SELECT Id,
-                                Program_Plan__c,
-                                Course__c
-                                FROM Product2
-                                WHERE (Delivery__c INCLUDES ('Online Self-paced')
-                                  OR Primary_Delivery_Platform__c = 'Blackboard')
-                                  AND (Program_Plan__c IN: programPlanIdSet
-                                  OR Course__c IN: courseIdSet)]){
-
-        if(productCourseConnectionMap.containsKey(product.Program_Plan__c)){
-          validContactForEmail.add(productCourseConnectionMap.get(product.Program_Plan__c).hed__Contact__c);
-        }else if(productCourseConnectionMap.containsKey(product.Course__c)){
-          validContactForEmail.add(productCourseConnectionMap.get(product.Course__c).hed__Contact__c);
-        }                    
-      }
-    }
-    
-
-    if(!validContactForEmail.isEmpty()){ //added condition before proceeding to this helper
-      ContactUserNameCreatedHelper.sendEmailUsernameCreated(validContactForEmail);
-    }
-    
   }
 
   /**
@@ -380,7 +291,8 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
         hed__Contact__r.Registered_Email__c,
         Course_Offering_Start_Date__c,
         Offering_End_Date__c,
-        hed__Contact__r.QUT_Student_Username__c
+        hed__Contact__r.QUT_Student_Username__c,
+        hed__Contact__c
       FROM hed__Course_Enrollment__c
       WHERE Id IN :crseEnrollIdSet
       AND hed__Contact__r.Registered_Email__c != null
@@ -575,7 +487,10 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
             procCrsEnroll.hed__Contact__r.Registered_Email__c,
             subject,
             emailTemplate.HtmlValue,
-            emailParams
+            emailParams,
+            procCrsEnroll.Id,
+            procCrsEnroll.hed__Contact__c,
+            true
           );
 
           // Set Org Wide Email Address

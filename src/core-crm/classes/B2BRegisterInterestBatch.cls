@@ -14,7 +14,7 @@ public class B2BRegisterInterestBatch implements Database.Batchable<sObject>
 {
     public Database.QueryLocator start(Database.BatchableContext bc)
     {
-        String query = 'SELECT Id, Contact__c,Contact__r.Email, Contact__r.FirstName, Contact__r.LastName, '; 
+        String query = 'SELECT Id, Contact__c,Contact__r.Email, Contact__r.FirstName, Contact__r.LastName, Contact__r.Registered_Email__c,'; 
                query += 'Product__c, Product__r.Course__c, Product__r.Name, Product__r.Program_Plan__c, ';
                query += 'Type__c, Status__c ';
                query += 'FROM Expression_of_interest__c ' ;
@@ -106,7 +106,7 @@ public class B2BRegisterInterestBatch implements Database.Batchable<sObject>
                     //Prepare SendToEmail List          
                     List<String> lstSendToEmails = new List<String>();
 
-                    lstSendToEmails.add(expresionOfInterestMap.get(interestId).Contact__r.Email);
+                    lstSendToEmails.add(expresionOfInterestMap.get(interestId).Contact__r.Registered_Email__c);
                 
                     objEmail.setToAddresses(lstSendToEmails);
 

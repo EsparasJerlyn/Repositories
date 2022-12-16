@@ -2130,6 +2130,17 @@ span.slds-truncate  {
   margin: 150px 0px;
 }
 
+
+.infomail .slds-form-element__icon{
+  float: right;
+  position: absolute;
+  top:-39px;
+  left:45px;
+  
+   
+  
+  }
+
 [c-registrationconfirmation_registrationconfirmation] .slds-hyphenate,
 [c-manageregistrationandnomination_manageregistrationandnomination] .slds-hyphenate {
   overflow-wrap: break-word;

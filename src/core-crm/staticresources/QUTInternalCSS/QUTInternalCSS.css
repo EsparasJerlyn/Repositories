@@ -874,14 +874,29 @@ a.reversed:hover{
 
 [c-productdetailsdisplay_productdetailsdisplay].modal-content,
 [c-productdetailsdisplayinternal_productdetailsdisplayinternal].modal-content,
-[c-prescribedprograminternal_prescribedprograminternal].modal-content,
-[c-applicationquestionnaire_applicationquestionnaire].modal-content {
+[c-prescribedprograminternal_prescribedprograminternal].modal-content{
   background-color: var(--greys-color-white);
   max-width: 52.0625rem;
   margin: auto;
   border: 1px solid #888;
   width: 60%;
   height: 100%;
+  top: 50%;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: "ProximaNova";
+  overflow-y: scroll;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
+}
+
+[c-applicationquestionnaire_applicationquestionnaire].modal-content {
+  background-color: var(--greys-color-white);
+  max-width: 52.0625rem;
+  margin: auto;
+  border: 1px solid #888;
+  width: 60%;
+  height: auto !important;
   top: 50%;
   position: absolute;
   left: 50%;

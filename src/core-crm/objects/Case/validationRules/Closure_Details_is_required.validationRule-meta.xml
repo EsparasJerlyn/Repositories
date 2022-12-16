@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Closure_Details_is_required</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND (
+ RecordType.DeveloperName = &apos;International_Enquiry&apos;,
+ AND(
+  OR(
+   ISPICKVAL( Status , &apos;Pending Closure&apos;),
+   ISPICKVAL( Status , &apos;Closed&apos;)
+  ),   
+  OR(
+   ISPICKVAL( Closure_Code__c, &apos;Response Given&apos;),
+   ISPICKVAL( Closure_Code__c, &apos;Redirected&apos;)
+  )
+ ),
+ LEN ( Closure_Details__c ) = 0
+)</errorConditionFormula>
+    <errorDisplayField>Closure_Details__c</errorDisplayField>
+    <errorMessage>Closure Details is required to update Status</errorMessage>
+</ValidationRule>

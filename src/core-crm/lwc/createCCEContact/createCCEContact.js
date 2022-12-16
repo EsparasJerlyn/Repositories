@@ -63,7 +63,7 @@ export default class CreateCCEContact extends LightningElement {
                     LastName : event.detail.fields.LastName,
                     Work_Email__c : event.detail.fields.Work_Email__c,
                     ContactMobile_Locale__c : event.detail.fields.ContactMobile_Locale__c,
-                    MobilePhone : event.detail.fields.MobilePhone,
+                    Mobile_No_Locale__c : event.detail.fields.Mobile_No_Locale__c,
                     hed__Gender__c : event.detail.fields.hed__Gender__c,
                     Birthdate : event.detail.fields.Birthdate,
                     Position__c : event.detail.fields.Position__c,

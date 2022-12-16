@@ -24,6 +24,11 @@
                 <label>No</label>
             </value>
             <value>
+                <fullName>N/A</fullName>
+                <default>false</default>
+                <label>N/A</label>
+            </value>
+            <value>
                 <fullName>None</fullName>
                 <default>false</default>
                 <isActive>false</isActive>

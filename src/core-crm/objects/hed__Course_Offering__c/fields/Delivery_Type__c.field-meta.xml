@@ -32,20 +32,22 @@
                 <label>Canberra Classroom</label>
             </value>
             <value>
+                <fullName>Face-to-Face</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Face-to-Face</label>
+            </value>
+            <value>
                 <fullName>Melbourne Classroom</fullName>
                 <default>false</default>
+                <isActive>false</isActive>
                 <label>Melbourne Classroom</label>
             </value>
             <value>
                 <fullName>Sydney Classroom</fullName>
                 <default>false</default>
-                <label>Sydney Classroom</label>
-            </value>
-            <value>
-                <fullName>Face-to-Face</fullName>
-                <default>false</default>
                 <isActive>false</isActive>
-                <label>Face-to-Face</label>
+                <label>Sydney Classroom</label>
             </value>
             <value>
                 <fullName>Virtual</fullName>

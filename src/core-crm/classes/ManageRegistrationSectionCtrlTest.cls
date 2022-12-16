@@ -58,7 +58,6 @@ public with sharing class ManageRegistrationSectionCtrlTest{
      static void getEmailOptionsTest(){
           User programUser = TestDataFactory.getProgramAdminUser();
           System.runAs(programUser){
-               List<Contact> conList = new List<Contact>();
                Test.startTest();
                
                //Get Contact with no registered email
@@ -105,7 +104,7 @@ public with sharing class ManageRegistrationSectionCtrlTest{
                     OR Registration_End_Date__c < TODAY
                     LIMIT 1 ].Id);
                Test.stopTest();
-               System.assert(!isAvailable,'Offering is available');
+               System.assert(isAvailable,'Offering is not available');
           }
      }
 
@@ -130,139 +129,12 @@ public with sharing class ManageRegistrationSectionCtrlTest{
      }
 
      @isTest
-     static void getNominationStatusValuesTest(){
-          System.runAs(TestDataFactory.getProgramAdminUser()){
-               Test.startTest();
-               List<String> nominationStatusValues = ManageRegistrationSectionCtrl.getNominationStatusValues();
-               Test.stopTest();
-               System.assert(!nominationStatusValues.isEmpty(), 'Nomination Status Values must not be empty.');
-          }
-     }
-
-     @isTest
      static void getPricingValidationValuesTest(){
           System.runAs(TestDataFactory.getProgramAdminUser()){
                Test.startTest();
                List<String> registrationStatusValues = ManageRegistrationSectionCtrl.getPricingValidationValues();
                Test.stopTest();
                System.assert(!registrationStatusValues.isEmpty(), 'Pricing Validation Values must not be empty.');
-          }
-     }
-
-     @isTest
-     static void getRegDetailsForNonProgPlanTest(){
-          System.runAs(TestDataFactory.getProgramAdminUser()){
-               String childRecordId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;
-               Test.startTest();
-               List<ManageRegistrationSectionCtrl.ManageRegistrationDetails> registrationDetails = ManageRegistrationSectionCtrl.getRegistrations(childRecordId, false);
-               Test.stopTest();
-              System.assertEquals(NUMBER_OF_RECORDS*2, registrationDetails.size(), 'Incorrect number of records retrieved.');
-          }
-     }
-
-     @isTest
-     static void getRegistrationsAndNominationsTest(){
-          User portalUser;
-          Account portalAccount;
-          final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
-          Test.startTest();
-          System.runAs(PORTAL_SYS_ADMIN){
-               
-               portalAccount = new Account(Name='PortalAccount', OwnerId = PORTAL_SYS_ADMIN.Id, RecordTypeId = ACCT_UNIV_DEP_ID, Organization_Unit_Level__c = '2');
-               Database.insert(portalAccount);
-
-               BuyerAccount testBuyerAccount = new BuyerAccount(Name = portalAccount.Name, BuyerId = portalAccount.Id, IsActive = true, CommerceType = 'Buyer');
-               Database.insert(testBuyerAccount);
-     
-               Contact newContact = new Contact(FirstName = 'testqtest', LastName = 'testqtest', AccountId = portalAccount.Id, Email = 'testqtest@emailemail.com', Registered_Email__c ='email@email.com', Birthdate = Date.newInstance(1990, 2, 17), MobilePhone ='012345');
-               insert newContact;
-     
-               portalUser = TestDataFactory.createPortalUserRecords(1, 'Corporate Partner User', newContact.Id).iterator().next();
-               Database.insert(portalUser);   
-               
-               BuyerGroup bg = TestDataFactory.createTestBuyerGroup(true);
-               TestDataFactory.createTestBuyerGroupMember(true, portalAccount.Id, bg.Id);
-               CommerceEntitlementPolicy commerceEntl = new CommerceEntitlementPolicy(Name = 'Test Entitlement', CanViewProduct = true, CanViewPrice = true, IsActive = true);
-               insert commerceEntl;
-               CommerceEntitlementBuyerGroup commerceEntbg = new CommerceEntitlementBuyerGroup(BuyerGroupId = bg.Id, PolicyId =commerceEntl.Id);
-               insert commerceEntbg;
-
-               List<Product_Request__c> productRequests = TestDataFactory.createTestProductRequestRecords(1);
-               for(Product_Request__c productRequest : productRequests){
-                   productRequest.RecordTypeId = RT_ACTIVITY_ID;
-               }
-               insert productRequests;
-               
-               List<hed__Course__c> courses = TestDataFactory.createTestCourseRecords(1, portalAccount.Id, productRequests[0].Id);
-               insert courses;
-              
-               Product2 product = new Product2(Name = courses[0].Name, Course__c = courses[0].Id);
-               insert product;
-
-               CommerceEntitlementProduct commerceProduct = new CommerceEntitlementProduct(PolicyId = commerceEntl.Id, ProductId = product.Id);
-               insert commerceProduct;
-
-               List<hed__Term__c> terms = TestDataFactory.createTestTermRecords(1, portalAccount.Id);
-               insert terms;
-               
-               List<hed__Course_Offering__c> courseOfferings = TestDataFactory.createTestCourseOfferingRecord(1, courses, terms);
-               insert courseOfferings;
-
-               List<Contact> contacts = TestDataFactory.createTestContactRecords(1);
-               for(Integer i =0;i<contacts.size();i++){
-                    contacts[i].Registered_Email__c = 'testIdeaFormUser'+i+'@maildrop.cc';
-               }
-               insert contacts;
-               
-               List<hed__Course_Enrollment__c> students = new List<hed__Course_Enrollment__c>();
-               for(Contact contact : contacts){
-                    hed__Course_Enrollment__c student = new hed__Course_Enrollment__c();
-                    student.hed__Contact__c = contact.Id;
-                    student.RecordTypeId = STUDENT_RT_ID;
-                    student.Paid_in_Full__c = 'No';
-                    student.Payment_Method__c = 'Invoice';
-                    student.hed__Course_Offering__c = courseOfferings[0].Id;
-                    students.add(student);
-               }
-               insert students;
-
-               Expression_of_Interest__c eoi =  new Expression_of_Interest__c(
-                    Contact__c = contacts[0].Id,
-                    Course_Offering__c = courseOfferings[0].Id,
-                    Type__c = 'Nomination',
-                    Status__c = 'Active'
-               );
-
-               insert eoi;
-          }
-
-          System.runAs(portalUser){            
-               List<ManageRegistrationSectionCtrl.ManageRegistrationorNominationDetails> registrations = ManageRegistrationSectionCtrl.getRegistrationsAndNominations(true, '', '', '', '', '', '', ''); 
-               System.assertEquals(1, registrations.size(), 'Incorrect number of records retrieved.');
-               Id courseEnId = registrations[0].id;
-               String updateReponse = ManageRegistrationSectionCtrl.updateRegistrationOrNominationStatus(courseEnId, 'Active', true);
-               System.assertEquals('Success', updateReponse, 'Update of record failed.');  
-               List<ManageRegistrationSectionCtrl.ManageRegistrationorNominationDetails> nominations = ManageRegistrationSectionCtrl.getRegistrationsAndNominations(false, '', '', '', '', '', '', ''); 
-               System.assertEquals(1, nominations.size(), 'Incorrect number of records retrieved.');
-               Id eoiId = nominations[0].id;
-               ManageRegistrationSectionCtrl.updateRegistrationOrNominationStatus(eoiId, 'Pending', false);
-               System.assertEquals('Success', updateReponse, 'Update of record failed.'); 
-          }
-          Test.stopTest();
-     }
-
-     @isTest
-     static void updateRegistrationTest(){
-          System.runAs(TestDataFactory.getProgramAdminUser()){
-               String studentId = [SELECT Id FROM hed__Course_Enrollment__c LIMIT 1].Id;
-               String questionId = [SELECT Id FROM Questionnaire_Response_Summary__c LIMIT 1].Id;
-               String regStatus= 'Confirmed';
-               String paidInFull= 'No';
-               String pricingValidation= 'Successful';
-               Test.startTest();
-               String updateReponse = ManageRegistrationSectionCtrl.updateRegistration(studentId, questionId, regStatus, paidInFull, pricingValidation, '', '');
-               Test.stopTest();
-               System.assertEquals('Success', updateReponse, 'Update of record failed.');
           }
      }
 
@@ -298,177 +170,6 @@ public with sharing class ManageRegistrationSectionCtrlTest{
                List<Map<String,String>> pbEntriesMap = ManageRegistrationSectionCtrl.getPBEntries(courseOfferings[0].Id, false);
                Test.stopTest();
                system.assert(!pbEntriesMap.isEmpty(),'Empty pricebook entries map');
-          }
-     }
-
-     @isTest
-     static void addRegistrationTest(){
-          final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
-          System.runAs(PORTAL_SYS_ADMIN){
-               Account portalAccount = new Account(Name='TestAccount', OwnerId = PORTAL_SYS_ADMIN.Id);
-               Database.insert(portalAccount);
-
-               Contact learnerContact = new Contact(FirstName = 'learner', LastName = 'test', AccountId = portalAccount.Id, Email = 'testqtest@emailemail.com', Registered_Email__c ='learner@email.com', Birthdate = Date.newInstance(1991, 2, 17), MobilePhone ='012345');
-               Contact newContact = new Contact(FirstName = 'testqtest', LastName = 'testqtest', AccountId = portalAccount.Id, Email = 'testqtest@emailemail.com', Registered_Email__c ='email@email.com', Birthdate = Date.newInstance(1990, 2, 17), MobilePhone ='012345');
-               insert newContact;
-
-               User portalUser = TestDataFactory.createPortalUserRecords(1, 'Corporate Partner User', newContact.Id).iterator().next();
-               Database.insert(portalUser);
-
-               WebStore testWebStore = new WebStore(
-                    Name = 'Study',
-                    DefaultLanguage = 'en_US'
-               );
-               insert testWebStore;
-
-               WebCart cart = new WebCart(
-                    Name = 'Cart',
-                    AccountId = portalAccount.Id,
-                    Status = 'Closed',
-                    Status__c = 'Active',
-                    WebStoreId = testWebStore.Id,
-                    OwnerId = portalUser.Id
-               );
-               insert cart;
-
-               CartDeliveryGroup cartDeliveryGroup = new CartDeliveryGroup(
-                    CartId = cart.Id,
-                    Name = 'Default Delivery'
-               );
-               insert cartDeliveryGroup;
-
-               String cOfferingId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;
-               Id relatedQuestionnaireId = [SELECT Id FROM Questionnaire__c  LIMIT 1].Id;
-
-               List<Question__c> questionList = TestDataFactory.createTestQuestionRecords(5);
-               insert questionList;
-
-               List<Related_Answer__c> relatedAnswers = TestDataFactory.createTestRelatedAnswerRecords(5,relatedQuestionnaireId,questionList);
-               insert relatedAnswers;
-               List<ManageRegistrationSectionCtrl.FileUpload> fileLoadList = new List<ManageRegistrationSectionCtrl.FileUpload>();
-               List<Answer__c> answerList = new List<Answer__c>();
-               Answer__c newAnswer;
-               ManageRegistrationSectionCtrl.FileUpload fileLoad = new ManageRegistrationSectionCtrl.FileUpload();
-               for(Related_Answer__c relatedA: relatedAnswers){
-                    newAnswer = new Answer__c(
-                         Response__c = relatedA.Id,
-                         Related_Answer__c = relatedA.Id
-                    );
-                    answerList.add(newAnswer);
-
-                    fileLoad.Base64 = 'Test Content';
-                    fileLoad.FileName = relatedA.Id;
-                    fileLoad.RelatedAnswerId = relatedA.Id;
-
-                    fileLoadList.add(fileLoad);
-               }
-
-               Id pbeId;
-               List<PricebookEntry> pbeList = [SELECT Id FROM PricebookEntry LIMIT 1];
-               for(PricebookEntry pbe : pbeList){ pbeId = pbe.Id; }
-
-               Test.startTest();
-               ManageRegistrationSectionCtrl.ManageRegistrationDetails wrapper = new ManageRegistrationSectionCtrl.ManageRegistrationDetails();
-               wrapper = ManageRegistrationSectionCtrl.addRegistration(learnerContact,cOfferingId,relatedAnswers,answerList,JSON.serialize(fileLoadList),false,pbeId, false, 10);
-
-               Test.stopTest();
-               system.assert(![SELECT Id FROM ContentVersion].isEmpty(), 'Document not created');
-               system.assert(![SELECT Id FROM Answer__c].isEmpty(), 'Answer not created');
-               system.assert(String.isNotBlank(wrapper.paymentURL), 'Response is invalid');
-          }
-     }
-
-     @isTest
-     static void addRegistrationProceedNoInvoiceTest(){
-          final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
-          System.runAs(PORTAL_SYS_ADMIN){
-               Account portalAccount = new Account(Name='TestAccount', OwnerId = PORTAL_SYS_ADMIN.Id);
-               Database.insert(portalAccount);
-
-               Contact learnerContact = new Contact(FirstName = 'learner', LastName = 'test', AccountId = portalAccount.Id, Email = 'testqtest@emailemail.com', Registered_Email__c ='learner@email.com', Birthdate = Date.newInstance(1991, 2, 17), MobilePhone ='012345');
-               Contact newContact = new Contact(FirstName = 'testqtest', LastName = 'testqtest', AccountId = portalAccount.Id, Email = 'testqtest@emailemail.com',Registered_Email__c ='email@email.com', Birthdate = Date.newInstance(1990, 2, 17), MobilePhone ='012345');
-               insert newContact;
-
-               User portalUser = TestDataFactory.createPortalUserRecords(1, 'Corporate Partner User', newContact.Id).iterator().next();
-               Database.insert(portalUser);
-
-               WebStore testWebStore = new WebStore(
-                    Name = 'Study',
-                    DefaultLanguage = 'en_US'
-               );
-               insert testWebStore;
-
-               WebCart cart = new WebCart(
-                    Name = 'Cart',
-                    AccountId = portalAccount.Id,
-                    Status = 'Closed',
-                    Status__c = 'Active',
-                    WebStoreId = testWebStore.Id,
-                    OwnerId = portalUser.Id
-               );
-               insert cart;
-
-               CartDeliveryGroup cartDeliveryGroup = new CartDeliveryGroup(
-                    CartId = cart.Id,
-                    Name = 'Default Delivery'
-               );
-               insert cartDeliveryGroup;
-
-               String cOfferingId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;
-               Id relatedQuestionnaireId = [SELECT Id FROM Questionnaire__c  LIMIT 1].Id;
-
-               List<Question__c> questionList = TestDataFactory.createTestQuestionRecords(5);
-               insert questionList;
-
-               List<Related_Answer__c> relatedAnswers = TestDataFactory.createTestRelatedAnswerRecords(5,relatedQuestionnaireId,questionList);
-               insert relatedAnswers;
-               List<ManageRegistrationSectionCtrl.FileUpload> fileLoadList = new List<ManageRegistrationSectionCtrl.FileUpload>();
-               List<Answer__c> answerList = new List<Answer__c>();
-               Answer__c newAnswer;
-               ManageRegistrationSectionCtrl.FileUpload fileLoad = new ManageRegistrationSectionCtrl.FileUpload();
-               for(Related_Answer__c relatedA: relatedAnswers){
-                    newAnswer = new Answer__c(
-                         Response__c = relatedA.Id,
-                         Related_Answer__c = relatedA.Id
-                    );
-                    answerList.add(newAnswer);
-
-                    fileLoad.Base64 = 'Test Content';
-                    fileLoad.FileName = relatedA.Id;
-                    fileLoad.RelatedAnswerId = relatedA.Id;
-
-                    fileLoadList.add(fileLoad);
-               }
-
-               Id pbeId;
-               List<PricebookEntry> pbeList = [SELECT Id FROM PricebookEntry LIMIT 1];
-               for(PricebookEntry pbe : pbeList){ pbeId = pbe.Id; }
-
-               Test.startTest();
-               ManageRegistrationSectionCtrl.addRegistration(learnerContact,cOfferingId,relatedAnswers,answerList,JSON.serialize(fileLoadList),false,pbeId,true,0);
-               Test.stopTest();
-               system.assert(![SELECT Id FROM ContentVersion].isEmpty(), 'Document not created');
-               system.assert(![SELECT Id FROM Answer__c].isEmpty(), 'Answer not created');
-               system.assert(![SELECT Id FROM Contact].isEmpty(), 'Contact not created');
-          }
-     }
-
-     @isTest
-     static void getDiscountTest(){
-          System.runAs(TestDataFactory.getProgramAdminUser()){
-
-               //getDiscount(String selectedPBId, String standardPBId, String offeringId, Boolean prescribedProgram, String couponCode) {
-
-               //get sample data
-               List<Product2> sampleProduct = [SELECT Id, Name FROM Product2 ORDER BY NAME LIMIT 1];
-               List<hed__Course_Offering__c> sampleOffering = [SELECT Id FROM hed__Course_Offering__c LIMIT 1];
-               List<PricebookEntry> samplePbe = [SELECT Id, Product2Id FROM PricebookEntry WHERE Product2Id = :sampleProduct[0].Id LIMIT 1];
-
-               Test.startTest();
-               Double discount = ManageRegistrationSectionCtrl.getDiscount(samplePbe[0].Id, samplePbe[0].Id, sampleOffering[0].Id, false, 'test123');
-               Test.stopTest();
-
-               system.assertNotEquals(discount, Double.valueOf(0), 'Discount should not be 0');
           }
      }
 

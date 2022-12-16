@@ -14,7 +14,7 @@ public with sharing class PreSessionReminderEmailCtrlTest{
   private static final Id STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get('Student').getRecordTypeId();
   private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
   private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
-  private static final String PRE_SESSION_EMAIL_TEMPLATE = 'Pre-Session Reminder Email';
+
   @testSetup
   static void makeData(){
     TestDataFactory.generateTestUsers();
@@ -22,14 +22,12 @@ public with sharing class PreSessionReminderEmailCtrlTest{
     System.runAs(TestDataFactory.getProgramAdminUser()){
       BypassTriggers__c bypass = new BypassTriggers__c(Bypass__c = true, SetupOwnerId = UserInfo.getOrganizationId());
       insert bypass;
-      EmailTemplate template = TestDataFactory.createTestEmailTemplateRecords(1, new Map<String, String>{ PRE_SESSION_EMAIL_TEMPLATE => 'Test Email Subject' }).iterator().next();
-      insert template;
     }
     Test.stopTest();
   }
 
   @isTest
-  public static void testGeneratePDFandSendEmail(){
+  public static void controllerWithSessionTest(){
     System.runAs(TestDataFactory.getProgramAdminUser()){
       Test.startTest();
       List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
@@ -73,7 +71,7 @@ public with sharing class PreSessionReminderEmailCtrlTest{
       for (Session__c session : sessions){
         session.Course_Connection__c = courseConnections[0].Id;
         session.Course_Offering__c = courseOfferings[0].Id;
-        session.Date__c = Date.newInstance(2022, 01, 06);
+        session.Date__c = Date.today()+1;
         session.Start_Time_v2__c = Time.newInstance(15, 12, 30, 0);
         session.End_Time_v2__c = Time.newInstance(15, 12, 30, 0);
         session.Facilitator__c = contacts[0].Id;
@@ -81,31 +79,74 @@ public with sharing class PreSessionReminderEmailCtrlTest{
       }
       insert sessions;
 
-      PageReference pageRef = Page.SessionSchedulePDFView;
-      Test.setCurrentPage(pageRef);
       ApexPages.currentPage().getParameters().put('courseConnectionId', courseConnections[0].Id);
-
       PreSessionReminderEmailCtrl preSessionRemEmailCtrl = new PreSessionReminderEmailCtrl();
-      preSessionRemEmailCtrl.courseConnect = courseConnections[0];
-      preSessionRemEmailCtrl.courseOffering = courseOfferings[0];
-      preSessionRemEmailCtrl.sessions = sessions;
 
-      hed__Course_Enrollment__c courseConnectionParam = [SELECT Id, Course_Offering_Name__c, hed__Contact__r.FirstName, hed__Contact__r.LastName, hed__Contact__r.Email
-                                                   FROM hed__Course_Enrollment__c
-                                                   LIMIT 1];
-      List<List<String>> paramList = new List<List<String>>();
-      List<String> param = new List<String>();
-      param.add(courseConnectionParam.Id);
-      param.add(courseConnectionParam.Course_Offering_Name__c);
-      param.add(courseConnectionParam.hed__Contact__r.FirstName);
-      param.add(courseConnectionParam.hed__Contact__r.LastName);
-      param.add(courseConnectionParam.hed__Contact__r.Email);
-      paramList.add(param);
-
-      PreSessionReminderEmailCtrl.generatePDFandSendEmail(paramList);
-      System.assertEquals(1, Limits.getEmailInvocations(), 'Emails should be sent');
+      System.assert(preSessionRemEmailCtrl.courseConnect.Id != null, 'courseConnection should be set');
+      System.assertEquals(10, preSessionRemEmailCtrl.sessions.size(), 'sessions should be retrieved');
       Test.stopTest();
     }
   }
 
+  @isTest
+  public static void controllerWithoutSessionTest(){
+    System.runAs(TestDataFactory.getProgramAdminUser()){
+      Test.startTest();
+      List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
+      for (Account acc : accounts){
+        acc.RecordTypeId = ACCT_UNIV_DEP_ID;
+        acc.Organization_Unit_Level__c = '2';
+      }
+      insert accounts;
+
+      List<Contact> contacts = TestDataFactory.createTestContactRecords(1);
+      contacts[0].email = 'testContact@testmail.com';
+      insert contacts;
+
+      List<hed__Term__c> terms = TestDataFactory.createTestTermRecords(10, accounts[0].Id);
+      insert terms;
+
+      List<Product_Request__c> prodRequest = TestDataFactory.createTestProductRequestRecords(1);
+      insert prodRequest;
+
+      List<hed__Course__c> courses = TestDataFactory.createTestCourseRecords(10, accounts[0].Id, prodRequest[0].Id);
+      insert courses;
+
+      List<hed__Course_Offering__c> courseOfferings = TestDataFactory.createTestCourseOfferingRecord(10, courses, terms);
+      insert courseOfferings;
+
+      List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(10);
+      insert programPlans;
+
+      List<hed__Course_Enrollment__c> courseConnections = TestDataFactory.createTestCourseConnectionRecord(10, contacts[0].Id, courseOfferings);
+
+      for (hed__Course_Enrollment__c courseConnection : courseConnections){
+        courseConnection.RecordTypeId = STUDENT_RECTYPEID;
+      }
+      insert courseConnections;
+
+      List<Session__c> sessions = TestDataFactory.createTestSessionRecords(10);
+      hed__Facility__c fac = new hed__Facility__c();
+      fac.Name = 'test';
+      insert fac;
+
+      for (Session__c session : sessions){
+        session.Course_Connection__c = courseConnections[0].Id;
+        session.Course_Offering__c = courseOfferings[0].Id;
+        session.Date__c = Date.today();
+        session.Start_Time_v2__c = Time.newInstance(15, 12, 30, 0);
+        session.End_Time_v2__c = Time.newInstance(15, 12, 30, 0);
+        session.Facilitator__c = contacts[0].Id;
+        session.Location__c = fac.Id;
+      }
+      insert sessions;
+
+      ApexPages.currentPage().getParameters().put('courseConnectionId', courseConnections[0].Id);
+      PreSessionReminderEmailCtrl preSessionRemEmailCtrl = new PreSessionReminderEmailCtrl();
+
+      System.assert(preSessionRemEmailCtrl.courseConnect.Id != null, 'courseConnection should be set');
+      System.assertEquals(0, preSessionRemEmailCtrl.sessions.size(), 'no sessions should be retrieved');
+      Test.stopTest();
+    }
+  }
 }

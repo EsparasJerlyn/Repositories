@@ -187,7 +187,9 @@ public without sharing class PaymentConfirmationCtrl {
 
     @AuraEnabled
     public static void updateCartItem(List<CartItem> cartItems){
-        update cartItems;
+        if(!cartItems.isEmpty()){
+            update cartItems;
+        }
     }
 
     /**

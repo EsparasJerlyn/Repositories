@@ -4,7 +4,12 @@
   height: auto;
   padding: 20px 0px;
 }
-
+.infoheader{
+  background-color: #fff;
+  height: auto;
+  padding: 20px 0px 40px 0px;
+  font-size:medium;
+}
 p.headingText {
   font-size: 37pt;
   line-height: 1.1;

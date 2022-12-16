@@ -35,21 +35,21 @@ import { api, LightningElement, wire } from 'lwc';
 import { refreshApex } from '@salesforce/apex';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { NavigationMixin } from "lightning/navigation";
-import getRegistrations from '@salesforce/apex/ManageRegistrationSectionCtrl.getRegistrations';
-import updateRegistration from '@salesforce/apex/ManageRegistrationSectionCtrl.updateRegistration';
+import getRegistrations from '@salesforce/apex/ManageRegistrationLearnersListHelper.getRegistrations';
+import updateRegistration from '@salesforce/apex/ManageRegistrationLearnersListHelper.updateRegistration';
 import getRegistrationStatusValues from '@salesforce/apex/ManageRegistrationSectionCtrl.getRegistrationStatusValues';
 import getPaidInFullValues from '@salesforce/apex/ManageRegistrationSectionCtrl.getPaidInFullValues';
 import getPricingValidationValues from '@salesforce/apex/ManageRegistrationSectionCtrl.getPricingValidationValues';
 import getSearchedContacts from '@salesforce/apex/ManageRegistrationSectionCtrl.getSearchedContacts';
 import getQuestions from "@salesforce/apex/ManageRegistrationSectionCtrl.getQuestions";
 import getEmailOptions from "@salesforce/apex/ManageRegistrationSectionCtrl.getEmailOptions";
-import addRegistration from '@salesforce/apex/ManageRegistrationSectionCtrl.addRegistration';
+import addRegistration from '@salesforce/apex/ManageRegistrationEnrolmentHelper.addRegistration';
 import getPBEntries from '@salesforce/apex/ManageRegistrationSectionCtrl.getPBEntries';
 import checkOfferingAvailability from '@salesforce/apex/ManageRegistrationSectionCtrl.checkOfferingAvailability';
 import getAsset from '@salesforce/apex/CorporateBundleAndSOAHelper.getAsset';
 import checkCreditAvailability from '@salesforce/apex/CorporateBundleAndSOAHelper.checkCreditAvailability';
 import getRegisteredEmail from '@salesforce/apex/ManageRegistrationSectionCtrl.getRegisteredEmail';
-import getDiscount from '@salesforce/apex/ManageRegistrationSectionCtrl.getDiscount';
+import getDiscount from '@salesforce/apex/PromotionDiscountCtrl.getDiscount';
 import LWC_Error_General from '@salesforce/label/c.LWC_Error_General';
 import LWC_List_ConfirmedLearnerStatus	 from '@salesforce/label/c.LWC_List_ConfirmedLearnerStatus';
 import { createRecord } from 'lightning/uiRecordApi';
@@ -67,9 +67,10 @@ const ERROR_VARIANT = 'error';
 const NO_REC_FOUND = 'No record(s) found.';
 const MODAL_TITLE = 'Registration Details';
 const SECTION_HEADER = 'Manage Registrations Overview';
-const COLUMN_HEADER = 'First Name,Last Name,Contact Email,Birthdate,Registration Status,LMS Integration Status';
+const COLUMN_HEADER = 'First Name,Last Name,Contact Email,Birthdate,Registration Status,LMS Integration Status,Registration Date, Paid Amount, Student ID, Position, Organisation, Dietary Requirement, Accessibility Requirement';
 const PROD_CATEG_TAILORED = 'Tailored Executive Program';
 const PROD_CATEG_SOA = 'QUTeX Learning Solutions';
+const DATE_OPTIONS = { year: 'numeric', month: '2-digit', day: '2-digit' };
 
 export default class ManageRegistrationSection extends NavigationMixin(LightningElement) {
 
@@ -140,13 +141,15 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
     discountMessage = '';
     discountMessageClass = '';
     discountAmount = 0;
+    promotionId = '';
 
     pbEntriesToAssetMap = {};
 
     columns = [
         { label: 'Full Name', fieldName: 'contactFullName', type: 'text', sortable: true },
-        { label: 'Selected Pricing', fieldName: 'selectedPricing', type: 'text', sortable: true, wrapText: true },
-        { label: 'Pricing Validation', fieldName: 'pricingValidation', type: 'text', sortable: true },
+        { label: "Registration Date",fieldName: "registrationDate",type: 'text'},    
+        { label: 'Paid Amount', fieldName: 'paidAmount', type: 'currency', typeAttributes: {currencyCode:'AUD', step: '0.001'}},
+        { label: 'Student Id', fieldName: 'studentId', type: 'text', sortable: true },
         { label: 'Payment Method', fieldName: 'paymentMethod', type: 'text', sortable: true },
         { label: 'Paid in Full', fieldName: 'paidInFull', type: 'text', sortable: true },
         { label: 'Registration Status', fieldName: 'registrationStatus', type: 'text', sortable: true },
@@ -163,6 +166,7 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
     @wire(getObjectInfo, { objectApiName: SESSION_OBJECT})
     sessionInfo;
 
+
     //Retrieves questionnaire data related to the product request
     tableData;
     @wire(getRegistrations, {childRecordId : '$childRecordId', prescribedProgram: '$prescribedProgram'})
@@ -170,10 +174,43 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
         this.isLoading = true;
         this.tableData = result;
         if(result.data){
-            this.records = result.data;
+            this.records = result.data.map(item => {
+                let record = {};
+                record.contactFullName = item.enrolmentDetails.hed__Contact__r.Name;
+                record.contactId = item.enrolmentDetails.hed__Contact__c;
+                record.contactLastName = item.enrolmentDetails.hed__Contact__r.LastName;
+                record.contactFirstName = item.enrolmentDetails.hed__Contact__r.FirstName;
+                record.contactBirthdate = item.enrolmentDetails.hed__Contact__r.Birthdate?this.formatDate(item.enrolmentDetails.hed__Contact__r.Birthdate):'';
+                record.contactEmail = item.enrolmentDetails.hed__Contact__r.Registered_Email__c;
+                
+                record.studentId = item.enrolmentDetails.hed__Contact__r.QUT_Student_ID__c;
+                record.position = item.enrolmentDetails.hed__Contact__r.Position__c;
+                record.organisation = item.enrolmentDetails.hed__Contact__r.hed__Primary_Organization__c?item.enrolmentDetails.hed__Contact__r.hed__Primary_Organization__r.Name:'';
+                record.dietaryRequirement = item.enrolmentDetails.hed__Contact__r.Dietary_Requirement__c;
+                record.accessibilityRequirement = item.enrolmentDetails.hed__Contact__r.Accessibility_Requirement__c;
+
+                record.paidInFull = item.enrolmentDetails.Paid_in_Full__c;
+                record.registrationStatus = item.enrolmentDetails.hed__Status__c;
+                record.lmsIntegrationStatus = item.enrolmentDetails.LMS_Integration_Status__c;
+                record.paymentMethod = item.enrolmentDetails.Payment_Method__c;
+                record.paidAmount = item.enrolmentDetails.Paid_Amount__c;
+                record.registrationDate = item.enrolmentDetails.CreatedDate?this.formatDate(item.enrolmentDetails.CreatedDate):'';
+                record.pricingValidation = item.enrolmentDetails.Pricing_Validation__c;
+                record.id = item.enrolmentDetails.Id;
+
+                if(item.applicationDetails){
+                    record.questionId = item.applicationDetails.Id;
+                    record.applicationName = item.applicationDetails.Name;
+                    record.applicationURL = '/' + item.applicationDetails.Id;
+                }
+                
+                record.regenerateInvoiceURL = item.regenerateInvoiceURL;
+
+                return record;
+            });
             this.contactList = result.data.map(item => {
-                if(item.registrationStatus !== 'Cancelled'){
-                    return item.contactId;
+                if(item.enrolmentDetails.hed__Status__c !== 'Cancelled'){
+                    return item.enrolmentDetails.hed__Contact__c;
                 }
             });
             this.recordsTemp = result.data;
@@ -520,7 +557,6 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
 
     handleCreateContact(event){
         event.preventDefault();
-
         if(this.isCorporateBundlePricebook){
             //check if asset credit is still available
             //check price book entry unit price against the asset remaining value
@@ -623,9 +659,9 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
         fileUpload = this.questions.map(item =>{
             if(item.IsFileUpload){
                 let record = {};
-                record.RelatedAnswerId = item.Id;
-                record.Base64 = item.FileData.base64;
-                record.FileName = item.FileData.filename;
+                record.relatedAnswerId = item.Id;
+                record.base64 = item.FileData.base64;
+                record.fileName = item.FileData.filename;
                 return record;
             }
         });
@@ -660,16 +696,21 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
             pbEntry = null;
         }
 
+        let registrationData = {};
+        registrationData.contactRecord = contact;
+        registrationData.offeringId = offeringId;
+        registrationData.relatedAnswerList = relatedAnswer;
+        registrationData.answerList = answer;
+        registrationData.prescribedProgram = prescribedProgram;
+        registrationData.priceBookEntryId = pbEntry;
+        registrationData.isProceedNoInvoice = this.isProceedNoInvoice;
+        registrationData.discountAmount = this.discountAmount;
+        registrationData.promotionId = this.promotionId; 
+        
+        
         addRegistration({
-            contactRecord:contact,
-            offeringId:offeringId,
-            relatedAnswerList:relatedAnswer,
-            answerList:answer,
-            fileUpload:fileUpload,
-            prescribedProgram:prescribedProgram,
-            priceBookEntryId:pbEntry,
-            isProceedNoInvoice : this.isProceedNoInvoice,
-            discountAmount:this.discountAmount
+            registrationData:JSON.stringify(registrationData),
+            fileUpload:fileUpload
         })
         .then(res =>{
             if(!res.isContactInputValid){
@@ -833,14 +874,16 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
         if(this.prescribedProgram){
             programOfferingId = this.childRecordId;
         }
+        let studentRecord = {};
+        studentRecord.Id = this.rowId;
+        studentRecord.hed__Status__c = this.rowRegStatus;
+        studentRecord.Paid_in_Full__c = this.rowPaidInFull;
+        studentRecord.Pricing_Validation__c = this.pricingValidation;
+        studentRecord.Program_Offering__c = programOfferingId != ''?programOfferingId:null;
+        studentRecord.hed__Contact__c = this.rowContactId;
+
         updateRegistration({
-            id: this.rowId,
-            questionId: this.rowQuestId,
-            registrationStatus: this.rowRegStatus,
-            paidInFull: this.rowPaidInFull,
-            pricingValidation: this.pricingValidation,
-            programOfferingId: programOfferingId,
-            contactId : this.rowContactId
+            studentRecord: studentRecord
         })
             .then((result) => {
                 response = result;
@@ -905,7 +948,21 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
 
         let rowEnd = '\n';
         let csvString = '';
-        let arrangedKeys = ['contactFirstName', 'contactLastName', 'contactEmail', 'contactBirthdate', 'registrationStatus', 'lmsIntegrationStatus'];
+        let arrangedKeys = [
+            'contactFirstName', 
+            'contactLastName', 
+            'contactEmail', 
+            'contactBirthdate', 
+            'registrationStatus', 
+            'lmsIntegrationStatus',
+            'registrationDate',
+            'paidAmount',
+            'studentId',
+            'position',
+            'organisation',
+            'dietaryRequirement',
+            'accessibilityRequirement'
+        ];
 
         // this set elminates the duplicates if have any duplicate keys
         let rowData = new Set();
@@ -955,30 +1012,33 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
             this.discountMessageClass = '';
             this.discountMessage = '';
             this.discountAmount = 0;
+            this.promotionId = '';
 
             return;
         }
 
+        let discountWrapper = {};
+        discountWrapper.standardPBId = this.pbEntryStandardRecord.id;
+        discountWrapper.selectedPBId = this.pbEntryRecord;
+        discountWrapper.offeringId = this.childRecordId;
+        discountWrapper.prescribedProgram = this.prescribedProgram;
+        discountWrapper.couponCode = couponCode;
 
         //function to get the discount of the product
         getDiscount({
-            selectedPBId: this.pbEntryRecord,
-            standardPBId: this.pbEntryStandardRecord.id,
-            offeringId: this.childRecordId,
-            prescribedProgram: this.prescribedProgram,
-            couponCode: couponCode
+            discountWrapper:JSON.stringify(discountWrapper)
         })
         .then((data) => {
 
             //check returned value and show message accordingly
             //-1 means coupon entered is not valid
-            if(data == -1){
+            if(data.discount == -1){
                 this.discountMessageClass = 'warning-label slds-m-left_x-small';
                 this.discountMessage = 'Invalid coupon.';
                 this.discountAmount = 0;
 
             //-2 means the selected price is still less than the discounted
-            }else if(data == -2){
+            }else if(data.discount == -2){
                 this.discountMessageClass = 'warning-label slds-m-left_x-small';
                 this.discountMessage = 'Selected price is less than the discounted standard price.';
                 this.discountAmount = 0;
@@ -986,13 +1046,20 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
             } else{
                 this.discountMessageClass = 'coupon-applied-label slds-m-left_x-small';    
                 this.discountMessage = 'Valid coupon.';
-                this.discountAmount = data;
+                this.discountAmount = data.discount;
+                this.promotionId = data.promotionId;
             }
+            
         })
         .catch((error) => {
             this.generateToast('Error.',LWC_Error_General,'error');
         });
 
+    }
+
+    //formats date to AU format
+    formatDate(date){
+        return new Date(date).toLocaleDateString('en-AU',DATE_OPTIONS);
     }
 
     //Function to generate toastmessage

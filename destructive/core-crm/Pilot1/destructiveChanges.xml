@@ -1,79 +1,604 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-    <!-- lead-management/Pilot1 (Start) -->
     <types>
-        <members>CCE_Users</members>
-        <name>Group</name>
-    </types>
-    <types>
-        <members>QUTex_CCE_Partner</members>
-        <name>Queue</name>
-    </types>
-    <types>
-        <members>Lead.Interest_Area__c</members>
-        <name>CustomField</name>
-    </types>
-    <types>
-        <members>Lead.Company_Sub_Category__c</members>
-        <name>CustomField</name>
-    </types>
-    <types>
-        <members>Lead-Lead Layout</members>
-        <name>Layout</name>
-    </types>
-    <types>
-        <members>HedAddressTrigger</members>
-        <name>ApexTrigger</name>
-    </types>
-    <types>
-        <members>LoqateHedAddressTriggerHandler</members>
-        <members>LoqateHedAddressTriggerHelper</members>
-        <members>LoqateHedAddressTriggerHelperTest</members>
+        <!--(Start) DEPP 1256 -->
+        <members>CustomPageLayoutCtrl</members>
+        <members>CustomPageLayoutCtrlTest</members>
+        <!-- (Start) DEPP 1910 -->
+        <members>PendingRegistrationTriggerHandlerTest</members>
+        <members>PendingRegistrationTriggerHandler</members>
+        <!-- (End) DEPP 1910 -->
+        <members>PublishingEndDateScheduler</members>
+        <members>PublishingEndDateSchedulerTest</members>
+        <members>Send_Email_OPE_Activity_SubmissionTest</members>
+        <members>Send_Email_Upon_SC_Design_SubmissionTest</members>
+        <!--(End) DEPP 1256 -->
+        <!--(Start) DEPP 2606 -->
+        <members>LightningForgotPasswordController</members>
+        <members>LightningForgotPasswordControllerTest</members>
+        <members>LightningLoginFormController</members>
+        <members>LightningLoginFormControllerTest</members>
+        <members>LightningSelfRegisterController</members>
+        <members>LightningSelfRegisterControllerTest</members>
+        <!--(End) DEPP 2606 -->
+        <!--(Start) DEPP 2824 -->
+        <members>LinkedInRegHandler</members>
+        <members>LinkedInRegHandlerTest</members>
+        <!--(End) DEPP 2824 -->
+        <!--DEPP-2869-->
+        <members>Contact_Create_Triggered_FlowTest</members>
+        <!--DEPP-2523-->
+        <members>Update_Course_or_Program_Start_DateTest</members>
+        <members>Update_Product_End_DateTest</members>
+        <members>Validation_FlowTest</members>
+        <!--(Start) DEPP DEPP-3095 -->
+        <members>AutocreatedRegHandler1653957766371</members>
+        <members>CommunitiesSelfRegController</members>
+        <members>CommunitiesSelfRegControllerTest</members>
+        <!--(End) DEPP DEPP-3095 -->
+        <!--DEPP-3222-->
+        <members>RegistrationConfirmationEmailCtrl</members>
+        <members>SendEmailonRegisConfirmationFlowTest</members>
+        <members>RegistrationConfirmationEmailCtrlTest</members>
+        <members>FacetoFaceConfirmationEmailFlowTest</members>
+        <members>OnlineSelfPacedConfirmationEmailFlowTest</members>
+        <members>PostCourseCompletionEmailFlowTest</members>
+        <members>PreSessionReminderEmailFlowTest</members>
+        <members>VirtualConfirmationEmailFlowTest</members>
+        <!--DEPP-3222-->
+        <members>Create_Pricebook_for_SOATest</members>
+        <!--DEPP-3482-->
+        <members>Course_Offering_End_Dt_Filter_FlowTest</members>
+        <members>UpdateProductLedgerPurchasedPriceTest</members>
+        <!--DEPP-3482-->
+		<!--(Start) DEPP 2665 -->
+        <members>Enable_Partner_and_Buyer_FlowTest</members>
+        <members>ProductEntitlement_FlowTest</members>
+        <!--(End) DEPP 2665 -->
+        <!--(Start) DEPP-3747-->
+        <members>ExpressionOfInterestIsApprovedFlowTest</members>
+        <!--(End) DEPP-3747-->
+        <members>Primary_Business_Org_Update_FlowTest</members>
         <name>ApexClass</name>
     </types>
     <types>
-        <members>TriggerHandler.LoqateHedAddressTriggerHandler</members>
+        <members>PendingRegistrationTrigger</members> <!-- DEPP-1910 -->
+        <members>CallBuildSearchIndex</members> <!-- DEPP-3095 -->
+        <name>ApexTrigger</name>
+    </types>
+    <types>
+        <!--(Start) DEPP 2606 -->
+        <members>loginForm</members>
+        <members>selfRegister</members>
+        <members>forgotPassword</members>
+        <name>AuraDefinitionBundle</name>
+        <!--(End) DEPP 2606 -->
+    </types>
+    <types>
+        <members>Product_Request__c.Professional_Advantage_Request_Compact_Layout</members>
+        <name>CompactLayout</name>
+    </types>
+    <types>
+        <!--(Start) DEPP-1819-->
+        <members>Financial_Split__c.QUTeX_Percentage_Split__c</members>
+        <members>hed__Program_Plan__c.PP_Courseloop_Full__c</members>
+        <members>hed__Program_Plan__c.Is_Custom_Award__c</members>
+        <members>hed__Program_Plan__c.Work_Experience_Required__c</members>
+        <members>hed__Course__c.Activity_Description__c</members>
+        <members>hed__Course__c.Activity_Name__c</members>
+        <members>hed__Course__c.Activity_Outcomes__c</members>
+        <members>hed__Course__c.Activity_Plan__c</members>
+        <members>hed__Course__c.Actual_Volume__c</members>
+        <members>hed__Course__c.Additional_End_Date__c</members>
+        <members>hed__Course__c.Certificate_Details__c</members>
+        <members>hed__Course__c.Cohort_Type__c</members>
+        <members>hed__Course__c.Corporate_Bundle_Value__c</members>
+        <members>hed__Course__c.Curriculum_Leads__c</members>
+        <members>hed__Course__c.Diagnostic_Tool_Selection__c</members>
+        <members>hed__Course__c.End_Time__c</members>
+        <members>hed__Course__c.Fee_Amount__c</members>
+        <members>hed__Course__c.Fees_Applicable__c</members>
+        <members>hed__Course__c.Group_Dynamics_Tool__c</members>
+        <members>hed__Course__c.Module_Grading_Scheme__c</members>
+        <members>hed__Course__c.Number_Of_Hours_Per_Participant__c</members>
+        <members>hed__Course__c.Number_Of_Participants_Per_Group__c</members>
+        <members>hed__Course__c.Number_of_Sessions_Per_Group__c</members>
+        <members>hed__Course__c.Number_of_Triads__c</members>
+        <members>hed__Course__c.Overview_Website__c</members>
+        <members>hed__Course__c.Participants__c</members>
+        <members>hed__Course__c.Payment_Options__c</members>
+        <members>hed__Course__c.Problem_Definition__c</members>
+        <members>hed__Course__c.Proposal_Description__c</members>
+        <!-- for 1819 update: Provider field is needed -->
+        <!-- <members>hed__Course__c.Provider__c</members> -->
+        <!-- end-->
+        <members>hed__Course__c.Resources_Required__c</members>
+        <members>hed__Course__c.Risk_and_Opportunities__c</members>
+        <members>hed__Course__c.Search_Engine__c</members>
+        <members>hed__Course__c.Search_Terms__c</members>
+        <members>hed__Course__c.Session_Duration_Mins__c</members>
+        <members>hed__Course__c.Start_Time__c</members>
+        <members>hed__Course__c.Unit_Mode__c</members>
+        <members>hed__Course__c.Volume_of_time__c</members>
+        <members>hed__Course_Enrollment__c.Course_Connection_Value__c</members>
+        <members>Session__c.Session_Name__c</members>
+        <!--(End) DEPP-1819-->
+        <!--(Start) DEPP-1904 -->
+        <members>Invoice__c.Amount__c</members>
+        <members>Invoice__c.Cart__c</members>
+        <members>Invoice__c.Course_Connection__c</members>
+        <members>Invoice__c.Due_Date__c</members>
+        <members>Invoice__c.Payee_ABN__c</members>
+        <members>Invoice__c.Payee_Billing_Address__c</members>
+        <members>Invoice__c.Payee_Email_Address__c</members>
+        <members>Invoice__c.Payee_Name__c</members>
+        <members>Invoice__c.Status__c</members>
+        <!--(End) DEPP-1904 -->
+        <members>Product2.Certification_Type__c</members><!-- DEPP-1718 -->
+        <members>hed__Course__c.Certification_Type__c</members><!-- DEPP-1718 -->
+        <members>Product_Request__c.Parent_Product_Request__c</members><!--DEPP-1747-->
+        <members>Product_Request__c.PRProduct_Subtype__c</members><!-- DEPP-1912 -->
+        <members>Product_Specification__c.Product_Subtype__c</members><!-- DEPP-1912 -->
+        <members>Answer__c.Question__c</members>
+        <members>Answer__c.Questionnaire__c</members>
+        <members>Answer__c.Contact__c</members>
+        <members>Contact.ContactEmail_Validation__c</members>
+        <members>Contact.ContactPersonalEmail_Validation__c</members>
+        <members>Contact.ContactWorkEmail_Validation__c</members>
+        <members>hed__Course__c.Professional_Advantage_Value__c</members>
+        <members>Lead.LeadEmail_Validation__c</members>
+        <members>Lead.LeadPersonalEmail_Validation__c</members>
+        <members>Lead.WorkEmail_Validation__c</members>
+        <!-- (Start) DEPP 1910 -->
+        <members>Pending_Registration__c.Contact__c</members>
+        <members>Pending_Registration__c.Course_Offering__c</members>
+        <members>Pending_Registration__c.Start_Time__c</members>
+        <!-- (End) DEPP 1910 -->
+        <members>Product_Ledger__c.Purchased_Price__c</members>
+        <members>Product_Request__c.Implementation_Year__c</members>
+        <members>Product_Specification__c.Product_Sub_Type__c</members>
+        <members>Product_Request__c.Professional_Advantage_Value__c</members>
+        <members>Marketing_Staging__c.Country_Of_Residence__c</members>
+        <!-- DEPP 3605-->
+        <members>BuyerGroup.Decommission_Product__c</members>
+         <!-- DEPP 3605-->
+        <name>CustomField</name>
+    </types>
+    <types>
+        <members>QUTeX_Email</members><!-- DEPP-2020 -->
+        <!-- (Start) DEPP 2861 -->
+        <members>MCTransactionalAPI_AccessTokenClientId</members>
+        <members>MCTransactionalAPI_AccessTokenClientSecret</members>
+        <members>MCTransactionalAPI_AccessTokenAccountId</members>
+        <members>MCTransactionalAPI_AccessTokenURL</members>
+        <members>MCTransactionalAPI_SendSMSOTP_AttrSMSOTP</members>
+        <members>MCTransactionalAPI_SendSMSOTP_DefinitionKey</members>
+        <members>MCTransactionalAPI_SendSMSOTP_MsgTemplate</members>
+        <members>MCTransactionalAPI_SendSMSOTPURL</members>
+        <!-- (End) DEPP 2861 -->
+
+        <!-- (Start) DEPP 3184 -->
+        <members>QUT_ProductDetail_AddToCart</members>
+        <members>QUT_ProductDetail_AvailableStartDates</members>
+        <members>QUT_ProductDetail_AvailableStartDates_Placeholder</members>
+        <members>QUT_ProductDetail_CoreConcepts</members>
+        <members>QUT_ProductDetail_Delivery</members>
+        <members>QUT_ProductDetail_Delivery_Placeholder</members>
+        <members>QUT_ProductDetail_Details</members>
+        <members>QUT_ProductDetail_Duration</members>
+        <members>QUT_ProductDetail_EvolveWithQUTeX</members>
+        <members>QUT_ProductDetail_Facilitator</members>
+        <members>QUT_ProductDetail_Overview</members>
+        <members>QUT_ProductDetail_Pricing</members>
+        <members>QUT_ProductDetail_Pricing_Placeholder</members>
+        <members>QUT_ProductDetail_Professional_Development_Modules</members>
+        <members>QUT_ProductDetail_RegisterInterest</members>
+        <members>QUT_ProductDetail_WhoShouldParticipate</members>
+        <!-- (End) DEPP 3184 -->
+
+        <!-- (Start) DEPP 3411 -->
+        <members>QUT_RegistrationForm_Header</members>
+        <members>QUT_RegistrationForm_IndicatesRequiredField</members>
+        <members>QUT_RegistrationForm_PrivacyPolicy</members>
+        <members>QUT_RegistrationForm_RegisterWithLinkedIn</members>
+        <members>QUT_RegistrationForm_SSO</members>
+        <members>QUT_RegistrationForm_subHeader</members>
+        <!-- (End) DEPP 3411 -->
+
+        <!--DEPP-3036-->
+        <members>Lead.Personal_Email__c</members>
+        <members>Contact.Personal_Email__c</members>
+        <!--DEPP-3036-->
+
+        <name>CustomLabel</name>
+    </types>
+    <types>
+        <members>Field_Layout_Setting__mdt.OPE_Product_Overview</members>
+        <members>Field_Layout_Setting__mdt.OPE_Publishing_Dates</members>
+        <members>Field_Layout_Setting__mdt.OPE_Quality_Assurance_Endorsement</members>
+        <members>Field_Layout_Setting__mdt.OPE_Program_CourseLoop_Details</members>
+        <members>Field_Layout_Setting__mdt.OPE_Program_Detail</members>
+        <members>Field_Layout_Setting__mdt.OPE_Program_Information</members>
+        <members>Field_Layout_Setting__mdt.OPE_Program_Overview</members>
+        <members>Field_Layout_Setting__mdt.Unit_CourseLoop_Details</members>
+        <members>Field_Layout_Setting__mdt.Unit_Detail</members>
+        <members>Field_Layout_Setting__mdt.Unit_Fees</members>
+        <members>Field_Layout_Setting__mdt.Unit_Information</members>
+        <members>Field_Layout_Setting__mdt.OPE_Single_Product_CourseLoop_Details</members>
+        <members>Field_Layout_Setting__mdt.OPE_Single_Product_Detail</members>
+        <members>Field_Layout_Setting__mdt.OPE_Single_Product_Fees</members>
+        <members>Field_Layout_Setting__mdt.OPE_Single_Product_Information</members>
+        <members>Field_Layout_Setting__mdt.OPE_Short_Course_Design_Detail</members>
+        <members>Field_Layout_Setting__mdt.OPE_Short_Course_Fees</members>
+        <members>Field_Layout_Setting__mdt.OPE_Short_Course_Information</members>
+        <members>Field_Layout_Setting__mdt.OPE_Activity_Detail</members>
+        <members>Field_Layout_Setting__mdt.OPE_Activity_Fees</members>
+        <members>Field_Layout_Setting__mdt.OPE_Activity_Information</members>
+        <members>Field_Layout_Setting__mdt.Program_for_Modal</members>
+        <members>Field_Layout_Setting__mdt.OPE_Additional_Information</members>
+        <members>Field_Layout_Setting__mdt.OPE_CourseLoop_Details</members>
+        <members>Field_Layout_Setting__mdt.OPE_Program_Fees</members>
+        <members>Field_Layout_Setting__mdt.OPE_Program_Plan_Detail</members>
+        <members>Field_Layout_Setting__mdt.OPE_Program_Plan_Overview</members>
+        <members>Record_Type_Setting__mdt.OPE_Activity_Request</members>
+        <members>Record_Type_Setting__mdt.Program_for_Modal</members>
+        <members>Record_Type_Setting__mdt.Short_Course</members>
+        <members>TriggerHandler.Pending_Registration_c</members> <!-- DEPP-1910 -->
+        <!-- DEPP-2022 add these back in when you figure out deployment issue
+        <members>Record_Type_Setting__mdt.Program_Plan</members>
+        <members>Record_Type_Setting__mdt.Program</members>
+        <members>Record_Type_Setting__mdt.Unit</members>
+        <members>Record_Type_Setting__mdt.Module</members>
+        <members>Record_Type_Setting__mdt.Activity</members> -->
+        <!--<members>Field_Layout_Setting__mdt.Professional_Advantage_Request_Summary</members>
+        <members>Field_Layout_Setting__mdt.Professional_Advantage_Request_Detail</members>
+        <members>Record_Type_Setting__mdt.Professional_Advantage_Request</members>
+        <members>Record_Type_Setting__mdt.OPE_Activity</members>
+        <members>Record_Type_Setting__mdt.OPE_Program</members>
+        <members>Record_Type_Setting__mdt.OPE_Program_Request</members>
+        <members>Record_Type_Setting__mdt.Single_Product</members> -->
         <name>CustomMetadata</name>
     </types>
-    <!--<types>
-        <members>Custom_Lead_Allow_No_Matching_Rule</members>
+    <types>
+        <members>Invoice__c</members>
+        <members>Program_Specification__c</members>
+        <members>Pending_Registration__c</members><!-- DEPP 1910 -->
+        <members>Individual_Coaching_Form_Link__c</members><!-- DEPP 1823 -->
+        <name>CustomObject</name>
+    </types>
+    <types>
+        <members>Account.Custom_Lead_Allow_Not_Duplicate_Rule</members>
+        <members>Contact.Standard_Rule_for_Contacts_with_Duplicate_Leads</members>
+        <members>Contact.Custom_Lead_Allow_No_Duplicate_Rule</members>
+        <members>Contact.Standard_Contact_Duplicate_Rule</members>
+        <members>Lead.Standard_Rule_for_Leads_with_Duplicate_Contacts</members>
+        <members>Lead.Standard_Lead_Duplicate_Rule</members>
+        <members>Lead.Custom_Lead_Duplicate_Rule</members>
+        <name>DuplicateRule</name>
+    </types>
+    <types>
+        <members>Professional_Advantage_Lightning_Page_Layout</members>
+        <name>FlexiPage</name>
+    </types>
+    <types>
+        <members>Product_Request__c-Professional Advantage Request Layout</members>
+        <name>Layout</name>
+    </types>
+   <!--  DEPP-1785 -->
+    <types>
+        <members>Product2-Module Page Layout</members>
+        <name>Layout</name>
+    </types>
+    <types>
+        <members>opeCustomPageLayout</members>
+        <name>LightningComponentBundle</name>
+    </types>
+    <types>
+        <members>Product_Request__c.Open_Professional_Advantage_Requests</members>
+        <members>Product_Request__c.My_Open_Professional_Advantage_Requests</members>
+        <members>Product_Request__c.My_Open_StandAlone_Unit_Module_Requests</members>
+        <members>Product_Request__c.Open_StandAlone_Unit_Module_Requests</members>
+        <name>ListView</name>
+    </types>
+    <types>
+        <members>Account.Custom_Lead_Account_Matching_Rule</members>
+        <members>Contact.Custom_Lead_Contact_Allow_Matching_Rule</members>
+        <members>Contact.Custom_Lead_Contact_Allow_No_Matching_Rule</members>
+        <members>Contact.Custom_Lead_Allow_No_Matching_Rule_v2</members>
+        <members>Lead.Custom_Lead_Matching_Rule_and_Duplicate_Rule</members>
+        <members>Contact.Custom_Contact_Matching_Rule</members>
         <name>MatchingRule</name>
     </types>
     <types>
-        <members>Custom_Lead_Allow_No_Duplicate_Rule</members>
-        <name>DuplicateRule</name>
-    </types>-->
-    <types>
-        <members>Lead.Company_Sub_Category__c</members>
+        <!--(Start) DEPP-2185 -->
+        <members>Product_Request__c.Maximum_Number_Of_Registrants__c</members>
+        <members>Product_Request__c.Outcome_Description__c</members>
+        <members>Product_Request__c.Program_Name__c</members>
+        <members>Product_Request__c.Program_Type__c</members>
+        <members>Product_Request__c.Request_Type__c</members>
+        <members>Product_Request__c.CourseLoop_Initial_Proposal_URL__c</members>
+        <members>Product_Request__c.CourseLoop_Full_Proposal_ID__c</members>
+        <members>Product_Request__c.CourseLoop_Full_Proposal_URL__c</members>
+        <members>Product_Request__c.Is_Curriculum_Approved__c</members>
+        <members>Product_Request__c.Implementation_Year_v2__c</members>
+        <members>Product_Request__c.Owning_Faculty__c</members>
+        <members>Product_Request__c.Cohort_Type__c</members>
+        <members>Product_Request__c.Number_Of_Hours_Per_Participant__c</members>
+        <members>Product_Request__c.Number_of_Triads__c</members>
+        <members>Product_Request__c.Location__c</members>
+        <members>Product_Request__c.Timeline__c</members>
+        <members>Product_Request__c.Number_Of_Groups__c</members>
+        <members>Product_Request__c.Number_Of_Participants_Per_Group__c</members>
+        <members>Product_Request__c.Number_of_Sessions_Per_Group__c</members>
+        <members>Product_Request__c.Session_Duration_Mins__c</members>
+        <members>Product_Request__c.Activity_Name__c</members>
+        <members>Product_Request__c.Activity_Description__c</members>
+        <members>Product_Request__c.Diagnostic_Tool_Selection__c</members>
+        <members>Product_Request__c.Group_Dynamics_Tool__c</members>
+        <members>Product_Request__c.Problem_Definition__c</members>
+        <members>Product_Request__c.Activity_Plan__c</members>
+        <members>Product_Request__c.Corporate_Bundle_Value__c</members>
+        <members>Product_Request__c.Start_Date__c</members>
+        <members>Product_Request__c.End_Date__c</members>
+        <!--(End) DEPP-2185 -->
+        <members>hed__Program_Plan__c.PP_Courseloop_Full__c</members>
+        <members>hed__Program_Plan__c.Is_Custom_Award__c</members>
+        <members>hed__Program_Plan__c.Work_Experience_Required__c</members>
+        <members>hed__Course__c.Activity_Description__c</members>
+        <members>hed__Course__c.Activity_Name__c</members>
+        <members>hed__Course__c.Activity_Outcomes__c</members>
+        <members>hed__Course__c.Activity_Plan__c</members>
+        <members>hed__Course__c.Actual_Volume__c</members>
+        <members>hed__Course__c.Additional_End_Date__c</members>
+        <members>hed__Course__c.Certificate_Details__c</members>
+        <members>hed__Course__c.Cohort_Type__c</members>
+        <members>hed__Course__c.Corporate_Bundle_Value__c</members>
+        <members>hed__Course__c.Curriculum_Leads__c</members>
+        <members>hed__Course__c.Diagnostic_Tool_Selection__c</members>
+        <members>hed__Course__c.End_Time__c</members>
+        <members>hed__Course__c.Fee_Amount__c</members>
+        <members>hed__Course__c.Fees_Applicable__c</members>
+        <members>hed__Course__c.Group_Dynamics_Tool__c</members>
+        <members>hed__Course__c.Module_Grading_Scheme__c</members>
+        <members>hed__Course__c.Number_Of_Hours_Per_Participant__c</members>
+        <members>hed__Course__c.Number_Of_Participants_Per_Group__c</members>
+        <members>hed__Course__c.Number_of_Sessions_Per_Group__c</members>
+        <members>hed__Course__c.Number_of_Triads__c</members>
+        <members>hed__Course__c.Overview_Website__c</members>
+        <members>hed__Course__c.Participants__c</members>
+        <members>hed__Course__c.Payment_Options__c</members>
+        <members>hed__Course__c.Problem_Definition__c</members>
+        <members>hed__Course__c.Proposal_Description__c</members>
+        <!-- for 1819 update: Provider field is needed -->
+        <!-- <members>hed__Course__c.Provider__c</members> -->
+        <!-- end-->
+        <members>hed__Course__c.Resources_Required__c</members>
+        <members>hed__Course__c.Risk_and_Opportunities__c</members>
+        <members>hed__Course__c.Search_Engine__c</members>
+        <members>hed__Course__c.Search_Terms__c</members>
+        <members>hed__Course__c.Session_Duration_Mins__c</members>
+        <members>hed__Course__c.Start_Time__c</members>
+        <members>hed__Course__c.Unit_Mode__c</members>
+        <members>hed__Course__c.Volume_of_time__c</members>
+        <!-- DEPP-2057 start -->
+        <members>hed__Course__c.Contentv2__c</members>
+        <members>hed__Course__c.Enrolment_Rulesv2__c</members>
+        <members>hed__Course__c.Resource_Detailsv2__c</members>
+        <members>hed__Course__c.Core_Concepts__c</members>
+        <members>hed__Course__c.Evolve_with_QUTeX__c</members>
+        <members>hed__Course__c.More_Details__c</members>
+        <members>hed__Course__c.Overview__c</members>
+        <members>hed__Course__c.Who_Should_Participate__c</members>
+        <members>hed__Course__c.Outcome__c</members>
+        <members>hed__Course__c.Other_Content_Delivery_Location__c</members>
+        <!-- DEPP-2057 end -->
+        <members>Session__c.Session_Name__c</members>
+        <members>hed__Course_Enrollment__c.Course_Connection_Value__c</members>
+        <!--members>hed__Course_Enrollment__c.Program_Offering__c</members-->
+        <members>hed__Course_Offering__c.Total_Course_Connections__c</members>
+        <members>Program_Offering__c.Total_Course_Connections__c</members>
+        <members>Financial_Split__c.QUTeX_Percentage_Split__c</members>
+        <!-- DEPP-2347 start -->
+        <members>Marketing_Staging__c.My_Completed_Education_Level__c</members>
+        <members>Marketing_Staging__c.My_Current_Education_Level__c</members>
+        <members>Marketing_Staging__c.ORG_Completed_Education_Level__c</members>
+        <members>Marketing_Staging__c.ORG_Current_Education_Level__c</members>
+        <members>Marketing_Staging__c.SE_Completed_Education_Level__c</members>
+        <members>Marketing_Staging__c.SE_Current_Education_Level__c</members>
+        <members>Marketing_Segmentation__c.My_Completed_Education_Level__c</members>
+        <members>Marketing_Segmentation__c.My_Current_Education_Level__c</members>
+        <members>Marketing_Segmentation__c.ORG_Completed_Education_Level__c</members>
+        <members>Marketing_Segmentation__c.ORG_Current_Education_Level__c</members>
+        <members>Marketing_Segmentation__c.SE_Completed_Education_Level__c</members>
+        <members>Marketing_Segmentation__c.SE_Current_Education_Level__c</members>
+        <!-- DEPP-2347 end -->
+        <!--DEPP-2507 start-->
+         <members>hed__Course__c.Top_Left_Signature_Text__c</members>
+         <members>hed__Course__c.Top_Right_Signature_Text__c</members>
+         <members>hed__Course__c.Middle_Left_Signature_Text__c</members>
+         <members>hed__Course__c.Middle_Right_Signature_Text__c</members>
+         <members>hed__Course__c.Bottom_Left_Signature_Text__c</members>
+         <members>hed__Course__c.Bottom_Right_Signature_Text__c</members>
+         <members>hed__Program_Plan__c.Top_Left_Signature_Text__c</members>
+         <members>hed__Program_Plan__c.Top_Right_Signature_Text__c</members>
+         <members>hed__Program_Plan__c.Middle_Left_Signature_Text__c</members>
+         <members>hed__Program_Plan__c.Middle_Right_Signature_Text__c</members>
+         <members>hed__Program_Plan__c.Bottom_Left_Signature_Text__c</members>
+         <members>hed__Program_Plan__c.Bottom_Right_Signature_Text__c</members>
+         <!--DEPP-2507 end-->
+         <members>hed__Program_Plan__c.Evolve_with_QUTeX__c</members>
+        <members>hed__Program_Plan__c.Overview__c</members>
+        <members>hed__Program_Plan__c.Who_Should_Participate__c</members>
+        <members>hed__Program_Plan__c.Core_Concepts__c</members>
+        <members>hed__Program_Plan__c.More_Details__c</members>
+        <members>hed__Program_Plan__c.Enrolment_Rules__c</members>
+        <!--DEPP-2619-->
+        <members>Marketing_Staging__c.Environment_Responsibilities_Applicant__c</members>
+        <members>Marketing_Course_Application__c.Environment_Responsibilities_Applicant__c</members>
+        <!--DEPP-2754-->
+        <members>Marketing_Staging__c.Application_Condition_Verification_Statu__c</members>
+        <members>Marketing_Course_Application__c.Application_Condition_Verification_Statu__c</members>
+        <!--DEPP-2754 end-->
         <name>CustomField</name>
     </types>
-    <!-- lead-management/Pilot1 (End) -->
-    <!-- matchingRules/Pilot1 (Start) -->
-    <!--<types>
-        <members>Custom_Lead_Contact_Allow_Matching_Rule</members>
-        <name>MatchingRule</name>
-    </types> 
-    <types>
-        <members>Custom_Lead_Contact_Allow_No_Matching_Rule</members>
-        <name>MatchingRule</name>
-    </types>-->
-    <!-- matchingRules/Pilot1 (End) -->
-    <!-- opportunity-management/Pilot1 (Start) -->
+
+     <types>
+        <members>Professional_Advantage_Request</members>
+        <name>PathAssistant</name>
+    </types>
 
     <types>
-        <members>Opportunity.Big_Risky_Different_Proposal_Approval</members> 
-        <name>ApprovalProcess</name>
+        <members>OPE_Guest_Browsing</members>
+        <name>PermissionSet</name>
     </types>
     <types>
-        <members>Opportunity.Opportunity_Name_70__c</members>
-        <name>CustomField</name>
+        <members>Study_Profile</members>
+        <name>Profile</name>
     </types>
-    <!-- opportunity-management/Pilot1 (End) -->
-    <!-- src-env-specific-pre/Pilot1 (Start) -->
     <types>
-        <members>Lead.CCE_Partner_Lead_Conversion</members>
+        <members>Product_Request__c.Professional_Advantage_Request</members>
+        <name>RecordType</name>
+    </types>
+    <types>
+        <!--(Start) DEPP-2185 -->
+        <members>Product_Request__c.Max_No_of_Registrants_is_required</members>
+        <members>Product_Request__c.Outcome_Description_is_required</members>
+        <members>Product_Request__c.CourseLoop_Full_Proposal_ID_is_required</members>
+        <members>Product_Request__c.CourseLoop_Full_Proposal_URL_is_required</members>
+        <members>Product_Request__c.Is_Curriculum_Approved_is_required</members>
+        <members>Product_Request__c.Implementation_Year_Four_Digits</members>
+        <members>Product_Request__c.Implementation_Year_is_required</members>
+        <members>Product_Request__c.Implementation_Year_Numeric_Only</members>
+        <members>Product_Request__c.Implementation_Year_Past_Years</members>
+        <members>Product_Request__c.Owning_Faculty_is_required</members>
+        <members>Product_Request__c.Number_Of_Hours_Per_Participant_required</members>
+        <members>Product_Request__c.Validate_Number_of_Triad</members>
+        <members>Product_Request__c.Location_is_required</members>
+        <members>Product_Request__c.Timeline_is_required</members>
+        <members>Product_Request__c.Number_Of_Groups_is_required</members>
+        <members>Product_Request__c.Number_of_Participant_Per_Group_required</members>
+        <members>Product_Request__c.Number_of_Sessions_Per_Group_is_required</members>
+        <members>Product_Request__c.Session_Duration_is_required</members>
+        <members>Product_Request__c.Activity_Description_is_required</members>
+        <members>Product_Request__c.Group_Dynamic_Tool_is_Required</members>
+        <members>Product_Request__c.Problem_Definition_is_required</members>
+        <members>Product_Request__c.Activity_Plan_is_required</members>
+        <members>Product_Request__c.Start_Date_is_required</members>
+        <members>Product_Request__c.End_Date_is_required</members>
+        <!--(End) DEPP-2185 -->
+        <members>hed__Course__c.Proposal_Description_is_required</members>
+        <members>hed__Course__c.Risk_and_Opportunities_is_required</members>
+        <members>hed__Course__c.Volume_of_Time_is_required</members>
+        <members>hed__Course__c.Actual_Volume_is_required</members>
+        <members>hed__Course__c.Start_Time_is_required</members>
+        <members>hed__Course__c.End_Time_is_required</members>
+        <members>hed__Course__c.Fee_Applicable_is_required</members>
+        <members>hed__Course__c.Fee_is_required</members>
+        <members>hed__Course__c.Activity_Outcomes_is_required</members>
+        <members>hed__Course__c.Overview_for_website_is_required</members>
+        <members>hed__Course__c.Resources_Required_is_required</members>
+        <members>hed__Course__c.Search_Engine_desc_is_required</members>
+        <members>hed__Course__c.Search_Terms</members>
+        <members>hed__Course__c.Contentv2_is_required</members>
+        <members>hed__Course__c.Resource_Detailsv2_is_required</members>
+        <members>hed__Course__c.Core_Concepts_is_Required</members><!-- DEPP-2057 -->
+        <members>hed__Course__c.Overview_is_Required</members><!-- DEPP-2057 -->
+        <!--DEPP-2535-->
+        <members>hed__Course__c.Certificate_Type_is_required</members>
+        <!--DEPP-2535-->
+        <members>hed__Course__c.isLMSTriggered__c</members>
+        <members>hed__Course_Offering__c.isLMSTriggered__c</members>
+        <!--(Start) DEPP-2142 -->
+        <members>hed__Course__c.Start_Date_is_Future_Date</members>
+        <members>hed__Program_Plan__c.Start_Date_is_Future_Date</members>
+
+        <!--(End) DEPP-2142 -->
+        <members>Product_Specification__c.Product_Subtype_is_required</members>
+        <members>Opportunity.Record_Qualification_Assessment</members>
+        <members>Opportunity.Financial_Viability_is_Required</members>
+        <members>Opportunity.Qualification_Summary_is_Required</members>
+        <members>Opportunity.Revenue_Potential_is_Required</members>
+        <members>Opportunity.Technical_Capability_is_Required</members>
+        <!-- (Start) DEPP-3680 -->
+        <members>hed__Course__c.Outcomes_is_required</members>
+        <!-- (End) DEPP-3680 -->
         <name>ValidationRule</name>
     </types>
-    <!-- src-env-specific-pre/Pilot1 (End) -->
+
+    <types>
+        <!--DEPP-2869-->
+        <members>Contact_Create_Triggered_Flow</members>
+        <!--DEPP-2523-->
+        <members>Update_Course_or_Program_Start_Date</members>
+        <members>Update_Product_End_Date</members>
+        <!--DEPP-3032-->
+        <members>Face_Face_Final_Confirmation_Email</members>
+        <members>Virtual_Confirmation_Email</members>
+        <members>Post_Course_Completion_Email</members>
+        <members>Pre_session_Reminder_Email</members>
+        <members>Send_Email_on_Registration_Confirmation</members>
+        <members>Online_Self_Paced_Confirmation_Email</members>
+        <members>Face_to_Face_Final_Confirmation_Email_Flow</members>
+        <members>Virtual_Confirmation_Email_Flow</members>
+        <members>Online_Self_Paced_Confirmation_Email_Flow</members>
+        <members>Pre_session_Reminder_Email_Flow</members>
+        <members>Post_Course_Completion_Email_Flow</members>
+        <!--DEPP-3222-->
+        <members>Send_Email_on_Regis_Confirmation_Flow</members>
+        <!--DEPP-3222-->
+        <!--DEPP-1823-->
+        <!-- <members>Send_Design_Form</members> -->
+        <!--DEPP-3481-->
+        <members>Create_Pricebook_for_SOA</members>
+        <members>Create_Pricebook_for_SOA_and_Corporate_Bundle</members>
+        <!--DEPP-3482-->
+        <members>Course_Offering_End_Date_Filter_Flow</members>
+        <members>Update_Product_Ledger_Purchased_Price</members>
+		<!--(Start) DEPP-2665-->
+        <members>CCE_Products_Entitlement_Assignment</members>
+        <members>Enable_Partner_and_Buyer_Flow</members>
+        <!--(End) DEPP-2665-->
+        <!--(Start) DEPP-3747-->
+        <members>Expression_of_Interest_is_Approved</members>
+        <!--(End) DEPP-3747-->
+        <members>Primary_Business_Org_Update</members>
+        <name>Flow</name>
+    </types>
+    <types>
+        <members>CommunitiesSelfReg</members> <!-- DEPP-3095 -->
+        <members>ApexPage</members>
+    </types>
+
+
+    <!--(Start) Kindly comment out once it reaches PROD
+    DEPP-415, DEPP-641, DEP1-653, DEPP-106, DEPP-236-->
+    <!--<types>
+        <members>Create_Contact_Role_for_Opportunity_Manual_Creation-1</members>
+        <name>Flow</name>
+    </types>-->
+
+    <!--(End) Kindly comment out once it reaches PROD
+        DEPP-415, DEPP-641, DEP1-653, DEPP-106, DEPP-236-->
+    <!--<types>
+        <members>Program_Specification_Record_Page</members>
+        <name>FlexiPage</name>
+    </types>
+    <types>
+        <members>Opportunity_to_Program_Specs_Flow-1</members>
+        <name>Flow</name>
+    </types>-->
+    <!--(Start) As part of DEPP-1352, This is to delete fields on SIT/ST added on DEPP-1262. Kindly comment out once it reaches PROD-->
+    <!--(End) As part of DEPP-1352, This is to delete fields on SIT/ST added on DEPP-1262. Kindly comment out once it reaches PROD-->
+
+    <!--<types>
+        <members>Product_Specification_CCE</members>
+        <name>PathAssistant</name>
+    </types> -->
+
+    <!--<types>
+        <members>Send_Email_Upon_Short_Course_Design_Submission</members>
+        <members>Short_Course_Design_Form_Email</members>
+    <name>Flow</name>
+    </types>-->
     <version>52.0</version>
 </Package>

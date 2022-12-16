@@ -12,13 +12,13 @@
       | rhea.b.torres                  | July 23,2022          | DEPP-3557              | Add logic to use email template set in Communication Schedule  |
       | rhea.b.torres                  | July 27,2022          | DEPP-3590              | Add logic to include merge fields from other email template    |
  */
-public with sharing class EmailTriggerPostCourseBatch implements Database.Batchable<EmailWrapper>{
+public with sharing class EmailTriggerPostCourseBatch implements Database.Batchable<EmailTriggerBatchHelper.EmailWrapper>{
 
-    public Iterable<EmailWrapper> start(Database.BatchableContext bc) {
+    public Iterable<EmailTriggerBatchHelper.EmailWrapper> start(Database.BatchableContext bc) {
         final Id STUDENT_REC_TYPE = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByName()
             .get('Student')
             .getRecordTypeId();
-        List<EmailWrapper> wrapperList = new List<EmailWrapper>();
+        List<EmailTriggerBatchHelper.EmailWrapper> wrapperList = new List<EmailTriggerBatchHelper.EmailWrapper>();
         Map<Id,String> productEmailTemplateMap = new Map<Id,String>();
 
         try{
@@ -27,6 +27,7 @@ public with sharing class EmailTriggerPostCourseBatch implements Database.Batcha
                                                             Course_Offering_End_Date__c,
                                                             hed__Course_Offering__r.hed__Course__c,
                                                             hed__Course_Offering__r.hed__Course__r.Name,
+                                                            hed__Contact__c,
                                                             hed__Contact__r.FirstName,
                                                             hed__Contact__r.LastName,
                                                             hed__Contact__r.Registered_Email__c,
@@ -121,9 +122,10 @@ public with sharing class EmailTriggerPostCourseBatch implements Database.Batcha
 
                     if(allowedEmailReminder && String.isNotBlank(emailTemplateIdStr)){
                         //Send email to this student
-                        EmailWrapper wrapper;
-                        wrapper = new EmailWrapper();
+                        EmailTriggerBatchHelper.EmailWrapper wrapper;
+                        wrapper = new EmailTriggerBatchHelper.EmailWrapper();
                         wrapper.recordId = courseConnection.Id;
+                        wrapper.contactId = courseConnection.hed__Contact__c;
                         wrapper.name = courseConnection.hed__Course_Offering__r.hed__Course__r.Name;
                         wrapper.firstName = courseConnection.hed__Contact__r.FirstName;
                         wrapper.lastName = courseConnection.hed__Contact__r.LastName;
@@ -144,7 +146,7 @@ public with sharing class EmailTriggerPostCourseBatch implements Database.Batcha
                 }
             }
         }catch(Exception e){
-            System.debug(e);
+            System.debug(LoggingLevel.WARN,'EmailTriggerPostCourseBatch.start ERROR: ' + e.getMessage()); //NOPMD
         }
 
         return wrapperList;
@@ -153,115 +155,12 @@ public with sharing class EmailTriggerPostCourseBatch implements Database.Batcha
     public void execute(Database.BatchableContext bc, List<Object> records) {
 
         try{
-            if (!records.isEmpty()){
-                List<EmailWrapper> wrapperList =  (List<EmailWrapper>)records;
-                List<Messaging.SingleEmailMessage> mailList = new List<Messaging.SingleEmailMessage>();
-
-                // Get Org Wide Email Address
-                List<OrgWideEmailAddress> owea = [SELECT Id, Address, DisplayName
-                                                    FROM OrgWideEmailAddress
-                                                    WHERE DisplayName = 'QUTeX'LIMIT 1];
-
-                // Get all email template ids
-                Set<String> emailTemplateIdSet = new Set<String>();
-                for(EmailWrapper wrapper : wrapperList){
-                    emailTemplateIdSet.add(wrapper.emailTemplateIdStr);
-                }
-
-                // Get all email templates for new learners
-                Map<Id,EmailTemplate> emailTemplateMap = new Map<Id,EmailTemplate>([SELECT Id,
-                                                                                            Name,
-                                                                                            Subject,
-                                                                                            HtmlValue,
-                                                                                            Body
-                                                                                    FROM EmailTemplate
-                                                                                    WHERE Id IN :emailTemplateIdSet]);
-
-                for (EmailWrapper emailWrapper : wrapperList){
-                    final String STR_QUTEX = 'QUTeX';
-                    /**
-                     * Set course connection fields in the email templates
-                     **/
-                    String name = emailWrapper.name;
-                    String firstName = emailWrapper.firstName;
-                    String lastName =  emailWrapper.lastName;
-                    String toAddress = emailWrapper.toAddress;
-                    String subject = STR_QUTEX + ' ' + name;
-                    String amount = emailWrapper.amount;
-                    String paidInFull = emailWrapper.paidInFull;
-                    String storeLink = emailWrapper.storeLink;
-                    String userName = emailWrapper.userName;
-                    String startDate = '';
-                    if(emailWrapper.startDate != null){
-                        startDate = emailWrapper.startDate.format();
-                    }
-
-                    String endDate = '';
-                    if(emailWrapper.endDate != null){
-                        endDate = emailWrapper.endDate.format();
-                    }
-
-                    EmailTemplate emailTemplate;
-                    if(emailTemplateMap.containsKey(Id.valueOf(emailWrapper.emailTemplateIdStr))){
-                        emailTemplate = emailTemplateMap.get(Id.valueOf(emailWrapper.emailTemplateIdStr));
-                    }
-
-                    if (emailTemplate != null) {
-                        Map<String, String> emailParams = new Map<String, String>{
-                                        '{fullname}' => firstName + ' ' + lastName,
-                                        '{fullName}' => firstName + ' ' + lastName,
-                                        '{name}' => name,
-                                        '{courseOfferingName}' => name,
-                                        '{productOfferingName}' => name,
-                                        '{productName}' => name,
-                                        '{startDate}' => startDate,
-                                        '{startdate}' => startDate,
-                                        '{endDate}' => endDate,
-                                        '{firstname}' => firstName,
-                                        '{firstName}' => firstName,
-                                        '{contactFirstName}' => firstName,
-                                        '{lastname}' => lastName,
-                                        '{contactLastName}' => lastName,
-                                        '{paid}' => paidInFull,
-                                        '{amount}' => amount,
-                                        '{storeLink}' => storeLink,
-                                        '{username}' => userName};
-
-                        //Build the email
-                        Messaging.SingleEmailMessage mail = EmailHelper.emailBuilder(
-                                                                                    toAddress,
-                                                                                    subject,
-                                                                                    emailTemplate.HtmlValue,
-                                                                                    emailParams
-                                                                                    );
-                        if(!owea.isEmpty()){
-                            mail.setOrgWideEmailAddressId(owea[0].Id);
-                        }
-                        mailList.add(mail);
-                    }
-                }
-                Messaging.sendEmail(mailList);
-            }
+            EmailTriggerBatchHelper.sendEmailWithoutAttachment(records);
         }catch(Exception e){
-            System.debug(e);
+            System.debug(LoggingLevel.WARN,'EmailTriggerPostCourseBatch.execute ERROR: ' + e.getMessage()); //NOPMD
         }
 
     }
 
-    public void finish(Database.BatchableContext bc) {}
-
-    public class EmailWrapper {
-        public String recordId;
-        public String name;
-        public String firstName;
-        public String lastName;
-        public String toAddress;
-        public String emailTemplateIdStr;
-        public Date startDate;
-        public Date endDate;
-        public String paidInFull;
-        public String amount;
-        public String storeLink;
-        public String userName;
-    }
+    public void finish(Database.BatchableContext bc) {}//NOPMD
 }

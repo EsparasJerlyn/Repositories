@@ -330,6 +330,17 @@
     <enableFeeds>true</enableFeeds>
     <enableHistory>true</enableHistory>
     <externalSharingModel>Private</externalSharingModel>
+    <profileSearchLayouts>
+        <fields>FULL_NAME</fields>
+        <fields>Registered_Email__c</fields>
+        <fields>Preferred_Full_Name__c</fields>
+        <fields>Preferred_Given_Name__c</fields>
+        <fields>ACCOUNT.NAME</fields>
+        <fields>CONTACT.PHONE1</fields>
+        <fields>CONTACT.EMAIL</fields>
+        <fields>CORE.USERS.ALIAS</fields>
+        <profileName>QUTeX</profileName>
+    </profileSearchLayouts>
     <recordTypeTrackFeedHistory>false</recordTypeTrackFeedHistory>
     <recordTypeTrackHistory>false</recordTypeTrackHistory>
     <searchLayouts>
@@ -343,6 +354,7 @@
         <lookupDialogsAdditionalFields>Preferred_Given_Name__c</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>ACCOUNT.NAME</lookupDialogsAdditionalFields>
         <lookupFilterFields>Preferred_Full_Name__c</lookupFilterFields>
+        <lookupFilterFields>Registered_Email__c</lookupFilterFields>
         <lookupFilterFields>Preferred_Given_Name__c</lookupFilterFields>
         <lookupPhoneDialogsAdditionalFields>FULL_NAME</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>Preferred_Full_Name__c</lookupPhoneDialogsAdditionalFields>
@@ -356,6 +368,7 @@
         <searchFilterFields>Preferred_Full_Name__c</searchFilterFields>
         <searchFilterFields>Preferred_Given_Name__c</searchFilterFields>
         <searchResultsAdditionalFields>FULL_NAME</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Registered_Email__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Preferred_Full_Name__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Preferred_Given_Name__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>ACCOUNT.NAME</searchResultsAdditionalFields>

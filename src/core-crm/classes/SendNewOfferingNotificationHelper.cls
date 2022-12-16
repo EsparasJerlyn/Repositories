@@ -277,7 +277,10 @@ public without sharing class SendNewOfferingNotificationHelper {
                   expresionOfInterestMap.get(interestId).Contact__r.Registered_Email__c,
                   expresionOfInterestMap.get(interestId).Product__r.Name,
                   emailTemplateList[0].HTMLValue,
-                  emailContent
+                  emailContent,
+                  null,
+                  null,
+                  true
                 );
 
                 if (!owea.isEmpty()) {

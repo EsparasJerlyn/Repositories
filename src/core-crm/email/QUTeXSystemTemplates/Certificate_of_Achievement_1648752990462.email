@@ -1,0 +1,38 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">
+<div style="text-align: center;"><br />
+This is to certify that<br />
+<br />
+<b><span style="font-size:36px;">{fullName}</span></b><br />
+<br />
+has successfully completed all requirements<br />
+for the QUTeX course:<br />
+<br />
+<span style="font-size:28px;"><b>{courseName}</b></span><br />
+<br />
+{startDate} - {endDate}<br />
+<br />
+with a result of<br />
+<br />
+<span style="font-size:18px;"><b>{mark} - {markDesc}</b></span><br />
+<br />
+and in evidence whereof this certificate is awarded<br />
+<br />
+{dateToday}<br />
+&nbsp;</div>
+
+<div style="margin-left: 160px;">Professor Jane Philips&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Amanda Wylie</div>
+
+<div style="margin-left: 160px;">Head of School&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Course Coordinator</div>
+
+<div style="margin-left: 160px;">QUT School of Nursing</div>
+
+<div style="text-align: center;"><br />
+<br />
+<br />
+<b>Queensland University of Technology</b></div>
+
+</body></html>

@@ -157,8 +157,6 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   onLoadTriggerBtn;
   onLoadTriggerRegInterest = false;
   urlDefaultAddToCart = false;
-  @api recordNameId;
-
   @track overview;
   @track evolveWithQUTeX;
   @track whoShouldParticipate;
@@ -987,7 +985,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     if (this.selectedPriceBookEntry) {
       this.setParamObj.defPBEntry = this.selectedPriceBookEntry;
     }
-    this.paramURL = "&param=" + btoa(JSON.stringify(this.setParamObj));
+    this.paramURL = "?param=" + btoa(JSON.stringify(this.setParamObj));
   }
 
   // Triggers an email when employee self registration button is clicked

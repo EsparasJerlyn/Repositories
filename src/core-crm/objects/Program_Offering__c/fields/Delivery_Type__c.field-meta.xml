@@ -33,11 +33,13 @@
             <value>
                 <fullName>Melbourne Classroom</fullName>
                 <default>false</default>
+                <isActive>false</isActive>
                 <label>Melbourne Classroom</label>
             </value>
             <value>
                 <fullName>Sydney Classroom</fullName>
                 <default>false</default>
+                <isActive>false</isActive>
                 <label>Sydney Classroom</label>
             </value>
         </valueSetDefinition>

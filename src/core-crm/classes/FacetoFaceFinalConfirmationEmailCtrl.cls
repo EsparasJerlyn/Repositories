@@ -9,11 +9,10 @@
       | marygrace.li@qut.edu.au        | April 4, 2022         | DEPP-1479              | Created file                 |
       | rhea.b.torres                  | June 22, 2022         | DEPP-3188              | Get sessions with Date__c is |
       |                                |                       |                        | tomorrow                     |
+      | rhea.b.torres                  | November 4, 2022      | DEPP-4720              | Deleted unused method        |
+      |                                |                       |                        | generatePDFandSendEmail()    |
  */
 public with sharing class FacetoFaceFinalConfirmationEmailCtrl {
-  private static final String STR_QUTEX = 'QUTeX';
-  private static final String FILE_NAME = 'Face-to-Face(Final Confirmation).pdf';
-  private static final String FACE2FACE_CONFIRMATION_EMAIL_TEMPLATE = 'Face-Face Final Confirmation Email';
   public hed__Course_Enrollment__c courseConnect { get; set; }
   public List<Session__c> sessions { get; set; }
   Set<String> faceToFaceSet = new Set<String>{'Brisbane Classroom',
@@ -59,73 +58,6 @@ public with sharing class FacetoFaceFinalConfirmationEmailCtrl {
         WHERE Course_Offering__c = :courseConnect.hed__Course_Offering__c
             AND Course_Offering__r.Delivery_Type__c IN :faceToFaceSet
       ];
-    }
-  }
-
-  @InvocableMethod(
-    label='Face to Face Final Confirmation Email Generator'
-    description='Generates Email for Face to Face Final Confirmation Email'
-  )
-  public static void generatePDFandSendEmail(
-    List<List<String>> courseConnectionParams
-  ) {
-    List<String> courseConnections = courseConnectionParams[0];
-    String recordId;
-    String name;
-    String firstName;
-    String lastName;
-    String toAddress;
-    /**
-     * Set course connection fields in the email templates
-     **/
-    if (courseConnectionParams.size() > 0) {
-      recordId = courseConnections[0];
-      name = courseConnections[1];
-      firstName = courseConnections[2];
-      lastName = courseConnections[3];
-      toAddress = courseConnections[4];
-    }
-
-    PageReference pdf = new PageReference(
-      '/apex/FacetoFaceFinalConfirmationPDFView?courseConnectionId=' + recordId
-    );
-    Messaging.EmailFileAttachment attachment = new Messaging.EmailFileAttachment();
-    attachment.setContentType('application/pdf');
-    attachment.setFileName(FILE_NAME);
-    if (Test.isRunningTest()) {
-      attachment.body = blob.valueOf('Unit.Test');
-    } else {
-      attachment.body = pdf.getContent();
-    }
-    attachment.setInline(false);
-
-    EmailTemplate emailTemplate = EmailTemplateSelector.getEmailTemplate(
-      FACE2FACE_CONFIRMATION_EMAIL_TEMPLATE
-    );
-
-    String subject = STR_QUTEX + ' ' + name;
-
-    if (emailTemplate != null) {
-      Map<String, String> emailParams = new Map<String, String>{
-        '{fullname}' => firstName +
-        ' ' +
-        lastName,
-        '{name}' => name
-      };
-
-      //Build the email
-      Messaging.SingleEmailMessage mail = EmailHelper.emailBuilder(
-        toAddress,
-        subject,
-        emailTemplate.HtmlValue,
-        emailParams
-      );
-
-      // Send the email with attachment
-      mail.setFileAttachments(
-        new List<Messaging.EmailFileAttachment>{ attachment }
-      );
-      Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ mail });
     }
   }
 }

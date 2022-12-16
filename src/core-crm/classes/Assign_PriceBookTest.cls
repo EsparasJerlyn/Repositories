@@ -33,7 +33,7 @@ private class Assign_PriceBookTest {
 
         Account acc = [SELECT Id From Account LIMIT 1];
         Contact con = [SELECT Id From Contact LIMIT 1];
-        Id cceRecTypeId = Schema.SObjectType.Opportunity.getRecordTypeInfosByName().get('QUTex CCE').getRecordTypeId();
+        Id cceRecTypeId = Schema.SObjectType.Opportunity.getRecordTypeInfosByName().get('QUTeX CCE').getRecordTypeId();
         
         List<Opportunity> oppList = TestDataFactory.createTestOpportunityRecords(100,acc?.Id,con?.Id);
         for(Opportunity oppty : oppList){

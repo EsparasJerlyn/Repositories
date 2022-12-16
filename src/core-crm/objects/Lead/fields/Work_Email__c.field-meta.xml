@@ -2,6 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Work_Email__c</fullName>
     <externalId>false</externalId>
+    <inlineHelpText>This field captures the work email of the contact.</inlineHelpText>
     <label>Work Email</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Closure_Code__c</fullName>
+    <description>Specified how a case was closed for reporting purposes.</description>
+    <externalId>false</externalId>
+    <label>Closure Code</label>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Status</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Response Given</fullName>
+                <default>false</default>
+                <label>Response Given</label>
+            </value>
+            <value>
+                <fullName>No response given</fullName>
+                <default>false</default>
+                <label>No response given</label>
+            </value>
+            <value>
+                <fullName>Redirected</fullName>
+                <default>false</default>
+                <label>Redirected</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Closed</controllingFieldValue>
+            <controllingFieldValue>Pending Closure</controllingFieldValue>
+            <valueName>Response Given</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed</controllingFieldValue>
+            <controllingFieldValue>Pending Closure</controllingFieldValue>
+            <valueName>No response given</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed</controllingFieldValue>
+            <controllingFieldValue>Pending Closure</controllingFieldValue>
+            <valueName>Redirected</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>
