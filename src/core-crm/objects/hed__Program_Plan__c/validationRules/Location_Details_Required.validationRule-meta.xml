@@ -7,7 +7,8 @@
    RecordType.DeveloperName = &apos;Program_Without_Pathway&apos;,
     Product_Request__r.Product_Specification__r.RecordType.DeveloperName = &apos;OPE&apos;,
    ISBLANK( Location_Details__c  ),
-    Mark_Design_Stage_as_Complete__c = true
+    Mark_Design_Stage_as_Complete__c = true,
+    OR ( ISPICKVAL( Delivery_Type__c,&apos;Face To Face&apos; ), ISPICKVAL( Delivery_Type__c,&apos;Blended&apos; ) )
 )</errorConditionFormula>
     <errorDisplayField>Location_Details__c</errorDisplayField>
     <errorMessage>Location Details is required.</errorMessage>
