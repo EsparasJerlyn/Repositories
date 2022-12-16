@@ -17,6 +17,7 @@
  |                           |                       |                      | category get method                        |
  | julie.jane.alegre         | September 21, 2022    | DEPP-4399            | Add filter for Product Request on Published|
  | keno.domienri.dico		 | September 28, 2022	 | DEPP-4459 & 4461		| Added new parameter for getProductsByCategory |
+ | julie.jane.alegre         | December  12, 2022    | DEPP-4667            | Add Corporate Bundle info in product list  |
 
  */
 public without sharing class ProductCtrl{
@@ -861,13 +862,14 @@ public without sharing class ProductCtrl{
 		Boolean isTEEPublished = false;
 		if(catName.ProductCategory.Name == 'Corporate Bundle'){
 			List<Asset> checkCBPublished = [
-				SELECT Id, Name, Ready_for_publishing__c, Account.Id
+				SELECT Id, Account.Id, Name, Start_Date__c, End_Date__c, Total_Value__c, Utilised_Value__c, Pending_Value__c, Remaining_Value__c, Ready_for_publishing__c
 				FROM Asset
 				WHERE Account.Id = :getAccount.AccountId
 				AND Ready_for_publishing__c = 'Yes'
 			];
 			if(checkCBPublished != null){
 				isCBPublished = true;
+				prodData.assetList = checkCBPublished;
 			}
 
 			List<Associated_Products__c> getPublishedCB = [
@@ -1103,6 +1105,8 @@ public without sharing class ProductCtrl{
 	public class ProductData{
 		@AuraEnabled
 		public List<ProductWrapper> productList;
+		@AuraEnabled
+		public List<Asset> assetList;
 	}
 
 	/**

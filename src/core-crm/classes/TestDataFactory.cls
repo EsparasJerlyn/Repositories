@@ -35,6 +35,7 @@
       | rhea.b.torres             | June 12, 2022         | DEPP-2734           | Implement proper testing persona                                 |
       | marlon.vasquez            | July 25, 2022         | DEPP-3538           | Added Required fields for creating Product Specification         |
       | william.a.cheng           | September 14, 2022    | DEPP-4266, 1977     | Add methodd to configure TDTM and affiliation mappings           |
+      | rhea.b.torres             | November 10, 2022     | DEPP-4448           | Add methodd to create International_Tier__c records              |
 */
 
 @isTest
@@ -100,6 +101,28 @@ public class TestDataFactory {
     }
 
     return leads;
+  }
+
+  /**
+   * @description Method for creating test case records
+   * @param numCases - number of case to be created
+   * @param relatedLeads - related lead to case
+   * @param relatedContacts - related contact to case
+   * @return case - list of case created
+   */
+  public static List<Case> createTestCaseRecords(Integer numCases, List<Lead> relatedLeads, List<Contact> relatedContacts) {
+    List<Case> cases = new List<Case>();
+
+    for (Integer i = 0; i < numCases; i++) {
+      cases.add(
+        new case(
+          Lead__c = relatedLeads != null && !relatedLeads.isEmpty()?relatedLeads[i].Id:null,
+          ContactId = relatedContacts != null && !relatedContacts.isEmpty()?relatedContacts[i].Id:null
+        )
+      );
+    }
+
+    return cases;
   }
 
     /**
@@ -1280,6 +1303,46 @@ public class TestDataFactory {
     return webStoreCatalog;
   }
 
+  /**
+   * @description Method for creating WebStoreCatalog
+   * @return records - list of International_Tier__c records
+   */
+  public static List<International_Tier__c> createInternationalTierRecords(List<String> countryNames, String priority, String category, Boolean isActive){
+    List<International_Tier__c> records = new List<International_Tier__c>();
+
+    for(String country : countryNames){
+      International_Tier__c tier = new International_Tier__c(IsActive__c=isActive, 
+                                                              Country_Name__c=country,
+                                                              Tier_Priority__c=priority,
+                                                              Tier_Category__c=category);
+      records.add(tier);
+    }
+    
+    return records;
+  }
+
+  public static List<Case> createTestCaseRecords(Id recordTypeId, String subject, Integer numOfRecords) {
+    List<Case> caseList = new List<Case>();
+
+    for(Integer i=0; i<numOfRecords; i++){
+      Case caseRecord = new Case();
+      caseRecord.RecordTypeId = recordTypeId;
+      caseRecord.Subject = subject + i;
+      caseList.add(caseRecord);
+    }
+
+    return caseList;
+  }
+
+  public static List<EmailMessage> queryEmailMessageRecords(){
+    Id courseConnectionId = [SELECT Id FROM hed__Course_Enrollment__c LIMIT 1]?.Id;
+    List<EmailMessage> emailMessageList = [SELECT Id, RelatedToId 
+                                            FROM EmailMessage
+                                            WHERE RelatedToId=:courseConnectionId
+                                            WITH SECURITY_ENFORCED];
+    return emailMessageList;
+  }
+
     /**
      * @description Method for generating test users
      * @param void
@@ -1337,7 +1400,37 @@ public class TestDataFactory {
     public static User getIntegrationWebsiteUser(){
       User integWebSiteUser = [SELECT Id FROM User WHERE Username LIKE 'QUT_Website_Integration_User%' LIMIT 1];
       return integWebSiteUser;
-  }
+    }
+
+    /**
+     * @description Method for ISR Communications Manager
+     * @param void
+     * @return ISR Communications Manager
+     */
+    public static User getISRCommunicationsManager(){
+      User communicationMgr = [SELECT Id FROM User WHERE Username LIKE 'QUT_ISR_Communications_Manager%' LIMIT 1];
+      return communicationMgr;
+    }
+
+    /**
+     * @description Method for ISR Student Enquiries Communications Officer
+     * @param void
+     * @return ISR Student Enquiries Communications Officer
+     */
+    public static User getISRStudentEnquiriesCommunicationOfficer(){
+      User secoUser = [SELECT Id FROM User WHERE Username LIKE 'QUT_ISR_Student_Enquiries_Communications_Officer%' LIMIT 1];
+      return secoUser;
+    }
+
+    /**
+     * @description Method for ISR Student Adviser
+     * @param void
+     * @return ISR Student Adviser
+     */
+    public static User getISRStudentAdviser(){
+      User studentAdviser = [SELECT Id FROM User WHERE Username LIKE 'QUT_ISR_Student_Adviser%' LIMIT 1];
+      return studentAdviser;
+    }
 
     class TestUserGenerator{
         public Map<String,Id> groupMap;
@@ -1450,7 +1543,7 @@ public class TestDataFactory {
                         List<String> res = permSets.split(',');
                         for(String r:res){
                             String permset = r.trim();
-                            addPermSets.add(u.userName+'%%'+permset);
+                            addPermSets.add(u.userName+'%%'+permset); 
                         }
 
                     }else{
@@ -1480,18 +1573,19 @@ public class TestDataFactory {
                 SELECT Id FROM User WHERE IsActive = true
                                         AND FirstName = 'Sys Admin'
                                         AND LastName = 'Integration User'
-                                        AND Profile.Name = 'System Administrator' LIMIT 1];
+                                        AND (Profile.Name = 'QUT System Administrator' 
+                                            OR Profile.Name = 'System Administrator') LIMIT 1];
             //add UserRole
             PORTAL_SYS_ADMIN.UserRoleId = [SELECT Id FROM UserRole WHERE Name = 'System Administrator' LIMIT 1]?.Id;
             update PORTAL_SYS_ADMIN;
             System.runAs(PORTAL_SYS_ADMIN){
                 // users below match personas on the following page https://wiki.qut.edu.au/display/DEP/User+Onboarding+Guide
                 /** START - Creation of  Development Users */
-                //Create System Administrator
+                //Create QUT System Administrator
                 generateUsers(
                     'QUT_System_Administrator'
+                    ,'QUT System Administrator'
                     ,'System Administrator'
-                    ,''
                     ,'DocuSign_Administrator,DocuSign_Generator,DocuSign_Negotiator,DocuSign_User'
                     ,''
                     ,true
@@ -1544,9 +1638,9 @@ public class TestDataFactory {
                 //Create Sys Admin
                 generateUsers(
                     'QUT_Sys_Admin'
+                    ,'QUT System Administrator'
                     ,'System Administrator'
-                    ,'System Administrator'
-                    ,''
+                    ,'System_Administrator'
                     ,''
                     ,true
                     ,true
@@ -1943,6 +2037,61 @@ public class TestDataFactory {
                     ,null
                     ,1
                 );
+
+                /**Start of Creation of ISR - International Student Recruitment Users */
+                //Create Digital Communication Officer
+                generateUsers(
+                    'QUT_ISR_Communications_Manager'
+                    ,'International Student Recruitment'
+                    ,'International Super User'
+                    ,'Enquiry_Management_Base,Email_Template_Management,Manage_Reports_and_Dashboards,Live_Chat_Supervisor' //TODO: Add "Direct Nurture Base" once available
+                    ,'' // International
+                    ,true
+                    ,true
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,null
+                    ,1
+                );
+
+                generateUsers(
+                    'QUT_ISR_Student_Enquiries_Communications_Officer'
+                    ,'International Student Recruitment'
+                    ,'International Super User'
+                    ,'Enquiry_Management_Base,Email_Template_Management,Run_Reports_and_Dashboards,Live_Chat_Agent' //TODO: Add "Direct Nurture Base" when permset is available
+                    ,'' // TODO: Add "International" when public group is available
+                    ,true
+                    ,true
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,null
+                    ,1
+                );
+
+                generateUsers(
+                    'QUT_ISR_Student_Adviser'
+                    ,'International Student Recruitment'
+                    ,'International User'
+                    ,'Enquiry_Management_Base,Run_Reports_and_Dashboards,Live_Chat_Agent' //TODO: Add "Direct Nurture Base" when permset is available
+                    ,'' // TODO: Add "International" when public group is available
+                    ,true
+                    ,true
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,false
+                    ,null
+                    ,1
+                );
+                /**End of ISR - International Student Recruitment User creation */
+
                 /** END - Creation of Marketing Users */
                 generatePortalUsers(PORTAL_SYS_ADMIN.Id);
                 insert addUsers;

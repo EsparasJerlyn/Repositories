@@ -9,6 +9,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                                                     |
       |--------------------------------|-----------------------|------------------------|--------------------------------------------------------------------|
       | roy.nino.s.regala              | July 29, 2022         | DEPP-2498              | Created file                                                       |
+      | eccarius.munoz                 | November 22, 2022     | DEPP-4014              | Added call to BuyerGroupPublishingHelper Class                     |
  */
 public with sharing class BuyerGroupTriggerHandler implements Disableable, BeforeUpdate, AfterUpdate{	
 
@@ -37,9 +38,7 @@ public with sharing class BuyerGroupTriggerHandler implements Disableable, Befor
         }
     }
     
-    if(!idsToPublish.isEmpty()){
-        BuyerGroupTriggerHelper.validatePublishing(idsToPublish,newMap);
-    }
+    BuyerGroupPublishingHelper.validateExistingPublishedBuyerGroup(idsToPublish, newMap);
   }
 
   /**
@@ -52,37 +51,16 @@ public with sharing class BuyerGroupTriggerHandler implements Disableable, Befor
     Map<Id,BuyerGroup> oldMap = (Map<Id,BuyerGroup>) oldItems;
 
     Set<Id> idsToPublish = new Set<Id>();
-    Set<Id> idsToComplete = new Set<Id>();
     Map<Id,BuyerGroup> prodReqToBgMap = new Map<Id,BuyerGroup>();
+
     for(BuyerGroup bg: newMap.values()){
-
-        if( ( bg.Ready_for_Publishing__c != oldMap.get(bg.Id).Ready_for_publishing__c || 
-              bg.Publishing_Start_Date__c != oldMap.get(bg.Id).Publishing_Start_Date__c ) && 
-              bg.Ready_for_publishing__c == 'Yes' && 
-              bg.Publishing_Start_Date__c <= Date.Today() &&
-              ( bg.Publishing_End_date__c == null || 
-                bg.Publishing_End_date__c > date.today()) &&
-                bg.Product_Request__c != null){
-
-                  idsToPublish.add(bg.Product_Request__c); 
-        }
-
-        if( ( bg.Decommission__c != oldMap.get(bg.Id).Decommission__c || 
-              bg.End_Date__c != oldMap.get(bg.Id).End_Date__c) && 
-              bg.End_Date__c <= Date.Today() && 
-              bg.Decommission__c == true && 
-              bg.Product_Request__c != null){
-                prodReqToBgMap.put(bg.Product_Request__c, bg);
-              }
+      idsToPublish = BuyerGroupPublishingHelper.getProductRequestToPublish(bg, oldMap);
+      prodReqToBgMap = BuyerGroupPublishingHelper.getProdReqToBgMap(bg, oldMap);
     }
 
-    if(!idsToPublish.isEmpty()){
-        BuyerGroupTriggerHelper.publishParentProductRequest(idsToPublish);
-    }
-
-    if(!prodReqToBgMap.keySet().isEmpty()){
-        BuyerGroupTriggerHelper.completeParentProductRequest(prodReqToBgMap);
-    }
+    BuyerGroupPublishingHelper.publishParentProductRequest(idsToPublish);
+    BuyerGroupPublishingHelper.completeParentProductRequest(prodReqToBgMap);
+    
   }
     
   /**

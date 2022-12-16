@@ -49,7 +49,6 @@ export default class InvestigationSection extends LightningElement {
     recConsId;
     recMarkInvAsComplete;
     recInvSummary;
-    recPublishToPortal;  
     recProdReqStatus;
     enableEdit = true;
     isUpdateModalOpen = false;
@@ -91,7 +90,6 @@ export default class InvestigationSection extends LightningElement {
             this.recConsId = this.consultancyRecord.id;
             this.recInvSummary = this.consultancyRecord.investigationSummary;
             this.recMarkInvAsComplete = this.consultancyRecord.markInvestigationAsComplete;
-            this.recPublishToPortal = this.consultancyRecord.publishToPortal;  
             this.recProdReqStatus = this.consultancyRecord.prodReqStatus;
         }  
         this.getFiles(this.recConsId);
@@ -163,8 +161,7 @@ export default class InvestigationSection extends LightningElement {
             fields = {
                 Id : this.consultancyRecord.id,
                 Mark_Investigation_as_Complete__c : event.detail.fields.Mark_Investigation_as_Complete__c,
-                Investigation_Summary__c : event.detail.fields.Investigation_Summary__c,
-                Publish_to_the_Portal__c : event.detail.fields.Publish_to_the_Portal__c
+                Investigation_Summary__c : event.detail.fields.Investigation_Summary__c
             }
             const recordInput = { fields };
             updateRecord(recordInput)
@@ -208,9 +205,6 @@ export default class InvestigationSection extends LightningElement {
     handleIsCompChange(event){
         this.recMarkInvAsComplete = event.target.checked;
         
-    }
-    handlePublishToPoral(event){
-        this.recPublishToPortal = event.target.checked;
     }
 
     //handles file upload

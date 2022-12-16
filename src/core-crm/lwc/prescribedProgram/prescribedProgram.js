@@ -64,7 +64,6 @@ export default class PrescribedProgram extends NavigationMixin(
   LightningElement
 ) {
   @api product;
-  @api recordNameId;
   @api recordId;
   @api isInternalUser;
   @api productCategory;
@@ -1055,7 +1054,7 @@ export default class PrescribedProgram extends NavigationMixin(
     if (this.selectedPricing) {
       this.setParamObj.defPBEntry = this.selectedPricing;
     }
-    this.paramURL = "&param=" + btoa(JSON.stringify(this.setParamObj));
+    this.paramURL = "?param=" + btoa(JSON.stringify(this.setParamObj));
   }
   //Check if CCE portal
   get isCCEPortal() {

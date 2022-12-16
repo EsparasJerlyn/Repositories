@@ -37,6 +37,21 @@ public with sharing class ProductRequestListCtrl {
             Map<Id, List<Product_Request__c>> parentChildPRMap = new Map<Id, List<Product_Request__c>>();
             Map<Id, List<Product_Request__c>> childGrandchildPRMap = new Map<Id, List<Product_Request__c>>();
 
+            //get all related product request records where it is related to the product specification
+            List<Related_Product_Request__c> allRelatedProductRequestList = new List<Related_Product_Request__c>(
+                [
+                    SELECT Id, Program__c, Course__c
+                    FROM Related_Product_Request__c
+                    WHERE Program__r.Product_Specification__c =: productSpecificationId
+                    ORDER BY LastModifiedDate asc
+                ]
+            );
+
+            //loop to get all the parent only
+            for(Related_Product_Request__c currentRPR: allRelatedProductRequestList){
+                allRPRChildIds.add(currentRPR.Course__c);
+            }
+
             //get all product request related to the product specification
             Map<Id, Product_Request__c> allProductRequestMap = new Map<Id, Product_Request__c>(
                 [
@@ -52,24 +67,10 @@ public with sharing class ProductRequestListCtrl {
                            (SELECT Id, Name FROM Assets__r)
                     FROM Product_Request__c
                     WHERE Product_Specification__c =: productSpecificationId
+                    OR Id In: allRPRChildIds
                     ORDER BY LastModifiedDate asc
                 ]
             );
-
-            //get all related product request records where it is related to the product specification
-            List<Related_Product_Request__c> allRelatedProductRequestList = new List<Related_Product_Request__c>(
-                [
-                    SELECT Id, Program__c, Course__c
-                    FROM Related_Product_Request__c
-                    WHERE Program__r.Product_Specification__c =: productSpecificationId
-                    ORDER BY LastModifiedDate asc
-                ]
-            );
-
-            //loop to get all the parent only
-            for(Related_Product_Request__c currentRPR: allRelatedProductRequestList){
-                allRPRChildIds.add(currentRPR.Course__c);
-            }
 
             //get all related product request records for Parent-Child relationship only
             List<Related_Product_Request__c> parentChildRPRList = new List<Related_Product_Request__c>(

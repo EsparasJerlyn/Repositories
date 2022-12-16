@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Related_Case_Relationship__c</fullName>
+    <externalId>false</externalId>
+    <label>Related Case Relationship</label>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Parent Child</fullName>
+                <default>false</default>
+                <label>Parent Child</label>
+            </value>
+            <value>
+                <fullName>Clone from Case</fullName>
+                <default>false</default>
+                <label>Clone from Case</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

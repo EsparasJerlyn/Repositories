@@ -1737,5 +1737,15 @@ span[c-customcombobox_customcombobox].slds-listbox__option-meta_entity {
     c-custom-logout a {
       color: var(--greys-color-white) !important;
     }
+
+    .infomail .slds-form-element__icon{
+      float: right;
+      position: absolute;
+      top:-39px;
+      left:45px;
+      
+       
+      
+      }
 	
 }

@@ -14,7 +14,7 @@ public with sharing class FacetoFaceFinalConfirmationEmailCtrlTest{
   private static final Id STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get('Student').getRecordTypeId();
   private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
   private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
-  private static final String FACE2FACE_CONFIRMATION_EMAIL_TEMPLATE = 'Face-Face Final Confirmation Email';
+
   @testSetup
   static void makeData(){
     TestDataFactory.generateTestUsers();
@@ -22,14 +22,12 @@ public with sharing class FacetoFaceFinalConfirmationEmailCtrlTest{
     System.runAs(TestDataFactory.getProgramAdminUser()){
       BypassTriggers__c bypass = new BypassTriggers__c(Bypass__c = true, SetupOwnerId = UserInfo.getOrganizationId());
       insert bypass;
-      EmailTemplate template = TestDataFactory.createTestEmailTemplateRecords(1, new Map<String, String>{ FACE2FACE_CONFIRMATION_EMAIL_TEMPLATE => 'Test Email Subject' }).iterator().next();
-      insert template;
     }
     Test.stopTest();
   }
 
   @isTest
-  public static void testGeneratePDFandSendEmail(){
+  public static void controllerTest(){
     System.runAs(TestDataFactory.getProgramAdminUser()){
       Test.startTest();
       List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
@@ -53,6 +51,7 @@ public with sharing class FacetoFaceFinalConfirmationEmailCtrlTest{
       insert courses;
 
       List<hed__Course_Offering__c> courseOfferings = TestDataFactory.createTestCourseOfferingRecord(10, courses, terms);
+      courseOfferings[0].Delivery_Type__c = 'Brisbane Classroom';
       insert courseOfferings;
 
       List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(10);
@@ -79,31 +78,14 @@ public with sharing class FacetoFaceFinalConfirmationEmailCtrlTest{
         session.Facilitator__c = contacts[0].Id;
         session.Location__c = fac.Id;
       }
-
       insert sessions;
 
-      PageReference pageRef = Page.FacetoFaceFinalConfirmationPDFView;
-      Test.setCurrentPage(pageRef);
       ApexPages.currentPage().getParameters().put('courseConnectionId', courseConnections[0].Id);
 
       FacetoFaceFinalConfirmationEmailCtrl face2faceFinalConfirmEmailCtrl = new FacetoFaceFinalConfirmationEmailCtrl();
-      face2faceFinalConfirmEmailCtrl.courseConnect = courseConnections[0];
-      face2faceFinalConfirmEmailCtrl.sessions = sessions;
 
-      hed__Course_Enrollment__c courseConnectionParam = [SELECT Id, Course_Offering_Name__c, hed__Contact__r.FirstName, hed__Contact__r.LastName, hed__Contact__r.Email
-                                                   FROM hed__Course_Enrollment__c
-                                                   LIMIT 1];
-      List<List<String>> paramList = new List<List<String>>();
-      List<String> param = new List<String>();
-      param.add(courseConnectionParam.Id);
-      param.add(courseConnectionParam.Course_Offering_Name__c);
-      param.add(courseConnectionParam.hed__Contact__r.FirstName);
-      param.add(courseConnectionParam.hed__Contact__r.LastName);
-      param.add(courseConnectionParam.hed__Contact__r.Email);
-      paramList.add(param);
-
-      FacetoFaceFinalConfirmationEmailCtrl.generatePDFandSendEmail(paramList);
-      System.assertEquals(1, Limits.getEmailInvocations(), 'Emails should be sent');
+      System.assertEquals(courseConnections[0].Id, face2faceFinalConfirmEmailCtrl.courseConnect.Id, 'courseConnection should be set');
+      System.assertEquals(10, face2faceFinalConfirmEmailCtrl.sessions.size(), 'sessions should be created');
       Test.stopTest();
     }
   }

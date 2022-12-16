@@ -15,6 +15,7 @@
       |                           |                       |                      | discounted items             |
       | john.m.tambasen           | August 09, 2022       | DEPP-3721            | consider as free for 0 total |
       | julie.jane.alegre         | September 07, 2022    | DEPP-3613            | add validation for early bird|
+      | julie.jane.alegre         | December 09, 2022     | DEPP-3613            | fix alignment for email textbox|
 */
 
 import { LightningElement, wire, api, track } from "lwc";
@@ -40,6 +41,8 @@ import ANSWER_RESPONSE_FIELD from "@salesforce/schema/Answer__c.Response__c";
 import CARTITEM_ID_FIELD from '@salesforce/schema/CartItem.Id';
 import CARTITEM_PBE_FIELD from '@salesforce/schema/CartItem.Pricebook_Entry_ID__c';
 import CARTITEM_TOTAL_PRICE_FIELD from '@salesforce/schema/CartItem.TotalPrice';
+import CARTITEM_PROMOTION_ID from '@salesforce/schema/CartItem.Promotion__c';
+import CARTITEM_PROMOTION_PRICE_FIELD from '@salesforce/schema/CartItem.Promotion_Price__c';
 
 import CART_PAYMENT_FIELD from '@salesforce/schema/WebCart.Cart_Payment__c';
 
@@ -631,6 +634,8 @@ createFileUploadMap(questions){
                         fields[CARTITEM_ID_FIELD.fieldApiName] = this.cartItemsPbeUpdate[i].cartItemId;
                         fields[CARTITEM_PBE_FIELD.fieldApiName] = this.cartItemsPbeUpdate[i].standardPbe;
                         fields[CARTITEM_TOTAL_PRICE_FIELD.fieldApiName] = this.cartItemsPbeUpdate[i].standardPbePrice;
+                        fields[CARTITEM_PROMOTION_ID.fieldApiName] = this.cartItemsPbeUpdate[i].promotionId;
+                        fields[CARTITEM_PROMOTION_PRICE_FIELD.fieldApiName] = this.cartItemsPbeUpdate[i].discount;
                         let recordInput = {fields};
                         updateRecord(recordInput)
                         .then(()=>{
@@ -723,12 +728,7 @@ createFileUploadMap(questions){
 
                 if(data[j].standardPbe != undefined){
                   this.cartItems[i].showStrikedStandardPb = true;
-
-                  //check if the curent cartitem is not having a standard pb and discount was applied
-                  if(this.cartItems[i].pbName != this.cartItems[i].pbNameStandard){
-                    //add element to array
                     cartItemsPbeUpdateTemp.push(data[j]);
-                  }
                 }
               }
             }

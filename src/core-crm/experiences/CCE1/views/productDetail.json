@@ -4,20 +4,19 @@
   "id" : "e21e6c76-b04c-437a-9f11-afa1e54d86ee",
   "label" : "Product Detail",
   "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:mobileMenuWrapper",
+      "id" : "3349e6af-4002-4cf7-ba64-a3747bf8ac31",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
     "id" : "8bc0a8bc-0430-4f95-ae6e-6ea9d4950238",
     "regionName" : "header",
     "type" : "region"
   }, {
     "components" : [ {
-      "componentAttributes" : {
-        "recordId" : "{!recordId}"
-      },
-      "componentName" : "c:productBodyDetails",
-      "id" : "feece778-edbc-40d5-b1d4-63a6cc84bc55",
-      "renderPriority" : "NEUTRAL",
-      "renditionMap" : { },
-      "type" : "component"
-    }, {
       "componentAttributes" : {
         "effectiveAccountId" : "{!CurrentUser.effectiveAccountId}",
         "recordId" : "{!recordId}"

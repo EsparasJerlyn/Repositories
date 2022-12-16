@@ -9,6 +9,13 @@ public with sharing class SandboxRefresh implements SandboxPostCopy{
         }
         
         changeUsersProfileAndEmail();
+        //Batch To Invalidate the accounts, contact and lead email
+        InvalidateFieldValuesBatch invalidateAccount = new InvalidateFieldValuesBatch();
+        InvalidateFieldValuesBatch invalidateContact = new InvalidateFieldValuesBatch();
+        InvalidateFieldValuesBatch invalidateLead = new InvalidateFieldValuesBatch();
+        invalidateAccount.invalidateFieldsForObject('Account', new Set<String>{'Phone'}, true);
+        invalidateContact.invalidateFieldsForObject('Contact', new Set<String>{'Email','Personal_Email__c','Registered_Email__c','QUT_Staff_Email__c','QUT_Learner_Email__c', 'MobilePhone','Personal_Mobile__c'}, true);
+        invalidateLead.invalidateFieldsForObject('Lead', new Set<String>{'Email','Personal_Email__c','Work_Email__c', 'MobilePhone','Personal_Mobile__c'}, true);
     }
     
     @future
@@ -29,8 +36,9 @@ public with sharing class SandboxRefresh implements SandboxPostCopy{
             }
             u.Email = u.Email.replace('.invalid', '');
         }
-        
         update usersToUpdateProfileAndEmail;
+        
+
     }
     
     private Boolean isSandbox() {

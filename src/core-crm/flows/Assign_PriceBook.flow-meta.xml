@@ -81,7 +81,7 @@
             <field>Name</field>
             <operator>EqualTo</operator>
             <value>
-                <stringValue>QUTex CCE</stringValue>
+                <stringValue>QUTeX CCE</stringValue>
             </value>
         </filters>
         <object>RecordType</object>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Product_Specification_Name__c</fullName>
+    <description>This field will appear on the Corporate Portal for filtering the products under the &apos;Tailored Executive Education&apos; tab.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>This field will appear on the Corporate Portal for filtering the products under the &apos;Tailored Executive Education&apos; tab.</inlineHelpText>
+    <label>Product Specification Name</label>
+    <length>80</length>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

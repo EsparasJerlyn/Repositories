@@ -1,0 +1,258 @@
+Country_Name__c,Tier_Priority__c,Tier_Category__c,IsActive__c
+Afghanistan,Low,Tier 3,TRUE
+Åland Islands,Low,Tier 3,TRUE
+Albania,Low,Tier 3,TRUE
+Algeria,Low,Tier 3,TRUE
+American Samoa,Low,Tier 3,TRUE
+Andorra,Low,Tier 3,TRUE
+Angola,Low,Tier 3,TRUE
+Anguilla,Low,Tier 3,TRUE
+Antarctica,Low,Tier 3,TRUE
+Antigua and Barbuda,Low,Tier 3,TRUE
+Argentina,Low,Tier 3,TRUE
+Armenia,Low,Tier 3,TRUE
+Aruba,Low,Tier 3,TRUE
+Australia,High,Tier 1,TRUE
+Austria,Low,Tier 3,TRUE
+Azerbaijan,Low,Tier 3,TRUE
+Bahamas (the),Low,Tier 3,TRUE
+Bahrain,Low,Tier 3,TRUE
+Bangladesh,Low,Tier 3,TRUE
+Barbados,Low,Tier 3,TRUE
+Belarus,Low,Tier 3,TRUE
+Belgium,High,Developed Nations,TRUE
+Belize,Low,Tier 3,TRUE
+Benin,Low,Tier 3,TRUE
+Bermuda,Low,Tier 3,TRUE
+Bhutan,Low,Tier 3,TRUE
+Bolivia (Plurinational State of),Low,Tier 3,TRUE
+"Bonaire, Sint Eustatius and Saba",Low,Tier 3,TRUE
+Bosnia and Herzegovina,Low,Tier 3,TRUE
+Botswana,Low,Tier 3,TRUE
+Bouvet Island,Low,Tier 3,TRUE
+Brazil,Low,Tier 3,TRUE
+British Indian Ocean Territory (the),Low,Tier 3,TRUE
+Brunei Darussalam,High,Developed Nations,TRUE
+Bulgaria,Low,Tier 3,TRUE
+Burkina Faso,Low,Tier 3,TRUE
+Burundi,Low,Tier 3,TRUE
+Cabo Verde,Low,Tier 3,TRUE
+Cambodia,Low,Tier 3,TRUE
+Cameroon,Low,Tier 3,TRUE
+Canada,Low,Tier 3,TRUE
+Cayman Islands (the),Low,Tier 3,TRUE
+Central African Republic (the),Low,Tier 3,TRUE
+Chad,Low,Tier 3,TRUE
+Channel Islands,Low,Tier 3,TRUE
+Chile,Low,Tier 3,TRUE
+China,High,Tier 1,TRUE
+Christmas Island,Low,Tier 3,TRUE
+Cocos (Keeling) Islands (the),Low,Tier 3,TRUE
+Colombia,Low,Tier 3,TRUE
+Comoros (the),Low,Tier 3,TRUE
+Congo (the),Low,Tier 3,TRUE
+Congo (the Democratic Republic of the),Low,Tier 3,TRUE
+Cook Islands (the),Low,Tier 3,TRUE
+Costa Rica,Low,Tier 3,TRUE
+Côte d'Ivoire,Low,Tier 3,TRUE
+Croatia,Low,Tier 3,TRUE
+Cuba,Low,Tier 3,TRUE
+Curaçao,Low,Tier 3,TRUE
+Cyprus,Low,Tier 3,TRUE
+Czechia,Low,Tier 3,TRUE
+Denmark,Low,Tier 3,TRUE
+Djibouti,Low,Tier 3,TRUE
+Dominica,Low,Tier 3,TRUE
+Dominican Republic (the),Low,Tier 3,TRUE
+Ecuador,Low,Tier 3,TRUE
+Egypt,Low,Tier 3,TRUE
+El Salvador,Low,Tier 3,TRUE
+Equatorial Guinea,Low,Tier 3,TRUE
+Eritrea,Low,Tier 3,TRUE
+Estonia,Low,Tier 3,TRUE
+Eswatini,Low,Tier 3,TRUE
+Ethiopia,Low,Tier 3,TRUE
+Falkland Islands (the) [Malvinas],Low,Tier 3,TRUE
+Faroe Islands (the),Low,Tier 3,TRUE
+Fiji,Low,Tier 3,TRUE
+Finland,High,Developed Nations,TRUE
+France,High,Developed Nations,TRUE
+French Guiana,Low,Tier 3,TRUE
+French Polynesia,Low,Tier 3,TRUE
+French Southern Territories (the),Low,Tier 3,TRUE
+Gabon,Low,Tier 3,TRUE
+Gambia (the),Low,Tier 3,TRUE
+Georgia,Low,Tier 3,TRUE
+Germany,High,Tier 1,TRUE
+Ghana,Low,Tier 3,TRUE
+Gibraltar,Low,Tier 3,TRUE
+Greece,Low,Tier 3,TRUE
+Greenland,Low,Tier 3,TRUE
+Grenada,Low,Tier 3,TRUE
+Guadeloupe,Low,Tier 3,TRUE
+Guam,Low,Tier 3,TRUE
+Guatemala,Low,Tier 3,TRUE
+Guernsey,Low,Tier 3,TRUE
+Guinea,Low,Tier 3,TRUE
+Guinea-Bissau,Low,Tier 3,TRUE
+Guyana,Low,Tier 3,TRUE
+Haiti,Low,Tier 3,TRUE
+Heard Island and McDonald Islands,Low,Tier 3,TRUE
+Holy See (the),Low,Tier 3,TRUE
+Honduras,Low,Tier 3,TRUE
+Hong Kong,High,Tier 1,TRUE
+Hungary,Low,Tier 3,TRUE
+Iceland,High,Developed Nations,TRUE
+India,High,Tier 1,TRUE
+Indonesia,Medium,Tier 2,TRUE
+Iran (Islamic Republic of),Low,Tier 3,TRUE
+Iraq,Low,Tier 3,TRUE
+Ireland,High,Developed Nations,TRUE
+Isle of Man,Low,Tier 3,TRUE
+Israel,Low,Tier 3,TRUE
+Italy,High,Developed Nations,TRUE
+Jamaica,Low,Tier 3,TRUE
+Japan,Medium,Tier 2,TRUE
+Jersey,Low,Tier 3,TRUE
+Jordan,Low,Tier 3,TRUE
+Kazakhstan,Low,Tier 3,TRUE
+Kenya,Low,Tier 3,TRUE
+Kiribati,Low,Tier 3,TRUE
+Korea (the Democratic People's Republic of),Low,Tier 3,TRUE
+Korea (the Republic of),Medium,Tier 2,TRUE
+Kosovo,Low,Tier 3,TRUE
+Kuwait,Low,Tier 3,TRUE
+Kyrgyzstan,Low,Tier 3,TRUE
+Lao People's Democratic Republic (the),Low,Tier 3,TRUE
+Latvia,Low,Tier 3,TRUE
+Lebanon,Low,Tier 3,TRUE
+Lesotho,Low,Tier 3,TRUE
+Liberia,Low,Tier 3,TRUE
+Libya,Low,Tier 3,TRUE
+Liechtenstein,High,Developed Nations,TRUE
+Lithuania,Low,Tier 3,TRUE
+Luxembourg,High,Developed Nations,TRUE
+Macao,Low,Tier 3,TRUE
+Madagascar,Low,Tier 3,TRUE
+Malawi,Low,Tier 3,TRUE
+Malaysia,Medium,Tier 2,TRUE
+Maldives,Low,Tier 3,TRUE
+Mali,Low,Tier 3,TRUE
+Malta,Low,Tier 3,TRUE
+Marshall Islands (the),Low,Tier 3,TRUE
+Martinique,Low,Tier 3,TRUE
+Mauritania,Low,Tier 3,TRUE
+Mauritius,Low,Tier 3,TRUE
+Mayotte,Low,Tier 3,TRUE
+Mexico,Low,Tier 3,TRUE
+Micronesia (Federated States of),Low,Tier 3,TRUE
+Moldova (the Republic of),Low,Tier 3,TRUE
+Monaco,High,Developed Nations,TRUE
+Mongolia,Low,Tier 3,TRUE
+Montenegro,High,Developed Nations,TRUE
+Montserrat,Low,Tier 3,TRUE
+Morocco,Low,Tier 3,TRUE
+Mozambique,Low,Tier 3,TRUE
+Myanmar,Low,Tier 3,TRUE
+Namibia,Low,Tier 3,TRUE
+Nauru,Low,Tier 3,TRUE
+Nepal,Low,Tier 3,TRUE
+Netherlands (the),High,Developed Nations,TRUE
+New Caledonia,Low,Tier 3,TRUE
+New Zealand,High,Tier 1,TRUE
+Nicaragua,Low,Tier 3,TRUE
+Niger (the),Low,Tier 3,TRUE
+Nigeria,Low,Tier 3,TRUE
+Niue,Low,Tier 3,TRUE
+Norfolk Island,Low,Tier 3,TRUE
+Northern Mariana Islands (the),Low,Tier 3,TRUE
+North Macedonia,Low,Tier 3,TRUE
+Norway,High,Tier 1,TRUE
+Oman,High,Developed Nations,TRUE
+Other Former Ussr And Baltic States,Low,Tier 3,TRUE
+Other Former Yugoslavia,Low,Tier 3,TRUE
+Pakistan,Low,Tier 3,TRUE
+Palau,Low,Tier 3,TRUE
+"Palestine, State of",Low,Tier 3,TRUE
+Panama,Low,Tier 3,TRUE
+Papua New Guinea,Low,Tier 3,TRUE
+Paraguay,Low,Tier 3,TRUE
+Peru,Low,Tier 3,TRUE
+Philippines (the),Medium,Tier 2,TRUE
+Pitcairn,Low,Tier 3,TRUE
+Poland,Low,Tier 3,TRUE
+Portugal,Low,Tier 3,TRUE
+Puerto Rico,Low,Tier 3,TRUE
+Qatar,Low,Tier 3,TRUE
+Réunion,Low,Tier 3,TRUE
+Romania,Low,Tier 3,TRUE
+Russian Federation (the),Low,Tier 3,TRUE
+Rwanda,Low,Tier 3,TRUE
+Saint Barthélemy,Low,Tier 3,TRUE
+"Saint Helena, Ascension and Tristan da Cunha",Low,Tier 3,TRUE
+Saint Kitts and Nevis,Low,Tier 3,TRUE
+Saint Lucia,Low,Tier 3,TRUE
+Saint Martin (French part),Low,Tier 3,TRUE
+Saint Pierre and Miquelon,Low,Tier 3,TRUE
+Saint Vincent and the Grenadines,Low,Tier 3,TRUE
+Samoa,Low,Tier 3,TRUE
+San Marino,Low,Tier 3,TRUE
+Sao Tome and Principe,Low,Tier 3,TRUE
+Saudi Arabia,Medium,Tier 2,TRUE
+Scotland,High,Developed Nations,TRUE
+Senegal,Low,Tier 3,TRUE
+Serbia,Low,Tier 3,TRUE
+Seychelles,Low,Tier 3,TRUE
+Sierra Leone,Low,Tier 3,TRUE
+Singapore,Medium,Tier 2,TRUE
+Sint Maarten (Dutch part),Low,Tier 3,TRUE
+Slovakia,Low,Tier 3,TRUE
+Slovenia,Low,Tier 3,TRUE
+Solomon Islands,Low,Tier 3,TRUE
+Somalia,Low,Tier 3,TRUE
+South Africa,Low,Tier 3,TRUE
+South Georgia and the South Sandwich Islands,Low,Tier 3,TRUE
+South Sudan,Low,Tier 3,TRUE
+Spain,Low,Tier 3,TRUE
+Sri Lanka,Medium,Tier 2,TRUE
+Sudan (the),Low,Tier 3,TRUE
+Suriname,Low,Tier 3,TRUE
+Svalbard and Jan Mayen,Low,Tier 3,TRUE
+Sweden,Low,Tier 3,TRUE
+Switzerland,High,Developed Nations,TRUE
+Syrian Arab Republic (the),Low,Tier 3,TRUE
+Taiwan,High,Tier 1,TRUE
+Tajikistan,Low,Tier 3,TRUE
+"Tanzania, the United Republic of",Low,Tier 3,TRUE
+Thailand,Medium,Tier 2,TRUE
+Timor-Leste,Low,Tier 3,TRUE
+Togo,Low,Tier 3,TRUE
+Tokelau,Low,Tier 3,TRUE
+Tonga,Low,Tier 3,TRUE
+Trinidad and Tobago,Low,Tier 3,TRUE
+Tunisia,Low,Tier 3,TRUE
+Turkey,Low,Tier 3,TRUE
+Turkmenistan,Low,Tier 3,TRUE
+Turks and Caicos Islands (the),Low,Tier 3,TRUE
+Tuvalu,Low,Tier 3,TRUE
+Uganda,Low,Tier 3,TRUE
+Ukraine,Low,Tier 3,TRUE
+United Arab Emirates (the),High,Developed Nations,TRUE
+United Kingdom of Great Britain and Northern Ireland (the),High,Developed Nations,TRUE
+United States Minor Outlying Islands (the),Low,Tier 3,TRUE
+United States of America (the),Low,Tier 3,TRUE
+Uruguay,Low,Tier 3,TRUE
+Uzbekistan,Low,Tier 3,TRUE
+Vanuatu,Low,Tier 3,TRUE
+Vatican City,Low,Tier 3,TRUE
+Venezuela (Bolivarian Republic of),Low,Tier 3,TRUE
+Vietnam,High,Tier 1,TRUE
+Virgin Islands (British),Low,Tier 3,TRUE
+Virgin Islands (U.S.),Low,Tier 3,TRUE
+Wales,High,Developed Nations,TRUE
+Wallis and Futuna,Low,Tier 3,TRUE
+Western Sahara*,Low,Tier 3,TRUE
+Yemen,Low,Tier 3,TRUE
+"Yugoslavia, Federal Republic",Low,Tier 3,TRUE
+Zambia,Low,Tier 3,TRUE
+Zimbabwe,Low,Tier 3,TRUE

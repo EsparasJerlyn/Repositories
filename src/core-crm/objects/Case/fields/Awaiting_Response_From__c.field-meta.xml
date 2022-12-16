@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Awaiting_Response_From__c</fullName>
+    <description>Used to track the progress within the status</description>
+    <externalId>false</externalId>
+    <label>Awaiting Response From</label>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Status</controllingField>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>International Admissions</fullName>
+                <default>false</default>
+                <label>International Admissions</label>
+            </value>
+            <value>
+                <fullName>International Office</fullName>
+                <default>false</default>
+                <label>International Office</label>
+            </value>
+            <value>
+                <fullName>Faculty</fullName>
+                <default>false</default>
+                <label>Faculty</label>
+            </value>
+            <value>
+                <fullName>Agent</fullName>
+                <default>false</default>
+                <label>Agent</label>
+            </value>
+            <value>
+                <fullName>Enquirer</fullName>
+                <default>false</default>
+                <label>Enquirer</label>
+            </value>
+            <value>
+                <fullName>Other QUT Department</fullName>
+                <default>false</default>
+                <label>Other QUT Department</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Awaiting Response</controllingFieldValue>
+            <valueName>International Admissions</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Awaiting Response</controllingFieldValue>
+            <valueName>International Office</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Awaiting Response</controllingFieldValue>
+            <valueName>Faculty</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Awaiting Response</controllingFieldValue>
+            <valueName>Agent</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Awaiting Response</controllingFieldValue>
+            <valueName>Enquirer</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Awaiting Response</controllingFieldValue>
+            <valueName>Other QUT Department</valueName>
+        </valueSettings>
+       
+    </valueSet>
+</CustomField>

@@ -97,6 +97,23 @@ public with sharing class ManageRegAndNomCtrlTest {
     }
 
     @isTest
+    static void updateStatusWithExceptionTest(){  
+        BypassTriggers__c bypass = [SELECT Id, Bypass__c FROM BypassTriggers__c WHERE SetupOwnerId =: UserInfo.getOrganizationId() LIMIT 1];
+        bypass.Bypass__c = false;
+        update bypass;
+        final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();      
+        System.runAs(PORTAL_SYS_ADMIN){    
+            Test.startTest();
+            Id adminAcctId = [SELECT Id FROM Account WHERE Name = 'test rec Administrative Account'].Id;
+            Id businessOrgAcctId = [SELECT Id FROM Account WHERE Name = 'Business Org Account'].Id;
+            List<Expression_of_Interest__c> expOfInterestList = [SELECT Id, Name, Pricebook_Entry_ID__c, First_Name__c, Program_Offering__c, Course_Offering__c, Last_Name__c, Email__c, Birthdate__c,Accessibility_Requirement__c, Dietary_Requirement__c,Mobile__c, Mobile_Locale__c FROM Expression_of_Interest__c];
+            ManageRegAndNomCtrl.RegistrationNominationUpdateResponse response = ManageRegAndNomCtrl.updateRegistrationOrNominationStatus(expOfInterestList[0].Id, 'InvalidStatus', false, expOfInterestList[0], '61412345678', String.valueOf(adminAcctId), String.valueOf(businessOrgAcctId));
+            Test.stopTest();
+            System.assert(!response.isSuccess, 'Should not be able to update record with invalid status.');
+        }
+    }
+
+    @isTest
     static void updateNotApprovedNominationTest(){  
         final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();      
         System.runAs(PORTAL_SYS_ADMIN){    
@@ -195,6 +212,69 @@ public with sharing class ManageRegAndNomCtrlTest {
         }
     }
 
+    @isTest
+    static void validateRegistrationEndDate(){  
+        BypassTriggers__c bypass = [SELECT Id, Bypass__c FROM BypassTriggers__c WHERE SetupOwnerId =: UserInfo.getOrganizationId() LIMIT 1];
+        bypass.Bypass__c = false;
+        update bypass;
+        final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();      
+        System.runAs(PORTAL_SYS_ADMIN){     
+            Id adminAcctId = [SELECT Id FROM Account WHERE Name = 'test rec Administrative Account'].Id;
+            Id businessOrgAcctId = [SELECT Id FROM Account WHERE Name = 'Business Org Account'].Id;
+
+            List<hed__Course_Offering__c> courseOfferings = [SELECT Id, Name, hed__Course__c, IsActive__c, Program_Offering__c, Registration_End_Date__c, hed__Capacity__c FROM hed__Course_Offering__c];
+            List<hed__Course_Offering__c> courseOfferingsToUpdate = new List<hed__Course_Offering__c>();
+            for(hed__Course_Offering__c courseOffering : courseOfferings){
+                hed__Course_Offering__c courseOfferingToUpdate = new hed__Course_Offering__c();
+                courseOfferingToUpdate.id = courseOffering.id;
+                courseOfferingToUpdate.Registration_End_Date__c = Date.today().addDays(-1);
+                courseOfferingsToUpdate.add(courseOfferingToUpdate);
+            }
+            update courseOfferingsToUpdate;
+
+            Test.startTest();
+            List<Expression_of_Interest__c> expOfInterestList = [SELECT Id, Name, Pricebook_Entry_ID__c, First_Name__c, Program_Offering__c, Course_Offering__c, Last_Name__c, Email__c, Birthdate__c,Accessibility_Requirement__c, Dietary_Requirement__c,Mobile__c, Mobile_Locale__c FROM Expression_of_Interest__c];
+            ManageRegAndNomCtrl.RegistrationNominationUpdateResponse response = ManageRegAndNomCtrl.updateRegistrationOrNominationStatus(expOfInterestList[0].Id, 'Approved', false, expOfInterestList[0], '61412345678', String.valueOf(adminAcctId), String.valueOf(businessOrgAcctId));
+            Test.stopTest();
+            System.assert(!response.isSuccess, 'Registration should be closed.');
+        }
+    }
+
+    @isTest
+    static void validateCapacity(){  
+        BypassTriggers__c bypass = [SELECT Id, Bypass__c FROM BypassTriggers__c WHERE SetupOwnerId =: UserInfo.getOrganizationId() LIMIT 1];
+        bypass.Bypass__c = false;
+        update bypass;
+        final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();      
+        System.runAs(PORTAL_SYS_ADMIN){     
+            Id adminAcctId = [SELECT Id FROM Account WHERE Name = 'test rec Administrative Account'].Id;
+            Id businessOrgAcctId = [SELECT Id FROM Account WHERE Name = 'Business Org Account'].Id;
+
+            List<hed__Course_Offering__c> courseOfferings = [SELECT Id, Name, hed__Course__c, IsActive__c, Program_Offering__c, Registration_End_Date__c, hed__Capacity__c FROM hed__Course_Offering__c];
+            List<hed__Course_Offering__c> courseOfferingsToUpdate = new List<hed__Course_Offering__c>();
+            for(hed__Course_Offering__c courseOffering : courseOfferings){
+                hed__Course_Offering__c courseOfferingToUpdate = new hed__Course_Offering__c();
+                courseOfferingToUpdate.id = courseOffering.id;
+                courseOfferingToUpdate.hed__Capacity__c = 2;
+                courseOfferingsToUpdate.add(courseOfferingToUpdate);
+            }
+            update courseOfferingsToUpdate;
+            
+            List<hed__Course_Enrollment__c> learners = new List<hed__Course_Enrollment__c>();
+            for (Integer i = 0; i < 2; i++) {
+                learners.add(new hed__Course_Enrollment__c(hed__Course_Offering__c = courseOfferings[0].Id, hed__Status__c  = 'Active'));
+            }
+            insert learners;
+
+            Test.startTest();
+            List<Expression_of_Interest__c> expOfInterestList = [SELECT Id, Name, Pricebook_Entry_ID__c, First_Name__c, Program_Offering__c, Course_Offering__c, Last_Name__c, Email__c, Birthdate__c,Accessibility_Requirement__c, Dietary_Requirement__c,Mobile__c, Mobile_Locale__c FROM Expression_of_Interest__c];
+            ManageRegAndNomCtrl.RegistrationNominationUpdateResponse response = ManageRegAndNomCtrl.updateRegistrationOrNominationStatus(expOfInterestList[0].Id, 'Approved', false, expOfInterestList[0], '61412345678', String.valueOf(adminAcctId), String.valueOf(businessOrgAcctId));
+            
+            Test.stopTest();
+            System.assert(!response.isSuccess, 'Registration already full capacity.');
+        }
+    }
+
     private static void createRecord(){
         final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();      
         System.runAs(PORTAL_SYS_ADMIN){ 
@@ -254,6 +334,9 @@ public with sharing class ManageRegAndNomCtrlTest {
             insert terms;
             
             List<hed__Course_Offering__c> courseOfferings = TestDataFactory.createTestCourseOfferingRecord(1, courses, terms);
+            for(hed__Course_Offering__c c : courseOfferings){
+                c.Registration_End_Date__c = Date.today().addDays(5);
+            }
             insert courseOfferings;
 
             List<Contact> contacts = TestDataFactory.createTestContactRecords(1);

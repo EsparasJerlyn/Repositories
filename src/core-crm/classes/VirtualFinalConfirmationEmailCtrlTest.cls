@@ -7,34 +7,28 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | john.bo.a.pineda               | April 7, 2022         | DEPP-1479              | Created file                 |
-      |                                |                       |                        |                              |
+      | rhea.b.torres                  | November 4, 2022      | DEPP-4720              | Deleted unused method        |
+      |                                |                       |                        | generatePDFandSendEmail()    |      |                                |                       |                        |                              |
  */
 @isTest
 public with sharing class VirtualFinalConfirmationEmailCtrlTest {
   private static final Id STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
     .get('Student')
     .getRecordTypeId();
-  private static final String VIRTUAL_CONFIRMATION_EMAIL_TEMPLATE = 'Virtual Final Confirmation Email';
   private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
   private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
 
   @testSetup
   static void makeData(){
     TestDataFactory.generateTestUsers();
-    Test.startTest();
-    System.runAs(TestDataFactory.getProgramAdminUser()) {
-      EmailTemplate template = TestDataFactory.createTestEmailTemplateRecords(1,new Map<String,String>{
-        VIRTUAL_CONFIRMATION_EMAIL_TEMPLATE => 'Test Email Subject'}).iterator().next();
-      insert template;
-    }
-    Test.stopTest();
   }
 
   @isTest
   public static void testGeneratePDFandSendEmail() {
-    System.runAs(TestDataFactory.getProgramAdminUser()) {
+    System.runAs(TestDataFactory.getProgramAdminUser()){
+      Test.startTest();
       List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
-      for(Account acc : accounts){
+      for (Account acc : accounts){
         acc.RecordTypeId = ACCT_UNIV_DEP_ID;
         acc.Organization_Unit_Level__c = '2';
       }
@@ -44,44 +38,25 @@ public with sharing class VirtualFinalConfirmationEmailCtrlTest {
       contacts[0].email = 'testContact@testmail.com';
       insert contacts;
 
-      List<hed__Term__c> terms = TestDataFactory.createTestTermRecords(
-        10,
-        accounts[0].Id
-      );
+      List<hed__Term__c> terms = TestDataFactory.createTestTermRecords(10, accounts[0].Id);
       insert terms;
 
-      List<Product_Request__c> prodRequest = TestDataFactory.createTestProductRequestRecords(
-        1
-      );
+      List<Product_Request__c> prodRequest = TestDataFactory.createTestProductRequestRecords(1);
       insert prodRequest;
 
-      List<hed__Course__c> courses = TestDataFactory.createTestCourseRecords(
-        10,
-        accounts[0].Id,
-        prodRequest[0].Id
-      );
+      List<hed__Course__c> courses = TestDataFactory.createTestCourseRecords(10, accounts[0].Id, prodRequest[0].Id);
       insert courses;
 
-      List<hed__Course_Offering__c> courseOfferings = TestDataFactory.createTestCourseOfferingRecord(
-        10,
-        courses,
-        terms
-      );
+      List<hed__Course_Offering__c> courseOfferings = TestDataFactory.createTestCourseOfferingRecord(10, courses, terms);
+      courseOfferings[0].Delivery_Type__c = 'Online Classroom';
       insert courseOfferings;
 
-      List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(
-        10
-      );
+      List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(10);
       insert programPlans;
 
-      List<hed__Course_Enrollment__c> courseConnections = TestDataFactory.createTestCourseConnectionRecord(
-        10,
-        contacts[0].Id,
-        courseOfferings
-      );
+      List<hed__Course_Enrollment__c> courseConnections = TestDataFactory.createTestCourseConnectionRecord(10, contacts[0].Id, courseOfferings);
 
-      Test.startTest();
-      for (hed__Course_Enrollment__c courseConnection : courseConnections) {
+      for (hed__Course_Enrollment__c courseConnection : courseConnections){
         courseConnection.RecordTypeId = STUDENT_RECTYPEID;
       }
       insert courseConnections;
@@ -91,48 +66,23 @@ public with sharing class VirtualFinalConfirmationEmailCtrlTest {
       fac.Name = 'test';
       insert fac;
 
-      for (Session__c session : sessions) {
+      for (Session__c session : sessions){
         session.Course_Connection__c = courseConnections[0].Id;
         session.Course_Offering__c = courseOfferings[0].Id;
-        session.Date__c =  Date.newInstance(2022, 01, 06);
-        session.Start_Time_v2__c =Time.newInstance(15, 12, 30, 0);
-        session.End_Time_v2__c =Time.newInstance(15, 12, 30, 0);
+        session.Date__c = Date.newInstance(2022, 01, 06);
+        session.Start_Time_v2__c = Time.newInstance(15, 12, 30, 0);
+        session.End_Time_v2__c = Time.newInstance(15, 12, 30, 0);
         session.Facilitator__c = contacts[0].Id;
         session.Location__c = fac.Id;
       }
       insert sessions;
 
-      PageReference pageRef = Page.VirtualClassFinalConfirmationPDFView;
-      Test.setCurrentPage(pageRef);
-      ApexPages.currentPage()
-        .getParameters()
-        .put('courseConnectionId', courseConnections[0].Id);
+      ApexPages.currentPage().getParameters().put('courseConnectionId', courseConnections[0].Id);
 
-      VirtualFinalConfirmationEmailCtrl virtualFinalConfirmEmailCtrl = new VirtualFinalConfirmationEmailCtrl();
-      virtualFinalConfirmEmailCtrl.courseConnect = courseConnections[0];
-      virtualFinalConfirmEmailCtrl.sessions = sessions;
+      VirtualFinalConfirmationEmailCtrl virtualFinalConfirmationCtrl = new VirtualFinalConfirmationEmailCtrl();
 
-      hed__Course_Enrollment__c courseConnectionParam = [
-        SELECT
-          Id,
-          Course_Offering_Name__c,
-          hed__Contact__r.FirstName,
-          hed__Contact__r.LastName,
-          hed__Contact__r.Email
-        FROM hed__Course_Enrollment__c
-        LIMIT 1
-      ];
-      List<List<String>> paramList = new List<List<String>>();
-      List<String> param = new List<String>();
-      param.add(courseConnectionParam.Id);
-      param.add(courseConnectionParam.Course_Offering_Name__c);
-      param.add(courseConnectionParam.hed__Contact__r.FirstName);
-      param.add(courseConnectionParam.hed__Contact__r.LastName);
-      param.add(courseConnectionParam.hed__Contact__r.Email);
-      paramList.add(param);
-
-      VirtualFinalConfirmationEmailCtrl.generatePDFandSendEmail(paramList);
-      System.assertEquals(1,Limits.getEmailInvocations(),'Emails should be sent');
+      System.assertEquals(courseConnections[0].Id, virtualFinalConfirmationCtrl.courseConnect.Id, 'courseConnection should be set');
+      System.assertEquals(10, virtualFinalConfirmationCtrl.sessions.size(), 'sessions should be created');
       Test.stopTest();
     }
   }

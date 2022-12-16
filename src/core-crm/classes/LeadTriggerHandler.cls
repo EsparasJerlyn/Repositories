@@ -36,6 +36,7 @@ public without sharing class LeadTriggerHandler implements Disableable, BeforeIn
         Map<Id, Sobject> oldItems
     ) {
         LeadDuplicatesHelper.detectDuplicatesInEmails((List<Lead>) newItems.values(), (Map<Id, Lead>) oldItems);
+        LeadWithCaseHelper.updateCaseParentToContact((Map<Id, Lead>) newItems, (Map<Id, Lead>) oldItems);
     }
 
     

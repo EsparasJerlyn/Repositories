@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>56.0</apiVersion>
+    <assignments>
+        <description>Get the Id of the current lead in the loop. This Id will be used to update the triggering case&apos;s Lead field. If there are more than one leads in the collection used in this loop, the last Id stored will not be used.</description>
+        <name>Get_Id_of_Current_Lead_In_Loop</name>
+        <label>Get Id of Current Lead In Loop</label>
+        <locationX>270</locationX>
+        <locationY>671</locationY>
+        <assignmentItems>
+            <assignToReference>LastLeadId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Count_Items_In_Lead_Record_Collection.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Count_Items_In_Lead_Record_Collection</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Increase the lead records counter by one.</description>
+        <name>Increment_Lead_Records_Count</name>
+        <label>Increment Lead Records Count</label>
+        <locationX>270</locationX>
+        <locationY>551</locationY>
+        <assignmentItems>
+            <assignToReference>LeadRecordsCount</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <numberValue>1.0</numberValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Get_Id_of_Current_Lead_In_Loop</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <description>Check how many records were retrieved bearing the supplied email of the case in the leads&apos; email and work email fields. If there is one record only, proceed to assign sole lead to the case. Otherwise, do nothing.</description>
+        <name>How_Many_Records_Were_Retrieved</name>
+        <label>How Many Records Were Retrieved</label>
+        <locationX>182</locationX>
+        <locationY>887</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>One_Record_Retrieved</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>LeadRecordsCount</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <numberValue>1.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_The_Lead_Field</targetReference>
+            </connector>
+            <label>One Record Retrieved</label>
+        </rules>
+    </decisions>
+    <description>Check the database if there are existing leads that uses the case&apos;s supplied email in the leads&apos; email or work email fields. If one, and only one, is found, the lead is assigned to the case, otherwise nothing is updated.</description>
+    <interviewLabel>Case Lead Matching {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Case Lead Matching</label>
+    <loops>
+        <description>Loop through the lead record collection and count how many records were retrieved.</description>
+        <name>Count_Items_In_Lead_Record_Collection</name>
+        <label>Count Items In Lead Record Collection</label>
+        <locationX>182</locationX>
+        <locationY>431</locationY>
+        <collectionReference>Get_Leads_with_Matching_Email_Address</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Increment_Lead_Records_Count</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>How_Many_Records_Were_Retrieved</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>Get lead records that uses the same email/work email address as the email used in the case.</description>
+        <name>Get_Leads_with_Matching_Email_Address</name>
+        <label>Get Leads with Matching Email Address</label>
+        <locationX>182</locationX>
+        <locationY>311</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Count_Items_In_Lead_Record_Collection</targetReference>
+        </connector>
+        <filterLogic>3 AND (1 OR 2)</filterLogic>
+        <filters>
+            <field>Email</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.SuppliedEmail</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Work_Email__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.SuppliedEmail</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>IsConverted</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Lead</object>
+        <queriedFields>Id</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <description>Update the lead field of the triggering record, assigning the sole retrieved lead record from before.</description>
+        <name>Update_The_Lead_Field</name>
+        <label>Update The Lead Field</label>
+        <locationX>50</locationX>
+        <locationY>1007</locationY>
+        <inputAssignments>
+            <field>Lead__c</field>
+            <value>
+                <elementReference>LastLeadId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>56</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_Leads_with_Matching_Email_Address</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>ContactId</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Lead__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SuppliedEmail</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <object>Case</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>The Id of the last lead record in the loop. If there were more than one lead, the Id will not be used. Otherwise, this Id will be assigned to the case&apos;s Lead field.</description>
+        <name>LastLeadId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>Counts how many lead records were retrieved bearing the supplied email address of the case in the lead records&apos; email and work email fields.</description>
+        <name>LeadRecordsCount</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
+    </variables>
+</Flow>

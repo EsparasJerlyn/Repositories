@@ -32,7 +32,7 @@
                 <label>No Charge</label>
             </value>
             <value>
-                <fullName>Contract</fullName>
+                <fullName>Contract</fullName> 
                 <default>false</default>
                 <label>Contract</label>
             </value>
