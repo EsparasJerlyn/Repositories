@@ -12,10 +12,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Define</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Design</fullName>
             <default>false</default>
         </values>
