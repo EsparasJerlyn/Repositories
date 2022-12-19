@@ -27,25 +27,61 @@
                 ></c-product-section>
               </li>
               <li
-                if:true={showProgramModules}
-                class="slds-accordion__list-item"
-              >
+              if:true={showProgramModules} class="slds-accordion__list-item">
+              <c-product-section
+                class="productSection"
+                sectionid="pp_programDevelopmentModules"
+                title="Professional Development Modules"
+                value={professionalDevelopmentModuleDescription}
+                ontogglesection={handleSectionToggle}
+              ></c-product-section>
+              <template if:true={showProgramModulesList}>
+                <template for:each={programModules} for:item="programModule">
+                  <div key={programModule.id}>
+                    <c-program-module
+                      program-module={programModule}
+                    ></c-program-module>
+                  </div>
+                </template>
+              </template>
+            </li>
+              <li
+                if:true={showEvolveWithQUTeX} class="slds-accordion__list-item">
                 <c-product-section
                   class="productSection"
-                  sectionid="pp_programDevelopmentModules"
-                  title="Professional Development Modules"
-                  value={professionalDevelopmentModuleDescription}
+                  sectionid="pp_evolveWithQUTeX"
+                  title="Evolve With QUTeX"
+                  value={productDetails.Evolve_with_QUTeX__c}
                   ontogglesection={handleSectionToggle}
                 ></c-product-section>
-                <template if:true={showProgramModulesList}>
-                  <template for:each={programModules} for:item="programModule">
-                    <div key={programModule.id}>
-                      <c-program-module
-                        program-module={programModule}
-                      ></c-program-module>
-                    </div>
-                  </template>
-                </template>
+              </li>
+              <li
+                if:true={showWhoShouldParticipate} class="slds-accordion__list-item">
+                <c-product-section
+                  class="productSection"
+                  sectionid="pp_evolveWithQUTeX"
+                  title="Who Should Participate"
+                  value={productDetails.Who_Should_Participate__c}
+                  ontogglesection={handleSectionToggle}
+                ></c-product-section>
+              </li>
+              <li if:true={showCoreConcepts} class="slds-accordion__list-item">
+                <c-product-section
+                  class="productSection"
+                  sectionid="pp_coreConcepts"
+                  title="Core Concepts"
+                  value={productDetails.Core_Concepts__c}
+                  ontogglesection={handleSectionToggle}
+                ></c-product-section>
+              </li>
+              <li if:true={showMoreDetails} class="slds-accordion__list-item">
+                <c-product-section
+                  class="productSection"
+                  sectionid="pp_moreDetails"
+                  title="Details"
+                  value={productDetails.More_Details__c}
+                  ontogglesection={handleSectionToggle}
+                ></c-product-section>
               </li>
             </ul>
           </lightning-layout-item>

@@ -73,6 +73,10 @@ export default class PrescribedProgram extends NavigationMixin(
   priceBookEntries;
   professionalDevelopmentModuleDescription;
   showOverview;
+  showEvolveWithQUTeX;
+  showWhoShouldParticipate;
+  showCoreConcepts;
+  showMoreDetails
   showProgramModules;
   showProgramModulesList;
 
@@ -202,6 +206,10 @@ export default class PrescribedProgram extends NavigationMixin(
     this.programModules = this.product.programModules;
     this.priceBookEntries = this.product.priceBookEntryList;
     this.showOverview = true;
+    this.showEvolveWithQUTeX  = true;
+    this.showWhoShouldParticipate  = true;
+    this.showCoreConcepts  = true;
+    this.showMoreDetails  = true;
     this.showProgramModules = true;
     this.professionalDevelopmentModuleDescription =
       "Each " +
