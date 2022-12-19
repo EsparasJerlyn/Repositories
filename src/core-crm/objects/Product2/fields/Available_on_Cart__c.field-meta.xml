@@ -5,6 +5,6 @@
     <description>This will drive the product visibility in Product Catalogue and Corporate Portal</description>
     <externalId>false</externalId>
     <label>Available on Cart</label>
-    <trackHistory>false</trackHistory>
+    <trackHistory>true</trackHistory>
     <type>Checkbox</type>
 </CustomField>

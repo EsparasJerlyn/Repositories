@@ -4,4 +4,5 @@
     <securityClassification>Official</securityClassification>
     <description>Indicates whether the lead doesn’t want to receive email from Salesforce (true) or does (false).</description>
     <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
 </CustomField>

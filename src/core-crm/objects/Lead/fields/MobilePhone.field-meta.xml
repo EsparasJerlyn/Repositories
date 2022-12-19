@@ -4,4 +4,5 @@
     <securityClassification>Sensitive</securityClassification>
     <description>The lead’s mobile phone number.</description>
     <trackFeedHistory>true</trackFeedHistory>
+    <trackHistory>true</trackHistory>
 </CustomField>

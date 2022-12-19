@@ -7,7 +7,7 @@
     <label>Registered Email</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
-    <trackHistory>false</trackHistory>
+    <trackHistory>true</trackHistory>
     <type>Email</type>
     <unique>false</unique>
 </CustomField>

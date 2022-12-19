@@ -9,5 +9,6 @@
     <relationshipLabel>Product Requests</relationshipLabel>
     <relationshipName>Product_Requests</relationshipName>
     <required>false</required>
+    <trackHistory>true</trackHistory>
     <type>Lookup</type>
 </CustomField>

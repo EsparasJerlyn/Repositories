@@ -6,7 +6,7 @@
     <label>Payment Status</label>
     <required>false</required>
     <securityClassification>Sensitive</securityClassification>
-    <trackHistory>false</trackHistory>
+    <trackHistory>true</trackHistory>
     <type>Picklist</type>
     <valueSet>
         <valueSetDefinition>

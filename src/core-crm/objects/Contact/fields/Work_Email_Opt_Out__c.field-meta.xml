@@ -7,6 +7,6 @@
     <label>Work Email Opt Out</label>
     <securityClassification>Official</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
-    <trackHistory>false</trackHistory>
+    <trackHistory>true</trackHistory>
     <type>Checkbox</type>
 </CustomField>

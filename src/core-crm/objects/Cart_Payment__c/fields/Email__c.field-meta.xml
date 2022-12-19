@@ -6,6 +6,7 @@
     <label>Email</label>
     <required>false</required>
     <securityClassification>Sensitive</securityClassification>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Email</type>
     <unique>false</unique>
