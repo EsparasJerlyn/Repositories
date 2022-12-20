@@ -18,6 +18,8 @@
       |                           |                       |                      | & added OPE BuyerGroup       |
       | julie.jane.alegre         | September 24, 2022    | DEPP-3568            | Update method  isEmailExist  |
       | rhea.b.torres             | December 15, 2022     | DEPP-5002            | Updated registerUser paramter|
+      | rhea.b.torres             | December 19, 2022     | DEPP-5002            | Handle email opt-in/opt-out  |
+
 
  */
 @isTest
@@ -559,7 +561,7 @@ public with sharing class RegistrationFormCtrlTest {
   }
 
   @isTest
-  static void emailConsentTest() {
+  static void emailConsentCheckedTest() {
     final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
     Test.startTest();
     System.runAs(PORTAL_SYS_ADMIN) {
@@ -573,7 +575,6 @@ public with sharing class RegistrationFormCtrlTest {
         HasOptedOutOfEmail = true,
         RecordTypeId = PERSON
       );
-
       insert c;
 
       RegistrationFormCtrl.updateContact(
@@ -584,6 +585,40 @@ public with sharing class RegistrationFormCtrlTest {
         'testing', 
         'testing',
         true
+      );
+
+      Contact contact = [SELECT HasOptedOutOfEmail, Email_Opt_In_DateTime__c FROM Contact WHERE Email = 'testemail@test.com' LIMIT 1];
+      System.assertEquals(false ,contact.HasOptedOutOfEmail , 'Email Opt out should be set to false.');
+      System.assert(contact.Email_Opt_In_DateTime__c != null , 'Email Opt out date time should be dated today.');
+    }
+    Test.stopTest();
+  }
+
+  @isTest
+  static void emailConsentUncheckedTest() {
+    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    Test.startTest();
+    System.runAs(PORTAL_SYS_ADMIN) {
+      Contact c = new Contact(
+        LastName = 'Test', 
+        FirstName ='Contact 1',
+        Email = 'testemail@test.com',
+        hed__Preferred_Email__c = 'Alternate Email',
+        hed__AlternateEmail__c = 'testemail@test.com',
+        Registered_Email__c = 'testemail@test.com',
+        HasOptedOutOfEmail = false,
+        RecordTypeId = PERSON
+      );
+      insert c;
+
+      RegistrationFormCtrl.updateContact(
+        c.Id, 
+        'testemail@test.com', 
+        '0987654321', 
+        'Australia (+61)', 
+        'testing', 
+        'testing',
+        false
       );
 
       Contact contact = [SELECT HasOptedOutOfEmail, Email_Opt_In_DateTime__c FROM Contact WHERE Email = 'testemail@test.com' LIMIT 1];

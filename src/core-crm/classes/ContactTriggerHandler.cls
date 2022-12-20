@@ -27,6 +27,7 @@
       |                                |                       |                        | for Online Self-paced           |
       | john.m.tambasen                | September 23, 2022    | DEPP-4367              | birthdate validation            |
       | rhea.b.torres                  | November 24, 2022     | DEPP-4628              | Welcome Email implementation    |
+      | rhea.b.torres                  | December 19, 2022     | DEPP-5002              | Handle email opt-in/opt-out     |
 
 
  */
@@ -54,6 +55,7 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
     // anywhere on the organization.
     ContactDuplicatesHelper.detectDuplicatesInEmails((List<Contact>) newItems, null);
     ContactTriggerHelper.birthdateValidation((List<Contact>) newItems);
+    ContactTriggerHelper.setupEmailConsentOnInsert((List<Contact>) newItems);
   }
 
   /**
@@ -73,6 +75,7 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
     ContactDuplicatesHelper.detectDuplicatesInEmails((List<Contact>) newItems.values(), (Map<Id, Contact>) oldItems);
     ContactTriggerHelper.createAccountContactRelationRecords((List<Contact>) newItems.values(),(Map<Id, Contact>) oldItems);
     ContactTriggerHelper.birthdateValidation((List<Contact>) newItems.values());
+    ContactTriggerHelper.setupEmailConsentOnUpdate((Map<Id, Contact>) newItems,(Map<Id, Contact>) oldItems);
   }
 
   /**

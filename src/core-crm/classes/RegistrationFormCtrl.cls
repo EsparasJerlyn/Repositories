@@ -21,6 +21,7 @@
       |                           |                       |                      | Administrative account            |
       | marygrace.li              | September 24, 2022    | DEPP-4411            | Updated isEmailExist method       |
       | rhea.torres               | December 14, 2022     | DEPP-4866            | Added processEmailConsent method  |
+      | rhea.b.torres             | December 19, 2022     | DEPP-5002            | Handle email opt-in/opt-out       |
 
  */
 public without sharing class RegistrationFormCtrl {
@@ -135,15 +136,27 @@ public without sharing class RegistrationFormCtrl {
         existingContact.Registered_Email__c = email;
         existingContact.Dietary_Requirement__c = dietaryReq;
         existingContact.Accessibility_Requirement__c = accessibilityReq;
-        if(emailConsent){
-          updateEmailConsent(existingContact, email);
-          updateWorkEmailConsent(existingContact, email);
-          updateStaffEmailConsent(existingContact, email);
-          updateLearnerEmailConsent(existingContact, email);
-        }
+        setupEmailConsentOnContactUpdate(existingContact, email, emailConsent);
         update existingContact;
       }
    
+  }
+
+  private static void setupEmailConsentOnContactUpdate(Contact contact, String email, Boolean emailConsent){
+    updateEmailConsent(contact, email, emailConsent);
+    updateWorkEmailConsent(contact, email, emailConsent);
+    updateStaffEmailConsent(contact, email, emailConsent);
+    updateLearnerEmailConsent(contact, email, emailConsent);
+  }
+
+  private static void setupEmailConsentOnNewContact(Contact contact, Boolean emailConsent){
+    if(emailConsent){
+      contact.HasOptedOutOfEmail = false;
+    }
+
+    if(!emailConsent){
+      contact.HasOptedOutOfEmail = true;
+    }
   }
 
   /**
@@ -153,10 +166,17 @@ public without sharing class RegistrationFormCtrl {
    * @param registeredEmail - Email input from learner
    * 
    */
-  private static void updateEmailConsent(Contact contact, String registeredEmail){
-    if(String.isNotBlank(contact.Email) && registeredEmail == contact.Email && contact.HasOptedOutOfEmail){
+  private static void updateEmailConsent(Contact contact, String registeredEmail, Boolean emailConsent){
+    if(emailConsent
+      && String.isNotBlank(contact.Email)
+      && registeredEmail == contact.Email){
       contact.HasOptedOutOfEmail = false;
-      contact.Email_Opt_In_DateTime__c = Date.today();
+    }
+
+    if(!emailConsent
+      && String.isNotBlank(contact.Email)
+      && registeredEmail == contact.Email){
+      contact.HasOptedOutOfEmail = true;
     }
   }
 
@@ -167,10 +187,17 @@ public without sharing class RegistrationFormCtrl {
    * @param registeredEmail - Email input from learner
    * 
    */
-  private static void updateWorkEmailConsent(Contact contact, String registeredEmail){
-    if(String.isNotBlank(contact.Work_Email__c) && registeredEmail == contact.Work_Email__c && contact.Work_Email_Opt_Out__c){
+  private static void updateWorkEmailConsent(Contact contact, String registeredEmail, Boolean emailConsent){
+    if(emailConsent
+      && String.isNotBlank(contact.Work_Email__c)
+      && registeredEmail == contact.Work_Email__c){
       contact.Work_Email_Opt_Out__c = false;
-      contact.Work_Email_Opt_In_DateTime__c = Date.today();
+    }
+
+    if(!emailConsent
+        && String.isNotBlank(contact.Work_Email__c)
+        && registeredEmail == contact.Work_Email__c){
+      contact.Work_Email_Opt_Out__c = true;
     }
   }
 
@@ -181,10 +208,17 @@ public without sharing class RegistrationFormCtrl {
    * @param registeredEmail - Email input from learner
    * 
    */
-  private static void updateStaffEmailConsent(Contact contact, String registeredEmail){
-    if(String.isNotBlank(contact.QUT_Staff_Email__c) && registeredEmail == contact.QUT_Staff_Email__c && contact.Staff_Email_Opt_Out__c){
+  private static void updateStaffEmailConsent(Contact contact, String registeredEmail, Boolean emailConsent){
+    if(emailConsent
+      && String.isNotBlank(contact.QUT_Staff_Email__c)
+      && registeredEmail == contact.QUT_Staff_Email__c){
       contact.Staff_Email_Opt_Out__c = false;
-      contact.Staff_Email_Opt_In_DateTime__c = Date.today();
+    }
+
+    if(!emailConsent
+        && String.isNotBlank(contact.QUT_Staff_Email__c)
+        && registeredEmail == contact.QUT_Staff_Email__c){
+      contact.Staff_Email_Opt_Out__c = true;
     }
   }
 
@@ -195,10 +229,17 @@ public without sharing class RegistrationFormCtrl {
    * @param registeredEmail - Email input from learner
    * 
    */
-  private static void updateLearnerEmailConsent(Contact contact, String registeredEmail){
-    if(String.isNotBlank(contact.QUT_Learner_Email__c) && registeredEmail == contact.QUT_Learner_Email__c && contact.Learner_Email_Opt_Out__c){
+  private static void updateLearnerEmailConsent(Contact contact, String registeredEmail, Boolean emailConsent){
+    if(emailConsent
+        && String.isNotBlank(contact.QUT_Learner_Email__c) 
+        && registeredEmail == contact.QUT_Learner_Email__c){
       contact.Learner_Email_Opt_Out__c = false;
-      contact.Learner_Email_Opt_In_DateTime__c = Date.today();
+    }
+
+    if(!emailConsent 
+        && String.isNotBlank(contact.QUT_Learner_Email__c) 
+        && registeredEmail == contact.QUT_Learner_Email__c){
+      contact.Learner_Email_Opt_Out__c = true;
     }
   }
 
@@ -396,6 +437,7 @@ public without sharing class RegistrationFormCtrl {
         existingContact.Birthdate = birthdate;
         existingContact.Dietary_Requirement__c = dietaryReq;
         existingContact.Accessibility_Requirement__c = accessReq;
+        setupEmailConsentOnContactUpdate(existingContact, email, emailConsent);
         update existingContact;
 
         //Create user if none associated yet
@@ -551,10 +593,7 @@ public without sharing class RegistrationFormCtrl {
     c.Dietary_Requirement__c = dietaryReq;
     c.Accessibility_Requirement__c = accessReq;
     c.RecordTypeId = RT_CONTACT_PERSON_ID;
-    if(emailConsent){
-      
-      c.Email_Opt_In_DateTime__c = Date.today();
-    }
+    setupEmailConsentOnNewContact(c, emailConsent);
     insert (c);
 
     return c.Id;
