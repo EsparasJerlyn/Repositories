@@ -11,7 +11,6 @@
       | roy.nino.s.regala              | June 09, 2022         | DEPP-2869              | Created file, converted flow                     |
       | roy.nino.s.regala              | Sep 10, 2022          | DEPP-4225              | updated to reparet contact and update work email | 
       | john.m.tambasen                | September 23, 2022    | DEPP-4367              | birthdate validation                             |
-      | rhea.b.torres                  | December 19, 2022     | DEPP-5002              | Handle email opt-in/opt-out                      |
  */
 public without sharing class ContactTriggerHelper {
     private static final Id BUSINESS_ACC_RECTYPEID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get('Business_Organization').getRecordTypeId();
@@ -90,78 +89,6 @@ public without sharing class ContactTriggerHelper {
         if( con.Birthdate > minDOB ){
             con.Birthdate.addError('Must be 15 years or older to register');
         }
-      }
-    }
-
-    public static void setupEmailConsentOnInsert(List<Contact> contactList){
-      for(Contact contact : contactList){
-        /**Email */
-        updateEmailConsentDateTime(contact);
-        /**Work Email */
-        updateWorkEmailConsentDateTime(contact);
-        /**QUT Staff Email */
-        updateStaffEmailConsentDateTime(contact);
-        /**QUT Learner Email */
-        updateLearnerEmailConsentDateTime(contact);
-      }
-    }
-
-    public static void setupEmailConsentOnUpdate(Map<Id, Contact> newContactMap, Map<Id, Contact> oldContactMap){
-      for(Id key : newContactMap.keySet()){
-        Contact newContact = newContactMap.get(key);
-        Contact oldContact = oldContactMap.get(key);
-
-        /**Email */
-        if(newContact.HasOptedOutOfEmail != oldContact.HasOptedOutOfEmail){
-          updateEmailConsentDateTime(newContact);
-        }
-        
-        /**Work Email */
-        if(newContact.Work_Email_Opt_Out__c != oldContact.Work_Email_Opt_Out__c){
-          updateWorkEmailConsentDateTime(newContact);
-        }
-
-        /**QUT Staff Email */
-        if(newContact.Staff_Email_Opt_Out__c != oldContact.Staff_Email_Opt_Out__c){
-          updateStaffEmailConsentDateTime(newContact);
-        }
-
-        /**QUT Learner Email */
-        if(newContact.Learner_Email_Opt_Out__c != oldContact.Learner_Email_Opt_Out__c){
-          updateLearnerEmailConsentDateTime(newContact);
-        }
-      }
-    }
-
-    private static void updateEmailConsentDateTime(Contact contact){
-      if(contact.HasOptedOutOfEmail){
-        contact.Email_Opt_Out_DateTime__c = System.now();
-      } else{
-        contact.Email_Opt_In_DateTime__c = System.now();
-      }
-    }
-
-    private static void updateWorkEmailConsentDateTime(Contact contact){
-      if(contact.Work_Email_Opt_Out__c){
-        contact.Work_Email_Opt_Out_DateTime__c = System.now();
-      } else{
-        contact.Work_Email_Opt_In_DateTime__c = System.now();
-      }
-    }
-
-    private static void updateStaffEmailConsentDateTime(Contact contact){
-      if(contact.Staff_Email_Opt_Out__c){
-        contact.Staff_Email_Opt_Out_DateTime__c = System.now();
-      } else{
-        contact.Staff_Email_Opt_In_DateTime__c = System.now();
-      }
-    }
-
-    private static void updateLearnerEmailConsentDateTime(Contact contact){
-      if(contact.Learner_Email_Opt_Out__c){
-        contact.Learner_Email_Opt_Out_DateTime__c = System.now();
-      } else{
-        contact.Learner_Email_Opt_In_DateTime__c = System.now();
       }
     }
   }

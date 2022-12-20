@@ -61,7 +61,6 @@ const QUT_SSO_TEXT ="Previously/Currently studied with QUTeX or QUT? Login Inste
 const QUT_LOGIN_TEXT = "Previously told us about you? Continue here.";
 const REQ_FIELD = "Indicates a required field";
 const ACKNOWLDGE = "I acknowledge and accept the";
-const MKT_CONSENT = "Yes, I would like to receive information from QUT about courses, events and important dates.";
 const QUT_PRIVACY_POLICY ="QUT Privacy Policy.";
 const LWC_ERROR_GENERAL = "An error has been encountered. Please contact your administrator.";
 export default class RegistrationForm extends LightningElement {
@@ -75,7 +74,6 @@ export default class RegistrationForm extends LightningElement {
   dietaryReq = null;
   accessReq = null;
   checkbox;
-  marketingConsentCheckbox = true;
   linkedInSSOUrl;
   experienceSSOUrl;
   linkedInLogo;
@@ -145,8 +143,7 @@ export default class RegistrationForm extends LightningElement {
     qutLoginText: QUT_LOGIN_TEXT,
     privacyPolicy: QUT_PRIVACY_POLICY,
     acknowledge: ACKNOWLDGE,
-    contactDetail: QUTeX_Contact_Detail,
-    marketingConsent : MKT_CONSENT
+    contactDetail: QUTeX_Contact_Detail
   };
 
   /*
@@ -520,8 +517,7 @@ export default class RegistrationForm extends LightningElement {
       startURL: this.startURL,
       mobileNoLocale: this.mobile,
       mobileConLocale: this.localeConMobile,
-      contactId: this.contactId,
-      emailConsent : this.marketingConsentCheckbox
+      contactId: this.contactId
     })
     .then((res) => {
       if (res == "CloseModal") {
@@ -765,10 +761,6 @@ export default class RegistrationForm extends LightningElement {
     this.checkbox = event.target.checked;
   }
 
-  handleMarketingConsentCheckBox(event) {
-    this.marketingConsentCheckbox = event.target.checked;
-  }
-
   handleSelectedOption(event) {
     this.selectionOption = event.target.value;
   }
@@ -845,8 +837,7 @@ export default class RegistrationForm extends LightningElement {
             mobileNoLocale: this.mobile,
             mobileConLocale: this.localeConMobile,
             dietaryReq: this.dietaryReq,
-            accessibilityReq: this.accessReq,
-            emailConsent : this.marketingConsentCheckbox
+            accessibilityReq: this.accessReq
           })
           .then(()=>{
             //Updated contact...
