@@ -701,6 +701,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.Preferred_Contact_Method__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Contact.Preferred_Full_Name__c</field>
         <readable>true</readable>
@@ -1493,6 +1498,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Lead.Phone_No_Locale__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Lead.Preferred_Contact_Method__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4033,6 +4043,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>hed__Course_Enrollment__c.Course_Offering_Start_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>hed__Course_Enrollment__c.Paid_Amount__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
