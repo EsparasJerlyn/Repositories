@@ -50,7 +50,7 @@ private class ContactTriggerHelperTest {
             for(Integer i = 0;i<conList.size(); i++){
                 conList[i].hed__Primary_Organization__c = businessAccount;
             }
-            
+
             Test.startTest();
             insert(conList);
             Test.stopTest();
@@ -59,4 +59,5 @@ private class ContactTriggerHelperTest {
             System.assert(acrt.size() == 100,'Contacts where not updated');
         }
     }
+
 }

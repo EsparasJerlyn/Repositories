@@ -5,6 +5,6 @@
     <description>If this is true, register interest button will be available in the product catalogue when there’s no offering.</description>
     <externalId>false</externalId>
     <label>Register Interest Available</label>
-    <trackHistory>false</trackHistory>
+    <trackHistory>true</trackHistory>
     <type>Checkbox</type>
 </CustomField>

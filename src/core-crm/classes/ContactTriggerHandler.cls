@@ -264,4 +264,5 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
       }
     }
   }
+
 }

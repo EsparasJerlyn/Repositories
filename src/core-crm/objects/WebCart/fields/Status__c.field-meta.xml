@@ -9,7 +9,7 @@ Closed = cart no longer available to the user</description>
     <externalId>false</externalId>
     <label>Status</label>
     <required>false</required>
-    <trackHistory>false</trackHistory>
+    <trackHistory>true</trackHistory>
     <type>Picklist</type>
     <valueSet>
         <restricted>true</restricted>
