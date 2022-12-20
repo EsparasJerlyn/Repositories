@@ -621,9 +621,9 @@ public with sharing class RegistrationFormCtrlTest {
         false
       );
 
-      Contact contact = [SELECT HasOptedOutOfEmail, Email_Opt_In_DateTime__c FROM Contact WHERE Email = 'testemail@test.com' LIMIT 1];
-      System.assertEquals(false ,contact.HasOptedOutOfEmail , 'Email Opt out should be set to false.');
-      System.assert(contact.Email_Opt_In_DateTime__c != null , 'Email Opt out date time should be dated today.');
+      Contact contact = [SELECT HasOptedOutOfEmail, Email_Opt_Out_DateTime__c FROM Contact WHERE Email = 'testemail@test.com' LIMIT 1];
+      System.assertEquals(true ,contact.HasOptedOutOfEmail , 'Email Opt out should be set to true.');
+      System.assert(contact.Email_Opt_Out_DateTime__c != null , 'Email Opt out date time should be dated today.');
     }
     Test.stopTest();
   }

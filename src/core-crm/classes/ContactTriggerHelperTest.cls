@@ -64,6 +64,7 @@ private class ContactTriggerHelperTest {
 
     @isTest
     private static void updateContactTest(){
+        Test.startTest();
         System.runAs(TestDataFactory.getProgramAdminUser()){
             List<Account> accList = [SELECT Id, RecordTypeId From Account WHERE RecordTypeId =: BUSINESS_ACC_RECTYPEID OR RecordTypeId =: ADMINISTRATIVE];
             Id adminAccount;
@@ -84,10 +85,7 @@ private class ContactTriggerHelperTest {
                 conList[i].Staff_Email_Opt_Out__c = true;
                 conList[i].Learner_Email_Opt_Out__c = true;
             }
-
-            Test.startTest();
             insert(conList);
-            Test.stopTest();
 
             List<Contact> conListForUpdate= [SELECT id, HasOptedOutOfEmail, Work_Email_Opt_Out__c, Staff_Email_Opt_Out__c, Learner_Email_Opt_Out__c From Contact];
             for(Contact contact : conListForUpdate){
@@ -96,9 +94,14 @@ private class ContactTriggerHelperTest {
                 contact.Staff_Email_Opt_Out__c = false;
                 contact.Learner_Email_Opt_Out__c = false;
             }
-            List<Contact> conListAfterUpdate = [SELECT id, HasOptedOutOfEmail, Learner_Email_Opt_In_DateTime__c, Work_Email_Opt_Out__c, Staff_Email_Opt_Out__c, Learner_Email_Opt_Out__c From Contact];
-
-            System.assert(conListAfterUpdate[0].Learner_Email_Opt_In_DateTime__c != null,'Opt-In datetime should be populated');
+            update conListForUpdate;
+            
+            List<Contact> conListAfterUpdate = [SELECT id, Email_Opt_In_DateTime__c, Work_Email_Opt_In_DateTime__c, Staff_Email_Opt_In_DateTime__c, Learner_Email_Opt_In_DateTime__c From Contact];
+            System.assert(conListAfterUpdate[0].Email_Opt_In_DateTime__c != null,'Email_Opt_In_DateTime__c datetime should be populated');
+            System.assert(conListAfterUpdate[0].Work_Email_Opt_In_DateTime__c != null,'Work_Email_Opt_In_DateTime__c datetime should be populated');
+            System.assert(conListAfterUpdate[0].Staff_Email_Opt_In_DateTime__c != null,'Staff_Email_Opt_In_DateTime__c datetime should be populated');
+            System.assert(conListAfterUpdate[0].Learner_Email_Opt_In_DateTime__c != null,'Learner_Email_Opt_In_DateTime__c datetime should be populated');
         }
+        Test.stopTest();
     }
 }
