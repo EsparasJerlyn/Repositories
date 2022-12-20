@@ -6,7 +6,6 @@
  *    | Developer                 | Date                  | JIRA                 | Change Summary               |
       |---------------------------|-----------------------|----------------------|------------------------------|
       | roy.nino.s.regala         | May 12, 2022          | DEPP-1495,2402       | Created file                 |
-      | rhea.b.torres             | December 15, 2022     | DEPP-5002            | Updated registerUser paramter|
  */
 
 @isTest
@@ -45,8 +44,7 @@ public with sharing class OPE_and_CCE_Username_FormatTest {
         '/study/s/',
         '1234567890',
         'Australia (+61)',
-         null,
-         false
+         null
       );
       System.assert(page == null, 'Page must not be null');
     }

@@ -104,15 +104,7 @@ public without sharing class RegistrationFormCtrl {
             Email,
             Work_Email__c,
             QUT_Learner_Email__c,
-            QUT_Staff_Email__c,
-            HasOptedOutOfEmail,
-            Email_Opt_In_DateTime__c,
-            Work_Email_Opt_Out__c,
-            Work_Email_Opt_In_DateTime__c,
-            Staff_Email_Opt_Out__c,
-            Staff_Email_Opt_In_DateTime__c,
-            Learner_Email_Opt_Out__c,
-            Learner_Email_Opt_In_DateTime__c
+            QUT_Staff_Email__c
           FROM Contact
           WHERE
             RecordTypeId = :RT_CONTACT_PERSON_ID
