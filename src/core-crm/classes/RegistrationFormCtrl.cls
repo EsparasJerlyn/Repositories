@@ -126,6 +126,7 @@ public without sharing class RegistrationFormCtrl {
         existingContact.Dietary_Requirement__c = dietaryReq;
         existingContact.Accessibility_Requirement__c = accessibilityReq;
         update existingContact;
+
       }
    
   }

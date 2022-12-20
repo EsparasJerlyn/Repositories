@@ -27,7 +27,7 @@
 */
 import { LightningElement, track, api, wire } from "lwc";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
-import { CurrentPageReference } from "lightning/navigation";
+import { NavigationMixin, CurrentPageReference } from "lightning/navigation";
 import QUTeX_Contact_Detail from '@salesforce/label/c.QUTeX_Contact_Detail';
 import registerUser from "@salesforce/apex/RegistrationFormCtrl.registerUser";
 import getCommunityUrl from "@salesforce/apex/RegistrationFormCtrl.getCommunityUrl";
@@ -47,6 +47,7 @@ const SSO = "/services/auth/sso/";
 const REQUIRED_ERROR_MESSAGE =
   "Please complete the mandatory fields(*) before proceeding.";
 const EMAIL_NOT_VALID = "Please enter a valid email.";
+const EMAIL_EXIST = "Your email already exists.";
 const BIRTHDATE_FORMAT = "Please check the format";
 const BIRTHDATE_INVALID = "Invalid Input";
 const SHOW_ERROR_MESSAGE_ATTRIBUTE = "error-message error-message-show";
@@ -133,6 +134,8 @@ export default class RegistrationForm extends LightningElement {
   @track requiredField;
   @track privacyPolicy;
   @track acknowledge;
+
+
 
   label = {
     header: HEADER,
@@ -795,7 +798,7 @@ export default class RegistrationForm extends LightningElement {
     this.userOTP = event.target.value;
   }
 
-  handleVerify() {
+  handleVerify(event) {
     if (this.userOTP) {
       if (this.verifyOTP == this.userOTP) {
         this.generateToast("Success!", "Successfully Submitted", "success");
@@ -843,7 +846,6 @@ export default class RegistrationForm extends LightningElement {
             //Updated contact...
           })
   }
-
   /**
    * concatenates error name and message
    */
