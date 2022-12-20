@@ -91,4 +91,5 @@ public without sharing class ContactTriggerHelper {
         }
       }
     }
+
   }
