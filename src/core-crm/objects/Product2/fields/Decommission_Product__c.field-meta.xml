@@ -4,6 +4,6 @@
     <defaultValue>false</defaultValue>
     <externalId>false</externalId>
     <label>Decommission Product</label>
-    <trackHistory>false</trackHistory>
+    <trackHistory>true</trackHistory>
     <type>Checkbox</type>
 </CustomField>

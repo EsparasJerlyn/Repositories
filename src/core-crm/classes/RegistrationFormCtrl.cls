@@ -312,7 +312,7 @@ public without sharing class RegistrationFormCtrl {
         if(contactAdministrativeAcc.isEmpty()){
           accId = createAdministrativeAccount(opeBuyerGroup[0].Id, null, lastName, firstName);
         }else{
-          accId = contactAdministrativeAcc[0].AccountId;
+          accId = createAdministrativeAccount(opeBuyerGroup[0].Id, contactAdministrativeAcc[0].AccountId, lastName, firstName);
         }
 
         Contact existingContact = new Contact();
@@ -435,7 +435,7 @@ public without sharing class RegistrationFormCtrl {
       // Create Buyer Group Member Record 
       BuyerGroupMember bgMember = new BuyerGroupMember();
       bgMember.BuyerId = accId;
-      bgMember.BuyerGroupId	= buyerGroupId;
+      bgMember.BuyerGroupId = buyerGroupId;
       insert bgMember;
     }
 

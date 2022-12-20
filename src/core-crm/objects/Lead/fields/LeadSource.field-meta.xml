@@ -3,5 +3,6 @@
     <fullName>LeadSource</fullName>
     <description>Identifies how the Lead was brought into QUT.</description>
     <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
     <type>Picklist</type>
 </CustomField>

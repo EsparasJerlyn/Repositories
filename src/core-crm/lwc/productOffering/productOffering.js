@@ -89,6 +89,7 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
     @track productOfferings = [];
     isLoading = true;
     newRecord = false;
+    newRecordHaveError = false;
     isCCEProductRequest;
     isProgramRequest= false;
     isCoachingOrDiagnosticProductRequest = false;
@@ -814,10 +815,15 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
 
     //hides create modal
     handleCloseRecord(){
-        this.newRecord = false;
-        this.prePopulatedFields = {};
-        if(this.objectToCreate == 'Contact'){
-            this.handleReopenAddFacilitator();
+        if(this.template.querySelector('c-custom-create-edit-record').isSaving == false && this.newRecordHaveError == false && this.saveInProgress == false){
+            this.newRecord = false;
+            this.newRecordHaveError = false;
+            this.prePopulatedFields = {};
+            if(this.objectToCreate == 'Contact'){
+                this.handleReopenAddFacilitator();
+            }
+        }else{
+            this.newRecordHaveError = false;
         }
     }
 
@@ -877,7 +883,11 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
            }
         })
         .catch(error => {
-            if(error.body && error.body.output && error.body.output.errors[0] && error.body.output.errors[0] && error.body.output.errors[0].errorCode == 'DUPLICATES_DETECTED'){
+            if(this.template.querySelector('c-custom-create-edit-record') !== null && (objectType == 'Contact' && this.newRecord == true)){
+                this.template.querySelector('c-custom-create-edit-record').showValidationMessage(error);
+                this.newRecordHaveError = true;
+            }
+            else if(error.body && error.body.output && error.body.output.errors[0] && error.body.output.errors[0] && error.body.output.errors[0].errorCode == 'DUPLICATES_DETECTED'){
                 this.generateToast('Error.',error.body.output.errors[0].message,'error');
             }else {
                 this.generateToast('Error.',LWC_Error_General,'error');

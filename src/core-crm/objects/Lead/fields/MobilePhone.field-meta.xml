@@ -3,5 +3,6 @@
     <fullName>MobilePhone</fullName>
     <securityClassification>Sensitive</securityClassification>
     <description>The lead’s mobile phone number.</description>
-    <trackFeedHistory>false</trackFeedHistory>
+    <trackFeedHistory>true</trackFeedHistory>
+    <trackHistory>true</trackHistory>
 </CustomField>

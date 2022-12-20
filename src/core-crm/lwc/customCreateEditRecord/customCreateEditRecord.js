@@ -42,6 +42,7 @@ export default class CustomCreateEditRecord extends LightningElement {
     @api withRecordTypeSelection;
     @api prePopulatedFields = {};
     @api recordForOpe;
+    @api isSaving = false;
 
     objectLabel = '';
     recordTypeId;
@@ -233,6 +234,7 @@ export default class CustomCreateEditRecord extends LightningElement {
      * (either saveAndNew or save)
      */
     storeButtonName(event){
+        this.isSaving = true;
         this.buttonName = event.target.dataset.name;
     }
 
@@ -258,6 +260,7 @@ export default class CustomCreateEditRecord extends LightningElement {
                 break;
         }
         this.dispatchEvent(saveRecordsEvent);
+        this.isSaving = false;
     }
 
     /**
@@ -305,6 +308,28 @@ export default class CustomCreateEditRecord extends LightningElement {
             variant: _variant,
         });
         this.dispatchEvent(evt);
+    }
+
+    /**
+     * Show Validation Message
+     */
+    @api
+    showValidationMessage(error){
+
+        const inputFields = this.template.querySelectorAll(
+            'lightning-input-field'
+        );
+
+        const fieldErrorsList = error.body.output.fieldErrors;
+
+        if (inputFields) {
+            inputFields.forEach(field => {
+                if(field.fieldName in fieldErrorsList){
+                    field.setErrors(error);
+                }
+                field.reportValidity();
+            });
+        }
     }
 
 }

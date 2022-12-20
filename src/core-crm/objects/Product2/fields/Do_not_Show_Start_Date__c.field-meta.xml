@@ -6,6 +6,6 @@
     <externalId>false</externalId>
     <label>Do not Show Start Date</label>
     <securityClassification>Official</securityClassification>
-    <trackHistory>false</trackHistory>
+    <trackHistory>true</trackHistory>
     <type>Checkbox</type>
 </CustomField>

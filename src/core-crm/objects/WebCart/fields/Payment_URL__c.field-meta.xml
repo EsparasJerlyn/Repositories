@@ -6,7 +6,7 @@
     <label>Payment URL</label>
     <length>2000</length>
     <securityClassification>Sensitive</securityClassification>
-    <trackHistory>false</trackHistory>
+    <trackHistory>true</trackHistory>
     <type>LongTextArea</type>
     <visibleLines>4</visibleLines>
 </CustomField>

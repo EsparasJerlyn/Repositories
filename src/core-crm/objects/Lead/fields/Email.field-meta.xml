@@ -5,5 +5,5 @@
     <inlineHelpText>This field captures the personal email of the contact, all communications will be sent to this email.</inlineHelpText>
     <securityClassification>Sensitive</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
-    <trackHistory>false</trackHistory>
+    <trackHistory>true</trackHistory>
 </CustomField>
