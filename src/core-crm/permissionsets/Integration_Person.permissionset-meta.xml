@@ -57,6 +57,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Account.Do_Not_Sync_To_MC_Override__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Account.End_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -167,6 +172,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Account.Sync_to_MC__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Account.TickerSymbol</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -267,6 +277,61 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>BuyerGroup.Decommission__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>BuyerGroup.Decommission_Reason__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>BuyerGroup.End_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>BuyerGroup.Mark_Design_as_Complete__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>BuyerGroup.Primary_Account__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>BuyerGroup.Product_Category__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>BuyerGroup.Product_Request__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>BuyerGroup.Publishing_End_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>BuyerGroup.Publishing_Start_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>BuyerGroup.Ready_for_publishing__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>BuyerGroup.Start_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>CartItem.Contact__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -288,6 +353,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>CartItem.Program_Offering__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>CartItem.Promotion_Price__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>CartItem.Promotion__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1013,6 +1088,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.Preferred_Full_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Preferred_Contact_Method__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1813,6 +1893,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Lead.Preferred_Full_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Lead.Preferred_Contact_Method__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
