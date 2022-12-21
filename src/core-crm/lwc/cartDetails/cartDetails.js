@@ -43,6 +43,7 @@ import CARTITEM_PBE_FIELD from '@salesforce/schema/CartItem.Pricebook_Entry_ID__
 import CARTITEM_TOTAL_PRICE_FIELD from '@salesforce/schema/CartItem.TotalPrice';
 import CARTITEM_PROMOTION_ID from '@salesforce/schema/CartItem.Promotion__c';
 import CARTITEM_PROMOTION_PRICE_FIELD from '@salesforce/schema/CartItem.Promotion_Price__c';
+import updateCartItem from "@salesforce/apex/PaymentConfirmationCtrl.updateCartItem";
 
 import CART_PAYMENT_FIELD from '@salesforce/schema/WebCart.Cart_Payment__c';
 
@@ -577,6 +578,7 @@ createFileUploadMap(questions){
   }
 
   confirmRegistration(){
+
         this.disablePayment = true;
       
             let questionnaireResponseDataList = [];
@@ -608,7 +610,9 @@ createFileUploadMap(questions){
                     console.log("createCourseConnections error");
                     console.log(error);
                 })
-          }
+        }
+
+        
         let fields = {'Status__c' : 'Checkout','Discount_Applied__c' : this.discountTotal};
         let objRecordInput = {'apiName':'Cart_Payment__c',fields};
         createRecord(objRecordInput).then(response => {
@@ -617,41 +621,45 @@ createFileUploadMap(questions){
             fields[CART_ID_FIELD.fieldApiName] = this.recordId;
             fields[CART_PAYMENT_FIELD.fieldApiName] = cartPaymentId;
             let recordInput = {fields};
-            updateRecord(recordInput).then(()=>{
-                getCommunityUrl()
-                .then((result) => {
-                  this.paymentConURL = result.comSite + '/s/payment-confirmation?'
-                                    + 'Status=A&InvoiceNo=[InvoiceNo]&ReceiptNo=[ReceiptNo]&TotalAmount='
-                                    + this.total + '&Webcart.External_ID__c=' + this.cartExternalId;
-                  
-
-                  //if cartitem's pb needs to be updated
-                  if(this.cartItemsPbeUpdate.length > 0){
-                    //loop through the pass object of cartitem records to be updated
-                    for (let i = 0; i < this.cartItemsPbeUpdate.length; i++) {
-                        //update CartItem with the standard pricebook
-                        let fields = {};
-                        fields[CARTITEM_ID_FIELD.fieldApiName] = this.cartItemsPbeUpdate[i].cartItemId;
-                        fields[CARTITEM_PBE_FIELD.fieldApiName] = this.cartItemsPbeUpdate[i].standardPbe;
-                        fields[CARTITEM_TOTAL_PRICE_FIELD.fieldApiName] = this.cartItemsPbeUpdate[i].standardPbePrice;
-                        fields[CARTITEM_PROMOTION_ID.fieldApiName] = this.cartItemsPbeUpdate[i].promotionId;
-                        fields[CARTITEM_PROMOTION_PRICE_FIELD.fieldApiName] = this.cartItemsPbeUpdate[i].discount;
-                        let recordInput = {fields};
-                        updateRecord(recordInput)
-                        .then(()=>{
-                            
-                            //if last item
-                            if(i + 1 == this.cartItemsPbeUpdate.length){
-                              window.location.href = this.paymentConURL;
-                            }
-                        })
-                    }
-                  } else{
-                    window.location.href = this.paymentConURL;
-                  }     
-                });
-            })
+            return updateRecord(recordInput);
         })
+        .then(()=>{
+            return getCommunityUrl();
+        })
+        .then((result)=> {
+          this.paymentConURL = result.comSite + '/s/payment-confirmation?'
+          + 'Status=A&InvoiceNo=[InvoiceNo]&ReceiptNo=[ReceiptNo]&TotalAmount='
+          + this.total + '&Webcart.External_ID__c=' + this.cartExternalId;
+        })
+        .then(()=>{
+
+          let cartItemList = [];
+          //if cartitem's pb needs to be updated
+          if(this.cartItemsPbeUpdate && this.cartItemsPbeUpdate.length > 0){
+            //loop through the pass object of cartitem records to be updated
+            for (let i = 0; i < this.cartItemsPbeUpdate.length; i++) {
+                //update CartItem with the standard pricebook
+                let fields = {};
+                fields[CARTITEM_ID_FIELD.fieldApiName] = this.cartItemsPbeUpdate[i].cartItemId;
+                fields[CARTITEM_PBE_FIELD.fieldApiName] = this.cartItemsPbeUpdate[i].standardPbe;
+                fields[CARTITEM_TOTAL_PRICE_FIELD.fieldApiName] = this.cartItemsPbeUpdate[i].standardPbePrice;
+                fields[CARTITEM_PROMOTION_ID.fieldApiName] = this.cartItemsPbeUpdate[i].promotionId;
+                fields[CARTITEM_PROMOTION_PRICE_FIELD.fieldApiName] = this.cartItemsPbeUpdate[i].discount;
+                cartItemList.push(fields);
+            }
+          } else{
+            window.location.href = this.paymentConURL;
+          } 
+          return cartItemList;
+        })
+        .then((res)=>{
+          if(res.length > 0){
+            updateCartItem({cartItems:res})
+            .then(()=>{
+                window.location.href = this.paymentConURL
+            })
+          }
+        })      
         .catch((error) => {
             this.processing = false;
             console.log("confirmRegistration error");
