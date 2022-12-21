@@ -997,6 +997,77 @@
     <layoutAssignments>
         <layout>International_Tier__c-International Tier Layout</layout>
     </layoutAssignments>
+    <layoutAssignments>
+        <layout>Outlook-Outlook Integration Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+     <layout>Account-Administrative Account Layout</layout>
+        <recordType>Account.Administrative</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Account-Business Organization Layout</layout>
+        <recordType>Account.Business_Organization</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Account-University And Educational Layout</layout>
+        <recordType>Account.Educational_Institution</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Account-University And Educational Layout</layout>
+        <recordType>Account.University_Department</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>WebCart-Cart Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>CartItem-Cart Item Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course__c-OPE Activity Page Layout</layout>
+        <recordType>hed__Course__c.Activity</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course__c-CCE Group Coaching Layout</layout>
+        <recordType>hed__Course__c.Group_Coaching</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course__c-CCE Individual Coaching Layout</layout>
+        <recordType>hed__Course__c.Individual_Coaching</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course__c-OPE Activity Page Layout</layout>
+        <recordType>hed__Course__c.OPE_Activity</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course__c-OPE Short Course Page Layout</layout>
+        <recordType>hed__Course__c.Short_Course</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course__c-OPE Unit Page Layout</layout>
+        <recordType>hed__Course__c.Unit</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Program_Plan__c-Program Page Layout</layout>
+        <recordType>hed__Program_Plan__c.Program</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Program_Plan__c-Program Without Pathway Layout</layout>
+        <recordType>hed__Program_Plan__c.Program_Without_Pathway</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Coupon-Coupon Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course_Enrollment__c-QUT Course Connection Layout</layout>
+        <recordType>hed__Course_Enrollment__c.Faculty</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course_Enrollment__c-QUT Course Connection Layout</layout>
+        <recordType>hed__Course_Enrollment__c.Student</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Promotion-promotion Layout</layout>
+    </layoutAssignments>          
     <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>true</allowDelete>

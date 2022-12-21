@@ -3,7 +3,7 @@
     <allowInternalUserLogin>false</allowInternalUserLogin>
     <allowMembersToFlag>false</allowMembersToFlag>
     <changePasswordTemplate>unfiled$public/CommunityChangePasswordEmailTemplate</changePasswordTemplate>
-    <communityRoles />
+    <communityRoles/>
     <disableReputationRecordConversations>false</disableReputationRecordConversations>
     <emailFooterLogo>Experiences_Shared_Document_Folder/qut_logo_study.png</emailFooterLogo>
     <emailSenderAddress>qutex@qut.edu.au</emailSenderAddress>
@@ -32,7 +32,8 @@
         <permissionSet>OPE_Catalogue</permissionSet>
         <permissionSet>Corporate_Portal_Base</permissionSet>
         <profile>admin</profile>
-        <profile>OPE catalogue</profile>
+        <profile>ope catalogue</profile>
+        <profile>qut system administrator</profile>
     </networkMemberGroups>
     <networkPageOverrides>
         <changePasswordPageOverrideSetting>Standard</changePasswordPageOverrideSetting>
