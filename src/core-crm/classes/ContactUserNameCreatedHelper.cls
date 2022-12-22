@@ -42,9 +42,7 @@ public without sharing class ContactUserNameCreatedHelper {
 			];
 
 		// Get Email Template
-		EmailTemplate emailTemplate = EmailTemplateSelector.getEmailTemplate(
-			SEND_QUT_USERNAME_EMAIL
-		);
+		EmailTemplate emailTemplate = [Select Id,Name,Subject,HtmlValue,Body from EmailTemplate where name=:SEND_QUT_USERNAME_EMAIL LIMIT 1];
 
 		// Get Study Store URL Custom Setting
 		Study_Store_URL_Settings__c storeLinkSettings = Study_Store_URL_Settings__c.getOrgDefaults();
