@@ -208,6 +208,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Contact.QUT_Student_Username__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Contact.Nominated_Employee_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -808,6 +813,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>hed__Course_Enrollment__c.hed__Contact__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>hed__Course_Enrollment__c.hed__Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>hed__Course_Enrollment__c.Cart_Item__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -904,6 +919,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>hed__Course_Enrollment__c.Salutation__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>hed__Course_Enrollment__c.hed__Course_Offering__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
