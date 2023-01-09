@@ -20,7 +20,7 @@ public with sharing class CommunitiesLandingControllerTest {
        PageReference pageRef = controller.forwardToStartPage();
        //PageRef is either null or an empty object in test context
        if(pageRef != null){
-             System.assertEquals(true, String.isNotEmpty(String.valueOf(pageRef)));
+             System.assertEquals(true, String.isNotEmpty(String.valueOf(pageRef)), 'Error in Community Landing.');
     	}
   	}
 }

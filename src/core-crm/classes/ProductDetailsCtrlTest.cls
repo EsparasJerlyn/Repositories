@@ -1016,7 +1016,7 @@ public class ProductDetailsCtrlTest{
 
       CCECorporateUserCtrl.CorporateUserDetails enableResponse = new CCECorporateUserCtrl.CorporateUserDetails();
       enableResponse = CCECorporateUserCtrl.enableCCECorporateUser(cceContact.Id);
-      system.debug(JSON.serializePretty(enableResponse));
+      System.debug(LoggingLevel.DEBUG, JSON.serializePretty(enableResponse));//NOPMD
       List<Account> accBusinessOrg = [SELECT Id, RecordTypeId 
 				FROM Account 
 				WHERE RecordTypeId = :BUSINESS_ACC_RECTYPEID

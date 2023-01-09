@@ -83,8 +83,6 @@ private class Expression_of_Interest_Inactive_FlowTest{
             interests = TestDataFactory.createExpressionOfInterest(25,contact1,[SELECT Id FROM Product2 LIMIT 25]);
             insert interests;
 
-            System.debug([SELECT Id, Contact__r.Name, Product__r.Name FROM Expression_of_Interest__c LIMIT 1 ]);
-
             Test.startTest();
             courseConnections = TestDataFactory.createTestCourseConnectionRecord(25,portalUser.contactId,courseofferings);
             for(hed__Course_Enrollment__c cc: courseConnections){

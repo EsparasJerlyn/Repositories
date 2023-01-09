@@ -312,7 +312,7 @@ public with sharing class CorporateBundleAndSOAHelper {
                     insert affiliationToInsert.values();
                }
           }catch(Exception e){
-               System.debug('An error has occurred. See error message: ' + e.getMessage());
+               System.debug(LoggingLevel.DEBUG, 'An error has occurred. See error message: ' + e.getMessage());//NOPMD
           }
 
      }

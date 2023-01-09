@@ -96,7 +96,7 @@ public class B2BStoreSearchIndexSchedulerTest {
         try{
         	B2BStoreSearchIndexScheduler.postCCESearchIndexRequest();
         }catch(Exception e){
-            System.debug('POST Err: '+e.getMessage());
+            System.debug(LoggingLevel.DEBUG, 'POST Err: '+e.getMessage());//NOPMD
         }
         Test.stopTest();
         System.assertEquals(true, true, 'Catch error');
@@ -110,7 +110,7 @@ public class B2BStoreSearchIndexSchedulerTest {
         try{
             B2BStoreSearchIndexScheduler.postStudySearchIndexRequest();
         }catch(Exception e){
-            System.debug('POST Err: '+e.getMessage());
+            System.debug(LoggingLevel.DEBUG, 'POST Err: '+e.getMessage());//NOPMD
         }
         Test.stopTest();
         System.assertEquals(true, true, 'Catch error');

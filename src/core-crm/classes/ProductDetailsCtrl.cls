@@ -1202,8 +1202,8 @@ public without sharing class ProductDetailsCtrl {
 			cartWrapper.externalId = externalId;
 
 		} catch (Exception e) {
-			system.debug(e);
-			system.debug('error on ProductDetailsCtrl.insertLearnerInfo');
+			System.debug(LoggingLevel.DEBUG, e);//NOPMD
+			System.debug(LoggingLevel.DEBUG, 'error on ProductDetailsCtrl.insertLearnerInfo');//NOPMD
 			// AuraHandledException auraEx = new AuraHandledException(e.getMessage());
 			// throw auraEx;
 		}
@@ -1241,7 +1241,7 @@ public without sharing class ProductDetailsCtrl {
 				webcart.Status = 'Closed';
 				UPDATE webcart;
 			}catch(Exception e){
-				system.debug(e);
+				System.debug(LoggingLevel.DEBUG, (e));//NOPMD
 			}
 			
 			//get cart and course info through cart item

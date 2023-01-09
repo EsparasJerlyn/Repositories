@@ -20,9 +20,9 @@ for(Database.SaveResult res : sr) {
     failed = res.isSuccess() ? failed : failed + 1;
 }
 if(failed != 0) {
-    System.debug('Failed records: ' + failed + '/' + sr.size());
+    System.debug(LoggingLevel.DEBUG, 'Failed records: ' + failed + '/' + sr.size());//NOPMD
     Database.rollback(sp);
-    System.debug('Rolled back.');
+    System.debug(LoggingLevel.DEBUG, 'Rolled back.');//NOPMD
 } else {
-    System.debug('All records okay.');
+    System.debug(LoggingLevel.DEBUG, 'All records okay.');//NOPMD
 }

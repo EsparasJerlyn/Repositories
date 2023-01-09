@@ -6,9 +6,8 @@ public class MainNavigationMenuCtrlTest {
         
     	User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
         insert currentUser;
-		System.debug(currentUser);        
 
-       Test.startTest();
+        Test.startTest();
 		List<Opportunity> opp = MainNavigationMenuCtrl.getOpportunityContractType(currentUser.id);
         Test.stopTest();
 		System.assert(opp != null, 'Pass');        
@@ -16,10 +15,8 @@ public class MainNavigationMenuCtrlTest {
     
     @isTest
     public static void defaultMenuTest(){
-        System.debug('1111');
         Test.startTest();
         List<NavigationMenuItem> navMenu = MainNavigationMenuCtrl.defaultMenu();
-        System.debug('2342'+navMenu);
 		System.assert(navMenu.size() == 0, 'Pass');
         Test.stopTest();
 

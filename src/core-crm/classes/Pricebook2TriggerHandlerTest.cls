@@ -42,11 +42,11 @@ public with sharing class Pricebook2TriggerHandlerTest {
             Pricebook2DuplicatesHelper.detectPricebook2Duplicates(pricebooks, setPricebook2Name);  
             
             List<Pricebook2> pbList = [Select Id From Pricebook2 Where Name = 'Test Pricebook2'];
-            system.debug('check ' + pbList.size());
+            System.debug(LoggingLevel.DEBUG, 'check ' + pbList.size());//NOPMD
             
             Test.stopTest();
             
-            system.assertEquals(1, pbList.size(), 'Pricebook with duplicate name is invalid'); 
+            System.assertEquals(1, pbList.size(), 'Pricebook with duplicate name is invalid'); 
         }
 
     }

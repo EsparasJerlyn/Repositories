@@ -37,11 +37,11 @@ public without sharing class LMSCourseEnrollmentBatchHandler implements Database
      * @param batchObjects The objects to process.
      */
     public void execute(Database.BatchableContext context, List<hed__Course_Enrollment__c> batchObjects) {
-        System.debug('Execute LMSCourseEnrollmentBatchHandler start');
+        System.debug(LoggingLevel.DEBUG, 'Execute LMSCourseEnrollmentBatchHandler start');//NOPMD
 
         LMSIntegrationManager.calloutLMSCourseEnrollment(batchObjects);
         
-        System.debug('Execute LMSCourseEnrollmentBatchHandler finish');
+        System.debug(LoggingLevel.DEBUG, 'Execute LMSCourseEnrollmentBatchHandler finish');//NOPMD
     }
 
     /**
@@ -53,7 +53,7 @@ public without sharing class LMSCourseEnrollmentBatchHandler implements Database
         try {
             System.scheduleBatch(new LMSCourseEnrollmentBatchHandler(), 'LMS Course Enrollment Batch Job', 60, 200);
         } catch(Exception e) {
-            System.debug('Error rescheduling LMSCourseEnrollmentBatchHandler: ' + e.getMessage());
+            System.debug(LoggingLevel.DEBUG, 'Error rescheduling LMSCourseEnrollmentBatchHandler: ' + e.getMessage());//NOPMD
         }
     }
 

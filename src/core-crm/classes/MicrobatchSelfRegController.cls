@@ -45,7 +45,7 @@ public class MicrobatchSelfRegController {
 
             // This message is used for debugging. Do not display this in the UI to the end user.
             // It has the information around why the user creation failed.
-            System.debug(ex.getMessage());
+            System.debug(LoggingLevel.DEBUG, ex.getMessage());//NOPMD
         }
         if (UUID != null) {
            PageReference page = System.Page.CommunitiesSelfRegConfirm;

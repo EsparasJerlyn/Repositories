@@ -334,7 +334,7 @@ public with sharing class ContactTriggerHandlerTest {
 
         // Verify
         Contact actualContact = [Select id, OwnerId from Contact where id = :c.id];
-        System.assertEquals(u.Contact.hed__Primary_Organization__r.OwnerId, actualContact.OwnerId);
+        System.assertEquals(u.Contact.hed__Primary_Organization__r.OwnerId, actualContact.OwnerId, 'Should set the contact owner when the current user is having UserType of PowerPartner.');
     }
 
     /**
@@ -352,6 +352,6 @@ public with sharing class ContactTriggerHandlerTest {
 
         // Verify
         Contact actualContact = [Select id, OwnerId from Contact where id = :c.id];
-        System.assertEquals(testUser.Id, actualContact.OwnerId);
+        System.assertEquals(testUser.Id, actualContact.OwnerId, 'Should not set the contact owner when the current user is not having UserType of PowerPartner.');
     }
 }

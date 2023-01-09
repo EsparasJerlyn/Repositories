@@ -15,6 +15,6 @@ public with sharing class CommunitiesLoginControllerTest {
     @isTest
     public static void testCommunitiesLoginController () {
      	CommunitiesLoginController controller = new CommunitiesLoginController();
-     	System.assertEquals(null, controller.forwardToAuthPage());       
+     	System.assertEquals(null, controller.forwardToAuthPage(), 'Error in Community Login.');       
     }    
 }

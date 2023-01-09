@@ -57,7 +57,7 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
       sendRegistrationConfirmEmail(newItems.keySet());
       sendWelcomeEmail(newItems.keySet());
     }catch(Exception e){
-      System.debug('An error has occurred. See error message: ' + e.getMessage());
+      System.debug(LoggingLevel.DEBUG, 'An error has occurred. See error message: ' + e.getMessage());//NOPMD
     }
     
   }
@@ -246,7 +246,7 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
         ContactUserNameCreatedHelper.sendEmailUsernameCreated(contactsToSendWelcomeEmailSet);
       }
     }catch(Exception e){
-      System.debug('Sending of Welcome email failed, see error: ' + e.getMessage());
+      System.debug(LoggingLevel.DEBUG, 'Sending of Welcome email failed, see error: ' + e.getMessage());//NOPMD
     }
   }
 

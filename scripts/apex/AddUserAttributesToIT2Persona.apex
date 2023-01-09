@@ -8,8 +8,8 @@
  */
 Id isrProfileId = [SELECT Id, Name FROM Profile WHERE Name='International Student Recruitment']?.Id;
 Id isrSuperUserRoleId = [SELECT Id, Name FROM UserRole WHERE Name='International Super User']?.Id;
-System.debug('ISR Profile Id:' + isrProfileId);
-System.debug('ISR User Role Id:' + isrSuperUserRoleId);
+System.debug(LoggingLevel.DEBUG, 'ISR Profile Id:' + isrProfileId);//NOPMD
+System.debug(LoggingLevel.DEBUG, 'ISR User Role Id:' + isrSuperUserRoleId);//NOPMD
 
 // Retrieve all users
 List<User> userList1 = [SELECT Id,
