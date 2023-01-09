@@ -1,18 +1,13 @@
 import { LightningElement, wire, api,track } from 'lwc';
-import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
-import NAME_FIELD from '@salesforce/schema/Product2.Name';
 import communityId from '@salesforce/community/Id';
-import basePath from '@salesforce/community/basePath';
+import basePath from "@salesforce/community/basePath";
 import qutResourceImg from "@salesforce/resourceUrl/QUTImages";
 import getStudyProducts from '@salesforce/apex/MainNavigationMenuCtrl.getStudyProducts';
-//import getProducts from '@salesforce/apex/ProductCtrl.getProducts';
 import { loadStyle } from "lightning/platformResourceLoader";
-import customSR from "@salesforce/resourceUrl/QUTInternalCSS";
 import customCSS from "@salesforce/resourceUrl/QUTMainCSS";
 
 import { subscribe, unsubscribe, MessageContext } from 'lightning/messageService';
 import payloadContainerLMS from '@salesforce/messageChannel/Breadcrumbs__c';
-import BasePath from "@salesforce/community/basePath";
 const STOREBREADCRUMBS_PARENTLIST = 'storeBreadrumbs_parentList';
 export default class StoreBreadrumbs extends LightningElement {
 
@@ -31,18 +26,12 @@ export default class StoreBreadrumbs extends LightningElement {
     messageContext;
 
     get isCCEPortal() {
-        return BasePath.toLowerCase().includes("cce");
+        return basePath.toLowerCase().includes("cce");
     }
     
     get isOPEPortal() {
-        return BasePath.toLowerCase().includes("study");
+        return basePath.toLowerCase().includes("study");
     } 
-
-    /**
-     * fetches product data
-     */
-    // @wire(getRecord, { recordId:'$recordId', fields: [NAME_FIELD]})
-    // product;
 
     connectedCallback() {
         this.iconhome = qutResourceImg + "/QUTImages/Icon/icon-home-blue.svg";
@@ -53,7 +42,6 @@ export default class StoreBreadrumbs extends LightningElement {
 
       /* Load Custom CSS */
     renderedCallback() {
-       // Promise.all([loadStyle(this, customSR + "/QUTInternalCSS.css")]);
         Promise.all([loadStyle(this, customCSS + "/QUTCSS.css")]);
         
     }
