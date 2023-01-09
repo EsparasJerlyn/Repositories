@@ -2081,4 +2081,4 @@ public without sharing class ProductDetailsCtrl {
 			LIMIT 1
 		];
 	}
-}
+} 

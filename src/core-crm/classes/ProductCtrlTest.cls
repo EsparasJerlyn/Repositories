@@ -1706,5 +1706,4 @@ public with sharing class ProductCtrlTest {
 			);
 		}
 	}
-
 }
