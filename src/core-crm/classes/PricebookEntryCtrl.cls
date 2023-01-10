@@ -14,6 +14,8 @@
 public with sharing class PricebookEntryCtrl {
     public static List<String> priceBookIdsOPE = new List<String>();
     private static final String PR_SOA = System.Label.RT_ProductRequest_SOA;
+    private static final String PR_PROGRAM = System.Label.RT_ProductRequest_Program; 
+    private static final String PR_PWP = System.Label.RT_ProductRequest_Program_Without_Pathway;
     /**
      * @description fetches List Price  and pricebooks related to the product request
      * @param prodReqId - id of product request
@@ -21,9 +23,7 @@ public with sharing class PricebookEntryCtrl {
      */
     @AuraEnabled(cacheable=true)
     public static ResponseWrapper getPricebookEntries(String prodReqId){
-
-        String PR_PROGRAM = System.Label.RT_ProductRequest_Program;
-        String PR_PWP = System.Label.RT_ProductRequest_Program_Without_Pathway;
+        
         ResponseWrapper response = new ResponseWrapper();
         List<PriceBook2> priceBookList = new List<PriceBook2>();
         List<BuyerGroupPricebook> priceBookListOPE = new List<BuyerGroupPricebook>();
@@ -48,20 +48,17 @@ public with sharing class PricebookEntryCtrl {
         }
 
         priceBookListOPE = [Select Id, BuyerGroup.Name, Pricebook2Id from BuyerGroupPricebook WHERE BuyerGroup.Name = 'OPE BuyerGroup' AND Pricebook2.IsActive = true];
-        if(!priceBookListOPE.isEmpty()){
-            for(BuyerGroupPricebook pb: priceBookListOPE){
-                priceBookIdsOPE.add(pb.Pricebook2Id);
-            }
-        } 
+        
+        for(BuyerGroupPricebook pb: priceBookListOPE){
+            priceBookIdsOPE.add(pb.Pricebook2Id);
+        }
 
         if(product != null){
             priceBookEntries = getPBEntries(product);
         }
 
-        if(!priceBookEntries.isEmpty()){
-            for(PriceBookEntry pbWrapper:priceBookEntries){
-                priceBookIdsSet.add(pbWrapper.Pricebook2Id);
-            }
+        for(PriceBookEntry pbWrapper:priceBookEntries){
+            priceBookIdsSet.add(pbWrapper.Pricebook2Id);
         }
         
         priceBookList = [SELECT Id, Name, IsStandard FROM PriceBook2 WHERE IsActive = true AND ID NOT IN: priceBookIdsSet AND (IsStandard = true OR ID IN:priceBookIdsOPE) ORDER BY Name,IsStandard DESC];
