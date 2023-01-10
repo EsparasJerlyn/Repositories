@@ -43,6 +43,7 @@ export default class CustomCreateEditRecord extends LightningElement {
     @api prePopulatedFields = {};
     @api recordForOpe;
     @api isSaving = false;
+    @api standardHeaderLabel;
 
     objectLabel = '';
     recordTypeId;
@@ -55,6 +56,7 @@ export default class CustomCreateEditRecord extends LightningElement {
     layoutMapping = [];
     layoutToDisplay = [];
     isDisabled = true;
+    defaultRecordTypeId;
 
     /**
      * stores object record types and label
@@ -65,6 +67,9 @@ export default class CustomCreateEditRecord extends LightningElement {
         if(data){
             this.objectRecordTypeInfo = data.recordTypeInfos;
             this.objectLabel = data.label;
+            if(this.standardHeaderLabel){
+                this.defaultRecordTypeId = data.defaultRecordTypeId;
+            }
         }else if(error){
             this.generateToast('Error.',LWC_Error_General,'error');
         }
@@ -76,12 +81,21 @@ export default class CustomCreateEditRecord extends LightningElement {
     get modalHeader(){
         let _modalHeader;
 
-        if(this.recordId || this.editTempData){
-            _modalHeader = 'Edit ' + this.objectLabel;
-        }else if(!this.recordId && this.showRecordTypeSelection){
-            _modalHeader = this.objectLabel + ' Record Types';
-        }else{
-            _modalHeader = 'Create ' + this.objectLabel;
+        if(this.standardHeaderLabel){
+            if(this.objectRecordTypeInfo){
+                _modalHeader = 'New ' + this.objectLabel+': '+this.objectRecordTypeInfo[this.defaultRecordTypeId].name;
+            }else{
+                _modalHeader = '';
+            }
+        }
+        else{
+            if(this.recordId || this.editTempData){
+                _modalHeader = 'Edit ' + this.objectLabel;
+            }else if(!this.recordId && this.showRecordTypeSelection){
+                _modalHeader = this.objectLabel + ' Record Types';
+            }else{
+                _modalHeader = 'Create ' + this.objectLabel;
+            }
         }
 
         return _modalHeader;
