@@ -35,6 +35,7 @@
 			| john.m.tambasen			| September 12, 2022    | DEPP-3743            | validate duplicate contacts	  				|
 			| john.m.tambasen			| October 11, 2022   	  | DEPP-4535            | added payment method Contract 				|
 			| keno.domienri.dico		| October 12, 2022  	  | DEPP-4283            | added condition for Prescribed Program child |
+			| mary.grace.li             | November 22, 2022     | DEPP-4693            | Modified for Selected account logic          |
 */
 public without sharing class ProductDetailsCtrl {
 	public static final Id STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
@@ -357,7 +358,7 @@ public without sharing class ProductDetailsCtrl {
 	 * @return prodDetailsData - Product Details & Pricebook Entries for Price picklist
 	 */
 	@AuraEnabled(cacheable=true)
-	public static ProductDetailsData getCCEProductRelatedRecords(Id productId, String categoryName, Id userId) {
+	public static ProductDetailsData getCCEProductRelatedRecords(ProductDetailsData productDetailsDataWrapper) {
 		ProductDetailsData prodDetailsData = new ProductDetailsData();
 		List<PricebookEntryWrapper> pbEntryWrapperList = new List<PricebookEntryWrapper>();
 		List<DeliveryWrapper> delivWrapperList = new List<DeliveryWrapper>();
@@ -368,10 +369,11 @@ public without sharing class ProductDetailsCtrl {
 			SELECT Id, AccountId, ContactId 
 			FROM AccountContactRelation 
 			WHERE Account.RecordType.Name = 'Business Organization' 
+			AND AccountId = :productDetailsDataWrapper.accountId
 			AND ContactId IN (
 				SELECT ContactId 
 				FROM User 
-				WHERE Id = :userId)
+				WHERE Id =: productDetailsDataWrapper.userId)
 			LIMIT 1
 		];
 
@@ -412,7 +414,7 @@ public without sharing class ProductDetailsCtrl {
 			pbIds.add(bgpb.Pricebook2Id);
 		}
 		String pbeName = '%';
-		if(categoryName == 'Corporate Bundle'){
+		if(productDetailsDataWrapper.categoryName == 'Corporate Bundle'){
 			pbeName = pbeNameCB + '%';
 		} else {
 			pbeName = pbeNameSOA + '%';
@@ -448,7 +450,7 @@ public without sharing class ProductDetailsCtrl {
 					Product_Category__c, 
 					Program_Plan__r.Product_Request__c
 				FROM Product2
-				WHERE Id = :productId
+				WHERE Id = :productDetailsDataWrapper.productId
 			];
 
 			// Product Corporate Bundle and QUTeX Learning Solutions
@@ -484,15 +486,15 @@ public without sharing class ProductDetailsCtrl {
 						FROM PricebookEntries
 						WHERE IsActive = true
 						AND Pricebook2Id IN: pbIds
-						AND Product2Id = :productId
+						AND Product2Id =:productDetailsDataWrapper.productId
 						AND Pricebook2.Name LIKE :pbeName
 					),
 					Program_Plan__r.Product_Request__c
 				FROM Product2
-				WHERE Id = :productId
+				WHERE Id =:productDetailsDataWrapper.productId
 			];
 
-		if(categoryName == 'Tailored Executive Education' || categoryName == 'Tailored Executive Program'){
+		if(productDetailsDataWrapper.categoryName == 'Tailored Executive Education' || productDetailsDataWrapper.categoryName == 'Tailored Executive Program'){
 			productOnPage = prodTEEDetails;
 			prodDetailsData.priceCCE = String.valueOf('0');
 		} else {
@@ -502,7 +504,7 @@ public without sharing class ProductDetailsCtrl {
 			Product2 checkFlex = [
 				SELECT Id, Name, Program_Plan__r.Program_Delivery_Structure__c
 				FROM Product2
-				WHERE ID = :productId
+				WHERE ID = :productDetailsDataWrapper.productId
 			];
 			Boolean isFlex = false;
 			if(checkFlex.Program_Plan__r.Program_Delivery_Structure__c == 'Flexible Program'){
@@ -517,7 +519,7 @@ public without sharing class ProductDetailsCtrl {
 					WHERE IsActive = true
 					AND Pricebook2Id IN :pbIds
 					AND Pricebook2.Name LIKE :pbeName
-					AND Product2Id = :productId
+					AND Product2Id = :productDetailsDataWrapper.productId
 				];
 
 				// Pricebook Entries
@@ -1564,6 +1566,14 @@ public without sharing class ProductDetailsCtrl {
 		public String priceCCE;
 		@AuraEnabled
 		public String pricebookEntryIdCCE;
+		@AuraEnabled
+		public String accountId{ get; set; }
+		@AuraEnabled
+		public String categoryName{ get; set; }
+		@AuraEnabled
+		public Id productId{ get; set; }
+		@AuraEnabled
+		public Id userId{ get; set; }
 	}
 
 	/**

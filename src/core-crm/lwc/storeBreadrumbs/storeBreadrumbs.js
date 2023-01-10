@@ -1,3 +1,13 @@
+/**
+ * @description A LWC component to display store breadcrumbs
+ * @author Accenture
+ *
+ * @history
+ *    | Developer                 | Date                  | JIRA                 | Change Summary                               |
+      |---------------------------|-----------------------|----------------------|----------------------------------------------|
+      | mary.grace.li             | November 22, 2022     | DEPP-4693            | Modified for Selected account logic          |
+*/
+
 import { LightningElement, wire, api,track } from 'lwc';
 import communityId from '@salesforce/community/Id';
 import basePath from "@salesforce/community/basePath";
@@ -6,9 +16,13 @@ import getStudyProducts from '@salesforce/apex/MainNavigationMenuCtrl.getStudyPr
 import { loadStyle } from "lightning/platformResourceLoader";
 import customCSS from "@salesforce/resourceUrl/QUTMainCSS";
 
+import payloadAcctContainerLMS from '@salesforce/messageChannel/AccountId__c';
+
 import { subscribe, unsubscribe, MessageContext } from 'lightning/messageService';
 import payloadContainerLMS from '@salesforce/messageChannel/Breadcrumbs__c';
 const STOREBREADCRUMBS_PARENTLIST = 'storeBreadrumbs_parentList';
+const STORED_ACCTID = "storedAccountId";
+
 export default class StoreBreadrumbs extends LightningElement {
 
     @api recordId;
@@ -21,6 +35,8 @@ export default class StoreBreadrumbs extends LightningElement {
     menuList = [];
     parentProductList = [];
     categoryList =[];
+    subscriptionAcct;
+    accountId;
 
     @wire(MessageContext)
     messageContext;
@@ -43,16 +59,23 @@ export default class StoreBreadrumbs extends LightningElement {
       /* Load Custom CSS */
     renderedCallback() {
         Promise.all([loadStyle(this, customCSS + "/QUTCSS.css")]);
+        this.subscribeAcctLMS();   
         
     }
 
     disconnectedCallback() {
         this.unsubscribeLMS();
+        this.unsubscribeAcctLMS();
     }
 
     unsubscribeLMS(){
         unsubscribe(this.subscription);
         this.subscription = null;
+    }
+
+    unsubscribeAcctLMS(){
+        unsubscribe(this.subscriptionAcct);
+        this.subscriptionAcct = null;
     }
     
     // async init() {
@@ -136,6 +159,23 @@ export default class StoreBreadrumbs extends LightningElement {
             this.addToMenuList(newValObj);
             console.log('NewValObj2', newValObj);
             this.setProductUrl();
+        }
+    }
+
+    subscribeAcctLMS() {
+        if (!this.subscriptionAcct) {
+            this.subscriptionAcct = subscribe(
+                this.messageContext, 
+                payloadAcctContainerLMS, 
+                (message) => this.validateAcctValue(message));
+        }
+    }
+
+    validateAcctValue(val) {
+        if (val && val.accountIdParameter) {
+            let newValObj = JSON.parse(val.accountIdParameter);
+    
+               this.accountId = newValObj.accountId;
         }
     }
 
@@ -244,6 +284,8 @@ export default class StoreBreadrumbs extends LightningElement {
         if (menuRecordId) {
             this.removeChildrenFromMenuList(menuRecordId);
         }
+
+        sessionStorage.setItem(STORED_ACCTID,this.accountId);
     }
 
     removeChildrenFromMenuList(productId){
@@ -270,5 +312,9 @@ export default class StoreBreadrumbs extends LightningElement {
 
     get homeLink(){
         return basePath;
+    }
+
+    setSessionStorage(){
+        sessionStorage.setItem(STORED_ACCTID,this.accountId);
     }
 }

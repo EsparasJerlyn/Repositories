@@ -2,10 +2,11 @@
     <div>
         <div class="bodyBold">
             <!--Desktop-->
-            <div class="slds-grid slds-grid_vertical-align-end profile-container slds-show_medium">
-                <span class="prof-name pr1 mb3 slds-truncate">Welcome {contactName}</span>
-                
-                <button if:false={showLogout} class="slds-button slds-button_icon slds-button slds-button_icon btn-logout mb3" aria-describedby="logout"
+
+            <div class="slds-grid slds-grid_vertical-align-end profile-container desktop">
+                <span class="prof-name pr1 slds-truncate">Welcome {contactName}</span>
+           
+                <button if:false={showLogout} class="slds-button slds-button_icon slds-button slds-button_icon btn-logout" aria-describedby="logout"
                     aria-disabled="true" title="Logout" onclick={handleToggle}>
                     <lightning-icon 
                         icon-name="utility:chevrondown"
@@ -14,7 +15,7 @@
                     </lightning-icon>
                 </button>
 
-                <button if:true={showLogout} class="slds-button slds-button_icon slds-button slds-button_icon btn-logout mb3" aria-describedby="logout"
+                <button if:true={showLogout} class="slds-button slds-button_icon slds-button slds-button_icon btn-logout" aria-describedby="logout"
                     aria-disabled="true" title="Logout" onclick={handleToggle}>
                     <lightning-icon 
                         icon-name="utility:chevronup"
@@ -26,7 +27,7 @@
             <!--Desktop-->
 
              <!--Mobile-->
-             <div class="slds-hide_medium prof-align">
+             <div class="isMobile prof-align">
                 <button class="slds-button slds-button_icon slds-button slds-button_icon slds-current-color" aria-describedby="logout"
                     aria-disabled="true" title="Logout" onclick={handleToggle}>
                     <lightning-icon 
@@ -40,7 +41,7 @@
 
              <div if:true={showLogout} class="slds-popover slds-popover_tooltip slds-nubbin_top-right slds-slide-from-top-to-bottom pop-over" role="tooltip" id="logout"
                 onclick={handleLogoutClicked}>
-                <div class="slds-popover__body"><a href={logoutLink} class="logout bodyRegular">Log out</a></div>
+                    <div class="slds-popover__body"><a href={logoutLink} class="logout bodyRegular">Log out</a></div>
             </div>
           
         </div>

@@ -11,11 +11,11 @@
 
         <div class="accordeon-content mob-menu">
             <ul class="secondary-qutex-nav">
-                <li><a href={homeLink} class={subMenuHome}>Home</a></li>
-                <li><a href={tailoredExecEducLink} class={subMenuTailoredExecEduc}>Tailored Executive Education</a></li>
-                <li><a href={corpBundleLink} class={subMenuCorpBundle}>Corporate Bundle</a></li>
-                <li><a href={qutexLearnLink} class={subMenuQUTexLearning}>QUTeX Learning Solutions</a></li>
-                <li><a href={manageRegistrationLink} class={subMenuManageReg}>Manage Registrations</a></li>
+                <li><a href={homeLink} class={subMenuHome} onclick={setSessionStorage}>Home</a></li>
+                <li><a href={tailoredExecEducLink} class={subMenuTailoredExecEduc} onclick={handleMenuClick}>Tailored Executive Education</a></li>
+                <li><a href={corpBundleLink} class={subMenuCorpBundle} onclick={handleMenuClick}>Corporate Bundle</a></li>
+                <li><a href={qutexLearnLink} class={subMenuQUTexLearning} onclick={handleMenuClick}>QUTeX Learning Solutions</a></li>
+                <li><a href={manageRegistrationLink} class={subMenuManageReg} onclick={handleMenuClick}>Manage Registrations</a></li>
             </ul>
         </div>
     </div>

@@ -10,15 +10,19 @@
       | john.bo.a.pineda          | July 04, 2022         | DEPP-3385            | Removed replaceAll spaces to "-"             |
       | keno.domienri.dico        | July 14, 2022         | DEPP-2699/DEPP-3420  | Added logic for CCE or OPE environment option|
       | jessel.bajao              | August 2, 2022        | DEPP-3476            | Added code to get current product category   |
+      | mary.grace.li             | November 22, 2022     | DEPP-4693            | Added Selected account logic                 |
 */
 
-import { LightningElement, api } from "lwc";
+import { LightningElement, api, wire } from "lwc";
 import qutResourceImg from "@salesforce/resourceUrl/QUTImages";
 import { NavigationMixin } from "lightning/navigation";
 import BasePath from '@salesforce/community/basePath';
 import customSR from "@salesforce/resourceUrl/QUTInternalCSS";
 import { loadStyle } from "lightning/platformResourceLoader";
+import { subscribe, unsubscribe, MessageContext } from 'lightning/messageService';
+import payloadAcctContainerLMS from '@salesforce/messageChannel/AccountId__c';
 const STOREPRODUCTCATEGORY = "product_category";
+const STORED_ACCTID = "storedAccountId";
 /**
  * An organized display of a single product card.
  *
@@ -48,8 +52,15 @@ export default class ProductCard extends NavigationMixin(LightningElement) {
   cProductName;
   detailUrl;
 
+  subscription;
+  accountId;
+
+  @wire(MessageContext)
+  messageContext;
+
   renderedCallback(){
     Promise.all([loadStyle(this, customSR + "/QUTInternalCSS.css")]);
+    this.subscribeLMS();   
   }
 
   // For CCE Product Details
@@ -87,6 +98,7 @@ export default class ProductCard extends NavigationMixin(LightningElement) {
           STOREPRODUCTCATEGORY,
           JSON.stringify(currentProductCategory)
         );
+        sessionStorage.setItem(STORED_ACCTID,this.accountId);
       }
 
       this[NavigationMixin.Navigate]({
@@ -110,5 +122,31 @@ export default class ProductCard extends NavigationMixin(LightningElement) {
     this.time_icon = qutResourceImg + "/QUTImages/Icon/time_icon.svg";
     this.location_icon = qutResourceImg + "/QUTImages/Icon/location_icon.svg";
     this.total_course_icon = qutResourceImg + "/QUTImages/Icon/total_course_icon.svg";
+  }
+
+  disconnectedCallback() {
+    this.unsubscribeLMS();
+  }
+
+  unsubscribeLMS(){
+      unsubscribe(this.subscription);
+      this.subscription = null;
+  }
+
+
+  subscribeLMS() {
+      if (!this.subscription) {
+          this.subscription = subscribe(
+              this.messageContext, 
+              payloadAcctContainerLMS, 
+              (message) => this.validateValue(message));
+      }
+  }
+
+  validateValue(val) {
+      if (val && val.accountIdParameter) {
+          let newValObj = JSON.parse(val.accountIdParameter);
+            this.accountId = newValObj.accountId;
+      }
   }
 }

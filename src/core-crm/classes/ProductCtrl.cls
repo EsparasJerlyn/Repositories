@@ -18,6 +18,7 @@
  | julie.jane.alegre         | September 21, 2022    | DEPP-4399            | Add filter for Product Request on Published|
  | keno.domienri.dico		 | September 28, 2022	 | DEPP-4459 & 4461		| Added new parameter for getProductsByCategory |
  | julie.jane.alegre         | December  12, 2022    | DEPP-4667            | Add Corporate Bundle info in product list  |
+ | mary.grace.li             | November 22, 2022     | DEPP-4693            | Modified for Selected account logic        |
 
  */
 public without sharing class ProductCtrl{
@@ -755,7 +756,7 @@ public without sharing class ProductCtrl{
 	 * Get products by menu category
 	 */
 	@AuraEnabled
-	public static ProductData getProductsByCategory(String categoryId, String userId, String keyword){
+	public static ProductData getProductsByCategory(ProductData acctFilterDataWrapper,  String keyword){
 		ProductData prodData = new ProductData();
 		List<ProductWrapper> prodWrapperList = new List<ProductWrapper>();
 		String standardPriceBook = 'Standard Price Book';
@@ -765,7 +766,7 @@ public without sharing class ProductCtrl{
 		List<ProductCategoryProduct> catProdIds = [
 			SELECT Id, ProductId, ProductCategoryId
 			FROM ProductCategoryProduct
-			WHERE ProductCategoryId = :categoryId
+			WHERE ProductCategoryId = :acctFilterDataWrapper.categoryId
 		];
 		List<String> prodIds = new List<String>();
 		for(ProductCategoryProduct getId : catProdIds){
@@ -777,13 +778,14 @@ public without sharing class ProductCtrl{
 		 */
 		// Get the AccountId from Logged Corporate User
 		AccountContactRelation getAccount = [
-			SELECT Id, AccountId, ContactId 
+			SELECT Id, AccountId, Account.Name, ContactId
 			FROM AccountContactRelation 
 			WHERE Account.RecordType.Name = 'Business Organization' 
+			AND AccountId = :acctFilterDataWrapper.accountId
 			AND ContactId IN (
 				SELECT ContactId 
 				FROM User 
-				WHERE Id = :userId)
+				WHERE Id = :acctFilterDataWrapper.userId)
 			LIMIT 1
 		];
 
@@ -791,7 +793,7 @@ public without sharing class ProductCtrl{
 		List<BuyerGroupMember> buyerGroupIdList = [
 			SELECT Id, Name, BuyerGroupId, BuyerId, Buyer.Name
 			FROM BuyerGroupMember
-			WHERE BuyerId = :getAccount.AccountId
+			WHERE BuyerId = :acctFilterDataWrapper.accountId
 		];
 		List<String> bgIds = new List<String>();
 		for(BuyerGroupMember bgMember : buyerGroupIdList){
@@ -816,7 +818,7 @@ public without sharing class ProductCtrl{
 		ProductCategoryProduct catName = [
 			SELECT Id, ProductCategory.Name, ProductId, ProductCategoryId
 			FROM ProductCategoryProduct
-			WHERE ProductCategoryId = :categoryId
+			 WHERE ProductCategoryId = :acctFilterDataWrapper.categoryId
 			LIMIT 1
 		];
 		if(catName.ProductCategory.Name == 'Corporate Bundle'){
@@ -864,7 +866,7 @@ public without sharing class ProductCtrl{
 			List<Asset> checkCBPublished = [
 				SELECT Id, Account.Id, Name, Start_Date__c, End_Date__c, Total_Value__c, Utilised_Value__c, Pending_Value__c, Remaining_Value__c, Ready_for_publishing__c
 				FROM Asset
-				WHERE Account.Id = :getAccount.AccountId
+				WHERE Account.Id = :acctFilterDataWrapper.accountId
 				AND Ready_for_publishing__c = 'Yes'
 			];
 			if(checkCBPublished != null){
@@ -890,7 +892,7 @@ public without sharing class ProductCtrl{
 			List<BuyerGroupMember> checkSOAPublished = [
 				SELECT Id, Name, BuyerGroup.Name, BuyerGroupId, BuyerGroup.Ready_for_publishing__c
 				FROM BuyerGroupMember
-				WHERE BuyerId = :getAccount.AccountId
+				WHERE BuyerId = :acctFilterDataWrapper.accountId
 				AND BuyerGroup.Ready_for_publishing__c = 'Yes'
 			];
 			if(checkSOAPublished != null){
@@ -1107,6 +1109,14 @@ public without sharing class ProductCtrl{
 		public List<ProductWrapper> productList;
 		@AuraEnabled
 		public List<Asset> assetList;
+		@AuraEnabled
+		public String userId{ get; set; }
+		@AuraEnabled
+		public String accountId{ get; set; }
+		@AuraEnabled
+		public String accountName{ get; set; }
+		@AuraEnabled
+		public String categoryId{ get; set; }
 	}
 
 	/**

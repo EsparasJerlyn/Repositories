@@ -6,16 +6,19 @@
  *    | Developer                 | Date                  | JIRA                 | Change Summary                                         |
 	  |---------------------------|-----------------------|----------------------|--------------------------------------------------------|
 	  | dodge.j.palattao          | September 26, 2022    | DEPP-2699            | Added messageChannel of BreadCrumbs                    |
+      | mary.grace.li             | November 22, 2022     | DEPP-4693            | Modified for Selected account logic                    |
  */
 
 import { LightningElement, wire, track } from 'lwc';
 import getStoreFrontCategoryMenu from '@salesforce/apex/MainNavigationMenuCtrl.getStoreFrontCategories';
 import basePath from '@salesforce/community/basePath';
 import communityId from '@salesforce/community/Id';
+import userId from "@salesforce/user/Id";
 import { subscribe, unsubscribe, MessageContext } from 'lightning/messageService';
 import payloadContainerLMSsubMenuName from '@salesforce/messageChannel/SubMenu__c';
 import payloadContainerLMS from '@salesforce/messageChannel/Breadcrumbs__c';
-
+import payloadAcctContainerLMS from '@salesforce/messageChannel/AccountId__c';
+const STORED_ACCTID = "storedAccountId";
 
 export default class SubMenu extends LightningElement {
 
@@ -28,21 +31,40 @@ export default class SubMenu extends LightningElement {
     @track categoryName;
     @track subMenuName;
 
+    navMenuId;
+    navMenuName;
+
     subscriptionBreadCrumbs;
     subscriptionSubMenuName;
+    
+    subscription;
+    accountId;
+    accountName;
+    fullLabel;
+
 
     @wire(MessageContext)
     messageContext;
 
 
-    connectedCallback(){
+    parameterObject = {
+        userId: userId,
+        categoryId : '', 
+        accountId: '',
+        accountName: '',
+        fullLabel: ''
+      }
+
+    renderedCallback(){
         this.subMenuNameSubscribeLMS();
         this.breadCrumbsSubscribeLMS();
+        this.subscribeLMS();   
     }
 
     disconnectedCallback() {
         this.subMenuNameUnsubscribeLMS();
         this.breadCrumbsUnsubscribeLMS();
+        this.unsubscribeLMS();
     }
 
     subMenuNameUnsubscribeLMS(){
@@ -53,6 +75,11 @@ export default class SubMenu extends LightningElement {
     breadCrumbsUnsubscribeLMS(){
         unsubscribe(this.subscriptionBreadCrumbs);
         this.subscriptionBreadCrumbs = null;
+    }
+
+    unsubscribeLMS(){
+        unsubscribe(this.subscription);
+        this.subscription = null;
     }
 
     breadCrumbsSubscribeLMS() {
@@ -73,6 +100,15 @@ export default class SubMenu extends LightningElement {
         }
     }
 
+    subscribeLMS() {
+        if (!this.subscription) {
+            this.subscription = subscribe(
+                this.messageContext, 
+                payloadAcctContainerLMS, 
+                (message) => this.validateValue(message));
+        }
+    }
+
     subMenuNameValidateValue(val) {
         if (val && val.parameterJson) {
             let newValObj = JSON.parse(val.parameterJson);
@@ -86,6 +122,17 @@ export default class SubMenu extends LightningElement {
             let newValObj = JSON.parse(val.parameterJson);
     
             this.subMenuName = newValObj.productName;
+        }
+    }
+
+    validateValue(val) {
+        if (val && val.accountIdParameter) {
+            let newValObj = JSON.parse(val.accountIdParameter);
+    
+               this.accountId = newValObj.accountId;
+               this.accountName = newValObj.accountName;
+               this.fullLabel = newValObj.fullLabel;
+
         }
     }
 
@@ -122,7 +169,7 @@ export default class SubMenu extends LightningElement {
     }
 
     get subMenuTailoredExecEduc(){
-        if(this.categoryName === 'Tailored Executive Education' && window.location.pathname.includes('products')){
+        if(this.categoryName === 'Tailored Executive Education' && window.location.pathname.includes('product')){
             return 'arrow-link active';
         }else if(this.subMenuName === 'Tailored Executive Education' && window.location.pathname.includes('category')){
             return 'arrow-link active';
@@ -132,7 +179,7 @@ export default class SubMenu extends LightningElement {
     }
 
     get subMenuCorpBundle(){
-        if(this.categoryName === 'Corporate Bundle' && window.location.pathname.includes('products')){
+        if(this.categoryName === 'Corporate Bundle' && window.location.pathname.includes('product')){
             return 'arrow-link active';
         }else if(this.subMenuName === 'Corporate Bundle' && window.location.pathname.includes('category')){ 
             return 'arrow-link active';
@@ -142,7 +189,7 @@ export default class SubMenu extends LightningElement {
     }
 
     get subMenuQUTexLearning(){
-        if(this.categoryName === 'QUTeX Learning Solutions' && window.location.pathname.includes('products')){
+        if(this.categoryName === 'QUTeX Learning Solutions' && window.location.pathname.includes('product')){
             return 'arrow-link active';
         }else if(this.subMenuName === 'QUTeX Learning Solutions' && window.location.pathname.includes('category')){
             return 'arrow-link active';
@@ -194,5 +241,10 @@ export default class SubMenu extends LightningElement {
 		if(activeMenu){
 			activeMenu.setAttribute('class', 'arrow-link active');
 		}	
+       sessionStorage.setItem(STORED_ACCTID,this.accountId);
 	}
+
+    setSessionStorage(){
+        sessionStorage.setItem(STORED_ACCTID,this.accountId);
+    }
 }

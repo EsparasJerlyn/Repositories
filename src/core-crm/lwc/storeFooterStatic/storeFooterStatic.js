@@ -6,16 +6,21 @@
  *    | Developer                 | Date                  | JIRA                 | Change Summary                                         |
 	  |---------------------------|-----------------------|----------------------|--------------------------------------------------------|
 	  | dodge.j.palattao          | September 26, 2022    | DEPP-2699            | Delete getter method for Active Category               |
+      | mary.grace.li             | November 22, 2022     | DEPP-4693            | Modified for Selected account logic                    |
  */
 
 import { LightningElement, track, wire } from 'lwc';
 import getStoreFrontCategoryMenu from '@salesforce/apex/MainNavigationMenuCtrl.getStoreFrontCategories';
 import basePath from '@salesforce/community/basePath';
 import communityId from '@salesforce/community/Id';
+import payloadAcctContainerLMS from '@salesforce/messageChannel/AccountId__c';
+import { subscribe, unsubscribe, MessageContext } from 'lightning/messageService';
 
 const onlineLink = 'https://qutex@qut.edu.au';
 const legalLink = 'https://www.qut.edu.au/additional';
 const privacyLink = 'https://www.qut.edu.au/additional/privacy';
+const STORED_ACCTID = "storedAccountId";
+
 
 export default class StoreFooterStatic extends LightningElement {
     
@@ -26,6 +31,16 @@ export default class StoreFooterStatic extends LightningElement {
     navTailoredExecEduc;
     navCorpBundle;
     navQUTeXLearn;
+    accountId;
+    subscription;
+
+    @wire(MessageContext)
+    messageContext;
+
+
+    renderedCallback(){
+        this.subscribeLMS();   
+    }
 
     //retrieve Category Link Menus
     @wire(getStoreFrontCategoryMenu,{communityId:communityId})
@@ -101,7 +116,44 @@ export default class StoreFooterStatic extends LightningElement {
 		if(activeMenu){
 			activeMenu .setAttribute('class', 'arrow-link active');
 		}
-
+        sessionStorage.setItem(STORED_ACCTID,this.accountId);
         this.template.querySelector('c-sub-menu').handleMenuClick(event);
+       
 	}
+
+    disconnectedCallback() {
+        this.unsubscribeLMS();
+    }
+
+    unsubscribeLMS(){
+        unsubscribe(this.subscription);
+        this.subscription = null;
+    }
+
+
+    subscribeLMS() {
+        if (!this.subscription) {
+            this.subscription = subscribe(
+                this.messageContext, 
+                payloadAcctContainerLMS, 
+                (message) => this.validateValue(message));
+        }
+    }
+
+    validateValue(val) {
+        if (val && val.accountIdParameter) {
+            let newValObj = JSON.parse(val.accountIdParameter);
+    
+               this.accountId = newValObj.accountId;
+               this.accountName = newValObj.accountName;
+               this.fullLabel = newValObj.fullLabel;
+
+        }
+    }
+
+
+
+    setSessionStorage(){
+        sessionStorage.setItem(STORED_ACCTID,this.accountId);
+    }
 }

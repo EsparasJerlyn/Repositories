@@ -1,0 +1,63 @@
+.customIconContainer {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.slds-combobox{
+  width:100% !important;
+}
+
+.combo-container.combobox-label{
+    width: 75%;
+    text-align: right;
+    font-size: var(--text-size-18);
+    line-height: 36px;
+    font-weight: 700 !important;
+    color: #000;
+}
+
+.slds-combobox_container{
+  place-items: flex-end;
+}
+
+@media only screen and (max-width: 764px){
+  .slds-combobox{
+    width:100% !important;
+  }
+}
+
+.slds-show{
+  display: flex !important;
+}
+
+div li{
+  text-align: left;
+}
+
+label.slds-form-element__label{
+  color: #FFF !important;
+}
+
+/*div[c-customcombobox_customcombobox] .slds-combobox__input, 
+div[c-customcomboboxmulti_customcomboboxmulti] .slds-picklist input[readonly], 
+div[c-customcombobox_customcombobox] .slds-combobox input[readonly] {
+  border-color: var(--main-color-blue500);
+  background-color: var(--lwc-colorBackgroundInput,rgb(255, 255, 255));
+  font-size: var(--icon-size-18);
+  font-weight: var(--text-normal);
+  border-radius: 0px;
+  height: 47px;
+}*/
+
+
+.slds-is-open .slds-icon {
+   stroke: #FFFFFF !important; 
+   fill: #FFFFFF !important;
+}
+
+.selectedValue{
+  background-color: #EFF6FB;
+  font-family: 'ProximaNova-Bold';
+}

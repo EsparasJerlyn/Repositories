@@ -3,14 +3,14 @@
  * @see ../classes ProductCtrl
  * @author Accenture
  * @history
- *  | Developer                 | Date                  | JIRA                 | Change Summary                             |
-	|---------------------------|-----------------------|----------------------|--------------------------------------------|
-	| eugene.andrew.abuan       | May 02, 2022          | DEPP-1269            | Created File                               |
-	| eugene.andrew.abuan       | May 20, 2022          | DEPP-1979            | Added methods for filters                  |
-	| keno.domienri.dico		| May 30, 2022		    | DEPP-1980  	       | Added methods for sorting				    |
-	| mary.grace.li             | July 01, 2022         | DEPP-3124            | Added new method for createTestProducts    |
-	| keno.domienri.dico        | July 15, 2022		    | DEPP-2699	  	 	   | CCE Homepage								|
-	| keno.domienri.dico		| September 28, 2022	| DEPP-4459 & 4461	   | Added new parameter for getProductsByCategory |
+ *    | Developer                 | Date                  | JIRA                 | Change Summary                             |
+	  |---------------------------|-----------------------|----------------------|--------------------------------------------|
+	  | eugene.andrew.abuan       | May 02, 2022          | DEPP-1269            | Created File                               |
+	  | eugene.andrew.abuan       | May 20, 2022          | DEPP-1979            | Added methods for filters                  |
+	  | keno.domienri.dico		  | May 30, 2022		  | DEPP-1980			 | Added methods for sorting				  |
+	  | mary.grace.li             | July 01, 2022         | DEPP-3124            | Added new method for createTestProducts    |
+	  | keno.domienri.dico        | July 15, 2022		  | DEPP-2699		     | CCE Homepage				                  |
+	  | julie.jane.alegre         | November 28, 2022     | DEPP-4693		     | Update getProductsByCategory			      |
 */
 @isTest
 public with sharing class ProductCtrlTest {
@@ -731,7 +731,7 @@ public with sharing class ProductCtrlTest {
 			System.assert(getProd != null, 'Successfully retrieved Products');
 		}
 	}
-
+    
 	@isTest
 	static void getProductsByCategoryTailoredExecEducTest() {
 		final User PROGRAM_ADMIN = TestDataFactory.getProgramAdminUser();
@@ -890,10 +890,16 @@ public with sharing class ProductCtrlTest {
 			];
 		 
 			ProductCtrl.ProductData getProdByCat = new ProductCtrl.ProductData();
-			getProdByCat = ProductCtrl.getProductsByCategory(prodCateg1.Id, user[0].Id, '');
+            ProductCtrl.ProductData getProdByCatResult = new ProductCtrl.ProductData();
+            getProdByCat.userId = user[0].Id;
+            getProdByCat.categoryId = prodCateg1.Id;
+            getProdByCat.accountId = accBusinessOrg[0].Id;
+            
+			getProdByCatResult = ProductCtrl.getProductsByCategory(getProdByCat, '');
+			
 			Test.stopTest();
 
-			System.assert(getProdByCat != null, 'Successfully retrieved Products');
+			System.assert(getProdByCatResult != null, 'No retrieved Products');
 		}
 	}
 
@@ -1090,12 +1096,18 @@ public with sharing class ProductCtrlTest {
 				SELECT Id, Name, ProductId, CatalogId, ProductCategory.Name, Product.Name, ProductCategoryId
 				FROM ProductCategoryProduct
 			];
+			ProductCtrl.ProductData getProdByCat = new ProductCtrl.ProductData();
+            ProductCtrl.ProductData getProdByCatResult = new ProductCtrl.ProductData();
+            getProdByCat.userId = user[0].Id;
+            getProdByCat.categoryId = prodCateg1.Id;
+            getProdByCat.accountId = accBusinessOrg[0].Id;
+            
+			getProdByCatResult = ProductCtrl.getProductsByCategory(getProdByCat, '');
+			
+			Test.stopTest();
 
-	    ProductCtrl.ProductData getProdByCat = new ProductCtrl.ProductData();
-	    getProdByCat = ProductCtrl.getProductsByCategory(prodCateg1.Id, user[0].Id, '');
-	    Test.stopTest();
+			System.assert(getProdByCatResult != null, 'No retrieved Products');
 
-	    System.assert(getProdByCat != null, 'Successfully retrieved Products');
 	  }
 	}
 
@@ -1293,12 +1305,19 @@ public with sharing class ProductCtrlTest {
 				FROM ProductCategoryProduct
 			];
 
-	    ProductCtrl.ProductData getProdByCat = new ProductCtrl.ProductData();
-	    getProdByCat = ProductCtrl.getProductsByCategory(prodCateg1.Id, user[0].Id, '');
-	    Test.stopTest();
+	   		ProductCtrl.ProductData getProdByCat = new ProductCtrl.ProductData();
+            ProductCtrl.ProductData getProdByCatResult = new ProductCtrl.ProductData();
+            getProdByCat.userId = user[0].Id;
+            getProdByCat.categoryId = prodCateg1.Id;
+            getProdByCat.accountId = accBusinessOrg[0].Id;
+            
+			getProdByCatResult = ProductCtrl.getProductsByCategory(getProdByCat, '');
+			
+			Test.stopTest();
 
-	    System.assert(getProdByCat != null, 'Successfully retrieved Products');
-	  }
+			System.assert(getProdByCatResult != null, 'No retrieved Products');
+      }
+
 	}
 
 	@isTest
