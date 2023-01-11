@@ -768,9 +768,11 @@ public without sharing class ProductDetailsCtrl {
 							hed__Contact__c,
 							hed__Contact__r.Name,
 							Facilitator_Bio__r.Professional_Bio__c,
-							hed__Contact__r.Contact_Image__c
+							hed__Contact__r.Contact_Image__c,
+							hed__Primary__c
 						FROM hed__Course_Enrollment__r
 						WHERE RecordTypeId = :FACULTY_RECTYPEID AND IsActive__c = TRUE
+						ORDER BY hed__Primary__c DESC
 					)
 				FROM hed__Course_Offering__c
 				WHERE
