@@ -1777,6 +1777,10 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
+        <recordType>Product_Specification__c.CCE</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
         <recordType>hed__Course__c.Activity</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
