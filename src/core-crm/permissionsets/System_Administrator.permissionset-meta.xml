@@ -16552,11 +16552,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>WorkProcedure.Description</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>dfsle__AgreementConfiguration__c.dfsle__TempFolderId__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -23586,24 +23581,6 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
-        <object>WorkProcedure</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
-        <object>WorkProcedureStep</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
         <object>dfsle__AgreementConfiguration__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
@@ -25824,14 +25801,6 @@
     </tabSettings>
     <tabSettings>
         <tab>standard-WorkBadgeDefinition</tab>
-        <visibility>Visible</visibility>
-    </tabSettings>
-    <tabSettings>
-        <tab>standard-WorkProcedure</tab>
-        <visibility>Visible</visibility>
-    </tabSettings>
-    <tabSettings>
-        <tab>standard-WorkProcedureStep</tab>
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
