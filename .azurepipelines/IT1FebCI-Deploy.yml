@@ -48,7 +48,7 @@ parameters:
 - name: TARGET_BRANCH
   displayName: Target Branch
   type: string
-  default: release/IT2
+  default: develop
 
 stages:
   - stage: PiplineJob
