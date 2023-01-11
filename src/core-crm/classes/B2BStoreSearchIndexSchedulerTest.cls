@@ -3,117 +3,154 @@ public class B2BStoreSearchIndexSchedulerTest {
     private static final String GET_METHOD = 'GET';
     private static final String POST_METHOD = 'POST';
 
+    @testSetup 
+    static void setupMethod() {
+        Test.startTest();
+        TestDataFactory.generateTestUsers();
+        Test.stopTest();
+    }
+
     @isTest
     public static void testHandleCCEStoreRequest() {
-        String method = GET_METHOD;
-        Test.startTest();
-        HttpRequest req = B2BStoreSearchIndexScheduler.handleCCEStoreRequest(method);
-        Test.stopTest();
-        System.assertEquals(method, req.getMethod(), 'Request doesnt match');
+    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+        System.runAs(PORTAL_SYS_ADMIN) {
+            String method = GET_METHOD;
+            Test.startTest();
+            HttpRequest req = B2BStoreSearchIndexScheduler.handleCCEStoreRequest(method);
+            Test.stopTest();
+            System.assertEquals(method, req.getMethod(), 'Request doesnt match');
+        }
     }
     
     @isTest
     public static void testHandleStudyStoreRequest() {
-        String method = GET_METHOD;
-        Test.startTest();
-        HttpRequest req = B2BStoreSearchIndexScheduler.handleStudyStoreRequest(method);
-        Test.stopTest();
-        System.assertEquals(method, req.getMethod(), 'Request doesnt match');
+    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+        System.runAs(PORTAL_SYS_ADMIN) {
+            String method = GET_METHOD;
+            Test.startTest();
+            HttpRequest req = B2BStoreSearchIndexScheduler.handleStudyStoreRequest(method);
+            Test.stopTest();
+            System.assertEquals(method, req.getMethod(), 'Request doesnt match');
+        }
     }
 
     @isTest
     public static void testGetCCERequest() {
-        Test.startTest();
-        Test.setMock(HttpCalloutMock.class, new SchedulerMockHttpResponse(GET_METHOD, false));
-        B2BStoreSearchIndexScheduler.getCCESearchIndexRequest();
-        Test.stopTest();
-        System.assertEquals(true, true, 'Request doesnt match');
+    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+        System.runAs(PORTAL_SYS_ADMIN) {
+            Test.startTest();
+            Test.setMock(HttpCalloutMock.class, new SchedulerMockHttpResponse(GET_METHOD, false));
+            B2BStoreSearchIndexScheduler.getCCESearchIndexRequest();
+            Test.stopTest();
+            System.assertEquals(true, true, 'Request doesnt match');
+        }
     }
     
     @isTest
     public static void testGetStudyRequest() {
-        Test.startTest();
-        Test.setMock(HttpCalloutMock.class, new SchedulerMockHttpResponse(GET_METHOD, false));
-        B2BStoreSearchIndexScheduler.getStudySearchIndexRequest();
-        Test.stopTest();
-        System.assertEquals(true, true, 'Request doesnt match');
+    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+        System.runAs(PORTAL_SYS_ADMIN) {
+            Test.startTest();
+            Test.setMock(HttpCalloutMock.class, new SchedulerMockHttpResponse(GET_METHOD, false));
+            B2BStoreSearchIndexScheduler.getStudySearchIndexRequest();
+            Test.stopTest();
+            System.assertEquals(true, true, 'Request doesnt match');
+        }
     }
 
     @isTest
     public static void testPostCCERequest() {
-        Test.startTest();
-        Test.setMock(HttpCalloutMock.class, new SchedulerMockHttpResponse(POST_METHOD, false));
-        B2BStoreSearchIndexScheduler.postCCESearchIndexRequest();
-        Test.stopTest();
-        System.assertEquals(true, true, 'Request doesnt match');
+    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+        System.runAs(PORTAL_SYS_ADMIN) {
+            Test.startTest();
+            Test.setMock(HttpCalloutMock.class, new SchedulerMockHttpResponse(POST_METHOD, false));
+            B2BStoreSearchIndexScheduler.postCCESearchIndexRequest();
+            Test.stopTest();
+            System.assertEquals(true, true, 'Request doesnt match');
+        }
     }
     
     @isTest
     public static void testPostStudyRequest() {
-        Test.startTest();
-        Test.setMock(HttpCalloutMock.class, new SchedulerMockHttpResponse(POST_METHOD, false));
-        B2BStoreSearchIndexScheduler.postStudySearchIndexRequest();
-        Test.stopTest();
-        System.assertEquals(true, true, 'Request doesnt match');
+    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+        System.runAs(PORTAL_SYS_ADMIN) {
+            Test.startTest();
+            Test.setMock(HttpCalloutMock.class, new SchedulerMockHttpResponse(POST_METHOD, false));
+            B2BStoreSearchIndexScheduler.postStudySearchIndexRequest();
+            Test.stopTest();
+            System.assertEquals(true, true, 'Request doesnt match');
+        }
     }
 
     @isTest
     public static void testCCEScheduler() {
-        Test.startTest();
-        Test.setMock(HttpCalloutMock.class, new SchedulerMockHttpResponse(GET_METHOD, false));
-        Test.setMock(HttpCalloutMock.class, new SchedulerMockHttpResponse(POST_METHOD, false));
-        B2BStoreSearchIndexScheduler.postCCESearchIndexRequest();
-        String cronExpression = Label.Build_Search_Index_Cron_Expression;
+    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+        System.runAs(PORTAL_SYS_ADMIN) {
+            Test.startTest();
+            Test.setMock(HttpCalloutMock.class, new SchedulerMockHttpResponse(GET_METHOD, false));
+            Test.setMock(HttpCalloutMock.class, new SchedulerMockHttpResponse(POST_METHOD, false));
+            B2BStoreSearchIndexScheduler.postCCESearchIndexRequest();
+            String cronExpression = Label.Build_Search_Index_Cron_Expression;
 
-        System.schedule(
-            'Test: Execute B2BStoreSearchIndexSchedulerTest daily at 8AM.',
-            cronExpression, new B2BStoreSearchIndexScheduler());
-        Test.stopTest();
-        System.assertEquals(true, true, 'Scheduler runs');
+            System.schedule(
+                'Test: Execute B2BStoreSearchIndexSchedulerTest daily at 8AM.',
+                cronExpression, new B2BStoreSearchIndexScheduler());
+            Test.stopTest();
+            System.assertEquals(true, true, 'Scheduler runs');
+        }
     }
     
    
     @isTest
     public static void testStudyScheduler() {
-        Test.startTest();
-        Test.setMock(HttpCalloutMock.class, new SchedulerMockHttpResponse(GET_METHOD, false));
-        Test.setMock(HttpCalloutMock.class, new SchedulerMockHttpResponse(POST_METHOD, false));
-       	B2BStoreSearchIndexScheduler.postStudySearchIndexRequest();
-        String cronExpression = Label.Build_Search_Index_Cron_Expression;
+    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+        System.runAs(PORTAL_SYS_ADMIN) {
+            Test.startTest();
+            Test.setMock(HttpCalloutMock.class, new SchedulerMockHttpResponse(GET_METHOD, false));
+            Test.setMock(HttpCalloutMock.class, new SchedulerMockHttpResponse(POST_METHOD, false));
+            B2BStoreSearchIndexScheduler.postStudySearchIndexRequest();
+            String cronExpression = Label.Build_Search_Index_Cron_Expression;
 
-        System.schedule(
-            'Test: Execute B2BStoreSearchIndexSchedulerTest daily at 8AM.',
-            cronExpression, new B2BStoreSearchIndexScheduler());
-        Test.stopTest();
-        System.assertEquals(true, true, 'Scheduler runs');
+            System.schedule(
+                'Test: Execute B2BStoreSearchIndexSchedulerTest daily at 8AM.',
+                cronExpression, new B2BStoreSearchIndexScheduler());
+            Test.stopTest();
+            System.assertEquals(true, true, 'Scheduler runs');
+        }
     }
 
     @isTest
     public static void testCatchErr() {
-        Test.startTest();
-        Test.setMock(HttpCalloutMock.class, new SchedulerMockHttpResponse(GET_METHOD, true));
-        Test.setMock(HttpCalloutMock.class, new SchedulerMockHttpResponse(POST_METHOD, true));
-        try{
-        	B2BStoreSearchIndexScheduler.postCCESearchIndexRequest();
-        }catch(Exception e){
-            System.debug(LoggingLevel.DEBUG, 'POST Err: '+e.getMessage());//NOPMD
-        }
-        Test.stopTest();
-        System.assertEquals(true, true, 'Catch error');
+    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+        System.runAs(PORTAL_SYS_ADMIN) {
+            Test.startTest();
+            Test.setMock(HttpCalloutMock.class, new SchedulerMockHttpResponse(GET_METHOD, true));
+            Test.setMock(HttpCalloutMock.class, new SchedulerMockHttpResponse(POST_METHOD, true));
+            try{
+                B2BStoreSearchIndexScheduler.postCCESearchIndexRequest();
+            }catch(Exception e){
+                System.debug(LoggingLevel.DEBUG, 'POST Err: '+e.getMessage());//NOPMD
+            }
+            Test.stopTest();
+            System.assertEquals(true, true, 'Catch error');
+        }  
     }
     
     @isTest
     public static void testStudyCatchErr() {
-        Test.startTest();
-        Test.setMock(HttpCalloutMock.class, new SchedulerMockHttpResponse(GET_METHOD, true));
-        Test.setMock(HttpCalloutMock.class, new SchedulerMockHttpResponse(POST_METHOD, true));
-        try{
-            B2BStoreSearchIndexScheduler.postStudySearchIndexRequest();
-        }catch(Exception e){
-            System.debug(LoggingLevel.DEBUG, 'POST Err: '+e.getMessage());//NOPMD
+    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+        System.runAs(PORTAL_SYS_ADMIN) {
+            Test.startTest();
+            Test.setMock(HttpCalloutMock.class, new SchedulerMockHttpResponse(GET_METHOD, true));
+            Test.setMock(HttpCalloutMock.class, new SchedulerMockHttpResponse(POST_METHOD, true));
+            try{
+                B2BStoreSearchIndexScheduler.postStudySearchIndexRequest();
+            }catch(Exception e){
+                System.debug(LoggingLevel.DEBUG, 'POST Err: '+e.getMessage());//NOPMD
+            }
+            Test.stopTest();
+            System.assertEquals(true, true, 'Catch error');
         }
-        Test.stopTest();
-        System.assertEquals(true, true, 'Catch error');
     }
 
     public class SchedulerMockHttpResponse implements HttpCalloutMock

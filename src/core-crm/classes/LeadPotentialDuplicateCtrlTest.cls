@@ -32,36 +32,47 @@ private class LeadPotentialDuplicateCtrlTest {
         potentialDuplicates.add(new Potential_Duplicate__c(Lead__c  = leads[0].Id, Duplicate_Lead__c = leads[1].Id));
         potentialDuplicates.add(new Potential_Duplicate__c(Duplicate_Lead__c = leads[0].Id, Contact__c = contacts[0].Id));
         insert potentialDuplicates;
+
+        TestDataFactory.generateTestUsers();
     }
 
     @isTest
     static void getSelectedLeadTest(){
-        List<Lead> leads = [SELECT Id FROM Lead];
-        Id recordId = leads[0].Id;
-        Test.startTest();
-        List<LeadPotentialDuplicateCtrl.LeadContactWrapper> leadList = LeadPotentialDuplicateCtrl.getSelectedLead(recordId);
-        Test.stopTest();
-        System.assertEquals(true, leadList.size()>0, 'No lead record retrieved.');
+    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+		System.runAs(PORTAL_SYS_ADMIN) {
+            List<Lead> leads = [SELECT Id FROM Lead];
+            Id recordId = leads[0].Id;
+            Test.startTest();
+            List<LeadPotentialDuplicateCtrl.LeadContactWrapper> leadList = LeadPotentialDuplicateCtrl.getSelectedLead(recordId);
+            Test.stopTest();
+            System.assertEquals(true, leadList.size()>0, 'No lead record retrieved.');
+        }
     }
 
     @isTest
     static void getLeadPotentialDuplicateTest(){
-        List<Lead> leads = [SELECT Id FROM Lead];
-        Id recordId = leads[0].Id;
-        Test.startTest();
-        List<LeadPotentialDuplicateCtrl.LeadContactWrapper> leadList = LeadPotentialDuplicateCtrl.getLeadPotentialDuplicate(recordId);
-        Test.stopTest();
-        System.assertEquals(true, leadList.size() > 0, 'No dupllicate record(s) retrieved.');
+    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+		System.runAs(PORTAL_SYS_ADMIN) {
+            List<Lead> leads = [SELECT Id FROM Lead];
+            Id recordId = leads[0].Id;
+            Test.startTest();
+            List<LeadPotentialDuplicateCtrl.LeadContactWrapper> leadList = LeadPotentialDuplicateCtrl.getLeadPotentialDuplicate(recordId);
+            Test.stopTest();
+            System.assertEquals(true, leadList.size() > 0, 'No dupllicate record(s) retrieved.');
+        }
     }
 
     @isTest
     static void mergeLeadsTest(){
-        List<Lead> leads = [SELECT Id FROM Lead];
-        Id recordId = leads[0].Id;
-        List<LeadPotentialDuplicateCtrl.LeadContactWrapper> leadList = LeadPotentialDuplicateCtrl.getLeadPotentialDuplicate(recordId);
-        Test.startTest();
-        String response = LeadPotentialDuplicateCtrl.mergeLeads(leadList);
-        Test.stopTest();
-        System.assertEquals('Success', response, 'Failed to save records.');
+    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+		System.runAs(PORTAL_SYS_ADMIN) {
+            List<Lead> leads = [SELECT Id FROM Lead];
+            Id recordId = leads[0].Id;
+            List<LeadPotentialDuplicateCtrl.LeadContactWrapper> leadList = LeadPotentialDuplicateCtrl.getLeadPotentialDuplicate(recordId);
+            Test.startTest();
+            String response = LeadPotentialDuplicateCtrl.mergeLeads(leadList);
+            Test.stopTest();
+            System.assertEquals('Success', response, 'Failed to save records.');
+        }
     }
 }

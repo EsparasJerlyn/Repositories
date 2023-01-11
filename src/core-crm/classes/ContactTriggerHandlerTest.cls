@@ -342,16 +342,19 @@ public with sharing class ContactTriggerHandlerTest {
      */
     @IsTest
     private static void shouldNotSetContactOwner() {
-        Contact c = new Contact(LastName = 'UnitTest');
+    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+        System.runAs(PORTAL_SYS_ADMIN) {
+            Contact c = new Contact(LastName = 'UnitTest');
 
-        // Test
-        User testUser = [Select Id from User where id = :UserInfo.getUserId()];
-        Test.StartTest();
-        insert c;
-        Test.StopTest();
+            // Test
+            User testUser = [Select Id from User where id = :UserInfo.getUserId()];
+            Test.StartTest();
+            insert c;
+            Test.StopTest();
 
         // Verify
         Contact actualContact = [Select id, OwnerId from Contact where id = :c.id];
         System.assertEquals(testUser.Id, actualContact.OwnerId, 'Should not set the contact owner when the current user is not having UserType of PowerPartner.');
     }
+  }
 }

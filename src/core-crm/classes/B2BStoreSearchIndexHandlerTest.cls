@@ -19,19 +19,22 @@ public class B2BStoreSearchIndexHandlerTest {
         Test.startTest();
         insert(prodList);
         Test.stopTest();
+        TestDataFactory.generateTestUsers();
     }  
     
     
     @isTest
     public static void testBuildSearchIndex() {
-      	
-        Test.startTest();
-        List<Product2> productList = [SELECT Id, isActive FROM Product2 LIMIT 1];
-        productList[0].isActive = TRUE;
-        update productList;
-        Test.stopTest();
+    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+        System.runAs(PORTAL_SYS_ADMIN) {
+            Test.startTest();
+            List<Product2> productList = [SELECT Id, isActive FROM Product2 LIMIT 1];
+            productList[0].isActive = TRUE;
+            update productList;
+            Test.stopTest();
 
-        System.assertEquals(1, productList.size(), 'Product list did not match.');  
+            System.assertEquals(1, productList.size(), 'Product list did not match.');  
+        }
        
     }
     

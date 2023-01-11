@@ -14,35 +14,48 @@
 @isTest
 public class CsvBulkRegistrationCtrlTest {
 	  
+    @testSetup 
+    static void setupMethod() {
+        Test.startTest();
+        TestDataFactory.generateTestUsers();
+        Test.stopTest();
+    }
+    
     @isTest
     static void testGetCMSContentDataByNameFailed()
     {
-        List<NetworkMember> communityIds = [SELECT NetworkId FROM NetworkMember limit 1];
-        String communityId = communityIds[0].NetworkId;
-        Test.startTest();
-        ConnectApi.ManagedContentVersion ContentData= new ConnectApi.ManagedContentVersion();
-        ContentData= CsvBulkRegistrationCtrl.GetCMSContentDataByName('Fake Name',communityId,'cms_document','en_US');
-        if(ContentData!=null){
-        String contentKey =  ContentData.contentKey;
-        System.assertEquals(contentKey,null, 'contentKey is not equal to NULL');
+    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+        System.runAs(PORTAL_SYS_ADMIN) {
+            List<NetworkMember> communityIds = [SELECT NetworkId FROM NetworkMember limit 1];
+            String communityId = communityIds[0].NetworkId;
+            Test.startTest();
+            ConnectApi.ManagedContentVersion contentData= new ConnectApi.ManagedContentVersion();
+            contentData= CsvBulkRegistrationCtrl.GetCMSContentDataByName('Fake Name',communityId,'cms_document','en_US');
+            if(contentData!=null){
+            String contentKey =  contentData.contentKey;
+            System.assertEquals(contentKey,null, 'contentKey is not equal to NULL');
+            }
+            System.assertEquals(contentData,null, 'contentData is not equal to NULL');
+            Test.stopTest();
         }
-        System.assertEquals(ContentData,null, 'ContentData is not equal to NULL');
-        Test.stopTest();
     }
     
     @isTest
     static void testGetCMSContentDataByNameError()
     {
-        String FakecommunityId = '98098EWQ';
-        Test.startTest();
-        ConnectApi.ManagedContentVersion ContentData= new ConnectApi.ManagedContentVersion();
-        ContentData= CsvBulkRegistrationCtrl.GetCMSContentDataByName('Fake Name',FakecommunityId,'cms_doc','en_US');
-        if(ContentData!=null){
-        String contentKey =  ContentData.contentKey;
-        System.assertEquals(contentKey,null,'contentKey is not equal to NULL');
+    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+        System.runAs(PORTAL_SYS_ADMIN) {
+            String fakecommunityId = '98098EWQ';
+            Test.startTest();
+            ConnectApi.ManagedContentVersion contentData= new ConnectApi.ManagedContentVersion();
+            contentData= CsvBulkRegistrationCtrl.GetCMSContentDataByName('Fake Name',fakecommunityId,'cms_doc','en_US');
+            if(contentData!=null){
+            String contentKey =  contentData.contentKey;
+            System.assertEquals(contentKey,null,'contentKey is not equal to NULL');
+            }
+            System.assertEquals(contentData,null,'contentData is not equal to NULL');
+            Test.stopTest();
         }
-        System.assertEquals(ContentData,null,'ContentData is not equal to NULL');
-        Test.stopTest();
     }
     
     public static String str = 'First Name,Last Name,Email,Mobile Locale,Mobile Phone,Birthdate,Dietary Requirement,Accessibility Requirement \n' +
@@ -51,22 +64,25 @@ public class CsvBulkRegistrationCtrlTest {
     
     @isTest
     static void testreadCSVFileSucces(){
-        List<CsvBulkRegistrationCtrl.FieldDataType> CSVContent = new List<CsvBulkRegistrationCtrl.FieldDataType>();
-        ContentVersion contentVersionInsert = new ContentVersion(
-            Title = 'Test',
-            PathOnClient = 'Test.csv',
-            VersionData = Blob.valueOf(str),
-            IsMajorVersion = true
-    	);
-	    insert contentVersionInsert;        
-        Id getId = [SELECT ContentDocumentId 
-                    FROM ContentVersion 
-                    WHERE Id =:contentVersionInsert.id 
-                    AND isLatest=true].ContentDocumentId;
-		Test.startTest();
-        CSVContent = CsvBulkRegistrationCtrl.readCSVFile(getId);
-        System.assert(!CSVContent.isEmpty(), 'pass');
-	    Test.stopTest();
+    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+        System.runAs(PORTAL_SYS_ADMIN) {
+            List<CsvBulkRegistrationCtrl.FieldDataType> csvContent = new List<CsvBulkRegistrationCtrl.FieldDataType>();
+            ContentVersion contentVersionInsert = new ContentVersion(
+                Title = 'Test',
+                PathOnClient = 'Test.csv',
+                VersionData = Blob.valueOf(str),
+                IsMajorVersion = true
+            );
+            insert contentVersionInsert;        
+            Id getId = [SELECT ContentDocumentId 
+                        FROM ContentVersion 
+                        WHERE Id =:contentVersionInsert.id 
+                        AND isLatest=true].ContentDocumentId;
+            Test.startTest();
+            csvContent = CsvBulkRegistrationCtrl.readCSVFile(getId);
+            System.assert(!csvContent.isEmpty(), 'pass');
+            Test.stopTest();
+        }
     }
     
     

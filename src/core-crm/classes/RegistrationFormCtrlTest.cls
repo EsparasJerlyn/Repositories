@@ -292,22 +292,26 @@ public with sharing class RegistrationFormCtrlTest {
 
   @isTest
   static void getCommunityUrlTest() {
-    WebStore testWebStore = new WebStore(
-      Name = 'study',
-      DefaultLanguage = 'en_US'
-    );
-    insert testWebStore;
-
-    WebStore testWebStoreCCE = new WebStore(
-      Name = 'cce',
-      DefaultLanguage = 'en_US'
-    );
-    insert testWebStoreCCE;
-
+    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
     Test.startTest();
-    RegistrationFormCtrl.CommunityWrapper comData = RegistrationFormCtrl.getCommunityUrl();
-    Test.stopTest();
-    System.assert(comData != null, 'No Community Data Found');
+    System.runAs(PORTAL_SYS_ADMIN) {
+      WebStore testWebStore = new WebStore(
+        Name = 'study',
+        DefaultLanguage = 'en_US'
+      );
+      insert testWebStore;
+
+      WebStore testWebStoreCCE = new WebStore(
+        Name = 'cce',
+        DefaultLanguage = 'en_US'
+      );
+      insert testWebStoreCCE;
+
+      RegistrationFormCtrl.CommunityWrapper comData = RegistrationFormCtrl.getCommunityUrl();
+  
+      System.assert(comData != null, 'No Community Data Found');
+      Test.stopTest();
+    }
   }
 
   @isTest
@@ -326,20 +330,23 @@ public with sharing class RegistrationFormCtrlTest {
 
   @isTest
   static void getUserMobileLocale(){
-    String uniqueID = GenerateUniqueId.getUUID();
-    String emailTest = 'testUser' + uniqueID + '@test.com';
-
-    Contact testContact = new Contact();
-    testContact.Birthdate = Date.newInstance(1999, 1, 1);
-    testContact.ContactMobile_Locale__c  = 'Australia (+61)';
-    testContact.Email = emailTest;
-    testContact.LastName = 'User';
-    insert testContact;
-
+    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
     Test.startTest();
-    String getMLocale = RegistrationFormCtrl.getUserMobileLocale(testContact.Id);
-    System.assert(getMLocale != null, 'User has no mobile locale.');
+    System.runAs(PORTAL_SYS_ADMIN) {
+      String uniqueID = GenerateUniqueId.getUUID();
+      String emailTest = 'testUser' + uniqueID + '@test.com';
+
+      Contact testContact = new Contact();
+      testContact.Birthdate = Date.newInstance(1999, 1, 1);
+      testContact.ContactMobile_Locale__c  = 'Australia (+61)';
+      testContact.Email = emailTest;
+      testContact.LastName = 'User';
+      insert testContact;
+
+      String getMLocale = RegistrationFormCtrl.getUserMobileLocale(testContact.Id);
+      System.assert(getMLocale != null, 'User has no mobile locale.');
     Test.stopTest();
+    }
   }
 
   @isTest
