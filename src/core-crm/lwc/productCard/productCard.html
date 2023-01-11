@@ -8,9 +8,10 @@
               data-id={product.childProdId} 
               data-name={product.childProdName} 
               data-url={product.detailURL}
+              data-fullurl={product.fullDetailURL}
               onclick={navigateToProductPage}>
             <div class="slds-col slds-size_1-of-1 fields-area card-title">
-                <a class="heading4 main-color-white text-overflow">{product.childProdName}</a>
+                <a href={product.fullDetailURL} class="heading4 main-color-white text-overflow">{product.childProdName}</a>
                 <lightning-helptext content={product.childProdName} class="tooltip"></lightning-helptext>
               </div>
             <span class="slds-grid slds-wrap card-body">

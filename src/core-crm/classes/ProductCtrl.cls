@@ -18,6 +18,7 @@
  | julie.jane.alegre         | September 21, 2022    | DEPP-4399            | Add filter for Product Request on Published|
  | keno.domienri.dico		 | September 28, 2022	 | DEPP-4459 & 4461		| Added new parameter for getProductsByCategory |
  | julie.jane.alegre         | December  12, 2022    | DEPP-4667            | Add Corporate Bundle info in product list  |
+ | mary.grace.li             | December  21, 2022    | DEPP-4878            | Added product full detail url for SEO      |
 
  */
 public without sharing class ProductCtrl{
@@ -46,7 +47,7 @@ public without sharing class ProductCtrl{
 
 			// New Query with selected productIds per page
 			String pbeQuery = 'SELECT Id, Name, Pricebook2.ID, Pricebook2.Name, UnitPrice, ';
-			pbeQuery += ' Product2.Id, Product2.Name, Product2.Description, Product2.Professional_level__c, Product2.Duration__c, Product2.Delivery__c, Product2.Detail_URL__c, Product2.Program_Plan__c, Product2.Course__c ';
+			pbeQuery += ' Product2.Id, Product2.Name, Product2.Description, Product2.Professional_level__c, Product2.Duration__c, Product2.Delivery__c, Product2.Detail_URL__c, Product2.Detail_Full_URL__c, Product2.Program_Plan__c, Product2.Course__c ';
 			pbeQuery += ' FROM PricebookEntry ';
 			pbeQuery += ' WHERE Product2Id IN :productIds';
 			pbeQuery += ' AND (Pricebook2.Name = :standardPriceBook OR Pricebook2.Name = :earlyBirdPricebook OR Pricebook2.Name = :freePricebook) ';
@@ -57,7 +58,8 @@ public without sharing class ProductCtrl{
 
 			//--new---
 			map<id, Product2> productMap = new map<id, Product2>();
-						map<id, String> productURLMap = new Map<id, String>();
+			map<id, String> productURLMap = new Map<id, String>();
+			map<id, String> productFullURLMap = new Map<id, String>();
 			map<id, PricebookEntry> peMap = new map<id, PricebookEntry>();
 			Map<Id, Id> productPriceFreeMap = new Map<Id, Id>();
 			Map<Id, Id> productPriceEarlyBirdMap = new Map<Id, Id>();
@@ -76,6 +78,7 @@ public without sharing class ProductCtrl{
 					myProduct.Course__c = data.Product2.Course__c;
 					myProduct.Program_Plan__c = data.Product2.Program_Plan__c;
 					productURLMap.put(data.Product2Id, data.Product2.Detail_URL__c);
+					productFullURLMap.put(data.Product2Id, data.Product2.Detail_Full_URL__c);
 					productMap.put(data.Product2Id, myProduct);
 				}
 
@@ -165,7 +168,7 @@ public without sharing class ProductCtrl{
 
 			//--new---
 			Map<Id, Product2> allInputProductMap = new Map<Id, Product2>([
-				SELECT Id, Name, Description, Program_Plan__c, Professional_level__c, Duration__c, Delivery__c, Course__c, Program_Plan__r.Program_Delivery_Structure__c
+				SELECT Id, Name, Description, Program_Plan__c, Professional_level__c, Duration__c, Delivery__c, Course__c, Program_Plan__r.Program_Delivery_Structure__c, Detail_Full_URL__c
 				FROM Product2
 				WHERE Id IN :productIds
 			]);
@@ -204,6 +207,7 @@ public without sharing class ProductCtrl{
 				}
 
 				productListWrapper.detailURL = productURLMap.get(product.Id);
+				productListWrapper.fullDetailURL = productFullURLMap.get(product.Id);
 				prodWrapperList.add(productListWrapper);
 			}
 
@@ -238,6 +242,7 @@ public without sharing class ProductCtrl{
 				flexiProductWrapper.childProdName = product.Name;
 				flexiProductWrapper.childProdDescription = product.Description;
 				flexiProductWrapper.isProgramFlex = true;
+				flexiProductWrapper.fullDetailURL = product.Detail_Full_URL__c;
 
 				prodWrapperList.add(flexiProductWrapper);
 			}
@@ -249,7 +254,7 @@ public without sharing class ProductCtrl{
 			String priceQry = '';
 			String dateQry = '';
 
-			String prodQry1 = 'SELECT Id, Name, Course__c, Duration__c, Detail_URL__c, Delivery__c, Professional_Level__c, Available_on_Cart__c, Start_Date__c, Description, ';
+			String prodQry1 = 'SELECT Id, Name, Course__c, Duration__c, Detail_URL__c, Detail_Full_URL__c, Delivery__c, Professional_Level__c, Available_on_Cart__c, Start_Date__c, Description, ';
 			String prodQry2 = ' Program_Plan__r.Program_Delivery_Structure__c, ';
 			prodQry2 += ' ( SELECT Id, Pricebook2.Name, UnitPrice FROM PricebookEntries WHERE IsActive = TRUE AND (Pricebook2.Name = :standardPriceBook OR Pricebook2.Name = :earlyBirdPricebook OR Pricebook2.Name =:freePricebook)) ';
 			prodQry2 += ' FROM Product2 ';
@@ -364,6 +369,7 @@ public without sharing class ProductCtrl{
 					}
 				}
 				productListWrapper.detailURL = prod.Detail_URL__c;
+				productListWrapper.fullDetailURL = prod.Detail_Full_URL__c;
 				prodWrapperList.add(productListWrapper);
 			}
 		}
@@ -1090,6 +1096,7 @@ public without sharing class ProductCtrl{
 					}
 				}
 				productListWrapper.detailURL = prod.Detail_URL__c;
+				productListWrapper.fullDetailURL = prod.Detail_Full_URL__c;
 				prodWrapperList.add(productListWrapper);
 			}
 		}
@@ -1141,6 +1148,8 @@ public without sharing class ProductCtrl{
 		public Boolean isProgramFlex{ get; set; }
 		@AuraEnabled
 		public String detailURL{ get; set; }
+		@AuraEnabled
+		public String fullDetailURL{ get; set; }
 		@AuraEnabled
 		public String childProdType{ get; set; }
 		@AuraEnabled
