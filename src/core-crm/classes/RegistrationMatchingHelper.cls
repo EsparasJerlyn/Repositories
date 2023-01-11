@@ -60,8 +60,7 @@ public without sharing class RegistrationMatchingHelper {
             WHERE
                 RecordTypeId = :RT_CONTACT_PERSON_ID
                 AND Parent_Person_Contact__c = NULL
-                AND (((Birthdate IN: birthDateSet 
-                OR Birthdate = null)
+                AND (((Birthdate IN: birthDateSet )
                 AND LastName IN:lastNameSet
                 AND FirstName IN:firstNameSet) 
                 OR Email IN: contactMap.keySet()
@@ -155,16 +154,16 @@ public without sharing class RegistrationMatchingHelper {
 
     public class ContactMatchingResponse{
         @AuraEnabled
-		public Boolean isPartialMatch;
+        public Boolean isPartialMatch;
         @AuraEnabled
-		public Boolean isEmailMatch;
-		@AuraEnabled
-		public String errorMessage;
+        public Boolean isEmailMatch;
         @AuraEnabled
-		public List<String> fieldsMismatch;
+        public String errorMessage;
         @AuraEnabled
-		public Contact contactRecord;
+        public List<String> fieldsMismatch;
+        @AuraEnabled
+        public Contact contactRecord;
         @AuraEnabled
         public String email;
-	}
+    }
 }
