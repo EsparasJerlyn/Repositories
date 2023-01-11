@@ -85,6 +85,7 @@ export default class RegistrationForm extends LightningElement {
   yearErrorMessage;
   errorMessage;
   requiredErrorMessage;
+  uniqueEmail;
   @track requiredDisplayData = {};
   @track requiredInputClass = {};
   @track locale = null;
@@ -660,6 +661,7 @@ export default class RegistrationForm extends LightningElement {
    */
   handleEmailChange(event) {
     this.email = event.target.value;
+    this.uniqueEmail = event.target.value;
   }
 
   /*
@@ -837,6 +839,7 @@ export default class RegistrationForm extends LightningElement {
       updateContact({
             contactId: this.contactId,
             email: this.email,
+            uniqueEmail: this.uniqueEmail,
             mobileNoLocale: this.mobile,
             mobileConLocale: this.localeConMobile,
             dietaryReq: this.dietaryReq,

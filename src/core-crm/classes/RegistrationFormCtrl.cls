@@ -20,6 +20,7 @@
       | eugene.andrew.abuan       | September 16, 2022    | DEPP-3506            | Update OPE Catalouge to           |
       |                           |                       |                      | Administrative account            |
       | marygrace.li              | September 24, 2022    | DEPP-4411            | Updated isEmailExist method       |
+      | arsenio.jr.dayrit         | December 16, 2022     | DEPP-4907            | Update UpdateContact method       |
 
  */
 public without sharing class RegistrationFormCtrl {
@@ -86,10 +87,12 @@ public without sharing class RegistrationFormCtrl {
   public static void updateContact(
     Id contactId,
     String email,
+    String uniqueEmail,
     String mobileNoLocale,
     String mobileConLocale,
     String dietaryReq,
     String accessibilityReq
+  
   ) {
 
       List<Contact> currentContacts = new List<Contact>(
@@ -122,11 +125,17 @@ public without sharing class RegistrationFormCtrl {
         Contact existingContact = currentContacts[0];
         existingContact.ContactMobile_Locale__c = mobileConLocale;
         existingContact.Mobile_No_Locale__c = mobileNoLocale;
-        existingContact.Registered_Email__c = email;
+        existingContact.Registered_Email__c = uniqueEmail;
+        if( uniqueEmail != existingContact.Email 
+            && uniqueEmail != existingContact.QUT_Learner_Email__c 
+            && uniqueEmail != existingContact.QUT_Staff_Email__c 
+            && uniqueEmail != existingContact.Work_Email__c 
+            && String.isBlank(existingContact.Email)){
+            existingContact.Email = uniqueEmail;
+        }
         existingContact.Dietary_Requirement__c = dietaryReq;
         existingContact.Accessibility_Requirement__c = accessibilityReq;
         update existingContact;
-
       }
    
   }
