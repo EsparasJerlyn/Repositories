@@ -51,7 +51,7 @@ import checkCreditAvailability from '@salesforce/apex/CorporateBundleAndSOAHelpe
 import getRegisteredEmail from '@salesforce/apex/ManageRegistrationSectionCtrl.getRegisteredEmail';
 import getDiscount from '@salesforce/apex/PromotionDiscountCtrl.getDiscount';
 import LWC_Error_General from '@salesforce/label/c.LWC_Error_General';
-import LWC_List_ConfirmedLearnerStatus	 from '@salesforce/label/c.LWC_List_ConfirmedLearnerStatus';
+import LWC_List_ConfirmedLearnerStatus   from '@salesforce/label/c.LWC_List_ConfirmedLearnerStatus';
 import { createRecord } from 'lightning/uiRecordApi';
 import { getObjectInfo } from 'lightning/uiObjectInfoApi';
 import SESSION_OBJECT from '@salesforce/schema/Session__c';
@@ -213,7 +213,7 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
                     return item.enrolmentDetails.hed__Contact__c;
                 }
             });
-            this.recordsTemp = result.data;
+            this.recordsTemp = this.records;
             if(this.records.length === 0){
                 this.empty = true;
             }else{
