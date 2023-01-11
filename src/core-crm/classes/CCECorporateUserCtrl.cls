@@ -34,7 +34,7 @@ public without sharing class CCECorporateUserCtrl {
             String emailToUse;            
 
             //Retrieves Contact details
-            List<Contact> contacts = [SELECT Id, AccountId, Account.Name, hed__Primary_Organization__c, Email, Work_Email__c, FirstName, LastName, Name FROM Contact WHERE Id =: recordId LIMIT 1];
+            List<Contact> contacts = [SELECT Id, AccountId, Account.Name, hed__Primary_Organization__c, Email, Work_Email__c, Registered_Email__c, FirstName, LastName, Name FROM Contact WHERE Id =: recordId LIMIT 1];
             for(Contact con : contacts){
                 if(String.IsBlank(con.Work_Email__c)){
                     response.isSuccess = false;
@@ -48,14 +48,14 @@ public without sharing class CCECorporateUserCtrl {
                 }
                 emailToUse = con.Work_Email__c;
                 ccefilter = con.Work_Email__c + '.cce';
-                opefilter = con.Email + '.ope';
+                opefilter = con.Registered_Email__c + '.ope';
                 contact = con;
             }
 
             Profile profile = [SELECT Id FROM Profile WHERE Name = 'Partner Community User' LIMIT 1];
             Id userId;
             
-            List<User> users = [SELECT Id, Username FROM User WHERE ContactId =: contact.Id AND (Username =: ccefilter OR (Username =: opefilter AND IsActive = true)) LIMIT 1];
+            List<User> users = [SELECT Id, Username FROM User WHERE ContactId =: contact.Id AND ( (Username =: ccefilter AND IsActive = true) OR (Username =: opefilter AND IsActive = true)) LIMIT 1];
             List<User> usersToUpdate = new List<User>();    
             for(User user : users){
                 //Disables existing ope user
