@@ -14,19 +14,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Melbourne Classroom</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Online Classroom</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Online Self-paced</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Sydney Classroom</fullName>
             <default>false</default>
         </values>
     </picklistValues>

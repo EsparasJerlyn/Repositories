@@ -10,7 +10,7 @@
         </recipients>
         <senderAddress>test-qutex@yopmail.com</senderAddress>
         <senderType>OrgWideEmailAddress</senderType>
-        <template>unfiled$public/Application_Email_Approved_1644399313099</template>
+        <template>QUTeXSystemTemplates/Application_Email_Approved_1644399313099</template>
     </alerts>
     <alerts>
         <fullName>Send_Rejected_Email_To_Learner</fullName>
@@ -22,6 +22,6 @@
         </recipients>
         <senderAddress>test-qutex@yopmail.com</senderAddress>
         <senderType>OrgWideEmailAddress</senderType>
-        <template>unfiled$public/Application_Email_Rejected_1644576710097</template>
+        <template>QUTeXSystemTemplates/Application_Email_Rejected_1644576710097</template>
     </alerts>
 </Workflow>
