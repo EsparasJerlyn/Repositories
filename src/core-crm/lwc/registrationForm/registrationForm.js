@@ -703,7 +703,7 @@ export default class RegistrationForm extends LightningElement {
                 //Check if the user exist
                 isUserExist({contactId: this.contactId})
                 .then((res) => {
-                    if(res.length > 0){
+                    if(res.length > 0){                        
                         this.displayEmailValidation = false;
                         this.userExists = true;
                         this.loginUser = res[0];
@@ -715,6 +715,7 @@ export default class RegistrationForm extends LightningElement {
                     }
                     else{
                       //User does not exist
+                      this.displayEmailValidation = false;
                       this.userExists = false;
                       this.displayForm = false;
                       this.displayVerification = true;
