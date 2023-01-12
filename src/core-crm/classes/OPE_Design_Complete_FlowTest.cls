@@ -75,7 +75,7 @@ private class OPE_Design_Complete_FlowTest{
             List<hed__Course__c> coursesToUpdate = [SELECT id, OPE_Design_Complete__c FROM hed__Course__c LIMIT 100];
             for(hed__Course__c course : coursesToUpdate){
                 course.RecordTypeId = opeShortCourseId;
-                course.Implementation_Year__c = '2022';
+                course.Implementation_Year__c = String.valueOf(Date.today().year());
             }
             update coursesToUpdate;
 
@@ -107,7 +107,7 @@ private class OPE_Design_Complete_FlowTest{
                 course.Field_of_Education__c = 'test';
                 course.Credits__c = 1;
                 course.hed__Credit_Hours__c = 3;
-                course.Implementation_Year__c = '2022';
+                course.Implementation_Year__c = String.valueOf(Date.today().year());
                 course.CourseLoop_Initial_Proposal_URL__c = 'test';
                 course.Is_Curriculum_Approved__c = true;
                 course.CourseLoop_Full_Proposal_URL__c = 'test';
@@ -136,7 +136,7 @@ private class OPE_Design_Complete_FlowTest{
             List<hed__Course__c> coursesToUpdate = [SELECT id, OPE_Design_Complete__c FROM hed__Course__c LIMIT 100];
             for(hed__Course__c course : coursesToUpdate){
                 course.RecordTypeId = opeModuleId;                
-                course.Implementation_Year__c = '2022';
+                course.Implementation_Year__c = String.valueOf(Date.today().year());
                 course.CourseLoop_Initial_Proposal_URL__c = 'test';
                 course.Is_Curriculum_Approved__c = true;
                 course.CourseLoop_Full_Proposal_URL__c = 'test';
