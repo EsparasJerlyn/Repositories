@@ -3,7 +3,7 @@
     <fullName>On_Create_Stage_Must_Be_Define</fullName>
     <active>true</active>
     <description>The Product Specification Stage must be Define when it is created.</description>
-    <errorConditionFormula>AND( NOT( ISPICKVAL( Stage__c , &quot;Define&quot; ) ), ISNEW() )</errorConditionFormula>
+    <errorConditionFormula>AND( NOT( ISPICKVAL( Stage__c , &quot;Define&quot; ) ), ISNEW() ,  RecordType.DeveloperName = &quot;CCE&quot; )</errorConditionFormula>
     <errorDisplayField>Stage__c</errorDisplayField>
     <errorMessage>The Stage of a new Product Specification must be &quot;Define&quot;.</errorMessage>
 </ValidationRule>
