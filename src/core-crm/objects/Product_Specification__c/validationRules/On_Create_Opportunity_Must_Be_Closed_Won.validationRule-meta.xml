@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>On_Create_Opportunity_Must_Be_Closed_Won</fullName>
+    <active>true</active>
+    <description>The stage of a new Opportunity associated with this Product Specification must be &quot;Closed Won&quot;.</description>
+    <errorConditionFormula>AND ( NOT( ISPICKVAL( Opportunity_Name__r.StageName , &quot;Closed Won&quot;) ), ISNEW(),  RecordType.DeveloperName = &quot;CCE&quot; )</errorConditionFormula>
+    <errorDisplayField>Opportunity_Name__c</errorDisplayField>
+    <errorMessage>An Opportunity with the Stage &quot;Closed Won&quot; is required.</errorMessage>
+</ValidationRule>
