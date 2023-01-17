@@ -948,17 +948,17 @@ public without sharing class ProductCtrl{
 			List<Product2> productList = new List<Product2>();
 			String getQuery = '';
 			if(catName.ProductCategory.Name == 'Tailored Executive Education' || catName.ProductCategory.Name == 'Tailored Executive Program'){
-				getQuery = 'SELECT Id, Name, Course__c, Duration__c, Detail_URL__c, Delivery__c, Professional_Level__c, Available_on_Cart__c, Start_Date__c, Description, Product_Type__c, ';
+				getQuery = 'SELECT Id, Name, Course__c, Duration__c, Detail_URL__c, Detail_Full_URL__c, Delivery__c, Professional_Level__c, Available_on_Cart__c, Start_Date__c, Description, Product_Type__c, ';
 				getQuery += ' Program_Plan__r.Program_Delivery_Structure__c ';
 				getQuery += ' FROM Product2 ';
 				getQuery += ' WHERE Id IN :prodTEE AND Available_on_Cart__c = TRUE ';
 			} else if(catName.ProductCategory.Name == 'Corporate Bundle'){
-				getQuery = 'SELECT Id, Name, Course__c, Duration__c, Detail_URL__c, Delivery__c, Professional_Level__c, Available_on_Cart__c, Start_Date__c, Description, Product_Type__c, ';
+				getQuery = 'SELECT Id, Name, Course__c, Duration__c, Detail_URL__c, Detail_Full_URL__c, Delivery__c, Professional_Level__c, Available_on_Cart__c, Start_Date__c, Description, Product_Type__c, ';
 				getQuery += ' Program_Plan__r.Program_Delivery_Structure__c ';
 				getQuery += ' FROM Product2 ';
 				getQuery += ' WHERE Id IN :prodCBIds AND Available_on_Cart__c = TRUE ';
 			} else {
-				getQuery = 'SELECT Id, Name, Course__c, Duration__c, Detail_URL__c, Delivery__c, Professional_Level__c, Available_on_Cart__c, Start_Date__c, Description, Product_Type__c, ';
+				getQuery = 'SELECT Id, Name, Course__c, Duration__c, Detail_URL__c, Detail_Full_URL__c, Delivery__c, Professional_Level__c, Available_on_Cart__c, Start_Date__c, Description, Product_Type__c, ';
 				getQuery += ' Program_Plan__r.Program_Delivery_Structure__c, ';
 				getQuery += ' ( SELECT Id, Pricebook2.Name, UnitPrice FROM PricebookEntries WHERE IsActive = TRUE AND Pricebook2.Id IN :pbIds AND Pricebook2.Name LIKE :pbeName ) ';
 				getQuery += ' FROM Product2 ';
