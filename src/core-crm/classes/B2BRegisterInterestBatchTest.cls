@@ -67,28 +67,31 @@ public class B2BRegisterInterestBatchTest {
         interests = TestDataFactory.createExpressionOfInterest(25,contacts[0],products);
         insert interests;
 
-
+        TestDataFactory.generateTestUsers();
     }
 
 
     @isTest
     public static void testRegisterInterest() {
-        String htmlValue = 'Contact_FirstName Contact_LastName Product_Name Product_URL';
-        Id userId = UserInfo.getUserId();
-        EmailTemplate e = new EmailTemplate(developerName = 'Offering_Available_Email_Notification',
-                                            HtmlValue = htmlValue,
-                                            TemplateType= 'Text',
-                                            Name = 'Offering_Available_Email_Notification',
-                                            folderId = userId
-                                            );
-        insert e;
-        Test.startTest();
-        Database.executeBatch(new B2BRegisterInterestBatch(), 200);
-        system.assertEquals(0,
-                            Limits.getEmailInvocations(),
-                            'Number of email invocations not as expected'
-                            );
-        Test.stopTest();
+    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+        System.runAs(PORTAL_SYS_ADMIN) {
+            String htmlValue = 'Contact_FirstName Contact_LastName Product_Name Product_URL';
+            Id userId = UserInfo.getUserId();
+            EmailTemplate e = new EmailTemplate(developerName = 'Offering_Available_Email_Notification',
+                                                HtmlValue = htmlValue,
+                                                TemplateType= 'Text',
+                                                Name = 'Offering_Available_Email_Notification',
+                                                folderId = userId
+                                                );
+            insert e;
+            Test.startTest();
+            Database.executeBatch(new B2BRegisterInterestBatch(), 200);
+            system.assertEquals(0,
+                                Limits.getEmailInvocations(),
+                                'Number of email invocations not as expected'
+                                );
+            Test.stopTest();
+        }
     }
 
 

@@ -32,6 +32,7 @@
         <permissionSet>Corporate_Portal_Base</permissionSet>
         <profile>admin</profile>
         <profile>corporate partner user</profile>
+        <profile>qut system administrator</profile>
     </networkMemberGroups>
     <networkPageOverrides>
         <changePasswordPageOverrideSetting>Standard</changePasswordPageOverrideSetting>

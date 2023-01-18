@@ -85,6 +85,7 @@ export default class RegistrationForm extends LightningElement {
   yearErrorMessage;
   errorMessage;
   requiredErrorMessage;
+  uniqueEmail;
   @track requiredDisplayData = {};
   @track requiredInputClass = {};
   @track locale = null;
@@ -660,6 +661,7 @@ export default class RegistrationForm extends LightningElement {
    */
   handleEmailChange(event) {
     this.email = event.target.value;
+    this.uniqueEmail = event.target.value;
   }
 
   /*
@@ -701,7 +703,7 @@ export default class RegistrationForm extends LightningElement {
                 //Check if the user exist
                 isUserExist({contactId: this.contactId})
                 .then((res) => {
-                    if(res.length > 0){
+                    if(res.length > 0){                        
                         this.displayEmailValidation = false;
                         this.userExists = true;
                         this.loginUser = res[0];
@@ -713,6 +715,7 @@ export default class RegistrationForm extends LightningElement {
                     }
                     else{
                       //User does not exist
+                      this.displayEmailValidation = false;
                       this.userExists = false;
                       this.displayForm = false;
                       this.displayVerification = true;
@@ -837,6 +840,7 @@ export default class RegistrationForm extends LightningElement {
       updateContact({
             contactId: this.contactId,
             email: this.email,
+            uniqueEmail: this.uniqueEmail,
             mobileNoLocale: this.mobile,
             mobileConLocale: this.localeConMobile,
             dietaryReq: this.dietaryReq,

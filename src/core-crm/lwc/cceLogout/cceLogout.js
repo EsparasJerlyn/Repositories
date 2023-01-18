@@ -10,6 +10,7 @@
       |---------------------------|-----------------------|----------------------|----------------------------------------------|
       | julie.jane.alegre         | September 13, 2022    | DEPP-4270            | Created file                                 |
       | marygrace.li              | September 24, 2022    | DEPP-4414            | Customized user profile menu and logout      |
+      | mary.grace.li             | November 22, 2022     | DEPP-4693            | Modified for Selected account logic          |
 */
 
 import { LightningElement, wire } from "lwc";

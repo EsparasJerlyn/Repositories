@@ -36,5 +36,6 @@
     <label>Future Student Advisor - Assigned</label>
     <sharedTo>
         <group>International_Recruitment</group>
+        <role>International_Super_User</role>
     </sharedTo>
 </ListView>

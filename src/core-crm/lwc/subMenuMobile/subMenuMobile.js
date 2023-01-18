@@ -11,6 +11,7 @@
       | marygrace.li              | September 07, 2022    | DEPP-2699            | Created                                      |
       | marygrace.li              | September 17, 2022    | DEPP-4355            | Added LMS to fetch category name             |
       | dodge.j.palattao          | September 26, 2022    | DEPP-2699            | Added messageChannel of BreadCrumbs          |
+      | mary.grace.li             | November 22, 2022     | DEPP-4693            | Modified for Selected account logic          |
  */
 
 import { LightningElement, wire, track } from 'lwc';
@@ -20,6 +21,8 @@ import communityId from '@salesforce/community/Id';
 import { subscribe, unsubscribe, MessageContext } from 'lightning/messageService';
 import payloadContainerLMSsubMenuName from '@salesforce/messageChannel/SubMenu__c';
 import payloadContainerLMS from '@salesforce/messageChannel/Breadcrumbs__c';
+import payloadAcctContainerLMS from '@salesforce/messageChannel/AccountId__c';
+const STORED_ACCTID = "storedAccountId";
 
 export default class SubMenuMobile extends LightningElement {
     CategoriesNavigationMenuList;
@@ -32,6 +35,12 @@ export default class SubMenuMobile extends LightningElement {
 
     subscriptionBreadCrumbs;
     subscriptionSubMenuName;
+    subscription;
+
+    accountId;
+    accountName;
+    fullLabel;
+
 
     @wire(MessageContext)
     messageContext;
@@ -40,11 +49,27 @@ export default class SubMenuMobile extends LightningElement {
     connectedCallback(){
         this.subMenuNameSubscribeLMS();
         this.breadCrumbsSubscribeLMS();
+        this.subscribeLMS();   
     }
 
     disconnectedCallback() {
         this.subMenuNameUnsubscribeLMS();
         this.breadCrumbsUnsubscribeLMS();
+        this.unsubscribeLMS();
+    }
+
+    unsubscribeLMS(){
+        unsubscribe(this.subscription);
+        this.subscription = null;
+    }
+
+    subscribeLMS() {
+        if (!this.subscription) {
+            this.subscription = subscribe(
+                this.messageContext, 
+                payloadAcctContainerLMS, 
+                (message) => this.validateValue(message));
+        }
     }
 
     subMenuNameUnsubscribeLMS(){
@@ -91,6 +116,17 @@ export default class SubMenuMobile extends LightningElement {
         }
     }
 
+    validateValue(val) {
+        if (val && val.accountIdParameter) {
+            let newValObj = JSON.parse(val.accountIdParameter);
+    
+               this.accountId = newValObj.accountId;
+               this.accountName = newValObj.accountName;
+               this.fullLabel = newValObj.fullLabel;
+
+        }
+    }
+
     //retrieve Category Link Menus
     @wire(getStoreFrontCategoryMenu,{communityId:communityId})
     handleGetStorefrontCategories(result){  
@@ -124,7 +160,7 @@ export default class SubMenuMobile extends LightningElement {
     }
 
     get subMenuTailoredExecEduc(){
-         if(this.categoryName === 'Tailored Executive Education' && window.location.pathname.includes('products')){
+         if(this.categoryName === 'Tailored Executive Education' && window.location.pathname.includes('product')){
              return 'arrow-link active';
         }else if(this.subMenuName === 'Tailored Executive Education' && window.location.pathname.includes('category')){
             return 'arrow-link active';
@@ -134,7 +170,7 @@ export default class SubMenuMobile extends LightningElement {
     }
 
     get subMenuCorpBundle(){
-        if(this.categoryName === 'Corporate Bundle' && window.location.pathname.includes('products')){
+        if(this.categoryName === 'Corporate Bundle' && window.location.pathname.includes('product')){
              return 'arrow-link active';
         }else if(this.subMenuName === 'Corporate Bundle' && window.location.pathname.includes('category')){ 
             return 'arrow-link active';
@@ -144,7 +180,7 @@ export default class SubMenuMobile extends LightningElement {
     }
 
     get subMenuQUTexLearning(){
-        if(this.categoryName === 'QUTeX Learning Solutions' && window.location.pathname.includes('products')){
+        if(this.categoryName === 'QUTeX Learning Solutions' && window.location.pathname.includes('product')){
              return 'arrow-link active';
         }else if(this.subMenuName === 'QUTeX Learning Solutions' && window.location.pathname.includes('category')){
             return 'arrow-link active';
@@ -179,5 +215,28 @@ export default class SubMenuMobile extends LightningElement {
 
     get manageRegistrationLink(){
         return basePath + '/manage-registrations';
+    }
+
+    handleMenuClick(event){
+		let activeMenu = event.currentTarget.closest('li a');
+		let inactiveMenu = this.template.querySelectorAll('li a');
+		this.navMenuId = activeMenu.dataset.id;
+		this.navMenuName = activeMenu.dataset.name;
+		// set navigation menu classes to default
+		if(inactiveMenu){
+			inactiveMenu.forEach( menu => {
+				menu.setAttribute('class', 'arrow-link ');
+			})
+		}
+		// set active navigation menu class to active
+		if(activeMenu){
+			activeMenu.setAttribute('class', 'arrow-link active');
+		}	
+       sessionStorage.setItem(STORED_ACCTID,this.accountId);
+	}
+
+
+    setSessionStorage(){
+        sessionStorage.setItem(STORED_ACCTID,this.accountId);
     }
 }

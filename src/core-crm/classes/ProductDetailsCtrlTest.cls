@@ -54,7 +54,7 @@ public class ProductDetailsCtrlTest{
       insert bypass;
       Test.startTest();
       User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
-      Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name = 'test123', New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
+      Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name = 'test123', New_Idea_To_Email_Address__c = 'qutex@qut.edu.au');
       insert customEmail;
 
       List<Account> accounts = TestDataFactory.createTestAccountRecords(100);
@@ -255,6 +255,8 @@ public class ProductDetailsCtrlTest{
         insert acr;
       }
 
+			// CCECorporateUserCtrl.CorporateUserDetails enableResponse = CCECorporateUserCtrl.enableCCECorporateUser(cceContact.Id);
+
       CCECorporateUserCtrl.CorporateUserDetails enableResponse = new CCECorporateUserCtrl.CorporateUserDetails();
       enableResponse = CCECorporateUserCtrl.enableCCECorporateUser(cceContact.Id);
 
@@ -299,7 +301,7 @@ public class ProductDetailsCtrlTest{
 			
 			// Create Products
 			List<Product_Request__c> prodRequestCCE = TestDataFactory.createTestProductRequestRecords(
-				10
+				1
 			);
 			prodRequestCCE[0].RecordTypeId = RT_ACTIVITY_ID;
 			insert prodRequestCCE;
@@ -364,7 +366,7 @@ public class ProductDetailsCtrlTest{
 
 			// Prescribe Program
 			List<Product_Request__c> prodRequestPrescribedProgram = TestDataFactory.createTestProductRequestRecords(
-				10
+				1
 			);
 			prodRequestPrescribedProgram[0].RecordTypeId = opeProgProdReqId;
 			prodRequestPrescribedProgram[0]
@@ -372,13 +374,13 @@ public class ProductDetailsCtrlTest{
 			insert prodRequestPrescribedProgram;
 
 			List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(
-				10
+				1
 			);
 			programPlans[0].Product_Request__c = prodRequestPrescribedProgram[0].Id;
 			insert programPlans;
 
 			List<Product2> prodProgProductsCCE = TestDataFactory.createTestProductRecords(
-				10
+				50
 			);
 			Integer pProdCount = 0;
 			for (Product2 presProd : prodProgProductsCCE) {
@@ -474,7 +476,7 @@ public class ProductDetailsCtrlTest{
 			}
 			insert ceProdChild;
 
-      List<Related_Product_Request__c> childProdRelatedRequest = TestDataFactory.createTestRelatedPRRecords(10, prodRequestChild, prodRequestPrescribedProgram);
+      List<Related_Product_Request__c> childProdRelatedRequest = TestDataFactory.createTestRelatedPRRecords(1, prodRequestChild, prodRequestPrescribedProgram);
       insert childProdRelatedRequest;
       // End Child Products
 
@@ -509,24 +511,26 @@ public class ProductDetailsCtrlTest{
         ].Id;  
 
       ProductDetailsCtrl.ProductDetailsData getSingleProductDetails = new ProductDetailsCtrl.ProductDetailsData();
-      getSingleProductDetails = ProductDetailsCtrl.getCCEProductRelatedRecords(
-        singleProdId,
-        'Tailored Executive Program',
-        enableResponse.userId
-      );
+      ProductDetailsCtrl.ProductDetailsData getProdDet1 = new ProductDetailsCtrl.ProductDetailsData();
+      getProdDet1.accountId = accounts[0].Id;
+      getProdDet1.categoryName = 'Tailored Executive Program';
+      getProdDet1.userId = enableResponse.userId;
+      getProdDet1.productId = singleProdId;
+      getSingleProductDetails = ProductDetailsCtrl.getCCEProductRelatedRecords(getProdDet1);
 
       ProductDetailsCtrl.ProductDetailsData getFlexProgProductDetails = new ProductDetailsCtrl.ProductDetailsData();
-      getFlexProgProductDetails = ProductDetailsCtrl.getCCEProductRelatedRecords(
-        progProdId,
-        'Tailored Executive Program',
-        enableResponse.userId
-        );
+      ProductDetailsCtrl.ProductDetailsData getProdDet2 = new ProductDetailsCtrl.ProductDetailsData();
+      getProdDet2.accountId = accounts[0].Id;
+      getProdDet2.categoryName = 'Tailored Executive Program';
+      getProdDet2.userId = enableResponse.userId;
+      getProdDet2.productId = progProdId;
+      getFlexProgProductDetails = ProductDetailsCtrl.getCCEProductRelatedRecords(getProdDet2);
 
       Test.stopTest();
 
-      System.assert(getSingleProductDetails != null, 'Successfully retrieved Single Product Related Records');
+      System.assert(getSingleProductDetails != null, 'Failed to retrieved Single Product Related Records');
 
-      System.assert(getFlexProgProductDetails != null, 'Successfully retrieved Flex Program Product Related Records');
+      System.assert(getFlexProgProductDetails != null, 'Failed to retrieved Flex Program Product Related Records');
     }
   }
 
@@ -628,7 +632,7 @@ public class ProductDetailsCtrlTest{
 			
 			// Create Products
 			List<Product_Request__c> prodRequestCCE = TestDataFactory.createTestProductRequestRecords(
-				10
+				1
 			);
 			prodRequestCCE[0].RecordTypeId = RT_ACTIVITY_ID;
       prodRequestCCE[0].Product_Request_Status__c  = 'Published';
@@ -702,7 +706,7 @@ public class ProductDetailsCtrlTest{
 
 			// Prescribe Program
 			List<Product_Request__c> prodRequestPrescribedProgram = TestDataFactory.createTestProductRequestRecords(
-				10
+				1
 			);
 			prodRequestPrescribedProgram[0].RecordTypeId = opeProgProdReqId;
 			prodRequestPrescribedProgram[0].OPE_Program_Plan_Type__c = 'Prescribed Program';
@@ -716,13 +720,13 @@ public class ProductDetailsCtrlTest{
       update bgUpdateProg;
 
 			List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(
-				10
+				1
 			);
 			programPlans[0].Product_Request__c = prodRequestPrescribedProgram[0].Id;
 			insert programPlans;
 
 			List<Product2> prodProgProductsCCE = TestDataFactory.createTestProductRecords(
-				10
+				50
 			);
 			Integer pProdCount = 0;
 			for (Product2 presProd : prodProgProductsCCE) {
@@ -846,7 +850,7 @@ public class ProductDetailsCtrlTest{
 			}
 			insert ceProdChild;
 
-      List<Related_Product_Request__c> childProdRelatedRequest = TestDataFactory.createTestRelatedPRRecords(10, prodRequestChild, prodRequestPrescribedProgram);
+      List<Related_Product_Request__c> childProdRelatedRequest = TestDataFactory.createTestRelatedPRRecords(1, prodRequestChild, prodRequestPrescribedProgram);
       insert childProdRelatedRequest;
       // End Child Products
 
@@ -932,24 +936,27 @@ public class ProductDetailsCtrlTest{
         ].Product2Id;  
 
       ProductDetailsCtrl.ProductDetailsData getSingleProductDetails = new ProductDetailsCtrl.ProductDetailsData();
-      getSingleProductDetails = ProductDetailsCtrl.getCCEProductRelatedRecords(
-        singleProdId,
-        'Corporate Bundle',
-        enableResponse.userId
-        );
+      ProductDetailsCtrl.ProductDetailsData getProdDet1 = new ProductDetailsCtrl.ProductDetailsData();
+      getProdDet1.accountId = accounts[0].Id;
+      getProdDet1.categoryName = 'Corporate Bundle';
+      getProdDet1.userId = enableResponse.userId;
+      getProdDet1.productId = singleProdId;
+      getSingleProductDetails = ProductDetailsCtrl.getCCEProductRelatedRecords(getProdDet1);
 
       ProductDetailsCtrl.ProductDetailsData getFlexProgProductDetails = new ProductDetailsCtrl.ProductDetailsData();
-      getFlexProgProductDetails = ProductDetailsCtrl.getCCEProductRelatedRecords(
-        progProdId,
-        'Corporate Bundle',
-        enableResponse.userId
-        );
+      ProductDetailsCtrl.ProductDetailsData getProdDet2 = new ProductDetailsCtrl.ProductDetailsData();
+      getProdDet2.accountId = accounts[0].Id;
+      getProdDet2.categoryName = 'Corporate Bundle';
+      getProdDet2.userId = enableResponse.userId;
+      getProdDet2.productId = progProdId;
+      getFlexProgProductDetails = ProductDetailsCtrl.getCCEProductRelatedRecords(getProdDet2);
+
 
       Test.stopTest();
 
-      System.assert(getSingleProductDetails != null, 'Successfully retrieved Single Product Related Records');
+      System.assert(getSingleProductDetails != null, 'Failed to retrieved Single Product Related Records');
 
-      System.assert(getFlexProgProductDetails != null, 'Successfully retrieved Flex Program Product Related Records');
+      System.assert(getFlexProgProductDetails != null, 'Failed retrieved Flex Program Product Related Records');
     }
   }
 
@@ -1016,7 +1023,7 @@ public class ProductDetailsCtrlTest{
 
       CCECorporateUserCtrl.CorporateUserDetails enableResponse = new CCECorporateUserCtrl.CorporateUserDetails();
       enableResponse = CCECorporateUserCtrl.enableCCECorporateUser(cceContact.Id);
-      system.debug(JSON.serializePretty(enableResponse));
+      System.debug(LoggingLevel.DEBUG, JSON.serializePretty(enableResponse));//NOPMD
       List<Account> accBusinessOrg = [SELECT Id, RecordTypeId 
 				FROM Account 
 				WHERE RecordTypeId = :BUSINESS_ACC_RECTYPEID
@@ -1125,7 +1132,7 @@ public class ProductDetailsCtrlTest{
 
 			// Prescribe Program
 			List<Product_Request__c> prodRequestPrescribedProgram = TestDataFactory.createTestProductRequestRecords(
-				10
+				1
 			);
 			prodRequestPrescribedProgram[0].RecordTypeId = opeProgProdReqId;
 			prodRequestPrescribedProgram[0].OPE_Program_Plan_Type__c = 'Prescribed Program';
@@ -1139,13 +1146,13 @@ public class ProductDetailsCtrlTest{
       update bgUpdateProg;
 
 			List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(
-				10
+				1
 			);
 			programPlans[0].Product_Request__c = prodRequestPrescribedProgram[0].Id;
 			insert programPlans;
 
 			List<Product2> prodProgProductsCCE = TestDataFactory.createTestProductRecords(
-				10
+				50
 			);
 			Integer pProdCount = 0;
 			for (Product2 presProd : prodProgProductsCCE) {
@@ -1269,7 +1276,7 @@ public class ProductDetailsCtrlTest{
 			}
 			insert ceProdChild;
 
-      List<Related_Product_Request__c> childProdRelatedRequest = TestDataFactory.createTestRelatedPRRecords(10, prodRequestChild, prodRequestPrescribedProgram);
+      List<Related_Product_Request__c> childProdRelatedRequest = TestDataFactory.createTestRelatedPRRecords(1, prodRequestChild, prodRequestPrescribedProgram);
       insert childProdRelatedRequest;
       // End Child Products
 
@@ -1355,24 +1362,26 @@ public class ProductDetailsCtrlTest{
         ].Product2Id;  
 
       ProductDetailsCtrl.ProductDetailsData getSingleProductDetails = new ProductDetailsCtrl.ProductDetailsData();
-      getSingleProductDetails = ProductDetailsCtrl.getCCEProductRelatedRecords(
-        singleProdId,
-        'QUTeX Learning Solutions',
-        enableResponse.userId
-        );
+      ProductDetailsCtrl.ProductDetailsData getProdDet1 = new ProductDetailsCtrl.ProductDetailsData();
+      getProdDet1.accountId = accounts[0].Id;
+      getProdDet1.categoryName = 'QUTeX Learning Solutions';
+      getProdDet1.userId = enableResponse.userId;
+      getProdDet1.productId = singleProdId;
+      getSingleProductDetails = ProductDetailsCtrl.getCCEProductRelatedRecords(getProdDet1);
 
       ProductDetailsCtrl.ProductDetailsData getFlexProgProductDetails = new ProductDetailsCtrl.ProductDetailsData();
-      getFlexProgProductDetails = ProductDetailsCtrl.getCCEProductRelatedRecords(
-        progProdId,
-        'QUTeX Learning Solutions',
-        enableResponse.userId
-        );
+      ProductDetailsCtrl.ProductDetailsData getProdDet2 = new ProductDetailsCtrl.ProductDetailsData();
+      getProdDet2.accountId = accounts[0].Id;
+      getProdDet2.categoryName = 'QUTeX Learning Solutions';
+      getProdDet2.userId = enableResponse.userId;
+      getProdDet2.productId = progProdId;
+      getFlexProgProductDetails = ProductDetailsCtrl.getCCEProductRelatedRecords(getProdDet2);
 
       Test.stopTest();
 
-      System.assert(getSingleProductDetails != null, 'Successfully retrieved Single Product Related Records');
+      System.assert(getSingleProductDetails != null, 'Failed to retrieved Single Product Related Records');
 
-      System.assert(getFlexProgProductDetails != null, 'Successfully retrieved Flex Program Product Related Records');
+      System.assert(getFlexProgProductDetails != null, 'Failed to retrieved Flex Program Product Related Records');
     }
   }
 
@@ -2259,4 +2268,4 @@ public class ProductDetailsCtrlTest{
       system.assert(!String.isBlank(cartWrapper.externalId), 'Transaction failed! ');
     }    
   }
-}
+} 

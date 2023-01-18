@@ -196,5 +196,5 @@ public class PublishingEndDateBatch implements Database.Batchable<sObject>
     public void finish(Database.BatchableContext bc) {
         Database.executeBatch(new OfferingStartDateBatch(COURSE_OFFERING_API_NAME));
         Database.executeBatch(new OfferingStartDateBatch(PROGRAM_OFFERING_API_NAME));
-    }
+    }//NOPMD
 }

@@ -1,0 +1,65 @@
+<template>
+  <div class="slds-size_12-of-12 px1">
+        <!--Desktop-->
+        <div class="slds-grid slds-grid_vertical-align-end profile-container desktop slds-size_12-of-12">
+            <span class="prof-name pr1 mb1 slds-truncate bodyBold">Selected Account: {fullLabel}</span>
+            <button if:false={showAccount} class="slds-button slds-button_icon slds-button slds-button_icon" aria-describedby={selectedAccount}
+                aria-disabled="true" title={selectedAccount} onclick={handleToggle}>
+                <lightning-icon 
+                    icon-name="utility:chevrondown"
+                    variant="inverse" 
+                    size="xx-small">
+                </lightning-icon>
+            </button>
+
+            <button if:true={showAccount} class="slds-button slds-button_icon slds-button" aria-describedby={selectedAccount}
+                aria-disabled="true" title={selectedAccount} onclick={handleToggle}>
+                <lightning-icon 
+                    icon-name="utility:chevronup"
+                    variant="inverse" 
+                    size="xx-small">
+                </lightning-icon>
+            </button>
+        </div>
+        
+        <div if:true={showAccount} class="slds-popover slds-popover_tooltip slds-nubbin_top-right slds-slide-from-top-to-bottom pop-over desktop" role="tooltip" id="selected">
+            <div style="height: 200px !important; width: 300px; overflow:auto;">
+                <template for:each={accountNameOptions} for:item="option">             
+                    <div class="slds-popover__body" key={option.value}>
+                        <div class="tooltip" data-id={option.value}>
+                            <a class="selected" 
+                                value={option.value} 
+                                onclick={handleAccountSelected}
+                                data-name={option.label}
+                                data-id={option.value}
+                                data-fullname={option.fullLabel}
+                                role="tooltip">
+                                {option.label}
+                            </a>
+                            <span class="tooltiptext">{option.fullLabel}</span>
+                        </div>
+                      
+                    </div>   
+                </template>
+            </div>
+        </div>
+        <!--Desktop-->
+      
+        <!--Mobile-->
+        <div class="isMobile">
+            <c-custom-account-combobox
+                field-label="Selected Account"
+                options={accountNameOptions}
+                value={selectedAccount}
+                selected-acct-val={selectedAccount}
+                onchange={handleAccountSelectedMobile}
+                full-label={fullLabel}
+                slds-icon-up="utility:chevronup"
+                slds-icon-down="utility:chevrondown"
+                title={fullLabel}
+            >
+            </c-custom-account-combobox>
+        </div>
+        <!--Mobile-->
+   </div>
+</template>

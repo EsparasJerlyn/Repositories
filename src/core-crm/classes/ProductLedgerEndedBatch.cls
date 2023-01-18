@@ -44,5 +44,5 @@ public class ProductLedgerEndedBatch implements Database.Batchable<sObject> {
        
     } 
 
-    public void finish(Database.BatchableContext bc) {}
+    public void finish(Database.BatchableContext bc) {}//NOPMD
 }

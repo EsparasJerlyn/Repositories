@@ -329,7 +329,7 @@
         <pageOrSobjectType>Product_Request__c</pageOrSobjectType>
         <recordType>Product_Request__c.Short_Course</recordType>
         <type>Flexipage</type>
-        <profile>Admin</profile>
+        <profile>QUT System Administrator</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -338,7 +338,7 @@
         <pageOrSobjectType>Product_Request__c</pageOrSobjectType>
         <recordType>Product_Request__c.Short_Course</recordType>
         <type>Flexipage</type>
-        <profile>Admin</profile>
+        <profile>QUT System Administrator</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -383,7 +383,7 @@
         <pageOrSobjectType>Product_Request__c</pageOrSobjectType>
         <recordType>Product_Request__c.OPE_Activity_Request</recordType>
         <type>Flexipage</type>
-        <profile>Admin</profile>
+        <profile>QUT System Administrator</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -392,7 +392,7 @@
         <pageOrSobjectType>Product_Request__c</pageOrSobjectType>
         <recordType>Product_Request__c.OPE_Activity_Request</recordType>
         <type>Flexipage</type>
-        <profile>Admin</profile>
+        <profile>QUT System Administrator</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -401,7 +401,7 @@
         <pageOrSobjectType>Product_Specification__c</pageOrSobjectType>
         <recordType>Product_Specification__c.CCE</recordType>
         <type>Flexipage</type>
-        <profile>Admin</profile>
+        <profile>QUT System Administrator</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -410,7 +410,7 @@
         <pageOrSobjectType>Product_Specification__c</pageOrSobjectType>
         <recordType>Product_Specification__c.CCE</recordType>
         <type>Flexipage</type>
-        <profile>Admin</profile>
+        <profile>QUT System Administrator</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -419,7 +419,7 @@
         <pageOrSobjectType>Product_Request__c</pageOrSobjectType>
         <recordType>Product_Request__c.Activity</recordType>
         <type>Flexipage</type>
-        <profile>Admin</profile>
+        <profile>QUT System Administrator</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -428,7 +428,7 @@
         <pageOrSobjectType>Product_Request__c</pageOrSobjectType>
         <recordType>Product_Request__c.Activity</recordType>
         <type>Flexipage</type>
-        <profile>Admin</profile>
+        <profile>QUT System Administrator</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -455,7 +455,7 @@
         <pageOrSobjectType>Product_Request__c</pageOrSobjectType>
         <recordType>Product_Request__c.Program</recordType>
         <type>Flexipage</type>
-        <profile>Admin</profile>
+        <profile>QUT System Administrator</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -464,7 +464,7 @@
         <pageOrSobjectType>Product_Request__c</pageOrSobjectType>
         <recordType>Product_Request__c.Program</recordType>
         <type>Flexipage</type>
-        <profile>Admin</profile>
+        <profile>QUT System Administrator</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -473,7 +473,7 @@
         <pageOrSobjectType>Product_Request__c</pageOrSobjectType>
         <recordType>Product_Request__c.Unit</recordType>
         <type>Flexipage</type>
-        <profile>Admin</profile>
+        <profile>QUT System Administrator</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -482,7 +482,7 @@
         <pageOrSobjectType>Product_Request__c</pageOrSobjectType>
         <recordType>Product_Request__c.Unit</recordType>
         <type>Flexipage</type>
-        <profile>Admin</profile>
+        <profile>QUT System Administrator</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -509,7 +509,7 @@
         <pageOrSobjectType>Product_Request__c</pageOrSobjectType>
         <recordType>Product_Request__c.Module</recordType>
         <type>Flexipage</type>
-        <profile>Admin</profile>
+        <profile>QUT System Administrator</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -518,7 +518,7 @@
         <pageOrSobjectType>Product_Request__c</pageOrSobjectType>
         <recordType>Product_Request__c.Module</recordType>
         <type>Flexipage</type>
-        <profile>Admin</profile>
+        <profile>QUT System Administrator</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>

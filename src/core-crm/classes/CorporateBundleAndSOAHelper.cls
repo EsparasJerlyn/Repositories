@@ -51,15 +51,13 @@ public with sharing class CorporateBundleAndSOAHelper {
                     contactIds.add(acr.ContactId);
                }
                
-               if(!acrList.isEmpty()){
-                    corporateUserRecords = new List<User>([
-                         SELECT Id, AccountId, Contact.hed__Primary_Organization__c
-                         FROM User
-                         WHERE ContactId IN: contactIds
-                         AND IsActive = true
-                         LIMIT 1
-                    ]);
-               }
+               corporateUserRecords = new List<User>([
+                    SELECT Id, AccountId, Contact.hed__Primary_Organization__c
+                    FROM User
+                    WHERE ContactId IN: contactIds
+                    AND IsActive = true
+                    LIMIT 1
+               ]);
           }
           
           return corporateUserRecords;
@@ -107,6 +105,9 @@ public with sharing class CorporateBundleAndSOAHelper {
      */
     @AuraEnabled
     public static boolean checkCreditAvailability(String pbEntryId, String assetId){
+
+          Boolean isAvailable = false; 
+
           List<PricebookEntry> selectedPriceBookEntry = new List<PricebookEntry>([
                SELECT Id, UnitPrice
                FROM PricebookEntry
@@ -123,10 +124,10 @@ public with sharing class CorporateBundleAndSOAHelper {
           if(  !selectedPriceBookEntry.isEmpty() && 
                !relatedAsset.isEmpty() &&
                relatedAsset[0].Remaining_Value__c >= selectedPriceBookEntry[0].UnitPrice){
-               return true;
-          }else{
-               return false;
+               isAvailable = true;
           }
+
+          return isAvailable;
     }
 
      /*
@@ -149,31 +150,28 @@ public with sharing class CorporateBundleAndSOAHelper {
                priceBookToEntryMap.put(pbEntry.Pricebook2Id,pbEntry.Id);
           }
 
-          if(!priceBookToEntryMap.keySet().isEmpty()){
-
-               for(BuyerGroupPriceBook buyerGroupPB: [
-                    SELECT Id, BuyerGroup.Product_Request__c, Pricebook2Id
-                    FROM BuyerGroupPriceBook
-                    WHERE Pricebook2Id IN:priceBookToEntryMap.keySet()
-                    AND BuyerGroup.Product_Request__c != null
-               ]){
-                    productRequestToPriceBookMap.put(buyerGroupPB.BuyerGroup.Product_Request__c,buyerGroupPB.Pricebook2Id);
-               }
+          for(BuyerGroupPriceBook buyerGroupPB: [
+               SELECT Id, BuyerGroup.Product_Request__c, Pricebook2Id
+               FROM BuyerGroupPriceBook
+               WHERE Pricebook2Id IN:priceBookToEntryMap.keySet()
+               AND BuyerGroup.Product_Request__c != null
+               AND Pricebook2Id != null
+          ]){
+               productRequestToPriceBookMap.put(buyerGroupPB.BuyerGroup.Product_Request__c,buyerGroupPB.Pricebook2Id);
           }
 
-          if(!productRequestToPriceBookMap.keySet().isEmpty()){
-               for(Asset asset:[
-                    SELECT Id, Total_Value__c, Remaining_Value__c, Product_Request__c
-                    FROM Asset
-                    WHERE Product_Request__c IN: productRequestToPriceBookMap.keySet()
-               ]){
-                    if(  productRequestToPriceBookMap.containsKey(asset.Product_Request__c) &&
-                         priceBookToEntryMap.containsKey(productRequestToPriceBookMap.get(asset.Product_Request__c))){
-                         asset.Total_Value__c = asset.Total_Value__c == null?0:asset.Total_Value__c;
-                         pbEntryToAssetMap.put(priceBookToEntryMap.get(productRequestToPriceBookMap.get(asset.Product_Request__c)),asset);
-                    }
-                    
+          for(Asset asset:[
+               SELECT Id, Total_Value__c, Remaining_Value__c, Product_Request__c
+               FROM Asset
+               WHERE Product_Request__c IN: productRequestToPriceBookMap.keySet()
+               AND Product_Request__c != null
+          ]){
+               if(  productRequestToPriceBookMap.containsKey(asset.Product_Request__c) &&
+                    priceBookToEntryMap.containsKey(productRequestToPriceBookMap.get(asset.Product_Request__c))){
+                    asset.Total_Value__c = asset.Total_Value__c == null?0:asset.Total_Value__c;
+                    pbEntryToAssetMap.put(priceBookToEntryMap.get(productRequestToPriceBookMap.get(asset.Product_Request__c)),asset);
                }
+               
           }
 
           return pbEntryToAssetMap;    
@@ -251,60 +249,40 @@ public with sharing class CorporateBundleAndSOAHelper {
                          //store course enrollemnts with cart and account id
                          //should contain the partner account
                          potentialPartnerAccounts.add(coursecon.Cart_ID__r.AccountId);
-                    }else if( (    coursecon.hed__Course_Offering__c != null && 
-                                   coursecon.hed__Course_Offering__r.hed__Course__r.ProductRequestID__r.Product_Specification__r.RecordType.DeveloperName == 'CCE') ||
-                                   (    coursecon.Program_Offering__c != null && 
-                                        coursecon.Program_Offering__r.hed_Program_Plan__r.Product_Request__r.Product_Specification__r.RecordType.DeveloperName =='CCE')
-                              ){
-                                   if(coursecon.Program_Offering__c != null){
-                                        accountId = coursecon.Program_Offering__r.hed_Program_Plan__r.Product_Request__r.Product_Specification__r.Opportunity_Name__r.AccountId;
-                                   }else{
-                                        accountId = coursecon.hed__Course_Offering__r.hed__Course__r.ProductRequestID__r.Product_Specification__r.Opportunity_Name__r.AccountId;
-                                   }
-                                   //
-                                   affiliationRecord = new hed__Affiliation__c(
-                                        hed__Contact__c = courseCon.hed__Contact__c,
-                                        hed__Account__c = accountId,
-                                        hed__Role__c = 'Employee',
-                                        hed__Status__c = 'Current',
-                                        hed__StartDate__c = System.today(),
-                                        hed__Primary__c = false
-                                   );
-                                   affiliationKey = courseCon.hed__Contact__c + accountId;
-                                   affiliationToInsert.put(affiliationKey,affiliationRecord);
-                                   courseEnrollmentRecords.remove(coursecon.Id);
+                    }else{
+                         affiliationRecord = createAffiliationRecord(courseCon);
+                         affiliationKey = String.valueOf(affiliationRecord.hed__Contact__c) + String.valueOf(affiliationRecord.hed__Account__c);
+                         affiliationToInsert.put(affiliationKey,affiliationRecord);
+                         courseEnrollmentRecords.remove(coursecon.Id);
                     }
                }
                //get partner accounts
                //for some reaspon Cart_ID__r.Account.IsPartner is not working
-               if(!potentialPartnerAccounts.isEmpty()){
-                    partnerAccounts = [
-                         SELECT Id
-                         FROM Account
-                         WHERE IsPartner = true
-                         AND Id IN:potentialPartnerAccounts
-                    ];
-     
-                    for(Account acc: partnerAccounts){
-                         partnerAccountIds.add(acc.Id);
-                    }
+               partnerAccounts = [
+                    SELECT Id
+                    FROM Account
+                    WHERE IsPartner = true
+                    AND Id IN:potentialPartnerAccounts
+               ];
+
+               for(Account acc: partnerAccounts){
+                    partnerAccountIds.add(acc.Id);
                }
      
-               if(!partnerAccountIds.isEmpty() && !courseEnrollmentRecords.keySet().isEmpty()){
-                    for(hed__Course_Enrollment__c courseCon : courseEnrollmentRecords.values()){
-                         if(partnerAccountIds.contains(courseCon.Cart_ID__r.AccountId)){
-                              affiliationRecord = new hed__Affiliation__c(
-                                        hed__Contact__c = courseCon.hed__Contact__c,
-                                        hed__Account__c = courseCon.Cart_ID__r.AccountId,
-                                        hed__Role__c = 'Employee',
-                                        hed__Status__c = 'Current',
-                                        hed__StartDate__c = System.today(),
-                                        hed__Primary__c = false
-                              );
-     
-                              affiliationKey = String.valueOf(courseCon.hed__Contact__c) + String.valueOf(courseCon.Cart_ID__r.AccountId);
-                              affiliationToInsert.put(affiliationKey,affiliationRecord);
-                         }
+               for(hed__Course_Enrollment__c courseCon : courseEnrollmentRecords.values()){
+                    if(partnerAccountIds.contains(courseCon.Cart_ID__r.AccountId)){
+                         
+                         affiliationRecord = new hed__Affiliation__c(
+                              hed__Contact__c = courseCon.hed__Contact__c,
+                              hed__Account__c = courseCon.Cart_ID__r.AccountId,
+                              hed__Role__c = 'Employee',
+                              hed__Status__c = 'Current',
+                              hed__StartDate__c = System.today(),
+                              hed__Primary__c = false
+                         );
+                         
+                         affiliationKey = String.valueOf(courseCon.hed__Contact__c) + String.valueOf(courseCon.Cart_ID__r.AccountId);
+                         affiliationToInsert.put(affiliationKey,affiliationRecord);
                     }
                }
      
@@ -312,8 +290,30 @@ public with sharing class CorporateBundleAndSOAHelper {
                     insert affiliationToInsert.values();
                }
           }catch(Exception e){
-               System.debug('An error has occurred. See error message: ' + e.getMessage());
+               System.debug(LoggingLevel.DEBUG, 'An error has occurred. See error message: ' + e.getMessage());//NOPMD
           }
 
+     }
+
+     private static hed__Affiliation__c createAffiliationRecord(hed__Course_Enrollment__c courseCon){
+
+          Id accountId;
+
+          if(  coursecon.hed__Course_Offering__c != null && 
+               coursecon.hed__Course_Offering__r.hed__Course__r.ProductRequestID__r.Product_Specification__r.RecordType.DeveloperName == 'CCE' &&
+               coursecon.Program_Offering__c == null){
+               accountId = coursecon.hed__Course_Offering__r.hed__Course__r.ProductRequestID__r.Product_Specification__r.Opportunity_Name__r.AccountId;
+          }else{
+               accountId = coursecon.Program_Offering__r.hed_Program_Plan__r.Product_Request__r.Product_Specification__r.Opportunity_Name__r.AccountId;
+          }
+
+          return new hed__Affiliation__c(
+               hed__Contact__c = courseCon.hed__Contact__c,
+               hed__Account__c = accountId,
+               hed__Role__c = 'Employee',
+               hed__Status__c = 'Current',
+               hed__StartDate__c = System.today(),
+               hed__Primary__c = false
+          );
      }
 }

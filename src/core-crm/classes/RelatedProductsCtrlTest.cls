@@ -26,7 +26,7 @@ public with sharing class RelatedProductsCtrlTest {
          .get(ACCT_UNIV_DEP)
          .getRecordTypeId();
      private static final Id PROGRAM_ID = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get('Program').getRecordTypeId();
- 
+  
      @testSetup 
      static void setupMethod() {
          Test.startTest();

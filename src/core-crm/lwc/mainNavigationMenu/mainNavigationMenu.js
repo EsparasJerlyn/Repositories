@@ -13,6 +13,7 @@
 	  | keno.domienri.dico        | August 18, 2022       | DEPP-3765    | Updated Product Category method                        |
 	  | marygrace.li              | September 7, 2022     | DEPP-2699    | Added homepage mobile view                             |
 	  | keno.domienri.dico		  | September 28, 2022	  | DEPP-4459	 | Added search filter in getProducts method			  |
+	  | mary.grace.li             | November 22, 2022     | DEPP-4693    | Added Selected account logic                           |
 */
 
 import { LightningElement, wire, track, api } from 'lwc';
@@ -27,6 +28,8 @@ import USER_ID from '@salesforce/user/Id';
 import customSR from "@salesforce/resourceUrl/QUTInternalCSS";
 import { loadStyle } from "lightning/platformResourceLoader";
 import qutResourceImg from "@salesforce/resourceUrl/QUTImages";
+import { subscribe, unsubscribe, MessageContext } from 'lightning/messageService';
+import payloadContainerLMS from '@salesforce/messageChannel/AccountId__c';
 
 const STORE_FRONT_CATEGORY = 'StorefrontCategories';
 const LOGIN_REQUIRED = 'LoginRequired';
@@ -34,6 +37,8 @@ const AVAILABLE_TO_BUY = 'Available to Buy';
 const CONTRACT_TYPE = 'Standing Offer Arrangement';
 const HOME_HEADER = 'For your organisation';
 const DEFAULT_CATEGORY = 'Tailored Executive Education'
+
+const STORED_ACCTID = "storedAccountId";
 export default class MainNavigationMenu extends LightningElement {
 
 	NavigationMenuList;
@@ -50,9 +55,27 @@ export default class MainNavigationMenu extends LightningElement {
 	accordionIcon;
 	activeSections = [DEFAULT_CATEGORY];
 	accordionIsClicked = false;
+	accountId;
+	accountName;
+	subscription;
+	fullLabel;
+
+	@wire(MessageContext)
+    messageContext;
+
+
+	parameterObject = {
+		userId: USER_ID,
+		categoryId : '', 
+		accountId: '',
+		accountName: '',
+		fullLabel: ''
+	  }
 
 	renderedCallback() {
 		Promise.all([loadStyle(this, customSR + "/QUTInternalCSS.css")]);
+		this.subscribeLMS();
+	
 	}
 
 	//retrieve Opportunity Contract Type
@@ -104,6 +127,18 @@ export default class MainNavigationMenu extends LightningElement {
                 if(Category.SortOrder == '1'){
                     this.className = 'slds-tabs_default__item slds-is-active';
                     this.navMenuId = Category.Id;
+
+					if(sessionStorage.getItem(STORED_ACCTID)){
+						this.accountId =  sessionStorage.getItem(STORED_ACCTID);
+					}
+
+					  this.parameterObject = {
+						userId: USER_ID,
+						categoryId : this.navMenuId,
+						accountId: this.accountId,
+						accountName: this.accountName,
+						fullLabel: this.fullLabel
+					  }
                 } else {
                     this.className = 'slds-tabs_default__item';
                 }
@@ -128,6 +163,16 @@ export default class MainNavigationMenu extends LightningElement {
 		this.accordionClose = qutResourceImg + "/QUTImages/Icon/accordionClose.svg";
 	}
 
+    disconnectedCallback() {
+        this.unsubscribeLMS();
+    }
+
+    unsubscribeLMS(){
+        unsubscribe(this.subscription);
+        this.subscription = null;
+    }
+
+
 	// get header text
 	get headerHome() {
 		return HOME_HEADER;
@@ -140,6 +185,18 @@ export default class MainNavigationMenu extends LightningElement {
 		let inactiveMenu = this.template.querySelectorAll('li');
 		this.navMenuId = activeMenu.dataset.id;
 		this.navMenuName = activeMenu.dataset.name;
+
+		if(sessionStorage.getItem(STORED_ACCTID)){
+			this.accountId =  sessionStorage.getItem(STORED_ACCTID);
+		}
+
+		this.parameterObject = {
+			userId: USER_ID,
+			categoryId : this.navMenuId,
+			accountId: this.accountId,
+			accountName: this.accountName,
+			fullLabel: this.fullLabel
+		  }
 
 		// set navigation menu classes to default
 		if (inactiveMenu) {
@@ -174,8 +231,7 @@ export default class MainNavigationMenu extends LightningElement {
 	// Get the Products per category menu
 	getProducts() {
 		getProductsByCategory({
-			categoryId : this.navMenuId,
-			userId : USER_ID,
+			acctFilterDataWrapper: this.parameterObject,
 			keyword : ''
 		}).then((result) => {
 			let prodList = [];
@@ -224,6 +280,18 @@ export default class MainNavigationMenu extends LightningElement {
 
 		this.navMenuName = sections[0];
 		this.navMenuId = sections[1];
+
+		if(sessionStorage.getItem(STORED_ACCTID)){
+			this.accountId =  sessionStorage.getItem(STORED_ACCTID);
+		}
+
+		this.parameterObject = {
+			userId : USER_ID,
+			categoryId : this.navMenuId,
+			accountId: this.accountId,
+			accountName: this.accountName,
+			fullLabel: this.fullLabel
+		  }
 		
 		this.accordionIsClicked == true;
 
@@ -237,4 +305,37 @@ export default class MainNavigationMenu extends LightningElement {
 		// get products list
 		this.getProducts();
 	}
+
+	subscribeLMS() {
+        if (!this.subscription) {
+            this.subscription = subscribe(
+                this.messageContext, 
+                payloadContainerLMS, 
+                (message) => this.validateValue(message));
+        }
+    }
+
+	validateValue(val) {
+        if (val && val.accountIdParameter) {
+            let newValObj = JSON.parse(val.accountIdParameter);
+    
+           	this.accountId = newValObj.accountId;
+			this.accountName = newValObj.accountName;
+			this.fullLabel =  newValObj.fullLabel;
+
+			this.parameterObject = {
+				userId : USER_ID,
+				categoryId : this.navMenuId,
+				accountId: this.accountId,
+				accountName: this.accountName,
+				fullLabel: this.fullLabel
+				
+			  }
+			  this.getProducts();
+        }
+    }
+
+	setSessionStorage(){
+        sessionStorage.setItem(STORED_ACCTID,this.accountId);
+    }
 }

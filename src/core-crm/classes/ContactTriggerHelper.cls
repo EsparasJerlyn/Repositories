@@ -74,7 +74,7 @@ public without sharing class ContactTriggerHelper {
           try{
             insert acrToBeInserted.values();
           }catch(Exception e){
-            System.debug('Error creating ACR ' + e.getMessage());
+            System.debug(LoggingLevel.DEBUG, 'Error creating ACR ' + e.getMessage());//NOPMD
           } 
         }
     }

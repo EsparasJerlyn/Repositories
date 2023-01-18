@@ -23,13 +23,19 @@ p.bodyBold {
     font-size: 16px;
 }
 
+.expand-div-drpdown{
+    margin-top: 4rem;
+}
 
+.expand-span-drpdown{
+    margin-top: 9rem;
+}
 
 /**desktop*/
 @media only screen and (min-width: 768px){
     .pop-over{
         position: relative;
-        top: 35px;
+        top: 40px;
         left: 83%;
         background: #FFFFFF;
         font-size: 16px;
@@ -45,8 +51,16 @@ p.bodyBold {
     }
 
     .profile-container{
-        width: 350px;
+        width: 230px;
         justify-content: flex-end;
+    }
+
+    .desktop{
+        display: flex;
+    }
+
+    .isMobile{
+        display: none;
     }
 }
 
@@ -71,12 +85,20 @@ p.bodyBold {
     }
 
     .profile-container{
-        width: 350px;
+        width: 230px;
         justify-content: flex-end;
     }
 
     .prof-align {
         float: right;
+    }
+
+    .desktop{
+        display: none;
+    }
+
+    .isMobile{
+        display: block;
     }
 }
 

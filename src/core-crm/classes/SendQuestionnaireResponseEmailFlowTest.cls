@@ -74,53 +74,55 @@ private class SendQuestionnaireResponseEmailFlowTest{
 
     @isTest
     private static void applyOnProgramTest(){
-        Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
-        insert customEmail;
-
-        Study_Store_URL_Settings__c studyStore = new Study_Store_URL_Settings__c(Name='QUTeX', Study_Store_Link__c = 'https://studystorelinktest.com/');
-        insert studyStore;
-         
-        List<Account> accounts;
-        List<Contact> contacts;
-        List<hed__Term__c> terms;
-        List<Product_Request__c> prodRequest;
-        List<hed__Course_Offering__c> courseOfferings;
-        List<hed__Course__c> courses;
-        List<hed__Program_Plan__c> programPlans;
-        List<Program_Offering__c> programOfferings;
-        List<Product2> products;
-        List<Expression_of_Interest__c> interests;
-        Pricebook2 priceBook;
-        PricebookEntry priceBookEntry;
-
-        accounts = TestDataFactory.createTestAccountRecords(1);
-        for(Account account : accounts){
-            account.RecordTypeId = ACCT_UNIV_DEP_ID;
-            account.Organization_Unit_Level__c = '2';
-        }
-        insert accounts;
-        contacts = TestDataFactory.createTestContactRecords(1);
-        contacts[0].Registered_Email__c ='testquttestqut@email.com';
-        insert Contacts;
-        terms = TestDataFactory.createTestTermRecords(25,accounts[0].Id);
-        insert terms;
-        prodRequest = TestDataFactory.createTestProductRequestRecords(1);
-        insert prodRequest;
-        courses = TestDataFactory.createTestCourseRecords(25,accounts[0].Id,prodRequest[0].Id);
-        insert courses;
-        programPlans = TestDataFactory.createTestProgramPlanRecords(25);
-        insert programPlans;
-
-        List<Program_Offering__c> programOffering = TestDataFactory.createTestProgramOfferingRecords(25,programPlans);
-        insert programOffering;
-
+        final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
         Test.startTest();
+        System.runAs(PORTAL_SYS_ADMIN) {
+            Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
+            insert customEmail;
 
-        Questionnaire_Response_Summary__c qrs = new Questionnaire_Response_Summary__c(Application_Status__c ='Pending', Program_Offering__c =  programOffering[0].Id, Contact__c = contacts[0].Id);
-        insert qRs;
+            Study_Store_URL_Settings__c studyStore = new Study_Store_URL_Settings__c(Name='QUTeX', Study_Store_Link__c = 'https://studystorelinktest.com/');
+            insert studyStore;
+            
+            List<Account> accounts;
+            List<Contact> contacts;
+            List<hed__Term__c> terms;
+            List<Product_Request__c> prodRequest;
+            List<hed__Course_Offering__c> courseOfferings;
+            List<hed__Course__c> courses;
+            List<hed__Program_Plan__c> programPlans;
+            List<Program_Offering__c> programOfferings;
+            List<Product2> products;
+            List<Expression_of_Interest__c> interests;
+            Pricebook2 priceBook;
+            PricebookEntry priceBookEntry;
 
-        System.assertEquals(1, Limits.getEmailInvocations(),'Number of email invocations not as expected');
+            accounts = TestDataFactory.createTestAccountRecords(1);
+            for(Account account : accounts){
+                account.RecordTypeId = ACCT_UNIV_DEP_ID;
+                account.Organization_Unit_Level__c = '2';
+            }
+            insert accounts;
+            contacts = TestDataFactory.createTestContactRecords(1);
+            contacts[0].Registered_Email__c ='testquttestqut@email.com';
+            insert Contacts;
+            terms = TestDataFactory.createTestTermRecords(25,accounts[0].Id);
+            insert terms;
+            prodRequest = TestDataFactory.createTestProductRequestRecords(1);
+            insert prodRequest;
+            courses = TestDataFactory.createTestCourseRecords(25,accounts[0].Id,prodRequest[0].Id);
+            insert courses;
+            programPlans = TestDataFactory.createTestProgramPlanRecords(25);
+            insert programPlans;
+
+            List<Program_Offering__c> programOffering = TestDataFactory.createTestProgramOfferingRecords(25,programPlans);
+            insert programOffering;
+
+            Questionnaire_Response_Summary__c qrs = new Questionnaire_Response_Summary__c(Application_Status__c ='Pending', Program_Offering__c =  programOffering[0].Id, Contact__c = contacts[0].Id);
+            insert qRs;
+
+            System.assertEquals(1, Limits.getEmailInvocations(),'Number of email invocations not as expected');
         Test.stopTest();
+        }
 
     }
 

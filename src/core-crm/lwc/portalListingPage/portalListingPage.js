@@ -13,6 +13,7 @@
 	  | dodge.j.palattao          | September 26, 2022    | DEPP-2699            | Added messageChannel for SubMenu active category       |
 	  | keno.domienri.dico		  | September 28, 2022	  | DEPP-4459 & 4461	 | Remove Product Type Grouping and added search filter	  |
 	  | julie.jane.alegre         | December  12, 2022    | DEPP-4667            | Add Corporate Bundle info in product listing page      |
+	  | mary.grace.li             | November 22, 2022     | DEPP-4693            | Modified for Selected account logic                    |
  */
 
 	  import { LightningElement ,wire, track, api} from 'lwc';
@@ -23,11 +24,15 @@
 	  import userId from "@salesforce/user/Id";
 
 	  import { publish, MessageContext } from 'lightning/messageService';
+	  import { subscribe, unsubscribe } from 'lightning/messageService';
 	  import payloadContainerLMS from '@salesforce/messageChannel/Breadcrumbs__c';
 	  import payloadContainerLMSsubMenuName from '@salesforce/messageChannel/SubMenu__c';
+	  import payloadAcctContainerLMS from '@salesforce/messageChannel/AccountId__c';
 
 	  const CURRENTPRODUCTCATEGORY = "current_product_category";
 	  const DELAY = 300;
+	  const STORED_ACCTID = "storedAccountId";
+
 	  export default class PortalListingPage extends LightningElement {
 		  //variables
 		  stringValue = '';
@@ -38,9 +43,23 @@
 		  productCategory;
 		  _isLoading = true;
 		  _recordId;
+		  accountId;
+		  accountName;
+		  fullLabel;
+		  subscription;
+
+
 		  @track productInfoList = [];
 		  isCorporateBundle;
 		  assetList;
+
+		  parameterObject = {
+			userId: userId,
+			categoryId : '', 
+			accountId: '',
+			accountName: '',
+			fullLabel: ''
+		  }
 	  
 		  get isLoading() {
 			  return this._isLoading;
@@ -66,6 +85,11 @@
 		  @wire(MessageContext)
 		  messageContext;
 	  
+
+		  renderedCallback(){
+			this.subscribeLMS();
+		  }
+
 		  //retrieve Category Link Menus
 		  @wire(getStoreFrontCategoryMenu,{communityId:communityId})
 		  handleGetStorefrontCategories(result){  
@@ -76,6 +100,19 @@
 					  if(check){
 						  this.productCategory = category.Name;
 						  this.categoryId = category.Id;
+
+						  if(sessionStorage.getItem(STORED_ACCTID)){
+						 	 this.accountId =  sessionStorage.getItem(STORED_ACCTID);
+						  }
+
+						  this.parameterObject = {
+							userId : userId,
+							categoryId : this.categoryId,
+							accountId: this.accountId,
+							accountName: this.accountName,
+							fullLabel: this.fullLabel
+						  }
+
 						  //gets isTailoredExecEduc value to store in session storage if in CCE Portal
 						  if(this.isCCEPortal){
 						  let currentProductCategory = {
@@ -119,8 +156,7 @@
 		  // Get the Products per category menu
 		  getProducts(){
 			  getProductsByCategory({
-				  categoryId : this.categoryId,
-				  userId : userId,
+				  acctFilterDataWrapper: this.parameterObject,
 				  keyword : this.filterKey
 			  }).then((result) => {
 				  this.productInfoList = [];
@@ -190,5 +226,45 @@
 		  
 			  publish(this.messageContext, payloadContainerLMS, payLoad);
 			  publish(this.messageContext, payloadContainerLMSsubMenuName, payLoad);
-		  }  
+		  } 
+		  
+		disconnectedCallback() {
+			this.unsubscribeLMS();
+		}
+	
+		unsubscribeLMS(){
+			unsubscribe(this.subscription);
+			this.subscription = null;
+		}
+
+
+		subscribeLMS() {
+			if (!this.subscription) {
+				this.subscription = subscribe(
+					this.messageContext, 
+					payloadAcctContainerLMS, 
+					(message) => this.validateValue(message));
+			}
+		}
+	
+		validateValue(val) {
+			if (val && val.accountIdParameter) {
+				let newValObj = JSON.parse(val.accountIdParameter);
+		
+				   this.accountId = newValObj.accountId;
+				   this.accountName = newValObj.accountName;
+				   this.fullLabel = newValObj.fullLabel;
+	
+				this.parameterObject = {
+					userId : userId,
+					categoryId : this.categoryId,
+					accountId: this.accountId,
+					accountName: this.accountName,
+					fullLabel: this.fullLabel
+
+				  }
+
+				  this.getProducts();
+			}
+		}
 	  }

@@ -13,6 +13,9 @@
 public with sharing class RelatedProductsCtrl {
 
      private static final String SUCCESS_RESPONSE = 'Success';
+     private static Map<String,Associated_Products__c> productToAsocProdMap = new Map<String,Associated_Products__c>();
+     private static Boolean isStatusCompleted = false;
+     private static String priceBookId = ''; 
 
      /**
      * @description Retrieves list of Active OPE Products based on Product Request
@@ -21,12 +24,9 @@ public with sharing class RelatedProductsCtrl {
      */
      @AuraEnabled(cacheable=true)
      public static List<ProductDetails> getProductsWithPricing(String recordId){  
-          String priceBookId = '';  
-          Boolean isStatusCompleted = false;
+           
           Set<Id> cceProductsSet = new Set<Id>();
-          Map<String,Associated_Products__c> productToAsocProdMap = new Map<String,Associated_Products__c>();
           List<ProductDetails> productDetails =  new List<ProductDetails>();
-
           List<BuyerGroupPriceBook> buyerGroupPriceBook2 = new List<BuyerGroupPriceBook>(
                [    
                     SELECT Id, Pricebook2Id 
@@ -42,24 +42,35 @@ public with sharing class RelatedProductsCtrl {
                priceBookId = buyerGroupPriceBook2[0].Pricebook2Id;
           }
 
+          Product_Request__c currentProductRequest = [
+               SELECT Id, Product_Request_Status__c 
+               FROM Product_Request__c
+               WHERE Id =: recordId
+               WITH SECURITY_ENFORCED 
+          ];
+
+          if(currentProductRequest.Product_Request_Status__c == 'Completed'){
+               isStatusCompleted = true;
+          }
+
           for(Related_Product_Request__c rpr: [   
                SELECT Course__r.Product_Request_Status__c,
                Program__r.Product_Request_Status__c
                FROM Related_Product_Request__c
                WHERE Program__c =: recordId 
-               AND Course__c != null]){
-                    isStatusCompleted = rpr.Program__r.Product_Request_Status__c == 'Completed'?true:false;
+               AND Course__c != null
+               WITH SECURITY_ENFORCED ]){
                     cceProductsSet.add(rpr.Course__c);
-               }  
+          }  
 
           for(Associated_Products__c assocProd:[  
                SELECT Id, Product__c, IsActive__c, 
                Product_Request__r.Product_Request_Status__c
                FROM Associated_Products__c 
-               WHERE Product_Request__c =: recordId]){
-                    isStatusCompleted = assocProd.Product_Request__r.Product_Request_Status__c == 'Completed'?true:false;
+               WHERE Product_Request__c =: recordId
+               WITH SECURITY_ENFORCED ]){
                     productToAsocProdMap.put(assocProd.Product__c,assocProd);
-               }                                              
+          }                                              
           
 
           List<Product2> productList =[   
@@ -77,43 +88,57 @@ public with sharing class RelatedProductsCtrl {
                FROM Product2 
                WHERE Id IN: productToAsocProdMap.keySet() 
                OR Course__r.ProductRequestID__c IN: cceProductsSet
-               OR Program_Plan__r.Product_Request__c IN: cceProductsSet];
+               OR Program_Plan__r.Product_Request__c IN: cceProductsSet
+               WITH SECURITY_ENFORCED ];
           
-                    
+          return buildProductsTable(productList);
+     }  
+
+     private static List<ProductDetails> buildProductsTable(List<Product2> productList){
+
+          List<ProductDetails> productDetails = new List<ProductDetails>();
+
           for(Product2 product : productList){
                ProductDetails productDetail = new ProductDetails();
-               productDetail.courseRecordType = product.Course__r.RecordType != null ? product.Course__r.RecordType.Name:product.Program_Plan__r.RecordType.Name; 
-               productDetail.status = product.Course__c != null?product.Course__r.ProductRequestID__r.Product_Request_Status__c:product.Program_Plan__r.Product_Request__r.Product_Request_Status__c;  
+
+               if(product.Course__r.RecordType != null){
+                    productDetail.courseRecordType = product.Course__r.RecordType.Name;
+                    productDetail.status = product.Course__r.ProductRequestID__r.Product_Request_Status__c;
+                    productDetail.idUrl = '/' + product.Course__r.ProductRequestID__c;
+               }else{
+                    productDetail.courseRecordType = product.Program_Plan__r.RecordType.Name;
+                    productDetail.status = product.Program_Plan__r.Product_Request__r.Product_Request_Status__c;
+                    productDetail.idUrl = '/' + product.Program_Plan__r.Product_Request__c;
+               }
+
                productDetail.productName = product.Name;
                productDetail.startDate = product.Start_Date__c;
                productDetail.id = product.Id;
                productDetail.priceBookId = priceBookId;
-               productDetail.assocProdId = productToAsocProdMap.containsKey(product.Id)?productToAsocProdMap.get(product.Id).Id:null;
+               productDetail.isActive = product.Available_On_Cart__c;
+               productDetail.isOPE = false;
 
                if(productToAsocProdMap.containsKey(product.Id)){
                     productDetail.isActive = productToAsocProdMap.get(product.Id).IsActive__c;
-               }else {
-                    productDetail.isActive = product.Available_On_Cart__c;
+                    productDetail.isOPE = true;
+                    productDetail.assocProdId = productToAsocProdMap.get(product.Id).Id;
                }
 
-               productDetail.isOPE = productToAsocProdMap.containsKey(product.Id)?true:false;
-               productDetail.idUrl = product.Course__c != null?'/' + product.Course__r.ProductRequestID__c: '/' + product.Program_Plan__r.Product_Request__c;
-
                for(PricebookEntry pricebookEntry : product.PricebookEntries){
-                         if(pricebookEntry.Pricebook2.IsStandard == true){
-                              productDetail.standardPrice = priceBookEntry.UnitPrice != null ? priceBookEntry.UnitPrice : 0;
-                         }else{
-                              productDetail.ccePrice = pricebookEntry.UnitPrice != null? pricebookEntry.UnitPrice: 0;
-                              productDetail.ccePriceBookEntryId = pricebookEntry.Id;
-                              productDetail.discount = pricebookEntry.Discount__c;
-                         }                   
+                    if(pricebookEntry.Pricebook2.IsStandard == true){
+                         productDetail.standardPrice = priceBookEntry.UnitPrice;
+                    }else{
+                         productDetail.ccePrice = pricebookEntry.UnitPrice;
+                         productDetail.ccePriceBookEntryId = pricebookEntry.Id;
+                         productDetail.discount = pricebookEntry.Discount__c;
+                    }                   
                } 
                productDetail.isStatusCompleted = isStatusCompleted;
                productDetails.add(productDetail);
           }
-          
+
           return productDetails;
-     }  
+     }
 
      @AuraEnabled(cacheable=true)
      public static List<ProductDetails> getProducts(String recordId){    

@@ -191,7 +191,7 @@ private class Update_Product_from_CourseTest{
                 courses[i].Location_Details__c = 'test';
                 courses[i].Minimum_Participants__c = 1;
                 courses[i].Maximum_Participants__c = 10;
-                courses[i].Implementation_Year__c = '2022';
+                courses[i].Implementation_Year__c = String.valueOf(Date.today().year());
                 courses[i].Unit_Type__c = 'Unit';
                 courses[i].Unit_Category__c = 'Undergraduate Honours Unit';
                 courses[i].Field_of_Education__c = 'test';

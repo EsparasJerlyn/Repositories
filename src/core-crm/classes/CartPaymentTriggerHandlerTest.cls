@@ -154,8 +154,15 @@ public with sharing class CartPaymentTriggerHandlerTest {
 
             PriceBookEntry pbEntry = [SELECT Id, Product2Id, UnitPrice FROM PriceBookEntry LIMIT 1];
 
+            CartItemWrapper cartItemWrapper = new CartItemWrapper();
+            cartItemWrapper.offeringId = courseOfferings[0].Id;
+            cartItemWrapper.newWebCartId = cart.Id;
+            cartItemWrapper.pbEntry = pbEntry;
+            cartItemWrapper.prescribedProgram = false;
+            cartItemWrapper.cartDeliveryGroupId = cartDeliveryGroup.Id;
+
             for(Integer i = 0; i < 100 ; i++){
-                cartItemsToInsert.add(createCartItem(courseOfferings[0].Id,cart.Id, pbEntry,false,cartDeliveryGroup.Id));
+                cartItemsToInsert.add(createCartItem(cartItemWrapper));
             }
             Test.startTest();
             insert cartItemsToInsert;
@@ -199,8 +206,15 @@ public with sharing class CartPaymentTriggerHandlerTest {
 
             PriceBookEntry pbEntry = [SELECT Id, Product2Id, UnitPrice FROM PriceBookEntry LIMIT 1];
 
+            CartItemWrapper cartItemWrapper = new CartItemWrapper();
+            cartItemWrapper.offeringId = programOffering[0].Id;
+            cartItemWrapper.newWebCartId = cart.Id;
+            cartItemWrapper.pbEntry = pbEntry;
+            cartItemWrapper.prescribedProgram = true;
+            cartItemWrapper.cartDeliveryGroupId = cartDeliveryGroup.Id;
+
             for(Integer i = 0; i < 100 ; i++){
-                cartItemsToInsert.add(createCartItem(programOffering[0].Id,cart.Id, pbEntry,true,cartDeliveryGroup.Id));
+                cartItemsToInsert.add(createCartItem(cartItemWrapper));
             }
             Test.startTest();
             insert cartItemsToInsert;
@@ -244,8 +258,15 @@ public with sharing class CartPaymentTriggerHandlerTest {
 
             PriceBookEntry pbEntry = [SELECT Id, Product2Id, UnitPrice FROM PriceBookEntry LIMIT 1];
 
+            CartItemWrapper cartItemWrapper = new CartItemWrapper();
+            cartItemWrapper.offeringId = courseOfferings[0].Id;
+            cartItemWrapper.newWebCartId = cart.Id;
+            cartItemWrapper.pbEntry = pbEntry;
+            cartItemWrapper.prescribedProgram = false;
+            cartItemWrapper.cartDeliveryGroupId = cartDeliveryGroup.Id;
+
             for(Integer i = 0; i < 100 ; i++){
-                cartItemsToInsert.add(createCartItem(courseOfferings[0].Id,cart.Id, pbEntry,false,cartDeliveryGroup.Id));
+                cartItemsToInsert.add(createCartItem(cartItemWrapper));
             }
             Test.startTest();
             insert cartItemsToInsert;
@@ -290,8 +311,15 @@ public with sharing class CartPaymentTriggerHandlerTest {
 
             PriceBookEntry pbEntry = [SELECT Id, Product2Id, UnitPrice FROM PriceBookEntry LIMIT 1];
 
+            CartItemWrapper cartItemWrapper = new CartItemWrapper();
+            cartItemWrapper.offeringId = courseOfferings[0].Id;
+            cartItemWrapper.newWebCartId = cart.Id;
+            cartItemWrapper.pbEntry = pbEntry;
+            cartItemWrapper.prescribedProgram = false;
+            cartItemWrapper.cartDeliveryGroupId = cartDeliveryGroup.Id;
+
             for(Integer i = 0; i < 100 ; i++){
-                cartItemsToInsert.add(createCartItem(courseOfferings[0].Id,cart.Id, pbEntry,false,cartDeliveryGroup.Id));
+                cartItemsToInsert.add(createCartItem(cartItemWrapper));
             }
             Test.startTest();
             insert cartItemsToInsert;
@@ -305,23 +333,33 @@ public with sharing class CartPaymentTriggerHandlerTest {
     }
 
 
-    private static CartItem createCartItem(Id offeringId, Id newWebCartId,  PricebookEntry pbEntry, Boolean prescribedProgram, Id cartDeliveryGroupId){
+    private static CartItem createCartItem(CartItemWrapper cartItemWrapper){
+
+        
 
         CartItem cartItem = new CartItem();
-        cartItem.CartId = newWebCartId;
+        cartItem.CartId = cartItemWrapper.newWebCartId;
         cartItem.Name = 'Cart Item';
-        cartItem.CartDeliveryGroupId = cartDeliveryGroupId;
-        if(!prescribedProgram){
-             cartItem.Course_Offering__c = offeringId;
+        cartItem.CartDeliveryGroupId = cartItemWrapper.cartDeliveryGroupId;
+        if(!cartItemWrapper.prescribedProgram){
+             cartItem.Course_Offering__c = cartItemWrapper.offeringId;
         }else{
-             cartItem.Program_Offering__c = offeringId;
+             cartItem.Program_Offering__c = cartItemWrapper.offeringId;
         }
-        cartItem.Product2Id = pbEntry.Product2Id;
-        cartItem.Pricebook_Entry_ID__c = pbEntry.Id;
+        cartItem.Product2Id = cartItemWrapper.pbEntry.Product2Id;
+        cartItem.Pricebook_Entry_ID__c = cartItemWrapper.pbEntry.Id;
         cartItem.Quantity = 1;
-        cartItem.TotalPrice = pbEntry.UnitPrice;
+        cartItem.TotalPrice = cartItemWrapper.pbEntry.UnitPrice;
         cartItem.Type = 'Product';
         return cartItem;
+   }
+
+   private class CartItemWrapper{
+       Id offeringId;
+       Id newWebCartId;
+       PricebookEntry pbEntry;
+       Boolean prescribedProgram;
+       Id cartDeliveryGroupId;
    }
 
 

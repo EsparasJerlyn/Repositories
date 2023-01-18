@@ -17,6 +17,7 @@
       | eugene.andrew.abuan       | Septmeber 16, 2022    | DEPP-3506            | Removed OPE Catalouge Account|
       |                           |                       |                      | & added OPE BuyerGroup       |
       | julie.jane.alegre         | September 24, 2022    | DEPP-3568            | Update method  isEmailExist  |
+      | arsenio.jr.dayrit         | December 16, 2022     | DEPP-4907            | Update UpdateContactTest     |
 
  */
 @isTest
@@ -196,14 +197,47 @@ public with sharing class RegistrationFormCtrlTest {
 
       RegistrationFormCtrl.updateContact(
                                           c.Id, 
-                                          'test12345@sample.com', 
+                                          'test12345@sample.com',
+                                          'test12345@sample.com',
                                           '0987654321', 
                                           'Australia (+61)', 
                                           'testing', 
                                           'testing');
-      String contact = c.Accessibility_Requirement__c;
+      String accessibilityReq = [SELECT Accessibility_Requirement__c FROM Contact WHERE Id =: c.Id]?.Accessibility_Requirement__c;
 
-      System.assert(contact == null, 'The contact details is updated');
+      System.assert(accessibilityReq != null, 'The contact details is not updated');
+    }
+    Test.stopTest();
+  }
+
+  
+  @isTest
+  static void updateContactNoEmailTest() {
+    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    Test.startTest();
+    System.runAs(PORTAL_SYS_ADMIN) {
+      TestDataFactory.loadEDATriggers();
+        
+      Contact c = new Contact(
+                              LastName = 'Testing01', 
+                              FirstName ='Testing01',
+                              Work_Email__c = 'test_work@email.com',
+                              QUT_Staff_Email__c = 'test_staff@email.com',
+                              QUT_Learner_Email__c = 'test_learner@email.com',
+                              RecordTypeId = PERSON
+                              );
+      insert c;
+
+      RegistrationFormCtrl.updateContact(
+                                          c.Id, 
+                                          'test_work@email.com',
+                                          'test12345@sample.com',
+                                          '0987654321', 
+                                          'Australia (+61)', 
+                                          'testing', 
+                                          'testing');
+      String email = [SELECT Email FROM Contact WHERE id =: c.Id]?.Email;
+      System.assertEquals('test12345@sample.com', email, 'The contact details is not updated');
     }
     Test.stopTest();
   }
@@ -258,22 +292,26 @@ public with sharing class RegistrationFormCtrlTest {
 
   @isTest
   static void getCommunityUrlTest() {
-    WebStore testWebStore = new WebStore(
-      Name = 'study',
-      DefaultLanguage = 'en_US'
-    );
-    insert testWebStore;
-
-    WebStore testWebStoreCCE = new WebStore(
-      Name = 'cce',
-      DefaultLanguage = 'en_US'
-    );
-    insert testWebStoreCCE;
-
+    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
     Test.startTest();
-    RegistrationFormCtrl.CommunityWrapper comData = RegistrationFormCtrl.getCommunityUrl();
-    Test.stopTest();
-    System.assert(comData != null, 'No Community Data Found');
+    System.runAs(PORTAL_SYS_ADMIN) {
+      WebStore testWebStore = new WebStore(
+        Name = 'study',
+        DefaultLanguage = 'en_US'
+      );
+      insert testWebStore;
+
+      WebStore testWebStoreCCE = new WebStore(
+        Name = 'cce',
+        DefaultLanguage = 'en_US'
+      );
+      insert testWebStoreCCE;
+
+      RegistrationFormCtrl.CommunityWrapper comData = RegistrationFormCtrl.getCommunityUrl();
+  
+      System.assert(comData != null, 'No Community Data Found');
+      Test.stopTest();
+    }
   }
 
   @isTest
@@ -292,20 +330,23 @@ public with sharing class RegistrationFormCtrlTest {
 
   @isTest
   static void getUserMobileLocale(){
-    String uniqueID = GenerateUniqueId.getUUID();
-    String emailTest = 'testUser' + uniqueID + '@test.com';
-
-    Contact testContact = new Contact();
-    testContact.Birthdate = Date.newInstance(1999, 1, 1);
-    testContact.ContactMobile_Locale__c  = 'Australia (+61)';
-    testContact.Email = emailTest;
-    testContact.LastName = 'User';
-    insert testContact;
-
+    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
     Test.startTest();
-    String getMLocale = RegistrationFormCtrl.getUserMobileLocale(testContact.Id);
-    System.assert(getMLocale != null, 'User has no mobile locale.');
+    System.runAs(PORTAL_SYS_ADMIN) {
+      String uniqueID = GenerateUniqueId.getUUID();
+      String emailTest = 'testUser' + uniqueID + '@test.com';
+
+      Contact testContact = new Contact();
+      testContact.Birthdate = Date.newInstance(1999, 1, 1);
+      testContact.ContactMobile_Locale__c  = 'Australia (+61)';
+      testContact.Email = emailTest;
+      testContact.LastName = 'User';
+      insert testContact;
+
+      String getMLocale = RegistrationFormCtrl.getUserMobileLocale(testContact.Id);
+      System.assert(getMLocale != null, 'User has no mobile locale.');
     Test.stopTest();
+    }
   }
 
   @isTest
