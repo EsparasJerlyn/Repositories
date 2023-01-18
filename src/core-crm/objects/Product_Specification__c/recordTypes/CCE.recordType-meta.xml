@@ -187,7 +187,7 @@
         </values>
         <values>
             <fullName>Define</fullName>
-            <default>false</default>
+            <default>true</default>
         </values>
         <values>
             <fullName>Design</fullName>

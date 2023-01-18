@@ -13,7 +13,8 @@
                 </lightning-button-icon>  
                 <!--<div class="heading2  main-color-blue700">{modalHeader}</div>  -->
                 <div class="slds-text-align_center slds-m-vertical_medium">
-                    <h1 class="heading slds-text-heading_medium">{modalHeader}</h1>  
+                    <h1 if:false={standardHeaderLabel} class="heading slds-text-heading_medium">{modalHeader}</h1>
+                    <h1 if:true={standardHeaderLabel} class="slds-modal__title slds-hyphenate slds-text-heading--medium">{modalHeader}</h1>
                 </div>
             </div>  
             <!--Body Section-->

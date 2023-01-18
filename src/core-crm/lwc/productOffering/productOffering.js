@@ -130,7 +130,7 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
     showContactError = false;
     searchContactInProgress = false;
     selectedContactId;
-    saveInProgress;
+    saveInProgress = false;
     facilitatorObj = 'Facilitator_Bio__c';
     objectLabelName = 'Facilitator';
     contactName = '';
@@ -895,9 +895,9 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
         })
         .finally(() => {
             if(objectType == 'Contact'){
+                this.saveInProgress = false;
                this.handleCloseRecord();
                this.isLoading = false;
-               this.saveInProgress = false;
             }else{
                 this.handleRefreshData();
             }
