@@ -3,16 +3,17 @@
  * @see ../lwc/registrationForm
  * @author Accenture
  * @history
- *    | Developer                 | Date                  | JIRA                 | Change Summary                    |
-      |---------------------------|-----------------------|----------------------|-----------------------------------|
-      | roy.nino.s.regala         | August 11, 2022       | DEPP-3568            | Created file                      | 
+ *    | Developer                 | Date                  | JIRA                 | Change Summary                                       |
+      |---------------------------|-----------------------|----------------------|------------------------------------------------------|
+      | roy.nino.s.regala         | August 11, 2022       | DEPP-3568            | Created file                                         | 
+      | roy.nino.s.regala         | January 17, 2023      | DEPP-5076            | Updated Logic to prioritize email matching result    | 
  */
 public without sharing class RegistrationMatchingHelper {
     private static final String RT_CONTACT_PERSON = System.Label.RT_Contact_Person;
     private static final Id RT_CONTACT_PERSON_ID = Schema.SObjectType.Contact.getRecordTypeInfosByDeveloperName()
       .get(RT_CONTACT_PERSON)
       .getRecordTypeId();
-
+    
 
     /**
      * @description Method validate potential contact matching
@@ -21,7 +22,7 @@ public without sharing class RegistrationMatchingHelper {
      */
     @AuraEnabled(cacheable=false)
     public static List<ContactMatchingResponse> validateContactMatching(String newContactList) {
-        List<ContactMatchingResponse> responseList = new List<ContactMatchingResponse>();
+        Map<String,ContactMatchingResponse> responseMap = new Map<String,ContactMatchingResponse>();
         ContactMatchingResponse response;
         Set<String> firstNameSet = new Set<String>();
         Set<String> lastNameSet = new Set<String>();
@@ -29,6 +30,7 @@ public without sharing class RegistrationMatchingHelper {
         Map<String,Contact> criteriaMapWBirthDate = new Map<String,Contact>(); 
         Map<String,Contact> criteriaMap = new Map<String,Contact>(); 
         Map<String,Contact> contactMap = new Map<String,Contact>();
+        
         List<Contact>  serializedContactList= (List<Contact>) System.JSON.deserializeStrict(
             newContactList,
             List<Contact>.class
@@ -69,48 +71,44 @@ public without sharing class RegistrationMatchingHelper {
                 OR QUT_Staff_Email__c IN: contactMap.keySet())
         ]);
 
-        if(!matchingContacts.isEmpty()){
-            for(Contact con: matchingContacts){
-                if(contactMap.containsKey(con.Email)){
-                    responseList.add(contactDetailsMatching(contactMap.get(con.Email),con));
-                }else if(contactMap.containsKey(con.Work_Email__c)){
-                    responseList.add(contactDetailsMatching(contactMap.get(con.Work_Email__c),con));
-                }else if(contactMap.containsKey(con.QUT_Learner_Email__c)){
-                    responseList.add(contactDetailsMatching(contactMap.get(con.QUT_Learner_Email__c),con));
-                }else if(contactMap.containsKey(con.QUT_Staff_Email__c)){
-                    responseList.add(contactDetailsMatching(contactMap.get(con.QUT_Staff_Email__c),con));
-                }else{ 
-                    //email mismatch
-                    //details match
-                    if((    con.Birthdate != null && 
-                            criteriaMapWBirthDate.containsKey(JSON.serialize(con.Birthdate) + con.LastName + con.FirstName)) ||
-                            criteriaMap.containsKey(con.LastName + con.FirstName)){
-                                response = new ContactMatchingResponse();
-                                response.isPartialMatch = true;
-                                response.isEmailMatch = false;
-                                response.errorMessage = 'Please enter an alternate email address that you’ve used with us before to help us find you.';
-                                response.contactRecord = con;
-                                if(con.Birthdate != null && criteriaMapWBirthDate.containsKey(JSON.serialize(con.Birthdate) + con.LastName + con.FirstName)){
-                                    response.email = criteriaMapWBirthDate.get(JSON.serialize(con.Birthdate) + con.LastName + con.FirstName).Registered_Email__c;
-                                }else{
-                                    response.email = criteriaMap.get(con.LastName + con.FirstName).Registered_Email__c;
-                                }
-                                responseList.add(response);
-                    }
-                }
+        for(Contact con: matchingContacts){
+            //email match will always replace the values on the map using the email inputed by the user as key
+            if(contactMap.containsKey(con.Email)){
+                responseMap.put(con.Email,contactDetailsMatching(contactMap.get(con.Email),con));
+            }else if(contactMap.containsKey(con.Work_Email__c)){
+                responseMap.put(con.Work_Email__c,contactDetailsMatching(contactMap.get(con.Work_Email__c),con));
+            }else if(contactMap.containsKey(con.QUT_Learner_Email__c)){
+                responseMap.put(con.QUT_Learner_Email__c,contactDetailsMatching(contactMap.get(con.QUT_Learner_Email__c),con));
+            }else if(contactMap.containsKey(con.QUT_Staff_Email__c)){
+                responseMap.put(con.QUT_Staff_Email__c,contactDetailsMatching(contactMap.get(con.QUT_Staff_Email__c),con));
+                //email mismatch and DOB,FirstName and LastName Match
+                //only add firstdate,lastname, DOB matching result if current email is not on the response map
+            }else if(   con.Birthdate != null && 
+                        criteriaMapWBirthDate.containsKey(JSON.serialize(con.Birthdate) + con.LastName + con.FirstName) && 
+                        !responseMap.containsKey(criteriaMapWBirthDate.get(JSON.serialize(con.Birthdate) + con.LastName + con.FirstName).Registered_Email__c)){   
+                        //if DOB,FirstName and lastname matches
+                        response = createResponseForEmailMismatch(con,criteriaMapWBirthDate.get(JSON.serialize(con.Birthdate) + con.LastName + con.FirstName).Registered_Email__c);
+                        responseMap.put(response.email,response);
+            }else if(   criteriaMap.containsKey(con.LastName + con.FirstName) && 
+                        !responseMap.containsKey(criteriaMap.get(con.LastName + con.FirstName).Registered_Email__c)){
+                        //if FirstName and lastname matches
+                        response = createResponseForEmailMismatch(con,criteriaMap.get(con.LastName + con.FirstName).Registered_Email__c);
+                        responseMap.put(response.email,response); 
             }
-        }else{
+        }
+       
+        if(matchingContacts.isEmpty()){
             for(Contact con: serializedContactList){
                 response = new ContactMatchingResponse();
                 response.isPartialMatch = false;
                 response.isEmailMatch = false;
                 response.errorMessage = null;
                 response.email = con.Registered_Email__c;
-                responseList.add(response);
+                responseMap.put(con.Registered_Email__c,response);
             }
         }
 
-        return responseList;
+        return responseMap.values();
     }
 
     /**
@@ -149,6 +147,16 @@ public without sharing class RegistrationMatchingHelper {
             response.email = newContact.Registered_Email__c;
         }
 
+        return response;
+    }
+
+    private static ContactMatchingResponse createResponseForEmailMismatch(Contact con, String email){
+        ContactMatchingResponse response = new ContactMatchingResponse();
+        response.isPartialMatch = true;
+        response.isEmailMatch = false;
+        response.errorMessage = 'Please enter an alternate email address that you’ve used with us before to help us find you.';
+        response.contactRecord = con;
+        response.email = email;
         return response;
     }
 
