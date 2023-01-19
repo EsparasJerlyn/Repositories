@@ -23,7 +23,7 @@ public with sharing class Product2TriggerHandlerTest {
   private static final Id RT_PROGRAM_ID =  Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(RT_PROGRAM).getRecordTypeId();
   private static final string C_ACTIVITY = System.Label.RT_ProductRequest_Activity;
   private static final Id C_ACTIVITY_ID = Schema.SObjectType.hed__Course__c.getRecordTypeInfosByDeveloperName().get(C_ACTIVITY).getRecordTypeId();
-  private static string PP_PROGRAM = System.Label.RT_ProgramPlan_Program;
+  private static final string PP_PROGRAM = System.Label.RT_ProgramPlan_Program;
   private static Id opeProgPlanId = Schema.SObjectType.hed__Program_Plan__c.getRecordTypeInfosByDeveloperName().get(PP_PROGRAM).getRecordTypeId();
   private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
   private static Id cceProdSpecId = Schema.SObjectType.Product_Specification__c.getRecordTypeInfosByDeveloperName().get('CCE').getRecordTypeId();
@@ -367,6 +367,7 @@ public with sharing class Product2TriggerHandlerTest {
       List<Product_Specification__c> prodSpecList = TestDataFactory.createTestProductSpecsRecords(10,con,oppList);
       for(Integer i = 0 ; i < prodSpecList.size() ; i++){
         prodSpecList[i].RecordTypeId = opeProdSpecId;
+        prodSpecList[i].Stage__c = 'Idea';
       }
       insert prodSpecList;
 
