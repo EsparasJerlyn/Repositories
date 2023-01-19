@@ -1,6 +1,13 @@
 {
   "packageDirectories": [
     {
+      "path": "src/core-crm-onetime",
+      "package": "core-crm-onetime",
+      "type": "metadata",
+      "versionName": "Version 1.0.0.0",
+      "versionNumber": "1.0.0.0"
+    },
+    {
       "path": "src/core-crm-pre",
       "package": "core-crm-pre",
       "type": "metadata",
