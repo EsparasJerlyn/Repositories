@@ -40,7 +40,6 @@
 
 @isTest
 public class TestDataFactory {
-  private static final String STR_QUALIFY = 'Qualify';
   private static final String STR_IN_PROGRESS = 'In Progress';
   private static final String STR_QUESTIONNAIRE_TYPE = 'Registration Criteria';
   private static final String TEST_BUYER_GROUP = 'Test Buyer Group';
@@ -164,7 +163,7 @@ public class TestDataFactory {
           Name = 'TestOpportunity' + i,
           AccountId = accId,
           Contact__c = conId,
-          StageName = STR_QUALIFY,
+          StageName = 'Closed Won',
           Status__c = STR_IN_PROGRESS,
           CloseDate = System.today() + 30
         )
@@ -242,7 +241,7 @@ public class TestDataFactory {
       ps.Program_Lead__c = contacts[i].id;
       ps.Opportunity_Name__c = ops[i].id;
       ps.Status__c = 'Design';
-      ps.Stage__c = 'Design';
+      ps.Stage__c = 'Define';
       ps.Client_Review_Required__c = 'N/A';
       ps.Requestor_Name__c =  contacts[i].id;
       ps.Requires_Director_Endorsement__c = 'Yes';
