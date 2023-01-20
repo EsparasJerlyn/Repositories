@@ -25,43 +25,16 @@ p.headingText {
   padding: 0px 5px;
 }
 
-.slds-col.searchCol{
-  width: 100%;
+.sortCombobox{
+  text-align: left;
+}
+
+.customFilterGrid{
   margin-right: 5px;
-}
-
-.searchCol {
-  display: flex;
-  align-items: baseline;
-}
-
-.searchLabel {
-  width: 78%; 
-  text-align: right;
-}
-
-.searchText {
-  flex-direction: column-reverse; 
-  width: 80%;
-  display: contents;
-}
-
-@media only screen and (max-width: 768px){
-  .searchLabel {
-    width: 68%; 
-    text-align: right;
-  }
 }
 
 @media only screen and (max-width: 764px) {
   p.headingText {
     font-size: 33pt;
-  }
-}
-
-@media only screen and (max-width: 320px){
-  .searchLabel {
-    width: 75%; 
-    text-align: right;
   }
 }

@@ -996,9 +996,20 @@ public with sharing class ProductCtrlTest {
 				1
 			);
 			prodRequestPrescribedProgram[0].RecordTypeId = opeProgProdReqId;
+			prodRequestPrescribedProgram[0].Product_Request_Status__c = 'Published';
 			prodRequestPrescribedProgram[0]
 				.OPE_Program_Plan_Type__c = 'Prescribed Program';
 			insert prodRequestPrescribedProgram;
+
+			Asset newAsset = new Asset(
+				AccountId = accBusinessOrg[0].Id,
+				Product_Request__c = prodRequestPrescribedProgram[0].Id,
+				Name = 'Test Asset',
+				Publishing_Start_date__c = System.today(),
+				Ready_for_publishing__c = 'Yes'
+			);
+
+			insert newAsset;
 
 			List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(
 				1
@@ -1087,6 +1098,9 @@ public with sharing class ProductCtrlTest {
 			}
 			insert priceBookEntryListCCE;
 
+			BuyerGroup updateBuyerGroup = new BuyerGroup(Id = gbMember.BuyerGroupId, Product_Request__c = prodRequestPrescribedProgram[0].Id);
+			update updateBuyerGroup;
+
 			// Create BuyerGroupPriceBook
 			BuyerGroupPriceBook bgPriceBook = new BuyerGroupPriceBook(
 				PriceBook2Id = pbCB.Id,
@@ -1103,7 +1117,9 @@ public with sharing class ProductCtrlTest {
             getProdByCat.userId = user[0].Id;
             getProdByCat.categoryId = prodCateg1.Id;
             getProdByCat.accountId = accBusinessOrg[0].Id;
+			getProdByCat.assetId = newAsset.Id;
             
+			List<Asset> assetList = ProductCtrl.getAssetsByAccount(accBusinessOrg[0].Id);
 			getProdByCatResult = ProductCtrl.getProductsByCategory(getProdByCat, '');
 			
 			Test.stopTest();
@@ -1204,6 +1220,7 @@ public with sharing class ProductCtrlTest {
 				1
 			);
 			prodRequestPrescribedProgram[0].RecordTypeId = opeProgProdReqId;
+			prodRequestPrescribedProgram[0].Product_Request_Status__c = 'Published';
 			prodRequestPrescribedProgram[0]
 				.OPE_Program_Plan_Type__c = 'Prescribed Program';
 			insert prodRequestPrescribedProgram;
@@ -1294,6 +1311,8 @@ public with sharing class ProductCtrlTest {
 			  priceBookEntryListCCE.add(priceBookEntry);
 			}
 			insert priceBookEntryListCCE;
+			BuyerGroup updateBuyerGroup = new BuyerGroup(Id = gbMember.BuyerGroupId, Product_Request__c = prodRequestPrescribedProgram[0].Id);
+			update updateBuyerGroup;
 
 			// Create BuyerGroupPriceBook
 			BuyerGroupPriceBook bgPriceBook = new BuyerGroupPriceBook(
@@ -1312,6 +1331,9 @@ public with sharing class ProductCtrlTest {
             getProdByCat.userId = user[0].Id;
             getProdByCat.categoryId = prodCateg1.Id;
             getProdByCat.accountId = accBusinessOrg[0].Id;
+			getProdByCat.buyerGroupId = gbMember.BuyerGroupId;
+
+			List<BuyerGroupMember> bgroupMemberList = ProductCtrl.getBuyerGroupMembers(accBusinessOrg[0].Id);
             
 			getProdByCatResult = ProductCtrl.getProductsByCategory(getProdByCat, '');
 			

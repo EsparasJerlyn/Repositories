@@ -1369,6 +1369,7 @@ public class ProductDetailsCtrlTest{
       getProdDet1.categoryName = 'QUTeX Learning Solutions';
       getProdDet1.userId = enableResponse.userId;
       getProdDet1.productId = singleProdId;
+      getProdDet1.buyerGroupId = bGroupMember[0].BuyerGroupId;
       getSingleProductDetails = ProductDetailsCtrl.getCCEProductRelatedRecords(getProdDet1);
 
       ProductDetailsCtrl.ProductDetailsData getFlexProgProductDetails = new ProductDetailsCtrl.ProductDetailsData();
@@ -1377,6 +1378,7 @@ public class ProductDetailsCtrlTest{
       getProdDet2.categoryName = 'QUTeX Learning Solutions';
       getProdDet2.userId = enableResponse.userId;
       getProdDet2.productId = progProdId;
+      getProdDet2.buyerGroupId = bGroupMember[0].BuyerGroupId;
       getFlexProgProductDetails = ProductDetailsCtrl.getCCEProductRelatedRecords(getProdDet2);
 
       Test.stopTest();

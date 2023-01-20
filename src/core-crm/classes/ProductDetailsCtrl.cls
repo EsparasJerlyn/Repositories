@@ -364,6 +364,8 @@ public without sharing class ProductDetailsCtrl {
 		List<DeliveryWrapper> delivWrapperList = new List<DeliveryWrapper>();
 		List<childProduct> childProdWrapperList = new List<childProduct>();
 		Set<Id> priceBookIdsOPE = new Set<Id>();
+		List<Asset> assetList = new List<Asset>();
+		List<BuyerGroupPricebook> bgpbList = new List<BuyerGroupPricebook>();
 
 		AccountContactRelation getAccount = [
 			SELECT Id, AccountId, ContactId 
@@ -377,24 +379,51 @@ public without sharing class ProductDetailsCtrl {
 			LIMIT 1
 		];
 
+		assetList = [
+			SELECT Id, Product_Request__c
+			FROM Asset
+			WHERE Id =: productDetailsDataWrapper.assetId
+			AND AccountId =: productDetailsDataWrapper.accountId
+			WITH SECURITY_ENFORCED
+		];
+
 		// Get the List of BuyerGroupId
 		List<BuyerGroupMember> buyerGroupIdList = [
 			SELECT Id, Name, BuyerGroupId, BuyerId, Buyer.Name
 			FROM BuyerGroupMember
 			WHERE BuyerId = :getAccount.AccountId
 		];
+
 		List<String> bgIds = new List<String>();
 		for(BuyerGroupMember bgMember : buyerGroupIdList){
 			bgIds.add(bgMember.BuyerGroupId);
 		}
 
-		// Get the Pricebook2Id from PricebookEntry
-		List<BuyerGroupPricebook> bgpbList = [
-			SELECT Id, Name, Pricebook2.Name, Pricebook2Id, BuyerGroup.Name, BuyerGroupId, Pricebook2.IsActive
-			FROM BuyerGroupPricebook
-			WHERE BuyerGroupId IN :bgIds
-			AND BuyerGroup.Product_Request__r.Product_Request_Status__c = 'Published' 
-		];
+		if(!assetList.isEmpty() && productDetailsDataWrapper.categoryName == 'Corporate Bundle'){
+			// Get the Pricebook2Id from PricebookEntry
+			bgpbList = [
+				SELECT Id, Name, Pricebook2.Name, Pricebook2Id, BuyerGroup.Name, BuyerGroupId, Pricebook2.IsActive
+				FROM BuyerGroupPricebook
+				WHERE BuyerGroup.Product_Request__r.Product_Request_Status__c = 'Published' 
+				AND BuyerGroup.Product_Request__c =: assetList[0].Product_Request__c
+			];
+		}else if(productDetailsDataWrapper.categoryName == 'QUTeX Learning Solutions'){
+			// Get the Pricebook2Id from PricebookEntry
+			bgpbList = [
+				SELECT Id, Name, Pricebook2.Name, Pricebook2Id, BuyerGroup.Name, BuyerGroupId, Pricebook2.IsActive
+				FROM BuyerGroupPricebook
+				WHERE BuyerGroupId =: productDetailsDataWrapper.buyerGroupId
+				AND BuyerGroup.Product_Request__r.Product_Request_Status__c = 'Published' 
+			];
+		}else{
+			// Get the Pricebook2Id from PricebookEntry
+			bgpbList = [
+				SELECT Id, Name, Pricebook2.Name, Pricebook2Id, BuyerGroup.Name, BuyerGroupId, Pricebook2.IsActive
+				FROM BuyerGroupPricebook
+				WHERE BuyerGroupId IN :bgIds
+				AND BuyerGroup.Product_Request__r.Product_Request_Status__c = 'Published' 
+			];
+		}
 
 		// Check if CB or SOA
 		List<BuyerGroup> getPRId = [
@@ -1576,6 +1605,10 @@ public without sharing class ProductDetailsCtrl {
 		public Id productId{ get; set; }
 		@AuraEnabled
 		public Id userId{ get; set; }
+		@AuraEnabled
+		public String assetId{ get; set; }
+		@AuraEnabled
+		public String buyerGroupId{ get; set; }
 	}
 
 	/**
@@ -2093,4 +2126,4 @@ public without sharing class ProductDetailsCtrl {
 			LIMIT 1
 		];
 	}
-} 
+}

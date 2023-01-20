@@ -21,6 +21,8 @@ import getNavigationMenu from '@salesforce/apex/MainNavigationMenuCtrl.defaultMe
 import getStoreFrontCategoryMenu from '@salesforce/apex/MainNavigationMenuCtrl.getStoreFrontCategories';
 import getOpportunityContractType from '@salesforce/apex/MainNavigationMenuCtrl.getOpportunityContractType';
 import getProductsByCategory from '@salesforce/apex/ProductCtrl.getProductsByCategory';
+import getAssetsByAccount from '@salesforce/apex/ProductCtrl.getAssetsByAccount';
+import getBuyerGroupMembers from '@salesforce/apex/ProductCtrl.getBuyerGroupMembers';
 import communityId from '@salesforce/community/Id';
 import basePath from '@salesforce/community/basePath';
 import userId from '@salesforce/user/Id';
@@ -39,6 +41,8 @@ const HOME_HEADER = 'For your organisation';
 const DEFAULT_CATEGORY = 'Tailored Executive Education'
 
 const STORED_ACCTID = "storedAccountId";
+const STORED_ASSETID = "storedAssetId";
+const STORED_BUYERGROUPID = "storedBuyerGroupId";
 export default class MainNavigationMenu extends LightningElement {
 
 	NavigationMenuList;
@@ -59,6 +63,11 @@ export default class MainNavigationMenu extends LightningElement {
 	accountName;
 	subscription;
 	fullLabel;
+	selectedAssetId;
+	assets;
+	selectedBuyerGroupId;
+	buyerGroups;
+	prodSpecId = '';
 
 	@wire(MessageContext)
     messageContext;
@@ -69,8 +78,11 @@ export default class MainNavigationMenu extends LightningElement {
 		categoryId : '', 
 		accountId: '',
 		accountName: '',
-		fullLabel: ''
-	  }
+		fullLabel: '',
+		prodSpecId:'',
+		assetId: '',
+		buyerGroupId: ''
+	}
 
 	renderedCallback() {
 		Promise.all([loadStyle(this, customSR + "/QUTInternalCSS.css")]);
@@ -137,7 +149,10 @@ export default class MainNavigationMenu extends LightningElement {
 						categoryId : this.navMenuId,
 						accountId: this.accountId,
 						accountName: this.accountName,
-						fullLabel: this.fullLabel
+						fullLabel: this.fullLabel,
+						prodSpecId: this.prodSpecId,
+						assetId: this.selectedAssetId,
+						buyerGroupId: this.selectedBuyerGroupId
 					  }
                 } else {
                     this.className = 'slds-tabs_default__item';
@@ -153,6 +168,83 @@ export default class MainNavigationMenu extends LightningElement {
 			});
 			// get products list
 			this.getProducts();
+		}
+	}
+	
+
+	@wire(getAssetsByAccount, { accountId : '$accountId' })
+		getAssetsByAccount(result) {
+			this.assets = result.data;
+			if(this.assets && this.assets.length > 0){
+
+				const options = result.data.map( res => {
+					return {
+						label: res.Name,
+						value: res.Id
+					}
+				});
+
+				this.assetOptions = options;
+
+				if(sessionStorage.getItem(STORED_ASSETID)){
+					this.selectedAssetId =  sessionStorage.getItem(STORED_ASSETID);
+				}else{
+					this.selectedAssetId = options[0].value;
+				}
+				
+				this.parameterObject = {
+					userId : userId,
+					categoryId : this.categoryId,
+					accountId: this.accountId,
+					accountName: this.accountName,
+					fullLabel: this.fullLabel,
+					prodSpecId: this.prodSpecId,
+					assetId: this.selectedAssetId,
+					buyerGroupId: this.selectedBuyerGroupId
+				}
+
+				sessionStorage.setItem(
+					STORED_ASSETID,
+					this.selectedAssetId
+				);
+			}
+		}
+
+
+
+	@wire(getBuyerGroupMembers, { accountId : '$accountId' })
+	getBuyerGroupMembers(result) {
+		this.buyerGroups = result.data;
+		if(this.buyerGroups && this.buyerGroups.length > 0){
+
+			const options = result.data.map( res => {
+				return {
+					label: res.BuyerGroup.Name,
+					value: res.BuyerGroupId
+				}
+			});
+
+			if(sessionStorage.getItem(STORED_BUYERGROUPID)){
+				this.selectedBuyerGroupId =  sessionStorage.getItem(STORED_BUYERGROUPID);
+			}else{
+				this.selectedBuyerGroupId = options[0].value;
+			}
+			
+			this.parameterObject = {
+				userId : userId,
+				categoryId : this.categoryId,
+				accountId: this.accountId,
+				accountName: this.accountName,
+				fullLabel: this.fullLabel,
+				prodSpecId: this.prodSpecId,
+				assetId: this.selectedAssetId,
+				buyerGroupId: this.selectedBuyerGroupId
+			}
+
+			sessionStorage.setItem(
+				STORED_BUYERGROUPID,
+				this.selectedBuyerGroupId
+			);
 		}
 	}
 
@@ -195,7 +287,10 @@ export default class MainNavigationMenu extends LightningElement {
 			categoryId : this.navMenuId,
 			accountId: this.accountId,
 			accountName: this.accountName,
-			fullLabel: this.fullLabel
+			fullLabel: this.fullLabel,
+			prodSpecId: this.prodSpecId,
+			assetId: this.selectedAssetId,
+			buyerGroupId: this.selectedBuyerGroupId
 		  }
 
 		// set navigation menu classes to default
@@ -236,7 +331,6 @@ export default class MainNavigationMenu extends LightningElement {
 		}).then((result) => {
 			let prodList = [];
 			this.productInfoList = [];
-			let count = 1;
 			prodList = result.productList;
 			prodList = prodList.slice().sort(function (futureDate, pastDate) {
 				if (!!futureDate.childProdOfferingDate && !!pastDate.childProdOfferingDate && (Date.parse(futureDate.childProdOfferingDate) < Date.parse(pastDate.childProdOfferingDate))) return -1;
@@ -253,17 +347,12 @@ export default class MainNavigationMenu extends LightningElement {
 
 			// Limit to 2 Products to display
 			let totalProdDisplayed = 0;
-			let today = new Date();
 
 			if(prodList.length > 2) {
 				prodList.forEach((p) => {
 					if(totalProdDisplayed < 2) {
-						if(!p.isProgramFlex){
-							if(p.childProdOfferingDate){
-								this.productInfoList.push(p);
-								totalProdDisplayed++;
-							}
-						}
+						this.productInfoList.push(p);
+						totalProdDisplayed++;
 					}
 				});
 			} else {
@@ -290,7 +379,10 @@ export default class MainNavigationMenu extends LightningElement {
 			categoryId : this.navMenuId,
 			accountId: this.accountId,
 			accountName: this.accountName,
-			fullLabel: this.fullLabel
+			fullLabel: this.fullLabel,
+			prodSpecId: this.prodSpecId,
+			assetId: this.selectedAssetId,
+			buyerGroupId: this.selectedBuyerGroupId
 		  }
 		
 		this.accordionIsClicked == true;
@@ -328,8 +420,10 @@ export default class MainNavigationMenu extends LightningElement {
 				categoryId : this.navMenuId,
 				accountId: this.accountId,
 				accountName: this.accountName,
-				fullLabel: this.fullLabel
-				
+				fullLabel: this.fullLabel,
+				prodSpecId: this.prodSpecId,
+				assetId: this.selectedAssetId,
+				buyerGroupId: this.selectedBuyerGroupId
 			  }
 			  this.getProducts();
         }

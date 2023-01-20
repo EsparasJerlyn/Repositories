@@ -43,6 +43,8 @@ import { NavigationMixin, CurrentPageReference } from "lightning/navigation";
 import payloadAcctContainerLMS from '@salesforce/messageChannel/AccountId__c';
 import { subscribe, unsubscribe } from 'lightning/messageService';
 const STORED_ACCTID = "storedAccountId";
+const STORED_ASSETID = "storedAssetId";
+const STORED_BUYERGROUPID = "storedBuyerGroupId";
 
 const Tailored_Executive_Education = 'Tailored Executive Education';
 const STOREPRODUCTCATEGORY = "product_category";
@@ -71,12 +73,16 @@ export default class ProductDetails extends NavigationMixin(LightningElement) {
   productDetail;
   hasData = false;
   baseUrl;
+  assetId;
+  buyerGroupId;
 
   parameterObject = {
 	accountId: '',
 	productId: '', 
 	categoryName: '', 
-	userId: ''
+	userId: '',
+	assetId: '',
+	buyerGroupId: ''
   }
 
   tempParameterObject ={
@@ -172,7 +178,6 @@ export default class ProductDetails extends NavigationMixin(LightningElement) {
 					this.updateCartInformation();
 				})
 				.catch((e) => {
-					console.log("here catch");
 					console.log(e);
 				});
 			}
@@ -221,7 +226,6 @@ export default class ProductDetails extends NavigationMixin(LightningElement) {
 			this.product.deliveryOptions = result.deliveryWrapperList;
 			this.product.programDeliveryAndOfferings =
 				result.programDeliveryAndOfferingMap;
-			console.log("testing: " + this.product);
 			if (this.product.productDetails.Program_Plan__r == undefined) {
 				this.showPrescribedProgram = false;
 				this.showFlexibleProgram = true;
@@ -319,7 +323,6 @@ export default class ProductDetails extends NavigationMixin(LightningElement) {
 			urlDefaultAddToCart: event.detail.urlDefaultAddToCart
 		})
 			.then((result) => {
-				console.log(JSON.stringify(result));
 				this.dispatchEvent(
 					new CustomEvent("cartchanged", {
 						bubbles: true,
@@ -443,17 +446,28 @@ export default class ProductDetails extends NavigationMixin(LightningElement) {
 			this.accountId =  sessionStorage.getItem(STORED_ACCTID);
 		}
 
+		if(sessionStorage.getItem(STORED_ASSETID)){
+			this.assetId =  sessionStorage.getItem(STORED_ASSETID);
+		}
+
+		if(sessionStorage.getItem(STORED_BUYERGROUPID)){
+			this.buyerGroupId =  sessionStorage.getItem(STORED_BUYERGROUPID);
+		}
+
 		this.parameterObject = {
 			accountId: this.accountId,
 			productId: productId, 
 			categoryName: this.productCategory, 
-			userId: userId
+			userId: userId,
+			assetId: this.assetId,
+			buyerGroupId: this.buyerGroupId
 		}
-		
+
 		getCCEProductDetails({ 
 			productDetailsDataWrapper: this.parameterObject
 		})
 		.then((result) => {
+			
 			this.hasData = result.productOnPage ? true : false;
 			this.isProgramFlex = !result.isNotFlexProgram;
 			this.productDetails = result.productOnPage;

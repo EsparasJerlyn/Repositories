@@ -15,64 +15,172 @@
     </div>  
     <template if:true={isCorporateBundle}>
         <div class="infoheader">
-            <table>
-                <thead>
-                    <tr>
-                        <th scope="col">Corporate Bundle Name</th>
-                        <th scope="col">Start Date</th>
-                        <th scope="col">End Date</th>
-                        <th scope="col">Total Credit</th>
-                        <th scope="col">Credit Used</th>
-                        <th scope="col">Pending Balance</th>
-                        <th scope="col">Remaining Balance</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>{assetList.Name}</td>
-                        <td>{assetList.Start_Date__c}</td>
-                        <td>{assetList.End_Date__c}</td>
-                        <td>{assetList.Total_Value__c}</td>
-                        <td>{assetList.Utilised_Value__c}</td>
-                        <td>{assetList.Pending_Value__c}</td>
-                        <td>{assetList.Remaining_Value__c}</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="slds-grid slds-wrap"> 
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12">
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+                        <div class="slds-grid slds-grid_vertical">
+                            <div class="slds-col">
+                                <strong>Corporate Bundle Name</strong>
+                            </div>
+                            <div class="slds-col slds-p-bottom_medium">
+                                {assetList.Name}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_10-of-12 slds-large-size_10-of-12">
+                    <div class="slds-grid slds-wrap"> 
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12">
+                            <div class="slds-grid slds-grid_vertical">
+                                <div class="slds-col">
+                                    <strong>Start Date</strong>
+                                </div>
+                                <div class="slds-col slds-p-bottom_medium">
+                                    {assetList.Start_Date__c}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12">
+                            <div class="slds-grid slds-grid_vertical">
+                                <div class="slds-col slds-text-title_bold ">
+                                    <strong>End Date</strong>
+                                </div>
+                                <div class="slds-col slds-p-bottom_medium">
+                                    {assetList.End_Date__c}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12">
+                            <div class="slds-grid slds-grid_vertical">
+                                <div class="slds-col slds-text-title_bold">
+                                    <strong>Total Credit</strong>
+                                </div>
+                                <div class="slds-col slds-p-bottom_medium">
+                                    {assetList.Total_Value__c}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12">
+                            <div class="slds-grid slds-grid_vertical">
+                                <div class="slds-col slds-text-title_bold ">
+                                    <strong>Credit Used</strong>
+                                </div>
+                                <div class="slds-col slds-p-bottom_medium">
+                                    {assetList.Utilised_Value__c}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12">
+                            <div class="slds-grid slds-grid_vertical">
+                                <div class="slds-col slds-text-title_bold">
+                                    <strong>Pending Balance</strong>
+                                </div>
+                                <div class="slds-col slds-p-bottom_medium">
+                                    {assetList.Pending_Value__c}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12">
+                            <div class="slds-grid slds-grid_vertical">
+                                <div class="slds-col slds-text-title_bold">
+                                    <strong>Remaining Balance</strong>
+                                </div>
+                                <div class="slds-col slds-p-bottom_medium">
+                                    {assetList.Remaining_Value__c}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>  
     </template>
-
-    <div class="slds-grid slds-wrap searchContainer"> 
-        <div class="slds-col searchCol slds-border_top slds-p-bottom_x-large"></div>
-        <template if:true={isTailoredExecEduc}>
-            <div class="slds-col searchCol">
-                <label for="searchField" class="slds-var-m-bottom_medium searchTitle searchLabel slds-p-right_x-small">Select Program</label>
-                <c-custom-combobox
-                    class="sortCombobox slds-var-m-bottom_medium slds-p-left_x-small"
-                    placeholder="Select Program"
-                    disabled={disableProdSpecList}
-                    options={prodSpecList}
-                    value={prodSpecValue}
-                    onchange={handleProdSpecChange}
-                    slds-icon-up="utility:chevronup"
-                    slds-icon-down="utility:chevrondown"
-                >
-                </c-custom-combobox>
+    <div class="customFilterGrid">
+        <div class="slds-grid slds-grid_vertical"> 
+            <div class="slds-col slds-border_top slds-p-bottom_x-large"></div>
+            <template if:true={isTailoredExecEduc}>
+                <div class="slds-col">
+                    <div class="slds-grid slds-media slds-media_center">
+                        <div class="slds-col slds-large-size_9-of-12 slds-medium-size_9-of-12 slds-size_6-of-12 slds-text-align_right">
+                            <span class="searchTitle slds-m-right_x-small">Select Program</span>
+                        </div>
+                        <div class="slds-col slds-large-size_3-of-12 slds-medium-size_3-of-12 slds-size_6-of-12">
+                            <c-custom-combobox
+                                class="sortCombobox"
+                                placeholder="Select Program"
+                                disabled={disableProdSpecList}
+                                options={prodSpecList}
+                                value={prodSpecValue}
+                                onchange={handleProdSpecChange}
+                                slds-icon-up="utility:chevronup"
+                                slds-icon-down="utility:chevrondown"
+                            ></c-custom-combobox>
+                        </div>
+                    </div>
+                </div>
+            </template>
+            <template if:true={hasAsset}>
+                <div class="slds-col">
+                    <div class="slds-grid slds-wrap slds-media slds-media_center">
+                        <div class="slds-col slds-large-size_9-of-12 slds-medium-size_9-of-12 slds-size_6-of-12 slds-text-align_right">
+                            <span class="searchTitle slds-m-right_x-small">Select Asset</span>
+                        </div>
+                        <div class="slds-col slds-large-size_3-of-12 slds-medium-size_3-of-12 slds-size_6-of-12">
+                            <c-custom-combobox
+                                class=" sortCombobox"
+                                placeholder="Select Asset"
+                                disabled={disableAssetSelection}
+                                options={assetOptions}
+                                value={selectedAssetId}
+                                onchange={handleAssetChange}
+                                slds-icon-up="utility:chevronup"
+                                slds-icon-down="utility:chevrondown">
+                            </c-custom-combobox>
+                        </div>
+                    </div>
+                </div>
+            </template>
+            <template if:true={hasBuyerGroups}>
+                <div class="slds-col">
+                    <div class="slds-grid slds-wrap slds-media slds-media_center">
+                        <div class="slds-col slds-large-size_9-of-12 slds-medium-size_9-of-12 slds-size_6-of-12 slds-text-align_right">
+                            <div class="searchTitle slds-m-right_x-small">Select Package</div>
+                        </div>
+                        <div class="slds-col slds-large-size_3-of-12 slds-medium-size_3-of-12 slds-size_6-of-12">
+                            <c-custom-combobox
+                                class="sortCombobox"
+                                placeholder="Select Package"
+                                disabled={disableBuyerGroupSelection}
+                                options={buyerGroupOptions}
+                                value={selectedBuyerGroupId}
+                                onchange={handleBuyerGroupChange}
+                                slds-icon-up="utility:chevronup"
+                                slds-icon-down="utility:chevrondown">
+                            </c-custom-combobox>
+                        </div>
+                    </div>
+                </div>
+            </template>
+            <div class="slds-col">
+                <div class="slds-grid slds-wrap slds-media slds-media_center">
+                    <div class="slds-col slds-large-size_9-of-12 slds-medium-size_9-of-12 slds-size_6-of-12 slds-text-align_right">
+                        <div class="searchTitle slds-m-right_x-small">Filter by keyword</div>
+                    </div>
+                    <div class="slds-col slds-large-size_3-of-12 slds-medium-size_3-of-12 slds-size_6-of-12">
+                        <lightning-input
+                        type="text"
+                        value={stringValue}
+                        placeholder="e.g name of course or topic"
+                        onchange={handleSearchKeyword}>
+                        </lightning-input>
+                        <label class="slds-form-element__label slds-no-flex">
+                        </label>
+                    </div>
+                </div>
             </div>
-        </template>
-        
-        <div class="slds-col searchCol">
-            <label for="searchField" class="slds-var-m-bottom_medium searchTitle searchLabel">Filter by keyword</label>
-            <lightning-input
-                id="searchField"
-                type="text"
-                value={stringValue}
-                class="slds-var-m-bottom_medium searchTitle searchText"
-                placeholder="e.g name of course or topic"
-                onchange={handleSearchKeyword}
-            ></lightning-input>
         </div>
     </div>
+    
 
     <article class="layout-contiainer slds-grid slds-wrap">
         <section class="main-section slds-col slds-size_12-of-12 slds-medium-size_12-of-12">
