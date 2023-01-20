@@ -23,6 +23,7 @@
 */
 @isTest
 public with sharing class ContactTriggerHandlerTest {
+    private static final String CATEGORY_CCE = 'Corporate Portal';
     private static final Id BUSINESS_ACC_RECTYPEID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get('Business_Organization').getRecordTypeId();
     public static final Id PERSON = Schema.SObjectType.Contact.getRecordTypeInfosByDeveloperName()
         .get('Person')
@@ -319,7 +320,7 @@ public with sharing class ContactTriggerHandlerTest {
             contact.AccountId = account.Id;
             insert contact;
 
-            CCECorporateUserCtrl.CorporateUserDetails enableResponse = CCECorporateUserCtrl.enableCCECorporateUser(contact.Id);
+            CCECorporateUserCtrl.CorporateUserDetails enableResponse = CCECorporateUserCtrl.enablePortalUser(contact.Id, CATEGORY_CCE);
         }
 
         Contact c = new Contact(LastName = 'UnitTest');

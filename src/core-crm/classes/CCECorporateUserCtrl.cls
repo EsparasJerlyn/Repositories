@@ -13,7 +13,8 @@
       |                           |                       |                      | user with existing ope user         | 
       | roy.nino.s.regala         | September 13, 2022    | DEPP-4096            | added work email requirement        | 
       | eccarius.munoz            | September 19, 2022    | DEPP-4366            | Added handling for business org     |     
-      |                           |                       |                      | account validation.                 |              
+      |                           |                       |                      | account validation.                 |
+      | arsenio.jr.dayrit         | January 17, 2023      | DEPP-4925            | added handling for OPE enablement   |      
  */
 public without sharing class CCECorporateUserCtrl { 
 
@@ -23,7 +24,7 @@ public without sharing class CCECorporateUserCtrl {
      * @return <String> - response
      */
     @AuraEnabled
-    public static CorporateUserDetails enableCCECorporateUser(String recordId){
+    public static CorporateUserDetails enablePortalUser(String recordId, String portalAccessType){
         CorporateUserDetails response = new CorporateUserDetails();
         Savepoint savePoint = Database.setSavepoint();
         try{
@@ -34,98 +35,65 @@ public without sharing class CCECorporateUserCtrl {
             String emailToUse;            
 
             //Retrieves Contact details
-            List<Contact> contacts = [SELECT Id, AccountId, Account.Name, hed__Primary_Organization__c, Email, Work_Email__c, Registered_Email__c, FirstName, LastName, Name FROM Contact WHERE Id =: recordId LIMIT 1];
+            List<Contact> contacts = [SELECT Id, AccountId, Account.Name, hed__Primary_Organization__c, Email, Work_Email__c, FirstName, LastName, Name, Registered_Email__c  FROM Contact WHERE Id =: recordId WITH SECURITY_ENFORCED LIMIT 1];
             for(Contact con : contacts){
-                if(String.IsBlank(con.Work_Email__c)){
-                    response.isSuccess = false;
-                    response.errorMessage = 'Please make sure to populate Work Email before enabling this contact as partner user.';
+                ValidateContactInputResponse validateConInput = validateContactInput(con, portalAccessType);
+                if(!validateConInput.isSuccess){
+                    response.isSuccess = validateConInput.isSuccess;
+                    response.errorMessage = validateConInput.errorMessage;
                     return response;
                 }
-                if(String.IsBlank(con.hed__Primary_Organization__c)){
-                    response.isSuccess = false;
-                    response.errorMessage = 'Please make sure to populate Primary Business Account before enabling this contact as partner user.';
-                    return response;
-                }
+                
                 emailToUse = con.Work_Email__c;
                 ccefilter = con.Work_Email__c + '.cce';
                 opefilter = con.Registered_Email__c + '.ope';
                 contact = con;
             }
 
-            Profile profile = [SELECT Id FROM Profile WHERE Name = 'Partner Community User' LIMIT 1];
             Id userId;
-            
-            List<User> users = [SELECT Id, Username FROM User WHERE ContactId =: contact.Id AND ( (Username =: ccefilter AND IsActive = true) OR (Username =: opefilter AND IsActive = true)) LIMIT 1];
+            Boolean hasCCEUser = false;
+            List<User> users = [SELECT Id, Username FROM User WHERE ContactId =: contact.Id AND (Username =: ccefilter OR (Username =: opefilter AND IsActive = true)) WITH SECURITY_ENFORCED LIMIT 1];
             List<User> usersToUpdate = new List<User>();    
             for(User user : users){
                 //Disables existing ope user
-                if(user.Username.endsWith('.ope')){
+                if(user.Username.endsWith('.ope') && portalAccessType == 'Corporate Portal'){
                     user.IsActive = false;
                     user.IsPortalEnabled = false;
                     hasOpeUser = true;
-                }else{
+                }else if(user.Username.endsWith('.ope') && portalAccessType == 'Product Catalogue'){
+                    hasOpeUser = true;
+                    response.isSuccess = true;
+                    response.hasOpeUser = hasOpeUser;
+                    response.isNoUpdateNeeded = true;
+                    response.contactId = contact.Id;
+                    return response;
+                }
+                else if(user.Username.endsWith('.cce') || (user.Username.endsWith('.cce') && portalAccessType == 'Product Catalogue')){
                     //Enables existing cce user
                     userId = user.Id;
                     user.IsActive = true;
-                    user.profileId = profile.Id;
+                    hasCCEUser = true;
                 }
                 usersToUpdate.add(user);
             }
             if(usersToUpdate.size() > 0){
                 update usersToUpdate;
             }
+            Boolean isCreateUser = users.isEmpty();
+
+            UserAccessWrapper userAccessWrapper = new UserAccessWrapper();
+            userAccessWrapper.contact = contact;
+            userAccessWrapper.portalAccessType = portalAccessType;
+            userAccessWrapper.isCreateUser = isCreateUser;
+            userAccessWrapper.userId = userId;
+            userAccessWrapper.hasCCEUser = hasCCEUser;
+            userAccessWrapper.hasOpeUser = hasOpeUser;
+            userId = createUser(userAccessWrapper);
             
-            if(!hasOpeUser){
-                //Creates new cce user if not yet existing
-                List<User> usersToCreate = new List<User>();
-                if(users.isEmpty()){                
-                    User commerceUser = new User();
-                    commerceUser.IsActive = true;
-                    commerceUser.Username = emailToUse + '.cce';
-                    commerceUser.Email = emailToUse;
-                    commerceUser.LastName = contact.LastName;
-                    commerceUser.FirstName = contact.FirstName;
-                    commerceUser.ContactId = contact.Id;
-                    commerceUser.alias = contact.FirstName.substring(0, 1) + contact.LastName.substring(0, 2);
-                    commerceUser.LanguageLocaleKey = 'en_US';
-                    commerceUser.localesidkey = 'en_AU';
-                    commerceUser.emailEncodingKey = 'UTF-8';
-                    commerceUser.timeZoneSidKey = 'Australia/Brisbane';
-                    commerceUser.profileId = profile.Id;
-                    usersToCreate.add(commerceUser);
-                }
-                if(usersToCreate.size() > 0){
-                    insert usersToCreate;
-                }
-
-                for(User user : usersToCreate){
-                    userId = user.Id;
-                }
-
-                //Assign Permission Sets to the existing/new user
-                List<String> permsetLabelList = new List<String>{'Corporate Portal Base', 'Account Switcher User​'};
-                List<PermissionSetAssignment> permSetAssignments = new List<PermissionSetAssignment>();
-                List<PermissionSet> permsets = [SELECT Id FROM PermissionSet WHERE Label IN : permsetLabelList];
-                List<PermissionSetAssignment> userPermSetAssignments = [SELECT Id FROM PermissionSetAssignment WHERE PermissionSetId IN : permsets AND AssigneeId = : userId];
-                if(userPermSetAssignments.isEmpty()){
-                    for(PermissionSet perm: permsets){
-                        PermissionSetAssignment permSetAssignment = new PermissionSetAssignment(
-                            PermissionSetId = perm.Id, 
-                            AssigneeId = userId
-                        );
-                        permSetAssignments.add(permSetAssignment);
-                    }
-
-                    if(permSetAssignments.size() > 0){
-                        upsert permSetAssignments;
-                    }
-                }
-            }
-
             response.isSuccess = true;
             response.contactId = contact.Id;
             response.hasOpeUser = hasOpeUser;
-            response.email = emailToUse;
+            response.email = portalAccessType == 'Product Catalogue' ? contact.Registered_Email__c : emailToUse;
             response.contactLastName = contact.LastName;
             response.contactFirstName = contact.FirstName;
             response.accountId = contact.AccountId;
@@ -139,6 +107,69 @@ public without sharing class CCECorporateUserCtrl {
             response.errorMessage = e.getMessage();
         }
         return response;
+    }
+
+    private static Id createUser(UserAccessWrapper userAccessWrapper){
+        String username = '';
+        String emailToUse = '';
+        Profile profile = new Profile(); 
+        List<String> permsetLabelList = new List<String>();
+        Contact contact =  userAccessWrapper.contact;
+
+        if(userAccessWrapper.portalAccessType != 'Product Catalogue' || userAccessWrapper.hasCCEUser){
+            profile = [SELECT Id FROM Profile WHERE Name = 'Partner Community User' WITH SECURITY_ENFORCED LIMIT 1];
+            permsetLabelList = new List<String>{'Corporate Portal Base', 'Account Switcher User​'};
+            username = contact.Work_Email__c + '.cce';
+            emailToUse = contact.Work_Email__c;
+        }else{
+            profile = [SELECT Id FROM Profile WHERE Name = 'OPE Catalogue' WITH SECURITY_ENFORCED LIMIT 1];
+            permsetLabelList = new List<String>{'OPE Catalogue'};
+            username = contact.Registered_Email__c + '.ope';
+            emailToUse = contact.Registered_Email__c;
+        }
+
+        List<User> usersToCreate = new List<User>();
+        if(userAccessWrapper.isCreateUser){
+            User commerceUser = new User();
+            commerceUser.IsActive = true;
+            commerceUser.Username = username;
+            commerceUser.Email = emailToUse;
+            commerceUser.LastName = contact.LastName;
+            commerceUser.FirstName = contact.FirstName;
+            commerceUser.ContactId = contact.Id;
+            commerceUser.alias = contact.FirstName.substring(0, 1) + contact.LastName.substring(0, 2);
+            commerceUser.LanguageLocaleKey = 'en_US';
+            commerceUser.localesidkey = 'en_AU';
+            commerceUser.emailEncodingKey = 'UTF-8';
+            commerceUser.timeZoneSidKey = 'Australia/Brisbane';
+            commerceUser.profileId = profile.Id;
+            usersToCreate.add(commerceUser);
+        }
+
+        if(usersToCreate.size() > 0){
+            insert usersToCreate;
+        }
+        for(User user : usersToCreate){
+            userAccessWrapper.userId = user.Id;
+        }
+
+        List<PermissionSetAssignment> permSetAssignments = new List<PermissionSetAssignment>();
+        List<PermissionSet> permsets = [SELECT Id FROM PermissionSet WHERE Label IN : permsetLabelList WITH SECURITY_ENFORCED];
+        List<PermissionSetAssignment> userPermSetAssignments = [SELECT Id FROM PermissionSetAssignment WHERE PermissionSetId IN : permsets AND AssigneeId = :  userAccessWrapper.userId WITH SECURITY_ENFORCED];
+        if(userPermSetAssignments.isEmpty()){
+            for(PermissionSet perm: permsets){
+                PermissionSetAssignment permSetAssignment = new PermissionSetAssignment(
+                    PermissionSetId = perm.Id, 
+                    AssigneeId =  userAccessWrapper.userId
+                );
+                permSetAssignments.add(permSetAssignment);
+            }
+
+            if(permSetAssignments.size() > 0 && !userAccessWrapper.hasOpeUser){
+                upsert permSetAssignments;
+            }
+        }
+        return  userAccessWrapper.userId;
     }
     
     /**
@@ -154,7 +185,7 @@ public without sharing class CCECorporateUserCtrl {
         Savepoint savePoint = Database.setSavepoint();
         Id userId;
         try {
-            Profile profile = [SELECT Id FROM Profile WHERE Name = 'Partner Community User' LIMIT 1];
+            Profile profile = [SELECT Id FROM Profile WHERE Name = 'Partner Community User' WITH SECURITY_ENFORCED LIMIT 1];
 
             List<User> usersToCreate = new List<User>();
             User commerceUser = new User();
@@ -180,8 +211,8 @@ public without sharing class CCECorporateUserCtrl {
             //Assign Permission Sets to the existing/new user
             List<String> permsetLabelList = new List<String>{'Corporate Portal Base', 'Account Switcher User​'};
             List<PermissionSetAssignment> permSetAssignments = new List<PermissionSetAssignment>();
-            List<PermissionSet> permsets = [SELECT Id FROM PermissionSet WHERE Label IN : permsetLabelList];
-            List<PermissionSetAssignment> userPermSetAssignments = [SELECT Id FROM PermissionSetAssignment WHERE PermissionSetId IN : permsets AND AssigneeId = : userId];
+            List<PermissionSet> permsets = [SELECT Id FROM PermissionSet WHERE Label IN : permsetLabelList WITH SECURITY_ENFORCED];
+            List<PermissionSetAssignment> userPermSetAssignments = [SELECT Id FROM PermissionSetAssignment WHERE PermissionSetId IN : permsets AND AssigneeId = : userId WITH SECURITY_ENFORCED];
             if(userPermSetAssignments.isEmpty()){
                 for(PermissionSet perm: permsets){
                     PermissionSetAssignment permSetAssignment = new PermissionSetAssignment(
@@ -210,16 +241,15 @@ public without sharing class CCECorporateUserCtrl {
     public static String disableCCECorporateUser(String recordId){
         String response;
         try {
-            Boolean isCreateCCEUser = true;
             String ccefilter;
             String opefilter;
             
             Contact contact = new Contact();
-            List<Contact> contacts = [SELECT Id, Email, Work_Email__c, FirstName, LastName FROM Contact WHERE Id =: recordId LIMIT 1];
+            List<Contact> contacts = [SELECT Id, Email, Registered_Email__c, Work_Email__c, FirstName, LastName FROM Contact WHERE Id =: recordId WITH SECURITY_ENFORCED LIMIT 1];
             for(Contact con : contacts){
                 if(String.isBlank(con.Work_Email__c)){
-                    ccefilter = con.Email + '.cce';
-                    opefilter = con.Email + '.ope';
+                    ccefilter = con.Registered_Email__c + '.cce';
+                    opefilter = con.Registered_Email__c + '.ope';
                 }else{
                     ccefilter = con.Work_Email__c + '.cce';
                     opefilter = con.Work_Email__c + '.ope';
@@ -229,7 +259,7 @@ public without sharing class CCECorporateUserCtrl {
             Id userId;
 
             //Disable existing user
-            List<User> users = [SELECT Id, IsActive FROM User WHERE ContactId  =: contact.Id AND (Username =: ccefilter OR Username =: opefilter) LIMIT 1];
+            List<User> users = [SELECT Id, IsActive FROM User WHERE ContactId  =: contact.Id AND (Username =: ccefilter OR Username =: opefilter) WITH SECURITY_ENFORCED LIMIT 1];
             List<User> usersToUpdate = new List<User>();
             for(User user : users){
                 userId = user.Id;
@@ -241,11 +271,11 @@ public without sharing class CCECorporateUserCtrl {
             //Remove Permission Set from the existing user
             List<PermissionSetAssignment> permSetAssignments = new List<PermissionSetAssignment>();
             Set<Id> permSetIdSet = new Set<Id>();
-            List<PermissionSet> permsets = [SELECT Id FROM PermissionSet WHERE Label IN ('Corporate Portal Base', 'Account Switcher User​')];
+            List<PermissionSet> permsets = [SELECT Id FROM PermissionSet WHERE Label IN ('Corporate Portal Base', 'Account Switcher User​') WITH SECURITY_ENFORCED];
             for(PermissionSet perm: permsets){
                 permSetIdSet.add(perm.Id);
             }
-            List<PermissionSetAssignment> permissionAssignments = [SELECT Id from PermissionSetAssignment WHERE PermissionSetId IN : permSetIdSet AND AssigneeId = : userId];
+            List<PermissionSetAssignment> permissionAssignments = [SELECT Id from PermissionSetAssignment WHERE PermissionSetId IN : permSetIdSet AND AssigneeId = : userId WITH SECURITY_ENFORCED];
             delete permissionAssignments;
             
             response = 'Success';
@@ -271,7 +301,7 @@ public without sharing class CCECorporateUserCtrl {
             SELECT Id 
             FROM DelegatedAccount 
             WHERE TargetId =: primaryBusinessAcctId
-            AND ManagedById =: userId];
+            AND ManagedById =: userId WITH SECURITY_ENFORCED];
         if(delegatedAcctList.isEmpty()){
             DelegatedAccount delegatedAcct = new DelegatedAccount();
             delegatedAcct.TargetId = primaryBusinessAcctId;
@@ -283,6 +313,39 @@ public without sharing class CCECorporateUserCtrl {
         }
         return 'Success';
     }   
+
+    /**
+     * Validates Contact Input
+     * @param <String> - workEmail
+     * @param <String> - primaryOrgAccount
+     * @param <String> - portalAccessType
+     * @return <ValidateContactInputResponse> - response
+     */
+    private static ValidateContactInputResponse validateContactInput(Contact contact, String portalAccessType){
+        ValidateContactInputResponse response = new ValidateContactInputResponse();
+        response.isSuccess = true;
+        response.errorMessage = '';
+        if(String.isBlank(contact.Work_Email__c)){
+            response.isSuccess = false;
+            response.errorMessage = 'Please make sure to populate Work Email before enabling this contact as partner user.';
+        }
+        if(String.isBlank(contact.hed__Primary_Organization__c)){
+            response.isSuccess = false;
+            response.errorMessage = 'Please make sure to populate Primary Business Account before enabling this contact as partner user.';
+        }
+        if(portalAccessType == 'Product Catalogue' && String.isBlank(contact.Registered_Email__c)){
+            response.isSuccess = false;
+            response.errorMessage = 'Registered Email is mandatory.';
+        }
+        return response; 
+    }
+
+    public class ValidateContactInputResponse{
+        @AuraEnabled
+        public Boolean isSuccess;
+        @AuraEnabled
+        public String errorMessage;
+    }
 
     public class CorporateUserDetails{
         @AuraEnabled
@@ -304,8 +367,25 @@ public without sharing class CCECorporateUserCtrl {
         @AuraEnabled
         public String userId;
         @AuraEnabled
+        public Boolean isNoUpdateNeeded;
+        @AuraEnabled
         public Boolean isSuccess;
         @AuraEnabled
         public String errorMessage;
+    }
+    /* contact, portalAccessType, isCreateUser, userId, hasCCEUser, hasOpeUser */
+    public class UserAccessWrapper{
+        @AuraEnabled
+        public Contact contact;        
+        @AuraEnabled
+        public String portalAccessType;
+        @AuraEnabled
+        public Boolean isCreateUser;
+        @AuraEnabled
+        public Id userId;
+        @AuraEnabled
+        public Boolean hasCCEUser;
+        @AuraEnabled
+        public Boolean hasOpeUser;
     }
 }

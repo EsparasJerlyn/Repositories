@@ -25,6 +25,8 @@
  */
 @isTest
 public class ProductDetailsCtrlTest{
+
+  private static final String CATEGORY_OPE = 'Product Catalogue';
   private static final string studentRT = System.Label.RT_CourseConnection_Student;
   private static final String PRODUCT_API_NAME = Product2.SObjectType.getDescribe().getLocalName();
   private static final String rtProdRequestActivity = System.Label.RT_ProductRequest_Activity;
@@ -258,7 +260,7 @@ public class ProductDetailsCtrlTest{
 			// CCECorporateUserCtrl.CorporateUserDetails enableResponse = CCECorporateUserCtrl.enableCCECorporateUser(cceContact.Id);
 
       CCECorporateUserCtrl.CorporateUserDetails enableResponse = new CCECorporateUserCtrl.CorporateUserDetails();
-      enableResponse = CCECorporateUserCtrl.enableCCECorporateUser(cceContact.Id);
+      enableResponse = CCECorporateUserCtrl.enablePortalUser(cceContact.Id,CATEGORY_OPE);
 
       List<Account> accBusinessOrg = [SELECT Id, RecordTypeId 
 				FROM Account 
@@ -596,7 +598,7 @@ public class ProductDetailsCtrlTest{
       }
 
       CCECorporateUserCtrl.CorporateUserDetails enableResponse = new CCECorporateUserCtrl.CorporateUserDetails();
-      enableResponse = CCECorporateUserCtrl.enableCCECorporateUser(cceContact.Id);
+      enableResponse = CCECorporateUserCtrl.enablePortalUser(cceContact.Id,CATEGORY_OPE);
 
       List<Account> accBusinessOrg = [SELECT Id, RecordTypeId 
 				FROM Account 
@@ -1022,7 +1024,7 @@ public class ProductDetailsCtrlTest{
       }
 
       CCECorporateUserCtrl.CorporateUserDetails enableResponse = new CCECorporateUserCtrl.CorporateUserDetails();
-      enableResponse = CCECorporateUserCtrl.enableCCECorporateUser(cceContact.Id);
+      enableResponse = CCECorporateUserCtrl.enablePortalUser(cceContact.Id,CATEGORY_OPE);
       System.debug(LoggingLevel.DEBUG, JSON.serializePretty(enableResponse));//NOPMD
       List<Account> accBusinessOrg = [SELECT Id, RecordTypeId 
 				FROM Account 

@@ -14,6 +14,7 @@
 */
 @isTest
 public with sharing class ProductCtrlTest {
+	private static final String CATEGORY_OPE = 'Product Catalogue';
 	private static final string STUDENT_RT = System.Label.RT_CourseConnection_Student;
 	private static final String RT_PRODUCT_REQ = System.Label.RT_ProductRequest_Activity;
 	private static final Id OPE_ACTIVITY_RECQ = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName()
@@ -93,7 +94,7 @@ public with sharing class ProductCtrlTest {
 			);
 			insert cceContact;
 
-			CCECorporateUserCtrl.CorporateUserDetails enableResponse = CCECorporateUserCtrl.enableCCECorporateUser(cceContact.Id);
+			CCECorporateUserCtrl.CorporateUserDetails enableResponse = CCECorporateUserCtrl.enablePortalUser(cceContact.Id,CATEGORY_OPE);
 			List<User> userList = [
 				SELECT Id, ProfileId, Profile.Name, ContactId 
 				FROM User

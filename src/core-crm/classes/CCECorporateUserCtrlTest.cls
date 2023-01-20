@@ -15,6 +15,9 @@
 @isTest
 public with sharing class CCECorporateUserCtrlTest {
 
+    private static final String CATEGORY_CCE = 'Corporate Portal';
+    private static final String CATEGORY_OPE = 'Product Catalogue';
+
     @testSetup
     static void makeData(){
         TestDataFactory.generateTestUsers();
@@ -42,15 +45,75 @@ public with sharing class CCECorporateUserCtrlTest {
         System.runAs(TestDataFactory.getProgramAdminUser()){
             Contact contact = [SELECT Id FROM Contact LIMIT 1];
             Test.startTest();
-            CCECorporateUserCtrl.CorporateUserDetails enableResponse = CCECorporateUserCtrl.enableCCECorporateUser(contact.Id);
+            CCECorporateUserCtrl.CorporateUserDetails enableResponse = CCECorporateUserCtrl.enablePortalUser(contact.Id, CATEGORY_CCE);
+            String response;
+            if(enableResponse.userId != null){
+                response = CCECorporateUserCtrl.disableCCECorporateUser(contact.Id);
+            }            
+            Test.stopTest();
+
+
+            System.assertEquals('Success', response, 'Enable and disable user failed.');
+        }
+    }
+
+     
+
+    @isTest
+    static void enableAndDisableOPEUserTest(){
+        System.runAs(TestDataFactory.getProgramAdminUser()){
+            Contact contact = [SELECT Id FROM Contact LIMIT 1];
+            Test.startTest();
+            CCECorporateUserCtrl.CorporateUserDetails enableResponse = CCECorporateUserCtrl.enablePortalUser(contact.Id, CATEGORY_OPE);
             String response;
             if(enableResponse.userId != null){
                 response = CCECorporateUserCtrl.disableCCECorporateUser(contact.Id);
             }
+            System.assertEquals('Success', response, 'Enable and disable ope user failed.');
+
+            if(response == 'Success'){
+                enableResponse = CCECorporateUserCtrl.enablePortalUser(contact.Id, CATEGORY_CCE);
+            }
             Test.stopTest();
-            System.assertEquals('Success', response, 'Enable and disable user failed.');
+            System.assertEquals(true, enableResponse.isSuccess, 'Enable and disable cce user failed.');
         }
-     }
+    }
+
+    @isTest
+    static void enableOPEWithExistingTest(){
+        System.runAs(TestDataFactory.getProgramAdminUser()){
+            Contact contact = [SELECT Id FROM Contact LIMIT 1];
+            Test.startTest();
+            CCECorporateUserCtrl.CorporateUserDetails enableResponse = CCECorporateUserCtrl.enablePortalUser(contact.Id, CATEGORY_OPE);
+            String response;
+            if(enableResponse.userId != null){
+                enableResponse = CCECorporateUserCtrl.enablePortalUser(contact.Id, CATEGORY_OPE);
+            }
+            if(enableResponse.userId != null){
+                response = CCECorporateUserCtrl.disableCCECorporateUser(contact.Id);
+            }
+            Test.stopTest();
+            System.assertEquals(true, enableResponse.isSuccess, 'Enable and disable cce user failed.');
+        }
+    }
+
+    @isTest
+    static void enableOPEWithExistingCCETest(){
+        System.runAs(TestDataFactory.getProgramAdminUser()){
+            Contact contact = [SELECT Id FROM Contact LIMIT 1];
+            Test.startTest();
+            CCECorporateUserCtrl.CorporateUserDetails enableResponse = CCECorporateUserCtrl.enablePortalUser(contact.Id, CATEGORY_CCE);
+            String response;
+            if(enableResponse.userId != null){
+                enableResponse = CCECorporateUserCtrl.enablePortalUser(contact.Id, CATEGORY_OPE);
+            }
+            if(enableResponse.userId != null){
+                response = CCECorporateUserCtrl.disableCCECorporateUser(contact.Id);
+            }
+            Test.stopTest();
+            System.assertEquals(true, enableResponse.isSuccess, 'Enable and disable cce user failed.');
+        }
+    }
 
     @isTest
     static void enableCCECorporateUserForOPETest(){
