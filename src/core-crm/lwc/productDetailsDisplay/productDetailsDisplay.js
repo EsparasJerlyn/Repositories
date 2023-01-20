@@ -927,6 +927,10 @@ export default class ProductDetailsDisplay extends NavigationMixin(
       this.selectedCourseOfferingFacilitator[this.facilitatorIndex];
   }
 
+  get getPriceBookEntriesFiltered(){
+    return this.priceBookEntriesFiltered;
+  }
+
   // Set Selected Price Book Entry value
   handlePricebookSelected(event) {
     let selectedPBLabel = event.detail.label;
