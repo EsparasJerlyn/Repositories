@@ -9,7 +9,7 @@
  *    | Developer                      | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | eccarius.karl.munoz            | August 12, 2022       | DEPP-3488              | Created file                 | 
-      | eccarius.karl.munoz            | September 13, 2022    | DEPP-4096              | Added test methods           | 
+      | eccarius.karl.munoz            | September 13, 2022    | DEPP-4096              | Added test methods           |  
       |                                |                       |                        |                              | 
  */
 @isTest

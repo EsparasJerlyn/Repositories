@@ -3401,6 +3401,10 @@
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
+        <name>AssignPermissionSets</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
         <name>CommerceEntitlementIntegrator</name>
     </userPermissions>
     <userPermissions>
