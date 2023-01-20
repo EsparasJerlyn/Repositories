@@ -7,7 +7,7 @@
         variant="brand"
     >
     </lightning-spinner>
- 
+    
     <div class="header">
         <p class="main-color-blue500 headingText">
             {productCategory}
@@ -43,7 +43,24 @@
     </template>
 
     <div class="slds-grid slds-wrap searchContainer"> 
-        <div class="slds-col searchCol"></div>
+        <div class="slds-col searchCol slds-border_top slds-p-bottom_x-large"></div>
+        <template if:true={isTailoredExecEduc}>
+            <div class="slds-col searchCol">
+                <label for="searchField" class="slds-var-m-bottom_medium searchTitle searchLabel slds-p-right_x-small">Select Program</label>
+                <c-custom-combobox
+                    class="sortCombobox slds-var-m-bottom_medium slds-p-left_x-small"
+                    placeholder="Select Program"
+                    disabled={disableProdSpecList}
+                    options={prodSpecList}
+                    value={prodSpecValue}
+                    onchange={handleProdSpecChange}
+                    slds-icon-up="utility:chevronup"
+                    slds-icon-down="utility:chevrondown"
+                >
+                </c-custom-combobox>
+            </div>
+        </template>
+        
         <div class="slds-col searchCol">
             <label for="searchField" class="slds-var-m-bottom_medium searchTitle searchLabel">Filter by keyword</label>
             <lightning-input

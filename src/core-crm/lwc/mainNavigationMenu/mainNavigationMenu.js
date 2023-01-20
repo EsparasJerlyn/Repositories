@@ -63,7 +63,7 @@ export default class MainNavigationMenu extends LightningElement {
 	@wire(MessageContext)
     messageContext;
 
-
+	
 	parameterObject = {
 		userId: USER_ID,
 		categoryId : '', 

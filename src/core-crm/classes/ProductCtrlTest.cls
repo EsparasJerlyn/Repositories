@@ -11,10 +11,10 @@
 	  | mary.grace.li             | July 01, 2022         | DEPP-3124            | Added new method for createTestProducts    |
 	  | keno.domienri.dico        | July 15, 2022		  | DEPP-2699		     | CCE Homepage				                  |
 	  | julie.jane.alegre         | November 28, 2022     | DEPP-4693		     | Update getProductsByCategory			      |
+	  | eccarius.kar.munoz        | January 16, 2023      | DEPP-4692		     | Update getProductSpecsByAccountTest		  |  
 */
 @isTest
 public with sharing class ProductCtrlTest {
-	private static final String CATEGORY_OPE = 'Product Catalogue';
 	private static final string STUDENT_RT = System.Label.RT_CourseConnection_Student;
 	private static final String RT_PRODUCT_REQ = System.Label.RT_ProductRequest_Activity;
 	private static final Id OPE_ACTIVITY_RECQ = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName()
@@ -39,6 +39,7 @@ public with sharing class ProductCtrlTest {
 	.get('Business_Organization')
 	.getRecordTypeId();
 	private static Id cceProdSpecId = Schema.SObjectType.Product_Specification__c.getRecordTypeInfosByDeveloperName().get('CCE').getRecordTypeId();
+	private static final String CATEGORY_OPE = 'Product Catalogue';
 
 	@testSetup
 	static void setupMethod() {
@@ -416,7 +417,7 @@ public with sharing class ProductCtrlTest {
 
 			System.assert(getProd != null, 'Successfully retrieved Products');
 		}
-	}
+	}	
 
 	@isTest
 	static void getProductsSortComingUp_SingleEFreeTest() {
@@ -1724,6 +1725,34 @@ public with sharing class ProductCtrlTest {
 				getFilterProd != null,
 				'No Products were found with Date and Price as filter'
 			);
+		}
+	}
+
+	@isTest
+	static void getProductSpecsByAccountTest(){
+		System.runAs(TestDataFactory.getProgramAdminUser()) {
+			List<Account> accounts = [SELECT Id, Name, RecordType.Name FROM Account WHERE Name ='TestAccount1' AND RecordType.Name = 'Business Organization' LIMIT 1];
+			List<Contact> conList = [SELECT Id, Name, AccountId FROM Contact WHERE AccountId =: accounts[0].Id];
+			List<Opportunity> oppList = TestDataFactory.createTestOpportunityRecords(1,accounts[0].Id,conList[0].Id);
+			insert oppList;
+			List<Product_Specification__c> prodSpecList = TestDataFactory.createTestProductSpecsRecords(1,conList,oppList);
+				for(Integer i = 0 ; i < prodSpecList.size() ; i++){
+					prodSpecList[i].RecordTypeId = cceProdSpecId;
+			}
+			insert prodSpecList;
+			List<Product_Request__c> prodRequestCCE = TestDataFactory.createTestProductRequestRecords(
+				1, prodSpecList[0].Id
+			);
+			for(Product_Request__c pr : prodRequestCCE){
+				pr.Product_Request_Status__c = 'Published';
+				pr.Child_of_Prescribed_Program__c = false;
+			}
+			insert prodRequestCCE;
+
+			Test.startTest();
+			List<Product_Specification__c> prodSpecs = ProductCtrl.getProductSpecsByAccount(accounts[0].Id);
+			Test.stopTest();
+			System.assert(!prodSpecs.isEmpty(), 'Product Specification must not be empty');
 		}
 	}
 }

@@ -19,6 +19,7 @@
 	  import { LightningElement ,wire, track, api} from 'lwc';
 	  import getProductsByCategory from '@salesforce/apex/ProductCtrl.getProductsByCategory';
 	  import getStoreFrontCategoryMenu from '@salesforce/apex/MainNavigationMenuCtrl.getStoreFrontCategories';
+	  import getProductSpecsByAccount from '@salesforce/apex/ProductCtrl.getProductSpecsByAccount';
 	  import communityId from '@salesforce/community/Id';
 	  import BasePath from "@salesforce/community/basePath";
 	  import userId from "@salesforce/user/Id";
@@ -47,7 +48,9 @@
 		  accountName;
 		  fullLabel;
 		  subscription;
-
+		  prodSpecList = [];
+		  prodSpecValue = '';
+		  prodSpecId = '';
 
 		  @track productInfoList = [];
 		  isCorporateBundle;
@@ -58,7 +61,8 @@
 			categoryId : '', 
 			accountId: '',
 			accountName: '',
-			fullLabel: ''
+			fullLabel: '',
+			prodSpecId: ''
 		  }
 	  
 		  get isLoading() {
@@ -110,9 +114,9 @@
 							categoryId : this.categoryId,
 							accountId: this.accountId,
 							accountName: this.accountName,
-							fullLabel: this.fullLabel
+							fullLabel: this.fullLabel,
+							prodSpecId: this.prodSpecId
 						  }
-
 						  //gets isTailoredExecEduc value to store in session storage if in CCE Portal
 						  if(this.isCCEPortal){
 						  let currentProductCategory = {
@@ -151,6 +155,33 @@
 					this.getProducts();
 				}
 			}, DELAY);
+		}
+
+		disableProdSpecList = true;
+
+		@wire(getProductSpecsByAccount, { accountId : '$accountId' })
+		getProductSpecsByAccount(result) {		
+			this.prodSpecs = result.data;
+			if(result.data){
+				if(this.prodSpecs.length > 1){
+					this.disableProdSpecList = false;
+				}
+				const options = result.data.map( res => {
+					return {
+						label: res.Program_Name__c,
+						value: res.Id
+					}
+				});
+				this.prodSpecList = options;
+				this.prodSpecValue = options[0].value;
+				this.prodSpecId = this.prodSpecValue;
+				this.getProducts();
+			}    
+		}
+
+		handleProdSpecChange(event){
+			this.prodSpecId = event.detail.value;
+			this.getProducts();
 		}
 		  
 		  // Get the Products per category menu
@@ -260,10 +291,9 @@
 					categoryId : this.categoryId,
 					accountId: this.accountId,
 					accountName: this.accountName,
-					fullLabel: this.fullLabel
-
+					fullLabel: this.fullLabel,
+					prodSpecId: this.prodSpecId
 				  }
-
 				  this.getProducts();
 			}
 		}

@@ -758,6 +758,34 @@ public without sharing class ProductCtrl{
 		return prodData;
 	}
 
+	@AuraEnabled(cacheable = true)
+	public static List<Product_Specification__c> getProductSpecsByAccount(String accountId){
+		Map<Id, Product_Specification__c> prodSpecMap = new Map<Id, Product_Specification__c>([
+			SELECT Id, Program_Name__c FROM Product_Specification__c WHERE Opportunity_Name__r.AccountId =: accountId WITH SECURITY_ENFORCED ORDER By Program_Name__c ASC 
+		]);
+
+		List<Product_Specification__c> prodSpecList = new List<Product_Specification__c>();
+		Set<Product_Specification__c> prodSpecSet = new Set<Product_Specification__c>();
+		
+		List<Product_Request__c> prodReqList = [
+			SELECT Id, Product_Specification__c, Product_Request_Status__c, RecordType.Name 
+			FROM Product_Request__c 
+			WHERE Child_of_Prescribed_Program__c = false 
+			AND Product_Specification__c IN :prodSpecMap.keySet() 
+			AND Product_Request_Status__c ='Published' And (RecordType.Name != 'Corporate Bundle' 
+			AND RecordType.Name != 'Standing Offer Arrangement') WITH SECURITY_ENFORCED];
+
+		for(Product_Request__c pr : prodReqList){
+			if(prodSpecMap.containsKey(pr.Product_Specification__c)){
+				prodSpecSet.add(prodSpecMap.get(pr.Product_Specification__c));
+			}
+		}
+
+		prodSpecList.addAll(prodSpecSet);
+
+		return prodSpecList;
+	} 
+
 	/**
 	 * Get products by menu category
 	 */
@@ -769,15 +797,13 @@ public without sharing class ProductCtrl{
 		String earlyBirdPricebook = 'Early Bird';
 		String freePricebook = 'Free';
 
-		List<ProductCategoryProduct> catProdIds = [
-			SELECT Id, ProductId, ProductCategoryId
-			FROM ProductCategoryProduct
-			WHERE ProductCategoryId = :acctFilterDataWrapper.categoryId
-		];
-		List<String> prodIds = new List<String>();
-		for(ProductCategoryProduct getId : catProdIds){
-			prodIds.add(getId.ProductId);
-		}
+		Map<Id, Product_Request__c> productRequestList = new Map<Id, Product_Request__c>([
+			SELECT Id FROM Product_Request__c WHERE Product_Specification__c =: acctFilterDataWrapper.prodSpecId WITH SECURITY_ENFORCED
+		]);
+		
+		Map<Id,Product2> prodList = new Map<Id,Product2>([SELECT Id FROM Product2 
+			WHERE Course__r.ProductRequestID__c IN: productRequestList.keySet() OR Program_Plan__r.Product_Request__c IN: productRequestList.keySet() WITH SECURITY_ENFORCED
+		]);		
 
 		/**
 		 * Get the Price for SOA and Corporate Bundle Products
@@ -833,6 +859,29 @@ public without sharing class ProductCtrl{
 			pbeName = 'SOA%';
 		} else {
 			pbeName = '%';
+		}
+
+		List<ProductCategoryProduct> catProdIds = new List<ProductCategoryProduct>();
+		if(!String.isBlank(acctFilterDataWrapper.prodSpecId) && 
+			((catName.ProductCategory.Name == 'Tailored Executive Education') || 
+			(catName.ProductCategory.Name == 'Tailored Executive Program'))){
+				catProdIds = [
+					SELECT Id, ProductId, ProductCategoryId
+					FROM ProductCategoryProduct
+					WHERE ProductCategoryId = :acctFilterDataWrapper.categoryId
+					AND ProductId IN : prodList.keySet()
+				];
+		}else{
+			catProdIds = [
+				SELECT Id, ProductId, ProductCategoryId
+				FROM ProductCategoryProduct
+				WHERE ProductCategoryId = :acctFilterDataWrapper.categoryId
+			];
+		}
+
+		List<String> prodIds = new List<String>();
+		for(ProductCategoryProduct getId : catProdIds){
+			prodIds.add(getId.ProductId);
 		}
 
 		// Get the Price
@@ -1124,6 +1173,8 @@ public without sharing class ProductCtrl{
 		public String accountName{ get; set; }
 		@AuraEnabled
 		public String categoryId{ get; set; }
+		@AuraEnabled
+		public String prodSpecId{ get; set; }
 	}
 
 	/**
