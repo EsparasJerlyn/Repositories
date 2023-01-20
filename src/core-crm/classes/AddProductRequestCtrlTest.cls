@@ -17,7 +17,7 @@ private class AddProductRequestCtrlTest {
     private static final String PRODUCT_REQ_API_NAME = Product_Request__c.SObjectType.getDescribe().getLocalName();
     private static final String ACTIVITY = System.Label.RT_ProductRequest_Activity;
     private static final Id ACTIVITY_ID = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(ACTIVITY).getRecordTypeId();
-    private static string PR_PROGRAM = System.Label.RT_ProductRequest_Program;
+    private static final string PR_PROGRAM = System.Label.RT_ProductRequest_Program;
     private static Id opeProgProdReqId =  Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_PROGRAM).getRecordTypeId();
     private static final String PRODUCT_SPEC_RT = System.Label.RT_ProductSpecification_OPEProgramSpecification;
     private static Id opeProdSpecId = Schema.SObjectType.Product_Specification__c.getRecordTypeInfosByDeveloperName().get(PRODUCT_SPEC_RT).getRecordTypeId();
@@ -156,10 +156,15 @@ private class AddProductRequestCtrlTest {
         WebStore testWebStore = new WebStore(Name='CCE', DefaultLanguage='en_US');
         insert testWebStore;
 
+        Id productRequestId = null;
         System.runAs(TestDataFactory.getPortalSysAdminUser()){
             Test.startTest();
-            AddProductRequestCtrl.createBuyerGroupAndEntitlement([SELECT Id FROM Product_Request__c LIMIT 1].Id,acc.Id,acc.Name,true,false);
+            productRequestId = [SELECT Id FROM Product_Request__c LIMIT 1]?.Id;
+            AddProductRequestCtrl.createBuyerGroupAndEntitlement(productRequestId,acc.Id,acc.Name,true,false);
             Test.stopTest();
         }
+
+        List<BuyerGroup> buyerGroups = [SELECT Id FROM BuyerGroup WHERE Product_Request__c=:productRequestId];
+        System.assert(buyerGroups != null, 'BuyerGroup should be created.');
     }
 }

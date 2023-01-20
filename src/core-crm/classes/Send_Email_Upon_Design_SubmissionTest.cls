@@ -143,7 +143,7 @@ private class Send_Email_Upon_Design_SubmissionTest {
             List<Product_Specification__c> prodSpecList = TestDataFactory.createTestProductSpecsRecords(1,conList,oppList);
             for(Integer i = 0 ; i < prodSpecList.size() ; i++){
                 prodSpecList[i].RecordTypeId = psRecordType;
-                prodSpecList[i].Stage__c = 'Design';
+                prodSpecList[i].Stage__c = (psRecordType == PS_PROGRAM_SPEC_ID)? 'Design':'Define';
                 prodSpecList[i].Status__c = 'Design';
                 prodSpecList[i].Requestor_Name__c = conList[i].Id;
                 prodSpecList[i].Requestor_Internal_External__c = 'Internal';

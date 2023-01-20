@@ -529,6 +529,7 @@ export default class RegistrationForm extends LightningElement {
       } else if (res) {
         window.location.href = res;
       }
+      this.updateContactOfExistingUser(); 
     })
     .catch((error) => {
       this.errorMessage = LWC_ERROR_GENERAL + this.generateErrorMessage(error);

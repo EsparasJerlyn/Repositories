@@ -74,6 +74,7 @@ public with sharing class RelatedProductsCtrlTest {
              List<Product_Specification__c> prodSpecList = TestDataFactory.createTestProductSpecsRecords(2,conList,oppList);
              prodSpecList[0].RecordTypeId = cceProdSpecId;
              prodSpecList[1].RecordTypeId = opeProdSpecId;
+             prodSpecList[1].Stage__c = 'Idea';
              insert prodSpecList;
      
              List<Product_Request__c> soaRequest = TestDataFactory.createTestProductRequestRecords(1,prodSpecList[0].Id);
