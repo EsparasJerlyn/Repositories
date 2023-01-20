@@ -60,9 +60,7 @@ public without sharing class EmployeeSelfRegistrationCtrl {
 		];
 
 		// Get Email Template
-		EmailTemplate emailTemplate = EmailTemplateSelector.getEmailTemplate(
-			EMPLOYEE_SELF_REGISTRATION_EMAIL
-		);
+		EmailTemplate emailTemplate = [Select Id,Name,Subject,HtmlValue,Body from EmailTemplate where name=:EMPLOYEE_SELF_REGISTRATION_EMAIL LIMIT 1];
 
 		//Get Form URL Custom Setting
 		EmployeeSelfRegistrationForm__c employeeSelfRegistrationSettings = EmployeeSelfRegistrationForm__c.getOrgDefaults();
