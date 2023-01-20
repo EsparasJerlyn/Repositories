@@ -51,6 +51,8 @@ public with sharing class Prod_Specs_Send_EmailTest {
                 prodSpec[i].Endorsed_by__c = conList[i].Id;
                 prodSpec[i].Idea_Summary__c = 'Test';
                 prodSpec[i].Requestor_Internal_External__c = 'Internal';
+                prodSpec[i].RecordTypeId = opeProdSpecId;
+                prodSpec[i].Stage__c = 'Idea';
             }
             insert prodSpec;
             
@@ -121,6 +123,8 @@ public with sharing class Prod_Specs_Send_EmailTest {
                 prodSpec[i].Endorsed_by__c = conList[i].Id;
                 prodSpec[i].Idea_Summary__c = 'Test';
                 prodSpec[i].Requestor_Internal_External__c = 'External';
+                prodSpec[i].RecordTypeId = opeProdSpecId;
+                prodSpec[i].Stage__c = 'Idea';
             }
             insert prodSpec;
             
