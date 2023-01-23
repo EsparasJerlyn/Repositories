@@ -257,8 +257,6 @@ public class ProductDetailsCtrlTest{
         insert acr;
       }
 
-			// CCECorporateUserCtrl.CorporateUserDetails enableResponse = CCECorporateUserCtrl.enableCCECorporateUser(cceContact.Id);
-
       CCECorporateUserCtrl.CorporateUserDetails enableResponse = new CCECorporateUserCtrl.CorporateUserDetails();
       enableResponse = CCECorporateUserCtrl.enablePortalUser(cceContact.Id,CATEGORY_OPE);
 

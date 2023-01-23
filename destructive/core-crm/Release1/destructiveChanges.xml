@@ -15,12 +15,23 @@
         <!--DEPP-4144 end-->
         <name>CustomField</name>
     </types>
-
     <types>
         <!--DEPP-4625 / DEPP-4223-->
         <members>Case-International Enquiry Layout</members>
         <!--DEPP-4625/ DEPP-4223 end-->
         <name>Layout</name>
+    </types>
+    <types>
+        <!--Start DEPP-4925-->
+        <members>enableCCECorporateUser</members>
+        <!--End DEPP-4925-->
+        <name>LightningComponentBundle</name>
+    </types>
+    <types>
+        <!--Start DEPP-4925-->
+        <members>Contact.Enable_Partner_Portal_Access</members>
+        <!--End DEPP-4925-->
+        <name>QuickAction</name>
     </types>
     <version>52.0</version>
 </Package>
