@@ -38,6 +38,8 @@ parameters:
   values:
   - "Diff from main"
   - "Last 5 days"
+  - "Last 10 days"
+  - "Full Deployment"
 
 stages:
   - stage: PiplineJob
