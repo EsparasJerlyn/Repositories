@@ -165,8 +165,10 @@ public without sharing class CCECorporateUserCtrl {
                 permSetAssignments.add(permSetAssignment);
             }
 
-            if(permSetAssignments.size() > 0 && !userAccessWrapper.hasOpeUser){
-                upsert permSetAssignments;
+            if(permSetAssignments.size() > 0 && !userAccessWrapper.hasOpeUser && 
+            Schema.sObjectType.PermissionSetAssignment.fields.AssigneeId.isCreateable() &&
+            Schema.sObjectType.PermissionSetAssignment.fields.PermissionSetId.isCreateable()){
+                insert permSetAssignments;
             }
         }
         return  userAccessWrapper.userId;
@@ -221,8 +223,10 @@ public without sharing class CCECorporateUserCtrl {
                     );
                     permSetAssignments.add(permSetAssignment);
                 }
-                if(permSetAssignments.size() > 0){
-                    upsert permSetAssignments;
+                if(permSetAssignments.size() > 0 &&
+                Schema.sObjectType.PermissionSetAssignment.fields.AssigneeId.isCreateable() &&
+                Schema.sObjectType.PermissionSetAssignment.fields.PermissionSetId.isCreateable()){
+                    insert permSetAssignments;
                 }
             }
         } catch (Exception e) {  
@@ -269,7 +273,6 @@ public without sharing class CCECorporateUserCtrl {
             update usersToUpdate;
 
             //Remove Permission Set from the existing user
-            List<PermissionSetAssignment> permSetAssignments = new List<PermissionSetAssignment>();
             Set<Id> permSetIdSet = new Set<Id>();
             List<PermissionSet> permsets = [SELECT Id FROM PermissionSet WHERE Label IN ('Corporate Portal Base', 'Account Switcher User​') WITH SECURITY_ENFORCED];
             for(PermissionSet perm: permsets){

@@ -321,6 +321,7 @@ public with sharing class ContactTriggerHandlerTest {
             insert contact;
 
             CCECorporateUserCtrl.CorporateUserDetails enableResponse = CCECorporateUserCtrl.enablePortalUser(contact.Id, CATEGORY_CCE);
+            System.assert(enableResponse != null, 'no response');
         }
 
         Contact c = new Contact(LastName = 'UnitTest');

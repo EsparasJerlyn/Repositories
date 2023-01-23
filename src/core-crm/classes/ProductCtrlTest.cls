@@ -96,12 +96,7 @@ public with sharing class ProductCtrlTest {
 			insert cceContact;
 
 			CCECorporateUserCtrl.CorporateUserDetails enableResponse = CCECorporateUserCtrl.enablePortalUser(cceContact.Id,CATEGORY_OPE);
-			List<User> userList = [
-				SELECT Id, ProfileId, Profile.Name, ContactId 
-				FROM User
-				WHERE ContactId = :cceContact.Id
-				LIMIT 1
-			];
+			System.assert(enableResponse != null, 'no response');
 
 			List<hed__Term__c> terms = TestDataFactory.createTestTermRecords(
 				10,
