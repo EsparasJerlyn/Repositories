@@ -157,7 +157,6 @@ export default class StoreBreadrumbs extends LightningElement {
             newValObj.isProgramFlex = newValObj.isProgramFlex ? String(newValObj.isProgramFlex).toUpperCase() == 'TRUE' : false;
 
             this.addToMenuList(newValObj);
-            console.log('NewValObj2', newValObj);
             this.setProductUrl();
         }
     }
@@ -222,8 +221,6 @@ export default class StoreBreadrumbs extends LightningElement {
     }
 
     getCategoryUrl(name, id) {
-        console.log('geturlname'+ name);
-        console.log('geturlid'+ id);
         if(name && id){
             return basePath+'/category/'+name.replaceAll(' ','-').toLowerCase()+'/'+id.slice(0, -3);
         } else {
@@ -237,7 +234,6 @@ export default class StoreBreadrumbs extends LightningElement {
 
     setProductUrl() {
         let urlRecordId = window.location.href ? window.location.href.substring(window.location.href.lastIndexOf('_') + 1) : undefined;
-        console.log('URLRecordId', urlRecordId);
         if(!urlRecordId){
             urlRecordId = window.location.href ? window.location.href.substring(window.location.href.lastIndexOf('/') + 1) : undefined;
         }
@@ -248,7 +244,6 @@ export default class StoreBreadrumbs extends LightningElement {
             this.menuList.forEach(e => {
                 if(e.productId.length > urlRecordId.length){
                     e.productId = e.productId.slice(0,urlRecordId.length);
-                    console.log('Resultid', e.productId);
                 }
                 if (e.productId == urlRecordId && e.isProgramFlex) {
                     e.productUrl = window.location.href;
