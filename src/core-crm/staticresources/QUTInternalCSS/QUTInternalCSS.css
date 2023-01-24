@@ -1806,3 +1806,13 @@ td.slds-m-around_x-small.desc-content.bodyRegular {
   display: -webkit-inline-box !important;
 }
 }
+
+/* Removes the help text in Group booking for email */
+.participantmail .slds-form-element__icon{
+  display: none;
+} 
+
+.emailHelpText .slds-form-element__icon{
+  height: 1.2rem;
+  bottom: 1.2rem ;
+} 

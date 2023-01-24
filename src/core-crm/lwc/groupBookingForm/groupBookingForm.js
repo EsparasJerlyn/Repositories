@@ -15,6 +15,8 @@
       | julie.jane.alegre         | July 28, 2022         | DEPP-3548            | Modified                              |
       | john.m.tambasen           | September 23, 2022    | DEPP-4367            | birthdate validation                  |
       | julie.jane.alegre         | September 29, 2022    |  DEPP-4471           | Add validation for available seats    |
+      | eugene.andrew.abuan       | January 24, 2023      | DEPP-5095            | Add registeredEmailHelpText           |
+
 */
 import { LightningElement, track, wire, api } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
@@ -35,6 +37,8 @@ import getUserMobileLocale from "@salesforce/apex/RegistrationFormCtrl.getUserMo
 import qutResourceImg from "@salesforce/resourceUrl/QUTImages";
 import validateContactMatching from "@salesforce/apex/RegistrationMatchingHelper.validateContactMatching";
 import { birthdateValidation } from 'c/commonUtils';
+import CONTACT_OBJECT from '@salesforce/schema/Contact';
+import { getObjectInfo } from 'lightning/uiObjectInfoApi';
 
 //Contact fields
 const CONTACT_FIELDS = [
@@ -124,6 +128,7 @@ export default class GroupBookingForm extends LightningElement {
     emailToParticipantMap = {};
     cartItems;
     processing;
+    @track registeredEmailHelpText = ""; //help text coming from Registered Email field
     /**
      * Payment Options
      */
@@ -135,6 +140,16 @@ export default class GroupBookingForm extends LightningElement {
     // Set Accepted File Formats
     get acceptedFormats() {
         return ['.pdf', '.png', '.jpg', 'jpeg'];
+    }
+
+    //Gets the Inline help text for Registered Email
+    @wire(getObjectInfo, { objectApiName: CONTACT_OBJECT })
+    wiredObjectContact({ error, data }){
+        if(data){
+            this.registeredEmailHelpText = data.fields.Registered_Email__c.inlineHelpText;
+        } else if (error) {
+            this.error = error;
+        }
     }
 
 @wire(getRecord, { recordId: userId, fields: CONTACT_FIELDS })
