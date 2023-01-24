@@ -25,6 +25,8 @@
  */
 @isTest
 public class ProductDetailsCtrlTest{
+
+  private static final String CATEGORY_OPE = 'Product Catalogue';
   private static final string studentRT = System.Label.RT_CourseConnection_Student;
   private static final String PRODUCT_API_NAME = Product2.SObjectType.getDescribe().getLocalName();
   private static final String rtProdRequestActivity = System.Label.RT_ProductRequest_Activity;
@@ -255,10 +257,8 @@ public class ProductDetailsCtrlTest{
         insert acr;
       }
 
-			// CCECorporateUserCtrl.CorporateUserDetails enableResponse = CCECorporateUserCtrl.enableCCECorporateUser(cceContact.Id);
-
       CCECorporateUserCtrl.CorporateUserDetails enableResponse = new CCECorporateUserCtrl.CorporateUserDetails();
-      enableResponse = CCECorporateUserCtrl.enableCCECorporateUser(cceContact.Id);
+      enableResponse = CCECorporateUserCtrl.enablePortalUser(cceContact.Id,CATEGORY_OPE);
 
       List<Account> accBusinessOrg = [SELECT Id, RecordTypeId 
 				FROM Account 
@@ -596,7 +596,7 @@ public class ProductDetailsCtrlTest{
       }
 
       CCECorporateUserCtrl.CorporateUserDetails enableResponse = new CCECorporateUserCtrl.CorporateUserDetails();
-      enableResponse = CCECorporateUserCtrl.enableCCECorporateUser(cceContact.Id);
+      enableResponse = CCECorporateUserCtrl.enablePortalUser(cceContact.Id,CATEGORY_OPE);
 
       List<Account> accBusinessOrg = [SELECT Id, RecordTypeId 
 				FROM Account 
@@ -1022,7 +1022,7 @@ public class ProductDetailsCtrlTest{
       }
 
       CCECorporateUserCtrl.CorporateUserDetails enableResponse = new CCECorporateUserCtrl.CorporateUserDetails();
-      enableResponse = CCECorporateUserCtrl.enableCCECorporateUser(cceContact.Id);
+      enableResponse = CCECorporateUserCtrl.enablePortalUser(cceContact.Id,CATEGORY_OPE);
       System.debug(LoggingLevel.DEBUG, JSON.serializePretty(enableResponse));//NOPMD
       List<Account> accBusinessOrg = [SELECT Id, RecordTypeId 
 				FROM Account 
@@ -1367,6 +1367,7 @@ public class ProductDetailsCtrlTest{
       getProdDet1.categoryName = 'QUTeX Learning Solutions';
       getProdDet1.userId = enableResponse.userId;
       getProdDet1.productId = singleProdId;
+      getProdDet1.buyerGroupId = bGroupMember[0].BuyerGroupId;
       getSingleProductDetails = ProductDetailsCtrl.getCCEProductRelatedRecords(getProdDet1);
 
       ProductDetailsCtrl.ProductDetailsData getFlexProgProductDetails = new ProductDetailsCtrl.ProductDetailsData();
@@ -1375,6 +1376,7 @@ public class ProductDetailsCtrlTest{
       getProdDet2.categoryName = 'QUTeX Learning Solutions';
       getProdDet2.userId = enableResponse.userId;
       getProdDet2.productId = progProdId;
+      getProdDet2.buyerGroupId = bGroupMember[0].BuyerGroupId;
       getFlexProgProductDetails = ProductDetailsCtrl.getCCEProductRelatedRecords(getProdDet2);
 
       Test.stopTest();

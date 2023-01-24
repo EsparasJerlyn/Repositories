@@ -182,6 +182,7 @@ public with sharing class RelatedProductsCtrlTest {
                List<Product_Request__c> prList = new List<Product_Request__c>([
                     SELECT Id FROM Product_Request__c 
                     WHERE Product_Specification__r.RecordType.DeveloperName = 'CCE'
+                    AND RecordTypeId =: SOA_ID
                     LIMIT 1
                ]);
                Test.startTest();

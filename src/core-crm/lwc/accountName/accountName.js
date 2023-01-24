@@ -109,16 +109,4 @@ export default class AccountName extends LightningElement {
     handleToggle(){
         this.showAccount = !this.showAccount;
     }
-
-   /* get getExpandDivCss() {
-        let css =  'slds-grid slds-grid_vertical-align-end profile-container slds-show_medium ' + 
-        (this.showAccount ? ' '  : '' );
-        return css;
-    }
-
-    get getExpandSpanCss() {
-        let css =  'prof-name pr1 mb1 slds-truncate ' + 
-        (this.showAccount ? ' '  : ' ' );
-        return css;
-    }*/
 }

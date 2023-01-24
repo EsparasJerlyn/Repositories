@@ -7,7 +7,7 @@
  * @history
  *    | Developer                 | Date                  | JIRA                 | Change Summary               |
       |---------------------------|-----------------------|----------------------|------------------------------|
-      | roy.nino.s.regala         | November 15, 2022     | DEPP-4721            | Created file                 |
+      | roy.nino.s.regala         | November 15, 2022     | DEPP-4721            | Created file                 | 
 */
 @isTest
 public class ManageRegistrationSectionHelperTest {

@@ -25,6 +25,16 @@ variables:
   - group: SF_CICD
 
 parameters:
+- name: PACKAGE_DEPLOYMENT_DELTA_TYPE
+  displayName: Package Deployment Delta Type
+  type: string
+  default: "Diff from main"
+  values:
+  - "Diff from main"
+  - "Last 5 days"
+  - "Last 10 days"
+  - "Full Deployment"
+  
 - name: INCLUDE_SANDBOX_REFRESH_STEP_LoadUsers
   displayName: Include Add/Update Test Users
   type: string
@@ -59,6 +69,8 @@ stages:
                 - template: yml/templates/sfdx-init.yml@SFDX-PIPELINES
                 - template: yml/templates/sfdx-login.yml@SFDX-PIPELINES
                 - template: yml/templates/sfdx-build-package.yml@SFDX-PIPELINES
+                  parameters:
+                    PACKAGE_DEPLOYMENT_DELTA_TYPE: "${{ parameters.PACKAGE_DEPLOYMENT_DELTA_TYPE }}"
                 - template: yml/templates/sfdx-scan-code.yml@SFDX-PIPELINES
                 - template: yml/templates/sfdx-pre-deploy-steps.yml@SFDX-PIPELINES
                 - template: yml/templates/sfdx-deploy-and-post-deploy.yml@SFDX-PIPELINES

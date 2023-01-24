@@ -19,10 +19,10 @@ public without sharing class MainNavigationMenuCtrl {
     @AuraEnabled(cacheable=true)
     public static list<Opportunity> getOpportunityContractType(Id userId){
         list<Opportunity> opportunities =new list<Opportunity>();
-        list<User> users = [SELECT Id,Name,ContactId,AccountId FROM User WHERE Id=:userId];
+        list<User> users = [SELECT Id,Name,ContactId,AccountId FROM User WHERE Id=:userId WITH SECURITY_ENFORCED];
 		if(users.size()!=0){
-            Id account_Id = users.get(0).AccountId;
-            opportunities = [SELECT Id,Name,AccountId,Contract_Type__c FROM Opportunity WHERE AccountId=:account_Id];
+            Id accountId = users.get(0).AccountId;
+            opportunities = [SELECT Id,Name,AccountId,Contract_Type__c FROM Opportunity WHERE AccountId=:accountId WITH SECURITY_ENFORCED];
         }
         return opportunities;
     }
@@ -36,7 +36,7 @@ public without sharing class MainNavigationMenuCtrl {
 				SELECT ContactId 
 				FROM User 
 				WHERE Id = :userId)
-		];
+                WITH SECURITY_ENFORCED];
         if(!getAccount.isEmpty()){
             return getAccount[0].Account.Name;
         }else{
@@ -51,26 +51,26 @@ public without sharing class MainNavigationMenuCtrl {
        
         //Get default logged-in account
         AccountContactRelation getAccount = [
-			SELECT Id, AccountId, ContactId 
+			SELECT Id, AccountId, ContactId,Contact.hed__Primary_Organization__c
 			FROM AccountContactRelation 
 			WHERE Account.RecordType.Name = 'Business Organization' 
 			AND ContactId IN (
 				SELECT ContactId 
 				FROM User 
 				WHERE Id = :userId)
-			LIMIT 1
+                WITH SECURITY_ENFORCED LIMIT 1 
 		];
 
         //Get all accounts
 		List<AccountContactRelation> getAccounts = [
-                SELECT Id, AccountId, ContactId,Account.Name, Account.ParentId
+                SELECT Id, AccountId, ContactId,Account.Name, Account.ParentId,Contact.hed__Primary_Organization__c
                     FROM AccountContactRelation 
                     WHERE Account.RecordType.Name = 'Business Organization' 
                     AND ContactId IN (
                         SELECT ContactId 
                         FROM User 
                     WHERE Id = :userId)
-                        ORDER BY Account.Name ASC
+                    WITH SECURITY_ENFORCED ORDER BY Account.Name ASC
 		];
 
         for (AccountContactRelation accountContactRelation : getAccounts){
@@ -87,7 +87,7 @@ public without sharing class MainNavigationMenuCtrl {
 
             //checking to set account as primary
             if(String.isBlank(selectedAccountId)){
-                if(accountContactRelation.AccountId == getAccount.AccountId){
+                if(accountContactRelation.AccountId == getAccount.Contact.hed__Primary_Organization__c){
                     accountWrapper.isPrimaryAccount = true;
                     accountWrapper.isSelected = false;
                 }
@@ -112,41 +112,41 @@ public without sharing class MainNavigationMenuCtrl {
     @AuraEnabled(cacheable=true)
     public static List<NavigationMenuItem> defaultMenu(){
 	    String publishedState = 'Live';
-        List<NavigationMenuItem> MenuItem = new List<NavigationMenuItem>();
+        List<NavigationMenuItem> menuItem = new List<NavigationMenuItem>();
 
 		String networkId = Network.getNetworkId();
-        List<NavigationLinkSet> linkSets  = [SELECT Id,MasterLabel FROM NavigationLinkSet WHERE NetworkId=:networkId];
+        List<NavigationLinkSet> linkSets  = [SELECT Id,MasterLabel FROM NavigationLinkSet WHERE NetworkId=:networkId WITH SECURITY_ENFORCED];
         if(linkSets.size()!=0){
         Id linkSetId = linkSets.get(0).Id;  
-        MenuItem= [SELECT toLabel(Label), Target, Type, DefaultListViewId, AccessRestriction,ParentId,Position,Status,TargetPrefs 
-        FROM NavigationMenuItem WHERE NavigationLinkSetId=:linkSetId AND Status = :publishedState];
+        menuItem= [SELECT toLabel(Label), Target, Type, DefaultListViewId, AccessRestriction,ParentId,Position,Status,TargetPrefs 
+        FROM NavigationMenuItem WHERE NavigationLinkSetId=:linkSetId AND Status = :publishedState WITH SECURITY_ENFORCED];
 			}
-        return MenuItem;
+        return menuItem;
 
      }
     
     
     @AuraEnabled(cacheable=true)
     public static List<ProductCategory> getStoreFrontCategories(Id communityId){
-		List<ProductCategory> ProductCategories =new List<ProductCategory>();
-        String StoreId = B2BUtils.resolveCommunityIdToWebstoreId(communityId);
-        List<WebStoreCatalog> Catalogues = [SELECT SalesStoreId,ProductCatalogId FROM WebStoreCatalog WHERE SalesStoreId=:StoreId];
-        if(Catalogues.size()!=0){
-            Id Catalog_Id = Catalogues.get(0).ProductCatalogId;
-            ProductCategories = [SELECT Name, Id, SortOrder FROM ProductCategory WHERE CatalogId=:Catalog_Id AND IsNavigational = true ORDER By SortOrder ASC];
+		List<ProductCategory> productCategories =new List<ProductCategory>();
+        String storeId = B2BUtils.resolveCommunityIdToWebstoreId(communityId);
+        List<WebStoreCatalog> catalogues = [SELECT SalesStoreId,ProductCatalogId FROM WebStoreCatalog WHERE SalesStoreId=:storeId WITH SECURITY_ENFORCED];
+        if(catalogues.size()!=0){
+            Id catalogId = catalogues.get(0).ProductCatalogId;
+            productCategories = [SELECT Name, Id, SortOrder FROM ProductCategory WHERE CatalogId=:catalogId AND IsNavigational = true WITH SECURITY_ENFORCED ORDER By SortOrder ASC];
             }
-        return ProductCategories;
+        return productCategories;
     }
     @AuraEnabled(cacheable=true)
     public static List<ProductCategory> getStudyProducts(Id communityId){
-        List<ProductCategory> ProductCategories =new List<ProductCategory>();
-        String StoreId = B2BUtils.resolveCommunityIdToWebstoreId(communityId);
-        List<WebStoreCatalog> Catalogues = [SELECT SalesStoreId,ProductCatalogId FROM WebStoreCatalog WHERE SalesStoreId=:StoreId];
-        if(Catalogues.size()!=0){
-            Id Catalog_Id = Catalogues.get(0).ProductCatalogId;
-            ProductCategories = [SELECT Name,Id FROM ProductCategory WHERE CatalogId=:Catalog_Id AND Name = 'Products'];
+        List<ProductCategory> productCategories =new List<ProductCategory>();
+        String storeId = B2BUtils.resolveCommunityIdToWebstoreId(communityId);
+        List<WebStoreCatalog> catalogues = [SELECT SalesStoreId,ProductCatalogId FROM WebStoreCatalog WHERE SalesStoreId=:storeId WITH SECURITY_ENFORCED];
+        if(catalogues.size()!=0){
+            Id catalogId = catalogues.get(0).ProductCatalogId;
+            productCategories = [SELECT Name,Id FROM ProductCategory WHERE CatalogId=:catalogId AND Name = 'Products' WITH SECURITY_ENFORCED];
             }
-        return ProductCategories;
+        return productCategories;
     }
 
     public class AccountWrapper{

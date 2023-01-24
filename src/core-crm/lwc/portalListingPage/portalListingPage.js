@@ -19,6 +19,9 @@
 	  import { LightningElement ,wire, track, api} from 'lwc';
 	  import getProductsByCategory from '@salesforce/apex/ProductCtrl.getProductsByCategory';
 	  import getStoreFrontCategoryMenu from '@salesforce/apex/MainNavigationMenuCtrl.getStoreFrontCategories';
+	  import getProductSpecsByAccount from '@salesforce/apex/ProductCtrl.getProductSpecsByAccount';
+	  import getBuyerGroupMembers from '@salesforce/apex/ProductCtrl.getBuyerGroupMembers';
+	  import getAssetsByAccount from '@salesforce/apex/ProductCtrl.getAssetsByAccount';
 	  import communityId from '@salesforce/community/Id';
 	  import BasePath from "@salesforce/community/basePath";
 	  import userId from "@salesforce/user/Id";
@@ -32,7 +35,8 @@
 	  const CURRENTPRODUCTCATEGORY = "current_product_category";
 	  const DELAY = 300;
 	  const STORED_ACCTID = "storedAccountId";
-
+	  const STORED_ASSETID = "storedAssetId";
+	  const STORED_BUYERGROUPID = "storedBuyerGroupId";
 	  export default class PortalListingPage extends LightningElement {
 		  //variables
 		  stringValue = '';
@@ -47,7 +51,10 @@
 		  accountName;
 		  fullLabel;
 		  subscription;
-
+		  prodSpecList = [];
+		  prodSpecValue = '';
+		  prodSpecId = '';
+		  assets = [];
 
 		  @track productInfoList = [];
 		  isCorporateBundle;
@@ -58,7 +65,10 @@
 			categoryId : '', 
 			accountId: '',
 			accountName: '',
-			fullLabel: ''
+			fullLabel: '',
+			prodSpecId: '',
+			assetId: '',
+			buyerGroupId: ''
 		  }
 	  
 		  get isLoading() {
@@ -89,7 +99,7 @@
 		  renderedCallback(){
 			this.subscribeLMS();
 		  }
-
+		  
 		  //retrieve Category Link Menus
 		  @wire(getStoreFrontCategoryMenu,{communityId:communityId})
 		  handleGetStorefrontCategories(result){  
@@ -110,9 +120,11 @@
 							categoryId : this.categoryId,
 							accountId: this.accountId,
 							accountName: this.accountName,
-							fullLabel: this.fullLabel
+							fullLabel: this.fullLabel,
+							prodSpecId: this.prodSpecId,
+							assetId: this.selectedAssetId,
+							buyerGroupId: this.selectedBuyerGroupId
 						  }
-
 						  //gets isTailoredExecEduc value to store in session storage if in CCE Portal
 						  if(this.isCCEPortal){
 						  let currentProductCategory = {
@@ -122,7 +134,7 @@
 								  CURRENTPRODUCTCATEGORY,
 								  JSON.stringify(currentProductCategory)
 							  );
-						  }
+						  } 
 						  
 					  }
 				  })
@@ -133,6 +145,14 @@
 	  
 		  get isTailoredExecEduc(){
 			  return this.productCategory === 'Tailored Executive Education';
+		  }
+
+		  get hasAsset(){
+				return this.isCorporateBundle && this.assetOptions.length > 0;
+		  }
+
+		  get hasBuyerGroups(){
+				return this.productCategory === 'QUTeX Learning Solutions' && this.buyerGroupOptions.length > 0;
 		  }
 	  
 		  backToTop() {
@@ -151,6 +171,163 @@
 					this.getProducts();
 				}
 			}, DELAY);
+		}
+
+		disableProdSpecList = true;
+
+		@wire(getProductSpecsByAccount, { accountId : '$accountId' })
+		getProductSpecsByAccount(result) {		
+			this.prodSpecs = result.data;
+			if(result.data){
+				if(this.prodSpecs.length > 1){
+					this.disableProdSpecList = false;
+				}
+				const options = result.data.map( res => {
+					return {
+						label: res.Program_Name__c,
+						value: res.Id
+					}
+				});
+				this.prodSpecList = options;
+				this.prodSpecValue = options[0].value;
+				this.prodSpecId = this.prodSpecValue;
+				this.getProducts();
+			}    
+		}
+
+		handleProdSpecChange(event){
+			this.prodSpecId = event.detail.value;
+			this.getProducts();
+		}
+
+		disableAssetSelection = true;
+		assetOptions = [];
+		selectedAssetId;
+
+		@wire(getAssetsByAccount, { accountId : '$accountId' })
+		getAssetsByAccount(result) {
+			this.assets = result.data;
+			if(this.assets && this.assets.length > 0){
+				if(this.assets.length > 1){
+					this.disableAssetSelection = false;
+				}
+
+				const options = result.data.map( res => {
+					return {
+						label: res.Name,
+						value: res.Id
+					}
+				});
+
+				this.assetOptions = options;
+
+				if(sessionStorage.getItem(STORED_ASSETID)){
+					this.selectedAssetId =  sessionStorage.getItem(STORED_ASSETID);
+				}else{
+					this.selectedAssetId = options[0].value;
+				}
+				
+				this.parameterObject = {
+					userId : userId,
+					categoryId : this.categoryId,
+					accountId: this.accountId,
+					accountName: this.accountName,
+					fullLabel: this.fullLabel,
+					prodSpecId: this.prodSpecId,
+					assetId: this.selectedAssetId,
+					buyerGroupId: this.selectedBuyerGroupId
+				}
+
+				sessionStorage.setItem(
+					STORED_ASSETID,
+					this.selectedAssetId
+				);
+				
+				this.getProducts();
+			}
+		}
+
+		handleAssetChange(event){
+			this.selectedAssetId = event.detail.value;
+			sessionStorage.setItem(
+				STORED_ASSETID,
+				this.selectedAssetId
+			);
+			this.parameterObject = {
+				userId : userId,
+				categoryId : this.categoryId,
+				accountId: this.accountId,
+				accountName: this.accountName,
+				fullLabel: this.fullLabel,
+				assetId: this.selectedAssetId
+			}
+			this.getProducts();
+		}
+
+
+		disableBuyerGroupSelection = true;
+		buyerGroupOptions = [];
+		selectedBuyerGroupId;
+		buyerGroups;
+
+		@wire(getBuyerGroupMembers, { accountId : '$accountId' })
+		getBuyerGroupMembers(result) {
+			this.buyerGroups = result.data;
+			if(this.buyerGroups && this.buyerGroups.length > 0){
+				if(this.buyerGroups.length > 1){
+					this.disableBuyerGroupSelection = false;
+				}
+
+				const options = result.data.map( res => {
+					return {
+						label: res.BuyerGroup.Name,
+						value: res.BuyerGroupId
+					}
+				});
+
+				this.buyerGroupOptions = options;
+
+				if(sessionStorage.getItem(STORED_BUYERGROUPID)){
+					this.selectedBuyerGroupId =  sessionStorage.getItem(STORED_BUYERGROUPID);
+				}else{
+					this.selectedBuyerGroupId= options[0].value;
+				}
+				
+				this.parameterObject = {
+					userId : userId,
+					categoryId : this.categoryId,
+					accountId: this.accountId,
+					accountName: this.accountName,
+					fullLabel: this.fullLabel,
+					prodSpecId: this.prodSpecId,
+					assetId: this.selectedAssetId,
+					buyerGroupId: this.selectedBuyerGroupId
+				}
+				sessionStorage.setItem(
+					STORED_BUYERGROUPID,
+					this.selectedBuyerGroupId
+				);
+				this.getProducts();
+			}
+		}
+
+		handleBuyerGroupChange(event){
+			this.selectedBuyerGroupId = event.detail.value;
+			sessionStorage.setItem(
+				STORED_BUYERGROUPID,
+				this.selectedBuyerGroupId
+			);
+			this.parameterObject = {
+				userId : userId,
+				categoryId : this.categoryId,
+				accountId: this.accountId,
+				accountName: this.accountName,
+				fullLabel: this.fullLabel,
+				prodSpecId: this.prodSpecId,
+				assetId: this.selectedAssetId,
+				buyerGroupId: this.selectedBuyerGroupId
+			}
+			this.getProducts();
 		}
 		  
 		  // Get the Products per category menu
@@ -205,14 +382,15 @@
 					  });
 					  return p;
 				  });
-				  this._isLoading = false;
-				  this.publishLMS();
+				  	this._isLoading = false;
+					this.publishLMS();
 			  }).catch((error) => {
 				  this.error = error;
 				  this._isLoading = false;
 				  this.productInfoList = [];
 			  });
 		  }
+
 		  publishLMS() {
 			  let paramObj = {
 				  productId: 1,
@@ -255,16 +433,18 @@
 				   this.accountName = newValObj.accountName;
 				   this.fullLabel = newValObj.fullLabel;
 	
-				this.parameterObject = {
-					userId : userId,
-					categoryId : this.categoryId,
-					accountId: this.accountId,
-					accountName: this.accountName,
-					fullLabel: this.fullLabel
+					this.parameterObject = {
+						userId : userId,
+						categoryId : this.categoryId,
+						accountId: this.accountId,
+						accountName: this.accountName,
+						fullLabel: this.fullLabel,
+						prodSpecId: this.prodSpecId,
+						assetId: this.selectedAssetId,
+						buyerGroupId: this.selectedBuyerGroupId
+					}
 
-				  }
-
-				  this.getProducts();
+				  	this.getProducts();
 			}
 		}
 	  }

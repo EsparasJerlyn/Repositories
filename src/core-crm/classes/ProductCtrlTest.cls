@@ -11,6 +11,7 @@
 	  | mary.grace.li             | July 01, 2022         | DEPP-3124            | Added new method for createTestProducts    |
 	  | keno.domienri.dico        | July 15, 2022		  | DEPP-2699		     | CCE Homepage				                  |
 	  | julie.jane.alegre         | November 28, 2022     | DEPP-4693		     | Update getProductsByCategory			      |
+	  | eccarius.kar.munoz        | January 16, 2023      | DEPP-4692		     | Update getProductSpecsByAccountTest		  |  
 */
 @isTest
 public with sharing class ProductCtrlTest {
@@ -38,6 +39,7 @@ public with sharing class ProductCtrlTest {
 	.get('Business_Organization')
 	.getRecordTypeId();
 	private static Id cceProdSpecId = Schema.SObjectType.Product_Specification__c.getRecordTypeInfosByDeveloperName().get('CCE').getRecordTypeId();
+	private static final String CATEGORY_OPE = 'Product Catalogue';
 
 	@testSetup
 	static void setupMethod() {
@@ -93,13 +95,8 @@ public with sharing class ProductCtrlTest {
 			);
 			insert cceContact;
 
-			CCECorporateUserCtrl.CorporateUserDetails enableResponse = CCECorporateUserCtrl.enableCCECorporateUser(cceContact.Id);
-			List<User> userList = [
-				SELECT Id, ProfileId, Profile.Name, ContactId 
-				FROM User
-				WHERE ContactId = :cceContact.Id
-				LIMIT 1
-			];
+			CCECorporateUserCtrl.CorporateUserDetails enableResponse = CCECorporateUserCtrl.enablePortalUser(cceContact.Id,CATEGORY_OPE);
+			System.assert(enableResponse != null, 'no response');
 
 			List<hed__Term__c> terms = TestDataFactory.createTestTermRecords(
 				10,
@@ -415,7 +412,7 @@ public with sharing class ProductCtrlTest {
 
 			System.assert(getProd != null, 'Successfully retrieved Products');
 		}
-	}
+	}	
 
 	@isTest
 	static void getProductsSortComingUp_SingleEFreeTest() {
@@ -994,9 +991,20 @@ public with sharing class ProductCtrlTest {
 				1
 			);
 			prodRequestPrescribedProgram[0].RecordTypeId = opeProgProdReqId;
+			prodRequestPrescribedProgram[0].Product_Request_Status__c = 'Published';
 			prodRequestPrescribedProgram[0]
 				.OPE_Program_Plan_Type__c = 'Prescribed Program';
 			insert prodRequestPrescribedProgram;
+
+			Asset newAsset = new Asset(
+				AccountId = accBusinessOrg[0].Id,
+				Product_Request__c = prodRequestPrescribedProgram[0].Id,
+				Name = 'Test Asset',
+				Publishing_Start_date__c = System.today(),
+				Ready_for_publishing__c = 'Yes'
+			);
+
+			insert newAsset;
 
 			List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(
 				1
@@ -1085,6 +1093,9 @@ public with sharing class ProductCtrlTest {
 			}
 			insert priceBookEntryListCCE;
 
+			BuyerGroup updateBuyerGroup = new BuyerGroup(Id = gbMember.BuyerGroupId, Product_Request__c = prodRequestPrescribedProgram[0].Id);
+			update updateBuyerGroup;
+
 			// Create BuyerGroupPriceBook
 			BuyerGroupPriceBook bgPriceBook = new BuyerGroupPriceBook(
 				PriceBook2Id = pbCB.Id,
@@ -1101,7 +1112,9 @@ public with sharing class ProductCtrlTest {
             getProdByCat.userId = user[0].Id;
             getProdByCat.categoryId = prodCateg1.Id;
             getProdByCat.accountId = accBusinessOrg[0].Id;
+			getProdByCat.assetId = newAsset.Id;
             
+			List<Asset> assetList = ProductCtrl.getAssetsByAccount(accBusinessOrg[0].Id);
 			getProdByCatResult = ProductCtrl.getProductsByCategory(getProdByCat, '');
 			
 			Test.stopTest();
@@ -1202,6 +1215,7 @@ public with sharing class ProductCtrlTest {
 				1
 			);
 			prodRequestPrescribedProgram[0].RecordTypeId = opeProgProdReqId;
+			prodRequestPrescribedProgram[0].Product_Request_Status__c = 'Published';
 			prodRequestPrescribedProgram[0]
 				.OPE_Program_Plan_Type__c = 'Prescribed Program';
 			insert prodRequestPrescribedProgram;
@@ -1292,6 +1306,8 @@ public with sharing class ProductCtrlTest {
 			  priceBookEntryListCCE.add(priceBookEntry);
 			}
 			insert priceBookEntryListCCE;
+			BuyerGroup updateBuyerGroup = new BuyerGroup(Id = gbMember.BuyerGroupId, Product_Request__c = prodRequestPrescribedProgram[0].Id);
+			update updateBuyerGroup;
 
 			// Create BuyerGroupPriceBook
 			BuyerGroupPriceBook bgPriceBook = new BuyerGroupPriceBook(
@@ -1310,6 +1326,9 @@ public with sharing class ProductCtrlTest {
             getProdByCat.userId = user[0].Id;
             getProdByCat.categoryId = prodCateg1.Id;
             getProdByCat.accountId = accBusinessOrg[0].Id;
+			getProdByCat.buyerGroupId = gbMember.BuyerGroupId;
+
+			List<BuyerGroupMember> bgroupMemberList = ProductCtrl.getBuyerGroupMembers(accBusinessOrg[0].Id);
             
 			getProdByCatResult = ProductCtrl.getProductsByCategory(getProdByCat, '');
 			
@@ -1723,6 +1742,34 @@ public with sharing class ProductCtrlTest {
 				getFilterProd != null,
 				'No Products were found with Date and Price as filter'
 			);
+		}
+	}
+
+	@isTest
+	static void getProductSpecsByAccountTest(){
+		System.runAs(TestDataFactory.getProgramAdminUser()) {
+			List<Account> accounts = [SELECT Id, Name, RecordType.Name FROM Account WHERE Name ='TestAccount1' AND RecordType.Name = 'Business Organization' LIMIT 1];
+			List<Contact> conList = [SELECT Id, Name, AccountId FROM Contact WHERE AccountId =: accounts[0].Id];
+			List<Opportunity> oppList = TestDataFactory.createTestOpportunityRecords(1,accounts[0].Id,conList[0].Id);
+			insert oppList;
+			List<Product_Specification__c> prodSpecList = TestDataFactory.createTestProductSpecsRecords(1,conList,oppList);
+				for(Integer i = 0 ; i < prodSpecList.size() ; i++){
+					prodSpecList[i].RecordTypeId = cceProdSpecId;
+			}
+			insert prodSpecList;
+			List<Product_Request__c> prodRequestCCE = TestDataFactory.createTestProductRequestRecords(
+				1, prodSpecList[0].Id
+			);
+			for(Product_Request__c pr : prodRequestCCE){
+				pr.Product_Request_Status__c = 'Published';
+				pr.Child_of_Prescribed_Program__c = false;
+			}
+			insert prodRequestCCE;
+
+			Test.startTest();
+			List<Product_Specification__c> prodSpecs = ProductCtrl.getProductSpecsByAccount(accounts[0].Id);
+			Test.stopTest();
+			System.assert(!prodSpecs.isEmpty(), 'Product Specification must not be empty');
 		}
 	}
 }

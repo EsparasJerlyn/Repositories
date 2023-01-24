@@ -278,7 +278,6 @@ renderedCallback() {
 
 	//populate Url Checkbox
 	urlCheckbox(){
-		console.log(this.studyAreaValues);
 		let selectedCheckBox = this.studyAreaValues.find(
 		(item) => item.value.toLowerCase()  === this.qutFilterValue.toLowerCase());
 		let Array1 = JSON.parse(JSON.stringify(this.studyAreaValues));
@@ -286,7 +285,6 @@ renderedCallback() {
 			if (e.label == selectedCheckBox.value) {
 				this.studyAreaSelectedValues.push(selectedCheckBox.value);
 				e.selected = true;
-				console.log(selectedCheckBox.value);
 			}
 		});
 		this.studyAreaValues = [...Array1];
@@ -1119,22 +1117,17 @@ handleNextPage(evt) {
   */
   handleModalOpen() {
     this.openModal = true;
-    console.log("tempArray", this.tempArray);
     try {
       let Array1 = JSON.parse(JSON.stringify(this.studyAreaValues));
       let Array2 = JSON.parse(JSON.stringify(this.deliveryTypeValues));
       let Array3 = JSON.parse(JSON.stringify(this.typeValues));
       //StudyAreas
-      console.log("Array1-Study", this.studyAreaValues);
       if (this.tempArray.length > 0) {
         //this.studyAreaValues.all = true;
         Array1.forEach((e) => {
-          console.log("e.label", e.label);
           let temp = this.tempArray.filter((j) => j == e.label);
-          console.log("temp", temp);
           if (temp && temp[0]) {
             e.selected = true;
-            console.log("selected=>");
           } else {
             e.selected = false;
           }
@@ -1149,12 +1142,9 @@ handleNextPage(evt) {
       /*Delivery*/
       if (this.tempArray.length > 0) {
         Array2.forEach((e) => {
-          console.log("e.label", e.label);
           let temp = this.tempArray.filter((j) => j == e.label);
-          console.log("temp", temp);
           if (temp && temp[0]) {
             e.selected = true;
-            console.log("selected=>");
           } else {
             e.selected = false;
           }
@@ -1168,12 +1158,9 @@ handleNextPage(evt) {
       /*type type*/
       if (this.tempArray.length > 0) {
         Array3.forEach((e) => {
-          console.log("e.label", e.label);
           let temp = this.tempArray.filter((j) => j == e.label);
-          console.log("temp", temp);
           if (temp && temp[0]) {
             e.selected = true;
-            console.log("selected=>");
           } else {
             e.selected = false;
           }

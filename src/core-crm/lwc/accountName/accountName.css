@@ -125,12 +125,38 @@ lightning-icon.slds-icon_container_circle.slds-icon-action-user.slds-icon_contai
     padding: 5px 0;
     font-size: 10px;
     right: 15px;
+    transition: opacity .6s;
   
-    /* Position the tooltip */
     position: absolute;
     z-index: 1;
+    top: 100%;
+    left: 50%;
+    margin-left: -60px;
   }
 
   .tooltip:hover .tooltiptext {
     visibility: visible;
+  }
+
+  .tooltip-bottom {
+    top: 135%;
+    left: 50%;
+    margin-left: -60px;
+ }
+
+  .tooltip-bottom::after {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent #012A4C transparent;
+}
+
+  .acct-container{
+    height: auto;
+    width: auto; 
+    overflow:auto;
   }

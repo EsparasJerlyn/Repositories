@@ -14,6 +14,7 @@
 @isTest
 public with sharing class ManageRegAndNomCtrlTest {
 
+    private static final String CATEGORY_CCE = 'Corporate Portal';
     private final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
     private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
@@ -187,9 +188,9 @@ public with sharing class ManageRegAndNomCtrlTest {
     @isTest
     static void getRegistrationsAndNominationsTest(){
         Test.startTest();
-        Id contactId = [SELECT Id FROM Contact WHERE FirstName = 'cce contact' LIMIT 1].Id;
+        Id contactId = [SELECT Id FROM Contact WHERE FirstName = 'cce contact' LIMIT 1]?.Id;
 
-        CCECorporateUserCtrl.CorporateUserDetails userDetails = CCECorporateUserCtrl.enableCCECorporateUser(contactId);   
+        CCECorporateUserCtrl.CorporateUserDetails userDetails = CCECorporateUserCtrl.enablePortalUser(contactId,CATEGORY_CCE);   
         User user = [SELECT Id, Name FROM User WHERE Id =: userDetails.userId LIMIT 1];
 
         System.runAs(user){

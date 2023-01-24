@@ -73,6 +73,7 @@ export default class CceLogout extends NavigationMixin(LightningElement) {
                 url: this.loginPageUrl
             }
         });
+        sessionStorage.clear();
     }
 
     handleToggle(){

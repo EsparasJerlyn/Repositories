@@ -29,6 +29,7 @@ public class LMSCourseEnrollmentBatchHandlerTest {
         insert courses;
     
         List<hed__Course_Offering__c> courseOfferings = TestDataFactory.createTestCourseOfferingRecord(1, courses, terms);
+        courseOfferings[0].hed__Start_Date__c = System.today();
         insert courseOfferings;      
 
         List<hed__Course_Enrollment__c> courseConnections = TestDataFactory.createTestCourseConnectionRecord(1, contacts[0].Id, courseOfferings);
@@ -58,7 +59,6 @@ public class LMSCourseEnrollmentBatchHandlerTest {
 
         hed__Course_Offering__c courseOffering = [SELECT Id, LMS_Integration_Status__c, hed__Start_Date__c FROM hed__Course_Offering__c LIMIT 1];
         courseOffering.LMS_Integration_Status__c = 'Success';
-        courseOffering.hed__Start_Date__c = System.today();
         update courseOffering;
         
         LMSCourseEnrollmentBatchHandler job = new LMSCourseEnrollmentBatchHandler();

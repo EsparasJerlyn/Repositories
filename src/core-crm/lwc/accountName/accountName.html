@@ -23,7 +23,7 @@
         </div>
         
         <div if:true={showAccount} class="slds-popover slds-popover_tooltip slds-nubbin_top-right slds-slide-from-top-to-bottom pop-over desktop" role="tooltip" id="selected">
-            <div style="height: 200px !important; width: 300px; overflow:auto;">
+            <div class="acct-container">
                 <template for:each={accountNameOptions} for:item="option">             
                     <div class="slds-popover__body" key={option.value}>
                         <div class="tooltip" data-id={option.value}>
@@ -36,7 +36,7 @@
                                 role="tooltip">
                                 {option.label}
                             </a>
-                            <span class="tooltiptext">{option.fullLabel}</span>
+                            <span class="tooltiptext tooltip-bottom">{option.fullLabel}</span>
                         </div>
                       
                     </div>   

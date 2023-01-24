@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <QuickAction xmlns="http://soap.sforce.com/2006/04/metadata">
-    <actionSubtype>Action</actionSubtype>
-    <label>Enable Partner Portal Access</label>
-    <lightningWebComponent>enableCCECorporateUser</lightningWebComponent>
+    <actionSubtype>ScreenAction</actionSubtype>
+    <label>Enable Portal Access</label>
+    <lightningWebComponent>enabledPortalAccessModal</lightningWebComponent>
     <optionsCreateFeedItem>false</optionsCreateFeedItem>
     <type>LightningWebComponent</type>
 </QuickAction>

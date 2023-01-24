@@ -598,10 +598,32 @@ public without sharing class ManageRegistrationSectionHelper{
                commerceUser.profileId = profile.Id;
                insert commerceUser;
 
+               assignOPEPermSet(commerceUser.Id);
                response = commerceUser.Id;
           }
 
           return response;
+     }
+
+     @future
+     private static void assignOPEPermSet(Id userId){
+          List<PermissionSetAssignment> permSetAssignments = new List<PermissionSetAssignment>();
+          List<PermissionSet> permsets = [SELECT Id FROM PermissionSet WHERE Label = 'OPE Catalogue' WITH SECURITY_ENFORCED LIMIT 1];
+          List<PermissionSetAssignment> userPermSetAssignments = [SELECT Id FROM PermissionSetAssignment WHERE PermissionSetId IN : permsets AND AssigneeId = : userId WITH SECURITY_ENFORCED];
+          if(userPermSetAssignments.isEmpty()){
+              for(PermissionSet perm: permsets){
+                  PermissionSetAssignment permSetAssignment = new PermissionSetAssignment(
+                      PermissionSetId = perm.Id, 
+                      AssigneeId = userId
+                  );
+                  permSetAssignments.add(permSetAssignment);
+              }
+              if(permSetAssignments.size() > 0 && 
+                    Schema.sObjectType.PermissionSetAssignment.fields.AssigneeId.isCreateable() &&
+                    Schema.sObjectType.PermissionSetAssignment.fields.PermissionSetId.isCreateable()){
+                  insert permSetAssignments;
+              }
+          }
      }
 
      /**
