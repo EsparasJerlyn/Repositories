@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Registered_Email_Equal_To_Any_Email</fullName>
+    <active>true</active>
+    <description>Registered Email need to be match to any Emails</description>
+    <errorConditionFormula>AND(
+NOT (ISBLANK( Registered_Email__c ) ),
+AND(
+IF(Registered_Email__c  &lt;&gt;  Email, true, false) ,
+IF(Registered_Email__c  &lt;&gt;  QUT_Learner_Email__c, true, false) ,
+IF(Registered_Email__c  &lt;&gt;  Work_Email__c, true, false) ,
+IF(Registered_Email__c  &lt;&gt;  QUT_Staff_Email__c , true, false)
+)
+)</errorConditionFormula>
+    <errorDisplayField>Registered_Email__c</errorDisplayField>
+    <errorMessage>Registered Email needs to match to any one of the following 4 emails: Email, Work Email, QUT Learner Email, QUT staff Email</errorMessage>
+</ValidationRule>
