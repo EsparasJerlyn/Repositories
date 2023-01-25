@@ -534,7 +534,7 @@ public without sharing class RegistrationFormCtrl {
     insert (u);
 
     String key = EncodingUtil.convertToHex(crypto.generateAesKey(128));
-    String pwd = key.substring(0, 10) + 'AbC123';
+    String pwd = key.substring(0, 10) + 'AbC123!';
 
     system.setPassword(u.id, pwd);
 
@@ -566,7 +566,7 @@ public without sharing class RegistrationFormCtrl {
     String retURL;
 
     String key = EncodingUtil.convertToHex(crypto.generateAesKey(128));
-    String pwd = key.substring(0, 10);
+    String pwd = key.substring(0, 10) + 'AbC123!';
 
     system.setPassword(userId, pwd);
 

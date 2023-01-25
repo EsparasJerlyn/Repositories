@@ -370,7 +370,7 @@ public with sharing class RegistrationFormCtrlTest {
       
       //Set user password
       String key = EncodingUtil.convertToHex(crypto.generateAesKey(128));
-      String pwd = key.substring(0, 10) + 'AbC123';
+      String pwd = key.substring(0, 10) + 'AbC123!';
       system.setPassword(u.id, pwd);
       update u;
 
