@@ -748,7 +748,14 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
                 error.body && 
                 error.body.message == 'Please make sure to enable the contact as Partner User'){
                     this.generateToast('Error.', error.body.message ,'error');
-            }else{
+            }
+            else if(error &&
+                error.body &&
+                error.body.fieldErrors &&
+                error.body.fieldErrors.Birthdate){
+                    this.generateToast('Error.', error.body.fieldErrors.Birthdate[0].message ,'error');
+            }
+            else{
                 this.generateToast('Error.', LWC_Error_General ,'error');
             }
             console.error('ERROR: ' + JSON.stringify(error));

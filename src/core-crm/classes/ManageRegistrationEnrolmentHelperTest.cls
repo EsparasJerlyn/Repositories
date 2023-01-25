@@ -122,7 +122,9 @@ public class ManageRegistrationEnrolmentHelperTest {
                Account portalAccount = new Account(Name='TestAccount', OwnerId = PORTAL_SYS_ADMIN.Id);
                Database.insert(portalAccount);
 
-               Contact newContact = new Contact(FirstName = 'testqtest', LastName = 'testqtest', AccountId = portalAccount.Id, Email = 'testqtest@emailemail.com', Registered_Email__c ='email@email.com', Birthdate = Date.newInstance(1990, 2, 17), MobilePhone ='012345');
+               TestDataFactory.loadEDATriggers();
+
+               Contact newContact = new Contact(FirstName = 'testqtest', LastName = 'testqtest', AccountId = portalAccount.Id, Email = 'testqtest@emailemail.com', Registered_Email__c ='testqtest@emailemail.com', Birthdate = Date.newInstance(1990, 2, 17), MobilePhone ='012345', RecordTypeId = RT_CONTACT_PERSON_ID);
                insert newContact;
 
                User portalUser = TestDataFactory.createPortalUserRecords(1, 'Corporate Partner User', newContact.Id).iterator().next();
@@ -178,7 +180,9 @@ public class ManageRegistrationEnrolmentHelperTest {
                ManageRegistrationEnrolmentHelper.EnrolmentResultClass enrolmentResult = new ManageRegistrationEnrolmentHelper.EnrolmentResultClass();
                ManageRegistrationSectionHelper.RegistrationData registrationData = new ManageRegistrationSectionHelper.RegistrationData();
 
-               registrationData.contactRecord = newContact;
+               Contact newCon = new Contact(FirstName = 'testqtest', LastName = 'testqtest', AccountId = portalAccount.Id, Email = 'testqtest@emailemail.com', Registered_Email__c ='testqtest@emailemail.com', Birthdate = Date.newInstance(1990, 2, 17), MobilePhone ='012345', RecordTypeId = RT_CONTACT_PERSON_ID);
+               
+               registrationData.contactRecord = newCon;
                registrationData.offeringId = cOfferingId;
                registrationData.relatedAnswerList = relatedAnswers;
                registrationData.answerList = answerList;
