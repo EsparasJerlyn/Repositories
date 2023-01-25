@@ -213,14 +213,18 @@
                                     <div class="slds-col slds-size_1-of-2">
                                         <lightning-input-field field-name="FirstName" required onchange={handleNameChange}></lightning-input-field>
                                         <lightning-input-field id="fieldid" field-name="Preferred_Given_Name__c"></lightning-input-field>
-                                        <lightning-input-field field-name="MobilePhone" required></lightning-input-field>
+                                        <label class="slds-form-element__label">Country Code</label>
+                                        <lightning-input-field field-name="ContactMobile_Locale__c" variant="label-hidden"></lightning-input-field>
                                     </div>
-                                    <div class="slds-col slds-size_1-of-2">
+                                    <div class="slds-col slds-size_1-of-2 slds-p-left_small">
                                         <lightning-input-field field-name="LastName" required onchange={handleNameChange}></lightning-input-field>
                                         <lightning-input-field field-name="Birthdate" required></lightning-input-field>
-                                        <lightning-input-field field-name="Email" required></lightning-input-field>
+                                        <abbr title="required" class="slds-required">*</abbr>
+                                        <label class="slds-form-element__label">Mobile</label>
+                                        <lightning-input-field field-name="Mobile_No_Locale__c" variant="label-hidden" required></lightning-input-field>
                                     </div>
                                 </div>
+                                <lightning-input-field field-name="Email" required></lightning-input-field>
                                 <lightning-input-field field-name='Dietary_Requirement__c'></lightning-input-field>
                                 <lightning-input-field field-name='Accessibility_Requirement__c'></lightning-input-field>
                             </template>
