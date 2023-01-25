@@ -1039,6 +1039,10 @@
         <recordType>hed__Course__c.OPE_Activity</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>hed__Course__c-OPE Module Page Layout</layout>
+        <recordType>hed__Course__c.Module</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>hed__Course__c-OPE Short Course Page Layout</layout>
         <recordType>hed__Course__c.Short_Course</recordType>
     </layoutAssignments>
