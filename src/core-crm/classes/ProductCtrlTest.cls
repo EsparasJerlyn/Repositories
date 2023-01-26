@@ -43,6 +43,7 @@ public with sharing class ProductCtrlTest {
 
 	@testSetup
 	static void setupMethod() {
+		TestDataFactory.loadEDATriggers();
 		TestDataFactory.generateTestUsers();
 		BypassTriggers__c bypass = new BypassTriggers__c(Bypass__c = true, SetupOwnerId = UserInfo.getOrganizationId());
 		insert bypass;

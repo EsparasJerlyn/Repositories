@@ -201,6 +201,8 @@ public class ProductDetailsCtrlTest{
     BypassTriggers__c bypass = [SELECT Id, Bypass__c FROM BypassTriggers__c WHERE SetupOwnerId =: UserInfo.getOrganizationId() LIMIT 1];
           bypass.Bypass__c = false; 
           update bypass;
+          
+    TestDataFactory.loadEDATriggers();
     System.runAs(TestDataFactory.getProgramAdminUser()){
       Test.startTest();
       WebStore testWebStoreCCE = new WebStore(Name='CCE', DefaultLanguage='en_US');
@@ -543,6 +545,7 @@ public class ProductDetailsCtrlTest{
           bypass.Bypass__c = false; 
           update bypass;
 
+    TestDataFactory.loadEDATriggers();
     System.runAs(TestDataFactory.getProgramAdminUser()){
       Test.startTest();
       WebStore testWebStoreCCE = new WebStore(Name='CCE', DefaultLanguage='en_US');
@@ -969,6 +972,7 @@ public class ProductDetailsCtrlTest{
           bypass.Bypass__c = false; 
           update bypass;
 
+    TestDataFactory.loadEDATriggers();  
     System.runAs(TestDataFactory.getProgramAdminUser()){
       Test.startTest();
       WebStore testWebStoreCCE = new WebStore(Name='CCE', DefaultLanguage='en_US');
