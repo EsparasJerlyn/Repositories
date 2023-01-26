@@ -117,7 +117,7 @@ lightning-icon.slds-icon_container_circle.slds-icon-action-user.slds-icon_contai
 
   .tooltip .tooltiptext {
     visibility: hidden;
-    width: 200px;
+    width: auto;
     background-color: #012A4C;
     color: #FFF;
     text-align: center;
@@ -129,8 +129,7 @@ lightning-icon.slds-icon_container_circle.slds-icon-action-user.slds-icon_contai
   
     position: absolute;
     z-index: 1;
-    top: 100%;
-    left: 50%;
+    left: 55%;
     margin-left: -60px;
   }
 
@@ -139,24 +138,12 @@ lightning-icon.slds-icon_container_circle.slds-icon-action-user.slds-icon_contai
   }
 
   .tooltip-bottom {
-    top: 135%;
     left: 50%;
     margin-left: -60px;
+    top:20%;
  }
-
-  .tooltip-bottom::after {
-    content: "";
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: transparent transparent #012A4C transparent;
-}
 
   .acct-container{
     height: auto;
-    width: auto; 
-    overflow:auto;
+    width: 300px; 
   }
