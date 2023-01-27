@@ -26745,10 +26745,6 @@
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
-        <name>UpdateWithInactiveOwner</name>
-    </userPermissions>
-    <userPermissions>
-        <enabled>true</enabled>
         <name>UseOrderManagementAPIs</name>
     </userPermissions>
     <userPermissions>
