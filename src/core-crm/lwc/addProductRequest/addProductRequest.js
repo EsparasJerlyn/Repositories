@@ -512,18 +512,18 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
         let fields = event.detail.fields;
         let today = new Date();
         let todayDate=today.toISOString();
-        let buyerGroupDate = todayDate.substring(0,19).replace('T',' ');
+        let formattedDate = todayDate.substring(0,19).replace('T',' ');
        
         //if Standing Offer Arrangement record is selected
         if(this.isSOASelected){
-            fields.Name = fields.Name + ' ' + buyerGroupDate;
+            fields.Name = fields.Name + ' ' + formattedDate;
             fields.Product_Request__c = this.prodReqId;
-            fields.Start_Date__c = todayDate;
+            fields.Start_Date__c = formattedDate;
             fields.Primary_Account__c = this.primaryAccountId;
 
         } else if (this.isEducConsultancy) {
             fields.Product_Request__c = this.prodReqId;
-            fields.Start_Date__c = todayDate;
+            fields.Start_Date__c = formattedDate;
             
         } else if (this.isCorporateBundleSelected) {
             fields.Product_Request__c = this.prodReqId;
@@ -533,13 +533,13 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
             fields.ProductRequestID__c = this.prodReqId;
             fields.RecordTypeId=Object.keys(courseRtis).find(rti => courseRtis[rti].name == this.selectedRecordTypeName);
             fields.hed__Account__c=this.accountId;
-            fields.Start_Date__c = todayDate;
+            fields.Start_Date__c = formattedDate;
 
         } else{
             fields.Product_Request__c = this.prodReqId;
             fields.RecordTypeId=Object.keys(programPlanRtis).find(rti => programPlanRtis[rti].name == this.selectedRecordTypeName);
             this.programDeliveryStructure = fields.Program_Delivery_Structure__c;
-            fields.hed__Start_Date__c = todayDate;
+            fields.hed__Start_Date__c = formattedDate;
         }
         this.template.querySelector('lightning-record-edit-form').submit(fields);
     }
