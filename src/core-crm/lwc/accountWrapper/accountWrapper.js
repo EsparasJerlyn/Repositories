@@ -102,6 +102,7 @@ export default class AccountWrapper extends LightningElement {
         };
     
         publish(this.messageContext, payloadContainerLMS, payLoad);
+        window.location.reload();
 
     }  
 

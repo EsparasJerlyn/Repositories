@@ -72,7 +72,7 @@ public without sharing class ManageRegistrationSectionHelper{
 
                //create new user to be enrolled to ope portal
                commerceUser = createUser(newContact);
-               newWebCart = createWebCart(commerceUser, contactRecord.Id);
+               newWebCart = createWebCart(commerceUser, finalContactRecord.Id);
           }
 
           insert newWebCart; 
@@ -175,7 +175,7 @@ public without sharing class ManageRegistrationSectionHelper{
 
                update cartPayment;                   
 
-               enrollmentProcessingReturn.contactId = contactRecord.Id;
+               enrollmentProcessingReturn.contactId = finalContactRecord.Id;
                enrollmentProcessingReturn.paymentURL = paymentURL;
                enrollmentProcessingReturn.contactName = finalContactRecord.FirstName + finalContactRecord.LastName;
 
@@ -200,7 +200,7 @@ public without sharing class ManageRegistrationSectionHelper{
                
                enrolmentParam = new ManageRegistrationEnrolmentHelper.EnrolmentCreationParamClass();
                     
-               enrolmentParam.contactId = contactRecord.Id;
+               enrolmentParam.contactId = finalContactRecord.Id;
                enrolmentParam.offeringId = offeringId;
                enrolmentParam.prescribedProgram = prescribedProgram;
                enrolmentParam.isTailored = isTailored;
@@ -211,7 +211,7 @@ public without sharing class ManageRegistrationSectionHelper{
                //directly create course connection records
                List<hed__Course_Enrollment__c> courseConnectionList = ManageRegistrationEnrolmentHelper.createCourseConnectionList(enrolmentParam);  
                
-               enrollmentProcessingReturn.contactId = contactRecord.Id;
+               enrollmentProcessingReturn.contactId = finalContactRecord.Id;
                enrollmentProcessingReturn.contactName = finalContactRecord.FirstName + finalContactRecord.LastName;
 
                //if corporate pricing is selected

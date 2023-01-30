@@ -72,7 +72,7 @@ export default class SaveLearnerInfo extends NavigationMixin(LightningElement) {
          let currentProductCategory = JSON.parse(
           sessionStorage.getItem(CURRENTPRODUCTCATEGORY)
           );
-          this.productCategory = currentProductCategory && currentProductCategory.fromCategoryName?currentProductCategory.fromCategoryName:'';
+          this.productCategory = currentProductCategory && currentProductCategory.fromCategoryName?currentProductCategory.fromCategoryName:''; 
          
     }
    

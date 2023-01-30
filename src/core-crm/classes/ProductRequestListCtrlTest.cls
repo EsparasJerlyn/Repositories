@@ -109,7 +109,7 @@ private class ProductRequestListCtrlTest {
         Test.startTest();
         System.runAs(currentUser){
             ProductRequestListCtrl.ProductRequestData getProdReqs = new ProductRequestListCtrl.ProductRequestData();
-            getProdReqs = ProductRequestListCtrl.getProductRequests(string.valueOf([SELECT Id FROM Product_Specification__c Limit 1].Id));
+            getProdReqs = ProductRequestListCtrl.getProductRequests(string.valueOf([SELECT Id, Product_Specification__c FROM Product_Request__c  WHERE RecordTypeId =: opeProgProdReqId Limit 1].Product_Specification__c));
             system.assert( !getProdReqs.productRequestData.isEmpty(), 'unable to get product requests');
         }
 

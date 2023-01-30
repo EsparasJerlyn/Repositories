@@ -124,6 +124,7 @@ private static final Id BUSINESS_ACC_RECTYPEID = Schema.SObjectType.Account.getR
     @isTest
     public static void getAllAccountNameTest1(){
         System.runAs(TestDataFactory.getPortalSysAdminUser()){
+            TestDataFactory.loadEDATriggers();
              Test.startTest();    
             // Create Accounts
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
@@ -178,6 +179,7 @@ private static final Id BUSINESS_ACC_RECTYPEID = Schema.SObjectType.Account.getR
      @isTest
      public static void getAllAccountNameTest2(){
         System.runAs(TestDataFactory.getPortalSysAdminUser()){
+            TestDataFactory.loadEDATriggers();
             Test.startTest();    
             // Create Accounts
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);

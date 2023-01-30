@@ -45,6 +45,7 @@ import payloadContainerLMS from '@salesforce/messageChannel/Breadcrumbs__c';
 
 import { loadStyle } from "lightning/platformResourceLoader";
 import customSR from "@salesforce/resourceUrl/QUTInternalCSS";
+import {getParams} from 'c/commonUtils';
 
 const STUDY_STORE = "study";
 const ERROR_TITLE = "Error!";
@@ -64,7 +65,7 @@ let i=0;
  * 'B2B Custom Search Results'
  */
 export default class SearchResults extends NavigationMixin(LightningElement) {
-  linkQueryValue;
+  linkQueryValue =[];
   searchQuery;
   searchFilter;
   errorMessage;
@@ -96,6 +97,22 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
   strStartDate;
   strEndDate;
 	qutFilterValue;
+  hasPricing;
+  hasPageNo;
+  urlPageNumber;
+  urlValid;
+
+
+//url search filter
+areaUrlFilterValue =[];
+deliveryUrlFilterValue =[];
+typeUrlFilterValue=[];
+pricingFrUrlFilterValue=[];
+pricingToUrlFilterValue=[];
+startDateUrlFilterValue=[];
+endDateUrlFilterValue=[];
+pageUrlFilterValue=[];
+
   value = 'comingUp';
   parameterObject = {
     searchKey : this.stringValue, 
@@ -219,6 +236,7 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
   @wire(MessageContext)
   messageContext;
 
+ 
   // ------------------------------------------------- FILTER --------------------------
   @wire(getObjectInfo, { objectApiName: Product2 })
   objectInfo2;
@@ -231,6 +249,10 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
     if (data) {
         this.typeValues = data.values;
         this.error = undefined;
+
+        if(this.typeUrlFilterValue){
+          this.urlCourseTypeCheckbox();
+        }
     }
     if (error) {
         this.error = error;
@@ -246,9 +268,14 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
       if (data) {
           this.studyAreaValues = data.values;
           this.error = undefined;
-					if(this.qutFilterValue){
-						this.urlCheckbox();
-					}
+					// if(this.qutFilterValue){
+					// 	this.urlCheckbox();
+					// }
+
+          if(this.areaUrlFilterValue){
+            this.urlAreaCheckbox();
+
+          }
       }
       if (error) {
           this.error = error;
@@ -264,6 +291,10 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
       if (data) {
           this.deliveryTypeValues = data.values;
           this.error = undefined;
+
+          if(this.deliveryUrlFilterValue){
+            this.urlDeliveryCheckbox();
+          }
       }
       if (error) {
           this.error = error;
@@ -276,20 +307,59 @@ renderedCallback() {
   Promise.all([loadStyle(this, customSR + "/QUTInternalCSS.css")]);
 }
 
-	//populate Url Checkbox
-	urlCheckbox(){
-		let selectedCheckBox = this.studyAreaValues.find(
-		(item) => item.value.toLowerCase()  === this.qutFilterValue.toLowerCase());
-		let Array1 = JSON.parse(JSON.stringify(this.studyAreaValues));
-		Array1.forEach((e) => {
-			if (e.label == selectedCheckBox.value) {
-				this.studyAreaSelectedValues.push(selectedCheckBox.value);
-				e.selected = true;
-			}
-		});
-		this.studyAreaValues = [...Array1];
-		this.setPickList();
+  urlAreaCheckbox(){
+    let selectedCheckBox;
+    for (const area of this.areaUrlFilterValue) {
+      selectedCheckBox = this.studyAreaValues.find((item) => item.value.toLowerCase()  === area.toLowerCase());
+
+      let Array1 = JSON.parse(JSON.stringify(this.studyAreaValues));
+      Array1.forEach((e) => {
+        if (e.label == selectedCheckBox.value) {
+          this.studyAreaSelectedValues.push(selectedCheckBox.value);
+          e.selected = true;
+        }
+      });
+      this.studyAreaValues = [...Array1];
+      this.setPickList();
+    }   	
 	}
+
+  urlDeliveryCheckbox(){
+    let selectedCheckBox;
+    for (const delivery of this.deliveryUrlFilterValue) {
+      selectedCheckBox = this.deliveryTypeValues.find((item) => item.value.toLowerCase()  === delivery.toLowerCase());
+
+      let Array1 = JSON.parse(JSON.stringify(this.deliveryTypeValues));
+      Array1.forEach((e) => {
+        if (e.label == selectedCheckBox.value) {
+          this.deliveryTypeSelectedValues.push(selectedCheckBox.value);
+          e.selected = true;
+        }
+      });
+      this.deliveryTypeValues = [...Array1];
+      this.setPickList();
+    }   	
+	}
+
+  urlCourseTypeCheckbox(){
+    let selectedCheckBox;
+   
+    for (const area of this.typeUrlFilterValue) {
+      selectedCheckBox = this.typeValues.find((item) => item.value.toLowerCase()  === area.toLowerCase());
+
+      let Array1 = JSON.parse(JSON.stringify(this.typeValues));
+      Array1.forEach((e) => {
+        if (e.label == selectedCheckBox.value) {
+          this.selectedValues.push(selectedCheckBox.value);
+          e.selected = true;
+        }
+      });
+      this.typeValues = [...Array1];
+      this.setPickList();
+    }   	
+	}
+
+
 
   // handles sort course combobox
   hanldeSortCourseValueChange(event) {
@@ -305,6 +375,10 @@ renderedCallback() {
     window.clearTimeout(this.delayTimeout);
     this.delayTimeout = setTimeout(() => {
           this.parameterObject.searchKey = this.stringValue;
+
+          let strKeyword = "keyword";
+          this.updateUrlParams(strKeyword, this.stringValue);
+
           this.getFilterList();
         if(this.stringValue.length == 0 ){
           this.parameterObject.searchKey = '';
@@ -315,177 +389,200 @@ renderedCallback() {
   
   // Handles the Product Type Filter when clicked Individually for Mobile
   handleTypePicklist(event)  {
-    let selectedCheckBox;
-    if (this.tempArray.length > 0) {
-      let temp = this.tempArray.filter((e) => e == event.target.label);
-      if (temp && temp[0]) {
-        let abc = this.tempArray.filter((e) => e != temp);
-        this.tempArray = [...abc];
-      } else {
-        this.tempArray.push(event.target.label);
-      }
-    } else {
-      this.tempArray.push(event.target.label);
-    }
-
-    selectedCheckBox = this.typeValues.find(
-      (item) => item.value === event.target.value );
-
     if (event.target.checked) {
       this.selectedValues.push(event.target.value);
-      selectedCheckBox.selected = true;
-    } else {
-      selectedCheckBox.selected = false;
-      this.selectedValues = this.selectedValues.filter(function(e) { return e !== event.target.value })
-      this.courseAll = false;
+      let strType = "type";
+      this.handleSetCheckboxUrlParams(strType, event.target.value);
 
-    }
-    this.setPickList();
+  } else {
+      try {
+        this.index = this.selectedValues.indexOf(event.target.value);
+        this.selectedValues.splice(this.index, 1);
+       
+        const checkboxes = this.template.querySelectorAll('.chk-type-all-mob');//'[data-id="chk-type-all"]'
+        for (const elem of checkboxes) {
+            elem.checked=false;
+           
+            if(event.target.value === 'alltypes'){
+              this.updateCheckboxUrlParams("type=", elem.value);
+            }else{
+              this.updateCheckboxUrlParams("type=", event.target.value);
+            }
+        } 
+      } catch (error) {
+          this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
+      }
+  }
+  this.setPickList();
  }
 
   // Handles the Study Area Filter when Clicked Individually for Mobile
   handleStudyAreaPicklist(event) {
-    let selectedCheckBox;
-    if (this.tempArray.length > 0) {
-      let temp = this.tempArray.filter((e) => e == event.target.label);
-      if (temp && temp[0]) {
-        let abc = this.tempArray.filter((e) => e != temp);
-        this.tempArray = [...abc];
-      } else {
-        this.tempArray.push(event.target.label);
-      }
-    } else {
-      this.tempArray.push(event.target.label);
-    }          
-    selectedCheckBox = this.studyAreaValues.find(
-      (item) => item.value === event.target.value );
-
     if (event.target.checked) {
       this.studyAreaSelectedValues.push(event.target.value);
-      selectedCheckBox.selected = true;
+      this.handleSetCheckboxUrlParams('area', event.target.value);
     } else {
-      selectedCheckBox.selected = false;
-      this.studyAreaSelectedValues = this.studyAreaSelectedValues.filter(function(e) { return e !== event.target.value })
-      this.studyAll = false;
+      try {
+        this.indexStudyArea = this.studyAreaSelectedValues.indexOf(event.target.value);
+        this.studyAreaSelectedValues.splice(this.indexStudyArea, 1);
 
+        const checkboxes = this.template.querySelectorAll('.chk-studyarea-all-mob');
+        for (const elem of checkboxes) {
+          elem.checked = false;
+
+          if(event.target.value === 'allarea'){
+            this.updateCheckboxUrlParams("area=", elem.value);
+          }else{
+            this.updateCheckboxUrlParams("area=", event.target.value);
+          }
+        }
+      } catch (error) {
+        this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
+      }
     }
     this.setPickList();
   }
 
   // Handles Delivery Filter when clicked Individually for Mobile
   handleDeliveryTypePicklist(event) {
-    let selectedCheckBox;
-    if (this.tempArray.length > 0) {
-      let temp = this.tempArray.filter((e) => e == event.target.label);
-      if (temp && temp[0]) {
-        let abc = this.tempArray.filter((e) => e != temp);
-        this.tempArray = [...abc];
-      } else {
-        this.tempArray.push(event.target.label);
-      }
-    } else {
-      this.tempArray.push(event.target.label);
-    }
-
-      selectedCheckBox = this.deliveryTypeValues.find(
-      (item) => item.value === event.target.value );
-
     if (event.target.checked) {
       this.deliveryTypeSelectedValues.push(event.target.value);
-      selectedCheckBox.selected = true;
+      let strType = "delivery";
+      this.handleSetCheckboxUrlParams(strType, event.target.value);
     } else {
-      selectedCheckBox.selected = false;
-      this.deliveryTypeSelectedValues = this.deliveryTypeSelectedValues.filter(function(e) { return e !== event.target.value })
-      this.deliveryAll = false;
-
+      try {
+        this.indexDeliveryType = this.deliveryTypeSelectedValues.indexOf(event.target.value);
+        this.deliveryTypeSelectedValues.splice(this.indexDeliveryType, 1);
+        
+        const checkboxes = this.template.querySelectorAll('.chk-deliverytype-all-mob');//[data-id="chk-deliverytype-all"]    
+        for (const elem of checkboxes) {
+            elem.checked=false;
+            if(event.target.value === 'alldelivery'){
+              this.updateCheckboxUrlParams("delivery=", elem.value);
+            }else{
+              this.updateCheckboxUrlParams("delivery=", event.target.value);
+            }
+        }
+      } catch (error) {
+          this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
     }
     this.setPickList();
   }
+}
     //Handles Study Area Filter Select All for Mobile
     handleSelectAllStudyAreas(event) {
       this.studyAreaSelectedValues =[];
+      let tempArray=[];
       if (event.target.checked) {
-        this.studyAll = true;
-        this.tempArray.push(event.target.label);
-        this.studyAreaValues.forEach((studyAreas) => {
-          this.studyAreaSelectedValues.push(studyAreas.value)
-          studyAreas.selected = true;
-          if (!this.tempArray.includes(studyAreas.label)) {
-            this.tempArray.push(studyAreas.label);
+          const checkboxes = this.template.querySelectorAll('.chk-studyarea-mob');
+          for (const elem of checkboxes) {
+                  elem.checked=true;
+                  this.studyAreaSelectedValues.push(elem.value);
+  
+                  this.validateUrlParams(elem, tempArray);    
           }
-        });
+          tempArray.forEach(element => {
+            this.handleSetCheckboxUrlParams("area",element);
+          });
+          this.setPickList();   
       } else {
-        // clear out
-        this.studyAll = false;
-        this.tempArray = [];
-        this.studyAreaValues.forEach((studyAreas) => {
-          studyAreas.selected = false;
-        });
-      }
-      this.setPickList();
+          try {
+              const checkboxes = this.template.querySelectorAll('.chk-studyarea-mob');
+              for (const elem of checkboxes) {
+                      elem.checked=false; 
+                      this.updateCheckboxUrlParams('area=', elem.value);
+              }
+              this.studyAreaSelectedValues =[];
+              this.setPickList();   
+          } catch (error) {
+              this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
+          }
+      }  
     }
   
     //Handles Delivery Type Filter Select All for Mobile
     handleSelectAllDeliveryTypes(event) {
       this.deliveryTypeSelectedValues =[];
+      let tempArray =[];
+      let strType ="delivery";
       if (event.target.checked) {
-        this.deliveryAll = true;
-        this.tempArray.push(event.target.label);
-        this.deliveryTypeValues.forEach((deliveryAreas) => {
-          this.deliveryTypeSelectedValues.push(deliveryAreas.value)
-          deliveryAreas.selected = true;
-          if (!this.tempArray.includes(deliveryAreas.label)) {
-            this.tempArray.push(deliveryAreas.label);
+          const checkboxes = this.template.querySelectorAll('.chk-delivery-type-mob');
+          for (const elem of checkboxes) {
+                  elem.checked=true;
+                  this.deliveryTypeSelectedValues.push(elem.value);
+                  this.validateUrlParams(elem, tempArray); 
           }
-        });
+          tempArray.forEach(element => {
+            this.handleSetCheckboxUrlParams(strType,element);
+          });
+          this.setPickList();   
       } else {
-        // clear out
-        this.deliveryAll = false;
-        this.tempArray = [];
-        this.deliveryTypeValues.forEach((deliveryAreas) => {
-          deliveryAreas.selected = false;
-        });
+          try {
+              const checkboxes = this.template.querySelectorAll('.chk-delivery-type-mob');
+              for (const elem of checkboxes) {
+                      elem.checked=false;
+                      this.updateCheckboxUrlParams('delivery=', elem.value);
+              }
+              this.deliveryTypeSelectedValues =[];
+              this.setPickList();   
+          } catch (error) {
+              this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
+          }
       }
-      this.setPickList();
     }
 
   //Handles Product Type Filter Select All for Mobile
   handleSelectAllTypes(event) {
     this.selectedValues =[];
+    let tempArray=[];
     if (event.target.checked) {
-      this.courseAll = true;
-      this.tempArray.push(event.target.label);
-      this.typeValues.forEach((courseAreas) => {
-        this.selectedValues.push(courseAreas.value)
-        courseAreas.selected = true;
-        if (!this.tempArray.includes(courseAreas.label)) {
-          this.tempArray.push(courseAreas.label);
+        const checkboxes = this.template.querySelectorAll('.chk-types-mob');
+        for (const elem of checkboxes) {
+                elem.checked=true;
+                this.selectedValues.push(elem.value);
+              
+                this.validateUrlParams(elem, tempArray); 
         }
-      });
+        tempArray.forEach(element => {
+          this.handleSetCheckboxUrlParams("type",element);
+        });
+        this.setPickList();   
     } else {
-      // clear out
-      this.courseAll = false;
-      this.tempArray = [];
-      this.typeValues.forEach((courseAreas) => {
-        courseAreas.selected = false;
-      });
-    }
-    this.setPickList();
+        try {
+            const checkboxes = this.template.querySelectorAll('.chk-types-mob');
+            for (const elem of checkboxes) {
+                    elem.checked=false;
+                    this.updateCheckboxUrlParams('type=', elem.value);
+            }
+            this.selectedValues =[];
+            this.setPickList();   
+        } catch (error) {
+            this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
+        }
+    }   
   }
 
   // Handles the Product Type Filter when clicked Individually for Desktop
   handleTypePicklistDesktop(event) {    
     if (event.target.checked) {
         this.selectedValues.push(event.target.value);
+        this.handleSetCheckboxUrlParams("type", event.target.value);
+
     } else {
         try {
           this.index = this.selectedValues.indexOf(event.target.value);
           this.selectedValues.splice(this.index, 1);
-
+         
           const checkboxes = this.template.querySelectorAll('.chk-type-all');//'[data-id="chk-type-all"]'
           for (const elem of checkboxes) {
               elem.checked=false;
-          }
+             
+              if(event.target.value === 'alltypes'){
+                this.updateCheckboxUrlParams("type=", elem.value);
+              }else{
+                this.updateCheckboxUrlParams("type=", event.target.value);
+              }
+          } 
         } catch (error) {
             this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
         }
@@ -495,20 +592,29 @@ renderedCallback() {
 
   // Handles the Study Area Filter when Clicked Individually for Desktop
   handleStudyAreaPicklistDesktop(event) {
+    //let params2;
     if (event.target.checked) {
         this.studyAreaSelectedValues.push(event.target.value);
+        this.handleSetCheckboxUrlParams("area", event.target.value);
     } else {
         try {
           this.indexStudyArea = this.studyAreaSelectedValues.indexOf(event.target.value);
           this.studyAreaSelectedValues.splice(this.indexStudyArea, 1);
+          
           const checkboxes = this.template.querySelectorAll('.chk-studyarea-all');//[data-id="chk-studyarea-all"]
           for (const elem of checkboxes) {
               elem.checked=false;
+              if(event.target.value === 'allarea'){
+                this.updateCheckboxUrlParams("area=", elem.value);
+              }else{
+                this.updateCheckboxUrlParams("area=", event.target.value);
+              }
           }
         } catch (error) {
             this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
         }
     }
+   
     this.setPickList();
   }
 
@@ -516,16 +622,21 @@ renderedCallback() {
   handleDeliveryTypePicklistDesktop(event) {
     if (event.target.checked) {
         this.deliveryTypeSelectedValues.push(event.target.value);
+        this.handleSetCheckboxUrlParams("delivery", event.target.value);
     } else {
         try {
           this.indexDeliveryType = this.deliveryTypeSelectedValues.indexOf(event.target.value);
           this.deliveryTypeSelectedValues.splice(this.indexDeliveryType, 1);
-
-          const checkboxes = this.template.querySelectorAll('.chk-deliverytype-all');//[data-id="chk-deliverytype-all"]
+          
+          const checkboxes = this.template.querySelectorAll('.chk-deliverytype-all');//[data-id="chk-deliverytype-all"]    
           for (const elem of checkboxes) {
               elem.checked=false;
+              if(event.target.value === 'alldelivery'){
+                this.updateCheckboxUrlParams("delivery=", elem.value);
+              }else{
+                this.updateCheckboxUrlParams("delivery=", event.target.value);
+              }
           }
-
         } catch (error) {
             this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
         }
@@ -533,24 +644,43 @@ renderedCallback() {
     this.setPickList();
   }
 
+  handleSetCheckboxUrlParams(strType, selectedValue){
+    let params2;
+    let params = new URLSearchParams(location.search.slice(1));
+    params.append(strType,selectedValue.toLowerCase());
+
+    params2 = params;
+    window.history.replaceState({}, '', location.pathname + '?' + params2);
+
+    if(window.location.href.includes("+")){
+      const right = window.location.href.split('?')[1];
+      let right1 = right.replaceAll("+","%20");
+      window.history.replaceState({}, '', location.pathname + '?' + right1);
+    }
+  }
+
    //Handles Product Type Filter Select All for Desktop
    handleSelectAllTypesDesktop(event) {
     this.selectedValues =[];
+    let tempArray=[];
 
     if (event.target.checked) {
         const checkboxes = this.template.querySelectorAll('.chk-types');
         for (const elem of checkboxes) {
                 elem.checked=true;
+                this.selectedValues.push(elem.value);  
+                this.validateUrlParams(elem, tempArray); 
         }
-        for(const types of this.typeValues){
-            this.selectedValues.push(types.value);
-        }
+        tempArray.forEach(element => {
+          this.handleSetCheckboxUrlParams("type",element);
+        });
         this.setPickList();   
     } else {
         try {
             const checkboxes = this.template.querySelectorAll('.chk-types');
             for (const elem of checkboxes) {
                     elem.checked=false;
+                    this.updateCheckboxUrlParams('type=', elem.value);
             }
             this.selectedValues =[];
             this.setPickList();   
@@ -563,21 +693,25 @@ renderedCallback() {
   //Handles Study Area Filter Select All for Desktop
   handleSelectAllStudyAreasDesktop(event) {
     this.studyAreaSelectedValues =[];
-    
+    let tempArray=[];
     if (event.target.checked) {
         const checkboxes = this.template.querySelectorAll('.chk-studyarea');
         for (const elem of checkboxes) {
                 elem.checked=true;
+                this.studyAreaSelectedValues.push(elem.value);
+
+                this.validateUrlParams(elem, tempArray);    
         }
-        for(const types of this.studyAreaSelectedValues){
-            this.studyAreaSelectedValues.push(types.value);
-        }
+        tempArray.forEach(element => {
+          this.handleSetCheckboxUrlParams("area",element);
+        });
         this.setPickList();   
     } else {
         try {
             const checkboxes = this.template.querySelectorAll('.chk-studyarea');
             for (const elem of checkboxes) {
-                    elem.checked=false;
+                    elem.checked=false; 
+                    this.updateCheckboxUrlParams('area=', elem.value);
             }
             this.studyAreaSelectedValues =[];
             this.setPickList();   
@@ -590,21 +724,24 @@ renderedCallback() {
   //Handles Delivery Type Filter Select All for Desktop
   handleSelectAllDeliveryTypesDesktop(event) {
       this.deliveryTypeSelectedValues =[];
-    
+      let tempArray =[];
       if (event.target.checked) {
           const checkboxes = this.template.querySelectorAll('.chk-delivery-type');
           for (const elem of checkboxes) {
                   elem.checked=true;
+                  this.deliveryTypeSelectedValues.push(elem.value);
+                  this.validateUrlParams(elem, tempArray); 
           }
-          for(const types of this.deliveryTypeSelectedValues){
-              this.deliveryTypeSelectedValues.push(types.value);
-          }
+          tempArray.forEach(element => {
+            this.handleSetCheckboxUrlParams("delivery",element);
+          });
           this.setPickList();   
       } else {
           try {
               const checkboxes = this.template.querySelectorAll('.chk-delivery-type');
               for (const elem of checkboxes) {
                       elem.checked=false;
+                      this.updateCheckboxUrlParams('delivery=', elem.value);
               }
               this.deliveryTypeSelectedValues =[];
               this.setPickList();   
@@ -620,8 +757,12 @@ renderedCallback() {
     this.strStartDate = event.target.value;
     if(this.strStartDate != null){
       sDate = this.strStartDate.split("-").reverse().join("-").replace(/-/g,"/");
+      let strStartDate = "startdate";
+      this.updateUrlParams(strStartDate, this.strStartDate);
+     
       this.parameterObject.startDate = sDate;
       this.getFilterList();
+      
     }else{
       this.strStartDate = '';
       this.parameterObject.startDate = null;
@@ -635,6 +776,10 @@ renderedCallback() {
     this.strEndDate = event.target.value;
     if(this.strEndDate != null){
       eDate = this.strEndDate.split("-").reverse().join("-").replace(/-/g,"/");
+     
+      let strEndDate = "enddate";
+      this.updateUrlParams(strEndDate, this.strEndDate);
+      
       this.parameterObject.endDate = eDate;
       this.getFilterList();
     }else{
@@ -650,26 +795,25 @@ renderedCallback() {
     this.endValue = event.detail.end;
     this.tempValStart = this.startValue;
     this.tempValEnd = this.endValue;
+    let strTypes =['pricingfrom','pricingto'];
+    let pricingValues = [this.startValue, this.endValue];
+  
+    for (let index = 0; index < strTypes.length; index++) {
+      const element = strTypes[index];
+      this.updateUrlParams(element,pricingValues[index]);
+    }
+  
     this.parameterObject.minUnitPrice = this.startValue
     this.parameterObject.maxUnitPrice = this.endValue
     this.getFilterList();
+    
     }
   
   // handles Clear All filters for Mobile
   handleClearAllMobile(){
     this.tempArray = [];
     this.studyAll = false;
-    this.studyAreaValues.forEach((studyAreas) => {
-      studyAreas.selected = false;
-    });
-    this.deliveryAll = false;
-    this.deliveryTypeValues.forEach((deliveryAreas) => {
-      deliveryAreas.selected = false;
-    });
-    this.courseAll = false;
-    this.typeValues.forEach((courseAreas) => {
-      courseAreas.selected = false;
-    });
+    
     this.tempValStart = null;
     this.tempValEnd = null;
 
@@ -691,10 +835,12 @@ renderedCallback() {
     this.parameterObject.maxUnitPrice = null;
     this.parameterObject.minUnitPrice = null;
     this.template.querySelector('c-slider').setDefaultValues();
-    this.triggerProductSearch();   
+    this.triggerProductSearch();  
+    //reset url to default
+    window.history.replaceState(null, null, window.location.pathname);
    } 
    
-  // handles Clear All filters for Mobile
+  // handles Clear All filters for Desktop
   handleClearAllDesktop(){
     const checkboxes = this.template.querySelectorAll('[data-id="checkbox"]');
     for(const elem of checkboxes){
@@ -719,7 +865,10 @@ renderedCallback() {
     this.parameterObject.maxUnitPrice = null;
     this.parameterObject.minUnitPrice = null;
     this.template.querySelector('c-slider').setDefaultValues();
-    this.triggerProductSearch();   
+    this.triggerProductSearch();  
+    //reset url to default
+    window.history.replaceState(null, null, window.location.pathname);
+
    } 
 
 
@@ -764,13 +913,18 @@ renderedCallback() {
 
         //Checks if result is null or zero
         if(result.listFilteredProductId.length > 0){
-          this.displayProductsListingPage(0);
+           if(this.hasPageNo){
+             this.displayProductsListingPage(this.urlPageNumber-1);
+           }else{
+            this.displayProductsListingPage(0);
+          }
         }else{
           this.newListProducts = [];
           this.getAllProducts();
         }
         this._isLoading = false;
-        this._pageNumber = 1;
+        this._pageNumber = this.hasPageNo ? this.urlPageNumber : 1;
+        // this._pageNumber = 1;
      }).catch((error) => {
       this._isLoading = false;
       this.errorMessage = MSG_ERROR + this.generateErrorMessage(error);
@@ -868,9 +1022,10 @@ renderedCallback() {
    */
    handlePreviousPage(evt) {
     evt.stopPropagation();
-    this._pageNumber = this._pageNumber - 1;
+    this._pageNumber = this.hasMorePages ? this.urlPageNumber - 1 : this._pageNumber - 1;
+    //this._pageNumber = this._pageNumber - 1;
     this.productListIds = [];
-    this.displayProductsListingPage(this._pageNumber -1);
+    this.displayProductsListingPage(this._pageNumber - 1);
     // this.pageNumber = this.pageNumber - 1;
     // this.triggerProductSearch();
 }
@@ -882,7 +1037,8 @@ renderedCallback() {
  */
 handleNextPage(evt) {
     evt.stopPropagation();
-    this._pageNumber = this._pageNumber + 1;
+    this._pageNumber = this.hasPageNo ? this.urlPageNumber + 1 : this._pageNumber + 1;
+    //this._pageNumber = this._pageNumber + 1;
     this.productListIds = [];
     this.displayProductsListingPage(this._pageNumber -1);
 }
@@ -892,6 +1048,7 @@ handleNextPage(evt) {
     evt.stopPropagation();
     this._pageNumber = evt.detail;
     this.productListIds = [];
+    this.updateUrlParams("pagenumber", this._pageNumber);
     this.displayProductsListingPage(this._pageNumber -1);
   }
 
@@ -973,6 +1130,16 @@ handleNextPage(evt) {
    * @private
    */
   get pageNumber() {
+    let pageNo;
+    if(this.hasPageNo){
+      pageNo = this.urlPageNumber;
+    }else{
+      pageNo = this._pageNumber;
+    }
+    return pageNo;
+  }
+
+  get getUrlPageNumber(){
     return this._pageNumber;
   }
 
@@ -994,7 +1161,8 @@ handleNextPage(evt) {
       // const pageSize = this.pageSize;
   
     if (totalItemCount > 1) {
-      const startIndex = (this._pageNumber - 1) * pageSize + 1;
+      const startIndex = (this.hasPageNo ? this.urlPageNumber - 1 : this._pageNumber - 1) * pageSize + 1;
+     // const startIndex = (this._pageNumber - 1) * pageSize + 1;
 
       const endIndex = Math.min(startIndex + pageSize - 1, totalItemCount);
 
@@ -1040,27 +1208,115 @@ handleNextPage(evt) {
     return cartStatus === "Processing" || cartStatus === "Checkout";
   }
 
+  handleUrlDuplicates(){
+     //check for any duplicate param
+    let url2 =  window.location.href;
+    let dupList=[];
+
+    //check if url has parameters
+    if(url2.includes('?')){
+      let urlTrimmed = url2.split("?")[1];
+     
+      //check if startdate has double entry
+      let dupCheck = ['startdate','enddate','pricingfrom','pricingto, keyword'];
+      dupCheck.forEach(element => {
+        let lastIndex = urlTrimmed.indexOf(element);
+        let after = urlTrimmed.slice(lastIndex+element.length);
+  
+          if(after.includes(element)){
+            dupList.push(element);
+          } 
+      });
+    }
+    return dupList.length > 0 ? false :  true;
+  }
+
   /**
    * The connectedCallback() lifecycle hook fires when a component is inserted into the DOM.
    */
    	handleFilterSelected(){
-		let url_string = window.location.href;
-		let url = new URL(url_string);
-		let area = url.searchParams.get("area");
-		this.qutFilterValue = area;
+	
+    let url =  window.location.href;
+    let params = getParams(url);
+
+    if(params.keyword){
+      this.stringValue = params.keyword;
+      window.clearTimeout(this.delayTimeout);
+      this.delayTimeout = setTimeout(() => {
+            this.parameterObject.searchKey = this.stringValue;
+      });
+  }
+  
+   if(params.area){
+    if(typeof params.area === 'object'){
+      params.area.forEach((value) => {
+        this.areaUrlFilterValue.push(value);
+      })
+    }else{
+      this.areaUrlFilterValue.push(params.area);
+    } 
+  }
+
+   if(params.delivery){
+    if(typeof params.delivery === 'object'){
+      params.delivery.forEach((value) => {
+        this.deliveryUrlFilterValue.push(value);
+      })
+    }else{
+      this.deliveryUrlFilterValue.push(params.delivery);
+    }
+   }
+
+
+   if(params.type){
+    if(typeof params.type === 'object'){
+      params.type.forEach((value) => {
+        this.typeUrlFilterValue.push(value);
+      })
+    }else{
+      this.typeUrlFilterValue.push(params.type);
+    }
+   }
+
+   if(params.pricingfrom && params.pricingto){
+      this.startValue =  parseInt(params.pricingfrom);
+      this.endValue = parseInt(params.pricingto);
+      this.parameterObject.minUnitPrice = this.startValue;
+      this.parameterObject.maxUnitPrice = this.endValue;
+
+      this.hasPricing = true;
+    }
+
+  //ex. startdate=2023-01-09
+  if(params.startdate){
+    let sDate = '';
+    this.strStartDate =  params.startdate;
+    if(this.strStartDate != null){
+      sDate = this.strStartDate.split("-").reverse().join("-").replace(/-/g,"/");
+      this.parameterObject.startDate = sDate;
+    }
+  }
+
+  //ex.enddate=2023-11-28
+  if(params.enddate){
+    let eDate = '';
+    this.strEndDate = params.enddate;
+    if(this.strEndDate != null){
+      eDate = this.strEndDate.split("-").reverse().join("-").replace(/-/g,"/");
+      this.parameterObject.endDate = eDate;
+   }  
+  }
+
+  if(params.pagenumber){
+      this.hasPageNo = true;
+      this.urlPageNumber = parseInt(params.pagenumber);
+      this._pageNumber = parseInt(params.pagenumber);
+  }
+  this.getFilterList();
 	}
+
    tempArray = [];
    connectedCallback() {
-
-      let url_string = window.location.href;
-      let url = new URL(url_string);
-      let area = url.searchParams.get("query");
-      this.linkQueryValue = area;
-
-      if (this.linkQueryValue){
-      this.stringValue = this.linkQueryValue;
-      this.parameterObject.searchKey = this.stringValue;
-      }
 
      this.vectorIcon = qutResourceImg + "/QUTImages/Icon/icon-Vector.png";
      this.accordionClose = qutResourceImg + "/QUTImages/Icon/accordionClose.svg";
@@ -1072,9 +1328,27 @@ handleNextPage(evt) {
      }
  
      this.publishLMS();
-	 this.handleFilterSelected();
-   }
- 
+
+     //validate if URL has duplicates
+     let checkIfUrllHasParameters = window.location.href;
+     if(checkIfUrllHasParameters.includes('?')){
+        this.urlValid = this.handleUrlDuplicates();
+     }
+     
+     //do not process url if with duplicates
+	  if(this.urlValid){
+        this.handleFilterSelected();
+        this.getFilterList();
+    }else{
+    //   //reset url to default if url has an invalid parameters for filters
+     window.history.replaceState(null, null, window.location.pathname);
+    }
+
+    window.addEventListener('popstate', e => {    
+      location.reload(true);
+    });
+}
+
    handleAccordionToggle(event) {
      // Get Aria Expanded value
      let accordionAriaExpanded = event.currentTarget;
@@ -1118,62 +1392,99 @@ handleNextPage(evt) {
   handleModalOpen() {
     this.openModal = true;
     try {
-      let Array1 = JSON.parse(JSON.stringify(this.studyAreaValues));
-      let Array2 = JSON.parse(JSON.stringify(this.deliveryTypeValues));
-      let Array3 = JSON.parse(JSON.stringify(this.typeValues));
-      //StudyAreas
-      if (this.tempArray.length > 0) {
-        //this.studyAreaValues.all = true;
-        Array1.forEach((e) => {
-          let temp = this.tempArray.filter((j) => j == e.label);
-          if (temp && temp[0]) {
-            e.selected = true;
-          } else {
-            e.selected = false;
-          }
-        });
-      } else {
-        Array1.forEach((e) => (e.selected = false));
-      }
-      this.studyAreaValues = [...Array1];
 
+    this.urlAreaCheckbox();
+    this.urlDeliveryCheckbox();
+    this.urlCourseTypeCheckbox();
 
-
-      /*Delivery*/
-      if (this.tempArray.length > 0) {
-        Array2.forEach((e) => {
-          let temp = this.tempArray.filter((j) => j == e.label);
-          if (temp && temp[0]) {
-            e.selected = true;
-          } else {
-            e.selected = false;
-          }
-        });
-      } else {
-        Array2.forEach((e) => (e.selected = false));
-      }
-      this.deliveryTypeValues = [...Array2];
-      /*end of delivery*/
-
-      /*type type*/
-      if (this.tempArray.length > 0) {
-        Array3.forEach((e) => {
-          let temp = this.tempArray.filter((j) => j == e.label);
-          if (temp && temp[0]) {
-            e.selected = true;
-          } else {
-            e.selected = false;
-          }
-        });
-      } else {
-        Array3.forEach((e) => (e.selected = false));
-      }
-      this.typeValues = [...Array3];
-      /*end of course type*/
     } catch (error) {
       console.error(error);
     }
   }
+
+  //update URL
+  updateCheckboxUrlParams(category, value){
+    const url2 = window.location.href;
+    let name = category + value.toLowerCase().replace(/ /g, '%20');
+    let param2 = url2.split(name+'&')[1];
+    let result;
+    let result2;
+
+    if(param2 != undefined){  //multiple, not end
+      result = url2.split(name+'&')[0] + param2;
+      result2 = result.split('?')[1];
+      
+    } else {  //if end
+      if(url2.includes(name)){
+      
+        if(url2.includes('&')){ //multiple, end
+          result = url2.slice(0, url2.lastIndexOf('&'));
+          result2 = result.split('?')[1];
+        } else { //single
+          result = url2.split('?')[0];  
+          result2 = "";  //empty
+          }
+      } else {
+        result2 = url2.split('?')[1];
+      }
+    }
+    if(result2 === ""){
+      window.history.replaceState({}, '', location.pathname);
+    }else{
+      window.history.replaceState({}, '', location.pathname + '?' + result2);
+    }
+  }
+
+  //replace typeName value with new value based on user selection
+  updateUrlParams(typeName, urlParamValue){
+    const url2 = window.location.href;
+    let strParam;
+    //ex. keyword=ope
+    let strParam2 = typeName + "="+urlParamValue;
+    let urlNew;
+
+    //check if url contains keyword, pricingfrom, pricingto etc.
+    if (url2.includes(typeName + "=")){                               //if typeName exists in url, then replace
+       let urlParam = url2.split(typeName + "=")[1];                  //get all characters at right of typeName+"="
+        if (urlParam.includes("&")){                                  //check if url param is single or multiple
+          let urlParam2 = urlParam.slice(0,urlParam.indexOf("&"));    //if multiple, split by '&' to get value of typename at index [0]
+          strParam = urlParam2;                                       //set strParam to value of typeName
+        } else if (!urlParam.includes("&")){ 
+          strParam = urlParam;                                        //if single, then urlParam is already the value
+        }
+        
+        if(urlParamValue!=""){
+          urlNew = url2.replace(typeName + "="+strParam,strParam2);   //replace current typeName value to new value
+          window.history.replaceState({}, '', urlNew);                  //update current url with new typeName value
+          } else {
+            let params = new URLSearchParams(location.search.slice(1));
+            params.delete(typeName);
+
+            if(url2.includes("&")){
+              window.history.replaceState({}, '', location.pathname + '?' + params);
+              let url2 = window.location.href;
+              if(url2.includes("+")){
+                let params2 = url2.replaceAll("+","%20");
+                window.history.replaceState({}, '', params2);
+              }
+            } else{
+              window.history.replaceState({}, '', location.pathname + params);
+            }
+          }
+
+      } else {   //if typeName does not exist yet in url, then add to url
+        let params = new URLSearchParams(location.search.slice(1));
+        params.append(typeName,urlParamValue);
+        urlNew = params;
+        window.history.replaceState({}, '', location.pathname + '?' + params);
+        let url2 = window.location.href;
+        if(url2.includes("+")){
+          let params2 = url2.replaceAll("+","%20");
+          window.history.replaceState({}, '', params2);
+        }
+      }
+  }
+
 
   /**
    * Handles a user request to add the product to their active cart.
@@ -1292,7 +1603,8 @@ handleNextPage(evt) {
   _shouldKeepCatList = false;
   _displayData;
   _isLoading = true;
-  _pageNumber = 1;
+  _pageNumber = this.hasPageNo ? this.urlPageNumber : 1;
+ // _pageNumber = 1;
   _refinements = [];
   _term;
   _recordId;
@@ -1308,4 +1620,15 @@ handleNextPage(evt) {
   _filteredProducts = [];
   _filteredResults = [];
   _getProducts =[];
+
+  validateUrlParams(elem, tempArray) {
+    let checkIfUrllHasParameters = window.location.href;
+    let val = elem.value.toLowerCase().replace(/ /g, '%20');
+    if (!checkIfUrllHasParameters.includes(val)) {
+      tempArray.push(elem.value);
+    }
+  }
+  
 }
+
+

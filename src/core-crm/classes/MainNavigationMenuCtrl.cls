@@ -19,10 +19,10 @@ public without sharing class MainNavigationMenuCtrl {
     @AuraEnabled(cacheable=true)
     public static list<Opportunity> getOpportunityContractType(Id userId){
         list<Opportunity> opportunities =new list<Opportunity>();
-        list<User> users = [SELECT Id,Name,ContactId,AccountId FROM User WHERE Id=:userId WITH SECURITY_ENFORCED];
+        list<User> users = [SELECT Id,Name,ContactId,AccountId FROM User WHERE Id=:userId];
 		if(users.size()!=0){
             Id accountId = users.get(0).AccountId;
-            opportunities = [SELECT Id,Name,AccountId,Contract_Type__c FROM Opportunity WHERE AccountId=:accountId WITH SECURITY_ENFORCED];
+            opportunities = [SELECT Id,Name,AccountId,Contract_Type__c FROM Opportunity WHERE AccountId=:accountId];
         }
         return opportunities;
     }
@@ -35,8 +35,7 @@ public without sharing class MainNavigationMenuCtrl {
 			AND ContactId IN (
 				SELECT ContactId 
 				FROM User 
-				WHERE Id = :userId)
-                WITH SECURITY_ENFORCED];
+				WHERE Id = :userId)];
         if(!getAccount.isEmpty()){
             return getAccount[0].Account.Name;
         }else{
@@ -57,8 +56,7 @@ public without sharing class MainNavigationMenuCtrl {
 			AND ContactId IN (
 				SELECT ContactId 
 				FROM User 
-				WHERE Id = :userId)
-                WITH SECURITY_ENFORCED LIMIT 1 
+				WHERE Id = :userId) LIMIT 1 
 		];
 
         //Get all accounts
@@ -69,8 +67,7 @@ public without sharing class MainNavigationMenuCtrl {
                     AND ContactId IN (
                         SELECT ContactId 
                         FROM User 
-                    WHERE Id = :userId)
-                    WITH SECURITY_ENFORCED ORDER BY Account.Name ASC
+                    WHERE Id = :userId) ORDER BY Account.Name ASC
 		];
 
         for (AccountContactRelation accountContactRelation : getAccounts){
@@ -115,11 +112,11 @@ public without sharing class MainNavigationMenuCtrl {
         List<NavigationMenuItem> menuItem = new List<NavigationMenuItem>();
 
 		String networkId = Network.getNetworkId();
-        List<NavigationLinkSet> linkSets  = [SELECT Id,MasterLabel FROM NavigationLinkSet WHERE NetworkId=:networkId WITH SECURITY_ENFORCED];
+        List<NavigationLinkSet> linkSets  = [SELECT Id,MasterLabel FROM NavigationLinkSet WHERE NetworkId=:networkId];
         if(linkSets.size()!=0){
         Id linkSetId = linkSets.get(0).Id;  
         menuItem= [SELECT toLabel(Label), Target, Type, DefaultListViewId, AccessRestriction,ParentId,Position,Status,TargetPrefs 
-        FROM NavigationMenuItem WHERE NavigationLinkSetId=:linkSetId AND Status = :publishedState WITH SECURITY_ENFORCED];
+        FROM NavigationMenuItem WHERE NavigationLinkSetId=:linkSetId AND Status = :publishedState];
 			}
         return menuItem;
 
@@ -130,10 +127,11 @@ public without sharing class MainNavigationMenuCtrl {
     public static List<ProductCategory> getStoreFrontCategories(Id communityId){
 		List<ProductCategory> productCategories =new List<ProductCategory>();
         String storeId = B2BUtils.resolveCommunityIdToWebstoreId(communityId);
-        List<WebStoreCatalog> catalogues = [SELECT SalesStoreId,ProductCatalogId FROM WebStoreCatalog WHERE SalesStoreId=:storeId WITH SECURITY_ENFORCED];
+
+        List<WebStoreCatalog> catalogues = [SELECT SalesStoreId,ProductCatalogId FROM WebStoreCatalog WHERE SalesStoreId=:storeId];
         if(catalogues.size()!=0){
             Id catalogId = catalogues.get(0).ProductCatalogId;
-            productCategories = [SELECT Name, Id, SortOrder FROM ProductCategory WHERE CatalogId=:catalogId AND IsNavigational = true WITH SECURITY_ENFORCED ORDER By SortOrder ASC];
+            productCategories = [SELECT Name, Id, SortOrder FROM ProductCategory WHERE CatalogId=:catalogId AND IsNavigational = true ORDER By SortOrder ASC];
             }
         return productCategories;
     }
@@ -141,10 +139,10 @@ public without sharing class MainNavigationMenuCtrl {
     public static List<ProductCategory> getStudyProducts(Id communityId){
         List<ProductCategory> productCategories =new List<ProductCategory>();
         String storeId = B2BUtils.resolveCommunityIdToWebstoreId(communityId);
-        List<WebStoreCatalog> catalogues = [SELECT SalesStoreId,ProductCatalogId FROM WebStoreCatalog WHERE SalesStoreId=:storeId WITH SECURITY_ENFORCED];
+        List<WebStoreCatalog> catalogues = [SELECT SalesStoreId,ProductCatalogId FROM WebStoreCatalog WHERE SalesStoreId=:storeId];
         if(catalogues.size()!=0){
             Id catalogId = catalogues.get(0).ProductCatalogId;
-            productCategories = [SELECT Name,Id FROM ProductCategory WHERE CatalogId=:catalogId AND Name = 'Products' WITH SECURITY_ENFORCED];
+            productCategories = [SELECT Name,Id FROM ProductCategory WHERE CatalogId=:catalogId AND Name = 'Products'];
             }
         return productCategories;
     }

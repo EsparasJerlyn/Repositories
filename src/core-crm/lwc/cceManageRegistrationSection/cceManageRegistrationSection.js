@@ -42,19 +42,8 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
     @track learnerDetailsList;
     @track learnerDetailsListCopy;
     @track learnerDetails;
-    
-    soaColumns = [
-        { label: 'Learner Name', fieldName: 'contactName', type: 'text', sortable: true},
-        { label: 'Product Name', fieldName: 'productName', type: 'text',sortable: true},
-        { label: 'Registration Date', fieldName: 'registrationDate', type: 'date',sortable: true },
-        { label: 'Price', fieldName: 'price', type: 'currency',sortable:true,typeAttributes: 
-        {
-            currencyCode:'AUD', 
-            step: '0.001'
-        }}      
-    ];
 
-    corporateColumns = [
+    columns = [
         { label: 'Learner Name', fieldName: 'contactName', type: 'text', sortable: true},
         { label: 'Product Name', fieldName: 'productName', type: 'text',sortable: true},
         { label: 'Registration Date', fieldName: 'registrationDate', type: 'date',sortable: true },
@@ -230,8 +219,5 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
 
     get noRecordsFound  (){ return NO_REC_FOUND;}
     get displayTableError(){ return DISPLAY_TBL_ERROR;}
-    get columns (){
-        return this.recordType === 'Standing_Offer_Arrangement'?this.soaColumns:this.corporateColumns;
-    }
     
 }

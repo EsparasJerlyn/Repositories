@@ -68,7 +68,8 @@ public without sharing class ManageRegistrationEnrolmentHelper{
 
               enrolmentResult.isContactInputValid = validationReturn.isContactInputValid;
               enrolmentResult.contactValidationResponse = validationReturn.contactValidationResponse;
-              
+              finalContactRecord.Id = validationReturn.contactId;
+
          }else{
               //get the contact's full name, first name, and lastname
               //store the contact details to string variable
@@ -86,8 +87,12 @@ public without sharing class ManageRegistrationEnrolmentHelper{
               finalContactRecord.Email = contactRecord.Registered_Email__c;
               finalContactRecord.FirstName = con.FirstName;
               finalContactRecord.LastName = con.LastName;
+              finalContactRecord.Id = con.Id;
 
-              update contactRecord;
+              if(Schema.sObjectType.Contact.isUpdateable()){
+                    update contactRecord;
+               }
+
          }
          //process contact after validation
          if(enrolmentResult.isContactInputValid){
@@ -106,7 +111,7 @@ public without sharing class ManageRegistrationEnrolmentHelper{
               //check product category
               Boolean isTailored = product != null && product.Product_Category__c == TAILORED_EXECUTIVE_PROGRAM?true:false;
 
-              enrolmentResult.contactId = enrollmentProcessingReturn.contactId;
+              enrolmentResult.contactId =  finalContactRecord.Id;
                
               if(!String.isBlank(priceBookEntryId)){
 
@@ -155,6 +160,7 @@ public without sharing class ManageRegistrationEnrolmentHelper{
                          con.Dietary_Requirement__c = contactList[0].Dietary_Requirement__c;
                          con.Accessibility_Requirement__c = contactList[0].Accessibility_Requirement__c;
                          contactListToUpsert.add(con);
+
                          validationReturn.isContactInputValid = true;
                          validationReturn.contactValidationResponse =  '';
                     }
@@ -171,8 +177,9 @@ public without sharing class ManageRegistrationEnrolmentHelper{
                          contactListToUpsert.addAll(contactList);
                     }
                }  
-               if(contactListToUpsert.size() > 0){
-                    upsert contactListToUpsert; 
+               if(contactListToUpsert.size() > 0 && Schema.sObjectType.Contact.isUpdateable()){
+                    upsert contactListToUpsert;
+                    validationReturn.contactId = contactListToUpsert[0].Id;
                }
           
           return validationReturn;
@@ -224,7 +231,9 @@ public without sharing class ManageRegistrationEnrolmentHelper{
           }
      }
 
-     insert courseConnectionList;
+     if(Schema.sObjectType.Contact.isCreateable()){
+          insert courseConnectionList;
+      }
      
      return courseConnectionList;
 }

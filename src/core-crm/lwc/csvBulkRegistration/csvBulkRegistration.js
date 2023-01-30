@@ -124,7 +124,7 @@ export default class ProductBulkRegistration extends NavigationMixin(
             let currentProductCategory = JSON.parse(
              sessionStorage.getItem(CURRENTPRODUCTCATEGORY)
             );
-            if(currentProductCategory && currentProductCategory.fromCategoryName == Corporate_Bundle){
+            if(currentProductCategory && currentProductCategory.fromCategoryName == Corporate_Bundle){ 
                 this.productCategoryCheck = true;
             }
        }

@@ -30,20 +30,21 @@ public class Update_Opp_CloseDate_FlowTest {
             Contact cont = TestDataFactory.createTestContactRecords(1).iterator().next();
             insert cont;
     
-            List<Opportunity> createOpp = TestDataFactory.createTestOpportunityRecords(100,acct?.Id,cont?.Id);    
+            List<Opportunity> createOpp = TestDataFactory.createTestOpportunityRecords(100,acct?.Id,cont?.Id);
+            for(Opportunity oppty : createOpp){
+                oppty.StageName = 'New';
+            }
             insert createOpp;
                
 
             Test.startTest();
-            List<Opportunity> getOpp = new List<Opportunity>();
             List<Opportunity> oppRec = new List<Opportunity>([SELECT Id, StageName, Status__c  FROM Opportunity LIMIT 100]);
 
             for(Opportunity opp : oppRec){
                 opp.StageName = 'Closed Won';
                 opp.Status__c = 'Contract Signed';
-                getOpp.add(opp);
             }
-            update getOpp;
+            update oppRec;
         }
         Test.stopTest();
         List<Opportunity> updatedOppList = [SELECT CloseDate FROM Opportunity LIMIT 100];

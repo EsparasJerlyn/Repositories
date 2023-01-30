@@ -69,7 +69,8 @@
                                                 <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
                                                     <label for="fieldemail" class="label-text">Email</label>
                                                     <span class="required-text">*</span>
-                                                    <lightning-input-field  disabled="true" id="fieldemail" variant="label-hidden" field-name="Registered_Email__c" onchange={handleEmailChange}></lightning-input-field>
+                                                    <lightning-helptext class="emailHelpText" content={registeredEmailHelpText}></lightning-helptext>
+                                                    <lightning-input-field  disabled="true" class="participantmail" id="fieldemail" variant="label-hidden" field-name="Registered_Email__c" onchange={handleEmailChange}></lightning-input-field>
                                                 </div>
                                                 <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
                                                     <label for="fieldbdate" class="label-text birthDate">Date of Birth</label>
