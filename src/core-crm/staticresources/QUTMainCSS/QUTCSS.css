@@ -2132,14 +2132,25 @@ span.slds-truncate  {
 
 
 .infomail .slds-form-element__icon{
-  float: right;
+  /* float: right;
   position: absolute;
   top:-39px;
-  left:45px;
-  
-   
-  
-  }
+  left:45px; */
+  display: none;
+}
+
+.email_help_text .slds-form-element__icon{
+  height: 1.2rem;
+  bottom: 1.2rem;
+}
+
+c-custom-create-edit-record lightning-helptext .slds-button_icon{
+  height: 1.2rem;
+}
+
+c-custom-create-edit-record lightning-input-field .slds-form-element__label{
+  padding-right: 0px;
+}
 
 [c-registrationconfirmation_registrationconfirmation] .slds-hyphenate,
 [c-manageregistrationandnomination_manageregistrationandnomination] .slds-hyphenate {

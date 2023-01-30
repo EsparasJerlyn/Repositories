@@ -72,7 +72,7 @@
                     <div class="slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12" >
                         <div class="slds-grid slds-wrap slds-p-bottom_small slds-p-right_small">
                             <div class="edit-textbox slds-form-element__control slds-input-has-icon slds-input-has-icon_right slds-p-right_medium" >
-                                <p class="bodyBold slds-m-around_none">Email</p>
+                                <p class="bodyBold slds-m-around_none">Email<lightning-helptext class="email_help_text" content={registeredEmailHelpText}></lightning-helptext></p>
 
                                 <div if:true={editModeEmail}>
                                     <lightning-input-field field-name="Registered_Email__c" class="infomail" variant="label-hidden" onmouseout={enableReadMode} onchange={contactFieldChanged} value={contactEmail}></lightning-input-field>
