@@ -334,6 +334,13 @@
         <relatedList>RelatedLineItemList</relatedList>
     </relatedLists>
     <relatedLists>
+        <fields>NAME</fields>
+        <fields>Program_Name__c</fields>
+        <fields>Stage__c</fields>
+        <fields>Program_Lead__c</fields>
+        <relatedList>Product_Specification__c.Opportunity_Name__c</relatedList>
+    </relatedLists>
+    <relatedLists>
         <relatedList>RelatedFileList</relatedList>
     </relatedLists>
     <relatedLists>

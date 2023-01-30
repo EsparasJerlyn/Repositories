@@ -15,11 +15,20 @@
         <!--DEPP-4144 end-->
         <name>CustomField</name>
     </types>
-
+    <types>
+        <!--DEPP-5055-->
+        <members>Opportunity_Record_Page.flexipage-meta.xml</members>
+        <!--DEPP-5055 end-->
+        <name>FlexiPage</name>
+    </types>
     <types>
         <!--DEPP-4625 / DEPP-4223-->
         <members>Case-International Enquiry Layout</members>
         <!--DEPP-4625/ DEPP-4223 end-->
+        <!--DEPP-5055-->
+        <members>Opportunity-Opportunity Details.layout-meta.xml</members>
+        <members>Opportunity-Opportunity Layout.layout-meta.xml</members>
+        <!--DEPP-5055 end-->
         <name>Layout</name>
     </types>
     <version>52.0</version>
