@@ -55,6 +55,8 @@ const MSG_ERROR =
 let PAGE_SIZE = 6;
 const DELAY = 300;
 let i=0;
+const MIN_VALUE = '0';
+const MAX_VALUE = '5000';
 
 
 /**
@@ -797,7 +799,7 @@ renderedCallback() {
     this.tempValEnd = this.endValue;
     let strTypes =['pricingfrom','pricingto'];
     let pricingValues = [this.startValue, this.endValue];
-  
+
     for (let index = 0; index < strTypes.length; index++) {
       const element = strTypes[index];
       this.updateUrlParams(element,pricingValues[index]);
@@ -832,12 +834,14 @@ renderedCallback() {
     this.parameterObject.deliveryType = []
     this.parameterObject.startDate = null;
     this.parameterObject.endDate= null;
-    this.parameterObject.maxUnitPrice = null;
-    this.parameterObject.minUnitPrice = null;
+    this.parameterObject.maxUnitPrice = parseInt(MIN_VALUE);
+    this.parameterObject.minUnitPrice = parseInt(MAX_VALUE);
+    this.hasPricing = false;
     this.template.querySelector('c-slider').setDefaultValues();
     this.triggerProductSearch();  
     //reset url to default
-    window.history.replaceState(null, null, window.location.pathname);
+    window.history.replaceState({}, '', window.location.pathname);
+    location.reload();
    } 
    
   // handles Clear All filters for Desktop
@@ -862,13 +866,14 @@ renderedCallback() {
     this.parameterObject.deliveryType = []
     this.parameterObject.startDate = null;
     this.parameterObject.endDate= null;
-    this.parameterObject.maxUnitPrice = null;
-    this.parameterObject.minUnitPrice = null;
+    this.parameterObject.maxUnitPrice = parseInt(MIN_VALUE);
+    this.parameterObject.minUnitPrice = parseInt(MAX_VALUE);
+    this.hasPricing = false;
     this.template.querySelector('c-slider').setDefaultValues();
     this.triggerProductSearch();  
     //reset url to default
-    window.history.replaceState(null, null, window.location.pathname);
-
+    window.history.replaceState({}, '', window.location.pathname);
+    location.reload();
    } 
 
 
@@ -1279,12 +1284,19 @@ handleNextPage(evt) {
    }
 
    if(params.pricingfrom && params.pricingto){
-      this.startValue =  parseInt(params.pricingfrom);
-      this.endValue = parseInt(params.pricingto);
-      this.parameterObject.minUnitPrice = this.startValue;
-      this.parameterObject.maxUnitPrice = this.endValue;
 
-      this.hasPricing = true;
+      //is not numeric
+      if(isNaN(params.pricingfrom) || isNaN(params.pricingto)){
+        this.hasPricing = false;
+      }else{
+        //numeric
+        this.startValue =  parseInt(params.pricingfrom);
+        this.endValue = parseInt(params.pricingto);
+        
+        this.parameterObject.minUnitPrice = this.startValue;
+        this.parameterObject.maxUnitPrice = this.endValue; 
+        this.hasPricing = true;
+     }
     }
 
   //ex. startdate=2023-01-09
