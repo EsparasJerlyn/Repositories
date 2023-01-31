@@ -55,8 +55,15 @@ public without sharing class CCECorporateUserCtrl {
             Profile profile = [SELECT Id FROM Profile WHERE Name = 'Partner Community User' LIMIT 1];
             Id userId;
             
-            List<User> users = [SELECT Id, Username FROM User WHERE ContactId =: contact.Id AND ( (Username =: ccefilter AND IsActive = true) OR (Username =: opefilter AND IsActive = true)) LIMIT 1];
-            List<User> usersToUpdate = new List<User>();    
+            List<User> users = [SELECT Id, Username FROM User WHERE ContactId =: contact.Id AND ( (Username =: ccefilter) OR (Username =: opefilter AND IsActive = true)) LIMIT 1];
+            List<User> usersToUpdate = new List<User>();
+            if(users.size() == 0){
+                List<User> checkEmailToUseUser = [SELECT Id, Username, Email FROM User WHERE ContactId =: contact.Id LIMIT 1];
+                for( User checkUser : checkEmailToUseUser )
+                if(emailToUse.contains(checkUser.Email) ||  opefilter.contains(checkUser.Email)){
+                    users = checkEmailToUseUser;
+                }
+            }    
             for(User user : users){
                 //Disables existing ope user
                 if(user.Username.endsWith('.ope')){
@@ -231,6 +238,13 @@ public without sharing class CCECorporateUserCtrl {
             //Disable existing user
             List<User> users = [SELECT Id, IsActive FROM User WHERE ContactId  =: contact.Id AND (Username =: ccefilter OR Username =: opefilter) LIMIT 1];
             List<User> usersToUpdate = new List<User>();
+            if(users.size() == 0){
+                List<User> checkEmailToUseUser = [SELECT Id, Username, Email FROM User WHERE ContactId =: contact.Id LIMIT 1];
+                for( User checkUser : checkEmailToUseUser )
+                if(ccefilter.contains(checkUser.Email) ||  opefilter.contains(checkUser.Email)){
+                    users = checkEmailToUseUser;
+                }
+            }
             for(User user : users){
                 userId = user.Id;
                 user.IsActive = false;
