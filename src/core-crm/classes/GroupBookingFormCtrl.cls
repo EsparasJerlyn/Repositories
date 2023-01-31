@@ -35,24 +35,14 @@ public static List<Contact> saveBooking(
   Boolean isPrescribed
 ) {
 
-  List<Questionnaire_Response_Summary__c> questionnaireSummaryToInsert = new List<Questionnaire_Response_Summary__c>();
   Map<String, String> cvToRelatedAnswerMap = new Map<String, String>();
   List<ContentDocumentLink> contentDocLinkListToInsert = new List<ContentDocumentLink>();
   List<ContentVersion> cvListToInsertList = new List<ContentVersion>();
-  Map<Id, Id> relatedAnswerToQuestionnaireMap = new Map<Id, Id>();
-  Map<String,Map<Id,Id>> conToRelatedAnswerToQMap = new Map<String,Map<Id,Id>>();
-  Map<Id, Id> questionnaireToqResSummaryMap = new Map<Id, Id>();
   Map<String, Answer__c> relatedAnswerToAnswerMap = new Map<String, Answer__c>();
   Map<String,Questionnaire_Response_Summary__c> questionnaireSummaryToInsertMap = new Map<String,Questionnaire_Response_Summary__c>();
-  Map<String,Answer__c> answersToInsertMap = new Map<String,Answer__c>();
-  List<Answer__c> answersToInsertList = new List<Answer__c>();
   
-  Set<String> emailSet = new Set<String>();
-  Set<String> birthDateSet = new Set<String>();
-  Set<String> lastNameSet = new Set<String>();
   String questionnaireId;
 
-  List<Answer__c> answersToInsert = new List<Answer__c>();
   Map<Id, Answer__c> answersToUpdate = new Map<Id, Answer__c>();
 
 

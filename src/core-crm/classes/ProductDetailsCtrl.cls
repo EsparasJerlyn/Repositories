@@ -552,7 +552,6 @@ public without sharing class ProductDetailsCtrl {
 				];
 
 				// Pricebook Entries
-				Map<String, PricebookEntry> pbEntryMap = new Map<String, PricebookEntry>();
 				if (getPrice != null) {
 					prodDetailsData.priceCCE = String.valueOf(getPrice.UnitPrice);
 					prodDetailsData.pricebookEntryIdCCE = getPrice.Id;

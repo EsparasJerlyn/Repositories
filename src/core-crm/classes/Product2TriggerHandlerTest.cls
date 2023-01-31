@@ -246,7 +246,6 @@ public with sharing class Product2TriggerHandlerTest {
   @IsTest
   private static void includeProductToStoreCCETest() {
     final User PROGRAM_ADMIN = TestDataFactory.getProgramAdminUser();
-    DmlException expectedException;
     System.runAs(PROGRAM_ADMIN) {
       Test.startTest();
 
@@ -260,8 +259,6 @@ public with sharing class Product2TriggerHandlerTest {
                                WHERE RecordTypeId =: ACCT_UNIV_DEP_ID];
 
       List<Contact> con = [SELECT Id FROM Contact WHERE CreatedById = :PROGRAM_ADMIN.Id];
-
-      List<hed__Term__c> terms = [SELECT Id FROM hed__Term__c WHERE CreatedById =:PROGRAM_ADMIN.Id];
 
       List<Opportunity> oppList = TestDataFactory.createTestOpportunityRecords(10,accBusinessOrg[0].Id,con[0].Id);
       insert oppList;
@@ -344,7 +341,6 @@ public with sharing class Product2TriggerHandlerTest {
   @IsTest
   private static void includeProductToStoreOPETest() {
     final User PROGRAM_ADMIN = TestDataFactory.getProgramAdminUser();
-    DmlException expectedException;
     System.runAs(PROGRAM_ADMIN) {
       Test.startTest();
 
@@ -358,8 +354,6 @@ public with sharing class Product2TriggerHandlerTest {
                                WHERE RecordTypeId =: ACCT_UNIV_DEP_ID];
 
       List<Contact> con = [SELECT Id FROM Contact WHERE CreatedById = :PROGRAM_ADMIN.Id];
-
-      List<hed__Term__c> terms = [SELECT Id FROM hed__Term__c WHERE CreatedById =:PROGRAM_ADMIN.Id];
 
       List<Opportunity> oppList = TestDataFactory.createTestOpportunityRecords(10,accBusinessOrg[0].Id,con[0].Id);
       insert oppList;
@@ -442,7 +436,6 @@ public with sharing class Product2TriggerHandlerTest {
   @IsTest
   private static void courseReleaseToPublishTest() {
     final User PROGRAM_ADMIN = TestDataFactory.getProgramAdminUser();
-    DmlException expectedException;
     System.runAs(PROGRAM_ADMIN) {
       Test.startTest();
 
@@ -489,8 +482,6 @@ public with sharing class Product2TriggerHandlerTest {
   @IsTest
   private static void programReleaseToPublishTest() {
     final User PROGRAM_ADMIN = TestDataFactory.getProgramAdminUser();
-
-    DmlException expectedException;
     System.runAs(PROGRAM_ADMIN) {
       Test.startTest();
 
@@ -539,7 +530,6 @@ public with sharing class Product2TriggerHandlerTest {
 
   @IsTest
   private static void validateDoNotShowStartDateTest() {
-
     System.runAs(TestDataFactory.getProgramAdminUser()) {
       Test.startTest();
 

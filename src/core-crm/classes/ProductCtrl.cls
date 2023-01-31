@@ -252,7 +252,6 @@ public without sharing class ProductCtrl{
 			List<Product2> productList = new List<Product2>();
 
 			String getQuery = '';
-			String priceQry = '';
 			String dateQry = '';
 
 			String prodQry1 = 'SELECT Id, Name, Course__c, Duration__c, Detail_URL__c, Detail_Full_URL__c, Delivery__c, Professional_Level__c, Available_on_Cart__c, Start_Date__c, Description, ';

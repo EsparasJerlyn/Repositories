@@ -27,13 +27,9 @@ public without sharing class CartPaymentTriggerHelper{
     public static void upsertCourseConnection(Set<Id> cartPaymentIds, Map<Id,Cart_Payment__c> cartPaymentMap){
 
         List<CartItem> cartItemList =  new List<CartItem>();
-        Map<Id,Id> cartPaymentsToWebCart = new Map<Id,Id>();
-        List<hed__Course_Enrollment__c> tempCourseConList;
         Map<Id,PricebookEntry> pricebookEntryMap;
         Set<Id> pricebookEntryIds = new Set<Id>();
         Set<Id> programOfferingIds = new Set<Id>();
-        WebCart tempCart = new WebCart();
-        Map<Id,List<CartItem>> webCartToItems = new Map<Id,List<CartItem>>();
         Map<Id,List<hed__Course_Enrollment__c>> cartItemToCourseconMap = new Map<Id,List<hed__Course_Enrollment__c>>();
         List<hed__Course_Enrollment__c> courseConList = new List<hed__Course_Enrollment__c>();
         Map<String,hed__Course_Enrollment__c> courseConnectionToUpsert = new Map<String,hed__Course_Enrollment__c>();

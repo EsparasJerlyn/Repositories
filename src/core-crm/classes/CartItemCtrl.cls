@@ -45,7 +45,6 @@ public without sharing class CartItemCtrl {
     Set<Id> pbentryIds = new Set<Id>();
     Set<Id> productIds = new Set<Id>();
     Set<Id> productReqIds = new Set<Id>();
-    Set<Id> relatedAnswerIds = new Set<Id>();
 
     CartItemsData myCartItemsData = new CartItemsData();
     List<CartItemsWrapper> myCartItemsList = new List<CartItemsWrapper>();
@@ -523,7 +522,6 @@ public without sharing class CartItemCtrl {
     List<Promotion> promotionList = new List<Promotion>();
     List<Coupon> couponList = new List<Coupon>();
     List<DiscountData> discountData = new List<DiscountData>();
-    Double totalDiscount = 0;
 
     //retrieve cart items
     cartItemList = [
