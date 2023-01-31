@@ -159,6 +159,44 @@ export default class SetupCommunication extends LightningElement {
           result.data.templateMap.find( item => item.id == result.data.communicationRecord.On_Final_Confirmation_Template__c).label: "" : "" 
         }];
         this.isLoading = false;
+        
+        if(this.fieldsCol2[0].value){
+          this.registrationConfirmationSearchItems = [
+            {
+              id: result.data.communicationRecord.On_Registration_Template__c,
+              label: this.fieldsCol2[0].label
+            }
+          ];
+          this.registrationConfirmationId = result.data.communicationRecord.On_Registration_Template__c;
+        }
+        if(this.fieldsCol2[1].value){
+          this.notificationBeforeSearchItems = [
+            {
+              id: result.data.communicationRecord.Notification_Before_Session_Template__c,
+              label: this.fieldsCol2[1].label
+            }
+          ];
+          this.notificationBeforeId = result.data.communicationRecord.Notification_Before_Session_Template__c;
+        }
+        if(this.fieldsCol2[2].value){
+          this.postCompletionSearchItems = [
+            {
+              id: result.data.communicationRecord.On_Completion_Template__c,
+              label: this.fieldsCol2[2].label
+            }
+          ];
+          this.postCompletionId = result.data.communicationRecord.On_Completion_Template__c;
+        }
+        if(this.fieldsCol2[3].value){
+          this.onFinalConfirmationSearchItems = [
+            {
+              id: result.data.communicationRecord.On_Final_Confirmation_Template__c,
+              label: this.fieldsCol2[3].label
+            }
+          ];
+          this.onFinalConfirmationId = result.data.communicationRecord.On_Final_Confirmation_Template__c;
+        }
+        
 
     } else if (result.error) {
       this.generateToast("Error!", LWC_Error_General, "error");
