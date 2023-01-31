@@ -21,6 +21,7 @@
 
 import { LightningElement, wire, api, track } from "lwc";
 import {getRecord, updateRecord, createRecord} from "lightning/uiRecordApi";
+import { getObjectInfo } from 'lightning/uiObjectInfoApi';
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import BasePath from "@salesforce/community/basePath";
 import userId from "@salesforce/user/Id";
@@ -51,6 +52,7 @@ import CART_PAYMENT_FIELD from '@salesforce/schema/WebCart.Cart_Payment__c';
 import { publish, MessageContext } from 'lightning/messageService';
 import payloadContainerLMS from '@salesforce/messageChannel/Breadcrumbs__c';
 
+import CONTACT_OBJECT from '@salesforce/schema/Contact';
 //Contact fields
 const CONTACT_FIELDS = [
   "User.ContactId",
@@ -88,6 +90,7 @@ export default class CartDetails extends LightningElement {
   @track disablePayment = true;
   @track showStaffId;
   @track showStudentId;
+  registeredEmailHelpText = "";
 
   isFreeOnly;
   @track cartItems = [];
@@ -259,6 +262,13 @@ export default class CartDetails extends LightningElement {
     }
   }
 
+  @wire(getObjectInfo, { objectApiName: CONTACT_OBJECT })
+  wiredObjectContact({ error, data }){
+    if(data){
+      this.registeredEmailHelpText = data.fields.Registered_Email__c.inlineHelpText;
+    }
+  }
+  
   //get contact data
   @wire(getRecord, { recordId: userId, fields: CONTACT_FIELDS })
   wiredContact({ error, data }) {

@@ -168,6 +168,7 @@ public with sharing class EmailTriggerVirtualBatch implements Database.Batchable
                             wrapper.userName = courseConnection.hed__Contact__r.QUT_Student_Username__c!=null
                                                                 ? courseConnection.hed__Contact__r.QUT_Student_Username__c
                                                                 : '';
+                            wrapper.attachmentType = 'Virtual';
                             wrapperList.add(wrapper);
                         }
                     }

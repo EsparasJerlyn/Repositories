@@ -14,7 +14,7 @@
       | roy.nino.s.regala         | September 13, 2022    | DEPP-4096            | added work email requirement        | 
       | eccarius.munoz            | September 19, 2022    | DEPP-4366            | Added handling for business org     |     
       |                           |                       |                      | account validation.                 |
-      | arsenio.jr.dayrit         | January 17, 2023      | DEPP-4925            | added handling for OPE enablement   |      
+      | arsenio.jr.dayrit         | January 17, 2023      | DEPP-4925            | added handling for OPE enablement   |
  */
 public without sharing class CCECorporateUserCtrl { 
 
@@ -43,7 +43,7 @@ public without sharing class CCECorporateUserCtrl {
                     response.errorMessage = validateConInput.errorMessage;
                     return response;
                 }
-                
+
                 emailToUse = con.Work_Email__c;
                 ccefilter = con.Work_Email__c + '.cce';
                 opefilter = con.Registered_Email__c + '.ope';
@@ -53,7 +53,14 @@ public without sharing class CCECorporateUserCtrl {
             Id userId;
             Boolean hasCCEUser = false;
             List<User> users = [SELECT Id, Username FROM User WHERE ContactId =: contact.Id AND (Username =: ccefilter OR (Username =: opefilter AND IsActive = true)) WITH SECURITY_ENFORCED LIMIT 1];
-            List<User> usersToUpdate = new List<User>();    
+            List<User> usersToUpdate = new List<User>();
+            if(users.size() == 0){
+                List<User> checkEmailToUseUser = [SELECT Id, Username, Email FROM User WHERE ContactId =: contact.Id LIMIT 1];
+                for( User checkUser : checkEmailToUseUser )
+                if(emailToUse.contains(checkUser.Email) ||  opefilter.contains(checkUser.Email)){
+                    users = checkEmailToUseUser;
+                }
+            }
             for(User user : users){
                 //Disables existing ope user
                 if(user.Username.endsWith('.ope') && portalAccessType == 'Corporate Portal'){
@@ -89,7 +96,7 @@ public without sharing class CCECorporateUserCtrl {
             userAccessWrapper.hasCCEUser = hasCCEUser;
             userAccessWrapper.hasOpeUser = hasOpeUser;
             userId = createUser(userAccessWrapper);
-            
+
             response.isSuccess = true;
             response.contactId = contact.Id;
             response.hasOpeUser = hasOpeUser;
@@ -99,7 +106,7 @@ public without sharing class CCECorporateUserCtrl {
             response.accountId = contact.AccountId;
             response.primaryBusinessAcctId = contact.hed__Primary_Organization__c;
             response.accountName = contact.Account.Name;
-            response.userId = userId;    
+            response.userId = userId;
 
         }catch(Exception e){
             Database.rollback(savePoint);
@@ -112,7 +119,7 @@ public without sharing class CCECorporateUserCtrl {
     private static Id createUser(UserAccessWrapper userAccessWrapper){
         String username = '';
         String emailToUse = '';
-        Profile profile = new Profile(); 
+        Profile profile = new Profile();
         List<String> permsetLabelList = new List<String>();
         Contact contact =  userAccessWrapper.contact;
 
@@ -159,13 +166,13 @@ public without sharing class CCECorporateUserCtrl {
         if(userPermSetAssignments.isEmpty()){
             for(PermissionSet perm: permsets){
                 PermissionSetAssignment permSetAssignment = new PermissionSetAssignment(
-                    PermissionSetId = perm.Id, 
+                    PermissionSetId = perm.Id,
                     AssigneeId =  userAccessWrapper.userId
                 );
                 permSetAssignments.add(permSetAssignment);
             }
 
-            if(permSetAssignments.size() > 0 && !userAccessWrapper.hasOpeUser && 
+            if(permSetAssignments.size() > 0 && !userAccessWrapper.hasOpeUser &&
             Schema.sObjectType.PermissionSetAssignment.fields.AssigneeId.isCreateable() &&
             Schema.sObjectType.PermissionSetAssignment.fields.PermissionSetId.isCreateable()){
                 insert permSetAssignments;
@@ -265,6 +272,13 @@ public without sharing class CCECorporateUserCtrl {
             //Disable existing user
             List<User> users = [SELECT Id, IsActive FROM User WHERE ContactId  =: contact.Id AND (Username =: ccefilter OR Username =: opefilter) WITH SECURITY_ENFORCED LIMIT 1];
             List<User> usersToUpdate = new List<User>();
+            if(users.size() == 0){
+                List<User> checkEmailToUseUser = [SELECT Id, Username, Email FROM User WHERE ContactId =: contact.Id LIMIT 1];
+                for( User checkUser : checkEmailToUseUser )
+                if(ccefilter.contains(checkUser.Email) ||  opefilter.contains(checkUser.Email)){
+                    users = checkEmailToUseUser;
+                }
+            }
             for(User user : users){
                 userId = user.Id;
                 user.IsActive = false;
@@ -340,7 +354,7 @@ public without sharing class CCECorporateUserCtrl {
             response.isSuccess = false;
             response.errorMessage = 'Registered Email is mandatory.';
         }
-        return response; 
+        return response;
     }
 
     public class ValidateContactInputResponse{
@@ -379,7 +393,7 @@ public without sharing class CCECorporateUserCtrl {
     /* contact, portalAccessType, isCreateUser, userId, hasCCEUser, hasOpeUser */
     public class UserAccessWrapper{
         @AuraEnabled
-        public Contact contact;        
+        public Contact contact;
         @AuraEnabled
         public String portalAccessType;
         @AuraEnabled

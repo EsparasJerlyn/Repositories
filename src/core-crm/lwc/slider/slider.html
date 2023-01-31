@@ -1,15 +1,14 @@
 <template>
     <lightning-layout multiple-rows>
-      <lightning-layout-item size="12">     
-        <div class="slds-form-element" onmouseup={onMouseUp}>
+      <lightning-layout-item size="12">
+        <div class="slds-form-element">
           <div class="slds-form-element__control">
             <div class="slds-slider">
               <section class="range-slider">
-                <div id="slider" class="slider" onmousemove={onMouseMove} ontouchmove={onMouseMove}
-                  onmousedown={handleMouseDown}>
+                <div id="slider" class="slider">
                   <div class="range" data-name="range"></div>
-                  <div class="thumb start" data-name="start" ontouchstart={handleMouseDown} ontouchend={onMouseUp}></div>
-                  <div class="thumb end" data-name="end" ontouchstart={handleMouseDown} ontouchend={onMouseUp}></div>
+                  <div class="thumb start" data-name="start"></div>
+                  <div class="thumb end" data-name="end"></div>
                 </div>
               <div class = "slds-clearfix">
                 <div class="slds-float_left price-from">
