@@ -126,7 +126,9 @@
 				  this.productInfoList = [];
 				  let productsGroup = [];
 				  if(this.productCategory == 'Corporate Bundle'){
-					this.isCorporateBundle = true;
+					if(result.assetList.length > 0){
+						this.isCorporateBundle = true;
+					}
 					this.assetList = result.assetList[0];
 				  }
 				  else{
