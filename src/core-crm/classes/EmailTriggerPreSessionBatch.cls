@@ -152,6 +152,7 @@ public with sharing class EmailTriggerPreSessionBatch implements Database.Batcha
                     wrapper.userName = courseConnection.hed__Contact__r.QUT_Student_Username__c!=null
                                                         ? courseConnection.hed__Contact__r.QUT_Student_Username__c
                                                         : '';
+                    wrapper.attachmentType = 'PreSession';
                     wrapperList.add(wrapper);
                 }
             }

@@ -37,7 +37,6 @@ public with sharing class EmailTriggerBatchHelper {
         if (!records.isEmpty()){
             List<EmailWrapper> wrapperList =  (List<EmailWrapper>)records;
             List<Messaging.SingleEmailMessage> mailList = new List<Messaging.SingleEmailMessage>();
-            String filename = 'Face-to-Face(Final Confirmation).pdf';
 
             // Get Org Wide Email Address
             List<OrgWideEmailAddress> owea = [SELECT Id, Address, DisplayName
@@ -49,9 +48,11 @@ public with sharing class EmailTriggerBatchHelper {
             Map<Id,EmailTemplate> emailTemplateMap = EmailTriggerBatchHelper.getEmailTemplates(wrapperList);
 
             for (EmailWrapper emailWrapper : wrapperList){
+                String filename = getAttachmentFilename(emailWrapper.attachmentType);
+                PageReference pdf = resolvePageReference(emailWrapper.recordId, emailWrapper.attachmentType);
                 EmailTemplate emailTemplate  = resolveEmailTemplate(emailWrapper.emailTemplateIdStr, emailTemplateMap);
                 Messaging.SingleEmailMessage mail = buildMail(emailWrapper, emailTemplate, owea);
-                Messaging.EmailFileAttachment attachment = buildAttachment(emailWrapper.recordId, filename);
+                Messaging.EmailFileAttachment attachment = buildAttachment(filename, pdf);
                 // Send the email with attachment
                 mail.setFileAttachments(new List<Messaging.EmailFileAttachment>{ attachment });
                 mailList.add(mail);
@@ -142,8 +143,7 @@ public with sharing class EmailTriggerBatchHelper {
         return emailTemplateMap;
     }
 
-    private static Messaging.EmailFileAttachment buildAttachment(String recordId, String filename){
-        PageReference pdf = new PageReference('/apex/FacetoFaceFinalConfirmationPDFView?courseConnectionId=' + recordId);
+    private static Messaging.EmailFileAttachment buildAttachment(String filename, PageReference pdf){
         Messaging.EmailFileAttachment attachment = new Messaging.EmailFileAttachment();
         attachment.setContentType('application/pdf');
         attachment.setFileName(filename);
@@ -154,6 +154,30 @@ public with sharing class EmailTriggerBatchHelper {
         }
         attachment.setInline(false);
         return attachment;
+    }
+
+    private static PageReference resolvePageReference(String recordId, String attachmentType){
+        PageReference pdf = null;
+        if(attachmentType == 'Virtual'){
+            pdf = new PageReference('/apex/VirtualClassFinalConfirmationPDFView?courseConnectionId=' + recordId);
+        }else if(attachmentType == 'PreSession'){
+            pdf = new PageReference('/apex/SessionSchedulePDFView?courseConnectionId=' + recordId);
+        }else if(attachmentType == 'FaceToFace'){
+            pdf = new PageReference('/apex/FacetoFaceFinalConfirmationPDFView?courseConnectionId=' + recordId);
+        }
+        return pdf;
+    }
+
+    private static String getAttachmentFilename(String attachmentType){
+        String filename = '';
+        if(attachmentType == 'Virtual'){
+            filename = 'Virtual Class(Final Confirmation).pdf';
+        }else if(attachmentType == 'PreSession'){
+            filename = 'Pre-Session Reminder.pdf';
+        }else if(attachmentType == 'FaceToFace'){
+            filename = 'Face-to-Face(Final Confirmation).pdf';
+        }
+        return filename;
     }
 
     public class EmailWrapper {
@@ -172,5 +196,6 @@ public with sharing class EmailTriggerBatchHelper {
         public String amount;
         public String storeLink;
         public String userName;
+        public String attachmentType;
     }
 }

@@ -122,6 +122,8 @@ export default class Slider extends LightningElement {
         this.slider = this.template.querySelector('.slider');
         this.sliderRange = this.template.querySelector('.range');
         const thumb = this.template.querySelector('.thumb');
+        const thumbStart = this.template.querySelector('.start');
+        const thumbEnd = this.template.querySelector('.end');
         if(this.slider && thumb){
             this.maxRange = this.slider.offsetWidth - thumb.offsetWidth;
             this._startValueInPixels = this.convertValueToPixels(this.parstart ? this.parstart :this.start);
@@ -129,6 +131,14 @@ export default class Slider extends LightningElement {
             this.setThumb('start', this._startValueInPixels);
             this.setThumb('end', this._endValueInPixels);
             this.setRange(this._startValueInPixels, this._endValueInPixels);
+            window.addEventListener('mouseup', (event) => this.onMouseUp(event));
+            this.slider.addEventListener('mousedown', (event) => this.handleMouseDown(event));
+            this.slider.addEventListener('mousemove', (event) => this.onMouseMove(event));
+            this.slider.addEventListener('touchmove', (event) => this.onMouseMove(event));
+            thumbStart.addEventListener('touchstart', (event) =>this.handleMouseDown(event));
+            thumbStart.addEventListener('touchend', (event) => this.onMouseUp(event));
+            thumbEnd.addEventListener('touchstart', (event) =>this.handleMouseDown(event));
+            thumbEnd.addEventListener('touchend', (event) => this.onMouseUp(event));
         }
       
     }
@@ -156,7 +166,8 @@ export default class Slider extends LightningElement {
    //handles the slider when touched 
     handleMouseDown(event) {
         const thumbId = event.target.dataset.name;
-        // allow move
+        event.preventDefault(); 
+
         if (THUMBS.includes(thumbId)) {
             this.currentThumbName = thumbId;
             this.currentThumb = event.target;
@@ -164,9 +175,6 @@ export default class Slider extends LightningElement {
             this.currentThumbPositionX = startX - this.currentThumb.getBoundingClientRect().left;
             this.toggleActiveThumb(true);
             this.isMoving = true;
-        }
-        else {
-             event.preventDefault(); 
         }
     }
  
