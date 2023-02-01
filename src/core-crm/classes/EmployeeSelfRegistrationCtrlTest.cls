@@ -53,12 +53,10 @@ public with sharing class EmployeeSelfRegistrationCtrlTest {
             List<Account> accounts;
             List<hed__Term__c> terms;
             List<Product_Request__c> prodRequest;
-            List<hed__Course_Offering__c> courseOfferings;
             List<hed__Course__c> courses;
             List<hed__Program_Plan__c> programPlans;
             List<Program_Offering__c> programOfferings;
             List<Product2> products;
-            List<Product2> singleProducts;
 
 
             accounts = TestDataFactory.createTestAccountRecords(1);

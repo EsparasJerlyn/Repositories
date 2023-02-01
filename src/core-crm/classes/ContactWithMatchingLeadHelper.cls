@@ -158,7 +158,6 @@ public without sharing class ContactWithMatchingLeadHelper {
         List<Marketing_Segmentation__c> marketingSegmentationToInsert = new List<Marketing_Segmentation__c>();
         List<Marketing_Segmentation__c> marketingSegmentationToUpdate = new List<Marketing_Segmentation__c>();
         
-        LeadStatus convertStatus = [SELECT Id, MasterLabel FROM LeadStatus WHERE IsConverted=true LIMIT 1];
         for(Lead lead : leads){
             if(contactsLeadMap.containsKey(lead.Id)){
                 for(Contact c : contactsLeadMap.get(lead.Id)){

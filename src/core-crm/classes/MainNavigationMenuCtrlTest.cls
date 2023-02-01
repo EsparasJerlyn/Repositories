@@ -57,7 +57,7 @@ private static final Id BUSINESS_ACC_RECTYPEID = Schema.SObjectType.Account.getR
 
         Test.startTest();
         List<ProductCategory> categories = MainNavigationMenuCtrl.getStoreFrontCategories(communityId);
-		System.assert(cate != null, 'Pass');
+		System.assert(categories != null, 'Pass');
         Test.stopTest();
 
     }
@@ -111,8 +111,9 @@ private static final Id BUSINESS_ACC_RECTYPEID = Schema.SObjectType.Account.getR
 
         Test.startTest();     
         List<ProductCategory> categories = MainNavigationMenuCtrl.getStudyProducts(communityId);
-		System.assert(cate != null, 'Pass');
+		System.assert(categories != null, 'Pass');
         Test.stopTest();
+        
     }
     @isTest
     public static void getAccountNameTest(){

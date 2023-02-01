@@ -59,9 +59,6 @@ private class Expression_of_Interest_Inactive_FlowTest{
             List<Product_Request__c> prodRequest;
             List<hed__Course_Offering__c> courseOfferings;
             List<hed__Course__c> courses;
-            List<hed__Program_Plan__c> programPlans;
-            List<Program_Offering__c> programOfferings;
-            List<Product2> products;
             List<Expression_of_Interest__c> interests;
             List<hed__Course_Enrollment__c> courseConnections;
 
@@ -126,11 +123,8 @@ private class Expression_of_Interest_Inactive_FlowTest{
             List<Account> accounts;
             List<hed__Term__c> terms;
             List<Product_Request__c> prodRequest;
-            List<hed__Course_Offering__c> courseOfferings;
-            List<hed__Course__c> courses;
             List<hed__Program_Plan__c> programPlans;
             List<Program_Offering__c> programOfferings;
-            List<Product2> products;
             List<Expression_of_Interest__c> interests;
             List<hed__Course_Enrollment__c> courseConnections;
 

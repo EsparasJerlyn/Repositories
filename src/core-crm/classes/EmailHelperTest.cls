@@ -56,7 +56,6 @@ public with sharing class EmailHelperTest {
         Messaging.SingleEmailMessage mail;
         List<String> emailAddresses = new List<String>{'testMail01@test.com', 'testMail02@test.com'};
         String subject = 'Welcome to ABC Corp';
-        String email = 'Welcome Email';
         String emailHtml = '<body>Please see attachment.</body>';
         Map<String,String> emailContent = new Map<String, String>{'LastName' => 'Loreen','FirstName' => 'Red'};
         Test.startTest();
@@ -84,7 +83,6 @@ public with sharing class EmailHelperTest {
         Messaging.SingleEmailMessage mail;
         List<String> emailAddresses = new List<String>{'testMail01@test.com', 'testMail02@test.com'};
         String subject = 'Welcome to ABC Corp';
-        String email = 'Welcome Email';
         String emailHtml = '<body>Please see attachment.</body>';
         Map<String,String> emailContent = new Map<String, String>{'LastName' => 'Loreen','FirstName' => 'Red'};
         Test.startTest();

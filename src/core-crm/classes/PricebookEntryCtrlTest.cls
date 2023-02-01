@@ -178,7 +178,6 @@ private class PricebookEntryCtrlTest {
             insert soaRequest;
     
             List<BuyerGroup> bgToInsertList = new List<BuyerGroup>();
-            List<PriceBook2> soaPBList = new List<PriceBook2>();
                 for(Integer i = 0; i<soaRequest.size();i++){
                 bgToInsertList.add(new BuyerGroup(Name ='SOA' + i, Product_Request__c = soaRequest[i].Id));
                 }

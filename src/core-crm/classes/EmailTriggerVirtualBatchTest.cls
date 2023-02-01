@@ -134,7 +134,6 @@ public with sharing class EmailTriggerVirtualBatchTest {
             System.assert(![SELECT Id FROM AsyncApexJob WHERE ApexClass.Name = 'EmailTriggerVirtualBatch'].isEmpty() ,
                                                                       'EmailTriggerVirtualBatch Job was not executed');
             // Assertion for checking email deliverability tracking
-            Id courseConnectionId = [SELECT Id FROM hed__Course_Enrollment__c LIMIT 1]?.Id;
             List<EmailMessage> emailMessageList = [SELECT Id, RelatedToId FROM EmailMessage WHERE RelatedToId=:courseConnections[0].Id];
             System.assert(emailMessageList!=null, 'EmailMessage was not tracked.');
             Test.stopTest();

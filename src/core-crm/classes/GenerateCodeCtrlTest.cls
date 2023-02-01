@@ -355,7 +355,6 @@ public with sharing class GenerateCodeCtrlTest{
 
      private static void createRecord(String productRequestRecordType, String productSpecsRecordType){
           System.runAs(currentUser){
-               Id offeringId = null;
 
                Activity_Code_Generator__c actCodeGen = new Activity_Code_Generator__c();
                actCodeGen.Type__c = 'Activity';

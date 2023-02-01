@@ -125,18 +125,7 @@ public without sharing class AssociatedProductsTriggerHelperTest {
         final User PROGRAM_ADMIN = TestDataFactory.getProgramAdminUser();
         Test.startTest();
         System.runAs(PROGRAM_ADMIN){
-            List<Account> accountBG = [SELECT Id 
-                                        FROM Account 
-                                        WHERE CreatedById =: PROGRAM_ADMIN.Id
-                                        AND RecordTypeId =: BUSINESS_ACC_RECTYPEID
-                                        LIMIT 1];
-                
-            List<Account> accountUniv = [SELECT Id 
-                                         FROM Account 
-                                         WHERE CreatedById =: PROGRAM_ADMIN.Id
-                                         AND RecordTypeId =: BUSINESS_ACC_RECTYPEID
-                                         LIMIT 1];
-
+            
             List<Contact> contact = [SELECT Id
                                      FROM Contact 
                                      WHERE CreatedById =: PROGRAM_ADMIN.Id
@@ -210,18 +199,7 @@ public without sharing class AssociatedProductsTriggerHelperTest {
         final User PROGRAM_ADMIN = TestDataFactory.getProgramAdminUser();
         Test.startTest();
         System.runAs(PROGRAM_ADMIN){
-            List<Account> accountBG = [SELECT Id 
-                                        FROM Account 
-                                        WHERE CreatedById =: PROGRAM_ADMIN.Id
-                                        AND RecordTypeId =: BUSINESS_ACC_RECTYPEID
-                                        LIMIT 1];
                 
-            List<Account> accountUniv = [SELECT Id 
-                                         FROM Account 
-                                         WHERE CreatedById =: PROGRAM_ADMIN.Id
-                                         AND RecordTypeId =: BUSINESS_ACC_RECTYPEID
-                                         LIMIT 1];
-
             List<Contact> contact = [SELECT Id
                                      FROM Contact 
                                      WHERE CreatedById =: PROGRAM_ADMIN.Id
@@ -295,18 +273,7 @@ public without sharing class AssociatedProductsTriggerHelperTest {
         final User PROGRAM_ADMIN = TestDataFactory.getProgramAdminUser();
         Test.startTest();
         System.runAs(PROGRAM_ADMIN){
-            List<Account> accountBG = [SELECT Id 
-                                        FROM Account 
-                                        WHERE CreatedById =: PROGRAM_ADMIN.Id
-                                        AND RecordTypeId =: BUSINESS_ACC_RECTYPEID
-                                        LIMIT 1];
-                
-            List<Account> accountUniv = [SELECT Id 
-                                         FROM Account 
-                                         WHERE CreatedById =: PROGRAM_ADMIN.Id
-                                         AND RecordTypeId =: BUSINESS_ACC_RECTYPEID
-                                         LIMIT 1];
-
+        
             List<Contact> contact = [SELECT Id
                                      FROM Contact 
                                      WHERE CreatedById =: PROGRAM_ADMIN.Id

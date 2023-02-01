@@ -76,10 +76,6 @@ public with sharing class ProductCtrlTest {
 				WHERE Id = :bgm[0].BuyerGroupId
 			];
 
-			List<CommerceEntitlementPolicy> cePolicy = [
-				SELECT Id, Name FROM CommerceEntitlementPolicy
-			];
-
 			List<Contact> contacts = TestDataFactory.createTestContactRecords(1);
 			insert contacts;
 
@@ -733,7 +729,6 @@ public with sharing class ProductCtrlTest {
 	@isTest
 	static void getProductsByCategoryTailoredExecEducTest() {
 		final User PROGRAM_ADMIN = TestDataFactory.getProgramAdminUser();
-		DmlException expectedException;
 		System.runAs(PROGRAM_ADMIN) {
 			Test.startTest();
 			List<Account> accBusinessOrg = [SELECT Id, RecordTypeId 
@@ -861,7 +856,6 @@ public with sharing class ProductCtrlTest {
 			List<Product2> getPresProd = [
 				SELECT Id, Program_Plan__c FROM Product2 WHERE Program_Plan__c != null
 			];
-			List<String> presProgProdId = new List<String>();
 			List<ProductCategoryProduct> setTEEProgList = new List<ProductCategoryProduct>();
 			for(Integer y = 0; y <= sProdCount; y++){
 				ProductCategoryProduct setTEEProg = new ProductCategoryProduct();
@@ -882,11 +876,6 @@ public with sharing class ProductCtrlTest {
 			}
 			insert ceProdPres;
 
-			List<ProductCategoryProduct> pcpList = [
-				SELECT Id, Name, ProductId, CatalogId, ProductCategory.Name, Product.Name, ProductCategoryId
-				FROM ProductCategoryProduct
-			];
-		 
 			ProductCtrl.ProductData getProdByCat = new ProductCtrl.ProductData();
             ProductCtrl.ProductData getProdByCatResult = new ProductCtrl.ProductData();
             getProdByCat.userId = user[0].Id;
@@ -904,7 +893,6 @@ public with sharing class ProductCtrlTest {
 	@isTest
 	static void getProductsByCategoryCorpBundleTest() {
 	  final User PROGRAM_ADMIN = TestDataFactory.getProgramAdminUser();
-	  DmlException expectedException;
 	  System.runAs(TestDataFactory.getProgramAdminUser()) {
 	    Test.startTest();
 			List<Account> accBusinessOrg = [SELECT Id, RecordTypeId 
@@ -929,12 +917,6 @@ public with sharing class ProductCtrlTest {
 				WHERE BuyerId = :accBusinessOrg[0].Id
 			];
 
-			// Create CommerceEntitlementBuyerGroup
-			CommerceEntitlementBuyerGroup ceBuyerGroup = [
-				SELECT Id, PolicyId, BuyerGroupId 
-				FROM CommerceEntitlementBuyerGroup
-				WHERE BuyerGroupId = :gbMember.BuyerGroupId
-			];
 
 			ProductCatalog prodCCECatalog = new ProductCatalog(Name = 'CCE Catalog');
 			insert prodCCECatalog;
@@ -1030,7 +1012,6 @@ public with sharing class ProductCtrlTest {
 			List<Product2> getPresProd = [
 				SELECT Id, Program_Plan__c FROM Product2 WHERE Program_Plan__c != null
 			];
-			List<String> presProgProdId = new List<String>();
 			List<ProductCategoryProduct> setTEEProgList = new List<ProductCategoryProduct>();
 			for(Integer y = 0; y <= sProdCount; y++){
 				ProductCategoryProduct setTEEProg = new ProductCategoryProduct();
@@ -1104,10 +1085,6 @@ public with sharing class ProductCtrlTest {
 			);
 			insert bgPriceBook;
 
-			List<ProductCategoryProduct> pcpList = [
-				SELECT Id, Name, ProductId, CatalogId, ProductCategory.Name, Product.Name, ProductCategoryId
-				FROM ProductCategoryProduct
-			];
 			ProductCtrl.ProductData getProdByCat = new ProductCtrl.ProductData();
             ProductCtrl.ProductData getProdByCatResult = new ProductCtrl.ProductData();
             getProdByCat.userId = user[0].Id;
@@ -1115,7 +1092,6 @@ public with sharing class ProductCtrlTest {
             getProdByCat.accountId = accBusinessOrg[0].Id;
 			getProdByCat.assetId = newAsset.Id;
             
-			List<Asset> assetList = ProductCtrl.getAssetsByAccount(accBusinessOrg[0].Id);
 			getProdByCatResult = ProductCtrl.getProductsByCategory(getProdByCat, '');
 			
 			Test.stopTest();
@@ -1128,7 +1104,6 @@ public with sharing class ProductCtrlTest {
 	@isTest
 	static void getProductsByCategoryQUTeXLearningTest() {
 	  final User PROGRAM_ADMIN = TestDataFactory.getProgramAdminUser();
-	  DmlException expectedException;
 	  System.runAs(TestDataFactory.getProgramAdminUser()) {
 	    Test.startTest();
 			List<Account> accBusinessOrg = [SELECT Id, RecordTypeId 
@@ -1151,13 +1126,6 @@ public with sharing class ProductCtrlTest {
 				SELECT Id, BuyerId, BuyerGroupId 
 				FROM BuyerGroupMember
 				WHERE BuyerId = :accBusinessOrg[0].Id
-			];
-
-			// Create CommerceEntitlementBuyerGroup
-			CommerceEntitlementBuyerGroup ceBuyerGroup = [
-				SELECT Id, PolicyId, BuyerGroupId 
-				FROM CommerceEntitlementBuyerGroup
-				WHERE BuyerGroupId = :gbMember.BuyerGroupId
 			];
 
 			ProductCatalog prodCCECatalog = new ProductCatalog(Name = 'CCE Catalog');
@@ -1244,7 +1212,6 @@ public with sharing class ProductCtrlTest {
 			List<Product2> getPresProd = [
 				SELECT Id, Program_Plan__c FROM Product2 WHERE Program_Plan__c != null
 			];
-			List<String> presProgProdId = new List<String>();
 			List<ProductCategoryProduct> setTEEProgList = new List<ProductCategoryProduct>();
 			for(Integer y = 0; y <= sProdCount; y++){
 				ProductCategoryProduct setTEEProg = new ProductCategoryProduct();
@@ -1317,11 +1284,6 @@ public with sharing class ProductCtrlTest {
 			);
 			insert bgPriceBook;
 
-			List<ProductCategoryProduct> pcpList = [
-				SELECT Id, Name, ProductId, CatalogId, ProductCategory.Name, Product.Name, ProductCategoryId
-				FROM ProductCategoryProduct
-			];
-
 	   		ProductCtrl.ProductData getProdByCat = new ProductCtrl.ProductData();
             ProductCtrl.ProductData getProdByCatResult = new ProductCtrl.ProductData();
             getProdByCat.userId = user[0].Id;
@@ -1329,8 +1291,6 @@ public with sharing class ProductCtrlTest {
             getProdByCat.accountId = accBusinessOrg[0].Id;
 			getProdByCat.buyerGroupId = gbMember.BuyerGroupId;
 
-			List<BuyerGroupMember> bgroupMemberList = ProductCtrl.getBuyerGroupMembers(accBusinessOrg[0].Id);
-            
 			getProdByCatResult = ProductCtrl.getProductsByCategory(getProdByCat, '');
 			
 			Test.stopTest();
