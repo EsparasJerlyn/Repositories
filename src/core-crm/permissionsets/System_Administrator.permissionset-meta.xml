@@ -10787,6 +10787,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Facilitator_Bio__c.Bio_Title__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Facilitator_Bio__c.External_Key__c</field>
         <readable>true</readable>
     </fieldPermissions>

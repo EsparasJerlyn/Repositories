@@ -1,22 +1,23 @@
 <template>
-    <lightning-spinner if:true={isLoading} alternative-text="Loading..." size="small"></lightning-spinner> 
-    <c-custom-search
-        if:false={isStatusCompleted}
-        search-label="Existing Facilitators"
-        search-input-placeholder="Search existing facilitators..."
-        search-items={facilitatorSearchItems}
-        search-item-icon="standard:orchestrator"
-        search-in-progress={facilitatorSearchInProgress}
-        parent-id={offeringId}
-        empty-message="Enter at least three (3) characters to show results..."
-        onitemselect={handleSearchSelect}
-        onsearch={handleFacilitatorSearch}
-        onemptyblur={resetFacilitatorSearchItems}
-        custom-server-search
-        oncreate={handleCreateNewRecord}
-        object-label-name={objectLabelName}
-        new-record-available
-    ></c-custom-search>
+    <lightning-spinner if:true={isLoading} alternative-text="Loading..." size="small"></lightning-spinner>
+    <div class="slds-clearfix">
+        <lightning-button 
+            variant='neutral' 
+            label='Link Facilitator' 
+            title='Link an Existing Facilitator' 
+            onclick={handleLinkFacilitator} 
+            class='slds-float_right slds-m-left_small'
+            disabled={isStatusCompleted}
+        ></lightning-button>
+        <lightning-button 
+            variant='neutral' 
+            label='Create Contact' 
+            title='Create a New Contact' 
+            onclick={navigateToNewContact} 
+            class='slds-float_right'
+            disabled={isStatusCompleted}
+        ></lightning-button>
+    </div>
     <div class="slds-m-vertical_medium slds-scrollable max-height" onitemregister={handleItemRegister}>
         <c-custom-datatable-columned
             key-field="id"

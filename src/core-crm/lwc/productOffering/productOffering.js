@@ -72,6 +72,9 @@ import getOfferingLayout from '@salesforce/apex/ProductOfferingCtrl.getOfferingL
 import getSearchContacts from "@salesforce/apex/ProductOfferingCtrl.getSearchContacts";
 import updateCourseOfferings from "@salesforce/apex/ProductOfferingCtrl.updateCourseOfferings";
 import getProdReqAndCourse from "@salesforce/apex/OpeProgramStructureCtrl.getProdReqAndCourse";
+import getFacilitatorBios from "@salesforce/apex/ProductOfferingCtrl.getFacilitatorBios";
+import isNewFacilitator from '@salesforce/apex/ProductOfferingCtrl.isNewFacilitator';
+import updateCourseConnection from '@salesforce/apex/ProductOfferingCtrl.updateCourseConnection';
 
 const DATE_OPTIONS = { year: 'numeric', month: 'short', day: '2-digit' };
 const PROGRAM_OFFERING_FIELDS = 'Id,Name,Delivery_Type__c,Start_Date__c,End_Date__c,IsActive__c,CreatedDate';
@@ -79,6 +82,10 @@ const COURSE_OFFERING_FIELDS = 'Id,Name,Delivery_Type__c,hed__Start_Date__c,hed_
 const NO_OFFERING_ERROR = 'No product offering found.'
 const PRES_PROGRAM_ERROR = 'Please set up and save a program plan delivery structure under Design tab before proceeding.';
 const CHILD_PRES_PROGRAM_ERROR = NO_OFFERING_ERROR + ' Set up an offering in the parent ';
+const EXISTING_FACIBIOS_COLUMNS = [
+    { label: 'Bio Title', fieldName: 'Bio_Title__c', initialWidth: 100  },
+    { label: 'Professional Bio', fieldName: 'Professional_Bio__c'}
+];
 export default class ProductOffering extends NavigationMixin(LightningElement) {
     @api recordId;
     @api objectApiName;
@@ -111,6 +118,20 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
     noOfCoachingSessions;
     productCategory;
     maxParticipants;
+    createFromContactId;
+    linkFacilitator = false;
+    contactSearchItems = [];
+    contactSIP = false;
+    contactLabelName = 'Contact';
+    existingFaciBiosColumns = EXISTING_FACIBIOS_COLUMNS;
+    existingFaciBios = [];
+    showContactError = false;
+    showNoExistingBioError = false;
+    hasNotSelectedAFaciBio = true;
+    hasNotSelectedAContact = true;
+    selectedFaciBio = [];
+    offeringIdForFaci;
+    isNewFaci = true;
 
     //for prescribed program
     isPrescribed = false;
@@ -461,6 +482,7 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
                 contactName: item.Facilitator_Bio__c ? item.Facilitator_Bio__r.Facilitator__c ? item.Facilitator_Bio__r.Facilitator__r.Name: null : null,
                 contactId: item.Facilitator_Bio__c ? item.Facilitator_Bio__r.Facilitator__c : null,
                 bio: item.Facilitator_Bio__c ? item.Facilitator_Bio__r.Professional_Bio__c : null,
+                bioTitle: item.Facilitator_Bio__c ? item.Facilitator_Bio__r.Bio_Title__c : null,
                 customLookupClass: 'slds-cell-edit',
                 editable: this.showEditButton,
                 helpText: item.hed__Primary__c?'Unset As Primary':'Set As Primary',
@@ -559,35 +581,53 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
             this.saveInProgress = false;
             this.isPrescribedLoading = false;
             this.isCourseOfferingLoading = false;
+        })
+        .catch(error =>{
+            this.generateToast('Error.',LWC_Error_General,'error');
         });
     }
 
     //creates course connection for selected facilitator on search
-    handleSearchSelect(event){
-        let selected = event.detail;
-        let bioFields = {
-            Id: selected.value,
-            Facilitator__c: selected.contactId
+    handleSaveConnection(){
+        if(this.isNewFaci) {
+            let bioFields = {
+                Id: this.selectedFaciBio.Id,
+                Facilitator__c: this.selectedContactId
+            }
+            this.parentIdToCreate = this.offeringIdForFaci;
+            this.handleCreateCourseConnection(bioFields);
+            this.handleCloseLinkFacilitator();
+        } else {
+            this.isLoading = true;
+            this.linkFacilitator = false;
+            updateCourseConnection({ 
+                offeringId: this.offeringIdForFaci, 
+                contactId: this.selectedContactId, 
+                facilitatorBioId: this.selectedFaciBio.Id 
+            })
+            .finally(() => {
+                this.handleCloseLinkFacilitator();
+                this.handleRefreshData();
+            })
+            .catch(error =>{
+                this.generateToast('Error.',LWC_Error_General,'error');
+                this.linkFacilitator = true;
+            });
         }
-        this.parentIdToCreate = selected.parent;
-        this.handleCreateCourseConnection(bioFields); 
     }
 
     //opens create modal for facilitator
-    handleAddFacilitator(event){
-        if(event && event.detail){
-            this.parentIdToCreate =event.detail;
-        }
+    handleAddFacilitator(){
+        this.parentIdToCreate = this.offeringIdForFaci;
+        this.createFromContactId = this.selectedContactId;
         this.newFacilitatorBio = true;
-
+        this.linkFacilitator = false;
         this.objectLabel = 'Contact';
         this.objectToCreate = FACILITATOR_BIO.objectApiName;
     }
 
-    //handle creation of new contact modal
-    handleNewContact(){
-        this.newRecord = true;
-        this.objectToCreate = 'Contact';
+    handleCancelNewFacilitator() {
+        this.linkFacilitator = true;
         this.newFacilitatorBio = false;
     }
 
@@ -630,18 +670,6 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
         }
     }
 
-    //sets selected contact id
-    handleContactSelect(event){
-        this.showContactError = false;
-        this.selectedContactId = event.detail.value;
-    }
-
-    //removes selected contact
-    handleContactRemove(){
-        this.selectedContactId = undefined;
-        this.contactSearchItems = [];
-    }
-
     //returns list of contacts based on input
     handleContactSearch(event){
         this.searchContactInProgress = true;
@@ -668,17 +696,16 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
             this.contactEmail = fields.Email;
         }
         if(this.objectToCreate == FACILITATOR_BIO.objectApiName){
-            fields.Facilitator__c = this.selectedContactId;
             const recordInput = { apiName: FACILITATOR_BIO.objectApiName, fields };
             try{
                 const createdFaci = await createRecord(recordInput);
-                fields.Id = createdFaci.id;
-                this.handleCreateCourseConnection(fields);
-                this.handleCloseNewBio();
+                this.selectedFaciBio.Id = createdFaci.id;
+                this.selectedContactId = fields.Facilitator__c;
+                this.handleSaveConnection();
             }catch(error){
                 this.generateToast("Error.", LWC_Error_General, "error");
-                this.handleCloseNewBio();
             }
+            this.handleCloseNewBio();
         }else{
             this.handleCreateRecord(fields,this.objectToCreate);
         }
@@ -843,12 +870,14 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
         this.objectLabel = 'Contact';
     }
 
+    //close new faci bio
     handleCloseNewBio(){
         this.newFacilitatorBio = false;
         this.showContactError = false;
         this.saveInProgress = false;
         this.selectedContactId = '';
         this.objectToCreate = '';
+        this.handleCloseLinkFacilitator();
     }
 
 
@@ -901,7 +930,6 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
             }else{
                 this.handleRefreshData();
             }
-            
         });
     }
 
@@ -952,5 +980,88 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
                 }
             });
         }
+    }
+
+    // handle closing modal to link faci to offering
+    handleCloseLinkFacilitator() {
+        this.linkFacilitator = false; 
+        this.selectedContactId = undefined;
+        this.handleContactRemove();
+    }
+    
+    // handle opening of modal to link faci to offering
+    handleLinkFacilitator(event) {
+        this.linkFacilitator = true;
+        this.offeringIdForFaci = event.detail;
+    }
+
+    // handle contact searching in link faci modal
+    handleContactSearch(event){
+        this.contactSIP = true;
+        getSearchContacts({ filterString: event.detail.filterString })
+        .then(result =>{
+            this.contactSearchItems = result;
+        })
+        .finally(()=>{
+            this.contactSIP = false;
+        })
+        .catch(error =>{
+            this.generateToast('Error.',LWC_Error_General,'error');
+        });
+    }
+
+    // handle contact selection in search box in link faci modal
+    handleContactSelect(event) {
+        this.showContactError = false;
+        this.selectedContactId = event.detail.value;
+        let triggeringOffering = this.productOfferings.find(pO => pO.Id == this.offeringIdForFaci);
+        getFacilitatorBios ({ 
+            contactId: event.detail.value,
+            addedFacilitators: triggeringOffering.relatedFacilitators.map(cc => {
+                return cc.Facilitator_Bio__c
+            })
+        })
+        .then(result => {
+            if(result.length == 0) {
+                this.showNoExistingBioError = true;
+            } else {
+                this.showNoExistingBioError = false;
+                this.existingFaciBios = result;
+            }
+            this.hasNotSelectedAContact = false;
+        })
+        .catch(error =>{
+            this.generateToast('Error.',LWC_Error_General,'error');
+        });
+        isNewFacilitator({ offeringId: this.offeringIdForFaci, contactId: event.detail.value })
+        .then(result => {
+            if(result > 0) {
+                this.isNewFaci = false;
+            } else {
+                this.isNewFaci = true;
+            }
+        })
+        .catch(error =>{
+            this.generateToast('Error.',LWC_Error_General,'error');
+        });
+    }
+
+    // handle deselecting contact in search box in link faci modal
+    handleContactRemove() {
+        this.hasNotSelectedAFaciBio = true;
+        this.hasNotSelectedAContact = true;
+        this.selectedContactId = undefined;
+        this.contactSearchItems = [];
+        this.existingFaciBios = [];
+        this.selectedFaciBio = [];
+        this.showNoExistingBioError = false;
+        this.isNewFaci = true;
+    }
+    
+    // handle when a faci bio is selected in the table in the link faci modal
+    handleFaciBioSelected(event) {
+        const selectedRows = event.detail.selectedRows;
+        this.selectedFaciBio = selectedRows[0];
+        this.hasNotSelectedAFaciBio = selectedRows.length == 0 ? true : false;
     }
 }
