@@ -436,14 +436,22 @@ public with sharing class GenerateCodeCtrlTest{
                List<Contact> conList = TestDataFactory.createTestContactRecords(1);
                insert conList;
        
-               List<Opportunity> oppList = TestDataFactory.createTestOpportunityRecords(1,accounts[0].Id,conList.iterator().next()?.Id);
-               insert oppList;
+               List<Opportunity> oppList;
+               List<Product_Specification__c> prodSpecs;
+               if(productSpecsRecordType == RT_CCE_ID){
+                    oppList = TestDataFactory.createClosedWonOpportunities(1, accounts[0].Id, conList.iterator().next()?.Id);
+                    insert oppList;
+                    prodSpecs = TestDataFactory.retrieveCCEProductSpecifications();
+               } else if(productSpecsRecordType == RT_OPE_ID){
+                    oppList = TestDataFactory.createTestOpportunityRecords(1, accounts[0].Id, conList.iterator().next()?.Id);
+                    insert oppList;
+                    prodSpecs = TestDataFactory.createTestProductSpecsRecords(1, conList, oppList);
+                    prodSpecs[0].RecordTypeId = RT_OPE_ID;
+                    prodSpecs[0].Stage__c = 'Idea';
+                    insert prodSpecs;
+               }
 
-               List<Product_Specification__c> prodSpecs = TestDataFactory.createTestProductSpecsRecords(1, conList, oppList);
-               prodSpecs[0].RecordTypeId = productSpecsRecordType;
-               prodSpecs[0].Stage__c = (productSpecsRecordType == RT_OPE_ID)? 'Idea':'Define';
-               insert prodSpecs;
-			   
+               System.debug('prodSpecs' + prodSpecs);
                List<Product_Request__c> productRequests = TestDataFactory.createTestProductRequestRecords(1);
                for(Product_Request__c productRequest : productRequests){
                     productRequest.RecordTypeId = productRequestRecordType;

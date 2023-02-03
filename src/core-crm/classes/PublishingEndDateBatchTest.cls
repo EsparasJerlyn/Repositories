@@ -33,6 +33,7 @@ public with sharing class PublishingEndDateBatchTest {
                 acc.RecordTypeId = ACCT_UNIV_DEP_ID;
                 acc.Organization_Unit_Level__c = '2';
             }
+            
             insert accounts;
 
             List<Contact> contacts;
@@ -40,15 +41,11 @@ public with sharing class PublishingEndDateBatchTest {
             insert contacts;
 
             List<Opportunity> opps;
-            opps = TestDataFactory.createTestOpportunityRecords(1,accounts[0].Id,contacts[0].Id);
-            opps[0].StageName = 'Closed Won';
+            opps = TestDataFactory.createClosedWonOpportunities(1,accounts[0].Id,contacts[0].Id);
             insert opps;
 
-            List<Product_Specification__c> productSpecs;
-            productSpecs = TestDataFactory.createTestProductSpecsRecords(1,contacts,opps);
-            productSpecs[0].Stage__c = 'Define';
-            insert productSpecs;
-
+            List<Product_Specification__c> productSpecs = TestDataFactory.retrieveCCEProductSpecifications();
+            
             List<Product_Request__c> prodRequestOPEProgramRequest;
             prodRequestOPEProgramRequest = TestDataFactory.createTestProductRequestRecords(numberOfRecords,productSpecs[0].Id);
             for(Product_Request__c productRequest : prodRequestOPEProgramRequest){
@@ -98,7 +95,6 @@ public with sharing class PublishingEndDateBatchTest {
                 products[i].Ready_for_publishing__c = 'Yes';
             }
             insert products;
-
             List<Product2> prod = TestDataFactory.createTestProductRecords(numberOfRecords);
             for(Integer i = 0 ; i < prod.size() ; i++){
                 prod[i].Program_Plan__c = programPlanList[i].Id;

@@ -307,16 +307,11 @@ public with sharing class ManageRegAndNomCtrlTest {
             insert commerceEntbg;
 
             
-            List<Opportunity> oppList = TestDataFactory.createTestOpportunityRecords(1,portalAccount.Id,newContact.Id);
+            List<Opportunity> oppList = TestDataFactory.createClosedWonOpportunities(1,portalAccount.Id,newContact.Id);
             insert oppList;
 
-            List<Product_Specification__c> prodSpecList = TestDataFactory.createTestProductSpecsRecords(1,contactList,oppList);
-            for(Integer i = 0 ; i < prodSpecList.size() ; i++){
-                prodSpecList[i].RecordTypeId = cceProdSpecId;
-            }
-            insert prodSpecList;
+            List<Product_Specification__c> prodSpecList = TestDataFactory.retrieveCCEProductSpecifications();
             
-
             List<Product_Request__c> productRequests = TestDataFactory.createTestProductRequestRecords(1,prodSpecList[0].Id);
             for(Product_Request__c productRequest : productRequests){
                 productRequest.RecordTypeId = RT_ACTIVITY_ID;

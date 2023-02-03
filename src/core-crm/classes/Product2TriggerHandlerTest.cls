@@ -260,14 +260,10 @@ public with sharing class Product2TriggerHandlerTest {
 
       List<Contact> con = [SELECT Id FROM Contact WHERE CreatedById = :PROGRAM_ADMIN.Id];
 
-      List<Opportunity> oppList = TestDataFactory.createTestOpportunityRecords(10,accBusinessOrg[0].Id,con[0].Id);
+      List<Opportunity> oppList = TestDataFactory.createClosedWonOpportunities(10,accBusinessOrg[0].Id,con[0].Id);
       insert oppList;
 
-      List<Product_Specification__c> prodSpecList = TestDataFactory.createTestProductSpecsRecords(10,con,oppList);
-      for(Integer i = 0 ; i < prodSpecList.size() ; i++){
-        prodSpecList[i].RecordTypeId = cceProdSpecId;
-      }
-      insert prodSpecList;
+      List<Product_Specification__c> prodSpecList = TestDataFactory.retrieveCCEProductSpecifications();
 
       List<Product_Request__c> ccePRequest = TestDataFactory.createTestProductRequestRecords(1,prodSpecList[0].Id);
       for(Product_Request__c pr : ccePRequest){

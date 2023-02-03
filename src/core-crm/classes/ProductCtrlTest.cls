@@ -1711,13 +1711,11 @@ public with sharing class ProductCtrlTest {
 		System.runAs(TestDataFactory.getProgramAdminUser()) {
 			List<Account> accounts = [SELECT Id, Name, RecordType.Name FROM Account WHERE Name ='TestAccount1' AND RecordType.Name = 'Business Organization' LIMIT 1];
 			List<Contact> conList = [SELECT Id, Name, AccountId FROM Contact WHERE AccountId =: accounts[0].Id];
-			List<Opportunity> oppList = TestDataFactory.createTestOpportunityRecords(1,accounts[0].Id,conList[0].Id);
+			List<Opportunity> oppList = TestDataFactory.createClosedWonOpportunities(1,accounts[0].Id,conList[0].Id);
 			insert oppList;
-			List<Product_Specification__c> prodSpecList = TestDataFactory.createTestProductSpecsRecords(1,conList,oppList);
-				for(Integer i = 0 ; i < prodSpecList.size() ; i++){
-					prodSpecList[i].RecordTypeId = cceProdSpecId;
-			}
-			insert prodSpecList;
+
+			List<Product_Specification__c> prodSpecList = TestDataFactory.retrieveCCEProductSpecifications();
+
 			List<Product_Request__c> prodRequestCCE = TestDataFactory.createTestProductRequestRecords(
 				1, prodSpecList[0].Id
 			);

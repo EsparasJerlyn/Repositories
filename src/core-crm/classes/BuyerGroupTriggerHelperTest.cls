@@ -55,11 +55,10 @@ public with sharing class BuyerGroupTriggerHelperTest {
       conList = TestDataFactory.createTestContactRecords(1);
       insert conList;
 
-      List<Opportunity> oppList = TestDataFactory.createTestOpportunityRecords(1, accounts[0].Id, conList.iterator().next()?.Id);
+      List<Opportunity> oppList = TestDataFactory.createClosedWonOpportunities(1, accounts[0].Id, conList.iterator().next()?.Id);
       insert oppList;
       
-      List<Product_Specification__c> prodSpecList = setupProductSpec(conList, oppList);
-      insert prodSpecList;
+      List<Product_Specification__c> prodSpecList = TestDataFactory.retrieveCCEProductSpecifications();
       
       List<Product_Request__c> soaRequest = setupSOARequest(prodSpecList);      
       insert soaRequest;

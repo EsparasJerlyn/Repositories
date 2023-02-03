@@ -97,18 +97,14 @@ public with sharing class CorporateBundleAndSOAHelperTest {
                List<Contact> conList = new List<Contact>();
                conList.add(contact);
 
-               List<Opportunity> opp = TestDataFactory.createTestOpportunityRecords(1,account.Id,contact.Id);
+               List<Opportunity> opp = TestDataFactory.createClosedWonOpportunities(1,account.Id,contact.Id);
                insert opp;
 
                Pricebook2 priceBook;
                pricebook = new Pricebook2(isActive = true, id = Test.getStandardPricebookId());
                update pricebook;
 
-               List<Product_Specification__c> prodSpecList = TestDataFactory.createTestProductSpecsRecords(1,conList,opp);
-               for(Integer i = 0 ; i < prodSpecList.size() ; i++){
-                    prodSpecList[i].RecordTypeId = cceProdSpecId;
-               }
-               insert prodSpecList;
+               List<Product_Specification__c> prodSpecList = TestDataFactory.retrieveCCEProductSpecifications();
 
                List<Product_Request__c> cbRequest = TestDataFactory.createTestProductRequestRecords(1,prodSpecList[0].Id);
                for(Product_Request__c pr : cbRequest){
