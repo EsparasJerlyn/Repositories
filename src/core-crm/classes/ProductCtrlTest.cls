@@ -11,7 +11,7 @@
 	  | mary.grace.li             | July 01, 2022         | DEPP-3124            | Added new method for createTestProducts    |
 	  | keno.domienri.dico        | July 15, 2022		  | DEPP-2699		     | CCE Homepage				                  |
 	  | julie.jane.alegre         | November 28, 2022     | DEPP-4693		     | Update getProductsByCategory			      |
-	  | eccarius.kar.munoz        | January 16, 2023      | DEPP-4692		     | Update getProductSpecsByAccountTest		  |  
+	  | eccarius.kar.munoz        | January 16, 2023      | DEPP-4692		     | Update getProductSpecsByAccountTest		  |
 */
 @isTest
 public with sharing class ProductCtrlTest {
@@ -409,7 +409,7 @@ public with sharing class ProductCtrlTest {
 
 			System.assert(getProd != null, 'Successfully retrieved Products');
 		}
-	}	
+	}
 
 	@isTest
 	static void getProductsSortComingUp_SingleEFreeTest() {
@@ -725,7 +725,7 @@ public with sharing class ProductCtrlTest {
 			System.assert(getProd != null, 'Successfully retrieved Products');
 		}
 	}
-    
+
 	@isTest
 	static void getProductsByCategoryTailoredExecEducTest() {
 		final User PROGRAM_ADMIN = TestDataFactory.getProgramAdminUser();
@@ -881,9 +881,9 @@ public with sharing class ProductCtrlTest {
             getProdByCat.userId = user[0].Id;
             getProdByCat.categoryId = prodCateg1.Id;
             getProdByCat.accountId = accBusinessOrg[0].Id;
-            
+
 			getProdByCatResult = ProductCtrl.getProductsByCategory(getProdByCat, '');
-			
+
 			Test.stopTest();
 
 			System.assert(getProdByCatResult != null, 'No retrieved Products');
@@ -1091,9 +1091,9 @@ public with sharing class ProductCtrlTest {
             getProdByCat.categoryId = prodCateg1.Id;
             getProdByCat.accountId = accBusinessOrg[0].Id;
 			getProdByCat.assetId = newAsset.Id;
-            
+
 			getProdByCatResult = ProductCtrl.getProductsByCategory(getProdByCat, '');
-			
+
 			Test.stopTest();
 
 			System.assert(getProdByCatResult != null, 'No retrieved Products');
@@ -1292,7 +1292,7 @@ public with sharing class ProductCtrlTest {
 			getProdByCat.buyerGroupId = gbMember.BuyerGroupId;
 
 			getProdByCatResult = ProductCtrl.getProductsByCategory(getProdByCat, '');
-			
+
 			Test.stopTest();
 
 			System.assert(getProdByCatResult != null, 'No retrieved Products');

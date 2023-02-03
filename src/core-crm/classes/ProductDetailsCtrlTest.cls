@@ -248,6 +248,7 @@ public class ProductDetailsCtrlTest{
         WHERE AccountId =: accounts[0].Id
         LIMIT 1
       ]);
+      
 
       if(acrList.isEmpty()){
         //create ACR

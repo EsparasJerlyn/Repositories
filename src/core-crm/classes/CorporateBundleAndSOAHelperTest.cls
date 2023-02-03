@@ -83,8 +83,10 @@ public with sharing class CorporateBundleAndSOAHelperTest {
                     SELECT ContactId 
                     FROM AccountContactRelation 
                     WHERE AccountId =: account.Id
+                    AND IsActive = true
                     LIMIT 1
                ]);
+
                if(acrList.isEmpty()){
                     AccountContactRelation acr = new AccountContactRelation(
                          ContactId = contact.Id,
