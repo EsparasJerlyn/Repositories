@@ -32,6 +32,7 @@ public without sharing class MainNavigationMenuCtrl {
 			SELECT Id, AccountId, ContactId,Account.Name
 			FROM AccountContactRelation 
 			WHERE Account.RecordType.Name = 'Business Organization' 
+            AND IsActive = true
 			AND ContactId IN (
 				SELECT ContactId 
 				FROM User 

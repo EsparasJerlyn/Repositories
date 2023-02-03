@@ -68,17 +68,21 @@ public with sharing class RelatedProductsCtrlTest {
              conList = TestDataFactory.createTestContactRecords(2);
              insert conList;
      
-             List<Opportunity> oppList = TestDataFactory.createTestOpportunityRecords(2,accounts[0].Id,conList.iterator().next()?.Id);
-             insert oppList;
-     
-             List<Product_Specification__c> prodSpecList = TestDataFactory.createTestProductSpecsRecords(2,conList,oppList);
-             prodSpecList[0].RecordTypeId = cceProdSpecId;
-             prodSpecList[1].RecordTypeId = opeProdSpecId;
-             prodSpecList[1].Stage__c = 'Idea';
-             insert prodSpecList;
-     
-             List<Product_Request__c> soaRequest = TestDataFactory.createTestProductRequestRecords(1,prodSpecList[0].Id);
-             soaRequest.addAll(TestDataFactory.createTestProductRequestRecords(1,prodSpecList[1].Id));
+             // Create CCE Product Specification
+             List<Opportunity> closedWonOpportunityList = TestDataFactory.createClosedWonOpportunities(1, accounts[0].Id, conList.iterator().next()?.Id);
+             insert closedWonOpportunityList;
+             List<Product_Specification__c> cceProductSpecification = TestDataFactory.retrieveCCEProductSpecifications();
+
+             // Create OPE Product Specification
+             List<Opportunity> qualifyOpportunityList = TestDataFactory.createTestOpportunityRecords(1, accounts[0].Id, conList.iterator().next()?.Id);
+             insert qualifyOpportunityList;
+             List<Product_Specification__c> opeProductSpecification = TestDataFactory.createTestProductSpecsRecords(1,conList,qualifyOpportunityList);
+             opeProductSpecification[0].RecordTypeId = opeProdSpecId;
+             opeProductSpecification[0].Stage__c = 'Idea';
+             insert opeProductSpecification;
+
+             List<Product_Request__c> soaRequest = TestDataFactory.createTestProductRequestRecords(1,cceProductSpecification[0].Id);
+             soaRequest.addAll(TestDataFactory.createTestProductRequestRecords(1,opeProductSpecification[0].Id));
 
              Pricebook2 priceBook;
              pricebook = new Pricebook2(isActive = true, id = Test.getStandardPricebookId());
@@ -94,13 +98,12 @@ public with sharing class RelatedProductsCtrlTest {
              List<PriceBook2> soaPBList = new List<PriceBook2>();
              for(Integer i = 0; i<soaRequest.size();i++){
              bgToInsertList.add(new BuyerGroup(Name ='SOA' + i, Product_Request__c = soaRequest[i].Id));
-             //soaPBList.add(new PriceBook2(Name = 'SOA' + i, IsActive = true));
              }
              
              insert bgToInsertList;
      
-             List<Product_Request__c> courseRequest = TestDataFactory.createTestProductRequestRecords(1,prodSpecList[0].Id);
-             courseRequest.addAll(TestDataFactory.createTestProductRequestRecords(1,prodSpecList[1].Id));
+             List<Product_Request__c> courseRequest = TestDataFactory.createTestProductRequestRecords(1,cceProductSpecification[0].Id);
+             courseRequest.addAll(TestDataFactory.createTestProductRequestRecords(1,opeProductSpecification[0].Id));
              for(Product_Request__c pr : courseRequest){
                  pr.RecordTypeId = ACTIVITY_ID;        
              }
@@ -117,8 +120,8 @@ public with sharing class RelatedProductsCtrlTest {
              insert courses;
      
              List<Product_Request__c> programRequest;
-             programRequest = TestDataFactory.createTestProductRequestRecords(1,prodSpecList[0].Id);
-             programRequest.addAll(TestDataFactory.createTestProductRequestRecords(1,prodSpecList[1].Id));
+             programRequest = TestDataFactory.createTestProductRequestRecords(1,cceProductSpecification[0].Id);
+             programRequest.addAll(TestDataFactory.createTestProductRequestRecords(1,opeProductSpecification[0].Id));
 
              for(Product_Request__c progamR:programRequest){
              progamR.RecordTypeId = PROGRAM_ID;

@@ -1,10 +1,18 @@
 import { LightningElement, api, track } from 'lwc';
+import { NavigationMixin } from 'lightning/navigation';
 import CONTACT_NAME from '@salesforce/schema/Contact.Name';
 import updateFacilitatorData from "@salesforce/apex/ProductOfferingCtrl.updateFacilitatorData";
 import getSearchedFacilitator from "@salesforce/apex/ProductOfferingCtrl.getSearchedFacilitator";
 
 const FACILITATOR_COLUMNS = [
     { label: 'ID', fieldName: 'Name', initialWidth: 100 },
+    {
+        label: 'Bio Title',
+        fieldName: 'bioTitle',
+        wrapText: true,
+        editable: { fieldName: 'editable' },
+        initialWidth: 100
+    },
     { 
         label: 'Facilitator',
         type: 'customLookupColumn',
@@ -50,7 +58,7 @@ const FACILITATOR_COLUMNS = [
         initialWidth: 120
     }
 ];
-export default class FacilitatorDetailSection extends LightningElement {
+export default class FacilitatorDetailSection extends NavigationMixin(LightningElement) {
     @api offeringId;
     @api showFacilitatorTable;
     @api isStatusCompleted;
@@ -117,42 +125,6 @@ export default class FacilitatorDetailSection extends LightningElement {
         if (!this.privateChildren.hasOwnProperty(item.name))
             this.privateChildren[item.name] = {};
         this.privateChildren[item.name][item.guid] = item;
-    }
-
-    //returns list of facilitators based on input
-    handleFacilitatorSearch(event){
-        this.facilitatorSearchInProgress = true;
-        getSearchedFacilitator({ 
-            filterString: event.detail.filterString,
-            addedFacilitators: this.relatedFacilitatorBios 
-        })
-        .then(result =>{
-            this.facilitatorSearchItems = result.map(faci => {
-                return {
-                    ...faci,
-                    meta: faci.meta
-                }
-            });
-        })
-        .catch(error =>{
-        })
-        .finally(() => {
-            this.facilitatorSearchInProgress = false;
-        });
-    }
-
-    //dispatches event when search item is selected
-    handleSearchSelect(event){
-        event.detail.contactId = this.facilitatorSearchItems.find(
-            faci => faci.id == event.detail.value
-        ).relatedContact;
-        this.dispatchEvent(new CustomEvent('searchselect',event));
-        this.resetFacilitatorSearchItems();
-    }
-    
-    //sets facilitatorSearchItems to empty list
-    resetFacilitatorSearchItems(){
-        this.facilitatorSearchItems = [];
     }
 
     //dispatches event when row action is triggered
@@ -223,6 +195,10 @@ export default class FacilitatorDetailSection extends LightningElement {
             let unsavedItem = this.relatedFacilitatorsCopy.find(val => val.rowId == draft.id);
             return {
                 rowId: draft.id,
+                bioTitle:
+                    draft.bioTitle === undefined ?
+                    unsavedItem.contactId :
+                    draft.bioTitle,
                 contactId: 
                     draft.contactId === undefined ?
                     unsavedItem.contactId :
@@ -248,11 +224,13 @@ export default class FacilitatorDetailSection extends LightningElement {
                 }
             });
             let facilitatorBios = this.draftValues.filter(draft => 
+                draft.bioTitle !== undefined ||
                 draft.contactId !== undefined ||
                 draft.bio !== undefined
             ).map(draft => {
                 return {
                     Id:this.relatedFacilitatorsCopy.find(faci => faci.rowId == draft.id).Facilitator_Bio__c,
+                    Bio_Title__c: draft.bioTitle,
                     Facilitator__c:draft.contactId,
                     Professional_Bio__c:draft.bio
                 }
@@ -337,9 +315,19 @@ export default class FacilitatorDetailSection extends LightningElement {
         this.handleWindowOnclick('reset');
     }
 
-    handleCreateNewRecord(){
-        this.dispatchEvent(new CustomEvent('newfacilitator',{
+    handleLinkFacilitator() {
+        this.dispatchEvent(new CustomEvent('linkfacilitator', {
             detail: this.offeringId
         }));
+    }
+
+    navigateToNewContact() {
+        this[NavigationMixin.Navigate]({
+            type: 'standard__objectPage',
+            attributes: {
+                objectApiName: 'Contact',
+                actionName: 'new'
+            }
+        });
     }
 }

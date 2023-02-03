@@ -17,24 +17,13 @@ private class SetNamesOnNewCCEProdSpecFlowTest {
     @isTest
     static void testSetName() {
         System.runAs(TestDataFactory.getProgramAdminUser()){
-            Id oppId = [SELECT Id FROM Opportunity LIMIT 1].Id;
-            Product_Specification__c prs = new Product_Specification__c(
-                RecordTypeId = ID_PRODSPEC_CCE,
-                Opporunity_Name__c = oppId,
-                Stage__c = 'Define'
-            );
-            Test.startTest();
-            insert prs;
-            Test.stopTest();
-            Product_Specification__c prsPost = [
-                SELECT Id, Program_Name__c, Product_Specification_Name__c 
-                FROM Product_Specification__c WHERE Id = :prs.Id
-            ];
+            Product_Specification__c prsPost = TestDataFactory.retrieveCCEProductSpecifications();
             System.assert(
                 prsPost.Program_Name__c == PROGRAM_NAME && 
                 prsPost.Product_Specification_Name__c == PROGRAM_NAME, 
                 'The Product Specification Name was not updated from an empty value.'
             );
+            Test.stopTest();
         }
     }
 }

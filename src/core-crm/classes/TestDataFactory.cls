@@ -36,10 +36,12 @@
       | marlon.vasquez            | July 25, 2022         | DEPP-3538           | Added Required fields for creating Product Specification         |
       | william.a.cheng           | September 14, 2022    | DEPP-4266, 1977     | Add methodd to configure TDTM and affiliation mappings           |
       | rhea.b.torres             | November 10, 2022     | DEPP-4448           | Add methodd to create International_Tier__c records              |
+      | rhea.b.torres             | February 2, 2023      | NA                  | Add new methods to handle creation of CCE Product Specification  |
 */
 
 @isTest
 public class TestDataFactory {
+  private static final String STR_QUALIFY = 'Qualify';
   private static final String STR_IN_PROGRESS = 'In Progress';
   private static final String STR_QUESTIONNAIRE_TYPE = 'Registration Criteria';
   private static final String TEST_BUYER_GROUP = 'Test Buyer Group';
@@ -163,7 +165,7 @@ public class TestDataFactory {
           Name = 'TestOpportunity' + i,
           AccountId = accId,
           Contact__c = conId,
-          StageName = 'Closed Won',
+          StageName = STR_QUALIFY,
           Status__c = STR_IN_PROGRESS,
           CloseDate = System.today() + 30
         )
@@ -171,6 +173,47 @@ public class TestDataFactory {
     }
 
     return opps;
+  }
+
+  /**
+   * @description Method for creating "Closed Won" Opportunity records
+   * @param numOpps - number of Opportunities to be created
+   * @param accId - Id of related Account
+   * @param conId - Id of related Contact for roles
+   * @return opps - list of Opportunities created
+   */
+  public static List<Opportunity> createClosedWonOpportunities(
+    Integer numOpps,
+    Id accId,
+    Id conId
+  ) {
+    List<Opportunity> opps = new List<Opportunity>();
+
+    for (Integer i = 0; i < numOpps; i++) {
+      opps.add(
+        new Opportunity(
+          Name = 'TestOpportunity' + i,
+          AccountId = accId,
+          Contact__c = conId,
+          StageName = 'Closed Won',
+          Status__c = 'Contract Signed',
+          CloseDate = System.today() + 30
+        )
+      );
+    }
+
+    return opps;
+  }
+
+  /**
+   * @description Method for retrieving CCE Product Specification records
+   * A pre-requisite to this is to call createClosedWonOpportunities method
+   * @param void
+   * @return prodSpecList - returns all available CCE Product Specification records
+   */
+  public static List<Product_Specification__c> retrieveCCEProductSpecifications() {
+    List<Product_Specification__c> prodSpecList = [SELECT Id, RecordTypeId FROM Product_Specification__c WHERE RecordType.DeveloperName = 'CCE'];
+    return prodSpecList;
   }
 
   /**

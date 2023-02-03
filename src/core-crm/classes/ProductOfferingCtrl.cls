@@ -242,7 +242,8 @@ public with sharing class ProductOfferingCtrl {
             poData.relatedFacilitators = [
                 SELECT Id, Name, Facilitator_Bio__c, Facilitator_Bio__r.Name, RecordTypeId, hed__Primary__c, 
                         hed__Course_Offering__c, Facilitator_Bio__r.Professional_Bio__c,
-                        Facilitator_Bio__r.Facilitator__c,Facilitator_Bio__r.Facilitator__r.Name, hed__Contact__c,
+                        Facilitator_Bio__r.Facilitator__c,Facilitator_Bio__r.Facilitator__r.Name, 
+                        Facilitator_Bio__r.Bio_Title__c, hed__Contact__c,
                         IsActive__c,CreatedDate
                 FROM hed__Course_Enrollment__c
                 WHERE hed__Course_Offering__c IN :poIDs AND RecordTypeId =: FACULTY_REC_TYPE
@@ -308,6 +309,42 @@ public with sharing class ProductOfferingCtrl {
         return poData;
     }
 
+    @AuraEnabled
+    public static List<Facilitator_Bio__c> getFacilitatorBios(Id contactId, List<Id> addedFacilitators) {
+        return [
+            SELECT Id, Bio_Title__c, Professional_Bio__c 
+            FROM Facilitator_Bio__c 
+            WHERE 
+                Id NOT IN :addedFacilitators AND
+                Facilitator__c = :contactId
+            WITH SECURITY_ENFORCED];
+    }
+
+    @AuraEnabled
+    public static Integer isNewFacilitator(Id offeringId, Id contactId) {
+        return [
+            SELECT Id
+            FROM hed__Course_Enrollment__c 
+            WHERE 
+                hed__Course_Offering__c = :offeringId AND
+                hed__Contact__c = :contactId
+            WITH SECURITY_ENFORCED]
+            .size();
+    }
+
+    @AuraEnabled
+    public static void updateCourseConnection(Id offeringId, Id contactId, Id facilitatorBioId) {
+        hed__Course_Enrollment__c cenrToUpdate = [
+            SELECT Id, Facilitator_Bio__c, hed__Contact__c, hed__Course_Offering__c 
+            FROM hed__Course_Enrollment__c 
+            WHERE 
+                hed__Course_Offering__c = :offeringId AND 
+                hed__Contact__c = :contactId
+            WITH SECURITY_ENFORCED
+            LIMIT 1];
+        cenrToUpdate.Facilitator_Bio__c = facilitatorBioId;
+        update cenrToUpdate;
+    }
     /**
      * @description custom wrapper for related offerings, course connections,
      *              parentId (either Course/Program Plan ID) and sessions 

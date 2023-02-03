@@ -29,7 +29,6 @@ public class Opp_Before_Update_Triggered_FlowTest {
     
             List<Opportunity> createOpp = TestDataFactory.createTestOpportunityRecords(100,acct?.Id,cont?.Id);    
             insert createOpp;
-               
 
             Test.startTest();
             List<Opportunity> getOpp = new List<Opportunity>();

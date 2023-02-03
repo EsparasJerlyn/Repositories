@@ -28,11 +28,10 @@ private class CreateCoursesCtrlTest {
         List<Contact> conList = TestDataFactory.createTestContactRecords(1);
         insert conList;
 
-        List<Opportunity> oppList = TestDataFactory.createTestOpportunityRecords(1,acc?.Id,conList.iterator().next()?.Id);
+        List<Opportunity> oppList = TestDataFactory.createClosedWonOpportunities(1,acc?.Id,conList.iterator().next()?.Id);
         insert oppList;
 
-        Product_Specification__c prodSpec = TestDataFactory.createTestProductSpecsRecords(1,conList,oppList).iterator().next();
-        insert prodSpec;
+        Product_Specification__c prodSpec = TestDataFactory.retrieveCCEProductSpecifications().iterator().next();
 
         Product_Request__c prodReq = TestDataFactory.createTestProductRequestRecords(1,prodSpec?.Id).iterator().next();
         insert prodReq;

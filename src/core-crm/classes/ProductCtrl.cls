@@ -759,7 +759,7 @@ public without sharing class ProductCtrl{
 
 	@AuraEnabled(cacheable=true)
 	public static List<Asset> getAssetsByAccount(String accountId){
-		
+
 
 		return [	SELECT Id, Name, Publishing_End_Date__c
 					FROM Asset
@@ -769,7 +769,7 @@ public without sharing class ProductCtrl{
 					WITH SECURITY_ENFORCED
 					ORDER BY Publishing_End_Date__c ASC
 				];
-	} 
+	}
 
 	@AuraEnabled(cacheable=true)
 	public static List<Product_Specification__c> getProductSpecsByAccount(String accountId){
@@ -779,13 +779,13 @@ public without sharing class ProductCtrl{
 
 		List<Product_Specification__c> prodSpecList = new List<Product_Specification__c>();
 		Set<Product_Specification__c> prodSpecSet = new Set<Product_Specification__c>();
-		
+
 		List<Product_Request__c> prodReqList = [
-			SELECT Id, Product_Specification__c, Product_Request_Status__c, RecordType.Name 
-			FROM Product_Request__c 
-			WHERE Child_of_Prescribed_Program__c = false 
-			AND Product_Specification__c IN :prodSpecMap.keySet() 
-			AND Product_Request_Status__c ='Published' And (RecordType.Name != 'Corporate Bundle' 
+			SELECT Id, Product_Specification__c, Product_Request_Status__c, RecordType.Name
+			FROM Product_Request__c
+			WHERE Child_of_Prescribed_Program__c = false
+			AND Product_Specification__c IN :prodSpecMap.keySet()
+			AND Product_Request_Status__c ='Published' And (RecordType.Name != 'Corporate Bundle'
 			AND RecordType.Name != 'Standing Offer Arrangement') WITH SECURITY_ENFORCED];
 
 		for(Product_Request__c pr : prodReqList){
@@ -797,7 +797,7 @@ public without sharing class ProductCtrl{
 		prodSpecList.addAll(prodSpecSet);
 
 		return prodSpecList;
-	} 
+	}
 
 
 	@AuraEnabled(cacheable=true)
@@ -810,7 +810,7 @@ public without sharing class ProductCtrl{
 			AND BuyerGroup.Ready_for_publishing__c = 'Yes'
 			ORDER BY BuyerGroup.Publishing_End_Date__c ASC
 		];
-	} 
+	}
 
 	/**
 	 * Get products by menu category
@@ -829,10 +829,10 @@ public without sharing class ProductCtrl{
 		Map<Id, Product_Request__c> productRequestList = new Map<Id, Product_Request__c>([
 			SELECT Id FROM Product_Request__c WHERE Product_Specification__c =: acctFilterDataWrapper.prodSpecId WITH SECURITY_ENFORCED
 		]);
-		
-		Map<Id,Product2> prodList = new Map<Id,Product2>([SELECT Id FROM Product2 
+
+		Map<Id,Product2> prodList = new Map<Id,Product2>([SELECT Id FROM Product2
 			WHERE Course__r.ProductRequestID__c IN: productRequestList.keySet() OR Program_Plan__r.Product_Request__c IN: productRequestList.keySet() WITH SECURITY_ENFORCED
-		]);		
+		]);
 
 		/**
 		 * Get the Price for SOA and Corporate Bundle Products
@@ -842,6 +842,7 @@ public without sharing class ProductCtrl{
 			SELECT Id, AccountId, Account.Name, ContactId
 			FROM AccountContactRelation 
 			WHERE Account.RecordType.Name = 'Business Organization' 
+			AND IsActive = true
 			AND AccountId = :acctFilterDataWrapper.accountId
 			AND ContactId IN (
 				SELECT ContactId 
@@ -896,7 +897,7 @@ public without sharing class ProductCtrl{
 				SELECT Id, Name, Pricebook2.Name, Pricebook2Id, BuyerGroup.Name, BuyerGroupId, Pricebook2.IsActive, BuyerGroup.Product_Request__c
 				FROM BuyerGroupPricebook
 				WHERE BuyerGroupId IN :bgIds
-				AND BuyerGroup.Product_Request__r.Product_Request_Status__c = 'Published' 
+				AND BuyerGroup.Product_Request__r.Product_Request_Status__c = 'Published'
 				AND BuyerGroup.Product_Request__c =: checkCBPublished[0].Product_Request__c
 			];
 		}else if(catName.ProductCategory.Name == 'QUTeX Learning Solutions'){
@@ -905,14 +906,14 @@ public without sharing class ProductCtrl{
 				FROM BuyerGroupPricebook
 				WHERE BuyerGroupId =:acctFilterDataWrapper.buyerGroupId
 				AND BuyerGroupId IN: bgIds
-				AND BuyerGroup.Product_Request__r.Product_Request_Status__c = 'Published' 
+				AND BuyerGroup.Product_Request__r.Product_Request_Status__c = 'Published'
 			];
 		}else{
 			bgpbList = [
 				SELECT Id, Name, Pricebook2.Name, Pricebook2Id, BuyerGroup.Name, BuyerGroupId, Pricebook2.IsActive, BuyerGroup.Product_Request__c
 				FROM BuyerGroupPricebook
 				WHERE BuyerGroupId IN :bgIds
-				AND BuyerGroup.Product_Request__r.Product_Request_Status__c = 'Published' 
+				AND BuyerGroup.Product_Request__r.Product_Request_Status__c = 'Published'
 			];
 		}
 
@@ -921,11 +922,11 @@ public without sharing class ProductCtrl{
 			pbIds.add(bgpb.Pricebook2Id);
 		}
 
-		
+
 
 		List<ProductCategoryProduct> catProdIds = new List<ProductCategoryProduct>();
-		if(!String.isBlank(acctFilterDataWrapper.prodSpecId) && 
-			((catName.ProductCategory.Name == 'Tailored Executive Education') || 
+		if(!String.isBlank(acctFilterDataWrapper.prodSpecId) &&
+			((catName.ProductCategory.Name == 'Tailored Executive Education') ||
 			(catName.ProductCategory.Name == 'Tailored Executive Program'))){
 				catProdIds = [
 					SELECT Id, ProductId, ProductCategoryId

@@ -372,6 +372,7 @@ public without sharing class ProductDetailsCtrl {
 			FROM AccountContactRelation 
 			WHERE Account.RecordType.Name = 'Business Organization' 
 			AND AccountId = :productDetailsDataWrapper.accountId
+			AND IsActive = true
 			AND ContactId IN (
 				SELECT ContactId 
 				FROM User 
@@ -404,7 +405,7 @@ public without sharing class ProductDetailsCtrl {
 			bgpbList = [
 				SELECT Id, Name, Pricebook2.Name, Pricebook2Id, BuyerGroup.Name, BuyerGroupId, Pricebook2.IsActive
 				FROM BuyerGroupPricebook
-				WHERE BuyerGroup.Product_Request__r.Product_Request_Status__c = 'Published' 
+				WHERE BuyerGroup.Product_Request__r.Product_Request_Status__c = 'Published'
 				AND BuyerGroup.Product_Request__c =: assetList[0].Product_Request__c
 			];
 		}else if(productDetailsDataWrapper.categoryName == 'QUTeX Learning Solutions'){
@@ -413,7 +414,7 @@ public without sharing class ProductDetailsCtrl {
 				SELECT Id, Name, Pricebook2.Name, Pricebook2Id, BuyerGroup.Name, BuyerGroupId, Pricebook2.IsActive
 				FROM BuyerGroupPricebook
 				WHERE BuyerGroupId =: productDetailsDataWrapper.buyerGroupId
-				AND BuyerGroup.Product_Request__r.Product_Request_Status__c = 'Published' 
+				AND BuyerGroup.Product_Request__r.Product_Request_Status__c = 'Published'
 			];
 		}else{
 			// Get the Pricebook2Id from PricebookEntry
@@ -421,7 +422,7 @@ public without sharing class ProductDetailsCtrl {
 				SELECT Id, Name, Pricebook2.Name, Pricebook2Id, BuyerGroup.Name, BuyerGroupId, Pricebook2.IsActive
 				FROM BuyerGroupPricebook
 				WHERE BuyerGroupId IN :bgIds
-				AND BuyerGroup.Product_Request__r.Product_Request_Status__c = 'Published' 
+				AND BuyerGroup.Product_Request__r.Product_Request_Status__c = 'Published'
 			];
 		}
 

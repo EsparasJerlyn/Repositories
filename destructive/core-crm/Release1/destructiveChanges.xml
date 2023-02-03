@@ -7,6 +7,9 @@
         <members>PostCourseCompletionEmailCtrl</members>
         <members>PostCourseCompletionEmailCtrlTest</members>
         <!--(End) DEPP-4720 -->
+        <!--(Start) DEPP-4909 -->
+        <members>OfferingStartDateBatch</members>
+        <!--(End) DEPP-4909 -->
         <name>ApexClass</name>
     </types>
     <types>

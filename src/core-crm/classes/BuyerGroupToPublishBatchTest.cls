@@ -66,14 +66,10 @@ public with sharing class BuyerGroupToPublishBatchTest {
             conList = TestDataFactory.createTestContactRecords(1);
             insert conList;
     
-            List<Opportunity> oppList = TestDataFactory.createTestOpportunityRecords(1,accounts[0].Id,conList.iterator().next()?.Id);
+            List<Opportunity> oppList = TestDataFactory.createClosedWonOpportunities(1,accounts[0].Id,conList.iterator().next()?.Id);
             insert oppList;
     
-            List<Product_Specification__c> prodSpecList = TestDataFactory.createTestProductSpecsRecords(1,conList,oppList);
-                for(Integer i = 0 ; i < prodSpecList.size() ; i++){
-                    prodSpecList[i].RecordTypeId = cceProdSpecId;
-            }
-            insert prodSpecList;
+            List<Product_Specification__c> prodSpecList = TestDataFactory.retrieveCCEProductSpecifications();
     
             List<Product_Request__c> soaRequest = TestDataFactory.createTestProductRequestRecords(1,prodSpecList[0].Id);
             for(Product_Request__c pr : soaRequest){
