@@ -1249,14 +1249,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>OfferingStartDateBatch</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>OfferingStartDateBatchTest</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>OpeProgramStructureCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>
