@@ -368,6 +368,7 @@ public without sharing class ProductDetailsCtrl {
 			SELECT Id, AccountId, ContactId 
 			FROM AccountContactRelation 
 			WHERE Account.RecordType.Name = 'Business Organization' 
+			AND IsActive = true
 			AND ContactId IN (
 				SELECT ContactId 
 				FROM User 

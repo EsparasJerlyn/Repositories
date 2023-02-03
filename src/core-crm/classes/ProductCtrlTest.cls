@@ -731,7 +731,6 @@ public with sharing class ProductCtrlTest {
 			System.assert(getProd != null, 'Successfully retrieved Products');
 		}
 	}
-
 	@isTest
 	static void getProductsByCategoryTailoredExecEducTest() {
 		final User PROGRAM_ADMIN = TestDataFactory.getProgramAdminUser();

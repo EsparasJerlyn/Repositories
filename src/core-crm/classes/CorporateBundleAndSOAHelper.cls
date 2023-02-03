@@ -45,6 +45,7 @@ public with sharing class CorporateBundleAndSOAHelper {
                     FROM AccountContactRelation 
                     WHERE AccountId =: accountId
                     AND Account.IsPartner = true
+                    AND IsActive = true
                ]);
                
                for(AccountContactRelation acr: acrList){
