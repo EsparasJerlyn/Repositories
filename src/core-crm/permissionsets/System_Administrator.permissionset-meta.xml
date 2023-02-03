@@ -1117,6 +1117,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>MainNavigationMenuAccountCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>MainNavigationMenuAccountCtrlTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ManageAdhocCommsSectionCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>

@@ -12,7 +12,7 @@
 */
 
 import { LightningElement, track, api, wire} from 'lwc';
-import getAllAccountName from '@salesforce/apex/MainNavigationMenuCtrl.getAllAccountName';
+import getAllRelatedBusinessAccountOfUser from '@salesforce/apex/MainNavigationMenuAccountCtrl.getAllRelatedBusinessAccountOfUser';
 import userId from "@salesforce/user/Id";
 import { truncateText } from 'c/commonUtils';
 import payloadContainerLMS from '@salesforce/messageChannel/AccountId__c';
@@ -55,16 +55,16 @@ export default class AccountWrapper extends LightningElement {
             //An Id key is in the session Storage
             this.accountSelected = sessionStorage.getItem(STORED_ACCTID);
         } 
-        this.getAllAccountName();
+        this.getAllRelatedBusinessAccountOfUser();
     }
     
 
-    getAllAccountName(){
-        getAllAccountName({ userId: userId, selectedAccountId: this.accountSelected })
+    getAllRelatedBusinessAccountOfUser(){
+        getAllRelatedBusinessAccountOfUser({ userId: userId, selectedAccountId: this.accountSelected })
         .then((result) => {
-            this.accountNameOptions = result.accountNames;
+            this.accountNameOptions = result.accountOptions;
       
-            for (const acct of result.accountNames) {
+            for (const acct of result.accountOptions) {
 
                 //onchange
                 if(acct.isSelected && this.accountSelected){
