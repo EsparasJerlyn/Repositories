@@ -774,7 +774,7 @@ public without sharing class ProductCtrl{
 	@AuraEnabled(cacheable=true)
 	public static List<Product_Specification__c> getProductSpecsByAccount(String accountId){
 		Map<Id, Product_Specification__c> prodSpecMap = new Map<Id, Product_Specification__c>([
-			SELECT Id, Program_Name__c FROM Product_Specification__c WHERE Opportunity_Name__r.AccountId =: accountId WITH SECURITY_ENFORCED ORDER By Program_Name__c ASC
+			SELECT Id, Product_Specification_Name__c FROM Product_Specification__c WHERE Opportunity_Name__r.AccountId =: accountId WITH SECURITY_ENFORCED ORDER By Product_Specification_Name__c ASC
 		]);
 
 		List<Product_Specification__c> prodSpecList = new List<Product_Specification__c>();

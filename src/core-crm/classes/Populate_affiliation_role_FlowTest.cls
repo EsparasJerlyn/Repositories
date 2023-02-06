@@ -42,8 +42,8 @@ public with sharing class Populate_affiliation_role_FlowTest {
     @testSetup
     private static void setup() {
         // Configuration setup
+        TestDataFactory.loadEDATriggers();
         TestDataFactory.configureAffiliationMapping();
-        TestDataFactory.configureTDTMForCONPrimaryAfflsTDTM();
 
         // prepare test data
         List<Account> accounts = TestDataFactory.createTestAccountRecords(5);
@@ -104,7 +104,7 @@ public with sharing class Populate_affiliation_role_FlowTest {
         Test.stopTest();
         
         // verify
-        hed__affiliation__c affiliation = [select id, hed__role__c, hed__status__c from hed__affiliation__c where hed__contact__c = :c.id and hed__account__c = :universityDepartment.id];
+        hed__affiliation__c affiliation = [select id, hed__role__c, hed__status__c from hed__affiliation__c where hed__contact__c = :c.id and hed__account__c = :universityDepartment.id limit 1];
         System.assertNotEquals(null, affiliation, 'Affiliation should be created'); // Affiliation record created by eduation cloud instead of the flow 
         System.assertEquals(AFFILIATION_ROLE_FACULTY, affiliation.hed__role__c, 'Role should be Faculty'); // The flow populated the role
         
@@ -132,7 +132,7 @@ public with sharing class Populate_affiliation_role_FlowTest {
         Test.stopTest();
         
         // verify
-        hed__affiliation__c affiliation = [select id, hed__role__c, hed__status__c from hed__affiliation__c where hed__contact__c = :c.id and hed__account__c = :universityDepartment.id];
+        hed__affiliation__c affiliation = [select id, hed__role__c, hed__status__c from hed__affiliation__c where hed__contact__c = :c.id and hed__account__c = :universityDepartment.id limit 1];
         System.assertNotEquals(null, affiliation, 'Affiliation should be created'); // Affiliation record created by eduation cloud instead of the flow 
         System.assertEquals(AFFILIATION_ROLE_FACULTY, affiliation.hed__role__c, 'Role should be faculty'); // The flow populated the role
 

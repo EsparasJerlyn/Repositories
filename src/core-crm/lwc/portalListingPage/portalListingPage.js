@@ -184,10 +184,11 @@
 				}
 				const options = result.data.map( res => {
 					return {
-						label: res.Program_Name__c,
+						label: res.Product_Specification_Name__c,
 						value: res.Id
 					}
 				});
+				options.sort((a,b)=>a.label.localeCompare(b.label));
 				this.prodSpecList = options;
 				this.prodSpecValue = options[0].value;
 				this.prodSpecId = this.prodSpecValue;
