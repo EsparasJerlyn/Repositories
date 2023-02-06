@@ -702,6 +702,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Product_Specification__c.Product_Specification_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Product_Specification__c.Program_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
