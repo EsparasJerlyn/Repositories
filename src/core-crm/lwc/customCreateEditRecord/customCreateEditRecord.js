@@ -83,7 +83,11 @@ export default class CustomCreateEditRecord extends LightningElement {
 
         if(this.standardHeaderLabel){
             if(this.objectRecordTypeInfo){
-                _modalHeader = 'New ' + this.objectLabel+': '+this.objectRecordTypeInfo[this.defaultRecordTypeId].name;
+                let prefix = 'New';
+                if(this.editTempData){
+                    prefix = 'Edit';
+                }
+                _modalHeader = prefix + ' ' + this.objectLabel + ': '+this.objectRecordTypeInfo[this.defaultRecordTypeId].name;
             }else{
                 _modalHeader = '';
             }

@@ -149,9 +149,17 @@
                             </template>
 
                         </div>
+                        <!-- footer for existing contact registration -->
                         <footer class="slds-modal__footer">
                             <template if:false={isCorporateBundlePricebook}>
                                 <div class="slds-var-top_medium" if:false={isTailoredProductCategory}>
+                                    <lightning-button
+                                        label="Bulk Registration"
+                                        variant="brand"
+                                        type="submit"
+                                        onclick={handleGroupRegister}
+                                        disabled={disableGroupRegistration}
+                                    ></lightning-button> &nbsp;&nbsp;&nbsp;
                                     <lightning-button
                                         label="Proceed without Invoice"
                                         variant="brand"
@@ -166,6 +174,13 @@
                                     ></lightning-button>
                                 </div>
                                 <div class="slds-var-top_medium" if:true={isTailoredProductCategory}>
+                                    <lightning-button
+                                        label="Bulk Registration"
+                                        variant="brand"
+                                        type="submit"
+                                        onclick={handleGroupRegister}
+                                        disabled={disableGroupRegistration}
+                                    ></lightning-button> &nbsp;&nbsp;&nbsp;
                                     <lightning-button
                                         label="Confirm Registration"
                                         variant="brand"
@@ -229,9 +244,17 @@
                                 <lightning-input-field field-name='Accessibility_Requirement__c'></lightning-input-field>
                             </template>
                         </div>
+                        <!-- footer for new contact registration -->
                         <footer class="slds-modal__footer">
                             <template if:false={isCorporateBundlePricebook}>
                                 <div class="slds-var-top_medium" if:false={isTailoredProductCategory}>
+                                    <lightning-button
+                                        label="Bulk Registration"
+                                        variant="brand"
+                                        type="submit"
+                                        onclick={handleGroupRegister}
+                                        disabled={disableGroupRegistration}
+                                    ></lightning-button> &nbsp;&nbsp;&nbsp;
                                     <lightning-button
                                         label="Proceed without Invoice"
                                         variant="brand"
@@ -248,6 +271,13 @@
                                     ></lightning-button>
                                 </div>
                                 <div class="slds-var-top_medium" if:true={isTailoredProductCategory}>
+                                    <lightning-button
+                                        label="Bulk Registration"
+                                        variant="brand"
+                                        type="submit"
+                                        onclick={handleGroupRegister}
+                                        disabled={disableGroupRegistration}
+                                    ></lightning-button> &nbsp;&nbsp;&nbsp;
                                     <lightning-button
                                         label="Confirm Registration"
                                         variant="brand"
@@ -435,9 +465,23 @@
                             </div>
                         </footer>
                     </div>
-                </template>
+                </template>                
             </div>
         </section>
         <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <template if:true={isGroupRegister}>
+        <c-manage-group-registration 
+            course-offering={childRecordId} 
+            prescribed-program={prescribedProgram}
+            pb-entry-record={pbEntryRecord} 
+            pb-entry-records={pbEntryRecords}   
+            pb-entry-free-record={pbEntryFreeRecord}  
+            pb-entry-standard-record={pbEntryStandardRecord}
+            product-category={productCategory} 
+            learner-list={records}
+            onclosemodal={closeModalAction}   
+            onbulkregister={handleBulkRegistrationResponse}           
+        ></c-manage-group-registration>                    
     </template>
 </template>
