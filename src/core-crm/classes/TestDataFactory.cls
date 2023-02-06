@@ -1415,6 +1415,16 @@ public class TestDataFactory {
     }
 
     /**
+     * @description Method for creating Corporate Partner
+     * @param void
+     * @return coporateUser - Corporate Partner User
+     */
+    public static User getCorporatePartnerUser(){
+        User coporateUser = [SELECT Id FROM User WHERE Username LIKE 'QUT_Corporate_Partner_User%' LIMIT 1];
+        return coporateUser;
+    }
+
+    /**
      * @description Method for creating Partnership Manager
      * @param void
      * @return partnershipManager - Partnership Manager

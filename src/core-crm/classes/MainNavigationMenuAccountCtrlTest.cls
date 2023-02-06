@@ -55,7 +55,7 @@ public with sharing class MainNavigationMenuAccountCtrlTest {
 
             Test.startTest();
             CCECorporateUserCtrl.enablePortalUser(contact.Id, 'Corporate Portal');
-            System.runAs(TestDataFactory.getPortalSysAdminUser()){
+            System.runAs(TestDataFactory.getCorporatePartnerUser()){
                 Id selectedId;
                 User user = [SELECT Name, Username FROM User WHERE ContactId =: contact.Id LIMIT 1];
                 MainNavigationMenuAccountCtrl.UserAccountOptionWrapper getAcct = MainNavigationMenuAccountCtrl.getAllRelatedBusinessAccountOfUser(user.Id, selectedId);

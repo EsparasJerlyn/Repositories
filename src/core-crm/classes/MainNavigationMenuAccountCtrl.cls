@@ -12,7 +12,7 @@
       |                                |                       |                      | Options of the logged in Corp User.     | 
  */
 
-public with sharing class MainNavigationMenuAccountCtrl {
+public without sharing class MainNavigationMenuAccountCtrl {
     private static List <Account> userAccountOptions = new List <Account>();    
 
     /**
