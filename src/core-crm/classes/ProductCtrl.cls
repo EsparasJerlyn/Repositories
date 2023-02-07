@@ -834,22 +834,6 @@ public without sharing class ProductCtrl{
 			WHERE Course__r.ProductRequestID__c IN: productRequestList.keySet() OR Program_Plan__r.Product_Request__c IN: productRequestList.keySet() WITH SECURITY_ENFORCED
 		]);
 
-		/**
-		 * Get the Price for SOA and Corporate Bundle Products
-		 */
-		// Get the AccountId from Logged Corporate User
-		AccountContactRelation getAccount = [
-			SELECT Id, AccountId, Account.Name, ContactId
-			FROM AccountContactRelation 
-			WHERE Account.RecordType.Name = 'Business Organization' 
-			AND IsActive = true
-			AND AccountId = :acctFilterDataWrapper.accountId
-			AND ContactId IN (
-				SELECT ContactId 
-				FROM User 
-				WHERE Id = :acctFilterDataWrapper.userId)
-			LIMIT 1
-		];
 
 		// Get the List of BuyerGroupId
 		List<BuyerGroupMember> buyerGroupIdList = [

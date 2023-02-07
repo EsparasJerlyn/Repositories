@@ -367,19 +367,6 @@ public without sharing class ProductDetailsCtrl {
 		List<Asset> assetList = new List<Asset>();
 		List<BuyerGroupPricebook> bgpbList = new List<BuyerGroupPricebook>();
 
-		AccountContactRelation getAccount = [
-			SELECT Id, AccountId, ContactId 
-			FROM AccountContactRelation 
-			WHERE Account.RecordType.Name = 'Business Organization' 
-			AND AccountId = :productDetailsDataWrapper.accountId
-			AND IsActive = true
-			AND ContactId IN (
-				SELECT ContactId 
-				FROM User 
-				WHERE Id =: productDetailsDataWrapper.userId)
-			LIMIT 1
-		];
-
 		assetList = [
 			SELECT Id, Product_Request__c
 			FROM Asset
@@ -392,7 +379,7 @@ public without sharing class ProductDetailsCtrl {
 		List<BuyerGroupMember> buyerGroupIdList = [
 			SELECT Id, Name, BuyerGroupId, BuyerId, Buyer.Name
 			FROM BuyerGroupMember
-			WHERE BuyerId = :getAccount.AccountId
+			WHERE BuyerId = : productDetailsDataWrapper.accountId
 		];
 
 		List<String> bgIds = new List<String>();

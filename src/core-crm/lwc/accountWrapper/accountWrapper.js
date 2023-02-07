@@ -62,7 +62,9 @@ export default class AccountWrapper extends LightningElement {
     getAllRelatedBusinessAccountOfUser(){
         getAllRelatedBusinessAccountOfUser({ userId: userId, selectedAccountId: this.accountSelected })
         .then((result) => {
+
             this.accountNameOptions = result.accountOptions;
+            this.accountNameOptions.sort((a,b)=>a.label.localeCompare(b.label));
       
             for (const acct of result.accountOptions) {
 
