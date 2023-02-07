@@ -357,7 +357,7 @@ export default class MainNavigationMenu extends LightningElement {
 				this.productInfoList = prodList;
 			}
 		}).catch((error) => {
-			this.error = error;
+			this.productInfoList = [];
 		});
 	}
 

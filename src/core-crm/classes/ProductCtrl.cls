@@ -964,11 +964,10 @@ public without sharing class ProductCtrl{
 		Boolean isCBPublished = false;
 		Boolean isSOAPublished = false;
 		Boolean isTEEPublished = false;
-		if(catName.ProductCategory.Name == 'Corporate Bundle'){
-			if(checkCBPublished != null){
-				isCBPublished = true;
-				prodData.assetList = checkCBPublished;
-			}
+		if(!checkCBPublished.isEmpty() && catName.ProductCategory.Name == 'Corporate Bundle'){
+
+			isCBPublished = true;
+			prodData.assetList = checkCBPublished;
 
 			List<Associated_Products__c> getPublishedCB = [
 				SELECT Id, Name, Product_Request__r.Product_Request_Status__c, IsActive__c, Product__r.Name, Product__r.Id, Product__r.Product_Category__c
@@ -984,14 +983,14 @@ public without sharing class ProductCtrl{
 				prodCBIds.add(prdCB.Product__r.Id);
 			}
             
-		} else if(catName.ProductCategory.Name == 'QUTeX Learning Solutions'){
+		} else if(!bgpbList.isEmpty() && catName.ProductCategory.Name == 'QUTeX Learning Solutions'){
 			List<BuyerGroupMember> checkSOAPublished = [
 				SELECT Id, Name, BuyerGroup.Name, BuyerGroupId, BuyerGroup.Ready_for_publishing__c
 				FROM BuyerGroupMember
 				WHERE BuyerId = :acctFilterDataWrapper.accountId
 				AND BuyerGroup.Ready_for_publishing__c = 'Yes'
 			];
-			if(checkSOAPublished != null){
+			if(!checkSOAPublished.isEmpty()){
 				isSOAPublished = true;
 			}
 			// Get list of SOA Flexible Prog
