@@ -29,6 +29,8 @@ const CONTACT_FIELDS = [
     "User.Contact.Registered_Email__c"
   ];
 
+  const STORED_CONTACTNAME ="storedContactName";
+
 export default class CceLogout extends NavigationMixin(LightningElement) {
 
     contactName;
@@ -43,8 +45,14 @@ export default class CceLogout extends NavigationMixin(LightningElement) {
         if(data){
             this.firstName = data.fields.Contact.value.fields.FirstName.value;
             this.lastName = data.fields.Contact.value.fields.LastName.value;
+            let contactName = this.firstName + ' ' + this.lastName;
+
+            sessionStorage.setItem(STORED_CONTACTNAME,contactName);
         }
-         this.contactName = this.firstName + ' ' + this.lastName;
+       
+        if(sessionStorage.getItem(STORED_CONTACTNAME)){
+            this.contactName = sessionStorage.getItem(STORED_CONTACTNAME);
+        }
     }
 
     /* Load Custom CSS */

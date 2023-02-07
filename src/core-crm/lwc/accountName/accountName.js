@@ -16,6 +16,7 @@ import { loadStyle } from "lightning/platformResourceLoader";
 import { publish, MessageContext } from 'lightning/messageService';
 import payloadContainerLMS from '@salesforce/messageChannel/AccountId__c';
 const STORED_ACCTID = "storedAccountId";
+const STORED_ACCTNAME ="storedAccountName";
 export default class AccountName extends LightningElement {
 
     @api accountNameOptions = [];
@@ -33,7 +34,6 @@ export default class AccountName extends LightningElement {
     messageContext;
 
     renderedCallback(){
-        Promise.all([loadStyle(this, customSR + "/QUTCSS.css")]);
         this.publishLMS();
 
         if(this.selectedAccount && this.showAccount){
@@ -50,6 +50,7 @@ export default class AccountName extends LightningElement {
         this.isSelected = true;
 
         sessionStorage.setItem(STORED_ACCTID,this.accountSelected);
+        sessionStorage.setItem(STORED_ACCTNAME,this.fullLabel);
 
          // Creates the event with the data.
         const selectedEvent = new CustomEvent("valuechange", {
@@ -79,6 +80,7 @@ export default class AccountName extends LightningElement {
         this.isSelected = true;
 
         sessionStorage.setItem(STORED_ACCTID,this.accountSelected);
+        sessionStorage.setItem(STORED_ACCTNAME,this.fullLabel);
 
         // Creates the event with the data.
        const selectedEvent = new CustomEvent("valuechange", {

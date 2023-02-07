@@ -9,7 +9,7 @@
 */
 
 import { LightningElement } from 'lwc';
-import { wire, api } from 'lwc';
+import { wire} from 'lwc';
 import individualBanner from '@salesforce/resourceUrl/individualBanner';
 import homeBanner from '@salesforce/resourceUrl/homeBanner';
 import orgBanner from '@salesforce/resourceUrl/orgBanner';
@@ -18,6 +18,7 @@ import userId from "@salesforce/user/Id";
 import { subscribe, unsubscribe, MessageContext } from 'lightning/messageService';
 import payloadContainerLMS from '@salesforce/messageChannel/AccountId__c';
 const STUDY_STORE = 'study';
+const STORED_ACCTNAME ="storedAccountName";
 export default class PageBanner extends LightningElement {
     accountId;
     name;
@@ -34,11 +35,6 @@ export default class PageBanner extends LightningElement {
     renderedCallback(){
         this.subscribeLMS();
     }
-
-    connectedCallback() {
-        this.getAccountName();
-    }
-
 
     qutexlogo = logo;
     /**
@@ -83,8 +79,10 @@ export default class PageBanner extends LightningElement {
     }
 
 
-    getAccountName(){
-        this.welcomeName = 'Welcome ' + this.fullLabel;
+    get getSelectedAccountName(){
+        let acctLabel = sessionStorage.getItem(STORED_ACCTNAME);
+        let accountName = this.welcomeName = 'Welcome ' + acctLabel;
+        return accountName;
     }
 
     disconnectedCallback() {
@@ -121,7 +119,8 @@ export default class PageBanner extends LightningElement {
                 accountName: this.accountName,
                 fullLabel: this.fullLabel
               }
-              this.getAccountName();
+
+              sessionStorage.setItem(STORED_ACCTNAME,this.fullLabel);
         }
     }
 }

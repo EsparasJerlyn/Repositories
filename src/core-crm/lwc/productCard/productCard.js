@@ -59,7 +59,7 @@ export default class ProductCard extends NavigationMixin(LightningElement) {
   messageContext;
 
   renderedCallback(){
-    Promise.all([loadStyle(this, customSR + "/QUTInternalCSS.css")]);
+   // Promise.all([loadStyle(this, customSR + "/QUTInternalCSS.css")]);
     this.subscribeLMS();   
   }
 
