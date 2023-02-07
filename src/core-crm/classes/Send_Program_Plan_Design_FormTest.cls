@@ -83,7 +83,7 @@ private class Send_Program_Plan_Design_FormTest {
                 progPlan[i].hed__Start_Date__c = startDate;
                 progPlan[i].hed__End_Date__c = endDate;
                 progPlan[i].Name='Test Program Plan';
-                progPlan[i].hed__Description__c = 'Test Description';
+                progPlan[i].Description__c = 'Test Description';
                 progPlan[i].Who_Should_Participatev2__c = 'Test Participate';
                 progPlan[i].Core_Conceptsv2__c = 'Test Concept';
                 progPlan[i].hed__Total_Required_Credits__c = 1.1;

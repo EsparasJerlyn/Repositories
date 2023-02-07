@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Left_Column_Long__c</field>
-        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Name&quot;,&quot;mandatory&quot;:true},{&quot;field&quot;:&quot;hed__Account__c&quot;},{&quot;field&quot;:&quot;hed__Start_Date__c&quot;},{&quot;field&quot;:&quot;hed__Total_Required_Credits__c&quot;},{&quot;field&quot;:&quot;Program_Type__c&quot;},{&quot;field&quot;:&quot;hed__Description__c&quot;},{&quot;field&quot;:&quot;Who_Should_Participatev2__c&quot;},{&quot;field&quot;:&quot;More_Detailsv2__c&quot;},{&quot;field&quot;:&quot;hed__Is_Primary__c&quot;}]</value>
+        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Name&quot;,&quot;mandatory&quot;:true},{&quot;field&quot;:&quot;hed__Account__c&quot;},{&quot;field&quot;:&quot;hed__Start_Date__c&quot;},{&quot;field&quot;:&quot;hed__Total_Required_Credits__c&quot;},{&quot;field&quot;:&quot;Program_Type__c&quot;},{&quot;field&quot;:&quot;Description__c&quot;},{&quot;field&quot;:&quot;Who_Should_Participatev2__c&quot;},{&quot;field&quot;:&quot;More_Detailsv2__c&quot;},{&quot;field&quot;:&quot;hed__Is_Primary__c&quot;}]</value>
     </values>
     <values>
         <field>Left_Column__c</field>
