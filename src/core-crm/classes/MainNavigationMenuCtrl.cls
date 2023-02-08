@@ -43,69 +43,6 @@ public without sharing class MainNavigationMenuCtrl {
             return '';
         }
     }
-
-    @AuraEnabled
-    public static AccountWrapper getAllAccountName(String userId, String selectedAccountId){
-        AccountWrapper accountWrapperData = new AccountWrapper();
-        List<AccountWrapper> acctWrapperList = new List<AccountWrapper>();
-       
-        //Get default logged-in account
-        AccountContactRelation getAccount = [
-			SELECT Id, AccountId, ContactId,Contact.hed__Primary_Organization__c
-			FROM AccountContactRelation 
-			WHERE Account.RecordType.Name = 'Business Organization' 
-			AND ContactId IN (
-				SELECT ContactId 
-				FROM User 
-				WHERE Id = :userId) LIMIT 1 
-		];
-
-        //Get all accounts
-		List<AccountContactRelation> getAccounts = [
-                SELECT Id, AccountId, ContactId,Account.Name, Account.ParentId,Contact.hed__Primary_Organization__c
-                    FROM AccountContactRelation 
-                    WHERE Account.RecordType.Name = 'Business Organization' 
-                    AND ContactId IN (
-                        SELECT ContactId 
-                        FROM User 
-                    WHERE Id = :userId) ORDER BY Account.Name ASC
-		];
-
-        for (AccountContactRelation accountContactRelation : getAccounts){
-            AccountWrapper accountWrapper = new AccountWrapper();
-            accountWrapper.fullLabel = accountContactRelation.Account.Name;
-            
-            if(accountContactRelation.Account.Name.length() > 80){
-                accountWrapper.label = accountContactRelation.Account.Name.SubString(0, 80);
-            }else{
-                accountWrapper.label = accountContactRelation.Account.Name;
-            }
-
-            accountWrapper.value = accountContactRelation.AccountId; 
-
-            //checking to set account as primary
-            if(String.isBlank(selectedAccountId)){
-                if(accountContactRelation.AccountId == getAccount.Contact.hed__Primary_Organization__c){
-                    accountWrapper.isPrimaryAccount = true;
-                    accountWrapper.isSelected = false;
-                }
-            }
-            //checking to set account as selected
-            if(accountContactRelation.AccountId == String.valueOf(selectedAccountId)){
-                accountWrapper.isSelected = true;
-            }
-
-            acctWrapperList.add(accountWrapper);
-        }
-
-        
-        //Set values to wrapper
-        accountWrapperData.accountNames = acctWrapperList;
-
-		return accountWrapperData;
-
-    }
-
     
     @AuraEnabled(cacheable=true)
     public static List<NavigationMenuItem> defaultMenu(){
@@ -148,34 +85,4 @@ public without sharing class MainNavigationMenuCtrl {
         return productCategories;
     }
 
-    public class AccountWrapper{
-        @AuraEnabled
-        public String accountId{ get; set; }
-        @AuraEnabled
-        public String contactId{ get; set; }
-        @AuraEnabled
-        public Boolean isPrimaryAccount{ get; set; }
-        @AuraEnabled
-        public Boolean isSelected{ get; set; }
-        @AuraEnabled
-        public String accountName{ get; set; }
-        @AuraEnabled
-        public String accountParentId{ get; set; }
-        @AuraEnabled
-		public String label;
-        @AuraEnabled
-		public String fullLabel;
-		@AuraEnabled
-		public String value;
-        @AuraEnabled
-		public List<AccountWrapper> accountNames;
-    }
-
-    /**
-	 * @description Wrapper that contains list of accounts
-	 */
-	public class AccountWrapperData{
-		@AuraEnabled
-		public List<AccountWrapper> accountNames;
-	}
 }

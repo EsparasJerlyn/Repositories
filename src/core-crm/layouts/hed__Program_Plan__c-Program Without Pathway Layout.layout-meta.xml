@@ -118,7 +118,7 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>hed__Description__c</field>
+                <field>Description__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -185,7 +185,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h8r000000whz7</masterLabel>
+        <masterLabel>00h8q000000Myc8</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

@@ -548,11 +548,6 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     }
   }
 
-  /* Load Custom CSS */
-  renderedCallback() {
-    Promise.all([loadStyle(this, customSR + "/qutCustomLwcCss.css")]);
-  }
-
   disconnectedCallback() {
     this._connected = new Promise((resolve) => {
       this._resolveConnected = resolve;

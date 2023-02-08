@@ -40,7 +40,7 @@
     </values>
     <values>
         <field>Single_Column_Long__c</field>
-        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;hed__Description__c&quot;},
+        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Description__c&quot;},
 {&quot;field&quot;:&quot;Overviewv2__c&quot;},
 {&quot;field&quot;:&quot;Evolve_with_QUTeXv2__c&quot;},
 {&quot;field&quot;:&quot;Who_Should_Participatev2__c&quot;},

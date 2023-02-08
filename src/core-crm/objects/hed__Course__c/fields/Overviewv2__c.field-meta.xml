@@ -7,7 +7,7 @@
 ·       why the event is important and relevant 
 ·       if the event is linked to a course, briefly explain how it contributes</inlineHelpText>
     <label>Overview</label>
-    <length>1000</length>
+    <length>75000</length>
     <trackTrending>false</trackTrending>
     <type>LongTextArea</type>
     <visibleLines>25</visibleLines>

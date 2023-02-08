@@ -2094,36 +2094,6 @@ input[type=number] {
      appearance: none;
  }
  
-/* file upload */
-[interop-primitivefiledroppablezone_primitivefiledroppablezone-host] .slds-file-selector__button {
-  background: #F5F5F5 !important;
-  height: 70px !important;
-  width: 100%;
-  flex-flow: column;
-  cursor: pointer;
-  border: 1px solid #000000 dotted;
-  border-radius: 0px;
-  }
-  
-  [interop-primitivefiledroppablezone_primitivefiledroppablezone-host] .slds-file-selector__button:hover{
-  background:#0066b9 !important;
-  color:#fff;
-  }
-  
-  [interop-primitivefiledroppablezone_primitivefiledroppablezone-host] .slds-file-selector__text, [interop-primitivefiledroppablezone_primitivefiledroppablezone] .slds-file-selector__text 
-  {
-  display: none !important;
-  }
-  
-  [interop-primitivefiledroppablezone_primitivefiledroppablezone-host].slds-file-selector__dropzone{
-  border: 0px solid #fff !important;
-  }
-  
-  [interop-primitivefiledroppablezone_primitivefiledroppablezone-host] .slds-file-selector__button:hover{
-  background:#0066b9 !important;
-  color:#fff;
-  }
-
   /*Center truncate*/
 span.slds-truncate  {
     align-self: center;

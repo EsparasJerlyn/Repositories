@@ -93,9 +93,9 @@ export default class ProductBulkRegistration extends NavigationMixin(
     @api creditAvailable; //this is the available remaining credit
     @track totalAmount;
     mobileLocaleList = [];
-   
     filteredFieldNames = [];
     filteredMobileLocale = [];
+    
     get acceptedFormats() {
         return ['.csv'];
     }

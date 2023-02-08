@@ -33,6 +33,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>CsvBulkRegistrationCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CustomCreateEditRecordCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -74,6 +78,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>GetCurriculumCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>GroupRegistrationCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -160,6 +168,10 @@
         <apexClass>VirtualFinalConfirmationEmailCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>true</enabled>
+        <name>Mobile_Country_Code__mdt</name>
+    </customMetadataTypeAccesses>
     <customPermissions>
         <enabled>true</enabled>
         <name>EditDesignAndReleaseTabsOfProductRequest</name>
@@ -1671,6 +1683,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>WebCart.Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>hed__Attendance_Event__c.Present__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2775,7 +2792,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Program_Plan__c.hed__Description__c</field>
+        <field>hed__Program_Plan__c.Description__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3451,6 +3468,10 @@
     <userPermissions>
         <enabled>true</enabled>
         <name>EditPublicFilters</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>ManageInternalUsers</name>
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>

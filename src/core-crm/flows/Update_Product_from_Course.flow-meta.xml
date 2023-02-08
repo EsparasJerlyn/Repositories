@@ -421,7 +421,7 @@
         <inputAssignments>
             <field>Description</field>
             <value>
-                <elementReference>Get_Program_Plan.hed__Description__c</elementReference>
+                <elementReference>Get_Program_Plan.Description__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>

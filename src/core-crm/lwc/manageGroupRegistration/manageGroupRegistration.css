@@ -1,0 +1,41 @@
+.slds-modal__container{
+    width: 70% !important;
+    max-width: 70% !important;    
+}
+
+.action-button-container{ 
+    display: flex;
+    align-items: end;
+    padding-bottom: 14px
+}
+
+.download-button{
+    padding: 2px 2px 2px 0px;
+    border: none !important;
+    border-radius: 6px;
+}
+
+.slds-scrollable{
+    max-height: 150px;
+    min-height: 50px;
+}
+
+.max-height{
+    max-height:400px;
+}
+
+.slds-modal__content {
+    overflow: visible;
+    overflow-y: visible;
+}
+
+.warning-label {
+    font-style: italic;
+    color: red;
+}
+
+.coupon-applied-label {
+    font-style: italic;
+    color: green;
+}
+

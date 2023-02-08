@@ -85,9 +85,7 @@ export default class MainNavigationMenu extends LightningElement {
 	}
 
 	renderedCallback() {
-		Promise.all([loadStyle(this, customSR + "/QUTInternalCSS.css")]);
 		this.subscribeLMS();
-	
 	}
 
 	//retrieve Opportunity Contract Type
@@ -359,7 +357,7 @@ export default class MainNavigationMenu extends LightningElement {
 				this.productInfoList = prodList;
 			}
 		}).catch((error) => {
-			this.error = error;
+			this.productInfoList = [];
 		});
 	}
 

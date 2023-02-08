@@ -19,7 +19,8 @@ import payloadContainerLMS from '@salesforce/messageChannel/AccountId__c';
 import { publish, MessageContext } from 'lightning/messageService';
 const CHAR_LEN = 2;
 const STORED_ACCTID = "storedAccountId";
-
+const STORED_ASSETID = "storedAssetId";
+const STORED_BUYERGROUPID = "storedBuyerGroupId";
 export default class AccountWrapper extends LightningElement {
 
     error;
@@ -63,6 +64,7 @@ export default class AccountWrapper extends LightningElement {
         getAllRelatedBusinessAccountOfUser({ userId: userId, selectedAccountId: this.accountSelected })
         .then((result) => {
             this.accountNameOptions = result.accountOptions;
+            this.accountNameOptions.sort((a,b)=>a.label.localeCompare(b.label));
       
             for (const acct of result.accountOptions) {
 
@@ -108,6 +110,14 @@ export default class AccountWrapper extends LightningElement {
 
     handleValueChange(event) {
         this.accountSelected = event.detail;
+        sessionStorage.setItem(
+            STORED_ASSETID,
+            ''
+        );
+        sessionStorage.setItem(
+            STORED_BUYERGROUPID,
+            ''
+        );
         this.publishLMS();
     }
 
