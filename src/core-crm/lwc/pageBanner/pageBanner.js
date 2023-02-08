@@ -81,8 +81,12 @@ export default class PageBanner extends LightningElement {
 
     get getSelectedAccountName(){
         let acctLabel = sessionStorage.getItem(STORED_ACCTNAME);
-        let accountName = this.welcomeName = 'Welcome ' + acctLabel;
-        return accountName;
+        let welcome = this.welcomeName = 'Welcome ';
+
+        if(sessionStorage.getItem(STORED_ACCTNAME)){
+            acctLabel = sessionStorage.getItem(STORED_ACCTNAME);
+        }
+        return acctLabel !=null ? welcome + acctLabel : welcome;
     }
 
     disconnectedCallback() {
