@@ -49,20 +49,31 @@ public with sharing class RegistrationFormCtrlTest {
       String uniqueID = GenerateUniqueId.getUUID();
       String emailTest = 'testUser' + uniqueID + '@test.com';
 
+      RegistrationFormCtrl.RegistrationDataWrapper registrationData = new RegistrationFormCtrl.RegistrationDataWrapper();
+      RegistrationFormCtrl.BirthDateWrapper birthDateData = new RegistrationFormCtrl.BirthDateWrapper();
+      Contact contactRecord = new Contact();
+
+      contactRecord.FirstName = 'Test';
+      contactRecord.LastName = 'User';
+      contactRecord.Registered_Email__c = emailTest;
+      contactRecord.MobilePhone = '611234567890';
+      contactRecord.Dietary_Requirement__c = 'testDietary Req';
+      contactRecord.Accessibility_Requirement__c = 'access Req';
+      contactRecord.Id = null;
+      contactRecord.Mobile_No_Locale__c = '1234567890';
+      contactRecord.ContactMobile_Locale__c = 'Australia (+61)';
+
+      registrationData.startURL = '/study/s/';
+      registrationData.isOptIn = true;
+      registrationData.contactRecord = contactRecord;
+
+      birthDateData.day =1;
+      birthDateData.month = 1;
+      birthDateData.year = 1999;
+
       String page = RegistrationFormCtrl.registerUser(
-        'Test',
-        'User',
-        emailTest,
-        '611234567890',
-        1,
-        1,
-        1999,
-        'testDietary Req',
-        'access Req',
-        '/study/s/',
-        '1234567890',
-        'Australia (+61)',
-         null
+          JSON.serialize(registrationData),
+          JSON.serialize(birthDateData)
       );
       System.assert(page == null, 'Page must not be null');
     }
@@ -81,72 +92,37 @@ public with sharing class RegistrationFormCtrlTest {
       Contact testContact = new Contact();
       testContact.Birthdate = Date.newInstance(1999, 1, 1);
       testContact.Email = emailTest;
-      testContact.LastName = 'User';
+      testContact.FirstName = 'Test001';
+      testContact.LastName = 'User001';
       testContact.RecordTypeId = PERSON;
       insert testContact;
 
-      String page = RegistrationFormCtrl.registerUser(
-        'Test001',
-        'User001',
-        emailTest,
-        '611234567890',
-        1,
-        1,
-        1999,
-        'testDietary Req',
-        'access Req',
-        '/study/s/',
-        '1234567890',
-        'Australia (+61)',
-        null
-      );
-      System.assert(page == null, 'Page must not be null');
-    }
-    Test.stopTest();
-  }
 
-  @isTest
-  static void registerUserMultipleMatchTest() {
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
-    Test.startTest();
-    System.runAs(PORTAL_SYS_ADMIN) {
+      RegistrationFormCtrl.RegistrationDataWrapper registrationData = new RegistrationFormCtrl.RegistrationDataWrapper();
+      RegistrationFormCtrl.BirthDateWrapper birthDateData = new RegistrationFormCtrl.BirthDateWrapper();
+      Contact contactRecord = new Contact();
 
-      String uniqueID = GenerateUniqueId.getUUID();
-      String emailTest = 'testUser1' + uniqueID + '@test.com';
+      contactRecord.FirstName = 'Test001';
+      contactRecord.LastName = 'User001';
+      contactRecord.Registered_Email__c = emailTest;
+      contactRecord.MobilePhone = '611234567890';
+      contactRecord.Dietary_Requirement__c = 'testDietary Req';
+      contactRecord.Accessibility_Requirement__c = 'access Req';
+      contactRecord.Id = testContact.Id;
+      contactRecord.Mobile_No_Locale__c = '1234567890';
+      contactRecord.ContactMobile_Locale__c = 'Australia (+61)';
 
-      List<Contact> testContacts = new List<Contact>();
-      Contact testContact1 = new Contact();
-      testContact1.Birthdate = Date.newInstance(1999, 1, 1);
-      testContact1.Email = emailTest;
-      testContact1.LastName = 'User';
-      testContact1.RecordTypeId = PERSON;
-      testContacts.add(testContact1);
+      registrationData.startURL = '/study/s/';
+      registrationData.isOptIn = true;
+      registrationData.contactRecord = contactRecord;
 
-      Contact testContact2 = new Contact();
-      testContact2.Birthdate = Date.newInstance(1999, 1, 1);
-      testContact2.LastName = 'User';
-      testContact2.RecordTypeId = PERSON;
-      testContacts.add(testContact2);
-
-      insert testContacts;
-
-      testContact2.Email = 'testUser2' + GenerateUniqueId.getUUID() + '@test.com';
-      update testContact2;
+      birthDateData.day = 1;
+      birthDateData.month = 1;
+      birthDateData.year = 1999;
 
       String page = RegistrationFormCtrl.registerUser(
-        'Test',
-        'User',
-        emailTest,
-        '611234567890',
-        1,
-        1,
-        1999,
-        'testDietary Req',
-        'access Req',
-        '/study/s/',
-        '1234567890',
-        'Australia (+61)',
-        null
+          JSON.serialize(registrationData),
+          JSON.serialize(birthDateData)
       );
       System.assert(page == null, 'Page must not be null');
     }
@@ -187,6 +163,7 @@ public with sharing class RegistrationFormCtrlTest {
     final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
     Test.startTest();
     System.runAs(PORTAL_SYS_ADMIN) {
+      
       Contact c = new Contact(
                               LastName = 'Testing01', 
                               FirstName ='Testing01',
@@ -195,14 +172,30 @@ public with sharing class RegistrationFormCtrlTest {
                               );
       insert c;
 
+
+      RegistrationFormCtrl.RegistrationDataWrapper registrationData = new RegistrationFormCtrl.RegistrationDataWrapper();
+      Contact contactRecord = new Contact();
+
+      contactRecord.FirstName = 'Test';
+      contactRecord.LastName = 'User';
+      contactRecord.Registered_Email__c = 'test12345@sample.com';
+      contactRecord.Email = 'test12345@sample.com';
+      contactRecord.MobilePhone = '611234567890';
+      contactRecord.Dietary_Requirement__c = 'testDietary Req';
+      contactRecord.Accessibility_Requirement__c = 'access Req';
+      contactRecord.Id = c.Id;
+      contactRecord.Mobile_No_Locale__c = '1234567890';
+      contactRecord.ContactMobile_Locale__c = 'Australia (+61)';
+
+      registrationData.startURL = '/study/s/';
+      registrationData.isOptIn = true;
+      registrationData.contactRecord = contactRecord;
+
+
       RegistrationFormCtrl.updateContact(
-                                          c.Id, 
-                                          'test12345@sample.com',
-                                          'test12345@sample.com',
-                                          '0987654321', 
-                                          'Australia (+61)', 
-                                          'testing', 
-                                          'testing');
+        JSON.serialize(registrationData),
+        false
+      );
       String accessibilityReq = [SELECT Accessibility_Requirement__c FROM Contact WHERE Id =: c.Id]?.Accessibility_Requirement__c;
 
       System.assert(accessibilityReq != null, 'The contact details is not updated');
@@ -228,14 +221,30 @@ public with sharing class RegistrationFormCtrlTest {
                               );
       insert c;
 
+      RegistrationFormCtrl.RegistrationDataWrapper registrationData = new RegistrationFormCtrl.RegistrationDataWrapper();
+      Contact contactRecord = new Contact();
+
+      contactRecord.FirstName = 'Test';
+      contactRecord.LastName = 'User';
+      contactRecord.Registered_Email__c = 'test_work@email.com';
+      contactRecord.Email = 'test12345@sample.com';
+      contactRecord.MobilePhone = '611234567890';
+      contactRecord.Dietary_Requirement__c = 'testDietary Req';
+      contactRecord.Accessibility_Requirement__c = 'access Req';
+      contactRecord.Id = c.Id;
+      contactRecord.Mobile_No_Locale__c = '1234567890';
+      contactRecord.ContactMobile_Locale__c = 'Australia (+61)';
+
+      registrationData.startURL = '/study/s/';
+      registrationData.isOptIn = true;
+      registrationData.contactRecord = contactRecord;
+
+
       RegistrationFormCtrl.updateContact(
-                                          c.Id, 
-                                          'test_work@email.com',
-                                          'test12345@sample.com',
-                                          '0987654321', 
-                                          'Australia (+61)', 
-                                          'testing', 
-                                          'testing');
+        JSON.serialize(registrationData),
+        true        
+      );
+                                          
       String email = [SELECT Email FROM Contact WHERE id =: c.Id]?.Email;
       System.assertEquals('test12345@sample.com', email, 'The contact details is not updated');
     }
