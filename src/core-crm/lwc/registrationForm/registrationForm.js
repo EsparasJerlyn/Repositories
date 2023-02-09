@@ -645,14 +645,14 @@ export default class RegistrationForm extends LightningElement {
    * Sets the firstName via event
    */
   handleFirstNameChange(event) {
-    this.firstName = event.target.value;
+    this.firstName = event.target.value.trim();
   }
 
   /*
    * Sets the lastName via event
    */
   handleLastNameChange(event) {
-    this.lastName = event.target.value;
+    this.lastName = event.target.value.trim();
   }
 
   /*
@@ -713,6 +713,7 @@ export default class RegistrationForm extends LightningElement {
                     }
                     else{
                       //User does not exist
+                      this.displayEmailValidation = false;
                       this.userExists = false;
                       this.displayForm = false;
                       this.displayVerification = true;
