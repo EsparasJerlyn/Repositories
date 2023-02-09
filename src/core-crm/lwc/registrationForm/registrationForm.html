@@ -315,6 +315,27 @@
                   <div class="slds-checkbox">
                     <input
                       type="checkbox"
+                      name="info-checkbox"
+                      id="info-checkbox"
+                      value="Agree"
+                      checked
+                      onchange={handleInfoConsentCheckBox}
+                    />
+                    <label class="slds-checkbox__label" for="info-checkbox">
+                      <span class='slds-checkbox_faux check-box cursor'></span>
+                      <span class="text infoConsent"
+                        > {label.infoConsent} &nbsp;</span
+                      >
+                    </label>
+                    <div style="clear:both"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="slds-m-top_small">
+                <div class="slds-form-element__control">
+                  <div class="slds-checkbox">
+                    <input
+                      type="checkbox"
                       name="privacy-checkbox"
                       id="privacy-checkbox"
                       value="Agree"
@@ -455,6 +476,163 @@
       </div>
     </div>
   </template>
+  <!-- Information up to date form-->
+  <template if:true={displayInformationUpdate}>
+    <div id="regModal5" class="modal">
+      <div class="modal-content modal-content-height95 text px1 pt2">
+        <div
+          class="slds-m-top_small slds-m-right_large slds-p-right_large slds-clearfix"
+        >
+          <!--X button -->
+          <span class="slds-float_right cursor" onclick={closeModal}
+            ><img src={xButton}
+          /></span>
+        </div>
+        <div class="slds-grid slds-wrap slds-m-around_medium">
+          <lightning-spinner
+            if:true={loading}
+            class="slds-align_absolute-center slds-m-around_large"
+            alternative-text="Processing..."
+            size="large"
+            variant="brand"
+          ></lightning-spinner>
+          <template if:false={loading}>
+            <div class="slds-size_2-of-2 slds-text-align_center pb2">
+              <!--Static Contents-->
+              <p class="heading2">Help us keep your information up to date</p>
+              
+            </div>
+            <div class="slds-size_2-of-2 slds-text-align_center pb2">
+              <p class="bodyRegular">
+                The email address that you provided does not match with another email you have provided previously.
+              </p>
+            </div>
+            <div class="slds-size_2-of-2 slds-align_absolute-center">
+                <span><strong>What you provided</strong></span>
+            </div>
+            <div  class="slds-size_2-of-2 slds-align_absolute-center">
+              <div class="input-wrapper tooltip slds-is-relative">
+                <lightning-input 
+                class="uniqueEmail"
+                type="email" 
+                label=" " 
+                value={uniqueEmail}
+                onchange={handleUniqueEmailChange}
+                onblur={handleUniqEmailBlur}> 
+                </lightning-input>
+                <template if:false={updatingUniqueEmail}>
+                  <span class="tooltiptext tooltip-bottom email-help-text">
+                    {uniqueEmail}
+                  </span>
+                </template>
+              </div>
+            </div>
+            <div class="slds-size_2-of-2 slds-text-align_center pb2">
+              <p class="bodyRegular">
+                You have previously provided us with the below, please select which email address you would like to update.
+              </p>
+            </div>
+            <template if:true={hasPersonalEmail}>
+              <div class={emailCSS}>
+                <div class="slds-size_2-of-2">
+                  <div class="slds-form-element__control slds-align_absolute-center">
+                    <div class="slds-checkbox">
+                      <input
+                        type="checkbox"
+                        name="personal-email-checkbox"
+                        id="personal-email-checkbox"
+                        checked
+                        value="Agree"
+                        onchange={handlePersonalEmailCheckbox}
+                        disabled={disableEmailCheckBoxes}
+                      />
+                      <label class="slds-checkbox__label" for="personal-email-checkbox">
+                        <span class={requiredInputClass.checkbox}></span>
+                        <span class="text personalEmail"
+                          > <strong> Personal Email</strong>&nbsp;</span
+                        >
+                      </label>
+                      <div style="clear:both"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="slds-size_2-of-2">
+                  <div class="input-wrapper tooltip">
+                    <lightning-input 
+                    class="slds-text-align_center"
+                    type="email" 
+                    label=" " 
+                    value={personalEmail}
+                    disabled> 
+                    </lightning-input>
+                    <span class="tooltiptext tooltip-bottom email-help-text">
+                      fgdgfdgdfgdf{personalEmail}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </template>
+            <template if:true={hasWorkEmail}>
+              <div class={emailCSS}>
+                <div class="slds-size_2-of-2">
+                  <div class="slds-form-element__control slds-align_absolute-center">
+                    <div class="slds-checkbox">
+                      <input
+                        type="checkbox"
+                        name="work-email-checkbox"
+                        id="work-email-checkbox"
+                        value="Agree"
+                        onchange={handleWorkEmailCheckbox}
+                        disabled={disableEmailCheckBoxes}
+                      />
+                      <label class="slds-checkbox__label" for="work-email-checkbox">
+                        <span class={requiredInputClass.checkbox}></span>
+                        <span class="text workEmail"
+                          > <strong> Work Email</strong>&nbsp;</span
+                        >
+                      </label>
+                      <div style="clear:both"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="slds-size_2-of-2">
+                  <div class="input-wrapper tooltip">
+                    <lightning-input 
+                    class="slds-text-align_center"
+                    type="email" 
+                    label=" " 
+                    value={workEmail}
+                    disabled> 
+                    </lightning-input>
+                    <span class="tooltiptext tooltip-bottom email-help-text">
+                      {workEmail}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </template>
+            <!--Modal Footer Buttons-->
+            <div
+              class="slds-align_absolute-center slds-grid slds-wrap"
+            >
+              <div
+                class="slds-col p1 slds-size_12-of-12 slds-medium-size_12-of-12"
+              >
+                <button
+                  type="submit"
+                  class="slds-button slds-button_brand footer-button btnContinue"
+                  onclick={handleSubmitUpdateInfo}
+                  disabled={disableEmailUpdateSubmit}
+                >
+                  Submit
+                </button>
+              </div>
+            </div>
+          </template>
+        </div>
+      </div>
+    </div>
+  </template>
   <!--RESEND -->
   <template if:true={displayResendVerification}>
     <div id="regModal3" class="modal">
@@ -521,7 +699,7 @@
               <template if:false={loading}>
                 <div class="slds-size_2-of-2 slds-text-align_center pb2">
                   <!--Static Contents-->
-                  <p class="heading">Tell Me More About You</p>
+                  <p class="heading">Tell Us More About You</p>
                   <div class="bodyRegular reg-line-style">
                       Please enter an alternate email address that you’ve used with us before to help us find you.
                       <ul class="line-list">

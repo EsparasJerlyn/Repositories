@@ -84,6 +84,7 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
     ContactImageHelper.generateContactImageFile(newMap.values(),null);
     processLeadOnInsert(newMap);
     createChildMCPersona(newMap.values());
+    MarketingConsentHelper.processMarketingConsent((List<Contact>) newItems.values(), null);
   }
 
   /**
@@ -100,6 +101,7 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
     ContactImageHelper.generateContactImageFile(newMap.values(), oldMap);
     processLeadOnUpdate(newMap, oldMap);
     processWelcomeEmail(newMap, oldMap);
+    MarketingConsentHelper.processMarketingConsent((List<Contact>) newItems.values(), (Map<Id, Contact>) oldItems);
   }
 
   /**
