@@ -24,6 +24,7 @@
 			| keno.domienri.dico        | August 18, 2022       | DEPP-3765            | Added new Product category identifier        |
 			|                           | August 24, 2022       |                      | Addded new method for CCE Product Details    |
 			| mary.grace.li             | November 22, 2022     | DEPP-4693            | Modified for Selected account logic          |
+			| mary.grace.li             | February 9, 2022      | DEPP-5157 / 5180     | Removed renderedCallback in CCE              |
 */
 
 import { LightningElement, wire, api } from "lwc";
@@ -119,12 +120,6 @@ export default class ProductDetails extends NavigationMixin(LightningElement) {
 
 	accountSelectionSubscription;
 
-	renderedCallback(){
-		if(this.isCCEPortal){
-			this.subscribeLMS();
-		}
-	}
-
 	disconnectedCallback() {
         this.unsubscribeLMS();
     }
@@ -153,6 +148,11 @@ export default class ProductDetails extends NavigationMixin(LightningElement) {
 		this.showFlexibleProgram = false;
 		this.showProductDetailsSingle = false;
 		this.showProductDetailsDisplay = false;
+
+		if(this.isCCEPortal){
+			this.subscribeLMS();
+			this.getCCEProductDetails(this.recordId);
+		}
 
 		if(this.isOPEPortal){
 			this.getProductDetailsApex(this.recordId);
@@ -430,12 +430,9 @@ export default class ProductDetails extends NavigationMixin(LightningElement) {
                this.fullLabel = newValObj.fullLabel;
 
 			   sessionStorage.setItem(STORED_ACCTID,this.accountId);
-			   this.accountChange(this.recordId);
         }
     }
-
-     accountChange(productId) {
-		//get current product category
+	getCCEProductDetails(productId){
 		let currentProductCategory = JSON.parse(
 			sessionStorage.getItem(STOREPRODUCTCATEGORY)
 		);
