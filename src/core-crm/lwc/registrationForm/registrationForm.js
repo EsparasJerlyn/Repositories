@@ -552,7 +552,8 @@ export default class RegistrationForm extends LightningElement {
       birthDateData: JSON.stringify(birthDateData)
     })
     .then((res) => {
-
+      this.displayVerification = false;
+      this.displayInformationUpdate = false;
       if (res == "CloseModal") {
         this.closeModal();
       } else if (res) {
@@ -838,10 +839,10 @@ export default class RegistrationForm extends LightningElement {
       if (this.verifyOTP == this.userOTP) {
         this.generateToast("Success!", "Successfully Submitted", "success");
         this.loading = true;
-        this.displayVerification = false;
         //is from tell us about u
         if(this.contactFoundMisMatchEmail && this.hasPersonalEmail){
           this.displayInformationUpdate = true;
+          this.displayVerification = false;
           this.loading = false;
         }else if (Object.keys(this.loginUser).length > 0 && this.executeLogin) {
           this.loginExistingPortalUser();
@@ -865,6 +866,9 @@ export default class RegistrationForm extends LightningElement {
       .then((res) => {
         if (res) {
           this.updateContactOfExistingUser();
+          
+          this.displayVerification = false;
+          this.displayInformationUpdate = false;
           window.location.href = res;
         }
       })
@@ -972,7 +976,8 @@ export default class RegistrationForm extends LightningElement {
     }
 
     handleSubmitUpdateInfo(){
-      this.displayInformationUpdate = false;
+      this.loading = true;
+      
       if(Object.keys(this.loginUser).length > 0 && this.executeLogin) {
         this.loginExistingPortalUser();
       } else {
@@ -1022,4 +1027,3 @@ export default class RegistrationForm extends LightningElement {
     }
 
   }
-  
