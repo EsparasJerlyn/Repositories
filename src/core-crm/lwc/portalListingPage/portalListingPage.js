@@ -147,6 +147,10 @@
 			  return this.productCategory === 'Tailored Executive Education';
 		  }
 
+		  get hasProdSpec(){
+			return this.productCategory === 'Tailored Executive Education' && this.prodSpecList.length > 0;
+		  }
+
 		  get hasAsset(){
 				return this.isCorporateBundle && this.assetOptions.length > 0;
 		  }

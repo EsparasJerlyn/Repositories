@@ -803,13 +803,39 @@ public without sharing class ProductCtrl{
 	@AuraEnabled(cacheable=true)
 	public static List<BuyerGroupMember> getBuyerGroupMembers(String accountId){
 
-		return [
-			SELECT Id, BuyerGroup.Name, BuyerId, BuyerGroupId
-			FROM BuyerGroupMember
-			WHERE BuyerId =: accountId
-			AND BuyerGroup.Ready_for_publishing__c = 'Yes'
-			ORDER BY BuyerGroup.Publishing_End_Date__c ASC
+		List<BuyerGroupMember> buyerGroupMemberList = new List<BuyerGroupMember>();
+		Set<BuyerGroupMember> buyerGroupMemberSet = new Set<BuyerGroupMember>();
+		Map <Id,BuyerGroupMember> buyerGroupMemberMap = new Map <Id,BuyerGroupMember>();
+
+		List<BuyerGroupMember> buyerGroupMemberInitList = [
+			SELECT Id, BuyerGroup.Name, BuyerId, BuyerGroupId, BuyerGroup.Product_Request__c
+			  FROM BuyerGroupMember
+			 WHERE BuyerId =: accountId
+			   AND BuyerGroup.Ready_for_publishing__c = 'Yes' 
+			   AND BuyerGroup.Product_Request__r.Product_Request_Status__c = 'Published'
+		  ORDER BY BuyerGroup.Publishing_End_Date__c ASC
 		];
+		
+		List<Id> prodReqIds = new List<Id>();
+		for(BuyerGroupMember bgm : buyerGroupMemberInitList){
+			prodReqIds.add(bgm.BuyerGroup.Product_Request__c);
+			buyerGroupMemberMap.put(bgm.BuyerGroup.Product_Request__c, bgm);
+		}
+
+		List<Associated_Products__c> associatedProducts = [
+			SELECT Product_Request__c FROM Associated_Products__c 
+			 WHERE Product_Request__c IN : prodReqIds 
+			  WITH SECURITY_ENFORCED
+		];
+
+		for(Associated_Products__c associatedProduct : associatedProducts){
+			if(buyerGroupMemberMap.containsKey(associatedProduct.Product_Request__c)){
+				buyerGroupMemberSet.add(buyerGroupMemberMap.get(associatedProduct.Product_Request__c));
+			}
+		}
+
+		buyerGroupMemberList.addAll(buyerGroupMemberSet);
+		return buyerGroupMemberList;
 	}
 
 	/**
