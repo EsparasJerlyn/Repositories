@@ -12,6 +12,7 @@
 	  | keno.domienri.dico        | July 15, 2022		  | DEPP-2699		     | CCE Homepage				                  |
 	  | julie.jane.alegre         | November 28, 2022     | DEPP-4693		     | Update getProductsByCategory			      |
 	  | eccarius.kar.munoz        | January 16, 2023      | DEPP-4692		     | Update getProductSpecsByAccountTest		  |
+	  | eccarius.kar.munoz        | February 10, 2023     | DEPP-5177		     | Added getBuyerGroupMembersTest		  	  |
 */
 @isTest
 public with sharing class ProductCtrlTest {
@@ -41,6 +42,9 @@ public with sharing class ProductCtrlTest {
 	private static Id cceProdSpecId = Schema.SObjectType.Product_Specification__c.getRecordTypeInfosByDeveloperName().get('CCE').getRecordTypeId();
 	private static final String CATEGORY_OPE = 'Product Catalogue';
 
+	private static final String PROD_REQ_RT_SOA = System.Label.RT_ProductRequest_SOA;
+	private static final Id PROD_REQ_RT_SOA_ID = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PROD_REQ_RT_SOA).getRecordTypeId();
+
 	@testSetup
 	static void setupMethod() {
 		TestDataFactory.loadEDATriggers();
@@ -69,11 +73,6 @@ public with sharing class ProductCtrlTest {
 			List<BuyerGroupMember> bgm = [
 				SELECT Id, Name, BuyerId, BuyerGroupId FROM BuyerGroupMember 
 				WHERE BuyerId = :accounts[1].Id
-			];
-
-			List<BuyerGroup> bGroup = [
-				SELECT Id, Name FROM BuyerGroup
-				WHERE Id = :bgm[0].BuyerGroupId
 			];
 
 			List<Contact> contacts = TestDataFactory.createTestContactRecords(1);
@@ -1731,4 +1730,45 @@ public with sharing class ProductCtrlTest {
 			System.assert(!prodSpecs.isEmpty(), 'Product Specification must not be empty');
 		}
 	}
+
+	@isTest
+	static void getBuyerGroupMembersTest(){
+		System.runAs(TestDataFactory.getProgramAdminUser()) {
+			List<Account> accounts = [SELECT Id, Name, RecordType.Name FROM Account WHERE Name ='TestAccount1' AND RecordType.Name = 'Business Organization' WITH SECURITY_ENFORCED LIMIT 1];
+
+			List<Product_Request__c> prodRequestList = TestDataFactory.createTestProductRequestRecords(1);
+			for(Product_Request__c pr : prodRequestList){
+				pr.RecordTypeId = PROD_REQ_RT_SOA_ID;
+				pr.Product_Request_Status__c = 'Published';
+			}
+			if(Schema.sObjectType.Product_Request__c.isCreateable()){
+				insert prodRequestList;
+			}
+			
+			List<BuyerGroup> buyerGrpList = [SELECT Id, Ready_for_publishing__c FROM BuyerGroup];
+			for(BuyerGroup bg : buyerGrpList){
+				bg.Product_Request__c = prodRequestList[0].Id;
+				bg.Ready_for_publishing__c = 'Yes';
+			}
+			if(Schema.sObjectType.BuyerGroup.isUpdateable()){
+				update buyerGrpList;
+			}
+
+			Associated_Products__c associatedProduct = new Associated_Products__c();
+			associatedProduct.Product_Request__c = prodRequestList[0].Id;
+			if(Schema.sObjectType.Associated_Products__c.isCreateable()){
+				insert associatedProduct;
+			}
+			
+			Test.startTest();
+			List<BuyerGroupMember> buyerGrpMembers = new List<BuyerGroupMember>();
+			System.runAs(TestDataFactory.getCorporatePartnerUser()) {
+				buyerGrpMembers = ProductCtrl.getBuyerGroupMembers(accounts[0].Id);
+			}
+			Test.stopTest();
+
+			System.assert(!buyerGrpMembers.isEmpty(), 'Buyer Group Members must not be empty');
+		}
+	}
+	
 }

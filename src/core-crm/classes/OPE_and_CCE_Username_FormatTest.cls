@@ -11,13 +11,19 @@
 @isTest
 public with sharing class OPE_and_CCE_Username_FormatTest {
 
+  public static final Id PERSON = Schema.SObjectType.Contact.getRecordTypeInfosByDeveloperName()
+    .get('Person')
+    .getRecordTypeId();
+
   @testSetup
   public static void setUp() {
     Test.startTest();
         TestDataFactory.generateTestUsers();
 
+        BuyerGroup opeBuyerGroup = new BuyerGroup(Name = 'OPE BuyerGroup');
+        insert opeBuyerGroup;
+
     Test.stopTest();
-  
   }
 
   @isTest
@@ -30,22 +36,32 @@ public with sharing class OPE_and_CCE_Username_FormatTest {
       
       String uniqueID = GenerateUniqueId.getUUID();
       String emailTest = 'testUser' + uniqueID + '@test.com';
+         
+      Contact contactRecord = new Contact();
+      contactRecord.FirstName = 'Test';
+      contactRecord.LastName = 'User';
+      contactRecord.Registered_Email__c = emailTest;
+      contactRecord.MobilePhone = '611234567890';
+      contactRecord.Dietary_Requirement__c = 'testDietary Req';
+      contactRecord.Accessibility_Requirement__c = 'access Req';
+      contactRecord.Mobile_No_Locale__c = '1234567890';
+      contactRecord.ContactMobile_Locale__c = 'Australia (+61)';
+
+      RegistrationFormCtrl.RegistrationDataWrapper registrationData = new RegistrationFormCtrl.RegistrationDataWrapper();   
+      registrationData.startURL = '/study/s/';
+      registrationData.isOptIn = true;
+      registrationData.contactRecord = contactRecord;
+
+      RegistrationFormCtrl.BirthDateWrapper birthDateData = new RegistrationFormCtrl.BirthDateWrapper();
+      birthDateData.day = 1;
+      birthDateData.month = 1;
+      birthDateData.year = 1999;
 
       String page = RegistrationFormCtrl.registerUser(
-        'Test',
-        'User',
-        emailTest,
-        '611234567890',
-        1,
-        1,
-        1999,
-        'testDietary Req',
-        'access Req',
-        '/study/s/',
-        '1234567890',
-        'Australia (+61)',
-         null
+          JSON.serialize(registrationData),
+          JSON.serialize(birthDateData)
       );
+
       System.assert(page == null, 'Page must not be null');
     }
     Test.stopTest();
