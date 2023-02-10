@@ -54,6 +54,7 @@ public with sharing class TrackAttendanceAndEvaluationCtrl {
                 Select Id,Name,hed__Course_Offering__c,hed__Contact__r.Name 
                 FROM hed__Course_Enrollment__c 
                 WHERE hed__Status__c = 'Active' AND RecordTypeId=:studentRTId AND hed__Course_Offering__c in:courseOfferingMap.keySet()
+                ORDER BY hed__Contact__r.Name ASC
             ];
 
         Map<Id,List<Session__c>> sessionOfferingMap = new Map<Id, List<Session__c>>();
