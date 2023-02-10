@@ -109,9 +109,8 @@ public without sharing class MarketingConsentHelper {
 
 	private static Marketing_Segmentation__c processContactOptIn(Marketing_Segmentation__c marSeg){
 	
-		if(   marSeg.My_Primary_Study_Level__c != 'Short Courses and Professional Development' &&
-				marSeg.My_Secondary_Study_Level__c != 'Short Courses and Professional Development' && 
-				marSeg.My_Primary_Study_Level__c != null){
+		if(   marSeg.My_Primary_Study_Level__c != null &&
+				marSeg.My_Secondary_Study_Level__c != 'Short Courses and Professional Development' ){
 				//if both primary and study level is not short courses and professional development 
 				//And primary study level is populated
 				//update the secondary study level
