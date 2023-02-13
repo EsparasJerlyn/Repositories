@@ -190,6 +190,10 @@ public with sharing class ManageRegAndNomCtrlTest {
         Test.startTest();
         Id contactId = [SELECT Id FROM Contact WHERE FirstName = 'cce contact' LIMIT 1]?.Id;
 
+        BuyerGroup bg = new BuyerGroup();
+        bg.Name = 'OPE BuyerGroup';
+        insert bg;
+
         CCECorporateUserCtrl.CorporateUserDetails userDetails = CCECorporateUserCtrl.enablePortalUser(contactId,CATEGORY_CCE);   
         User user = [SELECT Id, Name FROM User WHERE Id =: userDetails.userId LIMIT 1];
 

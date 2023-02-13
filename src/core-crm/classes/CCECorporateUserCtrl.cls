@@ -189,8 +189,14 @@ public without sharing class CCECorporateUserCtrl {
     @future
     public static void assignPermissionset(List<String> permsetLabelList, Id userId, Boolean hasOpeUser){
         List<PermissionSetAssignment> permSetAssignments = new List<PermissionSetAssignment>();
-        List<PermissionSet> permsets = [SELECT Id FROM PermissionSet WHERE Label IN : permsetLabelList WITH SECURITY_ENFORCED];
-        List<PermissionSetAssignment> userPermSetAssignments = [SELECT Id FROM PermissionSetAssignment WHERE PermissionSetId IN : permsets AND AssigneeId = : userId WITH SECURITY_ENFORCED];
+        List<PermissionSet> permsets = new List<PermissionSet>();
+        if(Schema.sObjectType.PermissionSet.isAccessible()){
+            permsets = [SELECT Id FROM PermissionSet WHERE Label IN : permsetLabelList];
+        }
+        List<PermissionSetAssignment> userPermSetAssignments = new List<PermissionSetAssignment>();
+        if(Schema.sObjectType.PermissionSet.isAccessible()){
+            userPermSetAssignments = [SELECT Id FROM PermissionSetAssignment WHERE PermissionSetId IN : permsets AND AssigneeId = : userId];
+        }
         if(userPermSetAssignments.isEmpty()){
             for(PermissionSet perm: permsets){
                 PermissionSetAssignment permSetAssignment = new PermissionSetAssignment(

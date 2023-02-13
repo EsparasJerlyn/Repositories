@@ -164,6 +164,10 @@ public class ProductDetailsCtrlTest{
       CartDeliveryGroup cartDeliveryGroup = new CartDeliveryGroup(CartId = cart.Id, Name = 'Default Delivery');
       insert cartDeliveryGroup;
 
+      BuyerGroup bg = new BuyerGroup();
+      bg.Name = 'OPE BuyerGroup';
+      insert bg;
+
       Test.stopTest();
     }
   }
@@ -285,6 +289,7 @@ public class ProductDetailsCtrlTest{
 				SELECT Id, BuyerId, BuyerGroupId 
 				FROM BuyerGroupMember
 				WHERE BuyerId = :accBusinessOrg[0].Id
+        AND BuyerGroup.Name != 'OPE BuyerGroup'
 			];
 
 			// Create CommerceEntitlementBuyerGroup
