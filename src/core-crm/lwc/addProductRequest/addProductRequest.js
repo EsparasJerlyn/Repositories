@@ -516,6 +516,9 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
         //if Standing Offer Arrangement record is selected
         if(this.isSOASelected){
             fields.Name = fields.Name + ' ' + formattedDate;
+            if(fields.Name.length > 80){
+                fields.Name = fields.Name.substring(0,80) + ' ' + formattedDate;
+            }
             fields.Product_Request__c = this.prodReqId;
             fields.Start_Date__c = this.lastModifiedDateProdReq;
             fields.Primary_Account__c = this.primaryAccountId;
