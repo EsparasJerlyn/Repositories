@@ -144,6 +144,10 @@ public class ManageRegistrationLearnersListHelperTest {
           System.runAs(TestDataFactory.getProgramAdminUser()){
                Id offeringId = null;
 
+               BuyerGroup bg = new BuyerGroup();
+               bg.Name = 'OPE BuyerGroup';
+               insert bg;
+
                List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
                for(Account account : accounts){
                     account.RecordTypeId = ACCT_UNIV_DEP_ID;

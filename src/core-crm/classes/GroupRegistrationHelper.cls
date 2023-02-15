@@ -22,7 +22,8 @@ public with sharing class GroupRegistrationHelper {
     public static Map<Id,User> createUsers(List<Contact> contacts){       
         Map<Id,User> responseMap = new Map<Id,User>();
         List<User> allUsers = new List<User>();
-        
+        List<Id> contactIds = new List<Id>();
+
         Profile profile = [SELECT Id FROM Profile WHERE Name = 'OPE Catalogue' WITH SECURITY_ENFORCED LIMIT 1];
         Map<Id,User> userMap = GroupRegistrationHelper.setUserMap(contacts);
         List<User> newUsers = new List<User>();
@@ -45,17 +46,113 @@ public with sharing class GroupRegistrationHelper {
                 user.profileId = profile.Id;
                 newUsers.add(user);
             }
+            contactIds.add(contact.Id);
         }
         if(Schema.sObjectType.User.isCreateable()){
             insert newUsers;
         }
         
         allUsers.addAll(newUsers);
-        assignOPEPermSet(GroupRegistrationHelper.setUserIds(allUsers));  
-        responseMap = GroupRegistrationHelper.setUserIdMap(allUsers);     
+        assignToOPEBuyerGroup(contactIds);
+        assignOPEPermSet(setUserIds(allUsers));  
+        responseMap = setUserIdMap(allUsers);     
 
         return responseMap;
-    }    
+    }        
+
+    private static void assignToOPEBuyerGroup(List<Id> contactIds){
+          
+        List<BuyerGroup> opeBuyerGroup = [SELECT Id FROM BuyerGroup WHERE Name = 'OPE BuyerGroup' WITH SECURITY_ENFORCED LIMIT 1];
+        List<Contact> contacts = [SELECT AccountId, Account.Name FROM Contact WHERE Id IN : contactIds WITH SECURITY_ENFORCED];
+
+        List<Id> contactAdminAccountIds = setupContactAdminAccountIds(contacts);
+        Map<Id, BuyerAccount> buyerAccountMap = setupBuyerAccountMap(contactAdminAccountIds);
+        Map<Id, BuyerGroupMember> buyerGroupMemberMap = setupBuyerGroupMemberMap(contactAdminAccountIds, opeBuyerGroup[0].Id);
+
+        List<BuyerAccount> buyerAccountsToCreate = new List<BuyerAccount>();
+        List<BuyerGroupMember> buyerGroupMembersToCreate = new List<BuyerGroupMember>();
+        for(Contact contact : contacts){
+            if(!buyerAccountMap.containsKey(contact.AccountId)){
+                BuyerAccount administrativeAccountBuyer = new BuyerAccount();
+                administrativeAccountBuyer.BuyerId = contact.AccountId;
+                administrativeAccountBuyer.Name = contact.Account.Name;
+                administrativeAccountBuyer.IsActive = true;
+                administrativeAccountBuyer.BuyerStatus = 'Active';
+                buyerAccountsToCreate.add(administrativeAccountBuyer);
+            }
+
+            if(!buyerGroupMemberMap.containsKey(contact.AccountId)){
+                BuyerGroupMember bgMember = new BuyerGroupMember();
+                bgMember.BuyerId = contact.AccountId;
+                bgMember.BuyerGroupId = opeBuyerGroup[0].Id;
+                buyerGroupMembersToCreate.add(bgMember);
+            }
+        }
+
+        insertBuyerAccounts(buyerAccountsToCreate);
+        insertBuyerGroupMembers(buyerGroupMembersToCreate);
+        
+    }
+
+    private static List<Id> setupContactAdminAccountIds(List<Contact> contacts){
+        List<Id> contactAdminAccountIds = new List<Id>();
+        for(Contact contact : contacts){
+            contactAdminAccountIds.add(contact.AccountId);
+        }
+        return contactAdminAccountIds;
+    }
+
+    private static Map<Id, BuyerAccount> setupBuyerAccountMap(List<Id> contactAdminAccountIds){
+        Map<Id, BuyerAccount> buyerAccountMap = new Map<Id, BuyerAccount>();
+        List<BuyerAccount> buyerAccounts = [SELECT Id, BuyerId FROM BuyerAccount WHERE BuyerId IN : contactAdminAccountIds WITH SECURITY_ENFORCED];
+        for(BuyerAccount buyerAccount : buyerAccounts){
+            buyerAccountMap.put(buyerAccount.BuyerId, buyerAccount);
+        }
+        return buyerAccountMap;
+    }
+
+    private static Map<Id, BuyerGroupMember> setupBuyerGroupMemberMap(List<Id> contactAdminAccountIds, Id opeBuyerGrpId){
+        Map<Id, BuyerGroupMember> buyerGroupMemberMap = new Map<Id, BuyerGroupMember>();
+        List<BuyerGroupMember> buyerGroupMembers = [SELECT Id, BuyerId FROM buyerGroupMember WHERE BuyerId IN : contactAdminAccountIds AND BuyerGroupId =: opeBuyerGrpId WITH SECURITY_ENFORCED];
+        for(BuyerGroupMember buyerGroupMember : buyerGroupMembers){
+            buyerGroupMemberMap.put(buyerGroupMember.BuyerId, buyerGroupMember);
+        }
+        return buyerGroupMemberMap;
+    }
+
+    private static void insertBuyerAccounts(List<BuyerAccount> buyerAccountsToCreate){
+        List<Database.SaveResult> insertResults = new List<Database.SaveResult>();
+        if(Schema.sObjectType.BuyerAccount.fields.BuyerId.isCreateable() &&
+            Schema.sObjectType.BuyerAccount.fields.Name.isCreateable() &&
+            Schema.sObjectType.BuyerAccount.fields.IsActive.isCreateable() &&
+            Schema.sObjectType.BuyerAccount.fields.BuyerStatus.isCreateable()){
+                insertResults = Database.insert(buyerAccountsToCreate, false);
+        }
+        for (Database.SaveResult result : insertResults){
+            if (!result.isSuccess()){
+                Logger.error('Error in Inserting Buyer Accounts').setDatabaseResult(result);
+            }            
+            if(Logger.getBufferSize() < 0){
+                Logger.saveLog();                
+            }
+        }
+    }
+
+    private static void insertBuyerGroupMembers(List<BuyerGroupMember> buyerGroupMembersToCreate){
+        List<Database.SaveResult> insertResults = new List<Database.SaveResult>();
+        if(Schema.sObjectType.BuyerGroupMember.fields.BuyerId.isCreateable() &&
+        Schema.sObjectType.BuyerGroupMember.fields.BuyerGroupId.isCreateable()){
+            insertResults = Database.insert(buyerGroupMembersToCreate, false);
+        }
+        for (Database.SaveResult result : insertResults){
+            if (!result.isSuccess()){
+                Logger.error('Error in Inserting Buyer Group Members').setDatabaseResult(result);
+            }            
+            if(Logger.getBufferSize() < 0){
+                Logger.saveLog();                
+            }
+        }
+    }
 
     /**
      * assign ope perm set
