@@ -91,6 +91,10 @@ public with sharing class ProductCtrlTest {
 			);
 			insert cceContact;
 
+			BuyerGroup bg = new BuyerGroup();
+            bg.Name = 'OPE BuyerGroup';
+            insert bg;
+
 			CCECorporateUserCtrl.CorporateUserDetails enableResponse = CCECorporateUserCtrl.enablePortalUser(cceContact.Id,CATEGORY_OPE);
 			System.assert(enableResponse != null, 'no response');
 
@@ -752,6 +756,7 @@ public with sharing class ProductCtrlTest {
 				SELECT Id, BuyerId, BuyerGroupId 
 				FROM BuyerGroupMember
 				WHERE BuyerId = :accBusinessOrg[0].Id
+				AND BuyerGroup.Name != 'OPE BuyerGroup'
 			];
 
 			// Create CommerceEntitlementBuyerGroup
@@ -914,6 +919,7 @@ public with sharing class ProductCtrlTest {
 				SELECT Id, BuyerId, BuyerGroupId 
 				FROM BuyerGroupMember
 				WHERE BuyerId = :accBusinessOrg[0].Id
+				AND BuyerGroup.Name != 'OPE BuyerGroup'
 			];
 
 
@@ -1125,6 +1131,7 @@ public with sharing class ProductCtrlTest {
 				SELECT Id, BuyerId, BuyerGroupId 
 				FROM BuyerGroupMember
 				WHERE BuyerId = :accBusinessOrg[0].Id
+				AND BuyerGroup.Name != 'OPE BuyerGroup'
 			];
 
 			ProductCatalog prodCCECatalog = new ProductCatalog(Name = 'CCE Catalog');

@@ -15,6 +15,9 @@
       | eccarius.munoz            | September 19, 2022    | DEPP-4366            | Added handling for business org     |     
       |                           |                       |                      | account validation.                 |
       | arsenio.jr.dayrit         | January 17, 2023      | DEPP-4925            | added handling for OPE enablement   |
+      | eugene.andrew.abuan       | February 10, 2023     | DEPP-4991            | Added Administrative Acc access     |
+
+
  */
 public without sharing class CCECorporateUserCtrl { 
 
@@ -32,11 +35,19 @@ public without sharing class CCECorporateUserCtrl {
             Boolean hasOpeUser = false;
             String ccefilter;
             String opefilter;
-            String emailToUse;            
+            String emailToUse;
+            String administrativeId = '';
+            String administrativeAccName = '';           
 
             //Retrieves Contact details
             List<Contact> contacts = [SELECT Id, AccountId, Account.Name, hed__Primary_Organization__c, Email, Work_Email__c, FirstName, LastName, Name, Registered_Email__c  FROM Contact WHERE Id =: recordId WITH SECURITY_ENFORCED LIMIT 1];
             for(Contact con : contacts){
+                //store AccountName and Account Id in the variables above
+                if(String.IsNotBlank(con.AccountId) && String.IsNotBlank(con.Account.Name)){
+                    administrativeId = con.AccountId;
+                    administrativeAccName = con.Account.Name;
+                }
+
                 ValidateContactInputResponse validateConInput = validateContactInput(con, portalAccessType);
                 if(!validateConInput.isSuccess){
                     response.isSuccess = validateConInput.isSuccess;
@@ -108,6 +119,11 @@ public without sharing class CCECorporateUserCtrl {
             response.accountName = contact.Account.Name;
             response.userId = userId;
 
+            //Add Administrative Account associated with the Contact
+            if(String.isNotBlank(administrativeAccName) && String.isNotBlank(administrativeId)){
+                createOPEAccess(administrativeAccName,administrativeId);
+            }
+
         }catch(Exception e){
             Database.rollback(savePoint);
             response.isSuccess = false;
@@ -159,28 +175,44 @@ public without sharing class CCECorporateUserCtrl {
         for(User user : usersToCreate){
             userAccessWrapper.userId = user.Id;
         }
-
+        // Assign Permissionset in the future to aviod MIXED_DML_OPERATION 
+        assignPermissionset(permsetLabelList, userAccessWrapper.userId, userAccessWrapper.hasOpeUser);
+        return  userAccessWrapper.userId;
+    }
+    
+    /**
+   * @description Method to Assign the Permission set to the User in future
+   * @param permsetLabelList - List of Permission Sets
+   * @param userId - id of the user
+   * @param hasOpeUser - Boolean checker if the user is an OPE
+   */
+    @future
+    public static void assignPermissionset(List<String> permsetLabelList, Id userId, Boolean hasOpeUser){
         List<PermissionSetAssignment> permSetAssignments = new List<PermissionSetAssignment>();
-        List<PermissionSet> permsets = [SELECT Id FROM PermissionSet WHERE Label IN : permsetLabelList WITH SECURITY_ENFORCED];
-        List<PermissionSetAssignment> userPermSetAssignments = [SELECT Id FROM PermissionSetAssignment WHERE PermissionSetId IN : permsets AND AssigneeId = :  userAccessWrapper.userId WITH SECURITY_ENFORCED];
+        List<PermissionSet> permsets = new List<PermissionSet>();
+        if(Schema.sObjectType.PermissionSet.isAccessible()){
+            permsets = [SELECT Id FROM PermissionSet WHERE Label IN : permsetLabelList];
+        }
+        List<PermissionSetAssignment> userPermSetAssignments = new List<PermissionSetAssignment>();
+        if(Schema.sObjectType.PermissionSet.isAccessible()){
+            userPermSetAssignments = [SELECT Id FROM PermissionSetAssignment WHERE PermissionSetId IN : permsets AND AssigneeId = : userId];
+        }
         if(userPermSetAssignments.isEmpty()){
             for(PermissionSet perm: permsets){
                 PermissionSetAssignment permSetAssignment = new PermissionSetAssignment(
                     PermissionSetId = perm.Id,
-                    AssigneeId =  userAccessWrapper.userId
+                    AssigneeId = userId
                 );
                 permSetAssignments.add(permSetAssignment);
             }
 
-            if(permSetAssignments.size() > 0 && !userAccessWrapper.hasOpeUser &&
+            if(permSetAssignments.size() > 0 && !hasOpeUser &&
             Schema.sObjectType.PermissionSetAssignment.fields.AssigneeId.isCreateable() &&
             Schema.sObjectType.PermissionSetAssignment.fields.PermissionSetId.isCreateable()){
                 insert permSetAssignments;
             }
         }
-        return  userAccessWrapper.userId;
     }
-    
     /**
      * Enables Corporate User for Contact with existing OPE User
      * @param <String> - contactId
@@ -356,6 +388,51 @@ public without sharing class CCECorporateUserCtrl {
         }
         return response;
     }
+
+    /**
+     * Creates Buyer Access to OPE Portal for CCE User
+     * @param accountName - Account Name of the Administrative Account
+     * @param administrativeAccId - administrative Account Id of the contact
+     */
+    @AuraEnabled
+    public static void createOPEAccess (String accountName, String administrativeAccId){
+        //Query the OPE Buyer Group
+        List<BuyerGroup> opeBuyerGroup = [ SELECT Id FROM BuyerGroup WHERE Name = 'OPE BuyerGroup' WITH SECURITY_ENFORCED LIMIT 1];
+        //Query the Administrative Account of the Contact has Buyer Account 
+        List<BuyerAccount> buyerAccount = [SELECT Id FROM BuyerAccount WHERE BuyerId =:administrativeAccId WITH SECURITY_ENFORCED LIMIT 1];
+
+        //Create Buyer Account Record if Buyer Account is blank
+        if(buyerAccount.isEmpty()){
+            BuyerAccount administrativeAccountBuyer = new BuyerAccount();
+            administrativeAccountBuyer.BuyerId = administrativeAccId;
+            administrativeAccountBuyer.Name = accountName;
+            administrativeAccountBuyer.IsActive = TRUE;
+            administrativeAccountBuyer.BuyerStatus = 'Active';
+
+            if(Schema.sObjectType.BuyerAccount.fields.BuyerId.isCreateable() &&
+            Schema.sObjectType.BuyerAccount.fields.Name.isCreateable() &&
+            Schema.sObjectType.BuyerAccount.fields.IsActive.isCreateable() &&
+            Schema.sObjectType.BuyerAccount.fields.BuyerStatus.isCreateable())
+            {
+                insert administrativeAccountBuyer;
+            }
+        }
+        
+        // Query the Buyer Group Member of the OPE Catalouge Buyer Group
+        List<BuyerGroupMember> buyerGroupMember = [ SELECT Id FROM buyerGroupMember WHERE BuyerId =: administrativeAccId AND BuyerGroupId =: opeBuyerGroup[0].Id WITH SECURITY_ENFORCED LIMIT 1];
+        // Create Buyer Group Member Record if the Account is not yet associated to the OPE Buyer Group
+        if(buyerGroupMember.isEmpty()){
+            BuyerGroupMember bgMember = new BuyerGroupMember();
+            bgMember.BuyerId = administrativeAccId;
+            bgMember.BuyerGroupId = opeBuyerGroup[0].Id;
+
+            if(Schema.sObjectType.BuyerGroupMember.fields.BuyerId.isCreateable() &&
+            Schema.sObjectType.BuyerGroupMember.fields.BuyerGroupId.isCreateable())
+            {
+                insert bgMember;
+            }
+          }
+    }   
 
     public class ValidateContactInputResponse{
         @AuraEnabled

@@ -54,13 +54,20 @@ public with sharing class MainNavigationMenuAccountCtrlTest {
             insert contact;
 
             Test.startTest();
+
+            BuyerGroup bg = new BuyerGroup();
+            bg.Name = 'OPE BuyerGroup';
+            insert bg;
+
             CCECorporateUserCtrl.enablePortalUser(contact.Id, 'Corporate Portal');
+            User user = [SELECT Name, Username FROM User WHERE ContactId =: contact.Id LIMIT 1];
+
             System.runAs(TestDataFactory.getCorporatePartnerUser()){
                 Id selectedId;
-                User user = [SELECT Name, Username FROM User WHERE ContactId =: contact.Id LIMIT 1];
                 MainNavigationMenuAccountCtrl.UserAccountOptionWrapper getAcct = MainNavigationMenuAccountCtrl.getAllRelatedBusinessAccountOfUser(user.Id, selectedId);
                 System.assert(!getAcct.accountOptions.isEmpty(), 'No acccount names retrieve');
             }
+            
             Test.stopTest();
         }
     }

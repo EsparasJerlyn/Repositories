@@ -203,6 +203,10 @@ public with sharing class GroupRegistrationHelperTest {
     private static void createRecord(String productRequestRecordType){
         System.runAs(TestDataFactory.getProgramAdminUser()){
 
+            BuyerGroup bg = new BuyerGroup();
+            bg.Name = 'OPE BuyerGroup';
+            insert bg;
+            
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
             for(Account account : accounts){
                  account.RecordTypeId = ACCT_UNIV_DEP_ID;
@@ -395,6 +399,10 @@ public with sharing class GroupRegistrationHelperTest {
         }
 
         System.runAs(TestDataFactory.getPortalSysAdminUser()){
+            BuyerGroup bg = new BuyerGroup();
+            bg.Name = 'OPE BuyerGroup';
+            insert bg;
+
             Contact con = [SELECT Id,Work_Email__c,LastName,FirstName FROM Contact WHERE Work_Email__c =: 'workemail@email.com' WITH SECURITY_ENFORCED Limit 1];
             CCECorporateUserCtrl.enablePortalUser(con.Id, 'Corporate Portal');
         }

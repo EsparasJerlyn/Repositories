@@ -12,11 +12,13 @@
       |                                |                       |                        | a Product Request is set to  |
       |                                |                       |                        | "Published" and refactored   |
       |                                |                       |                        | methods for PMD fixes        |
+      | rhea.b.torres                  | February 14, 2023     | DEPP-5182              | Updated QueryLocator query   | 
+      |                                |                       |                        | and added Logger             | 
  */
 public class PublishingEndDateBatch implements Database.Batchable<sObject>
 {
 
-    private static final String PR_IN_DELIVERY = System.Label.PL_ProductRequest_InDelivery;
+    private static final String PR_PUBLISHED = System.Label.PL_ProductRequest_InDelivery;
     private static final String PR_COMPLETED = System.Label.PL_ProductRequest_Completed;
     private static final String PR_RELEASE = System.Label.PL_ProductRequest_Release;
     private static final String PR_DESIGN = System.Label.PL_ProductRequest_Design;
@@ -35,12 +37,8 @@ public class PublishingEndDateBatch implements Database.Batchable<sObject>
         ' Decommission_Product__c,Publishing_End_date__c,Course__r.End_Date__c, Course__r.Start_Date__c, Program_Plan__r.hed__End_Date__c, Program_Plan__r.hed__Start_Date__c, Available_on_Cart__c,' +
         ' Ready_for_publishing__c, Publishing_Start_date__c' +
         ' FROM Product2' + 
-        ' WHERE ((Course__r.End_Date__c <= TODAY OR Program_Plan__r.hed__End_Date__c <= TODAY OR (Decommission_Product__c = true AND Publishing_End_Date__c <= TODAY))' +
-        ' AND ((Course__r.ProductRequestID__r.Product_Request_Status__c = \''+PR_IN_DELIVERY + '\' OR Program_Plan__r.Product_Request__r.Product_Request_Status__c = \''+ PR_IN_DELIVERY + '\')' +
-        ' OR (Course__r.ProductRequestID__r.Product_Request_Status__c = \''+PR_RELEASE + '\' OR Program_Plan__r.Product_Request__r.Product_Request_Status__c = \''+ PR_RELEASE + '\')' +
-        ' OR (Course__r.ProductRequestID__r.Product_Request_Status__c = \''+PR_DESIGN + '\' OR Program_Plan__r.Product_Request__r.Product_Request_Status__c = \''+ PR_DESIGN + '\')))' +
-        ' OR (IsActive = true AND Publishing_End_date__c <= TODAY)' +
-        ' OR (Course__r.Start_Date__c != null OR Program_Plan__r.hed__Start_Date__c != null)';
+        ' WHERE IsActive = true AND ((Course__r.End_Date__c <= TODAY OR Program_Plan__r.hed__End_Date__c <= TODAY) OR (Decommission_Product__c = true AND Publishing_End_Date__c <= TODAY)' +
+        ' OR (Course__r.ProductRequestID__r.Product_Request_Status__c = \''+PR_RELEASE + '\' OR Program_Plan__r.Product_Request__r.Product_Request_Status__c = \''+ PR_RELEASE + '\'))';
         return Database.getQueryLocator(query);
     }
 
@@ -84,7 +82,8 @@ public class PublishingEndDateBatch implements Database.Batchable<sObject>
                     parentProductSpecsIds.add(getParentProductSpecificationOfProgramPlan(product));
                 }
             }
-            update(productList);
+            Database.SaveResult[] srList=  Database.update(productList, false);
+            logDatabaseResultToLogger(srList, 'execute()');
 
             /** Update related Product Requests of a Program Plan*/
             updateRelatedProductRequests(parentProdReqIds, productReqToUpdate);
@@ -93,7 +92,7 @@ public class PublishingEndDateBatch implements Database.Batchable<sObject>
             updateProductSpecification(parentProductSpecsIds);
 
         }catch(Exception e){
-           System.debug(LoggingLevel.WARN, 'PublishingEndDateBatch Error: ' + e.getMessage());//NOPMD
+            Logger.error('Executing execute() method of PublishingEndDateBatch with Exception:').setExceptionDetails(e);
         }
        
     }  
@@ -117,7 +116,8 @@ public class PublishingEndDateBatch implements Database.Batchable<sObject>
             }
         }
 
-        update(productSpecsToComplete);
+        Database.SaveResult[] srList=  Database.update(productSpecsToComplete, false);
+        logDatabaseResultToLogger(srList, 'updateProductSpecification()');
     }
 
     private void updateRelatedProductRequests(Set<Id> parentProdReqIds, Map<Id,Product_Request__c> productReqToUpdate){
@@ -133,7 +133,8 @@ public class PublishingEndDateBatch implements Database.Batchable<sObject>
         for(Related_Product_Request__c rPR: relatedPR){
             productReqToUpdate.put(rPR.Course__c, new Product_Request__c(Id = rPR.Course__c, Product_Request_Status__c = PR_COMPLETED));
         }
-        update(productReqToUpdate.values());
+        Database.SaveResult[] srList=  Database.update(productReqToUpdate.values(), false);
+        logDatabaseResultToLogger(srList, 'updateRelatedProductRequests()');
     }
 
     private void publishProductRequestRelatedToCourse(Product2 product, Map<Id,Product_Request__c> productReqToUpdate){
@@ -147,7 +148,7 @@ public class PublishingEndDateBatch implements Database.Batchable<sObject>
                     new Product_Request__c
                     (
                         Id = product.Course__r.ProductRequestID__c, 
-                        Product_Request_Status__c = PR_IN_DELIVERY
+                        Product_Request_Status__c = PR_PUBLISHED
                     )
                 );
         }
@@ -164,7 +165,7 @@ public class PublishingEndDateBatch implements Database.Batchable<sObject>
                 new Product_Request__c
                 (
                     Id = product.Program_Plan__r.Product_Request__c,
-                    Product_Request_Status__c = PR_IN_DELIVERY
+                    Product_Request_Status__c = PR_PUBLISHED
                 )
             );
         }
@@ -172,8 +173,10 @@ public class PublishingEndDateBatch implements Database.Batchable<sObject>
 
     private void completeProductRequestRelatedToCourse(Product2 product, Map<Id,Product_Request__c> productReqToUpdate, Set<Id> parentProductSpecsIds){
         if(product.Course__r.ProductRequestID__c != null
-            && (product.Course__r.End_Date__c <= System.today()
-                || (product.Decommission_Product__c == True && product.Publishing_End_date__c <= System.today()))){
+            && ((product.Course__r.End_Date__c <= System.today())
+                || (product.Decommission_Product__c == True && product.Publishing_End_date__c <= System.today())
+                )
+        ){
 
             productReqToUpdate.put(
                 product.Course__r.ProductRequestID__c, 
@@ -229,5 +232,18 @@ public class PublishingEndDateBatch implements Database.Batchable<sObject>
             parentProductSpecsId = product.Program_Plan__r.Product_Request__r.Product_Specification__c;
         }
         return parentProductSpecsId;
+    }
+
+    private void logDatabaseResultToLogger(Database.SaveResult[] srList, String methodName){
+        for (Database.SaveResult sr : srList) {
+            if(!sr.isSuccess()){
+                for(Database.Error err : sr.getErrors()) {
+                    Logger.error('[PublishEndDateBatch.'+ methodName + '] Database Result: ').setDatabaseResult(sr);
+                }
+            }
+            if(Logger.getBufferSize() <0){
+                Logger.saveLog();
+            }
+        }
     }
 }

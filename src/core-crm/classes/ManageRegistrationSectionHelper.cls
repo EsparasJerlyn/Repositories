@@ -566,6 +566,7 @@ public without sharing class ManageRegistrationSectionHelper{
      */
      private static Id createUser(Contact newContact){
           Id response;
+          Id contactId = newContact.Id;
 
           List<User> users = [
                SELECT Id 
@@ -598,11 +599,70 @@ public without sharing class ManageRegistrationSectionHelper{
                commerceUser.profileId = profile.Id;
                insert commerceUser;
 
+               assignToOPEBuyerGroup(contactId);
                assignOPEPermSet(commerceUser.Id);
                response = commerceUser.Id;
           }
 
           return response;
+     }
+
+     private static void assignToOPEBuyerGroup(Id contactId){
+          
+          List<BuyerGroup> opeBuyerGroup = [ SELECT Id FROM BuyerGroup WHERE Name = 'OPE BuyerGroup' WITH SECURITY_ENFORCED LIMIT 1];
+          List<Contact> contact = [SELECT AccountId, Account.Name FROM Contact WHERE Id =: contactId WITH SECURITY_ENFORCED LIMIT 1];
+          Id contactAdminAccountId = contact[0].AccountId;
+          List<BuyerAccount> buyerAccount = [SELECT Id FROM BuyerAccount WHERE BuyerId =: contactAdminAccountId WITH SECURITY_ENFORCED LIMIT 1];
+
+          if(buyerAccount.isEmpty()){
+               BuyerAccount administrativeAccountBuyer = new BuyerAccount();
+               administrativeAccountBuyer.BuyerId = contact[0].AccountId;
+               administrativeAccountBuyer.Name = contact[0].Account.Name;
+               administrativeAccountBuyer.IsActive = true;
+               administrativeAccountBuyer.BuyerStatus = 'Active';
+
+               insertAdministrativeAccountBuyer(administrativeAccountBuyer);
+
+               List<BuyerGroupMember> buyerGroupMember = [SELECT Id FROM buyerGroupMember WHERE BuyerId =: contactAdminAccountId AND BuyerGroupId =: opeBuyerGroup[0].Id WITH SECURITY_ENFORCED LIMIT 1];
+               if(buyerGroupMember.isEmpty()){
+                    BuyerGroupMember bgMember = new BuyerGroupMember();
+                    bgMember.BuyerId = contactAdminAccountId;
+                    bgMember.BuyerGroupId = opeBuyerGroup[0].Id;
+                    
+                    insertBuyerGroupMember(bgMember);
+               }
+           }
+     }
+
+     private static void insertAdministrativeAccountBuyer(BuyerAccount administrativeAccountBuyer){
+          if(Schema.sObjectType.BuyerAccount.fields.BuyerId.isCreateable() &&
+               Schema.sObjectType.BuyerAccount.fields.Name.isCreateable() &&
+               Schema.sObjectType.BuyerAccount.fields.IsActive.isCreateable() &&
+               Schema.sObjectType.BuyerAccount.fields.BuyerStatus.isCreateable()){
+               
+                    Database.SaveResult insertResult = Database.insert(administrativeAccountBuyer, false);
+                    if(!insertResult.isSuccess()){
+                         Logger.error('Error in Inserting Buyer Accounts').setDatabaseResult(insertResult);
+                    }
+                    if(Logger.getBufferSize() < 0){
+                         Logger.saveLog();                
+                    }
+          }
+          
+     }
+
+     private static void insertBuyerGroupMember(BuyerGroupMember bgMember){
+          if(Schema.sObjectType.BuyerGroupMember.fields.BuyerId.isCreateable() &&
+               Schema.sObjectType.BuyerGroupMember.fields.BuyerGroupId.isCreateable()){
+                    
+                    Database.SaveResult insertResult = Database.insert(bgMember, false);
+                    if(!insertResult.isSuccess()){
+                         Logger.error('Error in Inserting Buyer Group Members').setDatabaseResult(insertResult);
+                    }
+                    if(Logger.getBufferSize() < 0){
+                         Logger.saveLog();                
+                    }
+          }
      }
 
      @future

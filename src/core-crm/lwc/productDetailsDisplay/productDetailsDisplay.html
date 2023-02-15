@@ -530,43 +530,46 @@
 						<lightning-layout-item if:true={displayBulkRegistration} 
 							flexibility="auto" 
 							size="12" 
-							style="margin-top: 10px">
+							style="margin-top: 10px"
+              class="tooltip">
 							<lightning-button
 								label={groupBulkName}
 								onclick={bulkRegistration}
 								disabled={disableBulkRegistration}
 								variant="brand"
-								class="addToCartBtn btnCCE"
-								title="Assign your employees to this product">
+								class="addToCartBtn">
 							</lightning-button>
+              <span class="tooltiptext">Assign your employees to this product</span>
 						</lightning-layout-item>
 						<!-- Employee Self-Registration -->
 						<lightning-layout-item if:true={displayEmployeeSelfRegistration} 
 							flexibility="auto" 
 							size="12" 
-							style="margin-top: 10px">
+							style="margin-top: 10px"
+              class="tooltip">
 							<lightning-button
 								label="Employee Self-Registration"
 								onclick={handleEmployeeSelfRegistration}
 								disabled={disableEmployeeSelfRegistration}
 								variant="brand"
-								class="addToCartBtn btnCCE"
-								title="Receive an email to send on to your employees so they can self register into this product">
+								class="addToCartBtn">
 						</lightning-button>
+            <span class="tooltiptext">Receive an email to send on to your employees so they can self register into this product</span>
 						</lightning-layout-item>          
 						<!-- Manage Registration -->		
 						<lightning-layout-item if:true={displayManageRegistration} 
 							flexibility="auto" 
 							size="12" 
-							style="margin-top: 10px">
+							style="margin-top: 10px"
+              class="tooltip">
 							<lightning-button
 								label="Manage Registration"
 								onclick={manageRegistrationLink}
 								disabled={disableManageRegistration}
 								variant="brand"
-								class="addToCartBtn btnCCE"
-								title="Review, add or update the employees registered against a product">
+								class="addToCartBtn">
 							</lightning-button>
+              <span class="tooltiptext">Review, add or update the employees registered against a product</span>
 						</lightning-layout-item> 
 					</template>
 				</lightning-layout>

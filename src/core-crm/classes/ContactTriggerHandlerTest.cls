@@ -320,6 +320,10 @@ public with sharing class ContactTriggerHandlerTest {
             contact.AccountId = account.Id;
             insert contact;
 
+            BuyerGroup bg = new BuyerGroup();
+            bg.Name = 'OPE BuyerGroup';
+            insert bg;
+
             CCECorporateUserCtrl.CorporateUserDetails enableResponse = CCECorporateUserCtrl.enablePortalUser(contact.Id, CATEGORY_CCE);
             System.assert(enableResponse != null, 'no response');
         }
