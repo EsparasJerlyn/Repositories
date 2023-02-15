@@ -2280,4 +2280,5 @@ public class ProductDetailsCtrlTest{
       system.assert(!String.isBlank(cartWrapper.externalId), 'Transaction failed! ');
     }    
   }
+  
 } 
