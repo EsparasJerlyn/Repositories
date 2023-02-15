@@ -801,11 +801,10 @@ public without sharing class ProductCtrl{
 
 
 	@AuraEnabled(cacheable=true)
-	public static List<BuyerGroupMember> getBuyerGroupMembers(String accountId){
-
-		List<BuyerGroupMember> buyerGroupMemberList = new List<BuyerGroupMember>();
-		Set<BuyerGroupMember> buyerGroupMemberSet = new Set<BuyerGroupMember>();
-		Map <Id,BuyerGroupMember> buyerGroupMemberMap = new Map <Id,BuyerGroupMember>();
+	public static List<BuyerGroup> getBuyerGroups(String accountId){
+		
+		Set<Id> buyerGroupSet = new Set<Id>();
+		Map <Id,Id> buyerGroupMap = new Map <Id,Id>();
 
 		List<BuyerGroupMember> buyerGroupMemberInitList = [
 			SELECT Id, BuyerGroup.Name, BuyerId, BuyerGroupId, BuyerGroup.Product_Request__c
@@ -819,7 +818,7 @@ public without sharing class ProductCtrl{
 		List<Id> prodReqIds = new List<Id>();
 		for(BuyerGroupMember bgm : buyerGroupMemberInitList){
 			prodReqIds.add(bgm.BuyerGroup.Product_Request__c);
-			buyerGroupMemberMap.put(bgm.BuyerGroup.Product_Request__c, bgm);
+			buyerGroupMap.put(bgm.BuyerGroup.Product_Request__c, bgm.BuyerGroupId);
 		}
 
 		List<Associated_Products__c> associatedProducts = [
@@ -828,14 +827,31 @@ public without sharing class ProductCtrl{
 			  WITH SECURITY_ENFORCED
 		];
 
+		List<Related_Product_Request__c> relatedProducts = [
+			SELECT Program__c FROM Related_Product_Request__c
+			WHERE Program__c IN: prodReqIds
+			WITH SECURITY_ENFORCED
+		];
+
 		for(Associated_Products__c associatedProduct : associatedProducts){
-			if(buyerGroupMemberMap.containsKey(associatedProduct.Product_Request__c)){
-				buyerGroupMemberSet.add(buyerGroupMemberMap.get(associatedProduct.Product_Request__c));
+			if(buyerGroupMap.containsKey(associatedProduct.Product_Request__c)){
+				buyerGroupSet.add(buyerGroupMap.get(associatedProduct.Product_Request__c));
 			}
 		}
 
-		buyerGroupMemberList.addAll(buyerGroupMemberSet);
-		return buyerGroupMemberList;
+		for(Related_Product_Request__c rpr: relatedProducts){
+			if(buyerGroupMap.containsKey(rpr.Program__c)){
+				buyerGroupSet.add(buyerGroupMap.get(rpr.Program__c));
+			}
+		}
+
+		return [
+			SELECT Id, Name FROM BuyerGroup 
+			WHERE Id IN: buyerGroupSet
+			AND Ready_for_publishing__c = 'Yes'
+			AND Product_Request__r.Product_Request_Status__c = 'Published'
+			ORDER BY Publishing_End_Date__c ASC
+		];
 	}
 
 	/**
