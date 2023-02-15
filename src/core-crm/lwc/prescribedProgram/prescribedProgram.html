@@ -254,35 +254,32 @@
             <lightning-layout-item if:true={displayBulkRegistration} 
               flexibility="auto" 
               size="12" 
-              class="slds-m-bottom_small tooltipWrapper "> 
+              class="slds-m-bottom_small tooltipWrapper tooltip"> 
               <lightning-button
                 label={groupBulkName}
                 onclick={bulkRegistration}
                 disabled={disableBulkRegistration}  
                 variant="brand"
-                class="addToCartBtn btnCCE"  
-                title="Assign your employees to this product">
+                class="addToCartBtn">
               </lightning-button>
-              <!-- <lightning-helptext content="Assign your employees to this product" class="tooltip"></lightning-helptext>   -->
-              <!-- <span class="tooltiptext">Assign your employees to this product</span> -->          
+              <span class="tooltiptext">Assign your employees to this product</span>
             </lightning-layout-item>
 
             <!-- Employee Self-Registration -->
             <lightning-layout-item if:true={displayEmployeeSelfRegistration} 
               flexibility="auto" 
               size="12" 
-              class="slds-m-bottom_small tooltipWrapper"
+              class="slds-m-bottom_small tooltipWrapper tooltip"
               >  
               <lightning-button
                 label="Employee Self-Registration"
                 onclick={handleEmployeeSelfRegistration}
                 disabled={disableEmployeeSelfRegistration}
                 variant="brand"
-                class="addToCartBtn btnCCE"
-                title="Receive an email to send on to your employees so they can self register into this product"
+                class="addToCartBtn"
               >
               </lightning-button>
-              <!-- <lightning-helptext content="Receive an email to send on to your employees so they can self register into this product" class="tooltip"></lightning-helptext>                    -->
+              <span class="tooltiptext">Receive an email to send on to your employees so they can self register into this product</span>
             </lightning-layout-item>    
 
             <!-- Manage Registration -->
@@ -290,18 +287,17 @@
               if:true={displayManageRegistration}
               flexibility="auto"
               size="12"
-              class="slds-m-bottom_small tooltipWrapper"
+              class="slds-m-bottom_small tooltipWrapper tooltip"
             >
               <lightning-button
                 label="Manage Registration"
                 onclick={manageRegistrationLink}
                 disabled={disableManageRegistration}
                 variant="brand"
-                class="addToCartBtn btnCCE"
-                title="Review, add or update the employees registered against a product"
+                class="addToCartBtn"
               >
               </lightning-button>
-              <!-- <lightning-helptext content="Review, add or update the employees registered against a product" class="tooltip"></lightning-helptext>                               -->
+              <span class="tooltiptext">Review, add or update the employees registered against a product</span>
             </lightning-layout-item>   
           </template>
 
@@ -322,7 +318,7 @@
       handle-continue-to-payment={handleContinueToPayment}
       close-modal-message={closeModalMessage}
     ></c-custom-modal-confirm-message>
-            </template>
+  </template>
   <template if:true={openApplicationQuestionnaire}>
     <c-application-questionnaire
       contact-id={contactId}
