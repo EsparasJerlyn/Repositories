@@ -3,8 +3,10 @@
         <div class="bodyBold">
             <!--Desktop-->
 
-            <div class="slds-grid slds-grid_vertical-align-end profile-container desktop">
-                <span class="prof-name pr1 slds-truncate">Welcome {contactName}</span>
+            <div class="slds-grid slds-grid_vertical-align-end profile-container desktop slds-is-relative">
+                <div class="prof-name pr1 slds-truncate tooltip">Welcome {contactName}
+                    <div class="bodyRegular tooltiptext">{contactName}</div>
+                </div>
            
                 <button if:false={showLogout} class="slds-button slds-button_icon slds-button slds-button_icon btn-logout" aria-describedby="logout"
                     aria-disabled="true" title="Logout" onclick={handleToggle}>
