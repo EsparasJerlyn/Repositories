@@ -127,7 +127,7 @@ public class ManageRegistrationEnrolmentHelperTest {
                Contact newContact = new Contact(FirstName = 'testqtest', LastName = 'testqtest', AccountId = portalAccount.Id, Email = 'testqtest@emailemail.com', Registered_Email__c ='testqtest@emailemail.com', Birthdate = Date.newInstance(1990, 2, 17), MobilePhone ='012345', RecordTypeId = RT_CONTACT_PERSON_ID);
                insert newContact;
 
-               User portalUser = TestDataFactory.createPortalUserRecords(1, 'Corporate Partner User', newContact.Id).iterator().next();
+               User portalUser = TestDataFactory.createPortalUserRecords(1, 'OPE Catalogue', newContact.Id).iterator().next();
                Database.insert(portalUser);
 
                WebStore testWebStore = new WebStore(

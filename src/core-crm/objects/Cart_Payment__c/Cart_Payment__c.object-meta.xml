@@ -156,6 +156,7 @@
     <label>Cart Payment</label>
     <nameField>
         <label>Cart Payment Name</label>
+        <trackHistory>true</trackHistory>
         <type>Text</type>
     </nameField>
     <pluralLabel>Cart Payments</pluralLabel>

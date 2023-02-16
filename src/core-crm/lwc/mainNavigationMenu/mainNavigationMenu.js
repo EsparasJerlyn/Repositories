@@ -22,7 +22,7 @@ import getStoreFrontCategoryMenu from '@salesforce/apex/MainNavigationMenuCtrl.g
 import getOpportunityContractType from '@salesforce/apex/MainNavigationMenuCtrl.getOpportunityContractType';
 import getProductsByCategory from '@salesforce/apex/ProductCtrl.getProductsByCategory';
 import getAssetsByAccount from '@salesforce/apex/ProductCtrl.getAssetsByAccount';
-import getBuyerGroupMembers from '@salesforce/apex/ProductCtrl.getBuyerGroupMembers';
+import getBuyerGroups from '@salesforce/apex/ProductCtrl.getBuyerGroups';
 import communityId from '@salesforce/community/Id';
 import basePath from '@salesforce/community/basePath';
 import userId from '@salesforce/user/Id';
@@ -210,15 +210,15 @@ export default class MainNavigationMenu extends LightningElement {
 
 
 
-	@wire(getBuyerGroupMembers, { accountId : '$accountId' })
-	getBuyerGroupMembers(result) {
+	@wire(getBuyerGroups, { accountId : '$accountId' })
+	getBuyerGroups(result) {
 		this.buyerGroups = result.data;
 		if(this.buyerGroups && this.buyerGroups.length > 0){
 
 			const options = result.data.map( res => {
 				return {
-					label: res.BuyerGroup.Name,
-					value: res.BuyerGroupId
+					label: res.Name,
+					value: res.Id
 				}
 			});
 

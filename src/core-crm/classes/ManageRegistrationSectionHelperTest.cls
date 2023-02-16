@@ -247,4 +247,5 @@ public class ManageRegistrationSectionHelperTest {
           private String fileName;
           private String relatedAnswerId;
       }
+      
 }

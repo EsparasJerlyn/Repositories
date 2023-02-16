@@ -23,6 +23,7 @@ public class PublishingEndDateBatch implements Database.Batchable<sObject>
     private static final String PR_RELEASE = System.Label.PL_ProductRequest_Release;
     private static final String PR_DESIGN = System.Label.PL_ProductRequest_Design;
     private static final String PS_COMPLETE = System.Label.PL_ProductSpecification_Complete;
+    private String originalTransactionId;
 
     /**
     * @description Method to query the product records
@@ -31,6 +32,11 @@ public class PublishingEndDateBatch implements Database.Batchable<sObject>
     */
     public Database.QueryLocator start(Database.BatchableContext bc)
     {
+        //store the first transaction ID to later relate the other transactions
+        this.originalTransactionId = Logger.getTransactionId();
+        Logger.info('Starting PublishingEndDateBatch');
+        Logger.saveLog();
+
         String query = 
         ' SELECT Id,Course__r.ProductRequestID__c,Program_Plan__r.Product_Request__c, Course__r.ProductRequestID__r.Product_Specification__c,  Program_Plan__r.Program_Delivery_Structure__c,' +
         ' Program_Plan__r.Product_Request__r.Product_Specification__c, Course__r.ProductRequestID__r.Product_Request_Status__c,Program_Plan__r.Product_Request__r.Product_Request_Status__c,' + 
@@ -39,6 +45,7 @@ public class PublishingEndDateBatch implements Database.Batchable<sObject>
         ' FROM Product2' + 
         ' WHERE IsActive = true AND ((Course__r.End_Date__c <= TODAY OR Program_Plan__r.hed__End_Date__c <= TODAY) OR (Decommission_Product__c = true AND Publishing_End_Date__c <= TODAY)' +
         ' OR (Course__r.ProductRequestID__r.Product_Request_Status__c = \''+PR_RELEASE + '\' OR Program_Plan__r.Product_Request__r.Product_Request_Status__c = \''+ PR_RELEASE + '\'))';
+
         return Database.getQueryLocator(query);
     }
 
@@ -51,6 +58,9 @@ public class PublishingEndDateBatch implements Database.Batchable<sObject>
     public void execute(Database.BatchableContext bc, List<Product2> productList)
     {
         try{
+            Logger.setParentLogTransactionId(this.originalTransactionId);
+            Logger.saveLog();
+
             Map<Id,Product_Request__c> productReqToUpdate = new Map<Id,Product_Request__c>();
             Set<Id> parentProdReqIds = new Set<Id>();
             Set<Id> parentProductSpecsIds = new Set<Id>();
@@ -133,6 +143,7 @@ public class PublishingEndDateBatch implements Database.Batchable<sObject>
         for(Related_Product_Request__c rPR: relatedPR){
             productReqToUpdate.put(rPR.Course__c, new Product_Request__c(Id = rPR.Course__c, Product_Request_Status__c = PR_COMPLETED));
         }
+
         Database.SaveResult[] srList=  Database.update(productReqToUpdate.values(), false);
         logDatabaseResultToLogger(srList, 'updateRelatedProductRequests()');
     }
@@ -237,13 +248,11 @@ public class PublishingEndDateBatch implements Database.Batchable<sObject>
     private void logDatabaseResultToLogger(Database.SaveResult[] srList, String methodName){
         for (Database.SaveResult sr : srList) {
             if(!sr.isSuccess()){
-                for(Database.Error err : sr.getErrors()) {
-                    Logger.error('[PublishEndDateBatch.'+ methodName + '] Database Result: ').setDatabaseResult(sr);
-                }
+                Logger.error('[PublishEndDateBatch.'+ methodName + '] Database Result: ').setDatabaseResult(sr);
             }
-            if(Logger.getBufferSize() <0){
-                Logger.saveLog();
-            }
+        }
+        if(Logger.getBufferSize() <0){
+            Logger.saveLog();
         }
     }
 }

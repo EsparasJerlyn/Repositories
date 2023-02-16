@@ -110,3 +110,37 @@ lightning-icon.slds-icon_container_circle.slds-icon-action-user.slds-icon_contai
     color:#012A4C;
     fill:#012A4C;
 }
+
+.tooltip{
+    display: inline-block;
+    color: #FFF !important;
+  }
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    background-color: #FFF;
+    color: #1C1C1C;
+    text-align: center;
+    border-radius: 0;
+    padding: 5px;
+    border: 1px solid #1C1C1C;
+    font-size: 12px;
+    
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 2;
+    top: 100%;
+    left: 50%;
+    width: 200px;
+    margin-left: -85px;
+  }
+  
+  /* Show the tooltip text when you mouse over the tooltip container */
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+  }
+
+  div.tooltiptext{
+    word-break: break-word;
+    white-space: normal !important;
+  }

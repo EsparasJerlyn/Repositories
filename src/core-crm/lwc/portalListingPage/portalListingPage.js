@@ -20,7 +20,7 @@
 	  import getProductsByCategory from '@salesforce/apex/ProductCtrl.getProductsByCategory';
 	  import getStoreFrontCategoryMenu from '@salesforce/apex/MainNavigationMenuCtrl.getStoreFrontCategories';
 	  import getProductSpecsByAccount from '@salesforce/apex/ProductCtrl.getProductSpecsByAccount';
-	  import getBuyerGroupMembers from '@salesforce/apex/ProductCtrl.getBuyerGroupMembers';
+	  import getBuyerGroups from '@salesforce/apex/ProductCtrl.getBuyerGroups';
 	  import getAssetsByAccount from '@salesforce/apex/ProductCtrl.getAssetsByAccount';
 	  import communityId from '@salesforce/community/Id';
 	  import BasePath from "@salesforce/community/basePath";
@@ -275,8 +275,8 @@
 		selectedBuyerGroupId;
 		buyerGroups;
 
-		@wire(getBuyerGroupMembers, { accountId : '$accountId' })
-		getBuyerGroupMembers(result) {
+		@wire(getBuyerGroups, { accountId : '$accountId' })
+		getBuyerGroups(result) {
 			this.buyerGroups = result.data;
 			if(this.buyerGroups && this.buyerGroups.length > 0){
 				if(this.buyerGroups.length > 1){
@@ -285,8 +285,8 @@
 
 				const options = result.data.map( res => {
 					return {
-						label: res.BuyerGroup.Name,
-						value: res.BuyerGroupId
+						label: res.Name,
+						value: res.Id
 					}
 				});
 

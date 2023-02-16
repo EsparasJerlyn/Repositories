@@ -8,6 +8,8 @@
  *    | Developer                 | Date                  | JIRA                 | Change Summary               |
       |---------------------------|-----------------------|----------------------|------------------------------|
       | roy.nino.s.regala         | November 15, 2022     | DEPP-4721            | Created file                 |
+      | eugene.andrew.abuan       | February 15, 2023     | DEPP-5044            | Adjusted lines in createUser for assigning |
+      |                           |                       |                      | permset and adding Buyer Account           |
 */
 
 public without sharing class ManageRegistrationSectionHelper{
@@ -67,7 +69,7 @@ public without sharing class ManageRegistrationSectionHelper{
                     Email = finalContactRecord.Email,
                     LastName = finalContactRecord.LastName,
                     FirstName = finalContactRecord.FirstName,
-                    Id = contactRecord.Id
+                    Id = finalContactRecord.Id
                );
 
                //create new user to be enrolled to ope portal
@@ -599,10 +601,10 @@ public without sharing class ManageRegistrationSectionHelper{
                commerceUser.profileId = profile.Id;
                insert commerceUser;
 
-               assignToOPEBuyerGroup(contactId);
-               assignOPEPermSet(commerceUser.Id);
                response = commerceUser.Id;
           }
+          assignToOPEBuyerGroup(contactId);
+          assignOPEPermSet(response);
 
           return response;
      }

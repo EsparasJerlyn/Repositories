@@ -374,7 +374,7 @@ public without sharing class CCECorporateUserCtrl {
         ValidateContactInputResponse response = new ValidateContactInputResponse();
         response.isSuccess = true;
         response.errorMessage = '';
-        if(String.isBlank(contact.Work_Email__c)){
+        if(portalAccessType == 'Corporate Portal' && String.isBlank(contact.Work_Email__c)){
             response.isSuccess = false;
             response.errorMessage = 'Please make sure to populate Work Email before enabling this contact as partner user.';
         }

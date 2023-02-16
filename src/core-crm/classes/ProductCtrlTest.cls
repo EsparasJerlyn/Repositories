@@ -1739,7 +1739,7 @@ public with sharing class ProductCtrlTest {
 	}
 
 	@isTest
-	static void getBuyerGroupMembersTest(){
+	static void getBuyerGroupsTest(){
 		System.runAs(TestDataFactory.getProgramAdminUser()) {
 			List<Account> accounts = [SELECT Id, Name, RecordType.Name FROM Account WHERE Name ='TestAccount1' AND RecordType.Name = 'Business Organization' WITH SECURITY_ENFORCED LIMIT 1];
 
@@ -1768,13 +1768,13 @@ public with sharing class ProductCtrlTest {
 			}
 			
 			Test.startTest();
-			List<BuyerGroupMember> buyerGrpMembers = new List<BuyerGroupMember>();
+			List<BuyerGroup> buyerGrps = new List<BuyerGroup>();
 			System.runAs(TestDataFactory.getCorporatePartnerUser()) {
-				buyerGrpMembers = ProductCtrl.getBuyerGroupMembers(accounts[0].Id);
+				buyerGrps = ProductCtrl.getBuyerGroups(accounts[0].Id);
 			}
 			Test.stopTest();
 
-			System.assert(!buyerGrpMembers.isEmpty(), 'Buyer Group Members must not be empty');
+			System.assert(!buyerGrps.isEmpty(), 'Buyer Groups must not be empty');
 		}
 	}
 	

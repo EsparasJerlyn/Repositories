@@ -520,29 +520,24 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
                 fields.Name = fields.Name.substring(0,80) + ' ' + formattedDate;
             }
             fields.Product_Request__c = this.prodReqId;
-            fields.Start_Date__c = this.lastModifiedDateProdReq;
             fields.Primary_Account__c = this.primaryAccountId;
 
         } else if (this.isEducConsultancy) {
             fields.Product_Request__c = this.prodReqId;
-            fields.Start_Date__c = this.lastModifiedDateProdReq;
             
         } else if (this.isCorporateBundleSelected) {
             fields.Product_Request__c = this.prodReqId;
             fields.AccountId = this.primaryAccountId;
-            fields.Start_Date__c = this.lastModifiedDateProdReq;
             
         } else if(!this.isProgramSelected){
             fields.ProductRequestID__c = this.prodReqId;
             fields.RecordTypeId=Object.keys(courseRtis).find(rti => courseRtis[rti].name == this.selectedRecordTypeName);
             fields.hed__Account__c=this.accountId;
-            fields.Start_Date__c = this.lastModifiedDateProdReq;
 
         } else{
             fields.Product_Request__c = this.prodReqId;
             fields.RecordTypeId=Object.keys(programPlanRtis).find(rti => programPlanRtis[rti].name == this.selectedRecordTypeName);
             this.programDeliveryStructure = fields.Program_Delivery_Structure__c;
-            fields.hed__Start_Date__c = this.lastModifiedDateProdReq;
         }
         this.template.querySelector('lightning-record-edit-form').submit(fields);
     }
