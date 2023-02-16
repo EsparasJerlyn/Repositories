@@ -69,7 +69,7 @@ public without sharing class ManageRegistrationSectionHelper{
                     Email = finalContactRecord.Email,
                     LastName = finalContactRecord.LastName,
                     FirstName = finalContactRecord.FirstName,
-                    Id = contactRecord.Id
+                    Id = finalContactRecord.Id
                );
 
                //create new user to be enrolled to ope portal

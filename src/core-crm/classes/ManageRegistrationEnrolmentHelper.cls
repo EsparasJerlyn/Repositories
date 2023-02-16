@@ -69,6 +69,7 @@ public without sharing class ManageRegistrationEnrolmentHelper{
               enrolmentResult.isContactInputValid = validationReturn.isContactInputValid;
               enrolmentResult.contactValidationResponse = validationReturn.contactValidationResponse;
               finalContactRecord.Id = validationReturn.contactId;
+              parsedRegistrationData.contactRecord.Id = validationReturn.contactId;
 
          }else{
               //get the contact's full name, first name, and lastname
@@ -127,7 +128,7 @@ public without sharing class ManageRegistrationEnrolmentHelper{
               }else{
                    EnrolmentCreationParamClass enrolmentParam = new EnrolmentCreationParamClass();
 
-                   enrolmentParam.contactId = contactRecord.Id;
+                   enrolmentParam.contactId = finalContactRecord.Id;
                    enrolmentParam.offeringId = offeringId;
                    enrolmentParam.prescribedProgram = prescribedProgram;
                    enrolmentParam.isTailored = isTailored;
