@@ -20,6 +20,7 @@ public class MockHttpResponseGenerator implements HttpCalloutMock {
     private static final String ENDPOINT_PHONE_VALIDATE_NZ = 'callout:LOQATE/harmony/rest/nz/validate/phone';
     private static final String ENDPOINT_COMPANY_LOOKUP = 'callout:LOQATE/harmony/rest/au/companyLookup';
     private static final String ENDPOINT_CLMS_CONTRACT = 'callout:ESB' + System.Label.ESBEndpointCreateContract;
+    private static final String ENDPOINT_MDM_CONTACT = 'callout:ESB' + System.Label.ESBEndpointMDMStudent;
     private static final String PAYLOAD_CLMS = '{"status":"OK","CLMS_Agreement_Id":"1234","CLMS_Agreement_URL":"5678"}';
     private static final String PAYLOAD_ADDRESS = '{"payload":[{"fullAddress":"testAddress","country":"testCountry"}]}';
     private static final String PAYLOAD_PHONE = '{"payload":[{"fullPhone":"1234","country":"AU","phoneStatus":"connected|Network confirmed connection"}]}';
@@ -47,7 +48,11 @@ public class MockHttpResponseGenerator implements HttpCalloutMock {
             payload = PAYLOAD_CLMS;
         }
 
-        res = loqateMockResponse(payload);
+        if(req.getEndpoint() == ENDPOINT_MDM_CONTACT){
+            res = badRequestMockResponse();
+        }else{
+            res = loqateMockResponse(payload);
+        }
         return res;
     }
     
@@ -63,6 +68,17 @@ public class MockHttpResponseGenerator implements HttpCalloutMock {
         res.setBody(payload);
         res.setStatusCode(200);
 
+        return res;
+    }
+
+    /**
+    * @description Creates a bad request mock HTTP Response
+    * @return HttpResponse
+    */
+    public HttpResponse badRequestMockResponse(){
+        HttpResponse res = new HttpResponse();
+        res.setHeader('Content-Type', 'application/json');
+        res.setStatusCode(400);
         return res;
     }
 
