@@ -158,6 +158,7 @@
     <label>Program Plan</label>
     <nameField>
         <label>Program Plan Name</label>
+        <trackHistory>true</trackHistory>
         <type>Text</type>
     </nameField>
     <pluralLabel>Program Plans</pluralLabel>
