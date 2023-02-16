@@ -108,7 +108,22 @@ export default class AccountName extends LightningElement {
         publish(this.messageContext, payloadContainerLMS, payLoad);
     } 
 
-    handleToggle(){
-        this.showAccount = !this.showAccount;
+  // Method to close listbox dropdown
+  closeDropdown() {
+    if (this.showAccount) {
+      window.setTimeout(() => {
+        this.toggleOpenDropDown(false);
+      }, 150);
     }
+  }
+
+  // Method to handle icon click
+  handleInputIconClick() {
+      this.toggleOpenDropDown(true);
+  }
+
+  // Method to toggle openDropDown state
+  toggleOpenDropDown(toggleState) {
+    this.showAccount = toggleState;
+  }
 }
