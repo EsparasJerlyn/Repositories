@@ -71,6 +71,9 @@ public without sharing class CCECorporateUserCtrl {
                 if(emailToUse.contains(checkUser.Email) ||  opefilter.contains(checkUser.Email)){
                     users = checkEmailToUseUser;
                 }
+                if(portalAccessType == 'Product Catalogue'){
+                    response.isNoUpdateNeeded = true;
+                }
             }
             for(User user : users){
                 //Disables existing ope user
@@ -377,8 +380,8 @@ public without sharing class CCECorporateUserCtrl {
         if(portalAccessType == 'Corporate Portal' && String.isBlank(contact.Work_Email__c)){
             response.isSuccess = false;
             response.errorMessage = 'Please make sure to populate Work Email before enabling this contact as partner user.';
-        }
-        if(String.isBlank(contact.hed__Primary_Organization__c)){
+        }   
+        if(portalAccessType == 'Corporate Portal' && String.isBlank(contact.hed__Primary_Organization__c)){
             response.isSuccess = false;
             response.errorMessage = 'Please make sure to populate Primary Business Account before enabling this contact as partner user.';
         }
