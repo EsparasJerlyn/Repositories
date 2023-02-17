@@ -91,9 +91,17 @@ public with sharing class EmployeeSelfRegistrationCtrlTest {
             }
             insert products;
 
-
+            EmployeeSelfRegistrationForm__c employeeSelfRegistrationSettings = new EmployeeSelfRegistrationForm__c(EmployeeSelfRegistrationLink__c = 'https://qut.tfaforms.net/f/employee-self-registration-form-dev');
+            insert employeeSelfRegistrationSettings;
+            
             Test.startTest();
-            String email = EmployeeSelfRegistrationCtrl.sendEmployeeRegistrationEmail(portalUser.Id,products[0].Id, programOfferings[0].Id, '');
+            EmployeeSelfRegistrationCtrl.SelfRegistrationParams selfRegistrationParams = new EmployeeSelfRegistrationCtrl.SelfRegistrationParams();
+            selfRegistrationParams.userId = portalUser.Id;
+            selfRegistrationParams.productId = products[0].Id;
+            selfRegistrationParams.selectedOffering = programOfferings[0].Id;
+            selfRegistrationParams.pricebookEntryId = '';
+
+            String email = EmployeeSelfRegistrationCtrl.sendEmployeeRegistrationEmail(selfRegistrationParams, accounts[0].Id);
             System.assertEquals(email, 'success', 'No email has been sent');
             Test.stopTest();
         }

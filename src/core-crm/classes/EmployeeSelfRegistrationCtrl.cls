@@ -22,7 +22,7 @@ public without sharing class EmployeeSelfRegistrationCtrl {
    * @param selectedOffering - Id of the selected Product Offering (Course/Program Offering)
    */
     @AuraEnabled
-    public static String sendEmployeeRegistrationEmail(Id userId, String productId, Id selectedOffering, String pricebookEntryId){
+    public static String sendEmployeeRegistrationEmail(SelfRegistrationParams selfRegistrationParams, String accountSelected){
 		
 		// Query Contact based on the user Id
 		User u = [
@@ -31,7 +31,7 @@ public without sharing class EmployeeSelfRegistrationCtrl {
 				Contact.Work_Email__c,
 				Contact.Name
 			FROM User
-			WHERE Id = :userId
+			WHERE Id =: selfRegistrationParams.userId
 			LIMIT 1
 		];
 
@@ -47,7 +47,7 @@ public without sharing class EmployeeSelfRegistrationCtrl {
 				Core_Concepts__c, 
 				More_Details__c
 			FROM Product2
-			WHERE Id = :productId
+			WHERE Id =: selfRegistrationParams.productId
 			LIMIT 1
 		];
 
@@ -113,8 +113,9 @@ public without sharing class EmployeeSelfRegistrationCtrl {
 				'{moredetails_value}' => String.isEmpty(moredetailsValue)? '': moredetailsValue,
 				'{employeeSelfRegistrationEmailLink}' => employeeSelfRegistrationSettings.EmployeeSelfRegistrationLink__c != null ? 
 														String.valueOf(employeeSelfRegistrationSettings.EmployeeSelfRegistrationLink__c) 
-														+ '?id=' + String.valueOf(selectedOffering) 
-														+ '&pb-id=' + String.valueOf(pricebookEntryId) : ''
+														+ '?id=' + String.valueOf(selfRegistrationParams.selectedOffering) 
+														+ '&pb-id=' + String.valueOf(selfRegistrationParams.pricebookEntryId) 
+														+ '&acct-id=' + String.valueOf(accountSelected) : ''
 			};
 	
 			// Build the Email
@@ -181,4 +182,15 @@ public without sharing class EmployeeSelfRegistrationCtrl {
 		}
 		return result;
 	}
+
+	public class SelfRegistrationParams{
+        @AuraEnabled
+        public Id userId{ get; set; }
+        @AuraEnabled
+        public String productId{ get; set; }
+        @AuraEnabled
+        public Id selectedOffering{ get; set; }
+        @AuraEnabled
+        public String pricebookEntryId{ get; set; }
+    }
 }

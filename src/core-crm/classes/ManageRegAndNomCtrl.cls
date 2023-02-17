@@ -48,8 +48,8 @@ public without sharing class ManageRegAndNomCtrl {
      * @return List of ManageRegistrationorNominationDetails
      */
     @AuraEnabled(cacheable=true)
-    public static List<ManageRegistrationorNominationDetails> getRegistrationsAndNominations(Boolean isRegistrations,
-        String courseName, String firstName, String lastName, String email, String mobile, String status, String birthday){
+    public static List<ManageRegistrationorNominationDetails> getRegistrationsAndNominations(RecordSearchParams recordSearchParams, String accountSelected){
+        
         String nominationType = 'Nomination';
 
         List<ManageRegistrationorNominationDetails> response = new List<ManageRegistrationorNominationDetails>();
@@ -57,21 +57,16 @@ public without sharing class ManageRegAndNomCtrl {
         Set<Id> courseOfferingIds = new Set<Id>();
         Set<Id> programOfferingIds = new Set<Id>();
         Map<Id, String> productNameMap = new Map<Id, String>();
-
-        User currentUser = [SELECT Id, ContactId FROM User WHERE Id = :UserInfo.getUserId()];
-        Contact currentContact = [SELECT Id, AccountId, hed__Primary_Organization__c FROM Contact WHERE Id = :currentUser.ContactId];
-        Account acc= [SELECT Id FROM Account WHERE Id = :currentContact.hed__Primary_Organization__c];
-        String accountId = acc.Id;
+        
         Set<String> pricebookEntryIds= new Set<String>();
         Set<String> pricebook2Ids = new Set<String>();
         
-        if(acc != null){
+        if(accountSelected != null){
             Set<Id> buyerGrpIdSet = new Set<Id>();
-            List<BuyerGroupMember> buyerGrpMembers = [SELECT BuyerGroupId FROM BuyerGroupMember WHERE BuyerId = :acc.Id];
+            List<BuyerGroupMember> buyerGrpMembers = [SELECT BuyerGroupId FROM BuyerGroupMember WHERE BuyerId = :accountSelected];
             for(BuyerGroupMember bgm : buyerGrpMembers){
                 buyerGrpIdSet.add(bgm.BuyerGroupId);
             }
-
             
             if(!buyerGrpIdSet.isEmpty()){
                 //CommerceEntitlementBuyerGroup cebg = [SELECT PolicyId FROM CommerceEntitlementBuyerGroup WHERE BuyerGroupId = :bgm.BuyerGroupId LIMIT 1]; //0ZI9t00000006NBGAY
@@ -85,8 +80,8 @@ public without sharing class ManageRegAndNomCtrl {
                     for(CommerceEntitlementProduct ep : [SELECT ProductId FROM CommerceEntitlementProduct WHERE PolicyId IN : cebgSet]){
                         productIds.add(ep.ProductId);
                     }
-                    if(String.isNotBlank(courseName)){
-                        String query = 'SELECT Id, Name, Program_Plan__c, Course__c From Product2 WHERE Id IN :productIds AND' + '(Name LIKE\'' + '%' + String.escapeSingleQuotes(courseName) + '%\')';
+                    if(String.isNotBlank(recordSearchParams.courseName)){
+                        String query = 'SELECT Id, Name, Program_Plan__c, Course__c From Product2 WHERE Id IN :productIds AND' + '(Name LIKE\'' + '%' + String.escapeSingleQuotes(recordSearchParams.courseName) + '%\')';
                         productList = Database.query(query);
                     } else {
                         productList = [SELECT Id, Name, Program_Plan__c, Course__c From Product2 WHERE Id IN :productIds];
@@ -128,25 +123,26 @@ public without sharing class ManageRegAndNomCtrl {
             }           
         }
 
-        if(isRegistrations){
+        if(recordSearchParams.isRegistrations){
             String query;
-            String condition =(String.isNotBlank(firstName)
-                ? ' hed__Contact__r.FirstName LIKE \'' + '%' + String.escapeSingleQuotes(firstName) + '%\'' : '');
+            String condition =(String.isNotBlank(recordSearchParams.firstName)
+                ? ' hed__Contact__r.FirstName LIKE \'' + '%' + String.escapeSingleQuotes(recordSearchParams.firstName) + '%\'' : '');
 
-            condition += (String.isNotBlank(lastName)
-                ? (String.isNotBlank(condition) ? +' AND ' : '') + ' hed__Contact__r.LastName LIKE \'' + '%' + String.escapeSingleQuotes(lastName) + '%\'' : '');
+            condition += (String.isNotBlank(recordSearchParams.lastName)
+                ? (String.isNotBlank(condition) ? +' AND ' : '') + ' hed__Contact__r.LastName LIKE \'' + '%' + String.escapeSingleQuotes(recordSearchParams.lastName) + '%\'' : '');
                 
-            condition += (String.isNotBlank(email)
-                ? (String.isNotBlank(condition) ? +' AND ' : '') + ' hed__Contact__r.Registered_Email__c LIKE \'' + '%' + String.escapeSingleQuotes(email) + '%\'' : '');
+            condition += (String.isNotBlank(recordSearchParams.email)
+                ? (String.isNotBlank(condition) ? +' AND ' : '') + ' hed__Contact__r.Registered_Email__c LIKE \'' + '%' + String.escapeSingleQuotes(recordSearchParams.email) + '%\'' : '');
             
-            condition += (String.isNotBlank(mobile)
-                ? (String.isNotBlank(condition) ? +' AND ' : '') + ' hed__Contact__r.MobilePhone LIKE \'' + '%' + String.escapeSingleQuotes(mobile) + '%\'' : '');
-                
+            condition += (String.isNotBlank(recordSearchParams.mobile)
+                ? (String.isNotBlank(condition) ? +' AND ' : '') + ' hed__Contact__r.MobilePhone LIKE \'' + '%' + String.escapeSingleQuotes(recordSearchParams.mobile) + '%\'' : '');
+            
+            String status = recordSearchParams.status;
             condition += (String.isNotBlank(status)
                 ? (String.isNotBlank(condition) ? +' AND ' : '') + String.escapeSingleQuotes(' hed__Status__c = :status') : '');
 
-            condition += (String.isNotBlank(birthday)
-                ? (String.isNotBlank(condition) ? +' AND ' : '') + ' hed__Contact__r.Birthdate =' + String.escapeSingleQuotes(birthday) : '');
+            condition += (String.isNotBlank(recordSearchParams.birthday)
+                ? (String.isNotBlank(condition) ? +' AND ' : '') + ' hed__Contact__r.Birthdate =' + String.escapeSingleQuotes(recordSearchParams.birthday) : '');
 
             if (String.isNotBlank(condition)) {
                 query = 'SELECT Id, Name, hed__Contact__c, hed__Contact__r.Id, hed__Contact__r.Name, ' +
@@ -156,8 +152,8 @@ public without sharing class ManageRegAndNomCtrl {
                 'hed__Course_Offering__r.hed__Start_Date__c, hed__Status__c, hed__Contact__r.FirstName, hed__Contact__r.LastName, ' +
                 'hed__Contact__r.Registered_Email__c, hed__Contact__r.MobilePhone FROM hed__Course_Enrollment__c ' + 
                 'WHERE ((Cart_Item__c != null AND Cart_Item__r.Pricebook_Entry_ID__c IN: pricebookEntryIds) ' + 
-                'OR (hed__Course_Offering__r.hed__Course__r.ProductRequestID__r.Product_Specification__r.Opportunity_Name__r.AccountId =: accountId ' +
-                'OR Program_Offering__r.hed_Program_Plan__r.Product_Request__r.Product_Specification__r.Opportunity_Name__r.AccountId =: accountId)) ' +
+                'OR (hed__Course_Offering__r.hed__Course__r.ProductRequestID__r.Product_Specification__r.Opportunity_Name__r.AccountId =: accountSelected ' +
+                'OR Program_Offering__r.hed_Program_Plan__r.Product_Request__r.Product_Specification__r.Opportunity_Name__r.AccountId =: accountSelected)) ' +
                 'AND RecordTypeId IN (:studentRecTypeId, :studentProgramRecTypeId) ' +
                 'AND (hed__Course_Offering__r.hed__Course__c IN :courseOfferingIds OR (Program_Offering__r.hed_Program_Plan__c IN :programOfferingIds AND hed__Course_Offering__c = null )) AND' + 
                 condition; 
@@ -169,8 +165,8 @@ public without sharing class ManageRegAndNomCtrl {
                 'hed__Course_Offering__r.hed__Start_Date__c, hed__Status__c, hed__Contact__r.FirstName, hed__Contact__r.LastName, ' +
                 'hed__Contact__r.Registered_Email__c, hed__Contact__r.MobilePhone FROM hed__Course_Enrollment__c ' + 
                 'WHERE ((Cart_Item__c != null AND Cart_Item__r.Pricebook_Entry_ID__c IN: pricebookEntryIds) ' + 
-                'OR (hed__Course_Offering__r.hed__Course__r.ProductRequestID__r.Product_Specification__r.Opportunity_Name__r.AccountId =: accountId ' +
-                'OR Program_Offering__r.hed_Program_Plan__r.Product_Request__r.Product_Specification__r.Opportunity_Name__r.AccountId =: accountId)) ' +
+                'OR (hed__Course_Offering__r.hed__Course__r.ProductRequestID__r.Product_Specification__r.Opportunity_Name__r.AccountId =: accountSelected ' +
+                'OR Program_Offering__r.hed_Program_Plan__r.Product_Request__r.Product_Specification__r.Opportunity_Name__r.AccountId =: accountSelected)) ' +
                 'AND RecordTypeId IN (:studentRecTypeId, :studentProgramRecTypeId) ' +
                 'AND (hed__Course_Offering__r.hed__Course__c IN :courseOfferingIds OR (Program_Offering__r.hed_Program_Plan__c IN :programOfferingIds AND hed__Course_Offering__c = null ))';
             }
@@ -195,31 +191,33 @@ public without sharing class ManageRegAndNomCtrl {
                 regDetails.courseOfferingId = student.hed__Course_Offering__c;
                 regDetails.programOfferingId = student.Program_Offering__c;
                 regDetails.contactBirthdate = student.hed__Contact__r.Birthdate;
-                regDetails.businessAccount = currentContact.hed__Primary_Organization__c;
-                regDetails.adminAccount = currentContact.AccountId;
+                regDetails.businessAccount = accountSelected;
                 response.add(regDetails);
             }
-
             
         } else {
             String query;
-            String condition = (String.isNotBlank(firstName)
-                ? ' First_Name__c LIKE \'' + '%' + String.escapeSingleQuotes(firstName) + '%\'' : '');
+            String condition = (String.isNotBlank(recordSearchParams.firstName)
+                ? ' First_Name__c LIKE \'' + '%' + String.escapeSingleQuotes(recordSearchParams.firstName) + '%\'' : '');
 
-            condition += (String.isNotBlank(lastName)
-                ? (String.isNotBlank(condition) ? +' AND ' : '') + ' Last_Name__c LIKE \'' + '%' + String.escapeSingleQuotes(lastName) + '%\'' : '');
+            condition += (String.isNotBlank(recordSearchParams.lastName)
+                ? (String.isNotBlank(condition) ? +' AND ' : '') + ' Last_Name__c LIKE \'' + '%' + String.escapeSingleQuotes(recordSearchParams.lastName) + '%\'' : '');
                 
-            condition += (String.isNotBlank(email)
-                ? (String.isNotBlank(condition) ? +' AND ' : '') + ' Email__c LIKE \'' + '%' + String.escapeSingleQuotes(email) + '%\'' : '');
+            condition += (String.isNotBlank(recordSearchParams.email)
+                ? (String.isNotBlank(condition) ? +' AND ' : '') + ' Email__c LIKE \'' + '%' + String.escapeSingleQuotes(recordSearchParams.email) + '%\'' : '');
             
-            condition += (String.isNotBlank(mobile)
-                ? (String.isNotBlank(condition) ? +' AND ' : '') + ' Mobile__c LIKE \'' + '%' + String.escapeSingleQuotes(mobile) + '%\'' : '');
-                
+            condition += (String.isNotBlank(recordSearchParams.mobile)
+                ? (String.isNotBlank(condition) ? +' AND ' : '') + ' Mobile__c LIKE \'' + '%' + String.escapeSingleQuotes(recordSearchParams.mobile) + '%\'' : '');
+             
+            String status = recordSearchParams.status;
             condition += (String.isNotBlank(status)
                 ? (String.isNotBlank(condition) ? +' AND ' : '') + String.escapeSingleQuotes(' Status__c = :status') : '');
 
-            condition += (String.isNotBlank(birthday)
-                ? (String.isNotBlank(condition) ? +' AND ' : '') + ' Birthdate__c =' + String.escapeSingleQuotes(birthday) : '');
+            condition += (String.isNotBlank(recordSearchParams.birthday)
+                ? (String.isNotBlank(condition) ? +' AND ' : '') + ' Birthdate__c =' + String.escapeSingleQuotes(recordSearchParams.birthday) : '');            
+
+            condition += (String.isNotBlank(accountSelected)
+                ? (String.isNotBlank(condition) ? +' AND ' : '') + String.escapeSingleQuotes(' Account__c = :accountSelected') : '');
 
             if (String.isNotBlank(condition)) {
                 query = 'SELECT Id, Name, Contact__c, Accessibility_Requirement__c, Dietary_Requirement__c, Contact__r.Id, Contact__r.Name, Course_Offering__c, Course_Offering__r.Name, Birthdate__c, Course_Offering__r.hed__End_Date__c, Course_Offering__r.hed__Course__c, Course_Offering__r.hed__Start_Date__c, Status__c, First_Name__c, Last_Name__c, Email__c, Mobile__c, Mobile_Locale__c, Program_Offering__c, Program_Offering__r.Start_Date__c, Program_Offering__r.End_Date__c, Program_Offering__r.hed_Program_Plan__c, Pricebook_Entry_ID__c FROM Expression_of_Interest__c WHERE (Type__c = :nominationType) AND ((Course_Offering__r.hed__Course__c IN :courseOfferingIds OR (Program_Offering__r.hed_Program_Plan__c IN :programOfferingIds AND Course_Offering__c = null ))) AND' + condition; 
@@ -250,8 +248,7 @@ public without sharing class ManageRegAndNomCtrl {
                 regDetails.contactAccessibilityReq = student.Accessibility_Requirement__c;
                 regDetails.contactDietaryReq = student.Dietary_Requirement__c;
                 regDetails.priceBookEntryId = student.Pricebook_Entry_ID__c;
-                regDetails.businessAccount = currentContact.hed__Primary_Organization__c;
-                regDetails.adminAccount = currentContact.AccountId;
+                regDetails.businessAccount = accountSelected;
                 response.add(regDetails);
             }
         }
@@ -290,7 +287,7 @@ public without sharing class ManageRegAndNomCtrl {
      * @return String
      */
     @AuraEnabled
-    public static RegistrationNominationUpdateResponse updateRegistrationOrNominationStatus(String id, String registrationStatus, Boolean isRegistrations, Expression_of_Interest__c contactInfo, String mobileNumber, String businessOrgAccount, String administrativeAccount){
+    public static RegistrationNominationUpdateResponse updateRegistrationOrNominationStatus(String id, String registrationStatus, Boolean isRegistrations, Expression_of_Interest__c contactInfo, String mobileNumber, String businessOrgAccount){
         
         Savepoint savePoint = Database.setSavepoint();
         RegistrationNominationUpdateResponse response = new RegistrationNominationUpdateResponse();
@@ -794,4 +791,27 @@ public without sharing class ManageRegAndNomCtrl {
         @AuraEnabled
         public Boolean isExpired;
     }
+
+    /**
+     * @description Wrapper class for Record Search
+     */
+    public class RecordSearchParams{
+        @AuraEnabled
+        public Boolean isRegistrations{ get; set; }
+        @AuraEnabled
+        public String courseName{ get; set; }
+        @AuraEnabled
+        public String firstName{ get; set; }
+        @AuraEnabled
+        public String lastName{ get; set; }
+        @AuraEnabled
+        public String email{ get; set; }
+        @AuraEnabled
+        public String mobile{ get; set; }
+        @AuraEnabled
+        public String status{ get; set; }
+        @AuraEnabled
+        public String birthday{ get; set; }
+    }
+    
 }
