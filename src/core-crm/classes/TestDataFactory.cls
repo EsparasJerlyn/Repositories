@@ -294,7 +294,43 @@ public class TestDataFactory {
       ps.Market_Need__c = 'Yes';
       ps.QUTeX_Capacity__c = 'Yes';
       ps.QUT_Faculty_Capacity__c = 'Yes';
-	  ps.Supporting_Comments__c = 'Test';
+	    ps.Supporting_Comments__c = 'Test';
+      ps.Not_Proceeding_Comments__c = 'Test';
+      ps.Product_Type__c = 'Short Course';
+      productSpecifications.add(ps);
+    }
+
+    return productSpecifications;
+  }
+
+  /**
+   * @description Create a product specification record without an opportunity attached to it yet
+   * @param numProductSpecs number of product specification
+   * @param contacts list of related contacts
+   * @return productSpecifications - list of product specifications
+   */
+  public static List<Product_Specification__c> createTestProductSpecsRecords(
+    Integer numProductSpecs,
+    Id contact
+  ) {
+    List<Product_Specification__c> productSpecifications = new List<Product_Specification__c>();
+
+    for (Integer i = 0; i < numProductSpecs; i++) {
+      Product_Specification__c ps = new Product_Specification__c();
+      ps.Program_Name__c = 'TEST PS ' + i;
+      ps.Program_Lead__c = contact;
+      ps.Status__c = 'Design';
+      ps.Stage__c = 'Design';
+      ps.Client_Review_Required__c = 'N/A';
+      ps.Requestor_Name__c =  contact;
+      ps.Requires_Director_Endorsement__c = 'Yes';
+      ps.Endorsed_by__c = contact;
+      ps.Existing_Product__c = 'Yes';
+      ps.Financial_Viability__c = 'Yes';
+      ps.Market_Need__c = 'Yes';
+      ps.QUTeX_Capacity__c = 'Yes';
+      ps.QUT_Faculty_Capacity__c = 'Yes';
+	    ps.Supporting_Comments__c = 'Test';
       ps.Not_Proceeding_Comments__c = 'Test';
       ps.Product_Type__c = 'Short Course';
       productSpecifications.add(ps);

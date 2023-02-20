@@ -47,6 +47,14 @@
         <value>/consumer/dep/v1/opportunity/createContract</value>
     </labels>
     <labels>
+        <fullName>ESBEndpointMDMStudent</fullName>
+        <categories>Endpoint</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ESBEndpointMDMStudent</shortDescription>
+        <value>/domain/dep/v1/processContact</value>
+    </labels>
+    <labels>
         <fullName>LWC_Error_General</fullName>
         <categories>LWC,Error</categories>
         <language>en_US</language>
@@ -636,6 +644,14 @@
         <protected>false</protected>
         <shortDescription>ESBEndpointLMSCourse</shortDescription>
         <value>/consumer/dep/v1/curriculum/course</value>
+    </labels>
+    <labels>
+        <fullName>ESBEndpointMDMStudentEnrolment</fullName>
+        <categories>Endpoint</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ESBEndpointMDMStudentEnrolment</shortDescription>
+        <value>/domain/dep/v1/processCourseConnection</value>
     </labels>
     <labels>
         <fullName>ESBEndpointLMSCourseOffering</fullName>

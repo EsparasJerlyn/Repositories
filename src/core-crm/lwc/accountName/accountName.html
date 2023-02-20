@@ -1,25 +1,25 @@
 <template>
-  <div class="slds-size_12-of-12 px1">
+  <div class="slds-size_12-of-12 px1 mtop">
         <!--Desktop-->
-        <div class="slds-grid slds-grid_vertical-align-end profile-container desktop slds-size_12-of-12">
-            <span class="prof-name pr1 mb1 slds-truncate bodyBold">Selected Account: {fullLabel}</span>
-            <button if:false={showAccount} class="slds-button slds-button_icon slds-button slds-button_icon" aria-describedby={selectedAccount}
-                aria-disabled="true" title={selectedAccount} onclick={handleToggle}>
-                <lightning-icon 
-                    icon-name="utility:chevrondown"
-                    variant="inverse" 
-                    size="xx-small">
-                </lightning-icon>
-            </button>
+        <div class="slds-grid slds-grid_vertical-align-end profile-container desktop slds-size_12-of-12" tabindex="0" onblur={closeDropdown}>
+            <span class="prof-name pr1 slds-truncate bodyBold">Selected Account: {fullLabel}</span>
+            <lightning-icon 
+                if:false={showAccount} 
+                icon-name="utility:chevrondown"
+                variant="inverse" 
+                size="xx-small"
+                class="p1 chevdown" 
+                onclick={handleInputIconClick}>
+            </lightning-icon>
 
-            <button if:true={showAccount} class="slds-button slds-button_icon slds-button" aria-describedby={selectedAccount}
-                aria-disabled="true" title={selectedAccount} onclick={handleToggle}>
-                <lightning-icon 
-                    icon-name="utility:chevronup"
-                    variant="inverse" 
-                    size="xx-small">
-                </lightning-icon>
-            </button>
+            <lightning-icon 
+                if:true={showAccount}
+                icon-name="utility:chevronup"
+                variant="inverse" 
+                size="xx-small"
+                class="p1 chevup"
+                onclick={closeDropdown}>
+            </lightning-icon>
         </div>
         
         <div if:true={showAccount} class="slds-popover slds-popover_tooltip slds-nubbin_top-right slds-slide-from-top-to-bottom pop-over desktop" role="tooltip" id="selected">

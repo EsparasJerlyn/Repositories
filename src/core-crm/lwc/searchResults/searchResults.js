@@ -101,7 +101,7 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
 	qutFilterValue;
   hasPricing;
   hasPageNo;
-  urlPageNumber;
+  urlPageNumber = 1;
   urlValid;
 
 
@@ -647,10 +647,11 @@ renderedCallback() {
   }
 
   handleSetCheckboxUrlParams(strType, selectedValue){
+    let hasMorePageNo = this.hasMorePages;
     let params2;
+
     let params = new URLSearchParams(location.search.slice(1));
     params.append(strType,selectedValue.toLowerCase());
-
     params2 = params;
     window.history.replaceState({}, '', location.pathname + '?' + params2);
 
@@ -756,17 +757,17 @@ renderedCallback() {
   //Handles Start date filter when selected
   handleChangeStartDate(event){
     let sDate = '';
+    let strStartDate = "startdate";
     this.strStartDate = event.target.value;
     if(this.strStartDate != null){
       sDate = this.strStartDate.split("-").reverse().join("-").replace(/-/g,"/");
-      let strStartDate = "startdate";
       this.updateUrlParams(strStartDate, this.strStartDate);
-     
       this.parameterObject.startDate = sDate;
       this.getFilterList();
       
     }else{
       this.strStartDate = '';
+      this.updateUrlParams(strStartDate, this.strStartDate);
       this.parameterObject.startDate = null;
       this.getFilterList();
     }
@@ -775,17 +776,16 @@ renderedCallback() {
   //Handle End date filter when selected
   handleChangeEndDate(event){
     let eDate = '';
+    let strEndDate = "enddate";
     this.strEndDate = event.target.value;
     if(this.strEndDate != null){
       eDate = this.strEndDate.split("-").reverse().join("-").replace(/-/g,"/");
-     
-      let strEndDate = "enddate";
       this.updateUrlParams(strEndDate, this.strEndDate);
-      
       this.parameterObject.endDate = eDate;
       this.getFilterList();
     }else{
       this.strEndDate= '';
+      this.updateUrlParams(strEndDate, this.strEndDate);
       this.parameterObject.endDate = null;
       this.getFilterList();
     }
@@ -897,6 +897,7 @@ renderedCallback() {
        this.productListIds = [];
        this.totalItemCount = result.listFilteredProductId.length;
        this.hasMorePages = this.totalItemCount > PAGE_SIZE;
+
        let arrBySix = [];
        let count = 1;
       
@@ -916,10 +917,21 @@ renderedCallback() {
          }
         });
 
+        let quotient = this.totalItemCount/PAGE_SIZE;
+        if(quotient < this.urlPageNumber -1 && this.hasPageNo){
+          this.updateUrlParams("pagenumber", 1);
+          this._pageNumber = 1;
+        }else{
+          this._pageNumber = this.hasPageNo && this.totalItemCount/PAGE_SIZE >= this.urlPageNumber -1 ? this.urlPageNumber : 1;
+          if(this.hasPageNo){
+            this.updateUrlParams("pagenumber", this._pageNumber);
+          }
+        }
+
         //Checks if result is null or zero
         if(result.listFilteredProductId.length > 0){
            if(this.hasPageNo){
-             this.displayProductsListingPage(this.urlPageNumber-1);
+             this.displayProductsListingPage(this._pageNumber-1);
            }else{
             this.displayProductsListingPage(0);
           }
@@ -928,7 +940,9 @@ renderedCallback() {
           this.getAllProducts();
         }
         this._isLoading = false;
-        this._pageNumber = this.hasPageNo ? this.urlPageNumber : 1;
+
+        
+        
         // this._pageNumber = 1;
      }).catch((error) => {
       this._isLoading = false;
@@ -1027,10 +1041,14 @@ renderedCallback() {
    */
    handlePreviousPage(evt) {
     evt.stopPropagation();
-    this._pageNumber = this.hasMorePages ? this.urlPageNumber - 1 : this._pageNumber - 1;
+    this.hasPageNo = true;
+    this._pageNumber = this.hasPageNo  && this.totalItemCount/PAGE_SIZE >= this.urlPageNumber -1 ? this.urlPageNumber - 1 : this._pageNumber - 1;
     //this._pageNumber = this._pageNumber - 1;
     this.productListIds = [];
     this.displayProductsListingPage(this._pageNumber - 1);
+    this.urlPageNumber = this._pageNumber;
+    this.updateUrlParams("pagenumber", this._pageNumber);
+    this.hasPageNo = true;
     // this.pageNumber = this.pageNumber - 1;
     // this.triggerProductSearch();
 }
@@ -1042,16 +1060,22 @@ renderedCallback() {
  */
 handleNextPage(evt) {
     evt.stopPropagation();
-    this._pageNumber = this.hasPageNo ? this.urlPageNumber + 1 : this._pageNumber + 1;
+    this.hasPageNo = true;
+    this._pageNumber = this.hasPageNo  && this.totalItemCount/PAGE_SIZE >= this.urlPageNumber -1 ? this.urlPageNumber + 1 : this._pageNumber + 1;
     //this._pageNumber = this._pageNumber + 1;
     this.productListIds = [];
     this.displayProductsListingPage(this._pageNumber -1);
+    this.urlPageNumber = this._pageNumber;
+    this.updateUrlParams("pagenumber", this._pageNumber);
+    
 }
 
 //Handles Selected page in Pagination
   handleSelectedPage(evt){
     evt.stopPropagation();
+    this.hasPageNo = true;
     this._pageNumber = evt.detail;
+    this.urlPageNumber = evt.detail;
     this.productListIds = [];
     this.updateUrlParams("pagenumber", this._pageNumber);
     this.displayProductsListingPage(this._pageNumber -1);
@@ -1116,16 +1140,17 @@ handleNextPage(evt) {
     return this._isLoading;
   }
 
-  /**
-   * Gets whether results has more than 1 page.
-   *
-   * @type {Boolean}
-   * @readonly
-   * @private
-   */
-  get hasMorePages() {
-    return this.totalItemCount > this.newListProducts.length;
-  }
+  // /**
+  //  * Gets whether results has more than 1 page.
+  //  *
+  //  * @type {Boolean}
+  //  * @readonly
+  //  * @private
+  //  */
+  // get hasMorePages() {
+
+  //   return this.totalItemCount > this.newListProducts.length;
+  // }
 
   /**
    * Gets the current page number.
@@ -1136,7 +1161,7 @@ handleNextPage(evt) {
    */
   get pageNumber() {
     let pageNo;
-    if(this.hasPageNo){
+    if(this.hasPageNo && this.totalItemCount/PAGE_SIZE >= this.urlPageNumber -1 ){
       pageNo = this.urlPageNumber;
     }else{
       pageNo = this._pageNumber;
@@ -1166,7 +1191,7 @@ handleNextPage(evt) {
       // const pageSize = this.pageSize;
   
     if (totalItemCount > 1) {
-      const startIndex = (this.hasPageNo ? this.urlPageNumber - 1 : this._pageNumber - 1) * pageSize + 1;
+      const startIndex = (this.hasPageNo && this.totalItemCount/PAGE_SIZE >= this.urlPageNumber -1? this.urlPageNumber - 1 : this._pageNumber - 1) * pageSize + 1;
      // const startIndex = (this._pageNumber - 1) * pageSize + 1;
 
       const endIndex = Math.min(startIndex + pageSize - 1, totalItemCount);
@@ -1339,22 +1364,10 @@ handleNextPage(evt) {
        this.updateCartInformation();
      }
  
-     this.publishLMS();
-
-     //validate if URL has duplicates
-     let checkIfUrllHasParameters = window.location.href;
-     if(checkIfUrllHasParameters.includes('?')){
-        this.urlValid = this.handleUrlDuplicates();
-     }
-     
-     //do not process url if with duplicates
-	  if(this.urlValid){
-        this.handleFilterSelected();
-        this.getFilterList();
-    }else{
-    //   //reset url to default if url has an invalid parameters for filters
-     window.history.replaceState(null, null, window.location.pathname);
-    }
+    this.publishLMS();
+    this.handleFilterSelected();
+    this.getFilterList();
+ 
 
     window.addEventListener('popstate', e => {    
       location.reload(true);
@@ -1454,7 +1467,6 @@ handleNextPage(evt) {
     //ex. keyword=ope
     let strParam2 = typeName + "="+urlParamValue;
     let urlNew;
-
     //check if url contains keyword, pricingfrom, pricingto etc.
     if (url2.includes(typeName + "=")){                               //if typeName exists in url, then replace
        let urlParam = url2.split(typeName + "=")[1];                  //get all characters at right of typeName+"="
@@ -1464,8 +1476,8 @@ handleNextPage(evt) {
         } else if (!urlParam.includes("&")){ 
           strParam = urlParam;                                        //if single, then urlParam is already the value
         }
-        
-        if(urlParamValue!=""){
+      
+        if(urlParamValue!==""){
           urlNew = url2.replace(typeName + "="+strParam,strParam2);   //replace current typeName value to new value
           window.history.replaceState({}, '', urlNew);                  //update current url with new typeName value
           } else {
@@ -1484,17 +1496,21 @@ handleNextPage(evt) {
             }
           }
 
-      } else {   //if typeName does not exist yet in url, then add to url
-        let params = new URLSearchParams(location.search.slice(1));
-        params.append(typeName,urlParamValue);
-        urlNew = params;
-        window.history.replaceState({}, '', location.pathname + '?' + params);
-        let url2 = window.location.href;
-        if(url2.includes("+")){
-          let params2 = url2.replaceAll("+","%20");
-          window.history.replaceState({}, '', params2);
-        }
+    } else {   //if typeName does not exist yet in url, then add to url
+      let params = new URLSearchParams(location.search.slice(1));
+      params.append(typeName,urlParamValue);
+      urlNew = params;
+      window.history.replaceState({}, '', location.pathname + '?' + params);
+      let url2 = window.location.href;
+      if(url2.includes("+")){
+        let params2 = url2.replaceAll("+","%20");
+        window.history.replaceState({}, '', params2);
       }
+
+      let params3 = new URLSearchParams(location.search.slice(1));
+      params3.set('pagenumber', this.pageNumber);
+      window.history.replaceState({}, '', location.pathname + '?' + params3);
+    }
   }
 
 
@@ -1615,7 +1631,7 @@ handleNextPage(evt) {
   _shouldKeepCatList = false;
   _displayData;
   _isLoading = true;
-  _pageNumber = this.hasPageNo ? this.urlPageNumber : 1;
+  _pageNumber = this.hasPageNo  && this.totalItemCount/PAGE_SIZE >= this.urlPageNumber -1? this.urlPageNumber : 1;
  // _pageNumber = 1;
   _refinements = [];
   _term;
@@ -1642,5 +1658,3 @@ handleNextPage(evt) {
   }
   
 }
-
-

@@ -198,6 +198,14 @@
             "useCSVValuesMapping": true,
             "targetObject": "Folder",
             "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Allow_ESB_Integration__c FROM Integration_Settings__c",
+            "operation": "Upsert",
+            "externalId": "Allow_ESB_Integration__c",
+            "useCSVValuesMapping": true,
+            "targetObject": "Integration_Settings__c",
+            "importCSVFilesAsIs": true
         }
     ]
 }

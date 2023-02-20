@@ -48,12 +48,14 @@ export default class EnabledPortalAccessModal extends LightningElement {
                             });
                         }
                     } else {
-                        return createExtManagedAcct({
-                            'accountId': result.accountId,
-                            'primaryBusinessAcctId': result.primaryBusinessAcctId,
-                            'accountName': result.accountName,
-                            'userId': userId
-                        });
+                        if(!result.isNoUpdateNeeded){
+                            return createExtManagedAcct({
+                                'accountId': result.accountId,
+                                'primaryBusinessAcctId': result.primaryBusinessAcctId,
+                                'accountName': result.accountName,
+                                'userId': userId
+                            });
+                        }
                     } 
                 }
             }).then(() => {

@@ -48,7 +48,7 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
     );
 
     // Create Session records for Diagnostic Tool
-    Map<Id,hed__Course_Enrollment__c> newMap = (Map<Id, hed__Course_Enrollment__c>)newItems;
+    Map<Id,hed__Course_Enrollment__c> newMap = (Map<Id, hed__Course_Enrollment__c>) newItems;
     CorporateBundleAndSOAHelper.createAffiliationRecords(newMap.values());
 
     try{
@@ -60,6 +60,7 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
       System.debug(LoggingLevel.DEBUG, 'An error has occurred. See error message: ' + e.getMessage());//NOPMD
     }
     
+      ESBIntegrateOnCourseConnectionUpsert.calloutToMDM((Map<Id, hed__Course_Enrollment__c>) newItems);
   }
 
   /**
@@ -78,8 +79,8 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
 
     List<hed__Course_Enrollment__c> courseConNewStatusList = new List<hed__Course_Enrollment__c>();
 
-    Map<Id,hed__Course_Enrollment__c> newMap = (Map<Id, hed__Course_Enrollment__c>)newItems;
-    Map<Id,hed__Course_Enrollment__c> oldMap = (Map<Id, hed__Course_Enrollment__c>)oldItems;
+    Map<Id,hed__Course_Enrollment__c> newMap = (Map<Id, hed__Course_Enrollment__c>) newItems;
+    Map<Id,hed__Course_Enrollment__c> oldMap = (Map<Id, hed__Course_Enrollment__c>) oldItems;
 
     for(hed__Course_Enrollment__c courseCon: newMap.values()){
       if(courseCon.hed__Status__c != oldMap.get(courseCon.Id).hed__Status__c){
@@ -89,9 +90,11 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
     
     if(!courseConNewStatusList.isEmpty()){
       ProductLedgerTriggerHelper.productLedgerRollUpUpdate(courseConNewStatusList);
-    }
+    }   
+      
+    ESBIntegrateOnCourseConnectionUpsert.calloutToMDM((Map<Id, hed__Course_Enrollment__c>) newItems);
   }
-
+    
   /**
    * @description update counter for Course Connections
    * @param oldItems - Map of hed__Course_Enrollment__c.Trigger.old

@@ -42,8 +42,9 @@ import { NavigationMixin,CurrentPageReference } from "lightning/navigation";
 import BasePath from "@salesforce/community/basePath";
 import sendEmployeeRegistrationEmail from "@salesforce/apex/EmployeeSelfRegistrationCtrl.sendEmployeeRegistrationEmail"
 import assetRecordData from "@salesforce/apex/ProductDetailsCtrl.assetRecordData";
-import { publish, MessageContext } from "lightning/messageService";
+import { publish, MessageContext, subscribe, unsubscribe } from "lightning/messageService";
 import payloadContainerLMS from "@salesforce/messageChannel/SubMenu__c";
+import payloadAcctContainerLMS from '@salesforce/messageChannel/AccountId__c';
 
 const INTEREST_EXISTS_ERROR =
   "You already registered your interest for this product.";
@@ -59,6 +60,7 @@ const Tailored_Executive_Education = 'Tailored Executive Education';
 const Tailored_Executive_Program = 'Tailored Executive Program';
 const Corporate_Bundle = 'Corporate Bundle';
 const QUTeX_Learning_Solutions = 'QUTeX Learning Solutions';
+const STORED_ACCTID = "storedAccountId";
 
 export default class PrescribedProgram extends NavigationMixin(
   LightningElement
@@ -143,6 +145,9 @@ export default class PrescribedProgram extends NavigationMixin(
   @track addToCart;
   @track registerInterest;
 
+  subscription;
+  accountId;
+
    //asset available credit
 	assetAvailable;
   // csv bulk registration
@@ -200,8 +205,12 @@ export default class PrescribedProgram extends NavigationMixin(
     Promise.all([loadStyle(this, customSR + "/qutCustomLwcCss.css")]);
   }
 
+  disconnectedCallback() {
+    this.unsubscribeLMS();
+  }
+
   connectedCallback() {
-   
+    this.subscribeLMS();
     this.productDetails = this.product.productDetails;
     this.programModules = this.product.programModules;
     this.priceBookEntries = this.product.priceBookEntryList;
@@ -909,11 +918,17 @@ export default class PrescribedProgram extends NavigationMixin(
     if(this.productCategory != Tailored_Executive_Education){
       pbEId = this.ccePricebookEntryId ? this.ccePricebookEntryId: '';
     }
-    sendEmployeeRegistrationEmail({
+
+    let selfRegistrationParameters = {
       userId: userId,
       productId: this.productDetails.Id,
       selectedOffering : this.selectedProgramOffering,
       pricebookEntryId : pbEId
+    };
+
+    sendEmployeeRegistrationEmail({
+      selfRegistrationParams : selfRegistrationParameters,
+      accountSelected : this.accountId
     }).then( (result) => {
       if(result == 'success'){
         this.isRegModalMessage = true;
@@ -1113,5 +1128,27 @@ export default class PrescribedProgram extends NavigationMixin(
     };
 
     publish(this.messageContext, payloadContainerLMS, message);
+  }
+  
+  subscribeLMS() {
+    if (!this.subscription) {
+        this.subscription = subscribe(
+            this.messageContext, 
+            payloadAcctContainerLMS, 
+            (message) => this.validateValue(message));
+    }
+  }
+
+  validateValue(val) {
+      if (val && val.accountIdParameter) {
+          let newValObj = JSON.parse(val.accountIdParameter);
+          this.accountId = newValObj.accountId;
+          sessionStorage.setItem(STORED_ACCTID,this.accountId);
+      }
+  }
+
+  unsubscribeLMS(){
+    unsubscribe(this.subscription);
+    this.subscription = null;
   }
 }

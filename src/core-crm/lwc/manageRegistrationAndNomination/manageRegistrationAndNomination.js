@@ -14,6 +14,7 @@
 import { LightningElement, track, wire } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { refreshApex } from '@salesforce/apex';
+import { publish, MessageContext, subscribe, unsubscribe } from 'lightning/messageService';
 
 import getRegisAndNomis from '@salesforce/apex/ManageRegAndNomCtrl.getRegistrationsAndNominations';
 import getNominationStatusValues from '@salesforce/apex/ManageRegAndNomCtrl.getNominationStatusValues';
@@ -24,11 +25,11 @@ import {loadStyle} from "lightning/platformResourceLoader";
 import BasePath from "@salesforce/community/basePath";
 import customCCECSS from "@salesforce/resourceUrl/QUTMainCSS";
 import qutResourceImg from "@salesforce/resourceUrl/QUTImages";
-
-import { publish, MessageContext } from 'lightning/messageService';
+import payloadAcctContainerLMS from '@salesforce/messageChannel/AccountId__c';
 import payloadContainerLMS from '@salesforce/messageChannel/Breadcrumbs__c';
 
 const COLUMN_HEADER = 'Course Name,First Name,Last Name,Email,Date of Birth,Mobile,Offering End Date,Offering Start Date,Status';
+const STORED_ACCTID = "storedAccountId";
 export default class ManageRegistrationAndNomination extends LightningElement {
     //Filter Field Params
     searchCourseName;
@@ -60,6 +61,31 @@ export default class ManageRegistrationAndNomination extends LightningElement {
     _isLoading = false;
     searchRegistrationStatus;
     searchNominationStatus;
+
+    subscription;
+    accountId;
+
+    registrationRecordSearchParameters = {
+        isRegistrations: true,
+        courseName: '',
+        firstName: '',
+        lastName: '',
+        email: '',
+        mobile: '',
+        status: '',
+        birthday: ''
+    };
+
+    nominationSearchParameters = {
+        isRegistrations: false,
+        courseName: '',
+        firstName: '',
+        lastName: '',
+        email: '',
+        mobile: '',
+        status: '',
+        birthday: '',
+    };
 
     @track registrationList;
     @track nominationList;
@@ -170,8 +196,7 @@ export default class ManageRegistrationAndNomination extends LightningElement {
             isRegistrations: this.selectedStudent.isRegistrations,
             contactInfo : contactInformation,
             mobileNumber : mobileNumber,
-            businessOrgAccount : this.selectedStudent.businessAccount,
-            administrativeAccount : this.selectedStudent.adminAccount
+            businessOrgAccount : this.selectedStudent.businessAccount
         })
         .then(result =>{
             if(result){ 
@@ -185,8 +210,8 @@ export default class ManageRegistrationAndNomination extends LightningElement {
                         if(!result.isSuccess){
                             this.generateToast('Warning.', result.errorMessage, 'warning');
                         }else{
-                            
-                            getRegisAndNomis({
+
+                            this.registrationRecordSearchParameters = {
                                 isRegistrations: true,
                                 courseName: this.searchCourseName,
                                 firstName: this.searchFirstName,
@@ -194,8 +219,11 @@ export default class ManageRegistrationAndNomination extends LightningElement {
                                 email: this.searchEmail,
                                 mobile: this.searchMobile,
                                 status: this.searchStatus,
-                                birthday: this.searchBirthday
-                            }).then( results => {
+                                birthday: this.searchBirthday                                
+                            };
+                            
+                            getRegisAndNomis({ recordSearchParams : this.registrationRecordSearchParameters, accountSelected : this.accountId })
+                            .then( results => {
                                 this.registrationList = results.map( item => {
                                     return {
                                         ...item,
@@ -226,7 +254,7 @@ export default class ManageRegistrationAndNomination extends LightningElement {
 
     handleSearchRegistration(){
         this._isLoading = true;
-        getRegisAndNomis({
+        this.registrationRecordSearchParameters = {
             isRegistrations: true,
             courseName: this.template.querySelector(".searchRegCourseName").value,
             firstName: this.template.querySelector(".searchRegFirstName").value,
@@ -235,7 +263,8 @@ export default class ManageRegistrationAndNomination extends LightningElement {
             mobile: this.template.querySelector(".searchRegMobile").value,
             status: this.template.querySelector(`[data-name="searchStatus"]`).value,
             birthday: this.template.querySelector(".searchRegBirthday").value
-        })
+        };
+        getRegisAndNomis({ recordSearchParams : this.registrationRecordSearchParameters, accountSelected : this.accountId })
         .then(result =>{
             if(result){
                 this.registrationList = result.map(item => {
@@ -253,9 +282,10 @@ export default class ManageRegistrationAndNomination extends LightningElement {
         });
     }
 
-    handleNomiSearch(event){
+    handleNomiSearch(){
         this._isLoading = true;
-        getRegisAndNomis({
+
+        this.nominationSearchParameters = {
             isRegistrations: false,
             courseName: this.template.querySelector(".searchNomCourseName").value,
             firstName: this.template.querySelector(".searchNomFirstName").value,
@@ -264,7 +294,9 @@ export default class ManageRegistrationAndNomination extends LightningElement {
             mobile: this.template.querySelector(".searchNomMobile").value,
             status: this.template.querySelector(`[data-name="searchNomiStatus"]`).value,
             birthday: this.template.querySelector(".searchNomBday").value
-        })
+        };
+
+        getRegisAndNomis({ recordSearchParams : this.nominationSearchParameters, accountSelected : this.accountId})
         .then(result =>{
             if(result){
                 this.nominationList = result.map(item => {
@@ -300,14 +332,8 @@ export default class ManageRegistrationAndNomination extends LightningElement {
 
     regisList;
     @wire(getRegisAndNomis,{
-        isRegistrations: true,
-        courseName: '',
-        firstName: '',
-        lastName: '',
-        email: '',
-        mobile: '',
-        status: '',
-        birthday: ''
+        recordSearchParams : '$registrationRecordSearchParameters',
+        accountSelected : '$accountId'
     })
     handleGetRegistrations(result){  
         this.regisList = result;
@@ -326,14 +352,8 @@ export default class ManageRegistrationAndNomination extends LightningElement {
 
     nomisList;
     @wire(getRegisAndNomis,{
-        isRegistrations: false,
-        courseName: '',
-        firstName: '',
-        lastName: '',
-        email: '',
-        mobile: '',
-        status: '',
-        birthday: ''
+        recordSearchParams: '$nominationSearchParameters',
+        accountSelected : '$accountId'
     })
     handleGetNominations(result){  
         this.nomisList = result;
@@ -410,6 +430,7 @@ export default class ManageRegistrationAndNomination extends LightningElement {
     }
     
     connectedCallback(){
+        this.subscribeLMS();
         this.xButton = qutResourceImg + "/QUTImages/Icon/xMark.svg";
     }
 
@@ -425,6 +446,32 @@ export default class ManageRegistrationAndNomination extends LightningElement {
         };
 
         publish(this.messageContext, payloadContainerLMS, payLoad);
+    }
+
+    subscribeLMS() {
+        if (!this.subscription) {
+            this.subscription = subscribe(
+                this.messageContext, 
+                payloadAcctContainerLMS, 
+                (message) => this.validateValue(message));
+        }
+    }
+
+    validateValue(val) {
+        if (val && val.accountIdParameter) {
+            let newValObj = JSON.parse(val.accountIdParameter);
+            this.accountId = newValObj.accountId;
+            sessionStorage.setItem(STORED_ACCTID,this.accountId);
+        }
+    }
+
+    disconnectedCallback() {
+        this.unsubscribeLMS();
+    }
+
+	unsubscribeLMS(){
+        unsubscribe(this.subscription);
+        this.subscription = null;
     }
 
     combineLocaleAndNumber(locale,number){
