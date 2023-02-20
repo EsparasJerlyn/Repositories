@@ -23,13 +23,11 @@
 		System.runAs(TestDataFactory.getProgramAdminUser()){
 			List<Contact> contactList = TestDataFactory.createTestContactRecords(100);
 			for(integer i = 0; i < 49; i++){
-				contactList[i].Email_Opt_In_DateTime__c = System.now();
 				contactList[i].Consent_Source_Category__c = 'Study Application';
 				contactList[i].HasOptedOutOfEmail = true;
 				contactList[i].Registered_Email__c = 'testregisteredEmail@email.com' + i;
 			}
 			for(integer i = 50; i < 100; i++){
-				contactList[i].Email_Opt_In_DateTime__c = System.now();
 				contactList[i].Consent_Source_Category__c = 'Study Application';
 				contactList[i].HasOptedOutOfEmail = false;
 				contactList[i].Registered_Email__c = 'testregisteredEmail@email.com' + i;
@@ -58,7 +56,8 @@
 			System.assert(![	SELECT Id 
 								FROM Contact 
 								WHERE Marketing_Segmentation__r.My_Primary_Study_Level__c = null 
-								AND HasOptedOutOfEmail = true].isEmpty(),
+								AND HasOptedOutOfEmail = true
+								AND Email_Opt_Out_DateTime__c != null].isEmpty(),
 								'related marketing segmentation My_Primary_Study_Level__c not nullified');
 		}
 	 }
@@ -87,7 +86,8 @@
 			System.assert(![	SELECT Id 
 								FROM Contact 
 								WHERE Marketing_Segmentation__r.My_Primary_Study_Level__c = 'Short Courses and Professional Development' 
-								AND HasOptedOutOfEmail = false].isEmpty(),
+								AND HasOptedOutOfEmail = false
+								AND Email_Opt_In_DateTime__c != null].isEmpty(),
 								'related marketing segmentation My_Primary_Study_Level__c not equal to Short Courses and Professional Development');
 		}
 		
@@ -117,7 +117,8 @@
 			System.assert(![	SELECT Id 
 								FROM Contact 
 								WHERE Marketing_Segmentation__r.My_Secondary_Study_Level__c = 'Short Courses and Professional Development' 
-								AND HasOptedOutOfEmail = false].isEmpty(),
+								AND HasOptedOutOfEmail = false
+								AND Email_Opt_In_DateTime__c != null].isEmpty(),
 								'related marketing segmentation My_Secondary_Study_Level__c not equal to Short Courses and Professional Development');
 		}
 		

@@ -9,9 +9,22 @@
 | Developer Email                | Date                  | JIRA                   | Change Summary                                                                |
 |--------------------------------|-----------------------|------------------------|-------------------------------------------------------------------------------|
 | roy.nino.s.regala              | Feb 06, 2023          | DEPP-4866              | Created File                                                                  |
+| roy.nino.s.regala              | Feb 20, 2023          | DEPP-5221              | added opt out and in dates                                                    |
 
 */
 public without sharing class MarketingConsentHelper {
+
+	public static void setOptOutAndInDates(List<Contact> newItems, Map<Id,Contact> oldMap){
+		for(Contact con: newItems){
+			//add email opt out date when opt in -> opt out
+			if(oldMap != null && con.HasOptedOutOfEmail != oldMap.get(con.Id).HasOptedOutOfEmail && con.HasOptedOutOfEmail == true){
+				con.Email_Opt_Out_DateTime__c = System.now();
+			//add email opt in date when opt in or opt out -> opt in
+			}else if(con.HasOptedOutOfEmail == false && (oldMap == null || con.HasOptedOutOfEmail != oldMap.get(con.Id).HasOptedOutOfEmail)){
+				con.Email_Opt_In_DateTime__c = System.now();
+			}
+		}
+	}
 	
 
 	public static void processMarketingConsent(List<Contact> newItems, Map<Id,Contact> oldMap){
@@ -109,7 +122,7 @@ public without sharing class MarketingConsentHelper {
 
 	private static Marketing_Segmentation__c processContactOptIn(Marketing_Segmentation__c marSeg){
 	
-		if(   	marSeg.My_Primary_Study_Level__c != null &&
+		if(   	marSeg.My_Primary_Study_Level__c != 'Short Courses and Professional Development' &&
 				marSeg.My_Secondary_Study_Level__c != 'Short Courses and Professional Development' && 
 				marSeg.My_Primary_Study_Level__c != null){
 				//if both primary and study level is not short courses and professional development 
