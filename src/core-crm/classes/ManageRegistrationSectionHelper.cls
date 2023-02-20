@@ -623,17 +623,17 @@ public without sharing class ManageRegistrationSectionHelper{
                administrativeAccountBuyer.IsActive = true;
                administrativeAccountBuyer.BuyerStatus = 'Active';
 
-               insertAdministrativeAccountBuyer(administrativeAccountBuyer);
-
-               List<BuyerGroupMember> buyerGroupMember = [SELECT Id FROM buyerGroupMember WHERE BuyerId =: contactAdminAccountId AND BuyerGroupId =: opeBuyerGroup[0].Id WITH SECURITY_ENFORCED LIMIT 1];
-               if(buyerGroupMember.isEmpty()){
-                    BuyerGroupMember bgMember = new BuyerGroupMember();
-                    bgMember.BuyerId = contactAdminAccountId;
-                    bgMember.BuyerGroupId = opeBuyerGroup[0].Id;
-                    
-                    insertBuyerGroupMember(bgMember);
-               }
+               insertAdministrativeAccountBuyer(administrativeAccountBuyer);               
            }
+
+          List<BuyerGroupMember> buyerGroupMember = [SELECT Id FROM buyerGroupMember WHERE BuyerId =: contactAdminAccountId AND BuyerGroupId =: opeBuyerGroup[0].Id WITH SECURITY_ENFORCED LIMIT 1];
+          if(buyerGroupMember.isEmpty()){
+               BuyerGroupMember bgMember = new BuyerGroupMember();
+               bgMember.BuyerId = contactAdminAccountId;
+               bgMember.BuyerGroupId = opeBuyerGroup[0].Id;
+               
+               insertBuyerGroupMember(bgMember);
+          }
      }
 
      private static void insertAdministrativeAccountBuyer(BuyerAccount administrativeAccountBuyer){
