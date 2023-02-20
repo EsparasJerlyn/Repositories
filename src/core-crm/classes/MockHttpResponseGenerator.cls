@@ -9,7 +9,7 @@
       | roy.nino.s.regala         | September 3, 2021     | DEP1-159     | Created file                                        |
       | angelika.j.s.galang       | September 8, 2021     | DEP1-157     | Added mock response for email,phone,company callout |
       | angelika.j.s.galang       | September 16, 2021    | DEP1-22      | Added mock response for CLMS                        | 
-      |                           |                       |              |                                                     | 
+      | alexander.cadalin         | February 7, 2023      | DEPP-4988    | Added mock response for MDM Lead Persona            | 
  */
 @isTest
 public class MockHttpResponseGenerator implements HttpCalloutMock {
@@ -21,6 +21,8 @@ public class MockHttpResponseGenerator implements HttpCalloutMock {
     private static final String ENDPOINT_COMPANY_LOOKUP = 'callout:LOQATE/harmony/rest/au/companyLookup';
     private static final String ENDPOINT_CLMS_CONTRACT = 'callout:ESB' + System.Label.ESBEndpointCreateContract;
     private static final String ENDPOINT_MDM_CONTACT = 'callout:ESB' + System.Label.ESBEndpointMDMStudent;
+    private static final String ENDPOINT_MDM_LEADPERSONA = 'callout:ESB' + System.Label.ESBEndpointMDMLeadPersona;
+    private static final String ENDPOINT_MDM_STUDENTENROLMENT = 'callout:ESB' + System.Label.ESBEndpointMDMStudentEnrolment;
     private static final String PAYLOAD_CLMS = '{"status":"OK","CLMS_Agreement_Id":"1234","CLMS_Agreement_URL":"5678"}';
     private static final String PAYLOAD_ADDRESS = '{"payload":[{"fullAddress":"testAddress","country":"testCountry"}]}';
     private static final String PAYLOAD_PHONE = '{"payload":[{"fullPhone":"1234","country":"AU","phoneStatus":"connected|Network confirmed connection"}]}';
@@ -34,9 +36,25 @@ public class MockHttpResponseGenerator implements HttpCalloutMock {
     */
     public HTTPResponse respond(HTTPRequest req) {
         HttpResponse res = new HttpResponse();
+        
+        if(req.getEndpoint() == ENDPOINT_MDM_LEADPERSONA || 
+            req.getEndpoint() == ENDPOINT_MDM_STUDENTENROLMENT ||
+            req.getEndpoint() == ENDPOINT_MDM_CONTACT) {
+            res = esbNotFoundMockResponse();
+        } else {
+            res = loqateMockResponse(req);
+        }
+        return res;
+    }
+    
+    /**
+    * @description Creates a mock HTTP Response
+    * @param payload - mock body of the response
+    * @return res - mock HTTP response
+    */
+    private static HttpResponse loqateMockResponse(HTTPRequest req){
         String payload;
-
-        if(req.getEndpoint() == ENDPOINT_ADDRESS_LOOKUP || req.getEndpoint() == ENDPOINT_ADDRESS_RETRIEVE){
+		if(req.getEndpoint() == ENDPOINT_ADDRESS_LOOKUP || req.getEndpoint() == ENDPOINT_ADDRESS_RETRIEVE){
             payload = PAYLOAD_ADDRESS;
         }else if(req.getEndpoint() == ENDPOINT_PHONE_VALIDATE){
             payload = PAYLOAD_PHONE;
@@ -48,23 +66,8 @@ public class MockHttpResponseGenerator implements HttpCalloutMock {
             payload = PAYLOAD_CLMS;
         }
 
-        if(req.getEndpoint() == ENDPOINT_MDM_CONTACT){
-            res = badRequestMockResponse();
-        }else{
-            res = loqateMockResponse(payload);
-        }
-        return res;
-    }
-    
-    /**
-    * @description Creates a mock HTTP Response
-    * @param payload - mock body of the response
-    * @return res - mock HTTP response
-    */
-    public static HttpResponse loqateMockResponse(String payload){
         HttpResponse res = new HttpResponse();
-
-        res.setHeader('Content-Type', 'application/json');
+		res.setHeader('Content-Type', 'application/json');
         res.setBody(payload);
         res.setStatusCode(200);
 
@@ -72,14 +75,13 @@ public class MockHttpResponseGenerator implements HttpCalloutMock {
     }
 
     /**
-    * @description Creates a bad request mock HTTP Response
-    * @return HttpResponse
+    * @description Creates a mock HTTP Response for ESB
+    * @return res - mock HTTP response
     */
-    public HttpResponse badRequestMockResponse(){
+    private static HttpResponse esbNotFoundMockResponse() {
         HttpResponse res = new HttpResponse();
         res.setHeader('Content-Type', 'application/json');
-        res.setStatusCode(400);
+        res.setStatusCode(404);
         return res;
     }
-
 }

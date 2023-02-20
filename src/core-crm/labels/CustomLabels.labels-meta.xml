@@ -646,6 +646,14 @@
         <value>/consumer/dep/v1/curriculum/course</value>
     </labels>
     <labels>
+        <fullName>ESBEndpointMDMStudentEnrolment</fullName>
+        <categories>Endpoint</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ESBEndpointMDMStudentEnrolment</shortDescription>
+        <value>/domain/dep/v1/processCourseConnection</value>
+    </labels>
+    <labels>
         <fullName>ESBEndpointLMSCourseOffering</fullName>
         <categories>Endpoint</categories>
         <language>en_US</language>

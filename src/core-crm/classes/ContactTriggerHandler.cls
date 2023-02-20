@@ -258,14 +258,14 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
           insertResults = Database.insert(childContacts, false);
         }
         for (Database.SaveResult result : insertResults){
-            if (!result.isSuccess()){
-                Logger.error('Error in Inserting Contact').setDatabaseResult(result);
-            }            
-            if(Logger.getBufferSize() < 0){
-                Logger.saveLog();                
-            }
+          if (!result.isSuccess()){
+            Logger.error('Error in Inserting Contact').setDatabaseResult(result);
+          }            
         }
-  }
+        if(Logger.getBufferSize() < 0){
+            Logger.saveLog();                
+        }
+      }
 
   /**
    * @description indicates it the trigger is disabled
