@@ -21,7 +21,6 @@ public class MockHttpResponseGenerator implements HttpCalloutMock {
     private static final String ENDPOINT_COMPANY_LOOKUP = 'callout:LOQATE/harmony/rest/au/companyLookup';
     private static final String ENDPOINT_CLMS_CONTRACT = 'callout:ESB' + System.Label.ESBEndpointCreateContract;
     private static final String ENDPOINT_MDM_CONTACT = 'callout:ESB' + System.Label.ESBEndpointMDMStudent;
-    private static final String ENDPOINT_MDM_LEADPERSONA = 'callout:ESB' + System.Label.ESBEndpointMDMLeadPersona;
     private static final String ENDPOINT_MDM_STUDENTENROLMENT = 'callout:ESB' + System.Label.ESBEndpointMDMStudentEnrolment;
     private static final String PAYLOAD_CLMS = '{"status":"OK","CLMS_Agreement_Id":"1234","CLMS_Agreement_URL":"5678"}';
     private static final String PAYLOAD_ADDRESS = '{"payload":[{"fullAddress":"testAddress","country":"testCountry"}]}';
@@ -37,8 +36,7 @@ public class MockHttpResponseGenerator implements HttpCalloutMock {
     public HTTPResponse respond(HTTPRequest req) {
         HttpResponse res = new HttpResponse();
         
-        if(req.getEndpoint() == ENDPOINT_MDM_LEADPERSONA || 
-            req.getEndpoint() == ENDPOINT_MDM_STUDENTENROLMENT ||
+        if(req.getEndpoint() == ENDPOINT_MDM_STUDENTENROLMENT ||
             req.getEndpoint() == ENDPOINT_MDM_CONTACT) {
             res = esbNotFoundMockResponse();
         } else {
