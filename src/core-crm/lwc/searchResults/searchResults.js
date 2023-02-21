@@ -762,6 +762,10 @@ renderedCallback() {
     if(this.strStartDate != null){
       sDate = this.strStartDate.split("-").reverse().join("-").replace(/-/g,"/");
       this.updateUrlParams(strStartDate, this.strStartDate);
+     
+      if(this.hasPageNo){
+        this.updateUrlParams("pagenumber", this._pageNumber);
+      }
       this.parameterObject.startDate = sDate;
       this.getFilterList();
       
@@ -781,6 +785,11 @@ renderedCallback() {
     if(this.strEndDate != null){
       eDate = this.strEndDate.split("-").reverse().join("-").replace(/-/g,"/");
       this.updateUrlParams(strEndDate, this.strEndDate);
+
+      if(this.hasPageNo){
+        this.updateUrlParams("pagenumber", this._pageNumber);
+      }
+
       this.parameterObject.endDate = eDate;
       this.getFilterList();
     }else{
@@ -804,7 +813,9 @@ renderedCallback() {
       const element = strTypes[index];
       this.updateUrlParams(element,pricingValues[index]);
     }
-  
+    if(this.hasPageNo){
+      this.updateUrlParams("pagenumber", this._pageNumber);
+    }
     this.parameterObject.minUnitPrice = this.startValue
     this.parameterObject.maxUnitPrice = this.endValue
     this.getFilterList();
@@ -918,11 +929,12 @@ renderedCallback() {
         });
 
         let quotient = this.totalItemCount/PAGE_SIZE;
-        if(quotient < this.urlPageNumber -1 && this.hasPageNo){
+      
+        if(quotient <= this.urlPageNumber -1 && this.hasPageNo){
           this.updateUrlParams("pagenumber", 1);
           this._pageNumber = 1;
         }else{
-          this._pageNumber = this.hasPageNo && this.totalItemCount/PAGE_SIZE >= this.urlPageNumber -1 ? this.urlPageNumber : 1;
+          this._pageNumber = this.hasPageNo && this.totalItemCount/PAGE_SIZE > this.urlPageNumber -1 ? this.urlPageNumber : 1;
           if(this.hasPageNo){
             this.updateUrlParams("pagenumber", this._pageNumber);
           }
@@ -1042,7 +1054,7 @@ renderedCallback() {
    handlePreviousPage(evt) {
     evt.stopPropagation();
     this.hasPageNo = true;
-    this._pageNumber = this.hasPageNo  && this.totalItemCount/PAGE_SIZE >= this.urlPageNumber -1 ? this.urlPageNumber - 1 : this._pageNumber - 1;
+    this._pageNumber = this.hasPageNo  && this.totalItemCount/PAGE_SIZE > this.urlPageNumber -1 ? this.urlPageNumber - 1 : this._pageNumber - 1;
     //this._pageNumber = this._pageNumber - 1;
     this.productListIds = [];
     this.displayProductsListingPage(this._pageNumber - 1);
@@ -1061,7 +1073,7 @@ renderedCallback() {
 handleNextPage(evt) {
     evt.stopPropagation();
     this.hasPageNo = true;
-    this._pageNumber = this.hasPageNo  && this.totalItemCount/PAGE_SIZE >= this.urlPageNumber -1 ? this.urlPageNumber + 1 : this._pageNumber + 1;
+    this._pageNumber = this.hasPageNo  && this.totalItemCount/PAGE_SIZE > this.urlPageNumber -1 ? this.urlPageNumber + 1 : this._pageNumber + 1;
     //this._pageNumber = this._pageNumber + 1;
     this.productListIds = [];
     this.displayProductsListingPage(this._pageNumber -1);
@@ -1161,11 +1173,7 @@ handleNextPage(evt) {
    */
   get pageNumber() {
     let pageNo;
-    if(this.hasPageNo && this.totalItemCount/PAGE_SIZE >= this.urlPageNumber -1 ){
-      pageNo = this.urlPageNumber;
-    }else{
-      pageNo = this._pageNumber;
-    }
+    pageNo = this.hasPageNo && this.totalItemCount/PAGE_SIZE > this.urlPageNumber -1 ? this.urlPageNumber : this._pageNumber;
     return pageNo;
   }
 
@@ -1191,7 +1199,7 @@ handleNextPage(evt) {
       // const pageSize = this.pageSize;
   
     if (totalItemCount > 1) {
-      const startIndex = (this.hasPageNo && this.totalItemCount/PAGE_SIZE >= this.urlPageNumber -1? this.urlPageNumber - 1 : this._pageNumber - 1) * pageSize + 1;
+      const startIndex = (this.hasPageNo && this.totalItemCount/PAGE_SIZE > this.urlPageNumber -1? this.urlPageNumber - 1 : this._pageNumber - 1) * pageSize + 1;
      // const startIndex = (this._pageNumber - 1) * pageSize + 1;
 
       const endIndex = Math.min(startIndex + pageSize - 1, totalItemCount);
