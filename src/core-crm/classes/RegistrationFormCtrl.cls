@@ -41,14 +41,16 @@ public without sharing class RegistrationFormCtrl {
   public static List<User> isEmailExist(String email) {
     try {
       List<User> userList = new List<User>();
-      userList = [
-        SELECT 
-          Id, Name, MobilePhone, Username, Profile.Name, AccountId, FirstName, LastName
-        FROM User
-        WHERE (Contact.Email =: email OR Contact.Work_Email__c =: email)
-        AND IsActive = true
-        LIMIT 1
-      ];
+      if(Schema.sObjectType.User.isAccessible()){
+        userList = [
+          SELECT 
+            Id, Name, MobilePhone, Username, Profile.Name, AccountId, FirstName, LastName
+          FROM User
+          WHERE (Contact.Registered_Email__c =: email OR Contact.Work_Email__c =: email)
+          AND IsActive = true
+          LIMIT 1
+        ];
+      }
 
       List<BuyerGroup> opeBuyerGroup = [
         SELECT Id
