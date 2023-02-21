@@ -1441,6 +1441,16 @@ public class TestDataFactory {
     }
 
     /**
+     * @description Method for getting Program Administrator
+     * @param void
+     * @return portalSysAdmin - QUTeX Program Admin User
+     */
+    public static User getMarketingCloudUser(){
+      User marketingCloud = [SELECT Id From User WHERE Username LIKE 'QUT_Marketing_Cloud%' LIMIT 1];
+      return marketingCloud;
+  }
+
+    /**
      * @description Method for creating Sys Admin Portal Owner
      * @param void
      * @return portalSysAdmin - Portal Sys Admin user
