@@ -422,17 +422,20 @@ public without sharing class ManageRegAndNomCtrl {
                         contactInfo.Program_Offering__c,
                         priceBookEntry
                     );
+
+
                     //Updates Cart Payment to create Learner via trigger on Approved Cart Payment
                     Id cartPaymentId = [SELECT Id, Cart_Payment__c FROM WebCart WHERE Id =: webCartId LIMIT 1].Cart_Payment__c;
                     List<Cart_Payment__c> cartPaymentToUpdate = new List<Cart_Payment__c>();
-                    Cart_Payment__c cartPayment = new Cart_Payment__c(Id = cartPaymentId, Payment_Status__c = 'Approved');
+                    Cart_Payment__c cartPayment = new Cart_Payment__c(Id = cartPaymentId, Payment_Status__c = 'Approved', Amount_Paid__c = cartItemTotalPrice);
                     cartPaymentToUpdate.add(cartPayment);
                     if(!cartPaymentToUpdate.isEmpty()){
                         update cartPaymentToUpdate;
                     }
                     //Retrieves Learner created from approved cart payment
                     Id learnerId;
-                    List<hed__Course_Enrollment__c> courseConnectionList = [SELECT Id, Payment_Method__c, Paid_in_Full__c FROM hed__Course_Enrollment__c WHERE Cart_ID__c =: webCartId LIMIT 1];
+                    //should be able to get program and course enrolments.
+                    List<hed__Course_Enrollment__c> courseConnectionList = [SELECT Id, Payment_Method__c, Paid_in_Full__c FROM hed__Course_Enrollment__c WHERE Cart_ID__c =: webCartId];
                     List<hed__Course_Enrollment__c> learnerToUpdate = new List<hed__Course_Enrollment__c>();
                     for(hed__Course_Enrollment__c courseConnection : courseConnectionList){
                         hed__Course_Enrollment__c learner = new hed__Course_Enrollment__c();
@@ -598,7 +601,7 @@ public without sharing class ManageRegAndNomCtrl {
         Id programOfferingId,
         PriceBookEntry priceBookEntry
     ){
-        Decimal cartItemTotalPrice;
+        Decimal cartItemTotalPrice = 0;
         List<CartItem> cartItemList = new List<CartItem>();
         CartItem cartItem = new CartItem();
         cartItem.CartId = webCartId;
