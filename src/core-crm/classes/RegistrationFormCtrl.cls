@@ -21,6 +21,7 @@
       |                           |                       |                      | Administrative account            |
       | marygrace.li              | September 24, 2022    | DEPP-4411            | Updated isEmailExist method       |
       | arsenio.jr.dayrit         | December 16, 2022     | DEPP-4907            | Update UpdateContact method       |
+      | eugene.andrew.abuan       | February 22, 2023     | DEPP-5232            | Updates in isEmailExist method    |
 
  */
 public without sharing class RegistrationFormCtrl {
@@ -44,7 +45,7 @@ public without sharing class RegistrationFormCtrl {
       if(Schema.sObjectType.User.isAccessible()){
         userList = [
           SELECT 
-            Id, Name, MobilePhone, Username, Profile.Name, AccountId, FirstName, LastName
+            Id, Name, Contact.MobilePhone, Username, Profile.Name, AccountId, FirstName, LastName
           FROM User
           WHERE (Contact.Registered_Email__c =: email OR Contact.Work_Email__c =: email)
           AND IsActive = true

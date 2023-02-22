@@ -10,6 +10,8 @@
       |---------------------------|-----------------------|----------------------|--------------------------------------------------|
       | john.bo.a.pineda          | July 07, 2022         | DEPP-3136            | Created file                                     |
       | eugene.andrew.abuan       | August 08, 2022       | DEPP-3705            | Updated error message when email does not exist  |
+      | eugene.andrew.abuan       | February 22, 2023     | DEPP-5232            | Updated MobilePhone to Contact.Mobile            |
+
 */
 import { LightningElement, track, api } from "lwc";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
@@ -137,7 +139,7 @@ export default class CustomSignIn extends LightningElement {
                         this.displayForm = false;
                         this.displayVerification = true;
                         this.displayResendVerification = false;
-                        this.mobileFull = this.loginUser.MobilePhone;
+                        this.mobileFull = this.loginUser.Contact.MobilePhone;
                         this.sendSMSOTP();
                     } else {
                         // If not Exists, display Email not exist
