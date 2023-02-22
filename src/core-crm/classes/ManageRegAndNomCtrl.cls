@@ -438,8 +438,8 @@ public without sharing class ManageRegAndNomCtrl {
                         hed__Course_Enrollment__c learner = new hed__Course_Enrollment__c();
                         learnerId = courseConnection.Id;
                         learner.Id = courseConnection.Id;
-                        learner.Payment_Method__c = '';
-                        learner.Paid_in_Full__c = '';
+                        learner.Payment_Method__c = 'Contract';
+                        learner.Paid_in_Full__c = 'Contract';
                         learnerToUpdate.add(learner);
                     }
 
