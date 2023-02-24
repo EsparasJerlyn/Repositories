@@ -1,4 +1,5 @@
 <template>
+  <template if:true={showComboBox}>
   <div class="slds-form-element">
     <!-- Field Label -->
     <label if:true={fieldLabel} class={labelClass}> {fieldLabel} </label>
@@ -119,4 +120,5 @@
       </div>
     </div>
   </div>
+</template>
 </template>

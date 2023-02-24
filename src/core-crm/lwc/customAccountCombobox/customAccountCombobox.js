@@ -28,6 +28,8 @@ export default class CustomAccountCombobox extends LightningElement {
   @api selectedAcctVal;
   selected = false;
 
+  showComboBox = false;
+
   // constructor
   constructor() {
     super();
