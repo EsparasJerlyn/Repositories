@@ -21,6 +21,7 @@
 
 import { LightningElement,wire,api,track} from 'lwc';
 import getResourceURL from '@salesforce/apex/CsvBulkRegistrationCtrl.GetCMSContentDataByName';
+import CSV_TEMP from '@salesforce/resourceUrl/BulkRegistrationCSVTemplate';
 import getMobileLocaleOptions from "@salesforce/apex/RegistrationFormCtrl.getMobileLocaleOptions";
 import COM_ID from '@salesforce/community/Id';
 import { getPicklistValues } from 'lightning/uiObjectInfoApi';
@@ -146,6 +147,9 @@ export default class ProductBulkRegistration extends NavigationMixin(
     }
 
 
+    get csvtemp(){
+        return CSV_TEMP;
+    }
 
     handleRowAction( event ) {
     this.recordId=event.detail.row.id
